@@ -6807,23 +6807,21 @@ function airline_get_booking(data, sync=false){
                     <div class="row mb-3">
                         <div class="col-lg-6">
                             <b>Agent: </b><i>`+msg.result.response.agent_name+`</i>
-                        </div>`;
-                    if(msg.result.response.customer_parent_name){
+                        </div>
+                        <div class="col-lg-6">`;
+                            if(msg.result.response.customer_parent_name){
+                                text+=`<b>Customer: </b><i>`+msg.result.response.customer_parent_type_name+` `+msg.result.response.customer_parent_name+`</i>`;
+                            }
                         text+=`
-                        <div class="col-lg-6">
-                            <b>Customer: </b><i>`+msg.result.response.customer_parent_type_name+` `+msg.result.response.customer_parent_name+`</i>
-                        </div>`;
-                    }
-                    text+= `</div>`;
+                        </div>
+                    </div>`;
                 }
 
                 text+=`
                 <div class="row">
                     <div class="col-lg-3 mb-3">
                         <span>
-                            <b>Booked by</b><br>`;
-                            text+=`<i>`+msg.result.response.booked_by+`</i>`;
-                        text+=`
+                            <b>Booked by</b><br><i>`+msg.result.response.booked_by+`</i>
                         </span>
                     </div>
                     <div class="col-lg-5 mb-3">
@@ -6832,9 +6830,9 @@ function airline_get_booking(data, sync=false){
                             if(msg.result.response.booked_date != ""){
                                 text+=`<i>`+msg.result.response.booked_date+`</i>`;
                             }else{
-                                text+=`-`
+                                text+=`-`;
                             }
-                            text+=`
+                        text+=`
                         </span>
                     </div>
                 </div>`;
@@ -6844,20 +6842,18 @@ function airline_get_booking(data, sync=false){
                     <div class="row">
                         <div class="col-lg-3 mb-3">
                             <span>
-                                <b>Issued by</b><br>`;
-                                text+=`<i>`+msg.result.response.issued_by+`</i>`;
-                            text+=`
+                                <b>Issued by</b><br><i>`+msg.result.response.issued_by+`</i>
                             </span>
                         </div>
                         <div class="col-lg-5 mb-3">
                             <span>
-                                <b>Issued Date: </b><br/>`;
+                                <b>Issued Date </b><br/>`;
                                 if(msg.result.response.issued_date != ""){
                                     text+=`<i>`+msg.result.response.issued_date+`</i>`;
                                 }else{
                                     text+=`-`;
                                 }
-                                text+=`
+                            text+=`
                             </span>
                         </div>
                     </div>`;
@@ -7496,6 +7492,17 @@ function airline_get_booking(data, sync=false){
                                 <h4 class="single_border_custom_bottom" style="margin-bottom:5px; width:50px; word-break:break-word;">#`+(parseInt(pax)+1)+`</h4>
                                 <h5>
                                 `+msg.result.response.passengers[pax].title+` `+msg.result.response.passengers[pax].first_name+` `+msg.result.response.passengers[pax].last_name+`
+                                <b style="background:white; font-size:13px; color:black; padding:0px 15px; display:unset; border: 1px solid #cdcdcd; border-radius:7px;">
+                                    <i class="fas fa-user"></i> `;
+                                    if(msg.result.response.passengers[pax].pax_type == 'ADT'){
+                                        text+=`Adult`;
+                                    }else if(msg.result.response.passengers[pax].pax_type == 'CHD'){
+                                        text+=`Child`;
+                                    }else if(msg.result.response.passengers[pax].pax_type == 'INF'){
+                                        text+=`Infant`;
+                                    }
+                                text+=`
+                                    </b>
                                 </h5>
                                 <b>Birth Date:</b> <i>`+msg.result.response.passengers[pax].birth_date+`</i><br/>`;
                             if(msg.result.response.passengers[pax].identity_type != '' && msg.result.response.passengers[pax].is_valid_identity){
@@ -7964,7 +7971,7 @@ function airline_get_booking(data, sync=false){
                     if(msg.result.response.state == 'booked' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
                         text_detail+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:auto; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
                     else if(msg.result.response.state == 'issued' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
-                        text_detail+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:auto; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
+                        text_detail+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website_rodextrip/img/banknew.png" alt="Bank" style="width:auto; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
                         document.getElementById('repricing_type').innerHTML = '<option value="booker">Booker</option>';
                         $('#repricing_type').niceSelect('update');
                         reset_repricing();

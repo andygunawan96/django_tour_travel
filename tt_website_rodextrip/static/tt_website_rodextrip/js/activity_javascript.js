@@ -649,10 +649,6 @@ function activity_table_detail2(pagetype){
            </div>`;
    }
    text += `<hr style="padding:0px;">`;
-   if(document.URL.split('/')[document.URL.split('/').length-1] == 'review' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
-       text +=`<div style="text-align:right;"><img alt="Bank" src="/static/tt_website_rodextrip/img/bank.png" style="width:auto; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
-   }
-
 //    try{
 //        if(upsell_price != 0){
 //            text+=`<div class="row" style="padding-bottom:15px;">`
@@ -671,7 +667,12 @@ function activity_table_detail2(pagetype){
    text+= `
            <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6"><span style="font-weight:bold">Grand Total</span></div>
-                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: right;"><span style="font-weight:bold">IDR `+getrupiah(grand_total)+`</span></div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: right;"><span style="font-weight:bold">IDR `+getrupiah(grand_total)+`</span></div>`;
+
+               if(document.URL.split('/')[document.URL.split('/').length-1] == 'review' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
+                   text +=`<div class="col-lg-12 mt-2" style="text-align:right;"><img alt="Bank" src="/static/tt_website_rodextrip/img/bank.png" style="width:auto; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
+               }
+           text+=`
            </div>
 
            <div class="row">
