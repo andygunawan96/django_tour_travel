@@ -323,6 +323,16 @@ def signin_btc(request):
 
 def get_new_cache(signature, type='all'):
     try:
+        data = {}
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "update_data_gateway",
+            "signature": signature
+        }
+        url_request = url + 'content'
+        send_request_api({}, url_request, headers, data, 'POST', 1) ## timeout 1, fungsi ini hanya untuk bantu gateway ambil data terbaru kalau frontend update cache data
+
         if type == 'all' or type == 'data':
             logging.getLogger("info_logger").error("ERROR GENERATE NEW CACHE!")
             # airline
