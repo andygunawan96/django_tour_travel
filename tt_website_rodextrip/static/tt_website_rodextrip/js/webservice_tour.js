@@ -1899,9 +1899,15 @@ function tour_get_booking(order_number)
                    text = `
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <div id="tour_booking_detail" style="border:1px solid #cdcdcd; padding:10px; background-color:white">
-                                        <h6>Order Number : `+book_obj.order_number+`</h6><br/>
-                                         <table style="width:100%;">
+                                    <div id="tour_booking_detail" style="border:1px solid #cdcdcd; padding:15px; background-color:white">
+                                        <div class="row">
+                                            <div class="col-lg-12 mb-3" style="padding-bottom:15px; border-bottom:1px solid #cdcdcd;">
+                                                <h4>
+                                                    <i class="fas fa-scroll"></i> Order Number: `+book_obj.order_number+`
+                                                </h4>
+                                            </div>
+                                        </div>
+                                        <table style="width:100%;">
                                             <tr>
                                                 <th>PNR</th>`;
                                                 if(book_obj.state == 'booked')
@@ -1939,204 +1945,209 @@ function tour_get_booking(order_number)
                                                 </span>
                                                 </td>
                                             </tr>
-                                         </table>
+                                        </table>
 
                                         <hr/>`;
                                         if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
                                             text+=`
-                                                <div class="row">
-                                                    <div class="col-lg-6">
-                                                        <span>Agent: <b>`+msg.result.response.agent_name+`</b></span>
-                                                    </div>`;
-                                            if(msg.result.response.customer_parent_name){
+                                            <div class="row mb-3">
+                                                <div class="col-lg-6">
+                                                    <b>Agent: </b><i>`+msg.result.response.agent_name+`</i>
+                                                </div>
+                                                <div class="col-lg-6">`;
+                                                    if(msg.result.response.customer_parent_name){
+                                                        text+=`<b>Customer: </b><i>`+msg.result.response.customer_parent_type_name+` `+msg.result.response.customer_parent_name+`</i>`;
+                                                    }
                                                 text+=`
-                                                    <div class="col-lg-6">
-                                                        <span>Customer: <b>`+msg.result.response.customer_parent_type_name+` `+msg.result.response.customer_parent_name+`</b></span>
-                                                    </div>`;
-                                            }
-                                            text+= `</div>`;
+                                                </div>
+                                            </div>`;
                                         }
                                         text+=`
                                         <div class="row">
-                                            <div class="col-lg-6">
-                                                <h6>Booked</h6>
-                                                <span>Date: <b>`;
-                                                    if(msg.result.response.booked_date != ""){
-                                                        text+=``+msg.result.response.booked_date+``;
-                                                    }else{
-                                                        text+=`-`
-                                                    }
-                                                    text+=`</b>
+                                            <div class="col-lg-3">
+                                                <span>
+                                                    <b>Booked by</b><br><i>`+msg.result.response.booked_by+`</i>
                                                 </span>
-                                                <br/>
-                                                <span>by <b>`+msg.result.response.booked_by+`</b><span>
                                             </div>
-
-                                            <div class="col-lg-6 mb-3">`;
-                                                if(msg.result.response.state == 'issued'){
-                                                    text+=`<h6>Issued</h6>
-                                                        <span>Date: <b>`;
-                                                        if(msg.result.response.issued_date != ""){
-                                                            text+=``+msg.result.response.issued_date+``;
-                                                        }else{
-                                                            text+=`-`
-                                                        }
-                                                    text+=`</b>
-                                                    </span>
-                                                    <br/>
-                                                    <span>by <b>`+msg.result.response.issued_by+`</b><span>`;
-                                                }
+                                            <div class="col-lg-9 mb-3">
+                                                <span>
+                                                    <b>Booked Date </b><br/>`;
+                                                    if(msg.result.response.booked_date != ""){
+                                                        text+=`<i>`+msg.result.response.booked_date+`</i>`;
+                                                    }else{
+                                                        text+=`-`;
+                                                    }
                                                 text+=`
+                                                </span>
                                             </div>
-                                        </div>
+                                        </div>`;
 
+                                        if(msg.result.response.state == 'issued'){
+                                            text+=`
+                                            <div class="row">
+                                                <div class="col-lg-3 mb-3">
+                                                    <span>
+                                                        <b>Issued by</b><br><i>`+msg.result.response.issued_by+`</i>
+                                                    </span>
+                                                </div>
+                                                <div class="col-lg-5 mb-3">
+                                                    <span>
+                                                        <b>Issued Date </b><br/>`;
+                                                        if(msg.result.response.issued_date != ""){
+                                                            text+=`<i>`+msg.result.response.issued_date+`</i>`;
+                                                        }else{
+                                                            text+=`-`;
+                                                        }
+                                                    text+=`
+                                                    </span>
+                                                </div>
+                                            </div>`;
+                                        }
 
+                                        text+=`
                                     </div>
                                 </div>
                             </div>
                     `;
 
-                    if (tour_package.tour_type == 'open')
-                    {
-                        text += `
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div id="tour_booking_info" style="padding:10px; margin-top: 15px; background-color:white; border:1px solid #cdcdcd;">
-                                        <h4> Tour Information </h4>
-                                        <hr/>
-                                        <h4>`+tour_package.name+`</h4>
-                                        <span><i class="fa fa-clock-o" aria-hidden="true"></i> `+tour_package.duration+` Days</span>
-                                        <br/>
-                                        <span>Period: `+tour_package.departure_date_str+` - `+tour_package.arrival_date_str+`</span>
-                                        <br/>
+                   if (tour_package.tour_type == 'open')
+                   {
+                       text += `
+                       <div class="row">
+                           <div class="col-lg-12">
+                               <div id="tour_booking_info" style="border:1px solid #cdcdcd; padding:15px; background-color:white;">
+                                   <div class="row">
+                                       <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                                           <h4 class="mb-3">
+                                               <img src="/static/tt_website_rodextrip/images/icon/tour_black.png" alt="undefined" style="width:20px; height:20px;">
+                                               Tour Information
+                                           </h4>
+                                       </div>
+                                   </div>
+                                   <h4>`+tour_package.name+`</h4>
+                                   <span><i class="fa fa-clock-o" aria-hidden="true"></i> `+tour_package.duration+` Days</span>
+                                   <br/>
+                                   <span>Period: `+tour_package.departure_date_str+` - `+tour_package.arrival_date_str+`</span>
+                                   <br/>
+                               </div>
+                           </div>
+                       </div>`;
+                   }
+                   else{
+                       text += `
+                       <div class="row">
+                           <div class="col-lg-12 mt-3">
+                               <div id="tour_booking_info" style="border:1px solid #cdcdcd; padding:15px; background-color:white;">
+                                   <div class="row">
+                                       <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                                           <h4 class="mb-3">
+                                                <img src="/static/tt_website_rodextrip/images/icon/tour_black.png" alt="undefined" style="width:20px; height:20px;">
+                                               Tour Information
+                                           </h4>
+                                       </div>
+                                   </div>
+                                   <h4>`+tour_package.name+`</h4>
+                                    <span><i class="fa fa-calendar" aria-hidden="true"></i>
+                                   `+tour_package.departure_date_f+` - `+tour_package.arrival_date_f+`
+                                    </span>
+                                   <br/>
+                                   <span><i class="fa fa-clock-o" aria-hidden="true"></i> `+tour_package.duration+` Days</span>
+                                   <br/>
+                               </div>
+                           </div>
+                       </div>`;
+                   }
+
+                   text += `
+                   <div class="row" style="margin-top: 15px;">
+                        <div class="col-lg-12">
+                            <div id="tour_review_rooms" style="padding:15px; background-color:white; border:1px solid #cdcdcd;">
+                                <div class="row">
+                                    <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                                        <h4 class="mb-3">
+                                            <img src="/static/tt_website_rodextrip/images/icon/hotel_black.png" alt="undefined" style="width:20px; height:20px;">
+                                            List of Room(s)
+                                        </h4>
                                     </div>
-                                </div>
-                            </div>`;
-                    }
-                    else
-                    {
-                        text += `
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div id="tour_booking_info" style="padding:10px; margin-top: 15px; background-color:white; border:1px solid #cdcdcd;">
-                                        <h4> Tour Information </h4>
-                                        <hr/>
-                                        <h4>`+tour_package.name+`</h4>
-                                        <span><i class="fa fa-calendar" aria-hidden="true"></i>
-                                        `+tour_package.departure_date_f+` - `+tour_package.arrival_date_f+`
-                                        </span>
-                                        <br/>
-                                        <span><i class="fa fa-clock-o" aria-hidden="true"></i> `+tour_package.duration+` Days</span>
-                                        <br/>
-                                    </div>
-                                </div>
-                            </div>`;
-                    }
+                                </div>`;
+                                for(i in rooms){
+                                    text+=`
+                                    <h4 class="single_border_custom_bottom" style="margin-bottom:5px; width:50px; word-break:break-word;">#`+rooms[i].room_index+`</h4>
+                                    <h5>
+                                        `+rooms[i].room_name+`
+                                    </h5>
+                                    <b>Type: </b><i>`+rooms[i].room_bed_type+`</i><br>
+                                    <b>Hotel: </b><i>`+rooms[i].room_hotel+`</i><br>
+                                    <b>Description: </b><i>`+rooms[i].room_desc+`</i><br>
+                                    <b>Notes: </b><i>`+rooms[i].room_notes+`</i><br>`;
+                                    if(parseInt(i) != (rooms.length-1)){
+                                        text+=`<hr/>`;
+                                    }
+                                }
+                                text += `
+                            </div>
+                        </div>
+                    </div>`;
 
                     text += `
-                           <div class="row" style="margin-top: 15px;">
-                                <div class="col-lg-12">
-                                    <div id="tour_review_rooms" style="background-color: white; border: 1px solid #cdcdcd; overflow-x: auto;">
-                                        <div style="padding:10px;">
-                                            <h4> List of Room(s) </h4>
-                                            <hr/>
-                                            <table style="width:100%;" id="list-of-passengers" class="list-of-passenger-class">
-                                                <tr>
-                                                    <th style="width:5%;" class="list-of-passenger-left">No</th>
-                                                    <th style="width:15%;">Name</th>
-                                                    <th style="width:15%;">Type</th>
-                                                    <th style="width:15%;">Hotel</th>
-                                                    <th style="width:25%;">Description</th>
-                                                    <th style="width:25%;" class="list-of-passenger-right">Notes</th>
-                                                </tr>
-                       `;
-
-                    for(i in rooms)
-                    {
-                        text += `
-                            <tr>
-                                <td>`+rooms[i].room_index+`</td>
-                                <td>`+rooms[i].room_name+`</td>
-                                <td>`+rooms[i].room_bed_type+`</td>
-                                <td>`+rooms[i].room_hotel+`</td>
-                                <td>`+rooms[i].room_desc+`</td>
-                                <td>`+rooms[i].room_notes+`</td>
-                            </tr>
-                        `;
-                    }
-                    text += `
-                                         </table>
+                    <div class="row" style="margin-top: 15px;">
+                        <div class="col-lg-12">
+                            <div id="tour_review_booker" style="border:1px solid #cdcdcd; padding:15px; background-color:white; margin-top:20px;">
+                                <div class="row">
+                                    <div class="col-lg-12 mb-3" style="border-bottom: 1px solid #cdcdcd;">
+                                        <h4 class="mb-3"><i class="fas fa-user"></i> Contact Information</h4>
                                     </div>
                                 </div>
+                                <h4>
+                                    `+contact.title+`. `+contact.name+`
+                                </h4>
+                                <b>Email: </b><i>`+contact.email+`</i><br>
+                                <b>Phone: </b><i>`+contact.phone+`</i><br>
                             </div>
-                        </div>`;
+                        </div>
+                    </div>`;
 
-                       text += `
-                            <div class="row" style="margin-top: 15px;">
-                                <div class="col-lg-12">
-                                    <div id="tour_review_booker" style="background-color: white; border: 1px solid #cdcdcd; overflow-x: auto;">
-                                        <div style="padding:10px;">
-                                            <h4> Contact Information </h4>
-                                            <hr/>
-                                            <table style="width:100%;" id="list-of-bookers" class="list-of-passenger-class">
-                                                <tr>
-                                                    <th style="width:5%;" class="list-of-passenger-left">No</th>
-                                                    <th style="width:45%;">Full Name</th>
-                                                    <th style="width:25%;">Email</th>
-                                                    <th style="width:25%;" class="list-of-passenger-right">Mobile Phone</th>
-                                                </tr>
-                                                <tr>
-                                                    <td>1</td>
-                                                    <td>`+contact.title+`. `+contact.name+`</td>
-                                                    <td>`+contact.email+`</td>
-                                                    <td>`+contact.phone+`</td>
-                                                </tr>
-                                            </table>
-                                        </div>
+                   text += `
+                   <div class="row" style="margin-top: 15px;">
+                        <div class="col-lg-12">
+                            <div id="tour_review_passenger" style="border:1px solid #cdcdcd; padding:15px; background-color:white; margin-top:20px;">
+                                <div class="row">
+                                    <div class="col-lg-12 mb-3" style="border-bottom: 1px solid #cdcdcd;">
+                                        <h4 class="mb-3"><i class="fas fa-users"></i> List of Guest(s)</h4>
                                     </div>
-                                </div>
+                                </div>`;
+                                temp_pax_seq = 1
+                                for(i in passengers){
+                                    text+=`
+                                    <h4 class="single_border_custom_bottom" style="margin-bottom:5px; width:50px; word-break:break-word;">#`+temp_pax_seq+`</h4>
+                                    <h5>
+                                        `+passengers[i].title+`. `+msg.result.response.passengers[i].name+`
+                                        <b style="background:white; font-size:13px; color:black; padding:0px 15px; display:unset; border: 1px solid #cdcdcd; border-radius:7px;">
+                                            <i class="fas fa-user"></i> `;
+                                            if(passengers[i].pax_type == 'ADT'){
+                                                 text+=` Adult`;
+                                            }else if(passengers[i].pax_type == 'CHD'){
+                                                 text+=` Child`;
+                                            }else if(passengers[i].pax_type == 'INF'){
+                                                 text+=` Infant`;
+                                            }
+                                        text+=`
+                                        </b>
+                                    </h5>
+                                    <b>Birth Date: </b><i>`+passengers[i].birth_date+`</i><br>
+                                    <b>Room: </b><i>`+passengers[i].tour_room_string+`</i><br>`;
+                                    if(parseInt(i) != (passengers.length-1)){
+                                        text+=`<hr/>`;
+                                    }
+                                    temp_pax_seq += 1;
+                                }
+                               text += `
                             </div>
-                       `;
+                        </div>
+                    </div>
 
-                       text += `
-                           <div class="row" style="margin-top: 15px;">
-                                <div class="col-lg-12">
-                                    <div id="tour_review_passenger" style="background-color: white; border: 1px solid #cdcdcd; overflow-x: auto;">
-                                        <div style="padding:10px;">
-                                            <h4> List of Guest(s) </h4>
-                                            <hr/>
-                                            <table style="width:100%;" id="list-of-passengers" class="list-of-passenger-class">
-                                                <tr>
-                                                    <th style="width:5%;" class="list-of-passenger-left">No</th>
-                                                    <th style="width:45%;">Full Name</th>
-                                                    <th style="width:10%;">Type</th>
-                                                    <th style="width:20%;">Birth Date</th>
-                                                    <th style="width:20%;" class="list-of-passenger-right">Room</th>
-                                                </tr>
-                       `;
-
-                       temp_pax_seq = 1
-                       for(i in passengers)
-                       {
-                            text += `
-                                <tr>
-                                    <td>`+temp_pax_seq+`</td>
-                                    <td>`+passengers[i].title+`. `+msg.result.response.passengers[i].name+`</td>
-                                    <td>`+passengers[i].pax_type+`</td>
-                                    <td>`+passengers[i].birth_date+`</td>
-                                    <td>`+passengers[i].tour_room_string+`</td>
-                                </tr>
-                            `;
-                            temp_pax_seq += 1;
-                       }
-                       text += `
-                                             </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row" style="margin-top: 20px;">
-                                <div class="col-lg-6" id="voucher" style="padding-bottom:10px;">`;
+                    <div class="row" style="margin-top: 20px;">
+                        <div class="col-lg-6" id="voucher" style="padding-bottom:10px;">`;
 
                        if(book_obj.state == 'booked')
                        {
@@ -2390,7 +2401,7 @@ function tour_get_booking(order_number)
                      price_text+=`
                      <div style="text-align:right; padding-bottom:10px; margin-top:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:auto; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
                     else if(msg.result.response.state == 'issued' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
-                        price_text+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:auto; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
+                        price_text+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website_rodextrip/img/banknew.png" alt="Bank" style="width:auto; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
                         document.getElementById('repricing_type').innerHTML = '<option value="booker">Booker</option>';
                         $('#repricing_type').niceSelect('update');
                         reset_repricing();
