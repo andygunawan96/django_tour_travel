@@ -140,6 +140,8 @@ def api_models(request):
             res = update_booking(request)
         elif req_data['action'] == 'commit_booking':
             res = commit_booking(request)
+        elif req_data['action'] == 'commit_booking_vendor':
+            res = commit_booking_vendor(request)
         elif req_data['action'] == 'update_service_charge':
             res = update_service_charge(request)
         elif req_data['action'] == 'booker_insentif_booking':
@@ -1797,7 +1799,9 @@ def commit_booking(request):
     #nanti ganti ke get_ssr_availability
     try:
         data = {
-            'force_issued': bool(int(request.POST['value']))
+            # 'force_issued': bool(int(request.POST['value'])),
+            'force_issued': False,
+            'halt_process': bool(int(request.POST['halt_process']))
         }
         try:
             if bool(int(request.POST['value'])) == True:
@@ -1864,6 +1868,32 @@ def commit_booking(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
+    return res
+
+def commit_booking_vendor(request):
+    # nanti ganti ke get_ssr_availability
+    try:
+        data = {
+            'order_number': request.POST['order_number'],
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "commit_booking_vendor",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+
+    url_request = url + 'booking/airline'
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
+    try:
+        if res['result']['error_code'] == 0:
+            _logger.info("SUCCESS commit booking vendor AIRLINE SIGNATURE " + request.POST['signature'])
+        else:
+            _logger.error("ERROR commit booking vendor AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
 
 def get_booking(request):

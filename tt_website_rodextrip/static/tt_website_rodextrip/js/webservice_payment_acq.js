@@ -1146,7 +1146,7 @@ function button_payment(type, page){
         else if(page == 'payment')
             temp_text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="bus_issued('`+order_number_id+`');" style="width:100%;">Pay Now <div class="ld ld-ring ld-cycle"></div></button>`;
     }else if(type == 'airline_review'){
-        temp_text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="force_issued_airline(1);" style="width:100%;">Pay Now<div class="ld ld-ring ld-cycle"></div></button>`;
+        temp_text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="airline_issued('`+order_number_id+`');" style="width:100%;">Pay Now<div class="ld ld-ring ld-cycle"></div></button>`;
     }else if(type == 'airline_book_then_issued'){
         temp_text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="airline_issued('`+order_number_id+`');" style="width:100%;">Pay Now<div class="ld ld-ring ld-cycle"></div></button>`;
     }else if(type == 'airline'){

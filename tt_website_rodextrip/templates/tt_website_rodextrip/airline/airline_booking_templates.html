@@ -325,7 +325,9 @@
                     <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;margin-top:15px;" id="split_booking" hidden>
 
                     </div>
-
+                    <button class="primary-btn mt-3" id="commit_booking_btn_airline" type="button" style="width:100%; display:none;">
+                         {% trans 'Hold Booking' %}
+                    </button>
                     {% if 'issued_reservation' in username.co_agent_frontend_security %}
                     <button class="primary-btn issued_booking_btn mt-3" id="issued_btn_airline" type="button" style="width:100%; display:none;" onclick="focus_box('payment_acq');">
                          {% trans 'Issued Booking' %}
