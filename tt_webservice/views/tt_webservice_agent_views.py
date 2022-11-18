@@ -9,9 +9,14 @@ import json
 from .tt_webservice_views import *
 from .tt_webservice import *
 from ..views import tt_webservice_airline_views as airline
+from PIL import Image
 import logging
 import traceback
 import copy
+import cv2
+import re
+import numpy as np
+import pytesseract
 _logger = logging.getLogger("rodextrip_logger")
 
 month = {
@@ -80,6 +85,8 @@ def api_models(request):
             res = activate_corporate_mode(request)
         elif req_data['action'] == 'deactivate_corporate_mode':
             res = deactivate_corporate_mode(request)
+        elif req_data['action'] == 'read_idcard_img_to_text':
+            res = read_idcard_img_to_text(request)
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:
@@ -1883,3 +1890,187 @@ def get_data_customer_update_cache(request, seq_id):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
+
+def read_idcard_img_to_text(request):
+    res = {}
+    try:
+        if request.FILES.get('files_attachment_2'):
+            pil_img = Image.open(request.FILES['files_attachment_2'])
+            cv_img = np.array(pil_img)
+            # img_file = cv2.imread(cv_img)
+            gray_img = cv2.cvtColor(cv_img, cv2.COLOR_BGR2GRAY)
+            (thresh, threshed_img) = cv2.threshold(gray_img, 127, 255, cv2.THRESH_TRUNC)
+            final_img = Image.fromarray(threshed_img)
+            extracted_text = pytesseract.image_to_string(final_img, lang="ind")
+
+            for word in extracted_text.split("\n"):
+                if "NIK" in word:
+                    word = word.split(':')
+                    word_dict = {
+                        'b': "6",
+                        'e': "2",
+                    }
+                    final_nik = ''
+                    for letter in word[-1].replace(" ", ""):
+                        if letter in word_dict:
+                            final_nik += word_dict[letter]
+                        else:
+                            final_nik += letter
+                    res.update({
+                        'identity_number': final_nik
+                    })
+                    continue
+
+                if "Nama" in word:
+                    word = word.split(':')
+                    pax_name = word[-1].replace('Nama ', '')
+                    pax_name_split = pax_name.rsplit(' ', 1)
+                    res.update({
+                        'first_name': pax_name_split[0].strip()
+                    })
+                    if len(pax_name_split) > 1:
+                        res.update({
+                            'last_name': pax_name_split[-1].strip()
+                        })
+                    continue
+
+                if "Tempat" in word:
+                    word = word.split(':')
+                    birth_date = re.search("([0-9]{2}\-[0-9]{2}\-[0-9]{4})", word[-1])
+                    if birth_date:
+                        res.update({
+                            'birth_date': datetime.strptime(birth_date[0], '%d-%m-%Y').strftime('%d %b %Y'),
+                            'age': relativedelta(datetime.now(), datetime.strptime(birth_date[0], '%d-%m-%Y')).years
+                        })
+                        birth_place = word[-1].replace(birth_date[0], '')
+                        if birth_place:
+                            res.update({
+                                'birth_place': birth_place.replace(',', '').strip()
+                            })
+                    continue
+
+                if 'Darah' in word:
+                    gender = re.search("(LAKI-LAKI|LAKI|LELAKI|PEREMPUAN)", word)
+                    if gender:
+                        res.update({
+                            'gender': gender[0]
+                        })
+                    word = word.split(':')
+                    try:
+                        blood_type = re.search("(O|A|B|AB)", word[-1])
+                        if blood_type:
+                            res.update({
+                                'blood_type': blood_type[0]
+                            })
+                    except:
+                        res.update({
+                            'blood_type': '-'
+                        })
+                if 'Alamat' in word:
+                    word_dict = {
+                        '|': "1"
+                    }
+                    address = ""
+                    for letter in word:
+                        if letter in word_dict:
+                            address += word_dict[letter]
+                        else:
+                            address += letter
+                    res.update({
+                        'address': address.replace("Alamat ", "")
+                    })
+                if 'NO.' in word:
+                    if res.get('address'):
+                        res['address'] += ' ' + word
+                if "Kecamatan" in word:
+                    district = word.split(':')
+                    if len(district) > 1:
+                        res.update({
+                            'district': district[1].strip()
+                        })
+                if "Desa" in word:
+                    wrd = word.split()
+                    desa = []
+                    for wr in wrd:
+                        if not 'desa' in wr.lower():
+                            desa.append(wr)
+                    res.update({
+                        'ward': ''.join(desa).replace(':', "").strip()
+                    })
+                if 'Kewarganegaraan' in word:
+                    nationality = word.split(':')
+                    if len(nationality) > 1:
+                        res.update({
+                            'nationality': nationality[1].strip()
+                        })
+                if 'Pekerjaan' in word:
+                    wrod = word.split()
+                    pekerjaan = []
+                    for wr in wrod:
+                        if not '-' in wr:
+                            pekerjaan.append(wr)
+                    res.update({
+                        'job': ' '.join(pekerjaan).replace('Pekerjaan', '').replace(':', "").strip()
+                    })
+                if 'Agama' in word:
+                    res.update({
+                        'religion': word.replace('Agama', "").replace(':', "").strip()
+                    })
+                if 'Perkawinan' in word:
+                    marriage_status = word.split(':')
+                    if len(marriage_status) > 1:
+                        res.update({
+                            'marriage_status': marriage_status[1].strip()
+                        })
+                if "RT/RW" in word:
+                    rtrw_word = word.replace("RT/RW", '')
+                    split_rtrw = rtrw_word.split('/')
+                    if len(split_rtrw) > 1:
+                        res.update({
+                            'rt': split_rtrw[0].strip(),
+                            'rw': split_rtrw[1].strip()
+                        })
+                if 'Berlaku' in word:
+                    expired_date = word.split(':')
+                    if len(expired_date) > 1:
+                        id_exp_date = expired_date[1].strip()
+                        if id_exp_date != 'SEUMUR HIDUP':
+                            try:
+                                id_exp_date = datetime.strptime(id_exp_date, '%d-%m-%Y').strftime('%d %b %Y')
+                            except:
+                                id_exp_date = 'SEUMUR HIDUP'
+                        res.update({
+                            'identity_expired_date': id_exp_date
+                        })
+                if res.get('gender') in ['LAKI-LAKI', 'LAKI', 'LELAKI']:
+                    if not res.get('age') or (res.get('age') and int(res['age']) > 12):
+                        res.update({
+                            'title': 'MR'
+                        })
+                    else:
+                        res.update({
+                            'title': 'MSTR'
+                        })
+                else:
+                    if not res.get('age') or (res.get('age') and int(res['age']) > 12):
+                        if res.get('marriage_status') == 'KAWIN':
+                            res.update({
+                                'title': 'MRS'
+                            })
+                        else:
+                            res.update({
+                                'title': 'MS'
+                            })
+                    else:
+                        res.update({
+                            'title': 'MISS'
+                        })
+            result = ERR.get_no_error_api()
+            result['response'] = res
+        else:
+            _logger.error("Error reading ID Card, file cannot be read.")
+            result = ERR.get_error_api(500, additional_message="Error reading ID Card, file cannot be read.")
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+        result = ERR.get_error_api(500, additional_message=str(e))
+    return result
