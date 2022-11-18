@@ -1897,7 +1897,7 @@ def read_idcard_img_to_text(request):
         import pytesseract
     except Exception as e:
         _logger.error('Please install PIL, OpenCV, and PyTesseract!\n' + str(e) + '\n' + traceback.format_exc())
-        result = ERR.get_error_api(500, additional_message=str(e))
+        return ERR.get_error_api(500, additional_message=str(e))
     try:
         if request.FILES.get('files_attachment_2'):
             pil_img = Image.open(request.FILES['files_attachment_2'])
