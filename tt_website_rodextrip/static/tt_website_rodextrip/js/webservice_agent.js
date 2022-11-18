@@ -9012,7 +9012,7 @@ function fill_paxdata_from_idcard(){
                 {
                     $("#passenger_identity_number2").val(res_obj.identity_number);
                 }
-                if (res_obj.hasOwnProperty('identity_expired_date'))
+                if (res_obj.hasOwnProperty('identity_expired_date') && res_obj.identity_expired_date != 'SEUMUR HIDUP')
                 {
                     $("#passenger_identity_expired_date2").val(res_obj.identity_expired_date);
                 }
