@@ -9498,6 +9498,36 @@ function print_fail_issued(){
    })
 }
 
+function print_fail_forceissued(){
+    Swal.fire({
+      title: 'Issued',
+      html: 'Session already expired, Please book a new reservation',
+      type: 'error',
+      timer: 3000,
+      timerProgressBar: true,
+      didOpen: () => {
+        Swal.showLoading()
+        timerInterval = setInterval(() => {
+          const content = Swal.getHtmlContainer()
+          if (content) {
+            const b = content.querySelector('b')
+            if (b) {
+              b.textContent = Swal.getTimerLeft()
+            }
+          }
+        }, 100)
+      },
+      willClose: () => {
+        clearInterval(timerInterval)
+      }
+   }).then((result) => {
+      /* Read more about handling dismissals below */
+      if (result.dismiss === Swal.DismissReason.timer) {
+        console.log('I was closed by the timer')
+      }
+   })
+}
+
 function change_identity_type(id, automatic_change_number=true){
     try{
         if(document.getElementById(id).value == 'ktp'){
