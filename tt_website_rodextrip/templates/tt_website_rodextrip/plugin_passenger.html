@@ -305,7 +305,36 @@
                 <form action="" class="form-wrap" style="padding:5px; text-align:left;" method="POST" id="form_identity_passenger" enctype="multipart/form-data">
                     <div class="row">
                         <div class="col-lg-12 mb-3" style="text-align:right;">
+                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment2">{% trans 'Upload ID Card' %} <i class="fas fa-id-card"></i></button>
                             <button type="button" class="primary-btn" onclick="generate_url_create_passenger();">Generate Link <i class="fas fa-link"></i></button>
+                        </div>
+                        <div class="col-lg-12">
+                            <!-- Modal -->
+                            <div class="modal fade" id="myModal_attachment2" data-keyboard="false">
+                                <div class="modal-dialog">
+
+                                    <!-- Modal content-->
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Identity Attachment' %}</h4>
+                                            <button type="button" class="close" onclick="close_upload_attachment(2,'');">&times;</button>
+                                        </div>
+                                        <div class="modal-body">
+
+                                            Files: <input type="file" id="files_attachment2" name="files_attachment_2" multiple="" accept="image/*"><br>
+
+                                            <div id="selectedFiles_attachment2"></div>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control o_website_form_input" id="description_attachment_2" name="description_attachment_2" placeholder="Description" />
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button id="fill_data_idcard" type="button" class="btn btn-primary" onclick="fill_paxdata_from_idcard();">Fill In Data</button>
+                                            <button type="button" class="btn btn-default" onclick="close_upload_attachment(2,'');">{% trans 'Close' %}</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="col-lg-12 mb-3">
                             <div style="background:white; border:1px solid #cdcdcd; padding:15px;">
@@ -349,7 +378,7 @@
                                                     <div class="form-select-2">
                                                         <select id="passenger_title" name="passenger_title" class="nice-select-default">
                                                             {% for title in titles%}
-                                                            <option>{{title}}</option>
+                                                            <option value="{{title}}">{{title}}</option>
                                                             {% endfor %}
                                                         </select>
                                                     </div>
@@ -547,31 +576,6 @@
                                             <div class="col-lg-12" style="margin-bottom:15px;">
                                                 <span>{% trans 'Attachment' %}</span><br/>
                                                 <button type="button" class="primary-btn-white" data-toggle="modal" data-target="#myModal_attachment2">{% trans 'Upload Image' %} <i class="fas fa-images"></i></button>
-                                                <!-- Modal -->
-                                                <div class="modal fade" id="myModal_attachment2" data-keyboard="false">
-                                                    <div class="modal-dialog">
-
-                                                        <!-- Modal content-->
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Identity Attachment' %}</h4>
-                                                                <button type="button" class="close" onclick="close_upload_attachment(2,'');">&times;</button>
-                                                            </div>
-                                                            <div class="modal-body">
-
-                                                                Files: <input type="file" id="files_attachment2" name="files_attachment_2" multiple="" accept="image/*"><br>
-
-                                                                <div id="selectedFiles_attachment2"></div>
-                                                                <div class="input-container-search-ticket">
-                                                                    <input type="text" class="form-control o_website_form_input" id="description_attachment_2" name="description_attachment_2" placeholder="Description" />
-                                                                </div>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-default" onclick="close_upload_attachment(2,'');">{% trans 'Close' %}</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -737,7 +741,36 @@
                 <form action="" class="form-wrap" style="padding:15px; text-align:left;" method="POST" id="form_identity_passenger" enctype="multipart/form-data">
                     <div class="row">
                         <div class="col-lg-12 mb-3" style="text-align:right; padding:0px;">
+                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment2">{% trans 'Upload ID Card' %} <i class="fas fa-id-card"></i></button>
                             <button type="button" class="primary-btn" onclick="generate_url_create_passenger();">Generate Link <i class="fas fa-link"></i></button>
+                        </div>
+                        <div class="col-lg-12">
+                            <!-- Modal -->
+                            <div class="modal fade" id="myModal_attachment2" data-keyboard="false">
+                                <div class="modal-dialog">
+
+                                    <!-- Modal content-->
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Identity Attachment' %}</h4>
+                                            <button type="button" class="close" onclick="close_upload_attachment(2,'');">&times;</button>
+                                        </div>
+                                        <div class="modal-body">
+
+                                            Files: <input type="file" id="files_attachment2" name="files_attachment_2" multiple="" accept="image/*"><br>
+
+                                            <div id="selectedFiles_attachment2"></div>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control o_website_form_input" id="description_attachment_2" name="description_attachment_2" placeholder="Description" />
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button id="fill_data_idcard" type="button" class="btn btn-primary" onclick="fill_paxdata_from_idcard();">Fill In Data</button>
+                                            <button type="button" class="btn btn-default" onclick="close_upload_attachment(2,'');">{% trans 'Close' %}</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="col-lg-12 mb-3" style="background:white; padding:15px; border:1px solid #cdcdcd;">
                             <div class="row">
@@ -777,7 +810,7 @@
                                     <div class="form-select-2">
                                         <select id="passenger_title" name="passenger_title" class="nice-select-default">
                                             {% for title in titles%}
-                                            <option>{{title}}</option>
+                                            <option value="{{title}}">{{title}}</option>
                                             {% endfor %}
                                         </select>
                                     </div>
@@ -968,31 +1001,6 @@
                                         <div class="col-sm-12">
                                             <span>{% trans 'Attachment' %}</span><br/>
                                             <button type="button" class="primary-btn-white" data-toggle="modal" data-target="#myModal_attachment2">{% trans 'Upload Image' %} <i class="fas fa-images"></i></button>
-                                            <!-- Modal -->
-                                            <div class="modal fade" id="myModal_attachment2" data-keyboard="false">
-                                                <div class="modal-dialog">
-
-                                                    <!-- Modal content-->
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Identity Attachment' %}</h4>
-                                                            <button type="button" class="close" onclick="close_upload_attachment(2,'');">&times;</button>
-                                                        </div>
-                                                        <div class="modal-body">
-
-                                                            Files: <input type="file" id="files_attachment2" name="files_attachment_2" multiple="" accept="image/*"><br>
-
-                                                            <div id="selectedFiles_attachment2"></div>
-                                                            <div class="input-container-search-ticket">
-                                                                <input type="text" class="form-control o_website_form_input" id="description_attachment_2" name="description_attachment_2" placeholder="Description" />
-                                                            </div>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-default" onclick="close_upload_attachment(2,'');">{% trans 'Close' %}</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -1142,7 +1150,36 @@
                 <form action="" class="form-wrap" style="padding:15px; text-align:left;" method="POST" id="form_identity_passenger" enctype="multipart/form-data">
                     <div class="row">
                         <div class="col-lg-12 mb-3" style="text-align:right; padding:0px;">
+                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment2">{% trans 'Upload ID Card' %} <i class="fas fa-id-card"></i></button>
                             <button type="button" class="primary-btn" onclick="generate_url_create_passenger();">Generate Link <i class="fas fa-link"></i></button>
+                        </div>
+                        <div class="col-lg-12">
+                            <!-- Modal -->
+                            <div class="modal fade" id="myModal_attachment2" data-keyboard="false">
+                                <div class="modal-dialog">
+
+                                    <!-- Modal content-->
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Identity Attachment' %}</h4>
+                                            <button type="button" class="close" onclick="close_upload_attachment(2,'');">&times;</button>
+                                        </div>
+                                        <div class="modal-body">
+
+                                            Files: <input type="file" id="files_attachment2" name="files_attachment_2" multiple="" accept="image/*"><br>
+
+                                            <div id="selectedFiles_attachment2"></div>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control o_website_form_input" id="description_attachment_2" name="description_attachment_2" placeholder="Description" />
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button id="fill_data_idcard" type="button" class="btn btn-primary" onclick="fill_paxdata_from_idcard();">Fill In Data</button>
+                                            <button type="button" class="btn btn-default" onclick="close_upload_attachment(2,'');">{% trans 'Close' %}</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="col-lg-12 mb-3" style="background:white; padding:15px; border:1px solid #cdcdcd;">
                             <div class="row">
@@ -1182,7 +1219,7 @@
                                     <div class="form-select-2">
                                         <select id="passenger_title" name="passenger_title" class="nice-select-default">
                                             {% for title in titles%}
-                                            <option>{{title}}</option>
+                                            <option value="{{title}}">{{title}}</option>
                                             {% endfor %}
                                         </select>
                                     </div>
@@ -1375,31 +1412,6 @@
                                                         <div class="col-sm-12">
                                                             <span>{% trans 'Attachment' %}</span><br/>
                                                             <button type="button" class="primary-btn-white" data-toggle="modal" data-target="#myModal_attachment2">{% trans 'Upload Image' %} <i class="fas fa-images"></i></button>
-                                                            <!-- Modal -->
-                                                            <div class="modal fade" id="myModal_attachment2" data-keyboard="false">
-                                                                <div class="modal-dialog">
-
-                                                                    <!-- Modal content-->
-                                                                    <div class="modal-content">
-                                                                        <div class="modal-header">
-                                                                            <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Identity Attachment' %}</h4>
-                                                                            <button type="button" class="close" onclick="close_upload_attachment(2,'');">&times;</button>
-                                                                        </div>
-                                                                        <div class="modal-body">
-
-                                                                            Files: <input type="file" id="files_attachment2" name="files_attachment_2" multiple="" accept="image/*"><br>
-
-                                                                            <div id="selectedFiles_attachment2"></div>
-                                                                            <div class="input-container-search-ticket">
-                                                                                <input type="text" class="form-control o_website_form_input" id="description_attachment_2" name="description_attachment_2" placeholder="Description" />
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="modal-footer">
-                                                                            <button type="button" class="btn btn-default" onclick="close_upload_attachment(2,'');">{% trans 'Close' %}</button>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1551,7 +1563,36 @@
                 <form action="" class="form-search-wrap" style="padding:15px; text-align:left; background:unset;" method="POST" id="form_identity_passenger" enctype="multipart/form-data">
                     <div class="row">
                         <div class="col-lg-12 mb-3" style="text-align:right; padding:0px;">
+                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment2">{% trans 'Upload ID Card' %} <i class="fas fa-id-card"></i></button>
                             <button type="button" class="primary-btn" onclick="generate_url_create_passenger();">Generate Link <i class="fas fa-link"></i></button>
+                        </div>
+                        <div class="col-lg-12">
+                            <!-- Modal -->
+                            <div class="modal fade" id="myModal_attachment2" data-keyboard="false">
+                                <div class="modal-dialog">
+
+                                    <!-- Modal content-->
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Identity Attachment' %}</h4>
+                                            <button type="button" class="close" onclick="close_upload_attachment(2,'');">&times;</button>
+                                        </div>
+                                        <div class="modal-body">
+
+                                            Files: <input type="file" id="files_attachment2" name="files_attachment_2" multiple="" accept="image/*"><br>
+
+                                            <div id="selectedFiles_attachment2"></div>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control o_website_form_input" id="description_attachment_2" name="description_attachment_2" placeholder="Description" />
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button id="fill_data_idcard" type="button" class="btn btn-primary" onclick="fill_paxdata_from_idcard();">Fill In Data</button>
+                                            <button type="button" class="btn btn-default" onclick="close_upload_attachment(2,'');">{% trans 'Close' %}</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="col-lg-12 mb-3" style="background:white; padding:15px; border:1px solid #cdcdcd;">
                             <div class="row">
@@ -1592,7 +1633,7 @@
                                         <div class="form-select-2" id="default-select">
                                             <select id="passenger_title" name="passenger_title" class="nice-select-default rounded">
                                                 {% for title in titles%}
-                                                <option>{{title}}</option>
+                                                <option value="{{title}}">{{title}}</option>
                                                 {% endfor %}
                                             </select>
                                         </div>
@@ -1785,31 +1826,6 @@
                                                 <div class="col-sm-12">
                                                     <span>{% trans 'Attachment' %}</span><br/>
                                                     <button type="button" class="primary-btn-white" data-toggle="modal" data-target="#myModal_attachment2">{% trans 'Upload Image' %} <i class="fas fa-images"></i></button>
-                                                    <!-- Modal -->
-                                                    <div class="modal fade" id="myModal_attachment2" data-keyboard="false">
-                                                        <div class="modal-dialog">
-
-                                                            <!-- Modal content-->
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Identity Attachment' %}</h4>
-                                                                    <button type="button" class="close" onclick="close_upload_attachment(2,'');">&times;</button>
-                                                                </div>
-                                                                <div class="modal-body">
-
-                                                                    Files: <input type="file" id="files_attachment2" name="files_attachment_2" multiple="" accept="image/*"><br>
-
-                                                                    <div id="selectedFiles_attachment2"></div>
-                                                                    <div class="input-container-search-ticket">
-                                                                        <input type="text" class="form-control o_website_form_input" id="description_attachment_2" name="description_attachment_2" placeholder="Description" />
-                                                                    </div>
-                                                                </div>
-                                                                <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-default" onclick="close_upload_attachment(2,'');">{% trans 'Close' %}</button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -1959,9 +1975,37 @@
                 <form action="" class="form-wrap" style="padding:15px; text-align:left;" method="POST" id="form_identity_passenger" enctype="multipart/form-data">
                     <div class="row">
                         <div class="col-lg-12 mb-3" style="text-align:right; padding:0px;">
+                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment2">{% trans 'Upload ID Card' %} <i class="fas fa-id-card"></i></button>
                             <button type="button" class="primary-btn" onclick="generate_url_create_passenger();">Generate Link <i class="fas fa-link"></i></button>
                         </div>
+                        <div class="col-lg-12">
+                            <!-- Modal -->
+                            <div class="modal fade" id="myModal_attachment2" data-keyboard="false">
+                                <div class="modal-dialog">
 
+                                    <!-- Modal content-->
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Identity Attachment' %}</h4>
+                                            <button type="button" class="close" onclick="close_upload_attachment(2,'');">&times;</button>
+                                        </div>
+                                        <div class="modal-body">
+
+                                            Files: <input type="file" id="files_attachment2" name="files_attachment_2" multiple="" accept="image/*"><br>
+
+                                            <div id="selectedFiles_attachment2"></div>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control o_website_form_input" id="description_attachment_2" name="description_attachment_2" placeholder="Description" />
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button id="fill_data_idcard" type="button" class="btn btn-primary" onclick="fill_paxdata_from_idcard();">Fill In Data</button>
+                                            <button type="button" class="btn btn-default" onclick="close_upload_attachment(2,'');">{% trans 'Close' %}</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="col-lg-12 mb-3" style="background:white; padding:15px; border:1px solid #cdcdcd;">
                             <div class="row">
                                 <div class="col-lg-12" style="margin-bottom:15px;">
@@ -2000,7 +2044,7 @@
                                     <div class="input-container-search-ticket">
                                         <select id="passenger_title" name="passenger_title" class="nice-select-default">
                                             {% for title in titles%}
-                                            <option>{{title}}</option>
+                                            <option value="{{title}}">{{title}}</option>
                                             {% endfor %}
                                         </select>
                                     </div>
@@ -2198,31 +2242,6 @@
                                                 <div class="col-sm-12">
                                                     <span>{% trans 'Attachment' %}</span><br/>
                                                     <button type="button" class="primary-btn-white" data-toggle="modal" data-target="#myModal_attachment2">{% trans 'Upload Image' %} <i class="fas fa-images"></i></button>
-                                                    <!-- Modal -->
-                                                    <div class="modal fade" id="myModal_attachment2" data-keyboard="false">
-                                                        <div class="modal-dialog">
-
-                                                            <!-- Modal content-->
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Identity Attachment' %}</h4>
-                                                                    <button type="button" class="close" onclick="close_upload_attachment(2,'');">&times;</button>
-                                                                </div>
-                                                                <div class="modal-body">
-
-                                                                    Files: <input type="file" id="files_attachment2" name="files_attachment_2" multiple="" accept="image/*"><br>
-
-                                                                    <div id="selectedFiles_attachment2"></div>
-                                                                    <div class="input-container-search-ticket">
-                                                                        <input type="text" class="form-control o_website_form_input" id="description_attachment_2" name="description_attachment_2" placeholder="Description" />
-                                                                    </div>
-                                                                </div>
-                                                                <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-default" onclick="close_upload_attachment(2,'');">{% trans 'Close' %}</button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -2377,9 +2396,37 @@
                 <form action="" class="form-wrap" style="padding:15px; text-align:left;" method="POST" id="form_identity_passenger" enctype="multipart/form-data">
                     <div class="row">
                         <div class="col-lg-12 mb-3" style="text-align:right; padding:0px;">
+                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment2">{% trans 'Upload ID Card' %} <i class="fas fa-id-card"></i></button>
                             <button type="button" class="primary-btn" onclick="generate_url_create_passenger();">Generate Link <i class="fas fa-link"></i></button>
                         </div>
+                        <div class="col-lg-12">
+                            <!-- Modal -->
+                            <div class="modal fade" id="myModal_attachment2" data-keyboard="false">
+                                <div class="modal-dialog">
 
+                                    <!-- Modal content-->
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Identity Attachment' %}</h4>
+                                            <button type="button" class="close" onclick="close_upload_attachment(2,'');">&times;</button>
+                                        </div>
+                                        <div class="modal-body">
+
+                                            Files: <input type="file" id="files_attachment2" name="files_attachment_2" multiple="" accept="image/*"><br>
+
+                                            <div id="selectedFiles_attachment2"></div>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control o_website_form_input" id="description_attachment_2" name="description_attachment_2" placeholder="Description" />
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button id="fill_data_idcard" type="button" class="btn btn-primary" onclick="fill_paxdata_from_idcard();">Fill In Data</button>
+                                            <button type="button" class="btn btn-default" onclick="close_upload_attachment(2,'');">{% trans 'Close' %}</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="col-lg-12 mb-3" style="background:white; padding:15px; border:1px solid #cdcdcd;">
                             <div class="row">
                                 <div class="col-lg-12" style="margin-bottom:15px;">
@@ -2417,7 +2464,7 @@
                                     <div class="input-container-search-ticket">
                                         <select id="passenger_title" name="passenger_title" class="nice-select-default">
                                             {% for title in titles%}
-                                            <option>{{title}}</option>
+                                            <option value="{{title}}">{{title}}</option>
                                             {% endfor %}
                                         </select>
                                     </div>
@@ -2615,31 +2662,6 @@
                                                 <div class="col-sm-12">
                                                     <span>{% trans 'Attachment' %}</span><br/>
                                                     <button type="button" class="primary-btn-white" data-toggle="modal" data-target="#myModal_attachment2">{% trans 'Upload Image' %} <i class="fas fa-images"></i></button>
-                                                    <!-- Modal -->
-                                                    <div class="modal fade" id="myModal_attachment2" data-keyboard="false">
-                                                        <div class="modal-dialog">
-
-                                                            <!-- Modal content-->
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Identity Attachment' %}</h4>
-                                                                    <button type="button" class="close" onclick="close_upload_attachment(2,'');">&times;</button>
-                                                                </div>
-                                                                <div class="modal-body">
-
-                                                                    Files: <input type="file" id="files_attachment2" name="files_attachment_2" multiple="" accept="image/*"><br>
-
-                                                                    <div id="selectedFiles_attachment2"></div>
-                                                                    <div class="input-container-search-ticket">
-                                                                        <input type="text" class="form-control o_website_form_input" id="description_attachment_2" name="description_attachment_2" placeholder="Description" />
-                                                                    </div>
-                                                                </div>
-                                                                <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-default" onclick="close_upload_attachment(2,'');">{% trans 'Close' %}</button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -5392,6 +5414,7 @@
 		selDiv_attachment_edit2 = document.querySelector("#selectedFiles_attachment_edit2");
 		selDiv_attachment_edit3 = document.querySelector("#selectedFiles_attachment_edit3");
 		selDiv_attachment_edit4 = document.querySelector("#selectedFiles_attachment_edit4");
+
 	}
 
     function search_btn_passenger_db(){
