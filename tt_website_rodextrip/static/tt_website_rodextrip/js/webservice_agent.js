@@ -6423,7 +6423,39 @@ function get_payment_espay(order_number_full){
                     else
                         window.location.reload();
                 }else if(payment_acq2[payment_method][selected].save_url == true){
-                    window.location.href = msg.result.response.url;
+                    Swal.fire({
+                      title: "Success, continue to payment?",
+                      type: 'success',
+                      showCancelButton: true,
+                      confirmButtonColor: '#3085d6',
+                      cancelButtonColor: 'blue',
+                      confirmButtonText: 'Payment',
+                      cancelButtonText: 'Copy Link'
+                    }).then((result) => {
+                        if (result.value) {
+                            window.location.href = msg.result.response.url;
+
+                        }else{
+                            const el = document.createElement('textarea');
+                            el.value = msg.result.response.url;
+                            document.body.appendChild(el);
+                            el.select();
+                            document.execCommand('copy');
+                            document.body.removeChild(el);
+
+                            const Toast = Swal.mixin({
+                              toast: true,
+                              position: 'top-end',
+                              showConfirmButton: false,
+                              timer: 3000
+                            })
+                            Toast.fire({
+                              type: 'success',
+                              title: 'Copied Successfully'
+                            })
+                            close_div('payment_acq');
+                        }
+                    })
                 }else
                     window.location.href = '/payment/espay/' + order_number_full;
             }else{

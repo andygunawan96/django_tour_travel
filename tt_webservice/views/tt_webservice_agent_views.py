@@ -10,7 +10,6 @@ from .tt_webservice_views import *
 from .tt_webservice import *
 from ..views import tt_webservice_airline_views as airline
 import re
-import numpy as np
 import logging
 import traceback
 import copy
@@ -1905,6 +1904,7 @@ def read_idcard_img_to_text(request):
         from PIL import Image
         import cv2
         import pytesseract
+        import numpy as np
     except Exception as e:
         _logger.error('Please install PIL, OpenCV, and PyTesseract!\n' + str(e) + '\n' + traceback.format_exc())
         return ERR.get_error_api(500, additional_message=str(e))
