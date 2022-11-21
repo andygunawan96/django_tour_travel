@@ -9,14 +9,12 @@ import json
 from .tt_webservice_views import *
 from .tt_webservice import *
 from ..views import tt_webservice_airline_views as airline
-from PIL import Image
+import re
+import numpy as np
 import logging
 import traceback
 import copy
-import cv2
-import re
-import numpy as np
-import pytesseract
+
 _logger = logging.getLogger("rodextrip_logger")
 
 month = {
@@ -1903,6 +1901,13 @@ def get_data_customer_update_cache(request, seq_id):
 
 def read_idcard_img_to_text(request):
     res = {}
+    try:
+        from PIL import Image
+        import cv2
+        import pytesseract
+    except Exception as e:
+        _logger.error('Please install PIL, OpenCV, and PyTesseract!\n' + str(e) + '\n' + traceback.format_exc())
+        return ERR.get_error_api(500, additional_message=str(e))
     try:
         if request.FILES.get('files_attachment_2'):
             pil_img = Image.open(request.FILES['files_attachment_2'])
