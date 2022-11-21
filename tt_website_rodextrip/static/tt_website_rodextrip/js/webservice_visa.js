@@ -171,11 +171,11 @@ function visa_page_review(){
             child = passenger.child;
 
             for(i in passenger.adult)
-                set_value_radio_first('adt',parseInt(i)+1);
+                set_value_radio_first('adult',parseInt(i)+1);
             for(i in passenger.child)
-                set_value_radio_first('chd',parseInt(i)+1);
+                set_value_radio_first('child',parseInt(i)+1);
             for(i in passenger.infant)
-                set_value_radio_first('inf',parseInt(i)+1);
+                set_value_radio_first('infant',parseInt(i)+1);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error visa get config provider');

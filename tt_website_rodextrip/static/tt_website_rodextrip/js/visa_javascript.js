@@ -2651,7 +2651,7 @@ function check_on_off_radio(pax_type,number,value){
 }
 
 function set_value_radio_first(pax_type,number){
-    if(pax_type == 'adt'){
+    if(pax_type == 'adult'){
         var radios = document.getElementsByName('adult_entry_type'+number);
         for (var j = 0, length = radios.length; j < length; j++) {
             radios[j].checked = false;
