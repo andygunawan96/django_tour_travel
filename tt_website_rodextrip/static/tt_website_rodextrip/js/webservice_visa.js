@@ -983,8 +983,15 @@ function visa_get_data(data){
 
                     text= `<div class="row">
                             <div class="col-lg-12">
-                                <div id="visa_booking_detail" style="border:1px solid #cdcdcd; padding:10px; background-color:white">
-                                    <h6>Order Number : `+visa.journey.name+`</h6><br/>
+                                <div id="visa_booking_detail" style="border:1px solid #cdcdcd; padding:15px; background-color:white">
+                                    <div class="row">
+                                        <div class="col-lg-12 mb-3" style="padding-bottom:15px; border-bottom:1px solid #cdcdcd;">
+                                            <h4>
+                                                <i class="fas fa-scroll"></i> Order Number: `+visa.journey.name+`
+                                            </h4>
+                                        </div>
+                                    </div>
+
                                      <table style="width:100%;">
                                         <tr>
                                             <th>Visa Status</th>
@@ -1015,53 +1022,60 @@ function visa_get_data(data){
                                     <hr/>`;
                                     if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
                                         text+=`
-                                            <div class="row">
-                                                <div class="col-lg-6">
-                                                    <span>Agent: <b>`+msg.result.response.agent_name+`</b></span>
-                                                </div>`;
-                                        if(msg.result.response.customer_parent_name){
+                                        <div class="row mb-3">
+                                            <div class="col-lg-6">
+                                                <b>Agent: </b><i>`+msg.result.response.agent_name+`</i>
+                                            </div>
+                                            <div class="col-lg-6">`;
+                                                if(msg.result.response.customer_parent_name){
+                                                    text+=`<b>Customer: </b><i>`+msg.result.response.customer_parent_type_name+` `+msg.result.response.customer_parent_name+`</i>`;
+                                                }
                                             text+=`
-                                                <div class="col-lg-6">
-                                                    <span>Customer: <b>`+msg.result.response.customer_parent_type_name+` `+msg.result.response.customer_parent_name+`</b></span>
-                                                </div>`;
-                                        }
-                                        text+= `</div>`;
+                                            </div>
+                                        </div>`;
                                     }
                                     text+=`
                                     <div class="row">
-                                        <div class="col-lg-6">
-                                            <h6>Booked</h6>
-                                            <span>Date: <b>`;
-                                                if(visa.booked_date != ""){
-                                                    text+=``+visa.booked_date+``;
-                                                }else{
-                                                    text+=`-`
-                                                }
-                                                text+=`</b>
+                                        <div class="col-lg-3">
+                                            <span>
+                                                <b>Booked by</b><br><i>`+msg.result.response.booked_by+`</i>
                                             </span>
-                                            <br/>
-                                            <span>by <b>`+visa.booked_by+`</b><span>
                                         </div>
-
-                                        <div class="col-lg-6 mb-3">`;
-                                            if(msg.result.response.state == 'issued'){
-                                                text+=`<h6>Issued</h6>
-                                                    <span>Date: <b>`;
-                                                    if(msg.result.response.issued_date != ""){
-                                                        text+=``+msg.result.response.issued_date+``;
-                                                    }else{
-                                                        text+=`-`
-                                                    }
-                                                text+=`</b>
-                                                </span>
-                                                <br/>
-                                                <span>by <b>`+msg.result.response.issued_by+`</b><span>`;
-                                            }
+                                        <div class="col-lg-9 mb-3">
+                                            <span>
+                                                <b>Booked Date </b><br/>`;
+                                                if(msg.result.response.booked_date != ""){
+                                                    text+=`<i>`+msg.result.response.booked_date+`</i>`;
+                                                }else{
+                                                    text+=`-`;
+                                                }
                                             text+=`
+                                            </span>
                                         </div>
-                                    </div>
+                                    </div>`;
 
-
+                                    if(msg.result.response.state == 'issued'){
+                                        text+=`
+                                        <div class="row">
+                                            <div class="col-lg-3 mb-3">
+                                                <span>
+                                                    <b>Issued by</b><br><i>`+msg.result.response.issued_by+`</i>
+                                                </span>
+                                            </div>
+                                            <div class="col-lg-5 mb-3">
+                                                <span>
+                                                    <b>Issued Date </b><br/>`;
+                                                    if(msg.result.response.issued_date != ""){
+                                                        text+=`<i>`+msg.result.response.issued_date+`</i>`;
+                                                    }else{
+                                                        text+=`-`;
+                                                    }
+                                                text+=`
+                                                </span>
+                                            </div>
+                                        </div>`;
+                                    }
+                                    text+=`
                                 </div>
                             </div>
                         </div>`;
@@ -1069,9 +1083,15 @@ function visa_get_data(data){
                     text += `
                         <div class="row">
                             <div class="col-lg-12">
-                                <div id="tour_booking_info" style="padding:10px; margin-top: 10px; background-color:white; border:1px solid #cdcdcd;">
-                                    <h4> Visa Information </h4>
-                                    <hr/>
+                                <div id="tour_booking_info" style="padding:15px; margin-top: 10px; background-color:white; border:1px solid #cdcdcd;">
+                                   <div class="row">
+                                       <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                                           <h4 class="mb-3">
+                                               <img src="/static/tt_website_rodextrip/images/icon/visa_black.png" alt="undefined" style="width:20px; height:20px;">
+                                               Visa Information
+                                           </h4>
+                                       </div>
+                                   </div>
                                     <h4>`+visa.journey.country+`</h4>
                                     <span><i class="fa fa-calendar" aria-hidden="true"></i>
                                     `+visa.journey.departure_date+`
@@ -1087,23 +1107,18 @@ function visa_get_data(data){
                     /* contact*/
                     text+=`<div class="row" style="margin-top: 10px;">
                         <div class="col-lg-12">
-                            <div style="border:1px solid #cdcdcd; background-color:white; padding:10px;">
-                                <h4>List of Contact(s)</h4>
-                                <hr/>
-                                <table style="width:100%;" id="list-of-passenger">
-                                    <tr>
-                                        <th style="width:7%;" class="list-of-passenger-left">No</th>
-                                        <th style="width:28%;">Name</th>
-                                        <th style="width:28%;">Email</th>
-                                        <th style="width:18%;">Phone Number</th>
-                                    </tr>
-                                    <tr>
-                                        <td class="list-of-passenger-left">`+1+`</td>
-                                        <td>`+msg.result.response.contact.title+` `+msg.result.response.contact.name+`</td>
-                                        <td>`+msg.result.response.contact.email+`</td>
-                                        <td>`+msg.result.response.contact.phone+`</td>
-                                    </tr>
-                                </table>
+                            <div style="border:1px solid #cdcdcd; background-color:white; padding:15px;">
+                                <div class="row">
+                                    <div class="col-lg-12 mb-3" style="border-bottom: 1px solid #cdcdcd;">
+                                        <h4 class="mb-3"><i class="fas fa-user"></i> List of Contact(s)</h4>
+                                    </div>
+                                </div>
+
+                                <h5>
+                                    `+msg.result.response.contact.title+` `+msg.result.response.contact.name+`
+                                </h5>
+                                <b>Email: </b><i>`+msg.result.response.contact.email+`</i><br>
+                                <b>Phone: </b><i>`+msg.result.response.contact.phone+`</i><br>
                             </div>
                         </div>
                     </div>`;
@@ -1113,9 +1128,12 @@ function visa_get_data(data){
                     text+=`
                     <div class="row" style="margin-top: 10px;">
                         <div class="col-lg-12">
-                            <div style="border:1px solid #cdcdcd; background-color:white; padding:10px;">
-                                <h4>List of Passenger(s)</h4>
-                                <hr/>`;
+                            <div style="border:1px solid #cdcdcd; background-color:white; padding:15px;">
+                                <div class="row">
+                                    <div class="col-lg-12 mb-3" style="border-bottom: 1px solid #cdcdcd;">
+                                        <h4 class="mb-3"><i class="fas fa-users"></i> List of Passenger(s)</h4>
+                                    </div>
+                                </div>`;
                                 type_amount_repricing = ['Repricing'];
                                 price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0,'DISC':0};
                                 for(i in msg.result.response.passengers){
@@ -1236,24 +1254,29 @@ function visa_get_data(data){
                                         <div class="col-lg-12" style="margin-bottom:10px;">
                                             <div class="row">
                                                 <div class="col-lg-6">
-                                                    <h6>`+parseInt(parseInt(i)+1)+`. `+msg.result.response.passengers[i].title+` `+msg.result.response.passengers[i].first_name+` `+msg.result.response.passengers[i].last_name+`</h6>`;
+                                                    <h4 class="single_border_custom_bottom" style="margin-bottom:5px; width:50px; word-break:break-word;">#`+parseInt(parseInt(i)+1)+`.</h4>
+                                                    <h5>`+msg.result.response.passengers[i].title+` `+msg.result.response.passengers[i].first_name+` `+msg.result.response.passengers[i].last_name+`
+                                                        <b style="background:white; font-size:13px; color:black; padding:0px 15px; display:unset; border: 1px solid #cdcdcd; border-radius:7px;">
+                                                            <i class="fas fa-user"></i> `;
                                                     if(parseInt(msg.result.response.passengers[i].age) > 12)
-                                             text+=`<span>Adult - `;
+                                             text+=`Adult`;
                                                     else if(parseInt(msg.result.response.passengers[i].age) > 3)
-                                             text+=`<span>Child - `;
+                                             text+=`Child`;
                                                     else
-                                             text+=`<span>Infant - `;
-                                                    text+=`Birth Date: `+msg.result.response.passengers[i].birth_date+`</span>`;
+                                             text+=`Infant`;
+                                                    text+=`</b>
+                                                    </h5>`;
+                                                    text+=`<b>Birth Date:</b> <i>`+msg.result.response.passengers[i].birth_date+`</i>`;
                                                     if(msg.result.response.passengers[i].passport_number){
-                                                        text+= `<br/><span>Passport - `+msg.result.response.passengers[i].passport_number+`</span>`;
+                                                        text+= `<br/><b>Passport: </b><i>`+msg.result.response.passengers[i].passport_number+`</i>`;
                                                     }
                                                     if(msg.result.response.passengers[i].passport_expdate){
-                                                        text+= `<br/><span>Expired Date - `+moment(msg.result.response.passengers[i].passport_expdate).format('DD MMM YYYY')+`</span>`;
+                                                        text+= `<br/><b>Expired Date: </b><i>`+moment(msg.result.response.passengers[i].passport_expdate).format('DD MMM YYYY')+`</i>`;
                                                     }
                                          text+=`</div>
                                                 <div class="col-lg-6" style="text-align:right;">
                                                     <h6>Package</h6>
-                                                    <span>`+msg.result.response.passengers[i].visa.visa_type+`/`+msg.result.response.passengers[i].visa.entry_type+`/`+msg.result.response.passengers[i].visa.process+`</span>
+                                                    <i>`+msg.result.response.passengers[i].visa.visa_type+`/`+msg.result.response.passengers[i].visa.entry_type+`/`+msg.result.response.passengers[i].visa.process+`</i>
                                                 </div>
                                             </div>
                                         </div>

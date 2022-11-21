@@ -523,10 +523,7 @@ function sort(value){
                 <span class="copy_bus" hidden>`+i+`</span>`;
             response+=`
                 <div class="row">
-                    <div class="col-lg-9">
-                        <h4 class="copy_bus_name">`+data_filter[i].carrier_name+` - (`+data_filter[i].carrier_number+`)  - `+data_filter[i].cabin_class[1]+` (`+data_filter[i].class_of_service+`)</h4>
-                    </div>
-                    <div class="col-lg-3">`;
+                    <div class="col-lg-12">`;
                        if(data_filter[i].available_count > 0 && data_filter[i].can_book_three_hours == true && data_filter[i].can_book_check_arrival_on_next_departure == true){
                            response+=`
                            <label class="check_box_custom" style="float:right;">
@@ -540,6 +537,9 @@ function sort(value){
                             }
                        }
                     response+=`
+                    </div>
+                    <div class="col-lg-12">
+                        <h4 class="copy_bus_name">`+data_filter[i].carrier_name+` - (`+data_filter[i].carrier_number+`)  - `+data_filter[i].cabin_class[1]+` (`+data_filter[i].class_of_service+`)</h4>
                     </div>
                     <div class="col-lg-4 col-xs-6">
                         <table style="width:100%">
@@ -579,12 +579,12 @@ function sort(value){
                                 <i class="fas fa-clock"></i><span class="copy_duration" style="font-weight:500;"> `+data_filter[i].elapsed_time.split(':')[0]+`h `+data_filter[i].elapsed_time.split(':')[1]+`m</span><br><span class="copy_transit" style="font-weight:500;">Duration</span>
                             </div>
                         </div>
-                        <div style="float:right; margin-top:20px; margin-bottom:10px;">`;
+                        <div style="text-align:right; margin-top:20px; margin-bottom:10px;">`;
                         check = 0;
                         for(j in journeys){
                             if(journeys[j].sequence == data_filter[i].sequence){
                                 response+=`
-                            <span class="copy_price" style="font-size:16px; margin-right:10px; font-weight: bold; color:#505050;">IDR `+getrupiah(data_filter[i].price)+`</span>
+                            <span class="copy_price" style="font-size:16px; margin-right:10px; font-weight: bold; color:`+color+`;">IDR `+getrupiah(data_filter[i].price)+`</span><br/>
                             <input class="primary-btn-custom-un" type="button" onclick="choose_bus(`+i+`,`+data_filter[i].sequence+`);"  id="bus_choose`+i+`" disabled value="Chosen">`;
                                 check = 1;
                             }
@@ -592,11 +592,11 @@ function sort(value){
                         if(check == 0){
                             if(data_filter[i].available_count >= parseInt(passengers.adult) && data_filter[i].can_book_three_hours == true && data_filter[i].can_book_check_arrival_on_next_departure == true)
                                 response+=`
-                                <span class="copy_price" style="font-size:16px; margin-right:10px; font-weight: bold; color:#505050;">IDR `+getrupiah(data_filter[i].price)+`</span>
+                                <span class="copy_price" style="font-size:16px; margin-right:10px; font-weight: bold; color:`+color+`;">IDR `+getrupiah(data_filter[i].price)+`</span><br/>
                                 <input class="primary-btn-custom" type="button" onclick="choose_bus(`+i+`,`+data_filter[i].sequence+`)"  id="bus_choose`+i+`" value="Choose">`;
                             else if(data_filter[i].available_count > parseInt(passengers.adult) && data_filter[i].can_book_three_hours == false)
                                 response+=`
-                                <span class="copy_price" style="font-size:16px; margin-right:10px; font-weight: bold; color:#505050;">IDR `+getrupiah(data_filter[i].price)+`</span>
+                                <span class="copy_price" style="font-size:16px; margin-right:10px; font-weight: bold; color:`+color+`;">IDR `+getrupiah(data_filter[i].price)+`</span><br/>
                                 <input class="disabled-btn" type="button" onclick="alert_message_swal('Sorry, you can choose 3 or more hours from now!');"  id="bus_choose`+i+`" value="Choose">`;
                             else if(data_filter[i].available_count > parseInt(passengers.adult) && data_filter[i].can_book_check_arrival_on_next_departure == false)
                                 response+=`
@@ -800,13 +800,6 @@ function bus_get_detail(){
             }
         }
     }
-    bus_detail_text += `
-    <div class="row">
-        <div class="col-lg-12">
-            <h5>Price Detail</h5>
-            <br/>
-        </div>
-    </div>`;
     count_fare = 0;
     for(i in journeys){
         $text +=
@@ -819,58 +812,70 @@ function bus_get_detail(){
             $text +=` - `+journeys[i].arrival_date[0] + ' ' + journeys[i].arrival_date[1] +`\n\n`;
         }
 
+        bus_detail_text += `<h6 style="cursor:pointer; background:`+color+`; color:`+text_color+`;padding:10px 15px; display:block;" id="bus_title_up`+i+`" onclick="show_hide_bus(`+i+`);">`;
         if(i == 0){
-            bus_detail_text += `<h6>Departure</h6><br/>`;
+            bus_detail_text += `Departure`;
         }else{
-            bus_detail_text += `<br/><h6>Return</h6><br/>`;
+            bus_detail_text += `Return`;
         }
-        bus_detail_text += `
-        <div class="row">
-            <div class="col-lg-12">`;
-//                if(i != 0){
-//                    bus_detail_text += `<hr/>`;
-//                }
-            bus_detail_text += `
-                <h6>`+journeys[i].carrier_name+` - `+journeys[i].carrier_number+`</h6>
-            </div>
-            <div class="col-lg-6 col-xs-6">
-                <table style="width:100%">
-                    <tr>
-                        <td><h6>`+journeys[i].departure_date[1]+`</h6></td>
-                        <td style="padding-left:15px;">
-                            <img src="/static/tt_website_rodextrip/img/icon/bus-01.png" alt="Train" style="width:30px; height:30px;">
-                        </td>
-                        <td style="height:30px;padding:0 15px;width:100%">
-                            <div style="display:inline-block;position:relative;width:100%">
-                                <div style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
-                                <div class="origin-code-snippet" style="background-color:#d4d4d4;right:-6px"></div>
-                                <div style="height:30px;min-width:20px;position:relative;width:0%"></div>
-                            </div>
-                        </td>
-                    </tr>
-                </table>
-                <span>`+journeys[i].departure_date[0]+`</span><br/>
-                <span style="font-weight:500;">`+journeys[i].origin_name+`</span>
-            </div>
+        bus_detail_text += `<i class="fas fa-caret-up" style="float:right; font-size:18px;"></i></h6>`;
+        bus_detail_text += `<h6 style="cursor:pointer; background:`+color+`; color:`+text_color+`;padding:10px 15px; display:none;" id="bus_title_down`+i+`" onclick="show_hide_bus(`+i+`);">`;
+        if(i == 0){
+            bus_detail_text += `Departure`;
+        }else{
+            bus_detail_text += `Return`;
+        }
+        bus_detail_text += `<i class="fas fa-caret-down" style="float:right; font-size:18px;"></i></h6>`;
 
-            <div class="col-lg-6 col-xs-6">
-                <table style="width:100%; margin-bottom:6px;">
-                    <tr>
-                        <td><h6>`+journeys[i].arrival_date[1]+`</h6></td>
-                        <td></td>
-                        <td style="height:30px;padding:0 15px;width:100%"></td>
-                    </tr>
-                </table>
-                <span>`+journeys[i].arrival_date[0]+`</span><br/>
-                <span style="font-weight:500;">`+journeys[i].destination_name+`</span>
+        bus_detail_text += `
+        <div class="col-lg-12" id="bus_div_sh`+i+`" style="border:1px solid #cdcdcd; background:white; padding:10px 15px; display:block;">
+            <div class="row">
+                <div class="col-lg-12">`;
+    //                if(i != 0){
+    //                    bus_detail_text += `<hr/>`;
+    //                }
+                bus_detail_text += `
+                    <h6>`+journeys[i].carrier_name+` - `+journeys[i].carrier_number+`</h6>
+                </div>
+                <div class="col-lg-6 col-xs-6">
+                    <table style="width:100%">
+                        <tr>
+                            <td><h6>`+journeys[i].departure_date[1]+`</h6></td>
+                            <td style="padding-left:15px;">
+                                <img src="/static/tt_website_rodextrip/img/icon/bus-01.png" alt="Train" style="width:30px; height:30px;">
+                            </td>
+                            <td style="height:30px;padding:0 15px;width:100%">
+                                <div style="display:inline-block;position:relative;width:100%">
+                                    <div style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
+                                    <div class="origin-code-snippet" style="background-color:#d4d4d4;right:-6px"></div>
+                                    <div style="height:30px;min-width:20px;position:relative;width:0%"></div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                    <span>`+journeys[i].departure_date[0]+`</span><br/>
+                    <span style="font-weight:500;">`+journeys[i].origin_name+`</span>
+                </div>
+
+                <div class="col-lg-6 col-xs-6">
+                    <table style="width:100%; margin-bottom:6px;">
+                        <tr>
+                            <td><h6>`+journeys[i].arrival_date[1]+`</h6></td>
+                            <td></td>
+                            <td style="height:30px;padding:0 15px;width:100%"></td>
+                        </tr>
+                    </table>
+                    <span>`+journeys[i].arrival_date[0]+`</span><br/>
+                    <span style="font-weight:500;">`+journeys[i].destination_name+`</span>
+                </div>
             </div>
         </div>
-        <br/>`;
+        <div style="padding:15px; border:1px solid #cdcdcd; background:white;">`;
         if(journeys[i].hasOwnProperty('rules')){
             bus_detail_text+=`
-                <span id="span-tac-up`+count_fare+`" class="carrier_code_template" style="display:none; cursor:pointer;" onclick="show_hide_tac(`+count_fare+`);"> Show Term and Condition <i class="fas fa-chevron-down"></i></span>
-                <span id="span-tac-down`+count_fare+`" class="carrier_code_template" style="display:block; cursor:pointer;" onclick="show_hide_tac(`+count_fare+`);"> Hide Term and Condition <i class="fas fa-chevron-up"></i></span>
-                <div id="div-tac`+count_fare+`" style="display:block; max-height:175px; overflow-y: auto; padding:15px;">`;
+                <span id="span-tac-up`+i+`" class="carrier_code_template" style="display:block; cursor:pointer;" onclick="show_hide_tac(`+i+`);"> Show Term and Condition <i class="fas fa-chevron-down"></i></span>
+                <span id="span-tac-down`+i+`" class="carrier_code_template" style="display:none; cursor:pointer;" onclick="show_hide_tac(`+i+`);"> Hide Term and Condition <i class="fas fa-chevron-up"></i></span>
+                <div id="div-tac`+i+`" style="display:none; max-height:175px; overflow-y: auto; padding:15px;">`;
             for(k in journeys[i].rules){
                 bus_detail_text += `<span style="font-weight:bold;">`+journeys[i].rules[k].name+`</span><br/>`;
 
@@ -889,75 +894,71 @@ function bus_get_detail(){
         }
         total_discount = 0;
         bus_detail_text+=`
-        <div class="row">`;
-            if(parseInt(passengers.adult) > 0){
-                total_commission += journeys[i].fares[0].service_charge_summary[0].total_commission*-1;
-                total_tax += journeys[i].fares[0].service_charge_summary[0].total_tax;
-                for(j in journeys[i].fares[0].service_charge_summary){
-                    price = {
-                        'fare': 0,
-                        'tax': 0,
-                        'disc': 0,
-                    };
-                    for(k in journeys[i].fares[0].service_charge_summary[j].service_charges){
-                        if(k == 0)
-                            price['currency'] = journeys[i].fares[0].service_charge_summary[j].service_charges[k].currency;
+        </div>
+        <div class="mb-3" style="padding:15px; border:1px solid #cdcdcd; background:white;">
+            <div class="row">`;
+                if(parseInt(passengers.adult) > 0){
+                    total_commission += journeys[i].fares[0].service_charge_summary[0].total_commission*-1;
+                    total_tax += journeys[i].fares[0].service_charge_summary[0].total_tax;
+                    for(j in journeys[i].fares[0].service_charge_summary){
+                        price = {
+                            'fare': 0,
+                            'tax': 0,
+                            'disc': 0,
+                        };
+                        for(k in journeys[i].fares[0].service_charge_summary[j].service_charges){
+                            if(k == 0)
+                                price['currency'] = journeys[i].fares[0].service_charge_summary[j].service_charges[k].currency;
 
-                        if(journeys[i].fares[0].service_charge_summary[j].service_charges[k].charge_code == 'fare')
-                            price[journeys[i].fares[0].service_charge_summary[j].service_charges[k].charge_code] = journeys[i].fares[0].service_charge_summary[j].service_charges[k].amount;
-                        else if(journeys[i].fares[0].service_charge_summary[j].service_charges[k].charge_code == 'disc')
-                            price[journeys[i].fares[0].service_charge_summary[j].service_charges[k].charge_code] = journeys[i].fares[0].service_charge_summary[j].service_charges[k].total;
-                        else if(journeys[i].fares[0].service_charge_summary[j].service_charges[k].charge_code != 'rac')
-                            price['tax'] += journeys[i].fares[0].service_charge_summary[j].service_charges[k].total;
-                    }
-                    total_discount += price['disc'];
-                    if(journeys[i].fares[0].service_charge_summary[j].pax_type == 'ADT')
-                        total_price += price['fare'] * parseInt(passengers.adult);
-                    else
-                        total_price += price['fare'] * parseInt(passengers.infant);
-                    if(journeys[i].fares[0].service_charge_summary[j].pax_type == 'ADT' && parseInt(passengers.adult) > 0){
-                        bus_detail_text+=`
-                            <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                                <span style="font-size:13px;">`+parseInt(passengers.adult)+` Adult Fare x `+price['currency']+` `+getrupiah(price['fare'])+`</span>
-                            </div>
-                            <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                                <span style="font-size:13px;">`+price['currency']+` `+getrupiah((price['fare']) * parseInt(passengers.adult))+`</span>
-                            </div>`;
-                        if(price['tax'] != 0)
+                            if(journeys[i].fares[0].service_charge_summary[j].service_charges[k].charge_code == 'fare')
+                                price[journeys[i].fares[0].service_charge_summary[j].service_charges[k].charge_code] = journeys[i].fares[0].service_charge_summary[j].service_charges[k].amount;
+                            else if(journeys[i].fares[0].service_charge_summary[j].service_charges[k].charge_code == 'disc')
+                                price[journeys[i].fares[0].service_charge_summary[j].service_charges[k].charge_code] = journeys[i].fares[0].service_charge_summary[j].service_charges[k].total;
+                            else if(journeys[i].fares[0].service_charge_summary[j].service_charges[k].charge_code != 'rac')
+                                price['tax'] += journeys[i].fares[0].service_charge_summary[j].service_charges[k].total;
+                        }
+                        total_discount += price['disc'];
+                        if(journeys[i].fares[0].service_charge_summary[j].pax_type == 'ADT')
+                            total_price += price['fare'] * parseInt(passengers.adult);
+                        else
+                            total_price += price['fare'] * parseInt(passengers.infant);
+                        if(journeys[i].fares[0].service_charge_summary[j].pax_type == 'ADT' && parseInt(passengers.adult) > 0){
                             bus_detail_text+=`
                                 <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                                    <span style="font-size:13px;">Adult Tax `+price['currency']+` `+getrupiah(price['tax'])+`</span>
+                                    <span style="font-size:13px;">`+parseInt(passengers.adult)+` Adult Fare x `+price['currency']+` `+getrupiah(price['fare'])+`</span>
                                 </div>
                                 <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                                    <span style="font-size:13px;">`+price['currency']+` `+getrupiah(price['tax'])+`</span>
+                                    <span style="font-size:13px;">`+price['currency']+` `+getrupiah((price['fare']) * parseInt(passengers.adult))+`</span>
                                 </div>`;
-                        bus_detail_text+=`
-                            <div class="col-lg-12">
-                                <hr style="border:1px solid #e0e0e0; margin-top:5px; margin-bottom:5px;"/>
-                            </div>`;
-                        $text += passengers.adult+`x Adult @`+price['currency']+' '+getrupiah((passengers.adult * price['fare']) + (price['tax']/passengers.adult))+`\n`;
-                    }
-                    else if(journeys[i].fares[0].service_charge_summary[j].pax_type == 'INF' && parseInt(passengers.infant) > 0){
-                        bus_detail_text+=`
-                            <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                                <span style="font-size:13px;">`+parseInt(passengers.adult)+` Infant x `+price['currency']+` `+getrupiah(0)+`</span>
-                            </div>
-                            <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                                <span style="font-size:13px;">`+price['currency']+` `+getrupiah(0)+`</span>
-                            </div>
-                            <div class="col-lg-12">
-                                <hr style="border:1px solid #e0e0e0; margin-top:5px; margin-bottom:5px;"/>
-                            </div>`;
-                        $text += passengers.infant+`x Infant Fare @`+price['currency']+' '+getrupiah(0)+`\n`;
+                            if(price['tax'] != 0)
+                                bus_detail_text+=`
+                                    <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                                        <span style="font-size:13px;">Adult Tax `+price['currency']+` `+getrupiah(price['tax'])+`</span>
+                                    </div>
+                                    <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                                        <span style="font-size:13px;">`+price['currency']+` `+getrupiah(price['tax'])+`</span>
+                                    </div>`;
+                            $text += passengers.adult+`x Adult @`+price['currency']+' '+getrupiah((passengers.adult * price['fare']) + (price['tax']/passengers.adult))+`\n`;
+                        }
+                        else if(journeys[i].fares[0].service_charge_summary[j].pax_type == 'INF' && parseInt(passengers.infant) > 0){
+                            bus_detail_text+=`
+                                <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                                    <span style="font-size:13px;">`+parseInt(passengers.adult)+` Infant x `+price['currency']+` `+getrupiah(0)+`</span>
+                                </div>
+                                <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                                    <span style="font-size:13px;">`+price['currency']+` `+getrupiah(0)+`</span>
+                                </div>`;
+                            $text += passengers.infant+`x Infant Fare @`+price['currency']+' '+getrupiah(0)+`\n`;
+                        }
                     }
                 }
-            }
 
-            bus_detail_text+=`
-        </div>
-        `;
+                bus_detail_text+=`
+            </div>
+        </div>`;
     }
 
+    bus_detail_text+=`<div class="mb-3" style="padding:15px; border:1px solid #cdcdcd; background:white;">`;
     try{
         if(total_discount != 0){
             bus_detail_text += `<div class="row" style="margin-bottom:5px;">`;
@@ -1032,7 +1033,8 @@ function bus_get_detail(){
                 </button>
             </div>`;
             bus_detail_text+=`
-        </div>`;
+        </div>
+    </div>`;
     document.getElementById('bus_detail').innerHTML = bus_detail_text;
 
     $('#loading-search-bus-choose').hide();
@@ -1143,10 +1145,9 @@ function bus_detail(){
     text = '';
     $text = '';
     text+=`
-    <div class="row" style:"background-color:white; padding:5px;">
-        <div class="col-lg-12">
-            <h4>Price Detail</h4>
-            <hr/>
+    <div class="row" style:"background-color:white;">
+        <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+            <h4 class="mb-3">Price Detail</h4>
         </div>
         <div class="col-lg-12">`;
 
@@ -1162,47 +1163,65 @@ function bus_detail(){
         text += `
         <div class="row">
             <div class="col-lg-12">`;
+
+            text += `
+            <h6 style="cursor:pointer; display:block;" id="bus_title_up`+i+`" onclick="show_hide_bus(`+i+`);">`;
             if(i == 0){
-                text += `<h6>Departure</h6>`;
+                text += `Departure`;
             }else{
-                text += `<br/><h6>Return</h6>`;
+                text += `Return`;
             }
-            text+=`
-            </div>
-            <div class="col-lg-6 col-xs-6">
-                <table style="width:100%">
-                    <tr>
-                        <td><h6>`+bus_data[i].departure_date[1]+`</h6></td>
-                        <td style="padding-left:15px;">
-                            <img src="/static/tt_website_rodextrip/img/icon/bus-01.png" style="width:30px; height:30px;">
-                        </td>
-                        <td style="height:30px;padding:0 15px;width:100%">
-                            <div style="display:inline-block;position:relative;width:100%">
-                                <div style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
-                                <div class="origin-code-snippet" style="background-color:#d4d4d4;right:-6px"></div>
-                                <div style="height:30px;min-width:20px;position:relative;width:0%"></div>
-                            </div>
-                        </td>
-                    </tr>
-                </table>
-                <span>`+bus_data[i].departure_date[0]+`</span><br/>
-                <span style="font-weight:500;">`+bus_data[i].origin_name+`</span>
+            text += `
+            <i class="fas fa-chevron-up" style="color:`+color+`; float:right; font-size:18px;"></i>
+            </h6>
+            <h6 style="cursor:pointer; display:none;" id="bus_title_down`+i+`" onclick="show_hide_bus(`+i+`);">`;
+            if(i == 0){
+                text += `Departure`;
+            }else{
+                text += `Return`;
+            }
+            text += `
+            <i class="fas fa-chevron-down" style="float:right; color:`+color+`; font-size:18px;"></i>
+            </h6>
             </div>
 
-            <div class="col-lg-6 col-xs-6">
-                <table style="width:100%; margin-bottom:6px;">
-                    <tr>
-                        <td><h6>`+bus_data[i].arrival_date[1]+`</h6></td>
-                        <td></td>
-                        <td style="height:30px;padding:0 15px;width:100%"></td>
-                    </tr>
-                </table>
-                <span>`+bus_data[i].arrival_date[0]+`</span><br/>
-                <span style="font-weight:500;">`+bus_data[i].destination_name+`</span>
+            <div class="col-lg-12" id="bus_div_sh`+i+`" style="padding:10px 15px; display:block;">
+                <div class="row">
+                    <div class="col-lg-6 col-xs-6">
+                        <table style="width:100%">
+                            <tr>
+                                <td><h6>`+bus_data[i].departure_date[1]+`</h6></td>
+                                <td style="padding-left:15px;">
+                                    <img src="/static/tt_website_rodextrip/img/icon/bus-01.png" style="width:30px; height:30px;">
+                                </td>
+                                <td style="height:30px;padding:0 15px;width:100%">
+                                    <div style="display:inline-block;position:relative;width:100%">
+                                        <div style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
+                                        <div class="origin-code-snippet" style="background-color:#d4d4d4;right:-6px"></div>
+                                        <div style="height:30px;min-width:20px;position:relative;width:0%"></div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                        <span>`+bus_data[i].departure_date[0]+`</span><br/>
+                        <span style="font-weight:500;">`+bus_data[i].origin_name+`</span>
+                    </div>
+
+                    <div class="col-lg-6 col-xs-6">
+                        <table style="width:100%; margin-bottom:6px;">
+                            <tr>
+                                <td><h6>`+bus_data[i].arrival_date[1]+`</h6></td>
+                                <td></td>
+                                <td style="height:30px;padding:0 15px;width:100%"></td>
+                            </tr>
+                        </table>
+                        <span>`+bus_data[i].arrival_date[0]+`</span><br/>
+                        <span style="font-weight:500;">`+bus_data[i].destination_name+`</span>
+                    </div>
+                </div>
             </div>
         </div>
-        <br/>
-        <div class="row" style="padding:5px;">`;
+        <div class="row mb-3">`;
         price = {
             'fare': 0,
             'tax': 0,
@@ -1297,9 +1316,6 @@ function bus_detail(){
     }catch(err){
 
     }
-    if(document.URL.split('/')[document.URL.split('/').length-1] == 'review' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
-        text+=`<div style="text-align:right;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:auto; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
-    }
     grand_total_price = total_price + total_discount;
     try{
 //        if(upsell_price != 0){
@@ -1343,7 +1359,6 @@ function bus_detail(){
         console.log(err); // error kalau ada element yg tidak ada
     }
     text+=`
-    <br/>
     <div class="row" style="margin-bottom:5px;">
         <div class="col-lg-6 col-xs-6" style="text-align:left;">
             <span style="font-size:13px;"><b>Total</b></span><br>
@@ -1352,6 +1367,11 @@ function bus_detail(){
             <span style="font-size:13px;"><b>`+price['currency']+` `+getrupiah(grand_total_price)+`</b></span><br>
         </div>
     </div>`;
+
+    if(document.URL.split('/')[document.URL.split('/').length-1] == 'review' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
+        text+=`<div class="mb-3" style="text-align:right;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:auto; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
+    }
+
     if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
         text+= print_commission(total_commission,'show_commission')
 
@@ -2495,4 +2515,21 @@ function change_date_shortcut(val){
     })
 
 //    change_date_next_prev(counter_search-1);
+}
+
+function show_hide_bus(id){
+    var general_up = document.getElementById('bus_title_up'+id);
+    var general_down = document.getElementById('bus_title_down'+id);
+    var general_show = document.getElementById('bus_div_sh'+id);
+
+    if (general_down.style.display === "none") {
+        general_up.style.display = "none";
+        general_down.style.display = "block";
+        general_show.style.display = "none";
+    }
+    else {
+        general_up.style.display = "block";
+        general_down.style.display = "none";
+        general_show.style.display = "flex";
+    }
 }

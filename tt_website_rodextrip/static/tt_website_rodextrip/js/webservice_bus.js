@@ -810,8 +810,14 @@ function bus_get_booking(data, sync=false){
                 if(msg.result.response.state == 'booked')
                     $text += 'Hold Date:\n';
                 text += `
-                <div class="col-lg-12" style="border:1px solid #cdcdcd; padding:10px; background-color:white; margin-bottom:20px;">
-                    <h6>Order Number : `+msg.result.response.order_number+`</h6><br/>
+                <div class="col-lg-12" style="border:1px solid #cdcdcd; padding:15px; background-color:white; margin-bottom:20px;">
+                    <div class="row">
+                        <div class="col-lg-12 mb-3" style="padding-bottom:15px; border-bottom:1px solid #cdcdcd;">
+                            <h4>
+                                <i class="fas fa-scroll"></i> Order Number: `+msg.result.response.order_number+`
+                            </h4>
+                        </div>
+                    </div>
                     <table style="width:100%;">
                         <tr>
                             <th>PNR</th>`;
@@ -884,63 +890,73 @@ function bus_get_booking(data, sync=false){
                         $text +='\n';
                 text+=`</table>
                     <hr/>`;
+
                 if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
                     text+=`
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <span>Agent: <b>`+msg.result.response.agent_name+`</b></span>
-                            </div>`;
-                    if(msg.result.response.customer_parent_name){
+                    <div class="row mb-3">
+                        <div class="col-lg-6">
+                            <b>Agent: </b><i>`+msg.result.response.agent_name+`</i>
+                        </div>
+                        <div class="col-lg-6">`;
+                            if(msg.result.response.customer_parent_name){
+                                text+=`<b>Customer: </b><i>`+msg.result.response.customer_parent_type_name+` `+msg.result.response.customer_parent_name+`</i>`;
+                            }
                         text+=`
-                            <div class="col-lg-6">
-                                <span>Customer: <b>`+msg.result.response.customer_parent_type_name+` `+msg.result.response.customer_parent_name+`</b></span>
-                            </div>`;
-                    }
-                    text+= `</div>`;
+                        </div>
+                    </div>`;
                 }
                 text+=`
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <h6>Booked</h6>
-                            <span>Date: <b>`;
-                                if(msg.result.response.booked_date != ""){
-                                    text += msg.result.response.booked_date;
-                                }else{
-                                    text += `-`;
-                                }
-                                text+=`</b>
-                            </span>
-                            <br/>
-                            <span>by <b>`+msg.result.response.booked_by+`</b><span>
-                        </div>
-
-                        <div class="col-lg-6 mb-3">`;
-                            if(msg.result.response.state == 'issued'){
-                                text+=`<h6>Issued</h6>
-                                    <span>Date: <b>`;
-                                    if(msg.result.response.issued_date != ""){
-                                        text += msg.result.response.issued_date;
-                                    }else{
-                                        text += `-`;
-                                    }
-                                text+=`</b>
-                                </span>
-                                <br/>
-                                <span>by <b>`+msg.result.response.issued_by+`</b><span>`;
-                            }
-                            text+=`
-                        </div>
+                <div class="row">
+                    <div class="col-lg-3">
+                        <span>
+                            <b>Booked by</b><br><i>`+msg.result.response.booked_by+`</i>
+                        </span>
                     </div>
+                    <div class="col-lg-9 mb-3">
+                        <span>
+                            <b>Booked Date </b><br/>`;
+                            if(msg.result.response.booked_date != ""){
+                                text+=`<i>`+msg.result.response.booked_date+`</i>`;
+                            }else{
+                                text+=`-`;
+                            }
+                        text+=`
+                        </span>
+                    </div>
+                </div>`;
 
-
+                if(msg.result.response.state == 'issued'){
+                    text+=`
+                    <div class="row">
+                        <div class="col-lg-3 mb-3">
+                            <span>
+                                <b>Issued by</b><br><i>`+msg.result.response.issued_by+`</i>
+                            </span>
+                        </div>
+                        <div class="col-lg-5 mb-3">
+                            <span>
+                                <b>Issued Date </b><br/>`;
+                                if(msg.result.response.issued_date != ""){
+                                    text+=`<i>`+msg.result.response.issued_date+`</i>`;
+                                }else{
+                                    text+=`-`;
+                                }
+                            text+=`
+                            </span>
+                        </div>
+                    </div>`;
+                }
+                text+=`
                 </div>
-
                 <div style="background-color:white; border:1px solid #cdcdcd;">
                     <div class="row">
                         <div class="col-lg-12">
-                            <div style="padding:10px; background-color:white;">
-                            <h5> Bus Detail </h5>
-                            <hr/>`;
+                            <div style="padding:15px; background-color:white;">
+                                <div class="row">
+                                    <div class="col-lg-12 mb-3" style="border-bottom: 1px solid #cdcdcd;">
+                                        <h4 class="mb-3"><img src="/static/tt_website_rodextrip/images/icon/bus_black.png" alt="undefined" style="width:20px; height:20px;"> Bus Detail</h4>
+                                    </div>
+                                </div>`;
                         check = 0;
                         flight_counter = 1;
                         rules = 0;
@@ -1052,109 +1068,105 @@ function bus_get_booking(data, sync=false){
                     </div>
                 </div>
 
-                <div style="border:1px solid #cdcdcd; padding:10px; background-color:white; margin-top:20px;">
-                    <h5> Booker</h5>
-                    <hr/>
-                    <table style="width:100%" id="list-of-passenger">
-                        <tr>
-                            <th style="width:10%;" class="list-of-passenger-left">No</th>
-                            <th style="width:40%;">Name</th>
-                            <th style="width:30%;">Email</th>
-                            <th style="width:30%;">Phone</th>
-                        </tr>`;
-                        title = '';
-                        if(msg.result.response.booker.gender == 'female' && msg.result.response.booker.marital_status == "married")
-                            title = 'MRS';
-                        else if(msg.result.response.booker.gender == 'female')
-                            title = 'MS'
-                        else
-                            title = 'MR';
-                        text+=`<tr>
-                            <td class="list-of-passenger-left">`+(1)+`</td>
-                            <td>`+title+` `+msg.result.response.booker.name+`</td>
-                            <td>`+msg.result.response.booker.email+`</td>
-                            <td>`+msg.result.response.booker.phones[0].calling_code+' - '+msg.result.response.booker.phones[0].calling_number+`</td>
-                        </tr>
+                <div style="border:1px solid #cdcdcd; padding:15px; background-color:white; margin-top:20px;">
+                    <div class="row">
+                        <div class="col-lg-12 mb-3" style="border-bottom: 1px solid #cdcdcd;">
+                            <h4 class="mb-3"><i class="fas fa-user"></i> Booker</h4>
+                        </div>
+                    </div>`;
 
-                    </table>
+                    if(msg.result.response.booker.gender == 'female' && msg.result.response.booker.marital_status == "married")
+                        title = 'MRS';
+                    else if(msg.result.response.booker.gender == 'female')
+                        title = 'MS'
+                    else
+                        title = 'MR';
+
+                    text+=`
+                    <h5>
+                        `+title+` `+msg.result.response.booker.name+`
+                    </h5>
+                    <b>Email: </b><i>`+msg.result.response.booker.email+`</i><br>
+                    <b>Phone: </b><i>`+msg.result.response.booker.phones[0].calling_code+' - '+msg.result.response.booker.phones[0].calling_number+`</i><br>
                 </div>
-                <div style="border:1px solid #cdcdcd; padding:10px; background-color:white; margin-top:20px;">
-                    <h5> Contact Person</h5>
-                    <hr/>
-                    <table style="width:100%" id="list-of-passenger">
-                        <tr>
-                            <th style="width:10%;" class="list-of-passenger-left">No</th>
-                            <th style="width:40%;">Name</th>
-                            <th style="width:30%;">Email</th>
-                            <th style="width:30%;">Phone</th>
-                        </tr>`;
-                        text+=`<tr>
-                            <td class="list-of-passenger-left">`+(1)+`</td>
-                            <td> `+msg.result.response.contact.title+` `+msg.result.response.contact.name+`</td>
-                            <td>`+msg.result.response.contact.email+`</td>
-                            <td>`+msg.result.response.contact.phone+`</td>
-                        </tr>
-                    </table>
+                <div style="border:1px solid #cdcdcd; padding:15px; background-color:white; margin-top:20px;">
+                    <div class="row">
+                        <div class="col-lg-12 mb-3" style="border-bottom: 1px solid #cdcdcd;">
+                            <h4 class="mb-3"><i class="fas fa-user"></i> Contact Person</h4>
+                        </div>
+                    </div>
+                    <h5>
+                        `+msg.result.response.contact.title+` `+msg.result.response.contact.name+`
+                    </h5>
+                    <b>Email: </b><i>`+msg.result.response.contact.email+`</i><br>
+                    <b>Phone: </b><i>`+msg.result.response.contact.phone+`</i><br>
                 </div>
 
-                <div style="border:1px solid #cdcdcd; padding:10px; background-color:white; margin-top:20px;">
-                    <h5> List of Passenger</h5>
-                    <hr/>
-                    <table style="width:100%" id="list-of-passenger">
-                        <tr>
-                            <th style="width:5%;" class="list-of-passenger-left">No</th>
-                            <th style="width:30%;">Name</th>
-                            <th style="width:15%;">Birth Date</th>
-                            <th style="width:15%;">Identity Type</th>
-                            <th style="width:20%;">ID Number</th>
-                            <th style="width:20%;">Seat</th>
-                        </tr>`;
-                        for(pax in msg.result.response.passengers){
-                            ticket = [];
-                            for(i in msg.result.response.provider_bookings){
-                                for(j in msg.result.response.provider_bookings[i].journeys){
-                                    for(k in msg.result.response.provider_bookings[i].journeys[j].seats){
-                                        if(msg.result.response.passengers[pax].name == msg.result.response.provider_bookings[i].journeys[j].seats[k].passenger){
-                                            ticket.push({
-                                                'journey': msg.result.response.provider_bookings[i].journeys[j].origin + ' - ' + msg.result.response.provider_bookings[i].journeys[j].destination,
-                                                'seat': msg.result.response.provider_bookings[i].journeys[j].seats[k].seat
-                                            })
-                                            break;
-                                        }
+                <div style="border:1px solid #cdcdcd; padding:15px; background-color:white; margin-top:20px;">
+                    <div class="row">
+                        <div class="col-lg-12 mb-3" style="border-bottom: 1px solid #cdcdcd;">
+                            <h4 class="mb-3"><i class="fas fa-users"></i> List of Passenger</h4>
+                        </div>
+                    </div>`;
+                    for(pax in msg.result.response.passengers){
+                        ticket = [];
+                        for(i in msg.result.response.provider_bookings){
+                            for(j in msg.result.response.provider_bookings[i].journeys){
+                                for(k in msg.result.response.provider_bookings[i].journeys[j].seats){
+                                    if(msg.result.response.passengers[pax].name == msg.result.response.provider_bookings[i].journeys[j].seats[k].passenger){
+                                        ticket.push({
+                                            'journey': msg.result.response.provider_bookings[i].journeys[j].origin + ' - ' + msg.result.response.provider_bookings[i].journeys[j].destination,
+                                            'seat': msg.result.response.provider_bookings[i].journeys[j].seats[k].seat
+                                        })
+                                        break;
                                     }
-                                }
-                                try{
-                                    ticket += msg.result.response.provider_bookings[provider].tickets[pax].ticket_number
-                                    if(provider != msg.result.response.provider_bookings.length - 1)
-                                        ticket += ', ';
-                                }catch(err){
-
                                 }
                             }
-                            text+=`<tr>
-                                <td class="list-of-passenger-left">`+(parseInt(pax)+1)+`</td>
-                                <td>`+msg.result.response.passengers[pax].title+` `+msg.result.response.passengers[pax].first_name+` `+msg.result.response.passengers[pax].last_name+`</td>
-                                <td>`+msg.result.response.passengers[pax].birth_date+`</td>
-                                <td>`+msg.result.response.passengers[pax].identity_type.charAt(0).toUpperCase()+msg.result.response.passengers[pax].identity_type.slice(1).toLowerCase()+`</td>
-                                <td>`+msg.result.response.passengers[pax].identity_number+`</td>
-                                <td>`;
-                                for(i in ticket)
-                                    if(ticket[i].seat){
-                                        if(ticket[i].seat.split(',').length == 2)
-                                           text += ticket[i].journey+`<br/>`+ticket[i].seat.split(',')[0] + ' ' + ticket[i].seat.split(',')[1] +`<br/>`;
-                                    }
-                                text+=`
-                                </td>
-                            </tr>`;
-                        }
+                            try{
+                                ticket += msg.result.response.provider_bookings[provider].tickets[pax].ticket_number
+                                if(provider != msg.result.response.provider_bookings.length - 1)
+                                    ticket += ', ';
+                            }catch(err){
 
-                    text+=`</table>
+                            }
+                        }
+                        text+=`
+                        <h4 class="single_border_custom_bottom" style="margin-bottom:5px; width:50px; word-break:break-word;">#`+(parseInt(pax)+1)+`</h4>
+                        <h5>`+msg.result.response.passengers[pax].title+` `+msg.result.response.passengers[pax].first_name+` `+msg.result.response.passengers[pax].last_name+`
+                            <b style="background:white; font-size:13px; color:black; padding:0px 15px; display:unset; border: 1px solid #cdcdcd; border-radius:7px;">
+                                <i class="fas fa-user"></i>`;
+                                if(msg.result.response.passengers[pax].pax_type == 'ADT'){
+                                    text+=`Adult`;
+                                }else if(msg.result.response.passengers[pax].pax_type == 'CHD'){
+                                    text+=`Child`;
+                                }else if(msg.result.response.passengers[pax].pax_type == 'INF'){
+                                    text+=`Infant`;
+                                }
+                            text+=`</b>
+                        </h5>
+                        <b>Birth Date: </b><i>`+msg.result.response.passengers[pax].birth_date+`</i><br>
+                        <b>`+msg.result.response.passengers[pax].identity_type.charAt(0).toUpperCase()+msg.result.response.passengers[pax].identity_type.slice(1).toLowerCase()+`: </b>
+                        <i>`+msg.result.response.passengers[pax].identity_number+`</i><br>
+                        <b>Seat: </b><br/>
+                        <i>`;
+                        for(i in ticket)
+                            if(ticket[i].seat){
+                                if(ticket[i].seat.split(',').length == 2)
+                                   text += ticket[i].journey+`<br/>`+ticket[i].seat.split(',')[0] + ' ' + ticket[i].seat.split(',')[1] +`<br/>`;
+                            }
+                        text+=`
+                        </i>`;
+                        if(pax != parseInt(msg.result.response.passengers.length-1)){
+                            text+=`<hr/>`;
+                        }
+                    }
+                    text+=`
                     </div>
                 </div>`;
 
                 if (msg.result.response.state == 'issued'){
                     text+=`
-                    <div style="border:1px solid #cdcdcd; padding:10px; background-color:white; margin-top:20px;">
+                    <div style="border:1px solid #cdcdcd; padding:15px; background-color:white; margin-top:20px;">
                         <div class="row">
                             <div class="col-lg-12">
                                 <label class="check_box_custom">
@@ -1319,9 +1331,10 @@ function bus_get_booking(data, sync=false){
                 commission = 0;
                 service_charge = ['FARE', 'RAC', 'ROC', 'TAX', 'CSC'];
                 text_detail=`
-                <div style="background-color:white; padding:10px; border: 1px solid #cdcdcd; margin-bottom:15px;">
-                    <h5> Price Detail</h5>
-                <hr/>`;
+                <div style="background-color:white; padding:15px; border: 1px solid #cdcdcd; margin-bottom:15px;">
+                    <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                        <h4 class="mb-3">Price Detail</h4>
+                    </div>`;
 
                 //repricing
                 type_amount_repricing = ['Repricing'];

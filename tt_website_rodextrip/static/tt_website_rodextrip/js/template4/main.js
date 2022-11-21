@@ -71,7 +71,8 @@ jQuery(document).ready(function($) {
 			var $this = $(this);
 			$this.clone().attr('class', 'site-nav-wrap').appendTo('.site-mobile-menu-body');
             $this.find('.balance_mobile').replaceWith('<li><a style="color:black;"><span id="balance_mob"></span></a></li>');
-            $this.find('.credit_mobile').replaceWith('<li><a style="color:black;"><span id="credit_mob"></span></a></li>');
+            $this.find('.credit_mobile').replaceWith('<li style="border-top:1px solid #cdcdcd;"><a style="color:black;"><span id="credit_mob"></span></a></li>');
+            $this.find('.customer_parent_balance_mobile').replaceWith('<li style="border-top:1px solid #cdcdcd;"><a style="color:black;"><span id="customer_parent_balance_mob"></span></a></li>');
             try{
                 $this.find('.signup_pc_mb').replaceWith('<a style="margin-top:10px; font-size:13px; font-weight:600; cursor:pointer; color:'+text_color_login+';text-transform: unset; padding:0px 2px;" data-toggle="modal" data-target="#myModalb2c"><i class="fas fa-user-plus"></i> Sign Up </a>');
             }catch(err){
