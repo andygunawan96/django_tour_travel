@@ -1702,6 +1702,11 @@ function check_passenger(){
     }else{
         document.getElementById('booker_first_name').style['border-color'] = '#EFEFEF';
         document.getElementById('booker_last_name').style['border-color'] = '#EFEFEF';
+    }if(document.getElementById('booker_title').value == ''){
+        error_log+= 'Please fill booker title!</br>\n';
+        document.getElementById('booker_first_name').style['border-color'] = 'red';
+    }else{
+        document.getElementById('booker_first_name').style['border-color'] = '#EFEFEF';
     }if(document.getElementById('booker_first_name').value == '' || check_word(document.getElementById('booker_first_name').value) == false){
         if(document.getElementById('booker_first_name').value == '')
             error_log+= 'Please fill booker first name!</br>\n';
@@ -1752,6 +1757,12 @@ function check_passenger(){
         }else{
             document.getElementById('adult_first_name'+i).style['border-color'] = '#EFEFEF';
             document.getElementById('adult_last_name'+i).style['border-color'] = '#EFEFEF';
+        }
+        if(document.getElementById('adult_title'+i).value == ''){
+            error_log+= 'Please input title of adult passenger '+i+'!</br>\n';
+            document.getElementById('adult_title'+i).style['border-color'] = 'red';
+        }else{
+            document.getElementById('adult_title'+i).style['border-color'] = '#EFEFEF';
         }if(document.getElementById('adult_first_name'+i).value == '' || check_word(document.getElementById('adult_first_name'+i).value) == false){
             if(document.getElementById('adult_first_name'+i).value == '')
                 error_log+= 'Please input first name of adult passenger '+i+'!</br>\n';
@@ -1906,6 +1917,11 @@ function check_passenger(){
             }else{
                document.getElementById('Adult_relation'+i+'_first_name'+counter).style['border-color'] = '#EFEFEF';
                document.getElementById('Adult_relation'+i+'_last_name'+counter).style['border-color'] = '#EFEFEF';
+            }if(document.getElementById('Adult_relation'+i+'_title'+counter).value == ''){
+               error_log+= 'Please input title of adult '+counter_passenger+'!</br>\n';
+               document.getElementById('Adult_relation'+i+'_title'+counter).style['border-color'] = 'red';
+            }else{
+               document.getElementById('Adult_relation'+i+'_title'+counter).style['border-color'] = '#EFEFEF';
             }if(document.getElementById('Adult_relation'+i+'_first_name'+counter).value == '' || check_word(document.getElementById('Adult_relation'+i+'_first_name'+counter).value) == false){
                if(document.getElementById('Adult_relation'+i+'_first_name'+counter).value == '')
                    error_log+= 'Please input first name of adult '+counter_passenger+'!</br>\n';
@@ -1929,8 +1945,20 @@ function check_passenger(){
                 }
             }
 
+            if(document.getElementById('Adult_relation'+i+'_nationality'+counter).value == ''){
+                error_log+= 'Please fill nationality for adult '+counter_passenger+'!</br>\n';
+                $("#Adult_relation"+i+'_nationality'+counter).each(function() {
+                    $(this).siblings(".select2-container").css('border', '1px solid red');
+                });
+            }else{
+                //document.getElementById('adult_nationality'+i).style['border-color'] = '#EFEFEF';
+                $("#Adult_relation"+i+'_nationality'+counter).each(function() {
+                    $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+                });
+            }
+
             if(check_date(document.getElementById('Adult_relation'+i+'_birth_date'+counter).value)==false){
-                error_log+= 'Birth date wrong for relation '+counter_passenger+'!</br>\n';
+                error_log+= 'Birth date wrong for adult '+counter_passenger+'!</br>\n';
                 document.getElementById('Adult_relation'+i+'_birth_date'+counter).style['border-color'] = 'red';
             }else{
                 document.getElementById('Adult_relation'+i+'_birth_date'+counter).style['border-color'] = '#EFEFEF';
@@ -2015,6 +2043,11 @@ function check_passenger(){
             }else{
                document.getElementById('Child_relation'+i+'_first_name'+counter).style['border-color'] = '#EFEFEF';
                document.getElementById('Child_relation'+i+'_last_name'+counter).style['border-color'] = '#EFEFEF';
+            }if(document.getElementById('Child_relation'+i+'_title'+counter).value == ''){
+               error_log+= 'Please input title of passenger child '+counter_passenger+'!</br>\n';
+               document.getElementById('Child_relation'+i+'_title'+counter).style['border-color'] = 'red';
+            }else{
+               document.getElementById('Child_relation'+i+'_title'+counter).style['border-color'] = '#EFEFEF';
             }if(document.getElementById('Child_relation'+i+'_first_name'+counter).value == '' || check_word(document.getElementById('Child_relation'+i+'_first_name'+counter).value) == false){
                if(document.getElementById('Child_relation'+i+'_first_name'+counter).value == '')
                    error_log+= 'Please input first name of passenger child '+counter_passenger+'!</br>\n';
@@ -2036,6 +2069,18 @@ function check_passenger(){
                         $(this).parent().find('.nice-select').css('border', '1px solid #EFEFEF');
                     });
                 }
+            }
+
+            if(document.getElementById('Child_relation'+i+'_nationality'+counter).value == ''){
+                error_log+= 'Please fill nationality for passenger child relation '+counter_passenger+'!</br>\n';
+                $("#Child_relation"+i+'_nationality'+counter).each(function() {
+                    $(this).siblings(".select2-container").css('border', '1px solid red');
+                });
+            }else{
+                //document.getElementById('adult_nationality'+i).style['border-color'] = '#EFEFEF';
+                $("#Child_relation"+i+'_nationality'+counter).each(function() {
+                    $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+                });
             }
 
             if(check_date(document.getElementById('Child_relation'+i+'_birth_date'+counter).value)==false){
@@ -2123,6 +2168,11 @@ function check_passenger(){
             }else{
                document.getElementById('Adult_relation_beneficiary_first_name'+i).style['border-color'] = '#EFEFEF';
                document.getElementById('Adult_relation_beneficiary_last_name'+i).style['border-color'] = '#EFEFEF';
+            }if(document.getElementById('Adult_relation_beneficiary_title'+i).value == ''){
+               error_log+= 'Please input title of beneficiary for customer '+i+'!</br>\n';
+               document.getElementById('Adult_relation_beneficiary_title'+i).style['border-color'] = 'red';
+            }else{
+               document.getElementById('Adult_relation_beneficiary_title'+i).style['border-color'] = '#EFEFEF';
             }if(document.getElementById('Adult_relation_beneficiary_first_name'+i).value == '' || check_word(document.getElementById('Adult_relation_beneficiary_first_name'+i).value) == false){
                if(document.getElementById('Adult_relation_beneficiary_first_name'+i).value == '')
                    error_log+= 'Please input first name of beneficiary for customer '+i+'!</br>\n';
