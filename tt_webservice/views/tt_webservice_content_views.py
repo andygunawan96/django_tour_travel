@@ -828,7 +828,11 @@ def get_dynamic_page(request):
                     elif idx == 1:
                         title = line.split('\n')[0]
                     elif idx == 2:
-                        body = json.loads(line.split('\n')[0])
+                        #ketemu case jika hanya 1 line saja json dumps nya tidak ada waktu load error jadi sementara tambah try except
+                        try:
+                            body = json.loads(line.split('\n')[0])
+                        except:
+                            body = line.split('\n')[0]
                     elif idx == 3:
                         image_carousel = line.split('\n')[0]
                     elif idx == 4:
