@@ -266,7 +266,9 @@
                                                         Adult
                                                     </b>
                                                 </h5>
+                                                {% if adult.birth_date %}
                                                 <b>Birth Date:</b> <i>{{adult.birth_date}}</i>
+                                                {% endif %}
                                             </div>
                                             {% endfor %}
 
