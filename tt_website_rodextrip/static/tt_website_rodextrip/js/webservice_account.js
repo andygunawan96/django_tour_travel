@@ -115,7 +115,7 @@ function get_balance(val){
                             document.getElementsByClassName("balance_mobile")[0].style.display = 'none';
                     }
                     if(msg.result.response.is_show_credit_limit){
-                        text = `<br/>Credit Limit: `+msg.result.response.currency_code+ ' ' + getrupiah(credit_limit);
+                        text = `Credit Limit: `+msg.result.response.currency_code+ ' ' + getrupiah(credit_limit);
                         //CREDIT LIMIT
                         if(document.getElementById("credit_limit"))
                             document.getElementById("credit_limit").innerHTML = text;

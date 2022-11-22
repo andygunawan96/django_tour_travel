@@ -528,8 +528,15 @@ function bills_get_booking(data){
                     }
                 }
                 text += `
-                <div class="col-lg-12" style="border:1px solid #cdcdcd; padding:10px; background-color:white; margin-bottom:20px;">
-                    <h6>Order Number : `+msg.result.response.order_number+`</h6><br/>
+                <div class="col-lg-12" style="border:1px solid #cdcdcd; padding:15px; background-color:white; margin-bottom:20px;">
+                    <div class="row">
+                        <div class="col-lg-12 mb-3" style="padding-bottom:15px; border-bottom:1px solid #cdcdcd;">
+                            <h4>
+                                <i class="fas fa-scroll"></i> Order Number: `+msg.result.response.order_number+`
+                            </h4>
+                        </div>
+                    </div>
+
                     <table style="width:100%;">
                         <tr>
                             <th>PNR</th>
