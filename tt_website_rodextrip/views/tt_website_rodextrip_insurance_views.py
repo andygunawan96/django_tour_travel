@@ -314,7 +314,7 @@ def review(request):
                             "title": request.POST['Adult_relation_beneficiary_title' + str(i + 1)],
                             "first_name": request.POST['Adult_relation_beneficiary_first_name' + str(i + 1)],
                             "last_name": request.POST['Adult_relation_beneficiary_last_name' + str(i + 1)],
-                            "nationality": request.POST['Adult_relation_beneficiary_nationality' + str(i + 1) + '_id'],
+                            "nationality": request.POST['Adult_relation_beneficiary_nationality' + str(i + 1)],
                             "birth_date": request.POST['Adult_relation_beneficiary_birth_date' + str(i + 1)],
                             "identity_type": request.POST['Adult_relation_beneficiary_identity_type' + str(i + 1)],
                             "identity_number": request.POST['Adult_relation_beneficiary_passport_number' + str(i + 1)],
