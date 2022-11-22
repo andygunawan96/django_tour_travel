@@ -14,6 +14,7 @@ function get_consulate(type){
     consulate_box = document.getElementById('visa_consulate_id');
     consulate_box.innerHTML = '';
     try{
+        var found_consulate = false
         for(i in visa_config){
             if(document.getElementById('visa_destination_id_hidden').value == i){
                 for(j in visa_config[i]){
@@ -23,13 +24,25 @@ function get_consulate(type){
                     if(j == 0 && type == 'home'){
                         node.setAttribute('selected', 'selected');
                         document.getElementById('visa_consulate_id_hidden').value = visa_config[i][j];
+                        found_consulate = true;
                     }else if(type == 'search'){
                         if(visa_request['consulate'] == visa_config[i][j]){
                             node.setAttribute('selected', 'selected');
                             document.getElementById('visa_consulate_id_hidden').value = visa_config[i][j];
+                            found_consulate = true
                         }
                     }
                     consulate_box.add(node);
+                }
+                if(!found_consulate){
+                    for(j in visa_config[i]){
+                        if(j == 0){
+                            node.setAttribute('selected', 'selected');
+                            document.getElementById('visa_consulate_id_hidden').value = visa_config[i][j];
+                            found_consulate = true
+                            break;
+                        }
+                    }
                 }
 
             }
@@ -2688,7 +2701,7 @@ function set_value_radio_first(pax_type,number){
 
         }
     }
-    else if(pax_type == 'chd'){
+    else if(pax_type == 'child'){
         var radios = document.getElementsByName('child_entry_type'+number);
         for (var j = 0, length = radios.length; j < length; j++) {
             radios[j].checked = false;
@@ -2725,7 +2738,7 @@ function set_value_radio_first(pax_type,number){
 
         }
     }
-    else if(pax_type == 'inf'){
+    else if(pax_type == 'infant'){
         var radios = document.getElementsByName('infant_entry_type'+number);
         for (var j = 0, length = radios.length; j < length; j++) {
             radios[j].checked = false;
