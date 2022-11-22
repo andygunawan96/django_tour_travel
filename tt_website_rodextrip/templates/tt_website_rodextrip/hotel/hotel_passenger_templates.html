@@ -508,11 +508,12 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
-                                            {% if forloop.counter <= 1 %} <label style="color:red">*</label>{%endif%}
+                                            {% if forloop.counter <= 1 %} <!--<label style="color:red">*</label>-->{%endif%}
                                             <label>{% trans 'Birth Date' %}</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control date-picker-birth" name="adult_birth_date{{forloop.counter}}" id="adult_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}},'adult')" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                                 <input type="hidden" class="form-control" name="adult_years_old{{forloop.counter}}" id="adult_years_old{{forloop.counter}}">
+                                                <button type="button" class="primary-delete-date" onclick="delete_birth_date('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                             </div>
                                         </div>
                                         <div class="col-lg-6" id="adult_cp_hidden1_{{forloop.counter}}" hidden>
@@ -1359,11 +1360,12 @@
                                                 <input type="hidden" name="adult_nationality{{forloop.counter}}" id="adult_nationality{{forloop.counter}}" />
                                             </div>
                                             <div class="col-lg-6">
-                                                {% if forloop.counter <= 1 %} <label style="color:red">*</label> {% endif %}
+                                                {% if forloop.counter <= 1 %} <!--<label style="color:red">*</label>--> {% endif %}
                                                 <label>{% trans 'Birth Date' %}</label>
                                                 <div class="input-container-search-ticket">
                                                     <input type="text" style="background:white;" class="form-control date-picker-birth" name="adult_birth_date{{forloop.counter}}" id="adult_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}},'adult')" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                                     <input type="hidden" class="form-control" name="adult_years_old{{forloop.counter}}" id="adult_years_old{{forloop.counter}}">
+                                                    <button type="button" class="primary-delete-date" onclick="delete_birth_date('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                 </div>
                                             </div>
                                             <div class="col-lg-6 mb-3" id="adult_cp_hidden1_{{forloop.counter}}" hidden>
@@ -2207,11 +2209,12 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6">
-                                            {% if forloop.counter <= 1 %} <label style="color:red">*</label> {% endif %}
+                                            {% if forloop.counter <= 1 %} <!--<label style="color:red">*</label>--> {% endif %}
                                             <label>{% trans 'Birth Date' %}</label>
                                             <div class="form-group" style="margin-bottom:0px;">
                                                 <input type="text" style="background:white; width:100%; margin-bottom:0px;" class="form-control date-picker-birth" name="adult_birth_date{{forloop.counter}}" id="adult_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}},'adult')" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                                 <input type="hidden" class="form-control" name="adult_years_old{{forloop.counter}}" id="adult_years_old{{forloop.counter}}">
+                                                <button type="button" class="primary-delete-date" onclick="delete_birth_date('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                             </div>
                                         </div>
                                         <div class="col-lg-6 mb-3" id="adult_cp_hidden1_{{forloop.counter}}" hidden>
@@ -3063,11 +3066,12 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-6 mb-3">
-                                        {% if forloop.counter <= 1 %} <label style="color:red">*</label> {% endif %}
+                                        {% if forloop.counter <= 1 %} <!--<label style="color:red">*</label>--> {% endif %}
                                         <label>{% trans 'Birth Date' %}</label>
                                         <div class="input-container-search-ticket">
                                             <input type="text" style="background:white;" class="form-control date-picker-birth" name="adult_birth_date{{forloop.counter}}" id="adult_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}},'adult')" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                             <input type="hidden" class="form-control" name="adult_years_old{{forloop.counter}}" id="adult_years_old{{forloop.counter}}">
+                                            <button type="button" class="primary-delete-date" onclick="delete_birth_date('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                         </div>
                                     </div>
                                     <div class="col-lg-6 mb-3" id="adult_cp_hidden1_{{forloop.counter}}" hidden>
@@ -3918,11 +3922,12 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
-                                            {% if forloop.counter <= 1 %} <label style="color:red">*</label> {% endif %}
+                                            {% if forloop.counter <= 1 %} <!--<label style="color:red">*</label>--> {% endif %}
                                             <label>{% trans 'Birth Date' %}</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" style="background:white;" class="form-control date-picker-birth" name="adult_birth_date{{forloop.counter}}" id="adult_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}},'adult')" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                                 <input type="hidden" class="form-control" name="adult_years_old{{forloop.counter}}" id="adult_years_old{{forloop.counter}}">
+                                                <button type="button" class="primary-delete-date" onclick="delete_birth_date('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                             </div>
                                         </div>
                                         <div class="col-lg-6 mb-3" id="adult_cp_hidden1_{{forloop.counter}}" hidden>
@@ -4776,11 +4781,12 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
-                                            {% if forloop.counter <= 1 %} <label style="color:red">*</label> {%endif%}
+                                            {% if forloop.counter <= 1 %} <!--<label style="color:red">*</label>--> {%endif%}
                                             <label>{% trans 'Birth Date' %}</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" style="background:white;" class="form-control date-picker-birth" name="adult_birth_date{{forloop.counter}}" id="adult_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}},'adult')" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                                 <input type="hidden" class="form-control" name="adult_years_old{{forloop.counter}}" id="adult_years_old{{forloop.counter}}">
+                                                <button type="button" class="primary-delete-date" onclick="delete_birth_date('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                             </div>
                                         </div>
                                         <div class="col-lg-6 mb-3" id="adult_cp_hidden1_{{forloop.counter}}" hidden>

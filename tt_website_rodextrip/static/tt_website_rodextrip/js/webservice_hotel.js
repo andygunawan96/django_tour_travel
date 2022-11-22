@@ -2677,8 +2677,11 @@ function hotel_get_booking(data){
                                         }
                                     text+=`
                                     </b>
-                                    </h4>
-                                    <span><b>Birth Date: </b><i>`+msg.result.response.passengers[i].birth_date+`</i></span>
+                                    </h4>`;
+                                    if(msg.result.response.passengers[i].birth_date)
+                                        text+=`
+                                    <span><b>Birth Date: </b><i>`+msg.result.response.passengers[i].birth_date+`</i></span>`;
+                                    text+=`
                                 </div>
                              </div>
                         </div>`;
