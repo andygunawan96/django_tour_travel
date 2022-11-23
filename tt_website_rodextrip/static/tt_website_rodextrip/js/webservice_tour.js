@@ -1426,7 +1426,7 @@ function tour_issued_booking(order_number)
                       title: 'Error tour issued '+ msg.result.error_msg,
                       showCancelButton: true,
                       cancelButtonText: 'Ok',
-                      confirmButtonColor: '#f15a22',
+                      confirmButtonColor: color,
                       cancelButtonColor: '#3085d6',
                       confirmButtonText: 'Top Up'
                     }).then((result) => {

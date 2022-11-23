@@ -2245,7 +2245,7 @@ function mitra_keluarga_issued_booking(data){
                           title: 'Error mitra keluarga issued '+ msg.result.error_msg,
                           showCancelButton: true,
                           cancelButtonText: 'Ok',
-                          confirmButtonColor: '#f15a22',
+                          confirmButtonColor: color,
                           cancelButtonColor: '#3085d6',
                           confirmButtonText: 'Top Up'
                         }).then((result) => {
