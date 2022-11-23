@@ -155,6 +155,50 @@
                                     </div>
                                 </div>
                             </div>
+                            <!-- Modal -->
+                            <div class="modal fade" id="myModal_attachment3" data-keyboard="false">
+                                <div class="modal-dialog">
+
+                                    <!-- Modal content-->
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Identity Attachment (SIM)' %}</h4>
+                                            <button type="button" class="close" onclick="close_upload_attachment(3,'');">&times;</button>
+                                        </div>
+                                        <div class="modal-body">
+
+                                            Files: <input type="file" id="files_attachment3" name="files_attachment_3" multiple="" accept="image/*"><br>
+
+                                            <div id="selectedFiles_attachment3"></div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" onclick="close_upload_attachment(3,'');">{% trans 'Close' %}</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Modal -->
+                            <div class="modal fade" id="myModal_attachment4" data-keyboard="false">
+                                <div class="modal-dialog">
+
+                                    <!-- Modal content-->
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Identity Attachment' %}</h4>
+                                            <button type="button" class="close" onclick="close_upload_attachment(4,'');">&times;</button>
+                                        </div>
+                                        <div class="modal-body">
+
+                                            Files: <input type="file" id="files_attachment4" name="files_attachment_4" multiple="" accept="image/*"><br>
+
+                                            <div id="selectedFiles_attachment4"></div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" onclick="close_upload_attachment(4,'');">{% trans 'Close' %}</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="col-xs-6">
                             <label style="color:red">*</label>
@@ -162,7 +206,7 @@
                             <div class="input-container-search-ticket">
                                 <div class="form-select-2">
                                     <select id="passenger_title" name="passenger_title" class="nice-select-default">
-                                        {% for title in titles%}
+                                        {% for title in titles %}
                                         <option value="{{title}}">{{title}}</option>
                                         {% endfor %}
                                     </select>
@@ -403,28 +447,6 @@
                                             <div class="col-md-6">
                                                 <span>{% trans 'Attachment' %}</span><br/>
                                                 <button type="button" class="primary-btn-white" data-toggle="modal" data-target="#myModal_attachment3">{% trans 'Upload Image' %} <i class="fas fa-images"></i></button>
-                                                <!-- Modal -->
-                                                <div class="modal fade" id="myModal_attachment3" data-keyboard="false">
-                                                    <div class="modal-dialog">
-
-                                                        <!-- Modal content-->
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Identity Attachment' %}</h4>
-                                                                <button type="button" class="close" onclick="close_upload_attachment(3,'');">&times;</button>
-                                                            </div>
-                                                            <div class="modal-body">
-
-                                                                Files: <input type="file" id="files_attachment3" name="files_attachment_3" multiple="" accept="image/*"><br>
-
-                                                                <div id="selectedFiles_attachment3"></div>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-default" onclick="close_upload_attachment(3,'');">{% trans 'Close' %}</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -467,28 +489,6 @@
                                             <div class="col-md-6">
                                                 <span>{% trans 'Attachment' %}</span><br/>
                                                 <button type="button" class="primary-btn-white" data-toggle="modal" data-target="#myModal_attachment4">{% trans 'Upload Image' %} <i class="fas fa-images"></i></button>
-                                                <!-- Modal -->
-                                                <div class="modal fade" id="myModal_attachment4" data-keyboard="false">
-                                                    <div class="modal-dialog">
-
-                                                        <!-- Modal content-->
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Identity Attachment' %}</h4>
-                                                                <button type="button" class="close" onclick="close_upload_attachment(4,'');">&times;</button>
-                                                            </div>
-                                                            <div class="modal-body">
-
-                                                                Files: <input type="file" id="files_attachment4" name="files_attachment_4" multiple="" accept="image/*"><br>
-
-                                                                <div id="selectedFiles_attachment4"></div>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-default" onclick="close_upload_attachment(4,'');">{% trans 'Close' %}</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -564,13 +564,57 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="myModal_attachment3" data-keyboard="false">
+                                        <div class="modal-dialog">
+
+                                            <!-- Modal content-->
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Identity Attachment (SIM)' %}</h4>
+                                                    <button type="button" class="close" onclick="close_upload_attachment(3,'');">&times;</button>
+                                                </div>
+                                                <div class="modal-body">
+
+                                                    Files: <input type="file" id="files_attachment3" name="files_attachment_3" multiple="" accept="image/*"><br>
+
+                                                    <div id="selectedFiles_attachment3"></div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-default" onclick="close_upload_attachment(3,'');">{% trans 'Close' %}</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="myModal_attachment4" data-keyboard="false">
+                                        <div class="modal-dialog">
+
+                                            <!-- Modal content-->
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Identity Attachment' %}</h4>
+                                                    <button type="button" class="close" onclick="close_upload_attachment(4,'');">&times;</button>
+                                                </div>
+                                                <div class="modal-body">
+
+                                                    Files: <input type="file" id="files_attachment4" name="files_attachment_4" multiple="" accept="image/*"><br>
+
+                                                    <div id="selectedFiles_attachment4"></div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-default" onclick="close_upload_attachment(4,'');">{% trans 'Close' %}</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="col-xs-6">
                                     <label style="color:red">*</label>
                                     <label>{% trans 'Title' %}</label>
                                     <div class="form-select-2">
                                         <select id="passenger_title" name="passenger_title" class="nice-select-default">
-                                            {% for title in titles%}
+                                            {% for title in titles %}
                                             <option value="{{title}}">{{title}}</option>
                                             {% endfor %}
                                         </select>
@@ -802,28 +846,6 @@
                                                     <div class="col-md-6">
                                                         <span>{% trans 'Attachment' %}</span><br/>
                                                         <button type="button" class="primary-btn-white" data-toggle="modal" data-target="#myModal_attachment3">{% trans 'Upload Image' %} <i class="fas fa-images"></i></button>
-                                                        <!-- Modal -->
-                                                        <div class="modal fade" id="myModal_attachment3" data-keyboard="false">
-                                                            <div class="modal-dialog">
-
-                                                                <!-- Modal content-->
-                                                                <div class="modal-content">
-                                                                    <div class="modal-header">
-                                                                        <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Identity Attachment' %}</h4>
-                                                                        <button type="button" class="close" onclick="close_upload_attachment(3,'');">&times;</button>
-                                                                    </div>
-                                                                    <div class="modal-body">
-
-                                                                        Files: <input type="file" id="files_attachment3" name="files_attachment_3" multiple="" accept="image/*"><br>
-
-                                                                        <div id="selectedFiles_attachment3"></div>
-                                                                    </div>
-                                                                    <div class="modal-footer">
-                                                                        <button type="button" class="btn btn-default" onclick="close_upload_attachment(3,'');">{% trans 'Close' %}</button>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -864,28 +886,6 @@
                                                     <div class="col-md-6">
                                                         <span>{% trans 'Attachment' %}</span><br/>
                                                         <button type="button" class="primary-btn-white" data-toggle="modal" data-target="#myModal_attachment4">{% trans 'Upload Image' %} <i class="fas fa-images"></i></button>
-                                                        <!-- Modal -->
-                                                        <div class="modal fade" id="myModal_attachment4" data-keyboard="false">
-                                                            <div class="modal-dialog">
-
-                                                                <!-- Modal content-->
-                                                                <div class="modal-content">
-                                                                    <div class="modal-header">
-                                                                        <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Identity Attachment' %}</h4>
-                                                                        <button type="button" class="close" onclick="close_upload_attachment(4,'');">&times;</button>
-                                                                    </div>
-                                                                    <div class="modal-body">
-
-                                                                        Files: <input type="file" id="files_attachment4" name="files_attachment_4" multiple="" accept="image/*"><br>
-
-                                                                        <div id="selectedFiles_attachment4"></div>
-                                                                    </div>
-                                                                    <div class="modal-footer">
-                                                                        <button type="button" class="btn btn-default" onclick="close_upload_attachment(4,'');">{% trans 'Close' %}</button>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -959,13 +959,57 @@
                                     </div>
                                 </div>
                             </div>
+                            <!-- Modal -->
+                            <div class="modal fade" id="myModal_attachment3" data-keyboard="false">
+                                <div class="modal-dialog">
+
+                                    <!-- Modal content-->
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Identity Attachment (SIM)' %}</h4>
+                                            <button type="button" class="close" onclick="close_upload_attachment(3,'');">&times;</button>
+                                        </div>
+                                        <div class="modal-body">
+
+                                            Files: <input type="file" id="files_attachment3" name="files_attachment_3" multiple="" accept="image/*"><br>
+
+                                            <div id="selectedFiles_attachment3"></div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" onclick="close_upload_attachment(3,'');">{% trans 'Close' %}</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Modal -->
+                            <div class="modal fade" id="myModal_attachment4" data-keyboard="false">
+                                <div class="modal-dialog">
+
+                                    <!-- Modal content-->
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Identity Attachment' %}</h4>
+                                            <button type="button" class="close" onclick="close_upload_attachment(4,'');">&times;</button>
+                                        </div>
+                                        <div class="modal-body">
+
+                                            Files: <input type="file" id="files_attachment4" name="files_attachment_4" multiple="" accept="image/*"><br>
+
+                                            <div id="selectedFiles_attachment4"></div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" onclick="close_upload_attachment(4,'');">{% trans 'Close' %}</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="col-xs-6">
                             <label style="color:red">*</label>
                             <label>{% trans 'Title' %}</label>
                             <div class="form-select-2">
                                 <select id="passenger_title" name="passenger_title" class="nice-select-default">
-                                    {% for title in titles%}
+                                    {% for title in titles %}
                                     <option value="{{title}}">{{title}}</option>
                                     {% endfor %}
                                 </select>
@@ -1197,28 +1241,6 @@
                                             <div class="col-md-6">
                                                 <span>{% trans 'Attachment' %}</span><br/>
                                                 <button type="button" class="primary-btn-white" data-toggle="modal" data-target="#myModal_attachment3">{% trans 'Upload Image' %} <i class="fas fa-images"></i></button>
-                                                <!-- Modal -->
-                                                <div class="modal fade" id="myModal_attachment3" data-keyboard="false">
-                                                    <div class="modal-dialog">
-
-                                                        <!-- Modal content-->
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Identity Attachment' %}</h4>
-                                                                <button type="button" class="close" onclick="close_upload_attachment(3,'');">&times;</button>
-                                                            </div>
-                                                            <div class="modal-body">
-
-                                                                Files: <input type="file" id="files_attachment3" name="files_attachment_3" multiple="" accept="image/*"><br>
-
-                                                                <div id="selectedFiles_attachment3"></div>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-default" onclick="close_upload_attachment(3,'');">{% trans 'Close' %}</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -1259,28 +1281,6 @@
                                             <div class="col-md-6">
                                                 <span>{% trans 'Attachment' %}</span><br/>
                                                 <button type="button" class="primary-btn-white" data-toggle="modal" data-target="#myModal_attachment4">{% trans 'Upload Image' %} <i class="fas fa-images"></i></button>
-                                                <!-- Modal -->
-                                                <div class="modal fade" id="myModal_attachment4" data-keyboard="false">
-                                                    <div class="modal-dialog">
-
-                                                        <!-- Modal content-->
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Identity Attachment' %}</h4>
-                                                                <button type="button" class="close" onclick="close_upload_attachment(4,'');">&times;</button>
-                                                            </div>
-                                                            <div class="modal-body">
-
-                                                                Files: <input type="file" id="files_attachment4" name="files_attachment_4" multiple="" accept="image/*"><br>
-
-                                                                <div id="selectedFiles_attachment4"></div>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-default" onclick="close_upload_attachment(4,'');">{% trans 'Close' %}</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -1352,6 +1352,50 @@
                                     </div>
                                 </div>
                             </div>
+                            <!-- Modal -->
+                            <div class="modal fade" id="myModal_attachment3" data-keyboard="false">
+                                <div class="modal-dialog">
+
+                                    <!-- Modal content-->
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Identity Attachment (SIM)' %}</h4>
+                                            <button type="button" class="close" onclick="close_upload_attachment(3,'');">&times;</button>
+                                        </div>
+                                        <div class="modal-body">
+
+                                            Files: <input type="file" id="files_attachment3" name="files_attachment_3" multiple="" accept="image/*"><br>
+
+                                            <div id="selectedFiles_attachment3"></div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" onclick="close_upload_attachment(3,'');">{% trans 'Close' %}</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Modal -->
+                            <div class="modal fade" id="myModal_attachment4" data-keyboard="false">
+                                <div class="modal-dialog">
+
+                                    <!-- Modal content-->
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Identity Attachment' %}</h4>
+                                            <button type="button" class="close" onclick="close_upload_attachment(4,'');">&times;</button>
+                                        </div>
+                                        <div class="modal-body">
+
+                                            Files: <input type="file" id="files_attachment4" name="files_attachment_4" multiple="" accept="image/*"><br>
+
+                                            <div id="selectedFiles_attachment4"></div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" onclick="close_upload_attachment(4,'');">{% trans 'Close' %}</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="col-xs-6">
                             <label style="color:red">*</label>
@@ -1359,7 +1403,7 @@
                             <div class="input-container-search-ticket btn-group">
                                 <div class="form-select-2" id="default-select">
                                     <select id="passenger_title" name="passenger_title" class="nice-select-default rounded">
-                                        {% for title in titles%}
+                                        {% for title in titles %}
                                         <option value="{{title}}">{{title}}</option>
                                         {% endfor %}
                                     </select>
@@ -1592,28 +1636,6 @@
                                             <div class="col-md-6">
                                                 <span>{% trans 'Attachment' %}</span><br/>
                                                 <button type="button" class="primary-btn-white" data-toggle="modal" data-target="#myModal_attachment3">{% trans 'Upload Image' %} <i class="fas fa-images"></i></button>
-                                                <!-- Modal -->
-                                                <div class="modal fade" id="myModal_attachment3" data-keyboard="false">
-                                                    <div class="modal-dialog">
-
-                                                        <!-- Modal content-->
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Identity Attachment' %}</h4>
-                                                                <button type="button" class="close" onclick="close_upload_attachment(3,'');">&times;</button>
-                                                            </div>
-                                                            <div class="modal-body">
-
-                                                                Files: <input type="file" id="files_attachment3" name="files_attachment_3" multiple="" accept="image/*"><br>
-
-                                                                <div id="selectedFiles_attachment3"></div>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-default" onclick="close_upload_attachment(3,'');">{% trans 'Close' %}</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -1654,28 +1676,6 @@
                                             <div class="col-md-6">
                                                 <span>{% trans 'Attachment' %}</span><br/>
                                                 <button type="button" class="primary-btn-white" data-toggle="modal" data-target="#myModal_attachment4">{% trans 'Upload Image' %} <i class="fas fa-images"></i></button>
-                                                <!-- Modal -->
-                                                <div class="modal fade" id="myModal_attachment4" data-keyboard="false">
-                                                    <div class="modal-dialog">
-
-                                                        <!-- Modal content-->
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Identity Attachment' %}</h4>
-                                                                <button type="button" class="close" onclick="close_upload_attachment(4,'');">&times;</button>
-                                                            </div>
-                                                            <div class="modal-body">
-
-                                                                Files: <input type="file" id="files_attachment4" name="files_attachment_4" multiple="" accept="image/*"><br>
-
-                                                                <div id="selectedFiles_attachment4"></div>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-default" onclick="close_upload_attachment(4,'');">{% trans 'Close' %}</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -1747,13 +1747,57 @@
                                     </div>
                                 </div>
                             </div>
+                            <!-- Modal -->
+                            <div class="modal fade" id="myModal_attachment3" data-keyboard="false">
+                                <div class="modal-dialog">
+
+                                    <!-- Modal content-->
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Identity Attachment (SIM)' %}</h4>
+                                            <button type="button" class="close" onclick="close_upload_attachment(3,'');">&times;</button>
+                                        </div>
+                                        <div class="modal-body">
+
+                                            Files: <input type="file" id="files_attachment3" name="files_attachment_3" multiple="" accept="image/*"><br>
+
+                                            <div id="selectedFiles_attachment3"></div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" onclick="close_upload_attachment(3,'');">{% trans 'Close' %}</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Modal -->
+                            <div class="modal fade" id="myModal_attachment4" data-keyboard="false">
+                                <div class="modal-dialog">
+
+                                    <!-- Modal content-->
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Identity Attachment' %}</h4>
+                                            <button type="button" class="close" onclick="close_upload_attachment(4,'');">&times;</button>
+                                        </div>
+                                        <div class="modal-body">
+
+                                            Files: <input type="file" id="files_attachment4" name="files_attachment_4" multiple="" accept="image/*"><br>
+
+                                            <div id="selectedFiles_attachment4"></div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" onclick="close_upload_attachment(4,'');">{% trans 'Close' %}</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="col-xs-6">
                             <label style="color:red">*</label>
                             <label>{% trans 'Title' %}</label>
                             <div class="input-container-search-ticket">
                                 <select id="passenger_title" name="passenger_title" class="nice-select-default">
-                                    {% for title in titles%}
+                                    {% for title in titles %}
                                     <option value="{{title}}">{{title}}</option>
                                     {% endfor %}
                                 </select>
@@ -1993,28 +2037,6 @@
                                             <div class="col-md-6">
                                                 <span>{% trans 'Attachment' %}</span><br/>
                                                 <button type="button" class="primary-btn-white" data-toggle="modal" data-target="#myModal_attachment3">{% trans 'Upload Image' %} <i class="fas fa-images"></i></button>
-                                                <!-- Modal -->
-                                                <div class="modal fade" id="myModal_attachment3" data-keyboard="false">
-                                                    <div class="modal-dialog">
-
-                                                        <!-- Modal content-->
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Identity Attachment' %}</h4>
-                                                                <button type="button" class="close" onclick="close_upload_attachment(3,'');">&times;</button>
-                                                            </div>
-                                                            <div class="modal-body">
-
-                                                                Files: <input type="file" id="files_attachment3" name="files_attachment_3" multiple="" accept="image/*"><br>
-
-                                                                <div id="selectedFiles_attachment3"></div>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-default" onclick="close_upload_attachment(3,'');">{% trans 'Close' %}</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -2057,28 +2079,6 @@
                                             <div class="col-md-6">
                                                 <span>{% trans 'Attachment' %}</span><br/>
                                                 <button type="button" class="primary-btn-white" data-toggle="modal" data-target="#myModal_attachment4">{% trans 'Upload Image' %} <i class="fas fa-images"></i></button>
-                                                <!-- Modal -->
-                                                <div class="modal fade" id="myModal_attachment4" data-keyboard="false">
-                                                    <div class="modal-dialog">
-
-                                                        <!-- Modal content-->
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Identity Attachment' %}</h4>
-                                                                <button type="button" class="close" onclick="close_upload_attachment(4,'');">&times;</button>
-                                                            </div>
-                                                            <div class="modal-body">
-
-                                                                Files: <input type="file" id="files_attachment4" name="files_attachment_4" multiple="" accept="image/*"><br>
-
-                                                                <div id="selectedFiles_attachment4"></div>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-default" onclick="close_upload_attachment(4,'');">{% trans 'Close' %}</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -2152,13 +2152,57 @@
                                     </div>
                                 </div>
                             </div>
+                            <!-- Modal -->
+                            <div class="modal fade" id="myModal_attachment3" data-keyboard="false">
+                                <div class="modal-dialog">
+
+                                    <!-- Modal content-->
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Identity Attachment (SIM)' %}</h4>
+                                            <button type="button" class="close" onclick="close_upload_attachment(3,'');">&times;</button>
+                                        </div>
+                                        <div class="modal-body">
+
+                                            Files: <input type="file" id="files_attachment3" name="files_attachment_3" multiple="" accept="image/*"><br>
+
+                                            <div id="selectedFiles_attachment3"></div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" onclick="close_upload_attachment(3,'');">{% trans 'Close' %}</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Modal -->
+                            <div class="modal fade" id="myModal_attachment4" data-keyboard="false">
+                                <div class="modal-dialog">
+
+                                    <!-- Modal content-->
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Identity Attachment' %}</h4>
+                                            <button type="button" class="close" onclick="close_upload_attachment(4,'');">&times;</button>
+                                        </div>
+                                        <div class="modal-body">
+
+                                            Files: <input type="file" id="files_attachment4" name="files_attachment_4" multiple="" accept="image/*"><br>
+
+                                            <div id="selectedFiles_attachment4"></div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" onclick="close_upload_attachment(4,'');">{% trans 'Close' %}</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="col-xs-6">
                             <label style="color:red">*</label>
                             <label>{% trans 'Title' %}</label>
                             <div class="input-container-search-ticket">
                                 <select id="passenger_title" name="passenger_title" class="nice-select-default">
-                                    {% for title in titles%}
+                                    {% for title in titles %}
                                     <option value="{{title}}">{{title}}</option>
                                     {% endfor %}
                                 </select>
@@ -2398,28 +2442,6 @@
                                             <div class="col-md-6">
                                                 <span>{% trans 'Attachment' %}</span><br/>
                                                 <button type="button" class="primary-btn-white" data-toggle="modal" data-target="#myModal_attachment3">{% trans 'Upload Image' %} <i class="fas fa-images"></i></button>
-                                                <!-- Modal -->
-                                                <div class="modal fade" id="myModal_attachment3" data-keyboard="false">
-                                                    <div class="modal-dialog">
-
-                                                        <!-- Modal content-->
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Identity Attachment' %}</h4>
-                                                                <button type="button" class="close" onclick="close_upload_attachment(3,'');">&times;</button>
-                                                            </div>
-                                                            <div class="modal-body">
-
-                                                                Files: <input type="file" id="files_attachment3" name="files_attachment_3" multiple="" accept="image/*"><br>
-
-                                                                <div id="selectedFiles_attachment3"></div>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-default" onclick="close_upload_attachment(3,'');">{% trans 'Close' %}</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -2462,28 +2484,6 @@
                                             <div class="col-md-6">
                                                 <span>{% trans 'Attachment' %}</span><br/>
                                                 <button type="button" class="primary-btn-white" data-toggle="modal" data-target="#myModal_attachment4">{% trans 'Upload Image' %} <i class="fas fa-images"></i></button>
-                                                <!-- Modal -->
-                                                <div class="modal fade" id="myModal_attachment4" data-keyboard="false">
-                                                    <div class="modal-dialog">
-
-                                                        <!-- Modal content-->
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Identity Attachment' %}</h4>
-                                                                <button type="button" class="close" onclick="close_upload_attachment(4,'');">&times;</button>
-                                                            </div>
-                                                            <div class="modal-body">
-
-                                                                Files: <input type="file" id="files_attachment4" name="files_attachment_4" multiple="" accept="image/*"><br>
-
-                                                                <div id="selectedFiles_attachment4"></div>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-default" onclick="close_upload_attachment(4,'');">{% trans 'Close' %}</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
