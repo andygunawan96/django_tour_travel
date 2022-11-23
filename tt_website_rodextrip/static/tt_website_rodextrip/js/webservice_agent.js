@@ -9003,10 +9003,19 @@ function handleFileSelect_attachment_idcard(e) {
     });
 }
 
-function fill_paxdata_from_idcard(){
-    document.getElementById('fill_data_idcard').disabled = true;
-    $("#waitingTransaction").modal('show');
+function fill_paxdata_from_idcard(idcard_type){
+    if (idcard_type == 'passport')
+    {
+        id_idx = 1;
+    }
+    else
+    {
+        id_idx = 2;
+    }
+    $('#fill_data_idcard'+id_idx.toString()).addClass("running");
+    $('#fill_data_idcard'+id_idx.toString()).prop('disabled', true);
     var formData = new FormData($('#form_identity_passenger').get(0));
+    formData.append('idcard_type', idcard_type)
     $.ajax({
        type: "POST",
        url: "/webservice/agent",
@@ -9017,12 +9026,12 @@ function fill_paxdata_from_idcard(){
        contentType: false,
        processData: false,
        success: function(msg) {
-            document.getElementById('fill_data_idcard').disabled = false;
-            $("#waitingTransaction").modal('hide');
-            console.log(msg)
+            $('#fill_data_idcard'+id_idx.toString()).prop('disabled', false);
+            $('#fill_data_idcard'+id_idx.toString()).removeClass("running");
+            console.log(msg);
             if(msg.error_code == 0){
                 res_obj = msg.response;
-                $('#myModal_attachment2').modal('hide');
+                $('#myModal_attachment'+id_idx.toString()).modal('hide');
                 if (res_obj.hasOwnProperty('title'))
                 {
                     $("#passenger_title").val(res_obj.title).trigger('change');
@@ -9042,14 +9051,14 @@ function fill_paxdata_from_idcard(){
                 }
                 if (res_obj.hasOwnProperty('identity_number'))
                 {
-                    $("#passenger_identity_number2").val(res_obj.identity_number);
+                    $("#passenger_identity_number"+id_idx.toString()).val(res_obj.identity_number);
                 }
                 if (res_obj.hasOwnProperty('identity_expired_date') && res_obj.identity_expired_date != 'SEUMUR HIDUP')
                 {
-                    $("#passenger_identity_expired_date2").val(res_obj.identity_expired_date);
+                    $("#passenger_identity_expired_date"+id_idx.toString()).val(res_obj.identity_expired_date);
                 }
-                $("#passenger_identity_country_of_issued2_id").val('Indonesia').trigger('change');
-                $('#passenger_identity_country_of_issued2_id').niceSelect('update');
+                $("#passenger_identity_country_of_issued"+id_idx.toString()+"_id").val('Indonesia').trigger('change');
+                $("#passenger_identity_country_of_issued"+id_idx.toString()+"_id").niceSelect('update');
             }
             else
             {
@@ -9058,16 +9067,18 @@ function fill_paxdata_from_idcard(){
                   title: 'Oops!',
                   html: msg.error_msg,
                 })
-                document.getElementById('fill_data_idcard').disabled = false;
-                $("#waitingTransaction").modal('hide');
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error filling passenger data from ID Card.');
-            document.getElementById('fill_data_idcard').disabled = false;
-            $("#waitingTransaction").modal('hide');
+            $('#fill_data_idcard'+id_idx.toString()).prop('disabled', false);
+            $('#fill_data_idcard'+id_idx.toString()).removeClass("running");
        },timeout: 120000
     });
+}
+
+function change_upload_idcard_type(sel_idcard){
+    document.getElementById('upload_idcard_btn').dataset.target = sel_idcard.value;
 }
 
 function update_passenger_backend(){
