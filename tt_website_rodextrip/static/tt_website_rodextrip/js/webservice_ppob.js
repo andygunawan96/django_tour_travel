@@ -1882,7 +1882,7 @@ function ppob_issued(data){
                           title: 'Error bills issued '+ msg.result.error_msg,
                           showCancelButton: true,
                           cancelButtonText: 'Ok',
-                          confirmButtonColor: '#f15a22',
+                          confirmButtonColor: color,
                           cancelButtonColor: '#3085d6',
                           confirmButtonText: 'Top Up'
                         }).then((result) => {
