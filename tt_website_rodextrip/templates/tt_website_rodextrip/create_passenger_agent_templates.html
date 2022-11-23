@@ -90,7 +90,19 @@
                 <h4 class="single_border_custom_left" style="margin-bottom:15px; padding-left:10px;">
                     Create Passenger
                 </h4>
-                <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment2">{% trans 'Upload ID Card' %} <i class="fas fa-id-card"></i></button>
+            </div>
+            <div class="col-lg-7" style="text-align:right;">
+                <div class="input-container-search-ticket">
+                    <div class="form-select-2">
+                        <select id="upload_idcard_type" name="upload_idcard_type" class="nice-select-default" onchange="change_upload_idcard_type(this);">
+                            <option value="#myModal_attachment2">KTP</option>
+                            <option value="#myModal_attachment1">Passport</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-5 mb-3" style="text-align:right;">
+                <button id="upload_idcard_btn" style="width:100%;" type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment2">{% trans 'Upload ID Card' %} <i class="fas fa-id-card"></i></button>
             </div>
             {%if template == 1%}
             <div class="col-lg-12 banner-right" id="passenger_input" style="overflow:auto; padding:10px;">
@@ -104,7 +116,7 @@
                                     <!-- Modal content-->
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Identity Attachment' %}</h4>
+                                            <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Identity Attachment (KTP)' %}</h4>
                                             <button type="button" class="close" onclick="close_upload_attachment(2,'');">&times;</button>
                                         </div>
                                         <div class="modal-body">
@@ -114,8 +126,31 @@
                                             <div id="selectedFiles_attachment2"></div>
                                         </div>
                                         <div class="modal-footer">
-                                            <button id="fill_data_idcard" type="button" class="btn btn-primary" onclick="fill_paxdata_from_idcard();">Fill In Data</button>
+                                            <button id="fill_data_idcard" type="button" class="primary-btn-custom" onclick="fill_paxdata_from_idcard('ktp');">Fill In Data</button>
                                             <button type="button" class="btn btn-default" onclick="close_upload_attachment(2,'');">{% trans 'Close' %}</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Modal -->
+                            <div class="modal fade" id="myModal_attachment1" role="dialog" data-keyboard="false">
+                                <div class="modal-dialog">
+
+                                    <!-- Modal content-->
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Identity Attachment (Passport)' %}</h4>
+                                            <button type="button" class="close" onclick="close_upload_attachment(1,'');">&times;</button>
+                                        </div>
+                                        <div class="modal-body">
+
+                                            Files: <input type="file" id="files_attachment1" name="files_attachment_1" multiple="" accept="image/*"><br><br/>
+
+                                            <div id="selectedFiles_attachment1"></div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button id="fill_data_idcard1" type="button" class="primary-btn-custom next-loading ld-ext-right" onclick="fill_paxdata_from_idcard('passport');">Fill In Data</button>
+                                            <button type="button" class="btn btn-default" onclick="close_upload_attachment(1,'');">{% trans 'Close' %}</button>
                                         </div>
                                     </div>
                                 </div>
@@ -284,28 +319,6 @@
                                             <div class="col-md-6">
                                                 <span>{% trans 'Attachment' %}</span><br/>
                                                 <button type="button" class="primary-btn-white" data-toggle="modal" data-target="#myModal_attachment1">{% trans 'Upload Image' %} <i class="fas fa-images"></i></button>
-                                                <!-- Modal -->
-                                                <div class="modal fade" id="myModal_attachment1" role="dialog" data-keyboard="false">
-                                                    <div class="modal-dialog">
-
-                                                        <!-- Modal content-->
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Identity Attachment' %}</h4>
-                                                                <button type="button" class="close" onclick="close_upload_attachment(1,'');">&times;</button>
-                                                            </div>
-                                                            <div class="modal-body">
-
-                                                                Files: <input type="file" id="files_attachment1" name="files_attachment_1" multiple="" accept="image/*"><br><br/>
-
-                                                                <div id="selectedFiles_attachment1"></div>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-default" onclick="close_upload_attachment(1,'');">{% trans 'Close' %}</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -512,7 +525,7 @@
                                             <!-- Modal content-->
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Identity Attachment' %}</h4>
+                                                    <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Identity Attachment (KTP)' %}</h4>
                                                     <button type="button" class="close" onclick="close_upload_attachment(2,'');">&times;</button>
                                                 </div>
                                                 <div class="modal-body">
@@ -522,8 +535,31 @@
                                                     <div id="selectedFiles_attachment2"></div>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button id="fill_data_idcard" type="button" class="btn btn-primary" onclick="fill_paxdata_from_idcard();">Fill In Data</button>
+                                                    <button id="fill_data_idcard" type="button" class="primary-btn-custom" onclick="fill_paxdata_from_idcard('ktp');">Fill In Data</button>
                                                     <button type="button" class="btn btn-default" onclick="close_upload_attachment(2,'');">{% trans 'Close' %}</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="myModal_attachment1" role="dialog" data-keyboard="false">
+                                        <div class="modal-dialog">
+
+                                            <!-- Modal content-->
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Identity Attachment (Passport)' %}</h4>
+                                                    <button type="button" class="close" onclick="close_upload_attachment(1,'');">&times;</button>
+                                                </div>
+                                                <div class="modal-body">
+
+                                                    Files: <input type="file" id="files_attachment1" name="files_attachment_1" multiple="" accept="image/*"><br><br/>
+
+                                                    <div id="selectedFiles_attachment1"></div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button id="fill_data_idcard1" type="button" class="primary-btn-custom next-loading ld-ext-right" onclick="fill_paxdata_from_idcard('passport');">Fill In Data</button>
+                                                    <button type="button" class="btn btn-default" onclick="close_upload_attachment(1,'');">{% trans 'Close' %}</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -686,28 +722,6 @@
                                                     <div class="col-md-6">
                                                         <span>{% trans 'Attachment' %}</span><br/>
                                                         <button type="button" class="primary-btn-white" data-toggle="modal" data-target="#myModal_attachment1">{% trans 'Upload Image' %} <i class="fas fa-images"></i></button>
-                                                        <!-- Modal -->
-                                                        <div class="modal fade" id="myModal_attachment1" role="dialog" data-keyboard="false">
-                                                            <div class="modal-dialog">
-
-                                                                <!-- Modal content-->
-                                                                <div class="modal-content">
-                                                                    <div class="modal-header">
-                                                                        <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Identity Attachment' %}</h4>
-                                                                        <button type="button" class="close" onclick="close_upload_attachment(1,'');">&times;</button>
-                                                                    </div>
-                                                                    <div class="modal-body">
-
-                                                                        Files: <input type="file" id="files_attachment1" name="files_attachment_1" multiple="" accept="image/*"><br><br/>
-
-                                                                        <div id="selectedFiles_attachment1"></div>
-                                                                    </div>
-                                                                    <div class="modal-footer">
-                                                                        <button type="button" class="btn btn-default" onclick="close_upload_attachment(1,'');">{% trans 'Close' %}</button>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -906,7 +920,7 @@
                                     <!-- Modal content-->
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Identity Attachment' %}</h4>
+                                            <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Identity Attachment (KTP)' %}</h4>
                                             <button type="button" class="close" onclick="close_upload_attachment(2,'');">&times;</button>
                                         </div>
                                         <div class="modal-body">
@@ -916,8 +930,31 @@
                                             <div id="selectedFiles_attachment2"></div>
                                         </div>
                                         <div class="modal-footer">
-                                            <button id="fill_data_idcard" type="button" class="btn btn-primary" onclick="fill_paxdata_from_idcard();">Fill In Data</button>
+                                            <button id="fill_data_idcard" type="button" class="primary-btn-custom" onclick="fill_paxdata_from_idcard('ktp');">Fill In Data</button>
                                             <button type="button" class="btn btn-default" onclick="close_upload_attachment(2,'');">{% trans 'Close' %}</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Modal -->
+                            <div class="modal fade" id="myModal_attachment1" role="dialog" data-keyboard="false">
+                                <div class="modal-dialog">
+
+                                    <!-- Modal content-->
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Identity Attachment (Passport)' %}</h4>
+                                            <button type="button" class="close" onclick="close_upload_attachment(1,'');">&times;</button>
+                                        </div>
+                                        <div class="modal-body">
+
+                                            Files: <input type="file" id="files_attachment1" name="files_attachment_1" multiple="" accept="image/*"><br><br/>
+
+                                            <div id="selectedFiles_attachment1"></div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button id="fill_data_idcard1" type="button" class="primary-btn-custom next-loading ld-ext-right" onclick="fill_paxdata_from_idcard('passport');">Fill In Data</button>
+                                            <button type="button" class="btn btn-default" onclick="close_upload_attachment(1,'');">{% trans 'Close' %}</button>
                                         </div>
                                     </div>
                                 </div>
@@ -1080,28 +1117,6 @@
                                             <div class="col-md-6">
                                                 <span>{% trans 'Attachment' %}</span><br/>
                                                 <button type="button" class="primary-btn-white" data-toggle="modal" data-target="#myModal_attachment1">{% trans 'Upload Image' %} <i class="fas fa-images"></i></button>
-                                                <!-- Modal -->
-                                                <div class="modal fade" id="myModal_attachment1" role="dialog" data-keyboard="false">
-                                                    <div class="modal-dialog">
-
-                                                        <!-- Modal content-->
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Identity Attachment' %}</h4>
-                                                                <button type="button" class="close" onclick="close_upload_attachment(1,'');">&times;</button>
-                                                            </div>
-                                                            <div class="modal-body">
-
-                                                                Files: <input type="file" id="files_attachment1" name="files_attachment_1" multiple="" accept="image/*"><br><br/>
-
-                                                                <div id="selectedFiles_attachment1"></div>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-default" onclick="close_upload_attachment(1,'');">{% trans 'Close' %}</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -1298,7 +1313,7 @@
                                     <!-- Modal content-->
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Identity Attachment' %}</h4>
+                                            <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Identity Attachment (KTP)' %}</h4>
                                             <button type="button" class="close" onclick="close_upload_attachment(2,'');">&times;</button>
                                         </div>
                                         <div class="modal-body">
@@ -1308,8 +1323,31 @@
                                             <div id="selectedFiles_attachment2"></div>
                                         </div>
                                         <div class="modal-footer">
-                                            <button id="fill_data_idcard" type="button" class="btn btn-primary" onclick="fill_paxdata_from_idcard();">Fill In Data</button>
+                                            <button id="fill_data_idcard" type="button" class="primary-btn-custom" onclick="fill_paxdata_from_idcard('ktp');">Fill In Data</button>
                                             <button type="button" class="btn btn-default" onclick="close_upload_attachment(2,'');">{% trans 'Close' %}</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Modal -->
+                            <div class="modal fade" id="myModal_attachment1" role="dialog" data-keyboard="false">
+                                <div class="modal-dialog">
+
+                                    <!-- Modal content-->
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Identity Attachment (Passport)' %}</h4>
+                                            <button type="button" class="close" onclick="close_upload_attachment(1,'');">&times;</button>
+                                        </div>
+                                        <div class="modal-body">
+
+                                            Files: <input type="file" id="files_attachment1" name="files_attachment_1" multiple="" accept="image/*"><br><br/>
+
+                                            <div id="selectedFiles_attachment1"></div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button id="fill_data_idcard1" type="button" class="primary-btn-custom next-loading ld-ext-right" onclick="fill_paxdata_from_idcard('passport');">Fill In Data</button>
+                                            <button type="button" class="btn btn-default" onclick="close_upload_attachment(1,'');">{% trans 'Close' %}</button>
                                         </div>
                                     </div>
                                 </div>
@@ -1474,28 +1512,6 @@
                                             <div class="col-md-6">
                                                 <span>{% trans 'Attachment' %}</span><br/>
                                                 <button type="button" class="primary-btn-white" data-toggle="modal" data-target="#myModal_attachment1">{% trans 'Upload Image' %} <i class="fas fa-images"></i></button>
-                                                <!-- Modal -->
-                                                <div class="modal fade" id="myModal_attachment1" role="dialog" data-keyboard="false">
-                                                    <div class="modal-dialog">
-
-                                                        <!-- Modal content-->
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Identity Attachment' %}</h4>
-                                                                <button type="button" class="close" onclick="close_upload_attachment(1,'');">&times;</button>
-                                                            </div>
-                                                            <div class="modal-body">
-
-                                                                Files: <input type="file" id="files_attachment1" name="files_attachment_1" multiple="" accept="image/*"><br><br/>
-
-                                                                <div id="selectedFiles_attachment1"></div>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-default" onclick="close_upload_attachment(1,'');">{% trans 'Close' %}</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -1692,7 +1708,7 @@
                                     <!-- Modal content-->
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Identity Attachment' %}</h4>
+                                            <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Identity Attachment (KTP)' %}</h4>
                                             <button type="button" class="close" onclick="close_upload_attachment(2,'');">&times;</button>
                                         </div>
                                         <div class="modal-body">
@@ -1702,8 +1718,31 @@
                                             <div id="selectedFiles_attachment2"></div>
                                         </div>
                                         <div class="modal-footer">
-                                            <button id="fill_data_idcard" type="button" class="btn btn-primary" onclick="fill_paxdata_from_idcard();">Fill In Data</button>
+                                            <button id="fill_data_idcard" type="button" class="primary-btn-custom" onclick="fill_paxdata_from_idcard('ktp');">Fill In Data</button>
                                             <button type="button" class="btn btn-default" onclick="close_upload_attachment(2,'');">{% trans 'Close' %}</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Modal -->
+                            <div class="modal fade" id="myModal_attachment1" role="dialog" data-keyboard="false">
+                                <div class="modal-dialog">
+
+                                    <!-- Modal content-->
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Identity Attachment (Passport)' %}</h4>
+                                            <button type="button" class="close" onclick="close_upload_attachment(1,'');">&times;</button>
+                                        </div>
+                                        <div class="modal-body">
+
+                                            Files: <input type="file" id="files_attachment1" name="files_attachment_1" multiple="" accept="image/*"><br><br/>
+
+                                            <div id="selectedFiles_attachment1"></div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button id="fill_data_idcard1" type="button" class="primary-btn-custom next-loading ld-ext-right" onclick="fill_paxdata_from_idcard('passport');">Fill In Data</button>
+                                            <button type="button" class="btn btn-default" onclick="close_upload_attachment(1,'');">{% trans 'Close' %}</button>
                                         </div>
                                     </div>
                                 </div>
@@ -1870,28 +1909,6 @@
                                             <div class="col-md-6">
                                                 <span>{% trans 'Attachment' %}</span><br/>
                                                 <button type="button" class="primary-btn-white" data-toggle="modal" data-target="#myModal_attachment1">{% trans 'Upload Image' %} <i class="fas fa-images"></i></button>
-                                                <!-- Modal -->
-                                                <div class="modal fade" id="myModal_attachment1" role="dialog" data-keyboard="false">
-                                                    <div class="modal-dialog">
-
-                                                        <!-- Modal content-->
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Identity Attachment' %}</h4>
-                                                                <button type="button" class="close" onclick="close_upload_attachment(1,'');">&times;</button>
-                                                            </div>
-                                                            <div class="modal-body">
-
-                                                                Files: <input type="file" id="files_attachment1" name="files_attachment_1" multiple="" accept="image/*"><br><br/>
-
-                                                                <div id="selectedFiles_attachment1"></div>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-default" onclick="close_upload_attachment(1,'');">{% trans 'Close' %}</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -2096,7 +2113,7 @@
                                     <!-- Modal content-->
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Identity Attachment' %}</h4>
+                                            <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Identity Attachment (KTP)' %}</h4>
                                             <button type="button" class="close" onclick="close_upload_attachment(2,'');">&times;</button>
                                         </div>
                                         <div class="modal-body">
@@ -2106,8 +2123,31 @@
                                             <div id="selectedFiles_attachment2"></div>
                                         </div>
                                         <div class="modal-footer">
-                                            <button id="fill_data_idcard" type="button" class="btn btn-primary" onclick="fill_paxdata_from_idcard();">Fill In Data</button>
+                                            <button id="fill_data_idcard" type="button" class="primary-btn-custom" onclick="fill_paxdata_from_idcard('ktp');">Fill In Data</button>
                                             <button type="button" class="btn btn-default" onclick="close_upload_attachment(2,'');">{% trans 'Close' %}</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Modal -->
+                            <div class="modal fade" id="myModal_attachment1" role="dialog" data-keyboard="false">
+                                <div class="modal-dialog">
+
+                                    <!-- Modal content-->
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Identity Attachment (Passport)' %}</h4>
+                                            <button type="button" class="close" onclick="close_upload_attachment(1,'');">&times;</button>
+                                        </div>
+                                        <div class="modal-body">
+
+                                            Files: <input type="file" id="files_attachment1" name="files_attachment_1" multiple="" accept="image/*"><br><br/>
+
+                                            <div id="selectedFiles_attachment1"></div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button id="fill_data_idcard1" type="button" class="primary-btn-custom next-loading ld-ext-right" onclick="fill_paxdata_from_idcard('passport');">Fill In Data</button>
+                                            <button type="button" class="btn btn-default" onclick="close_upload_attachment(1,'');">{% trans 'Close' %}</button>
                                         </div>
                                     </div>
                                 </div>
@@ -2274,28 +2314,6 @@
                                             <div class="col-md-6">
                                                 <span>{% trans 'Attachment' %}</span><br/>
                                                 <button type="button" class="primary-btn-white" data-toggle="modal" data-target="#myModal_attachment1">{% trans 'Upload Image' %} <i class="fas fa-images"></i></button>
-                                                <!-- Modal -->
-                                                <div class="modal fade" id="myModal_attachment1" role="dialog" data-keyboard="false">
-                                                    <div class="modal-dialog">
-
-                                                        <!-- Modal content-->
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Identity Attachment' %}</h4>
-                                                                <button type="button" class="close" onclick="close_upload_attachment(1,'');">&times;</button>
-                                                            </div>
-                                                            <div class="modal-body">
-
-                                                                Files: <input type="file" id="files_attachment1" name="files_attachment_1" multiple="" accept="image/*"><br><br/>
-
-                                                                <div id="selectedFiles_attachment1"></div>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-default" onclick="close_upload_attachment(1,'');">{% trans 'Close' %}</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
