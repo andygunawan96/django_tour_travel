@@ -1901,15 +1901,17 @@ def get_data_customer_update_cache(request, seq_id):
 def read_idcard_img_to_text(request):
     res = {}
     try:
+        from imutils.contours import sort_contours
         from PIL import Image
         import cv2
         import pytesseract
+        import imutils
         import numpy as np
     except Exception as e:
-        _logger.error('Please install PIL, OpenCV, and PyTesseract!\n' + str(e) + '\n' + traceback.format_exc())
+        _logger.error('Please install PIL, Imutils, OpenCV, and PyTesseract!\n' + str(e) + '\n' + traceback.format_exc())
         return ERR.get_error_api(500, additional_message=str(e))
     try:
-        if request.FILES.get('files_attachment_2'):
+        if request.POST.get('idcard_type') == 'ktp' and request.FILES.get('files_attachment_2'):
             pil_img = Image.open(request.FILES['files_attachment_2'])
             cv_img = np.array(pil_img)
             # img_file = cv2.imread(cv_img)
@@ -2080,6 +2082,122 @@ def read_idcard_img_to_text(request):
                         res.update({
                             'title': 'MISS'
                         })
+            result = ERR.get_no_error_api()
+            result['response'] = res
+        elif request.POST.get('idcard_type') == 'passport' and request.FILES.get('files_attachment_1'):
+            pil_img = Image.open(request.FILES['files_attachment_1'])
+            cv_img = np.array(pil_img)
+
+            # dimensions
+            gray = cv2.cvtColor(cv_img, cv2.COLOR_BGR2GRAY)
+            (H, W) = gray.shape
+
+            # initialize a rectangular and square structuring kernel
+            rectKernel = cv2.getStructuringElement(cv2.MORPH_RECT, (25, 7))
+            sqKernel = cv2.getStructuringElement(cv2.MORPH_RECT, (21, 21))
+            # smooth the image using a 3x3 Gaussian blur and then apply a
+            # blackhat morpholigical operator to find dark regions on a light
+            # background
+            gray = cv2.GaussianBlur(gray, (3, 3), 0)
+            blackhat = cv2.morphologyEx(gray, cv2.MORPH_BLACKHAT, rectKernel)
+
+            # compute the Scharr gradient of the blackhat image and scale the
+            # result into the range [0, 255]
+            grad = cv2.Sobel(blackhat, ddepth=cv2.CV_32F, dx=1, dy=0, ksize=-1)
+            grad = np.absolute(grad)
+            (minVal, maxVal) = (np.min(grad), np.max(grad))
+            grad = (grad - minVal) / (maxVal - minVal)
+            grad = (grad * 255).astype("uint8")
+
+            # apply a closing operation using the rectangular kernel to close
+            # gaps in between letters -- then apply Otsu's thresholding method
+            grad = cv2.morphologyEx(grad, cv2.MORPH_CLOSE, rectKernel)
+            thresh = cv2.threshold(grad, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)[1]
+
+            # perform another closing operation, this time using the square
+            # kernel to close gaps between lines of the MRZ, then perform a
+            # series of erosions to break apart connected components
+            thresh = cv2.morphologyEx(thresh, cv2.MORPH_CLOSE, sqKernel)
+            thresh = cv2.erode(thresh, None, iterations=2)
+
+            # find contours in the thresholded image and sort them from bottom
+            # to top (since the MRZ will always be at the bottom of the passport)
+            cnts = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL,
+                                    cv2.CHAIN_APPROX_SIMPLE)
+            cnts = imutils.grab_contours(cnts)
+            cnts = sort_contours(cnts, method="bottom-to-top")[0]
+
+            # initialize the bounding box associated with the MRZ
+            mrzBox = None
+
+            # loop over the contours
+            for c in cnts:
+                # compute the bounding box of the contour and then derive the
+                # how much of the image the bounding box occupies in terms of
+                # both width and height
+                (x, y, w, h) = cv2.boundingRect(c)
+                percentWidth = w / float(W)
+                percentHeight = h / float(H)
+                # if the bounding box occupies > 80% width and > 6% height of the
+                # image, then assume we have found the MRZ
+                if percentWidth > 0.8 and percentHeight > 0.04:
+                    mrzBox = (x, y, w, h)
+                    break
+
+            if mrzBox:
+                (x, y, w, h) = mrzBox
+                pX = int((x + w) * 0.03)
+                pY = int((y + h) * 0.03)
+                (x, y) = (x - pX, y - pY)
+                (w, h) = (w + (pX * 2), h + (pY * 2))
+                # extract the padded MRZ from the image
+                mrz = cv_img[y:y + h, x:x + w]
+
+                final_img = Image.fromarray(mrz)
+                mrzText = pytesseract.image_to_string(final_img)
+                mrzText = mrzText.replace(" ", "")
+
+                mrz = [line for line in mrzText.split('\n') if len(line) > 10]
+                first_name = ''
+                last_name = ''
+                passport_no = ''
+                birth_date = ''
+                exp_date = ''
+                title = ''
+                if mrz:
+                    if mrz[0][0:2] == 'P<':
+                        last_name = mrz[0].split('<')[1][3:]
+                    else:
+                        last_name = mrz[0].split('<')[0][5:]
+                    first_name = [i for i in mrz[0].split('<') if (i).isspace() == 0 and len(i) > 0][1]
+
+                    if len(mrz) > 1:
+                        passport_no = mrz[1][:9].replace("<", "")
+                        birth_date = ''.join(mrz[1][13:19])
+                        birth_year = int(birth_date[:2])
+                        cur_year = int(datetime.today().strftime('%y'))
+                        if birth_year > cur_year:
+                            birth_date = '19' + birth_date
+                        else:
+                            birth_date = '20' + birth_date
+
+                        birth_date = datetime.strptime(birth_date, '%Y%m%d').strftime('%d %b %Y')
+                        exp_date = '20' + ''.join(mrz[1][21:27])
+                        exp_date = datetime.strptime(exp_date, '%Y%m%d').strftime('%d %b %Y')
+                        if mrz[1][20] == 'F':
+                            title = 'MRS'
+                        else:
+                            title = 'MR'
+
+                res.update({
+                    'identity_number': passport_no,
+                    'first_name': first_name,
+                    'last_name': last_name,
+                    'birth_date': birth_date,
+                    'identity_expired_date': exp_date,
+                    'title': title
+                })
+
             result = ERR.get_no_error_api()
             result['response'] = res
         else:

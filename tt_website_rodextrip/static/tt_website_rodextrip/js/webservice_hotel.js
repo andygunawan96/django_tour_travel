@@ -1959,7 +1959,7 @@ function hotel_issued(data){
                           title: 'Error hotel issued '+ msg.result.error_msg,
                           showCancelButton: true,
                           cancelButtonText: 'Ok',
-                          confirmButtonColor: '#f15a22',
+                          confirmButtonColor: color,
                           cancelButtonColor: '#3085d6',
                           confirmButtonText: 'Top Up'
                         }).then((result) => {
@@ -2677,8 +2677,11 @@ function hotel_get_booking(data){
                                         }
                                     text+=`
                                     </b>
-                                    </h4>
-                                    <span><b>Birth Date: </b><i>`+msg.result.response.passengers[i].birth_date+`</i></span>
+                                    </h4>`;
+                                    if(msg.result.response.passengers[i].birth_date)
+                                        text+=`
+                                    <span><b>Birth Date: </b><i>`+msg.result.response.passengers[i].birth_date+`</i></span>`;
+                                    text+=`
                                 </div>
                              </div>
                         </div>`;
@@ -3567,6 +3570,94 @@ function update_insentif_booker(type){
        },timeout: 60000
     });
 
+}
+
+function hotel_check_refund_amount(){
+    Swal.fire({
+      title: 'Are you sure want to Refund this booking?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+        if (result.value) {
+            $.ajax({
+                type: "POST",
+                url: "/webservice/hotel",
+                headers:{
+                    'action': 'hotel_check_refund_amount',
+                },
+                data: {
+                   'hotel_get_booking': JSON.stringify(hotel_get_detail),
+                   'signature': signature
+                },
+                success: function(msg) {
+                   console.log(msg);
+                   if(msg.result.error_code == 0){
+                        hotel_cancel();
+                   }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                        auto_logout();
+                   }else{
+                        Swal.fire({
+                          type: 'error',
+                          title: 'Oops!',
+                          html: '<span style="color: #ff9900;">Error hotel refund</span>' + msg.result.error_msg,
+                        })
+                        $('.loader-rodextrip').fadeOut();
+                   }
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error hotel refund');
+                    $('.loader-rodextrip').fadeOut();
+                },timeout: 60000
+            });
+        }
+    })
+}
+
+function hotel_cancel(){
+    Swal.fire({
+      title: 'Are you sure want to Refund this booking?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+        if (result.value) {
+            $.ajax({
+                type: "POST",
+                url: "/webservice/hotel",
+                headers:{
+                    'action': 'hotel_refund',
+                },
+                data: {
+                   'hotel_get_booking': JSON.stringify(hotel_get_detail),
+                   'signature': signature
+                },
+                success: function(msg) {
+                   console.log(msg);
+                   if(msg.result.error_code == 0){
+                        hotel_get_booking(order_number);
+                   }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                        auto_logout();
+                   }else{
+                        Swal.fire({
+                          type: 'error',
+                          title: 'Oops!',
+                          html: '<span style="color: #ff9900;">Error hotel refund</span>' + msg.result.error_msg,
+                        })
+                        $('.loader-rodextrip').fadeOut();
+                   }
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error hotel refund');
+                    $('.loader-rodextrip').fadeOut();
+                },timeout: 60000
+            });
+        }
+    })
 }
 
 function show_less_notes(i,j){

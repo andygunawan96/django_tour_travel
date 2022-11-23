@@ -1711,7 +1711,7 @@ function check_passenger(adult, child, room){
                 document.getElementById('booker_first_name').value,
                 document.getElementById('booker_last_name').value,
                 length_name) == false){
-        error_log+= 'Total of Booker name maximum 25 characters!</br>\n';
+        error_log+= 'Total of Booker name maximum 200 characters!</br>\n';
         document.getElementById('booker_first_name').style['border-color'] = 'red';
         document.getElementById('booker_last_name').style['border-color'] = 'red';
     }else{
@@ -1817,7 +1817,8 @@ function check_passenger(adult, child, room){
            }else{
                document.getElementById('adult_last_name'+i).style['border-color'] = '#EFEFEF';
            }
-           if(check_date(document.getElementById('adult_birth_date'+i).value)==false && document.getElementById('adult_first_name'+i).value != ''){
+           // 22 nov 2022 HOTEL UPDATE BIRTHDATE NOT REQUIRED IVAN
+           if(check_date(document.getElementById('adult_birth_date'+i).value)==false && document.getElementById('adult_birth_date'+i).value != ''){
                error_log+= 'Birth date wrong for passenger adult '+i+'!</br>\n';
                document.getElementById('adult_birth_date'+i).style['border-color'] = 'red';
            }else{

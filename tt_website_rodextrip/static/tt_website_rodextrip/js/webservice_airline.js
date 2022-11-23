@@ -1420,11 +1420,12 @@ function airline_signin(data,type=''){
                 }catch(err){
                     console.log(err); // error kalau ada element yg tidak ada
                 }
+                $("#waitingTransaction").modal('hide');
            }
        }catch(err){
            $("#barFlightSearch").hide();
            $("#waitFlightSearch").hide();
-
+           $("#waitingTransaction").modal('hide');
            Swal.fire({
                type: 'error',
                title: 'Oops...',
@@ -5804,7 +5805,7 @@ function create_new_reservation(){
 
 
     //button
-    text += `<button type="button" class="next-loading-reorder primary-btn mb-3 ld-ext-right" id="button-reorder" style="width:100%;margin-top:15px;" onclick="show_loading_reorder('airline'); airline_reorder();">
+    text += `<button type="button" class="next-loading-reorder primary-btn mb-3 ld-ext-right" id="button-reorder" style="width:100%;margin-top:15px;" onclick="airline_reorder();">
                 Re Order
                 <div class="ld ld-ring ld-cycle"></div>
             </button>
@@ -5837,6 +5838,7 @@ function airline_reorder(){
     }
     if(check_pax && check_journey){
         airline_signin(airline_get_detail.result.response.order_number, 'reorder');
+        show_loading_reorder('airline');
     }else if(check_journey){
         Swal.fire({
             type: 'error',
@@ -9444,7 +9446,7 @@ function airline_issued(data){
                           title: 'Error airline issued '+ msg.result.error_msg,
                           showCancelButton: true,
                           cancelButtonText: 'Ok',
-                          confirmButtonColor: '#f15a22',
+                          confirmButtonColor: color,
                           cancelButtonColor: '#3085d6',
                           confirmButtonText: 'Top Up'
                         }).then((result) => {

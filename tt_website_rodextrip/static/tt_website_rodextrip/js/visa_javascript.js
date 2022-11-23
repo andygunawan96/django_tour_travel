@@ -14,6 +14,7 @@ function get_consulate(type){
     consulate_box = document.getElementById('visa_consulate_id');
     consulate_box.innerHTML = '';
     try{
+        var found_consulate = false
         for(i in visa_config){
             if(document.getElementById('visa_destination_id_hidden').value == i){
                 for(j in visa_config[i]){
@@ -23,13 +24,25 @@ function get_consulate(type){
                     if(j == 0 && type == 'home'){
                         node.setAttribute('selected', 'selected');
                         document.getElementById('visa_consulate_id_hidden').value = visa_config[i][j];
+                        found_consulate = true;
                     }else if(type == 'search'){
                         if(visa_request['consulate'] == visa_config[i][j]){
                             node.setAttribute('selected', 'selected');
                             document.getElementById('visa_consulate_id_hidden').value = visa_config[i][j];
+                            found_consulate = true
                         }
                     }
                     consulate_box.add(node);
+                }
+                if(!found_consulate){
+                    for(j in visa_config[i]){
+                        if(j == 0){
+                            node.setAttribute('selected', 'selected');
+                            document.getElementById('visa_consulate_id_hidden').value = visa_config[i][j];
+                            found_consulate = true
+                            break;
+                        }
+                    }
                 }
 
             }
@@ -76,8 +89,12 @@ function update_table_new(type){
     var check_price_detail = 0;
     if(type == 'search'){
         check_visa = 0;
-        text += `<div style="background-color:white; padding:10px; border:1px solid #cdcdcd;">
-                <h4>Price detail `+visa_request.destination+`</h4><hr/>`;
+        text += `<div style="background-color:white; padding:15px; border:1px solid #cdcdcd;">
+        <div class="row">
+            <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                <h4 class="mb-3"> Price Detail `+visa_request.destination+`</h4>
+            </div>
+        </div>`;
         price = 0;
         commission = 0;
         count_i = 0;
@@ -261,7 +278,12 @@ function update_table_new(type){
         }
     }
     else if(type == 'passenger'){
-        text += `<h4>Price detail `+visa_request.destination+`</h4><hr/>`;
+        text += `
+        <div class="row">
+            <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                <h4 class="mb-3"> Price Detail `+visa_request.destination+`</h4>
+            </div>
+        </div>`;
         price = 0;
         commission = 0;
         count_i = 0;
@@ -279,7 +301,16 @@ function update_table_new(type){
                 text+=`
                 <div class="row">
                     <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                        <span style="font-size:13px;">`+sell_visa.search_data[i].pax+` `+sell_visa.search_data[i].pax_type+` <br/> `+sell_visa.search_data[i].visa_type+`, `+sell_visa.search_data[i].entry_type+` <br/> `+currency+` `+getrupiah(price_perpax)+`</span>
+                        <span style="font-size:13px;">`+sell_visa.search_data[i].pax+` `;
+                        if(sell_visa.search_data[i].pax_type == 'ADT'){
+                            text+=`Adult`;
+                        }else if(sell_visa.search_data[i].pax_type == 'CHD'){
+                            text+=`Child`;
+                        }else if(sell_visa.search_data[i].pax_type == 'INF'){
+                            text+=`Infant`;
+                        }
+
+                        text+=`<br/> `+sell_visa.search_data[i].visa_type+`, `+sell_visa.search_data[i].entry_type+` <br/> `+currency+` `+getrupiah(price_perpax)+`</span>
                     </div>
                     <div class="col-lg-6 col-xs-6" style="text-align:right;">
                         <span style="font-size:13px;">`+currency+` `+getrupiah(price_perpax * sell_visa.search_data[i].pax)+`</span>
@@ -433,7 +464,12 @@ function update_table_new(type){
             document.getElementById('repricing_div').innerHTML = text_repricing;
             //repricing
         }
-        text += `<h4>Price detail `+visa_request.destination+`</h4><hr/>`;
+        text += `
+        <div class="row">
+            <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                <h4 class="mb-3"> Price Detail `+visa_request.destination+`</h4>
+            </div>
+        </div>`;
         price = 0;
         commission = 0;
         count_i = 0;
@@ -572,8 +608,6 @@ function update_table_new(type){
 //        }catch(err){
 //            console.log(err) //ada element yg tidak ada
 //        }
-        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-            text+=`<div style="text-align:right;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:auto; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
         try{
             grand_total_price = price;
             for(i in upsell_price_dict)
@@ -582,17 +616,18 @@ function update_table_new(type){
             console.log(err) //ada element yg tidak ada
         }
         text+=`
-            <div class="row" style="padding-bottom:15px;">
-                <div class="col-lg-12">
-                    <hr/>
-                </div>
-                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                    <h6>Grand Total</h6>
-                </div>
-                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                    <h6>`+currency+` `+getrupiah(grand_total_price)+`</h6>
-                </div>
-            </div>`;
+        <div class="row" style="padding-bottom:15px;">
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
+                <h6>Grand Total</h6>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
+                <h6>`+currency+` `+getrupiah(grand_total_price)+`</h6>
+            </div>
+        </div>`;
+
+        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+            text+=`<div style="text-align:right;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:auto; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
+
         $text += '\n';
         $text += 'Grand Total: '+currency + ' '+getrupiah(grand_total_price);
         try{
@@ -664,9 +699,11 @@ function update_table_new(type){
         commission = 0;
         service_charge = ['FARE', 'RAC', 'ROC', 'TAX', 'CSC'];
         text_detail=`
-        <div style="background-color:white; padding:10px; border: 1px solid #cdcdcd; margin-bottom:15px;">
-            <h5> Price Detail</h5>
-        <hr/>`;
+        <div class="row">
+            <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                <h4 class="mb-3"> Price Detail</h4>
+            </div>
+        </div>`;
 
         //repricing
         type_amount_repricing = ['Repricing'];
@@ -927,8 +964,12 @@ function update_table(type){
     var check_price_detail = 0;
     if(type == 'search'){
         check_visa = 0;
-        text += `<div style="background-color:white; padding:10px; border:1px solid #cdcdcd;">
-                <h4>Price detail `+visa_request.destination+`</h4><hr/>`;
+        text += `<div style="background-color:white; padding:15px; border:1px solid #cdcdcd;">
+        <div class="row">
+            <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                <h4 class="mb-3"> Price Detail `+visa_request.destination+`</h4>
+            </div>
+        </div>`;
         price = 0;
         commission = 0;
         count_i = 0;
@@ -1111,7 +1152,12 @@ function update_table(type){
             }
         }
     }else if(type == 'passenger'){
-        text += `<h4>Price detail `+visa_request.destination+`</h4><hr/>`;
+        text += `
+        <div class="row">
+            <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                <h4 class="mb-3"> Price Detail `+visa_request.destination+`</h4>
+            </div>
+        </div>`;
         price = 0;
         commission = 0;
         count_i = 0;
@@ -1280,7 +1326,12 @@ function update_table(type){
             document.getElementById('repricing_div').innerHTML = text_repricing;
             //repricing
         }
-        text += `<h4>Price detail `+visa_request.destination+`</h4><hr/>`;
+        text += `
+        <div class="row">
+            <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                <h4 class="mb-3"> Price Detail `+visa_request.destination+`</h4>
+            </div>
+        </div>`;
         price = 0;
         commission = 0;
         count_i = 0;
@@ -2613,7 +2664,7 @@ function check_on_off_radio(pax_type,number,value){
 }
 
 function set_value_radio_first(pax_type,number){
-    if(pax_type == 'adt'){
+    if(pax_type == 'adult'){
         var radios = document.getElementsByName('adult_entry_type'+number);
         for (var j = 0, length = radios.length; j < length; j++) {
             radios[j].checked = false;
@@ -2650,7 +2701,7 @@ function set_value_radio_first(pax_type,number){
 
         }
     }
-    else if(pax_type == 'chd'){
+    else if(pax_type == 'child'){
         var radios = document.getElementsByName('child_entry_type'+number);
         for (var j = 0, length = radios.length; j < length; j++) {
             radios[j].checked = false;
@@ -2687,7 +2738,7 @@ function set_value_radio_first(pax_type,number){
 
         }
     }
-    else if(pax_type == 'inf'){
+    else if(pax_type == 'infant'){
         var radios = document.getElementsByName('infant_entry_type'+number);
         for (var j = 0, length = radios.length; j < length; j++) {
             radios[j].checked = false;

@@ -786,7 +786,13 @@ function ppob_get_booking(data){
                 }
                 text += `
                 <div class="col-lg-12" style="border:1px solid #cdcdcd; padding:10px; background-color:white; margin-bottom:20px;">
-                    <h6>Order Number : `+msg.result.response.order_number+`</h6><br/>
+                    <div class="row">
+                        <div class="col-lg-12 mb-3" style="padding-bottom:15px; border-bottom:1px solid #cdcdcd;">
+                            <h4>
+                                <i class="fas fa-scroll"></i> Order Number: `+msg.result.response.order_number+`
+                            </h4>
+                        </div>
+                    </div>
                     <table style="width:100%;">
                         <tr>
                             <th>PNR</th>`;
@@ -859,61 +865,74 @@ function ppob_get_booking(data){
                         $text +='\n';
                 text+=`</table>
                     <hr/>`;
+
                 if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
                     text+=`
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <span>Agent: <b>`+msg.result.response.agent_name+`</b></span>
-                            </div>`;
-                    if(msg.result.response.customer_parent_name){
+                    <div class="row mb-3">
+                        <div class="col-lg-6">
+                            <b>Agent: </b><i>`+msg.result.response.agent_name+`</i>
+                        </div>
+                        <div class="col-lg-6">`;
+                            if(msg.result.response.customer_parent_name){
+                                text+=`<b>Customer: </b><i>`+msg.result.response.customer_parent_type_name+` `+msg.result.response.customer_parent_name+`</i>`;
+                            }
                         text+=`
-                            <div class="col-lg-6">
-                                <span>Customer: <b>`+msg.result.response.customer_parent_type_name+` `+msg.result.response.customer_parent_name+`</b></span>
-                            </div>`;
-                    }
-                    text+= `</div>`;
+                        </div>
+                    </div>`;
                 }
                 text+=`
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <h6>Booked</h6>
-                            <span>Date: <b>`;
-                                if(msg.result.response.booked_date != ""){
-                                    text+=``+msg.result.response.booked_date+``;
-                                }else{
-                                    text+=`-`
-                                }
-                                text+=`</b>
-                            </span>
-                            <br/>
-                            <span>by <b>`+msg.result.response.booked_by+`</b><span>
-                        </div>
-
-                        <div class="col-lg-6 mb-3">`;
-                            if(msg.result.response.state == 'issued'){
-                                text+=`<h6>Issued</h6>
-                                    <span>Date: <b>`;
-                                    if(msg.result.response.issued_date != ""){
-                                        text+=``+msg.result.response.issued_date+``;
-                                    }else{
-                                        text+=`-`
-                                    }
-                                text+=`</b>
-                                </span>
-                                <br/>
-                                <span>by <b>`+msg.result.response.issued_by+`</b><span>`;
-                            }
-                            text+=`
-                        </div>
+                <div class="row">
+                    <div class="col-lg-3">
+                        <span>
+                            <b>Booked by</b><br><i>`+msg.result.response.booked_by+`</i>
+                        </span>
                     </div>
-                </div>
+                    <div class="col-lg-9 mb-3">
+                        <span>
+                            <b>Booked Date </b><br/>`;
+                            if(msg.result.response.booked_date != ""){
+                                text+=`<i>`+msg.result.response.booked_date+`</i>`;
+                            }else{
+                                text+=`-`;
+                            }
+                        text+=`
+                        </span>
+                    </div>
+                </div>`;
 
+                if(msg.result.response.state == 'issued'){
+                    text+=`
+                    <div class="row">
+                        <div class="col-lg-3 mb-3">
+                            <span>
+                                <b>Issued by</b><br><i>`+msg.result.response.issued_by+`</i>
+                            </span>
+                        </div>
+                        <div class="col-lg-5 mb-3">
+                            <span>
+                                <b>Issued Date </b><br/>`;
+                                if(msg.result.response.issued_date != ""){
+                                    text+=`<i>`+msg.result.response.issued_date+`</i>`;
+                                }else{
+                                    text+=`-`;
+                                }
+                            text+=`
+                            </span>
+                        </div>
+                    </div>`;
+                }
+
+                text+=`
+                </div>
                 <div style="background-color:white; border:1px solid #cdcdcd;">
                     <div class="row">
                         <div class="col-lg-12">
-                            <div style="padding:10px; background-color:white;">
-                            <h5> Bill Details <img style="width:18px;" src="/static/tt_website_rodextrip/images/icon/plane.png" alt="Bills Detail"/></h5>
-                            <hr/>`;
+                            <div style="padding:15px; background-color:white;">
+                            <div class="row">
+                                <div class="col-lg-12 mb-3" style="border-bottom: 1px solid #cdcdcd;">
+                                    <h4 class="mb-3"><img src="/static/tt_website_rodextrip/images/icon/ppob_black.png" alt="undefined" style="width:20px; height:20px;"> Bill Detail</h4>
+                                </div>
+                            </div>`;
                         check = 0;
                         flight_counter = 1;
                         for(i in msg.result.response.provider_booking){
@@ -945,31 +964,29 @@ function ppob_get_booking(data){
                 text+=`
 
 
-                <div style="border:1px solid #cdcdcd; padding:10px; background-color:white; margin-top:20px;">
-                    <h5> List of Family</h5>
-                    <hr/>
-                    <table style="width:100%" id="list-of-passenger">
-                        <tr>
-                            <th style="width:5%;" class="list-of-passenger-left">No</th>
-                            <th style="width:30%;">Name</th>
-                            <th style="width:20%;">Number</th>
-                            <th style="width:25%;">Total</th>
-                        </tr>`;
-                        passenger_count = 1;
-                        for(i in msg.result.response.provider_booking){
-                            for(j in msg.result.response.provider_booking[i].bill_details){
-                                text+=`<tr>
-                                    <td class="list-of-passenger-left">`+(passenger_count)+`</td>
-                                    <td>`+msg.result.response.provider_booking[i].bill_details[j].customer_name+`</td>
-                                    <td>`+msg.result.response.provider_booking[i].bill_details[j].customer_number+`</td>
-                                    <td>`+currency+` `+getrupiah(msg.result.response.provider_booking[i].bill_details[j].total)+`</td>
-                                </tr>`;
-                                passenger_count++;
+                <div style="border:1px solid #cdcdcd; padding:15px; background-color:white; margin-top:20px;">
+                    <div class="row">
+                        <div class="col-lg-12 mb-3" style="border-bottom: 1px solid #cdcdcd;">
+                            <h4 class="mb-3"><i class="fas fa-users"></i> List of Family</h4>
+                        </div>
+                    </div>`;
+                    passenger_count = 1;
+                    for(i in msg.result.response.provider_booking){
+                        for(j in msg.result.response.provider_booking[i].bill_details){
+                            text+=`
+                            <h4 class="single_border_custom_bottom" style="margin-bottom:5px; width:50px; word-break:break-word;">#`+(passenger_count)+`</h4>
+                            <h5>`+msg.result.response.provider_booking[i].bill_details[j].customer_name+`</h5>
+                            <b>Number: </b><i>`+msg.result.response.provider_booking[i].bill_details[j].customer_number+`</i><br>
+                            <b>Total: </b><i>`+currency+` `+getrupiah(msg.result.response.provider_booking[i].bill_details[j].total)+`</i><br>`;
+                            if(j != parseInt(msg.result.response.provider_booking[i].bill_details.length-1)){
+                                text+=`<hr/>`;
                             }
+                            passenger_count++;
                         }
+                    }
 
-                    text+=`</table>
-                </div>`;
+                    text+=`
+                    </div>`;
                 }
 
                 if(msg.result.response.provider_booking[0].description != ''){
@@ -1101,9 +1118,10 @@ function ppob_get_booking(data){
                 commission = 0;
                 service_charge = ['FARE', 'RAC', 'ROC', 'TAX', 'SSR', 'DISC'];
                 text_detail=`
-                <div style="background-color:white; padding:10px; border: 1px solid #cdcdcd; margin-bottom:15px;">
-                    <h5> Price Detail</h5>
-                <hr/>`;
+                <div style="background-color:white; padding:15px; border: 1px solid #cdcdcd; margin-bottom:15px;">
+                    <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                        <h4 class="mb-3">Price Detail</h4>
+                    </div>`;
 
                 //repricing
                 type_amount_repricing = ['Repricing'];
@@ -1864,7 +1882,7 @@ function ppob_issued(data){
                           title: 'Error bills issued '+ msg.result.error_msg,
                           showCancelButton: true,
                           cancelButtonText: 'Ok',
-                          confirmButtonColor: '#f15a22',
+                          confirmButtonColor: color,
                           cancelButtonColor: '#3085d6',
                           confirmButtonText: 'Top Up'
                         }).then((result) => {
