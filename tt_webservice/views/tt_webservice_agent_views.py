@@ -2138,9 +2138,9 @@ def read_idcard_img_to_text(request):
                 (x, y, w, h) = cv2.boundingRect(c)
                 percentWidth = w / float(W)
                 percentHeight = h / float(H)
-                # if the bounding box occupies > 80% width and > 6% height of the
+                # if the bounding box occupies > 80% width and > 4% height of the
                 # image, then assume we have found the MRZ
-                if percentWidth > 0.8 and percentHeight > 0.04:
+                if percentWidth > 0.8 and percentHeight > 0.01:
                     mrzBox = (x, y, w, h)
                     break
 
@@ -2165,11 +2165,15 @@ def read_idcard_img_to_text(request):
                 exp_date = ''
                 title = ''
                 if mrz:
-                    if mrz[0][0:2] == 'P<':
-                        last_name = mrz[0].split('<')[1][3:]
-                    else:
-                        last_name = mrz[0].split('<')[0][5:]
-                    first_name = [i for i in mrz[0].split('<') if (i).isspace() == 0 and len(i) > 0][1]
+                    try:
+                        if mrz[0][0:2] == 'P<':
+                            last_name = mrz[0].split('<')[1][3:]
+                        else:
+                            last_name = mrz[0].split('<')[0][5:]
+                        first_name = [i for i in mrz[0].split('<') if (i).isspace() == 0 and len(i) > 0][1]
+                    except:
+                        first_name = 'Failed'
+                        last_name = 'Failed'
 
                     if len(mrz) > 1:
                         passport_no = mrz[1][:9].replace("<", "")
