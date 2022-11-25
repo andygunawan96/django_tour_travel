@@ -95,14 +95,14 @@
                 <div class="input-container-search-ticket">
                     <div class="form-select-2">
                         <select id="upload_idcard_type" name="upload_idcard_type" class="nice-select-default" onchange="change_upload_idcard_type(this);">
-                            <option value="#myModal_attachment2">KTP</option>
                             <option value="#myModal_attachment1">Passport</option>
+                            <option value="#myModal_attachment2">KTP</option>
                         </select>
                     </div>
                 </div>
             </div>
             <div class="col-lg-5 mb-3" style="text-align:right;">
-                <button id="upload_idcard_btn" style="width:100%;" type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment2">{% trans 'Upload ID Card' %} <i class="fas fa-id-card"></i></button>
+                <button id="upload_idcard_btn" style="width:100%;" type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment1">{% trans 'Upload ID Card' %} <i class="fas fa-id-card"></i></button>
             </div>
             {%if template == 1%}
             <div class="col-lg-12 banner-right" id="passenger_input" style="overflow:auto; padding:10px;">
