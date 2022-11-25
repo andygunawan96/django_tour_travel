@@ -2604,15 +2604,15 @@ function hotel_get_booking(data){
 
                         text+=`
                                 <div class="col-lg-2">
-                                    <h4 class="single_border_custom_bottom" style="margin-bottom:5px; width:50px; word-break:break-word;">#`+ num_rooms +`</h4>
+                                    <h5 class="single_border_custom_left" style="padding-left:5px;">#`+ num_rooms +`</h5>
                                 </div>
                                 <div class="col-lg-10">
-                                    <h4>
+                                    <h5>
                                         `+msg.result.response.hotel_rooms[i].room_name;
                                         if(msg.result.response.hotel_rooms[i].room_type != '')
                                            text+=`<br/>`+msg.result.response.hotel_rooms[i].room_type;
                                     text+=`
-                                    </h4>
+                                    </h5>
                                     <span><b>Room: </b>1</span><br/>
                                     <span><b>Max Person: </b><i>`+msg.result.response.hotel_rooms[i].person+` Adult</i></span><br/>
                                 </div>
@@ -2665,10 +2665,10 @@ function hotel_get_booking(data){
                         text+=`
                              <div class="row">
                                 <div class="col-lg-2">
-                                    <h4 class="single_border_custom_bottom" style="margin-bottom:5px; width:50px; word-break:break-word;">#`+ new_int +`</h4>
+                                    <h5 class="single_border_custom_left" style="padding-left:5px;">#`+ new_int +`</h5>
                                 </div>
                                 <div class="col-lg-9">
-                                    <h4>`+msg.result.response.passengers[i].title+`. `+msg.result.response.passengers[i].first_name+` `+msg.result.response.passengers[i].last_name+`
+                                    <h5>`+msg.result.response.passengers[i].title+`. `+msg.result.response.passengers[i].first_name+` `+msg.result.response.passengers[i].last_name+`
                                     <b style="background:white; font-size:13px; color:black; padding:0px 15px; display:unset; border: 1px solid #cdcdcd; border-radius:7px;">`;
                                         if(msg.result.response.passengers[i].title == 'MR' || msg.result.response.passengers[i].title == 'MRS' || msg.result.response.passengers[i].title == 'MS' ){
                                             text+=`Adult`;
@@ -2677,7 +2677,7 @@ function hotel_get_booking(data){
                                         }
                                     text+=`
                                     </b>
-                                    </h4>`;
+                                    </h5>`;
                                     if(msg.result.response.passengers[i].birth_date)
                                         text+=`
                                     <span><b>Birth Date: </b><i>`+msg.result.response.passengers[i].birth_date+`</i></span>`;

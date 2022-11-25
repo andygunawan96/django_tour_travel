@@ -2138,20 +2138,23 @@ def read_idcard_img_to_text(request):
                 (x, y, w, h) = cv2.boundingRect(c)
                 percentWidth = w / float(W)
                 percentHeight = h / float(H)
-                # if the bounding box occupies > 80% width and > 6% height of the
+                # if the bounding box occupies > 80% width and > 1% height of the
                 # image, then assume we have found the MRZ
-                if percentWidth > 0.8 and percentHeight > 0.04:
+                if percentWidth > 0.8 and percentHeight > 0.01:
                     mrzBox = (x, y, w, h)
                     break
 
             if mrzBox:
                 (x, y, w, h) = mrzBox
                 pX = int((x + w) * 0.03)
-                pY = int((y + h) * 0.03)
+                pY = int((y + h) * 0.05)
                 (x, y) = (x - pX, y - pY)
                 (w, h) = (w + (pX * 2), h + (pY * 2))
                 # extract the padded MRZ from the image
                 mrz = cv_img[y:y + h, x:x + w]
+
+                # cv2.imshow('MRZ', mrz)
+                # cv2.waitKey(0)
 
                 final_img = Image.fromarray(mrz)
                 mrzText = pytesseract.image_to_string(final_img)
@@ -2164,12 +2167,25 @@ def read_idcard_img_to_text(request):
                 birth_date = ''
                 exp_date = ''
                 title = ''
+                nationality = ''
                 if mrz:
-                    if mrz[0][0:2] == 'P<':
-                        last_name = mrz[0].split('<')[1][3:]
-                    else:
-                        last_name = mrz[0].split('<')[0][5:]
-                    first_name = [i for i in mrz[0].split('<') if (i).isspace() == 0 and len(i) > 0][1]
+                    try:
+                        nationality = mrz[0][2:5]
+                        if mrz[0][0:2] == 'P<':
+                            last_name = mrz[0].split('<')[1][3:]
+                        else:
+                            last_name = mrz[0].split('<')[0][5:]
+                        name_list = [i for i in mrz[0].split('<') if (i).isspace() == 0 and len(i) > 0]
+                        if name_list[1] == '%s%s' % (nationality, last_name):
+                            if len(name_list) > 2:
+                                first_name = ' '.join(name_list[2:-1])
+                            else:
+                                first_name = last_name
+                        else:
+                            first_name = ' '.join(name_list[1:-1])
+                    except:
+                        first_name = 'Failed'
+                        last_name = 'Failed'
 
                     if len(mrz) > 1:
                         passport_no = mrz[1][:9].replace("<", "")
@@ -2195,7 +2211,8 @@ def read_idcard_img_to_text(request):
                     'last_name': last_name,
                     'birth_date': birth_date,
                     'identity_expired_date': exp_date,
-                    'title': title
+                    'title': title,
+                    'nationality': nationality
                 })
 
             result = ERR.get_no_error_api()

@@ -250,7 +250,14 @@ function event_get_booking(data){
                     $text = '';
                     $text += 'Order Number: '+ msg.result.response.order_number + '\n';
                     text = `
-                        <h6 class="carrier_code_template">Order Number : </h6><h6>`+msg.result.response.order_number+`</h6><br/>
+                        <div class="row">
+                            <div class="col-lg-12 mb-3" style="padding-bottom:15px; border-bottom:1px solid #cdcdcd;">
+                                <h4 class="carrier_code_template" style="color:black;">
+                                    <i class="fas fa-scroll"></i> Order Number : `+msg.result.response.order_number+`
+                                </h4>
+                            </div>
+                        </div>
+
                         <table style="width:100%;">
                             <tr>
                                 <th>Booking Code</th>`;
@@ -289,89 +296,86 @@ function event_get_booking(data){
                                         </td>
                                     </tr>`;
                             }
-                    text+=`
-                        </table>
-                        <hr/>`;
-                    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
+                   text+=`</table><hr/>`;
+                   if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
                         text+=`
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <span>Agent: <b>`+msg.result.response.agent_name+`</b></span>
-                                </div>`;
-                        if(msg.result.response.customer_parent_name){
+                        <div class="row mb-3">
+                            <div class="col-lg-6">
+                                <b>Agent: </b><i>`+msg.result.response.agent_name+`</i>
+                            </div>
+                            <div class="col-lg-6">`;
+                                if(msg.result.response.customer_parent_name){
+                                    text+=`<b>Customer: </b><i>`+msg.result.response.customer_parent_type_name+` `+msg.result.response.customer_parent_name+`</i>`;
+                                }
                             text+=`
-                                <div class="col-lg-6">
-                                    <span>Customer: <b>`+msg.result.response.customer_parent_type_name+` `+msg.result.response.customer_parent_name+`</b></span>
-                                </div>`;
-                        }
-                        text+= `</div>`;
+                            </div>
+                        </div>`;
                     }
                     text+=`
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <h6>Booked</h6>
-                                <span>Date: <b>`;
-                                    if(msg.result.response.booked_date != ""){
-                                        text+=``+msg.result.response.booked_date+``;
-                                    }else{
-                                        text+=`-`
-                                    }
-                                    text+=`</b>
-                                </span>
-                                <br/>
-                                <span>by <b>`+msg.result.response.booked_by+`</b><span>
-                            </div>
-
-                            <div class="col-lg-6 mb-3">`;
-                                if(msg.result.response.state == 'issued'){
-                                    text+=`<h6>Issued</h6>
-                                        <span>Date: <b>`;
-                                        if(msg.result.response.issued_date != ""){
-                                            text+=``+msg.result.response.issued_date+``;
-                                        }else{
-                                            text+=`-`
-                                        }
-                                    text+=`</b>
-                                    </span>
-                                    <br/>
-                                    <span>by <b>`+msg.result.response.issued_by+`</b><span>`;
-                                }
-                                text+=`
-                            </div>
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <span>
+                                <b>Booked by</b><br><i>`+msg.result.response.booked_by+`</i>
+                            </span>
                         </div>
-                        <hr/>
-                   `;
+                        <div class="col-lg-9 mb-3">
+                            <span>
+                                <b>Booked Date </b><br/>`;
+                                if(msg.result.response.booked_date != ""){
+                                    text+=`<i>`+msg.result.response.booked_date+`</i>`;
+                                }else{
+                                    text+=`-`;
+                                }
+                            text+=`
+                            </span>
+                        </div>
+                   </div>`;
+
+                   if(msg.result.response.state == 'issued'){
+                        text+=`
+                        <div class="row">
+                            <div class="col-lg-3 mb-3">
+                                <span>
+                                    <b>Issued by</b><br><i>`+msg.result.response.issued_by+`</i>
+                                </span>
+                            </div>
+                            <div class="col-lg-5 mb-3">
+                                <span>
+                                    <b>Issued Date </b><br/>`;
+                                    if(msg.result.response.issued_date != ""){
+                                        text+=`<i>`+msg.result.response.issued_date+`</i>`;
+                                    }else{
+                                        text+=`-`;
+                                    }
+                                text+=`
+                                </span>
+                            </div>
+                        </div>`;
+                   }
+                   text+=`
+                   </div>
+                   <hr/>`;
                    text+=`<div class="row">`;
-                   text+=`<div class="col-lg-12"></div>`;
-                   text+=`<div class="col-lg-3 col-md-4 col-sm-6">`;
-                   if(msg.result.response.event_name != false)
-                        text+=`<span style="font-weight:600;">Event Name: </span><br/>`;
+                   text+=`<div class="col-lg-12">`;
+                       if(msg.result.response.event_name != false)
+                            text+=`<h5>`+msg.result.response.event_name+`</h5>`;
                    text+=`</div>`;
 
-                   text+=`<div class="col-lg-9 col-md-8 col-sm-6" style="margin-bottom:5px;">`;
-                   if(msg.result.response.event_name != false)
-                        text+=`<span>`+msg.result.response.event_name+`</span><br/>`;
-                   text+=`</div>`;
-
-                   text+=`<div class="col-lg-3 col-md-4 col-sm-6">`;
+                   text+=`<div class="col-lg-12">`;
                    if(msg.result.response.event_location != false)
-                        text+=`<span style="font-weight:600;">Location: </span>`;
-                   text+=`</div>`;
+                        text+=`<i class="fas fa-map-marker-alt" style="color:`+color+`;"></i> <b>Location: </b><br/>`;
 
-                   text+=`<div class="col-lg-9 col-md-8 col-sm-6" style="margin-bottom:5px;">`;
                        if(msg.result.response.event_location != false)
                            for (loc_obj in msg.result.response.event_location)
-                               text+=`<span><i class="fas fa-map-marker-alt" style="color:`+color+`;"></i> `+msg.result.response.event_location[loc_obj].name+`, `+msg.result.response.event_location[loc_obj].address+`, `+msg.result.response.event_location[loc_obj].city+`</span><br/>`;
+                               text+=`<i> `+msg.result.response.event_location[loc_obj].name+`, `+msg.result.response.event_location[loc_obj].address+`, `+msg.result.response.event_location[loc_obj].city+`</i><br/>`;
                    text+=`</div>`;
 
-                   text+=`<div class="col-lg-3 col-md-4 col-sm-6">`;
+                   text+=`<div class="col-lg-12">`;
                    if(msg.result.response.event_location != false)
-                        text+=`<span style="font-weight:600;">Event Detail: </span>`;
-                   text+=`</div>`;
+                        text+=`<b>Event Detail: </b><br/>`;
 
-                   text+=`<div class="col-lg-9 col-md-8 col-sm-6" style="margin-bottom:5px;">`;
                        if(msg.result.response.description != false)
-                           text+=`<span style="font-size:13px !important;">`+msg.result.response.description+`</span><br/>`;
+                           text+=`<i>`+msg.result.response.description+`</i>`;
                        else
                            text+=`<span>-</span><br/>`;
                    text+=`</div>`;
@@ -484,8 +488,12 @@ function event_get_booking(data){
             }
 
             //======================= Option =========================
-            text = `<h4>Ticket Information(s)</h4>
-                    <hr/>
+            text = `
+                    <div class="row">
+                        <div class="col-lg-12 mb-3" style="border-bottom: 1px solid #cdcdcd;">
+                            <h4 class="mb-3"><img src="/static/tt_website_rodextrip/images/no pic/no-ticket.png" alt="undefined" style="width:20px; height:20px;"> Ticket Information(s)</h4>
+                        </div>
+                    </div>
                     <div class="row">`;
                     var temp_name_option = '';
                     var temp_numb_option = 0;
@@ -499,18 +507,17 @@ function event_get_booking(data){
                         temp_numb_option = temp_numb_option + 1;
                         text+=`
                             <div class="col-lg-12" style="margin-bottom:15px;">
-                                <h6>`+msg.result.response.options[i].option.event_option_id.grade+` - `+ temp_numb_option +`</h6>
-                                <span>Ticket Number : </span>`;
+                                <h5>`+msg.result.response.options[i].option.event_option_id.grade+` - `+ temp_numb_option +`</h5>
+                                <b>Ticket Number: </b>`;
                                 if(msg.result.response.options[i].option.ticket_number == false)
                                     text+=`<span>-</span>`;
                                 else
-                                    text+=`<span style="font-weight:500;">`+msg.result.response.options[i].option.ticket_number+`</span>`;
+                                    text+=`<i>`+msg.result.response.options[i].option.ticket_number+`</i>`;
 
                             text+=`
                                 <br/>
-                                <span>Extra Question :
-                                    <span style="padding-left:5px; font-weight:600; font-size:12px; color:`+color+`; cursor:pointer;" data-toggle="modal" data-target="#answerModal`+i+`"> Show Your Answer </span>
-                                </span>
+                                <b>Extra Question: </b>
+                                <span style="padding-left:5px; font-weight:600; font-size:12px; color:`+color+`; cursor:pointer;" data-toggle="modal" data-target="#answerModal`+i+`"> Show Your Answer </span>
                                 <div class="modal fade" id="answerModal`+i+`" role="dialog" data-keyboard="false">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
@@ -1602,18 +1609,18 @@ function event_get_extra_question(option_code, provider){
                             text+=`
                                 <div class="row">
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                        <span style="color:`+text_color+`; text-align:center; font-size:15px;"> `+option_code[j].name+` - `+co_ticket_idx+`</span>
+                                        <h4>`+option_code[j].name+` - `+co_ticket_idx+`</h4>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">`;
 
                                     if(j == 0 && k == 0){
                                         text+=`
-                                            <span style="color:`+text_color+`; text-align:right; margin-right:5px; display:block;" id="question_down_opt`+j+``+k+`"><i class="fas fa-minus" style="font-size:14px;"></i></span>
-                                            <span style="color:`+text_color+`; text-align:right; margin-right:5px; display:none;" id="question_up_opt`+j+``+k+`"><i class="fas fa-plus" style="font-size:14px;"></i></span>`;
+                                            <span style="text-align:right; margin-right:5px; display:block;" id="question_down_opt`+j+``+k+`"><i class="fas fa-minus" style="font-size:14px;"></i></span>
+                                            <span style="text-align:right; margin-right:5px; display:none;" id="question_up_opt`+j+``+k+`"><i class="fas fa-plus" style="font-size:14px;"></i></span>`;
                                     }else{
                                         text+=`
-                                            <span style="color:`+text_color+`; text-align:right; margin-right:5px; display:none;" id="question_down_opt`+j+``+k+`"><i class="fas fa-minus" style="font-size:14px;"></i></span>
-                                            <span style="color:`+text_color+`; text-align:right; margin-right:5px; display:block;" id="question_up_opt`+j+``+k+`"><i class="fas fa-plus" style="font-size:14px;"></i></span>`;
+                                            <span style="text-align:right; margin-right:5px; display:none;" id="question_down_opt`+j+``+k+`"><i class="fas fa-minus" style="font-size:14px;"></i></span>
+                                            <span style="text-align:right; margin-right:5px; display:block;" id="question_up_opt`+j+``+k+`"><i class="fas fa-plus" style="font-size:14px;"></i></span>`;
                                     }
                                     text+=`
                                     </div>
@@ -1626,7 +1633,7 @@ function event_get_extra_question(option_code, provider){
                             text+=`<div class="col-lg-12" style="display:none;" id="question_opt`+j+``+k+`">`;
                         }
                         text+=`
-                            <div style="background-color:white; padding:10px; border:1px solid `+color+`;">
+                            <div style="background-color:white; padding:15px; border:1px solid #cdcdcd;">
                                 <div class="row">`;
                         for(i in msg.result.response){
                             var co_index = (parseInt(i))+1;

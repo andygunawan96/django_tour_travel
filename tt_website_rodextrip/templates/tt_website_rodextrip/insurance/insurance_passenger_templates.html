@@ -308,7 +308,7 @@
                         <br/>
                         <div class="row" style="margin-bottom:20px;">
                             <div class="col-lg-12">
-                                <div style="background:white; padding:10px; border:1px solid {{color}};">
+                                <div style="background:white; padding:15px; border:1px solid #cdcdcd;">
                                     {% if adult_count != 0 %}
                                     <label>{% trans 'Do you book this ticket for you' %}?</label><br/>
                                     <label class="radio-button-custom">
@@ -833,15 +833,23 @@
                                     <div class="passenger_div" onclick="show_paxs('adult_additional_data_for_insurance_{{counter}}', '{{forloop.counter}}');" style="margin-top:20px;">
                                         <div class="row">
                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                                <span style="color:{{text_color}}; text-align:center; font-size:15px;">{% trans 'Passenger' %} {{rec.pax_type}} - {{rec.sequence}}</span>
+                                                <h4><i class="fas fa-user"></i> {% trans 'Passenger' %} {{rec.pax_type}} - {{rec.sequence}}</h4>
                                             </div>
                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                                                <span style="color:{{text_color}}; text-align:right; margin-right:5px;display:none;" id="adult_additional_data_for_insurance_{{counter}}_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
-                                                <span style="color:{{text_color}}; text-align:right; margin-right:5px;" id="adult_additional_data_for_insurance_{{counter}}_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
+                                                <span style="text-align:right; margin-right:5px;display:none;" id="adult_additional_data_for_insurance_{{counter}}_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
+                                                <span style="text-align:right; margin-right:5px;" id="adult_additional_data_for_insurance_{{counter}}_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
+                                                <span style="color:{{text_color}}; text-align:center; font-size:15px;"></span>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
                                             </div>
                                         </div>
                                     </div>
-                                    <div id="adult_additional_data_for_insurance_{{counter}}_paxs{{forloop.counter}}" style="display:none;background-color:white; padding:10px; border:1px solid #F15A22;">
+                                    <div id="adult_additional_data_for_insurance_{{counter}}_paxs{{forloop.counter}}" style="display:none;background-color:white; padding:10px; border:1px solid #cdcdcd;">
                                         <div class="row">
                                             {% if response.type_trip_name == 'Family' %}
                                             <div class="col-lg-12 col-md-12 col-sm-12">
@@ -1063,15 +1071,15 @@
                                 <div class="passenger_div" onclick="show_paxs('Adult_additional_data_for_beneficiary_insurance_{{counter}}', '{{forloop.counter}}');" style="margin-top:20px;">
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                            <span style="color:{{text_color}}; text-align:center; font-size:15px;">{% trans 'Beneficiary' %} - {{forloop.counter}}</span>
+                                            <h4><i class="fas fa-user"></i> {% trans 'Beneficiary' %} - {{forloop.counter}}</h4>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                                            <span style="color:{{text_color}}; text-align:right; margin-right:5px;display:none;" id="Adult_additional_data_for_beneficiary_insurance_{{counter}}_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
-                                            <span style="color:{{text_color}}; text-align:right; margin-right:5px;" id="Adult_additional_data_for_beneficiary_insurance_{{counter}}_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
+                                            <span style="text-align:right; margin-right:5px;display:none;" id="Adult_additional_data_for_beneficiary_insurance_{{counter}}_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
+                                            <span style="text-align:right; margin-right:5px;" id="Adult_additional_data_for_beneficiary_insurance_{{counter}}_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
                                         </div>
                                     </div>
                                 </div>
-                                <div id="Adult_additional_data_for_beneficiary_insurance_{{counter}}_paxs{{forloop.counter}}" style="display:none;background-color:white; padding:10px; border:1px solid #F15A22;">
+                                <div id="Adult_additional_data_for_beneficiary_insurance_{{counter}}_paxs{{forloop.counter}}" style="display:none;background-color:white; padding:10px; border:1px solid #cdcdcd;">
                                     <div id="Adult_additional_data_for_insurance_ahli_waris{{forloop.counter}}">
                                     <div class="row">
                                         <div class="col-lg-12 col-md-12 col-sm-12 mt-2 mb-2">
@@ -1296,9 +1304,12 @@
                     <div class="col-lg-4" style="margin-top:10px;">
                         <div class="row">
                             <div class="col-lg-12">
-                                <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="insurance_detail">
-                                    <h4> Price Detail </h4>
-                                    <hr/>
+                                <div style="background-color:white; padding:15px; border:1px solid #cdcdcd;" id="insurance_detail">
+                                    <div class="row">
+                                        <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                                            <h4 class="mb-3"> Price Detail</h4>
+                                        </div>
+                                    </div>
                                     <div class="row">
                                         <div class="col-lg-12" id="insurance_detail_table">
 
@@ -1629,7 +1640,7 @@
                             <br/>
                             <div class="row" style="margin-bottom:20px;">
                                 <div class="col-lg-12">
-                                    <div style="background:white; padding:10px; border:1px solid {{color}};">
+                                    <div style="background:white; padding:15px; border:1px solid #cdcdcd;">
                                         {% if adult_count != 0 %}
                                         <label>{% trans 'Do you book this ticket for you' %}?</label><br/>
                                         <label class="radio-button-custom">
@@ -2154,15 +2165,15 @@
                                         <div class="passenger_div" onclick="show_paxs('adult_additional_data_for_insurance_{{counter}}', '{{forloop.counter}}');" style="margin-top:20px;">
                                             <div class="row">
                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                                    <span style="color:{{text_color}}; text-align:center; font-size:15px;">{% trans 'Passenger' %} {{rec.pax_type}} - {{rec.sequence}}</span>
+                                                    <h4><i class="fas fa-user"></i> {% trans 'Passenger' %} {{rec.pax_type}} - {{rec.sequence}}</h4>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                                                    <span style="color:{{text_color}}; text-align:right; margin-right:5px;display:none;" id="adult_additional_data_for_insurance_{{counter}}_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
-                                                    <span style="color:{{text_color}}; text-align:right; margin-right:5px;" id="adult_additional_data_for_insurance_{{counter}}_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
+                                                    <span style="text-align:right; margin-right:5px;display:none;" id="adult_additional_data_for_insurance_{{counter}}_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
+                                                    <span style="text-align:right; margin-right:5px;" id="adult_additional_data_for_insurance_{{counter}}_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div id="adult_additional_data_for_insurance_{{counter}}_paxs{{forloop.counter}}" style="display:none;background-color:white; padding:10px; border:1px solid #F15A22;">
+                                        <div id="adult_additional_data_for_insurance_{{counter}}_paxs{{forloop.counter}}" style="display:none;background-color:white; padding:10px; border:1px solid #cdcdcd;">
                                             <div class="row">
                                                 {% if response.type_trip_name == 'Family' %}
                                                 <div class="col-lg-12 col-md-12 col-sm-12">
@@ -2384,15 +2395,15 @@
                                     <div class="passenger_div" onclick="show_paxs('adult_additional_data_for_beneficiary_insurance_{{counter}}', '{{forloop.counter}}');" style="margin-top:20px;">
                                         <div class="row">
                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                                <span style="color:{{text_color}}; text-align:center; font-size:15px;">{% trans 'Beneficiary' %} - {{forloop.counter}}</span>
+                                                <h4><i class="fas fa-user"></i> {% trans 'Beneficiary' %} - {{forloop.counter}}</h4>
                                             </div>
                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                                                <span style="color:{{text_color}}; text-align:right; margin-right:5px;display:none;" id="adult_additional_data_for_beneficiary_insurance_{{counter}}_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
-                                                <span style="color:{{text_color}}; text-align:right; margin-right:5px;" id="adult_additional_data_for_beneficiary_insurance_{{counter}}_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
+                                                <span style="text-align:right; margin-right:5px;display:none;" id="Adult_additional_data_for_beneficiary_insurance_{{counter}}_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
+                                                <span style="text-align:right; margin-right:5px;" id="Adult_additional_data_for_beneficiary_insurance_{{counter}}_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
                                             </div>
                                         </div>
                                     </div>
-                                    <div id="adult_additional_data_for_beneficiary_insurance_{{counter}}_paxs{{forloop.counter}}" style="display:none;background-color:white; padding:10px; border:1px solid #F15A22;">
+                                    <div id="Adult_additional_data_for_beneficiary_insurance_{{counter}}_paxs{{forloop.counter}}" style="display:none;background-color:white; padding:10px; border:1px solid #cdcdcd;">
                                         <div id="adult_additional_data_for_insurance_ahli_waris{{forloop.counter}}">
                                             <div class="row">
                                                 <div class="col-lg-12 col-md-12 col-sm-12 mt-2 mb-2">
@@ -2618,9 +2629,12 @@
                         <div class="col-lg-4" style="margin-top:10px;">
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="insurance_detail">
-                                        <h4> Price Detail </h4>
-                                        <hr/>
+                                    <div style="background-color:white; padding:15px; border:1px solid #cdcdcd;" id="insurance_detail">
+                                        <div class="row">
+                                            <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                                                <h4 class="mb-3"> Price Detail</h4>
+                                            </div>
+                                        </div>
                                         <div class="row">
                                             <div class="col-lg-12" id="insurance_detail_table">
 
@@ -2953,7 +2967,7 @@
                         <br/>
                         <div class="row" style="margin-bottom:20px;">
                             <div class="col-lg-12">
-                                <div style="background:white; padding:10px; border:1px solid {{color}};">
+                                <div style="background:white; padding:15px; border:1px solid #cdcdcd;">
                                     {% if adult_count != 0 %}
                                     <label>{% trans 'Do you book this ticket for you' %}?</label><br/>
                                     <label class="radio-button-custom">
@@ -3480,15 +3494,15 @@
                                     <div class="passenger_div" onclick="show_paxs('adult_additional_data_for_insurance_{{counter}}', '{{forloop.counter}}');" style="margin-top:20px;">
                                         <div class="row">
                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                                <span style="color:{{text_color}}; text-align:center; font-size:15px;">{% trans 'Passenger' %} {{rec.pax_type}} - {{rec.sequence}}</span>
+                                                <h4><i class="fas fa-user"></i> {% trans 'Passenger' %} {{rec.pax_type}} - {{rec.sequence}}</h4>
                                             </div>
                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                                                <span style="color:{{text_color}}; text-align:right; margin-right:5px;display:none;" id="adult_additional_data_for_insurance_{{counter}}_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
-                                                <span style="color:{{text_color}}; text-align:right; margin-right:5px;" id="adult_additional_data_for_insurance_{{counter}}_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
+                                                <span style="text-align:right; margin-right:5px;display:none;" id="adult_additional_data_for_insurance_{{counter}}_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
+                                                <span style="text-align:right; margin-right:5px;" id="adult_additional_data_for_insurance_{{counter}}_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
                                             </div>
                                         </div>
                                     </div>
-                                    <div id="adult_additional_data_for_insurance_{{counter}}_paxs{{forloop.counter}}" style="display:none;background-color:white; padding:10px; border:1px solid #F15A22;">
+                                    <div id="adult_additional_data_for_insurance_{{counter}}_paxs{{forloop.counter}}" style="display:none;background-color:white; padding:10px; border:1px solid #cdcdcd;">
                                         <div class="row">
                                             {% if response.type_trip_name == 'Family' %}
                                             <div class="col-lg-12 col-md-12 col-sm-12">
@@ -3710,15 +3724,15 @@
                                 <div class="passenger_div" onclick="show_paxs('adult_additional_data_for_beneficiary_insurance_{{counter}}', '{{forloop.counter}}');" style="margin-top:20px;">
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                            <span style="color:{{text_color}}; text-align:center; font-size:15px;">{% trans 'Beneficiary' %} - {{forloop.counter}}</span>
+                                            <h4><i class="fas fa-user"></i> {% trans 'Beneficiary' %} - {{forloop.counter}}</h4>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                                            <span style="color:{{text_color}}; text-align:right; margin-right:5px;display:none;" id="adult_additional_data_for_beneficiary_insurance_{{counter}}_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
-                                            <span style="color:{{text_color}}; text-align:right; margin-right:5px;" id="adult_additional_data_for_beneficiary_insurance_{{counter}}_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
+                                            <span style="text-align:right; margin-right:5px;display:none;" id="Adult_additional_data_for_beneficiary_insurance_{{counter}}_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
+                                            <span style="text-align:right; margin-right:5px;" id="Adult_additional_data_for_beneficiary_insurance_{{counter}}_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
                                         </div>
                                     </div>
                                 </div>
-                                <div id="adult_additional_data_for_beneficiary_insurance_{{counter}}_paxs{{forloop.counter}}" style="display:none;background-color:white; padding:10px; border:1px solid #F15A22;">
+                                <div id="Adult_additional_data_for_beneficiary_insurance_{{counter}}_paxs{{forloop.counter}}" style="display:none;background-color:white; padding:10px; border:1px solid #cdcdcd;">
                                     <div id="adult_additional_data_for_insurance_ahli_waris{{forloop.counter}}">
                                         <div class="row">
                                             <div class="col-lg-12 col-md-12 col-sm-12 mt-2 mb-2">
@@ -3943,9 +3957,12 @@
                     <div class="col-lg-4" style="margin-top:10px;">
                         <div class="row">
                             <div class="col-lg-12">
-                                <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="insurance_detail">
-                                    <h4> Price Detail </h4>
-                                    <hr/>
+                                <div style="background-color:white; padding:15px; border:1px solid #cdcdcd;" id="insurance_detail">
+                                    <div class="row">
+                                        <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                                            <h4 class="mb-3"> Price Detail</h4>
+                                        </div>
+                                    </div>
                                     <div class="row">
                                         <div class="col-lg-12" id="insurance_detail_table">
 
@@ -4276,7 +4293,7 @@
                     <br/>
                     <div class="row" style="margin-bottom:20px;">
                         <div class="col-lg-12">
-                            <div style="background:white; padding:10px; border:1px solid {{color}};">
+                            <div style="background:white; padding:15px; border:1px solid #cdcdcd;">
                                 {% if adult_count != 0 %}
                                 <label>{% trans 'Do you book this ticket for you' %}?</label><br/>
                                 <label class="radio-button-custom">
@@ -4801,15 +4818,15 @@
                                 <div class="passenger_div" onclick="show_paxs('adult_additional_data_for_insurance_{{counter}}', '{{forloop.counter}}');" style="margin-top:20px;">
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                            <span style="color:{{text_color}}; text-align:center; font-size:15px;">{% trans 'Passenger' %} {{rec.pax_type}} - {{rec.sequence}}</span>
+                                            <h4><i class="fas fa-user"></i> {% trans 'Passenger' %} {{rec.pax_type}} - {{rec.sequence}}</h4>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                                            <span style="color:{{text_color}}; text-align:right; margin-right:5px;display:none;" id="adult_additional_data_for_insurance_{{counter}}_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
-                                            <span style="color:{{text_color}}; text-align:right; margin-right:5px;" id="adult_additional_data_for_insurance_{{counter}}_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
+                                            <span style="text-align:right; margin-right:5px;display:none;" id="adult_additional_data_for_insurance_{{counter}}_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
+                                            <span style="text-align:right; margin-right:5px;" id="adult_additional_data_for_insurance_{{counter}}_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
                                         </div>
                                     </div>
                                 </div>
-                                <div id="adult_additional_data_for_insurance_{{counter}}_paxs{{forloop.counter}}" style="display:none;background-color:white; padding:10px; border:1px solid #F15A22;">
+                                <div id="adult_additional_data_for_insurance_{{counter}}_paxs{{forloop.counter}}" style="display:none;background-color:white; padding:10px; border:1px solid #cdcdcd;">
                                     <div class="row">
                                         {% if response.type_trip_name == 'Family' %}
                                         <div class="col-lg-12 col-md-12 col-sm-12">
@@ -5039,7 +5056,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div id="adult_additional_data_for_beneficiary_insurance_{{counter}}_paxs{{forloop.counter}}" style="display:none;background-color:white; padding:10px; border:1px solid #F15A22;">
+                            <div id="Adult_additional_data_for_beneficiary_insurance_{{counter}}_paxs{{forloop.counter}}" style="display:none;background-color:white; padding:10px; border:1px solid #cdcdcd;">
                                 <div id="adult_additional_data_for_insurance_ahli_waris{{forloop.counter}}">
                                     <div class="row">
                                         <div class="col-lg-12 col-md-12 col-sm-12 mt-2 mb-2">
@@ -5264,9 +5281,12 @@
                 <div class="col-lg-4" style="margin-top:10px;">
                     <div class="row">
                         <div class="col-lg-12">
-                            <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="insurance_detail">
-                                <h4> Price Detail </h4>
-                                <hr/>
+                            <div style="background-color:white; padding:15px; border:1px solid #cdcdcd;" id="insurance_detail">
+                                <div class="row">
+                                    <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                                        <h4 class="mb-3"> Price Detail</h4>
+                                    </div>
+                                </div>
                                 <div class="row">
                                     <div class="col-lg-12" id="insurance_detail_table">
 
@@ -5593,7 +5613,7 @@
                         <br/>
                         <div class="row" style="margin-bottom:20px;">
                             <div class="col-lg-12">
-                                <div style="background:white; padding:10px; border:1px solid {{color}};">
+                                <div style="background:white; padding:15px; border:1px solid #cdcdcd;">
                                     {% if adult_count != 0 %}
                                     <label>{% trans 'Do you book this ticket for you' %}?</label><br/>
                                     <label class="radio-button-custom">
@@ -6118,15 +6138,15 @@
                                     <div class="passenger_div" onclick="show_paxs('adult_additional_data_for_insurance_{{counter}}', '{{forloop.counter}}');" style="margin-top:20px;">
                                         <div class="row">
                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                                <span style="color:{{text_color}}; text-align:center; font-size:15px;">{% trans 'Passenger' %} {{rec.pax_type}} - {{rec.sequence}}</span>
+                                                <h4><i class="fas fa-user"></i> {% trans 'Passenger' %} {{rec.pax_type}} - {{rec.sequence}}</h4>
                                             </div>
                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                                                <span style="color:{{text_color}}; text-align:right; margin-right:5px;display:none;" id="adult_additional_data_for_insurance_{{counter}}_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
-                                                <span style="color:{{text_color}}; text-align:right; margin-right:5px;" id="adult_additional_data_for_insurance_{{counter}}_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
+                                                <span style="text-align:right; margin-right:5px;display:none;" id="adult_additional_data_for_insurance_{{counter}}_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
+                                                <span style="text-align:right; margin-right:5px;" id="adult_additional_data_for_insurance_{{counter}}_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
                                             </div>
                                         </div>
                                     </div>
-                                    <div id="adult_additional_data_for_insurance_{{counter}}_paxs{{forloop.counter}}" style="display:none;background-color:white; padding:10px; border:1px solid #F15A22;">
+                                    <div id="adult_additional_data_for_insurance_{{counter}}_paxs{{forloop.counter}}" style="display:none;background-color:white; padding:10px; border:1px solid #cdcdcd;">
                                         <div class="row">
                                             {% if response.type_trip_name == 'Family' %}
                                             <div class="col-lg-12 col-md-12 col-sm-12">
@@ -6348,15 +6368,15 @@
                                 <div class="passenger_div" onclick="show_paxs('adult_additional_data_for_beneficiary_insurance_{{counter}}', '{{forloop.counter}}');" style="margin-top:20px;">
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                            <span style="color:{{text_color}}; text-align:center; font-size:15px;">{% trans 'Beneficiary' %} - {{forloop.counter}}</span>
+                                            <h4><i class="fas fa-user"></i> {% trans 'Beneficiary' %} - {{forloop.counter}}</h4>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                                            <span style="color:{{text_color}}; text-align:right; margin-right:5px;display:none;" id="adult_additional_data_for_beneficiary_insurance_{{counter}}_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
-                                            <span style="color:{{text_color}}; text-align:right; margin-right:5px;" id="adult_additional_data_for_beneficiary_insurance_{{counter}}_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
+                                            <span style="text-align:right; margin-right:5px;display:none;" id="Adult_additional_data_for_beneficiary_insurance_{{counter}}_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
+                                            <span style="text-align:right; margin-right:5px;" id="Adult_additional_data_for_beneficiary_insurance_{{counter}}_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
                                         </div>
                                     </div>
                                 </div>
-                                <div id="adult_additional_data_for_beneficiary_insurance_{{counter}}_paxs{{forloop.counter}}" style="display:none;background-color:white; padding:10px; border:1px solid #F15A22;">
+                                <div id="Adult_additional_data_for_beneficiary_insurance_{{counter}}_paxs{{forloop.counter}}" style="display:none;background-color:white; padding:10px; border:1px solid #cdcdcd;">
                                     <div id="adult_additional_data_for_insurance_ahli_waris{{forloop.counter}}">
                                         <div class="row">
                                             <div class="col-lg-12 col-md-12 col-sm-12 mt-2 mb-2">
@@ -6581,9 +6601,12 @@
                     <div class="col-lg-4" style="margin-top:10px;">
                         <div class="row">
                             <div class="col-lg-12">
-                                <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="insurance_detail">
-                                    <h4> Price Detail </h4>
-                                    <hr/>
+                                <div style="background-color:white; padding:15px; border:1px solid #cdcdcd;" id="insurance_detail">
+                                    <div class="row">
+                                        <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                                            <h4 class="mb-3"> Price Detail</h4>
+                                        </div>
+                                    </div>
                                     <div class="row">
                                         <div class="col-lg-12" id="insurance_detail_table">
 
@@ -6913,7 +6936,7 @@
                         <br/>
                         <div class="row" style="margin-bottom:20px;">
                             <div class="col-lg-12">
-                                <div style="background:white; padding:10px; border:1px solid {{color}};">
+                                <div style="background:white; padding:15px; border:1px solid #cdcdcd;">
                                     {% if adult_count != 0 %}
                                     <label>{% trans 'Do you book this ticket for you' %}?</label><br/>
                                     <label class="radio-button-custom">
@@ -7438,15 +7461,15 @@
                                     <div class="passenger_div" onclick="show_paxs('adult_additional_data_for_insurance_{{counter}}', '{{forloop.counter}}');" style="margin-top:20px;">
                                         <div class="row">
                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                                <span style="color:{{text_color}}; text-align:center; font-size:15px;">{% trans 'Passenger' %} {{rec.pax_type}} - {{rec.sequence}}</span>
+                                                <h4><i class="fas fa-user"></i> {% trans 'Passenger' %} {{rec.pax_type}} - {{rec.sequence}}</h4>
                                             </div>
                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                                                <span style="color:{{text_color}}; text-align:right; margin-right:5px;display:none;" id="adult_additional_data_for_insurance_{{counter}}_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
-                                                <span style="color:{{text_color}}; text-align:right; margin-right:5px;" id="adult_additional_data_for_insurance_{{counter}}_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
+                                                <span style="text-align:right; margin-right:5px;display:none;" id="adult_additional_data_for_insurance_{{counter}}_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
+                                                <span style="text-align:right; margin-right:5px;" id="adult_additional_data_for_insurance_{{counter}}_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
                                             </div>
                                         </div>
                                     </div>
-                                    <div id="adult_additional_data_for_insurance_{{counter}}_paxs{{forloop.counter}}" style="display:none;background-color:white; padding:10px; border:1px solid #F15A22;">
+                                    <div id="adult_additional_data_for_insurance_{{counter}}_paxs{{forloop.counter}}" style="display:none;background-color:white; padding:10px; border:1px solid #cdcdcd;">
                                         <div class="row">
                                             {% if response.type_trip_name == 'Family' %}
                                             <div class="col-lg-12 col-md-12 col-sm-12">
@@ -7668,15 +7691,15 @@
                                 <div class="passenger_div" onclick="show_paxs('adult_additional_data_for_beneficiary_insurance_{{counter}}', '{{forloop.counter}}');" style="margin-top:20px;">
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                            <span style="color:{{text_color}}; text-align:center; font-size:15px;">{% trans 'Beneficiary' %} - {{forloop.counter}}</span>
+                                            <h4><i class="fas fa-user"></i> {% trans 'Beneficiary' %} - {{forloop.counter}}</h4>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                                            <span style="color:{{text_color}}; text-align:right; margin-right:5px;display:none;" id="adult_additional_data_for_beneficiary_insurance_{{counter}}_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
-                                            <span style="color:{{text_color}}; text-align:right; margin-right:5px;" id="adult_additional_data_for_beneficiary_insurance_{{counter}}_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
+                                            <span style="text-align:right; margin-right:5px;display:none;" id="Adult_additional_data_for_beneficiary_insurance_{{counter}}_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
+                                            <span style="text-align:right; margin-right:5px;" id="Adult_additional_data_for_beneficiary_insurance_{{counter}}_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
                                         </div>
                                     </div>
                                 </div>
-                                <div id="adult_additional_data_for_beneficiary_insurance_{{counter}}_paxs{{forloop.counter}}" style="display:none;background-color:white; padding:10px; border:1px solid #F15A22;">
+                                <div id="Adult_additional_data_for_beneficiary_insurance_{{counter}}_paxs{{forloop.counter}}" style="display:none;background-color:white; padding:10px; border:1px solid #cdcdcd;">
                                     <div id="adult_additional_data_for_insurance_ahli_waris{{forloop.counter}}">
                                         <div class="row">
                                             <div class="col-lg-12 col-md-12 col-sm-12 mt-2 mb-2">
@@ -7902,9 +7925,12 @@
                     <div class="col-lg-4" style="margin-top:10px;">
                         <div class="row">
                             <div class="col-lg-12">
-                                <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="insurance_detail">
-                                    <h4> Price Detail </h4>
-                                    <hr/>
+                                <div style="background-color:white; padding:15px; border:1px solid #cdcdcd;" id="insurance_detail">
+                                    <div class="row">
+                                        <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                                            <h4 class="mb-3"> Price Detail</h4>
+                                        </div>
+                                    </div>
                                     <div class="row">
                                         <div class="col-lg-12" id="insurance_detail_table">
 

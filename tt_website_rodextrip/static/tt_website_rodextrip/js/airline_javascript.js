@@ -4403,6 +4403,9 @@ function airline_detail(type){
             price_itinerary_temp = price_itinerary.price_itinerary_provider;
         else
             price_itinerary_temp = price_itinerary.sell_journey_provider;
+        is_roundtrip_combo = false;
+        if(airline_request.departure.length != price_itinerary_temp.length)
+            is_roundtrip_combo = true
         currency = '';
         for(i in price_itinerary_temp){
             for(j in price_itinerary_temp[i].journeys){
@@ -4445,7 +4448,7 @@ function airline_detail(type){
         text += `
         <div class="row" style="margin-bottom:5px;">
             <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
-                <h4 class="mb-3"> Price Detail</h5>
+                <h4 class="mb-3"> Price Detail</h4>
             </div>
         </div>`;
         text += `
@@ -4466,25 +4469,40 @@ function airline_detail(type){
                             text+=`<hr/>`;
                         }
                         flight_count++;
-                        $text +='*Flight '+flight_count+'*\n';
+                        if(!is_roundtrip_combo)
+                            $text +='*Flight '+flight_count+'*\n';
+                        else
+                            $text +='*Roundtrip*\n';
                         if(flight_count != 1){
                             text+=`<div class="col-lg-12"><hr/></div>`;
                         }
                         text += `
                         <div class="col-lg-12 mt-2 mb-2">
-                            <span class="span_link" style="display:none;" id="flight_title_up`+flight_count+`" onclick="show_hide_flight(`+flight_count+`);">
-                                Flight `+flight_count+` -
-                                `+price_itinerary_temp[i].journeys[j].origin+`
-                                <i class="fas fa-arrow-right"></i>
-                                `+price_itinerary_temp[i].journeys[j].destination+`
+                            <span class="span_link" style="display:none;" id="flight_title_up`+flight_count+`" onclick="show_hide_flight(`+flight_count+`);">`;
+                            if(!is_roundtrip_combo)
+                                text+=`Flight `+flight_count+` -`;
+                            else
+                                text+= 'Roundtrip - ';
+                            text+=price_itinerary_temp[i].journeys[j].origin;
+                            if(!is_roundtrip_combo)
+                                text+=`<i class="fas fa-arrow-right"></i>`;
+                            else
+                                text+=`<i class="fas fa-arrows-alt-h"></i>`; // cek cenius
+                            text+=price_itinerary_temp[i].journeys[j].destination+`
                                 ( `+price_itinerary_temp[i].journeys[j].departure_date.split(' - ')[0]+` )
                                 <i class="fas fa-chevron-up" style="float:right; color:`+color+`; font-size:18px;"></i>
                             </span>
-                            <span class="span_link mt-1 mb-2" id="flight_title_down`+flight_count+`" onclick="show_hide_flight(`+flight_count+`);">
-                                Flight `+flight_count+` -
-                                `+price_itinerary_temp[i].journeys[j].origin+`
-                                <i class="fas fa-arrow-right"></i>
-                                `+price_itinerary_temp[i].journeys[j].destination+`
+                            <span class="span_link mt-1 mb-2" id="flight_title_down`+flight_count+`" onclick="show_hide_flight(`+flight_count+`);">`;
+                            if(!is_roundtrip_combo)
+                                text+=`Flight `+flight_count+` -`;
+                            else
+                                text+= 'Roundtrip - '
+                            text+=price_itinerary_temp[i].journeys[j].origin;
+                            if(!is_roundtrip_combo)
+                                text+=`<i class="fas fa-arrow-right"></i>`;
+                            else
+                                text+=`<i class="fas fa-arrows-alt-h"></i>`; // cek cenius
+                            text+=price_itinerary_temp[i].journeys[j].destination+`
                                 ( `+price_itinerary_temp[i].journeys[j].departure_date.split(' - ')[0]+` )
                                 <i class="fas fa-chevron-down" style="float:right; color:`+color+`; font-size:18px;"></i>
                             </span>
@@ -7517,9 +7535,8 @@ function get_airline_review(){
                     for(i in passengers_ssr){
                         text+=`
                             <div class="col-lg-12 mb-2" style="padding-top:15px; border-top:1px solid #cdcdcd;">
-                            <h4 class="single_border_custom_bottom" style="margin-bottom:5px; width:50px; word-break:break-word;">#`+(parseInt(count_pax)+1)+`</h4>
-                            <h5>
-                                `+passengers_ssr[i].title+` `+passengers_ssr[i].first_name+` `+ passengers_ssr[i].last_name+``;
+                            <h5 class="single_border_custom_left" style="padding-left:5px;">
+                                `+(parseInt(count_pax)+1)+`. `+passengers_ssr[i].title+` `+passengers_ssr[i].first_name+` `+ passengers_ssr[i].last_name+``;
 
                             if(passengers_ssr[i].pax_type == 'ADT'){
                                 text+=`
@@ -7617,9 +7634,8 @@ function get_airline_review(){
                     for(i in passengers.infant){
                         text+=`
                         <div class="col-lg-12 mb-2" style="padding-top:15px; border-top:1px solid #cdcdcd;">
-                            <h4 class="single_border_custom_bottom" style="margin-bottom:5px; width:50px; word-break:break-word;">#`+(parseInt(count_pax)+1)+`</h4>
-                            <h5>
-                                `+passengers.infant[i].title+` `+passengers.infant[i].first_name+` `+ passengers.infant[i].last_name +`
+                            <h5 class="single_border_custom_left" style="padding-left:5px;">
+                                `+(parseInt(count_pax)+1)+`. `+passengers.infant[i].title+` `+passengers.infant[i].first_name+` `+ passengers.infant[i].last_name +`
                                 <b style="background:white; font-size:13px; color:black; padding:0px 15px; display:unset; border: 1px solid #cdcdcd; border-radius:7px;">
                                     <i class="fas fa-user"></i> Infant
                                 </b>

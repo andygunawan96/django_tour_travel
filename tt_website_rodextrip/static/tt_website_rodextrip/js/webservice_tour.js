@@ -2072,9 +2072,8 @@ function tour_get_booking(order_number)
                                 </div>`;
                                 for(i in rooms){
                                     text+=`
-                                    <h4 class="single_border_custom_bottom" style="margin-bottom:5px; width:50px; word-break:break-word;">#`+rooms[i].room_index+`</h4>
-                                    <h5>
-                                        `+rooms[i].room_name+`
+                                    <h5 class="single_border_custom_left" style="padding-left:5px;">
+                                        `+rooms[i].room_index+`. `+rooms[i].room_name+`
                                     </h5>
                                     <b>Type: </b><i>`+rooms[i].room_bed_type+`</i><br>
                                     <b>Hotel: </b><i>`+rooms[i].room_hotel+`</i><br>
@@ -2119,9 +2118,8 @@ function tour_get_booking(order_number)
                                 temp_pax_seq = 1
                                 for(i in passengers){
                                     text+=`
-                                    <h4 class="single_border_custom_bottom" style="margin-bottom:5px; width:50px; word-break:break-word;">#`+temp_pax_seq+`</h4>
-                                    <h5>
-                                        `+passengers[i].title+`. `+msg.result.response.passengers[i].name+`
+                                    <h5 class="single_border_custom_left" style="padding-left:5px;">
+                                        `+temp_pax_seq+`. `+passengers[i].title+`. `+msg.result.response.passengers[i].name+`
                                         <b style="background:white; font-size:13px; color:black; padding:0px 15px; display:unset; border: 1px solid #cdcdcd; border-radius:7px;">
                                             <i class="fas fa-user"></i> `;
                                             if(passengers[i].pax_type == 'ADT'){

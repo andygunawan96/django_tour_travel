@@ -1254,8 +1254,7 @@ function visa_get_data(data){
                                         <div class="col-lg-12" style="margin-bottom:10px;">
                                             <div class="row">
                                                 <div class="col-lg-6">
-                                                    <h4 class="single_border_custom_bottom" style="margin-bottom:5px; width:50px; word-break:break-word;">#`+parseInt(parseInt(i)+1)+`.</h4>
-                                                    <h5>`+msg.result.response.passengers[i].title+` `+msg.result.response.passengers[i].first_name+` `+msg.result.response.passengers[i].last_name+`
+                                                    <h5 class="single_border_custom_left" style="padding-left:5px;">`+parseInt(parseInt(i)+1)+`. `+msg.result.response.passengers[i].title+` `+msg.result.response.passengers[i].first_name+` `+msg.result.response.passengers[i].last_name+`
                                                         <b style="background:white; font-size:13px; color:black; padding:0px 15px; display:unset; border: 1px solid #cdcdcd; border-radius:7px;">
                                                             <i class="fas fa-user"></i> `;
                                                     if(parseInt(msg.result.response.passengers[i].age) > 12)
