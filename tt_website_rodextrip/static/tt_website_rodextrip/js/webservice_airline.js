@@ -3479,8 +3479,14 @@ function get_price_itinerary_request(){
            is_roundtrip_combo = false;
            if(resJson.result.error_code == 0 && resJson.result.response.price_itinerary_provider.length!=0){
                 airline_get_price_request = get_price_airline_response.result.request;
-                if(resJson.result.response.price_itinerary_provider.length != journey.length)
-                    is_roundtrip_combo = true;
+                if(resJson.result.response.price_itinerary_provider.length != journey.length){
+                    var total_journey = 0;
+                    for(i in resJson.result.response.price_itinerary_provider)
+                        for(j in resJson.result.response.price_itinerary_provider[i].journeys)
+                            total_journey++;
+                    if(total_journey != journey.length)
+                        is_roundtrip_combo = true;
+                }
                 for(i in resJson.result.response.price_itinerary_provider){
                     for(j in resJson.result.response.price_itinerary_provider[i].journeys){
                         for(k in resJson.result.response.price_itinerary_provider[i].journeys[j].segments){
