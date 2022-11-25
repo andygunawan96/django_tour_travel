@@ -4404,8 +4404,13 @@ function airline_detail(type){
         else
             price_itinerary_temp = price_itinerary.sell_journey_provider;
         is_roundtrip_combo = false;
-        if(airline_request.departure.length != price_itinerary_temp.length)
-            is_roundtrip_combo = true
+        if(price_itinerary_temp.length != airline_request.departure.length){
+            var total_journey = 0;
+            for(i in price_itinerary_temp.journeys)
+                total_journey++;
+            if(total_journey != journey.length && airline_request.direction == 'RT')
+                is_roundtrip_combo = true;
+        }
         currency = '';
         for(i in price_itinerary_temp){
             for(j in price_itinerary_temp[i].journeys){
