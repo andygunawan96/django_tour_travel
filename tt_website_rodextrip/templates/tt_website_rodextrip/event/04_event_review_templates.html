@@ -161,11 +161,14 @@
                 <div class="col-lg-8">
                     <div class="row">
                         <div class="col-lg-12">
-                            <div id="hotel_review" style="padding:10px; background-color:white; border:1px solid #cdcdcd;">
+                            <div id="hotel_review" style="padding:15px; background-color:white; border:1px solid #cdcdcd;">
                                 <div class="row">
                                     <div class="col-lg-12">
-                                        <h4> {% trans 'Booking Event Review' %} </h4>
-                                        <hr/>
+                                        <div class="row">
+                                            <div class="col-lg-12 mb-3" style="border-bottom: 1px solid #cdcdcd;">
+                                                <h4 class="mb-3"><img src="/static/tt_website_rodextrip/images/icon/event_black.png" alt="undefined" style="width:20px; height:20px;"> {% trans 'Event Detail' %}</h4>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="col-lg-4 mb-3">
                                         {% if event_code.images|length > 0 %}
@@ -281,8 +284,12 @@
                         <div class="col-lg-12" style="margin-top:15px;">
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <div style="border:1px solid #cdcdcd; padding:10px; background-color:white;">
-                                        <h4 style="text-align:justify; font-weight:bold;">{% trans 'Extra Question' %} </h4><hr/>
+                                    <div style="border:1px solid #cdcdcd; padding:15px; background-color:white;">
+                                        <div class="row">
+                                            <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                                                <h4 class="mb-3"><i class="fas fa-comments"></i> {% trans 'Extra Question' %}</h4>
+                                            </div>
+                                        </div>
                                         <div id="extra_question_target">
 
                                         </div>
@@ -294,26 +301,31 @@
                         <div class="col-lg-12" style="margin-top:15px;">
                             <div class="row">
                                 <div class="col-lg-12" style="padding-bottom:20px;">
-                                    <div style="border:1px solid #cdcdcd; padding:10px; background-color:white;">
-                                        <h4> {% trans 'Contact Person' %} <i class="fas fa-users"></i></h4>
-                                        <hr/>
-                                        <h5>{% trans 'Booker' %}</h5>
-                                        <div style="overflow:auto;">
-                                            <table style="width:100%; margin-top:10px;" id="list-of-passenger">
-                                                <tr>
-                                                    <th style="width:40%;">{% trans 'Name' %}</th>
-                                                    <th style="width:30%;">Email</th>
-                                                    <th style="width:30%;">{% trans 'Phone Number' %}</th>
-                                                </tr>
-                                                <tr>
-                                                    <td>{{booker.title}} {{booker.first_name}} {{booker.last_name}}</td>
-                                                    <td>{{booker.email}}</td>
-                                                    <td>{{booker.mobile}}</td>
-                                                </tr>
-                                            </table>
+                                    <div class="mb-3" style="border:1px solid #cdcdcd; padding:15px; background-color:white;">
+                                        <div class="row">
+                                            <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                                                <h4 class="mb-3"><i class="fas fa-user"></i> {% trans 'Booker' %}</h4>
+                                            </div>
                                         </div>
-                                        <br/>
-                                        <h5>Contact Person</h5>
+                                        <table style="width:100%; margin-top:10px;" id="list-of-passenger">
+                                            <tr>
+                                                <th style="width:40%;">{% trans 'Name' %}</th>
+                                                <th style="width:30%;">Email</th>
+                                                <th style="width:30%;">{% trans 'Phone Number' %}</th>
+                                            </tr>
+                                            <tr>
+                                                <td>{{booker.title}} {{booker.first_name}} {{booker.last_name}}</td>
+                                                <td>{{booker.email}}</td>
+                                                <td>{{booker.mobile}}</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div style="border:1px solid #cdcdcd; padding:15px; background-color:white;">
+                                        <div class="row">
+                                            <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                                                <h4 class="mb-3"><i class="fas fa-user"></i> {% trans 'Contact Person' %}</h4>
+                                            </div>
+                                        </div>
                                         <div style="overflow:auto;">
                                             <table style="width:100%; margin-top:10px;" id="list-of-passenger">
                                                 <tr>
@@ -350,13 +362,16 @@
                 <div class="col-lg-4" style="padding-bottom:20px;">
                     <div class="row">
                         <div class="col-lg-12">
-                            <div style="background:white; padding:0px 15px; margin-bottom:15px; border:1px solid #cdcdcd;">
-                                <h4 style="padding-top:15px;"> Price Detail</h4>
-                                <hr/>
+                            <div style="background:white; padding:15px; margin-bottom:15px; border:1px solid #cdcdcd;">
+                                <div class="row" style="margin-bottom:5px;">
+                                    <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                                        <h4 class="mb-3"> Price Detail</h4>
+                                    </div>
+                                </div>
                                 <span style="font-size:16px; font-weight:700;" id="product_title">{{event_code.name}} </span>
                                 <span class="address_event">{% if event_code.location.address != false %}{{event_code.location.address}}{% endif %}{% if event_code.location.city != false %}, {{event_code.location.city}}{% endif %}{% if event_code.location.kelurahan != false %}, {{event_code.location.kelurahan}}{% endif %}{% if event_code.location.state != false %}, {{event_code.location.state}}{% endif %}{% if event_code.location.zipcode != false %}, {{event_code.location.zipcode}}{% endif %}</span><br/>
                                 <hr/>
-                                <div style="padding-top:10px; padding-bottom:10px;" id="event_detail_table">
+                                <div style="padding-bottom:10px;" id="event_detail_table">
 
                                 </div>
                                 <div id="event_detail_button">
