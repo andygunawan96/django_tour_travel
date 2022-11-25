@@ -4403,6 +4403,9 @@ function airline_detail(type){
             price_itinerary_temp = price_itinerary.price_itinerary_provider;
         else
             price_itinerary_temp = price_itinerary.sell_journey_provider;
+        is_roundtrip_combo = false;
+        if(airline_request.departure.length != price_itinerary_temp.length)
+            is_roundtrip_combo = true
         currency = '';
         for(i in price_itinerary_temp){
             for(j in price_itinerary_temp[i].journeys){
@@ -4466,25 +4469,40 @@ function airline_detail(type){
                             text+=`<hr/>`;
                         }
                         flight_count++;
-                        $text +='*Flight '+flight_count+'*\n';
+                        if(!is_roundtrip_combo)
+                            $text +='*Flight '+flight_count+'*\n';
+                        else
+                            $text +='*Roundtrip*\n';
                         if(flight_count != 1){
                             text+=`<div class="col-lg-12"><hr/></div>`;
                         }
                         text += `
                         <div class="col-lg-12 mt-2 mb-2">
-                            <span class="span_link" style="display:none;" id="flight_title_up`+flight_count+`" onclick="show_hide_flight(`+flight_count+`);">
-                                Flight `+flight_count+` -
-                                `+price_itinerary_temp[i].journeys[j].origin+`
-                                <i class="fas fa-arrow-right"></i>
-                                `+price_itinerary_temp[i].journeys[j].destination+`
+                            <span class="span_link" style="display:none;" id="flight_title_up`+flight_count+`" onclick="show_hide_flight(`+flight_count+`);">`;
+                            if(!is_roundtrip_combo)
+                                text+=`Flight `+flight_count+` -`;
+                            else
+                                text+= 'Roundtrip - ';
+                            text+=price_itinerary_temp[i].journeys[j].origin;
+                            if(!is_roundtrip_combo)
+                                text+=`<i class="fas fa-arrow-right"></i>`;
+                            else
+                                text+=`<i class="fas fa-arrows-alt-h"></i>`; // cek cenius
+                            text+=price_itinerary_temp[i].journeys[j].destination+`
                                 ( `+price_itinerary_temp[i].journeys[j].departure_date.split(' - ')[0]+` )
                                 <i class="fas fa-chevron-up" style="float:right; color:`+color+`; font-size:18px;"></i>
                             </span>
-                            <span class="span_link mt-1 mb-2" id="flight_title_down`+flight_count+`" onclick="show_hide_flight(`+flight_count+`);">
-                                Flight `+flight_count+` -
-                                `+price_itinerary_temp[i].journeys[j].origin+`
-                                <i class="fas fa-arrow-right"></i>
-                                `+price_itinerary_temp[i].journeys[j].destination+`
+                            <span class="span_link mt-1 mb-2" id="flight_title_down`+flight_count+`" onclick="show_hide_flight(`+flight_count+`);">`;
+                            if(!is_roundtrip_combo)
+                                text+=`Flight `+flight_count+` -`;
+                            else
+                                text+= 'Roundtrip - '
+                            text+=price_itinerary_temp[i].journeys[j].origin;
+                            if(!is_roundtrip_combo)
+                                text+=`<i class="fas fa-arrow-right"></i>`;
+                            else
+                                text+=`<i class="fas fa-arrows-alt-h"></i>`; // cek cenius
+                            text+=price_itinerary_temp[i].journeys[j].destination+`
                                 ( `+price_itinerary_temp[i].journeys[j].departure_date.split(' - ')[0]+` )
                                 <i class="fas fa-chevron-down" style="float:right; color:`+color+`; font-size:18px;"></i>
                             </span>

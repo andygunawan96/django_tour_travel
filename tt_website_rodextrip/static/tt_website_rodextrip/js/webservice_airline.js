@@ -3476,8 +3476,11 @@ function get_price_itinerary_request(){
            fare_print = false;
            check_journey = '';
            check_provider = '';
+           is_roundtrip_combo = false;
            if(resJson.result.error_code == 0 && resJson.result.response.price_itinerary_provider.length!=0){
-                airline_get_price_request = get_price_airline_response.result.request
+                airline_get_price_request = get_price_airline_response.result.request;
+                if(resJson.result.response.price_itinerary_provider.length != journey.length)
+                    is_roundtrip_combo = true;
                 for(i in resJson.result.response.price_itinerary_provider){
                     for(j in resJson.result.response.price_itinerary_provider[i].journeys){
                         for(k in resJson.result.response.price_itinerary_provider[i].journeys[j].segments){
@@ -3554,24 +3557,39 @@ function get_price_itinerary_request(){
 //                                    $text +='Flight '+flight_count+'\n';
                                     text += `
                                     <div class="col-lg-12">
-                                        <h6 style="background:`+color+`; padding:10px; cursor:pointer; color:`+text_color+`; display:block;" id="flight_title_up`+flight_count+`" onclick="show_hide_flight(`+flight_count+`);">
-                                            Flight `+flight_count+` -
-                                            `+resJson.result.response.price_itinerary_provider[i].journeys[j].origin+`
-                                            <i class="fas fa-arrow-right"></i>
-                                            `+resJson.result.response.price_itinerary_provider[i].journeys[j].destination+`
+                                        <h6 style="background:`+color+`; padding:10px; cursor:pointer; color:`+text_color+`; display:block;" id="flight_title_up`+flight_count+`" onclick="show_hide_flight(`+flight_count+`);">`;
+                                            if(!is_roundtrip_combo)
+                                                text+=`Flight `+flight_count+` -`;
+                                            else
+                                                text+=`Roundtrip -`;
+                                            text+=resJson.result.response.price_itinerary_provider[i].journeys[j].origin
+                                            if(!is_roundtrip_combo)
+                                                text+=`<i class="fas fa-arrow-right"></i>`;
+                                            else
+                                                text+=`<i class="fas fa-arrows-alt-h"></i>`; // cek cenius
+                                            text+=resJson.result.response.price_itinerary_provider[i].journeys[j].destination+`
                                             ( `+resJson.result.response.price_itinerary_provider[i].journeys[j].departure_date.split(' - ')[0]+` )
                                             <span style="float:right;">hide <i class="fas fa-caret-up" style="font-size:18px;"></i></span
                                         </h6>
-                                        <h6 style="background:`+color+`; padding:10px; cursor:pointer; color:`+text_color+`; display:none;" id="flight_title_down`+flight_count+`" onclick="show_hide_flight(`+flight_count+`);">
-                                            Flight `+flight_count+` -
-                                            `+resJson.result.response.price_itinerary_provider[i].journeys[j].origin+`
-                                            <i class="fas fa-arrow-right"></i>
-                                            `+resJson.result.response.price_itinerary_provider[i].journeys[j].destination+`
+                                        <h6 style="background:`+color+`; padding:10px; cursor:pointer; color:`+text_color+`; display:none;" id="flight_title_down`+flight_count+`" onclick="show_hide_flight(`+flight_count+`);">`;
+                                            if(!is_roundtrip_combo)
+                                                text+=`Flight `+flight_count+` -`;
+                                            else
+                                                text+=`Roundtrip -`;
+                                            text+=resJson.result.response.price_itinerary_provider[i].journeys[j].origin;
+                                            if(!is_roundtrip_combo)
+                                                text+=`<i class="fas fa-arrow-right"></i>`;
+                                            else
+                                                text+=`<i class="fas fa-arrows-alt-h"></i>`; // cek cenius
+                                            text+=resJson.result.response.price_itinerary_provider[i].journeys[j].destination+`
                                             ( `+resJson.result.response.price_itinerary_provider[i].journeys[j].departure_date.split(' - ')[0]+` )
                                             <span style="float:right;">show <i class="fas fa-caret-down" style="font-size:18px;"></i></span
                                         </h6>
                                     </div>`;
-                                    $text +='*Flight '+flight_count+'*\n';
+                                    if(!is_roundtrip_combo)
+                                        $text +='*Flight '+flight_count+'*\n';
+                                    else
+                                        $text +='*Roundtrip*\n';
                                     text+=`
                                     <div class="col-lg-12" style="display:block;" id="flight_div_sh`+flight_count+`">
                                         <div class="row">
