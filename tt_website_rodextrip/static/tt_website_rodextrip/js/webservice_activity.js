@@ -3407,9 +3407,8 @@ function activity_get_booking(data){
                                temp_pax_seq = 1
                                for(i in msg.result.response.passengers){
                                     text+=`
-                                    <h4 class="single_border_custom_bottom" style="margin-bottom:5px; width:50px; word-break:break-word;">#`+temp_pax_seq+`</h4>
-                                    <h5>
-                                        `+msg.result.response.passengers[i].title+`. `+msg.result.response.passengers[i].name+`
+                                    <h5 class="single_border_custom_left" style="padding-left:5px;">
+                                        `+temp_pax_seq+`. `+msg.result.response.passengers[i].title+`. `+msg.result.response.passengers[i].name+`
                                         <b style="background:white; font-size:13px; color:black; padding:0px 15px; display:unset; border: 1px solid #cdcdcd; border-radius:7px;">
                                             <i class="fas fa-user"></i> `;
                                             if(msg.result.response.passengers[i].pax_type == 'ADT'){

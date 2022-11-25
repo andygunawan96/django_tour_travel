@@ -974,8 +974,7 @@ function ppob_get_booking(data){
                     for(i in msg.result.response.provider_booking){
                         for(j in msg.result.response.provider_booking[i].bill_details){
                             text+=`
-                            <h4 class="single_border_custom_bottom" style="margin-bottom:5px; width:50px; word-break:break-word;">#`+(passenger_count)+`</h4>
-                            <h5>`+msg.result.response.provider_booking[i].bill_details[j].customer_name+`</h5>
+                            <h5 class="single_border_custom_left" style="padding-left:5px;">`+(passenger_count)+`. `+msg.result.response.provider_booking[i].bill_details[j].customer_name+`</h5>
                             <b>Number: </b><i>`+msg.result.response.provider_booking[i].bill_details[j].customer_number+`</i><br>
                             <b>Total: </b><i>`+currency+` `+getrupiah(msg.result.response.provider_booking[i].bill_details[j].total)+`</i><br>`;
                             if(j != parseInt(msg.result.response.provider_booking[i].bill_details.length-1)){

@@ -206,12 +206,15 @@
                 <div class="col-lg-8" style="margin-top:10px; margin-bottom:15px;">
                     <div class="row">
                         <div class="col-lg-12">
-                            <div id="insurance_review_detail" style="padding:10px; background-color:white; border:1px solid #cdcdcd;">
-                                <h4> {% trans 'Insurance Information' %} </h4>
-                                <hr/>
+                            <div id="insurance_review_detail" style="padding:15px; background-color:white; border:1px solid #cdcdcd;">
+                                <div class="row">
+                                    <div class="col-lg-12 mb-3" style="border-bottom: 1px solid #cdcdcd;">
+                                        <h4 class="mb-3"><img src="/static/tt_website_rodextrip/images/icon/insurance_black.png" alt="undefined" style="width:20px; height:20px;"> {% trans 'Insurance Information' %}</h4>
+                                    </div>
+                                </div>
                                 <h4>{{response.carrier_name}}</h4>
                                 <span>{{response.data_name}}</span>
-                                <br/>
+                                <hr/>
                                 <div style="overflow:auto; max-height:500px;">
                                     <span>
                                         {% autoescape off %}
@@ -228,23 +231,17 @@
                     <div class="row" style="margin-top: 15px;">
                         <div class="col-lg-12">
                             <div id="insurance_review_booker" style="background-color: white; border: 1px solid #cdcdcd; overflow-x: auto;">
-                                <div style="padding:10px;">
-                                    <h4> {% trans 'Contact Information' %} </h4>
-                                    <hr/>
-                                    <div style="overflow:auto;">
-                                        <table style="width:100%; margin-top:10px; " id="list-of-passenger">
-                                            <tbody><tr>
-                                                <th style="width:40%;">Name</th>
-                                                <th style="width:30%;">Email</th>
-                                                <th style="width:30%;">Phone Number</th>
-                                            </tr>
-                                            <tr>
-                                                <td>{{passenger.booker.title}} {{passenger.booker.first_name}} {{passenger.booker.last_name}}</td>
-                                                <td>{{passenger.booker.email}}</td>
-                                                <td>{{passenger.booker.calling_code}} - {{passenger.booker.mobile}}</td>
-                                            </tr>
-                                            </tbody></table>
+                                <div style="padding:15px;">
+                                    <div class="row">
+                                        <div class="col-lg-12 mb-3" style="border-bottom: 1px solid #cdcdcd;">
+                                            <h4 class="mb-3"><i class="fas fa-user"></i> Contact Person</h4>
+                                        </div>
                                     </div>
+                                    <h5>
+                                        {{passenger.booker.title}} {{passenger.booker.first_name}} {{passenger.booker.last_name}}
+                                    </h5>
+                                    <b>Email: </b><i>{{passenger.booker.email}}</i><br>
+                                    <b>Phone: </b><i>{{passenger.booker.calling_code}} - {{passenger.booker.mobile}}</i><br>
                                 </div>
                             </div>
                         </div>
@@ -252,50 +249,57 @@
 
                     <div class="row" style="margin-top: 15px;">
                         <div class="col-lg-12">
-                            <div id="insurance_review_passenger" style="background-color: white; border: 1px solid #cdcdcd; overflow-x: auto;">
-                                <div style="padding:10px;">
-                                    <h4> {% trans 'List of Guest(s)' %} </h4>
-                                    <hr/>
-                                    <table style="width:100%;">
-                                        {% for pax in passenger.adult %}
-                                        <tr>
-                                            <td>
-                                                <b>{{forloop.counter}}. {{pax.title}}. {{pax.first_name}} {{pax.last_name}}</b><br/>
-                                                <span>Birth Date: {{pax.birth_date}}</span><br/>
-                                                {% for relation in pax.data_insurance.relation %}
-                                                <b>Relation {{forloop.counter}}</b>
-                                                <br/>
-                                                {{relation.title}}. {{relation.first_name}} {{relation.last_name}}
-                                                {% if relation.relation != ''%}
-                                                - {{relation.relation}}
-                                                {% endif %}
-                                                <br/>
-                                                {% endfor %}
-
-                                                {% if 'title' in pax.data_insurance.beneficiary %}
-                                                <b>Beneficiary</b><br/>{{pax.data_insurance.beneficiary.title}}. {{pax.data_insurance.beneficiary.first_name}} {{pax.data_insurance.beneficiary.last_name}} - {{pax.data_insurance.beneficiary.relation}}</b><br/>
-                                                {% endif %}
-
-                                                {% if pax.data_insurance.addons|length != 0%}
-                                                    {% for addons in pax.data_insurance.addons %}
-                                                        {% if forloop.counter == 1%}
-                                                        <b>Additional Benefit</b><br/>
-                                                        {% else %}
-                                                        <hr/>
-                                                        {% endif %}
-                                                        {% autoescape off %}
-                                                        {{addons.text_with_tag}}
-                                                        {% endautoescape %}
-                                                    {% endfor %}
-                                                {% else %}
-                                                <b>Additional Benefit</b><br/>
-                                                <i>Not Selected</i>
-                                                {% endif %}
-                                            </td>
-                                        </tr>
-                                        {% endfor %}
-                                    </table>
+                            <div id="insurance_review_passenger" style="background-color: white; border: 1px solid #cdcdcd; padding:15px;">
+                                <div class="row mb-3">
+                                    <div class="col-lg-12" style="border-bottom: 1px solid #cdcdcd;">
+                                        <h4 class="mb-3"><i class="fas fa-users"></i> {% trans 'List of Guest' %}</h4>
+                                    </div>
                                 </div>
+                                {% for pax in passenger.adult %}
+                                <h5 class="single_border_custom_left" style="padding-left:5px;">
+                                    {{forloop.counter}}. {{pax.title}}. {{pax.first_name}} {{pax.last_name}}
+                                    <b style="background:white; font-size:13px; color:black; padding:0px 15px; display:unset; border: 1px solid #cdcdcd; border-radius:7px;">
+                                        <i class="fas fa-user"></i> Adult
+                                    </b>
+                                </h5>
+                                <b>Birth Date: </b><i>{{pax.birth_date}}</i><br/>
+
+                                {% for relation in pax.data_insurance.relation %}
+                                <b>Relation {{forloop.counter}}</b>
+                                <br/>
+                                <i>{{relation.title}}. {{relation.first_name}} {{relation.last_name}}
+                                    {% if relation.relation != ''%}
+                                    - {{relation.relation}}
+                                    {% endif %}
+                                </i>
+                                <br/>
+                                {% endfor %}
+
+                                {% if 'title' in pax.data_insurance.beneficiary %}
+                                <b>Beneficiary: </b><i>{{pax.data_insurance.beneficiary.title}}. {{pax.data_insurance.beneficiary.first_name}} {{pax.data_insurance.beneficiary.last_name}} - {{pax.data_insurance.beneficiary.relation}}</i><br/>
+                                {% endif %}
+
+                                {% if pax.data_insurance.addons|length != 0%}
+                                {% for addons in pax.data_insurance.addons %}
+                                {% if forloop.counter == 1%}
+                                <b>Additional Benefit</b><br/>
+                                {% else %}
+                                <br/>
+                                {% endif %}
+                                {% autoescape off %}
+                                <i>{{addons.text_with_tag}}</i>
+                                {% endautoescape %}
+                                {% endfor %}
+                                {% else %}
+                                <b>Additional Benefit</b><br/>
+                                <i>Not Selected</i>
+                                {% endif %}
+
+                                {% if not forloop.last %}
+                                <hr/>
+                                {% endif %}
+
+                                {% endfor %}
                             </div>
                         </div>
                     </div>
@@ -316,9 +320,12 @@
                 </div>
 
                 <div class="col-lg-4" style="margin-top:10px;">
-                    <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="insurance_detail">
-                        <h4> {% trans 'Price Detail' %} </h4>
-                        <hr/>
+                    <div style="background-color:white; padding:15px; border:1px solid #cdcdcd;" id="insurance_detail">
+                        <div class="row" style="margin-bottom:5px;">
+                            <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                                <h4 class="mb-3"> Price Detail</h4>
+                            </div>
+                        </div>
                         <div class="row">
                             <div class="col-lg-12" id="insurance_detail_table">
 

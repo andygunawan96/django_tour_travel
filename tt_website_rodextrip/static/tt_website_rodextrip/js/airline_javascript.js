@@ -4445,7 +4445,7 @@ function airline_detail(type){
         text += `
         <div class="row" style="margin-bottom:5px;">
             <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
-                <h4 class="mb-3"> Price Detail</h5>
+                <h4 class="mb-3"> Price Detail</h4>
             </div>
         </div>`;
         text += `
@@ -7517,9 +7517,8 @@ function get_airline_review(){
                     for(i in passengers_ssr){
                         text+=`
                             <div class="col-lg-12 mb-2" style="padding-top:15px; border-top:1px solid #cdcdcd;">
-                            <h4 class="single_border_custom_bottom" style="margin-bottom:5px; width:50px; word-break:break-word;">#`+(parseInt(count_pax)+1)+`</h4>
-                            <h5>
-                                `+passengers_ssr[i].title+` `+passengers_ssr[i].first_name+` `+ passengers_ssr[i].last_name+``;
+                            <h5 class="single_border_custom_left" style="padding-left:5px;">
+                                `+(parseInt(count_pax)+1)+`. `+passengers_ssr[i].title+` `+passengers_ssr[i].first_name+` `+ passengers_ssr[i].last_name+``;
 
                             if(passengers_ssr[i].pax_type == 'ADT'){
                                 text+=`
@@ -7617,9 +7616,8 @@ function get_airline_review(){
                     for(i in passengers.infant){
                         text+=`
                         <div class="col-lg-12 mb-2" style="padding-top:15px; border-top:1px solid #cdcdcd;">
-                            <h4 class="single_border_custom_bottom" style="margin-bottom:5px; width:50px; word-break:break-word;">#`+(parseInt(count_pax)+1)+`</h4>
-                            <h5>
-                                `+passengers.infant[i].title+` `+passengers.infant[i].first_name+` `+ passengers.infant[i].last_name +`
+                            <h5 class="single_border_custom_left" style="padding-left:5px;">
+                                `+(parseInt(count_pax)+1)+`. `+passengers.infant[i].title+` `+passengers.infant[i].first_name+` `+ passengers.infant[i].last_name +`
                                 <b style="background:white; font-size:13px; color:black; padding:0px 15px; display:unset; border: 1px solid #cdcdcd; border-radius:7px;">
                                     <i class="fas fa-user"></i> Infant
                                 </b>

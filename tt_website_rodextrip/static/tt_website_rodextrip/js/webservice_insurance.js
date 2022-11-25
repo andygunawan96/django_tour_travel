@@ -2518,13 +2518,16 @@ function insurance_get_booking(data, sync=false){
                     $text += `\n`+msg.result.response.provider_bookings[0].carrier_name + '\n\nTest\n';
 
                     text = `
-                    <div class="mb-3" style="padding:15px; background:white; border:1px solid #cdcdcd;">
+                    <div style="padding:15px; background:white; border:1px solid #cdcdcd;">
                         <div class="row">
-                            <div class="col-lg-6">
-                                <h6 class="carrier_code_template">Order Number : </h6><h6>`+msg.result.response.order_number+`</h6><br/>
+                            <div class="col-lg-12 mb-3" style="padding-bottom:15px; border-bottom:1px solid #cdcdcd;">
+                                <h4>
+                                    <i class="fas fa-scroll"></i> Order Number: `+msg.result.response.order_number+`
+                                </h4>
                             </div>
-                            <div class="col-lg-6" style="text-align:right">
+                            <div class="col-lg-12">
                                 <h5>`+msg.result.response.provider_bookings[0].carrier_name+`</h5>
+                                <hr/>
                             </div>`;
                             for(i in msg.result.response.provider_bookings){
                                 if(msg.result.response.provider_bookings[i].error_msg.length != 0 && msg.result.response.provider_bookings[i].state != 'issued')
@@ -2533,11 +2536,20 @@ function insurance_get_booking(data, sync=false){
                                         <a href="#" class="close" data-dismiss="alert" aria-label="close" style="margin-top:-1.9vh;">x</a>
                                     </div>`;
                                 text+=`
-                                <div class="col-lg-12">
-                                    <span>Status: </span>`;
+                                <div class="col-lg-6">`;
+                                    if(msg.result.response.state == 'booked'){
+                                        text+=`
+                                        <b>Hold Date: </b>
+                                        <span style="font-weight:600;">`+msg.result.response.hold_date+`</span><br/>`;
+                                        $text += 'Hold Date: '+msg.result.response.hold_date+'\n';
+                                    }
+                                text+=`</div>
+                                <div class="col-lg-6" style="text-align:right;">
+                                    <b>Status: </b>`;
                                     if(msg.result.response.provider_bookings[i].state_description == 'Expired' ||
                                         msg.result.response.provider_bookings[i].state_description == 'Cancelled' ||
-                                        msg.result.response.provider_bookings[i].state_description == 'Booking Failed'){
+                                        msg.result.response.provider_bookings[i].state_description == 'Booking Failed' ||
+                                        msg.result.response.provider_bookings[i].state_description == 'Void'){
                                         text+=`<span style="background:#DC143C; color:white; padding:0px 15px; border-radius:14px;">`;
                                     }
                                     else if(msg.result.response.provider_bookings[i].state_description == 'Booked' ||
@@ -2556,29 +2568,25 @@ function insurance_get_booking(data, sync=false){
                                     else{
                                         text+=`<span>`;
                                     }
-
-                                    text+=``+msg.result.response.provider_bookings[i].state_description+`</span><br/>`;
-                                    if(msg.result.response.state == 'booked'){
-                                        text+=`
-                                        <span>Hold Date: </span>
-                                        <span style="font-weight:600;">`+msg.result.response.hold_date+`</span><br/>`;
-                                        $text += 'Hold Date: '+msg.result.response.hold_date+'\n';
-                                    }
+                                    text+=`
+                                    `+msg.result.response.provider_bookings[i].state_description+`</span>
+                                </div>
+                                <div class="col-lg-12">`;
                                     //destination
                                     if(msg.result.response.provider_bookings[i].destination){
                                         text+=`
-                                        <span>Destination: </span>
-                                        <span style="font-weight:600;">`+msg.result.response.provider_bookings[i].destination+`</span><br/>`;
+                                        <b>Destination: </b>
+                                        <i>`+msg.result.response.provider_bookings[i].destination+`</i><br/>`;
                                         $text += 'Destination: '+msg.result.response.provider_bookings[i].destination+'\n';
                                     }
                                     //start date, end date
                                     if(msg.result.response.provider_bookings[i].start_date && msg.result.response.provider_bookings[i].end_date){
                                         text+=`
-                                        <span>Start Date: </span>
-                                        <span style="font-weight:600;">`+moment(msg.result.response.provider_bookings[i].start_date, 'YYYY-MM-DD').format('DD MMM YYYY')+`</span><br/>`;
+                                        <b>Start Date: </b>
+                                        <i>`+moment(msg.result.response.provider_bookings[i].start_date, 'YYYY-MM-DD').format('DD MMM YYYY')+`</i><br/>`;
                                         text+=`
-                                        <span>End Date: </span>
-                                        <span style="font-weight:600;">`+moment(msg.result.response.provider_bookings[i].end_date, 'YYYY-MM-DD').format('DD MMM YYYY')+`</span><br/>`;
+                                        <b>End Date: </b>
+                                        <i>`+moment(msg.result.response.provider_bookings[i].end_date, 'YYYY-MM-DD').format('DD MMM YYYY')+`</i><br/>`;
                                         $text += 'Start Date: '+moment(msg.result.response.provider_bookings[i].start_date, 'YYYY-MM-DD').format('DD MMM YYYY')+'\n';
                                         $text += 'End Date: '+moment(msg.result.response.provider_bookings[i].end_date, 'YYYY-MM-DD').format('DD MMM YYYY')+'\n';
                                     }
@@ -2590,52 +2598,61 @@ function insurance_get_booking(data, sync=false){
                         <hr/>`;
                     if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
                         text+=`
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <span>Agent: <b>`+msg.result.response.agent_name+`</b></span>
-                                </div>`;
-                        if(msg.result.response.customer_parent_name){
+                        <div class="row mb-3">
+                            <div class="col-lg-6">
+                                <b>Agent: </b><i>`+msg.result.response.agent_name+`</i>
+                            </div>
+                            <div class="col-lg-6">`;
+                                if(msg.result.response.customer_parent_name){
+                                    text+=`<b>Customer: </b><i>`+msg.result.response.customer_parent_type_name+` `+msg.result.response.customer_parent_name+`</i>`;
+                                }
                             text+=`
-                                <div class="col-lg-6">
-                                    <span>Customer: <b>`+msg.result.response.customer_parent_type_name+` `+msg.result.response.customer_parent_name+`</b></span>
-                                </div>`;
-                        }
-                        text+= `</div>`;
+                            </div>
+                        </div>`;
                     }
                     text+=`
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <h6>Booked</h6>
-                                <span>Date: <b>`;
-                                    if(msg.result.response.booked_date != ""){
-                                        text+=``+msg.result.response.booked_date+``;
-                                    }else{
-                                        text+=`-`
-                                    }
-                                    text+=`</b>
-                                </span>
-                                <br/>
-                                <span>by <b>`+msg.result.response.booked_by+`</b><span>
-                            </div>
-
-                            <div class="col-lg-6 mb-3">`;
-                                if(msg.result.response.state == 'issued'){
-                                    text+=`<h6>Issued</h6>
-                                        <span>Date: <b>`;
-                                        if(msg.result.response.issued_date != ""){
-                                            text+=``+msg.result.response.issued_date+``;
-                                        }else{
-                                            text+=`-`
-                                        }
-                                    text+=`</b>
-                                    </span>
-                                    <br/>
-                                    <span>by <b>`+msg.result.response.issued_by+`</b><span>`;
-                                }
-                                text+=`
-                            </div>
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <span>
+                                <b>Booked by</b><br><i>`+msg.result.response.booked_by+`</i>
+                            </span>
                         </div>
-                        <hr/>`;
+                        <div class="col-lg-9 mb-3">
+                            <span>
+                                <b>Booked Date </b><br/>`;
+                                if(msg.result.response.booked_date != ""){
+                                    text+=`<i>`+msg.result.response.booked_date+`</i>`;
+                                }else{
+                                    text+=`-`;
+                                }
+                            text+=`
+                            </span>
+                        </div>
+                    </div>`;
+
+                    if(msg.result.response.state == 'issued'){
+                        text+=`
+                        <div class="row">
+                            <div class="col-lg-3 mb-3">
+                                <span>
+                                    <b>Issued by</b><br><i>`+msg.result.response.issued_by+`</i>
+                                </span>
+                            </div>
+                            <div class="col-lg-5 mb-3">
+                                <span>
+                                    <b>Issued Date </b><br/>`;
+                                    if(msg.result.response.issued_date != ""){
+                                        text+=`<i>`+msg.result.response.issued_date+`</i>`;
+                                    }else{
+                                        text+=`-`;
+                                    }
+                                text+=`
+                                </span>
+                            </div>
+                        </div>`;
+                    }
+                    text+=`
+                    </div>`;
 
                    text+=`<div class="row">`;
                    text+=`<div class="col-lg-12"></div>`;
@@ -2645,171 +2662,184 @@ function insurance_get_booking(data, sync=false){
                    </div>
                    </div>`;
                     text += `
-                    <div style="border:1px solid #cdcdcd; padding:10px; overflow:auto; background-color:white; margin-top:20px;">
-                        <h5> Contact Person</h5>
-                        <hr/>
-                        <table style="width:100%" id="list-of-passenger">
-                            <tr>
-                                <th style="width:10%;" class="list-of-passenger-left">No</th>
-                                <th style="width:40%;">Name</th>
-                                <th style="width:30%;">Email</th>
-                                <th style="width:30%;">Phone</th>
-                            </tr>`;
-                            text+=`<tr>
-                                <td class="list-of-passenger-left">`+(1)+`</td>
-                                <td>`+msg.result.response.contact.title+` `+msg.result.response.contact.name+`</td>
-                                <td>`+msg.result.response.contact.email+`</td>
-                                <td>`+msg.result.response.contact.phone+`</td>
-                            </tr>
-                        </table>
+                    <div style="border:1px solid #cdcdcd; padding:15px; background-color:white; margin-top:20px;">
+                        <div class="row">
+                            <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                                <h4 class="mb-3"><i class="fas fa-user"></i> Contact Person</h4>
+                            </div>
+                        </div>
+                        <h5>
+                            `+msg.result.response.contact.title+` `+msg.result.response.contact.name+`
+                        </h5>
+                        <b>Email: </b><i>`+msg.result.response.contact.email+`</i><br>
+                        <b>Phone: </b><i>`+msg.result.response.contact.phone+`</i><br>
                     </div>`;
                     print_provider = false;
                     pax_number = 1;
                     for(i in msg.result.response.provider_bookings){
                         if(msg.result.response.provider_bookings[i].hasOwnProperty('tickets')){
                             text+=`
-                            <div class="mb-3" style="border:1px solid #cdcdcd; overflow:auto; padding:15px; background-color:white; margin-top:20px;">
-                                <h5> List of Customer</h5>
-                                <hr/>`;
-                            for(j in msg.result.response.provider_bookings[i].tickets){
-                                pax = {};
-                                for(k in msg.result.response.passengers){
-                                    if(msg.result.response.passengers[k].name == msg.result.response.provider_bookings[i].tickets[j].passenger){
-                                        pax = msg.result.response.passengers[k];
-                                        break;
-                                    }
-                                }
-                                if(Object.keys(pax).length > 0){ // prevent data error ticket kelebihan
-                                    text+=`
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <h5>`+(pax_number)+`.
-                                            `+pax.title+` `+pax.name;
-                                                if(pax.verify)
-                                                    text += '<i class="fas fa-check-square" style="color:blue"></i>';
-                                            text+=`
-                                            </h5>`;
-                                            if(pax.identity_type != '')
-                                                text+= pax.identity_type.substr(0,1).toUpperCase()+pax.identity_type.substr(1,pax.identity_type.length)+`: <b>`+pax.identity_number+`</b><br/>`;
-                                            text+=`
-                                            No Polis: <b>`+msg.result.response.provider_bookings[i].tickets[j].ticket_number+`</b><br/>
-                                            Email: <b>`+pax.email+`</b><br/>
-                                            Phone Number: <b>`+pax.phone_number+`</b>
-                                        </div>
-
-                                        <div class="col-lg-12">`;
-                                        if(pax.insurance_data.hasOwnProperty('addons')){
-                                            if(pax.insurance_data.addons.length != 0){
-                                                text+=`<br/><h6>Additional Benefit</h6><br/>
-                                                <table style="width:100%;" id="list-of-passengers" class="list-of-passenger-class">
-                                                    <tr>
-                                                        <th style="width:5%;" class="list-of-passenger-left">No</th>
-                                                        <th style="width:45%;">Additional Benefit</th>
-                                                        <th style="width:25%;">Price</th>
-                                                    </tr>`;
-                                                    for(k in pax.insurance_data.addons){
-                                                        text+=`
-                                                        <tr>
-                                                            <td>`+(parseInt(k)+1)+`</td>
-                                                            <td>
-                                                                `+pax.insurance_data.addons[k].text_with_tag+`
-                                                            </td>
-                                                            <td>`+pax.insurance_data.addons[k].currency+` `+getrupiah(pax.insurance_data.addons[k].price)+`</td>
-                                                        </tr>`;
-                                                    }
-                                                text+=`</table>`;
-                                            }else{
+                            <div class="mb-3" style="border:1px solid #cdcdcd; padding:15px; background-color:white; margin-top:20px;">
+                                <div class="row">
+                                    <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                                        <h4 class="mb-3"><i class="fas fa-user"></i> List of Customer</h4>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="row">`;
+                                        for(j in msg.result.response.provider_bookings[i].tickets){
+                                            pax = {};
+                                            for(k in msg.result.response.passengers){
+                                                if(msg.result.response.passengers[k].name == msg.result.response.provider_bookings[i].tickets[j].passenger){
+                                                    pax = msg.result.response.passengers[k];
+                                                    break;
+                                                }
+                                            }
+                                            if(Object.keys(pax).length > 0){ // prevent data error ticket kelebihan
                                                 text+=`
-                                                    <br/>
-                                                    <b>Additional Benefit</b><br/>
-                                                    <i>Not Selected</i>`;
+                                                <di class="col-lg-12">
+                                                    <h5 class="single_border_custom_left" style="padding-left:5px;">
+                                                        `+(pax_number)+`. `+pax.title+` `+pax.name+``;
+                                                        if(pax.verify)
+                                                            text += '<i class="fas fa-check-square" style="color:blue"></i>';
+                                                        text+=`
+                                                        <b style="background:white; font-size:13px; color:black; padding:0px 15px; display:unset; border: 1px solid #cdcdcd; border-radius:7px;">
+                                                            <i class="fas fa-user"></i> `;
+                                                            if(pax.pax_type == 'ADT'){
+                                                                 text+=` Adult`;
+                                                            }else if(pax.pax_type == 'CHD'){
+                                                                 text+=` Child`;
+                                                            }else if(pax.pax_type == 'INF'){
+                                                                 text+=` Infant`;
+                                                            }
+                                                        text+=`
+                                                        </b>
+                                                    </h5>`;
+                                                    if(pax.identity_type != ''){
+                                                        text+=`<b>`+pax.identity_type.substr(0,1).toUpperCase()+pax.identity_type.substr(1,pax.identity_type.length)+`: </b><i>`+pax.identity_number+`</i><br/>`;
+                                                    }
+
+                                                    text+=`
+                                                    <b>No Polis: </b><i>`+msg.result.response.provider_bookings[i].tickets[j].ticket_number+`</i><br>
+                                                    <b>Email: </b><i>`+pax.email+`</i><br>
+                                                    <b>Phone Number: </b><i>`+pax.phone_number+`</i><br>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-12 mb-4">`;
+                                                        if(pax.insurance_data.hasOwnProperty('addons')){
+                                                            if(pax.insurance_data.addons.length != 0){
+                                                                text+=`<b>Additional Benefit</b><br/>
+                                                                <table style="width:100%;" id="list-of-passengers" class="list-of-passenger-class">
+                                                                    <tr>
+                                                                        <th style="width:5%;" class="list-of-passenger-left">No</th>
+                                                                        <th style="width:45%;">Additional Benefit</th>
+                                                                        <th style="width:25%;">Price</th>
+                                                                    </tr>`;
+                                                                    for(k in pax.insurance_data.addons){
+                                                                        text+=`
+                                                                        <tr>
+                                                                            <td>`+(parseInt(k)+1)+`</td>
+                                                                            <td>
+                                                                                `+pax.insurance_data.addons[k].text_with_tag+`
+                                                                            </td>
+                                                                            <td>`+pax.insurance_data.addons[k].currency+` `+getrupiah(pax.insurance_data.addons[k].price)+`</td>
+                                                                        </tr>`;
+                                                                    }
+                                                                text+=`</table>`;
+                                                            }else{
+                                                                text+=`
+                                                                    <br/>
+                                                                    <b>Additional Benefit</b><br/>
+                                                                    <i>Not Selected</i>`;
+                                                            }
+                                                        }
+                                                    text+=`
+                                                    </div>
+                                                </div>`;
+                                                pax_number++;
+
+                                                if(pax.hasOwnProperty('insurance_data') && pax['insurance_data'].hasOwnProperty('relation') && pax['insurance_data']['relation'].length > 0){
+                                                    for(k in pax['insurance_data']['relation']){
+                                                        text+=`
+                                                        <div class="row">
+                                                            <div class="col-lg-12">
+                                                                <h5 class="single_border_custom_left" style="padding-left:5px;">`+(pax_number)+`.
+                                                                `+pax['insurance_data']['relation'][k].title+` `+pax['insurance_data']['relation'][k].first_name + ` ` + pax['insurance_data']['relation'][k].last_name;
+                                                                    if(pax.verify)
+                                                                        text += '<i class="fas fa-check-square" style="color:blue"></i>';
+                                                                text+=`
+                                                                </h5>`;
+                                                                if(pax['insurance_data']['relation'][k].identity_type != ''){
+                                                                    text+= `<b>`+pax['insurance_data']['relation'][k].identity_type.substr(0,1).toUpperCase()+pax['insurance_data']['relation'][k].identity_type.substr(1,pax.identity_type.length)+`: </b><i>`+pax['insurance_data']['relation'][k].identity_number+`</i><br/>`;
+                                                                }
+                                                                text+=`
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-lg-12 mb-4">`;
+                                                                if(pax.insurance_data.hasOwnProperty('addons')){
+                                                                    if(pax.insurance_data.addons.length != 0){
+                                                                        text+=`<b>Additional Benefit</b><br/>
+                                                                        <table style="width:100%;" id="list-of-passengers" class="list-of-passenger-class">
+                                                                            <tr>
+                                                                                <th style="width:5%;" class="list-of-passenger-left">No</th>
+                                                                                <th style="width:45%;">Additional Benefit</th>
+                                                                                <th style="width:25%;">Price</th>
+                                                                            </tr>`;
+                                                                            for(k in pax.insurance_data.addons){
+                                                                                text+=`
+                                                                                <tr>
+                                                                                    <td>`+(parseInt(k)+1)+`</td>
+                                                                                    <td>
+                                                                                        `+pax.insurance_data.addons[k].text_with_tag+`
+                                                                                    </td>
+                                                                                    <td>`+pax.insurance_data.addons[k].currency+` `+getrupiah(pax.insurance_data.addons[k].price)+`</td>
+                                                                                </tr>`;
+                                                                            }
+                                                                        text+=`</table>`;
+                                                                    }else{
+                                                                        text+=`
+                                                                            <br/>
+                                                                            <b>Additional Benefit</b><br/>
+                                                                            <i>Not Selected</i>`;
+                                                                    }
+                                                                }
+
+                                                                if(j != msg.result.response.provider_bookings[i].tickets.length -1){
+                                                                    text+=`<hr/>`;
+                                                                }
+                                                            text+=`
+                                                            </div>
+                                                        </div>`;
+                                                        pax_number++;
+                                                    }
+                                                }
+
+                                                if(pax.hasOwnProperty('insurance_data') && pax['insurance_data'].hasOwnProperty('beneficiary') && Object.keys(pax['insurance_data']['beneficiary']).length > 0){
+                                                    text+=`
+                                                    <div class="row">
+                                                        <div class="col-lg-12">
+                                                            <h4>Beneficiary</h4>
+                                                            <h5 class="single_border_custom_left" style="padding-left:5px;">`+(pax_number)+`.
+                                                            `+pax['insurance_data']['beneficiary'].title+` `+pax['insurance_data']['beneficiary'].first_name+` `+pax['insurance_data']['beneficiary'].last_name;
+                                                                if(pax.verify)
+                                                                    text += '<i class="fas fa-check-square" style="color:blue"></i>';
+                                                            text+=`
+                                                            </h5>`;
+                                                            if(pax['insurance_data']['beneficiary'].identity_type != '')
+                                                                text+= `<b>`+pax['insurance_data']['beneficiary'].identity_type.substr(0,1).toUpperCase()+pax['insurance_data']['beneficiary'].identity_type.substr(1,pax.identity_type.length)+`: </b><i>`+pax['insurance_data']['beneficiary'].identity_number+`</i><br/>`;
+                                                            text+=`
+                                                        </div>
+                                                    </div>`;
+                                                }
+
+                                                text+=`</div>`;
                                             }
                                         }
-
-                                        if(j != msg.result.response.provider_bookings[i].tickets.length -1){
-                                            text+=`<hr/>`;
-                                        }
-                                    text+=`
+                                        text +=`
                                         </div>
-                                    </div>`;
-                                    pax_number++;
-                                    if(pax.hasOwnProperty('insurance_data') && pax['insurance_data'].hasOwnProperty('relation') && pax['insurance_data']['relation'].length > 0){
-                                        for(k in pax['insurance_data']['relation']){
-                                            text+=`
-                                    <div class="row" style="margin-top:20px;">
-                                        <div class="col-lg-12">
-                                            <h5>`+(pax_number)+`.
-                                            `+pax['insurance_data']['relation'][k].title+` `+pax['insurance_data']['relation'][k].first_name + ` ` + pax['insurance_data']['relation'][k].last_name;
-                                                if(pax.verify)
-                                                    text += '<i class="fas fa-check-square" style="color:blue"></i>';
-                                            text+=`
-                                            </h5>`;
-                                            if(pax['insurance_data']['relation'][k].identity_type != '')
-                                                text+= pax['insurance_data']['relation'][k].identity_type.substr(0,1).toUpperCase()+pax['insurance_data']['relation'][k].identity_type.substr(1,pax.identity_type.length)+`: <b>`+pax['insurance_data']['relation'][k].identity_number+`</b><br/>`;
-                                            text+=`
-                                        </div>
-
-                                        <div class="col-lg-12">`;
-                                        if(pax.insurance_data.hasOwnProperty('addons')){
-                                            if(pax.insurance_data.addons.length != 0){
-                                                text+=`<br/><h6>Additional Benefit</h6><br/>
-                                                <table style="width:100%;" id="list-of-passengers" class="list-of-passenger-class">
-                                                    <tr>
-                                                        <th style="width:5%;" class="list-of-passenger-left">No</th>
-                                                        <th style="width:45%;">Additional Benefit</th>
-                                                        <th style="width:25%;">Price</th>
-                                                    </tr>`;
-                                                    for(k in pax.insurance_data.addons){
-                                                        text+=`
-                                                        <tr>
-                                                            <td>`+(parseInt(k)+1)+`</td>
-                                                            <td>
-                                                                `+pax.insurance_data.addons[k].text_with_tag+`
-                                                            </td>
-                                                            <td>`+pax.insurance_data.addons[k].currency+` `+getrupiah(pax.insurance_data.addons[k].price)+`</td>
-                                                        </tr>`;
-                                                    }
-                                                text+=`</table>`;
-                                            }else{
-                                                text+=`
-                                                    <br/>
-                                                    <b>Additional Benefit</b><br/>
-                                                    <i>Not Selected</i>`;
-                                            }
-                                        }
-
-                                        if(j != msg.result.response.provider_bookings[i].tickets.length -1){
-                                            text+=`<hr/>`;
-                                        }
-                                    text+=`
-                                        </div>
-                                    </div>`;
-                                        pax_number++;
-                                        }
-                                    }
-
-                                    if(pax.hasOwnProperty('insurance_data') && pax['insurance_data'].hasOwnProperty('beneficiary') && Object.keys(pax['insurance_data']['beneficiary']).length > 0){
-                                        text+=`
-                                    <div class="row" style="margin-top:20px;">
-                                        <div class="col-lg-12">
-                                            <h4>Beneficiary</h4>
-                                            <h5>`+(pax_number)+`.
-                                            `+pax['insurance_data']['beneficiary'].title+` `+pax['insurance_data']['beneficiary'].first_name+` `+pax['insurance_data']['beneficiary'].last_name;
-                                                if(pax.verify)
-                                                    text += '<i class="fas fa-check-square" style="color:blue"></i>';
-                                            text+=`
-                                            </h5>`;
-                                            if(pax['insurance_data']['beneficiary'].identity_type != '')
-                                                text+= pax['insurance_data']['beneficiary'].identity_type.substr(0,1).toUpperCase()+pax['insurance_data']['beneficiary'].identity_type.substr(1,pax.identity_type.length)+`: <b>`+pax['insurance_data']['beneficiary'].identity_number+`</b><br/>`;
-                                            text+=`
-                                        </div>`;
-                                        text+=`
-                                    </div>`;
-                                    }
-
-                                }
-                            }
-                            text+=`</div>`;
+                                    </div>
+                                </div>
+                            </div>`;
                         }
                     }
                     document.getElementById('insurance_booking').innerHTML = text;
@@ -2825,9 +2855,12 @@ function insurance_get_booking(data, sync=false){
                     service_charge = ['FARE', 'RAC', 'ROC', 'TAX', 'SSR', 'DISC'];
                     text_update_data_pax = '';
                     text_detail=`
-                    <div style="background-color:white; padding:10px; border: 1px solid #cdcdcd; margin-bottom:15px;">
-                        <h5> Price Detail</h5>
-                    <hr/>`;
+                    <div style="background-color:white; padding:15px; margin-bottom:15px;">
+                        <div class="row">
+                            <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                                <h4 class="mb-3"> Price Detail</h4>
+                            </div>
+                        </div>`;
 
                     //repricing
                     type_amount_repricing = ['Repricing'];
@@ -3144,7 +3177,7 @@ function insurance_get_booking(data, sync=false){
                     print_text += '<div class="col-lg-6" style="padding-bottom:10px;">';
                     if (msg.result.response.state  == 'issued'){
                         print_text+=`
-                        <button class="primary-btn-white hold-seat-booking-train ld-ext-right" id="button-print-print" type="button" onclick="openInNewTab('`+static_path+`/pdf/Ketentuan Zurich Travel Insurance.pdf');" style="width:100%;">
+                        <button class="primary-btn hold-seat-booking-train ld-ext-right" id="button-print-print" type="button" onclick="openInNewTab('`+static_path+`/pdf/Ketentuan Zurich Travel Insurance.pdf');" style="width:100%;">
                             Print Policy Terms
                             <div class="ld ld-ring ld-cycle"></div>
                         </button>`;
@@ -3154,14 +3187,14 @@ function insurance_get_booking(data, sync=false){
                     // === Button 2 ===
                     if (msg.result.response.state  == 'booked'){
                         print_text+=`
-                        <button class="primary-btn-white hold-seat-booking-train ld-ext-right" id="button-print-print" type="button" onclick="get_printout('` + msg.result.response.order_number + `','itinerary','insurance');" style="width:100%;">
+                        <button class="primary-btn hold-seat-booking-train ld-ext-right" id="button-print-print" type="button" onclick="get_printout('` + msg.result.response.order_number + `','itinerary','insurance');" style="width:100%;">
                             Print Itinerary Form
                             <div class="ld ld-ring ld-cycle"></div>
                         </button>`;
                     }else{
                     // === Button 2 ===
                         print_text+=`
-                        <button class="primary-btn-white hold-seat-booking-train ld-ext-right" id="button-print-print" type="button" onclick="get_printout('` + msg.result.response.order_number + `','ticket_original','insurance');" style="width:100%;">
+                        <button class="primary-btn hold-seat-booking-train ld-ext-right" id="button-print-print" type="button" onclick="get_printout('` + msg.result.response.order_number + `','ticket_original','insurance');" style="width:100%;">
                             Print Policies
                             <div class="ld ld-ring ld-cycle"></div>
                         </button>`;

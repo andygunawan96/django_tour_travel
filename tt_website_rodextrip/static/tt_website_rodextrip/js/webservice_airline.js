@@ -7504,9 +7504,8 @@ function airline_get_booking(data, sync=false){
 
                             text+=`
                             <div class="col-lg-12">
-                                <h4 class="single_border_custom_bottom" style="margin-bottom:5px; width:50px; word-break:break-word;">#`+(parseInt(pax)+1)+`</h4>
-                                <h5>
-                                `+msg.result.response.passengers[pax].title+` `+msg.result.response.passengers[pax].first_name+` `+msg.result.response.passengers[pax].last_name+`
+                                <h5 class="single_border_custom_left" style="padding-left:5px;">
+                                `+(parseInt(pax)+1)+`. `+msg.result.response.passengers[pax].title+` `+msg.result.response.passengers[pax].first_name+` `+msg.result.response.passengers[pax].last_name+`
                                 <b style="background:white; font-size:13px; color:black; padding:0px 15px; display:unset; border: 1px solid #cdcdcd; border-radius:7px;">
                                     <i class="fas fa-user"></i> `;
                                     if(msg.result.response.passengers[pax].pax_type == 'ADT'){
@@ -7595,8 +7594,10 @@ function airline_get_booking(data, sync=false){
                                             }
                                       }
                                       msg.result.response.passengers[pax].fees_dict = fee_dict;
-                                      text+=`
-                                      <hr/>
+                                      if(pax != parseInt(msg.result.response.passengers.length-1)){
+                                          text+=`<hr/>`;
+                                      }
+                                  text+=`
                             </div>`;
                         }
                     text+=`
@@ -7771,7 +7772,7 @@ function airline_get_booking(data, sync=false){
                 <div style="background-color:white; padding:15px; border: 1px solid #cdcdcd; margin-bottom:15px;">
                     <div class="row">
                         <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
-                            <h4 class="mb-3"> Price Detail</h5>
+                            <h4 class="mb-3"> Price Detail</h4>
                         </div>
                     </div>`;
 
