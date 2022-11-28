@@ -9057,8 +9057,18 @@ function fill_paxdata_from_idcard(idcard_type){
                 {
                     $("#passenger_identity_expired_date"+id_idx.toString()).val(res_obj.identity_expired_date);
                 }
-                $("#passenger_identity_country_of_issued"+id_idx.toString()+"_id").val('Indonesia').trigger('change');
-                $("#passenger_identity_country_of_issued"+id_idx.toString()+"_id").niceSelect('update');
+                if (res_obj.hasOwnProperty('nationality'))
+                {
+                    $("#passenger_nationality_id").val(res_obj.nationality).trigger('change');
+                    $("#passenger_nationality_id").niceSelect('update');
+                    $("#passenger_identity_country_of_issued"+id_idx.toString()+"_id").val(res_obj.nationality).trigger('change');
+                    $("#passenger_identity_country_of_issued"+id_idx.toString()+"_id").niceSelect('update');
+                }
+                else
+                {
+                    $("#passenger_identity_country_of_issued"+id_idx.toString()+"_id").val('Indonesia').trigger('change');
+                    $("#passenger_identity_country_of_issued"+id_idx.toString()+"_id").niceSelect('update');
+                }
             }
             else
             {

@@ -307,18 +307,30 @@
                         <div class="col-lg-12 mb-3" style="text-align:right;">
                             <button type="button" class="primary-btn" onclick="generate_url_create_passenger();">Generate Link <i class="fas fa-link"></i></button>
                         </div>
-                        <div class="col-lg-7" style="text-align:right;">
-                            <div class="input-container-search-ticket">
-                                <div class="form-select-2">
-                                    <select id="upload_idcard_type" name="upload_idcard_type" class="nice-select-default" onchange="change_upload_idcard_type(this);">
-                                        <option value="#myModal_attachment2">KTP</option>
-                                        <option value="#myModal_attachment1">Passport</option>
-                                    </select>
+                        <div class="col-lg-12 mb-3">
+                            <div style="background:white; border:1px solid #cdcdcd; padding:15px 15px 0px 15px;">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <h6 class="mb-3">Fill with ID Card Image</h6>
+                                    </div>
+                                    <div class="col-lg-7 mb-3" style="text-align:right;">
+                                        <div class="input-container-search-ticket">
+                                            <div class="form-select-2">
+                                                <select id="upload_idcard_type" name="upload_idcard_type" class="nice-select-default" onchange="change_upload_idcard_type(this);">
+                                                    <option value="#myModal_attachment1">Passport</option>
+                                                    <option value="#myModal_attachment2">KTP</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-5 mb-3" style="text-align:right;">
+                                        <button id="upload_idcard_btn" style="width:100%;" type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment1">{% trans 'Upload ID Card' %} <i class="fas fa-id-card"></i></button>
+                                    </div>
+                                    <div class="col-lg-12 mb-3">
+                                        <i class="fas fa-exclamation-triangle" style="font-size:18px; color:#ffcc00;"></i> Warning: Automatically inputted data might not be 100% accurate, please re-check and correct them manually
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-lg-5 mb-3" style="text-align:right;">
-                            <button id="upload_idcard_btn" style="width:100%;" type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment2">{% trans 'Upload ID Card' %} <i class="fas fa-id-card"></i></button>
                         </div>
                         <div class="col-lg-12">
                             <!-- Modal -->
@@ -335,13 +347,16 @@
 
                                             Files: <input type="file" id="files_attachment2" name="files_attachment_2" multiple="" accept="image/*"><br>
 
-                                            <div id="selectedFiles_attachment2"></div>
-                                            <div class="input-container-search-ticket">
+                                            <div class="mt-3" id="selectedFiles_attachment2"></div>
+                                            <div class="mt-3 input-container-search-ticket">
                                                 <input type="text" class="form-control o_website_form_input" id="description_attachment_2" name="description_attachment_2" placeholder="Description" />
+                                            </div>
+                                            <div>
+                                                <i class="fas fa-exclamation-triangle" style="font-size:18px; color:#ffcc00;"></i> Warning: Automatically inputted data might not be 100% accurate, please re-check and correct them manually
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-                                            <button id="fill_data_idcard2" type="button" class="primary-btn-custom next-loading ld-ext-right" onclick="fill_paxdata_from_idcard('ktp');">Fill In Data</button>
+                                            <button id="fill_data_idcard2" type="button" class="primary-btn next-loading ld-ext-right" onclick="fill_paxdata_from_idcard('ktp');">Fill In Data</button>
                                             <button type="button" class="btn btn-default" onclick="close_upload_attachment(2,'');">{% trans 'Close' %}</button>
                                         </div>
                                     </div>
@@ -756,18 +771,30 @@
                         <div class="col-lg-12 mb-3" style="text-align:right; padding:0px;">
                             <button type="button" class="primary-btn" onclick="generate_url_create_passenger();">Generate Link <i class="fas fa-link"></i></button>
                         </div>
-                        <div class="col-lg-7" style="text-align:right;">
-                            <div class="input-container-search-ticket">
-                                <div class="form-select-2">
-                                    <select id="upload_idcard_type" name="upload_idcard_type" class="nice-select-default" onchange="change_upload_idcard_type(this);">
-                                        <option value="#myModal_attachment2">KTP</option>
-                                        <option value="#myModal_attachment1">Passport</option>
-                                    </select>
+                        <div class="col-lg-12 mb-3" style="padding:0px;">
+                            <div style="background:white; border:1px solid #cdcdcd; padding:15px 15px 0px 15px;">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <h6 class="mb-3">Fill with ID Card Image</h6>
+                                    </div>
+                                    <div class="col-lg-7 mb-3" style="text-align:right;">
+                                        <div class="input-container-search-ticket">
+                                            <div class="form-select-2">
+                                                <select id="upload_idcard_type" name="upload_idcard_type" class="nice-select-default" onchange="change_upload_idcard_type(this);">
+                                                    <option value="#myModal_attachment1">Passport</option>
+                                                    <option value="#myModal_attachment2">KTP</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-5 mb-3" style="text-align:right;">
+                                        <button id="upload_idcard_btn" style="width:100%;" type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment1">{% trans 'Upload ID Card' %} <i class="fas fa-id-card"></i></button>
+                                    </div>
+                                    <div class="col-lg-12 mb-3">
+                                        <i class="fas fa-exclamation-triangle" style="font-size:18px; color:#ffcc00;"></i> Warning: Automatically inputted data might not be 100% accurate, please re-check and correct them manually
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-lg-5 mb-3" style="text-align:right;">
-                            <button id="upload_idcard_btn" style="width:100%;" type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment2">{% trans 'Upload ID Card' %} <i class="fas fa-id-card"></i></button>
                         </div>
                         <div class="col-lg-12">
                             <!-- Modal -->
@@ -784,13 +811,16 @@
 
                                             Files: <input type="file" id="files_attachment2" name="files_attachment_2" multiple="" accept="image/*"><br>
 
-                                            <div id="selectedFiles_attachment2"></div>
-                                            <div class="input-container-search-ticket">
+                                            <div class="mt-3" id="selectedFiles_attachment2"></div>
+                                            <div class="mt-3 input-container-search-ticket">
                                                 <input type="text" class="form-control o_website_form_input" id="description_attachment_2" name="description_attachment_2" placeholder="Description" />
+                                            </div>
+                                            <div>
+                                                <i class="fas fa-exclamation-triangle" style="font-size:18px; color:#ffcc00;"></i> Warning: Automatically inputted data might not be 100% accurate, please re-check and correct them manually
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-                                            <button id="fill_data_idcard2" type="button" class="primary-btn-custom next-loading ld-ext-right" onclick="fill_paxdata_from_idcard('ktp');">Fill In Data</button>
+                                            <button id="fill_data_idcard2" type="button" class="primary-btn next-loading ld-ext-right" onclick="fill_paxdata_from_idcard('ktp');">Fill In Data</button>
                                             <button type="button" class="btn btn-default" onclick="close_upload_attachment(2,'');">{% trans 'Close' %}</button>
                                         </div>
                                     </div>
@@ -1178,18 +1208,30 @@
                         <div class="col-lg-12 mb-3" style="text-align:right; padding:0px;">
                             <button type="button" class="primary-btn" onclick="generate_url_create_passenger();">Generate Link <i class="fas fa-link"></i></button>
                         </div>
-                        <div class="col-lg-7" style="text-align:right;">
-                            <div class="input-container-search-ticket">
-                                <div class="form-select-2">
-                                    <select id="upload_idcard_type" name="upload_idcard_type" class="nice-select-default" onchange="change_upload_idcard_type(this);">
-                                        <option value="#myModal_attachment2">KTP</option>
-                                        <option value="#myModal_attachment1">Passport</option>
-                                    </select>
+                        <div class="col-lg-12 mb-3" style="padding:0px;">
+                            <div style="background:white; border:1px solid #cdcdcd; padding:15px 15px 0px 15px;">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <h6 class="mb-3">Fill with ID Card Image</h6>
+                                    </div>
+                                    <div class="col-lg-7 mb-3" style="text-align:right;">
+                                        <div class="input-container-search-ticket">
+                                            <div class="form-select-2">
+                                                <select id="upload_idcard_type" name="upload_idcard_type" class="nice-select-default" onchange="change_upload_idcard_type(this);">
+                                                    <option value="#myModal_attachment1">Passport</option>
+                                                    <option value="#myModal_attachment2">KTP</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-5 mb-3" style="text-align:right;">
+                                        <button id="upload_idcard_btn" style="width:100%;" type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment1">{% trans 'Upload ID Card' %} <i class="fas fa-id-card"></i></button>
+                                    </div>
+                                    <div class="col-lg-12 mb-3">
+                                        <i class="fas fa-exclamation-triangle" style="font-size:18px; color:#ffcc00;"></i> Warning: Automatically inputted data might not be 100% accurate, please re-check and correct them manually
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-lg-5 mb-3" style="text-align:right;">
-                            <button id="upload_idcard_btn" style="width:100%;" type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment2">{% trans 'Upload ID Card' %} <i class="fas fa-id-card"></i></button>
                         </div>
                         <div class="col-lg-12">
                             <!-- Modal -->
@@ -1206,13 +1248,16 @@
 
                                             Files: <input type="file" id="files_attachment2" name="files_attachment_2" multiple="" accept="image/*"><br>
 
-                                            <div id="selectedFiles_attachment2"></div>
-                                            <div class="input-container-search-ticket">
+                                            <div class="mt-3" id="selectedFiles_attachment2"></div>
+                                            <div class="mt-3 input-container-search-ticket">
                                                 <input type="text" class="form-control o_website_form_input" id="description_attachment_2" name="description_attachment_2" placeholder="Description" />
+                                            </div>
+                                            <div>
+                                                <i class="fas fa-exclamation-triangle" style="font-size:18px; color:#ffcc00;"></i> Warning: Automatically inputted data might not be 100% accurate, please re-check and correct them manually
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-                                            <button id="fill_data_idcard2" type="button" class="primary-btn-custom next-loading ld-ext-right" onclick="fill_paxdata_from_idcard('ktp');">Fill In Data</button>
+                                            <button id="fill_data_idcard2" type="button" class="primary-btn next-loading ld-ext-right" onclick="fill_paxdata_from_idcard('ktp');">Fill In Data</button>
                                             <button type="button" class="btn btn-default" onclick="close_upload_attachment(2,'');">{% trans 'Close' %}</button>
                                         </div>
                                     </div>
@@ -1605,18 +1650,30 @@
                         <div class="col-lg-12 mb-3" style="text-align:right; padding:0px;">
                             <button type="button" class="primary-btn" onclick="generate_url_create_passenger();">Generate Link <i class="fas fa-link"></i></button>
                         </div>
-                        <div class="col-lg-7" style="text-align:right;">
-                            <div class="input-container-search-ticket">
-                                <div class="form-select-2">
-                                    <select id="upload_idcard_type" name="upload_idcard_type" class="nice-select-default" onchange="change_upload_idcard_type(this);">
-                                        <option value="#myModal_attachment2">KTP</option>
-                                        <option value="#myModal_attachment1">Passport</option>
-                                    </select>
+                        <div class="col-lg-12 mb-3" style="padding:0px;">
+                            <div style="background:white; border:1px solid #cdcdcd; padding:15px 15px 0px 15px;">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <h6 class="mb-3">Fill with ID Card Image</h6>
+                                    </div>
+                                    <div class="col-lg-7 mb-3" style="text-align:right;">
+                                        <div class="input-container-search-ticket">
+                                            <div class="form-select-2">
+                                                <select id="upload_idcard_type" name="upload_idcard_type" class="nice-select-default" onchange="change_upload_idcard_type(this);">
+                                                    <option value="#myModal_attachment1">Passport</option>
+                                                    <option value="#myModal_attachment2">KTP</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-5 mb-3" style="text-align:right;">
+                                        <button id="upload_idcard_btn" style="width:100%;" type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment1">{% trans 'Upload ID Card' %} <i class="fas fa-id-card"></i></button>
+                                    </div>
+                                    <div class="col-lg-12 mb-3">
+                                        <i class="fas fa-exclamation-triangle" style="font-size:18px; color:#ffcc00;"></i> Warning: Automatically inputted data might not be 100% accurate, please re-check and correct them manually
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-lg-5 mb-3" style="text-align:right;">
-                            <button id="upload_idcard_btn" style="width:100%;" type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment2">{% trans 'Upload ID Card' %} <i class="fas fa-id-card"></i></button>
                         </div>
                         <div class="col-lg-12">
                             <!-- Modal -->
@@ -1633,13 +1690,16 @@
 
                                             Files: <input type="file" id="files_attachment2" name="files_attachment_2" multiple="" accept="image/*"><br>
 
-                                            <div id="selectedFiles_attachment2"></div>
-                                            <div class="input-container-search-ticket">
+                                            <div class="mt-3" id="selectedFiles_attachment2"></div>
+                                            <div class="mt-3 input-container-search-ticket">
                                                 <input type="text" class="form-control o_website_form_input" id="description_attachment_2" name="description_attachment_2" placeholder="Description" />
+                                            </div>
+                                            <div>
+                                                <i class="fas fa-exclamation-triangle" style="font-size:18px; color:#ffcc00;"></i> Warning: Automatically inputted data might not be 100% accurate, please re-check and correct them manually
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-                                            <button id="fill_data_idcard2" type="button" class="primary-btn-custom next-loading ld-ext-right" onclick="fill_paxdata_from_idcard('ktp');">Fill In Data</button>
+                                            <button id="fill_data_idcard2" type="button" class="primary-btn next-loading ld-ext-right" onclick="fill_paxdata_from_idcard('ktp');">Fill In Data</button>
                                             <button type="button" class="btn btn-default" onclick="close_upload_attachment(2,'');">{% trans 'Close' %}</button>
                                         </div>
                                     </div>
@@ -2031,18 +2091,30 @@
                         <div class="col-lg-12 mb-3" style="text-align:right; padding:0px;">
                             <button type="button" class="primary-btn" onclick="generate_url_create_passenger();">Generate Link <i class="fas fa-link"></i></button>
                         </div>
-                        <div class="col-lg-7" style="text-align:right;">
-                            <div class="input-container-search-ticket">
-                                <div class="form-select-2">
-                                    <select id="upload_idcard_type" name="upload_idcard_type" class="nice-select-default" onchange="change_upload_idcard_type(this);">
-                                        <option value="#myModal_attachment2">KTP</option>
-                                        <option value="#myModal_attachment1">Passport</option>
-                                    </select>
+                        <div class="col-lg-12 mb-3" style="padding:0px;">
+                            <div style="background:white; border:1px solid #cdcdcd; padding:15px 15px 0px 15px;">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <h6 class="mb-3">Fill with ID Card Image</h6>
+                                    </div>
+                                    <div class="col-lg-7 mb-3" style="text-align:right;">
+                                        <div class="input-container-search-ticket">
+                                            <div class="form-select-2">
+                                                <select id="upload_idcard_type" name="upload_idcard_type" class="nice-select-default" onchange="change_upload_idcard_type(this);">
+                                                    <option value="#myModal_attachment1">Passport</option>
+                                                    <option value="#myModal_attachment2">KTP</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-5 mb-3" style="text-align:right;">
+                                        <button id="upload_idcard_btn" style="width:100%;" type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment1">{% trans 'Upload ID Card' %} <i class="fas fa-id-card"></i></button>
+                                    </div>
+                                    <div class="col-lg-12 mb-3">
+                                        <i class="fas fa-exclamation-triangle" style="font-size:18px; color:#ffcc00;"></i> Warning: Automatically inputted data might not be 100% accurate, please re-check and correct them manually
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-lg-5 mb-3" style="text-align:right;">
-                            <button id="upload_idcard_btn" style="width:100%;" type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment2">{% trans 'Upload ID Card' %} <i class="fas fa-id-card"></i></button>
                         </div>
                         <div class="col-lg-12">
                             <!-- Modal -->
@@ -2059,13 +2131,16 @@
 
                                             Files: <input type="file" id="files_attachment2" name="files_attachment_2" multiple="" accept="image/*"><br>
 
-                                            <div id="selectedFiles_attachment2"></div>
-                                            <div class="input-container-search-ticket">
+                                            <div class="mt-3" id="selectedFiles_attachment2"></div>
+                                            <div class="mt-3 input-container-search-ticket">
                                                 <input type="text" class="form-control o_website_form_input" id="description_attachment_2" name="description_attachment_2" placeholder="Description" />
+                                            </div>
+                                            <div>
+                                                <i class="fas fa-exclamation-triangle" style="font-size:18px; color:#ffcc00;"></i> Warning: Automatically inputted data might not be 100% accurate, please re-check and correct them manually
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-                                            <button id="fill_data_idcard2" type="button" class="primary-btn-custom next-loading ld-ext-right" onclick="fill_paxdata_from_idcard('ktp');">Fill In Data</button>
+                                            <button id="fill_data_idcard2" type="button" class="primary-btn next-loading ld-ext-right" onclick="fill_paxdata_from_idcard('ktp');">Fill In Data</button>
                                             <button type="button" class="btn btn-default" onclick="close_upload_attachment(2,'');">{% trans 'Close' %}</button>
                                         </div>
                                     </div>
@@ -2466,18 +2541,30 @@
                         <div class="col-lg-12 mb-3" style="text-align:right; padding:0px;">
                             <button type="button" class="primary-btn" onclick="generate_url_create_passenger();">Generate Link <i class="fas fa-link"></i></button>
                         </div>
-                        <div class="col-lg-7" style="text-align:right;">
-                            <div class="input-container-search-ticket">
-                                <div class="form-select-2">
-                                    <select id="upload_idcard_type" name="upload_idcard_type" class="nice-select-default" onchange="change_upload_idcard_type(this);">
-                                        <option value="#myModal_attachment2">KTP</option>
-                                        <option value="#myModal_attachment1">Passport</option>
-                                    </select>
+                        <div class="col-lg-12 mb-3" style="padding:0px;">
+                            <div style="background:white; border:1px solid #cdcdcd; padding:15px 15px 0px 15px;">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <h6 class="mb-3">Fill with ID Card Image</h6>
+                                    </div>
+                                    <div class="col-lg-7 mb-3" style="text-align:right;">
+                                        <div class="input-container-search-ticket">
+                                            <div class="form-select-2">
+                                                <select id="upload_idcard_type" name="upload_idcard_type" class="nice-select-default" onchange="change_upload_idcard_type(this);">
+                                                    <option value="#myModal_attachment1">Passport</option>
+                                                    <option value="#myModal_attachment2">KTP</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-5 mb-3" style="text-align:right;">
+                                        <button id="upload_idcard_btn" style="width:100%;" type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment1">{% trans 'Upload ID Card' %} <i class="fas fa-id-card"></i></button>
+                                    </div>
+                                    <div class="col-lg-12 mb-3">
+                                        <i class="fas fa-exclamation-triangle" style="font-size:18px; color:#ffcc00;"></i> Warning: Automatically inputted data might not be 100% accurate, please re-check and correct them manually
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-lg-5 mb-3" style="text-align:right;">
-                            <button id="upload_idcard_btn" style="width:100%;" type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment2">{% trans 'Upload ID Card' %} <i class="fas fa-id-card"></i></button>
                         </div>
                         <div class="col-lg-12">
                             <!-- Modal -->
@@ -2494,13 +2581,16 @@
 
                                             Files: <input type="file" id="files_attachment2" name="files_attachment_2" multiple="" accept="image/*"><br>
 
-                                            <div id="selectedFiles_attachment2"></div>
-                                            <div class="input-container-search-ticket">
+                                            <div class="mt-3" id="selectedFiles_attachment2"></div>
+                                            <div class="mt-3 input-container-search-ticket">
                                                 <input type="text" class="form-control o_website_form_input" id="description_attachment_2" name="description_attachment_2" placeholder="Description" />
+                                            </div>
+                                            <div>
+                                                <i class="fas fa-exclamation-triangle" style="font-size:18px; color:#ffcc00;"></i> Warning: Automatically inputted data might not be 100% accurate, please re-check and correct them manually
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-                                            <button id="fill_data_idcard2" type="button" class="primary-btn-custom next-loading ld-ext-right" onclick="fill_paxdata_from_idcard('ktp');">Fill In Data</button>
+                                            <button id="fill_data_idcard2" type="button" class="primary-btn next-loading ld-ext-right" onclick="fill_paxdata_from_idcard('ktp');">Fill In Data</button>
                                             <button type="button" class="btn btn-default" onclick="close_upload_attachment(2,'');">{% trans 'Close' %}</button>
                                         </div>
                                     </div>
