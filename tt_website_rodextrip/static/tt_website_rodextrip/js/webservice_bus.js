@@ -1143,18 +1143,25 @@ function bus_get_booking(data, sync=false){
                                 }
                             text+=`</b>
                         </h5>
-                        <b>Birth Date: </b><i>`+msg.result.response.passengers[pax].birth_date+`</i><br>
-                        <b>`+msg.result.response.passengers[pax].identity_type.charAt(0).toUpperCase()+msg.result.response.passengers[pax].identity_type.slice(1).toLowerCase()+`: </b>
-                        <i>`+msg.result.response.passengers[pax].identity_number+`</i><br>
-                        <b>Seat: </b><br/>
-                        <i>`;
-                        for(i in ticket)
-                            if(ticket[i].seat){
-                                if(ticket[i].seat.split(',').length == 2)
-                                   text += ticket[i].journey+`<br/>`+ticket[i].seat.split(',')[0] + ' ' + ticket[i].seat.split(',')[1] +`<br/>`;
-                            }
-                        text+=`
-                        </i>`;
+                        <b>Birth Date: </b><i>`+msg.result.response.passengers[pax].birth_date+`</i><br>`;
+                        if(msg.result.response.passengers[pax].identity_type != '' || msg.result.response.passengers[pax].identity_number != ''){
+                            text+=`
+                            <b>`+msg.result.response.passengers[pax].identity_type.charAt(0).toUpperCase()+msg.result.response.passengers[pax].identity_type.slice(1).toLowerCase()+`: </b>
+                            <i>`+msg.result.response.passengers[pax].identity_number+`</i><br>`;
+                        }
+
+                        if(ticket.length != 0){
+                            text+=`
+                            <b>Seat: </b><br/>
+                            <i>`;
+                            for(i in ticket)
+                                if(ticket[i].seat){
+                                    if(ticket[i].seat.split(',').length == 2)
+                                       text += ticket[i].journey+`<br/>`+ticket[i].seat.split(',')[0] + ' ' + ticket[i].seat.split(',')[1] +`<br/>`;
+                                }
+                            text+=`
+                            </i>`;
+                        }
                         if(pax != parseInt(msg.result.response.passengers.length-1)){
                             text+=`<hr/>`;
                         }
