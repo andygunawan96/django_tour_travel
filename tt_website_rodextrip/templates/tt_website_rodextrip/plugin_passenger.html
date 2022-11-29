@@ -63,7 +63,7 @@
         frequent_flyer_data = []
     }
 </script>
-{%if "p_cache_1" in username.co_agent_frontend_security%}
+{%if "p_cache_1" in username.co_agent_frontend_security or "p_cache_2" in username.co_agent_frontend_security or "p_cache_3" in username.co_agent_frontend_security %}
 <button type="button" style="background-color:{{color}};" id="mystickypaxs" class="mystickypaxs passenger-db-slide-toggle" class="primary-btn" onclick="on_off_overlay_bar('box-get-passenger-db', 'overlay_box_passenger_db'); get_passenger_cache();">
     <i class="fas fa-address-card"></i>
 </button>
