@@ -1370,24 +1370,25 @@ def review(request, signature):
                     segment_seat_request = []
 
                     for seat_map_provider in seat_map_list['seat_availability_provider']:
-                        for seat_segment in seat_map_provider['segments']:
-                            pax_request = []
-                            for idx, pax in enumerate(passengers):
-                                for pax_seat in pax['seat_list']:
-                                    if pax_seat['segment_code'] == seat_segment['segment_code2'] and pax_seat['departure_date'] == seat_segment['departure_date']:
-                                        if pax_seat['seat_code'] != '':
-                                            pax_request.append({
-                                                'passenger_number': idx,
-                                                'seat_code': pax_seat['seat_code']
-                                            })
-                                        break
-                            if len(pax_request) != 0:
-                                segment_seat_request.append({
-                                    'segment_code': seat_segment['segment_code'],
-                                    'provider': seat_segment['provider'],
-                                    'passengers': pax_request
-                                })
-                            pax_request = []
+                        if seat_map_provider.get('segments'):
+                            for seat_segment in seat_map_provider['segments']:
+                                pax_request = []
+                                for idx, pax in enumerate(passengers):
+                                    for pax_seat in pax['seat_list']:
+                                        if pax_seat['segment_code'] == seat_segment['segment_code2'] and pax_seat['departure_date'] == seat_segment['departure_date']:
+                                            if pax_seat['seat_code'] != '':
+                                                pax_request.append({
+                                                    'passenger_number': idx,
+                                                    'seat_code': pax_seat['seat_code']
+                                                })
+                                            break
+                                if len(pax_request) != 0:
+                                    segment_seat_request.append({
+                                        'segment_code': seat_segment['segment_code'],
+                                        'provider': seat_segment['provider'],
+                                        'passengers': pax_request
+                                    })
+                                pax_request = []
                     set_session(request, 'airline_seat_request_%s' % signature, segment_seat_request)
 
                 except Exception as e:
