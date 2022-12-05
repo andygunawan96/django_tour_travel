@@ -6,6 +6,8 @@ agent_offside = 0;
 load_more = true;
 login_again = true
 for_jbox_image = 0;
+cek_parent_date = '';
+id_parent_date = '';
 
 //function goodbye(e) {
 //	console.log(e);
@@ -1426,6 +1428,14 @@ function filter_search_passenger(passenger_type='passenger', number='', product=
             response += `<div class="row" id="filter_search_div_cache" style="padding:15px; background:white; display:none;">`;
             response +=`
                 <div class="col-lg-12 mb-3">
+                    <label>Birth Date</label>
+                    <div class="input-container-search-ticket">
+                        <input type="text" style="margin-bottom:0px;" class="form-control" id="birth_date_search_cache" value="`+birth_date+`" autocomplete="off">
+                        <button type="button" class="primary-delete-date" onclick="delete_expired_date_data('birth_date_search_cache', '')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                    </div>
+                </div>
+
+                <div class="col-lg-12 mb-3">
                     <label>Mobile</label>
                     <div class="input-container-search-ticket">
                         <input type="text" style="margin-bottom:0px;" class="form-control" id="mobile_search_cache" value="`+mobile+`">
@@ -1458,14 +1468,6 @@ function filter_search_passenger(passenger_type='passenger', number='', product=
                     <label>Identity Number</label>
                     <div class="input-container-search-ticket">
                         <input type="text" style="margin-bottom:0px;" class="form-control" id="identity_number_search_cache" value="`+identity_number+`">
-                    </div>
-                </div>
-
-                <div class="col-lg-12 mb-3">
-                    <label>Birth Date</label>
-                    <div class="input-container-search-ticket">
-                        <input type="text" style="margin-bottom:0px;" class="form-control" id="birth_date_search_cache" value="`+birth_date+`">
-                        <button type="button" class="primary-delete-date" onclick="delete_expired_date_data('birth_date_search_cache', '')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                     </div>
                 </div>
 
@@ -2281,28 +2283,134 @@ function filter_search_passenger(passenger_type='passenger', number='', product=
     }catch(err){console.log(err);}
 
     try{
-        $('input[id="birth_date_search_cache"]').daterangepicker({
-            singleDatePicker: true,
-            autoUpdateInput: true,
-            maxDate: moment(),
-            showDropdowns: true,
-            opens: 'center',
-            locale: {
-                format: 'DD MMM YYYY',
-            }
-        });
-        $('input[id="birth_date_search_cache"]').val(birth_date);
-        $('input[id="birth_date_search_teropong"]').daterangepicker({
-            singleDatePicker: true,
-            autoUpdateInput: true,
-            maxDate: moment(),
-            showDropdowns: true,
-            opens: 'center',
-            locale: {
-                format: 'DD MMM YYYY',
-            }
-        });
-        $('input[id="birth_date_search_teropong"]').val(birth_date);
+        if(cek_parent_date == 'pax_cache'){
+            $('input[id="birth_date_search_cache"]').daterangepicker({
+                parentEl: '#passenger_search',
+                singleDatePicker: true,
+                autoUpdateInput: true,
+                maxDate: moment(),
+                showDropdowns: true,
+                opens: 'center',
+                locale: {
+                    format: 'DD MMM YYYY',
+                }
+            });
+            $('input[id="birth_date_search_cache"]').val(birth_date);
+            $('input[id="birth_date_search_teropong"]').daterangepicker({
+                parentEl: '#passenger_search',
+                singleDatePicker: true,
+                autoUpdateInput: true,
+                maxDate: moment(),
+                showDropdowns: true,
+                opens: 'center',
+                locale: {
+                    format: 'DD MMM YYYY',
+                }
+            });
+            $('input[id="birth_date_search_teropong"]').val(birth_date);
+        }
+        else if(cek_parent_date == 'pax'){
+            $('input[id="birth_date_search_cache"]').daterangepicker({
+                parentEl: '#search_result'+id_parent_date,
+                singleDatePicker: true,
+                autoUpdateInput: true,
+                maxDate: moment(),
+                showDropdowns: true,
+                opens: 'center',
+                locale: {
+                    format: 'DD MMM YYYY',
+                }
+            });
+            $('input[id="birth_date_search_cache"]').val(birth_date);
+            $('input[id="birth_date_search_teropong"]').daterangepicker({
+                parentEl: '#search_result'+id_parent_date,
+                singleDatePicker: true,
+                autoUpdateInput: true,
+                maxDate: moment(),
+                showDropdowns: true,
+                opens: 'center',
+                locale: {
+                    format: 'DD MMM YYYY',
+                }
+            });
+            $('input[id="birth_date_search_teropong"]').val(birth_date);
+        }
+        else if(cek_parent_date == 'booker'){
+            $('input[id="birth_date_search_cache"]').daterangepicker({
+                parentEl: '#search_result',
+                singleDatePicker: true,
+                autoUpdateInput: true,
+                maxDate: moment(),
+                showDropdowns: true,
+                opens: 'center',
+                locale: {
+                    format: 'DD MMM YYYY',
+                }
+            });
+            $('input[id="birth_date_search_cache"]').val(birth_date);
+            $('input[id="birth_date_search_teropong"]').daterangepicker({
+                parentEl: '#search_result',
+                singleDatePicker: true,
+                autoUpdateInput: true,
+                maxDate: moment(),
+                showDropdowns: true,
+                opens: 'center',
+                locale: {
+                    format: 'DD MMM YYYY',
+                }
+            });
+            $('input[id="birth_date_search_teropong"]').val(birth_date);
+        }
+        else if(cek_parent_date == 'contact'){
+            $('input[id="birth_date_search_cache"]').daterangepicker({
+                parentEl: '#search_result_contact',
+                singleDatePicker: true,
+                autoUpdateInput: true,
+                maxDate: moment(),
+                showDropdowns: true,
+                opens: 'center',
+                locale: {
+                    format: 'DD MMM YYYY',
+                }
+            });
+            $('input[id="birth_date_search_cache"]').val(birth_date);
+            $('input[id="birth_date_search_teropong"]').daterangepicker({
+                parentEl: '#search_result_contact',
+                singleDatePicker: true,
+                autoUpdateInput: true,
+                maxDate: moment(),
+                showDropdowns: true,
+                opens: 'center',
+                locale: {
+                    format: 'DD MMM YYYY',
+                }
+            });
+            $('input[id="birth_date_search_teropong"]').val(birth_date);
+        }
+        else{
+            $('input[id="birth_date_search_cache"]').daterangepicker({
+                singleDatePicker: true,
+                autoUpdateInput: true,
+                maxDate: moment(),
+                showDropdowns: true,
+                opens: 'center',
+                locale: {
+                    format: 'DD MMM YYYY',
+                }
+            });
+            $('input[id="birth_date_search_cache"]').val(birth_date);
+            $('input[id="birth_date_search_teropong"]').daterangepicker({
+                singleDatePicker: true,
+                autoUpdateInput: true,
+                maxDate: moment(),
+                showDropdowns: true,
+                opens: 'center',
+                locale: {
+                    format: 'DD MMM YYYY',
+                }
+            });
+            $('input[id="birth_date_search_teropong"]').val(birth_date);
+        }
     }catch(err){
 
     }
@@ -2316,9 +2424,12 @@ function get_customer_list(passenger, number, product){
     if(product != "get_booking_vendor"){
         clear_search_pax(passenger,number);
     }
-
     if(passenger == 'booker' || passenger == 'contact'){
         $('.loading-booker-train').show();
+        if(passenger == '')
+            cek_parent_date = 'booker';
+        else
+            cek_parent_date = 'contact';
 
         if(product == 'group_booking'){
             if(passenger == 'contact'){
@@ -2531,6 +2642,12 @@ function get_customer_list(passenger, number, product){
     else{
         $(".loading-pax-train").show();
         var name = '';
+        if(product == 'cache'){
+            cek_parent_date = 'pax_cache';
+        }else{
+            cek_parent_date = 'pax';
+        }
+        id_parent_date = '_'+passenger+number;
         if(passenger == 'passenger'){
             name = document.getElementById('train_passenger'+number+'_search').value;
             search_type = 'cust_name';
