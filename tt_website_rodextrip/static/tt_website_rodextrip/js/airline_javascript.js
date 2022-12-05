@@ -5404,7 +5404,8 @@ function on_change_ssr(){
                         try{
                             for(x in passengers[index].ssr_list){
                                 if(passengers[index].ssr_list[x].journey_code == ssr_keys[j].journey_code && ssr_keys[j].key == passengers[index].ssr_list[x].availability_type){
-                                    additional_price -= passengers[i].ssr_list[x].price;
+                                    if(passengers[i].ssr_list[x].hasOwnProperty('price'))
+                                        additional_price -= passengers[i].ssr_list[x].price;
                                 }
                             }
                         }catch(err){
