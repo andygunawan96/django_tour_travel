@@ -1,4 +1,52 @@
 printout_state = 0;
+
+function get_included_pax(provider_type){
+    final_list = [];
+    if (provider_type == 'airline')
+    {
+        pax_read_list = airline_get_detail.result.response.passengers;
+    }
+    else if (provider_type == 'train')
+    {
+        pax_read_list = train_get_detail.result.response.passengers;
+    }
+    else if (provider_type == 'activity')
+    {
+        pax_read_list = act_get_booking.result.response.passengers;
+    }
+    else if (provider_type == 'tour')
+    {
+        pax_read_list = tr_get_booking.result.response.passengers;
+    }
+    else if (provider_type == 'hotel')
+    {
+        pax_read_list = hotel_get_detail.result.response.hotel_rooms;
+    }
+    else if (provider_type == 'bus')
+    {
+        pax_read_list = bus_get_detail.result.response.passengers;
+    }
+    else
+    {
+        pax_read_list = [];
+    }
+
+    for (resv_pax in pax_read_list)
+    {
+        if(document.getElementById('resv_pax_checkbox'+resv_pax) && document.getElementById('resv_pax_value'+resv_pax))
+        {
+            if(document.getElementById('resv_pax_checkbox'+resv_pax).checked){
+                final_list.push(document.getElementById('resv_pax_value'+resv_pax).innerHTML);
+            }
+        }
+    }
+    if (final_list.length == pax_read_list.length)
+    {
+        final_list = [];
+    }
+    return final_list
+}
+
 function get_printout(order_number,mode,provider_type,type='',reschedule_number='',timeout=180){
     //type ticket, ticket_price, invoice, itinerary, voucher, visa_handling,
     if(printout_state == 0){
@@ -8,6 +56,8 @@ function get_printout(order_number,mode,provider_type,type='',reschedule_number=
         bill_address = '';
         additional_information = '';
         kwitansi_name = '';
+        is_dynamic_print = false;
+        included_pax_names = [];
         try{
             is_hide_agent_logo = document.getElementById('is_hide_agent_logo').checked;
         }catch(err){
@@ -52,6 +102,11 @@ function get_printout(order_number,mode,provider_type,type='',reschedule_number=
         }else if(mode == 'invoice'){
             $('#button-issued-print').prop('disabled', true);
             $('#button-issued-print').addClass("running");
+            included_pax_names = get_included_pax(provider_type);
+            if (included_pax_names.length > 0)
+            {
+                is_dynamic_print = true;
+            }
         }else if(mode == 'passport_cust' || mode == 'visa_cust'){
             $('#button-print-handling').prop('disabled', true);
             $('#button-print-handling').addClass("running");
@@ -75,6 +130,8 @@ function get_printout(order_number,mode,provider_type,type='',reschedule_number=
                 'timeout': timeout,
                 'kwitansi_name': kwitansi_name,
                 'type': type,
+                'is_dynamic_print': is_dynamic_print,
+                'included_pax_names': JSON.stringify(included_pax_names),
                 'reschedule_number': reschedule_number
            },
            success: function(msg) {
