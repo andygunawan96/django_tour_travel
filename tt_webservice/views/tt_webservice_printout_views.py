@@ -79,6 +79,14 @@ def get_printout(request):
             'additional_information': request.POST['additional_information'],
             'kwitansi_name': request.POST['kwitansi_name'],
         }
+        if request.POST.get('is_dynamic_print'):
+            data.update({
+                'is_dynamic_print': request.POST['is_dynamic_print'] == 'true' and True or False
+            })
+        if request.POST.get('included_pax_names'):
+            data.update({
+                'included_pax_names': json.loads(request.POST['included_pax_names'])
+            })
         if request.POST['mode'] == 'itinerary' and request.POST['provider_type'] == 'hotel':
             data.update({
                 'json_printout': request.session.get('hotel_json_printout' + request.session['hotel_signature']) and request.session['hotel_json_printout' + request.session['hotel_signature']] or ''

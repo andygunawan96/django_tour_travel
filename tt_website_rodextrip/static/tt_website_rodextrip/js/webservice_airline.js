@@ -7755,6 +7755,21 @@ function airline_get_booking(data, sync=false){
                                                             </div>
                                                         </div>
                                                     </div>
+
+                                                    <div class="row">
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+                                                            <span class="control-label" for="Name">Included Passengers</span>
+                                                            <table style="border: 1px solid; width:100%;">`;
+                                                            for (resv_pax in airline_get_detail.result.response.passengers)
+                                                            {
+                                                                text += `<tr>
+                                                                    <td><span id="resv_pax_value`+resv_pax+`">`+airline_get_detail.result.response.passengers[resv_pax].name+`, `+airline_get_detail.result.response.passengers[resv_pax].title+`</span></td>
+                                                                    <td><input type="checkbox" id="resv_pax_checkbox`+resv_pax+`" name="resv_pax_checkbox`+i+`" checked /></td>
+                                                                </tr>`;
+                                                            }
+                                               text += `</table></div>
+                                                    </div>
+
                                                     <br/>
                                                     <div style="text-align:right;">
                                                         <span>Don't want to edit? just submit</span>
