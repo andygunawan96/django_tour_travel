@@ -943,7 +943,31 @@ def get_auto_complete(request):
         file = read_cache("tour_cache_data", 'cache_web', 1800)
         if file:
             record_cache = file
+        else:
+            headers = {
+                "Accept": "application/json,text/html,application/xml",
+                "Content-Type": "application/json",
+                "action": "search_autocomplete",
+                "signature": request.POST['signature']
+            }
 
+            data = {
+                "name": '',
+                "limit": 9999
+            }
+            url_request = url + 'booking/tour'
+            res = send_request_api(request, url_request, headers, data, 'POST', 120)
+            try:
+                if res['result']['error_code'] == 0:
+                    # datetime
+                    write_cache(res['result']['response'], "tour_cache_data", 'cache_web')
+                    record_cache = res['result']['response']
+            except Exception as e:
+                _logger.error("ERROR GET CACHE FROM TOUR SEARCH AUTOCOMPLETE" + json.dumps(res) + '\n' + str(e) + '\n' + traceback.format_exc())
+                _logger.info('use old cache')
+                file = read_cache("tour_cache_data", 'cache_web', 90911)
+                if file:
+                    record_cache = file
 
         # for rec in filter(lambda x: req['name'].lower() in x['name'].lower(), record_cache):
         for rec in find_tour_ilike(req['name'].lower(), record_cache, limit):

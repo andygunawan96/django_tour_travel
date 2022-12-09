@@ -350,7 +350,7 @@ function hotel_get_current_search(){
                     console.log(msg);
                     if(msg.result.error_code == 0){
                         vendor = [];
-                        if(msg.result.response.hotel_ids.length > 0){
+                        if(msg.result.response.hasOwnProperty('hotel_ids') && msg.result.response.hotel_ids.length > 0){
                             hotel_data = msg.result.response;
                             for(i in msg.result.response.hotel_ids){
                                 check = 0;
