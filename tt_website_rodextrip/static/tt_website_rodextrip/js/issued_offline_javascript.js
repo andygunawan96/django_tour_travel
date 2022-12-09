@@ -157,7 +157,7 @@ function add_table_of_passenger(type){
         </div>
 
         <div class="col-lg-3 mb-1" style="text-align:right;">
-            <button type="button" class="primary-btn-custom" style="margin-bottom:5px; line-height:35px;" data-toggle="modal" data-target="#myModal_`+parseInt(counter_passenger+1)+`" data-backdrop="static" onclick="set_passenger_number(`+parseInt(parseInt(counter_passenger)+1)+`);"><i class="fas fa-search"></i></button>
+            <button type="button" class="primary-btn-custom" style="margin-bottom:5px; height:43px; line-height:35px;" data-toggle="modal" data-target="#myModal_`+parseInt(counter_passenger+1)+`" data-backdrop="static" onclick="set_passenger_number(`+parseInt(parseInt(counter_passenger)+1)+`);"><i class="fas fa-search"></i></button>
             <button type="button" class="primary-btn-cancel" style="margin-bottom:5px; height:43px; line-height:31px;" onclick="delete_table_of_passenger(`+parseInt(counter_passenger)+`);"><i class="fas fa-times"></i></button>
         </div>
     </div>
@@ -206,11 +206,12 @@ function add_table_of_passenger(type){
                     <div id="passenger_content">
                         <div id="passenger_search`+parseInt(counter_passenger+1)+`">
                             <div class="row">
+                                <div class="col-lg-12" id="date_pax`+parseInt(counter_passenger+1)+`"></div>
                                 <div class="col-lg-9 col-md-9">
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-6">
                                             <div class="form-select">
-                                                <select id="train_`+(counter_passenger+1)+`_search_type" onchange="search_type_on_change('train_`+(counter_passenger+1)+`_search_type','train_`+(counter_passenger+1)+`_search');">
+                                                <select id="train_`+(counter_passenger+1)+`_search_type" onchange="search_type_on_change('pax','`+parseInt(counter_passenger+1)+`','train_`+(counter_passenger+1)+`_search_type','train_`+(counter_passenger+1)+`_search');">
                                                     <option value="cust_name">By Customer Name</option>
                                                     <option value="mobile">By Customer Mobile</option>
                                                     <option value="email">By Customer Mail</option>

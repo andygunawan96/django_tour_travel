@@ -6,8 +6,6 @@ agent_offside = 0;
 load_more = true;
 login_again = true
 for_jbox_image = 0;
-cek_parent_date = '';
-id_parent_date = '';
 
 //function goodbye(e) {
 //	console.log(e);
@@ -1428,28 +1426,6 @@ function filter_search_passenger(passenger_type='passenger', number='', product=
             response += `<div class="row" id="filter_search_div_cache" style="padding:15px; background:white; display:none;">`;
             response +=`
                 <div class="col-lg-12 mb-3">
-                    <label>Birth Date</label>
-                    <div class="input-container-search-ticket">
-                        <input type="text" style="margin-bottom:0px;" class="form-control" id="birth_date_search_cache" value="`+birth_date+`" autocomplete="off">
-                        <button type="button" class="primary-delete-date" onclick="delete_expired_date_data('birth_date_search_cache', '')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                    </div>
-                </div>
-
-                <div class="col-lg-12 mb-3">
-                    <label>Mobile</label>
-                    <div class="input-container-search-ticket">
-                        <input type="text" style="margin-bottom:0px;" class="form-control" id="mobile_search_cache" value="`+mobile+`">
-                    </div>
-                </div>
-
-                <div class="col-lg-12 mb-3">
-                    <label>Email</label>
-                    <div class="input-container-search-ticket">
-                        <input type="text" style="margin-bottom:0px;" class="form-control" id="email_search_cache" value="`+email+`">
-                    </div>
-                </div>
-
-                <div class="col-lg-12 mb-3">
                     <label>Identity Type</label>
                     <div class="input-container-search-ticket">
                         <div class="form-select-2">
@@ -1463,11 +1439,33 @@ function filter_search_passenger(passenger_type='passenger', number='', product=
                         </div>
                     </div>
                 </div>
-
                 <div class="col-lg-12 mb-3">
                     <label>Identity Number</label>
                     <div class="input-container-search-ticket">
                         <input type="text" style="margin-bottom:0px;" class="form-control" id="identity_number_search_cache" value="`+identity_number+`">
+                    </div>
+                </div>
+                <div class="col-lg-12" id="filter_parent_date">
+
+                </div>
+                <div class="col-lg-12 mb-3">
+                    <label>Birth Date</label>
+                    <div class="input-container-search-ticket">
+                        <input type="text" style="margin-bottom:0px;" class="form-control" id="birth_date_search_cache" value="`+birth_date+`" autocomplete="off">
+                        <button type="button" class="primary-delete-date" onclick="delete_expired_date_data('birth_date_search_cache', '')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                    </div>
+                </div>
+                <div class="col-lg-12 mb-3">
+                    <label>Mobile</label>
+                    <div class="input-container-search-ticket">
+                        <input type="text" style="margin-bottom:0px;" class="form-control" id="mobile_search_cache" value="`+mobile+`">
+                    </div>
+                </div>
+
+                <div class="col-lg-12 mb-3">
+                    <label>Email</label>
+                    <div class="input-container-search-ticket">
+                        <input type="text" style="margin-bottom:0px;" class="form-control" id="email_search_cache" value="`+email+`">
                     </div>
                 </div>
 
@@ -1590,7 +1588,7 @@ function filter_search_passenger(passenger_type='passenger', number='', product=
                         response+=`<div class="row">`;
         //                    var number_i = parseInt(i)+1;
                         number_i = parseInt(counter_passenger_print)+1;
-                        response+=`<div class="col-lg-12" style="margin-bottom:30px; border-bottom:2px solid #cdcdcd;border-top:2px solid #cdcdcd; background:white; padding:15px">`;
+                        response+=`<div class="col-lg-12" style="margin-bottom:30px; border:1px solid #cdcdcd; background:white; padding:15px">`;
                         response+=`
                             <h4 class="single_border_custom_bottom" style="margin-bottom:5px; width:50px; word-break:break-word;">#`+number_i+`.</h4>
                             <div class="row">
@@ -2283,134 +2281,30 @@ function filter_search_passenger(passenger_type='passenger', number='', product=
     }catch(err){console.log(err);}
 
     try{
-        if(cek_parent_date == 'pax_cache'){
-            $('input[id="birth_date_search_cache"]').daterangepicker({
-                parentEl: '#passenger_search',
-                singleDatePicker: true,
-                autoUpdateInput: true,
-                maxDate: moment(),
-                showDropdowns: true,
-                opens: 'center',
-                locale: {
-                    format: 'DD MMM YYYY',
-                }
-            });
-            $('input[id="birth_date_search_cache"]').val(birth_date);
-            $('input[id="birth_date_search_teropong"]').daterangepicker({
-                parentEl: '#passenger_search',
-                singleDatePicker: true,
-                autoUpdateInput: true,
-                maxDate: moment(),
-                showDropdowns: true,
-                opens: 'center',
-                locale: {
-                    format: 'DD MMM YYYY',
-                }
-            });
-            $('input[id="birth_date_search_teropong"]').val(birth_date);
-        }
-        else if(cek_parent_date == 'pax'){
-            $('input[id="birth_date_search_cache"]').daterangepicker({
-                parentEl: '#search_result'+id_parent_date,
-                singleDatePicker: true,
-                autoUpdateInput: true,
-                maxDate: moment(),
-                showDropdowns: true,
-                opens: 'center',
-                locale: {
-                    format: 'DD MMM YYYY',
-                }
-            });
-            $('input[id="birth_date_search_cache"]').val(birth_date);
-            $('input[id="birth_date_search_teropong"]').daterangepicker({
-                parentEl: '#search_result'+id_parent_date,
-                singleDatePicker: true,
-                autoUpdateInput: true,
-                maxDate: moment(),
-                showDropdowns: true,
-                opens: 'center',
-                locale: {
-                    format: 'DD MMM YYYY',
-                }
-            });
-            $('input[id="birth_date_search_teropong"]').val(birth_date);
-        }
-        else if(cek_parent_date == 'booker'){
-            $('input[id="birth_date_search_cache"]').daterangepicker({
-                parentEl: '#search_result',
-                singleDatePicker: true,
-                autoUpdateInput: true,
-                maxDate: moment(),
-                showDropdowns: true,
-                opens: 'center',
-                locale: {
-                    format: 'DD MMM YYYY',
-                }
-            });
-            $('input[id="birth_date_search_cache"]').val(birth_date);
-            $('input[id="birth_date_search_teropong"]').daterangepicker({
-                parentEl: '#search_result',
-                singleDatePicker: true,
-                autoUpdateInput: true,
-                maxDate: moment(),
-                showDropdowns: true,
-                opens: 'center',
-                locale: {
-                    format: 'DD MMM YYYY',
-                }
-            });
-            $('input[id="birth_date_search_teropong"]').val(birth_date);
-        }
-        else if(cek_parent_date == 'contact'){
-            $('input[id="birth_date_search_cache"]').daterangepicker({
-                parentEl: '#search_result_contact',
-                singleDatePicker: true,
-                autoUpdateInput: true,
-                maxDate: moment(),
-                showDropdowns: true,
-                opens: 'center',
-                locale: {
-                    format: 'DD MMM YYYY',
-                }
-            });
-            $('input[id="birth_date_search_cache"]').val(birth_date);
-            $('input[id="birth_date_search_teropong"]').daterangepicker({
-                parentEl: '#search_result_contact',
-                singleDatePicker: true,
-                autoUpdateInput: true,
-                maxDate: moment(),
-                showDropdowns: true,
-                opens: 'center',
-                locale: {
-                    format: 'DD MMM YYYY',
-                }
-            });
-            $('input[id="birth_date_search_teropong"]').val(birth_date);
-        }
-        else{
-            $('input[id="birth_date_search_cache"]').daterangepicker({
-                singleDatePicker: true,
-                autoUpdateInput: true,
-                maxDate: moment(),
-                showDropdowns: true,
-                opens: 'center',
-                locale: {
-                    format: 'DD MMM YYYY',
-                }
-            });
-            $('input[id="birth_date_search_cache"]').val(birth_date);
-            $('input[id="birth_date_search_teropong"]').daterangepicker({
-                singleDatePicker: true,
-                autoUpdateInput: true,
-                maxDate: moment(),
-                showDropdowns: true,
-                opens: 'center',
-                locale: {
-                    format: 'DD MMM YYYY',
-                }
-            });
-            $('input[id="birth_date_search_teropong"]').val(birth_date);
-        }
+        $('input[id="birth_date_search_cache"]').daterangepicker({
+            parentEl: '#filter_parent_date',
+            singleDatePicker: true,
+            autoUpdateInput: true,
+            maxDate: moment(),
+            showDropdowns: true,
+            opens: 'center',
+            locale: {
+                format: 'DD MMM YYYY',
+            }
+        });
+        $('input[id="birth_date_search_cache"]').val(birth_date);
+        $('input[id="birth_date_search_teropong"]').daterangepicker({
+            parentEl: '#filter_parent_date',
+            singleDatePicker: true,
+            autoUpdateInput: true,
+            maxDate: moment(),
+            showDropdowns: true,
+            opens: 'center',
+            locale: {
+                format: 'DD MMM YYYY',
+            }
+        });
+        $('input[id="birth_date_search_teropong"]').val(birth_date);
     }catch(err){
 
     }
@@ -2426,10 +2320,6 @@ function get_customer_list(passenger, number, product){
     }
     if(passenger == 'booker' || passenger == 'contact'){
         $('.loading-booker-train').show();
-        if(passenger == '')
-            cek_parent_date = 'booker';
-        else
-            cek_parent_date = 'contact';
 
         if(product == 'group_booking'){
             if(passenger == 'contact'){
@@ -2642,12 +2532,7 @@ function get_customer_list(passenger, number, product){
     else{
         $(".loading-pax-train").show();
         var name = '';
-        if(product == 'cache'){
-            cek_parent_date = 'pax_cache';
-        }else{
-            cek_parent_date = 'pax';
-        }
-        id_parent_date = '_'+passenger+number;
+
         if(passenger == 'passenger'){
             name = document.getElementById('train_passenger'+number+'_search').value;
             search_type = 'cust_name';
@@ -9992,25 +9877,120 @@ function generate_image_identity(counter, id, div_id, label_id, cek_search){
     });
 }
 
-function search_type_on_change(id_selection,id_text_input){
+function search_type_on_change(cek_date, id_parent, id_selection,id_text_input){
     if(document.getElementById(id_selection).value == 'birth_date'){
         if(moment(document.getElementById(id_text_input).value)._d == 'Invalid date')
             $('input[id="'+id_text_input+'"]').val(document.getElementById(id_text_input).value);
         else
             $('input[id="'+id_text_input+'"]').val("");
-        $('input[id="'+id_text_input+'"]').daterangepicker({
-            singleDatePicker: true,
-            autoUpdateInput: true,
-            maxDate: moment(),
-            showDropdowns: true,
-            opens: 'center',
-            locale: {
-                format: 'DD MMM YYYY',
-            }
-        });
+
+        if(cek_date == 'pax_cache'){
+            $('input[id="'+id_text_input+'"]').daterangepicker({
+                parentEl: '#passenger_search',
+                singleDatePicker: true,
+                autoUpdateInput: true,
+                maxDate: moment(),
+                showDropdowns: true,
+                opens: 'center',
+                locale: {
+                    format: 'DD MMM YYYY',
+                }
+            });
+        }
+        else if(cek_date == 'pax'){
+            $('input[id="'+id_text_input+'"]').daterangepicker({
+                parentEl: '#date_'+cek_date+id_parent,
+                singleDatePicker: true,
+                autoUpdateInput: true,
+                maxDate: moment(),
+                showDropdowns: true,
+                opens: 'center',
+                locale: {
+                    format: 'DD MMM YYYY',
+                }
+            });
+        }
+        else if(cek_date == 'senior' || cek_date == 'adult' || cek_date == 'child' || cek_date == 'infant'){
+            $('input[id="'+id_text_input+'"]').daterangepicker({
+                parentEl: '#date_'+cek_date+id_parent,
+                singleDatePicker: true,
+                autoUpdateInput: true,
+                maxDate: moment(),
+                showDropdowns: true,
+                opens: 'center',
+                locale: {
+                    format: 'DD MMM YYYY',
+                }
+            });
+        }
+        else if(cek_date == 'booker'){
+            $('input[id="'+id_text_input+'"]').daterangepicker({
+                parentEl: '#date_booker',
+                singleDatePicker: true,
+                autoUpdateInput: true,
+                maxDate: moment(),
+                showDropdowns: true,
+                opens: 'center',
+                locale: {
+                    format: 'DD MMM YYYY',
+                }
+            });
+        }
+        else if(cek_date == 'contact'){
+            $('input[id="'+id_text_input+'"]').daterangepicker({
+                parentEl: '#search_result_'+cek_date,
+                singleDatePicker: true,
+                autoUpdateInput: true,
+                maxDate: moment(),
+                showDropdowns: true,
+                opens: 'center',
+                locale: {
+                    format: 'DD MMM YYYY',
+                }
+            });
+        }
+        else if(cek_date == 'vendor'){
+            $('input[id="'+id_text_input+'"]').daterangepicker({
+                parentEl: '#date_'+cek_date+id_parent,
+                singleDatePicker: true,
+                autoUpdateInput: true,
+                maxDate: moment(),
+                showDropdowns: true,
+                opens: 'center',
+                locale: {
+                    format: 'DD MMM YYYY',
+                }
+            });
+        }
+        else if(cek_date == 'insurance'){
+            $('input[id="'+id_text_input+'"]').daterangepicker({
+                parentEl: '#date_'+cek_date+id_parent,
+                singleDatePicker: true,
+                autoUpdateInput: true,
+                maxDate: moment(),
+                showDropdowns: true,
+                opens: 'center',
+                locale: {
+                    format: 'DD MMM YYYY',
+                }
+            });
+        }
+        else{
+            $('input[id="'+id_text_input+'"]').daterangepicker({
+                singleDatePicker: true,
+                autoUpdateInput: true,
+                maxDate: moment(),
+                showDropdowns: true,
+                opens: 'center',
+                locale: {
+                    format: 'DD MMM YYYY',
+                }
+            });
+        }
     }else{
         try{
-            $('input[id="'+id_text_input+'"]').data('daterangepicker').remove()
+            $('input[id="'+id_text_input+'"]').val("");
+            $('input[id="'+id_text_input+'"]').data('daterangepicker').remove();
         }catch(err){}
     }
 }

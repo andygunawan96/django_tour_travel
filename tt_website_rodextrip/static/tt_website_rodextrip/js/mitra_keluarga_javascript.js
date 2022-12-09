@@ -425,11 +425,12 @@ function add_table_of_passenger_verify(type){
                 </div>
                 <div class="modal-body">
                     <div class="row">
+                        <div class="col-lg-12" id="date_pax`+parseInt(counter_passenger+1)+`"></div>
                         <div class="col-lg-9 col-md-9">
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                     <div class="form-select">
-                                        <select id="train_`+(counter_passenger+1)+`_search_type" name="train_`+(counter_passenger+1)+`_search_type" onchange="search_type_on_change('train_`+(counter_passenger+1)+`_search_type','train_`+(counter_passenger+1)+`_search');">
+                                        <select id="train_`+(counter_passenger+1)+`_search_type" name="train_`+(counter_passenger+1)+`_search_type" onchange="search_type_on_change('pax','`+parseInt(counter_passenger+1)+`','train_`+(counter_passenger+1)+`_search_type','train_`+(counter_passenger+1)+`_search');">
                                             <option value="cust_name">By Customer Name</option>
                                             <option value="mobile">By Customer Mobile</option>
                                             <option value="email">By Customer Mail</option>
