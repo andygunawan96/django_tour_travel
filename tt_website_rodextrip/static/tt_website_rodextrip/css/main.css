@@ -3172,7 +3172,7 @@ body.mobile-nav-active #mobile-nav-toggle {
 }
 
 .banner-right .form-wrap {
-  padding: 30px 30px;
+  padding: 40px;
   text-align: center;
 }
 
@@ -10057,3 +10057,36 @@ for better animation effect */
   cursor: pointer;
 }
 
+@media (max-width: 575px) {
+    #airline_review{
+        padding:15px !important;
+    }
+    #activity_review{
+        padding:15px !important;
+    }
+    #bus_review{
+        padding:15px !important;
+    }
+    #event_review{
+        padding:15px !important;
+    }
+    #hotel_review{
+        padding:15px !important;
+    }
+    #insurance_review{
+        padding:15px !important;
+    }
+    #tour_review{
+        padding:15px !important;
+    }
+    #train_review{
+        padding:15px !important;
+    }
+    #visa_review{
+        padding:15px !important;
+    }
+
+    .modal_custom_fixed .modal-body{
+        padding:40px;
+    }
+}
