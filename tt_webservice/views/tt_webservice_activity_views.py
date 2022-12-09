@@ -896,6 +896,30 @@ def get_auto_complete(request):
         file = read_cache("activity_cache_data", 'cache_web', 86400)
         if file:
             record_cache = file
+        else:
+            headers = {
+                "Accept": "application/json,text/html,application/xml",
+                "Content-Type": "application/json",
+                "action": "search_autocomplete",
+                "signature": request.POST['signature']
+            }
+
+            data = {
+                "name": '',
+                "limit": 9999
+            }
+            url_request = url + 'booking/activity'
+            res_cache_activity = send_request_api({}, url_request, headers, data, 'POST', 120)
+            try:
+                if res_cache_activity['result']['error_code'] == 0:
+                    write_cache(res_cache_activity['result']['response'], "activity_cache_data", 'cache_web')
+                    record_cache = res_cache_activity['result']['response']
+            except Exception as e:
+                _logger.error("ERROR GET CACHE FROM ACTIVITY SEARCH AUTOCOMPLETE " + json.dumps(res_cache_activity) + '\n' + str(e) + '\n' + traceback.format_exc())
+                _logger.info('use old cache')
+                file = read_cache("activity_cache_data", 'cache_web', 90911)
+                if file:
+                    record_cache = file
 
 
         # for rec in filter(lambda x: req['name'].lower() in x['name'].lower(), record_cache):

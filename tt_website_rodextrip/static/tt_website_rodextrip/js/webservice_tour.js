@@ -3057,6 +3057,7 @@ function tour_search_autocomplete(term,suggest){
            },
            data: {
                 'name':term,
+                'signature': signature
            },
            success: function(msg) {
             tour_choices = msg;
