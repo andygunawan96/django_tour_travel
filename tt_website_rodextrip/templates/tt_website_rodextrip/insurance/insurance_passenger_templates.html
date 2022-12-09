@@ -136,12 +136,13 @@
                                                     </div>
                                                     <div class="modal-body">
                                                         <div class="row">
+                                                            <div class="col-lg-12" id="date_booker"></div>
                                                             <div class="col-lg-9 col-md-9">
                                                                 <div class="row">
                                                                     {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
                                                                     <div class="col-lg-6 col-md-6 col-sm-6">
                                                                         <div class="form-select">
-                                                                            <select id="train_booker_search_type" name="train_booker_search_type" onchange="search_type_on_change('train_booker_search_type','train_booker_search');">
+                                                                            <select id="train_booker_search_type" name="train_booker_search_type" onchange="search_type_on_change('booker','','train_booker_search_type','train_booker_search');">
                                                                                 <option value="cust_name">By Customer Name</option>
                                                                                 <option value="mobile">By Customer Mobile</option>
                                                                                 <option value="email">By Customer Mail</option>
@@ -389,11 +390,12 @@
                                                         </div>
                                                         <div class="modal-body" style="text-align:left;">
                                                             <div class="row">
+                                                                <div class="col-lg-12" id="date_adult{{forloop.counter}}"></div>
                                                                 <div class="col-lg-9 col-md-9">
                                                                     <div class="row">
                                                                         <div class="col-lg-6 col-md-6 col-sm-6">
                                                                             <div class="form-select">
-                                                                                <select id="train_adult{{forloop.counter}}_search_type" name="train_adult{{forloop.counter}}_search_type" onchange="search_type_on_change('train_adult{{forloop.counter}}_search_type','train_adult{{forloop.counter}}_search');">
+                                                                                <select id="train_adult{{forloop.counter}}_search_type" name="train_adult{{forloop.counter}}_search_type" onchange="search_type_on_change('adult','{{forloop.counter}}','train_adult{{forloop.counter}}_search_type','train_adult{{forloop.counter}}_search');">
                                                                                     <option value="cust_name">By Customer Name</option>
                                                                                     <option value="mobile">By Customer Mobile</option>
                                                                                     <option value="email">By Customer Mail</option>
@@ -889,11 +891,12 @@
                                                             </div>
                                                             <div class="modal-body" style="text-align:left;">
                                                                 <div class="row">
+                                                                    <div class="col-lg-12" id="date_insurancerelation{{rec.pax_type}}{{counter}}{{forloop.counter}}"></div>
                                                                     <div class="col-lg-9 col-md-9">
                                                                         <div class="row">
                                                                             <div class="col-lg-6 col-md-6 col-sm-6">
                                                                                 <div class="form-select">
-                                                                                    <select id="train_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}_search_type" name="train_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}_search_type" onchange="search_type_on_change('train_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}_search_type','train_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}_search');">
+                                                                                    <select id="train_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}_search_type" name="train_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}_search_type" onchange="search_type_on_change('insurance','relation{{rec.pax_type}}{{counter}}{{forloop.counter}}','train_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}_search_type','train_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}_search');">
                                                                                         <option value="cust_name">By Customer Name</option>
                                                                                         <option value="mobile">By Customer Mobile</option>
                                                                                         <option value="email">By Customer Mail</option>
@@ -1118,11 +1121,12 @@
                                                         </div>
                                                         <div class="modal-body" style="text-align:left;">
                                                             <div class="row">
+                                                                <div class="col-lg-12" id="date_insurancebeneficiary{{forloop.counter}}"></div>
                                                                 <div class="col-lg-9 col-md-9">
                                                                     <div class="row">
                                                                         <div class="col-lg-6 col-md-6 col-sm-6">
                                                                             <div class="form-select">
-                                                                                <select id="train_Adult_relation_beneficiary{{forloop.counter}}_search_type" name="train_Adult_relation_beneficiary{{forloop.counter}}_search_type" onchange="search_type_on_change('train_Adult_relation_beneficiary{{forloop.counter}}_search_type','train_Adult_relation_beneficiary{{forloop.counter}}_search');">
+                                                                                <select id="train_Adult_relation_beneficiary{{forloop.counter}}_search_type" name="train_Adult_relation_beneficiary{{forloop.counter}}_search_type" onchange="search_type_on_change('insurance','beneficiary{{forloop.counter}}','train_Adult_relation_beneficiary{{forloop.counter}}_search_type','train_Adult_relation_beneficiary{{forloop.counter}}_search');">
                                                                                     <option value="cust_name">By Customer Name</option>
                                                                                     <option value="mobile">By Customer Mobile</option>
                                                                                     <option value="email">By Customer Mail</option>
@@ -1468,12 +1472,13 @@
                                                         </div>
                                                         <div class="modal-body">
                                                             <div class="row">
+                                                                <div class="col-lg-12" id="date_booker"></div>
                                                                 <div class="col-lg-9 col-md-9">
                                                                     <div class="row">
                                                                         {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
                                                                         <div class="col-lg-6 col-md-6 col-sm-6">
                                                                             <div class="form-select">
-                                                                                <select id="train_booker_search_type" name="train_booker_search_type" onchange="search_type_on_change('train_booker_search_type','train_booker_search');">
+                                                                                <select id="train_booker_search_type" name="train_booker_search_type" onchange="search_type_on_change('booker','','train_booker_search_type','train_booker_search');">
                                                                                     <option value="cust_name">By Customer Name</option>
                                                                                     <option value="mobile">By Customer Mobile</option>
                                                                                     <option value="email">By Customer Mail</option>
@@ -1721,11 +1726,12 @@
                                                             </div>
                                                             <div class="modal-body" style="text-align:left;">
                                                                 <div class="row">
+                                                                    <div class="col-lg-12" id="date_adult{{forloop.counter}}"></div>
                                                                     <div class="col-lg-9 col-md-9">
                                                                         <div class="row">
                                                                             <div class="col-lg-6 col-md-6 col-sm-6">
                                                                                 <div class="form-select">
-                                                                                    <select id="train_adult{{forloop.counter}}_search_type" name="train_adult{{forloop.counter}}_search_type" onchange="search_type_on_change('train_adult{{forloop.counter}}_search_type','train_adult{{forloop.counter}}_search');">
+                                                                                    <select id="train_adult{{forloop.counter}}_search_type" name="train_adult{{forloop.counter}}_search_type" onchange="search_type_on_change('adult','{{forloop.counter}}','train_adult{{forloop.counter}}_search_type','train_adult{{forloop.counter}}_search');">
                                                                                         <option value="cust_name">By Customer Name</option>
                                                                                         <option value="mobile">By Customer Mobile</option>
                                                                                         <option value="email">By Customer Mail</option>
@@ -2213,11 +2219,12 @@
                                                             </div>
                                                             <div class="modal-body" style="text-align:left;">
                                                                 <div class="row">
+                                                                    <div class="col-lg-12" id="date_insurancerelation{{rec.pax_type}}{{counter}}{{forloop.counter}}"></div>
                                                                     <div class="col-lg-9 col-md-9">
                                                                         <div class="row">
                                                                             <div class="col-lg-6 col-md-6 col-sm-6">
                                                                                 <div class="form-select">
-                                                                                    <select id="train_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}_search_type" name="train_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}_search_type" onchange="search_type_on_change('train_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}_search_type','train_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}_search');">
+                                                                                    <select id="train_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}_search_type" name="train_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}_search_type" onchange="search_type_on_change('insurance','relation{{rec.pax_type}}{{counter}}{{forloop.counter}}','train_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}_search_type','train_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}_search');">
                                                                                         <option value="cust_name">By Customer Name</option>
                                                                                         <option value="mobile">By Customer Mobile</option>
                                                                                         <option value="email">By Customer Mail</option>
@@ -2442,11 +2449,12 @@
                                                                 </div>
                                                                 <div class="modal-body" style="text-align:left;">
                                                                     <div class="row">
+                                                                        <div class="col-lg-12" id="date_insurancebeneficiary{{forloop.counter}}"></div>
                                                                         <div class="col-lg-9 col-md-9">
                                                                             <div class="row">
                                                                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                                                                     <div class="form-select">
-                                                                                        <select id="train_adult_relation_beneficiary{{forloop.counter}}_search_type" name="train_adult_relation_beneficiary{{forloop.counter}}_search_type" onchange="search_type_on_change('train_adult_relation_beneficiary{{forloop.counter}}_search_type','train_adult_relation_beneficiary{{forloop.counter}}_search');">
+                                                                                        <select id="train_Adult_relation_beneficiary{{forloop.counter}}_search_type" name="train_Adult_relation_beneficiary{{forloop.counter}}_search_type" onchange="search_type_on_change('insurance','beneficiary{{forloop.counter}}','train_Adult_relation_beneficiary{{forloop.counter}}_search_type','train_Adult_relation_beneficiary{{forloop.counter}}_search');">
                                                                                             <option value="cust_name">By Customer Name</option>
                                                                                             <option value="mobile">By Customer Mobile</option>
                                                                                             <option value="email">By Customer Mail</option>
@@ -2456,7 +2464,7 @@
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="col-lg-6 col-md-6 col-sm-6">
-                                                                                    <input class="form-control" type="text" id="train_adult_relation_beneficiary{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                                    <input class="form-control" type="text" id="train_Adult_relation_beneficiary{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -2793,13 +2801,14 @@
                                                     </div>
                                                     <div class="modal-body">
                                                         <div class="row">
+                                                            <div class="col-lg-12" id="date_booker"></div>
                                                             <div class="col-lg-9 col-md-9">
                                                                 <div class="row">
                                                                     {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
                                                                     <div class="col-lg-6 col-md-6 col-sm-6">
                                                                         <div class="form-group">
                                                                             <div class="default-select" id="default-select">
-                                                                                <select id="train_booker_search_type" name="train_booker_search_type" onchange="search_type_on_change('train_booker_search_type','train_booker_search');">
+                                                                                <select id="train_booker_search_type" name="train_booker_search_type" onchange="search_type_on_change('booker','','train_booker_search_type','train_booker_search');">
                                                                                     <option value="cust_name">By Customer Name</option>
                                                                                     <option value="mobile">By Customer Mobile</option>
                                                                                     <option value="email">By Customer Mail</option>
@@ -3048,11 +3057,12 @@
                                                         </div>
                                                         <div class="modal-body" style="text-align:left;">
                                                             <div class="row">
+                                                                <div class="col-lg-12" id="date_adult{{forloop.counter}}"></div>
                                                                 <div class="col-lg-9 col-md-9">
                                                                     <div class="row">
                                                                         <div class="col-lg-6 col-md-6 col-sm-6">
                                                                             <div class="form-select">
-                                                                                <select id="train_adult{{forloop.counter}}_search_type" name="train_adult{{forloop.counter}}_search_type" onchange="search_type_on_change('train_adult{{forloop.counter}}_search_type','train_adult{{forloop.counter}}_search');">
+                                                                                <select id="train_adult{{forloop.counter}}_search_type" name="train_adult{{forloop.counter}}_search_type" onchange="search_type_on_change('adult','{{forloop.counter}}','train_adult{{forloop.counter}}_search_type','train_adult{{forloop.counter}}_search');">
                                                                                     <option value="cust_name">By Customer Name</option>
                                                                                     <option value="mobile">By Customer Mobile</option>
                                                                                     <option value="email">By Customer Mail</option>
@@ -3378,7 +3388,7 @@
                                                             <label>{% trans 'Identity' %}</label>
                                                             <div class="input-container-search-ticket">
                                                                 <div class="form-group">
-                                                                    <div class="default-select" id="default-select">                                                                            <select id="train_booker_search_type" name="train_booker_search_type">
+                                                                    <div class="default-select" id="default-select">
                                                                         <select id='adult_passport_id_type{{forloop.counter}}' name='adult_passport_id_type{{forloop.counter}}' onchange="change_identity_type(`adult_passport_id_type{{forloop.counter}}`)">
                                                                             {% if response.sector_type != 'International' %}
                                                                             <option value=""></option>
@@ -3542,11 +3552,12 @@
                                                             </div>
                                                             <div class="modal-body" style="text-align:left;">
                                                                 <div class="row">
+                                                                    <div class="col-lg-12" id="date_insurancerelation{{rec.pax_type}}{{counter}}{{forloop.counter}}"></div>
                                                                     <div class="col-lg-9 col-md-9">
                                                                         <div class="row">
                                                                             <div class="col-lg-6 col-md-6 col-sm-6">
                                                                                 <div class="form-select">
-                                                                                    <select id="train_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}_search_type" name="train_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}_search_type" onchange="search_type_on_change('train_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}_search_type','train_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}_search');">
+                                                                                    <select id="train_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}_search_type" name="train_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}_search_type" onchange="search_type_on_change('insurance','relation{{rec.pax_type}}{{counter}}{{forloop.counter}}','train_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}_search_type','train_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}_search');">
                                                                                         <option value="cust_name">By Customer Name</option>
                                                                                         <option value="mobile">By Customer Mobile</option>
                                                                                         <option value="email">By Customer Mail</option>
@@ -3771,11 +3782,12 @@
                                                             </div>
                                                             <div class="modal-body" style="text-align:left;">
                                                                 <div class="row">
+                                                                    <div class="col-lg-12" id="date_insurancebeneficiary{{forloop.counter}}"></div>
                                                                     <div class="col-lg-9 col-md-9">
                                                                         <div class="row">
                                                                             <div class="col-lg-6 col-md-6 col-sm-6">
                                                                                 <div class="form-select">
-                                                                                    <select id="train_{{rec.pax_type}}_relation_beneficiary{{forloop.counter}}_search_type" name="train_{{rec.pax_type}}_relation_beneficiary{{forloop.counter}}_search_type" onchange="search_type_on_change('train_{{rec.pax_type}}_relation_beneficiary{{forloop.counter}}_search_type','train_{{rec.pax_type}}_relation_beneficiary{{forloop.counter}}_search');">
+                                                                                    <select id="train_Adult_relation_beneficiary{{forloop.counter}}_search_type" name="train_Adult_relation_beneficiary{{forloop.counter}}_search_type" onchange="search_type_on_change('insurance','beneficiary{{forloop.counter}}','train_Adult_relation_beneficiary{{forloop.counter}}_search_type','train_Adult_relation_beneficiary{{forloop.counter}}_search');">
                                                                                         <option value="cust_name">By Customer Name</option>
                                                                                         <option value="mobile">By Customer Mobile</option>
                                                                                         <option value="email">By Customer Mail</option>
@@ -3785,7 +3797,7 @@
                                                                                 </div>
                                                                             </div>
                                                                             <div class="col-lg-6 col-md-6 col-sm-6">
-                                                                                <input class="form-control" type="text" id="train_{{rec.pax_type}}_relation_beneficiary{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                                <input class="form-control" type="text" id="train_Adult_relation_beneficiary{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -4119,13 +4131,14 @@
                                                 </div>
                                                 <div class="modal-body">
                                                     <div class="row">
+                                                        <div class="col-lg-12" id="date_booker"></div>
                                                         <div class="col-lg-9 col-md-9">
                                                             <div class="row">
                                                                 {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
                                                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                                                     <div class="input-container-search-ticket btn-group">
                                                                         <div class="form-select" id="default-select">
-                                                                            <select class="nice-select-default" id="train_booker_search_type" name="train_booker_search_type" onchange="search_type_on_change('train_booker_search_type','train_booker_search');">
+                                                                            <select class="nice-select-default" id="train_booker_search_type" name="train_booker_search_type" onchange="search_type_on_change('booker','','train_booker_search_type','train_booker_search');">
                                                                                 <option value="cust_name">By Customer Name</option>
                                                                                 <option value="mobile">By Customer Mobile</option>
                                                                                 <option value="email">By Customer Mail</option>
@@ -4374,11 +4387,12 @@
                                                     </div>
                                                     <div class="modal-body" style="text-align:left;">
                                                         <div class="row">
+                                                            <div class="col-lg-12" id="date_adult{{forloop.counter}}"></div>
                                                             <div class="col-lg-9 col-md-9">
                                                                 <div class="row">
                                                                     <div class="col-lg-6 col-md-6 col-sm-6">
                                                                         <div class="form-select">
-                                                                            <select id="train_adult{{forloop.counter}}_search_type" name="train_adult{{forloop.counter}}_search_type" onchange="search_type_on_change('train_adult{{forloop.counter}}_search_type','train_adult{{forloop.counter}}_search');">
+                                                                            <select id="train_adult{{forloop.counter}}_search_type" name="train_adult{{forloop.counter}}_search_type" onchange="search_type_on_change('adult','{{forloop.counter}}','train_adult{{forloop.counter}}_search_type','train_adult{{forloop.counter}}_search');">
                                                                                 <option value="cust_name">By Customer Name</option>
                                                                                 <option value="mobile">By Customer Mobile</option>
                                                                                 <option value="email">By Customer Mail</option>
@@ -4866,11 +4880,12 @@
                                                             </div>
                                                             <div class="modal-body" style="text-align:left;">
                                                                 <div class="row">
+                                                                    <div class="col-lg-12" id="date_insurancerelation{{rec.pax_type}}{{counter}}{{forloop.counter}}"></div>
                                                                     <div class="col-lg-9 col-md-9">
                                                                         <div class="row">
                                                                             <div class="col-lg-6 col-md-6 col-sm-6">
                                                                                 <div class="form-select">
-                                                                                    <select id="train_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}_search_type" name="train_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}_search_type" onchange="search_type_on_change('train_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}_search_type','train_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}_search');">
+                                                                                    <select id="train_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}_search_type" name="train_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}_search_type" onchange="search_type_on_change('insurance','relation{{rec.pax_type}}{{counter}}{{forloop.counter}}','train_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}_search_type','train_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}_search');">
                                                                                         <option value="cust_name">By Customer Name</option>
                                                                                         <option value="mobile">By Customer Mobile</option>
                                                                                         <option value="email">By Customer Mail</option>
@@ -5095,11 +5110,12 @@
                                                         </div>
                                                         <div class="modal-body" style="text-align:left;">
                                                             <div class="row">
+                                                                <div class="col-lg-12" id="date_insurancebeneficiary{{forloop.counter}}"></div>
                                                                 <div class="col-lg-9 col-md-9">
                                                                     <div class="row">
                                                                         <div class="col-lg-6 col-md-6 col-sm-6">
                                                                             <div class="form-select">
-                                                                                <select id="train_{{rec.pax_type}}_relation_beneficiary{{forloop.counter}}_search_type" name="train_{{rec.pax_type}}_relation_beneficiary{{forloop.counter}}_search_type" onchange="search_type_on_change('train_{{rec.pax_type}}_relation_beneficiary{{forloop.counter}}_search_type','train_{{rec.pax_type}}_relation_beneficiary{{forloop.counter}}_search');">
+                                                                                <select id="train_Adult_relation_beneficiary{{forloop.counter}}_search_type" name="train_Adult_relation_beneficiary{{forloop.counter}}_search_type" onchange="search_type_on_change('insurance','beneficiary{{forloop.counter}}','train_Adult_relation_beneficiary{{forloop.counter}}_search_type','train_Adult_relation_beneficiary{{forloop.counter}}_search');">
                                                                                     <option value="cust_name">By Customer Name</option>
                                                                                     <option value="mobile">By Customer Mobile</option>
                                                                                     <option value="email">By Customer Mail</option>
@@ -5109,7 +5125,7 @@
                                                                             </div>
                                                                         </div>
                                                                         <div class="col-lg-6 col-md-6 col-sm-6">
-                                                                            <input class="form-control" type="text" id="train_{{rec.pax_type}}_relation_beneficiary{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                            <input class="form-control" type="text" id="train_Adult_relation_beneficiary{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -5441,12 +5457,13 @@
                                                     </div>
                                                     <div class="modal-body">
                                                         <div class="row">
+                                                            <div class="col-lg-12" id="date_booker"></div>
                                                             <div class="col-lg-9 col-md-9">
                                                                 <div class="row">
                                                                     {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
                                                                     <div class="col-lg-6 col-md-6 col-sm-6">
                                                                         <div class="form-select">
-                                                                            <select id="train_booker_search_type" name="train_booker_search_type" onchange="search_type_on_change('train_booker_search_type','train_booker_search');">
+                                                                            <select id="train_booker_search_type" name="train_booker_search_type" onchange="search_type_on_change('booker','','train_booker_search_type','train_booker_search');">
                                                                                 <option value="cust_name">By Customer Name</option>
                                                                                 <option value="mobile">By Customer Mobile</option>
                                                                                 <option value="email">By Customer Mail</option>
@@ -5694,11 +5711,12 @@
                                                         </div>
                                                         <div class="modal-body" style="text-align:left;">
                                                             <div class="row">
+                                                                <div class="col-lg-12" id="date_adult{{forloop.counter}}"></div>
                                                                 <div class="col-lg-9 col-md-9">
                                                                     <div class="row">
                                                                         <div class="col-lg-6 col-md-6 col-sm-6">
                                                                             <div class="form-select">
-                                                                                <select id="train_adult{{forloop.counter}}_search_type" name="train_adult{{forloop.counter}}_search_type" onchange="search_type_on_change('train_adult{{forloop.counter}}_search_type','train_adult{{forloop.counter}}_search');">
+                                                                                <select id="train_adult{{forloop.counter}}_search_type" name="train_adult{{forloop.counter}}_search_type" onchange="search_type_on_change('adult','{{forloop.counter}}','train_adult{{forloop.counter}}_search_type','train_adult{{forloop.counter}}_search');">
                                                                                     <option value="cust_name">By Customer Name</option>
                                                                                     <option value="mobile">By Customer Mobile</option>
                                                                                     <option value="email">By Customer Mail</option>
@@ -6186,11 +6204,12 @@
                                                             </div>
                                                             <div class="modal-body" style="text-align:left;">
                                                                 <div class="row">
+                                                                    <div class="col-lg-12" id="date_insurancerelation{{rec.pax_type}}{{counter}}{{forloop.counter}}"></div>
                                                                     <div class="col-lg-9 col-md-9">
                                                                         <div class="row">
                                                                             <div class="col-lg-6 col-md-6 col-sm-6">
                                                                                 <div class="form-select">
-                                                                                    <select id="train_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}_search_type" name="train_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}_search_type" onchange="search_type_on_change('train_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}_search_type','train_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}_search');">
+                                                                                    <select id="train_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}_search_type" name="train_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}_search_type" onchange="search_type_on_change('insurance','relation{{rec.pax_type}}{{counter}}{{forloop.counter}}','train_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}_search_type','train_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}_search');">
                                                                                         <option value="cust_name">By Customer Name</option>
                                                                                         <option value="mobile">By Customer Mobile</option>
                                                                                         <option value="email">By Customer Mail</option>
@@ -6415,11 +6434,12 @@
                                                             </div>
                                                             <div class="modal-body" style="text-align:left;">
                                                                 <div class="row">
+                                                                    <div class="col-lg-12" id="date_insurancebeneficiary{{forloop.counter}}"></div>
                                                                     <div class="col-lg-9 col-md-9">
                                                                         <div class="row">
                                                                             <div class="col-lg-6 col-md-6 col-sm-6">
                                                                                 <div class="form-select">
-                                                                                    <select id="train_adult_relation_beneficiary{{counter}}{{forloop.counter}}_search_type" name="train_adult_relation_beneficiary{{counter}}{{forloop.counter}}_search_type" onchange="search_type_on_change('train_adult_relation_beneficiary{{counter}}{{forloop.counter}}_search_type','train_adult_relation_beneficiary{{counter}}{{forloop.counter}}_search');">
+                                                                                    <select id="train_Adult_relation_beneficiary{{forloop.counter}}_search_type" name="train_Adult_relation_beneficiary{{forloop.counter}}_search_type" onchange="search_type_on_change('insurance','beneficiary{{forloop.counter}}','train_Adult_relation_beneficiary{{forloop.counter}}_search_type','train_Adult_relation_beneficiary{{forloop.counter}}_search');">
                                                                                         <option value="cust_name">By Customer Name</option>
                                                                                         <option value="mobile">By Customer Mobile</option>
                                                                                         <option value="email">By Customer Mail</option>
@@ -6429,7 +6449,7 @@
                                                                                 </div>
                                                                             </div>
                                                                             <div class="col-lg-6 col-md-6 col-sm-6">
-                                                                                <input class="form-control" type="text" id="train_adult_relation_beneficiary{{counter}}{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                                <input class="form-control" type="text" id="train_Adult_relation_beneficiary{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -6764,12 +6784,13 @@
                                                     </div>
                                                     <div class="modal-body">
                                                         <div class="row">
+                                                            <div class="col-lg-12" id="date_booker"></div>
                                                             <div class="col-lg-9 col-md-9">
                                                                 <div class="row">
                                                                     {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
                                                                     <div class="col-lg-6 col-md-6 col-sm-6">
                                                                         <div class="form-select">
-                                                                            <select id="train_booker_search_type" name="train_booker_search_type" onchange="search_type_on_change('train_booker_search_type','train_booker_search');">
+                                                                            <select id="train_booker_search_type" name="train_booker_search_type" onchange="search_type_on_change('booker','','train_booker_search_type','train_booker_search');">
                                                                                 <option value="cust_name">By Customer Name</option>
                                                                                 <option value="mobile">By Customer Mobile</option>
                                                                                 <option value="email">By Customer Mail</option>
@@ -7017,11 +7038,12 @@
                                                         </div>
                                                         <div class="modal-body" style="text-align:left;">
                                                             <div class="row">
+                                                                <div class="col-lg-12" id="date_adult{{forloop.counter}}"></div>
                                                                 <div class="col-lg-9 col-md-9">
                                                                     <div class="row">
                                                                         <div class="col-lg-6 col-md-6 col-sm-6">
                                                                             <div class="form-select">
-                                                                                <select id="train_adult{{forloop.counter}}_search_type" name="train_adult{{forloop.counter}}_search_type" onchange="search_type_on_change('train_adult{{forloop.counter}}_search_type','train_adult{{forloop.counter}}_search');">
+                                                                                <select id="train_adult{{forloop.counter}}_search_type" name="train_adult{{forloop.counter}}_search_type" onchange="search_type_on_change('adult','{{forloop.counter}}','train_adult{{forloop.counter}}_search_type','train_adult{{forloop.counter}}_search');">
                                                                                     <option value="cust_name">By Customer Name</option>
                                                                                     <option value="mobile">By Customer Mobile</option>
                                                                                     <option value="email">By Customer Mail</option>
@@ -7509,11 +7531,12 @@
                                                             </div>
                                                             <div class="modal-body" style="text-align:left;">
                                                                 <div class="row">
+                                                                    <div class="col-lg-12" id="date_insurancerelation{{rec.pax_type}}{{counter}}{{forloop.counter}}"></div>
                                                                     <div class="col-lg-9 col-md-9">
                                                                         <div class="row">
                                                                             <div class="col-lg-6 col-md-6 col-sm-6">
                                                                                 <div class="form-select">
-                                                                                    <select id="train_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}_search_type" name="train_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}_search_type" onchange="search_type_on_change('train_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}_search_type','train_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}_search');">
+                                                                                    <select id="train_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}_search_type" name="train_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}_search_type" onchange="search_type_on_change('insurance','relation{{rec.pax_type}}{{counter}}{{forloop.counter}}','train_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}_search_type','train_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}_search');">
                                                                                         <option value="cust_name">By Customer Name</option>
                                                                                         <option value="mobile">By Customer Mobile</option>
                                                                                         <option value="email">By Customer Mail</option>
@@ -7738,11 +7761,12 @@
                                                             </div>
                                                             <div class="modal-body" style="text-align:left;">
                                                                 <div class="row">
+                                                                    <div class="col-lg-12" id="date_insurancebeneficiary{{forloop.counter}}"></div>
                                                                     <div class="col-lg-9 col-md-9">
                                                                         <div class="row">
                                                                             <div class="col-lg-6 col-md-6 col-sm-6">
                                                                                 <div class="form-select">
-                                                                                    <select id="train_adult_relation_beneficiary{{counter}}{{forloop.counter}}_search_type" name="train_adult_relation_beneficiary{{counter}}{{forloop.counter}}_search_type" onchange="search_type_on_change('train_adult_relation_beneficiary{{counter}}{{forloop.counter}}_search_type','train_adult_relation_beneficiary{{counter}}{{forloop.counter}}_search');">
+                                                                                    <select id="train_Adult_relation_beneficiary{{forloop.counter}}_search_type" name="train_Adult_relation_beneficiary{{forloop.counter}}_search_type" onchange="search_type_on_change('insurance','beneficiary{{forloop.counter}}','train_Adult_relation_beneficiary{{forloop.counter}}_search_type','train_Adult_relation_beneficiary{{forloop.counter}}_search');">
                                                                                         <option value="cust_name">By Customer Name</option>
                                                                                         <option value="mobile">By Customer Mobile</option>
                                                                                         <option value="email">By Customer Mail</option>
@@ -7752,7 +7776,7 @@
                                                                                 </div>
                                                                             </div>
                                                                             <div class="col-lg-6 col-md-6 col-sm-6">
-                                                                                <input class="form-control" type="text" id="train_adult_relation_beneficiary{{counter}}{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                                <input class="form-control" type="text" id="train_Adult_relation_beneficiary{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
                                                                             </div>
                                                                         </div>
                                                                     </div>

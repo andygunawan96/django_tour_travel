@@ -1537,7 +1537,7 @@ option::after{
   background: none; }
 
 .form-search-wrap {
-  padding: 20px 0px 20px 0px; }
+  padding: 20px 5px 20px 5px; }
   .form-search-wrap .form-control {
     border: 1px solid #cdcdcd; }
     @media (max-width: 1199.98px) {

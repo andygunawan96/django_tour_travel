@@ -395,6 +395,7 @@ function show_snooze(val, date, create_date, index){
     </div>`;
 
     $('input[name="snooze_input_date'+val+'"]').daterangepicker({
+        parentEl: '#myModalNotification',
         singleDatePicker: true,
         autoUpdateInput: true,
         opens: 'center',
