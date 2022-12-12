@@ -1824,7 +1824,17 @@ function activity_get_price(val, bool){
     if(parseInt(activity_type_pick) != val || bool == true){
         activity_type_pick = val;
         if(document.getElementById('product_title').innerHTML != activity_type[activity_type_pick].name)
+        {
             document.getElementById('product_type_title').innerHTML = activity_type[activity_type_pick].name;
+            if(activity_type[activity_type_pick].description)
+            {
+                document.getElementById('activity_type_desc').innerHTML = `
+                <div class="col-lg-12" style="margin-bottom:20px;">
+                `+activity_type[activity_type_pick].description+`
+                </div>
+                `;
+            }
+        }
 
         text = '';
            detail_for_session = JSON.stringify(activity_type).replace(/'/g, '');
