@@ -3603,8 +3603,9 @@ function get_price_itinerary_request(){
                                     text+=`
                                     <div class="col-lg-12" style="display:block;" id="flight_div_sh`+flight_count+`">
                                         <div class="row">
-                                            <div class="col-lg-12">
-                                                <div style="padding:15px; border:1px solid #cdcdcd; background:white;">`;
+                                            <div class="col-lg-12">`;
+                                                text+=`<div style="padding:15px; border:1px solid #cdcdcd; background:white;">`;
+
                                                 if(i == 0 && j == 0 && resJson.result.response.is_combo_price == true && journey.length > 1){
                                                     //text += `<marquee direction="down" behavior="alternate" height="50">
                                                     //<marquee behavior="alternate"><font size="5">Special Price</font></marquee>
@@ -6940,6 +6941,9 @@ function airline_get_booking(data, sync=false){
                                     </div>`;
                             for(j in msg.result.response.provider_bookings[i].journeys){
                                 fare_detail_list = [];
+                                if(j != 0){
+                                    text+=`<hr/>`;
+                                }
                                 text+=`<h6>Flight `+flight_counter+`</h6>`;
                                 $text += '\n*Flight '+ flight_counter+'*\n';
                                 flight_counter++;
@@ -7485,23 +7489,23 @@ function airline_get_booking(data, sync=false){
                                                         </div>
                                                         <div class="modal-body">
                                                             <div class="row">
-                                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+                                                                <div class="col-lg-12 mb-2">
                                                                     <span class="control-label" for="Name">Name</span>
                                                                     <div class="input-container-search-ticket">
                                                                         <input type="text" class="form-control o_website_form_input" id="bill_name" name="bill_name" placeholder="Name" required="1"/>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
-                                                                    <span class="control-label" for="Additional Information">Additional Information</span>
-                                                                    <div class="input-container-search-ticket">
-                                                                        <textarea style="width:100%; resize: none;" rows="4" id="additional_information" name="additional_information" placeholder="Additional Information"></textarea>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                                                                <div class="col-lg-12 mb-2">
                                                                     <span class="control-label" for="Address">Address</span>
                                                                     <div class="input-container-search-ticket">
-                                                                        <textarea style="width:100%; resize: none;" rows="4" id="bill_address" name="bill_address" placeholder="Address"></textarea>
+                                                                        <textarea class="form-control"style="width:100%; height:70px; resize: none;" rows="4" id="bill_address" name="bill_address" placeholder="Address"></textarea>
                                                                         <!--<input type="text" class="form-control o_website_form_input" id="bill_name" name="bill_address" placeholder="Address" required="1"/>-->
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-12 mb-2">
+                                                                    <span class="control-label" for="Additional Information">Additional Information</span>
+                                                                    <div class="input-container-search-ticket">
+                                                                        <textarea class="form-control" style="width:100%; height:70px; resize: none;" rows="4" id="additional_information" name="additional_information" placeholder="Additional Information"></textarea>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -7789,39 +7793,47 @@ function airline_get_booking(data, sync=false){
                                                 </div>
                                                 <div class="modal-body">
                                                     <div class="row">
-                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+                                                        <div class="col-lg-12 mb-2">
                                                             <span class="control-label" for="Name">Name</span>
                                                             <div class="input-container-search-ticket">
                                                                 <input type="text" class="form-control o_website_form_input" id="bill_name" name="bill_name" placeholder="Name" required="1"/>
                                                             </div>
                                                         </div>
-                                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
-                                                            <span class="control-label" for="Additional Information">Additional Information</span>
-                                                            <div class="input-container-search-ticket">
-                                                                <textarea style="width:100%; resize: none;" rows="4" id="additional_information" name="additional_information" placeholder="Additional Information"></textarea>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                                                        <div class="col-lg-12 mb-2">
                                                             <span class="control-label" for="Address">Address</span>
                                                             <div class="input-container-search-ticket">
-                                                                <textarea style="width:100%; resize: none;" rows="4" id="bill_address" name="bill_address" placeholder="Address"></textarea>
+                                                                <textarea class="form-control" style="width:100%; height:70px; resize: none;" rows="4" id="bill_address" name="bill_address" placeholder="Address"></textarea>
                                                                 <!--<input type="text" class="form-control o_website_form_input" id="bill_name" name="bill_address" placeholder="Address" required="1"/>-->
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-12 mb-2">
+                                                            <span class="control-label" for="Additional Information">Additional Information</span>
+                                                            <div class="input-container-search-ticket">
+                                                                <textarea class="form-control" style="width:100%; height:70px; resize: none;" rows="4" id="additional_information" name="additional_information" placeholder="Additional Information"></textarea>
                                                             </div>
                                                         </div>
                                                     </div>
 
                                                     <div class="row">
-                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+                                                        <div class="col-lg-12 mb-2">
                                                             <span class="control-label" for="Name">Included Passengers</span>
-                                                            <table style="border: 1px solid; width:100%;">`;
-                                                            for (resv_pax in airline_get_detail.result.response.passengers)
-                                                            {
-                                                                text += `<tr>
-                                                                    <td><span id="resv_pax_value`+resv_pax+`">`+airline_get_detail.result.response.passengers[resv_pax].name+`, `+airline_get_detail.result.response.passengers[resv_pax].title+`</span></td>
-                                                                    <td><input type="checkbox" id="resv_pax_checkbox`+resv_pax+`" name="resv_pax_checkbox`+i+`" checked /></td>
+                                                            <table class="table list-of-reservation" style="border: 1px solid; width:100%;">`;
+                                                            for (resv_pax in airline_get_detail.result.response.passengers){
+                                                                text += `
+                                                                <tr>
+                                                                    <td>
+                                                                        <span id="resv_pax_value`+resv_pax+`">`+airline_get_detail.result.response.passengers[resv_pax].name+`, `+airline_get_detail.result.response.passengers[resv_pax].title+`</span>
+                                                                    </td>
+                                                                    <td>
+                                                                        <label class="check_box_custom cblabel">
+                                                                            <input type="checkbox" id="resv_pax_checkbox`+resv_pax+`" name="resv_pax_checkbox`+i+`" checked />
+                                                                            <span class="check_box_span_custom cbspan" style="background:#cdcdcd;"></span>
+                                                                        </label>
+                                                                    </td>
                                                                 </tr>`;
                                                             }
-                                               text += `</table></div>
+                                                        text += `</table>
+                                                        </div>
                                                     </div>
 
                                                     <br/>

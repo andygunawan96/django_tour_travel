@@ -7424,7 +7424,7 @@ function get_airline_review(){
                         flight_count++;
                     }
                 }else{
-                    text += `<h6>Return</h6>`;
+                    text += `<hr/><h6>Return</h6>`;
                     if(airline_request.direction != 'MC'){}
                     else{
                         flight_count++;
@@ -7432,6 +7432,9 @@ function get_airline_review(){
                 }
             }else if(airline_request.direction == 'MC'){
                 flight_count++;
+                if(flight_count != 1){
+                    text+=`<hr/>`;
+                }
                 text += `<h6>Flight `+flight_count+`</h6>`;
             }
             //logo
@@ -7511,8 +7514,7 @@ function get_airline_review(){
 
                 text+=`
                 </div>
-            </div>
-            <hr/>`;
+            </div>`;
         }
     }
     text+=`</div>`;

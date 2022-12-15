@@ -2204,9 +2204,17 @@ function tour_get_booking(order_number)
                                                             <table style="border: 1px solid; width:100%;">`;
                                                             for (resv_pax in tr_get_booking.result.response.passengers)
                                                             {
-                                                                text += `<tr>
-                                                                    <td><span id="resv_pax_value`+resv_pax+`">`+tr_get_booking.result.response.passengers[resv_pax].name+`, `+tr_get_booking.result.response.passengers[resv_pax].title+`</span></td>
-                                                                    <td><input type="checkbox" id="resv_pax_checkbox`+resv_pax+`" name="resv_pax_checkbox`+i+`" checked /></td>
+                                                                text += `
+                                                                <tr>
+                                                                    <td>
+                                                                        <span id="resv_pax_value`+resv_pax+`">`+tr_get_booking.result.response.passengers[resv_pax].name+`, `+tr_get_booking.result.response.passengers[resv_pax].title+`</span>
+                                                                    </td>
+                                                                    <td>
+                                                                        <label class="check_box_custom cblabel">
+                                                                            <input type="checkbox" id="resv_pax_checkbox`+resv_pax+`" name="resv_pax_checkbox`+i+`" checked />
+                                                                            <span class="check_box_span_custom cbspan" style="background:#cdcdcd;"></span>
+                                                                        </label>
+                                                                    </td>
                                                                 </tr>`;
                                                             }
                                                text += `</table></div>
