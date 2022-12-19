@@ -189,54 +189,81 @@ img {vertical-align: middle;}
                 <div class="col-lg-8" style="padding-bottom:20px;">
                     <div class="row">
                         <div class="col-lg-12">
-                            <div id="airline_review" style="background-color:white; padding:10px; border:1px solid #cdcdcd;">
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <h5 style="padding-top:10px; padding-bottom:10px;"><span style="padding:3px 11px; color:{{text_color}}; background:{{color}}; border-radius:32px;">1</span> {% trans 'Select Airline Route' %}</h5>
-                                        <div class="row" id="airline_seat_map" style="padding-bottom:15px;">
+                            <div id="airline_review">
+                                <div style="background-color:white; margin-bottom:15px; padding:15px; border:1px solid #cdcdcd;">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="row" style="margin-bottom:5px;">
+                                                <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                                                    <h4 class="single_border_custom_left mb-3" style="padding-left:5px;">1. {% trans 'Select Airline Route' %}</h4>
+                                                </div>
+                                            </div>
 
+                                            <div class="row" id="airline_seat_map" style="padding-bottom:15px;">
+
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-12"> <!--pax-->
-                                        <h5 style="padding-top:10px; padding-bottom:10px;"><span style="padding:3px 10px; color:{{text_color}}; background:{{color}}; border-radius:32px;">2</span> {% trans 'Select Passenger' %}</h5>
-                                        <div class="row">
-                                            {% for pax in passengers%}
-                                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6">
-                                                <input title="{{pax.title}} {{pax.first_name}} {{pax.last_name}}" class="button-seat-pass" type="button" id="passenger{{forloop.counter}}" style="width:100%; background-color:white;padding:10px; margin-right:10px; text-align:center;margin-bottom:10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color:black;" onclick="set_passenger_seat_map_airline({{forloop.counter}}-1);" value="{{pax.title}} {{pax.first_name}} {{pax.last_name}}">
+                                </div>
+                                <div style="background-color:white; margin-bottom:15px; padding:15px; border:1px solid #cdcdcd;">
+                                    <div class="row">
+                                        <div class="col-lg-12"> <!--pax-->
+                                            <div class="row" style="margin-bottom:5px;">
+                                                <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                                                    <h4 class="single_border_custom_left mb-3" style="padding-left:5px;">2. {% trans 'Select Passenger' %}</h4>
+                                                </div>
                                             </div>
-                                            {% endfor %}
+
+                                            <div class="row">
+                                                {% for pax in passengers%}
+                                                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6">
+                                                    <input title="{{pax.title}} {{pax.first_name}} {{pax.last_name}}" class="button-seat-pass" type="button" id="passenger{{forloop.counter}}" style="width:100%; background-color:white;padding:10px; margin-right:10px; font-weight:700; text-align:center;margin-bottom:10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color:black;" onclick="set_passenger_seat_map_airline({{forloop.counter}}-1);" value="{{pax.title}} {{pax.first_name}} {{pax.last_name}}">
+                                                </div>
+                                                {% endfor %}
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-12" style="padding-bottom:10px;"> <!--seat-->
-                                        <div id="airline_passenger_detail_seat">
+                                </div>
+                                <div style="background-color:white; padding:15px; border:1px solid #cdcdcd;">
+                                    <div class="row">
+                                        <div class="col-lg-12" style="padding-bottom:10px;"> <!--seat-->
+                                            <div class="row" style="margin-bottom:5px;">
+                                                <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                                                    <h4 class="single_border_custom_left mb-3" style="padding-left:5px;">3. {% trans 'Select Seat' %}</h4>
+                                                </div>
+                                            </div>
+                                            <div id="airline_passenger_detail_seat">
 
-                                        </div>
-                                        <h5 style="padding-top:10px; padding-bottom:10px;"><span style="padding:3px 10px; color:{{text_color}}; background:{{color}}; border-radius:32px;">3</span> {% trans 'Select Seat' %}</h5>
-                                        <div class="row">
-                                            <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4">
-                                                <div style="text-align:center">
-                                                    <span class="button-seat-map2" style="background-color:{{color}}"></span>
-                                                    <br/>
-                                                    <h6>{% trans 'Selected' %}</h6>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-12" style="text-align:center;">
+                                                    <h4 class="single_border_custom_top mb-3" style="padding-top:15px;">Seat Map</h4>
+                                                </div>
+                                                <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4">
+                                                    <div style="text-align:center">
+                                                        <span class="button-seat-map2" style="background-color:{{color}}"></span>
+                                                        <br/>
+                                                        <h6>{% trans 'Selected' %}</h6>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4">
+                                                    <div style="text-align:center">
+                                                        <span class="button-seat-map2" style="background-color:#656565"></span>
+                                                        <br/>
+                                                        <h6>{% trans 'Not Available' %}</h6>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4">
+                                                    <div style="text-align:center">
+                                                        <span class="button-seat-map2" style="background-color:#CACACA"></span>
+                                                        <br/>
+                                                        <h6>{% trans 'Available' %}</h6>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4">
-                                                <div style="text-align:center">
-                                                    <span class="button-seat-map2" style="background-color:#656565"></span>
-                                                    <br/>
-                                                    <h6>{% trans 'Not Available' %}</h6>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4">
-                                                <div style="text-align:center">
-                                                    <span class="button-seat-map2" style="background-color:#CACACA"></span>
-                                                    <br/>
-                                                    <h6>{% trans 'Available' %}</h6>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="slideshow-container" id="airline_slideshow" style="padding-top:15px;">
+                                            <div class="slideshow-container" id="airline_slideshow" style="padding-top:15px;">
 
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
