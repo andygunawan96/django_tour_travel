@@ -2785,9 +2785,10 @@ function pick_passenger_copy(type, sequence, product, identity=''){
         if(product == 'issued_offline' || product == 'group_booking'){
             clear_btn_top('booker', '');
             clear_search_pax('booker','');
-        }else if(product == 'issued_booking'){
-            clear_btn_top('', (sequence+1));
-            clear_search_pax('', (sequence+1));
+        }
+        else if(product == 'issued_booking'){
+            clear_btn_top('', passenger_number);
+            clear_search_pax('', passenger_number);
         }
 
         if(['Booker', 'Contact', 'booker', 'contact'].includes(type)){
