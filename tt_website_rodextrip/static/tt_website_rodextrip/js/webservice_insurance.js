@@ -2851,7 +2851,6 @@ function insurance_get_booking(data, sync=false){
                     total_price = 0;
                     total_price_provider = [];
                     commission = 0;
-                    csc = 0;
                     service_charge = ['FARE', 'RAC', 'ROC', 'TAX', 'SSR', 'DISC'];
                     text_update_data_pax = '';
                     text_detail=`
@@ -2876,11 +2875,11 @@ function insurance_get_booking(data, sync=false){
                                     <span style="font-weight:500; font-size:14px;">Order Number: `+msg.result.response.order_number+` </span>
                                 </div>`;
                     for(i in msg.result.response.provider_bookings){
-                    csc = 0;
                     ADMIN_FEE_insurance = 0;
                     try{
                         for(j in msg.result.response.passengers){
                             price = {'FARE': 0, 'RAC': 0,'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0, 'SSR': 0, 'DISC': 0,'SEAT':0};
+                            csc = 0;
                             for(k in msg.result.response.passengers[j].sale_service_charges[msg.result.response.provider_bookings[i].pnr]){
                                 price[k] += msg.result.response.passengers[j].sale_service_charges[msg.result.response.provider_bookings[i].pnr][k].amount;
                                 if(price['currency'] == '')
@@ -2888,7 +2887,7 @@ function insurance_get_booking(data, sync=false){
                             }
                             disc -= price['DISC'];
                             try{
-                                price['CSC'] = msg.result.response.passengers[j].channel_service_charges.amount;
+//                                price['CSC'] = msg.result.response.passengers[j].channel_service_charges.amount;
                                 csc += msg.result.response.passengers[j].channel_service_charges.amount;
                             }catch(err){
                                 console.log(err); // error kalau ada element yg tidak ada
@@ -2901,8 +2900,8 @@ function insurance_get_booking(data, sync=false){
                             }
                             price_arr_repricing[msg.result.response.passengers[j].pax_type][msg.result.response.passengers[j].name] = {
                                 'Fare': price['FARE'] + price['SSR'] + price['SEAT'] + price['DISC'],
-                                'Tax': price['TAX'] + price['ROC'],
-                                'Repricing': price['CSC']
+                                'Tax': price['TAX'] + price['ROC'] - csc,
+                                'Repricing': csc
                             }
                             text_repricing = `
                             <div class="col-lg-12">
@@ -3542,13 +3541,15 @@ function insurance_issued_booking(data){
                         </div>`;
                         for(j in insurance_get_detail.result.response.passengers){
                             price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0, 'SSR': 0, 'DISC': 0,'SEAT':0};
+                            csc = 0;
                             for(k in insurance_get_detail.result.response.passengers[j].sale_service_charges[i]){
                                 price[k] = insurance_get_detail.result.response.passengers[j].sale_service_charges[i][k].amount;
                                 if(price['currency'] == '')
                                     price['currency'] = insurance_get_detail.result.response.passengers[j].sale_service_charges[i][k].currency;
                             }
                             try{
-                                price['CSC'] = insurance_get_detail.result.response.passengers[j].channel_service_charges.amount;
+                                csc += insurance_get_detail.result.response.passengers[j].channel_service_charges.amount;
+//                                price['CSC'] = insurance_get_detail.result.response.passengers[j].channel_service_charges.amount;
                             }catch(err){
                                 console.log(err); // error kalau ada element yg tidak ada
                             }
@@ -3639,13 +3640,15 @@ function insurance_issued_booking(data){
                         </div>`;
                         for(j in msg.result.response.passengers){
                             price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0, 'SSR': 0, 'DISC': 0,'SEAT':0};
+                            csc = 0;
                             for(k in msg.result.response.passengers[j].sale_service_charges[i]){
                                 price[k] = msg.result.response.passengers[j].sale_service_charges[i][k].amount;
                                 price['currency'] = msg.result.response.passengers[j].sale_service_charges[i][k].currency;
                             }
 
                             try{
-                                price['CSC'] = insurance_get_detail.result.response.passengers[j].channel_service_charges.amount;
+                                csc += insurance_get_detail.result.response.passengers[j].channel_service_charges.amount;
+//                                price['CSC'] = insurance_get_detail.result.response.passengers[j].channel_service_charges.amount;
                             }catch(err){
                                 console.log(err); // error kalau ada element yg tidak ada
                             }

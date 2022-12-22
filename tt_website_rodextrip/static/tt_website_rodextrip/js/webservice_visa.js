@@ -1135,8 +1135,9 @@ function visa_get_data(data){
                                     </div>
                                 </div>`;
                                 type_amount_repricing = ['Repricing'];
-                                price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0,'DISC':0};
                                 for(i in msg.result.response.passengers){
+                                    price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0,'DISC':0};
+                                    csc = 0;
                                     for(j in msg.result.response.passengers[i].visa.price){
                                         if(j == 'TOTAL'){
                                             price['FARE'] += msg.result.response.passengers[i].visa.price[j].amount;
@@ -1145,7 +1146,8 @@ function visa_get_data(data){
                                             price[j] += msg.result.response.passengers[i].visa.price[j].amount;
                                             price['currency'] += msg.result.response.passengers[i].visa.price[j].currency;
                                         }else if(j == 'CSC'){
-                                            price['CSC'] = msg.result.response.passengers[i].visa.price[j].amount;
+//                                            price['CSC'] = msg.result.response.passengers[i].visa.price[j].amount;
+                                            csc = msg.result.response.passengers[i].visa.price[j].amount;
                                         }else{
                                             price[j] += msg.result.response.passengers[i].visa.price[j].amount;
                                         }
@@ -1159,8 +1161,8 @@ function visa_get_data(data){
                                     }
                                     price_arr_repricing[msg.result.response.passengers[i].pax_type][msg.result.response.passengers[i].name] = {
                                         'Fare': price['FARE'] + price['SSR'] + price['SEAT'] + price['DISC'],
-                                        'Tax': price['TAX'] + price['ROC'],
-                                        'Repricing': price['CSC']
+                                        'Tax': price['TAX'] + price['ROC'] - csc,
+                                        'Repricing': csc
                                     }
                                     text_repricing = `
                                     <div class="col-lg-12">
@@ -1347,7 +1349,7 @@ function visa_get_data(data){
                                             </div>
                                         </div>`;
                                         if(msg.result.response.passengers[i].visa.hasOwnProperty('interview') == true && msg.result.response.passengers[i].visa.interview.interview_list.length > 0 ){
-                                        text+=`
+                                            text+=`
                                         <div class="col-lg-12" style="margin-top:15px;">
                                             <h6>Interview</h6>
                                             <table style="width:100%;" id="list-of-passenger">

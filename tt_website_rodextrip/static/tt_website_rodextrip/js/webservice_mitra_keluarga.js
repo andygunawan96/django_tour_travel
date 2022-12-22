@@ -1253,7 +1253,6 @@ function mitra_keluarga_get_booking(order_number, sync=false){
                         total_price = 0;
                         total_price_provider = [];
                         commission = 0;
-                        csc = 0;
                         service_charge = ['FARE', 'RAC', 'ROC', 'TAX', 'SSR', 'DISC'];
                         text_update_data_pax = '';
                         text_detail=`
@@ -1275,353 +1274,353 @@ function mitra_keluarga_get_booking(order_number, sync=false){
                                         <span style="font-weight:500; font-size:14px;">Order Number: `+msg.result.response.order_number+` </span>
                                     </div>`;
                         for(i in msg.result.response.provider_bookings){
-                        csc = 0;
-                        ADMIN_FEE_MEDICAL = 0;
-                        try{
-                            for(j in msg.result.response.passengers){
-                                price = {'FARE': 0, 'RAC': 0, 'ADMIN_FEE_MEDICAL':0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0, 'SSR': 0, 'DISC': 0,'SEAT':0};
-                                for(k in msg.result.response.passengers[j].sale_service_charges[msg.result.response.provider_bookings[i].pnr]){
-                                    price[k] += msg.result.response.passengers[j].sale_service_charges[msg.result.response.provider_bookings[i].pnr][k].amount;
-                                    if(price['currency'] == '')
-                                        price['currency'] = msg.result.response.passengers[j].sale_service_charges[msg.result.response.provider_bookings[i].pnr][k].currency;
-                                }
-                                disc -= price['DISC'];
-                                try{
-                                    price['CSC'] = msg.result.response.passengers[j].channel_service_charges.amount;
-                                    csc += msg.result.response.passengers[j].channel_service_charges.amount;
-                                }catch(err){
-                                    console.log(err); // error kalau ada element yg tidak ada
-                                }
-                                //repricing
-                                check = 0;
-                                if(price_arr_repricing.hasOwnProperty(msg.result.response.passengers[j].pax_type) == false){
-                                    price_arr_repricing[msg.result.response.passengers[j].pax_type] = {}
-                                    pax_type_repricing.push([msg.result.response.passengers[j].pax_type, msg.result.response.passengers[j].pax_type]);
-                                }
-                                price_arr_repricing[msg.result.response.passengers[j].pax_type][msg.result.response.passengers[j].name] = {
-                                    'Fare': price['FARE'] + price['SSR'] + price['SEAT'] + price['DISC'] + price['ADMIN_FEE_MEDICAL'],
-                                    'Tax': price['TAX'] + price['ROC'],
-                                    'Repricing': price['CSC']
-                                }
-                                text_repricing = `
-                                <div class="col-lg-12">
-                                    <div style="padding:5px;" class="row">
-                                        <div class="col-lg-3"></div>
-                                        <div class="col-lg-3">Price</div>
-                                        <div class="col-lg-3">Repricing</div>
-                                        <div class="col-lg-3">Total</div>
-                                    </div>
-                                </div>`;
-                                for(k in price_arr_repricing){
-                                    for(l in price_arr_repricing[k]){
-                                        text_repricing += `
-                                        <div class="col-lg-12">
-                                            <div style="padding:5px;" class="row" id="adult">
-                                                <div class="col-lg-3" id="`+j+`_`+k+`">`+l+`</div>
-                                                <div class="col-lg-3" id="`+l+`_price">`+getrupiah(price_arr_repricing[k][l].Fare + price_arr_repricing[k][l].Tax)+`</div>`;
-                                                if(price_arr_repricing[k][l].Repricing == 0)
-                                                    text_repricing+=`<div class="col-lg-3" id="`+l+`_repricing">-</div>`;
-                                                else
-                                                    text_repricing+=`<div class="col-lg-3" id="`+l+`_repricing">`+getrupiah(price_arr_repricing[k][l].Repricing)+`</div>`;
-                                                text_repricing+=`<div class="col-lg-3" id="`+l+`_total">`+getrupiah(price_arr_repricing[k][l].Fare + price_arr_repricing[k][l].Tax + price_arr_repricing[k][l].Repricing)+`</div>
-                                            </div>
-                                        </div>`;
+                            ADMIN_FEE_MEDICAL = 0;
+                            try{
+                                for(j in msg.result.response.passengers){
+                                    price = {'FARE': 0, 'RAC': 0, 'ADMIN_FEE_MEDICAL':0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0, 'SSR': 0, 'DISC': 0,'SEAT':0};
+                                    csc = 0;
+                                    for(k in msg.result.response.passengers[j].sale_service_charges[msg.result.response.provider_bookings[i].pnr]){
+                                        price[k] += msg.result.response.passengers[j].sale_service_charges[msg.result.response.provider_bookings[i].pnr][k].amount;
+                                        if(price['currency'] == '')
+                                            price['currency'] = msg.result.response.passengers[j].sale_service_charges[msg.result.response.provider_bookings[i].pnr][k].currency;
                                     }
-                                }
-                                //booker
-                                booker_insentif = '-';
-                                if(msg.result.response.hasOwnProperty('booker_insentif'))
-                                    booker_insentif = getrupiah(msg.result.response.booker_insentif)
-                                text_repricing += `
-                                <div class="col-lg-12">
-                                    <div style="padding:5px;" class="row" id="booker_repricing" hidden>
-                                    <div class="col-lg-6" id="repricing_booker_name">Booker Insentif</div>
-                                    <div class="col-lg-3" id="repriring_booker_repricing"></div>
-                                    <div class="col-lg-3" id="repriring_booker_total">`+booker_insentif+`</div>
-                                    </div>
-                                </div>`;
-                                text_repricing += `<div id='repricing_button' class="col-lg-12" style="text-align:center;"></div>`;
-                                document.getElementById('repricing_div').innerHTML = text_repricing;
-                                //repricing
-
-                                text_detail+=`
-                                <div class="row" style="margin-bottom:5px;">
-                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                        <span style="font-size:12px;">`+msg.result.response.passengers[j].name+`</span>`;
-                                    text_detail+=`</div>
-                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">`;
-                                    if(counter_service_charge == 0)
-                                        text_detail+=`
-                                        <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.SSR + price.SEAT + price.CSC))+`</span>`;
-                                    else
-                                        text_detail+=`
-                                        <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.SSR + price.SEAT))+`</span>`;
-                                    text_detail+=`
-                                    </div>
-                                </div>`;
-                                ADMIN_FEE_MEDICAL += price['ADMIN_FEE_MEDICAL'];
-                                $text += msg.result.response.passengers[j].title +' '+ msg.result.response.passengers[j].name + ' ['+msg.result.response.provider_bookings[i].pnr+'] ';
-                                journey_code = [];
-                                for(k in msg.result.response.provider_bookings[i].journeys){
+                                    disc -= price['DISC'];
                                     try{
-                                        journey_code.push(msg.result.response.provider_bookings[i].journeys[k].journey_code)
+//                                        price['CSC'] = msg.result.response.passengers[j].channel_service_charges.amount;
+                                        csc += msg.result.response.passengers[j].channel_service_charges.amount;
                                     }catch(err){
                                         console.log(err); // error kalau ada element yg tidak ada
                                     }
-                                    for(l in msg.result.response.provider_bookings[i].journeys[k].segments){
-                                        journey_code.push(msg.result.response.provider_bookings[i].journeys[k].segments[l].segment_code)
+                                    //repricing
+                                    check = 0;
+                                    if(price_arr_repricing.hasOwnProperty(msg.result.response.passengers[j].pax_type) == false){
+                                        price_arr_repricing[msg.result.response.passengers[j].pax_type] = {}
+                                        pax_type_repricing.push([msg.result.response.passengers[j].pax_type, msg.result.response.passengers[j].pax_type]);
                                     }
-                                }
-                                coma = false
-                                for(k in msg.result.response.passengers[j].fees){
-                                    if(journey_code.indexOf(msg.result.response.passengers[j].fees[k].journey_code) == true){
-                                        $text += msg.result.response.passengers[j].fees[k].fee_name;
-                                        if(coma == true)
-                                            $text += ', ';
-                                        else
-                                            $text += ' ';
-                                        coma = true
+                                    price_arr_repricing[msg.result.response.passengers[j].pax_type][msg.result.response.passengers[j].name] = {
+                                        'Fare': price['FARE'] + price['SSR'] + price['SEAT'] + price['DISC'] + price['ADMIN_FEE_MEDICAL'],
+                                        'Tax': price['TAX'] + price['ROC'] - csc,
+                                        'Repricing': csc
                                     }
-                                }
-                                if(counter_service_charge == 0){ // with upsell
-                                    total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SEAT + price.CSC + price.SSR + price.DISC + price['ADMIN_FEE_MEDICAL']);
-                                    $text += `IDR `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.CSC + price.DISC + price['ADMIN_FEE_MEDICAL']))+'\n';
-                                }else{
-                                    total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT + price.DISC + price['ADMIN_FEE_MEDICAL']);
-                                    $text += `IDR `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.DISC + price['ADMIN_FEE_MEDICAL']))+'\n';
-                                }
-                                commission += parseInt(price.RAC);
-                                total_price_provider.push({
-                                    'pnr': msg.result.response.provider_bookings[i].pnr,
-                                    'provider': msg.result.response.provider_bookings[i].provider,
-                                    'price': JSON.parse(JSON.stringify(price))
-                                });
-                            }
-                            if(ADMIN_FEE_MEDICAL){
-                                text_detail+=`
-                                <div class="row" style="margin-bottom:5px;">
-                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                        <span style="font-size:12px;">`+msg.result.response.passengers.length+`x Admin Fee Drive Thru</span>`;
-                                    text_detail+=`</div>
-                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                        <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(ADMIN_FEE_MEDICAL))+`</span>
-                                    </div>
-                                </div>`;
-                            }
-                            // di gabung ke pax
-//                            if(csc != 0){
-//                                text_detail+=`
-//                                    <div class="row" style="margin-bottom:5px;">
-//                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-//                                            <span style="font-size:12px;">Other service charges</span>`;
-//                                        text_detail+=`</div>
-//                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-//                                            <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(csc))+`</span>
-//                                        </div>
-//                                    </div>`;
-//                            }
-                            counter_service_charge++;
-                        }catch(err){console.log(err);}
-                    }
-                    try{
-                        medical_get_detail.result.response.total_price = total_price;
-
-                        if(disc != 0){
-                            text_detail+=`
-                                <div class="row" style="margin-bottom:5px;">
-                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                        <span style="font-size:12px;">Discount</span>`;
-                                    text_detail+=`</div>
-                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                        <span style="font-size:13px;">`+price.currency+` -`+getrupiah(parseInt(disc))+`</span>
-                                    </div>
-                                </div>`;
-                        }
-                        text_detail+=`
-                        <div>
-                            <hr/>
-                        </div>
-                        <div class="row" style="margin-bottom:10px;">
-                            <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                                <span style="font-size:13px; font-weight: bold;">Grand Total</span>
-                            </div>
-                            <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                                <span style="font-size:13px; font-weight: bold;">`;
-                                try{
-                                    text_detail+= price.currency+` `+getrupiah(total_price);
-                                    $text += `\n` + 'Grand Total: ' +price.currency+` `+ getrupiah(total_price);
-                                }catch(err){
-
-                                }
-                                text_detail+= `</span>
-                            </div>
-                        </div>`;
-                        if(msg.result.response.state == 'booked' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-                            text_detail+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:auto; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
-                        else if(msg.result.response.state == 'issued' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
-                            text_detail+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website_rodextrip/img/banknew.png" alt="Bank" style="width:auto; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
-                            document.getElementById('repricing_type').innerHTML = '<option value="booker">Booker</option>';
-                            $('#repricing_type').niceSelect('update');
-                            reset_repricing();
-                        }
-                        text_detail+=`<div class="row">
-                        <div class="col-lg-12" style="padding-bottom:10px;">
-                            <hr/>`;
-                            //<span style="font-size:14px; font-weight:bold;"><i class="fas fa-share-alt"></i> Share This on:</span><br/>`;
-                            /*share_data();
-                            var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-                            if (isMobile) {
-                                text_detail+=`
-                                    <a href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png" alt="Whatsapp"/></a>
-                                    <a href="line://msg/text/`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png" alt="Line"/></a>
-                                    <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png" alt="Telegram"/></a>
-                                    <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png" alt="Email"/></a>`;
-                            } else {
-                                text_detail+=`
-                                    <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png" alt="Whatsapp"/></a>
-                                    <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png" alt="Line"/></a>
-                                    <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png" alt="Telegram"/></a>
-                                    <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png" alt="Email"/></a>`;
-                            }*/
-
-                        text_detail+=`
-                            </div>
-                        </div>`;
-                        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false && window.location.pathname.includes('confirm_order') == false){
-                            text_detail+=`
-                            <div class="row" id="show_commission" style="display:block;">
-                                <div class="col-lg-12 col-xs-12" style="text-align:center;">
-                                    <div class="alert alert-success">
-                                        <div class="row">
-                                            <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                                                <span style="font-size:13px; font-weight:bold;">YPM</span>
-                                            </div>
-                                            <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                                                <span style="font-size:13px; font-weight:bold;">`+price.currency+` `+getrupiah(parseInt(commission)*-1)+`</span>
-                                            </div>
-                                        </div>`;
-                                        if(msg.result.response.hasOwnProperty('agent_nta') == true){
-                                            total_nta = 0;
-                                            total_nta = msg.result.response.agent_nta;
-                                            text_detail+=`<div class="row">
-                                            <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                                                <span style="font-size:13px; font-weight:bold;">Agent NTA</span>
-                                            </div>
-                                            <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                                                <span style="font-size:13px; font-weight:bold;">`+price.currency+` `+getrupiah(total_nta)+`</span>
-                                            </div>
-                                        </div>`;
-                                        }
-                                        if(msg.result.response.hasOwnProperty('total_nta') == true){
-                                            total_nta = 0;
-                                            total_nta = msg.result.response.total_nta;
-                                            text_detail+=`<div class="row">
-                                            <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                                                <span style="font-size:13px; font-weight:bold;">HO NTA</span>
-                                            </div>
-                                            <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                                                <span style="font-size:13px; font-weight:bold;">`+price.currency+` `+getrupiah(total_nta)+`</span>
-                                            </div>
-                                        </div>`;
-                                        }
-                                        if(msg.result.response.hasOwnProperty('booker_insentif') == true){
-                                            booker_insentif = 0;
-                                            booker_insentif = msg.result.response.booker_insentif;
-                                            text_detail+=`<div class="row">
-                                            <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                                                <span style="font-size:13px; font-weight:bold;">Booker Insentif</span>
-                                            </div>
-                                            <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                                                <span style="font-size:13px; font-weight:bold;">`+price.currency+` `+getrupiah(booker_insentif)+`</span>
-                                            </div>
-                                        </div>`;
-                                        }
-                                        if(commission == 0){
-                                            text_detail+=`
-                                            <div class="row">
-                                                <div class="col-lg-12 col-xs-12" style="text-align:left;">
-                                                    <span style="font-size:13px; color:red;">* Please mark up the price first</span>
+                                    text_repricing = `
+                                    <div class="col-lg-12">
+                                        <div style="padding:5px;" class="row">
+                                            <div class="col-lg-3"></div>
+                                            <div class="col-lg-3">Price</div>
+                                            <div class="col-lg-3">Repricing</div>
+                                            <div class="col-lg-3">Total</div>
+                                        </div>
+                                    </div>`;
+                                    for(k in price_arr_repricing){
+                                        for(l in price_arr_repricing[k]){
+                                            text_repricing += `
+                                            <div class="col-lg-12">
+                                                <div style="padding:5px;" class="row" id="adult">
+                                                    <div class="col-lg-3" id="`+j+`_`+k+`">`+l+`</div>
+                                                    <div class="col-lg-3" id="`+l+`_price">`+getrupiah(price_arr_repricing[k][l].Fare + price_arr_repricing[k][l].Tax)+`</div>`;
+                                                    if(price_arr_repricing[k][l].Repricing == 0)
+                                                        text_repricing+=`<div class="col-lg-3" id="`+l+`_repricing">-</div>`;
+                                                    else
+                                                        text_repricing+=`<div class="col-lg-3" id="`+l+`_repricing">`+getrupiah(price_arr_repricing[k][l].Repricing)+`</div>`;
+                                                    text_repricing+=`<div class="col-lg-3" id="`+l+`_total">`+getrupiah(price_arr_repricing[k][l].Fare + price_arr_repricing[k][l].Tax + price_arr_repricing[k][l].Repricing)+`</div>
                                                 </div>
                                             </div>`;
                                         }
+                                    }
+                                    //booker
+                                    booker_insentif = '-';
+                                    if(msg.result.response.hasOwnProperty('booker_insentif'))
+                                        booker_insentif = getrupiah(msg.result.response.booker_insentif)
+                                    text_repricing += `
+                                    <div class="col-lg-12">
+                                        <div style="padding:5px;" class="row" id="booker_repricing" hidden>
+                                        <div class="col-lg-6" id="repricing_booker_name">Booker Insentif</div>
+                                        <div class="col-lg-3" id="repriring_booker_repricing"></div>
+                                        <div class="col-lg-3" id="repriring_booker_total">`+booker_insentif+`</div>
+                                        </div>
+                                    </div>`;
+                                    text_repricing += `<div id='repricing_button' class="col-lg-12" style="text-align:center;"></div>`;
+                                    document.getElementById('repricing_div').innerHTML = text_repricing;
+                                    //repricing
+
+                                    text_detail+=`
+                                    <div class="row" style="margin-bottom:5px;">
+                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                                            <span style="font-size:12px;">`+msg.result.response.passengers[j].name+`</span>`;
+                                        text_detail+=`</div>
+                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">`;
+                                        if(counter_service_charge == 0)
+                                            text_detail+=`
+                                            <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.SSR + price.SEAT + price.CSC))+`</span>`;
+                                        else
+                                            text_detail+=`
+                                            <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.SSR + price.SEAT))+`</span>`;
                                         text_detail+=`
-                                    </div>
+                                        </div>
+                                    </div>`;
+                                    ADMIN_FEE_MEDICAL += price['ADMIN_FEE_MEDICAL'];
+                                    $text += msg.result.response.passengers[j].title +' '+ msg.result.response.passengers[j].name + ' ['+msg.result.response.provider_bookings[i].pnr+'] ';
+                                    journey_code = [];
+                                    for(k in msg.result.response.provider_bookings[i].journeys){
+                                        try{
+                                            journey_code.push(msg.result.response.provider_bookings[i].journeys[k].journey_code)
+                                        }catch(err){
+                                            console.log(err); // error kalau ada element yg tidak ada
+                                        }
+                                        for(l in msg.result.response.provider_bookings[i].journeys[k].segments){
+                                            journey_code.push(msg.result.response.provider_bookings[i].journeys[k].segments[l].segment_code)
+                                        }
+                                    }
+                                    coma = false
+                                    for(k in msg.result.response.passengers[j].fees){
+                                        if(journey_code.indexOf(msg.result.response.passengers[j].fees[k].journey_code) == true){
+                                            $text += msg.result.response.passengers[j].fees[k].fee_name;
+                                            if(coma == true)
+                                                $text += ', ';
+                                            else
+                                                $text += ' ';
+                                            coma = true
+                                        }
+                                    }
+                                    if(counter_service_charge == 0){ // with upsell
+                                        total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SEAT + price.CSC + price.SSR + price.DISC + price['ADMIN_FEE_MEDICAL']);
+                                        $text += `IDR `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.CSC + price.DISC + price['ADMIN_FEE_MEDICAL']))+'\n';
+                                    }else{
+                                        total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT + price.DISC + price['ADMIN_FEE_MEDICAL']);
+                                        $text += `IDR `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.DISC + price['ADMIN_FEE_MEDICAL']))+'\n';
+                                    }
+                                    commission += parseInt(price.RAC);
+                                    total_price_provider.push({
+                                        'pnr': msg.result.response.provider_bookings[i].pnr,
+                                        'provider': msg.result.response.provider_bookings[i].provider,
+                                        'price': JSON.parse(JSON.stringify(price))
+                                    });
+                                }
+                                if(ADMIN_FEE_MEDICAL){
+                                    text_detail+=`
+                                    <div class="row" style="margin-bottom:5px;">
+                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                                            <span style="font-size:12px;">`+msg.result.response.passengers.length+`x Admin Fee Drive Thru</span>`;
+                                        text_detail+=`</div>
+                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                                            <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(ADMIN_FEE_MEDICAL))+`</span>
+                                        </div>
+                                    </div>`;
+                                }
+                                // di gabung ke pax
+    //                            if(csc != 0){
+    //                                text_detail+=`
+    //                                    <div class="row" style="margin-bottom:5px;">
+    //                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+    //                                            <span style="font-size:12px;">Other service charges</span>`;
+    //                                        text_detail+=`</div>
+    //                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+    //                                            <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(csc))+`</span>
+    //                                        </div>
+    //                                    </div>`;
+    //                            }
+                                counter_service_charge++;
+                            }catch(err){console.log(err);}
+                        }
+                        try{
+                            medical_get_detail.result.response.total_price = total_price;
+
+                            if(disc != 0){
+                                text_detail+=`
+                                    <div class="row" style="margin-bottom:5px;">
+                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                                            <span style="font-size:12px;">Discount</span>`;
+                                        text_detail+=`</div>
+                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                                            <span style="font-size:13px;">`+price.currency+` -`+getrupiah(parseInt(disc))+`</span>
+                                        </div>
+                                    </div>`;
+                            }
+                            text_detail+=`
+                            <div>
+                                <hr/>
+                            </div>
+                            <div class="row" style="margin-bottom:10px;">
+                                <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                                    <span style="font-size:13px; font-weight: bold;">Grand Total</span>
+                                </div>
+                                <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                                    <span style="font-size:13px; font-weight: bold;">`;
+                                    try{
+                                        text_detail+= price.currency+` `+getrupiah(total_price);
+                                        $text += `\n` + 'Grand Total: ' +price.currency+` `+ getrupiah(total_price);
+                                    }catch(err){
+
+                                    }
+                                    text_detail+= `</span>
                                 </div>
                             </div>`;
-                        }
-                        text_detail+=`<center>`;
-    //                    text_detail+=`
-    //                    <div style="padding-bottom:10px;">
-    //                        <center>
-    //                            <input type="button" class="primary-btn-white" style="width:100%;" onclick="copy_data();" value="Copy"/>
-    //                        </center>
-    //                    </div>`;
-                        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false && window.location.pathname.includes('confirm_order') == false)
-                        text_detail+=`
-                        <div>
-                            <input class="primary-btn-white" id="show_commission_button" style="width:100%;margin-bottom:10px;" type="button" onclick="show_commission('commission');" value="Hide YPM"/>
-                        </div>`;
-                        if(window.location.pathname.includes('confirm_order') == false){
-                        text_detail+=`
-                        <div>
-                            <center>
-                                <input type="button" class="primary-btn-white" style="width:100%;" onclick="copy_data();" value="Copy"/>
-                            </center>
-                        </div>`;
-                            if(msg.result.response.state != 'cancel' && msg.result.response.state != 'cancel2'){
-                                document.getElementById('cancel_reservation').innerHTML = `
-                                <button class="primary-btn-white hold-seat-booking-train ld-ext-right" id="button-choose-print" type="button" onclick="mitra_keluarga_cancel_booking('` + msg.result.response.order_number + `');" style="width:100%;">
-                                    Cancel Booking
-                                    <i class="fas fa-times" style="padding-left:5px; color:red; font-size:16px;"></i>
-                                    <div class="ld ld-ring ld-cycle"></div>
-                                </button>`;
+                            if(msg.result.response.state == 'booked' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+                                text_detail+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:auto; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
+                            else if(msg.result.response.state == 'issued' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
+                                text_detail+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website_rodextrip/img/banknew.png" alt="Bank" style="width:auto; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
+                                document.getElementById('repricing_type').innerHTML = '<option value="booker">Booker</option>';
+                                $('#repricing_type').niceSelect('update');
+                                reset_repricing();
                             }
+                            text_detail+=`<div class="row">
+                            <div class="col-lg-12" style="padding-bottom:10px;">
+                                <hr/>`;
+                                //<span style="font-size:14px; font-weight:bold;"><i class="fas fa-share-alt"></i> Share This on:</span><br/>`;
+                                /*share_data();
+                                var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+                                if (isMobile) {
+                                    text_detail+=`
+                                        <a href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png" alt="Whatsapp"/></a>
+                                        <a href="line://msg/text/`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png" alt="Line"/></a>
+                                        <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png" alt="Telegram"/></a>
+                                        <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png" alt="Email"/></a>`;
+                                } else {
+                                    text_detail+=`
+                                        <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png" alt="Whatsapp"/></a>
+                                        <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png" alt="Line"/></a>
+                                        <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png" alt="Telegram"/></a>
+                                        <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png" alt="Email"/></a>`;
+                                }*/
+
+                            text_detail+=`
+                                </div>
+                            </div>`;
+                            if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false && window.location.pathname.includes('confirm_order') == false){
+                                text_detail+=`
+                                <div class="row" id="show_commission" style="display:block;">
+                                    <div class="col-lg-12 col-xs-12" style="text-align:center;">
+                                        <div class="alert alert-success">
+                                            <div class="row">
+                                                <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                                                    <span style="font-size:13px; font-weight:bold;">YPM</span>
+                                                </div>
+                                                <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                                                    <span style="font-size:13px; font-weight:bold;">`+price.currency+` `+getrupiah(parseInt(commission)*-1)+`</span>
+                                                </div>
+                                            </div>`;
+                                            if(msg.result.response.hasOwnProperty('agent_nta') == true){
+                                                total_nta = 0;
+                                                total_nta = msg.result.response.agent_nta;
+                                                text_detail+=`<div class="row">
+                                                <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                                                    <span style="font-size:13px; font-weight:bold;">Agent NTA</span>
+                                                </div>
+                                                <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                                                    <span style="font-size:13px; font-weight:bold;">`+price.currency+` `+getrupiah(total_nta)+`</span>
+                                                </div>
+                                            </div>`;
+                                            }
+                                            if(msg.result.response.hasOwnProperty('total_nta') == true){
+                                                total_nta = 0;
+                                                total_nta = msg.result.response.total_nta;
+                                                text_detail+=`<div class="row">
+                                                <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                                                    <span style="font-size:13px; font-weight:bold;">HO NTA</span>
+                                                </div>
+                                                <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                                                    <span style="font-size:13px; font-weight:bold;">`+price.currency+` `+getrupiah(total_nta)+`</span>
+                                                </div>
+                                            </div>`;
+                                            }
+                                            if(msg.result.response.hasOwnProperty('booker_insentif') == true){
+                                                booker_insentif = 0;
+                                                booker_insentif = msg.result.response.booker_insentif;
+                                                text_detail+=`<div class="row">
+                                                <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                                                    <span style="font-size:13px; font-weight:bold;">Booker Insentif</span>
+                                                </div>
+                                                <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                                                    <span style="font-size:13px; font-weight:bold;">`+price.currency+` `+getrupiah(booker_insentif)+`</span>
+                                                </div>
+                                            </div>`;
+                                            }
+                                            if(commission == 0){
+                                                text_detail+=`
+                                                <div class="row">
+                                                    <div class="col-lg-12 col-xs-12" style="text-align:left;">
+                                                        <span style="font-size:13px; color:red;">* Please mark up the price first</span>
+                                                    </div>
+                                                </div>`;
+                                            }
+                                            text_detail+=`
+                                        </div>
+                                    </div>
+                                </div>`;
+                            }
+                            text_detail+=`<center>`;
+        //                    text_detail+=`
+        //                    <div style="padding-bottom:10px;">
+        //                        <center>
+        //                            <input type="button" class="primary-btn-white" style="width:100%;" onclick="copy_data();" value="Copy"/>
+        //                        </center>
+        //                    </div>`;
+                            if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false && window.location.pathname.includes('confirm_order') == false)
+                            text_detail+=`
+                            <div>
+                                <input class="primary-btn-white" id="show_commission_button" style="width:100%;margin-bottom:10px;" type="button" onclick="show_commission('commission');" value="Hide YPM"/>
+                            </div>`;
+                            if(window.location.pathname.includes('confirm_order') == false){
+                            text_detail+=`
+                            <div>
+                                <center>
+                                    <input type="button" class="primary-btn-white" style="width:100%;" onclick="copy_data();" value="Copy"/>
+                                </center>
+                            </div>`;
+                                if(msg.result.response.state != 'cancel' && msg.result.response.state != 'cancel2'){
+                                    document.getElementById('cancel_reservation').innerHTML = `
+                                    <button class="primary-btn-white hold-seat-booking-train ld-ext-right" id="button-choose-print" type="button" onclick="mitra_keluarga_cancel_booking('` + msg.result.response.order_number + `');" style="width:100%;">
+                                        Cancel Booking
+                                        <i class="fas fa-times" style="padding-left:5px; color:red; font-size:16px;"></i>
+                                        <div class="ld ld-ring ld-cycle"></div>
+                                    </button>`;
+                                }
+                            }
+                            if(window.location.pathname.includes('confirm_order') && user_login.co_agent_frontend_security.includes('confirm_order_mitra_keluarga') && msg.result.response.state_vendor == 'new_order' && moment().format('YYYY-MM-DD') == msg.result.response.picked_timeslot.datetimeslot.substr(0,10)){
+                                text_detail+=`
+                                <div style="margin-top:10px;">
+                                    <center>
+                                        <input type="button" class="primary-btn" style="width:100%;" onclick="confirm_order();" value="Confirm Order"/>
+                                    </center>
+                                </div>`;
+                            }else if(msg.result.response.state_vendor == 'confirmed_order'){
+                                text_detail+=`
+                                <div style="margin-top:10px;">
+                                    <center>
+                                        <span>Order Already confirmed</span>
+                                    </center>
+                                </div>`;
+                            }else if( moment().format('YYYY-MM-DD') != msg.result.response.picked_timeslot.datetimeslot.substr(0,10) && window.location.pathname.includes('confirm_order') == true){
+                                text_detail+=`
+                                <div style="margin-top:10px;">
+                                    <center>
+                                        <span>Order can only confirmed on the test date</span>
+                                    </center>
+                                </div>`;
+                            }
+
+                            text_detail+=`
+                        </div>`;
+                        }catch(err){console.log(err);}
+
+        //                if(user_login.co_agent_frontend_security.includes('view_map')) //map comment dulu
+                        if(msg.result.response.test_address_map_link){
+                            map = msg.result.response.test_address_map_link.split('/')[msg.result.response.test_address_map_link.split('/').length-1]
+                            lat = parseFloat(map.split(',')[0]);
+                            long = parseFloat(map.split(',')[1]);
+        //                        change_area();
                         }
-                        if(window.location.pathname.includes('confirm_order') && user_login.co_agent_frontend_security.includes('confirm_order_mitra_keluarga') && msg.result.response.state_vendor == 'new_order' && moment().format('YYYY-MM-DD') == msg.result.response.picked_timeslot.datetimeslot.substr(0,10)){
-                            text_detail+=`
-                            <div style="margin-top:10px;">
-                                <center>
-                                    <input type="button" class="primary-btn" style="width:100%;" onclick="confirm_order();" value="Confirm Order"/>
-                                </center>
-                            </div>`;
-                        }else if(msg.result.response.state_vendor == 'confirmed_order'){
-                            text_detail+=`
-                            <div style="margin-top:10px;">
-                                <center>
-                                    <span>Order Already confirmed</span>
-                                </center>
-                            </div>`;
-                        }else if( moment().format('YYYY-MM-DD') != msg.result.response.picked_timeslot.datetimeslot.substr(0,10) && window.location.pathname.includes('confirm_order') == true){
-                            text_detail+=`
-                            <div style="margin-top:10px;">
-                                <center>
-                                    <span>Order can only confirmed on the test date</span>
-                                </center>
-                            </div>`;
-                        }
 
-                        text_detail+=`
-                    </div>`;
-                    }catch(err){console.log(err);}
-
-    //                if(user_login.co_agent_frontend_security.includes('view_map')) //map comment dulu
-                    if(msg.result.response.test_address_map_link){
-                        map = msg.result.response.test_address_map_link.split('/')[msg.result.response.test_address_map_link.split('/').length-1]
-                        lat = parseFloat(map.split(',')[0]);
-                        long = parseFloat(map.split(',')[1]);
-    //                        change_area();
-                    }
-
-                    document.getElementById('mitra_keluarga_detail').innerHTML = text_detail;
-                    document.getElementById('update_data_passenger').innerHTML = text_update_data_pax;
+                        document.getElementById('mitra_keluarga_detail').innerHTML = text_detail;
+                        document.getElementById('update_data_passenger').innerHTML = text_update_data_pax;
 
 
 
-                        //======================= Option =========================
+                            //======================= Option =========================
 
 
-                        //======================= Extra Question =========================
-                    var print_text = '';
+                            //======================= Extra Question =========================
+                        var print_text = '';
                         //==================== Print Button =====================
                         if(window.location.pathname.includes('confirm_order') == false){
                             print_text += '<div class="col-lg-4" style="padding-bottom:10px;">';
@@ -2055,6 +2054,7 @@ function mitra_keluarga_issued_booking(data){
                         </div>`;
                         for(j in medical_get_detail.result.response.passengers){
                             price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0, 'SSR': 0, 'DISC': 0,'SEAT':0};
+                            csc = 0;
                             for(k in medical_get_detail.result.response.passengers[j].sale_service_charges[i]){
                                 price[k] = medical_get_detail.result.response.passengers[j].sale_service_charges[i][k].amount;
                                 if(price['currency'] == '')
@@ -2062,6 +2062,7 @@ function mitra_keluarga_issued_booking(data){
                             }
                             try{
                                 price['CSC'] = medical_get_detail.result.response.passengers[j].channel_service_charges.amount;
+                                csc += medical_get_detail.result.response.passengers[j].channel_service_charges.amount;
                             }catch(err){
                                 console.log(err); // error kalau ada element yg tidak ada
                             }
@@ -2152,13 +2153,15 @@ function mitra_keluarga_issued_booking(data){
                         </div>`;
                         for(j in msg.result.response.passengers){
                             price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0, 'SSR': 0, 'DISC': 0,'SEAT':0};
+                            csc = 0;
                             for(k in msg.result.response.passengers[j].sale_service_charges[i]){
                                 price[k] = msg.result.response.passengers[j].sale_service_charges[i][k].amount;
                                 price['currency'] = msg.result.response.passengers[j].sale_service_charges[i][k].currency;
                             }
 
                             try{
-                                price['CSC'] = airline_get_detail.result.response.passengers[j].channel_service_charges.amount;
+//                                price['CSC'] = airline_get_detail.result.response.passengers[j].channel_service_charges.amount;
+                                csc = airline_get_detail.result.response.passengers[j].channel_service_charges.amount;
                             }catch(err){
                                 console.log(err); // error kalau ada element yg tidak ada
                             }

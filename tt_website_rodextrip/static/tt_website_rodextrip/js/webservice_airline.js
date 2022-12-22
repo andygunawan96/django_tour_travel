@@ -7877,7 +7877,6 @@ function airline_get_booking(data, sync=false){
                 total_price = 0;
                 total_price_provider = [];
                 commission = 0;
-                csc = 0;
                 service_charge = ['FARE', 'RAC', 'ROC', 'TAX', 'SSR', 'DISC'];
                 text_detail=`
                 <div style="background-color:white; padding:15px; border: 1px solid #cdcdcd; margin-bottom:15px;">
@@ -7901,7 +7900,6 @@ function airline_get_booking(data, sync=false){
                 $text += msg.result.response.contact.phone+ '\n';
 
                 $text += '\n‣ Price:\n';
-                csc = 0;
                 for(i in msg.result.response.provider_bookings){
                     try{
                         if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false || msg.result.response.state == 'issued')
@@ -7912,6 +7910,7 @@ function airline_get_booking(data, sync=false){
 
                         for(j in msg.result.response.passengers){
                             price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0, 'SSR': 0, 'DISC': 0,'SEAT':0};
+                            csc = 0;
                             if(['halt_booked'].includes(msg.result.response.state)){ //PROCESS HALT BOOKED
                                 index_svc = 0;
                                 for(k in msg.result.response.passengers[j].sale_service_charges){
@@ -7936,16 +7935,16 @@ function airline_get_booking(data, sync=false){
                             if(i ==0 ){
                                 //HANYA PROVIDER PERTAMA KARENA UPSELL PER PASSENGER BUKAN PER JOURNEY
                                 try{
-                                    price['CSC'] = msg.result.response.passengers[j].channel_service_charges.amount;
+//                                    price['CSC'] = msg.result.response.passengers[j].channel_service_charges.amount;
                                     csc += msg.result.response.passengers[j].channel_service_charges.amount;
                                 }catch(err){
                                     console.log(err); // error kalau ada element yg tidak ada
                                 }
-                                try{
-                                    price['SSR'] += msg.result.response.passengers[j].channel_service_charges.amount_addons;
-                                }catch(err){
-                                    console.log(err); // error kalau ada element yg tidak ada
-                                }
+//                                try{
+//                                    price['SSR'] += msg.result.response.passengers[j].channel_service_charges.amount_addons;
+//                                }catch(err){
+//                                    console.log(err); // error kalau ada element yg tidak ada
+//                                }
                             }
                             //repricing
                             check = 0;
@@ -7957,14 +7956,14 @@ function airline_get_booking(data, sync=false){
                             if(price_arr_repricing[msg.result.response.passengers[j].pax_type].hasOwnProperty(msg.result.response.passengers[j].name)){
                                 price_arr_repricing[msg.result.response.passengers[j].pax_type][msg.result.response.passengers[j].name] = {
                                     'Fare': price_arr_repricing[msg.result.response.passengers[j].pax_type][msg.result.response.passengers[j].name]['Fare'] +  price['FARE'] + price['SSR'] + price['SEAT'] + price['DISC'],
-                                    'Tax': price_arr_repricing[msg.result.response.passengers[j].pax_type][msg.result.response.passengers[j].name]['Tax'] +  price['TAX'] + price['ROC'],
-                                    'Repricing': price['CSC']
+                                    'Tax': price_arr_repricing[msg.result.response.passengers[j].pax_type][msg.result.response.passengers[j].name]['Tax'] +  price['TAX'] + price['ROC'] ] - csc,
+                                    'Repricing': csc
                                 }
                             }else{
                                 price_arr_repricing[msg.result.response.passengers[j].pax_type][msg.result.response.passengers[j].name] = {
                                     'Fare': price['FARE'] + price['SSR'] + price['SEAT'] + price['DISC'],
-                                    'Tax': price['TAX'] + price['ROC'],
-                                    'Repricing': price['CSC']
+                                    'Tax': price['TAX'] + price['ROC'] - csc,
+                                    'Repricing': csc
                                 }
                             }
                             text_repricing = '';
@@ -9336,11 +9335,11 @@ function airline_issued(data){
                                 if(price['currency'] == '')
                                     price['currency'] = airline_get_detail.result.response.passengers[j].sale_service_charges[i][k].currency;
                             }
-                            try{
-                                price['CSC'] = airline_get_detail.result.response.passengers[j].channel_service_charges.amount;
-                            }catch(err){
-                                console.log(err); // error kalau ada element yg tidak ada
-                            }
+//                            try{
+//                                price['CSC'] = airline_get_detail.result.response.passengers[j].channel_service_charges.amount;
+//                            }catch(err){
+//                                console.log(err); // error kalau ada element yg tidak ada
+//                            }
                             try{
                                 price['SSR'] += airline_get_detail.result.response.passengers[j].channel_service_charges.amount_addons;
                             }catch(err){
@@ -9455,11 +9454,11 @@ function airline_issued(data){
                                 price['currency'] = msg.result.response.passengers[j].sale_service_charges[i][k].currency;
                             }
 
-                            try{
-                                price['CSC'] = airline_get_detail.result.response.passengers[j].channel_service_charges.amount;
-                            }catch(err){
-                                console.log(err); // error kalau ada element yg tidak ada
-                            }
+//                            try{
+//                                price['CSC'] = airline_get_detail.result.response.passengers[j].channel_service_charges.amount;
+//                            }catch(err){
+//                                console.log(err); // error kalau ada element yg tidak ada
+//                            }
                             try{
                                 price['SSR'] += airline_get_detail.result.response.passengers[j].channel_service_charges.amount_addons;
                             }catch(err){

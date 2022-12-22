@@ -55,6 +55,12 @@ function get_payment_acq(val,booker_seq_id,order_number,transaction_type,signatu
                     if(document.getElementById('id_login_booking'))
                         document.getElementById('id_login_booking').style.display = 'block';
             }
+            try{
+                if(commission < 0)
+                    total_commission_payment_acquirer = commission *-1;
+                else
+                    total_commission_payment_acquirer = commission;
+            }catch(err){console.log(err)}
             render_payment();
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -68,11 +74,46 @@ function render_payment(){
             if(type_render == 'top_up')
                 text=`<h4 style="color:`+color+`;">Payment Method</h4><hr/>`;
             else
-                text=`<h4 style="color:`+color+`;">Customer Payment Method</h4><hr/>`;
+                text=`<h4 style="color:`+color+`;">Payment Method</h4><hr/>`;
+
+            payment_counter = 1;
+            if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
+                if(typeof(payment_ho) !== 'undefined' && payment_ho.length > 1 && total_price_payment_acq > 0 && type_render != 'top_up'){
+                    text+=`
+                        <h6 style="padding-bottom:10px;">`+payment_counter+`. Payment to HO: </h6>`;
+                        if(template == 1 || template == 5){
+                            text+=`<div class="input-container-search-ticket btn-group">`;
+                        }else if(template == 4){
+                            text+=`<div style="display:flex; margin-bottom:15px; width:100%;">`;
+                        }else{
+                            text+=`<div>`;
+                        }
+                        if(template == 1 || template == 2 || template == 4 || template == 5){
+                            text+=`<div class="form-select" id="default-select">`;
+                        }else if(template == 3){
+                            text+=`<div class="default-select" style="margin-bottom:15px;">`;
+                        }
+                        if(template == 4){
+                            text+=`<select class="nice-select-default rounded payment_method" id="payment_ho_id" onchange="set_payment_method_ho();">`;
+                        }else{
+                            text+=`<select class="payment_method" id="payment_ho_id" onchange="set_payment_method_ho();">`;
+                        }
+                        for(i in payment_ho){
+                            text+=`<option value="`+payment_ho[i].payment_method+`">`+payment_ho[i].name+`</option>`;
+                        }
+                        text+=`</select>
+                        </div>
+                    </div>
+                    <div id="payment_method_ho_detail">
+                    </div>
+                    <hr id="payment_method_ho_break_div" style="display:none;"/>`;
+                    payment_counter++;
+                }
+            }
 
             text+=`
                 <div class="row">
-                    <div class="col-lg-12 mb-3">
+                    <div class="col-lg-12">
                         <label class="check_box_custom">
                             <span class="span-search-ticket" style="color:black;">Attach Payment Reference</span>
                             <input type="checkbox" id="is_attach_pay_ref" name="is_attach_pay_ref" value="is_attach_pay_ref" onclick="toggle_show_attach_pay_ref();">
@@ -93,43 +134,12 @@ function render_payment(){
                         <input type="file" class="form-control o_website_form_input" id="pay_ref_file" name="pay_ref_file" multiple/>
                     </div>
                 </div>`;
-            payment_counter = 1;
-            if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
-                if(typeof(payment_ho) !== 'undefined' && payment_ho.length > 1 && total_price_payment_acq > 0 && type_render != 'top_up'){
-                    text+=`
-                        <h6 style="padding-bottom:10px;">`+payment_counter+`. Payment HO Via: </h6>`;
-                        if(template == 1 || template == 5){
-                            text+=`<div class="input-container-search-ticket btn-group">`;
-                        }else if(template == 4){
-                            text+=`<div style="display:flex; margin-bottom:15px; width:100%;">`;
-                        }else{
-                            text+=`<div>`;
-                        }
-                        if(template == 1 || template == 2 || template == 4 || template == 5){
-                            text+=`<div class="form-select" id="default-select">`;
-                        }else if(template == 3){
-                            text+=`<div class="default-select" style="margin-bottom:15px;">`;
-                        }
-                        if(template == 4){
-                            text+=`<select class="nice-select-default rounded payment_method" id="payment_ho_id">`;
-                        }else{
-                            text+=`<select class="payment_method" id="payment_ho_id">`;
-                        }
-                        for(i in payment_ho){
-                            text+=`<option value="`+payment_ho[i].payment_method+`">`+payment_ho[i].name+`</option>`;
-                        }
-                        text+=`</select>
-                        </div>
-                    </div>`;
-                    payment_counter++;
-                }
-            }
             if(payment_counter == 1) // agar tidak binggung kalau b2c
                 text+=`
-            <h6 style="padding-bottom:10px;">`+payment_counter+`. Payment Via: </h6>`;
+            <h6 style="padding-bottom:10px;">`+payment_counter+`. Payment: </h6>`;
             else // untuk agent agar bisa bedakan payment customer / payment ke HO (untuk agent yg punya credit limit saja)
                 text+=`
-            <h6 style="padding-bottom:10px;">`+payment_counter+`. Payment Customer Via: </h6>`;
+            <h6 style="padding-bottom:10px;">`+payment_counter+`. Payment Customer to Agent: </h6>`;
             if(template == 1 || template == 5){
                 text+=`<div class="input-container-search-ticket btn-group">`;
             }else if(template == 4){
@@ -178,6 +188,7 @@ function render_payment(){
                 }
             }
             payment_counter++;
+            set_payment_method_ho();
             set_payment(val_render,type_render);
         //            focus_box('payment_acq');
         //            document.getElementById('payment_acq').hidden = false;
@@ -220,9 +231,65 @@ function payment(){
     });
 }
 
+function set_payment_method_ho(){
+    var text= '';
+    if(document.getElementById('payment_ho_id') && document.getElementById('payment_ho_id').value == 'credit_limit'){
+        text += `
+                <div class="row">
+                    <div class="col-sm-5" style="text-align:left;">
+                        <span style="font-size:13px;"> Price: </span><br>
+                        <span style="font-size:13px;;"> Fee: </span><br>
+                        <span style="font-size:14px; font-weight:500;">Grand Total</span><br>
+                    </div>
+                    <div class="col-sm-7" style="text-align:right;">
+                        <span style="font-size:13px;">`+payment_ho[0].currency+` `+getrupiah(payment_ho[0].price_component.amount)+`</span><br>
+                        <span style="font-size:13px;">`+payment_ho[0].currency+` `+getrupiah(payment_ho[0].price_component.fee)+`</span><br>
+                        <span style="font-size:14px;font-weight:500;">`+payment_ho[0].currency+` `+getrupiah(payment_ho[0].total_amount)+`</span><br>
+                    </div>
+                </div>
+                <div class="row mt-3" id="show_commission_payment_acq_ho" style="display: block;">
+                    <div class="col-lg-12 col-xs-12" style="text-align:center;">
+                        <div class="alert alert-success">
+                            <div class="row">
+                                <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                                    <span style="font-size:13px; font-weight:bold;">YPM</span>
+                                </div>
+                                <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                                    <span style="font-size:13px; font-weight:bold;">`+payment_ho[0].currency+` `+getrupiah(total_commission_payment_acquirer)+`</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <input class="primary-btn-white" id="show_commission_payment_acq_ho_button" style="width:100%;" type="button" onclick="show_commission_payment_acq();" value="Hide YPM">
+                </div>`;
+    }
+    document.getElementById('payment_method_ho_detail').innerHTML = text;
+    try{
+        if(text == '')
+            document.getElementById('payment_method_ho_break_div').style.display = 'none';
+        else
+            document.getElementById('payment_method_ho_break_div').style.display = 'block';
+    }catch(err){console.log(err)}
+}
+
+function show_commission_payment_acq(){
+    var sc = document.getElementById("show_commission_payment_acq_ho");
+    var scs = document.getElementById("show_commission_payment_acq_ho_button");
+    if (sc.style.display === "none"){
+        sc.style.display = "block";
+        scs.value = "Hide YPM";
+    }
+    else{
+        sc.style.display = "none";
+        scs.value = "Show YPM";
+    }
+}
+
 function set_payment(val, type){
     payment_method = document.getElementById('payment_via').value;
-    text= '';
+    text = ''
     for(i in payment_acq2[payment_method]){
 //        <span style="font-size:14px;">`+payment_acq.result.response.acquirers[payment_method][i].name+`</span>
         if(payment_method == 'credit_limit')
@@ -1356,7 +1423,7 @@ function check_payment_payment_method(order_number,btn_name,booker,type,provider
             tes = (moment.utc(payment_acq_booking.time_limit)).format('YYYY-MM-DD HH:mm:ss');
         localTime  = moment.utc(tes).toDate();
         payment_acq_booking.time_limit = moment(localTime).format('DD MMM YYYY HH:mm') + ' ' + gmt + timezone;
-        text=`<h4 style="color:`+color+`;">Customer Payment Method</h4><hr/>`;
+        text=`<h4 style="color:`+color+`;">Payment Method</h4><hr/>`;
         text+=` <h6 style="padding-bottom:10px;">Payment Detail: </h6>`;
         if(payment_acq_booking.nomor_rekening != ''){
             text+=`<div class='row'>

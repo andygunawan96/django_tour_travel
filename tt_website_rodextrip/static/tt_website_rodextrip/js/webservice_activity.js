@@ -3682,7 +3682,6 @@ function activity_get_booking(data){
                 $test += msg.result.response.contact.phone+ '\n';
 
                 $test += '\nPrice:\n';
-                csc = 0;
                 for(i in msg.result.response.provider_booking){
                     try{
                         if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false || msg.result.response.state == 'issued')
@@ -3692,6 +3691,7 @@ function activity_get_booking(data){
                                 </div>`;
                             for(j in msg.result.response.passengers){
                                 price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0, 'SSR': 0, 'DISC': 0,'SEAT':0};
+                                csc = 0;
                                 for(k in msg.result.response.passengers[j].sale_service_charges[msg.result.response.provider_booking[i].pnr]){
                                     price[k] += msg.result.response.passengers[j].sale_service_charges[msg.result.response.provider_booking[i].pnr][k].amount;
                                     if(price['currency'] == '')
@@ -3701,7 +3701,7 @@ function activity_get_booking(data){
                                 if(i ==0 ){
                                     //HANYA PROVIDER PERTAMA KARENA UPSELL PER PASSENGER BUKAN PER JOURNEY
                                     try{
-                                        price['CSC'] = msg.result.response.passengers[j].channel_service_charges.amount;
+//                                        price['CSC'] = msg.result.response.passengers[j].channel_service_charges.amount;
                                         csc += msg.result.response.passengers[j].channel_service_charges.amount;
                                     }catch(err){
                                         console.log(err); // error kalau ada element yg tidak ada
@@ -3715,8 +3715,8 @@ function activity_get_booking(data){
                                 }
                                 price_arr_repricing[msg.result.response.passengers[j].pax_type][msg.result.response.passengers[j].name] = {
                                     'Fare': price['FARE'] + price['SSR'] + price['SEAT'] + price['DISC'],
-                                    'Tax': price['TAX'] + price['ROC'],
-                                    'Repricing': price['CSC']
+                                    'Tax': price['TAX'] + price['ROC'] - csc,
+                                    'Repricing': csc
                                 }
                                 text_repricing = `
                                 <div class="col-lg-12">

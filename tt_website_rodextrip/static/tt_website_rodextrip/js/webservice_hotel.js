@@ -1771,13 +1771,15 @@ function hotel_issued(data){
                         </div>`;
                         for(j in hotel_get_detail.result.response.passengers){
                             price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0, 'SSR': 0, 'DISC': 0,'SEAT':0};
+                            csc = 0;
                             for(k in hotel_get_detail.result.response.passengers[j].sale_service_charges[i]){
                                 price[k] = hotel_get_detail.result.response.passengers[j].sale_service_charges[i][k].amount;
                                 if(price['currency'] == '')
                                     price['currency'] = hotel_get_detail.result.response.passengers[j].sale_service_charges[i][k].currency;
                             }
                             try{
-                                price['CSC'] = hotel_get_detail.result.response.passengers[j].channel_service_charges.amount;
+//                                price['CSC'] = hotel_get_detail.result.response.passengers[j].channel_service_charges.amount;
+                                csc += hotel_get_detail.result.response.passengers[j].channel_service_charges.amount;
                             }catch(err){
                                 console.log(err); // error kalau ada element yg tidak ada
                             }
@@ -1867,13 +1869,15 @@ function hotel_issued(data){
                         </div>`;
                         for(j in msg.result.response.passengers){
                             price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0, 'SSR': 0, 'DISC': 0,'SEAT':0};
+                            csc = 0;
                             for(k in msg.result.response.passengers[j].sale_service_charges[i]){
                                 price[k] = msg.result.response.passengers[j].sale_service_charges[i][k].amount;
                                 price['currency'] = msg.result.response.passengers[j].sale_service_charges[i][k].currency;
                             }
 
                             try{
-                                price['CSC'] = hotel_get_detail.result.response.passengers[j].channel_service_charges.amount;
+//                                price['CSC'] = hotel_get_detail.result.response.passengers[j].channel_service_charges.amount;
+                                csc += hotel_get_detail.result.response.passengers[j].channel_service_charges.amount;
                             }catch(err){
                                 console.log(err); // error kalau ada element yg tidak ada
                             }
@@ -2799,7 +2803,6 @@ function hotel_get_booking(data){
                     price_provider = 0;
                     commission = 0;
                     disc = 0;
-                    csc = 0;
                     currency = '';
                     service_charge = ['FARE', 'RAC', 'ROC', 'TAX', 'SSR', 'DISC'];
                     text_detail=`
@@ -2877,6 +2880,7 @@ function hotel_get_booking(data){
                             total_price = 0
                             for(j in msg.result.response.passengers){
                                 price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0, 'SSR': 0, 'DISC': 0};
+                                csc = 0;
                                 for(k in msg.result.response.passengers[j].sale_service_charges[msg.result.response.hotel_rooms[i].prov_issued_code]){
                                     price[k] += msg.result.response.passengers[j].sale_service_charges[msg.result.response.hotel_rooms[i].prov_issued_code][k].amount;
                                     if(price['currency'] == ''){
@@ -2887,7 +2891,7 @@ function hotel_get_booking(data){
                                 disc -= price['DISC'];
                                 try{
                                     csc += price['CSC'];
-                                    price['CSC'] = msg.result.response.passengers[j].channel_service_charges.amount;
+//                                    price['CSC'] = msg.result.response.passengers[j].channel_service_charges.amount;
                                 }catch(err){
                                     console.log(err); // error kalau ada element yg tidak ada
                                 }
@@ -2908,8 +2912,8 @@ function hotel_get_booking(data){
                                 pax_type_repricing.push(['Reservation', 'Reservation']);
                                 price_arr_repricing['Reservation']['Reservation'] = {
                                     'Fare': (price['FARE']) + price['SSR'] + price['DISC'],
-                                    'Tax': price['TAX'] + price['ROC'],
-                                    'Repricing': price['CSC']
+                                    'Tax': price['TAX'] + price['ROC'] - csc,
+                                    'Repricing': csc
                                 }
                                 break; // upsell per reservasi
                             }
