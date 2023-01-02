@@ -265,6 +265,7 @@ function get_carriers_hotel(){
 function hotel_search_in_detail(){
     getToken();
     //document.getElementById('hotel_ticket').innerHTML = ``;
+
     child_age = '';
     for(i=0; i<parseInt($('#hotel_child_wizard').val());i++){
        child_age+=parseInt($('#hotel_child_age_wizard'+(i+1).toString()).val());
@@ -434,7 +435,50 @@ function hotel_search(){
        if(i != parseInt($('#hotel_child').val())-1)
            child_age+=',';
     }
+
     hotel_get_current_search();
+
+    qty_room = $('#hotel_room').val();
+    qty_adult = $('#hotel_adult').val();
+    qty_child = $('#hotel_child').val();
+
+    if (qty_room >= 9){
+        document.getElementById("right-plus-room-hotel").disabled = true;
+        document.getElementById("left-minus-room-hotel").disabled = false;
+    }else if(qty_room <= 1){
+        document.getElementById("right-plus-room-hotel").disabled = false;
+        document.getElementById("left-minus-room-hotel").disabled = true;
+    }else{
+        document.getElementById("right-plus-room-hotel").disabled = false;
+        document.getElementById("left-minus-room-hotel").disabled = false;
+    }
+
+    if(qty_room == qty_adult){
+        if (qty_adult >= 9){
+            document.getElementById("right-plus-adult-hotel").disabled = true;
+            document.getElementById("left-minus-adult-hotel").disabled = true;
+        }else if(qty_adult <= 1){
+            document.getElementById("right-plus-adult-hotel").disabled = false;
+            document.getElementById("left-minus-adult-hotel").disabled = true;
+        }
+    }else{
+        if (qty_adult >= 9){
+            document.getElementById("right-plus-adult-hotel").disabled = true;
+        }else if(qty_adult <= 1){
+            document.getElementById("left-minus-adult-hotel").disabled = true;
+        }
+    }
+
+    if(qty_child == 0){
+        document.getElementById("left-minus-child-hotel").disabled = true;
+    }else if(qty_room*2 == qty_child){
+        document.getElementById("right-plus-child-hotel").disabled = true;
+        document.getElementById("left-minus-child-hotel").disabled = false;
+    }else{
+        document.getElementById("left-minus-child-hotel").disabled = false;
+        document.getElementById("right-plus-child-hotel").disabled = false;
+    }
+
     $.ajax({
        type: "POST",
        url: "/webservice/hotel",
@@ -589,6 +633,47 @@ function hotel_set_signature(signature_hotel){
 }
 
 function hotel_detail_page(){
+    qty_room = $('#hotel_room').val();
+    qty_adult = $('#hotel_adult').val();
+    qty_child = $('#hotel_child').val();
+
+    if (qty_room >= 9){
+        document.getElementById("right-plus-room-hotel").disabled = true;
+        document.getElementById("left-minus-room-hotel").disabled = false;
+    }else if(qty_room <= 1){
+        document.getElementById("right-plus-room-hotel").disabled = false;
+        document.getElementById("left-minus-room-hotel").disabled = true;
+    }else{
+        document.getElementById("right-plus-room-hotel").disabled = false;
+        document.getElementById("left-minus-room-hotel").disabled = false;
+    }
+
+    if(qty_room == qty_adult){
+        if (qty_adult >= 9){
+            document.getElementById("right-plus-adult-hotel").disabled = true;
+            document.getElementById("left-minus-adult-hotel").disabled = true;
+        }else if(qty_adult <= 1){
+            document.getElementById("right-plus-adult-hotel").disabled = false;
+            document.getElementById("left-minus-adult-hotel").disabled = true;
+        }
+    }else{
+        if (qty_adult >= 9){
+            document.getElementById("right-plus-adult-hotel").disabled = true;
+        }else if(qty_adult <= 1){
+            document.getElementById("left-minus-adult-hotel").disabled = true;
+        }
+    }
+
+    if(qty_child == 0){
+        document.getElementById("left-minus-child-hotel").disabled = true;
+    }else if(qty_room*2 == qty_child){
+        document.getElementById("right-plus-child-hotel").disabled = true;
+        document.getElementById("left-minus-child-hotel").disabled = false;
+    }else{
+        document.getElementById("left-minus-child-hotel").disabled = false;
+        document.getElementById("right-plus-child-hotel").disabled = false;
+    }
+
     $.ajax({
        type: "POST",
        url: "/webservice/hotel",

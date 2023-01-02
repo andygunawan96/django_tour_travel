@@ -2587,11 +2587,16 @@ function get_checked_copy_result(){
         $text += price_train+'\n';
         $text+='====================\n\n';
 
+        if(train_number == 1){
+            text+=`<div class="row pb-3" id="div_list`+id_train+`" style="border-bottom:1px solid #cdcdcd;">`;
+        }else{
+            text+=`<div class="row pt-3 pb-3" id="div_list`+id_train+`" style="border-bottom:1px solid #cdcdcd;">`;
+        }
+
         text+=`
-        <div class="row" id="div_list`+id_train+`">
             <div class="col-lg-9">
-                <h6>Option-`+train_number+`</h6>
-                <h6 style="margin-bottom:5px;">`+name_train+`</h6>
+                <h5 class="single_border_custom_left" style="padding-left:5px;">Option-`+train_number+`</h5>
+                <h5 style="margin-bottom:5px;">`+name_train+`</h5>
             </div>
             <div class="col-lg-3" style="text-align:right;">
                 <span style="font-weight:500; cursor:pointer;" onclick="delete_checked_copy_result(`+id_train+`);">Delete <i class="fas fa-times-circle" style="color:red; font-size:18px;"></i></span>
@@ -2602,13 +2607,12 @@ function get_checked_copy_result(){
             <div class="col-lg-6" style="text-align:right;">
                 <b>Return</b><br/><span>`+arrival_train+`, `+date_arr+` `+time_arr+` </span>
             </div>
-            <div class="col-lg-12">`;
+            <div class="col-lg-12" style="text-align:right;">`;
             if(seat_train){
                 text+=`<span>`+seat_train+`</span><br/>`;
             }
             text+=`
                 <span style="font-size:13px; font-weight:800; color:`+color+`;">Price: `+price_train+`</span>
-                <hr/>
             </div>
         </div>`;
     });
