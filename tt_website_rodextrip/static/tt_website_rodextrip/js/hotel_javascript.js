@@ -2397,21 +2397,25 @@ function get_checked_copy_result(){
         else
             $text += 'Location: -\n';
         $text += 'Price start from: '+price_hotel+'\n \n';
-        text+=`
-            <div class="row" id="div_list`+id_hotel+`">
+
+            if(hotel_number == 1){
+                text+=`<div class="row pb-3" id="div_list`+id_hotel+`" style="border-bottom:1px solid #cdcdcd;">`;
+            }else{
+                text+=`<div class="row pt-3 pb-3" id="div_list`+id_hotel+`" style="border-bottom:1px solid #cdcdcd;">`;
+            }
+            text+=`
                 <div class="col-lg-8">
-                    <h6>`+hotel_number+`. `+name_hotel+` `+rating_hotel+ `</h6>`;
+                    <h5 class="single_border_custom_left" style="padding-left:5px;"> `+hotel_number+`. `+name_hotel+` `+rating_hotel+ `</h5>`;
                     if(location_hotel != ' (undefined)'){
                         text+=`
-                    <span>Location: `+location_hotel+`</span><br/>`;
+                        <span>Location: `+location_hotel+`</span><br/>`;
                     }
                     text+=`
-                    <span style="font-weight:500;">Best Price: `+price_hotel+` `+room_night+`</span>
+                    <b>Best Price: </b><b style="color:`+color+`;">`+price_hotel+` `+room_night+`</b>
                 </div>
                 <div class="col-lg-4" style="text-align:right;">
                     <span style="font-weight:500; cursor:pointer;" onclick="delete_checked_copy_result(`+id_hotel+`);">Delete <i class="fas fa-times-circle" style="color:red; font-size:18px;"></i></span>
                 </div>
-                <div class="col-lg-12"><hr/></div>
             </div>`;
         });
     $text += '\n===Price may change at any time===';
