@@ -5074,7 +5074,6 @@ function airline_detail(type){
                         <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" alt="Telegram" src="/static/tt_website_rodextrip/img/telegram.png"/></a>
                         <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" alt="Email" src="/static/tt_website_rodextrip/img/email.png"/></a>`;
                 }
-
             text+=`
             </div>
         </div>`;
@@ -8344,12 +8343,14 @@ function get_checked_copy_result(){
         var id_airline = parent_airline.find('.id_copy_result').html();
         airline_number = airline_number + 1;
         $text += '#OPTION-'+airline_number+'\n'; // pak adi yg minta
-
+        if(airline_number == 1){
+            text+=`<div class="row pb-3" id="div_list`+id_airline+`" style="border-bottom:1px solid #cdcdcd;">`;
+        }else{
+            text+=`<div class="row pt-3 pb-3" id="div_list`+id_airline+`" style="border-bottom:1px solid #cdcdcd;">`;
+        }
         text+=`
-        <div class="row" id="div_list`+id_airline+`">`;
-        text+=`
-            <div class="col-lg-9">
-                <h5>Option-`+airline_number+`</h5>
+            <div class="col-xs-6">
+                <h5 class="single_border_custom_left" style="padding-left:5px;">Option-`+airline_number+`</h5>
             </div>`;
 
             for (var i = 0; i < value_copy.length; i++) {
@@ -8363,10 +8364,10 @@ function get_checked_copy_result(){
             });
 
             text+=`
-            <div class="col-lg-3" style="text-align:right;">
+            <div class="col-xs-6" style="text-align:right;">
                 <span style="font-weight:500; cursor:pointer;" onclick="delete_checked_copy_result(`+id_airline+`);"><i class="fas fa-times-circle" style="color:red; font-size:18px;"></i> Delete</span>
             </div>
-            <div class="col-lg-12"><br/>`;
+            <div class="col-lg-12">`;
             for (var i = 0; i < value_journey.length; i++) {
                 var temp_journey = ''+value_journey[i];
                 var parent_copy_details = $("#detail_departjourney"+temp_journey);
@@ -8393,7 +8394,7 @@ function get_checked_copy_result(){
                         $text += '\n\n';
 
                     var co_j = j+1;
-                    text+=`<h5>Flight-`+co_j+`</h5>`;
+                    text+=`<h5><i class="fas fa-angle-right"></i> Flight-`+co_j+`</h5>`;
 //                    $text += '› Flight-'+co_j+'\n'; // pak adi yg minta
 
                     parent_segments.find('.copy_carrier_provider_details').each(function(obj) {
@@ -8494,9 +8495,6 @@ function get_checked_copy_result(){
                            }
                        });
                        text+=`</div>
-                        <div class="col-lg-12">
-                            <br/>
-                        </div>
                        </div>`;
 
                        $text+='\n\n';
@@ -8511,32 +8509,32 @@ function get_checked_copy_result(){
                        var parent_fares = $("#copy_fares_details"+temp_fares);
                        parent_fares.find('.copy_suitcase_details').each(function(obj) {
                            if($(this).html() != undefined || $(this).html() != ''){
-                               text+=`<span>• Baggage: `+$(this).html()+` </span><br/>`;
+                               text+=`<b>• Baggage: `+$(this).html()+` </b><br/>`;
                                $text += '• Baggage   : '+$(this).html()+' \n';
                            }
                        });
                        parent_fares.find('.copy_aircraft_details').each(function(obj) {
                            if($(this).html() != undefined || $(this).html() != ''){
-                               text+=`<span>• Aircraft: `+$(this).html()+` </span><br/>`;
+                               text+=`<b>• Aircraft: `+$(this).html()+` </b><br/>`;
                                $text += '• Aircraft   : '+$(this).html()+' \n';
                            }
                        });
                        parent_fares.find('.copy_utensils_details').each(function(obj) {
                            if($(this).html() != undefined || $(this).html() != ''){
-                               text+=`<span>• Meal: `+$(this).html()+` </span><br/>`;
+                               text+=`<b>• Meal: `+$(this).html()+` </b><br/>`;
                                $text += '• Meal  : '+$(this).html()+' \n';
                            }
                        });
                        parent_fares.find('.copy_others_details').each(function(obj) {
                            if($(this).html() != undefined || $(this).html() != ''){
-                               text+=`<span>• Others: `+$(this).html()+` </span><br/>`;
+                               text+=`<b>• Others: `+$(this).html()+` </b><br/>`;
                                $text += '• Others    : '+$(this).html()+' \n';
                            }
                        });
 
                        parent_duration.find('.copy_duration_details').each(function(obj) {
                            if($(this).html() != undefined || $(this).html() != ''){
-                               text+=`<span>• Duration: `+$(this).html()+` </span><br/>`;
+                               text+=`<b>• Duration: `+$(this).html()+` </b><br/>`;
                                $text += '• Duration :'+$(this).html()+' \n';
                            }
                        });
@@ -8548,12 +8546,11 @@ function get_checked_copy_result(){
 //                    $text += '• '+search_banner+'\n';
 //                }
                 $text+='--------------------\n';
-                text+=`<hr/>`;
                 if(combo_price != undefined){
-                    text+=`<span class="price_template">Price: `+price_airline+` (`+combo_price+`)</span><br/>`;
+                    text+=`<span class="price_template" style="float:right;">Price: `+price_airline+` (`+combo_price+`)</span><br/>`;
                     $text += 'Price: '+price_airline+ ' ('+combo_price+')\n';
                 }else{
-                    text+=`<span class="price_template">Price: `+price_airline+`</span><br/>`;
+                    text+=`<span class="price_template" style="float:right;">Price: `+price_airline+`</span><br/>`;
                     $text += 'Price: '+price_airline+'\n';
                 }
 
@@ -8561,7 +8558,6 @@ function get_checked_copy_result(){
             }
             text+=`
             </div>
-            <div class="col-lg-12"><hr/></div>
         </div>`;
     });
     $text += '\nPRICE MAY CHANGE ANYTIME BEFORE PAYMENT IS DONE';
