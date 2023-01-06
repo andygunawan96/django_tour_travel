@@ -731,7 +731,7 @@ function update_table_new(type){
                     disc -= price['DISC'];
                     try{
                         if(visa.passengers[j].channel_service_charges.hasOwnProperty('amount')){
-                            price['CSC'] = visa.passengers[j].channel_service_charges.amount;
+//                            price['CSC'] = visa.passengers[j].channel_service_charges.amount;
                             csc += visa.passengers[j].channel_service_charges.amount;
                         }
                     }catch(err){
@@ -745,8 +745,8 @@ function update_table_new(type){
                     }
                     price_arr_repricing[visa.passengers[j].pax_type][visa.passengers[j].name] = {
                         'Fare': price['FARE'] + price['SSR'] + price['SEAT'] + price['DISC'],
-                        'Tax': price['TAX'] + price['ROC'],
-                        'Repricing': price['CSC']
+                        'Tax': price['TAX'] + price['ROC'] - csc,
+                        'Repricing': csc
                     }
                     text_repricing = `
                     <div class="col-lg-12">

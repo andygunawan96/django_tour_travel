@@ -738,6 +738,11 @@ function get_airline_data_passenger_page(type='default'){
                     if(msg.pax_cache.hasOwnProperty('booker'))
                         data_booker = msg.pax_cache.booker;
                }
+               departure_date = '';
+               for(i in airline_pick){
+                    for(j in airline_pick[i].journeys)
+                        departure_date = moment(airline_pick[i].journeys[j].departure_date, 'DD MMM YYYY').format('YYYY-MM-DD');
+               }
                airline_get_provider_list('passenger');
            }else if(type == 'aftersales'){
                airline_request = msg.airline_request;
@@ -7877,7 +7882,6 @@ function airline_get_booking(data, sync=false){
                 total_price = 0;
                 total_price_provider = [];
                 commission = 0;
-                csc = 0;
                 service_charge = ['FARE', 'RAC', 'ROC', 'TAX', 'SSR', 'DISC'];
                 text_detail=`
                 <div style="background-color:white; padding:15px; border: 1px solid #cdcdcd; margin-bottom:15px;">
@@ -7901,7 +7905,6 @@ function airline_get_booking(data, sync=false){
                 $text += msg.result.response.contact.phone+ '\n';
 
                 $text += '\n‣ Price:\n';
-                csc = 0;
                 for(i in msg.result.response.provider_bookings){
                     try{
                         if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false || msg.result.response.state == 'issued')
@@ -7912,6 +7915,7 @@ function airline_get_booking(data, sync=false){
 
                         for(j in msg.result.response.passengers){
                             price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0, 'SSR': 0, 'DISC': 0,'SEAT':0};
+                            csc = 0;
                             if(['halt_booked'].includes(msg.result.response.state)){ //PROCESS HALT BOOKED
                                 index_svc = 0;
                                 for(k in msg.result.response.passengers[j].sale_service_charges){
@@ -7936,16 +7940,16 @@ function airline_get_booking(data, sync=false){
                             if(i ==0 ){
                                 //HANYA PROVIDER PERTAMA KARENA UPSELL PER PASSENGER BUKAN PER JOURNEY
                                 try{
-                                    price['CSC'] = msg.result.response.passengers[j].channel_service_charges.amount;
+//                                    price['CSC'] = msg.result.response.passengers[j].channel_service_charges.amount;
                                     csc += msg.result.response.passengers[j].channel_service_charges.amount;
                                 }catch(err){
                                     console.log(err); // error kalau ada element yg tidak ada
                                 }
-                                try{
-                                    price['SSR'] += msg.result.response.passengers[j].channel_service_charges.amount_addons;
-                                }catch(err){
-                                    console.log(err); // error kalau ada element yg tidak ada
-                                }
+//                                try{
+//                                    price['SSR'] += msg.result.response.passengers[j].channel_service_charges.amount_addons;
+//                                }catch(err){
+//                                    console.log(err); // error kalau ada element yg tidak ada
+//                                }
                             }
                             //repricing
                             check = 0;
@@ -7957,14 +7961,14 @@ function airline_get_booking(data, sync=false){
                             if(price_arr_repricing[msg.result.response.passengers[j].pax_type].hasOwnProperty(msg.result.response.passengers[j].name)){
                                 price_arr_repricing[msg.result.response.passengers[j].pax_type][msg.result.response.passengers[j].name] = {
                                     'Fare': price_arr_repricing[msg.result.response.passengers[j].pax_type][msg.result.response.passengers[j].name]['Fare'] +  price['FARE'] + price['SSR'] + price['SEAT'] + price['DISC'],
-                                    'Tax': price_arr_repricing[msg.result.response.passengers[j].pax_type][msg.result.response.passengers[j].name]['Tax'] +  price['TAX'] + price['ROC'],
-                                    'Repricing': price['CSC']
+                                    'Tax': price_arr_repricing[msg.result.response.passengers[j].pax_type][msg.result.response.passengers[j].name]['Tax'] +  price['TAX'] + price['ROC'] - csc,
+                                    'Repricing': csc
                                 }
                             }else{
                                 price_arr_repricing[msg.result.response.passengers[j].pax_type][msg.result.response.passengers[j].name] = {
                                     'Fare': price['FARE'] + price['SSR'] + price['SEAT'] + price['DISC'],
-                                    'Tax': price['TAX'] + price['ROC'],
-                                    'Repricing': price['CSC']
+                                    'Tax': price['TAX'] + price['ROC'] - csc,
+                                    'Repricing': csc
                                 }
                             }
                             text_repricing = '';
@@ -9336,11 +9340,11 @@ function airline_issued(data){
                                 if(price['currency'] == '')
                                     price['currency'] = airline_get_detail.result.response.passengers[j].sale_service_charges[i][k].currency;
                             }
-                            try{
-                                price['CSC'] = airline_get_detail.result.response.passengers[j].channel_service_charges.amount;
-                            }catch(err){
-                                console.log(err); // error kalau ada element yg tidak ada
-                            }
+//                            try{
+//                                price['CSC'] = airline_get_detail.result.response.passengers[j].channel_service_charges.amount;
+//                            }catch(err){
+//                                console.log(err); // error kalau ada element yg tidak ada
+//                            }
                             try{
                                 price['SSR'] += airline_get_detail.result.response.passengers[j].channel_service_charges.amount_addons;
                             }catch(err){
@@ -9455,11 +9459,11 @@ function airline_issued(data){
                                 price['currency'] = msg.result.response.passengers[j].sale_service_charges[i][k].currency;
                             }
 
-                            try{
-                                price['CSC'] = airline_get_detail.result.response.passengers[j].channel_service_charges.amount;
-                            }catch(err){
-                                console.log(err); // error kalau ada element yg tidak ada
-                            }
+//                            try{
+//                                price['CSC'] = airline_get_detail.result.response.passengers[j].channel_service_charges.amount;
+//                            }catch(err){
+//                                console.log(err); // error kalau ada element yg tidak ada
+//                            }
                             try{
                                 price['SSR'] += airline_get_detail.result.response.passengers[j].channel_service_charges.amount_addons;
                             }catch(err){
@@ -10767,16 +10771,18 @@ function render_ticket_reissue(){
                     provider_pick = airline[i].provider;
                }
             }
-
+            description_info = '';
             if(provider_list_data.hasOwnProperty(provider_pick) && provider_list_data[provider_pick].hasOwnProperty('reschedule_description_info')){
-                if(provider_list_data[provider_pick]['reschedule_description_info'])
+                if(provider_list_data[provider_pick]['reschedule_description_info']){
                     text+=`
                 <div class="row">
                     <div class="col-lg-12" id="alert-state">
                         <div class="alert alert-warning" role="alert">
-                            <h5>`+provider_list_data[provider_pick]['reschedule_description_info']+`</h5>
+                            <h4>`+provider_list_data[provider_pick]['reschedule_description_info']+`</h4>
                         </div>
                     </div>`;
+                    description_info += provider_list_data[provider_pick]['reschedule_description_info'];
+                }
             }
             if(provider_list_data.hasOwnProperty(provider_pick) && airline_get_detail.result.response.state == 'booked' && provider_list_data[provider_pick].hasOwnProperty('reschedule_description_booked') ||
                provider_list_data.hasOwnProperty(provider_pick) && airline_get_detail.result.response.state == 'issued' && provider_list_data[provider_pick].hasOwnProperty('reschedule_description_issued')){
@@ -10785,10 +10791,13 @@ function render_ticket_reissue(){
                     text+=`
                         <div class="col-lg-12" id="alert-state">
                             <div class="alert alert-warning" role="alert">`;
-                    if(airline_get_detail.result.response.state == 'booked')
-                        text+=`<h5>`+provider_list_data[provider_pick]['reschedule_description_booked']+`</h5>`;
-                    else
-                        text+=`<h5>`+provider_list_data[provider_pick]['reschedule_description_issued']+`</h5>`;
+                    if(airline_get_detail.result.response.state == 'booked'){
+                        text+=`<h4>`+provider_list_data[provider_pick]['reschedule_description_booked']+`</h4>`;
+                        description_info += '<br/>' + provider_list_data[provider_pick]['reschedule_description_booked'];
+                    }else{
+                        text+=`<h4>`+provider_list_data[provider_pick]['reschedule_description_issued']+`</h4>`;
+                        description_info += '<br/>' + provider_list_data[provider_pick]['reschedule_description_issued'];
+                    }
                     text+=`
                             </div>
                         </div>
@@ -10800,6 +10809,11 @@ function render_ticket_reissue(){
                 </div>`;
                 document.getElementById('airline_reissue_info_div').innerHTML = text;
                 document.getElementById('airline_reissue_info_div').style.display = 'block';
+                Swal.fire({
+                    type: 'warning',
+                    title: 'Reschedule Info',
+                    html: description_info,
+                })
             }
             text = '';
             for(i in airline){
@@ -15083,7 +15097,7 @@ function split_booking_request(){
                },
                success: function(msg) {
                    if(msg.result.error_code == 0)
-                        airline_get_booking(msg.result.response.order_number);
+                        window.location.href = '/airline/booking/' + btoa(msg.result.response.order_number);
                    else{
                         airline_get_booking(airline_get_detail.result.response.order_number);
                         Swal.fire({

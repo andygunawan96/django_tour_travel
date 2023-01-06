@@ -1685,6 +1685,7 @@ function get_booking_offline(data){
                             if(i == 0){
                                 for(j in msg.result.response.passengers){
                                     price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0, 'SSR': 0, 'SEAT':0, 'DISC': 0};
+                                    csc = 0;
                                     for(k in msg.result.response.lines){
                                         try{
                                             price['currency'] = msg.result.response.currency;
@@ -1695,8 +1696,7 @@ function get_booking_offline(data){
 
                                     try{
                                         price['FARE'] += msg.result.response.total;
-                                        price['CSC'] += msg.result.response.passengers[j].channel_service_charges.amount;
-
+                                        csc += msg.result.response.passengers[j].channel_service_charges.amount;
                                     }catch(err){
                                         console.log(err) //ada element yg tidak ada
                                     }
@@ -1708,8 +1708,8 @@ function get_booking_offline(data){
                                     }
                                     price_arr_repricing['Reservation']['Reservation'] = {
                                         'Fare': price['FARE'] + price['SSR'] + price['SEAT'] + price['DISC'],
-                                        'Tax': price['TAX'] + price['ROC'],
-                                        'Repricing': price['CSC']
+                                        'Tax': price['TAX'] + price['ROC'] - csc,
+                                        'Repricing': csc
                                     }
                                     text_repricing = `
                                     <div class="col-lg-12">
@@ -1851,6 +1851,7 @@ function get_booking_offline(data){
                         text_detail+=`
                             </div>
                         </div>`;
+                        commission = msg.result.response.commission;
                         if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
                             text_detail+=`
                             <div class="row" id="show_commission" style="display:block;">
