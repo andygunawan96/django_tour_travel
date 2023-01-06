@@ -2576,7 +2576,8 @@ function get_customer_list(passenger, number, product){
                     'passenger_type': passenger,
                     'minAge': minAge,
                     'maxAge': maxAge,
-                    'signature': signature
+                    'signature': signature,
+                    'departure_date': typeof(departure_date) !== 'undefined' ? departure_date : ''
                },
                success: function(msg) {
                 if(check == 1)

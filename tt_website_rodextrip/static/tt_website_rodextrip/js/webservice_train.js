@@ -149,6 +149,10 @@ function get_train_data_passenger_page(){
        data: {},
        success: function(msg) {
         train_data = msg.response;
+        departure_date = '';
+        for(i in train_data){
+            departure_date = moment(train_data[i].departure_date[0], 'DD MMM YYYY').format('YYYY-MM-DD')
+        }
         train_carriers = msg.train_carriers;
         train_response = msg.response;
         train_request = msg.train_request;

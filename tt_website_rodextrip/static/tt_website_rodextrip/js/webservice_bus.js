@@ -187,7 +187,10 @@ function bus_passenger_page(){
             bus_data = msg.response;
             get_carriers_bus();
 //            bus_carriers = msg.bus_carriers;
-
+            departure_date = '';
+            for(i in bus_data){
+                departure_date = moment(bus_data[i].departure_date[0], 'DD MMM YYYY').format('YYYY-MM-DD')
+            }
             bus_response = msg.response;
 
             bus_request = msg.bus_request;

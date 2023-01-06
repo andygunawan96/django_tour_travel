@@ -1371,6 +1371,9 @@ function get_insurance_data_passenger_page(){
             get_carriers_insurance();
             insurance_pick = msg.insurance_pick;
             insurance_request = msg.insurance_request;
+            departure_date = '';
+            if(insurance_pick.hasOwnProperty('date_start'))
+                departure_date = insurance_pick.date_start;
             for(i=0;i<adult;i++){
                 document.getElementById('adult_additional_data_for_insurance'+parseInt(parseInt(i)+1)).style.display = 'block';
             }

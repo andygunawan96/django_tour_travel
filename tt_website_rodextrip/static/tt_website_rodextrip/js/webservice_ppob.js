@@ -569,13 +569,13 @@ function ppob_get_booking(data){
                 var text = '';
                 $text = '';
                 csc = 0;
-                for(i in msg.result.response.passengers){
-                    try{
-                        csc += msg.result.response.passengers[i].channel_service_charges.amount;
-                    }catch(err){
-                        console.log(err);
-                    }
-                }
+//                for(i in msg.result.response.passengers){
+//                    try{
+//                        csc += msg.result.response.passengers[i].channel_service_charges.amount;
+//                    }catch(err){
+//                        console.log(err);
+//                    }
+//                }
                 check_provider_booking = 0;
                 if(msg.result.response.hold_date != false && msg.result.response.hold_date != ''){
                     tes = moment.utc(msg.result.response.hold_date).format('YYYY-MM-DD HH:mm:ss')

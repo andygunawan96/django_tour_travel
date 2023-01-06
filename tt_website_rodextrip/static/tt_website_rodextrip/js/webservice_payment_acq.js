@@ -233,7 +233,7 @@ function payment(){
 
 function set_payment_method_ho(){
     var text= '';
-    if(document.getElementById('payment_ho_id') && document.getElementById('payment_ho_id').value == 'credit_limit'){
+    if(document.getElementById('payment_ho_id') && document.getElementById('payment_ho_id').value == 'credit_limit' && typeof(total_commission_payment_acquirer) !== 'undefined'){
         text += `
                 <div class="row">
                     <div class="col-sm-5" style="text-align:left;">
@@ -265,7 +265,8 @@ function set_payment_method_ho(){
                     <input class="primary-btn-white" id="show_commission_payment_acq_ho_button" style="width:100%;" type="button" onclick="show_commission_payment_acq();" value="Hide YPM">
                 </div>`;
     }
-    document.getElementById('payment_method_ho_detail').innerHTML = text;
+    if(document.getElementById('payment_method_ho_detail'))
+        document.getElementById('payment_method_ho_detail').innerHTML = text;
     try{
         if(text == '')
             document.getElementById('payment_method_ho_break_div').style.display = 'none';

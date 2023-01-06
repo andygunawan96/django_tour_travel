@@ -326,6 +326,9 @@ function activity_passenger_page(){
             activity_pax_data = msg.activity_pax_data;
             highlights = msg.highlights;
             response = msg.response;
+            departure_date = '';
+            if(msg.price.hasOwnProperty('date'))
+                departure_date = msg.price.date;
             activity_table_detail2('passenger')
 
        },

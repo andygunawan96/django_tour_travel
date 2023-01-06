@@ -135,6 +135,9 @@ function visa_page_passenger(){
             passenger = msg.passenger;
             visa = msg.visa;
             visa_request = msg.visa_request;
+            departure_date = '';
+            if(visa_request.hasOwnProperty('departure'))
+                departure_date = moment(visa_request.departure, 'DD MMM YYYY').format('YYYY-MM-DD');
             get_carriers_visa();
             sell_visa();
             //update_table('passenger');
