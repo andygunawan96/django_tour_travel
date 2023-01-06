@@ -4407,3 +4407,38 @@ for better animation effect */
   z-index: 1000;
   cursor:pointer;
 }
+
+.share-btn {
+  display: inline-block;
+  color: #ffffff;
+  border: none;
+  padding: 0.8em 1.4em;
+  outline: none;
+  text-align: center;
+  font-size: 0.9em;
+  margin: 0 0.2em;
+}
+
+.share-btn:focus,
+.share-btn:hover {
+  text-decoration: none;
+  opacity: 1;
+  color: #000;
+}
+
+.share-btn:active {
+  color: #e2e2e2;
+}
+
+.share-btn.copy-link   { background: #918c7c; }
+.share-btn.twitter     { background: #6cbfe0; }
+.share-btn.google-plus { background: #dd4b39; }
+.share-btn.facebook    { background: #3B5998; }
+.share-btn.stumbleupon { background: #EB4823; }
+.share-btn.reddit      { background: #ff5700; }
+.share-btn.hackernews  { background: #ff6600; }
+.share-btn.linkedin    { background: #4875B4; }
+.share-btn.email       { background: #444444; }
+.share-btn.whatsapp    { background: #3AC371; }
+.share-btn.telegram    { background: #419fd9; }
+.share-btn.line    { background: #53cf48; }

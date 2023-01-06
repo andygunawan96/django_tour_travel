@@ -284,7 +284,7 @@
                 </div>
             </div>
 
-            <span class="mt-50 col-lg-12" style="color:#f15a22;" id="footer_copyright">
+            <span class="mt-50 col-lg-12" style="color:{{color}};" id="footer_copyright">
                 <hr/>
                 {% trans 'Copyright' %} &copy;<script>document.getElementById('footer_copyright').innerHTML += new Date().getFullYear();</script> All rights reserved by {{name}}
             </span>
@@ -475,7 +475,7 @@
         </div>
         <hr/>
         <div class="footer-bottom d-flex justify-content-center align-items-center flex-wrap">
-            <p class="m-0" style="color:#f15a22;" id="footer_copyright">
+            <p class="m-0" style="color:{{color}};" id="footer_copyright">
                 {% trans 'Copyright' %} &copy;<script>document.getElementById('footer_copyright').innerHTML += new Date().getFullYear();</script> All rights reserved by {{name}}
             </p>
         </div>
