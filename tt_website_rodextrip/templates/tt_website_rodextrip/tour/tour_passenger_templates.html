@@ -36,6 +36,8 @@
     infant = {{infant_amt}};
     room_amount = {{room_amount}};
     arrival_date_last = `{{arrival_date}}`;
+    departure_date = '';
+    departure_date = moment('`{{departure_date}}`', 'DD MMM YYYY').format('YYYY-MM-DD');
 </script>
 
 {% include 'tt_website_rodextrip/logout.html' %}

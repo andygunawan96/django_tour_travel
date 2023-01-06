@@ -1453,8 +1453,11 @@ def get_customer_list(request):
     try:
         upper = 200
         lower = 0
+        departure_date = ''
         #define per product DEFAULT 0 - 200 / AMBIL SEMUA PASSENGER
-        #check jos
+        # 22 des 2022 tambah params departure date
+        if request.POST.get('departure_date'):
+            departure_date = request.POST['departure_date']
         if request.POST['passenger_type'] == 'booker' or request.POST['passenger_type'] == 'contact':
             passenger = 'book'
         else:
@@ -1496,7 +1499,8 @@ def get_customer_list(request):
             'lower': lower,
             'type': passenger,
             'email': '',
-            'cust_code': ''
+            'cust_code': '',
+            'departure_date': departure_date
         }
 
         headers = {

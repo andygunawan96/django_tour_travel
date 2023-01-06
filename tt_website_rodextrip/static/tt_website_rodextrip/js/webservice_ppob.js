@@ -1,4 +1,3 @@
-
 function signin_ppob(data){
     try{
         $('.btn-next').addClass("running");
@@ -570,13 +569,13 @@ function ppob_get_booking(data){
                 var text = '';
                 $text = '';
                 csc = 0;
-                for(i in msg.result.response.passengers){
-                    try{
-                        csc += msg.result.response.passengers[i].channel_service_charges.amount;
-                    }catch(err){
-                        console.log(err);
-                    }
-                }
+//                for(i in msg.result.response.passengers){
+//                    try{
+//                        csc += msg.result.response.passengers[i].channel_service_charges.amount;
+//                    }catch(err){
+//                        console.log(err);
+//                    }
+//                }
                 check_provider_booking = 0;
                 if(msg.result.response.hold_date != false && msg.result.response.hold_date != ''){
                     tes = moment.utc(msg.result.response.hold_date).format('YYYY-MM-DD HH:mm:ss')
@@ -1207,17 +1206,20 @@ function ppob_get_booking(data){
                                 $text += msg.result.response.provider_booking[i].bill_details[j].customer_name + ' ['+msg.result.response.provider_booking[i].pnr+'] ';
 
                                 $text += price.currency+` `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.CSC + price.DISC))+'\n';
-                                if(counter_service_charge == 0){
-                                    total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SEAT + csc + price.SSR + price.DISC);
-                                    price.CSC = csc;
-                                    total_price_for_discount += parseInt(price.FARE);
-                                    price_provider += parseInt(price.TAX + price.ROC + price.FARE + price.SEAT + csc + price.SSR + price.DISC);
-                                }else{
-                                    total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT + price.DISC);
-                                    total_price_for_discount += parseInt(price.FARE);
-                                    price_provider += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT + price.DISC);
-                                }
-                                commission += parseInt(price.RAC);
+//                                if(counter_service_charge == 0){
+//                                    total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SEAT + csc + price.SSR + price.DISC);
+//                                    price.CSC = csc;
+//                                    total_price_for_discount += parseInt(price.FARE);
+//                                    price_provider += parseInt(price.TAX + price.ROC + price.FARE + price.SEAT + csc + price.SSR + price.DISC);
+//                                }else{
+//                                    total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT + price.DISC);
+//                                    total_price_for_discount += parseInt(price.FARE);
+//                                    price_provider += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT + price.DISC);
+//                                }
+                                total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT + price.DISC);
+                                total_price_for_discount += parseInt(price.FARE);
+                                price_provider += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT + price.DISC);
+//                                commission += parseInt(price.RAC);
                                 total_price_dict = {
                                     'FARE': total_price_dict['FARE'] + price['FARE'],
                                     'RAC': total_price_dict['RAC'] + price['RAC'],
@@ -1262,7 +1264,7 @@ function ppob_get_booking(data){
                                     <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">`;
                                 if(i == 0 && j == 0) //bill pertama & pnr pertama yg di upsell
                                     text_detail+=`
-                                    <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + csc + price.SSR + price.SEAT + price.DISC))+`</span>`;
+                                    <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.SSR + price.SEAT + price.DISC))+`</span>`;
                                 else
                                     text_detail+=`
                                     <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.CSC + price.SSR + price.SEAT + price.DISC))+`</span>`;
@@ -1272,19 +1274,25 @@ function ppob_get_booking(data){
                                 $text += msg.result.response.provider_booking[i].bill_data[j].period_date + ' ['+msg.result.response.provider_booking[i].pnr+'] ';
 
 
-                                if(counter_service_charge == 0 && j == 0){ //upsell hanya provider pertama, & hanya untuk bill pertama
-                                    total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SEAT + csc + price.SSR + price.DISC);
-                                    price.CSC = csc;
-                                    total_price_for_discount += parseInt(price.FARE);
-                                    price_provider += parseInt(price.TAX + price.ROC + price.FARE + price.SEAT + price.CSC + price.SSR + price.DISC);
-                                    $text += price.currency+` `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + csc + price.DISC))+'\n';
-                                }else{
-                                    total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT + price.DISC);
+//                                if(counter_service_charge == 0 && j == 0){ //upsell hanya provider pertama, & hanya untuk bill pertama
+//                                    total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SEAT + price.SSR + price.DISC);
+////                                    total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SEAT + csc + price.SSR + price.DISC);
+//                                    price.CSC = csc;
+//                                    total_price_for_discount += parseInt(price.FARE);
+//                                    price_provider += parseInt(price.TAX + price.ROC + price.FARE + price.SEAT + price.CSC + price.SSR + price.DISC);
+//                                    $text += price.currency+` `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.DISC))+'\n';
+////                                    $text += price.currency+` `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + csc + price.DISC))+'\n';
+//                                }else{
+//                                    total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT + price.DISC);
+//                                    total_price_for_discount += parseInt(price.FARE);
+//                                    price_provider += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT + price.DISC);
+//                                    $text += price.currency+` `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.DISC))+'\n';
+//                                }
+                                total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT + price.DISC);
                                     total_price_for_discount += parseInt(price.FARE);
                                     price_provider += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT + price.DISC);
                                     $text += price.currency+` `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.DISC))+'\n';
-                                }
-                                commission += parseInt(price.RAC);
+//                                commission += parseInt(price.RAC);
                                 total_price_dict = {
                                     'FARE': total_price_dict['FARE'] + price['FARE'],
                                     'RAC': total_price_dict['RAC'] + price['RAC'],
@@ -1312,8 +1320,8 @@ function ppob_get_booking(data){
                         }
                         price_arr_repricing['Reservation']['Reservation'] = {
                             'Fare': total_price_dict['FARE'] + total_price_dict['SSR'] + total_price_dict['SEAT'] + total_price_dict['DISC'],
-                            'Tax': total_price_dict['TAX'] + total_price_dict['ROC'],
-                            'Repricing': total_price_dict['CSC']
+                            'Tax': total_price_dict['TAX'] + total_price_dict['ROC'] - csc,
+                            'Repricing': csc
                         }
                         text_repricing = `
                         <div class="col-lg-12">
@@ -1425,6 +1433,7 @@ function ppob_get_booking(data){
                     text_detail+=`
                         </div>
                     </div>`;
+                    commission = rac;
                     if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
                         text_detail+=`
                         <div class="row" id="show_commission" style="display:block;">

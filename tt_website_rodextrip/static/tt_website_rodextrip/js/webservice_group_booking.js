@@ -1521,7 +1521,6 @@ function group_booking_get_booking(order_number){
                     total_price = 0;
                     total_price_provider = [];
                     commission = 0;
-                    csc = 0;
                     service_charge = ['FARE', 'RAC', 'ROC', 'TAX', 'SSR', 'DISC'];
                     text_detail=`
                     <div style="background-color:white; padding:15px; border: 1px solid #cdcdcd; margin-bottom:15px;">
@@ -1545,7 +1544,6 @@ function group_booking_get_booking(order_number){
                     $text += msg.result.response.contact.phone+ '\n';
 
                     $text += '\n‣ Price:\n';
-                    csc = 0;
                     for(i in msg.result.response.provider_bookings){
                         try{
                             if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false || msg.result.response.state == 'issued')
@@ -1556,6 +1554,7 @@ function group_booking_get_booking(order_number){
 
                             for(j in msg.result.response.passengers){
                                 price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0, 'SSR': 0, 'DISC': 0,'SEAT':0};
+                                csc = 0;
                                 for(k in msg.result.response.passengers[j].sale_service_charges[msg.result.response.provider_bookings[i].pnr]){
                                     price[k] += msg.result.response.passengers[j].sale_service_charges[msg.result.response.provider_bookings[i].pnr][k].amount;
                                     if(price['currency'] == '')
@@ -1565,7 +1564,7 @@ function group_booking_get_booking(order_number){
                                 if(i ==0 ){
                                     //HANYA PROVIDER PERTAMA KARENA UPSELL PER PASSENGER BUKAN PER JOURNEY
                                     try{
-                                        price['CSC'] = msg.result.response.passengers[j].channel_service_charges.amount;
+//                                        price['CSC'] = msg.result.response.passengers[j].channel_service_charges.amount;
                                         csc += msg.result.response.passengers[j].channel_service_charges.amount;
                                     }catch(err){
                                         console.log(err); // error kalau ada element yg tidak ada
@@ -1581,14 +1580,14 @@ function group_booking_get_booking(order_number){
                                     pax_type_repricing.push([msg.result.response.passengers[j].name, msg.result.response.passengers[j].name]);
                                     price_arr_repricing[msg.result.response.passengers[j].name] = {
                                         'Fare': price['FARE'] + price['SSR'] + price['SEAT'] + price['DISC'],
-                                        'Tax': price['TAX'] + price['ROC'],
-                                        'Repricing': price['CSC']
+                                        'Tax': price['TAX'] + price['ROC'] - csc,
+                                        'Repricing': csc
                                     }
                                 }else{
                                     price_arr_repricing[msg.result.response.passengers[j].name] = {
                                         'Fare': price_arr_repricing[msg.result.response.passengers[j].name]['Fare'] + price['FARE'] + price['DISC'] + price['SSR'] + price['SEAT'],
-                                        'Tax': price_arr_repricing[msg.result.response.passengers[j].name]['Tax'] + price['TAX'] + price['ROC'],
-                                        'Repricing': price['CSC']
+                                        'Tax': price_arr_repricing[msg.result.response.passengers[j].name]['Tax'] + price['TAX'] + price['ROC'] - csc,
+                                        'Repricing': csc
                                     }
                                 }
                                 text_repricing = `
