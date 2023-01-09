@@ -8826,7 +8826,11 @@ function check_refund_partial_btn(){
                     $('.hold-seat-booking-train').prop('disabled', false);
                     $('.hold-seat-booking-train').removeClass("running");
                     document.getElementById('captcha').innerHTML = `
-                        <input type="checkbox" id="is_quick_refund" onclick="hide_cancel_div();"><label for="is_quick_refund">  Quick Refund</label>
+                        <label class="check_box_custom">
+                            <span class="span-search-ticket" style="color:black;"><label for="is_quick_refund"> Quick Refund</label></span>
+                            <input type="checkbox" id="is_quick_refund" onclick="hide_cancel_div();">
+                            <span class="check_box_span_custom"></span>
+                        </label>
                         <button class="btn-next primary-btn next-passenger-train ld-ext-right" id="request_captcha" style="width:100%;" type="button" value="Next" onclick="next_disabled();pre_refund_login();">
                             Check Refund Price
                             <div class="ld ld-ring ld-cycle"></div>
@@ -13472,7 +13476,11 @@ function captcha_time_limit_airline(){
             document.getElementById('elapse_time_captcha').innerHTML += ((captcha_time - time_limit_captcha)%60) +`s`;
         }else{
             document.getElementById('captcha').innerHTML = `
-                <input type="checkbox" id="is_quick_refund" onclick="hide_cancel_div();"><label for="is_quick_refund">  Quick Refund</label>
+                <label class="check_box_custom">
+                    <span class="span-search-ticket" style="color:black;"><label for="is_quick_refund"> Quick Refund</label></span>
+                    <input type="checkbox" id="is_quick_refund" onclick="hide_cancel_div();">
+                    <span class="check_box_span_custom"></span>
+                </label>
                 <button class="btn-next primary-btn next-passenger-train ld-ext-right" id="request_captcha" style="width:100%;" type="button" value="Next" onclick="next_disabled();pre_refund_login();">
                     Check Refund Price
                     <div class="ld ld-ring ld-cycle"></div>
@@ -13621,7 +13629,12 @@ function airline_get_booking_refund(data){
                         //document.getElementById('captcha').hidden = false;
 //                        document.getElementById('cancel').innerHTML = `<input class="primary-btn-ticket" style="width:100%;" type="button" onclick="check_refund_partial_btn();" value="Check Refund Price Partial"><hr/>`;
                         document.getElementById('captcha').innerHTML = `
-                            <input type="checkbox" id="is_quick_refund" onclick="hide_cancel_div();"><label for="is_quick_refund">  Quick Refund</label>
+                            <label class="check_box_custom">
+                                <span class="span-search-ticket" style="color:black;"><label for="is_quick_refund"> Quick Refund</label></span>
+                                <input type="checkbox" id="is_quick_refund" onclick="hide_cancel_div();">
+                                <span class="check_box_span_custom"></span>
+                            </label>
+
                             <button class="btn-next primary-btn next-passenger-train ld-ext-right" id="request_captcha" style="width:100%;" type="button" value="Next" onclick="next_disabled();pre_refund_login();">
                                 Check Refund Price
                                 <div class="ld ld-ring ld-cycle"></div>
@@ -13712,7 +13725,17 @@ function airline_get_booking_refund(data){
                                 text+=`<h6>Flight `+flight_counter+`</h6>`;
                                 if(moment().format('YYYY-MM-DD HH:mm:ss') < msg.result.response.provider_bookings[i].departure_date)
                                 {
-                                    text+=`<input type="checkbox" id="pnr_`+i+`_`+j+`" onclick="pnr_refund_onclick('pnr_`+i+`_`+j+`','pnr');"><label for="pnr_`+i+`_`+j+`">  Refund</label>`;
+                                    //text+=`<input type="checkbox" id="pnr_`+i+`_`+j+`" onclick="pnr_refund_onclick('pnr_`+i+`_`+j+`','pnr');"><label for="pnr_`+i+`_`+j+`">  Refund</label>`;
+                                    text+=`
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <label class="check_box_custom">
+                                                <span class="span-search-ticket" style="color:black;"><label for="pnr_`+i+`_`+j+`">  Refund</label></span>
+                                                <input type="checkbox" id="pnr_`+i+`_`+j+`" onclick="pnr_refund_onclick('pnr_`+i+`_`+j+`','pnr');">
+                                                <span class="check_box_span_custom"></span>
+                                            </label>
+                                        </div>
+                                    </div>`;
                                 }
                                 $text += 'Flight '+ flight_counter+'\n';
                                 flight_counter++;
@@ -13822,7 +13845,13 @@ function airline_get_booking_refund(data){
                                                     text+=`<tr>`;
                                                     if(moment().format('YYYY-MM-DD HH:mm:ss') < msg.result.response.provider_bookings[i].departure_date){
                                                         text+=`
-                                                        <td class="list-of-passenger-left"><input class="refund_pax" type="checkbox" id="pnr~`+msg.result.response.provider_bookings[provider].pnr+`~`+msg.result.response.passengers[pax].sequence+`~`+msg.result.response.provider_bookings[provider].journeys[journey].origin+`~`+msg.result.response.provider_bookings[provider].journeys[journey].destination+`~`+msg.result.response.provider_bookings[provider].journeys[journey].departure_date+`" onclick="pnr_refund_onclick('pnr~`+msg.result.response.provider_bookings[provider].pnr+`~`+msg.result.response.passengers[pax].sequence+`~`+msg.result.response.provider_bookings[provider].journeys[journey].origin+`~`+msg.result.response.provider_bookings[provider].journeys[journey].destination+`~`+msg.result.response.provider_bookings[provider].journeys[journey].departure_date+`','pax');" /></td>`;
+                                                        <td class="list-of-passenger-left">
+                                                            <label class="check_box_custom">
+                                                                <span class="span-search-ticket" style="color:black;"></span>
+                                                                <input class="refund_pax" type="checkbox" id="pnr~`+msg.result.response.provider_bookings[provider].pnr+`~`+msg.result.response.passengers[pax].sequence+`~`+msg.result.response.provider_bookings[provider].journeys[journey].origin+`~`+msg.result.response.provider_bookings[provider].journeys[journey].destination+`~`+msg.result.response.provider_bookings[provider].journeys[journey].departure_date+`" onclick="pnr_refund_onclick('pnr~`+msg.result.response.provider_bookings[provider].pnr+`~`+msg.result.response.passengers[pax].sequence+`~`+msg.result.response.provider_bookings[provider].journeys[journey].origin+`~`+msg.result.response.provider_bookings[provider].journeys[journey].destination+`~`+msg.result.response.provider_bookings[provider].journeys[journey].departure_date+`','pax');" />
+                                                                <span class="check_box_span_custom"></span>
+                                                            </label>
+                                                        </td>`;
                                                         pnr_list_checkbox[msg.result.response.provider_bookings[i].pnr+'_'+j]['checkbox'].push(`pnr~`+msg.result.response.provider_bookings[provider].pnr+`~`+msg.result.response.passengers[pax].sequence+`~`+msg.result.response.provider_bookings[provider].journeys[journey].origin+`~`+msg.result.response.provider_bookings[provider].journeys[journey].destination+`~`+msg.result.response.provider_bookings[provider].journeys[journey].departure_date);
                                                     }
                                                     else
@@ -13830,7 +13859,7 @@ function airline_get_booking_refund(data){
                                                     text+=`
                                                     <td>`+msg.result.response.passengers[pax].title+` `+msg.result.response.passengers[pax].first_name+` `+msg.result.response.passengers[pax].last_name+`</td>
                                                     <td>`+msg.result.response.passengers[pax].birth_date+`</td>
-                                                    <td><input type="text" class="refund_remarks" style="width:100%" id="remarks~`+msg.result.response.provider_bookings[provider].pnr+`~`+msg.result.response.passengers[pax].sequence+`~`+msg.result.response.provider_bookings[provider].journeys[journey].origin+`~`+msg.result.response.provider_bookings[provider].journeys[journey].destination+`~`+msg.result.response.provider_bookings[provider].journeys[journey].departure_date+`" name="remarks~`+msg.result.response.provider_bookings[provider].pnr+`~`+msg.result.response.passengers[pax].sequence+`~`+msg.result.response.provider_bookings[provider].journeys[journey].origin+`~`+msg.result.response.provider_bookings[provider].journeys[journey].destination+`~`+msg.result.response.provider_bookings[provider].journeys[journey].departure_date+`"/></td>
+                                                    <td><input type="text" class="form-control refund_remarks" style="width:100%" id="remarks~`+msg.result.response.provider_bookings[provider].pnr+`~`+msg.result.response.passengers[pax].sequence+`~`+msg.result.response.provider_bookings[provider].journeys[journey].origin+`~`+msg.result.response.provider_bookings[provider].journeys[journey].destination+`~`+msg.result.response.provider_bookings[provider].journeys[journey].departure_date+`" name="remarks~`+msg.result.response.provider_bookings[provider].pnr+`~`+msg.result.response.passengers[pax].sequence+`~`+msg.result.response.provider_bookings[provider].journeys[journey].origin+`~`+msg.result.response.provider_bookings[provider].journeys[journey].destination+`~`+msg.result.response.provider_bookings[provider].journeys[journey].departure_date+`"/></td>
                                                 </tr>`;
 
                                                 }
@@ -13863,7 +13892,13 @@ function airline_get_booking_refund(data){
                                                     text+=`<tr>`;
                                                     if(moment().format('YYYY-MM-DD HH:mm:ss') < msg.result.response.provider_bookings[i].departure_date){
                                                         text+=`
-                                                        <td class="list-of-passenger-left"><input class="refund_pax" type="checkbox" id="`+pnr_refund+`" onclick="pnr_refund_onclick('`+pnr_refund+`','pax');" /></td>`;
+                                                        <td class="list-of-passenger-left">
+                                                            <label class="check_box_custom">
+                                                                <span class="span-search-ticket" style="color:black;"></span>
+                                                                <input class="refund_pax" type="checkbox" id="`+pnr_refund+`" onclick="pnr_refund_onclick('`+pnr_refund+`','pax');" />
+                                                                <span class="check_box_span_custom" style="left:10px; top:-5px;"></span>
+                                                            </label>
+                                                        </td>`;
                                                         pnr_list_checkbox[msg.result.response.provider_bookings[i].pnr+'_'+0]['checkbox'].push(pnr_refund);
                                                     }
                                                     else
@@ -13871,7 +13906,7 @@ function airline_get_booking_refund(data){
                                                     text+=`
                                                     <td>`+msg.result.response.passengers[pax].title+` `+msg.result.response.passengers[pax].first_name+` `+msg.result.response.passengers[pax].last_name+`</td>
                                                     <td>`+msg.result.response.passengers[pax].birth_date+`</td>
-                                                    <td><input type="text" class="refund_remarks" style="width:100%" id="`+remark_refund+`" name="`+remark_refund+`"/></td>
+                                                    <td><input type="text" class="form-control refund_remarks" style="width:100%" id="`+remark_refund+`" name="`+remark_refund+`"/></td>
                                                 </tr>`;
                                                 }else{
                                                     pnr_refund += `pnr~`+msg.result.response.provider_bookings[provider].pnr+`~`+msg.result.response.passengers[pax].sequence+`~`+msg.result.response.provider_bookings[provider].journeys[journey].origin+`~`+msg.result.response.provider_bookings[provider].journeys[journey].destination+`~`+msg.result.response.provider_bookings[provider].journeys[journey].departure_date+` - `;
@@ -15665,7 +15700,11 @@ function check_refund_partial_btn_v2(){
                     $('.hold-seat-booking-train').removeClass("running");
                     document.getElementById('captcha').innerHTML = `
                         <!--<button class="btn-next primary-btn next-passenger-train ld-ext-right" id="request_captcha" style="width:100%;" type="button" value="Next" onclick="next_disabled();pre_refund_login();">-->
-                        <input type="checkbox" id="is_quick_refund" onclick="hide_cancel_div();"><label for="is_quick_refund">  Quick Refund</label>
+                        <label class="check_box_custom">
+                            <span class="span-search-ticket" style="color:black;"><label for="is_quick_refund"> Quick Refund</label></span>
+                            <input type="checkbox" id="is_quick_refund" onclick="hide_cancel_div();">
+                            <span class="check_box_span_custom"></span>
+                        </label>
                         <button class="btn-next primary-btn next-passenger-train ld-ext-right" id="request_captcha" style="width:100%;" type="button" value="Next" onclick="next_disabled();pre_refund_login_v2();">
                             Check Refund Price
                             <div class="ld ld-ring ld-cycle"></div>
