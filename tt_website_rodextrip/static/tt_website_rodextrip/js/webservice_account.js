@@ -717,6 +717,40 @@ function get_transaction_history_ledger(type,use_cache){
     });
 }
 
+function sort_transaction(){
+    document.getElementById("table_reservation").innerHTML = '';
+    if ($("input[name='view_type_reservation']:checked").val() == "card_mode") {
+        print_type = 'card_mode'
+    }else{
+        print_type = 'table_mode';
+    }
+    // sort data
+    sort_type = $("input[name='sort_reservation_id']:checked").val()
+    if(sort_type != 'undefined'){
+        for(var i = 0; i < data_search.length-1; i++) {
+            for(var j = i+1; j < data_search.length; j++) {
+                if(sort_type == 'flight_number'){
+                    if(data_search[i].flight_number > data_search[j].flight_number){
+                        var temp = data_search[i];
+                        data_search[i] = data_search[j];
+                        data_search[j] = temp;
+                    }
+                }else if(sort_type == 'departure_date'){
+                    if(data_search[i].departure_date > data_search[j].departure_date){
+                        var temp = data_search[i];
+                        data_search[i] = data_search[j];
+                        data_search[j] = temp;
+                    }
+                }
+            }
+        }
+    }
+    data_counter = 0;
+    console.log(data_search);
+    table_reservation(data_search, print_type);
+
+}
+
 function get_transactions(type){
     $('#loading-search-reservation').show();
     document.getElementById('button').disabled = true;
@@ -785,6 +819,18 @@ function get_transactions(type){
     }else if(filter == 'state' && state == '')
         filter = '';
     limit_transaction = 20;
+    if(carrier_code.includes('airline')){
+        document.getElementById('provider_div').style.display = 'block';
+        document.getElementById('total_pax_div').style.display = 'block';
+        document.getElementById('empty_div').style.display = 'block';
+        document.getElementById('sort_div').style.display = 'block';
+
+    }else{
+        document.getElementById('provider_div').style.display = 'none';
+        document.getElementById('total_pax_div').style.display = 'none';
+        document.getElementById('empty_div').style.display = 'none';
+        document.getElementById('sort_div').style.display = 'none';
+    }
     $.ajax({
        type: "POST",
        url: "/webservice/account",
@@ -804,7 +850,9 @@ function get_transactions(type){
             'booker_name': booker_name,
             'passenger_name': passenger_name,
             'pnr': pnr,
-            'using_cache': 'false'
+            'using_cache': 'false',
+            'provider': carrier_code.includes('airline') ? document.getElementById('provider').value : '',
+            'total_pax': carrier_code.includes('airline') ? document.getElementById('total_pax').value : '',
        },
        success: function(msg) {
         document.getElementById('search').style.display = 'block';
@@ -914,20 +962,30 @@ function get_transactions(type){
 
                 }else if(msg.result.response[filter].length >= 20){
                     offset_transaction++;
-                    if ($("input[name='view_type_reservation']:checked").val() == "card_mode") {
-                        table_reservation(msg.result.response[filter], 'card_mode');
+                    sort_type = $("input[name='sort_transaction_id']:checked").val()
+                    if(sort_type == 'undefined'){
+                        if ($("input[name='view_type_reservation']:checked").val() == "card_mode") {
+                            table_reservation(msg.result.response[filter], 'card_mode');
+                        }else{
+                            table_reservation(msg.result.response[filter], 'table_mode');
+                        }
                     }else{
-                        table_reservation(msg.result.response[filter], 'table_mode');
+                        sort_transaction();
                     }
 
                     load_more = true;
                     document.getElementById('reservation_found').style.display = 'none';
 //                    $('#reservation_found').hide();
                 }else{
-                    if ($("input[name='view_type_reservation']:checked").val() == "card_mode") {
-                        table_reservation(msg.result.response[filter], 'card_mode');
+                    sort_type = $("input[name='sort_transaction_id']:checked").val()
+                    if(sort_type == 'undefined'){
+                        if ($("input[name='view_type_reservation']:checked").val() == "card_mode") {
+                            table_reservation(msg.result.response[filter], 'card_mode');
+                        }else{
+                            table_reservation(msg.result.response[filter], 'table_mode');
+                        }
                     }else{
-                        table_reservation(msg.result.response[filter], 'table_mode');
+                        sort_transaction();
                     }
                     document.getElementById('reservation_found').style.display = 'none';
 //                    $('#reservation_found').hide();

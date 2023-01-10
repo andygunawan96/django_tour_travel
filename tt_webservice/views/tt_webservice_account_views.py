@@ -452,7 +452,9 @@ def get_transactions(request):
                 'order_number': order_number,
                 "date_from": start_date,
                 "date_to": end_date,
-                "state": request.POST['state']
+                "state": request.POST['state'],
+                "provider": request.POST['provider'],
+                "total_pax": request.POST['total_pax']
             }
             headers = {
                 "Accept": "application/json,text/html,application/xml",
