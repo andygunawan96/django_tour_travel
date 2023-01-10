@@ -2016,7 +2016,6 @@ function save_retrieve_booking_from_vendor(){
     }
 }
 
-
 function airline_get_provider_list(type, data=''){
     $.ajax({
        type: "POST",
@@ -16054,4 +16053,31 @@ function upload_image(){
             document.getElementById('update_passenger_customer').disabled = false;
        }
     });
+}
+
+function get_carrier_providers_reservation(){
+    getToken();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/airline",
+       headers:{
+            'action': 'get_provider_description',
+       },
+       data: {
+            'signature': signature
+       },
+       success: function(msg) {
+           provider_list = msg;
+           text = '';
+           for(i in provider_list){
+                text += `<option value="`+i+`">`+i+`</option>`;
+           }
+           document.getElementById('provider').innerHTML += text;
+           $('#provider').niceSelect('update');
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+           error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error airline carrier provider');
+       },timeout: 60000
+    });
+
 }
