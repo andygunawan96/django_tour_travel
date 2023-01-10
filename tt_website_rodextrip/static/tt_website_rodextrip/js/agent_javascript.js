@@ -10,7 +10,7 @@ function table_reservation(data, mode_view, restart=false){
     }
 
     if(mode_view == "table_mode"){
-        if(document.getElementById('reservation_table_mode_id') == null)
+        if(document.getElementById('reservation_table_mode_id') == null){
             text+=`
         <div class="col-lg-12 mb-3" style="overflow:auto;">
             <table style="width:100%; margin-top:15px; background:white;" id="reservation_table_mode_id" class="list-of-reservation">
@@ -20,7 +20,18 @@ function table_reservation(data, mode_view, restart=false){
                     <th style="width:4%;">PNR</th>
                     <th style="width:5%;">Provider</th>
                     <th style="width:10%;">Hold Date</th>
-                    <th style="width:6%;">State</th>
+                    <th style="width:6%;">State</th>`;
+                    if($("input[name='filter']:checked").val() == 'hotel'){
+                        text+=`
+                    <th style="width:6%;">Total R/N</th>`;
+                    }else{
+                        text+=`
+                    <th style="width:6%;">Total Pax</th>`;
+                    }
+                    if($("input[name='filter']:checked").val() == 'airline')
+                        text+=`
+                    <th style="width:6%;">Flight Number</th>`;
+                    text+=`
                     <th style="width:10%;">Book Date</th>
                     <th style="width:10%;">Booker name</th>
                     <th style="width:9%;">Booked By</th>
@@ -29,6 +40,7 @@ function table_reservation(data, mode_view, restart=false){
                     <th style="width:13%;">Info</th>
                     <th style="width:3%;">Action</th>
                 </tr>`;
+        }
                 for(i in data){
                     text+=`
                     <tr>
@@ -68,7 +80,10 @@ function table_reservation(data, mode_view, restart=false){
                                 text+=`<b>`;
                             }
 
-                            text+=``+data[i].state_description+`</b></td>`;
+                            text+=data[i].state_description+`</b></td>`;
+                            text+=`<td>`+data[i].total_pax+`</b></td>`;
+                            if($("input[name='filter']:checked").val() == 'airline')
+                                text+=`<td>`+data[i].flight_number+`</b></td>`;
                             text+= `<td>`+data[i].booked_date+`</td>`;
                             text+= `<td>`+data[i].booker.name+`</td>`;
 
@@ -281,7 +296,7 @@ function table_reservation(data, mode_view, restart=false){
 
                     text+=`
                         <div class="col-lg-4 for-show-website" style="border-bottom: 1px solid #cdcdcd; padding: 15px;"></div>
-                        <div class="col-lg-6 mb-2" style="padding: 15px;">
+                        <div class="col-lg-4 mb-2" style="padding: 15px;">
                             <b>Description: </b><br/>`;
                             if(data[i].transaction_addtional_info != '')
                                 text+= `<span>`+data[i].transaction_addtional_info+`</span>`;
@@ -289,6 +304,25 @@ function table_reservation(data, mode_view, restart=false){
                                 text+= `<span>-</td>`;
                     text+=`
                         </div>`;
+                    text+=`
+                        <div class="col-lg-4 mb-2" style="padding: 15px;">`;
+                        if($("input[name='filter']:checked").val() == 'hotel'){
+                            text+=`
+                            <b>Total R/N: </b><br/>`;
+                        }else{
+                            text+=`
+                            <b>Total Pax: </b><br/>`;
+                        }
+                            text+= `<span>`+data[i].total_pax+`</span>
+                        </div>`;
+                    if($("input[name='filter']:checked").val() == 'airline'){
+                        text+=`
+                        <div class="col-lg-4 mb-2" style="padding: 15px;">
+                            <b>Flight Number: </b><br/>`;
+                            text+= `<span>`+data[i].flight_number+`</span>
+                        </div>`;
+                    }
+
 
         //        if(data[i].provider_type == 'offline'){
         //            text+= `<td>`;

@@ -821,13 +821,11 @@ function get_transactions(type){
     limit_transaction = 20;
     if(carrier_code.includes('airline')){
         document.getElementById('provider_div').style.display = 'block';
-        document.getElementById('total_pax_div').style.display = 'block';
         document.getElementById('empty_div').style.display = 'block';
         document.getElementById('sort_div').style.display = 'block';
 
     }else{
         document.getElementById('provider_div').style.display = 'none';
-        document.getElementById('total_pax_div').style.display = 'none';
         document.getElementById('empty_div').style.display = 'none';
         document.getElementById('sort_div').style.display = 'none';
     }
@@ -852,7 +850,6 @@ function get_transactions(type){
             'pnr': pnr,
             'using_cache': 'false',
             'provider': carrier_code.includes('airline') ? document.getElementById('provider').value : '',
-            'total_pax': carrier_code.includes('airline') ? document.getElementById('total_pax').value : '',
        },
        success: function(msg) {
         document.getElementById('search').style.display = 'block';
