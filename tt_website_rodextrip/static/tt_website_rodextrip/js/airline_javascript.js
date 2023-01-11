@@ -5779,12 +5779,13 @@ function check_passenger(adult, child, infant, type=''){
            document.getElementById('adult_first_name'+i).style['border-color'] = '#EFEFEF';
        }
        //check lastname
-       if(check_name_airline(document.getElementById('adult_first_name'+i).value, document.getElementById('adult_last_name'+i).value) != ''){
-           error_log += 'Please '+check_name_airline(document.getElementById('adult_first_name'+i).value, document.getElementById('adult_last_name'+i).value)+' adult passenger '+i+'!</br>\n';
-           document.getElementById('adult_last_name'+i).style['border-color'] = 'red';
-       }else{
-           document.getElementById('adult_last_name'+i).style['border-color'] = '#EFEFEF';
-       }
+       // no check update 10 jan 2023 IVAN case A JAN
+//       if(check_name_airline(document.getElementById('adult_first_name'+i).value, document.getElementById('adult_last_name'+i).value) != ''){
+//           error_log += 'Please '+check_name_airline(document.getElementById('adult_first_name'+i).value, document.getElementById('adult_last_name'+i).value)+' adult passenger '+i+'!</br>\n';
+//           document.getElementById('adult_last_name'+i).style['border-color'] = 'red';
+//       }else{
+//           document.getElementById('adult_last_name'+i).style['border-color'] = '#EFEFEF';
+//       }
        if(birth_date_required == true){
            if(check_date(document.getElementById('adult_birth_date'+i).value)==false){
                error_log+= 'Birth date wrong for passenger adult '+i+'!</br>\n';
@@ -6090,12 +6091,13 @@ function check_passenger(adult, child, infant, type=''){
            document.getElementById('child_first_name'+i).style['border-color'] = '#EFEFEF';
        }
        //check lastname
-       if(check_name_airline(document.getElementById('child_first_name'+i).value, document.getElementById('child_last_name'+i).value) != ''){
-           error_log+= 'Please '+check_name_airline(document.getElementById('child_first_name'+i).value, document.getElementById('child_last_name'+i).value)+' child passenger '+i+'!</br>\n';
-           document.getElementById('child_last_name'+i).style['border-color'] = 'red';
-       }else{
-           document.getElementById('child_last_name'+i).style['border-color'] = '#EFEFEF';
-       }
+       // no check update 10 jan 2023 IVAN case A JAN
+//       if(check_name_airline(document.getElementById('child_first_name'+i).value, document.getElementById('child_last_name'+i).value) != ''){
+//           error_log+= 'Please '+check_name_airline(document.getElementById('child_first_name'+i).value, document.getElementById('child_last_name'+i).value)+' child passenger '+i+'!</br>\n';
+//           document.getElementById('child_last_name'+i).style['border-color'] = 'red';
+//       }else{
+//           document.getElementById('child_last_name'+i).style['border-color'] = '#EFEFEF';
+//       }
        if(check_date(document.getElementById('child_birth_date'+i).value)==false){
            error_log+= 'Birth date wrong for passenger child '+i+'!</br>\n';
            document.getElementById('child_birth_date'+i).style['border-color'] = 'red';
@@ -6378,12 +6380,13 @@ function check_passenger(adult, child, infant, type=''){
            document.getElementById('infant_first_name'+i).style['border-color'] = '#EFEFEF';
        }
        //check lastname
-       if(check_name_airline(document.getElementById('infant_first_name'+i).value, document.getElementById('infant_last_name'+i).value) != ''){
-           error_log+= 'Please '+check_name_airline(document.getElementById('infant_first_name'+i).value, document.getElementById('infant_last_name'+i).value)+' infant passenger '+i+'!</br>\n';
-           document.getElementById('infant_last_name'+i).style['border-color'] = 'red';
-       }else{
-           document.getElementById('infant_last_name'+i).style['border-color'] = '#EFEFEF';
-       }
+       // no check update 10 jan 2023 IVAN case A JAN
+//       if(check_name_airline(document.getElementById('infant_first_name'+i).value, document.getElementById('infant_last_name'+i).value) != ''){
+//           error_log+= 'Please '+check_name_airline(document.getElementById('infant_first_name'+i).value, document.getElementById('infant_last_name'+i).value)+' infant passenger '+i+'!</br>\n';
+//           document.getElementById('infant_last_name'+i).style['border-color'] = 'red';
+//       }else{
+//           document.getElementById('infant_last_name'+i).style['border-color'] = '#EFEFEF';
+//       }
        if(check_date(document.getElementById('infant_birth_date'+i).value)==false){
            error_log+= 'Birth date wrong for passenger infant '+i+'!</br>\n';
            document.getElementById('infant_birth_date'+i).style['border-color'] = 'red';
@@ -6810,12 +6813,13 @@ function check_passenger_aftersales(adult, child, infant, type=''){
            document.getElementById('adult_first_name'+i).style['border-color'] = '#EFEFEF';
        }
        //check lastname
-       if(check_name_airline(document.getElementById('adult_first_name'+i).value, document.getElementById('adult_last_name'+i).value) != ''){
-           error_log += 'Please '+check_name_airline(document.getElementById('adult_first_name'+i).value, document.getElementById('adult_last_name'+i).value)+' adult passenger '+i+'!</br>\n';
-           document.getElementById('adult_last_name'+i).style['border-color'] = 'red';
-       }else{
-           document.getElementById('adult_last_name'+i).style['border-color'] = '#EFEFEF';
-       }
+       // no check update 10 jan 2023 IVAN case A JAN
+//       if(check_name_airline(document.getElementById('adult_first_name'+i).value, document.getElementById('adult_last_name'+i).value) != ''){
+//           error_log += 'Please '+check_name_airline(document.getElementById('adult_first_name'+i).value, document.getElementById('adult_last_name'+i).value)+' adult passenger '+i+'!</br>\n';
+//           document.getElementById('adult_last_name'+i).style['border-color'] = 'red';
+//       }else{
+//           document.getElementById('adult_last_name'+i).style['border-color'] = '#EFEFEF';
+//       }
        if(birth_date_required == true){
            if(check_date(document.getElementById('adult_birth_date'+i).value)==false){
                error_log+= 'Birth date wrong for passenger adult '+i+'!</br>\n';
@@ -7031,12 +7035,13 @@ function check_passenger_aftersales(adult, child, infant, type=''){
            document.getElementById('child_first_name'+i).style['border-color'] = '#EFEFEF';
        }
        //check lastname
-       if(check_name_airline(document.getElementById('child_first_name'+i).value, document.getElementById('child_last_name'+i).value) != ''){
-           error_log+= 'Please '+check_name_airline(document.getElementById('child_first_name'+i).value, document.getElementById('child_last_name'+i).value)+' child passenger '+i+'!</br>\n';
-           document.getElementById('child_last_name'+i).style['border-color'] = 'red';
-       }else{
-           document.getElementById('child_last_name'+i).style['border-color'] = '#EFEFEF';
-       }
+       // no check update 10 jan 2023 IVAN case A JAN
+//       if(check_name_airline(document.getElementById('child_first_name'+i).value, document.getElementById('child_last_name'+i).value) != ''){
+//           error_log+= 'Please '+check_name_airline(document.getElementById('child_first_name'+i).value, document.getElementById('child_last_name'+i).value)+' child passenger '+i+'!</br>\n';
+//           document.getElementById('child_last_name'+i).style['border-color'] = 'red';
+//       }else{
+//           document.getElementById('child_last_name'+i).style['border-color'] = '#EFEFEF';
+//       }
        if(check_date(document.getElementById('child_birth_date'+i).value)==false){
            error_log+= 'Birth date wrong for passenger child '+i+'!</br>\n';
            document.getElementById('child_birth_date'+i).style['border-color'] = 'red';
@@ -7230,12 +7235,13 @@ function check_passenger_aftersales(adult, child, infant, type=''){
            document.getElementById('infant_first_name'+i).style['border-color'] = '#EFEFEF';
        }
        //check lastname
-       if(check_name_airline(document.getElementById('infant_first_name'+i).value, document.getElementById('infant_last_name'+i).value) != ''){
-           error_log+= 'Please '+check_name_airline(document.getElementById('infant_first_name'+i).value, document.getElementById('infant_last_name'+i).value)+' infant passenger '+i+'!</br>\n';
-           document.getElementById('infant_last_name'+i).style['border-color'] = 'red';
-       }else{
-           document.getElementById('infant_last_name'+i).style['border-color'] = '#EFEFEF';
-       }
+       // no check update 10 jan 2023 IVAN case A JAN
+//       if(check_name_airline(document.getElementById('infant_first_name'+i).value, document.getElementById('infant_last_name'+i).value) != ''){
+//           error_log+= 'Please '+check_name_airline(document.getElementById('infant_first_name'+i).value, document.getElementById('infant_last_name'+i).value)+' infant passenger '+i+'!</br>\n';
+//           document.getElementById('infant_last_name'+i).style['border-color'] = 'red';
+//       }else{
+//           document.getElementById('infant_last_name'+i).style['border-color'] = '#EFEFEF';
+//       }
        if(check_date(document.getElementById('infant_birth_date'+i).value)==false){
            error_log+= 'Birth date wrong for passenger infant '+i+'!</br>\n';
            document.getElementById('infant_birth_date'+i).style['border-color'] = 'red';
