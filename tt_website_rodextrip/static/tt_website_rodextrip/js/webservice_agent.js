@@ -6145,6 +6145,7 @@ function check_name_airline(first_name, last_name){
             if(first_name.length == 1)
                 log = "first name can't 1 character in word of";
         }
+        return ''; // no check update 10 jan 2023 IVAN case A JAN
         return log;
 
     }else{

@@ -523,8 +523,8 @@ function get_banner(type,page){
 //                                        </div>
                         text+=`
                         <div class="modal fade" id="myModalPromotion" role="dialog">
-                            <div class="modal-dialog" style="width:500px;">
-                                <div class="modal-content" style="width:500px;">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
                                     <div class="row">
                                         <div class="col-lg-12">
                                             <div class="row">
@@ -1375,8 +1375,16 @@ function get_page(data){
                     msg.result.response.body = msg.result.response.body.replace(/&gt;/g, '>');
                     msg.result.response.body = msg.result.response.body.replace(/&nbsp;/g,' ');
                     document.getElementById('container').innerHTML = msg.result.response.body;
-                    document.getElementById('title').innerHTML = `<h1 style="text-align:center;color:`+color+`">`+msg.result.response.title+`</h1>`;
+                    document.getElementById('title').innerHTML = `<h1 style="text-align:center;">`+msg.result.response.title+`</h1>`;
                     document.getElementById('header_page').innerHTML = `<img src="`+msg.result.response.image_carousel+`" style="max-height:350px;max-width:100%;" alt="`+msg.result.response.title+`" title="" />`;
+                    document.getElementById('share_page').innerHTML = `
+                    <b>Share: </b>
+                    <a target="_blank" href="https://twitter.com/intent/tweet?url=`+msg.result.response.title+` `+window.location.href+`&text=" class="share-btn twitter">Twitter</a>
+                    <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=`+window.location.href+`" class="share-btn facebook">Facebook</a>
+                    <a target="_blank" href="https://wa.me/?text=`+msg.result.response.title+` `+ window.location.href +`" class="share-btn whatsapp">Whatsapp</a>
+                    <a target="_blank" href="https://telegram.me/share/url?text=`+msg.result.response.title+` &url=`+window.location.href+`" class="share-btn telegram">Telegram</a>
+                    <a target="_blank" href="line://msg/text/`+msg.result.response.title+`  `+window.location.href+`" class="share-btn line">Line</a>
+                    <a target="_blank" href="mailto:?subject=`+msg.result.response.title+` &body=`+window.location.href+`" class="share-btn email">Email</a>`;
                 }else{
                     document.getElementById('container').innerHTML = `<center><img src="/static/tt_website_rodextrip/images/question.jpeg" style="max-height:250px;" /></center>`;
                     document.getElementById('title').innerHTML = `<h1 style="text-align:center;color:`+color+`">Page Not Found</h1>`;

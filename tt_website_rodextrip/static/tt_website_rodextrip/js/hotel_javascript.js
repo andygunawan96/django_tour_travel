@@ -597,8 +597,8 @@ function sort(response, check_filter){
     var city_ids_length = parseInt(response.city_ids.length);
     text+=`
     <div onclick="show_hide_city_hotel();" style="border:1px solid #cdcdcd; background-color:white; margin-bottom:15px; padding:10px; cursor:pointer;">
-        <h6 id="city_hotel_down"> Suggestions by City - `+city_ids_length+` results <i class="fas fa-chevron-down" style="color:#f15a22; float:right;"></i></h6>
-        <h6 id="city_hotel_up" style="display:none;"> Suggestions by City - `+city_ids_length+` results <i class="fas fa-chevron-up" style="color:#f15a22; float:right;"></i></h6>
+        <h6 id="city_hotel_down"> Suggestions by City - `+city_ids_length+` results <i class="fas fa-chevron-down" style="color:`+color+`; float:right;"></i></h6>
+        <h6 id="city_hotel_up" style="display:none;"> Suggestions by City - `+city_ids_length+` results <i class="fas fa-chevron-up" style="color:`+color+`; float:right;"></i></h6>
     </div>`;
     node.innerHTML = text;
     document.getElementById("hotel_result_city").appendChild(node);
@@ -647,8 +647,8 @@ function sort(response, check_filter){
     var landmark_ids_length = parseInt(response.landmark_ids.length);
     text+=`
     <div onclick="show_hide_landmark_hotel();" style="border:1px solid #cdcdcd; background-color:white; margin-bottom:15px; padding:10px; cursor:pointer;">
-        <h6 id="landmark_hotel_down"> Suggestions by Landmark - `+landmark_ids_length+` results <i class="fas fa-chevron-down" style="color:#f15a22; float:right;"></i></h6>
-        <h6 id="landmark_hotel_up" style="display:none;"> Suggestions by Landmark - `+landmark_ids_length+` results <i class="fas fa-chevron-up" style="color:#f15a22; float:right;"></i></h6>
+        <h6 id="landmark_hotel_down"> Suggestions by Landmark - `+landmark_ids_length+` results <i class="fas fa-chevron-down" style="color:`+color+`; float:right;"></i></h6>
+        <h6 id="landmark_hotel_up" style="display:none;"> Suggestions by Landmark - `+landmark_ids_length+` results <i class="fas fa-chevron-up" style="color:`+color+`; float:right;"></i></h6>
     </div>`;
     node.innerHTML = text;
     document.getElementById("hotel_result_landmark").appendChild(node);
@@ -2203,9 +2203,6 @@ function hotel_detail(old_cancellation_policy){
 
     text += `<div class="row">
         <div class="col-lg-12"><hr/></div>`;
-        if(document.URL.split('/')[document.URL.split('/').length-1] == 'review' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
-            text+=`<div class="col-lg-12"><div style="text-align:right;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:auto; height:25px; cursor:pointer;" onclick="show_repricing();"/></div></div>`;
-        }
         if (typeof upsell_price !== 'undefined'){
             if(upsell_price != 0){
                 //di gabung ke room terakhir
@@ -2241,6 +2238,10 @@ function hotel_detail(old_cancellation_policy){
     }catch(err){
         console.log(err); // error kalau ada element yg tidak ada
     }
+    if(document.URL.split('/')[document.URL.split('/').length-1] == 'review' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
+        text+=`<div class="row"><div class="col-lg-12"><div style="text-align:right;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:auto; height:25px; cursor:pointer;" onclick="show_repricing();"/></div></div></div>`;
+    }
+
     if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
         text+=`<br/>`;
         text+= print_commission(commission,'show_commission_hotel')
@@ -3079,7 +3080,7 @@ function render_room_hotel(data_room_hotel_list){
             for (var ro = 0; ro < room_dict.length; ro++) {
                 if (room_dict[ro] != current_room) {
                     if (cnt_room > 0) {
-                        show_name_room += '<span style="color:#f15a22;">'+cnt_room+'x </span>'+ current_room+' + ';
+                        show_name_room += '<span style="color:'+color+';">'+cnt_room+'x </span>'+ current_room+' + ';
                         title_name_room += cnt_room+'x '+ current_room+' + ';
                     }
                     current_room = room_dict[ro];
@@ -3089,7 +3090,7 @@ function render_room_hotel(data_room_hotel_list){
                 }
             }
             if (cnt_room > 0) {
-                show_name_room += '<span style="color:#f15a22;">'+cnt_room+'x </span>'+ current_room;
+                show_name_room += '<span style="color:'+color+';">'+cnt_room+'x </span>'+ current_room;
                 title_name_room += cnt_room+'x '+ current_room;
             }
 
