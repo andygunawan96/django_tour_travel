@@ -741,14 +741,18 @@ function sort_transaction(){
                         data_search[i] = data_search[j];
                         data_search[j] = temp;
                     }
+                }else{
+                    if(data_search[i].order_number < data_search[j].order_number){
+                        var temp = data_search[i];
+                        data_search[i] = data_search[j];
+                        data_search[j] = temp;
+                    }
                 }
             }
         }
     }
     data_counter = 0;
-    console.log(data_search);
     table_reservation(data_search, print_type);
-
 }
 
 function get_transactions(type){
