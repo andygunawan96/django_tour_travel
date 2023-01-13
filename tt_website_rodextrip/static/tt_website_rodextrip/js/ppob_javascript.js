@@ -13,44 +13,86 @@ month_list = [
     ['12', 'Dec'],
 ]
 
-nominal_number_list = [
-    ['0811', 'TSEL'],
-    ['0812', 'TSEL'],
-    ['0813', 'TSEL'],
-    ['0821', 'TSEL'],
-    ['0822', 'TSEL'],
-    ['0852', 'TSEL'],
-    ['0853', 'TSEL'],
-    ['0823', 'TSEL'],
-    ['0851', 'TSEL'],
-    ['0814', 'ISAT'],
-    ['0815', 'ISAT'],
-    ['0816', 'ISAT'],
-    ['0855', 'ISAT'],
-    ['0856', 'ISAT'],
-    ['0857', 'ISAT'],
-    ['0858', 'ISAT'],
-    ['0817', 'XL'],
-    ['0818', 'XL'],
-    ['0819', 'XL'],
-    ['0859', 'XL'],
-    ['0877', 'XL'],
-    ['0878', 'XL'],
-    ['0895', 'TR'],
-    ['0896', 'TR'],
-    ['0897', 'TR'],
-    ['0898', 'TR'],
-    ['0899', 'TR'],
-    ['0881', 'SM'],
-    ['0882', 'SM'],
-    ['0883', 'SM'],
-    ['0884', 'SM'],
-    ['0885', 'SM'],
-    ['0886', 'SM'],
-    ['0887', 'SM'],
-    ['0888', 'SM'],
-    ['0889', 'SM'],
-]
+nominal_number_list = {
+    'mkm': [
+        ['0811', 'TSEL'],
+        ['0812', 'TSEL'],
+        ['0813', 'TSEL'],
+        ['0821', 'TSEL'],
+        ['0822', 'TSEL'],
+        ['0852', 'TSEL'],
+        ['0853', 'TSEL'],
+        ['0823', 'TSEL'],
+        ['0851', 'TSEL'],
+        ['0814', 'ISAT'],
+        ['0815', 'ISAT'],
+        ['0816', 'ISAT'],
+        ['0855', 'ISAT'],
+        ['0856', 'ISAT'],
+        ['0857', 'ISAT'],
+        ['0858', 'ISAT'],
+        ['0817', 'XL'],
+        ['0818', 'XL'],
+        ['0819', 'XL'],
+        ['0859', 'XL'],
+        ['0877', 'XL'],
+        ['0878', 'XL'],
+        ['0895', 'TR'],
+        ['0896', 'TR'],
+        ['0897', 'TR'],
+        ['0898', 'TR'],
+        ['0899', 'TR'],
+        ['0881', 'SM'],
+        ['0882', 'SM'],
+        ['0883', 'SM'],
+        ['0884', 'SM'],
+        ['0885', 'SM'],
+        ['0886', 'SM'],
+        ['0887', 'SM'],
+        ['0888', 'SM'],
+        ['0889', 'SM'],
+    ],
+    'ppob_espay': [
+        ['0811', 'TS'],
+        ['0812', 'TS'],
+        ['0813', 'TS'],
+        ['0821', 'TS'],
+        ['0822', 'TS'],
+        ['0852', 'TS'],
+        ['0853', 'TS'],
+        ['0823', 'TS'],
+        ['0851', 'TS'],
+        ['0817', 'XR'],
+        ['0818', 'XR'],
+        ['0819', 'XR'],
+        ['0859', 'XR'],
+        ['0877', 'XR'],
+        ['0878', 'XR'],
+        ['0895', 'TR', 'TI'],
+        ['0896', 'TR', 'TI'],
+        ['0897', 'TR', 'TI'],
+        ['0898', 'TR', 'TI'],
+        ['0899', 'TR', 'TI'],
+        ['0881', 'FR'],
+        ['0882', 'FR'],
+        ['0883', 'FR'],
+        ['0884', 'FR'],
+        ['0885', 'FR'],
+        ['0886', 'FR'],
+        ['0887', 'FR'],
+        ['0888', 'FR'],
+        ['0889', 'FR'],
+        ['9991', 'BT'],
+        ['9992', 'BT'],
+        ['9993', 'BT'],
+        ['9994', 'BT'],
+        ['9995', 'BT'],
+        ['9996', 'BT'],
+        ['9997', 'BT'],
+        ['9998', 'BT'],
+        ['9999', 'BT'],
+    ]
+}
 
 checking_number = 0;
 
@@ -89,6 +131,45 @@ function getrupiah(price){
     }
 }
 
+function get_carrier_setup(car_provider){
+    text='';
+    counter = 0;
+    for(i in ppob_data.product_data){
+        if (check_provider_has_carrier(car_provider, ppob_data.product_data[i]) == true)
+        {
+            text+=`
+            <label class="radio-img" style="vertical-align:top;">`;
+            if(counter == 0){
+                text+=`<input type="radio" checked="checked" name="bills_type" value="`+i+`">`;
+            }else{
+                text+=`<input type="radio" name="bills_type" value="`+i+`">`;
+            }
+            img_path = "/static/tt_website_rodextrip/images/icon/"+i.toString().toLowerCase().replace('-','').replace(' ','_')+".png";
+            text+=`<img src="`+img_path+`" alt="`+i.toString().toUpperCase()+`" style="width:70px; height:70px; padding:0px;"><br/>
+            <div style="text-align:center; margin-top:5px; max-width:90px; height: 50px; word-break: break-word;"><span style="font-size:13px; color:`+text_color+`;">`+i.toString().toUpperCase()+`</span></div>
+            </label>`;
+            counter++;
+        }
+    }
+    document.getElementById('radio_bill_search2').innerHTML = text;
+    set_container_bill();
+}
+
+function check_provider_has_carrier(car_provider, prod_data)
+{
+    final_res = false;
+    for (j in prod_data)
+    {
+        cur_carrier = prod_data[j].code;
+        if (carrier_provider_ppob.hasOwnProperty(cur_carrier) && carrier_provider_ppob[cur_carrier].includes(car_provider))
+        {
+            final_res = true;
+            break;
+        }
+    }
+    return final_res;
+}
+
 function set_container_bill(){
     $bpjs_type_name = '';
     $pln_type_name = '';
@@ -104,88 +185,72 @@ function set_container_bill(){
         }
     }
 
+    var radios_prov = document.getElementsByName('bills_provider');
+    for (var k = 0, prov_length = radios_prov.length; k < prov_length; k++) {
+        if (radios_prov[k].checked) {
+            // do whatever you want with the checked radio
+            bill_prov = radios_prov[k].value;
+            // only one radio can be logically checked, don't check the rest
+            break;
+        }
+    }
+
     if(template == 1){
         if(bill_type == 'bpjs'){
             text = `
-                <div class="col-lg-12 mb-3" style="padding:0px; text-align:left;">
-                    <div class="input-container-search-ticket">`;
-                        for(i in ppob_data.product_data[bill_type]){
-                            text+=`
-                            <label class="radio-button-custom" style="margin-bottom:0px;">
-                                <span style="font-size:13px; color:`+text_color+`;">`+ppob_data.product_data[bill_type][i].name+`</span>`;
-                            if(i == 0){
-                                text+=`<input type="radio" checked="checked" name="bpjs_type" onchange="get_bpjs_name('`+ppob_data.product_data[bill_type][i].name+`');" value="`+ppob_data.product_data[bill_type][i].code+`">`;
-                                $bpjs_type_name = ppob_data.product_data[bill_type][i].name;
-                            }else{
-                                text+=`<input type="radio" name="pln_type" onchange="get_bpjs_name('`+ppob_data.product_data[bill_type][i].name+`');" value="`+ppob_data.product_data[bill_type][i].code+`">`;
-                            }
-                            text+=`
-                                <span class="checkmark-radio"></span>
-                            </label>`;
-                        }
-                        text+=`
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-12" style="padding:0px;" id="train_date_search">
-                    <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Pay Until</span>
-                    <div class="input-container-search-ticket btn-group">
-                        <div class="form-select" id="default-select">
-                            <select id="bpjs_month" name="bpjs_month" class="nice-select-default">`;
-                            print_month = false;
-                            max_count = 12;
-                            for(i in month_list){
-                                if(moment().format('MMM') == month_list[i][1]){
-                                    print_month = true;
-                                    month_counter = 1;
-                                }if(print_month == true){
-                                    text+= `<option value='`+month_counter+`'>`+month_list[i][1]+` `+new Date().getFullYear()+`</option>`;
-                                    month_counter++;
-                                    max_count--;
+                <div class="col-lg-12" style="padding:0px; text-align:left;">
+                    <span class="span-search-ticket">Product Type</span>
+                    <div class="input-container-search-ticket">
+                        <div class="form-select" id="bpjs-select">
+                            <select id="bpjs_type" name="bpjs_type" class="nice-select-default" onchange="get_bpjs_name();">`;
+                            car_counter = 0;
+                            for(i in ppob_data.product_data[bill_type]){
+                                if (carrier_provider_ppob.hasOwnProperty(ppob_data.product_data[bill_type][i].code) && carrier_provider_ppob[ppob_data.product_data[bill_type][i].code].includes(bill_prov))
+                                {
+                                    text+=`
+                                    <option value="`+ppob_data.product_data[bill_type][i].code+`">`+ppob_data.product_data[bill_type][i].name+`</option>
+                                    `;
+                                    if(car_counter == 0){
+                                        $bpjs_type_name = ppob_data.product_data[bill_type][i].name;
+                                    }
+                                    car_counter++;
                                 }
                             }
-                            for(i in month_list){
-                                if(max_count != 0){
-                                    text+= `<option value='`+month_counter+`'>`+month_list[i][1]+` `+parseInt(new Date().getFullYear()+1)+`</option>`;
-                                    month_counter++;
-                                    max_count--;
-                                }else{
-                                    break;
-                                }
-                            }
-                text+=`
+                            text+=`
                             </select>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-9 col-md-9 col-sm-12" style="text-align:left; padding:0px;">
-                    <span class="span-search-ticket"><i class="fas fa-briefcase"></i> Nomor Virtual Account Keluarga / Perusahaan</span>
-                    <div class="input-container-search-ticket">
-                        <input type="text" class="form-control virtual_number" name="bpjs_number" id="bpjs_number" onkeyup="check_bpjs_number();" onpaste="setTimeout(check_bpjs_number.bind(null,this),100);" placeholder="Nomor Virtual Account Keluarga / Perusahaan" autocomplete="off"/>
-                    </div>
-                    <div style="text-align:left;">
-                        <span style="color:`+color+`; font-size:14px; font-weight:bold;" id="input_alert" style="display:none;"></span>
+                <div class="col-lg-12 mt-3" style="padding:0px; text-align:left;">
+                    <div id="bpjs_div" class="row" style="margin-left:0px;margin-right:0px;">
                     </div>
                 </div>
             `;
         }
         else if(bill_type == 'pln'){
             text = `
-            <div class="col-lg-12" style="padding:0px; text-align:left;">`;
-                for(i in ppob_data.product_data[bill_type]){
-                    text+=`
-                    <label class="radio-button-custom" style="margin-bottom:10px;">
-                        <span style="font-size:13px; color:`+text_color+`;">`+ppob_data.product_data[bill_type][i].name+`</span>`;
-                    if(i == 0){
-                        text+=`<input type="radio" checked="checked" name="pln_type" onchange="get_pln_name('`+ppob_data.product_data[bill_type][i].name+`'); set_pln_div();" value="`+ppob_data.product_data[bill_type][i].code+`">`;
-                        $pln_type_name = ppob_data.product_data[bill_type][i].name;
-                    }else{
-                        text+=`<input type="radio" name="pln_type" onchange="get_pln_name('`+ppob_data.product_data[bill_type][i].name+`'); set_pln_div();" value="`+ppob_data.product_data[bill_type][i].code+`">`;
-                    }
-                    text+=`
-                        <span class="checkmark-radio"></span>
-                    </label>`;
-                }
-                text+=`
+            <div class="col-lg-12" style="padding:0px; text-align:left;">
+                <span class="span-search-ticket">Product Type</span>
+                <div class="input-container-search-ticket">
+                    <div class="form-select" id="pln-select">
+                        <select id="pln_type" name="pln_type" class="nice-select-default" onchange="set_pln_div();">`;
+                        car_counter = 0;
+                        for(i in ppob_data.product_data[bill_type]){
+                            if (carrier_provider_ppob.hasOwnProperty(ppob_data.product_data[bill_type][i].code) && carrier_provider_ppob[ppob_data.product_data[bill_type][i].code].includes(bill_prov))
+                            {
+                                text+=`
+                                <option value="`+ppob_data.product_data[bill_type][i].code+`">`+ppob_data.product_data[bill_type][i].name+`</option>
+                                `;
+                                if(car_counter == 0){
+                                    $pln_type_name = ppob_data.product_data[bill_type][i].name;
+                                }
+                                car_counter++;
+                            }
+                        }
+                        text+=`
+                        </select>
+                    </div>
+                </div>
             </div>
             <div class="col-lg-12 mt-3" style="padding:0px; text-align:left;">
                 <div id="pln_div" class="row" style="margin-left:0px;margin-right:0px;">
@@ -195,26 +260,247 @@ function set_container_bill(){
         else if(bill_type == 'e-voucher'){
             text = `
                 <div class="col-lg-12" style="padding:0px; text-align:left;">
-                    <div class="input-container-search-ticket">`;
-                        for(i in ppob_data.product_data[bill_type]){
-                            text+=`
-                            <label class="radio-button-custom" style="margin-bottom:0px;">
-                                <span style="font-size:13px; color:`+text_color+`;">`+ppob_data.product_data[bill_type][i].name+`</span>`;
-                            if(i == 0){
-                                text+=`<input type="radio" checked="checked" name="e-voucher_type" onchange="get_evoucher_name('`+ppob_data.product_data[bill_type][i].name+`'); set_evoucher_div();" value="`+ppob_data.product_data[bill_type][i].code+`">`;
-                                $evoucher_type_name = ppob_data.product_data[bill_type][i].name;
-                            }else{
-                                text+=`<input type="radio" name="e-voucher_type" onchange="get_evoucher_name('`+ppob_data.product_data[bill_type][i].name+`'); set_evoucher_div();" value="`+ppob_data.product_data[bill_type][i].code+`">`;
+                    <span class="span-search-ticket">Product Type</span>
+                    <div class="input-container-search-ticket">
+                        <div class="form-select" id="bpjs-select">
+                            <select id="evoucher_type" name="evoucher_type" class="nice-select-default" onchange="set_evoucher_div();">`;
+                            car_counter = 0;
+                            for(i in ppob_data.product_data[bill_type]){
+                                if (carrier_provider_ppob.hasOwnProperty(ppob_data.product_data[bill_type][i].code) && carrier_provider_ppob[ppob_data.product_data[bill_type][i].code].includes(bill_prov))
+                                {
+                                    text+=`
+                                    <option value="`+ppob_data.product_data[bill_type][i].code+`">`+ppob_data.product_data[bill_type][i].name+`</option>
+                                    `;
+                                    if(car_counter == 0){
+                                        $evoucher_type_name = ppob_data.product_data[bill_type][i].name;
+                                    }
+                                    car_counter++;
+                                }
                             }
                             text+=`
-                                <span class="checkmark-radio"></span>
-                            </label>`;
-                        }
-                        text+=`
+                            </select>
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-12 mt-3" style="padding:0px; text-align:left;">
                     <div id="e-voucher_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    </div>
+                </div>
+            `;
+        }
+        else if(bill_type == 'cable tv'){
+            text = `
+                <div class="col-lg-12" style="padding:0px; text-align:left;">
+                    <span class="span-search-ticket">Product Type</span>
+                    <div class="input-container-search-ticket">
+                        <div class="form-select" id="cable_tv-select">
+                            <select id="cable_tv_type" name="cable_tv_type" class="nice-select-default" onchange="set_cable_tv_div();">`;
+                            car_counter = 0;
+                            for(i in ppob_data.product_data[bill_type]){
+                                if (carrier_provider_ppob.hasOwnProperty(ppob_data.product_data[bill_type][i].code) && carrier_provider_ppob[ppob_data.product_data[bill_type][i].code].includes(bill_prov))
+                                {
+                                    text+=`
+                                    <option value="`+ppob_data.product_data[bill_type][i].code+`">`+ppob_data.product_data[bill_type][i].name+`</option>
+                                    `;
+                                    if(car_counter == 0){
+                                        $cable_tv_type_name = ppob_data.product_data[bill_type][i].name;
+                                    }
+                                    car_counter++;
+                                }
+                            }
+                            text+=`
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12 mt-3" style="padding:0px; text-align:left;">
+                    <div id="cable_tv_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    </div>
+                </div>
+            `;
+        }
+        else if(bill_type == 'internet'){
+            text = `
+                <div class="col-lg-12" style="padding:0px; text-align:left;">
+                    <span class="span-search-ticket">Product Type</span>
+                    <div class="input-container-search-ticket">
+                        <div class="form-select" id="internet-select">
+                            <select id="internet_type" name="internet_type" class="nice-select-default" onchange="set_internet_div();">`;
+                            car_counter = 0;
+                            for(i in ppob_data.product_data[bill_type]){
+                                if (carrier_provider_ppob.hasOwnProperty(ppob_data.product_data[bill_type][i].code) && carrier_provider_ppob[ppob_data.product_data[bill_type][i].code].includes(bill_prov))
+                                {
+                                    text+=`
+                                    <option value="`+ppob_data.product_data[bill_type][i].code+`">`+ppob_data.product_data[bill_type][i].name+`</option>
+                                    `;
+                                    if(car_counter == 0){
+                                        $internet_type_name = ppob_data.product_data[bill_type][i].name;
+                                    }
+                                    car_counter++;
+                                }
+                            }
+                            text+=`
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12 mt-3" style="padding:0px; text-align:left;">
+                    <div id="internet_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    </div>
+                </div>
+            `;
+        }
+        else if(bill_type == 'telephone'){
+            text = `
+                <div class="col-lg-12" style="padding:0px; text-align:left;">
+                    <span class="span-search-ticket">Product Type</span>
+                    <div class="input-container-search-ticket">
+                        <div class="form-select" id="telephone-select">
+                            <select id="telephone_type" name="telephone_type" class="nice-select-default" onchange="set_telephone_div();">`;
+                            car_counter = 0;
+                            for(i in ppob_data.product_data[bill_type]){
+                                if (carrier_provider_ppob.hasOwnProperty(ppob_data.product_data[bill_type][i].code) && carrier_provider_ppob[ppob_data.product_data[bill_type][i].code].includes(bill_prov))
+                                {
+                                    text+=`
+                                    <option value="`+ppob_data.product_data[bill_type][i].code+`">`+ppob_data.product_data[bill_type][i].name+`</option>
+                                    `;
+                                    if(car_counter == 0){
+                                        $telephone_type_name = ppob_data.product_data[bill_type][i].name;
+                                    }
+                                    car_counter++;
+                                }
+                            }
+                            text+=`
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12 mt-3" style="padding:0px; text-align:left;">
+                    <div id="telephone_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    </div>
+                </div>
+            `;
+        }
+        else if(bill_type == 'insurance'){
+            text = `
+                <div class="col-lg-12" style="padding:0px; text-align:left;">
+                    <span class="span-search-ticket">Product Type</span>
+                    <div class="input-container-search-ticket">
+                        <div class="form-select" id="insurance-select">
+                            <select id="insurance_type" name="insurance_type" class="nice-select-default" onchange="set_insurance_div();">`;
+                            car_counter = 0;
+                            for(i in ppob_data.product_data[bill_type]){
+                                if (carrier_provider_ppob.hasOwnProperty(ppob_data.product_data[bill_type][i].code) && carrier_provider_ppob[ppob_data.product_data[bill_type][i].code].includes(bill_prov))
+                                {
+                                    text+=`
+                                    <option value="`+ppob_data.product_data[bill_type][i].code+`">`+ppob_data.product_data[bill_type][i].name+`</option>
+                                    `;
+                                    if(car_counter == 0){
+                                        $insurance_type_name = ppob_data.product_data[bill_type][i].name;
+                                    }
+                                    car_counter++;
+                                }
+                            }
+                            text+=`
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12 mt-3" style="padding:0px; text-align:left;">
+                    <div id="ppob_insurance_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    </div>
+                </div>
+            `;
+        }
+        else if(bill_type == 'pdam'){
+            text = `
+                <div class="col-lg-12" style="padding:0px; text-align:left;">
+                    <span class="span-search-ticket">Product Type</span>
+                    <div class="input-container-search-ticket">
+                        <div class="form-select" id="pdam-select">
+                            <select id="pdam_type" name="pdam_type" class="nice-select-default" onchange="set_pdam_div();">`;
+                            car_counter = 0;
+                            for(i in ppob_data.product_data[bill_type]){
+                                if (carrier_provider_ppob.hasOwnProperty(ppob_data.product_data[bill_type][i].code) && carrier_provider_ppob[ppob_data.product_data[bill_type][i].code].includes(bill_prov))
+                                {
+                                    text+=`
+                                    <option value="`+ppob_data.product_data[bill_type][i].code+`">`+ppob_data.product_data[bill_type][i].name+`</option>
+                                    `;
+                                    if(car_counter == 0){
+                                        $pdam_type_name = ppob_data.product_data[bill_type][i].name;
+                                    }
+                                    car_counter++;
+                                }
+                            }
+                            text+=`
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12 mt-3" style="padding:0px; text-align:left;">
+                    <div id="pdam_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    </div>
+                </div>
+            `;
+        }
+        else if(bill_type == 'credit installment'){
+            text = `
+                <div class="col-lg-12" style="padding:0px; text-align:left;">
+                    <span class="span-search-ticket">Product Type</span>
+                    <div class="input-container-search-ticket">
+                        <div class="form-select" id="credit_installment-select">
+                            <select id="credit_installment_type" name="credit_installment_type" class="nice-select-default" onchange="set_credit_installment_div();">`;
+                            car_counter = 0;
+                            for(i in ppob_data.product_data[bill_type]){
+                                if (carrier_provider_ppob.hasOwnProperty(ppob_data.product_data[bill_type][i].code) && carrier_provider_ppob[ppob_data.product_data[bill_type][i].code].includes(bill_prov))
+                                {
+                                    text+=`
+                                    <option value="`+ppob_data.product_data[bill_type][i].code+`">`+ppob_data.product_data[bill_type][i].name+`</option>
+                                    `;
+                                    if(car_counter == 0){
+                                        $credit_installment_type_name = ppob_data.product_data[bill_type][i].name;
+                                    }
+                                    car_counter++;
+                                }
+                            }
+                            text+=`
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12 mt-3" style="padding:0px; text-align:left;">
+                    <div id="credit_installment_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    </div>
+                </div>
+            `;
+        }
+        else if(bill_type == 'credit card'){
+            text = `
+                <div class="col-lg-12" style="padding:0px; text-align:left;">
+                    <span class="span-search-ticket">Product Type</span>
+                    <div class="input-container-search-ticket">
+                        <div class="form-select" id="credit_card-select">
+                            <select id="credit_card_type" name="credit_card_type" class="nice-select-default" onchange="set_credit_card_div();">`;
+                            car_counter = 0;
+                            for(i in ppob_data.product_data[bill_type]){
+                                if (carrier_provider_ppob.hasOwnProperty(ppob_data.product_data[bill_type][i].code) && carrier_provider_ppob[ppob_data.product_data[bill_type][i].code].includes(bill_prov))
+                                {
+                                    text+=`
+                                    <option value="`+ppob_data.product_data[bill_type][i].code+`">`+ppob_data.product_data[bill_type][i].name+`</option>
+                                    `;
+                                    if(car_counter == 0){
+                                        $credit_card_type_name = ppob_data.product_data[bill_type][i].name;
+                                    }
+                                    car_counter++;
+                                }
+                            }
+                            text+=`
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12 mt-3" style="padding:0px; text-align:left;">
+                    <div id="credit_card_div" class="row" style="margin-left:0px;margin-right:0px;">
                     </div>
                 </div>
             `;
@@ -225,71 +511,58 @@ function set_container_bill(){
         if(bill_type == 'bpjs'){
             text = `
                 <div class="col-lg-12 mb-3" style="text-align:left;">
-                    <div class="input-container-search-ticket">`;
-                        for(i in ppob_data.product_data[bill_type]){
-                            text+=`
-                            <label class="radio-button-custom" style="margin-bottom:0px;">
-                                <span style="font-size:13px; color:`+text_color+`;">`+ppob_data.product_data[bill_type][i].name+`</span>`;
-                            if(i == 0){
-                                text+=`<input type="radio" checked="checked" name="bpjs_type" onchange="get_bpjs_name('`+ppob_data.product_data[bill_type][i].name+`');" value="`+ppob_data.product_data[bill_type][i].code+`">`;
-                                $bpjs_type_name = ppob_data.product_data[bill_type][i].name;
-                            }else{
-                                text+=`<input type="radio" name="pln_type" onchange="get_bpjs_name('`+ppob_data.product_data[bill_type][i].name+`');" value="`+ppob_data.product_data[bill_type][i].code+`">`;
-                            }
-                            text+=`
-                                <span class="checkmark-radio"></span>
-                            </label>`;
-                        }
-                        text+=`
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-12" id="train_date_search" style="margin-bottom:15px;">
-                    <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Pay Until</span>
-                        <div class="form-select" id="default-select">
-                            <select id="bpjs_month" name="bpjs_month" class="nice-select-default">`;
-                            print_month = false
-                            for(i in month_list){
-                                if(moment().format('MMM') == month_list[i][1]){
-                                    print_month = true;
-                                    month_counter = 1;
-                                }if(print_month == true){
-                                    text+= `<option value='`+month_counter+`'>`+month_list[i][1]+` `+new Date().getFullYear()+`</option>`;
-                                    month_counter++
+                    <span class="span-search-ticket">Product Type</span>
+                    <div class="input-container-search-ticket">
+                        <div class="form-select" id="bpjs-select">
+                            <select id="bpjs_type" name="bpjs_type" class="nice-select-default" onchange="get_bpjs_name();">`;
+                            car_counter = 0;
+                            for(i in ppob_data.product_data[bill_type]){
+                                if (carrier_provider_ppob.hasOwnProperty(ppob_data.product_data[bill_type][i].code) && carrier_provider_ppob[ppob_data.product_data[bill_type][i].code].includes(bill_prov))
+                                {
+                                    text+=`
+                                    <option value="`+ppob_data.product_data[bill_type][i].code+`">`+ppob_data.product_data[bill_type][i].name+`</option>
+                                    `;
+                                    if(car_counter == 0){
+                                        $bpjs_type_name = ppob_data.product_data[bill_type][i].name;
+                                    }
+                                    car_counter++;
                                 }
                             }
-                text+=`
-                        </select>
+                            text+=`
+                            </select>
+                        </div>
                     </div>
                 </div>
-                <div class="col-lg-9 col-md-9 col-sm-12" style="text-align:left;">
-                    <span class="span-search-ticket"><i class="fas fa-briefcase"></i> Nomor Virtual Account Keluarga / Perusahaan</span>
-                    <div class="input-container-search-ticket">
-                        <input type="text" class="form-control virtual_number" name="bpjs_number" id="bpjs_number" onkeyup="check_bpjs_number();" onpaste="setTimeout(check_bpjs_number.bind(null,this),100);" placeholder="Nomor Virtual Account Keluarga / Perusahaan" autocomplete="off"/>
-                    </div>
-                    <div style="text-align:left;">
-                        <h6 style="color:`+color+`;" id="input_alert" style="display:none;"></h6>
+                <div class="col-lg-12" style="padding:0px; text-align:left;">
+                    <div id="bpjs_div" class="row" style="margin-left:0px;margin-right:0px;">
                     </div>
                 </div>
             `;
         }
         else if(bill_type == 'pln'){
             text = `
-                <div class="col-lg-12 mb-3" style="text-align:left;">`;
-                    for(i in ppob_data.product_data[bill_type]){
-                        text+=`
-                        <label class="radio-button-custom" style="margin-bottom:10px;">
-                            <span style="font-size:13px; color:`+text_color+`;">`+ppob_data.product_data[bill_type][i].name+`</span>`;
-                        if(i == 0){
-                            text+=`<input type="radio" checked="checked" name="pln_type" onchange="get_pln_name('`+ppob_data.product_data[bill_type][i].name+`'); set_pln_div();" value="`+ppob_data.product_data[bill_type][i].code+`">`;
-                            $pln_type_name = ppob_data.product_data[bill_type][i].name;
-                        }else{
-                            text+=`<input type="radio" name="pln_type" onchange="get_pln_name('`+ppob_data.product_data[bill_type][i].name+`'); set_pln_div();" value="`+ppob_data.product_data[bill_type][i].code+`">`;
-                        }
-                        text+=`
-                            <span class="checkmark-radio"></span>
-                        </label>`;
-                    }
-                    text+=`
+                <div class="col-lg-12 mb-3" style="text-align:left;">
+                    <span class="span-search-ticket">Product Type</span>
+                    <div class="input-container-search-ticket">
+                        <div class="form-select" id="pln-select">
+                            <select id="pln_type" name="pln_type" class="nice-select-default" onchange="set_pln_div();">`;
+                            car_counter = 0;
+                            for(i in ppob_data.product_data[bill_type]){
+                                if (carrier_provider_ppob.hasOwnProperty(ppob_data.product_data[bill_type][i].code) && carrier_provider_ppob[ppob_data.product_data[bill_type][i].code].includes(bill_prov))
+                                {
+                                    text+=`
+                                    <option value="`+ppob_data.product_data[bill_type][i].code+`">`+ppob_data.product_data[bill_type][i].name+`</option>
+                                    `;
+                                    if(car_counter == 0){
+                                        $pln_type_name = ppob_data.product_data[bill_type][i].name;
+                                    }
+                                    car_counter++;
+                                }
+                            }
+                            text+=`
+                            </select>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-lg-12" style="padding:0px; text-align:left;">
                     <div id="pln_div" class="row" style="margin-left:0px;margin-right:0px;">
@@ -299,27 +572,248 @@ function set_container_bill(){
         }
         else if(bill_type == 'e-voucher'){
             text = `
-                <div class="col-lg-12" style="text-align:left;">
-                    <div class="input-container-search-ticket">`;
-                        for(i in ppob_data.product_data[bill_type]){
-                            text+=`
-                            <label class="radio-button-custom" style="margin-bottom:0px;">
-                                <span style="font-size:13px; color:`+text_color+`;">`+ppob_data.product_data[bill_type][i].name+`</span>`;
-                            if(i == 0){
-                                text+=`<input type="radio" checked="checked" name="e-voucher_type" onchange="get_evoucher_name('`+ppob_data.product_data[bill_type][i].name+`'); set_evoucher_div();" value="`+ppob_data.product_data[bill_type][i].code+`">`;
-                                $evoucher_type_name = ppob_data.product_data[bill_type][i].name;
-                            }else{
-                                text+=`<input type="radio" name="e-voucher_type" onchange="get_evoucher_name('`+ppob_data.product_data[bill_type][i].name+`'); set_evoucher_div();" value="`+ppob_data.product_data[bill_type][i].code+`">`;
+                <div class="col-lg-12 mb-3" style="text-align:left;">
+                    <span class="span-search-ticket">Product Type</span>
+                    <div class="input-container-search-ticket">
+                        <div class="form-select" id="bpjs-select">
+                            <select id="evoucher_type" name="evoucher_type" class="nice-select-default" onchange="set_evoucher_div();">`;
+                            car_counter = 0;
+                            for(i in ppob_data.product_data[bill_type]){
+                                if (carrier_provider_ppob.hasOwnProperty(ppob_data.product_data[bill_type][i].code) && carrier_provider_ppob[ppob_data.product_data[bill_type][i].code].includes(bill_prov))
+                                {
+                                    text+=`
+                                    <option value="`+ppob_data.product_data[bill_type][i].code+`">`+ppob_data.product_data[bill_type][i].name+`</option>
+                                    `;
+                                    if(car_counter == 0){
+                                        $evoucher_type_name = ppob_data.product_data[bill_type][i].name;
+                                    }
+                                    car_counter++;
+                                }
                             }
                             text+=`
-                                <span class="checkmark-radio"></span>
-                            </label>`;
-                        }
-                        text+=`
+                            </select>
+                        </div>
                     </div>
                 </div>
-                <div class="col-lg-12 mt-3" style="text-align:left;">
+                <div class="col-lg-12" style="padding:0px; text-align:left;">
                     <div id="e-voucher_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    </div>
+                </div>
+            `;
+        }
+        else if(bill_type == 'cable tv'){
+            text = `
+                <div class="col-lg-12 mb-3" style="text-align:left;">
+                    <span class="span-search-ticket">Product Type</span>
+                    <div class="input-container-search-ticket">
+                        <div class="form-select" id="cable_tv-select">
+                            <select id="cable_tv_type" name="cable_tv_type" class="nice-select-default" onchange="set_cable_tv_div();">`;
+                            car_counter = 0;
+                            for(i in ppob_data.product_data[bill_type]){
+                                if (carrier_provider_ppob.hasOwnProperty(ppob_data.product_data[bill_type][i].code) && carrier_provider_ppob[ppob_data.product_data[bill_type][i].code].includes(bill_prov))
+                                {
+                                    text+=`
+                                    <option value="`+ppob_data.product_data[bill_type][i].code+`">`+ppob_data.product_data[bill_type][i].name+`</option>
+                                    `;
+                                    if(car_counter == 0){
+                                        $cable_tv_type_name = ppob_data.product_data[bill_type][i].name;
+                                    }
+                                    car_counter++;
+                                }
+                            }
+                            text+=`
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12" style="padding:0px; text-align:left;">
+                    <div id="cable_tv_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    </div>
+                </div>
+            `;
+        }
+        else if(bill_type == 'internet'){
+            text = `
+                <div class="col-lg-12 mb-3" style="text-align:left;">
+                    <span class="span-search-ticket">Product Type</span>
+                    <div class="input-container-search-ticket">
+                        <div class="form-select" id="internet-select">
+                            <select id="internet_type" name="internet_type" class="nice-select-default" onchange="set_internet_div();">`;
+                            car_counter = 0;
+                            for(i in ppob_data.product_data[bill_type]){
+                                if (carrier_provider_ppob.hasOwnProperty(ppob_data.product_data[bill_type][i].code) && carrier_provider_ppob[ppob_data.product_data[bill_type][i].code].includes(bill_prov))
+                                {
+                                    text+=`
+                                    <option value="`+ppob_data.product_data[bill_type][i].code+`">`+ppob_data.product_data[bill_type][i].name+`</option>
+                                    `;
+                                    if(car_counter == 0){
+                                        $internet_type_name = ppob_data.product_data[bill_type][i].name;
+                                    }
+                                    car_counter++;
+                                }
+                            }
+                            text+=`
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12" style="padding:0px; text-align:left;">
+                    <div id="internet_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    </div>
+                </div>
+            `;
+        }
+        else if(bill_type == 'telephone'){
+            text = `
+                <div class="col-lg-12 mb-3" style="text-align:left;">
+                    <span class="span-search-ticket">Product Type</span>
+                    <div class="input-container-search-ticket">
+                        <div class="form-select" id="telephone-select">
+                            <select id="telephone_type" name="telephone_type" class="nice-select-default" onchange="set_telephone_div();">`;
+                            car_counter = 0;
+                            for(i in ppob_data.product_data[bill_type]){
+                                if (carrier_provider_ppob.hasOwnProperty(ppob_data.product_data[bill_type][i].code) && carrier_provider_ppob[ppob_data.product_data[bill_type][i].code].includes(bill_prov))
+                                {
+                                    text+=`
+                                    <option value="`+ppob_data.product_data[bill_type][i].code+`">`+ppob_data.product_data[bill_type][i].name+`</option>
+                                    `;
+                                    if(car_counter == 0){
+                                        $telephone_type_name = ppob_data.product_data[bill_type][i].name;
+                                    }
+                                    car_counter++;
+                                }
+                            }
+                            text+=`
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12" style="padding:0px; text-align:left;">
+                    <div id="telephone_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    </div>
+                </div>
+            `;
+        }
+        else if(bill_type == 'insurance'){
+            text = `
+                <div class="col-lg-12 mb-3" style="text-align:left;">
+                    <span class="span-search-ticket">Product Type</span>
+                    <div class="input-container-search-ticket">
+                        <div class="form-select" id="insurance-select">
+                            <select id="insurance_type" name="insurance_type" class="nice-select-default" onchange="set_insurance_div();">`;
+                            car_counter = 0;
+                            for(i in ppob_data.product_data[bill_type]){
+                                if (carrier_provider_ppob.hasOwnProperty(ppob_data.product_data[bill_type][i].code) && carrier_provider_ppob[ppob_data.product_data[bill_type][i].code].includes(bill_prov))
+                                {
+                                    text+=`
+                                    <option value="`+ppob_data.product_data[bill_type][i].code+`">`+ppob_data.product_data[bill_type][i].name+`</option>
+                                    `;
+                                    if(car_counter == 0){
+                                        $insurance_type_name = ppob_data.product_data[bill_type][i].name;
+                                    }
+                                    car_counter++;
+                                }
+                            }
+                            text+=`
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12" style="padding:0px; text-align:left;">
+                    <div id="ppob_insurance_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    </div>
+                </div>
+            `;
+        }
+        else if(bill_type == 'pdam'){
+            text = `
+                <div class="col-lg-12 mb-3" style="text-align:left;">
+                    <span class="span-search-ticket">Product Type</span>
+                    <div class="input-container-search-ticket">
+                        <div class="form-select" id="pdam-select">
+                            <select id="pdam_type" name="pdam_type" class="nice-select-default" onchange="set_pdam_div();">`;
+                            car_counter = 0;
+                            for(i in ppob_data.product_data[bill_type]){
+                                if (carrier_provider_ppob.hasOwnProperty(ppob_data.product_data[bill_type][i].code) && carrier_provider_ppob[ppob_data.product_data[bill_type][i].code].includes(bill_prov))
+                                {
+                                    text+=`
+                                    <option value="`+ppob_data.product_data[bill_type][i].code+`">`+ppob_data.product_data[bill_type][i].name+`</option>
+                                    `;
+                                    if(car_counter == 0){
+                                        $pdam_type_name = ppob_data.product_data[bill_type][i].name;
+                                    }
+                                    car_counter++;
+                                }
+                            }
+                            text+=`
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12" style="padding:0px; text-align:left;">
+                    <div id="pdam_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    </div>
+                </div>
+            `;
+        }
+        else if(bill_type == 'credit installment'){
+            text = `
+                <div class="col-lg-12 mb-3" style="text-align:left;">
+                    <span class="span-search-ticket">Product Type</span>
+                    <div class="input-container-search-ticket">
+                        <div class="form-select" id="credit_installment-select">
+                            <select id="credit_installment_type" name="credit_installment_type" class="nice-select-default" onchange="set_credit_installment_div();">`;
+                            car_counter = 0;
+                            for(i in ppob_data.product_data[bill_type]){
+                                if (carrier_provider_ppob.hasOwnProperty(ppob_data.product_data[bill_type][i].code) && carrier_provider_ppob[ppob_data.product_data[bill_type][i].code].includes(bill_prov))
+                                {
+                                    text+=`
+                                    <option value="`+ppob_data.product_data[bill_type][i].code+`">`+ppob_data.product_data[bill_type][i].name+`</option>
+                                    `;
+                                    if(car_counter == 0){
+                                        $credit_installment_type_name = ppob_data.product_data[bill_type][i].name;
+                                    }
+                                    car_counter++;
+                                }
+                            }
+                            text+=`
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12" style="padding:0px; text-align:left;">
+                    <div id="credit_installment_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    </div>
+                </div>
+            `;
+        }
+        else if(bill_type == 'credit card'){
+            text = `
+                <div class="col-lg-12 mb-3" style="text-align:left;">
+                    <span class="span-search-ticket">Product Type</span>
+                    <div class="input-container-search-ticket">
+                        <div class="form-select" id="credit_card-select">
+                            <select id="credit_card_type" name="credit_card_type" class="nice-select-default" onchange="set_credit_card_div();">`;
+                            car_counter = 0;
+                            for(i in ppob_data.product_data[bill_type]){
+                                if (carrier_provider_ppob.hasOwnProperty(ppob_data.product_data[bill_type][i].code) && carrier_provider_ppob[ppob_data.product_data[bill_type][i].code].includes(bill_prov))
+                                {
+                                    text+=`
+                                    <option value="`+ppob_data.product_data[bill_type][i].code+`">`+ppob_data.product_data[bill_type][i].name+`</option>
+                                    `;
+                                    if(car_counter == 0){
+                                        $credit_card_type_name = ppob_data.product_data[bill_type][i].name;
+                                    }
+                                    car_counter++;
+                                }
+                            }
+                            text+=`
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12" style="padding:0px; text-align:left;">
+                    <div id="credit_card_div" class="row" style="margin-left:0px;margin-right:0px;">
                     </div>
                 </div>
             `;
@@ -330,73 +824,58 @@ function set_container_bill(){
         if(bill_type == 'bpjs'){
             text = `
                 <div class="col-lg-12 mb-3" style="text-align:left;">
-                    <div class="input-container-search-ticket">`;
-                        for(i in ppob_data.product_data[bill_type]){
-                            text+=`
-                            <label class="radio-button-custom" style="margin-bottom:0px;">
-                                <span style="font-size:13px; color:`+text_color+`;">`+ppob_data.product_data[bill_type][i].name+`</span>`;
-                            if(i == 0){
-                                text+=`<input type="radio" checked="checked" name="bpjs_type" onchange="get_bpjs_name('`+ppob_data.product_data[bill_type][i].name+`');" value="`+ppob_data.product_data[bill_type][i].code+`">`;
-                                $bpjs_type_name = ppob_data.product_data[bill_type][i].name;
-                            }else{
-                                text+=`<input type="radio" name="pln_type" onchange="get_bpjs_name('`+ppob_data.product_data[bill_type][i].name+`');" value="`+ppob_data.product_data[bill_type][i].code+`">`;
-                            }
-                            text+=`
-                                <span class="checkmark-radio"></span>
-                            </label>`;
-                        }
-                        text+=`
-                    </div>
-                </div>
-                <div class="col-lg-12" id="train_date_search">
-                    <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Pay Until</span>
-                    <div class="form-group">
-                        <div class="default-select">
-                            <select id="bpjs_month" name="bpjs_month" class="nice-select-default">`;
-                            print_month = false
-                            for(i in month_list){
-                                if(moment().format('MMM') == month_list[i][1]){
-                                    print_month = true;
-                                    month_counter = 1;
-                                }if(print_month == true){
-                                    text+= `<option value='`+month_counter+`'>`+month_list[i][1]+` `+new Date().getFullYear()+`</option>`;
-                                    month_counter++
+                    <span class="span-search-ticket">Product Type</span>
+                    <div class="input-container-search-ticket">
+                        <div class="form-select" id="bpjs-select">
+                            <select id="bpjs_type" name="bpjs_type" class="nice-select-default" onchange="get_bpjs_name();">`;
+                            car_counter = 0;
+                            for(i in ppob_data.product_data[bill_type]){
+                                if (carrier_provider_ppob.hasOwnProperty(ppob_data.product_data[bill_type][i].code) && carrier_provider_ppob[ppob_data.product_data[bill_type][i].code].includes(bill_prov))
+                                {
+                                    text+=`
+                                    <option value="`+ppob_data.product_data[bill_type][i].code+`">`+ppob_data.product_data[bill_type][i].name+`</option>
+                                    `;
+                                    if(car_counter == 0){
+                                        $bpjs_type_name = ppob_data.product_data[bill_type][i].name;
+                                    }
+                                    car_counter++;
                                 }
                             }
-                text+=`
+                            text+=`
                             </select>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-12" style="margin-top:15px; text-align:left;">
-                    <span class="span-search-ticket"><i class="fas fa-briefcase"></i> Nomor Virtual Account Keluarga / Perusahaan</span>
-                    <div class="input-container-search-ticket">
-                        <input type="text" class="form-control virtual_number" name="bpjs_number" id="bpjs_number" onkeyup="check_bpjs_number();" onpaste="setTimeout(check_bpjs_number.bind(null,this),100);" placeholder="Nomor Virtual Account Keluarga / Perusahaan" autocomplete="off"/>
-                    </div>
-                    <div style="text-align:left;">
-                        <h6 style="color:`+color+`;" id="input_alert" style="display:none;"></h6>
+                <div class="col-lg-12" style="padding:0px; text-align:left;">
+                    <div id="bpjs_div" class="row" style="margin-left:0px;margin-right:0px;">
                     </div>
                 </div>
             `;
         }
         else if(bill_type == 'pln'){
             text = `
-                <div class="col-lg-12 mb-3" style="text-align:left;">`;
-                    for(i in ppob_data.product_data[bill_type]){
-                        text+=`
-                        <label class="radio-button-custom" style="margin-bottom:10px;">
-                            <span style="font-size:13px; color:`+text_color+`;">`+ppob_data.product_data[bill_type][i].name+`</span>`;
-                        if(i == 0){
-                            text+=`<input type="radio" checked="checked" name="pln_type" onchange="get_pln_name('`+ppob_data.product_data[bill_type][i].name+`'); set_pln_div();" value="`+ppob_data.product_data[bill_type][i].code+`">`;
-                            $pln_type_name = ppob_data.product_data[bill_type][i].name;
-                        }else{
-                            text+=`<input type="radio" name="pln_type" onchange="get_pln_name('`+ppob_data.product_data[bill_type][i].name+`'); set_pln_div();" value="`+ppob_data.product_data[bill_type][i].code+`">`;
-                        }
-                        text+=`
-                            <span class="checkmark-radio"></span>
-                        </label>`;
-                    }
-                    text+=`
+                <div class="col-lg-12 mb-3" style="text-align:left;">
+                    <span class="span-search-ticket">Product Type</span>
+                    <div class="input-container-search-ticket">
+                        <div class="form-select" id="pln-select">
+                            <select id="pln_type" name="pln_type" class="nice-select-default" onchange="set_pln_div();">`;
+                            car_counter = 0;
+                            for(i in ppob_data.product_data[bill_type]){
+                                if (carrier_provider_ppob.hasOwnProperty(ppob_data.product_data[bill_type][i].code) && carrier_provider_ppob[ppob_data.product_data[bill_type][i].code].includes(bill_prov))
+                                {
+                                    text+=`
+                                    <option value="`+ppob_data.product_data[bill_type][i].code+`">`+ppob_data.product_data[bill_type][i].name+`</option>
+                                    `;
+                                    if(car_counter == 0){
+                                        $pln_type_name = ppob_data.product_data[bill_type][i].name;
+                                    }
+                                    car_counter++;
+                                }
+                            }
+                            text+=`
+                            </select>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-lg-12" style="padding:0px; text-align:left;">
                     <div id="pln_div" class="row" style="margin-left:0px;margin-right:0px;">
@@ -406,27 +885,248 @@ function set_container_bill(){
         }
         else if(bill_type == 'e-voucher'){
             text = `
-                <div class="col-lg-12" style="text-align:left;">
-                    <div class="input-container-search-ticket">`;
-                        for(i in ppob_data.product_data[bill_type]){
-                            text+=`
-                            <label class="radio-button-custom" style="margin-bottom:0px;">
-                                <span style="font-size:13px; color:`+text_color+`;">`+ppob_data.product_data[bill_type][i].name+`</span>`;
-                            if(i == 0){
-                                text+=`<input type="radio" checked="checked" name="e-voucher_type" onchange="get_evoucher_name('`+ppob_data.product_data[bill_type][i].name+`'); set_evoucher_div();" value="`+ppob_data.product_data[bill_type][i].code+`">`;
-                                $evoucher_type_name = ppob_data.product_data[bill_type][i].name;
-                            }else{
-                                text+=`<input type="radio" name="e-voucher_type" onchange="get_evoucher_name('`+ppob_data.product_data[bill_type][i].name+`'); set_evoucher_div();" value="`+ppob_data.product_data[bill_type][i].code+`">`;
+                <div class="col-lg-12 mb-3" style="text-align:left;">
+                    <span class="span-search-ticket">Product Type</span>
+                    <div class="input-container-search-ticket">
+                        <div class="form-select" id="bpjs-select">
+                            <select id="evoucher_type" name="evoucher_type" class="nice-select-default" onchange="set_evoucher_div();">`;
+                            car_counter = 0;
+                            for(i in ppob_data.product_data[bill_type]){
+                                if (carrier_provider_ppob.hasOwnProperty(ppob_data.product_data[bill_type][i].code) && carrier_provider_ppob[ppob_data.product_data[bill_type][i].code].includes(bill_prov))
+                                {
+                                    text+=`
+                                    <option value="`+ppob_data.product_data[bill_type][i].code+`">`+ppob_data.product_data[bill_type][i].name+`</option>
+                                    `;
+                                    if(car_counter == 0){
+                                        $evoucher_type_name = ppob_data.product_data[bill_type][i].name;
+                                    }
+                                    car_counter++;
+                                }
                             }
                             text+=`
-                                <span class="checkmark-radio"></span>
-                            </label>`;
-                        }
-                        text+=`
+                            </select>
+                        </div>
                     </div>
                 </div>
-                <div class="col-lg-12 mt-3" style="text-align:left;">
+                <div class="col-lg-12" style="padding:0px; text-align:left;">
                     <div id="e-voucher_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    </div>
+                </div>
+            `;
+        }
+        else if(bill_type == 'cable tv'){
+            text = `
+                <div class="col-lg-12 mb-3" style="text-align:left;">
+                    <span class="span-search-ticket">Product Type</span>
+                    <div class="input-container-search-ticket">
+                        <div class="form-select" id="cable_tv-select">
+                            <select id="cable_tv_type" name="cable_tv_type" class="nice-select-default" onchange="set_cable_tv_div();">`;
+                            car_counter = 0;
+                            for(i in ppob_data.product_data[bill_type]){
+                                if (carrier_provider_ppob.hasOwnProperty(ppob_data.product_data[bill_type][i].code) && carrier_provider_ppob[ppob_data.product_data[bill_type][i].code].includes(bill_prov))
+                                {
+                                    text+=`
+                                    <option value="`+ppob_data.product_data[bill_type][i].code+`">`+ppob_data.product_data[bill_type][i].name+`</option>
+                                    `;
+                                    if(car_counter == 0){
+                                        $cable_tv_type_name = ppob_data.product_data[bill_type][i].name;
+                                    }
+                                    car_counter++;
+                                }
+                            }
+                            text+=`
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12" style="padding:0px; text-align:left;">
+                    <div id="cable_tv_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    </div>
+                </div>
+            `;
+        }
+        else if(bill_type == 'internet'){
+            text = `
+                <div class="col-lg-12 mb-3" style="text-align:left;">
+                    <span class="span-search-ticket">Product Type</span>
+                    <div class="input-container-search-ticket">
+                        <div class="form-select" id="internet-select">
+                            <select id="internet_type" name="internet_type" class="nice-select-default" onchange="set_internet_div();">`;
+                            car_counter = 0;
+                            for(i in ppob_data.product_data[bill_type]){
+                                if (carrier_provider_ppob.hasOwnProperty(ppob_data.product_data[bill_type][i].code) && carrier_provider_ppob[ppob_data.product_data[bill_type][i].code].includes(bill_prov))
+                                {
+                                    text+=`
+                                    <option value="`+ppob_data.product_data[bill_type][i].code+`">`+ppob_data.product_data[bill_type][i].name+`</option>
+                                    `;
+                                    if(car_counter == 0){
+                                        $internet_type_name = ppob_data.product_data[bill_type][i].name;
+                                    }
+                                    car_counter++;
+                                }
+                            }
+                            text+=`
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12" style="padding:0px; text-align:left;">
+                    <div id="internet_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    </div>
+                </div>
+            `;
+        }
+        else if(bill_type == 'telephone'){
+            text = `
+                <div class="col-lg-12 mb-3" style="text-align:left;">
+                    <span class="span-search-ticket">Product Type</span>
+                    <div class="input-container-search-ticket">
+                        <div class="form-select" id="telephone-select">
+                            <select id="telephone_type" name="telephone_type" class="nice-select-default" onchange="set_telephone_div();">`;
+                            car_counter = 0;
+                            for(i in ppob_data.product_data[bill_type]){
+                                if (carrier_provider_ppob.hasOwnProperty(ppob_data.product_data[bill_type][i].code) && carrier_provider_ppob[ppob_data.product_data[bill_type][i].code].includes(bill_prov))
+                                {
+                                    text+=`
+                                    <option value="`+ppob_data.product_data[bill_type][i].code+`">`+ppob_data.product_data[bill_type][i].name+`</option>
+                                    `;
+                                    if(car_counter == 0){
+                                        $telephone_type_name = ppob_data.product_data[bill_type][i].name;
+                                    }
+                                    car_counter++;
+                                }
+                            }
+                            text+=`
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12" style="padding:0px; text-align:left;">
+                    <div id="telephone_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    </div>
+                </div>
+            `;
+        }
+        else if(bill_type == 'insurance'){
+            text = `
+                <div class="col-lg-12 mb-3" style="text-align:left;">
+                    <span class="span-search-ticket">Product Type</span>
+                    <div class="input-container-search-ticket">
+                        <div class="form-select" id="insurance-select">
+                            <select id="insurance_type" name="insurance_type" class="nice-select-default" onchange="set_insurance_div();">`;
+                            car_counter = 0;
+                            for(i in ppob_data.product_data[bill_type]){
+                                if (carrier_provider_ppob.hasOwnProperty(ppob_data.product_data[bill_type][i].code) && carrier_provider_ppob[ppob_data.product_data[bill_type][i].code].includes(bill_prov))
+                                {
+                                    text+=`
+                                    <option value="`+ppob_data.product_data[bill_type][i].code+`">`+ppob_data.product_data[bill_type][i].name+`</option>
+                                    `;
+                                    if(car_counter == 0){
+                                        $insurance_type_name = ppob_data.product_data[bill_type][i].name;
+                                    }
+                                    car_counter++;
+                                }
+                            }
+                            text+=`
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12" style="padding:0px; text-align:left;">
+                    <div id="ppob_insurance_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    </div>
+                </div>
+            `;
+        }
+        else if(bill_type == 'pdam'){
+            text = `
+                <div class="col-lg-12 mb-3" style="text-align:left;">
+                    <span class="span-search-ticket">Product Type</span>
+                    <div class="input-container-search-ticket">
+                        <div class="form-select" id="pdam-select">
+                            <select id="pdam_type" name="pdam_type" class="nice-select-default" onchange="set_pdam_div();">`;
+                            car_counter = 0;
+                            for(i in ppob_data.product_data[bill_type]){
+                                if (carrier_provider_ppob.hasOwnProperty(ppob_data.product_data[bill_type][i].code) && carrier_provider_ppob[ppob_data.product_data[bill_type][i].code].includes(bill_prov))
+                                {
+                                    text+=`
+                                    <option value="`+ppob_data.product_data[bill_type][i].code+`">`+ppob_data.product_data[bill_type][i].name+`</option>
+                                    `;
+                                    if(car_counter == 0){
+                                        $pdam_type_name = ppob_data.product_data[bill_type][i].name;
+                                    }
+                                    car_counter++;
+                                }
+                            }
+                            text+=`
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12" style="padding:0px; text-align:left;">
+                    <div id="pdam_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    </div>
+                </div>
+            `;
+        }
+        else if(bill_type == 'credit installment'){
+            text = `
+                <div class="col-lg-12 mb-3" style="text-align:left;">
+                    <span class="span-search-ticket">Product Type</span>
+                    <div class="input-container-search-ticket">
+                        <div class="form-select" id="credit_installment-select">
+                            <select id="credit_installment_type" name="credit_installment_type" class="nice-select-default" onchange="set_credit_installment_div();">`;
+                            car_counter = 0;
+                            for(i in ppob_data.product_data[bill_type]){
+                                if (carrier_provider_ppob.hasOwnProperty(ppob_data.product_data[bill_type][i].code) && carrier_provider_ppob[ppob_data.product_data[bill_type][i].code].includes(bill_prov))
+                                {
+                                    text+=`
+                                    <option value="`+ppob_data.product_data[bill_type][i].code+`">`+ppob_data.product_data[bill_type][i].name+`</option>
+                                    `;
+                                    if(car_counter == 0){
+                                        $credit_installment_type_name = ppob_data.product_data[bill_type][i].name;
+                                    }
+                                    car_counter++;
+                                }
+                            }
+                            text+=`
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12" style="padding:0px; text-align:left;">
+                    <div id="credit_installment_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    </div>
+                </div>
+            `;
+        }
+        else if(bill_type == 'credit card'){
+            text = `
+                <div class="col-lg-12 mb-3" style="text-align:left;">
+                    <span class="span-search-ticket">Product Type</span>
+                    <div class="input-container-search-ticket">
+                        <div class="form-select" id="credit_card-select">
+                            <select id="credit_card_type" name="credit_card_type" class="nice-select-default" onchange="set_credit_card_div();">`;
+                            car_counter = 0;
+                            for(i in ppob_data.product_data[bill_type]){
+                                if (carrier_provider_ppob.hasOwnProperty(ppob_data.product_data[bill_type][i].code) && carrier_provider_ppob[ppob_data.product_data[bill_type][i].code].includes(bill_prov))
+                                {
+                                    text+=`
+                                    <option value="`+ppob_data.product_data[bill_type][i].code+`">`+ppob_data.product_data[bill_type][i].name+`</option>
+                                    `;
+                                    if(car_counter == 0){
+                                        $credit_card_type_name = ppob_data.product_data[bill_type][i].name;
+                                    }
+                                    car_counter++;
+                                }
+                            }
+                            text+=`
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12" style="padding:0px; text-align:left;">
+                    <div id="credit_card_div" class="row" style="margin-left:0px;margin-right:0px;">
                     </div>
                 </div>
             `;
@@ -437,75 +1137,58 @@ function set_container_bill(){
         if(bill_type == 'bpjs'){
             text = `
                 <div class="col-lg-12 mb-3" style="text-align:left;">
-                    <div class="input-container-search-ticket">`;
-                        for(i in ppob_data.product_data[bill_type]){
-                            text+=`
-                            <label class="radio-button-custom" style="margin-bottom:0px;">
-                                <span style="font-size:13px; color:`+text_color+`;">`+ppob_data.product_data[bill_type][i].name+`</span>`;
-                            if(i == 0){
-                                text+=`<input type="radio" checked="checked" name="bpjs_type" onchange="get_bpjs_name('`+ppob_data.product_data[bill_type][i].name+`');" value="`+ppob_data.product_data[bill_type][i].code+`">`;
-                                $bpjs_type_name = ppob_data.product_data[bill_type][i].name;
-                            }else{
-                                text+=`<input type="radio" name="pln_type" onchange="get_bpjs_name('`+ppob_data.product_data[bill_type][i].name+`');" value="`+ppob_data.product_data[bill_type][i].code+`">`;
-                            }
-                            text+=`
-                                <span class="checkmark-radio"></span>
-                            </label>`;
-                        }
-                        text+=`
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-12" id="train_date_search">
-                    <span class="span-search-ticket">Pay Until</span>
+                    <span class="span-search-ticket">Product Type</span>
                     <div class="input-container-search-ticket">
-                        <i class="fas fa-calendar-alt" style="padding:14px; height: 43px; width: 45px; background:`+color+`; color:`+text_color+`;"></i>
-                        <div class="form-select" id="default-select">
-                            <select id="bpjs_month" name="bpjs_month" class="nice-select-default">`;
-                            print_month = false
-                            for(i in month_list){
-                                if(moment().format('MMM') == month_list[i][1]){
-                                    print_month = true;
-                                    month_counter = 1;
-                                }if(print_month == true){
-                                    text+= `<option value='`+month_counter+`'>`+month_list[i][1]+` `+new Date().getFullYear()+`</option>`;
-                                    month_counter++
+                        <div class="form-select" id="bpjs-select">
+                            <select id="bpjs_type" name="bpjs_type" class="nice-select-default" onchange="get_bpjs_name();">`;
+                            car_counter = 0;
+                            for(i in ppob_data.product_data[bill_type]){
+                                if (carrier_provider_ppob.hasOwnProperty(ppob_data.product_data[bill_type][i].code) && carrier_provider_ppob[ppob_data.product_data[bill_type][i].code].includes(bill_prov))
+                                {
+                                    text+=`
+                                    <option value="`+ppob_data.product_data[bill_type][i].code+`">`+ppob_data.product_data[bill_type][i].name+`</option>
+                                    `;
+                                    if(car_counter == 0){
+                                        $bpjs_type_name = ppob_data.product_data[bill_type][i].name;
+                                    }
+                                    car_counter++;
                                 }
                             }
-                text+=`
+                            text+=`
                             </select>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-9 col-md-9 col-sm-12" style="text-align:left;">
-                    <span class="span-search-ticket">Nomor Virtual Account Keluarga / Perusahaan</span>
-                    <div class="input-container-search-ticket">
-                        <i class="fas fa-briefcase" style="padding:14px; height: 43px; width: 45px; background:`+color+`; color:`+text_color+`;"></i>
-                        <input type="text" class="form-control virtual_number" name="bpjs_number" id="bpjs_number" onkeyup="check_bpjs_number();" onpaste="setTimeout(check_bpjs_number.bind(null,this),100);" placeholder="Nomor Virtual Account Keluarga / Perusahaan" autocomplete="off"/>
-                    </div>
-                    <div style="text-align:left;">
-                        <h6 style="color:`+color+`;" id="input_alert" style="display:none;"></h6>
+                <div class="col-lg-12" style="padding:0px; text-align:left;">
+                    <div id="bpjs_div" class="row" style="margin-left:0px;margin-right:0px;">
                     </div>
                 </div>
             `;
         }
         else if(bill_type == 'pln'){
             text = `
-                <div class="col-lg-12 mb-3" style="text-align:left;">`;
-                    for(i in ppob_data.product_data[bill_type]){
-                        text+=`
-                        <label class="radio-button-custom" style="margin-bottom:10px;">
-                            <span style="font-size:13px; color:`+text_color+`;">`+ppob_data.product_data[bill_type][i].name+`</span>`;
-                        if(i == 0){
-                            text+=`<input type="radio" checked="checked" name="pln_type" onchange="get_pln_name('`+ppob_data.product_data[bill_type][i].name+`'); set_pln_div();" value="`+ppob_data.product_data[bill_type][i].code+`">`;
-                            $pln_type_name = ppob_data.product_data[bill_type][i].name;
-                        }else{
-                            text+=`<input type="radio" name="pln_type" onchange="get_pln_name('`+ppob_data.product_data[bill_type][i].name+`'); set_pln_div();" value="`+ppob_data.product_data[bill_type][i].code+`">`;
-                        }
-                        text+=`
-                            <span class="checkmark-radio"></span>
-                        </label>`;
-                    }
-                    text+=`
+                <div class="col-lg-12 mb-3" style="text-align:left;">
+                    <span class="span-search-ticket">Product Type</span>
+                    <div class="input-container-search-ticket">
+                        <div class="form-select" id="pln-select">
+                            <select id="pln_type" name="pln_type" class="nice-select-default" onchange="set_pln_div();">`;
+                            car_counter = 0;
+                            for(i in ppob_data.product_data[bill_type]){
+                                if (carrier_provider_ppob.hasOwnProperty(ppob_data.product_data[bill_type][i].code) && carrier_provider_ppob[ppob_data.product_data[bill_type][i].code].includes(bill_prov))
+                                {
+                                    text+=`
+                                    <option value="`+ppob_data.product_data[bill_type][i].code+`">`+ppob_data.product_data[bill_type][i].name+`</option>
+                                    `;
+                                    if(car_counter == 0){
+                                        $pln_type_name = ppob_data.product_data[bill_type][i].name;
+                                    }
+                                    car_counter++;
+                                }
+                            }
+                            text+=`
+                            </select>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-lg-12" style="padding:0px; text-align:left;">
                     <div id="pln_div" class="row" style="margin-left:0px;margin-right:0px;">
@@ -515,27 +1198,248 @@ function set_container_bill(){
         }
         else if(bill_type == 'e-voucher'){
             text = `
-                <div class="col-lg-12" style="text-align:left;">
-                    <div class="input-container-search-ticket">`;
-                        for(i in ppob_data.product_data[bill_type]){
-                            text+=`
-                            <label class="radio-button-custom" style="margin-bottom:0px;">
-                                <span style="font-size:13px; color:`+text_color+`;">`+ppob_data.product_data[bill_type][i].name+`</span>`;
-                            if(i == 0){
-                                text+=`<input type="radio" checked="checked" name="e-voucher_type" onchange="get_evoucher_name('`+ppob_data.product_data[bill_type][i].name+`'); set_evoucher_div();" value="`+ppob_data.product_data[bill_type][i].code+`">`;
-                                $evoucher_type_name = ppob_data.product_data[bill_type][i].name;
-                            }else{
-                                text+=`<input type="radio" name="e-voucher_type" onchange="get_evoucher_name('`+ppob_data.product_data[bill_type][i].name+`'); set_evoucher_div();" value="`+ppob_data.product_data[bill_type][i].code+`">`;
+                <div class="col-lg-12 mb-3" style="text-align:left;">
+                    <span class="span-search-ticket">Product Type</span>
+                    <div class="input-container-search-ticket">
+                        <div class="form-select" id="bpjs-select">
+                            <select id="evoucher_type" name="evoucher_type" class="nice-select-default" onchange="set_evoucher_div();">`;
+                            car_counter = 0;
+                            for(i in ppob_data.product_data[bill_type]){
+                                if (carrier_provider_ppob.hasOwnProperty(ppob_data.product_data[bill_type][i].code) && carrier_provider_ppob[ppob_data.product_data[bill_type][i].code].includes(bill_prov))
+                                {
+                                    text+=`
+                                    <option value="`+ppob_data.product_data[bill_type][i].code+`">`+ppob_data.product_data[bill_type][i].name+`</option>
+                                    `;
+                                    if(car_counter == 0){
+                                        $evoucher_type_name = ppob_data.product_data[bill_type][i].name;
+                                    }
+                                    car_counter++;
+                                }
                             }
                             text+=`
-                                <span class="checkmark-radio"></span>
-                            </label>`;
-                        }
-                        text+=`
+                            </select>
+                        </div>
                     </div>
                 </div>
-                <div class="col-lg-12 mt-3" style="text-align:left;">
+                <div class="col-lg-12" style="padding:0px; text-align:left;">
                     <div id="e-voucher_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    </div>
+                </div>
+            `;
+        }
+        else if(bill_type == 'cable tv'){
+            text = `
+                <div class="col-lg-12 mb-3" style="text-align:left;">
+                    <span class="span-search-ticket">Product Type</span>
+                    <div class="input-container-search-ticket">
+                        <div class="form-select" id="cable_tv-select">
+                            <select id="cable_tv_type" name="cable_tv_type" class="nice-select-default" onchange="set_cable_tv_div();">`;
+                            car_counter = 0;
+                            for(i in ppob_data.product_data[bill_type]){
+                                if (carrier_provider_ppob.hasOwnProperty(ppob_data.product_data[bill_type][i].code) && carrier_provider_ppob[ppob_data.product_data[bill_type][i].code].includes(bill_prov))
+                                {
+                                    text+=`
+                                    <option value="`+ppob_data.product_data[bill_type][i].code+`">`+ppob_data.product_data[bill_type][i].name+`</option>
+                                    `;
+                                    if(car_counter == 0){
+                                        $cable_tv_type_name = ppob_data.product_data[bill_type][i].name;
+                                    }
+                                    car_counter++;
+                                }
+                            }
+                            text+=`
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12" style="padding:0px; text-align:left;">
+                    <div id="cable_tv_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    </div>
+                </div>
+            `;
+        }
+        else if(bill_type == 'internet'){
+            text = `
+                <div class="col-lg-12 mb-3" style="text-align:left;">
+                    <span class="span-search-ticket">Product Type</span>
+                    <div class="input-container-search-ticket">
+                        <div class="form-select" id="internet-select">
+                            <select id="internet_type" name="internet_type" class="nice-select-default" onchange="set_internet_div();">`;
+                            car_counter = 0;
+                            for(i in ppob_data.product_data[bill_type]){
+                                if (carrier_provider_ppob.hasOwnProperty(ppob_data.product_data[bill_type][i].code) && carrier_provider_ppob[ppob_data.product_data[bill_type][i].code].includes(bill_prov))
+                                {
+                                    text+=`
+                                    <option value="`+ppob_data.product_data[bill_type][i].code+`">`+ppob_data.product_data[bill_type][i].name+`</option>
+                                    `;
+                                    if(car_counter == 0){
+                                        $internet_type_name = ppob_data.product_data[bill_type][i].name;
+                                    }
+                                    car_counter++;
+                                }
+                            }
+                            text+=`
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12" style="padding:0px; text-align:left;">
+                    <div id="internet_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    </div>
+                </div>
+            `;
+        }
+        else if(bill_type == 'telephone'){
+            text = `
+                <div class="col-lg-12 mb-3" style="text-align:left;">
+                    <span class="span-search-ticket">Product Type</span>
+                    <div class="input-container-search-ticket">
+                        <div class="form-select" id="telephone-select">
+                            <select id="telephone_type" name="telephone_type" class="nice-select-default" onchange="set_telephone_div();">`;
+                            car_counter = 0;
+                            for(i in ppob_data.product_data[bill_type]){
+                                if (carrier_provider_ppob.hasOwnProperty(ppob_data.product_data[bill_type][i].code) && carrier_provider_ppob[ppob_data.product_data[bill_type][i].code].includes(bill_prov))
+                                {
+                                    text+=`
+                                    <option value="`+ppob_data.product_data[bill_type][i].code+`">`+ppob_data.product_data[bill_type][i].name+`</option>
+                                    `;
+                                    if(car_counter == 0){
+                                        $telephone_type_name = ppob_data.product_data[bill_type][i].name;
+                                    }
+                                    car_counter++;
+                                }
+                            }
+                            text+=`
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12" style="padding:0px; text-align:left;">
+                    <div id="telephone_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    </div>
+                </div>
+            `;
+        }
+        else if(bill_type == 'insurance'){
+            text = `
+                <div class="col-lg-12 mb-3" style="text-align:left;">
+                    <span class="span-search-ticket">Product Type</span>
+                    <div class="input-container-search-ticket">
+                        <div class="form-select" id="insurance-select">
+                            <select id="insurance_type" name="insurance_type" class="nice-select-default" onchange="set_insurance_div();">`;
+                            car_counter = 0;
+                            for(i in ppob_data.product_data[bill_type]){
+                                if (carrier_provider_ppob.hasOwnProperty(ppob_data.product_data[bill_type][i].code) && carrier_provider_ppob[ppob_data.product_data[bill_type][i].code].includes(bill_prov))
+                                {
+                                    text+=`
+                                    <option value="`+ppob_data.product_data[bill_type][i].code+`">`+ppob_data.product_data[bill_type][i].name+`</option>
+                                    `;
+                                    if(car_counter == 0){
+                                        $insurance_type_name = ppob_data.product_data[bill_type][i].name;
+                                    }
+                                    car_counter++;
+                                }
+                            }
+                            text+=`
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12" style="padding:0px; text-align:left;">
+                    <div id="ppob_insurance_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    </div>
+                </div>
+            `;
+        }
+        else if(bill_type == 'pdam'){
+            text = `
+                <div class="col-lg-12 mb-3" style="text-align:left;">
+                    <span class="span-search-ticket">Product Type</span>
+                    <div class="input-container-search-ticket">
+                        <div class="form-select" id="pdam-select">
+                            <select id="pdam_type" name="pdam_type" class="nice-select-default" onchange="set_pdam_div();">`;
+                            car_counter = 0;
+                            for(i in ppob_data.product_data[bill_type]){
+                                if (carrier_provider_ppob.hasOwnProperty(ppob_data.product_data[bill_type][i].code) && carrier_provider_ppob[ppob_data.product_data[bill_type][i].code].includes(bill_prov))
+                                {
+                                    text+=`
+                                    <option value="`+ppob_data.product_data[bill_type][i].code+`">`+ppob_data.product_data[bill_type][i].name+`</option>
+                                    `;
+                                    if(car_counter == 0){
+                                        $pdam_type_name = ppob_data.product_data[bill_type][i].name;
+                                    }
+                                    car_counter++;
+                                }
+                            }
+                            text+=`
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12" style="padding:0px; text-align:left;">
+                    <div id="pdam_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    </div>
+                </div>
+            `;
+        }
+        else if(bill_type == 'credit installment'){
+            text = `
+                <div class="col-lg-12 mb-3" style="text-align:left;">
+                    <span class="span-search-ticket">Product Type</span>
+                    <div class="input-container-search-ticket">
+                        <div class="form-select" id="credit_installment-select">
+                            <select id="credit_installment_type" name="credit_installment_type" class="nice-select-default" onchange="set_credit_installment_div();">`;
+                            car_counter = 0;
+                            for(i in ppob_data.product_data[bill_type]){
+                                if (carrier_provider_ppob.hasOwnProperty(ppob_data.product_data[bill_type][i].code) && carrier_provider_ppob[ppob_data.product_data[bill_type][i].code].includes(bill_prov))
+                                {
+                                    text+=`
+                                    <option value="`+ppob_data.product_data[bill_type][i].code+`">`+ppob_data.product_data[bill_type][i].name+`</option>
+                                    `;
+                                    if(car_counter == 0){
+                                        $credit_installment_type_name = ppob_data.product_data[bill_type][i].name;
+                                    }
+                                    car_counter++;
+                                }
+                            }
+                            text+=`
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12" style="padding:0px; text-align:left;">
+                    <div id="credit_installment_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    </div>
+                </div>
+            `;
+        }
+        else if(bill_type == 'credit card'){
+            text = `
+                <div class="col-lg-12 mb-3" style="text-align:left;">
+                    <span class="span-search-ticket">Product Type</span>
+                    <div class="input-container-search-ticket">
+                        <div class="form-select" id="credit_card-select">
+                            <select id="credit_card_type" name="credit_card_type" class="nice-select-default" onchange="set_credit_card_div();">`;
+                            car_counter = 0;
+                            for(i in ppob_data.product_data[bill_type]){
+                                if (carrier_provider_ppob.hasOwnProperty(ppob_data.product_data[bill_type][i].code) && carrier_provider_ppob[ppob_data.product_data[bill_type][i].code].includes(bill_prov))
+                                {
+                                    text+=`
+                                    <option value="`+ppob_data.product_data[bill_type][i].code+`">`+ppob_data.product_data[bill_type][i].name+`</option>
+                                    `;
+                                    if(car_counter == 0){
+                                        $credit_card_type_name = ppob_data.product_data[bill_type][i].name;
+                                    }
+                                    car_counter++;
+                                }
+                            }
+                            text+=`
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12" style="padding:0px; text-align:left;">
+                    <div id="credit_card_div" class="row" style="margin-left:0px;margin-right:0px;">
                     </div>
                 </div>
             `;
@@ -546,73 +1450,58 @@ function set_container_bill(){
         if(bill_type == 'bpjs'){
             text = `
                 <div class="col-lg-12 mb-3" style="text-align:left;">
-                    <div class="input-container-search-ticket">`;
-                        for(i in ppob_data.product_data[bill_type]){
-                            text+=`
-                            <label class="radio-button-custom" style="margin-bottom:0px;">
-                                <span style="font-size:13px; color:`+text_color+`;">`+ppob_data.product_data[bill_type][i].name+`</span>`;
-                            if(i == 0){
-                                text+=`<input type="radio" checked="checked" name="bpjs_type" onchange="get_bpjs_name('`+ppob_data.product_data[bill_type][i].name+`');" value="`+ppob_data.product_data[bill_type][i].code+`">`;
-                                $bpjs_type_name = ppob_data.product_data[bill_type][i].name;
-                            }else{
-                                text+=`<input type="radio" name="pln_type" onchange="get_bpjs_name('`+ppob_data.product_data[bill_type][i].name+`');" value="`+ppob_data.product_data[bill_type][i].code+`">`;
-                            }
-                            text+=`
-                                <span class="checkmark-radio"></span>
-                            </label>`;
-                        }
-                        text+=`
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-12" id="train_date_search">
-                    <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Pay Until</span>
-                    <div class="input-container-search-ticket btn-group">
-                        <div class="form-select" id="default-select">
-                            <select id="bpjs_month" name="bpjs_month" class="nice-select-default">`;
-                            print_month = false
-                            for(i in month_list){
-                                if(moment().format('MMM') == month_list[i][1]){
-                                    print_month = true;
-                                    month_counter = 1;
-                                }if(print_month == true){
-                                    text+= `<option value='`+month_counter+`'>`+month_list[i][1]+` `+new Date().getFullYear()+`</option>`;
-                                    month_counter++
+                    <span class="span-search-ticket">Product Type</span>
+                    <div class="input-container-search-ticket">
+                        <div class="form-select" id="bpjs-select">
+                            <select id="bpjs_type" name="bpjs_type" class="nice-select-default" onchange="get_bpjs_name();">`;
+                            car_counter = 0;
+                            for(i in ppob_data.product_data[bill_type]){
+                                if (carrier_provider_ppob.hasOwnProperty(ppob_data.product_data[bill_type][i].code) && carrier_provider_ppob[ppob_data.product_data[bill_type][i].code].includes(bill_prov))
+                                {
+                                    text+=`
+                                    <option value="`+ppob_data.product_data[bill_type][i].code+`">`+ppob_data.product_data[bill_type][i].name+`</option>
+                                    `;
+                                    if(car_counter == 0){
+                                        $bpjs_type_name = ppob_data.product_data[bill_type][i].name;
+                                    }
+                                    car_counter++;
                                 }
                             }
-                text+=`
+                            text+=`
                             </select>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-9 col-md-9 col-sm-12" style="text-align:left;">
-                    <span class="span-search-ticket"><i class="fas fa-briefcase"></i> Nomor Virtual Account Keluarga / Perusahaan</span>
-                    <div class="input-container-search-ticket">
-                        <input type="text" class="form-control virtual_number" name="bpjs_number" id="bpjs_number" onkeyup="check_bpjs_number();" onpaste="setTimeout(check_bpjs_number.bind(null,this),100);" placeholder="Nomor Virtual Account Keluarga / Perusahaan" autocomplete="off"/>
-                    </div>
-                    <div style="text-align:left;">
-                        <h6 style="color:`+color+`;" id="input_alert" style="display:none;"></h6>
+                <div class="col-lg-12" style="padding:0px; text-align:left;">
+                    <div id="bpjs_div" class="row" style="margin-left:0px;margin-right:0px;">
                     </div>
                 </div>
             `;
         }
         else if(bill_type == 'pln'){
             text = `
-                <div class="col-lg-12 mb-3" style="text-align:left;">`;
-                    for(i in ppob_data.product_data[bill_type]){
-                        text+=`
-                        <label class="radio-button-custom" style="margin-bottom:10px;">
-                            <span style="font-size:13px; color:`+text_color+`;">`+ppob_data.product_data[bill_type][i].name+`</span>`;
-                        if(i == 0){
-                            text+=`<input type="radio" checked="checked" name="pln_type" onchange="get_pln_name('`+ppob_data.product_data[bill_type][i].name+`'); set_pln_div();" value="`+ppob_data.product_data[bill_type][i].code+`">`;
-                            $pln_type_name = ppob_data.product_data[bill_type][i].name;
-                        }else{
-                            text+=`<input type="radio" name="pln_type" onchange="get_pln_name('`+ppob_data.product_data[bill_type][i].name+`'); set_pln_div();" value="`+ppob_data.product_data[bill_type][i].code+`">`;
-                        }
-                        text+=`
-                            <span class="checkmark-radio"></span>
-                        </label>`;
-                    }
-                    text+=`
+                <div class="col-lg-12 mb-3" style="text-align:left;">
+                    <span class="span-search-ticket">Product Type</span>
+                    <div class="input-container-search-ticket">
+                        <div class="form-select" id="pln-select">
+                            <select id="pln_type" name="pln_type" class="nice-select-default" onchange="set_pln_div();">`;
+                            car_counter = 0;
+                            for(i in ppob_data.product_data[bill_type]){
+                                if (carrier_provider_ppob.hasOwnProperty(ppob_data.product_data[bill_type][i].code) && carrier_provider_ppob[ppob_data.product_data[bill_type][i].code].includes(bill_prov))
+                                {
+                                    text+=`
+                                    <option value="`+ppob_data.product_data[bill_type][i].code+`">`+ppob_data.product_data[bill_type][i].name+`</option>
+                                    `;
+                                    if(car_counter == 0){
+                                        $pln_type_name = ppob_data.product_data[bill_type][i].name;
+                                    }
+                                    car_counter++;
+                                }
+                            }
+                            text+=`
+                            </select>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-lg-12" style="padding:0px; text-align:left;">
                     <div id="pln_div" class="row" style="margin-left:0px;margin-right:0px;">
@@ -622,29 +1511,250 @@ function set_container_bill(){
         }
         else if(bill_type == 'e-voucher'){
             text = `
-                <div class="col-lg-12" style="text-align:left;">
-                    <div class="input-container-search-ticket">`;
-                        for(i in ppob_data.product_data[bill_type]){
-                            text+=`
-                            <label class="radio-button-custom" style="margin-bottom:0px;">
-                                <span style="font-size:13px; color:`+text_color+`;">`+ppob_data.product_data[bill_type][i].name+`</span>`;
-                            if(i == 0){
-                                text+=`<input type="radio" checked="checked" name="e-voucher_type" onchange="get_evoucher_name('`+ppob_data.product_data[bill_type][i].name+`'); set_evoucher_div();" value="`+ppob_data.product_data[bill_type][i].code+`">`;
-                                $evoucher_type_name = ppob_data.product_data[bill_type][i].name;
-                            }else{
-                                text+=`<input type="radio" name="e-voucher_type" onchange="get_evoucher_name('`+ppob_data.product_data[bill_type][i].name+`'); set_evoucher_div();" value="`+ppob_data.product_data[bill_type][i].code+`">`;
+                <div class="col-lg-12 mb-3" style="text-align:left;">
+                    <span class="span-search-ticket">Product Type</span>
+                    <div class="input-container-search-ticket">
+                        <div class="form-select" id="bpjs-select">
+                            <select id="evoucher_type" name="evoucher_type" class="nice-select-default" onchange="set_evoucher_div();">`;
+                            car_counter = 0;
+                            for(i in ppob_data.product_data[bill_type]){
+                                if (carrier_provider_ppob.hasOwnProperty(ppob_data.product_data[bill_type][i].code) && carrier_provider_ppob[ppob_data.product_data[bill_type][i].code].includes(bill_prov))
+                                {
+                                    text+=`
+                                    <option value="`+ppob_data.product_data[bill_type][i].code+`">`+ppob_data.product_data[bill_type][i].name+`</option>
+                                    `;
+                                    if(car_counter == 0){
+                                        $evoucher_type_name = ppob_data.product_data[bill_type][i].name;
+                                    }
+                                    car_counter++;
+                                }
                             }
                             text+=`
-                                <span class="checkmark-radio"></span>
-                            </label>`;
-                        }
-                        text+=`
+                            </select>
+                        </div>
                     </div>
                 </div>
-                <div class="col-lg-12 mt-3" style="text-align:left;">
+                <div class="col-lg-12" style="padding:0px; text-align:left;">
                     <div id="e-voucher_div" class="row" style="margin-left:0px;margin-right:0px;">
                     </div>
                 </div>`;
+        }
+        else if(bill_type == 'cable tv'){
+            text = `
+                <div class="col-lg-12 mb-3" style="text-align:left;">
+                    <span class="span-search-ticket">Product Type</span>
+                    <div class="input-container-search-ticket">
+                        <div class="form-select" id="cable_tv-select">
+                            <select id="cable_tv_type" name="cable_tv_type" class="nice-select-default" onchange="set_cable_tv_div();">`;
+                            car_counter = 0;
+                            for(i in ppob_data.product_data[bill_type]){
+                                if (carrier_provider_ppob.hasOwnProperty(ppob_data.product_data[bill_type][i].code) && carrier_provider_ppob[ppob_data.product_data[bill_type][i].code].includes(bill_prov))
+                                {
+                                    text+=`
+                                    <option value="`+ppob_data.product_data[bill_type][i].code+`">`+ppob_data.product_data[bill_type][i].name+`</option>
+                                    `;
+                                    if(car_counter == 0){
+                                        $cable_tv_type_name = ppob_data.product_data[bill_type][i].name;
+                                    }
+                                    car_counter++;
+                                }
+                            }
+                            text+=`
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12" style="padding:0px; text-align:left;">
+                    <div id="cable_tv_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    </div>
+                </div>
+            `;
+        }
+        else if(bill_type == 'internet'){
+            text = `
+                <div class="col-lg-12 mb-3" style="text-align:left;">
+                    <span class="span-search-ticket">Product Type</span>
+                    <div class="input-container-search-ticket">
+                        <div class="form-select" id="internet-select">
+                            <select id="internet_type" name="internet_type" class="nice-select-default" onchange="set_internet_div();">`;
+                            car_counter = 0;
+                            for(i in ppob_data.product_data[bill_type]){
+                                if (carrier_provider_ppob.hasOwnProperty(ppob_data.product_data[bill_type][i].code) && carrier_provider_ppob[ppob_data.product_data[bill_type][i].code].includes(bill_prov))
+                                {
+                                    text+=`
+                                    <option value="`+ppob_data.product_data[bill_type][i].code+`">`+ppob_data.product_data[bill_type][i].name+`</option>
+                                    `;
+                                    if(car_counter == 0){
+                                        $internet_type_name = ppob_data.product_data[bill_type][i].name;
+                                    }
+                                    car_counter++;
+                                }
+                            }
+                            text+=`
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12" style="padding:0px; text-align:left;">
+                    <div id="internet_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    </div>
+                </div>
+            `;
+        }
+        else if(bill_type == 'telephone'){
+            text = `
+                <div class="col-lg-12 mb-3" style="text-align:left;">
+                    <span class="span-search-ticket">Product Type</span>
+                    <div class="input-container-search-ticket">
+                        <div class="form-select" id="telephone-select">
+                            <select id="telephone_type" name="telephone_type" class="nice-select-default" onchange="set_telephone_div();">`;
+                            car_counter = 0;
+                            for(i in ppob_data.product_data[bill_type]){
+                                if (carrier_provider_ppob.hasOwnProperty(ppob_data.product_data[bill_type][i].code) && carrier_provider_ppob[ppob_data.product_data[bill_type][i].code].includes(bill_prov))
+                                {
+                                    text+=`
+                                    <option value="`+ppob_data.product_data[bill_type][i].code+`">`+ppob_data.product_data[bill_type][i].name+`</option>
+                                    `;
+                                    if(car_counter == 0){
+                                        $telephone_type_name = ppob_data.product_data[bill_type][i].name;
+                                    }
+                                    car_counter++;
+                                }
+                            }
+                            text+=`
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12" style="padding:0px; text-align:left;">
+                    <div id="telephone_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    </div>
+                </div>
+            `;
+        }
+        else if(bill_type == 'insurance'){
+            text = `
+                <div class="col-lg-12 mb-3" style="text-align:left;">
+                    <span class="span-search-ticket">Product Type</span>
+                    <div class="input-container-search-ticket">
+                        <div class="form-select" id="insurance-select">
+                            <select id="insurance_type" name="insurance_type" class="nice-select-default" onchange="set_insurance_div();">`;
+                            car_counter = 0;
+                            for(i in ppob_data.product_data[bill_type]){
+                                if (carrier_provider_ppob.hasOwnProperty(ppob_data.product_data[bill_type][i].code) && carrier_provider_ppob[ppob_data.product_data[bill_type][i].code].includes(bill_prov))
+                                {
+                                    text+=`
+                                    <option value="`+ppob_data.product_data[bill_type][i].code+`">`+ppob_data.product_data[bill_type][i].name+`</option>
+                                    `;
+                                    if(car_counter == 0){
+                                        $insurance_type_name = ppob_data.product_data[bill_type][i].name;
+                                    }
+                                    car_counter++;
+                                }
+                            }
+                            text+=`
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12" style="padding:0px; text-align:left;">
+                    <div id="ppob_insurance_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    </div>
+                </div>
+            `;
+        }
+        else if(bill_type == 'pdam'){
+            text = `
+                <div class="col-lg-12 mb-3" style="text-align:left;">
+                    <span class="span-search-ticket">Product Type</span>
+                    <div class="input-container-search-ticket">
+                        <div class="form-select" id="pdam-select">
+                            <select id="pdam_type" name="pdam_type" class="nice-select-default" onchange="set_pdam_div();">`;
+                            car_counter = 0;
+                            for(i in ppob_data.product_data[bill_type]){
+                                if (carrier_provider_ppob.hasOwnProperty(ppob_data.product_data[bill_type][i].code) && carrier_provider_ppob[ppob_data.product_data[bill_type][i].code].includes(bill_prov))
+                                {
+                                    text+=`
+                                    <option value="`+ppob_data.product_data[bill_type][i].code+`">`+ppob_data.product_data[bill_type][i].name+`</option>
+                                    `;
+                                    if(car_counter == 0){
+                                        $pdam_type_name = ppob_data.product_data[bill_type][i].name;
+                                    }
+                                    car_counter++;
+                                }
+                            }
+                            text+=`
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12" style="padding:0px; text-align:left;">
+                    <div id="pdam_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    </div>
+                </div>
+            `;
+        }
+        else if(bill_type == 'credit installment'){
+            text = `
+                <div class="col-lg-12 mb-3" style="text-align:left;">
+                    <span class="span-search-ticket">Product Type</span>
+                    <div class="input-container-search-ticket">
+                        <div class="form-select" id="credit_installment-select">
+                            <select id="credit_installment_type" name="credit_installment_type" class="nice-select-default" onchange="set_credit_installment_div();">`;
+                            car_counter = 0;
+                            for(i in ppob_data.product_data[bill_type]){
+                                if (carrier_provider_ppob.hasOwnProperty(ppob_data.product_data[bill_type][i].code) && carrier_provider_ppob[ppob_data.product_data[bill_type][i].code].includes(bill_prov))
+                                {
+                                    text+=`
+                                    <option value="`+ppob_data.product_data[bill_type][i].code+`">`+ppob_data.product_data[bill_type][i].name+`</option>
+                                    `;
+                                    if(car_counter == 0){
+                                        $credit_installment_type_name = ppob_data.product_data[bill_type][i].name;
+                                    }
+                                    car_counter++;
+                                }
+                            }
+                            text+=`
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12" style="padding:0px; text-align:left;">
+                    <div id="credit_installment_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    </div>
+                </div>
+            `;
+        }
+        else if(bill_type == 'credit card'){
+            text = `
+                <div class="col-lg-12 mb-3" style="text-align:left;">
+                    <span class="span-search-ticket">Product Type</span>
+                    <div class="input-container-search-ticket">
+                        <div class="form-select" id="credit_card-select">
+                            <select id="credit_card_type" name="credit_card_type" class="nice-select-default" onchange="set_credit_card_div();">`;
+                            car_counter = 0;
+                            for(i in ppob_data.product_data[bill_type]){
+                                if (carrier_provider_ppob.hasOwnProperty(ppob_data.product_data[bill_type][i].code) && carrier_provider_ppob[ppob_data.product_data[bill_type][i].code].includes(bill_prov))
+                                {
+                                    text+=`
+                                    <option value="`+ppob_data.product_data[bill_type][i].code+`">`+ppob_data.product_data[bill_type][i].name+`</option>
+                                    `;
+                                    if(car_counter == 0){
+                                        $credit_card_type_name = ppob_data.product_data[bill_type][i].name;
+                                    }
+                                    car_counter++;
+                                }
+                            }
+                            text+=`
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12" style="padding:0px; text-align:left;">
+                    <div id="credit_card_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    </div>
+                </div>
+            `;
         }
     }
 
@@ -652,84 +1762,58 @@ function set_container_bill(){
         if(bill_type == 'bpjs'){
             text = `
                 <div class="col-lg-12 mb-3" style="text-align:left;">
-                    <div class="input-container-search-ticket">`;
-                        for(i in ppob_data.product_data[bill_type]){
-                            text+=`
-                            <label class="radio-button-custom" style="margin-bottom:0px;">
-                                <span style="font-size:13px; color:`+text_color+`;">`+ppob_data.product_data[bill_type][i].name+`</span>`;
-                            if(i == 0){
-                                text+=`<input type="radio" checked="checked" name="bpjs_type" onchange="get_bpjs_name('`+ppob_data.product_data[bill_type][i].name+`');" value="`+ppob_data.product_data[bill_type][i].code+`">`;
-                                $bpjs_type_name = ppob_data.product_data[bill_type][i].name;
-                            }else{
-                                text+=`<input type="radio" name="pln_type" onchange="get_bpjs_name('`+ppob_data.product_data[bill_type][i].name+`');" value="`+ppob_data.product_data[bill_type][i].code+`">`;
-                            }
-                            text+=`
-                                <span class="checkmark-radio"></span>
-                            </label>`;
-                        }
-                        text+=`
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-12" id="train_date_search">
-                    <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Pay Until</span>
-                    <div class="input-container-search-ticket btn-group">
-                        <div class="form-select" id="default-select">
-                            <select id="bpjs_month" name="bpjs_month" class="nice-select-default">`;
-                            print_month = false;
-                            max_count = 12;
-                            for(i in month_list){
-                                if(moment().format('MMM') == month_list[i][1]){
-                                    print_month = true;
-                                    month_counter = 1;
-                                }if(print_month == true){
-                                    text+= `<option value='`+month_counter+`'>`+month_list[i][1]+` `+new Date().getFullYear()+`</option>`;
-                                    month_counter++;
-                                    max_count--;
+                    <span class="span-search-ticket">Product Type</span>
+                    <div class="input-container-search-ticket">
+                        <div class="form-select" id="bpjs-select">
+                            <select id="bpjs_type" name="bpjs_type" class="nice-select-default" onchange="get_bpjs_name();">`;
+                            car_counter = 0;
+                            for(i in ppob_data.product_data[bill_type]){
+                                if (carrier_provider_ppob.hasOwnProperty(ppob_data.product_data[bill_type][i].code) && carrier_provider_ppob[ppob_data.product_data[bill_type][i].code].includes(bill_prov))
+                                {
+                                    text+=`
+                                    <option value="`+ppob_data.product_data[bill_type][i].code+`">`+ppob_data.product_data[bill_type][i].name+`</option>
+                                    `;
+                                    if(car_counter == 0){
+                                        $bpjs_type_name = ppob_data.product_data[bill_type][i].name;
+                                    }
+                                    car_counter++;
                                 }
                             }
-                            for(i in month_list){
-                                if(max_count != 0){
-                                    text+= `<option value='`+month_counter+`'>`+month_list[i][1]+` `+parseInt(new Date().getFullYear()+1)+`</option>`;
-                                    month_counter++;
-                                    max_count--;
-                                }else{
-                                    break;
-                                }
-                            }
-                text+=`
+                            text+=`
                             </select>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-9 col-md-9 col-sm-12" style="text-align:left;">
-                    <span class="span-search-ticket"><i class="fas fa-briefcase"></i> Nomor Virtual Account Keluarga / Perusahaan</span>
-                    <div class="input-container-search-ticket">
-                        <input type="text" class="form-control virtual_number" name="bpjs_number" id="bpjs_number" onkeyup="check_bpjs_number();" onpaste="setTimeout(check_bpjs_number.bind(null,this),100);" placeholder="Nomor Virtual Account Keluarga / Perusahaan" autocomplete="off"/>
-                    </div>
-                    <div style="text-align:left;">
-                        <span style="color:`+color+`; font-size:14px; font-weight:bold;" id="input_alert" style="display:none;"></span>
+                <div class="col-lg-12 mt-3" style="text-align:left;">
+                    <div id="bpjs_div" class="row">
                     </div>
                 </div>
             `;
         }
         else if(bill_type == 'pln'){
             text = `
-            <div class="col-lg-12" style="text-align:left;">`;
-                for(i in ppob_data.product_data[bill_type]){
-                    text+=`
-                    <label class="radio-button-custom" style="margin-bottom:10px;">
-                        <span style="font-size:13px; color:`+text_color+`;">`+ppob_data.product_data[bill_type][i].name+`</span>`;
-                    if(i == 0){
-                        text+=`<input type="radio" checked="checked" name="pln_type" onchange="get_pln_name('`+ppob_data.product_data[bill_type][i].name+`'); set_pln_div();" value="`+ppob_data.product_data[bill_type][i].code+`">`;
-                        $pln_type_name = ppob_data.product_data[bill_type][i].name;
-                    }else{
-                        text+=`<input type="radio" name="pln_type" onchange="get_pln_name('`+ppob_data.product_data[bill_type][i].name+`'); set_pln_div();" value="`+ppob_data.product_data[bill_type][i].code+`">`;
-                    }
-                    text+=`
-                        <span class="checkmark-radio"></span>
-                    </label>`;
-                }
-                text+=`
+            <div class="col-lg-12" style="text-align:left;">
+                <span class="span-search-ticket">Product Type</span>
+                <div class="input-container-search-ticket">
+                    <div class="form-select" id="pln-select">
+                        <select id="pln_type" name="pln_type" class="nice-select-default" onchange="set_pln_div();">`;
+                        car_counter = 0;
+                        for(i in ppob_data.product_data[bill_type]){
+                            if (carrier_provider_ppob.hasOwnProperty(ppob_data.product_data[bill_type][i].code) && carrier_provider_ppob[ppob_data.product_data[bill_type][i].code].includes(bill_prov))
+                            {
+                                text+=`
+                                <option value="`+ppob_data.product_data[bill_type][i].code+`">`+ppob_data.product_data[bill_type][i].name+`</option>
+                                `;
+                                if(car_counter == 0){
+                                    $pln_type_name = ppob_data.product_data[bill_type][i].name;
+                                }
+                                car_counter++;
+                            }
+                        }
+                        text+=`
+                        </select>
+                    </div>
+                </div>
             </div>
             <div class="col-lg-12 mt-3" style="text-align:left;">
                 <div id="pln_div" class="row">
@@ -739,26 +1823,247 @@ function set_container_bill(){
         else if(bill_type == 'e-voucher'){
             text = `
                 <div class="col-lg-12" style="text-align:left;">
-                    <div class="input-container-search-ticket">`;
-                        for(i in ppob_data.product_data[bill_type]){
-                            text+=`
-                            <label class="radio-button-custom" style="margin-bottom:0px;">
-                                <span style="font-size:13px; color:`+text_color+`;">`+ppob_data.product_data[bill_type][i].name+`</span>`;
-                            if(i == 0){
-                                text+=`<input type="radio" checked="checked" name="e-voucher_type" onchange="get_evoucher_name('`+ppob_data.product_data[bill_type][i].name+`'); set_evoucher_div();" value="`+ppob_data.product_data[bill_type][i].code+`">`;
-                                $evoucher_type_name = ppob_data.product_data[bill_type][i].name;
-                            }else{
-                                text+=`<input type="radio" name="e-voucher_type" onchange="get_evoucher_name('`+ppob_data.product_data[bill_type][i].name+`'); set_evoucher_div();" value="`+ppob_data.product_data[bill_type][i].code+`">`;
+                    <span class="span-search-ticket">Product Type</span>
+                    <div class="input-container-search-ticket">
+                        <div class="form-select" id="bpjs-select">
+                            <select id="evoucher_type" name="evoucher_type" class="nice-select-default" onchange="set_evoucher_div();">`;
+                            car_counter = 0;
+                            for(i in ppob_data.product_data[bill_type]){
+                                if (carrier_provider_ppob.hasOwnProperty(ppob_data.product_data[bill_type][i].code) && carrier_provider_ppob[ppob_data.product_data[bill_type][i].code].includes(bill_prov))
+                                {
+                                    text+=`
+                                    <option value="`+ppob_data.product_data[bill_type][i].code+`">`+ppob_data.product_data[bill_type][i].name+`</option>
+                                    `;
+                                    if(car_counter == 0){
+                                        $evoucher_type_name = ppob_data.product_data[bill_type][i].name;
+                                    }
+                                    car_counter++;
+                                }
                             }
                             text+=`
-                                <span class="checkmark-radio"></span>
-                            </label>`;
-                        }
-                        text+=`
+                            </select>
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-12 mt-3" style="text-align:left;">
                     <div id="e-voucher_div" class="row">
+                    </div>
+                </div>
+            `;
+        }
+        else if(bill_type == 'cable tv'){
+            text = `
+                <div class="col-lg-12" style="text-align:left;">
+                    <span class="span-search-ticket">Product Type</span>
+                    <div class="input-container-search-ticket">
+                        <div class="form-select" id="cable_tv-select">
+                            <select id="cable_tv_type" name="cable_tv_type" class="nice-select-default" onchange="set_cable_tv_div();">`;
+                            car_counter = 0;
+                            for(i in ppob_data.product_data[bill_type]){
+                                if (carrier_provider_ppob.hasOwnProperty(ppob_data.product_data[bill_type][i].code) && carrier_provider_ppob[ppob_data.product_data[bill_type][i].code].includes(bill_prov))
+                                {
+                                    text+=`
+                                    <option value="`+ppob_data.product_data[bill_type][i].code+`">`+ppob_data.product_data[bill_type][i].name+`</option>
+                                    `;
+                                    if(car_counter == 0){
+                                        $cable_tv_type_name = ppob_data.product_data[bill_type][i].name;
+                                    }
+                                    car_counter++;
+                                }
+                            }
+                            text+=`
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12 mt-3" style="text-align:left;">
+                    <div id="cable_tv_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    </div>
+                </div>
+            `;
+        }
+        else if(bill_type == 'internet'){
+            text = `
+                <div class="col-lg-12" style="text-align:left;">
+                    <span class="span-search-ticket">Product Type</span>
+                    <div class="input-container-search-ticket">
+                        <div class="form-select" id="internet-select">
+                            <select id="internet_type" name="internet_type" class="nice-select-default" onchange="set_internet_div();">`;
+                            car_counter = 0;
+                            for(i in ppob_data.product_data[bill_type]){
+                                if (carrier_provider_ppob.hasOwnProperty(ppob_data.product_data[bill_type][i].code) && carrier_provider_ppob[ppob_data.product_data[bill_type][i].code].includes(bill_prov))
+                                {
+                                    text+=`
+                                    <option value="`+ppob_data.product_data[bill_type][i].code+`">`+ppob_data.product_data[bill_type][i].name+`</option>
+                                    `;
+                                    if(car_counter == 0){
+                                        $internet_type_name = ppob_data.product_data[bill_type][i].name;
+                                    }
+                                    car_counter++;
+                                }
+                            }
+                            text+=`
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12 mt-3" style="text-align:left;">
+                    <div id="internet_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    </div>
+                </div>
+            `;
+        }
+        else if(bill_type == 'telephone'){
+            text = `
+                <div class="col-lg-12" style="text-align:left;">
+                    <span class="span-search-ticket">Product Type</span>
+                    <div class="input-container-search-ticket">
+                        <div class="form-select" id="telephone-select">
+                            <select id="telephone_type" name="telephone_type" class="nice-select-default" onchange="set_telephone_div();">`;
+                            car_counter = 0;
+                            for(i in ppob_data.product_data[bill_type]){
+                                if (carrier_provider_ppob.hasOwnProperty(ppob_data.product_data[bill_type][i].code) && carrier_provider_ppob[ppob_data.product_data[bill_type][i].code].includes(bill_prov))
+                                {
+                                    text+=`
+                                    <option value="`+ppob_data.product_data[bill_type][i].code+`">`+ppob_data.product_data[bill_type][i].name+`</option>
+                                    `;
+                                    if(car_counter == 0){
+                                        $telephone_type_name = ppob_data.product_data[bill_type][i].name;
+                                    }
+                                    car_counter++;
+                                }
+                            }
+                            text+=`
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12 mt-3" style="text-align:left;">
+                    <div id="telephone_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    </div>
+                </div>
+            `;
+        }
+        else if(bill_type == 'insurance'){
+            text = `
+                <div class="col-lg-12" style="text-align:left;">
+                    <span class="span-search-ticket">Product Type</span>
+                    <div class="input-container-search-ticket">
+                        <div class="form-select" id="insurance-select">
+                            <select id="insurance_type" name="insurance_type" class="nice-select-default" onchange="set_insurance_div();">`;
+                            car_counter = 0;
+                            for(i in ppob_data.product_data[bill_type]){
+                                if (carrier_provider_ppob.hasOwnProperty(ppob_data.product_data[bill_type][i].code) && carrier_provider_ppob[ppob_data.product_data[bill_type][i].code].includes(bill_prov))
+                                {
+                                    text+=`
+                                    <option value="`+ppob_data.product_data[bill_type][i].code+`">`+ppob_data.product_data[bill_type][i].name+`</option>
+                                    `;
+                                    if(car_counter == 0){
+                                        $insurance_type_name = ppob_data.product_data[bill_type][i].name;
+                                    }
+                                    car_counter++;
+                                }
+                            }
+                            text+=`
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12 mt-3" style="text-align:left;">
+                    <div id="ppob_insurance_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    </div>
+                </div>
+            `;
+        }
+        else if(bill_type == 'pdam'){
+            text = `
+                <div class="col-lg-12" style="text-align:left;">
+                    <span class="span-search-ticket">Product Type</span>
+                    <div class="input-container-search-ticket">
+                        <div class="form-select" id="pdam-select">
+                            <select id="pdam_type" name="pdam_type" class="nice-select-default" onchange="set_pdam_div();">`;
+                            car_counter = 0;
+                            for(i in ppob_data.product_data[bill_type]){
+                                if (carrier_provider_ppob.hasOwnProperty(ppob_data.product_data[bill_type][i].code) && carrier_provider_ppob[ppob_data.product_data[bill_type][i].code].includes(bill_prov))
+                                {
+                                    text+=`
+                                    <option value="`+ppob_data.product_data[bill_type][i].code+`">`+ppob_data.product_data[bill_type][i].name+`</option>
+                                    `;
+                                    if(car_counter == 0){
+                                        $pdam_type_name = ppob_data.product_data[bill_type][i].name;
+                                    }
+                                    car_counter++;
+                                }
+                            }
+                            text+=`
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12 mt-3" style="text-align:left;">
+                    <div id="pdam_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    </div>
+                </div>
+            `;
+        }
+        else if(bill_type == 'credit installment'){
+            text = `
+                <div class="col-lg-12" style="text-align:left;">
+                    <span class="span-search-ticket">Product Type</span>
+                    <div class="input-container-search-ticket">
+                        <div class="form-select" id="credit_installment-select">
+                            <select id="credit_installment_type" name="credit_installment_type" class="nice-select-default" onchange="set_credit_installment_div();">`;
+                            car_counter = 0;
+                            for(i in ppob_data.product_data[bill_type]){
+                                if (carrier_provider_ppob.hasOwnProperty(ppob_data.product_data[bill_type][i].code) && carrier_provider_ppob[ppob_data.product_data[bill_type][i].code].includes(bill_prov))
+                                {
+                                    text+=`
+                                    <option value="`+ppob_data.product_data[bill_type][i].code+`">`+ppob_data.product_data[bill_type][i].name+`</option>
+                                    `;
+                                    if(car_counter == 0){
+                                        $credit_installment_type_name = ppob_data.product_data[bill_type][i].name;
+                                    }
+                                    car_counter++;
+                                }
+                            }
+                            text+=`
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12 mt-3" style="text-align:left;">
+                    <div id="credit_installment_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    </div>
+                </div>
+            `;
+        }
+        else if(bill_type == 'credit card'){
+            text = `
+                <div class="col-lg-12" style="text-align:left;">
+                    <span class="span-search-ticket">Product Type</span>
+                    <div class="input-container-search-ticket">
+                        <div class="form-select" id="credit_card-select">
+                            <select id="credit_card_type" name="credit_card_type" class="nice-select-default" onchange="set_credit_card_div();">`;
+                            car_counter = 0;
+                            for(i in ppob_data.product_data[bill_type]){
+                                if (carrier_provider_ppob.hasOwnProperty(ppob_data.product_data[bill_type][i].code) && carrier_provider_ppob[ppob_data.product_data[bill_type][i].code].includes(bill_prov))
+                                {
+                                    text+=`
+                                    <option value="`+ppob_data.product_data[bill_type][i].code+`">`+ppob_data.product_data[bill_type][i].name+`</option>
+                                    `;
+                                    if(car_counter == 0){
+                                        $credit_card_type_name = ppob_data.product_data[bill_type][i].name;
+                                    }
+                                    car_counter++;
+                                }
+                            }
+                            text+=`
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12 mt-3" style="text-align:left;">
+                    <div id="credit_card_div" class="row" style="margin-left:0px;margin-right:0px;">
                     </div>
                 </div>
             `;
@@ -780,24 +2085,93 @@ function set_container_bill(){
 //        `;
     document.getElementById('bill_div').innerHTML = text;
     if(bill_type == 'bpjs'){
+        $('#bpjs_type').niceSelect();
+        set_bpjs_div();
         $('#bpjs_month').niceSelect();
     }else if(bill_type == 'pln'){
+        $('#pln_type').niceSelect();
         set_pln_div();
     }else if(bill_type == 'e-voucher'){
+        $('#evoucher_type').niceSelect();
         set_evoucher_div();
+    }else if(bill_type == 'cable tv'){
+        $('#cable_tv_type').niceSelect();
+        set_cable_tv_div();
+    }else if(bill_type == 'internet'){
+        $('#internet_type').niceSelect();
+        set_internet_div();
+    }else if(bill_type == 'telephone'){
+        $('#telephone_type').niceSelect();
+        set_telephone_div();
+    }else if(bill_type == 'insurance'){
+        $('#insurance_type').niceSelect();
+        set_insurance_div();
+    }else if(bill_type == 'pdam'){
+        $('#pdam_type').niceSelect();
+        set_pdam_div();
+    }else if(bill_type == 'credit installment'){
+        $('#credit_installment_type').niceSelect();
+        set_credit_installment_div();
+    }else if(bill_type == 'credit card'){
+        $('#credit_card_type').niceSelect();
+        set_credit_card_div();
     }
+
 }
 
-
-function get_bpjs_name(name){
-    $bpjs_type_name = name;
+function get_bpjs_name(){
+    var bpjs_selection = document.getElementById('bpjs_type')
+    $bpjs_type_name = bpjs_selection.options[bpjs_selection.selectedIndex].text;
 }
 
-function get_pln_name(name){
-    $pln_type_name = name;
+function get_pln_name(){
+    var pln_selection = document.getElementById('pln_type')
+    $pln_type_name = pln_selection.options[pln_selection.selectedIndex].text;
+}
+
+function get_evoucher_name(){
+    var evoucher_selection = document.getElementById('evoucher_type')
+    $evoucher_type_name = evoucher_selection.options[evoucher_selection.selectedIndex].text;
+}
+
+function get_cable_tv_name(){
+    var cable_tv_selection = document.getElementById('cable_tv_type')
+    $cable_tv_type_name = cable_tv_selection.options[cable_tv_selection.selectedIndex].text;
+}
+
+function get_internet_name(){
+    var internet_selection = document.getElementById('internet_type')
+    $internet_type_name = internet_selection.options[internet_selection.selectedIndex].text;
+}
+
+function get_telephone_name(){
+    var telephone_selection = document.getElementById('telephone_type')
+    $telephone_type_name = telephone_selection.options[telephone_selection.selectedIndex].text;
+}
+
+function get_insurance_name(){
+    var insurance_selection = document.getElementById('insurance_type')
+    $insurance_type_name = insurance_selection.options[insurance_selection.selectedIndex].text;
+}
+
+function get_pdam_name(){
+    var pdam_selection = document.getElementById('pdam_type')
+    $pdam_type_name = pdam_selection.options[pdam_selection.selectedIndex].text;
+}
+
+function get_credit_installment_name(){
+    var credit_installment_selection = document.getElementById('credit_installment_type')
+    $credit_installment_type_name = credit_installment_selection.options[credit_installment_selection.selectedIndex].text;
+}
+
+function get_credit_card_name(){
+    var credit_card_selection = document.getElementById('credit_card_type')
+    $credit_card_type_name = credit_card_selection.options[credit_card_selection.selectedIndex].text;
 }
 
 function set_pln_div(){
+    var pln_selection = document.getElementById('pln_type')
+    $pln_type_name = pln_selection.options[pln_selection.selectedIndex].text;
     if(template == 1){
         if($pln_type_name == 'PLN Prepaid'){
             text = `<div class="col-lg-6 col-md-6 col-sm-6" style="padding:0px; text-align:left;margin-bottom:10px;">
@@ -1043,11 +2417,243 @@ function set_pln_div(){
     $('#pln_nominal').niceSelect();
 }
 
-function get_evoucher_name(name){
-    $evoucher_type_name = name;
+function set_bpjs_div(){
+    var bpjs_selection = document.getElementById('bpjs_type')
+    $bpjs_type_name = bpjs_selection.options[bpjs_selection.selectedIndex].text;
+    if(template == 1){
+        if($bpjs_type_name == 'BPJS Kesehatan'){
+            text = `
+            <div class="col-lg-3 col-md-3 col-sm-12" style="padding:0px;" id="train_date_search">
+                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Pay Until</span>
+                <div class="input-container-search-ticket btn-group">
+                    <div class="form-select" id="default-select">
+                        <select id="bpjs_month" name="bpjs_month" class="nice-select-default">`;
+                        print_month = false;
+                        max_count = 12;
+                        for(i in month_list){
+                            if(moment().format('MMM') == month_list[i][1]){
+                                print_month = true;
+                                month_counter = 1;
+                            }if(print_month == true){
+                                text+= `<option value='`+month_counter+`'>`+month_list[i][1]+` `+new Date().getFullYear()+`</option>`;
+                                month_counter++;
+                                max_count--;
+                            }
+                        }
+                        for(i in month_list){
+                            if(max_count != 0){
+                                text+= `<option value='`+month_counter+`'>`+month_list[i][1]+` `+parseInt(new Date().getFullYear()+1)+`</option>`;
+                                month_counter++;
+                                max_count--;
+                            }else{
+                                break;
+                            }
+                        }
+            text+=`
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-9 col-md-9 col-sm-12" style="text-align:left; padding:0px;">
+                <span class="span-search-ticket"><i class="fas fa-briefcase"></i> Nomor Virtual Account Keluarga / Perusahaan</span>
+                <div class="input-container-search-ticket">
+                    <input type="text" class="form-control virtual_number" name="bpjs_number" id="bpjs_number" onkeyup="check_bpjs_number();" onpaste="setTimeout(check_bpjs_number.bind(null,this),100);" placeholder="Nomor Virtual Account Keluarga / Perusahaan" autocomplete="off"/>
+                </div>
+                <div style="text-align:left;">
+                    <span style="color:`+color+`; font-size:14px; font-weight:bold;" id="input_alert" style="display:none;"></span>
+                </div>
+            </div>
+            `;
+        }
+    }
+    else if (template == 2){
+        if($bpjs_type_name == 'BPJS Kesehatan'){
+            text = `
+            <div class="col-lg-3 col-md-3 col-sm-12" id="train_date_search" style="margin-bottom:15px;">
+                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Pay Until</span>
+                    <div class="form-select" id="default-select">
+                        <select id="bpjs_month" name="bpjs_month" class="nice-select-default">`;
+                        print_month = false
+                        for(i in month_list){
+                            if(moment().format('MMM') == month_list[i][1]){
+                                print_month = true;
+                                month_counter = 1;
+                            }if(print_month == true){
+                                text+= `<option value='`+month_counter+`'>`+month_list[i][1]+` `+new Date().getFullYear()+`</option>`;
+                                month_counter++
+                            }
+                        }
+            text+=`
+                    </select>
+                </div>
+            </div>
+            <div class="col-lg-9 col-md-9 col-sm-12" style="text-align:left;">
+                <span class="span-search-ticket"><i class="fas fa-briefcase"></i> Nomor Virtual Account Keluarga / Perusahaan</span>
+                <div class="input-container-search-ticket">
+                    <input type="text" class="form-control virtual_number" name="bpjs_number" id="bpjs_number" onkeyup="check_bpjs_number();" onpaste="setTimeout(check_bpjs_number.bind(null,this),100);" placeholder="Nomor Virtual Account Keluarga / Perusahaan" autocomplete="off"/>
+                </div>
+                <div style="text-align:left;">
+                    <h6 style="color:`+color+`;" id="input_alert" style="display:none;"></h6>
+                </div>
+            </div>`;
+        }
+    }
+    else if (template == 3){
+        if($bpjs_type_name == 'BPJS Kesehatan'){
+            text = `
+            <div class="col-lg-12" id="train_date_search">
+                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Pay Until</span>
+                <div class="form-group">
+                    <div class="default-select">
+                        <select id="bpjs_month" name="bpjs_month" class="nice-select-default">`;
+                        print_month = false
+                        for(i in month_list){
+                            if(moment().format('MMM') == month_list[i][1]){
+                                print_month = true;
+                                month_counter = 1;
+                            }if(print_month == true){
+                                text+= `<option value='`+month_counter+`'>`+month_list[i][1]+` `+new Date().getFullYear()+`</option>`;
+                                month_counter++
+                            }
+                        }
+            text+=`
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12" style="margin-top:15px; text-align:left;">
+                <span class="span-search-ticket"><i class="fas fa-briefcase"></i> Nomor Virtual Account Keluarga / Perusahaan</span>
+                <div class="input-container-search-ticket">
+                    <input type="text" class="form-control virtual_number" name="bpjs_number" id="bpjs_number" onkeyup="check_bpjs_number();" onpaste="setTimeout(check_bpjs_number.bind(null,this),100);" placeholder="Nomor Virtual Account Keluarga / Perusahaan" autocomplete="off"/>
+                </div>
+                <div style="text-align:left;">
+                    <h6 style="color:`+color+`;" id="input_alert" style="display:none;"></h6>
+                </div>
+            </div>`;
+        }
+    }
+    else if(template == 4){
+        if($bpjs_type_name == 'BPJS Kesehatan'){
+            text = `
+            <div class="col-lg-3 col-md-3 col-sm-12" id="train_date_search">
+                <span class="span-search-ticket">Pay Until</span>
+                <div class="input-container-search-ticket">
+                    <i class="fas fa-calendar-alt" style="padding:14px; height: 43px; width: 45px; background:`+color+`; color:`+text_color+`;"></i>
+                    <div class="form-select" id="default-select">
+                        <select id="bpjs_month" name="bpjs_month" class="nice-select-default">`;
+                        print_month = false
+                        for(i in month_list){
+                            if(moment().format('MMM') == month_list[i][1]){
+                                print_month = true;
+                                month_counter = 1;
+                            }if(print_month == true){
+                                text+= `<option value='`+month_counter+`'>`+month_list[i][1]+` `+new Date().getFullYear()+`</option>`;
+                                month_counter++
+                            }
+                        }
+            text+=`
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-9 col-md-9 col-sm-12" style="text-align:left;">
+                <span class="span-search-ticket">Nomor Virtual Account Keluarga / Perusahaan</span>
+                <div class="input-container-search-ticket">
+                    <i class="fas fa-briefcase" style="padding:14px; height: 43px; width: 45px; background:`+color+`; color:`+text_color+`;"></i>
+                    <input type="text" class="form-control virtual_number" name="bpjs_number" id="bpjs_number" onkeyup="check_bpjs_number();" onpaste="setTimeout(check_bpjs_number.bind(null,this),100);" placeholder="Nomor Virtual Account Keluarga / Perusahaan" autocomplete="off"/>
+                </div>
+                <div style="text-align:left;">
+                    <h6 style="color:`+color+`;" id="input_alert" style="display:none;"></h6>
+                </div>
+            </div>`;
+        }
+    }
+    else if(template == 5){
+        if($bpjs_type_name == 'BPJS Kesehatan'){
+            text = `
+            <div class="col-lg-3 col-md-3 col-sm-12" id="train_date_search">
+                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Pay Until</span>
+                <div class="input-container-search-ticket btn-group">
+                    <div class="form-select" id="default-select">
+                        <select id="bpjs_month" name="bpjs_month" class="nice-select-default">`;
+                        print_month = false
+                        for(i in month_list){
+                            if(moment().format('MMM') == month_list[i][1]){
+                                print_month = true;
+                                month_counter = 1;
+                            }if(print_month == true){
+                                text+= `<option value='`+month_counter+`'>`+month_list[i][1]+` `+new Date().getFullYear()+`</option>`;
+                                month_counter++
+                            }
+                        }
+            text+=`
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-9 col-md-9 col-sm-12" style="text-align:left;">
+                <span class="span-search-ticket"><i class="fas fa-briefcase"></i> Nomor Virtual Account Keluarga / Perusahaan</span>
+                <div class="input-container-search-ticket">
+                    <input type="text" class="form-control virtual_number" name="bpjs_number" id="bpjs_number" onkeyup="check_bpjs_number();" onpaste="setTimeout(check_bpjs_number.bind(null,this),100);" placeholder="Nomor Virtual Account Keluarga / Perusahaan" autocomplete="off"/>
+                </div>
+                <div style="text-align:left;">
+                    <h6 style="color:`+color+`;" id="input_alert" style="display:none;"></h6>
+                </div>
+            </div>`;
+        }
+    }
+    else if(template == 6){
+        if($bpjs_type_name == 'BPJS Kesehatan'){
+            text = `
+            <div class="col-lg-3 col-md-3 col-sm-12" id="train_date_search">
+                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Pay Until</span>
+                <div class="input-container-search-ticket btn-group">
+                    <div class="form-select" id="default-select">
+                        <select id="bpjs_month" name="bpjs_month" class="nice-select-default">`;
+                        print_month = false;
+                        max_count = 12;
+                        for(i in month_list){
+                            if(moment().format('MMM') == month_list[i][1]){
+                                print_month = true;
+                                month_counter = 1;
+                            }if(print_month == true){
+                                text+= `<option value='`+month_counter+`'>`+month_list[i][1]+` `+new Date().getFullYear()+`</option>`;
+                                month_counter++;
+                                max_count--;
+                            }
+                        }
+                        for(i in month_list){
+                            if(max_count != 0){
+                                text+= `<option value='`+month_counter+`'>`+month_list[i][1]+` `+parseInt(new Date().getFullYear()+1)+`</option>`;
+                                month_counter++;
+                                max_count--;
+                            }else{
+                                break;
+                            }
+                        }
+            text+=`
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-9 col-md-9 col-sm-12" style="text-align:left;">
+                <span class="span-search-ticket"><i class="fas fa-briefcase"></i> Nomor Virtual Account Keluarga / Perusahaan</span>
+                <div class="input-container-search-ticket">
+                    <input type="text" class="form-control virtual_number" name="bpjs_number" id="bpjs_number" onkeyup="check_bpjs_number();" onpaste="setTimeout(check_bpjs_number.bind(null,this),100);" placeholder="Nomor Virtual Account Keluarga / Perusahaan" autocomplete="off"/>
+                </div>
+                <div style="text-align:left;">
+                    <span style="color:`+color+`; font-size:14px; font-weight:bold;" id="input_alert" style="display:none;"></span>
+                </div>
+            </div>`;
+        }
+    }
+
+    document.getElementById('bpjs_div').innerHTML = text;
 }
 
 function set_evoucher_div(){
+    var evoucher_selection = document.getElementById('evoucher_type')
+    $evoucher_type_name = evoucher_selection.options[evoucher_selection.selectedIndex].text;
     if(template == 1){
         if($evoucher_type_name == 'Prepaid Mobile'){
             text = `
@@ -1070,11 +2676,25 @@ function set_evoucher_div(){
                 </div>
             </div>`;
         }
+        else {
+            text = `
+            <div class="col-lg-12" style="padding:0px; text-align:left;margin-bottom:10px;">
+                <span class="span-search-ticket"><i class="fas fa-mobile"></i> Nomor Handphone Pelanggan</span>
+                <div class="input-container-search-ticket">
+                    <input type="text" class="form-control hp_number" name="bpjs_number" id="bpjs_number" placeholder="Nomor Handphone Pelanggan" autocomplete="off"/>
+                </div>
+                <div style="text-align:left;">
+                    <h6 style="color:`+color+`;" id="input_alert" style="display:none;"></h6>
+                    <span style="color:`+text_color+`;">Contoh: 081234567890</span>
+                </div>
+            </div>
+            `;
+        }
     }
     else if (template == 2){
         if($evoucher_type_name == 'Prepaid Mobile'){
             text = `
-            <div class="col-lg-12" style="padding:0px; text-align:left;margin-bottom:10px;">
+            <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
                 <span class="span-search-ticket"><i class="fas fa-mobile"></i> Nomor Handphone Pelanggan</span>
                 <div class="input-container-search-ticket">
                     <input type="text" class="form-control hp_number" onkeyup="check_hp_number();" onpaste="setTimeout(check_hp_number.bind(null,this),100);" name="bpjs_number" id="bpjs_number" placeholder="Nomor Handphone Pelanggan" autocomplete="off"/>
@@ -1084,20 +2704,34 @@ function set_evoucher_div(){
                     <span style="color:`+text_color+`;">Contoh: 081234567890</span>
                 </div>
             </div>
-            <div class="col-lg-12 mb-3" id="img_operator" style="padding:0px;">
+            <div class="col-lg-12 mb-3" id="img_operator">
 
             </div>
-            <div class="col-lg-12" style="padding:0px; text-align:left;margin-bottom:10px;">
+            <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
                 <div class="row" id="e-voucher_nominal_div">
 
                 </div>
             </div>`;
+        }
+        else {
+            text = `
+            <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+                <span class="span-search-ticket"><i class="fas fa-mobile"></i> Nomor Handphone Pelanggan</span>
+                <div class="input-container-search-ticket">
+                    <input type="text" class="form-control hp_number" name="bpjs_number" id="bpjs_number" placeholder="Nomor Handphone Pelanggan" autocomplete="off"/>
+                </div>
+                <div style="text-align:left;">
+                    <h6 style="color:`+color+`;" id="input_alert" style="display:none;"></h6>
+                    <span style="color:`+text_color+`;">Contoh: 081234567890</span>
+                </div>
+            </div>
+            `;
         }
     }
     else if (template == 3){
         if($evoucher_type_name == 'Prepaid Mobile'){
             text = `
-            <div class="col-lg-12" style="padding:0px; text-align:left;margin-bottom:10px;">
+            <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
                 <span class="span-search-ticket"><i class="fas fa-mobile"></i> Nomor Handphone Pelanggan</span>
                 <div class="input-container-search-ticket">
                     <input type="text" class="form-control hp_number" onkeyup="check_hp_number();" onpaste="setTimeout(check_hp_number.bind(null,this),100);" name="bpjs_number" id="bpjs_number" placeholder="Nomor Handphone Pelanggan" autocomplete="off"/>
@@ -1107,20 +2741,34 @@ function set_evoucher_div(){
                     <span style="color:`+text_color+`;">Contoh: 081234567890</span>
                 </div>
             </div>
-            <div class="col-lg-12 mb-3" id="img_operator" style="padding:0px;">
+            <div class="col-lg-12 mb-3" id="img_operator">
 
             </div>
-            <div class="col-lg-12" style="padding:0px; text-align:left;margin-bottom:10px;">
+            <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
                 <div class="row" id="e-voucher_nominal_div">
 
                 </div>
             </div>`;
         }
+        else {
+            text = `
+            <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+                <span class="span-search-ticket"><i class="fas fa-mobile"></i> Nomor Handphone Pelanggan</span>
+                <div class="input-container-search-ticket">
+                    <input type="text" class="form-control hp_number" name="bpjs_number" id="bpjs_number" placeholder="Nomor Handphone Pelanggan" autocomplete="off"/>
+                </div>
+                <div style="text-align:left;">
+                    <h6 style="color:`+color+`;" id="input_alert" style="display:none;"></h6>
+                    <span style="color:`+text_color+`;">Contoh: 081234567890</span>
+                </div>
+            </div>
+            `;
+        }
     }
     else if(template == 4){
         if($evoucher_type_name == 'Prepaid Mobile'){
             text = `
-            <div class="col-lg-12" style="padding:0px; text-align:left;margin-bottom:10px;">
+            <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
                 <span class="span-search-ticket">Nomor Handphone Pelanggan</span>
                 <div class="input-container-search-ticket">
                     <i class="fas fa-mobile" style="padding:15px 15px 15px 18px; height: 43px; width: 45px; background:`+color+`; color:`+text_color+`;"></i>
@@ -1131,20 +2779,34 @@ function set_evoucher_div(){
                     <span style="color:`+text_color+`;">Contoh: 081234567890</span>
                 </div>
             </div>
-            <div class="col-lg-12 mb-3" id="img_operator" style="padding:0px;">
+            <div class="col-lg-12 mb-3" id="img_operator">
 
             </div>
-            <div class="col-lg-12" style="padding:0px; text-align:left;margin-bottom:10px;">
+            <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
                 <div class="row" id="e-voucher_nominal_div">
 
                 </div>
             </div>`;
         }
+        else {
+            text = `
+            <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+                <span class="span-search-ticket"><i class="fas fa-mobile"></i> Nomor Handphone Pelanggan</span>
+                <div class="input-container-search-ticket">
+                    <input type="text" class="form-control hp_number" name="bpjs_number" id="bpjs_number" placeholder="Nomor Handphone Pelanggan" autocomplete="off"/>
+                </div>
+                <div style="text-align:left;">
+                    <h6 style="color:`+color+`;" id="input_alert" style="display:none;"></h6>
+                    <span style="color:`+text_color+`;">Contoh: 081234567890</span>
+                </div>
+            </div>
+            `;
+        }
     }
     else if(template == 5){
         if($evoucher_type_name == 'Prepaid Mobile'){
             text = `
-            <div class="col-lg-12" style="padding:0px; text-align:left;margin-bottom:10px;">
+            <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
                 <span class="span-search-ticket"><i class="fas fa-mobile"></i> Nomor Handphone Pelanggan</span>
                 <div class="input-container-search-ticket">
                     <input type="text" class="form-control hp_number" onkeyup="check_hp_number();" onpaste="setTimeout(check_hp_number.bind(null,this),100);" name="bpjs_number" id="bpjs_number" placeholder="Nomor Handphone Pelanggan" autocomplete="off"/>
@@ -1154,14 +2816,28 @@ function set_evoucher_div(){
                     <span style="color:`+text_color+`;">Contoh: 081234567890</span>
                 </div>
             </div>
-            <div class="col-lg-12 mb-3" id="img_operator" style="padding:0px;">
+            <div class="col-lg-12 mb-3" id="img_operator">
 
             </div>
-            <div class="col-lg-12" style="padding:0px; text-align:left;margin-bottom:10px;">
+            <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
                 <div class="row" id="e-voucher_nominal_div">
 
                 </div>
             </div>`;
+        }
+        else {
+            text = `
+            <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+                <span class="span-search-ticket"><i class="fas fa-mobile"></i> Nomor Handphone Pelanggan</span>
+                <div class="input-container-search-ticket">
+                    <input type="text" class="form-control hp_number" name="bpjs_number" id="bpjs_number" placeholder="Nomor Handphone Pelanggan" autocomplete="off"/>
+                </div>
+                <div style="text-align:left;">
+                    <h6 style="color:`+color+`;" id="input_alert" style="display:none;"></h6>
+                    <span style="color:`+text_color+`;">Contoh: 081234567890</span>
+                </div>
+            </div>
+            `;
         }
     }
     else if(template == 6){
@@ -1186,9 +2862,492 @@ function set_evoucher_div(){
                 </div>
             </div>`;
         }
+        else {
+            text = `
+            <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+                <span class="span-search-ticket"><i class="fas fa-mobile"></i> Nomor Handphone Pelanggan</span>
+                <div class="input-container-search-ticket">
+                    <input type="text" class="form-control hp_number" name="bpjs_number" id="bpjs_number" placeholder="Nomor Handphone Pelanggan" autocomplete="off"/>
+                </div>
+                <div style="text-align:left;">
+                    <h6 style="color:`+color+`;" id="input_alert" style="display:none;"></h6>
+                    <span style="color:`+text_color+`;">Contoh: 081234567890</span>
+                </div>
+            </div>
+            `;
+        }
     }
 
     document.getElementById('e-voucher_div').innerHTML = text;
+}
+
+function set_cable_tv_div(){
+    var cable_tv_selection = document.getElementById('cable_tv_type')
+    $cable_tv_type_name = cable_tv_selection.options[cable_tv_selection.selectedIndex].text;
+    if(template == 1){
+        text = `
+        <div class="col-lg-12" style="padding:0px; text-align:left;margin-bottom:10px;">
+            <span class="span-search-ticket"><i class="fas fa-television"></i> Nomor Pelanggan TV Kabel</span>
+            <div class="input-container-search-ticket">
+                <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Pelanggan TV Kabel" autocomplete="off"/>
+            </div>
+        </div>
+        `;
+    }
+    else if (template == 2){
+        text = `
+        <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+            <span class="span-search-ticket"><i class="fas fa-television"></i> Nomor Pelanggan TV Kabel</span>
+            <div class="input-container-search-ticket">
+                <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Pelanggan TV Kabel" autocomplete="off"/>
+            </div>
+        </div>
+        `;
+    }
+    else if (template == 3){
+        text = `
+        <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+            <span class="span-search-ticket"><i class="fas fa-television"></i> Nomor Pelanggan TV Kabel</span>
+            <div class="input-container-search-ticket">
+                <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Pelanggan TV Kabel" autocomplete="off"/>
+            </div>
+        </div>
+        `;
+    }
+    else if(template == 4){
+        text = `
+        <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+            <span class="span-search-ticket"><i class="fas fa-television"></i> Nomor Pelanggan TV Kabel</span>
+            <div class="input-container-search-ticket">
+                <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Pelanggan TV Kabel" autocomplete="off"/>
+            </div>
+        </div>
+        `;
+    }
+    else if(template == 5){
+        text = `
+        <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+            <span class="span-search-ticket"><i class="fas fa-television"></i> Nomor Pelanggan TV Kabel</span>
+            <div class="input-container-search-ticket">
+                <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Pelanggan TV Kabel" autocomplete="off"/>
+            </div>
+        </div>
+        `;
+    }
+    else if(template == 6){
+        text = `
+        <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+            <span class="span-search-ticket"><i class="fas fa-television"></i> Nomor Pelanggan TV Kabel</span>
+            <div class="input-container-search-ticket">
+                <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Pelanggan TV Kabel" autocomplete="off"/>
+            </div>
+        </div>
+        `;
+    }
+
+    document.getElementById('cable_tv_div').innerHTML = text;
+}
+
+function set_internet_div(){
+    var internet_selection = document.getElementById('internet_type')
+    $internet_type_name = internet_selection.options[internet_selection.selectedIndex].text;
+    if(template == 1){
+        text = `
+        <div class="col-lg-12" style="padding:0px; text-align:left;margin-bottom:10px;">
+            <span class="span-search-ticket"><i class="fas fa-wifi"></i> Nomor Pelanggan Internet</span>
+            <div class="input-container-search-ticket">
+                <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Pelanggan Internet" autocomplete="off"/>
+            </div>
+        </div>
+        `;
+    }
+    else if (template == 2){
+        text = `
+        <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+            <span class="span-search-ticket"><i class="fas fa-wifi"></i> Nomor Pelanggan Internet</span>
+            <div class="input-container-search-ticket">
+                <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Pelanggan Internet" autocomplete="off"/>
+            </div>
+        </div>
+        `;
+    }
+    else if (template == 3){
+        text = `
+        <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+            <span class="span-search-ticket"><i class="fas fa-wifi"></i> Nomor Pelanggan Internet</span>
+            <div class="input-container-search-ticket">
+                <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Pelanggan Internet" autocomplete="off"/>
+            </div>
+        </div>
+        `;
+    }
+    else if(template == 4){
+        text = `
+        <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+            <span class="span-search-ticket"><i class="fas fa-wifi"></i> Nomor Pelanggan Internet</span>
+            <div class="input-container-search-ticket">
+                <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Pelanggan Internet" autocomplete="off"/>
+            </div>
+        </div>
+        `;
+    }
+    else if(template == 5){
+        text = `
+        <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+            <span class="span-search-ticket"><i class="fas fa-wifi"></i> Nomor Pelanggan Internet</span>
+            <div class="input-container-search-ticket">
+                <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Pelanggan Internet" autocomplete="off"/>
+            </div>
+        </div>
+        `;
+    }
+    else if(template == 6){
+        text = `
+        <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+            <span class="span-search-ticket"><i class="fas fa-wifi"></i> Nomor Pelanggan Internet</span>
+            <div class="input-container-search-ticket">
+                <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Pelanggan Internet" autocomplete="off"/>
+            </div>
+        </div>
+        `;
+    }
+
+    document.getElementById('internet_div').innerHTML = text;
+}
+
+function set_telephone_div(){
+    var telephone_selection = document.getElementById('telephone_type')
+    $telephone_type_name = telephone_selection.options[telephone_selection.selectedIndex].text;
+    if(template == 1){
+        text = `
+        <div class="col-lg-12" style="padding:0px; text-align:left;margin-bottom:10px;">
+            <span class="span-search-ticket"><i class="fas fa-phone"></i> Nomor Telepon</span>
+            <div class="input-container-search-ticket">
+                <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Telepon" autocomplete="off"/>
+            </div>
+        </div>
+        `;
+    }
+    else if (template == 2){
+        text = `
+        <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+            <span class="span-search-ticket"><i class="fas fa-phone"></i> Nomor Telepon</span>
+            <div class="input-container-search-ticket">
+                <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Telepon" autocomplete="off"/>
+            </div>
+        </div>
+        `;
+    }
+    else if (template == 3){
+        text = `
+        <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+            <span class="span-search-ticket"><i class="fas fa-phone"></i> Nomor Telepon</span>
+            <div class="input-container-search-ticket">
+                <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Telepon" autocomplete="off"/>
+            </div>
+        </div>
+        `;
+    }
+    else if(template == 4){
+        text = `
+        <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+            <span class="span-search-ticket"><i class="fas fa-phone"></i> Nomor Telepon</span>
+            <div class="input-container-search-ticket">
+                <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Telepon" autocomplete="off"/>
+            </div>
+        </div>
+        `;
+    }
+    else if(template == 5){
+        text = `
+        <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+            <span class="span-search-ticket"><i class="fas fa-phone"></i> Nomor Telepon</span>
+            <div class="input-container-search-ticket">
+                <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Telepon" autocomplete="off"/>
+            </div>
+        </div>
+        `;
+    }
+    else if(template == 6){
+        text = `
+        <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+            <span class="span-search-ticket"><i class="fas fa-phone"></i> Nomor Telepon</span>
+            <div class="input-container-search-ticket">
+                <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Telepon" autocomplete="off"/>
+            </div>
+        </div>
+        `;
+    }
+
+    document.getElementById('telephone_div').innerHTML = text;
+}
+
+function set_insurance_div(){
+    var insurance_selection = document.getElementById('insurance_type')
+    $insurance_type_name = insurance_selection.options[insurance_selection.selectedIndex].text;
+    if(template == 1){
+        text = `
+        <div class="col-lg-12" style="padding:0px; text-align:left;margin-bottom:10px;">
+            <span class="span-search-ticket"><i class="fas fa-shield-alt"></i> Nomor Polis</span>
+            <div class="input-container-search-ticket">
+                <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Polis" autocomplete="off"/>
+            </div>
+        </div>
+        `;
+    }
+    else if (template == 2){
+        text = `
+        <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+            <span class="span-search-ticket"><i class="fas fa-shield-alt"></i> Nomor Polis</span>
+            <div class="input-container-search-ticket">
+                <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Polis" autocomplete="off"/>
+            </div>
+        </div>
+        `;
+    }
+    else if (template == 3){
+        text = `
+        <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+            <span class="span-search-ticket"><i class="fas fa-shield-alt"></i> Nomor Polis</span>
+            <div class="input-container-search-ticket">
+                <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Polis" autocomplete="off"/>
+            </div>
+        </div>
+        `;
+    }
+    else if(template == 4){
+        text = `
+        <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+            <span class="span-search-ticket"><i class="fas fa-shield-alt"></i> Nomor Polis</span>
+            <div class="input-container-search-ticket">
+                <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Polis" autocomplete="off"/>
+            </div>
+        </div>
+        `;
+    }
+    else if(template == 5){
+        text = `
+        <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+            <span class="span-search-ticket"><i class="fas fa-shield-alt"></i> Nomor Polis</span>
+            <div class="input-container-search-ticket">
+                <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Polis" autocomplete="off"/>
+            </div>
+        </div>
+        `;
+    }
+    else if(template == 6){
+        text = `
+        <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+            <span class="span-search-ticket"><i class="fas fa-shield-alt"></i> Nomor Polis</span>
+            <div class="input-container-search-ticket">
+                <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Polis" autocomplete="off"/>
+            </div>
+        </div>
+        `;
+    }
+
+    document.getElementById('ppob_insurance_div').innerHTML = text;
+}
+
+function set_pdam_div(){
+    var pdam_selection = document.getElementById('pdam_type')
+    $pdam_type_name = pdam_selection.options[pdam_selection.selectedIndex].text;
+    if(template == 1){
+        text = `
+        <div class="col-lg-12" style="padding:0px; text-align:left;margin-bottom:10px;">
+            <span class="span-search-ticket"><i class="fas fa-water"></i> Nomor Pelanggan</span>
+            <div class="input-container-search-ticket">
+                <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Pelanggan" autocomplete="off"/>
+            </div>
+        </div>
+        `;
+    }
+    else if (template == 2){
+        text = `
+        <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+            <span class="span-search-ticket"><i class="fas fa-water"></i> Nomor Pelanggan</span>
+            <div class="input-container-search-ticket">
+                <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Pelanggan" autocomplete="off"/>
+            </div>
+        </div>
+        `;
+    }
+    else if (template == 3){
+        text = `
+        <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+            <span class="span-search-ticket"><i class="fas fa-water"></i> Nomor Pelanggan</span>
+            <div class="input-container-search-ticket">
+                <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Pelanggan" autocomplete="off"/>
+            </div>
+        </div>
+        `;
+    }
+    else if(template == 4){
+        text = `
+        <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+            <span class="span-search-ticket"><i class="fas fa-water"></i> Nomor Pelanggan</span>
+            <div class="input-container-search-ticket">
+                <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Pelanggan" autocomplete="off"/>
+            </div>
+        </div>
+        `;
+    }
+    else if(template == 5){
+        text = `
+        <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+            <span class="span-search-ticket"><i class="fas fa-water"></i> Nomor Pelanggan</span>
+            <div class="input-container-search-ticket">
+                <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Pelanggan" autocomplete="off"/>
+            </div>
+        </div>
+        `;
+    }
+    else if(template == 6){
+        text = `
+        <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+            <span class="span-search-ticket"><i class="fas fa-water"></i> Nomor Pelanggan</span>
+            <div class="input-container-search-ticket">
+                <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Pelanggan" autocomplete="off"/>
+            </div>
+        </div>
+        `;
+    }
+
+    document.getElementById('pdam_div').innerHTML = text;
+}
+
+function set_credit_installment_div(){
+    var credit_installment_selection = document.getElementById('credit_installment_type')
+    $credit_installment_type_name = credit_installment_selection.options[credit_installment_selection.selectedIndex].text;
+    if(template == 1){
+        text = `
+        <div class="col-lg-12" style="padding:0px; text-align:left;margin-bottom:10px;">
+            <span class="span-search-ticket"><i class="fas fa-coins"></i> Nomor Kontrak</span>
+            <div class="input-container-search-ticket">
+                <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Kontrak" autocomplete="off"/>
+            </div>
+        </div>
+        `;
+    }
+    else if (template == 2){
+        text = `
+        <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+            <span class="span-search-ticket"><i class="fas fa-coins"></i> Nomor Kontrak</span>
+            <div class="input-container-search-ticket">
+                <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Kontrak" autocomplete="off"/>
+            </div>
+        </div>
+        `;
+    }
+    else if (template == 3){
+        text = `
+        <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+            <span class="span-search-ticket"><i class="fas fa-coins"></i> Nomor Kontrak</span>
+            <div class="input-container-search-ticket">
+                <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Kontrak" autocomplete="off"/>
+            </div>
+        </div>
+        `;
+    }
+    else if(template == 4){
+        text = `
+        <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+            <span class="span-search-ticket"><i class="fas fa-coins"></i> Nomor Kontrak</span>
+            <div class="input-container-search-ticket">
+                <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Kontrak" autocomplete="off"/>
+            </div>
+        </div>
+        `;
+    }
+    else if(template == 5){
+        text = `
+        <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+            <span class="span-search-ticket"><i class="fas fa-coins"></i> Nomor Kontrak</span>
+            <div class="input-container-search-ticket">
+                <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Kontrak" autocomplete="off"/>
+            </div>
+        </div>
+        `;
+    }
+    else if(template == 6){
+        text = `
+        <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+            <span class="span-search-ticket"><i class="fas fa-coins"></i> Nomor Kontrak</span>
+            <div class="input-container-search-ticket">
+                <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Kontrak" autocomplete="off"/>
+            </div>
+        </div>
+        `;
+    }
+
+    document.getElementById('credit_installment_div').innerHTML = text;
+}
+
+function set_credit_card_div(){
+    var credit_card_selection = document.getElementById('credit_card_type')
+    $credit_card_type_name = credit_card_selection.options[credit_card_selection.selectedIndex].text;
+    if(template == 1){
+        text = `
+        <div class="col-lg-12" style="padding:0px; text-align:left;margin-bottom:10px;">
+            <span class="span-search-ticket"><i class="fas fa-credit-card"></i> Nomor Kartu Kredit</span>
+            <div class="input-container-search-ticket">
+                <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Kartu Kredit" autocomplete="off"/>
+            </div>
+        </div>
+        `;
+    }
+    else if (template == 2){
+        text = `
+        <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+            <span class="span-search-ticket"><i class="fas fa-credit-card"></i> Nomor Kartu Kredit</span>
+            <div class="input-container-search-ticket">
+                <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Kartu Kredit" autocomplete="off"/>
+            </div>
+        </div>
+        `;
+    }
+    else if (template == 3){
+        text = `
+        <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+            <span class="span-search-ticket"><i class="fas fa-credit-card"></i> Nomor Kartu Kredit</span>
+            <div class="input-container-search-ticket">
+                <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Kartu Kredit" autocomplete="off"/>
+            </div>
+        </div>
+        `;
+    }
+    else if(template == 4){
+        text = `
+        <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+            <span class="span-search-ticket"><i class="fas fa-credit-card"></i> Nomor Kartu Kredit</span>
+            <div class="input-container-search-ticket">
+                <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Kartu Kredit" autocomplete="off"/>
+            </div>
+        </div>
+        `;
+    }
+    else if(template == 5){
+        text = `
+        <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+            <span class="span-search-ticket"><i class="fas fa-credit-card"></i> Nomor Kartu Kredit</span>
+            <div class="input-container-search-ticket">
+                <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Kartu Kredit" autocomplete="off"/>
+            </div>
+        </div>
+        `;
+    }
+    else if(template == 6){
+        text = `
+        <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+            <span class="span-search-ticket"><i class="fas fa-credit-card"></i> Nomor Kartu Kredit</span>
+            <div class="input-container-search-ticket">
+                <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Kartu Kredit" autocomplete="off"/>
+            </div>
+        </div>
+        `;
+    }
+
+    document.getElementById('credit_card_div').innerHTML = text;
 }
 
 function bills_detail(){
@@ -1782,12 +3941,31 @@ function check_hp_number(){
             text_nominal = '';
             text_img = '';
             code_voucher = '';
+            code_voucher2 = '';
             code_includes = false;
             temp_number = temp_value;
-            for(j in nominal_number_list){
-                if (temp_value == nominal_number_list[j][0]){
-                    code_voucher = nominal_number_list[j][1];
+
+            sel_prov_ppob = '';
+            var prov_radios = document.getElementsByName('bills_provider');
+            for (var j_prov = 0, prov_length = prov_radios.length; j_prov < prov_length; j_prov++) {
+                if (prov_radios[j_prov].checked) {
+                    // do whatever you want with the checked radio
+                    sel_prov_ppob = prov_radios[j_prov].value;
+                    // only one radio can be logically checked, don't check the rest
                     break;
+                }
+            }
+
+            if(nominal_number_list.hasOwnProperty(sel_prov_ppob)){
+                for(j in nominal_number_list[sel_prov_ppob]){
+                    if (temp_value == nominal_number_list[sel_prov_ppob][j][0]){
+                        code_voucher = nominal_number_list[sel_prov_ppob][j][1];
+                        if (nominal_number_list[sel_prov_ppob][j].length > 2)
+                        {
+                            code_voucher2 = nominal_number_list[sel_prov_ppob][j][2];
+                        }
+                        break;
+                    }
                 }
             }
 
@@ -1796,22 +3974,25 @@ function check_hp_number(){
                 <div class="col-lg-12">`;
                 if(code_voucher != ''){
                     text_img+=`<label class="radio-img">`;
-                    if(code_voucher == "TSEL"){
+                    if(code_voucher == "TSEL" || code_voucher == "TS"){
                         text_img+=`
                         <input type="radio" checked="checked" name="voucher-type" value="pulsa" onchange="set_evoucher_type();">
                         <img src="/static/tt_website_rodextrip/images/icon/telkomsel.png" alt="Telkomsel" style="width:auto; height:60px; padding:0px;">`;
                     }else if(code_voucher == "ISAT"){
                         text_img+=`<input type="radio" checked="checked" name="voucher-type" value="pulsa" onchange="set_evoucher_type();">
                         <img src="/static/tt_website_rodextrip/images/icon/indosat.png" alt="Indosat" style="width:auto; height:60px; padding:0px;">`;
-                    }else if(code_voucher == "XL"){
+                    }else if(code_voucher == "XL" || code_voucher == "XR"){
                         text_img+=`<input type="radio" checked="checked" name="voucher-type" value="pulsa" onchange="set_evoucher_type();">
                         <img src="/static/tt_website_rodextrip/images/icon/xl.png" alt="XL" style="width:auto; height:60px; padding:0px;">`;
                     }else if(code_voucher == "TR"){
                         text_img+=`<input type="radio" checked="checked" name="voucher-type" value="pulsa" onchange="set_evoucher_type();">
                         <img src="/static/tt_website_rodextrip/images/icon/tri.png" alt="Tri" style="width:auto; height:60px; padding:0px;">`;
-                    }else if(code_voucher == "SM"){
+                    }else if(code_voucher == "SM" || code_voucher == "FR"){
                         text_img+=`<input type="radio" checked="checked" name="voucher-type" value="pulsa" onchange="set_evoucher_type();">
                         <img src="/static/tt_website_rodextrip/images/icon/smartfren.png" alt="Smartfren" style="width:auto; height:60px; padding:0px;">`;
+                    }else if(code_voucher == "BT"){
+                        text_img+=`<input type="radio" checked="checked" name="voucher-type" value="pulsa" onchange="set_evoucher_type();">
+                        <img src="/static/tt_website_rodextrip/images/icon/bolt.png" alt="Bolt" style="width:auto; height:60px; padding:0px;">`;
                     }
                     text_img+=`</label>`;
 
@@ -1843,7 +4024,7 @@ function check_hp_number(){
             text_img+=`</div>
             </div>`;
             document.getElementById('img_operator').innerHTML = text_img;
-            set_evoucher_type(ppob_data.available_prepaid_mobile);
+            set_evoucher_type();
 
             checking_number = 1;
         }
@@ -1872,10 +4053,38 @@ function set_evoucher_type(){
 
     text_nominal+=`<div class="col-lg-12 mb-3"><h6 style="color:`+text_color+`">Choose Voucher</h6></div>`;
 
-    if(v_type == 'pulsa'){
-        for(i in ppob_data.available_prepaid_mobile){
-            if(code_voucher != ''){
-                code_includes = i.includes(code_voucher);
+    if(ppob_data.available_prepaid_mobile.hasOwnProperty(sel_prov_ppob))
+    {
+        if(v_type == 'pulsa'){
+            for(i in ppob_data.available_prepaid_mobile[sel_prov_ppob]){
+                if(code_voucher != ''){
+                    if(code_voucher2 != '')
+                    {
+                        code_includes = i.includes(code_voucher) || i.includes(code_voucher2);
+                    }
+                    else
+                    {
+                        code_includes = i.includes(code_voucher);
+                    }
+                    if(code_includes == true){
+                        if(template != 3){
+                            text_nominal+=`<div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 mb-3">`;
+                        }else{
+                            text_nominal+=`<div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 mb-3">`;
+                        }
+
+                        text_nominal+=`
+                            <label class="radio-label" style="padding:unset; width:100%;">
+                                <input type="radio" name="e-voucher_nominal" value="`+i+`">
+                                <div class="div_label"><span style="color:`+text_color+`;">`+ppob_data.available_prepaid_mobile[sel_prov_ppob][i]+`</span></div>
+                            </label>
+                        </div>`;
+                    }
+                }
+            }
+        }else if(v_type == 'ovo'){
+            for(i in ppob_data.available_prepaid_mobile[sel_prov_ppob]){
+                code_includes = i.includes("OVO");
                 if(code_includes == true){
                     if(template != 3){
                         text_nominal+=`<div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 mb-3">`;
@@ -1886,46 +4095,28 @@ function set_evoucher_type(){
                     text_nominal+=`
                         <label class="radio-label" style="padding:unset; width:100%;">
                             <input type="radio" name="e-voucher_nominal" value="`+i+`">
-                            <div class="div_label"><span style="color:`+text_color+`;">`+ppob_data.available_prepaid_mobile[i]+`</span></div>
+                            <div class="div_label"><span style="color:`+text_color+`;">`+ppob_data.available_prepaid_mobile[sel_prov_ppob][i]+`</span></div>
                         </label>
                     </div>`;
                 }
             }
-        }
-    }else if(v_type == 'ovo'){
-        for(i in ppob_data.available_prepaid_mobile){
-            code_includes = i.includes("OVO");
-            if(code_includes == true){
-                if(template != 3){
-                    text_nominal+=`<div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 mb-3">`;
-                }else{
-                    text_nominal+=`<div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 mb-3">`;
-                }
+        }else if(v_type == 'gopay'){
+            for(i in ppob_data.available_prepaid_mobile[sel_prov_ppob]){
+                code_includes = i.includes("GP") || i.includes("GJ");
+                if(code_includes == true){
+                    if(template != 3){
+                        text_nominal+=`<div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 mb-3">`;
+                    }else{
+                        text_nominal+=`<div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 mb-3">`;
+                    }
 
-                text_nominal+=`
-                    <label class="radio-label" style="padding:unset; width:100%;">
-                        <input type="radio" name="e-voucher_nominal" value="`+i+`">
-                        <div class="div_label"><span style="color:`+text_color+`;">`+ppob_data.available_prepaid_mobile[i]+`</span></div>
-                    </label>
-                </div>`;
-            }
-        }
-    }else if(v_type == 'gopay'){
-        for(i in ppob_data.available_prepaid_mobile){
-            code_includes = i.includes("GP");
-            if(code_includes == true){
-                if(template != 3){
-                    text_nominal+=`<div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 mb-3">`;
-                }else{
-                    text_nominal+=`<div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 mb-3">`;
+                    text_nominal+=`
+                        <label class="radio-label" style="padding:unset; width:100%;">
+                            <input type="radio" name="e-voucher_nominal" value="`+i+`">
+                            <div class="div_label"><span style="color:`+text_color+`;">`+ppob_data.available_prepaid_mobile[sel_prov_ppob][i]+`</span></div>
+                        </label>
+                    </div>`;
                 }
-
-                text_nominal+=`
-                    <label class="radio-label" style="padding:unset; width:100%;">
-                        <input type="radio" name="e-voucher_nominal" value="`+i+`">
-                        <div class="div_label"><span style="color:`+text_color+`;">`+ppob_data.available_prepaid_mobile[i]+`</span></div>
-                    </label>
-                </div>`;
             }
         }
     }
