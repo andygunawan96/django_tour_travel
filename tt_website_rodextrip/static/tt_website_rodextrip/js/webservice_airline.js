@@ -7050,8 +7050,8 @@ function airline_get_booking(data, sync=false){
 //                                        $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination_name + ' (' + msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination_city + ') ' +'\n\n';
 
                                         $text += '\nDeparture: ' + msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].origin_city + ' - ' + msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].origin_country + ' (' + msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].origin + ') ';
-
-                                        $text += moment(msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].departure_date, 'DD MMM YYYY  HH:mm').format('ddd, DD MMM YYYY HH:mm') + '\n';
+                                        if(msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].departure_date)
+                                            $text += moment(msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].departure_date, 'DD MMM YYYY  HH:mm').format('ddd, DD MMM YYYY HH:mm') + '\n';
 
 //                                        $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].departure_date.split('  ')[0]+' ';
 //                                        $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].departure_date.split('  ')[1] + '\n';
@@ -7059,8 +7059,8 @@ function airline_get_booking(data, sync=false){
                                         if(msg.result.response.provider_bookings[i].journeys[j].segments[k].origin_terminal)
                                             $text += 'Terminal: ' + msg.result.response.provider_bookings[i].journeys[j].segments[k].origin_terminal + '\n';
                                         $text += 'Arrival: ' + msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination_city + ' - ' + msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination_country + ' (' + msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination + ') ';
-
-                                        $text += moment(msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].arrival_date, 'DD MMM YYYY  HH:mm').format('ddd, DD MMM YYYY HH:mm') + '\n';
+                                        if(msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].arrival_date)
+                                            $text += moment(msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].arrival_date, 'DD MMM YYYY  HH:mm').format('ddd, DD MMM YYYY HH:mm') + '\n';
 //                                        $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].arrival_date.split('  ')[0]+' ';
 //                                        $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].arrival_date.split('  ')[1] + '\n';
                                         //terminal
@@ -7083,7 +7083,12 @@ function airline_get_booking(data, sync=false){
                                             <div class="col-lg-6 col-xs-6">
                                                 <table style="width:100%">
                                                     <tr>
-                                                        <td><h5>`+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].departure_date.split('  ')[1]+`</h5></td>
+                                                        <td><h5>`;
+                                                        if(msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].departure_date)
+                                                            text+=msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].departure_date.split('  ')[1];
+                                                        else
+                                                            text+='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                                                        text+=`</h5></td>
                                                         <td style="padding-left:15px;">
                                                             <img src="/static/tt_website_rodextrip/img/icon/airlines-01.png" alt="Airline" style="width:20px; height:20px;"/>
                                                         </td>
@@ -7096,7 +7101,11 @@ function airline_get_booking(data, sync=false){
                                                         </td>
                                                     </tr>
                                                 </table>
-                                                <span>`+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].departure_date.split('  ')[0]+`</span><br/>
+                                                <span>`;
+                                                if(msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].departure_date)
+                                                    text+=msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].departure_date.split('  ')[0];
+                                                text+=`</span><br/>
+
                                                 <span style="font-weight:500;">`+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].origin_name+` - `+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].origin_city+` (`+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].origin+`)</span><br/>`;
                                                 if(msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].origin_terminal != ''){
                                                     text+=`<span style="font-size:13px; font-weight:500;">Terminal: `+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].origin_terminal+`</span>`;
@@ -7109,12 +7118,23 @@ function airline_get_booking(data, sync=false){
                                             <div class="col-lg-6 col-xs-6" style="padding:0;">
                                                 <table style="width:100%; margin-bottom:6px;">
                                                     <tr>
-                                                        <td><h5>`+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].arrival_date.split('  ')[1]+`</h5></td>
+                                                        <td><h5>`;
+                                                        if(msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].arrival_date)
+                                                            text+=msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].arrival_date.split('  ')[1];
+                                                        else
+                                                            text+='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                                                        text+=`</h5></td>
                                                         <td></td>
                                                         <td style="height:30px;padding:0 15px;width:100%"></td>
                                                     </tr>
                                                 </table>
-                                                <span>`+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].arrival_date.split('  ')[0]+`</span><br/>
+                                                <span>`;
+                                                if(msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].arrival_date)
+                                                    text+=msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].arrival_date.split('  ')[0];
+                                                else
+                                                    text+='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                                                text+=`</span><br/>
+
                                                 <span style="font-weight:500;">`+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination_name+` - `+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination_city+` (`+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination+`)</span><br/>`;
                                                 if(msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination_terminal != ''){
                                                     text+=`<span style="font-size:13px; font-weight:500;">Terminal: `+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination_terminal+`</span>`;
@@ -7345,7 +7365,12 @@ function airline_get_booking(data, sync=false){
                                                                     <div class="col-lg-6 col-xs-6">
                                                                         <table style="width:100%">
                                                                             <tr>
-                                                                                <td><h5>`+msg.result.response.reschedule_list[i].old_segments[j].legs[k].departure_date.split('  ')[1]+`</h5></td>
+                                                                                <td><h5>`;
+                                                                                if(msg.result.response.reschedule_list[i].old_segments[j].legs[k].departure_date)
+                                                                                    text+=msg.result.response.reschedule_list[i].old_segments[j].legs[k].departure_date.split('  ')[1];
+                                                                                else
+                                                                                    text+='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                                                                                text+=`</h5></td>
                                                                                 <td style="padding-left:15px;">
                                                                                     <img src="/static/tt_website_rodextrip/img/icon/airlines-01.png" alt="Airline" style="width:20px; height:20px;"/>
                                                                                 </td>
@@ -7358,14 +7383,24 @@ function airline_get_booking(data, sync=false){
                                                                                 </td>
                                                                             </tr>
                                                                         </table>
-                                                                        <span>`+msg.result.response.reschedule_list[i].old_segments[j].legs[k].departure_date.split('  ')[0]+`</span><br/>
+                                                                        <span>`;
+                                                                        if(msg.result.response.reschedule_list[i].old_segments[j].legs[k].departure_date)
+                                                                            text+=msg.result.response.reschedule_list[i].old_segments[j].legs[k].departure_date.split('  ')[0];
+                                                                        else
+                                                                            text+='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                                                                        text+=`</span><br/>
                                                                         <span style="font-weight:500;">`+msg.result.response.reschedule_list[i].old_segments[j].legs[k].origin_name+` - `+msg.result.response.reschedule_list[i].old_segments[j].legs[k].origin_city+` (`+msg.result.response.reschedule_list[i].old_segments[j].legs[k].origin+`)</span>
                                                                     </div>
 
                                                                     <div class="col-lg-6 col-xs-6" style="padding:0;">
                                                                         <table style="width:100%; margin-bottom:6px;">
                                                                             <tr>
-                                                                                <td><h5>`+msg.result.response.reschedule_list[i].old_segments[j].legs[k].arrival_date.split('  ')[1]+`</h5></td>
+                                                                                <td><h5>`;
+                                                                                if(msg.result.response.reschedule_list[i].old_segments[j].legs[k].arrival_date)
+                                                                                    text+=msg.result.response.reschedule_list[i].old_segments[j].legs[k].arrival_date.split('  ')[1];
+                                                                                else
+                                                                                    text+='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                                                                                text+=`</h5></td>
                                                                                 <td></td>
                                                                                 <td style="height:30px;padding:0 15px;width:100%"></td>
                                                                             </tr>
@@ -7418,7 +7453,12 @@ function airline_get_booking(data, sync=false){
                                                                     <div class="col-lg-6 col-xs-6">
                                                                         <table style="width:100%">
                                                                             <tr>
-                                                                                <td><h5>`+msg.result.response.reschedule_list[i].new_segments[j].legs[k].departure_date.split('  ')[1]+`</h5></td>
+                                                                                <td><h5>`;
+                                                                                if(msg.result.response.reschedule_list[i].new_segments[j].legs[k].departure_date)
+                                                                                    text+=msg.result.response.reschedule_list[i].new_segments[j].legs[k].departure_date.split('  ')[1];
+                                                                                else
+                                                                                    text+='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                                                                                text+=`</h5></td>
                                                                                 <td style="padding-left:15px;">
                                                                                     <img src="/static/tt_website_rodextrip/img/icon/airlines-01.png" alt="Airline" style="width:20px; height:20px;"/>
                                                                                 </td>
@@ -7431,14 +7471,24 @@ function airline_get_booking(data, sync=false){
                                                                                 </td>
                                                                             </tr>
                                                                         </table>
-                                                                        <span>`+msg.result.response.reschedule_list[i].new_segments[j].legs[k].departure_date.split('  ')[0]+`</span><br/>
+                                                                        <span>`;
+                                                                        if(msg.result.response.reschedule_list[i].new_segments[j].legs[k].departure_date)
+                                                                            text+=msg.result.response.reschedule_list[i].new_segments[j].legs[k].departure_date.split('  ')[0];
+                                                                        else
+                                                                            text+='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                                                                        text+=`</span><br/>
                                                                         <span style="font-weight:500;">`+msg.result.response.reschedule_list[i].new_segments[j].legs[k].origin_name+` - `+msg.result.response.reschedule_list[i].new_segments[j].legs[k].origin_city+` (`+msg.result.response.reschedule_list[i].new_segments[j].legs[k].origin+`)</span>
                                                                     </div>
 
                                                                     <div class="col-lg-6 col-xs-6" style="padding:0;">
                                                                         <table style="width:100%; margin-bottom:6px;">
                                                                             <tr>
-                                                                                <td><h5>`+msg.result.response.reschedule_list[i].new_segments[j].legs[k].arrival_date.split('  ')[1]+`</h5></td>
+                                                                                <td><h5>`;
+                                                                                if(msg.result.response.reschedule_list[i].new_segments[j].legs[k].arrival_date)
+                                                                                    text+=msg.result.response.reschedule_list[i].new_segments[j].legs[k].arrival_date.split('  ')[1];
+                                                                                else
+                                                                                    text+='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                                                                                text+=`</h5></td>
                                                                                 <td></td>
                                                                                 <td style="height:30px;padding:0 15px;width:100%"></td>
                                                                             </tr>
