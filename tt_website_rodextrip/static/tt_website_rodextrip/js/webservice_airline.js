@@ -3714,7 +3714,12 @@ function get_price_itinerary_request(){
                                                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                                                         <table style="width:100%">
                                                                             <tr>
-                                                                                <td class="airport-code"><h5>`+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].departure_date.split(' - ')[1]+`</h5></td>
+                                                                                <td class="airport-code"><h5>`;
+                                                                                if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].departure_date)
+                                                                                    text+=resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].departure_date.split(' - ')[1];
+                                                                                else
+                                                                                    text += '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
+                                                                                text+=`</h5></td>
                                                                                 <td style="padding-left:15px;">
                                                                                     <img src="/static/tt_website_rodextrip/img/icon/airlines-01.png" alt="Airline" style="width:20px; height:20px;"/>
                                                                                 </td>
@@ -3727,7 +3732,10 @@ function get_price_itinerary_request(){
                                                                                 </td>
                                                                             </tr>
                                                                         </table>
-                                                                        <span style="font-size:13px;">`+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].departure_date.split(' - ')[0]+`</span></br>
+                                                                        <span style="font-size:13px;">`;
+                                                                        if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].departure_date)
+                                                                            text+=resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].departure_date.split(' - ')[0];
+                                                                        text+=`</span></br>
                                                                         <span style="font-size:13px; font-weight:500;">`+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].origin_city+` (`+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].origin+`)</span><br/>`;
                                                                     if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].origin_terminal != ''){
                                                                         text+=`<span style="font-size:13px; font-weight:500;">Terminal: `+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].origin_terminal+`</span>`;
@@ -3739,12 +3747,21 @@ function get_price_itinerary_request(){
                                                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                                                         <table style="width:100%; margin-bottom:6px;">
                                                                             <tr>
-                                                                                <td><h5>`+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].arrival_date.split(' - ')[1]+`</h5></td>
+                                                                                <td><h5>`;
+                                                                                if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].arrival_date)
+                                                                                    text+=resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].arrival_date.split(' - ')[1];
+                                                                                else
+                                                                                    text += '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
+                                                                                text+=`</h5></td>
+
                                                                                 <td></td>
                                                                                 <td style="height:30px;padding:0 15px;width:100%"></td>
                                                                             </tr>
                                                                         </table>
-                                                                        <span style="font-size:13px;">`+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].arrival_date.split(' - ')[0]+`</span><br/>
+                                                                        <span style="font-size:13px;">`;
+                                                                        if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].arrival_date)
+                                                                            text+=resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].arrival_date.split(' - ')[0];
+                                                                        text+=`</span><br/>
                                                                         <span style="font-size:13px; font-weight:500;">`+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].destination_city+` (`+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].destination+`)</span><br/>`;
 
                                                                         if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].destination_terminal != ''){

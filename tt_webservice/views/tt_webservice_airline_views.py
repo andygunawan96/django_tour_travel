@@ -1135,15 +1135,13 @@ def get_price_itinerary(request, boolean, counter):
                     for journey in price_itinerary_provider['journeys']:
                         journey.update({
                             'rules': [],
-                            'departure_date': parse_date_time_front_end_with_day(string_to_datetime(journey['departure_date'])),
-                            'arrival_date': parse_date_time_front_end_with_day(string_to_datetime(journey['arrival_date']))
+                            'departure_date': parse_date_time_front_end_with_day(string_to_datetime(journey['departure_date'])) if journey['departure_date'] else journey['departure_date'],
+                            'arrival_date': parse_date_time_front_end_with_day(string_to_datetime(journey['arrival_date'])) if journey['arrival_date'] else journey['arrival_date']
                         })
                         if journey.get('arrival_date_return'):
                             journey.update({
-                                'departure_date_return': parse_date_time_front_end_with_day(
-                                    string_to_datetime(journey['departure_date_return'])),
-                                'arrival_date_return': parse_date_time_front_end_with_day(
-                                    string_to_datetime(journey['arrival_date_return']))
+                                'departure_date_return': parse_date_time_front_end_with_day(string_to_datetime(journey['departure_date_return'])) if journey['departure_date_return'] else journey['departure_date_return'],
+                                'arrival_date_return': parse_date_time_front_end_with_day(string_to_datetime(journey['arrival_date_return'])) if journey['arrival_date_return'] else journey['arrival_date_return']
                             })
                         if journey.get('return_date'):
                             journey.update({
@@ -1167,8 +1165,8 @@ def get_price_itinerary(request, boolean, counter):
                                 break
                         for segment in journey['segments']:
                             segment.update({
-                                'departure_date': parse_date_time_front_end_with_day(string_to_datetime(segment['departure_date'])),
-                                'arrival_date': parse_date_time_front_end_with_day(string_to_datetime(segment['arrival_date']))
+                                'departure_date': parse_date_time_front_end_with_day(string_to_datetime(segment['departure_date'])) if segment['departure_date'] else segment['departure_date'],
+                                'arrival_date': parse_date_time_front_end_with_day(string_to_datetime(segment['arrival_date'])) if segment['arrival_date'] else segment['arrival_date']
                             })
                             for destination in airline_destinations:
                                 if destination['code'] == segment['origin']:
@@ -1190,8 +1188,8 @@ def get_price_itinerary(request, boolean, counter):
 
                             for leg in segment['legs']:
                                 leg.update({
-                                    'departure_date': parse_date_time_front_end_with_day(string_to_datetime(leg['departure_date'])),
-                                    'arrival_date': parse_date_time_front_end_with_day(string_to_datetime(leg['arrival_date']))
+                                    'departure_date': parse_date_time_front_end_with_day(string_to_datetime(leg['departure_date'])) if leg['departure_date'] else leg['departure_date'],
+                                    'arrival_date': parse_date_time_front_end_with_day(string_to_datetime(leg['arrival_date'])) if leg['arrival_date'] else leg['arrival_date']
                                 })
 
                                 for destination in airline_destinations:
