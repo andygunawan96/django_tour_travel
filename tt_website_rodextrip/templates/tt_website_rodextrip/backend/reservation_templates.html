@@ -485,19 +485,24 @@
                 <div class="row mb-3">
                     <div class="col-lg-12" style="text-align:right; padding: 0px;">
                         <label class="radio-label" style="width:150px; cursor:pointer; height:30px;">
-                            <input type="radio" name="view_type_reservation" value="card_mode" checked onchange="table_reservation(data_search,'card_mode',true);">
+                            <input type="radio" name="view_type_reservation" value="card_mode" onchange="table_reservation(data_search,'card_mode',true);">
                             <div class="div_radio_bg">Card Mode <i class="fas fa-square" style="padding-left:5px;"></i></div>
                         </label>
                         <label class="radio-label" style="width:150px; cursor:pointer; height:30px;">
-                            <input type="radio" name="view_type_reservation" value="table_mode" onchange="table_reservation(data_search,'table_mode',true);">
+                            <input type="radio" name="view_type_reservation" value="table_mode" checked onchange="table_reservation(data_search,'table_mode',true);">
                             <div class="div_radio_bg">Table Mode <i class="fas fa-table" style="padding-left:5px;"></i></div>
                         </label>
                     </div>
                 </div>
 
-                <h4 class="mb-3">Result</h4>
                 <div class="row mb-3">
                     <div class="col-lg-6 col-md-6" style="display:none;" id="sort_div">
+                        <h4 class="mb-3">Sort</h4>
+                        <label class="radio-button-custom">
+                            <span>Order Number</span>
+                            <input type="radio" name="sort_reservation_id" value="order_number" onclick="sort_transaction();">
+                            <span class="checkmark-radio"></span>
+                        </label>
                         <label class="radio-button-custom">
                             <span>Flight Number</span>
                             <input type="radio" name="sort_reservation_id" value="flight_number" onclick="sort_transaction();">
@@ -510,6 +515,7 @@
                         </label>
                     </div>
                 </div>
+                <h4 class="mb-3">Result</h4>
                 <div class="row" id="table_reservation">
 
                 </div>
