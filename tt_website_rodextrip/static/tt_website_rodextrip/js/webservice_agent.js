@@ -5984,7 +5984,7 @@ function clear_passenger(type, sequence){
 }
 
 function check_pln_non_tagihan(value){
-    var checknumber = "^[1-5][0-9]{12}$";
+    var checknumber = "^[1-5][0-9]{11,12}$";
     if(value.match(checknumber)!=null){
         return true;
     }else{
