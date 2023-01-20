@@ -10314,13 +10314,13 @@ function reroute_btn(){
                         </div>
                     </div>`;
                 }
-                flight++;
                 document.getElementById('reissue_'+i+'_journey'+j).innerHTML = text;
                 text = '';
             }
             text+=`</div>`;
 
         }
+        flight++;
     }
 //    document.getElementById('reissue_div').innerHTML = text;
 //    $('.reissued-class-airline').niceSelect();
