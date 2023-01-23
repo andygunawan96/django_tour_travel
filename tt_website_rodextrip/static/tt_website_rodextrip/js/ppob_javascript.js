@@ -2086,7 +2086,7 @@ function set_container_bill(){
     document.getElementById('bill_div').innerHTML = text;
     if(bill_type == 'bpjs'){
         $('#bpjs_type').niceSelect();
-        set_bpjs_div();
+        set_bpjs_div(bill_prov);
         $('#bpjs_month').niceSelect();
     }else if(bill_type == 'pln'){
         $('#pln_type').niceSelect();
@@ -2417,7 +2417,7 @@ function set_pln_div(){
     $('#pln_nominal').niceSelect();
 }
 
-function set_bpjs_div(){
+function set_bpjs_div(bill_prov){
     var bpjs_selection = document.getElementById('bpjs_type')
     $bpjs_type_name = bpjs_selection.options[bpjs_selection.selectedIndex].text;
     if(template == 1){
@@ -2426,8 +2426,15 @@ function set_bpjs_div(){
             <div class="col-lg-3 col-md-3 col-sm-12" style="padding:0px;" id="train_date_search">
                 <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Pay Until</span>
                 <div class="input-container-search-ticket btn-group">
-                    <div class="form-select" id="default-select">
-                        <select id="bpjs_month" name="bpjs_month" class="nice-select-default">`;
+                    <div class="form-select" id="default-select">`;
+                        if(bill_prov == 'ppob_espay')
+                        {
+                            text += `<select id="bpjs_month" name="bpjs_month" class="nice-select-default" disabled>`;
+                        }
+                        else
+                        {
+                            text += `<select id="bpjs_month" name="bpjs_month" class="nice-select-default">`;
+                        }
                         print_month = false;
                         max_count = 12;
                         for(i in month_list){
@@ -2471,9 +2478,16 @@ function set_bpjs_div(){
             text = `
             <div class="col-lg-3 col-md-3 col-sm-12" id="train_date_search" style="margin-bottom:15px;">
                 <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Pay Until</span>
-                    <div class="form-select" id="default-select">
-                        <select id="bpjs_month" name="bpjs_month" class="nice-select-default">`;
-                        print_month = false
+                    <div class="form-select" id="default-select">`;
+                        if(bill_prov == 'ppob_espay')
+                        {
+                            text += `<select id="bpjs_month" name="bpjs_month" class="nice-select-default" disabled>`;
+                        }
+                        else
+                        {
+                            text += `<select id="bpjs_month" name="bpjs_month" class="nice-select-default">`;
+                        }
+                        print_month = false;
                         for(i in month_list){
                             if(moment().format('MMM') == month_list[i][1]){
                                 print_month = true;
@@ -2504,9 +2518,16 @@ function set_bpjs_div(){
             <div class="col-lg-12" id="train_date_search">
                 <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Pay Until</span>
                 <div class="form-group">
-                    <div class="default-select">
-                        <select id="bpjs_month" name="bpjs_month" class="nice-select-default">`;
-                        print_month = false
+                    <div class="default-select">`;
+                        if(bill_prov == 'ppob_espay')
+                        {
+                            text += `<select id="bpjs_month" name="bpjs_month" class="nice-select-default" disabled>`;
+                        }
+                        else
+                        {
+                            text += `<select id="bpjs_month" name="bpjs_month" class="nice-select-default">`;
+                        }
+                        print_month = false;
                         for(i in month_list){
                             if(moment().format('MMM') == month_list[i][1]){
                                 print_month = true;
@@ -2539,9 +2560,16 @@ function set_bpjs_div(){
                 <span class="span-search-ticket">Pay Until</span>
                 <div class="input-container-search-ticket">
                     <i class="fas fa-calendar-alt" style="padding:14px; height: 43px; width: 45px; background:`+color+`; color:`+text_color+`;"></i>
-                    <div class="form-select" id="default-select">
-                        <select id="bpjs_month" name="bpjs_month" class="nice-select-default">`;
-                        print_month = false
+                    <div class="form-select" id="default-select">`;
+                        if(bill_prov == 'ppob_espay')
+                        {
+                            text += `<select id="bpjs_month" name="bpjs_month" class="nice-select-default" disabled>`;
+                        }
+                        else
+                        {
+                            text += `<select id="bpjs_month" name="bpjs_month" class="nice-select-default">`;
+                        }
+                        print_month = false;
                         for(i in month_list){
                             if(moment().format('MMM') == month_list[i][1]){
                                 print_month = true;
@@ -2574,9 +2602,16 @@ function set_bpjs_div(){
             <div class="col-lg-3 col-md-3 col-sm-12" id="train_date_search">
                 <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Pay Until</span>
                 <div class="input-container-search-ticket btn-group">
-                    <div class="form-select" id="default-select">
-                        <select id="bpjs_month" name="bpjs_month" class="nice-select-default">`;
-                        print_month = false
+                    <div class="form-select" id="default-select">`;
+                        if(bill_prov == 'ppob_espay')
+                        {
+                            text += `<select id="bpjs_month" name="bpjs_month" class="nice-select-default" disabled>`;
+                        }
+                        else
+                        {
+                            text += `<select id="bpjs_month" name="bpjs_month" class="nice-select-default">`;
+                        }
+                        print_month = false;
                         for(i in month_list){
                             if(moment().format('MMM') == month_list[i][1]){
                                 print_month = true;
@@ -2608,8 +2643,15 @@ function set_bpjs_div(){
             <div class="col-lg-3 col-md-3 col-sm-12" id="train_date_search">
                 <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Pay Until</span>
                 <div class="input-container-search-ticket btn-group">
-                    <div class="form-select" id="default-select">
-                        <select id="bpjs_month" name="bpjs_month" class="nice-select-default">`;
+                    <div class="form-select" id="default-select">`;
+                        if(bill_prov == 'ppob_espay')
+                        {
+                            text += `<select id="bpjs_month" name="bpjs_month" class="nice-select-default" disabled>`;
+                        }
+                        else
+                        {
+                            text += `<select id="bpjs_month" name="bpjs_month" class="nice-select-default">`;
+                        }
                         print_month = false;
                         max_count = 12;
                         for(i in month_list){
