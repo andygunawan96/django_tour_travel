@@ -5995,7 +5995,7 @@ function check_pln_non_tagihan(value){
 function check_pln_prepaid(value){
     var checknumber = "^([1-5][0-9]|[0-9])[0-9]{10}$";
     if(value.match(checknumber)!=null){
-        return true
+        return true;
     }else{
         return false;
     }
@@ -6004,7 +6004,7 @@ function check_pln_prepaid(value){
 function check_pln_postpaid(value){
     var checknumber = "^[1-5][0-9]{11}$";
     if(value.match(checknumber)!=null){
-        return true
+        return true;
     }else{
         return false;
     }
@@ -6012,8 +6012,9 @@ function check_pln_postpaid(value){
 
 function check_evoucher(value){
     var checknumber = "^08[1-9]{2}[0-9]{5,9}$";
-    if(value.match(checknumber)!=null){
-        return true
+    var checknumber_bolt = "^999[1-9]{1}[0-9]{5,9}$";
+    if(value.match(checknumber)!=null || value.match(checknumber_bolt)!=null){
+        return true;
     }else{
         return false;
     }

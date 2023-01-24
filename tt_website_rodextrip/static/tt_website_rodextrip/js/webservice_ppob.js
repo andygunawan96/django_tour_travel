@@ -177,9 +177,9 @@ function search_ppob(){
                             if(ppob_data.product_data[i][j].name == $bpjs_type_name){
                                 if(customer_number.length < ppob_data.product_data[i][j].min_cust_number || customer_number.length > ppob_data.product_data[i][j].max_cust_number){
                                     if(ppob_data.product_data[i][j].min_cust_number != ppob_data.product_data[i][j].max_cust_number){
-                                        error_log += 'Please check customer number must between '+ppob_data.product_data[i][j].min_cust_number+ ' to '+ ppob_data.product_data[i][j].max_cust_number+'\n';
+                                        error_log += 'Please check customer number must be between '+ppob_data.product_data[i][j].min_cust_number+ ' and '+ ppob_data.product_data[i][j].max_cust_number+'\n';
                                     }else{
-                                        error_log += 'Please check customer number must '+ppob_data.product_data[i][j].min_cust_number+'\n';
+                                        error_log += 'Please check customer number must be at least '+ppob_data.product_data[i][j].min_cust_number+'\n';
                                     }
                                     check_break = true;
                                     break;
@@ -196,11 +196,11 @@ function search_ppob(){
                         for(j in ppob_data.product_data[i]){
                             if(ppob_data.product_data[i][j].name == $bpjs_type_name){
                                 if(ppob_data.product_data[i][j].min_cust_number != ppob_data.product_data[i][j].max_cust_number){
-                                    error_log += 'Please check customer number must between '+ppob_data.product_data[i][j].min_cust_number+ ' to '+ ppob_data.product_data[i][j].max_cust_number+'\n';
+                                    error_log += 'Please check customer number must be between '+ppob_data.product_data[i][j].min_cust_number+ ' and '+ ppob_data.product_data[i][j].max_cust_number+'\n';
                                     check_break = true;
                                     break;
                                 }else{
-                                    error_log += 'Please check customer number must '+ppob_data.product_data[i][j].min_cust_number+'\n';
+                                    error_log += 'Please check customer number must be at least '+ppob_data.product_data[i][j].min_cust_number+'\n';
                                     check_break = true;
                                     break;
                                 }
@@ -223,9 +223,9 @@ function search_ppob(){
                             if(ppob_data.product_data[i][j].name == $pln_type_name){
                                 if(customer_number.length < ppob_data.product_data[i][j].min_cust_number || customer_number.length > ppob_data.product_data[i][j].max_cust_number){
                                     if(ppob_data.product_data[i][j].min_cust_number != ppob_data.product_data[i][j].max_cust_number){
-                                        error_log += 'Please check customer number must between '+ppob_data.product_data[i][j].min_cust_number+ ' to '+ ppob_data.product_data[i][j].max_cust_number+'\n';
+                                        error_log += 'Please check customer number must be between '+ppob_data.product_data[i][j].min_cust_number+ ' and '+ ppob_data.product_data[i][j].max_cust_number+'\n';
                                     }else{
-                                        error_log += 'Please check customer number must '+ppob_data.product_data[i][j].min_cust_number+'\n';
+                                        error_log += 'Please check customer number must be at least '+ppob_data.product_data[i][j].min_cust_number+'\n';
                                     }
                                     check_break = true;
                                     break;
@@ -242,11 +242,11 @@ function search_ppob(){
                         for(j in ppob_data.product_data[i]){
                             if(ppob_data.product_data[i][j].name == $pln_type_name){
                                 if(ppob_data.product_data[i][j].min_cust_number != ppob_data.product_data[i][j].max_cust_number){
-                                    error_log += 'Please check customer number must between '+ppob_data.product_data[i][j].min_cust_number+ ' to '+ ppob_data.product_data[i][j].max_cust_number+'\n';
+                                    error_log += 'Please check customer number must be between '+ppob_data.product_data[i][j].min_cust_number+ ' and '+ ppob_data.product_data[i][j].max_cust_number+'\n';
                                     check_break = true;
                                     break;
                                 }else{
-                                    error_log += 'Please check customer number must '+ppob_data.product_data[i][j].min_cust_number+'\n';
+                                    error_log += 'Please check customer number must be at least '+ppob_data.product_data[i][j].min_cust_number+'\n';
                                     check_break = true;
                                     break;
                                 }
@@ -266,9 +266,9 @@ function search_ppob(){
                             if(ppob_data.product_data[i][j].name == $pln_type_name){
                                 if(customer_number.length < ppob_data.product_data[i][j].min_cust_number || customer_number.length > ppob_data.product_data[i][j].max_cust_number){
                                     if(ppob_data.product_data[i][j].min_cust_number != ppob_data.product_data[i][j].max_cust_number){
-                                        error_log += 'Please check customer number must between '+ppob_data.product_data[i][j].min_cust_number+ ' to '+ ppob_data.product_data[i][j].max_cust_number+'\n';
+                                        error_log += 'Please check customer number must be between '+ppob_data.product_data[i][j].min_cust_number+ ' and '+ ppob_data.product_data[i][j].max_cust_number+'\n';
                                     }else{
-                                        error_log += 'Please check customer number must '+ppob_data.product_data[i][j].min_cust_number+'\n';
+                                        error_log += 'Please check customer number must be at least '+ppob_data.product_data[i][j].min_cust_number+'\n';
                                     }
                                     check_break = true;
                                     break;
@@ -285,11 +285,11 @@ function search_ppob(){
                         for(j in ppob_data.product_data[i]){
                             if(ppob_data.product_data[i][j].name == $pln_type_name){
                                 if(ppob_data.product_data[i][j].min_cust_number != ppob_data.product_data[i][j].max_cust_number){
-                                    error_log += 'Please check customer number must between '+ppob_data.product_data[i][j].min_cust_number+ ' to '+ ppob_data.product_data[i][j].max_cust_number+'\n';
+                                    error_log += 'Please check customer number must be between '+ppob_data.product_data[i][j].min_cust_number+ ' and '+ ppob_data.product_data[i][j].max_cust_number+'\n';
                                     check_break = true;
                                     break;
                                 }else{
-                                    error_log += 'Please check customer number must '+ppob_data.product_data[i][j].min_cust_number+'\n';
+                                    error_log += 'Please check customer number must be at least '+ppob_data.product_data[i][j].min_cust_number+'\n';
                                     check_break = true;
                                     break;
                                 }
@@ -308,9 +308,9 @@ function search_ppob(){
                             if(ppob_data.product_data[i][j].name == $pln_type_name){
                                 if(customer_number.length < ppob_data.product_data[i][j].min_cust_number || customer_number.length > ppob_data.product_data[i][j].max_cust_number){
                                     if(ppob_data.product_data[i][j].min_cust_number != ppob_data.product_data[i][j].max_cust_number){
-                                        error_log += 'Please check customer number must between '+ppob_data.product_data[i][j].min_cust_number+ ' to '+ ppob_data.product_data[i][j].max_cust_number+'\n';
+                                        error_log += 'Please check customer number must be between '+ppob_data.product_data[i][j].min_cust_number+ ' and '+ ppob_data.product_data[i][j].max_cust_number+'\n';
                                     }else{
-                                        error_log += 'Please check customer number must '+ppob_data.product_data[i][j].min_cust_number+'\n';
+                                        error_log += 'Please check customer number must be at least '+ppob_data.product_data[i][j].min_cust_number+'\n';
                                     }
                                     check_break = true;
                                     break;
@@ -327,11 +327,11 @@ function search_ppob(){
                         for(j in ppob_data.product_data[i]){
                             if(ppob_data.product_data[i][j].name == $pln_type_name){
                                 if(ppob_data.product_data[i][j].min_cust_number != ppob_data.product_data[i][j].max_cust_number){
-                                    error_log += 'Please check customer number must between '+ppob_data.product_data[i][j].min_cust_number+ ' to '+ ppob_data.product_data[i][j].max_cust_number+'\n';
+                                    error_log += 'Please check customer number must be between '+ppob_data.product_data[i][j].min_cust_number+ ' and '+ ppob_data.product_data[i][j].max_cust_number+'\n';
                                     check_break = true;
                                     break;
                                 }else{
-                                    error_log += 'Please check customer number must '+ppob_data.product_data[i][j].min_cust_number+'\n';
+                                    error_log += 'Please check customer number must be at least '+ppob_data.product_data[i][j].min_cust_number+'\n';
                                     check_break = true;
                                     break;
                                 }
@@ -346,57 +346,363 @@ function search_ppob(){
     }else if(bill_type == 'e-voucher'){
         product_code = document.getElementById('evoucher_type').value;
 
-        if($evoucher_type_name == 'Prepaid Mobile'){
-            if(check_evoucher(customer_number) == true){
-                for(i in ppob_data.product_data){
-                    if(check_break == false){
-                        for(j in ppob_data.product_data[i]){
-                            if(ppob_data.product_data[i][j].name == $evoucher_type_name){
-                                if(customer_number.length < ppob_data.product_data[i][j].min_cust_number || customer_number.length > ppob_data.product_data[i][j].max_cust_number){
-                                    if(ppob_data.product_data[i][j].min_cust_number != ppob_data.product_data[i][j].max_cust_number){
-                                        error_log += 'Please check customer number must between '+ppob_data.product_data[i][j].min_cust_number+ ' to '+ ppob_data.product_data[i][j].max_cust_number+'\n';
-                                    }else{
-                                        error_log += 'Please check customer number must '+ppob_data.product_data[i][j].min_cust_number+'\n';
-                                    }
-                                    check_break = true;
-                                    break;
-                                }
-                            }
-                        }
-                    }else{
-                        break;
-                    }
-                }
-            }else{
-                for(i in ppob_data.product_data){
-                    if(check_break == false){
-                        for(j in ppob_data.product_data[i]){
-                            if(ppob_data.product_data[i][j].name == $evoucher_type_name){
+        if(check_evoucher(customer_number) == true){
+            for(i in ppob_data.product_data){
+                if(check_break == false){
+                    for(j in ppob_data.product_data[i]){
+                        if(ppob_data.product_data[i][j].name == $evoucher_type_name){
+                            if(customer_number.length < ppob_data.product_data[i][j].min_cust_number || customer_number.length > ppob_data.product_data[i][j].max_cust_number){
                                 if(ppob_data.product_data[i][j].min_cust_number != ppob_data.product_data[i][j].max_cust_number){
-                                    error_log += 'Please check customer number must between '+ppob_data.product_data[i][j].min_cust_number+ ' to '+ ppob_data.product_data[i][j].max_cust_number+'\n';
-                                    check_break = true;
-                                    break;
+                                    error_log += 'Please check customer number must be between '+ppob_data.product_data[i][j].min_cust_number+ ' and '+ ppob_data.product_data[i][j].max_cust_number+'\n';
                                 }else{
-                                    error_log += 'Please check customer number must '+ppob_data.product_data[i][j].min_cust_number+'\n';
-                                    check_break = true;
-                                    break;
+                                    error_log += 'Please check customer number must be at least '+ppob_data.product_data[i][j].min_cust_number+'\n';
                                 }
+                                check_break = true;
+                                break;
                             }
                         }
-                    }else{
-                        break;
                     }
-                }
-            }
-            var radios_nominal = document.getElementsByName('e-voucher_nominal');
-            for (var k = 0, length = radios_nominal.length; k < length; k++) {
-                if (radios_nominal[k].checked) {
-                    e_voucher = radios_nominal[k].value;
+                }else{
                     break;
                 }
             }
-            if (e_voucher == ''){
-                error_log += 'Please choose voucher!';
+        }else{
+            for(i in ppob_data.product_data){
+                if(check_break == false){
+                    for(j in ppob_data.product_data[i]){
+                        if(ppob_data.product_data[i][j].name == $evoucher_type_name){
+                            if(ppob_data.product_data[i][j].min_cust_number != ppob_data.product_data[i][j].max_cust_number){
+                                error_log += 'Please check customer number must be between '+ppob_data.product_data[i][j].min_cust_number+ ' and '+ ppob_data.product_data[i][j].max_cust_number+'\n';
+                                check_break = true;
+                                break;
+                            }else{
+                                error_log += 'Please check customer number must be at least '+ppob_data.product_data[i][j].min_cust_number+'\n';
+                                check_break = true;
+                                break;
+                            }
+                        }
+                    }
+                }else{
+                    break;
+                }
+            }
+        }
+        var radios_nominal = document.getElementsByName('e-voucher_nominal');
+        for (var k = 0, length = radios_nominal.length; k < length; k++) {
+            if (radios_nominal[k].checked) {
+                e_voucher = radios_nominal[k].value;
+                break;
+            }
+        }
+        if (e_voucher == ''){
+            error_log += 'Please choose voucher!';
+        }
+    }else if(bill_type == 'cable tv'){
+        product_code = document.getElementById('cable_tv_type').value;
+
+        if(check_cable_tv(customer_number) == true){
+            for(i in ppob_data.product_data){
+                if(check_break == false){
+                    for(j in ppob_data.product_data[i]){
+                        if(ppob_data.product_data[i][j].name == $cable_tv_type_name){
+                            if(customer_number.length < ppob_data.product_data[i][j].min_cust_number || customer_number.length > ppob_data.product_data[i][j].max_cust_number){
+                                if(ppob_data.product_data[i][j].min_cust_number != ppob_data.product_data[i][j].max_cust_number){
+                                    error_log += 'Please check customer number must be between '+ppob_data.product_data[i][j].min_cust_number+ ' and '+ ppob_data.product_data[i][j].max_cust_number+'\n';
+                                }else{
+                                    error_log += 'Please check customer number must be at least '+ppob_data.product_data[i][j].min_cust_number+'\n';
+                                }
+                                check_break = true;
+                                break;
+                            }
+                        }
+                    }
+                }else{
+                    break;
+                }
+            }
+        }else{
+            for(i in ppob_data.product_data){
+                if(check_break == false){
+                    for(j in ppob_data.product_data[i]){
+                        if(ppob_data.product_data[i][j].name == $cable_tv_type_name){
+                            if(ppob_data.product_data[i][j].min_cust_number != ppob_data.product_data[i][j].max_cust_number){
+                                error_log += 'Please check customer number must be between '+ppob_data.product_data[i][j].min_cust_number+ ' and '+ ppob_data.product_data[i][j].max_cust_number+'\n';
+                                check_break = true;
+                                break;
+                            }else{
+                                error_log += 'Please check customer number must be at least '+ppob_data.product_data[i][j].min_cust_number+'\n';
+                                check_break = true;
+                                break;
+                            }
+                        }
+                    }
+                }else{
+                    break;
+                }
+            }
+        }
+    }else if(bill_type == 'internet'){
+        product_code = document.getElementById('internet_type').value;
+
+        if(check_internet(customer_number) == true){
+            for(i in ppob_data.product_data){
+                if(check_break == false){
+                    for(j in ppob_data.product_data[i]){
+                        if(ppob_data.product_data[i][j].name == $internet_type_name){
+                            if(customer_number.length < ppob_data.product_data[i][j].min_cust_number || customer_number.length > ppob_data.product_data[i][j].max_cust_number){
+                                if(ppob_data.product_data[i][j].min_cust_number != ppob_data.product_data[i][j].max_cust_number){
+                                    error_log += 'Please check customer number must be between '+ppob_data.product_data[i][j].min_cust_number+ ' and '+ ppob_data.product_data[i][j].max_cust_number+'\n';
+                                }else{
+                                    error_log += 'Please check customer number must be at least '+ppob_data.product_data[i][j].min_cust_number+'\n';
+                                }
+                                check_break = true;
+                                break;
+                            }
+                        }
+                    }
+                }else{
+                    break;
+                }
+            }
+        }else{
+            for(i in ppob_data.product_data){
+                if(check_break == false){
+                    for(j in ppob_data.product_data[i]){
+                        if(ppob_data.product_data[i][j].name == $internet_type_name){
+                            if(ppob_data.product_data[i][j].min_cust_number != ppob_data.product_data[i][j].max_cust_number){
+                                error_log += 'Please check customer number must be between '+ppob_data.product_data[i][j].min_cust_number+ ' and '+ ppob_data.product_data[i][j].max_cust_number+'\n';
+                                check_break = true;
+                                break;
+                            }else{
+                                error_log += 'Please check customer number must be at least '+ppob_data.product_data[i][j].min_cust_number+'\n';
+                                check_break = true;
+                                break;
+                            }
+                        }
+                    }
+                }else{
+                    break;
+                }
+            }
+        }
+    }else if(bill_type == 'telephone'){
+        product_code = document.getElementById('telephone_type').value;
+
+        if(check_telephone(customer_number) == true){
+            for(i in ppob_data.product_data){
+                if(check_break == false){
+                    for(j in ppob_data.product_data[i]){
+                        if(ppob_data.product_data[i][j].name == $telephone_type_name){
+                            if(customer_number.length < ppob_data.product_data[i][j].min_cust_number || customer_number.length > ppob_data.product_data[i][j].max_cust_number){
+                                if(ppob_data.product_data[i][j].min_cust_number != ppob_data.product_data[i][j].max_cust_number){
+                                    error_log += 'Please check customer number must be between '+ppob_data.product_data[i][j].min_cust_number+ ' and '+ ppob_data.product_data[i][j].max_cust_number+'\n';
+                                }else{
+                                    error_log += 'Please check customer number must be at least '+ppob_data.product_data[i][j].min_cust_number+'\n';
+                                }
+                                check_break = true;
+                                break;
+                            }
+                        }
+                    }
+                }else{
+                    break;
+                }
+            }
+        }else{
+            for(i in ppob_data.product_data){
+                if(check_break == false){
+                    for(j in ppob_data.product_data[i]){
+                        if(ppob_data.product_data[i][j].name == $telephone_type_name){
+                            if(ppob_data.product_data[i][j].min_cust_number != ppob_data.product_data[i][j].max_cust_number){
+                                error_log += 'Please check customer number must be between '+ppob_data.product_data[i][j].min_cust_number+ ' and '+ ppob_data.product_data[i][j].max_cust_number+'\n';
+                                check_break = true;
+                                break;
+                            }else{
+                                error_log += 'Please check customer number must be at least '+ppob_data.product_data[i][j].min_cust_number+'\n';
+                                check_break = true;
+                                break;
+                            }
+                        }
+                    }
+                }else{
+                    break;
+                }
+            }
+        }
+    }else if(bill_type == 'insurance'){
+        product_code = document.getElementById('insurance_type').value;
+
+        if(check_insurance(customer_number) == true){
+            for(i in ppob_data.product_data){
+                if(check_break == false){
+                    for(j in ppob_data.product_data[i]){
+                        if(ppob_data.product_data[i][j].name == $insurance_type_name){
+                            if(customer_number.length < ppob_data.product_data[i][j].min_cust_number || customer_number.length > ppob_data.product_data[i][j].max_cust_number){
+                                if(ppob_data.product_data[i][j].min_cust_number != ppob_data.product_data[i][j].max_cust_number){
+                                    error_log += 'Please check customer number must be between '+ppob_data.product_data[i][j].min_cust_number+ ' and '+ ppob_data.product_data[i][j].max_cust_number+'\n';
+                                }else{
+                                    error_log += 'Please check customer number must be at least '+ppob_data.product_data[i][j].min_cust_number+'\n';
+                                }
+                                check_break = true;
+                                break;
+                            }
+                        }
+                    }
+                }else{
+                    break;
+                }
+            }
+        }else{
+            for(i in ppob_data.product_data){
+                if(check_break == false){
+                    for(j in ppob_data.product_data[i]){
+                        if(ppob_data.product_data[i][j].name == $insurance_type_name){
+                            if(ppob_data.product_data[i][j].min_cust_number != ppob_data.product_data[i][j].max_cust_number){
+                                error_log += 'Please check customer number must be between '+ppob_data.product_data[i][j].min_cust_number+ ' and '+ ppob_data.product_data[i][j].max_cust_number+'\n';
+                                check_break = true;
+                                break;
+                            }else{
+                                error_log += 'Please check customer number must be at least '+ppob_data.product_data[i][j].min_cust_number+'\n';
+                                check_break = true;
+                                break;
+                            }
+                        }
+                    }
+                }else{
+                    break;
+                }
+            }
+        }
+    }else if(bill_type == 'pdam'){
+        product_code = document.getElementById('pdam_type').value;
+
+        if(check_pdam(customer_number) == true){
+            for(i in ppob_data.product_data){
+                if(check_break == false){
+                    for(j in ppob_data.product_data[i]){
+                        if(ppob_data.product_data[i][j].name == $pdam_type_name){
+                            if(customer_number.length < ppob_data.product_data[i][j].min_cust_number || customer_number.length > ppob_data.product_data[i][j].max_cust_number){
+                                if(ppob_data.product_data[i][j].min_cust_number != ppob_data.product_data[i][j].max_cust_number){
+                                    error_log += 'Please check customer number must be between '+ppob_data.product_data[i][j].min_cust_number+ ' and '+ ppob_data.product_data[i][j].max_cust_number+'\n';
+                                }else{
+                                    error_log += 'Please check customer number must be at least '+ppob_data.product_data[i][j].min_cust_number+'\n';
+                                }
+                                check_break = true;
+                                break;
+                            }
+                        }
+                    }
+                }else{
+                    break;
+                }
+            }
+        }else{
+            for(i in ppob_data.product_data){
+                if(check_break == false){
+                    for(j in ppob_data.product_data[i]){
+                        if(ppob_data.product_data[i][j].name == $pdam_type_name){
+                            if(ppob_data.product_data[i][j].min_cust_number != ppob_data.product_data[i][j].max_cust_number){
+                                error_log += 'Please check customer number must be between '+ppob_data.product_data[i][j].min_cust_number+ ' and '+ ppob_data.product_data[i][j].max_cust_number+'\n';
+                                check_break = true;
+                                break;
+                            }else{
+                                error_log += 'Please check customer number must be at least '+ppob_data.product_data[i][j].min_cust_number+'\n';
+                                check_break = true;
+                                break;
+                            }
+                        }
+                    }
+                }else{
+                    break;
+                }
+            }
+        }
+    }else if(bill_type == 'credit installment'){
+        product_code = document.getElementById('credit_installment_type').value;
+
+        if(check_credit_installment(customer_number) == true){
+            for(i in ppob_data.product_data){
+                if(check_break == false){
+                    for(j in ppob_data.product_data[i]){
+                        if(ppob_data.product_data[i][j].name == $credit_installment_type_name){
+                            if(customer_number.length < ppob_data.product_data[i][j].min_cust_number || customer_number.length > ppob_data.product_data[i][j].max_cust_number){
+                                if(ppob_data.product_data[i][j].min_cust_number != ppob_data.product_data[i][j].max_cust_number){
+                                    error_log += 'Please check customer number must be between '+ppob_data.product_data[i][j].min_cust_number+ ' and '+ ppob_data.product_data[i][j].max_cust_number+'\n';
+                                }else{
+                                    error_log += 'Please check customer number must be at least '+ppob_data.product_data[i][j].min_cust_number+'\n';
+                                }
+                                check_break = true;
+                                break;
+                            }
+                        }
+                    }
+                }else{
+                    break;
+                }
+            }
+        }else{
+            for(i in ppob_data.product_data){
+                if(check_break == false){
+                    for(j in ppob_data.product_data[i]){
+                        if(ppob_data.product_data[i][j].name == $credit_installment_type_name){
+                            if(ppob_data.product_data[i][j].min_cust_number != ppob_data.product_data[i][j].max_cust_number){
+                                error_log += 'Please check customer number must be between '+ppob_data.product_data[i][j].min_cust_number+ ' and '+ ppob_data.product_data[i][j].max_cust_number+'\n';
+                                check_break = true;
+                                break;
+                            }else{
+                                error_log += 'Please check customer number must be at least '+ppob_data.product_data[i][j].min_cust_number+'\n';
+                                check_break = true;
+                                break;
+                            }
+                        }
+                    }
+                }else{
+                    break;
+                }
+            }
+        }
+    }else if(bill_type == 'credit card'){
+        product_code = document.getElementById('credit_card_type').value;
+
+        if(check_credit_card(customer_number) == true){
+            for(i in ppob_data.product_data){
+                if(check_break == false){
+                    for(j in ppob_data.product_data[i]){
+                        if(ppob_data.product_data[i][j].name == $credit_card_type_name){
+                            if(customer_number.length < ppob_data.product_data[i][j].min_cust_number || customer_number.length > ppob_data.product_data[i][j].max_cust_number){
+                                if(ppob_data.product_data[i][j].min_cust_number != ppob_data.product_data[i][j].max_cust_number){
+                                    error_log += 'Please check customer number must be between '+ppob_data.product_data[i][j].min_cust_number+ ' and '+ ppob_data.product_data[i][j].max_cust_number+'\n';
+                                }else{
+                                    error_log += 'Please check customer number must be at least '+ppob_data.product_data[i][j].min_cust_number+'\n';
+                                }
+                                check_break = true;
+                                break;
+                            }
+                        }
+                    }
+                }else{
+                    break;
+                }
+            }
+        }else{
+            for(i in ppob_data.product_data){
+                if(check_break == false){
+                    for(j in ppob_data.product_data[i]){
+                        if(ppob_data.product_data[i][j].name == $credit_card_type_name){
+                            if(ppob_data.product_data[i][j].min_cust_number != ppob_data.product_data[i][j].max_cust_number){
+                                error_log += 'Please check customer number must be between '+ppob_data.product_data[i][j].min_cust_number+ ' and '+ ppob_data.product_data[i][j].max_cust_number+'\n';
+                                check_break = true;
+                                break;
+                            }else{
+                                error_log += 'Please check customer number must be at least '+ppob_data.product_data[i][j].min_cust_number+'\n';
+                                check_break = true;
+                                break;
+                            }
+                        }
+                    }
+                }else{
+                    break;
+                }
             }
         }
     }
