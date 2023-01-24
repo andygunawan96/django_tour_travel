@@ -5726,16 +5726,33 @@
         img.src = canvas.toDataURL('image/png');
         img.style.width = '20vh';
         img.style['padding-bottom'] = '5px';
+        myFile = dataURLtoFile(canvas.toDataURL('image/png'), 'image');
+        const dataTransfer = new DataTransfer();
+        dataTransfer.items.add(myFile);
         if(document.getElementById('upload_idcard_type').value == '#myModal_attachment2'){
-            $('input[name="files_attachment2"]').val(canvas.toDataURL('image/png'));
+            document.getElementById('files_attachment2').files = dataTransfer.files;
             document.getElementById('selectedFiles_attachment2').innerHTML = '';
             document.getElementById('selectedFiles_attachment2').appendChild(img);
         }else{
-            $('input[name="files_attachment1"]').val(canvas.toDataURL('image/png'));
+            document.getElementById('files_attachment1').files = dataTransfer.files;
             document.getElementById('selectedFiles_attachment1').innerHTML = '';
             document.getElementById('selectedFiles_attachment1').appendChild(img);
         }
         open_webcam();
+    }
+
+    function dataURLtoFile(dataurl, filename) {
+        var arr = dataurl.split(','),
+            mime = arr[0].match(/:(.*?);/)[1],
+            bstr = atob(arr[1]),
+            n = bstr.length,
+            u8arr = new Uint8Array(n);
+
+        while(n--){
+            u8arr[n] = bstr.charCodeAt(n);
+        }
+
+        return new File([u8arr], filename + '.' + dataurl.split('/')[1].split(';')[0], {type:mime});
     }
 </script>
 

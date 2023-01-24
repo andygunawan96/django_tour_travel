@@ -809,8 +809,9 @@ def verify_data(request):
 
 def get_medical_information(request):
     res = []
-    if not os.path.exists("/var/log/django/file_cache/medical"):
-        os.mkdir('/var/log/django/file_cache/medical')
+    path = var_log_path('medical')
+    if not os.path.exists(path):
+        os.mkdir(path)
     file = read_cache("periksain", "medical", 90911)
     res.append({
         'code': 'periksain',
@@ -834,8 +835,9 @@ def get_medical_information(request):
 
 
 def update_medical_information(request):
-    if not os.path.exists("/var/log/django/file_cache/medical"):
-        os.mkdir('/var/log/django/file_cache/medical')
+    path = var_log_path('medical')
+    if not os.path.exists(path):
+        os.mkdir(path)
     try:
         data = request.POST['html']
         write_cache(data, "%s" % request.POST['name'], 'medical')
