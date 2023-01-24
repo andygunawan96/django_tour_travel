@@ -807,8 +807,7 @@
             <input type="hidden" id="end"/>
 
             <div class="col-lg-8" id="div-search-overlay" style="background:{{tab_color}}; padding:15px;">
-                {% if "ticketing_event" in username.co_agent_frontend_security %}
-                {% if "event" in provider %}
+                {% if "event" in provider and "ticketing_event" in username.co_agent_frontend_security %}
                 <form action="{% url 'tt_website_rodextrip:event_search'%}" method="POST" class="form-wrap" id="event_searchForm">
                     {% csrf_token %}
                     <input type="hidden" name="g-recaptcha-response" id='recaptcha_event'>
@@ -838,7 +837,6 @@
                         <div class="ld ld-ring ld-cycle"></div>
                     </button>
                 </form>
-                {% endif %}
                 {% endif %}
             </div>
             {% endif %}
@@ -875,7 +873,7 @@
     {% if username.co_user_login != '' %}
         try{
 
-            {% if "event" in provider and "ticketing_event" in username.co_agent_frontend_security%}
+            {% if "event" in provider and "ticketing_event" in username.co_agent_frontend_security %}
             get_event_config('home');
             var event_autocomplete = new autoComplete({
                 selector: '#event_name_id',

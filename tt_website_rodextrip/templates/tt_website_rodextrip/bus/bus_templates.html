@@ -93,11 +93,10 @@
                 <input type="hidden" id="end"/>
 
                 <div class="col-lg-12" id="div-search-overlay">
-                    {% if "ticketing_bus" in username.co_agent_frontend_security %}
+                    {% if "bus" in provider and "ticketing_bus" in username.co_agent_frontend_security %}
                     <div class="banner-right">
                         <!--<img src="{{static_path}}images/christmas-icon2.png" style="width:auto; height:90px; position:absolute; right:-35px; top:35px; float:right; z-index:200;" alt="">-->
                         <div class="tab-content" id="myTabContent" style="border-radius:7px;">
-                            {% if "bus" in provider %}
                             <div class="tab-pane fade  show active" id="bus" role="tabpanel" aria-labelledby="bus-tab">
                                 <form action="{% url 'tt_website_rodextrip:bus_search'%}" method="POST" class="form-wrap" id="bus_searchForm" onsubmit="return search_bus_validation()">
                                     {% csrf_token %}
@@ -210,7 +209,6 @@
                                     </center>
                                 </form>
                             </div>
-                            {% endif %}
                         </div>
                     </div>
                     {% endif %}
@@ -262,9 +260,8 @@
                     <input type="hidden" id="country_id"/>
                     <input type="hidden" id="start"/>
                     <input type="hidden" id="end"/>
-                    {% if "ticketing_bus" in username.co_agent_frontend_security %}
+                    {% if "bus" in provider and "ticketing_bus" in username.co_agent_frontend_security %}
                     <div class="tab_body" style="border:2px solid #cdcdcd;">
-                        {% if "bus" in provider %}
                         <div id="tab-bus" class="tab-content current">
                             <form action="{% url 'tt_website_rodextrip:bus_search'%}" method="POST" id="bus_searchForm" onsubmit="return search_bus_validation()">
                                 {% csrf_token %}
@@ -374,7 +371,6 @@
                                 </center>
                             </form>
                         </div>
-                        {% endif %}
                     </div>
                     {% endif %}
                     {% else %}
@@ -470,7 +466,7 @@
                             </div>
                         </div>
                         <div class="col-xl-8 col-lg-8 col-md-8 header-right" style="padding-left:0px;">
-                            {% if "bus" in provider %}
+                            {% if "bus" in provider and "ticketing_bus" in username.co_agent_frontend_security %}
                             <div id="tab-bus" class="tab-content current">
                                 <h4 class="pb-30" style="color:{{text_color}};">{% trans 'Book Your Bus' %}</h4>
                                 <form action="{% url 'tt_website_rodextrip:bus_search'%}" method="POST" class="form-wrap" id="bus_searchForm" onsubmit="return search_bus_validation()">
@@ -654,7 +650,7 @@
                                     <input type="hidden" id="start"/>
                                     <input type="hidden" id="end"/>
                                     <ul class="tabs">
-                                        {% if "bus" in provider %}
+                                        {% if "bus" in provider and "ticketing_bus" in username.co_agent_frontend_security %}
                                         <li class="tab-link current" data-tab="tab-bus"><i class="image-rounded-icon"><img style="width:20px; height:20px" alt="Bus Logo" src="{{static_path}}images/icon/home-bus.png"/></i> <label class="btn-txt-color">{% trans 'BUS' %}</label></li>
                                         {% endif %}
                                     </ul>
@@ -674,7 +670,7 @@
                         <div class="row">
                             {% if username.co_user_name != '' %}
                             <div class="col-xl-12" style="text-align:left;">
-                                {% if "bus" in provider %}
+                                {% if "bus" in provider and "ticketing_bus" in username.co_agent_frontend_security %}
                                 <div class="form-search-wrap tab-content current" id="tab-bus" data-aos="fade-up" data-aos-delay="200">
                                     <form action="{% url 'tt_website_rodextrip:bus_search'%}" method="POST" id="bus_searchForm" onsubmit="return search_bus_validation()">
                                         {% csrf_token %}
@@ -864,7 +860,7 @@
                             <div class="row">
                                 {% if username.co_user_login != '' %}
                                 <div class="col-xl-12" style="text-align:left;">
-                                    {% if "bus" in provider %}
+                                    {% if "bus" in provider and "ticketing_bus" in username.co_agent_frontend_security %}
                                     <div id="tab-bus" class="tab-content current">
                                         <form action="{% url 'tt_website_rodextrip:bus_search'%}" method="POST" class="form-wrap" id="bus_searchForm" onsubmit="return search_bus_validation()">
                                             {% csrf_token %}
@@ -1043,7 +1039,7 @@
                 <input type="hidden" id="end"/>
 
                 <div class="col-lg-8" id="div-search-overlay" style="background:{{tab_color}}; padding:15px;">
-                    {% if "bus" in provider %}
+                    {% if "bus" in provider and "ticketing_bus" in username.co_agent_frontend_security %}
                     <form action="{% url 'tt_website_rodextrip:bus_search'%}" method="POST" class="form-wrap" id="bus_searchForm" onsubmit="return search_bus_validation()">
                         {% csrf_token %}
                         <input type="hidden" name="g-recaptcha-response" id='recaptcha_bus'>
@@ -1185,7 +1181,7 @@
     <script>
     {% if username.co_user_login != '' %}
         try{
-            {% if "bus" in provider %}
+            {% if "bus" in provider and "ticketing_bus" in username.co_agent_frontend_security %}
             get_bus_config('home');
 
             var bus_origin = new autoComplete({
@@ -1244,7 +1240,7 @@
     $( document ).ready(function() {
         $('.js-example-basic-single').select2();
         var now = moment().format('DD MMM YYYY');
-        {% if "bus" in provider %}
+        {% if "bus" in provider and "ticketing_bus" in username.co_agent_frontend_security %}
             try{
                 document.getElementById('bus_origin').value = cache.bus.origin;
             }catch(err){
@@ -1260,24 +1256,34 @@
             }catch(err){
                 bus_date = now;
             }
-            $('input[name="bus_departure"]').daterangepicker({
-                singleDatePicker: true,
-                autoUpdateInput: true,
+
+            var picker_bus_departure = new Lightpick({
+                field: document.getElementById('bus_departure'),
+                singleDate: true,
                 startDate: bus_date,
                 minDate: moment(),
-                maxDate: moment().subtract(-90, 'days'),
-                showDropdowns: true,
-                opens: 'center',
-                locale: {
-                    format: 'DD MMM YYYY',
-                }
+                maxDate: moment().subtract(-3, 'months'),
+                nextFocus: '#show_total_pax_bus'
             });
 
-            $('input[name="bus_departure"]').on('apply.daterangepicker', function(ev, picker) {
-                setTimeout(function(){
-                    $("#show_total_pax_bus").click();
-                }, 200);
-            });
+            //$('input[name="bus_departure"]').daterangepicker({
+            //    singleDatePicker: true,
+            //    autoUpdateInput: true,
+            //    startDate: bus_date,
+            //    minDate: moment(),
+            //    maxDate: moment().subtract(-90, 'days'),
+            //    showDropdowns: true,
+            //    opens: 'center',
+            //   locale: {
+            //        format: 'DD MMM YYYY',
+            //    }
+            //});
+
+            //$('input[name="bus_departure"]').on('apply.daterangepicker', function(ev, picker) {
+            //    setTimeout(function(){
+            //        $("#show_total_pax_bus").click();
+            //    }, 200);
+            //});
 
         {% endif %}
     });

@@ -100,11 +100,10 @@
                 <input type="hidden" id="end"/>
 
                 <div class="col-lg-12" id="div-search-overlay">
-                    {% if "ticketing_activity" in username.co_agent_frontend_security %}
+                    {% if "activity" in provider and "ticketing_activity" in username.co_agent_frontend_security %}
                     <div class="banner-right">
                         <!--<img src="{{static_path}}images/christmas-icon2.png" style="width:auto; height:90px; position:absolute; right:-35px; top:35px; float:right; z-index:200;" alt="">-->
                         <div class="tab-content" id="myTabContent" style="border-radius:7px;">
-                            {% if "activity" in provider %}
                             <div class="tab-pane fade show active" id="activity" role="tabpanel" aria-labelledby="activity-tab">
                                 <form action="{% url 'tt_website_rodextrip:activity_search'%}" id="activity_search_form" class="form-wrap" method="post">
                                     {% csrf_token %}
@@ -192,7 +191,6 @@
                                     </center>
                                 </form>
                             </div>
-                            {% endif %}
                         </div>
                     </div>
                     {% endif %}
@@ -244,9 +242,8 @@
                     <input type="hidden" id="country_id"/>
                     <input type="hidden" id="start"/>
                     <input type="hidden" id="end"/>
-                    {% if "ticketing_activity" in username.co_agent_frontend_security %}
+                    {% if "activity" in provider and "ticketing_activity" in username.co_agent_frontend_security %}
                     <div class="tab_body" style="border:2px solid #cdcdcd;">
-                        {% if "activity" in provider %}
                         <div id="tab-activity" class="tab-content current">
                             <form action="{% url 'tt_website_rodextrip:activity_search'%}" id="activity_search_form" method="post">
                                 {% csrf_token %}
@@ -336,7 +333,6 @@
                                 </center>
                             </form>
                         </div>
-                        {% endif %}
                     </div>
                     {% endif %}
                     {% else %}
@@ -432,7 +428,7 @@
                             </div>
                         </div>
                         <div class="col-xl-8 col-lg-8 col-md-8 header-right" style="padding-left:0px;">
-                            {% if "activity" in provider %}
+                            {% if "activity" in provider and "ticketing_activity" in username.co_agent_frontend_security %}
                             <div id="tab-activity" class="tab-content current">
                                 <h4 class="pb-30" style="color:{{text_color}};">{% trans 'Book Your Activity' %}</h4>
                                 <form action="{% url 'tt_website_rodextrip:activity_search'%}" id="activity_search_form" class="form-wrap" method="post">
@@ -591,7 +587,7 @@
                                     <input type="hidden" id="start"/>
                                     <input type="hidden" id="end"/>
                                     <ul class="tabs">
-                                        {% if "activity" in provider %}
+                                        {% if "activity" in provider and "ticketing_activity" in username.co_agent_frontend_security %}
                                         <li class="tab-link current" data-tab="tab-activity"><i class="image-rounded-icon"><img style="width:20px; height:20px" alt="Activity Icon" src="{{static_path}}images/icon/home-activity.png"/></i> <label class="btn-txt-color">{% trans 'ACTIVITY' %}</label></li>
                                         {% endif %}
                                     </ul>
@@ -611,7 +607,7 @@
                         <div class="row">
                             {% if username.co_user_name != '' %}
                             <div class="col-xl-12" style="text-align:left;">
-                                {% if "activity" in provider %}
+                                {% if "activity" in provider and "ticketing_activity" in username.co_agent_frontend_security %}
                                 <div class="form-search-wrap tab-content current" id="tab-activity" data-aos="fade-up" data-aos-delay="200">
                                     <form action="{% url 'tt_website_rodextrip:activity_search'%}" id="activity_search_form" method="post">
                                         {% csrf_token %}
@@ -779,7 +775,7 @@
                             <div class="row">
                                 {% if username.co_user_login != '' %}
                                 <div class="col-xl-12" style="text-align:left;">
-                                    {% if "activity" in provider %}
+                                    {% if "activity" in provider and "ticketing_activity" in username.co_agent_frontend_security %}
                                     <div id="tab-activity" class="tab-content current">
                                         <form action="{% url 'tt_website_rodextrip:activity_search'%}" id="activity_search_form" class="form-wrap" method="post">
                                             {% csrf_token %}
@@ -929,8 +925,7 @@
                 <input type="hidden" id="end"/>
 
                 <div class="col-lg-8" id="div-search-overlay" style="background:{{tab_color}}; padding:15px;">
-                    {% if "ticketing_activity" in username.co_agent_frontend_security %}
-                    {% if "activity" in provider %}
+                    {% if "activity" in provider and "ticketing_activity" in username.co_agent_frontend_security %}
                     <form action="{% url 'tt_website_rodextrip:activity_search'%}" id="activity_search_form" class="form-wrap" method="post">
                         {% csrf_token %}
                         <input type="hidden" name="g-recaptcha-response" id='recaptcha_activity'>
@@ -1017,7 +1012,6 @@
                         </button>
                     </form>
                     {% endif %}
-                    {% endif %}
                 </div>
                 {% endif %}
             </div>
@@ -1046,7 +1040,7 @@
     <script>
     {% if username.co_user_login != '' %}
         try{
-            {% if "activity" in provider %}
+            {% if "activity" in provider and "ticketing_activity" in username.co_agent_frontend_security %}
             var activity_autocomplete = new autoComplete({
                 selector: '#activity_query',
                 minChars: 1,
@@ -1074,7 +1068,7 @@
 
     $( document ).ready(function() {
       $('.js-example-basic-single').select2();
-        {% if "activity" in provider %}
+        {% if "activity" in provider and "ticketing_activity" in username.co_agent_frontend_security %}
             get_activity_config('home');
             $("#activity_search_form").bind("keypress", function(e) {
                 if (e.keyCode == 13) {

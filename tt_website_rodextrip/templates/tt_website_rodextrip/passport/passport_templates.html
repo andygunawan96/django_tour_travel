@@ -103,7 +103,7 @@
                     <div class="banner-right">
                         <!--<img src="{{static_path}}images/christmas-icon2.png" style="width:auto; height:90px; position:absolute; right:-35px; top:35px; float:right; z-index:200;" alt="">-->
                         <div class="tab-content" id="myTabContent" style="border-radius:7px;">
-                            {% if "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security %}
+                            {% if "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_passport" in username.co_agent_frontend_security %}
                             <div class="tab-pane fade  show active" id="passport" role="tabpanel" aria-labelledby="passport-tab">
                                 <form action="{% url 'tt_website_rodextrip:passport_search'%}" class="form-wrap" id="passport_searchForm" method="post">
                                     {% csrf_token %}
@@ -205,9 +205,8 @@
                     <input type="hidden" id="country_id"/>
                     <input type="hidden" id="start"/>
                     <input type="hidden" id="end"/>
-                    {% if "ticketing_passport" in username.co_agent_frontend_security %}
+                    {% if "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_passport" in username.co_agent_frontend_security %}
                     <div class="tab_body" style="border:2px solid #cdcdcd;">
-                        {% if "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security%}
                         <div id="tab-passport" class="tab-content current">
                             <form action="{% url 'tt_website_rodextrip:passport_search'%}" class="form-wrap" id="passport_searchForm" method="post">
                                 {% csrf_token %}
@@ -251,7 +250,6 @@
                                 </center>
                             </form>
                         </div>
-                        {% endif %}
                     </div>
                     {% endif %}
                     {% else %}
@@ -347,7 +345,7 @@
                             </div>
                         </div>
                         <div class="col-xl-8 col-lg-8 col-md-8 header-right" style="padding-left:0px;">
-                            {% if "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security %}
+                            {% if "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_passport" in username.co_agent_frontend_security %}
                             <div id="tab-passport" class="tab-content current">
                                 <h4 class="pb-30" style="color:{{text_color}};">{% trans 'Book Your Passport' %}</h4>
                                 <form action="{% url 'tt_website_rodextrip:passport_search'%}" class="form-wrap" id="passport_searchForm" method="post">
@@ -470,7 +468,7 @@
                                     <input type="hidden" id="start"/>
                                     <input type="hidden" id="end"/>
                                     <ul class="tabs">
-                                        {% if "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security %}
+                                        {% if "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_passport" in username.co_agent_frontend_security %}
                                         <li class="tab-link current" data-tab="tab-passport"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/passport.png" alt="Passport Icon"/></i> <label class="btn-txt-color">{% trans 'PASSPORT' %}</label></li>
                                         {% endif %}
                                     </ul>
@@ -490,7 +488,7 @@
                         <div class="row">
                             {% if username.co_user_name != '' %}
                             <div class="col-xl-12" style="text-align:left;">
-                                {% if "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security %}
+                                {% if "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_passport" in username.co_agent_frontend_security %}
                                 <div class="form-search-wrap tab-content current" id="tab-passport" data-aos-delay="200">
                                     <form action="{% url 'tt_website_rodextrip:passport_search'%}" class="form-wrap" id="passport_searchForm" method="post">
                                         {% csrf_token %}
@@ -621,7 +619,7 @@
                             <div class="row">
                                 {% if username.co_user_login != '' %}
                                 <div class="col-xl-12" style="text-align:left;">
-                                    {% if "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security %}
+                                    {% if "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_passport" in username.co_agent_frontend_security %}
                                     <div id="tab-passport" class="tab-content current">
                                         <form action="{% url 'tt_website_rodextrip:passport_search'%}" class="form-wrap" id="passport_searchForm" method="post">
                                             {% csrf_token %}
@@ -730,8 +728,7 @@
                 <input type="hidden" id="end"/>
 
                 <div class="col-lg-8" id="div-search-overlay" style="background:{{tab_color}}; padding:15px;">
-                    {% if "ticketing_passport" in username.co_agent_frontend_security %}
-                    {% if "passport" in provider %}
+                    {% if "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_passport" in username.co_agent_frontend_security %}
                     <form action="{% url 'tt_website_rodextrip:passport_search'%}" class="form-wrap" id="passport_searchForm" method="post">
                         {% csrf_token %}
                         <input type="hidden" name="g-recaptcha-response" id='recaptcha_tour'>
@@ -778,7 +775,6 @@
                         </button>
                     </form>
                     {% endif %}
-                    {% endif %}
                 </div>
                 {% endif %}
             </div>
@@ -807,7 +803,7 @@
     <script>
     {% if username.co_user_login != '' %}
         try{
-            {% if "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security %}
+            {% if "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_passport" in username.co_agent_frontend_security %}
                 get_passport_config('home');
             {% endif %}
         }catch(err){

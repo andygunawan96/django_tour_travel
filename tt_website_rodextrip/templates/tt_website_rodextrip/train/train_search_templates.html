@@ -1913,45 +1913,66 @@
 
         breadcrumb_create("train", 2, 0);
         if('{{train_request.direction}}' == 'OW'){
-            $('input[name="train_departure"]').daterangepicker({
-              singleDatePicker: true,
-              autoUpdateInput: true,
-              startDate: departure_date,
-              minDate: moment(),
-              maxDate: moment().subtract(-45, 'days'),
-              showDropdowns: true,
-              opens: 'center',
-              locale: {
-                  format: 'DD MMM YYYY',
-              }
+            var picker_train_departure = new Lightpick({
+                field: document.getElementById('train_departure'),
+                singleDate: true,
+                startDate: departure_date,
+                minDate: moment(),
+                maxDate: moment().subtract(-1, 'months'),
+                nextFocus: '#show_total_pax_train'
             });
 
-            $('input[name="train_departure"]').on('apply.daterangepicker', function(ev, picker) {
-                setTimeout(function(){
-                    $("#show_total_pax_train").click();
-                }, 200);
-            });
+            //$('input[name="train_departure"]').daterangepicker({
+            //  singleDatePicker: true,
+            //  autoUpdateInput: true,
+            //  startDate: departure_date,
+            //  minDate: moment(),
+            //  maxDate: moment().subtract(-45, 'days'),
+            //  showDropdowns: true,
+            //  opens: 'center',
+            //  locale: {
+            //      format: 'DD MMM YYYY',
+            //  }
+            //});
+
+            //$('input[name="train_departure"]').on('apply.daterangepicker', function(ev, picker) {
+            //   setTimeout(function(){
+            //        $("#show_total_pax_train").click();
+            //    }, 200);
+            //});
         }else{
-            $('input[name="train_departure"]').daterangepicker({
-              singleDatePicker: false,
-              autoUpdateInput: true,
-              autoApply: true,
-              startDate: departure_date.split(' - ')[0],
-              endDate: departure_date.split(' - ')[1],
-              minDate: moment(),
-              maxDate: moment().subtract(-45, 'days'),
-              showDropdowns: true,
-              opens: 'center',
-              locale: {
-                  format: 'DD MMM YYYY',
-              }
+
+            var picker_train_departure = new Lightpick({
+                field: document.getElementById('train_departure'),
+                singleDate: false,
+                hoveringTooltip: false,
+                startDate: departure_date.split(' - ')[0],
+                endDate: departure_date.split(' - ')[1],
+                minDate: moment(),
+                maxDate: moment().subtract(-1, 'months'),
+                nextFocus: '#show_total_pax_train',
             });
 
-            $('input[name="train_departure"]').on('apply.daterangepicker', function(ev, picker) {
-                setTimeout(function(){
-                    $("#show_total_pax_train").click();
-                }, 200);
-            });
+            //$('input[name="train_departure"]').daterangepicker({
+            //  singleDatePicker: false,
+            //  autoUpdateInput: true,
+            //  autoApply: true,
+            //  startDate: departure_date.split(' - ')[0],
+            //  endDate: departure_date.split(' - ')[1],
+            //  minDate: moment(),
+            //  maxDate: moment().subtract(-45, 'days'),
+            //  showDropdowns: true,
+            //  opens: 'center',
+            //  locale: {
+            //      format: 'DD MMM YYYY',
+            //  }
+            //});
+
+            //$('input[name="train_departure"]').on('apply.daterangepicker', function(ev, picker) {
+            //    setTimeout(function(){
+            //        $("#show_total_pax_train").click();
+            //    }, 200);
+            //});
         }
     });
 

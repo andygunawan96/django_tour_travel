@@ -118,11 +118,10 @@
                 <input type="hidden" id="end"/>
 
                 <div class="col-lg-12" id="div-search-overlay">
-                    {% if "ticketing_train" in username.co_agent_frontend_security %}
+                    {% if "train" in provider and "ticketing_train" in username.co_agent_frontend_security %}
                     <div class="banner-right">
                         <!--<img src="{{static_path}}images/christmas-icon2.png" style="width:auto; height:90px; position:absolute; right:-35px; top:35px; float:right; z-index:200;" alt="">-->
                         <div class="tab-content" id="myTabContent" style="border-radius:7px;">
-                            {% if "train" in provider %}
                             <div class="tab-pane fade  show active" id="train" role="tabpanel" aria-labelledby="train-tab">
                                 <form action="{% url 'tt_website_rodextrip:train_search'%}" method="POST" class="form-wrap" id="train_searchForm" onsubmit="return search_train_validation()">
                                     {% csrf_token %}
@@ -235,7 +234,6 @@
                                     </center>
                                 </form>
                             </div>
-                            {% endif %}
                         </div>
                         <!--<img src="{{static_path}}images/christmas-icon1.png" style="width:auto; height:110px; position:absolute; left:-20px; bottom:-20px;" alt="">-->
                     </div>
@@ -288,9 +286,8 @@
                     <input type="hidden" id="country_id"/>
                     <input type="hidden" id="start"/>
                     <input type="hidden" id="end"/>
-                    {% if "ticketing_train" in username.co_agent_frontend_security %}
+                    {% if "train" in provider and "ticketing_train" in username.co_agent_frontend_security %}
                     <div class="tab_body" style="border:2px solid #cdcdcd;">
-                        {% if "train" in provider %}
                         <div id="tab-train" class="tab-content current">
                             <form action="{% url 'tt_website_rodextrip:train_search'%}" method="POST" id="train_searchForm" onsubmit="return search_train_validation()">
                                 {% csrf_token %}
@@ -400,7 +397,6 @@
                                 </center>
                             </form>
                         </div>
-                        {% endif %}
                     </div>
                     {% endif %}
                     {% else %}
@@ -496,7 +492,7 @@
                             </div>
                         </div>
                         <div class="col-xl-8 col-lg-8 col-md-8 header-right" style="padding-left:0px;">
-                            {% if "train" in provider %}
+                            {% if "train" in provider and "ticketing_train" in username.co_agent_frontend_security %}
                             <div id="tab-train" class="tab-content current">
                                 <h4 class="pb-30" style="color:{{text_color}};">{% trans 'Book Your Train' %}</h4>
                                 <form action="{% url 'tt_website_rodextrip:train_search'%}" method="POST" class="form-wrap" id="train_searchForm" onsubmit="return search_train_validation()">
@@ -680,7 +676,7 @@
                                     <input type="hidden" id="start"/>
                                     <input type="hidden" id="end"/>
                                     <ul class="tabs">
-                                        {% if "train" in provider %}
+                                        {% if "train" in provider and "ticketing_train" in username.co_agent_frontend_security %}
                                         <li class="tab-link current" data-tab="tab-train"><i class="image-rounded-icon"><img style="width:20px; height:20px" alt="Train Logo" src="{{static_path}}images/icon/home-train.png"/></i> <label class="btn-txt-color">{% trans 'TRAIN' %}</label></li>
                                         {% endif %}
                                     </ul>
@@ -700,7 +696,7 @@
                         <div class="row">
                             {% if username.co_user_name != '' %}
                             <div class="col-xl-12" style="text-align:left;">
-                                {% if "train" in provider %}
+                                {% if "train" in provider and "ticketing_train" in username.co_agent_frontend_security %}
                                 <div class="form-search-wrap tab-content current" id="tab-train" data-aos="fade-up" data-aos-delay="200">
                                     <form action="{% url 'tt_website_rodextrip:train_search'%}" method="POST" id="train_searchForm" onsubmit="return search_train_validation()">
                                         {% csrf_token %}
@@ -1066,8 +1062,7 @@
                 <input type="hidden" id="end"/>
 
                 <div class="col-lg-8" id="div-search-overlay" style="background:{{tab_color}}; padding:15px;">
-                    {% if "ticketing_airline" in username.co_agent_frontend_security %}
-                    {% if "train" in provider %}
+                    {% if "train" in provider and "ticketing_train" in username.co_agent_frontend_security %}
                     <form action="{% url 'tt_website_rodextrip:train_search'%}" method="POST" class="form-wrap" id="train_searchForm" onsubmit="return search_train_validation()">
                         {% csrf_token %}
                         <input type="hidden" name="g-recaptcha-response" id='recaptcha_train'>
@@ -1179,7 +1174,6 @@
                         </center>
                     </form>
                     {% endif %}
-                    {% endif %}
                 </div>
                 {% endif %}
             </div>
@@ -1208,7 +1202,7 @@
     <script>
     {% if username.co_user_login != '' %}
         try{
-            {% if "train" in provider %}
+            {% if "train" in provider and "ticketing_train" in username.co_agent_frontend_security %}
             get_train_config('home');
 
             var train_origin = new autoComplete({
@@ -1258,7 +1252,7 @@
     $( document ).ready(function() {
         $('.js-example-basic-single').select2();
         var now = moment().format('DD MMM YYYY');
-        {% if "train" in provider %}
+        {% if "train" in provider and "ticketing_train" in username.co_agent_frontend_security %}
             try{
                 document.getElementById('train_origin').value = cache.train.origin;
             }catch(err){
@@ -1274,24 +1268,34 @@
             }catch(err){
                 train_date = now;
             }
-            $('input[name="train_departure"]').daterangepicker({
-                singleDatePicker: true,
-                autoUpdateInput: true,
+
+            var picker_train_departure = new Lightpick({
+                field: document.getElementById('train_departure'),
+                singleDate: true,
                 startDate: train_date,
                 minDate: moment(),
-                maxDate: moment().subtract(-45, 'days'),
-                showDropdowns: true,
-                opens: 'center',
-                locale: {
-                    format: 'DD MMM YYYY',
-                }
+                maxDate: moment().subtract(-1, 'months'),
+                nextFocus: '#show_total_pax_train'
             });
 
-            $('input[name="train_departure"]').on('apply.daterangepicker', function(ev, picker) {
-                setTimeout(function(){
-                    $("#show_total_pax_train").click();
-                }, 200);
-            });
+            //$('input[name="train_departure"]').daterangepicker({
+            //    singleDatePicker: true,
+            //    autoUpdateInput: true,
+            //    startDate: train_date,
+            //    minDate: moment(),
+            //    maxDate: moment().subtract(-45, 'days'),
+            //    showDropdowns: true,
+            //    opens: 'center',
+            //    locale: {
+            //        format: 'DD MMM YYYY',
+            //    }
+            //});
+
+            //$('input[name="train_departure"]').on('apply.daterangepicker', function(ev, picker) {
+            //    setTimeout(function(){
+            //        $("#show_total_pax_train").click();
+            //    }, 200);
+            //});
 
         {% endif %}
     });

@@ -3124,7 +3124,7 @@ function render_room_hotel(data_room_hotel_list){
                     </div><div class="col-lg-4 col-md-4" style="text-align:right;">`;
                     if(idx == 0){
                         var total_room = document.getElementById("hotel_room").value;
-                        var total_night = document.getElementById("total_night_search").textContent;
+                        var total_night = document.getElementById("total_night_search2").textContent;
                         text += '<span style="font-weight: bold; font-size:14px;"> '+ provider_htl + '</span><br/>';
                         if(data_room_hotel_list[i].currency != 'IDR'){
                             if(data_room_hotel_list[i].total != data_room_hotel_list[i].total_without_discount)
