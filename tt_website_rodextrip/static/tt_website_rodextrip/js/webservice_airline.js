@@ -43,6 +43,8 @@ var airline_cabin_class_list = {
 }
 
 var airline_departure = 'departure';
+picker_multi = [];
+
 function elapse_time(departure,arrival){
     arrival_time = (parseInt(arrival[1].split(':')[0])*3600)+(parseInt(arrival[1].split(':')[1])*60);
     departure_time = (parseInt(departure[1].split(':')[0])*3600)+(parseInt(departure[1].split(':')[1])*60);
@@ -2015,6 +2017,7 @@ function save_retrieve_booking_from_vendor(){
         })
     }
 }
+
 
 function airline_get_provider_list(type, data=''){
     $.ajax({
@@ -10227,10 +10230,18 @@ function delete_reissue(provider_index, journey_index){
     is_need_delete_cabin_class = true;
     for(j in airline_get_detail.result.response.provider_bookings[provider_index].journeys){
         try{
-            if(journey_index == j)
+            if(journey_index == j){
+                document.getElementById('reissue_'+provider_index).innerHTML += `
+                <h6>
+                    PNR: `+document.getElementById('pnr'+provider_index).value+`
+                      <br/>
+                    This flight will not be changed.
+                </h6>`;
                 document.getElementById('reissue_'+provider_index+'_journey'+j).remove();
-            if(document.getElementById('reissue_'+provider_index+'_journey'+j) != null)
+            }
+            if(document.getElementById('reissue_'+provider_index+'_journey'+j) != null){
                 is_need_delete_cabin_class = false;
+            }
         }catch(err){console.log(err);}
     }
     try{
@@ -10258,15 +10269,14 @@ function reroute_btn(){
             is_provider_can_reroute = true;
         else if(airline_get_detail.result.response.provider_bookings[i].state == 'issued' && provider_list_data[airline_get_detail.result.response.provider_bookings[i].provider].is_post_issued_reroute)
             is_provider_can_reroute = true;
+
         if(is_provider_can_reroute){
             for(j in airline_get_detail.result.response.provider_bookings[i].journeys){
                 if(moment() < moment(airline_get_detail.result.response.provider_bookings[i].journeys[j].departure_date)){
                     text += `<div id="reissue_`+i+`_journey`+j+`">`;
                     text += `<div class="row">
-                               <div class="col-lg-10 col-xs-10">`;
-                        text+=`</div>
-                               <div class="col-lg-2 col-xs-2">
-                                <label onclick="delete_reissue(`+i+`,`+j+`)" style="font-size:18px; color:red;"><i class="fas fa-times"></i></label>
+                               <div class="col-lg-12" style="text-align:right;">
+                                    <label class="span_link" onclick="delete_reissue(`+i+`,`+j+`)">Close <i class="fas fa-times" style="font-size:18px; color:red;"></i></label>
                                </div>
                            </div>`;
                     for(k in airline_get_detail.result.response.provider_bookings[i].journeys[j].segments){
@@ -10314,11 +10324,11 @@ function reroute_btn(){
                         </div>
                     </div>`;
                 }
+
                 document.getElementById('reissue_'+i+'_journey'+j).innerHTML = text;
                 text = '';
             }
             text+=`</div>`;
-
         }
         flight++;
     }
@@ -10331,25 +10341,41 @@ function reroute_btn(){
             is_provider_can_reroute = true;
         else if(airline_get_detail.result.response.provider_bookings[i].state == 'issued' && provider_list_data[airline_get_detail.result.response.provider_bookings[i].provider].is_post_issued_reroute)
             is_provider_can_reroute = true;
+
         if(is_provider_can_reroute){
             for(j in airline_get_detail.result.response.provider_bookings[i].journeys){
-                $('input[id="airline_departure'+counter_airline+'"]').daterangepicker({
-                      singleDatePicker: true,
-                      autoUpdateInput: true,
-                      autoApply: true,
-                      startDate: moment(airline_get_detail.result.response.provider_bookings[i].journeys[j].departure_date.split('  ')[0]),
-                      minDate: moment(),
-                      maxDate: moment().subtract(-1, 'years'),
-                      showDropdowns: true,
-                      opens: 'center',
-                      locale: {
-                          format: 'DD MMM YYYY',
-                      }
-                }, function(start, end, label) {
-    //                document.getElementById(this.element.context.id).value = moment(start._d).format('DD MMM YYYY'); // ada template yg tidak ada context
-                    document.getElementById(this.element[0].id).value = moment(start._d).format('DD MMM YYYY');
-                    check_next_date_journey_reissue();
+                picker_multi[counter_airline].destroy();
+                document.getElementById('airline_departure'+counter_airline).value = moment(airline_get_detail.result.response.provider_bookings[i].journeys[j].departure_date.split('  ')[0]);
+                picker_multi[counter_airline] = new Lightpick({
+                    field: document.getElementById('airline_departure'+counter_airline),
+                    singleDate: true,
+                    startDate: moment(airline_get_detail.result.response.provider_bookings[i].journeys[j].departure_date.split('  ')[0]),
+                    minDate: moment(),
+                    maxDate: moment().subtract(-1, 'years'),
+                    idString: 'airline_departure'+counter_airline,
+                    onSelect: function(date){
+                        document.getElementById(this._opts.idString).value = moment(date).format('DD MMM YYYY');
+                        check_next_date_journey_reissue();
+                    }
                 });
+
+//                $('input[id="airline_departure'+counter_airline+'"]').daterangepicker({
+//                      singleDatePicker: true,
+//                      autoUpdateInput: true,
+//                      autoApply: true,
+//                      startDate: moment(airline_get_detail.result.response.provider_bookings[i].journeys[j].departure_date.split('  ')[0]),
+//                      minDate: moment(),
+//                      maxDate: moment().subtract(-1, 'years'),
+//                      showDropdowns: true,
+//                      opens: 'center',
+//                      locale: {
+//                          format: 'DD MMM YYYY',
+//                      }
+//                }, function(start, end, label) {
+//    //                document.getElementById(this.element.context.id).value = moment(start._d).format('DD MMM YYYY'); // ada template yg tidak ada context
+//                    document.getElementById(this.element[0].id).value = moment(start._d).format('DD MMM YYYY');
+//                    check_next_date_journey_reissue();
+//                });
 
                 var airline_origin = new autoComplete({
                     selector: '#origin_id_flight'+counter_airline,
@@ -10401,25 +10427,46 @@ function reissued_btn(){
     text = '';
     flight = 1;
     cabin_class = 1;
+    text += `<div class="row">`;
     if(airline_get_detail.result.response.state == 'booked')
-    text += `
-            <h5>Change Booking</h5>`;
+        text += `
+        <div class="col-lg-12 mb-3">
+            <h4 class="mb-3"> Change Booking</h4>
+        </div>`;
     else
-    text+=`
-            <h5>Reissue</h5>`;
-    text+=`
-            <div class="col-lg-12" style="margin-top:10px;">
-                <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="reissued_btn();" value="Reset">
-            </div><hr/>`;
+        text += `
+        <div class="col-lg-12 mb-3">
+            <h4 class="mb-3"> Reissue</h4>
+        </div>`;
+
     if(is_reroute){
-        text+= `
-            <div class="col-lg-12" style="margin-top:10px;">
-                <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="reroute_btn();" value="Reroute">
-            </div>`;
+        text+=`
+        <div class="col-xs-6">
+            <button type="button" class="primary-btn-white" onclick="reroute_btn();" style="float:left; width:100%;">
+                Reroute <i class="fas fa-route"></i>
+            </button>
+        </div>`;
+        text+=`
+        <div class="col-xs-6 mb-3">
+            <button type="button" class="primary-btn-white" onclick="reissued_btn();" style="float:right; width:100%;">
+                reset <i class="fas fa-redo"></i>
+            </button>
+        </div>`;
+    }else{
+        text+=`
+        <div class="col-lg-12 mb-3" style="text-align:right;">
+            <h6 class="span_link" onclick="reissued_btn();" style="float:right;">
+                reset <i class="fas fa-redo"></i>
+            </h6>
+        </div>`;
     }
-    text += `<div id="reissue_div">`;
+
+    text += `
+        <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;"></div>
+    </div>
+    <div id="reissue_div" class="row">`;
     for(i in airline_get_detail.result.response.provider_bookings){
-        text += `<div id="reissue_`+i+`">`;
+        text += `<div id="reissue_`+i+`" class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd; padding-bottom:15px;">`;
             text += `<input type='hidden' id="pnr`+i+`" value=`+airline_get_detail.result.response.provider_bookings[i].pnr+`>`;
 //            text += `<div class="row">
 //                       <div class="col-lg-10 col-xs-10">`;
@@ -10434,10 +10481,8 @@ function reissued_btn(){
                 is_reschedule_print = true;
                 text += `<div id="reissue_`+i+`_journey`+j+`">`;
                 text += `<div class="row">
-                           <div class="col-lg-10 col-xs-10">`;
-                    text+=`</div>
-                           <div class="col-lg-2 col-xs-2">
-                            <label onclick="delete_reissue(`+i+`,`+j+`)" style="font-size:18px; color:red;"><i class="fas fa-times"></i></label>
+                           <div class="col-lg-12" style="text-align:right;">
+                                <label class="span_link" onclick="delete_reissue(`+i+`,`+j+`)">Close <i class="fas fa-times" style="font-size:18px; color:red;"></i></label>
                            </div>
                        </div>`;
                 for(k in airline_get_detail.result.response.provider_bookings[i].journeys[j].segments){
@@ -10538,23 +10583,37 @@ function reissued_btn(){
     counter_airline = 1;
     for(i in airline_get_detail.result.response.provider_bookings){
         for(j in airline_get_detail.result.response.provider_bookings[i].journeys){
-            $('input[id="airline_departure'+counter_airline+'"]').daterangepicker({
-                  singleDatePicker: true,
-                  autoUpdateInput: true,
-                  autoApply: true,
-                  startDate: moment(airline_get_detail.result.response.provider_bookings[i].journeys[j].departure_date.split('  ')[0]),
-                  minDate: moment(),
-                  maxDate: moment().subtract(-1, 'years'),
-                  showDropdowns: true,
-                  opens: 'center',
-                  locale: {
-                      format: 'DD MMM YYYY',
-                  }
-            }, function(start, end, label) {
-//                document.getElementById(this.element.context.id).value = moment(start._d).format('DD MMM YYYY'); // ada template yg tidak ada context
-                document.getElementById(this.element[0].id).value = moment(start._d).format('DD MMM YYYY');
-                check_next_date_journey_reissue();
+
+            picker_multi[counter_airline] = new Lightpick({
+                field: document.getElementById('airline_departure'+counter_airline),
+                singleDate: true,
+                startDate: moment(airline_get_detail.result.response.provider_bookings[i].journeys[j].departure_date.split('  ')[0]),
+                minDate: moment(),
+                maxDate: moment().subtract(-1, 'years'),
+                idString: 'airline_departure'+counter_airline,
+                onSelect: function(date){
+                    document.getElementById(this._opts.idString).value = moment(date).format('DD MMM YYYY');
+                    check_next_date_journey_reissue();
+                }
             });
+
+//            $('input[id="airline_departure'+counter_airline+'"]').daterangepicker({
+//                  singleDatePicker: true,
+//                  autoUpdateInput: true,
+//                  autoApply: true,
+//                  startDate: moment(airline_get_detail.result.response.provider_bookings[i].journeys[j].departure_date.split('  ')[0]),
+//                  minDate: moment(),
+//                  maxDate: moment().subtract(-1, 'years'),
+//                  showDropdowns: true,
+//                  opens: 'center',
+//                  locale: {
+//                      format: 'DD MMM YYYY',
+//                  }
+//            }, function(start, end, label) {
+////                document.getElementById(this.element.context.id).value = moment(start._d).format('DD MMM YYYY'); // ada template yg tidak ada context
+//                document.getElementById(this.element[0].id).value = moment(start._d).format('DD MMM YYYY');
+//                check_next_date_journey_reissue();
+//            });
 
             counter_airline++;
         }
@@ -10572,23 +10631,41 @@ function check_next_date_journey_reissue(){
                 select_date = min_date;
             else
                 select_date = moment($('input[id="airline_departure'+counter_airline+'"]').val());
-            $('input[id="airline_departure'+counter_airline+'"]').daterangepicker({
-                  singleDatePicker: true,
-                  autoUpdateInput: true,
-                  startDate: select_date,
-                  minDate: min_date,
-                  maxDate: moment().subtract(-1, 'years'),
-                  showDropdowns: true,
-                  opens: 'center',
-                  locale: {
-                      format: 'DD MMM YYYY',
-                  }
-            }, function(start, end, label) {
-//                document.getElementById(this.element.context.id).value = moment(start._d).format('DD MMM YYYY'); // ada template yg tidak ada context
-                document.getElementById(this.element[0].id).value = moment(start._d).format('DD MMM YYYY');
-                check_next_date_journey_reissue();
-            });
-            min_date = $('input[id="airline_departure'+counter_airline+'"]').val();
+
+            picker_multi[counter_airline].destroy();
+            if(document.getElementById("airline_departure"+counter_airline)){
+                document.getElementById('airline_departure'+counter_airline).value = select_date;
+                picker_multi[counter_airline] = new Lightpick({
+                    field: document.getElementById('airline_departure'+counter_airline),
+                    singleDate: true,
+                    startDate: select_date,
+                    minDate: min_date,
+                    maxDate: moment().subtract(-1, 'years'),
+                    idString: 'airline_departure'+counter_airline,
+                    onSelect: function(date){
+                        document.getElementById(this._opts.idString).value = moment(date).format('DD MMM YYYY');
+                        check_next_date_journey_reissue();
+                    }
+                });
+                min_date = $('input[id="airline_departure'+counter_airline+'"]').val();
+            }
+
+//            $('input[id="airline_departure'+counter_airline+'"]').daterangepicker({
+//                  singleDatePicker: true,
+//                  autoUpdateInput: true,
+//                  startDate: select_date,
+//                  minDate: min_date,
+//                  maxDate: moment().subtract(-1, 'years'),
+//                  showDropdowns: true,
+//                  opens: 'center',
+//                  locale: {
+//                      format: 'DD MMM YYYY',
+//                  }
+//            }, function(start, end, label) {
+////                document.getElementById(this.element.context.id).value = moment(start._d).format('DD MMM YYYY'); // ada template yg tidak ada context
+//                document.getElementById(this.element[0].id).value = moment(start._d).format('DD MMM YYYY');
+//                check_next_date_journey_reissue();
+//            });
             counter_airline++;
         }
     }

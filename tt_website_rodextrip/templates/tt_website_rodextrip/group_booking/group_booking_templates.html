@@ -2037,24 +2037,34 @@
                 }catch(err){
                     airline_date = now;
                 }
-                $('input[name="airline_departure"]').daterangepicker({
-                    singleDatePicker: true,
-                    autoUpdateInput: true,
+
+                var picker_airline_departure = new Lightpick({
+                    field: document.getElementById('airline_departure'),
+                    singleDate: true,
                     startDate: airline_date,
                     minDate: moment(),
                     maxDate: moment().subtract(-1, 'years'),
-                    showDropdowns: true,
-                    opens: 'center',
-                    locale: {
-                        format: 'DD MMM YYYY',
-                    }
+                    nextFocus: '#show_total_pax_flight'
                 });
 
-                $('input[name="airline_departure"]').on('apply.daterangepicker', function(ev, picker) {
-                    setTimeout(function(){
-                        $("#show_total_pax_flight").click();
-                    }, 200);
-                });
+                //$('input[name="airline_departure"]').daterangepicker({
+                //    singleDatePicker: true,
+                //    autoUpdateInput: true,
+                //    startDate: airline_date,
+                //    minDate: moment(),
+                //    maxDate: moment().subtract(-1, 'years'),
+                //    showDropdowns: true,
+                //    opens: 'center',
+                //    locale: {
+                //        format: 'DD MMM YYYY',
+                //   }
+                //});
+
+                //$('input[name="airline_departure"]').on('apply.daterangepicker', function(ev, picker) {
+                //    setTimeout(function(){
+                //        $("#show_total_pax_flight").click();
+                //    }, 200);
+                //});
 
             {% endif %}
 

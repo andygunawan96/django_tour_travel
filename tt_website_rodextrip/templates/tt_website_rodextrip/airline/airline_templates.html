@@ -126,11 +126,10 @@
             <input type="hidden" id="end"/>
 
             <div class="col-lg-12" id="div-search-overlay">
-                {% if "ticketing_airline" in username.co_agent_frontend_security %}
+                {% if "airline" in provider and "ticketing_airline" in username.co_agent_frontend_security %}
                 <div class="banner-right">
                     <!--<img src="{{static_path}}images/christmas-icon2.png" style="width:auto; height:90px; position:absolute; right:-35px; top:35px; float:right; z-index:200;" alt="">-->
                     <div class="tab-content" id="myTabContent" style="border-radius:7px;">
-                        {% if "airline" in provider %}
                         <div class="tab-pane fade show active" id="airline" role="tabpanel" aria-labelledby="airline-tab">
                             <form action="{% url 'tt_website_rodextrip:airline_search'%}" method="POST" class="form-wrap" id="airline_searchForm">
                                 {% csrf_token %}
@@ -319,7 +318,6 @@
                                 </center>
                             </form>
                         </div>
-                        {% endif %}
                     </div>
                     <!--<img src="{{static_path}}images/christmas-icon1.png" style="width:auto; height:110px; position:absolute; left:-20px; bottom:-20px;" alt="">-->
                 </div>
@@ -372,9 +370,8 @@
                     <input type="hidden" id="country_id"/>
                     <input type="hidden" id="start"/>
                     <input type="hidden" id="end"/>
-                    {% if "ticketing_airline" in username.co_agent_frontend_security %}
+                    {% if "airline" in provider and "ticketing_airline" in username.co_agent_frontend_security %}
                     <div class="tab_body" style="border:2px solid #cdcdcd;">
-                        {% if "airline" in provider %}
                         <div id="tab-airline" class="tab-content current">
                             <form action="{% url 'tt_website_rodextrip:airline_search'%}" method="POST" id="airline_searchForm">
                                 {% csrf_token %}
@@ -550,7 +547,6 @@
                                 </center>
                             </form>
                         </div>
-                        {% endif %}
                     </div>
                     {% endif %}
                     {% else %}
@@ -646,7 +642,7 @@
                             </div>
                         </div>
                         <div class="col-xl-8 col-lg-8 col-md-8 header-right" style="padding-left:0px;">
-                            {% if "airline" in provider %}
+                            {% if "airline" in provider and "ticketing_airline" in username.co_agent_frontend_security %}
                             <div id="tab-airline" class="tab-content current">
                                 <h4 class="pb-30" style="color:{{text_color}};">{% trans 'Book Your Airline!' %}</h4>
                                 <form action="{% url 'tt_website_rodextrip:airline_search'%}" method="POST" id="airline_searchForm">
@@ -905,7 +901,7 @@
                                     <input type="hidden" id="start"/>
                                     <input type="hidden" id="end"/>
                                     <ul class="tabs">
-                                        {% if "airline" in provider %}
+                                        {% if "airline" in provider and "ticketing_airline" in username.co_agent_frontend_security %}
                                         <li class="tab-link current" data-tab="tab-airline"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-airline.png" alt="Airline Icon"/></i><label class="btn-txt-color">{% trans 'AIRLINE' %}</label></li>
                                         {% endif %}
                                     </ul>
@@ -925,7 +921,7 @@
                         <div class="row">
                             {% if username.co_user_name != '' %}
                             <div class="col-xl-12" style="text-align:left;">
-                                {% if "airline" in provider %}
+                                {% if "airline" in provider and "ticketing_airline" in username.co_agent_frontend_security %}
                                 <div class="form-search-wrap tab-content current" id="tab-airline" data-aos="fade-up" data-aos-delay="200">
                                     <form action="{% url 'tt_website_rodextrip:airline_search'%}" method="POST" id="airline_searchForm">
                                         {% csrf_token %}
@@ -1175,7 +1171,7 @@
                             <div class="row">
                                 {% if username.co_user_login != '' %}
                                 <div class="col-xl-12" style="text-align:left;">
-                                    {% if "airline" in provider %}
+                                    {% if "airline" in provider and "ticketing_airline" in username.co_agent_frontend_security %}
                                     <div id="tab-airline" class="tab-content current">
                                         <form action="{% url 'tt_website_rodextrip:airline_search'%}" method="POST" class="form-wrap" id="airline_searchForm">
                                             {% csrf_token %}
@@ -1425,8 +1421,7 @@
                 <input type="hidden" id="end"/>
 
                 <div class="col-lg-8" id="div-search-overlay" style="background:{{tab_color}}; padding:15px;">
-                    {% if "ticketing_airline" in username.co_agent_frontend_security %}
-                    {% if "airline" in provider %}
+                    {% if "airline" in provider and "ticketing_airline" in username.co_agent_frontend_security %}
                     <form action="{% url 'tt_website_rodextrip:airline_search'%}" method="POST" class="form-wrap" id="airline_searchForm">
                         {% csrf_token %}
                         <input type="hidden" name="g-recaptcha-response" id='recaptcha_airline'>
@@ -1611,7 +1606,6 @@
                         </button>
                     </form>
                     {% endif %}
-                    {% endif %}
                 </div>
                 {% endif %}
             </div>
@@ -1642,7 +1636,7 @@
     <script>
     {% if username.co_user_login != '' %}
         try{
-            {% if "airline" in provider %}
+            {% if "airline" in provider and "ticketing_airline" in username.co_agent_frontend_security %}
             get_airline_config('home');
             airline_search_value = 'false';
             get_carrier_code_list();
@@ -1773,7 +1767,7 @@
     $( document ).ready(function() {
       $('.js-example-basic-single').select2();
       var now = moment().format('DD MMM YYYY');
-        {% if "airline" in provider %}
+        {% if "airline" in provider and "ticketing_airline" in username.co_agent_frontend_security %}
             try{
                 document.getElementById('origin_id_flight').value = cache.airline.origin;
                 airline_origin = cache.airline.origin;
@@ -1793,24 +1787,34 @@
             }catch(err){
                 airline_date = now;
             }
-            $('input[name="airline_departure"]').daterangepicker({
-                singleDatePicker: true,
-                autoUpdateInput: true,
+
+            var picker_airline_departure = new Lightpick({
+                field: document.getElementById('airline_departure'),
+                singleDate: true,
                 startDate: airline_date,
                 minDate: moment(),
                 maxDate: moment().subtract(-1, 'years'),
-                showDropdowns: true,
-                opens: 'center',
-                locale: {
-                    format: 'DD MMM YYYY',
-                }
+                nextFocus: '#show_total_pax_flight'
             });
 
-            $('input[name="airline_departure"]').on('apply.daterangepicker', function(ev, picker) {
-                setTimeout(function(){
-                    $("#show_total_pax_flight").click();
-                }, 200);
-            });
+            //$('input[name="airline_departure"]').daterangepicker({
+            //    singleDatePicker: true,
+            //    autoUpdateInput: true,
+            //    startDate: airline_date,
+            //    minDate: moment(),
+            //    maxDate: moment().subtract(-1, 'years'),
+            //    showDropdowns: true,
+            //    opens: 'center',
+            //    locale: {
+            //        format: 'DD MMM YYYY',
+            //    }
+            //});
+
+            //$('input[name="airline_departure"]').on('apply.daterangepicker', function(ev, picker) {
+            //    setTimeout(function(){
+            //        $("#show_total_pax_flight").click();
+            //    }, 200);
+            //});
 
         {% endif %}
 
