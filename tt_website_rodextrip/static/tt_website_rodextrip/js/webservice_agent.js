@@ -6020,6 +6020,34 @@ function check_evoucher(value){
     }
 }
 
+function check_cable_tv(value){
+    return true;
+}
+
+function check_internet(value){
+    return true;
+}
+
+function check_telephone(value){
+    return true;
+}
+
+function check_insurance(value){
+    return true;
+}
+
+function check_pdam(value){
+    return true;
+}
+
+function check_credit_installment(value){
+    return true;
+}
+
+function check_credit_card(value){
+    return true;
+}
+
 function check_email(value){
     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(value)
