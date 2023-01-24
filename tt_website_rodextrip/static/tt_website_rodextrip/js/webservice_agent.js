@@ -8774,9 +8774,20 @@ function delete_identity_expired_date(type, id){
 }
 
 function close_upload_attachment(val,type){
-    if(type == '')
+    if(type == ''){
+        try{
+        //from web browser
+            if(document.getElementById('upload_idcard_type').value == '#myModal_attachment2'){
+                btn_webcam = document.getElementById('button_webcam2')
+            }else{
+                btn_webcam = document.getElementById('button_webcam1')
+            }
+            if(btn_webcam.value == 'Close Webcam'){
+                open_webcam();
+            }
+        }catch(err){/* from mobile*/}
         $('#myModal_attachment'+val).modal('hide');
-    else if(type == 'edit')
+    }else if(type == 'edit')
         $('#myModal_attachment_edit'+val).modal('hide');
 }
 

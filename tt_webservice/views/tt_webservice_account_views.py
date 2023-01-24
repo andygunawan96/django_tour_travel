@@ -964,9 +964,10 @@ def get_social_url(request):
 def get_payment_partner(request):
     try:
         response = []
-        if not os.path.exists("/var/log/django/file_cache/payment_partner"):
-            os.mkdir('/var/log/django/file_cache/payment_partner')
-        for data in os.listdir('/var/log/django/file_cache/payment_partner'):
+        path = var_log_path('payment_partner')
+        if not os.path.exists(path):
+            os.mkdir(path)
+        for data in os.listdir(path):
             file = read_cache(data[:-4], "payment_partner", 90911)
             state = ''
             sequence = ''
@@ -1011,12 +1012,13 @@ def get_payment_partner(request):
 
 def delete_payment_partner(request):
     try:
-        data = os.listdir('/var/log/django/file_cache/payment_partner')
-        os.remove('/var/log/django/file_cache/payment_partner/' + data[int(request.POST['partner_number'])])
+        path = var_log_path('payment_partner')
+        data = os.listdir(path)
+        os.remove('%s/%s' % (path, data[int(request.POST['partner_number'])]))
         # check image
         fs = FileSystemStorage()
         fs.location += '/image_payment_partner'
-        data = os.listdir('/var/log/django/file_cache/payment_partner')
+        data = os.listdir(path)
         image_list = []
         for rec in data:
             file = read_cache(rec[:-4], "payment_partner", 90911)
@@ -1057,8 +1059,9 @@ def set_payment_partner(request):
         fs.location += '/image_payment_partner'
         if not os.path.exists(fs.location):
             os.mkdir(fs.location)
-        if not os.path.exists("/var/log/django/file_cache/payment_partner"):
-            os.mkdir('/var/log/django/file_cache/payment_partner')
+        path = var_log_path('payment_partner')
+        if not os.path.exists(path):
+            os.mkdir(path)
 
         filename = ''
         try:
@@ -1068,7 +1071,7 @@ def set_payment_partner(request):
         except:
             _logger.error('no input image partner')
 
-        data = os.listdir('/var/log/django/file_cache/payment_partner')
+        data = os.listdir(path)
         #create new
         sequence = request.POST['sequence']
         title = request.POST['title']
@@ -1097,8 +1100,8 @@ def set_payment_partner(request):
                         text.pop(0)
                         text.pop(0)
                         filename = "/".join(text)
-            os.remove('/var/log/django/file_cache/payment_partner/' + data[int(request.POST['partner_number'])])
-            data = os.listdir('/var/log/django/file_cache/payment_partner')
+            os.remove('%s/%s' % (path, data[int(request.POST['partner_number'])]))
+            data = os.listdir(path)
             while True:
                 if counter == 0 and title + '.txt' in data:
                     counter += 1
@@ -1111,7 +1114,7 @@ def set_payment_partner(request):
             text = request.POST['state'] + '\n' + sequence + '\n' + title + '\n' + fs.base_url + "image_payment_partner/" + filename
             write_cache(text, "".join(title.split(' ')), "payment_partner")
         #check image
-        data = os.listdir('/var/log/django/file_cache/payment_partner')
+        data = os.listdir(path)
         image_list = []
         for rec in data:
             file = read_cache(rec[:-4], "payment_partner", 90911)
@@ -1153,9 +1156,10 @@ def set_payment_partner(request):
 def get_about_us(request):
     try:
         response = []
-        if not os.path.exists("/var/log/django/file_cache/about_us"):
-            os.mkdir('/var/log/django/file_cache/about_us')
-        for data in os.listdir('/var/log/django/file_cache/about_us'):
+        path = var_log_path('about_us')
+        if not os.path.exists(path):
+            os.mkdir(path)
+        for data in os.listdir(path):
             file = read_cache(data[:-4], "about_us", 90911)
             if file:
                 state = ''
@@ -1205,12 +1209,13 @@ def get_about_us(request):
 
 def delete_about_us(request):
     try:
-        data = os.listdir('/var/log/django/file_cache/about_us')
-        os.remove('/var/log/django/file_cache/about_us/' + data[int(request.POST['paragraph_number'])])
+        path = var_log_path('about_us')
+        data = os.listdir(path)
+        os.remove('%s/%s' % (path, data[int(request.POST['paragraph_number'])]))
         # check image
         fs = FileSystemStorage()
         fs.location += '/image_about_us'
-        data = os.listdir('/var/log/django/file_cache/about_us')
+        data = os.listdir(path)
         image_list = []
         for rec in data:
             file = read_cache(rec[:-4], "about_us", 90911)
@@ -1252,8 +1257,9 @@ def set_about_us(request):
         fs.location += '/image_about_us'
         if not os.path.exists(fs.location):
             os.mkdir(fs.location)
-        if not os.path.exists("/var/log/django/file_cache/about_us"):
-            os.mkdir('/var/log/django/file_cache/about_us')
+        path = var_log_path('about_us')
+        if not os.path.exists(path):
+            os.mkdir(path)
 
         filename = ''
         if request.POST['delete_img'] == 'false':
@@ -1264,7 +1270,7 @@ def set_about_us(request):
             except:
                 _logger.error('no image paragraph')
 
-        data = os.listdir('/var/log/django/file_cache/about_us')
+        data = os.listdir(path)
         #create new
         sequence = request.POST['sequence']
         title = request.POST['title']
@@ -1297,8 +1303,8 @@ def set_about_us(request):
                                 filename = "/".join(text)
             else:
                 filename = ''
-            os.remove('/var/log/django/file_cache/about_us/' + data[int(request.POST['paragraph_number'])])
-            data = os.listdir('/var/log/django/file_cache/about_us')
+            os.remove('%s/' % (path, data[int(request.POST['paragraph_number'])]))
+            data = os.listdir(path)
             while True:
                 if counter == 0 and sequence + '.txt' in data:
                     counter += 1
@@ -1311,7 +1317,7 @@ def set_about_us(request):
             text = request.POST['state'] + '\n' + sequence + '\n' + title + '\n' + body + '\n' + fs.base_url + "image_about_us/" + filename
             write_cache(text, "".join(sequence.split(' ')), "about_us")
         #check image
-        data = os.listdir('/var/log/django/file_cache/about_us')
+        data = os.listdir(path)
         image_list = []
         for rec in data:
             file = read_cache(rec[:-4], "about_us", 90911)
@@ -1353,9 +1359,10 @@ def set_about_us(request):
 def get_faq(request):
     try:
         response = []
-        if not os.path.exists("/var/log/django/file_cache/faq"):
-            os.mkdir('/var/log/django/file_cache/faq')
-        for data in os.listdir('/var/log/django/file_cache/faq'):
+        path = var_log_path('faq')
+        if not os.path.exists(path):
+            os.mkdir(path)
+        for data in os.listdir(path):
             file = read_cache(data[:-4], "faq", 90911)
             if file:
                 state = ''
@@ -1401,9 +1408,10 @@ def get_faq(request):
 
 def delete_faq(request):
     try:
-        data = os.listdir('/var/log/django/file_cache/faq')
-        os.remove('/var/log/django/file_cache/faq/' + data[int(request.POST['faq_number'])])
-        data = os.listdir('/var/log/django/file_cache/faq')
+        path = var_log_path('faq')
+        data = os.listdir(path)
+        os.remove('%s/%s' % (path, data[int(request.POST['faq_number'])]))
+        data = os.listdir(path)
         for rec in data:
             file = read_cache(rec[:-4], "faq", 90911)
             if file:
@@ -1436,11 +1444,12 @@ def delete_faq(request):
 
 def set_faq(request):
     try:
-        if not os.path.exists("/var/log/django/file_cache/faq"):
-            os.mkdir('/var/log/django/file_cache/file_cache/faq')
+        path = var_log_path('faq')
+        if not os.path.exists(path):
+            os.mkdir(path)
 
         filename = ''
-        data = os.listdir('/var/log/django/file_cache/faq')
+        data = os.listdir(path)
 
         #create new
         sequence = request.POST['sequence']
@@ -1472,8 +1481,8 @@ def set_faq(request):
                             text.pop(0)
                             text.pop(0)
                             filename = "/".join(text)
-            os.remove('/var/log/django/file_cache/faq/' + data[int(request.POST['faq_number'])])
-            data = os.listdir('/var/log/django/file_cache/faq')
+            os.remove('%s/%s' % (path, data[int(request.POST['faq_number'])]))
+            data = os.listdir(path)
             while True:
                 if counter == 0 and sequence + '.txt' in data:
                     counter += 1
@@ -1592,8 +1601,9 @@ def get_va_number_for_mobile(request):
 
 def get_va_bank(request):
     try:
-        if not os.path.exists("/var/log/django/file_cache/payment_information"):
-            os.mkdir('/var/log/django/file_cache/payment_information')
+        path = var_log_path('payment_information')
+        if not os.path.exists(path):
+            os.mkdir(path)
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
@@ -1633,8 +1643,9 @@ def get_va_bank(request):
 
 def set_payment_information(request):
     try:
-        if not os.path.exists("/var/log/django/file_cache/payment_information"):
-            os.mkdir('/var/log/django/file_cache/payment_information')
+        path = var_log_path('payment_information')
+        if not os.path.exists(path):
+            os.mkdir(path)
         text = request.POST['heading'] + '\n' + request.POST['body'].replace('\n','<br>')
         write_cache(text, request.POST['title'], "payment_information")
         res = {
