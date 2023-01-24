@@ -861,7 +861,8 @@ def search2(request):
                 journey_list.append({
                     'origin': data_search['origin'][idx].split(' - ')[0],
                     'destination': data_search['destination'][idx].split(' - ')[0],
-                    'departure_date': departure_date
+                    'departure_date': departure_date,
+                    'cabin_class': data_search['cabin_class'][idx]
                 })
             cabin_class = data_search['cabin_class'][0]
         elif data_search['direction'] == 'RT':
