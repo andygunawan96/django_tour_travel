@@ -194,12 +194,13 @@ def search(request):
                         departure = []
                         cabin_class = []
                         return_date = []
-                        cabin_class.append(request.POST['cabin_class_flight1'])
+
                         for i in range(int(request.POST['counter'])):
                             origin.append(request.POST['origin_id_flight'+str(i+1)])
                             destination.append(request.POST['destination_id_flight'+str(i+1)])
                             departure.append(request.POST['airline_departure'+str(i+1)])
                             return_date.append(request.POST['airline_departure'+str(i+1)])
+                            cabin_class.append(request.POST['cabin_class_flight'+str(i+1)])
 
                     else:
                         try:
