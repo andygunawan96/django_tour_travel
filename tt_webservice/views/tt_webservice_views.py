@@ -43,8 +43,8 @@ def write_cache(data, file_name, folder='cache_web'):
         save_res['datetime'] = date_time
         save_res['data'] = data
         rand_id = str(random.randint(0, 1000))
-        temp_name = '%s%s.%s.txt' % (var_log_path(folder), file_name, rand_id)
-        file_name = '%s%s.txt' % (var_log_path(folder), file_name)
+        temp_name = '%s/%s.%s.txt' % (var_log_path(folder), file_name, rand_id)
+        file_name = '%s/%s.txt' % (var_log_path(folder), file_name)
         _file = open(temp_name, 'w+')
         _file.write(json.dumps(save_res))
         _file.close()
