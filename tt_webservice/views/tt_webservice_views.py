@@ -30,9 +30,10 @@ def get_cache_data():
     return response
 
 def var_log_path(folder):
-    if type(default_path):
+    try:
         return '%s/file_cache/%s' % (default_path, folder)
-    return '/var/log/django/file_cache/%s' % folder
+    except:
+        return '/var/log/django/file_cache/%s' % folder
 
 def write_cache(data, file_name, folder='cache_web'):
     try:
