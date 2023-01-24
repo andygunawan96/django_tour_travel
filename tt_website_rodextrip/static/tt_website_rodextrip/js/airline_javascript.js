@@ -18,6 +18,8 @@ destination_multi_city = [];
 var myVar;
 now_page = '';
 
+picker_multi_city = [];
+
 var departure_list = [
     {
         value:'All',
@@ -964,25 +966,42 @@ function add_multi_city(type){
                     min_date = airline_request.departure[counter]
                 else
                     min_date = $('input[name="airline_departure'+(counter_airline_search - 1)+'"]').val()
-            $('input[name="airline_departure'+counter_airline_search+'"]').daterangepicker({
-              singleDatePicker: true,
-              autoUpdateInput: true,
-              opens: 'center',
-              startDate: airline_request.departure[counter_airline_search-1],
-              minDate: min_date,
-              maxDate: moment().subtract(-365, 'days'),
-              showDropdowns: true,
-              locale: {
-                  format: 'DD MMM YYYY',
-              }
+
+            picker_multi_city[counter_airline_search] = new Lightpick({
+                field: document.getElementById('airline_departure'+counter_airline_search),
+                singleDate: true,
+                startDate: airline_request.departure[counter_airline_search-1],
+                minDate: min_date,
+                maxDate: moment().subtract(-1, 'years'),
+                idNumber: counter_airline_search,
+                onSelect: function(date){
+                    onchange_mc_date(this._opts.idNumber);
+                    setTimeout(function(){
+                        $("#origin_id_flight"+parseInt(this._opts.idNumber+1)).focus();
+                    }, 200);
+                }
             });
 
-            $('input[name="airline_departure'+counter_airline_search+'"]').on('apply.daterangepicker', function(ev, picker) {
-                setTimeout(function(){
-                    $("#origin_id_flight"+counter_airline_search).focus();
-                }, 200);
-            });
-        }else{
+            //            $('input[name="airline_departure'+counter_airline_search+'"]').daterangepicker({
+            //              singleDatePicker: true,
+            //              autoUpdateInput: true,
+            //              opens: 'center',
+            //              startDate: airline_request.departure[counter_airline_search-1],
+            //              minDate: min_date,
+            //              maxDate: moment().subtract(-365, 'days'),
+            //              showDropdowns: true,
+            //              locale: {
+            //                  format: 'DD MMM YYYY',
+            //              }
+            //            });
+            //
+            //            $('input[name="airline_departure'+counter_airline_search+'"]').on('apply.daterangepicker', function(ev, picker) {
+            //                setTimeout(function(){
+            //                    $("#origin_id_flight"+counter_airline_search).focus();
+            //                }, 200);
+            //            });
+        }
+        else{
             min_date = '';
             try{
                 if($("#airline_departure"+parseInt(counter_airline_search - 1).toString()).val() != undefined){
@@ -1002,69 +1021,88 @@ function add_multi_city(type){
                 min_date = moment().format('DD MMM YYYY');
                 pick_date = moment().format('DD MMM YYYY');
             }
-            $('input[name="airline_departure'+counter_airline_search+'"]').daterangepicker({
-              singleDatePicker: true,
-              autoUpdateInput: true,
-              opens: 'center',
-              startDate: pick_date,
-              minDate: min_date,
-              maxDate: moment().subtract(-365, 'days'),
-              showDropdowns: true,
-              locale: {
-                  format: 'DD MMM YYYY',
-              }
-            });
-            $('input[name="airline_departure'+counter_airline_search+'"]').on('apply.daterangepicker', function(ev, picker) {
-                var this_temp_date = ev.currentTarget.id;
-                setTimeout(function(){
-                    $("#origin_id_flight"+parseInt(parseInt(this_temp_date.substr(this_temp_date.length-1,1))+1).toString()).focus();
-                }, 200);
 
-                for(i=0;i<=counter_airline_search;i++){
-                    $('input[name="airline_departure'+i+'"]').on('apply.daterangepicker', function(ev, picker) {
-                        var this_temp_date = ev.currentTarget.id;
-                        setTimeout(function(){
-                            $("#origin_id_flight"+parseInt(parseInt(this_temp_date.substr(this_temp_date.length-1,1))+1).toString()).focus();
-                        }, 200);
-                    });
+            picker_multi_city[counter_airline_search] = new Lightpick({
+                field: document.getElementById('airline_departure'+counter_airline_search),
+                singleDate: true,
+                startDate: pick_date,
+                minDate: min_date,
+                maxDate: moment().subtract(-1, 'years'),
+                idNumber: counter_airline_search,
+                onSelect: function(){
+                    onchange_mc_date(this._opts.idNumber);
+                    setTimeout(function(){
+                        $("#origin_id_flight"+parseInt(this._opts.idNumber+1)).focus();
+                    }, 200);
                 }
             });
+
+            //            $('input[name="airline_departure'+counter_airline_search+'"]').daterangepicker({
+            //              singleDatePicker: true,
+            //              autoUpdateInput: true,
+            //              opens: 'center',
+            //              startDate: pick_date,
+            //              minDate: min_date,
+            //              maxDate: moment().subtract(-365, 'days'),
+            //              showDropdowns: true,
+            //              locale: {
+            //                  format: 'DD MMM YYYY',
+            //              }
+            //            });
+            //            $('input[name="airline_departure'+counter_airline_search+'"]').on('apply.daterangepicker', function(ev, picker) {
+            //                var this_temp_date = ev.currentTarget.id;
+            //                setTimeout(function(){
+            //                    $("#origin_id_flight"+parseInt(parseInt(this_temp_date.substr(this_temp_date.length-1,1))+1).toString()).focus();
+            //                }, 200);
+            //
+            //                for(i=0;i<=counter_airline_search;i++){
+            //                    $('input[name="airline_departure'+i+'"]').on('apply.daterangepicker', function(ev, picker) {
+            //                        var this_temp_date = ev.currentTarget.id;
+            //                        setTimeout(function(){
+            //                            $("#origin_id_flight"+parseInt(parseInt(this_temp_date.substr(this_temp_date.length-1,1))+1).toString()).focus();
+            //                        }, 200);
+            //                    });
+            //                }
+            //            });
         }
 
-        $('input[name="airline_departure'+counter_airline_search+'"]').change(function() {
-            val = parseInt(this.id.replace ( /[^\d.]/g, '' ));
-            for(i=val;i<=counter_airline_search;i++){
-                if(i != val){
-                    min_date = '';
-                    try{
-                        if($("#airline_departure"+(i-1).toString()).val() != undefined){
-                            min_date = $("#airline_departure"+(i-1).toString()).val();
-                            pick_date = $("#airline_departure"+(i).toString()).val();
-                        }else{
-                            min_date = $("#airline_departure").val()
-                            pick_date = $("#airline_departure"+(i).toString()).val();
-                        }
-                        if(moment(pick_date) < moment(pick_date))
-                        pick_date = min_date;
-                    }catch(err){
-                        min_date = $("#airline_departure").val()
-                        pick_date = $("#airline_departure").val()
-                    }
-                    $('input[name="airline_departure'+i+'"]').daterangepicker({
-                      singleDatePicker: true,
-                      autoUpdateInput: true,
-                      opens: 'center',
-                      startDate: pick_date,
-                      minDate: min_date,
-                      maxDate: moment().subtract(-365, 'days'),
-                      showDropdowns: true,
-                      locale: {
-                          format: 'DD MMM YYYY',
-                      }
-                    });
-                }
-            }
-        });
+//        $('input[name="airline_departure'+counter_airline_search+'"]').change(function() {
+//            val = parseInt(this.id.replace ( /[^\d.]/g, '' ));
+//            for(i=val;i<=counter_airline_search;i++){
+//                if(i != val){
+//                    min_date = '';
+//                    try{
+//                        if($("#airline_departure"+(i-1).toString()).val() != undefined){
+//                            min_date = $("#airline_departure"+(i-1).toString()).val();
+//                            pick_date = $("#airline_departure"+(i).toString()).val();
+//                        }else{
+//                            min_date = $("#airline_departure").val()
+//                            pick_date = $("#airline_departure"+(i).toString()).val();
+//                        }
+//                        if(moment(pick_date) < moment(min_date))
+//                            pick_date = min_date;
+//                    }
+//                    catch(err){
+//                        min_date = $("#airline_departure").val()
+//                        pick_date = $("#airline_departure").val()
+//                    }
+//
+//
+//                    $('input[name="airline_departure'+i+'"]').daterangepicker({
+//                      singleDatePicker: true,
+//                      autoUpdateInput: true,
+//                      opens: 'center',
+//                      startDate: pick_date,
+//                      minDate: min_date,
+//                      maxDate: moment().subtract(-365, 'days'),
+//                      showDropdowns: true,
+//                      locale: {
+//                          format: 'DD MMM YYYY',
+//                      }
+//                    });
+//                }
+//            }
+//        });
 
         var temp_origin = new autoComplete({
             selector: '#origin_id_flight'+counter_airline_search,
@@ -9379,5 +9417,44 @@ function get_default_ssr(pax, itinerary, page){
             document.getElementById('included_ssr'+id_co).innerHTML = default_ssr_text;
         }
     }
+}
 
+function onchange_mc_date(val){
+    for(i=val;i<=counter_airline_search;i++){
+        if(i != val){
+            min_date = '';
+            try{
+                if($("#airline_departure"+(i-1).toString()).val() != undefined){
+                    min_date = $("#airline_departure"+(i-1).toString()).val();
+                    pick_date = $("#airline_departure"+(i).toString()).val();
+                }else{
+                    min_date = $("#airline_departure").val()
+                    pick_date = $("#airline_departure"+(i).toString()).val();
+                }
+                if(moment(pick_date) < moment(min_date))
+                    pick_date = min_date;
+            }
+            catch(err){
+                min_date = $("#airline_departure").val()
+                pick_date = $("#airline_departure").val()
+            }
+
+            picker_multi_city[i].destroy();
+            document.getElementById('airline_departure'+i).value = pick_date;
+            picker_multi_city[i] = new Lightpick({
+                field: document.getElementById('airline_departure'+i),
+                singleDate: true,
+                startDate: pick_date,
+                minDate: min_date,
+                maxDate: moment().subtract(-1, 'years'),
+                idNumber: i,
+                onSelect: function(date){
+                    onchange_mc_date(this._opts.idNumber);
+                    setTimeout(function(){
+                        $("#origin_id_flight"+parseInt(this._opts.idNumber+1)).focus();
+                    }, 200);
+                }
+            });
+        }
+    }
 }

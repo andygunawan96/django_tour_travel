@@ -1792,45 +1792,66 @@
 
         breadcrumb_create("bus", 2, 0);
         if('{{bus_request.direction}}' == 'OW'){
-            $('input[name="bus_departure"]').daterangepicker({
-              singleDatePicker: true,
-              autoUpdateInput: true,
-              startDate: departure_date,
-              minDate: moment(),
-              maxDate: moment().subtract(-90, 'days'),
-              showDropdowns: true,
-              opens: 'center',
-              locale: {
-                  format: 'DD MMM YYYY',
-              }
+            var picker_bus_departure = new Lightpick({
+                field: document.getElementById('bus_departure'),
+                singleDate: true,
+                startDate: departure_date,
+                minDate: moment(),
+                maxDate: moment().subtract(-3, 'months'),
+                nextFocus: '#show_total_pax_bus'
             });
 
-            $('input[name="bus_departure"]').on('apply.daterangepicker', function(ev, picker) {
-                setTimeout(function(){
-                    $("#show_total_pax_bus").click();
-                }, 200);
-            });
+            //$('input[name="bus_departure"]').daterangepicker({
+            //  singleDatePicker: true,
+            //  autoUpdateInput: true,
+            //  startDate: departure_date,
+            //  minDate: moment(),
+            //  maxDate: moment().subtract(-90, 'days'),
+            //  showDropdowns: true,
+            //  opens: 'center',
+            //  locale: {
+            //      format: 'DD MMM YYYY',
+            //  }
+            //});
+
+            //$('input[name="bus_departure"]').on('apply.daterangepicker', function(ev, picker) {
+            //    setTimeout(function(){
+            //        $("#show_total_pax_bus").click();
+            //    }, 200);
+            //});
         }else{
-            $('input[name="bus_departure"]').daterangepicker({
-              singleDatePicker: false,
-              autoUpdateInput: true,
-              autoApply: true,
-              startDate: departure_date.split(' - ')[0],
-              endDate: departure_date.split(' - ')[1],
-              minDate: moment(),
-              maxDate: moment().subtract(-90, 'days'),
-              showDropdowns: true,
-              opens: 'center',
-              locale: {
-                  format: 'DD MMM YYYY',
-              }
+
+            var picker_bus_departure = new Lightpick({
+                field: document.getElementById('bus_departure'),
+                singleDate: false,
+                hoveringTooltip: false,
+                startDate: departure_date.split(' - ')[0],
+                endDate: departure_date.split(' - ')[1],
+                minDate: moment(),
+                maxDate: moment().subtract(-3, 'months'),
+                nextFocus: '#show_total_pax_bus',
             });
 
-            $('input[name="bus_departure"]').on('apply.daterangepicker', function(ev, picker) {
-                setTimeout(function(){
-                    $("#show_total_pax_bus").click();
-                }, 200);
-            });
+            //$('input[name="bus_departure"]').daterangepicker({
+            //  singleDatePicker: false,
+            //  autoUpdateInput: true,
+            //  autoApply: true,
+            //  startDate: departure_date.split(' - ')[0],
+            //  endDate: departure_date.split(' - ')[1],
+            //  minDate: moment(),
+            //  maxDate: moment().subtract(-90, 'days'),
+            //  showDropdowns: true,
+            //  opens: 'center',
+            //  locale: {
+            //      format: 'DD MMM YYYY',
+            //  }
+            //});
+
+            //$('input[name="bus_departure"]').on('apply.daterangepicker', function(ev, picker) {
+            //    setTimeout(function(){
+            //        $("#show_total_pax_bus").click();
+            //    }, 200);
+            //});
         }
     });
 
