@@ -951,15 +951,15 @@ def get_new_cache(signature, type='all'):
             try:
                 path = "%s/%s" % (var_log_path('cache_web'), 'get_airline_carriers.txt')
                 os.remove(path)
-                airline.get_carriers('', signature)
             except:
-                airline.get_carriers('', signature)
+                _logger.info('Error delete file cache get_airline_carriers')
+            airline.get_carriers('', signature)
             try:
                 path = "%s/%s" % (var_log_path('cache_web'), 'get_airline_active_carriers.txt')
                 os.remove(path)
-                airline.get_carriers_search('', signature)
             except:
-                airline.get_carriers_search('', signature)
+                _logger.info('Error delete file cache get_airline_active_carriers')
+            airline.get_carriers_search('', signature)
 
             try:
                 file = open("tt_webservice/static/tt_webservice/phc_city.json", "r")
