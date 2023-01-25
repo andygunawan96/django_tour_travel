@@ -862,9 +862,9 @@ def search2(request):
                     'origin': data_search['origin'][idx].split(' - ')[0],
                     'destination': data_search['destination'][idx].split(' - ')[0],
                     'departure_date': departure_date,
-                    'cabin_class': data_search['cabin_class'][idx]
+                    'cabin_class': data_search['cabin_class_list'][idx]
                 })
-            cabin_class = data_search['cabin_class'][0]
+            cabin_class = data_search['cabin_class']
         elif data_search['direction'] == 'RT':
             for idx, i in enumerate(data_search['origin']):
                 departure_date = '%s-%s-%s' % (
@@ -876,7 +876,7 @@ def search2(request):
                     'destination': data_search['destination'][idx].split(' - ')[0],
                     'departure_date': departure_date
                 })
-            cabin_class = data_search['cabin_class'][0]
+            cabin_class = data_search['cabin_class']
         else:
             #default
             departure_date = '%s-%s-%s' % (
@@ -888,7 +888,7 @@ def search2(request):
                 'destination': data_search['destination'][int(request.POST['counter_search'])].split(' - ')[0],
                 'departure_date': departure_date
             })
-            cabin_class = data_search['cabin_class'][int(request.POST['counter_search'])]
+            cabin_class = data_search['cabin_class']
             is_combo_price = False
 
         data = {

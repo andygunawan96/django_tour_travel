@@ -270,7 +270,7 @@ function add_multi_city(type){
             var node_paxs = document.createElement("div");
             text_paxs = `
             <div class="row">
-                <div class="col-lg-6 col-md-6" style="text-align:left;">`;
+                <div class="col-lg-4 col-md-4" style="text-align:left;">`;
                     if(template != 4){
                         text_paxs += `
                         <span class="span-search-ticket"><i class="fas fa-users"></i> Passenger</span>
@@ -380,7 +380,7 @@ function add_multi_city(type){
                         </ul>
                     </div>
                 </div>
-                <div class="col-lg-6 col-md-6">`;
+                <div class="col-lg-4 col-md-4">`;
                 if(template != 4){
                     text_paxs += `
                     <span class="span-search-ticket"><i class="fas fa-plane"></i> Airline</span>
@@ -406,12 +406,75 @@ function add_multi_city(type){
                         </ul>
                     </div>
                 </div>
+                <div class="col-lg-4 col-md-4">
+                    <span class="span-search-ticket">Prefered Class</span>`;
+                    if(template == 1){
+                        text_paxs += `
+                        <div class="input-container-search-ticket btn-group">
+                            <div class="form-select" id="default-select">
+                                <select id="cabin_class_flight_mc" name="cabin_class_flight_mc" data-live-search="true" size="4">`;
+                    }
+                    else if(template == 2){
+                        text_paxs += `
+                        <div>
+                            <div class="form-select" id="default-select">
+                                <select id="cabin_class_flight_mc" name="cabin_class_flight_mc" data-live-search="true" size="4" class="form-control">`;
+                    }
+                    else if(template == 3){
+                       text_paxs += `
+                       <div class="form-group">
+                            <div class="default-select" id="default-select">
+                                <select id="cabin_class_flight_mc" name="cabin_class_flight_mc" data-live-search="true" size="4">`;
+                    }
+                    else if(template == 4){
+                        text_paxs += `
+                        <div class="input-container-search-ticket btn-group">
+                            <div class="form-select">
+                                <select class="nice-select-default" id="cabin_class_flight_mc" name="cabin_class_flight_mc">`;
+                    }
+                    else if(template == 5 || template == 6){
+                        text_paxs += `
+                        <div>
+                            <select class="form-control" id="cabin_class_flight_mc" name="cabin_class_flight_mc">`;
+                    }
+                    for(i in cabin_class){
+                        try{
+                            if(type == 'search'){
+                                if(airline_request.cabin_class == cabin_class[i].value)
+                                    text_paxs+=`<option value="`+cabin_class[i].value+`" selected>`+cabin_class[i].name+`</option>`;
+                                else
+                                    text_paxs+=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
+                            }else if(i == 0){
+                                if(type == 'home')
+                                    text_paxs+=`<option value="`+cabin_class[i].value+`" selected>`+cabin_class[i].name+`</option>`;
+                                else
+                                    text_paxs+=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
+                            }else
+                                text_paxs+=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
+                        }catch(err){
+                            console.log(err);
+                            if(i == 0)
+                                text_paxs+=`<option value="`+cabin_class[i].value+`" selected>`+cabin_class[i].name+`</option>`;
+                            else
+                                text_paxs+=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
+                        }
+                    }
+                     text_paxs+=`</select>
+                        </div>
+                    </div>
+                </div>
             </div>`;
             node_paxs.innerHTML = text_paxs;
             document.getElementById("mc_airline_paxs").appendChild(node_paxs);
             get_carrier_code_list(type, counter_airline_search);
             airline_provider_list_mc.push(airline_provider_list);
+            $('#cabin_class_flight_mc').niceSelect();
 
+            $('#cabin_class_flight_mc').on('change', function() {
+                setTimeout(function(){
+                    $("#origin_id_flight"+counter_airline_search).focus();
+                }, 200);
+            });
         }
 
 //        var node_tabs = document.createElement("li");
@@ -547,7 +610,7 @@ function add_multi_city(type){
                                     for(i in cabin_class){
                                         try{
                                             if(type == 'search'){
-                                                if(airline_request.cabin_class[counter_airline_search-1] == cabin_class[i].value)
+                                                if(airline_request.cabin_class_list[counter_airline_search-1] == cabin_class[i].value)
                                                     text +=`<option value="`+cabin_class[i].value+`" selected>`+cabin_class[i].name+`</option>`;
                                                 else
                                                     text +=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
@@ -681,7 +744,7 @@ function add_multi_city(type){
                             for(i in cabin_class){
                                 try{
                                     if(type == 'search'){
-                                        if(airline_request.cabin_class[counter_airline_search-1] == cabin_class[i].value)
+                                        if(airline_request.cabin_class_list[counter_airline_search-1] == cabin_class[i].value)
                                             text +=`<option value="`+cabin_class[i].value+`" selected>`+cabin_class[i].name+`</option>`;
                                         else
                                             text +=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
@@ -810,7 +873,7 @@ function add_multi_city(type){
                             for(i in cabin_class){
                                 try{
                                     if(type == 'search'){
-                                        if(airline_request.cabin_class[counter_airline_search-1] == cabin_class[i].value)
+                                        if(airline_request.cabin_class_list[counter_airline_search-1] == cabin_class[i].value)
                                             text +=`<option value="`+cabin_class[i].value+`" selected>`+cabin_class[i].name+`</option>`;
                                         else
                                             text +=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
@@ -942,7 +1005,7 @@ function add_multi_city(type){
                             for(i in cabin_class){
                                 try{
                                     if(type == 'search'){
-                                        if(airline_request.cabin_class[counter_airline_search-1] == cabin_class[i].value)
+                                        if(airline_request.cabin_class_list[counter_airline_search-1] == cabin_class[i].value)
                                             text +=`<option value="`+cabin_class[i].value+`" selected>`+cabin_class[i].name+`</option>`;
                                         else
                                             text +=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
@@ -1071,7 +1134,7 @@ function add_multi_city(type){
                             for(i in cabin_class){
                                 try{
                                     if(type == 'search'){
-                                        if(airline_request.cabin_class[counter_airline_search-1] == cabin_class[i].value)
+                                        if(airline_request.cabin_class_list[counter_airline_search-1] == cabin_class[i].value)
                                             text +=`<option value="`+cabin_class[i].value+`" selected>`+cabin_class[i].name+`</option>`;
                                         else
                                             text +=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
@@ -1213,7 +1276,7 @@ function add_multi_city(type){
                                 for(i in cabin_class){
                                     try{
                                         if(type == 'search'){
-                                            if(airline_request.cabin_class[counter_airline_search-1] == cabin_class[i].value)
+                                            if(airline_request.cabin_class_list[counter_airline_search-1] == cabin_class[i].value)
                                                 text +=`<option value="`+cabin_class[i].value+`" selected>`+cabin_class[i].name+`</option>`;
                                             else
                                                 text +=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;

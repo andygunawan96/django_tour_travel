@@ -192,15 +192,16 @@ def search(request):
                         origin = []
                         destination = []
                         departure = []
-                        cabin_class = []
+                        cabin_class_list = []
                         return_date = []
+                        cabin_class = request.POST['cabin_class_flight_mc']
 
                         for i in range(int(request.POST['counter'])):
                             origin.append(request.POST['origin_id_flight'+str(i+1)])
                             destination.append(request.POST['destination_id_flight'+str(i+1)])
                             departure.append(request.POST['airline_departure'+str(i+1)])
                             return_date.append(request.POST['airline_departure'+str(i+1)])
-                            cabin_class.append(request.POST['cabin_class_flight'+str(i+1)])
+                            cabin_class_list.append(request.POST['cabin_class_flight'+str(i+1)])
 
                     else:
                         try:
@@ -240,16 +241,17 @@ def search(request):
                         origin = []
                         destination = []
                         departure = []
-                        cabin_class = []
+                        cabin_class_list = []
                         return_date = []
-
+                        cabin_class = ''
                         origin.append(request.POST['origin_id_flight'])
                         destination.append(request.POST['destination_id_flight'])
                         try:
                             departure.append(request.POST['airline_departure_return'].split(' - ')[0])
                         except:
                             departure.append(request.POST['airline_departure'])
-                        cabin_class.append(request.POST['cabin_class_flight'])
+                        cabin_class_list.append(request.POST['cabin_class_flight'])
+                        cabin_class = request.POST['cabin_class_flight']
 
                         if request.POST['radio_airline_type'] == 'roundtrip':
                             direction = 'RT'
@@ -275,6 +277,7 @@ def search(request):
                     'child': direction == 'MC' and int(request.POST['child_flight1']) or int(request.POST['child_flight']),
                     'infant': direction == 'MC' and int(request.POST['infant_flight1']) or int(request.POST['infant_flight']),
                     'cabin_class': cabin_class,
+                    'cabin_class_list': cabin_class_list,
                     'is_combo_price': is_combo_price,
                     'carrier_codes': [],
                     'counter': request.POST['counter']
