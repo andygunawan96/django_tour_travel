@@ -631,6 +631,7 @@ function add_multi_city(type){
                                  text +=`</select>
                                     </div>
                                 </div>
+                                <h5 style="text-align:left;color:`+text_color+`">If supported by airlines</h5>
                             </div>
                        </div>
                    </div>
@@ -765,6 +766,7 @@ function add_multi_city(type){
                              text +=`</select>
                                 </div>
                             </div>
+                            <h5 style="text-align:left;color:`+text_color+`">If supported by airlines</h5>
                         </div>
                     </div>
                 </div>
@@ -894,6 +896,7 @@ function add_multi_city(type){
                              text +=`</select>
                                 </div>
                             </div>
+                            <h5 style="text-align:left;color:`+text_color+`">If supported by airlines</h5>
                         </div>
                     </div>
                 </div>
@@ -1026,6 +1029,7 @@ function add_multi_city(type){
                              text +=`</select>
                                 </div>
                             </div>
+                            <h5 style="text-align:left;color:`+text_color+`">If supported by airlines</h5>
                         </div>
                     </div>
                 </div>
@@ -1155,6 +1159,7 @@ function add_multi_city(type){
                              text +=`</select>
                                 </div>
                             </div>
+                            <h5 style="text-align:left;color:`+text_color+`">If supported by airlines</h5>
                         </div>
                     </div>
                 </div>
@@ -1297,6 +1302,7 @@ function add_multi_city(type){
                                  text +=`</select>
                                     </div>
                                 </div>
+                                <h5 style="text-align:left;color:`+text_color+`">If supported by airlines</h5>
                             </div>
                         </div>
                     </div>
