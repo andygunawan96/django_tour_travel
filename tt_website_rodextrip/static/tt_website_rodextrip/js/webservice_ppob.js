@@ -387,15 +387,17 @@ function search_ppob(){
                 }
             }
         }
-        var radios_nominal = document.getElementsByName('e-voucher_nominal');
-        for (var k = 0, length = radios_nominal.length; k < length; k++) {
-            if (radios_nominal[k].checked) {
-                e_voucher = radios_nominal[k].value;
-                break;
+        if($evoucher_type_name == 'Prepaid Mobile'){
+            var radios_nominal = document.getElementsByName('e-voucher_nominal');
+            for (var k = 0, length = radios_nominal.length; k < length; k++) {
+                if (radios_nominal[k].checked) {
+                    e_voucher = radios_nominal[k].value;
+                    break;
+                }
             }
-        }
-        if (e_voucher == ''){
-            error_log += 'Please choose voucher!';
+            if (e_voucher == ''){
+                error_log += 'Please choose voucher!';
+            }
         }
     }else if(bill_type == 'cable tv'){
         product_code = document.getElementById('cable_tv_type').value;
