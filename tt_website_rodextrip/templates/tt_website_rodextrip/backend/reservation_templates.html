@@ -482,60 +482,77 @@
                     {% endif %}
                 </div>
 
-                <div class="row mb-3">
-                    <div class="col-lg-12" style="text-align:right; padding: 0px;">
-                        <label class="radio-label" style="width:150px; cursor:pointer; height:30px;">
-                            <input type="radio" name="view_type_reservation" value="card_mode" onchange="table_reservation(data_search,'card_mode',true);">
-                            <div class="div_radio_bg">Card Mode <i class="fas fa-square" style="padding-left:5px;"></i></div>
-                        </label>
-                        <label class="radio-label" style="width:150px; cursor:pointer; height:30px;">
-                            <input type="radio" name="view_type_reservation" value="table_mode" checked onchange="table_reservation(data_search,'table_mode',true);">
-                            <div class="div_radio_bg">Table Mode <i class="fas fa-table" style="padding-left:5px;"></i></div>
-                        </label>
-                    </div>
-                </div>
-
-                <div class="row mb-3">
-                    <div class="col-lg-6 col-md-6" style="display:none;" id="sort_div">
-                        <h4 class="mb-3">Sort</h4>
-                        <label class="radio-button-custom">
-                            <span>Order Number</span>
-                            <input type="radio" name="sort_reservation_id" value="order_number" onclick="sort_transaction();">
-                            <span class="checkmark-radio"></span>
-                        </label>
-                        <label class="radio-button-custom">
-                            <span>Flight Number</span>
-                            <input type="radio" name="sort_reservation_id" value="flight_number" onclick="sort_transaction();">
-                            <span class="checkmark-radio"></span>
-                        </label>
-                        <label class="radio-button-custom">
-                            <span>Departure Date</span>
-                            <input type="radio" name="sort_reservation_id" value="departure_date" onclick="sort_transaction();">
-                            <span class="checkmark-radio"></span>
-                        </label>
-                    </div>
-                </div>
-                <h4 class="mb-3">Result</h4>
-                <div class="row" id="table_reservation">
-
-                </div>
-                <div id="loading-search-reservation" style="margin-bottom:20px;">
-                    <div class="col-lg-12">
-                        <div class="sk-circle">
-                            <div class="sk-circle1 sk-child"></div>
-                            <div class="sk-circle2 sk-child"></div>
-                            <div class="sk-circle3 sk-child"></div>
-                            <div class="sk-circle4 sk-child"></div>
-                            <div class="sk-circle5 sk-child"></div>
-                            <div class="sk-circle6 sk-child"></div>
-                            <div class="sk-circle7 sk-child"></div>
-                            <div class="sk-circle8 sk-child"></div>
-                            <div class="sk-circle9 sk-child"></div>
-                            <div class="sk-circle10 sk-child"></div>
-                            <div class="sk-circle11 sk-child"></div>
-                            <div class="sk-circle12 sk-child"></div>
+                <div class="col-lg-12">
+                    <div class="row">
+                        <div class="col-lg-12" style="display:none; margin-bottom:25px; padding:15px; border:1px solid #cdcdcd; border-radius:14px; background:white;" id="sort_div">
+                            <h4 class="mb-3">Sort</h4>
+                            <label class="radio-button-custom">
+                                <span>Order Number</span>
+                                <input type="radio" name="sort_reservation_id" value="order_number" onclick="sort_transaction();">
+                                <span class="checkmark-radio"></span>
+                            </label>
+                            <label class="radio-button-custom">
+                                <span>Flight Number</span>
+                                <input type="radio" name="sort_reservation_id" value="flight_number" onclick="sort_transaction();">
+                                <span class="checkmark-radio"></span>
+                            </label>
+                            <label class="radio-button-custom">
+                                <span>Departure Date</span>
+                                <input type="radio" name="sort_reservation_id" value="departure_date" onclick="sort_transaction();">
+                                <span class="checkmark-radio"></span>
+                            </label>
                         </div>
-                        <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
+                    </div>
+                </div>
+
+                <div class="col-lg-12" style="padding:0px;">
+                    <h4 class="mb-3">Result</h4>
+                </div>
+
+                <div class="col-lg-12">
+                    <div class="row mb-3">
+                        <div class="col-lg-12" style="text-align:left; padding: 0px;">
+                            <label class="radio-label" style="width:150px; cursor:pointer; height:30px;">
+                                <input type="radio" name="view_type_reservation" value="table_mode" checked onchange="table_reservation(data_search,'table_mode',true);">
+                                <div class="div_radio_bg">Table Mode <i class="fas fa-table" style="padding-left:5px;"></i></div>
+                            </label>
+                            <label class="radio-label" style="width:150px; cursor:pointer; height:30px;">
+                                <input type="radio" name="view_type_reservation" value="card_mode" onchange="table_reservation(data_search,'card_mode',true);">
+                                <div class="div_radio_bg">Card Mode <i class="fas fa-square" style="padding-left:5px;"></i></div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-3" id="table_reservation">
+
+                </div>
+
+                <div class="col-lg-12 mb-3" style="padding:0px;">
+                    <div id="loading-search-reservation" style="margin-bottom:20px;">
+                        <div class="col-lg-12">
+                            <div class="sk-circle">
+                                <div class="sk-circle1 sk-child"></div>
+                                <div class="sk-circle2 sk-child"></div>
+                                <div class="sk-circle3 sk-child"></div>
+                                <div class="sk-circle4 sk-child"></div>
+                                <div class="sk-circle5 sk-child"></div>
+                                <div class="sk-circle6 sk-child"></div>
+                                <div class="sk-circle7 sk-child"></div>
+                                <div class="sk-circle8 sk-child"></div>
+                                <div class="sk-circle9 sk-child"></div>
+                                <div class="sk-circle10 sk-child"></div>
+                                <div class="sk-circle11 sk-child"></div>
+                                <div class="sk-circle12 sk-child"></div>
+                            </div>
+                            <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
+                        </div>
+                    </div>
+                    <div class="row" id="load_more_reservation" style="display:none;">
+                        <div class="col-lg-12" style="text-align:center; cursor:pointer;" onclick="load_more_reservation();">
+                            <button type="button" class="primary-btn" style="width:100%;">Load More Data</button><br/>
+                            <i class="fas fa-angle-down animated fadeInDown infinite" style="font-size:30px;"></i>
+                        </div>
                     </div>
                 </div>
                 <center><div class="alert alert-danger" id="reservation_found" role="alert" style="margin-top:10px; display:none;"><h6><i class="fas fa-search-minus"></i> Oops! Data reservation not found!</h6></div></center>
@@ -666,16 +683,22 @@
         }
         document.getElementById('gotobooking'+key).submit();
     }
+    function load_more_reservation(){
+        if(load_more == true){
+            //get_agent_booking();
+            get_transactions();
+        }
+    }
     $(document).ready(function () {
         get_carrier_providers_reservation();
-        $(window).scroll(function() {
-            if($(window).scrollTop() >= $(document).height() - ($(window).height() + 600)) {
-                if(load_more == true){
-                    //get_agent_booking();
-                    get_transactions();
-                }
-            }
-        });
+        //$(window).scroll(function() {
+        //    if($(window).scrollTop() >= $(document).height() - ($(window).height() + 600)) {
+        //        if(load_more == true){
+        //            //get_agent_booking();
+        //            get_transactions();
+        //        }
+        //    }
+        //});
 
         $(".enter_reservation").keypress(function(event) {
             if (event.keyCode === 13) {
