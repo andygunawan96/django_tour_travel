@@ -11,126 +11,128 @@ function table_reservation(data, mode_view, restart=false){
 
     if(mode_view == "table_mode"){
         if(document.getElementById('reservation_table_mode_id') == null){
+
+            text+=`<div style="overflow-y:auto;"><table style="margin-top:15px; background:white; width:100%;" id="reservation_table_mode_id" class="list-of-reservation">`;
             text+=`
-        <div class="col-lg-12 mb-3" style="overflow:auto;">
-            <table style="width:100%; margin-top:15px; background:white;" id="reservation_table_mode_id" class="list-of-reservation">
-                <tr>
-                    <th style="width:2%;">No.</th>
-                    <th style="width:4%;">PNR</th>
-                    <th style="width:10%;">Hold Date</th>
-                    <th style="width:10%;">Booker Name</th>
-                    <th style="width:13%;">Info</th>
-                    <th style="width:5%;">Provider</th>`;
-                    if($("input[name='filter']:checked").val() == 'airline')
-                        text+=`
-                    <th style="width:6%;">Flight Number</th>`;
-                    if($("input[name='filter']:checked").val() == 'hotel'){
-                        text+=`
-                    <th style="width:6%;">Total R/N</th>`;
-                    }else{
-                        text+=`
-                    <th style="width:6%;">Total Pax</th>`;
-                    }
-                    text+=`
-                    <th style="width:6%;">State</th>
-                    <th style="width:9%;">Agent Name</th>
-                    <th style="width:9%;">Booked By</th>
-                    <th style="width:9%;">Order Number</th>
-                    <th style="width:10%;">Book Date</th>
-                    <th style="width:10%;">Issued Date</th>
-                    <th style="width:9%;">Issued By</th>
-                    <th style="width:3%;">Action</th>
-                </tr>`;
-        }
-                for(i in data){
-                    text+=`
-                    <tr>
-                        <form action="" method="POST" id="gotobooking`+data_counter+`">
-                            <td>`+(data_counter+1)+`</td>`;
-                            if(data[i].pnr)
-                                text+= `<td>`+data[i].pnr+`</td>`;
-                            else
-                                text+= `<td>-</td>`;
-                            if(data[i].hold_date == false){
-                                text+= `<td>-</td>`;
-                            }
-                            else{
-                                text+= `<td>`+data[i].hold_date+`</td>`;
-                            }
-                            text+= `<td>`+data[i].booker.name+`</td>`;
-                            if(data[i].transaction_additional_info != '')
-                                text+= `<td>`+data[i].transaction_additional_info+`</td>`;
-                            else
-                                text+= `<td>-</td>`;
-                            try{
-                                if(data[i].carrier_names == '')
-                                    text+=`<td>`+data[i].provider_type+`</td>`;
-                                else
-                                    text+=`<td>`+data[i].carrier_names+`</td>`;
-                            }catch(err){
-
-                            }
-                            if($("input[name='filter']:checked").val() == 'airline')
-                                text+=`<td>`+data[i].flight_number+`</b></td>`;
-                            text+=`<td>`+data[i].total_pax+`</b></td>`;
-                            text+= `<td>`;
-
-                            if(data[i].state_description == 'Issued' || data[i].state_description == 'Done'){
-                                text+=`<b style="color:#30b330; font-size:13px; display:unset; border-radius:7px;">`;
-                            }else if(data[i].state_description == 'Booked'){
-                                text+=`<b style="color:#3fa1e8; font-size:13px; display:unset; border-radius:7px;">`;
-                            }else if(data[i].state_description == 'Refund' || data[i].state_description == 'Draft' || data[i].state_description == 'Pending' || data[i].state_description == 'New'){
-                                text+=`<b style="color:#8c8d8f; font-size:13px; display:unset; border-radius:7px;">`;
-                            }else if(data[i].state_description == 'Booking Failed' || data[i].state_description == 'Expired'
-                                    || data[i].state_description == 'Cancelled' || data[i].state_description == 'Partial Issued' || data[i].state_description == 'Void'){
-                                text+=`<b style="color:#DC143C; font-size:13px; display:unset; border-radius:7px;">`;
-                            }else{
-                                text+=`<b>`;
-                            }
-
-                            text+=data[i].state_description+`</b></td>`;
-                            text+= `<td>`+data[i].agent_name+`</td>`;
-                            if(data[i].booked_uid == false){
-                                text+= `<td>-</td>`;
-                            }
-                            else{
-                                text+= `<td>`+data[i].booked_uid+`</td>`;
-                            }
-                            text+=`<td name="order_number">`+data[i].order_number+`</td>`;
-                            if(data[i].booked_date)
-                                text+= `<td>`+data[i].booked_date+`</td>`;
-                            else
-                                text+= `<td>-</td>`;
-                            if(data[i].issued_date == false){
-                                text+= `<td>-</td>`;
-                            }
-                            else{
-                                text+= `<td>`+data[i].issued_date+`</td>`;
-                            }
-                            if(data[i].issued_uid == false){
-                                text+= `<td>-</td>`;
-                            }
-                            else{
-                                text+= `<td>`+data[i].issued_uid+`</td>`;
-                            }
-                            if(data[i].state != 'fail_booking')
-                                text+= `<td><button type='button' class="primary-btn-custom" onclick="goto_detail_reservation(`+data_counter+`)"><i class="fas fa-search"></button></td>`;
-                            else{
-                                text+= `<td> - </td>`;
-                            }
-                            text+=`
-                        </form>
-                    </tr>`;
-            //                   document.getElementById('airlines_ticket').innerHTML += text;
-                    data_counter++;
-                    if(data.length == 80){
-                        load_more = true;
-                    }
+            <tr>
+                <th><div style="width:30px;">No.</div></th>
+                <th><div style="width:150px;">PNR</div></th>
+                <th><div style="width:150px;">Hold Date</div></th>
+                <th><div style="width:150px;">Booker Name</div></th>
+                <th><div style="width:200px;">Info</div></th>
+                <th><div style="width:150px;">Provider</div></th>`;
+                if($("input[name='filter']:checked").val() == 'airline')
+                    text+=`<th><div style="width:150px;">Flight Number</div></th>`;
+                if($("input[name='filter']:checked").val() == 'hotel'){
+                    text+=`<th><div style="width:80px;">Total R/N</div></th>`;
+                }else{
+                    text+=`<th><div style="width:80px;">Total Pax</div></th>`;
                 }
-            if(document.getElementById('reservation_table_mode_id') == null)
                 text+=`
-            </table>
-        </div>`;
+                <th><div style="width:150px;">State</div></th>
+                <th><div style="width:150px;">Agent Name</div></th>
+                <th><div style="width:150px;">Order Number</div></th>
+                <th><div style="width:150px;">Booked</div></th>
+                <th><div style="width:150px;">Issued</div></th>
+                <th><div style="width:150px;">Action</div></th>
+            </tr>`;
+        }
+        for(i in data){
+            text+=`
+            <tr>
+                <form action="" method="POST" id="gotobooking`+data_counter+`">
+                    <td>`+(data_counter+1)+`</td>`;
+                    if(data[i].pnr)
+                        text+= `<td>`+data[i].pnr+`</div></td>`;
+                    else
+                        text+= `<td>-</td>`;
+                    if(data[i].hold_date == false){
+                        text+= `<td>-</td>`;
+                    }
+                    else{
+                        text+= `<td>`+data[i].hold_date+`</td>`;
+                    }
+                    text+= `<td>`+data[i].booker.name+`</td>`;
+                    if(data[i].transaction_additional_info != '')
+                        text+= `<td>`+data[i].transaction_additional_info+`</td>`;
+                    else
+                        text+= `<td>-</td>`;
+                    try{
+                        if(data[i].carrier_names == '')
+                            text+=`<td>`+data[i].provider_type+`</td>`;
+                        else
+                            text+=`<td>`+data[i].carrier_names+`</td>`;
+                    }catch(err){
+
+                    }
+                    if($("input[name='filter']:checked").val() == 'airline')
+                        text+=`<td>`+data[i].flight_number+`</b></td>`;
+                    text+=`<td>`+data[i].total_pax+`</b></td>`;
+                    text+= `<td>`;
+
+                    if(data[i].state_description == 'Issued' || data[i].state_description == 'Done'){
+                        text+=`<b style="background:#30b330; font-size:13px; color:white; padding:5px 15px; display:unset; border-radius:7px;">`;
+                    }else if(data[i].state_description == 'Booked'){
+                        text+=`<b style="background:#3fa1e8; font-size:13px; color:white; padding:5px 15px; display:unset; border-radius:7px;">`;
+                    }else if(data[i].state_description == 'Refund' || data[i].state_description == 'Draft' || data[i].state_description == 'Pending' || data[i].state_description == 'New'){
+                        text+=`<b style="background:#8c8d8f; font-size:13px; color:white; padding:5px 15px; display:unset; border-radius:7px;">`;
+                    }else if(data[i].state_description == 'Booking Failed' || data[i].state_description == 'Expired'
+                            || data[i].state_description == 'Cancelled'){
+                        text+=`<b style="background:#DC143C; font-size:13px; color:white; padding:5px 15px; display:unset; border-radius:7px;">`;
+                    }else{
+                        text+=`<b>`;
+                    }
+
+                    text+=data[i].state_description+`</b></td>`;
+                    text+= `<td>`+data[i].agent_name+`</td>`;
+                    text+=`<td name="order_number">`+data[i].order_number+`</td>`;
+
+                    text+= `<td>`;
+                    if(data[i].booked_date)
+                        text+= `<i>`+data[i].booked_date+`</i><br/>`;
+                    else
+                        text+= `-<br/>`;
+                    if(data[i].booked_uid == false){
+                        text+= `<b>-</b>`;
+                    }
+                    else{
+                        text+= `<b>by: `+data[i].booked_uid+`</b>`;
+                    }
+
+                    text+= `</td>`;
+
+                    text+= `<td>`;
+                    if(data[i].issued_date == false){
+                        text+= `-<br/>`;
+                    }
+                    else{
+                        text+= `<i>`+data[i].issued_date+`</i><br/>`;
+                    }
+                    if(data[i].issued_uid == false){
+                        text+= `<b>by: -</b>`;
+                    }
+                    else{
+                        text+= `<b>by: `+data[i].issued_uid+`</b>`;
+                    }
+                    text+= `</td>`;
+
+                    if(data[i].state != 'fail_booking')
+                        text+= `<td><button type='button' class="primary-btn-custom" onclick="goto_detail_reservation(`+data_counter+`)">Check <i class="fas fa-search"></button></td>`;
+                    else{
+                        text+= `<td> - </td>`;
+                    }
+                    text+=`
+                </form>
+            </tr>`;
+        //                   document.getElementById('airlines_ticket').innerHTML += text;
+            data_counter++;
+            if(data.length == 80){
+                load_more = true;
+            }
+        }
+        if(document.getElementById('reservation_table_mode_id') == null)
+            text+=`</table></div>`;
+
         if(document.getElementById('reservation_table_mode_id') == null)
             document.getElementById("table_reservation").innerHTML += text;
         else
@@ -142,7 +144,7 @@ function table_reservation(data, mode_view, restart=false){
         for(i in data){
             text+=`
             <div class="col-lg-12">
-                <div class="row" style="padding:0px 15px 0px 15px;">
+                <div class="row">
                     <form action="" class="form-wrap" method="POST" id="gotobooking`+data_counter+`" style="width:100%; margin-bottom:30px;"/>
                     <div class="col-lg-12" style="background:white; border:1px solid #cdcdcd; width:100%; padding:15px 15px 0px 15px;">`;
                     text+=`
@@ -209,7 +211,6 @@ function table_reservation(data, mode_view, restart=false){
                                 }else{
                                     text+=`<b>`;
                                 }
-
                                 text+=``+data[i].state_description+`
                             </b>
                         </div>`;
@@ -296,31 +297,33 @@ function table_reservation(data, mode_view, restart=false){
 
                     text+=`
                         <div class="col-lg-4 for-show-website" style="border-bottom: 1px solid #cdcdcd; padding: 15px;"></div>
-                        <div class="col-lg-4 mb-2" style="padding: 15px;">
+                        <div class="col-lg-4" style="border-bottom: 1px solid #cdcdcd; padding: 15px;">
                             <b>Description: </b><br/>`;
                             if(data[i].transaction_addtional_info != '')
-                                text+= `<span>`+data[i].transaction_addtional_info+`</span>`;
+                                text+= `<i>`+data[i].transaction_addtional_info+`</i>`;
                             else
-                                text+= `<span>-</td>`;
+                                text+= `<span>-</span></td>`;
                     text+=`
                         </div>`;
                     text+=`
-                        <div class="col-lg-4 mb-2" style="padding: 15px;">`;
+                        <div class="col-lg-4" style="border-bottom: 1px solid #cdcdcd; padding: 15px;">`;
                         if($("input[name='filter']:checked").val() == 'hotel'){
                             text+=`
-                            <b>Total R/N: </b><br/>`;
+                            <b>Total R/N </b><br/>`;
                         }else{
                             text+=`
-                            <b>Total Pax: </b><br/>`;
+                            <b>Total Pax </b><br/>`;
                         }
-                            text+= `<span>`+data[i].total_pax+`</span>
+                            text+= `<i>`+data[i].total_pax+`</i>
                         </div>`;
                     if($("input[name='filter']:checked").val() == 'airline'){
                         text+=`
-                        <div class="col-lg-4 mb-2" style="padding: 15px;">
+                        <div class="col-lg-4" style="border-bottom: 1px solid #cdcdcd; padding: 15px;">
                             <b>Flight Number: </b><br/>`;
-                            text+= `<span>`+data[i].flight_number+`</span>
+                            text+= `<i>`+data[i].flight_number+`</i>
                         </div>`;
+                    }else{
+                        text+=`<div class="col-lg-4" style="border-bottom: 1px solid #cdcdcd; padding: 15px;"></div>`;
                     }
 
 
@@ -398,6 +401,7 @@ function table_reservation(data, mode_view, restart=false){
                 </div>
             </div>`;
             document.getElementById("table_reservation").innerHTML += text;
+            $('#load_more_reservation').show();
             $('#loading-search-reservation').hide();
     //                   document.getElementById('airlines_ticket').innerHTML += text;
             text = '';
@@ -407,6 +411,12 @@ function table_reservation(data, mode_view, restart=false){
             }
         }
     }
+
+    if(load_more == false)
+        $('#load_more_reservation').hide();
+    else
+        $('#load_more_reservation').show();
+
 }
 
 function auto_complete(type){

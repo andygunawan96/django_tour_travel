@@ -757,8 +757,10 @@ function sort_transaction(){
 
 function get_transactions(type){
     $('#loading-search-reservation').show();
+    $('#load_more_reservation').hide();
     document.getElementById('button').disabled = true;
     load_more = false;
+
     if(type == 'reset' || type == 'filter' || type == 'mode'){
         offset_transaction = 0;
         data_counter = 0;
@@ -859,6 +861,7 @@ function get_transactions(type){
         document.getElementById('search').style.display = 'block';
         document.getElementById('button').disabled = false;
         $('#loading-search-reservation').hide();
+        $('#load_more_reservation').show();
         try{
             var radios = document.getElementsByName('filter_type');
             for (var j = 0, length = radios.length; j < length; j++) {
@@ -1010,6 +1013,12 @@ function get_transactions(type){
             }
             radios[j].disabled = false;
         }
+
+        if(load_more == false)
+            $('#load_more_reservation').hide();
+        else
+            $('#load_more_reservation').show();
+
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error transactions');
