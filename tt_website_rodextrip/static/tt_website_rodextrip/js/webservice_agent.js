@@ -6010,13 +6010,20 @@ function check_pln_postpaid(value){
     }
 }
 
-function check_evoucher(value){
-    var checknumber = "^08[1-9]{2}[0-9]{5,9}$";
-    var checknumber_bolt = "^999[1-9]{1}[0-9]{5,9}$";
-    if(value.match(checknumber)!=null || value.match(checknumber_bolt)!=null){
+function check_evoucher(value, value2){
+    if(value2 == 'postpaid_mobile_lwa' || value2 == 'postpaid_mobile_gri' || value2 == 'postpaid_mobile_swj')
+    {
         return true;
-    }else{
-        return false;
+    }
+    else
+    {
+        var checknumber = "^08[1-9]{2}[0-9]{5,9}$";
+        var checknumber_bolt = "^999[1-9]{1}[0-9]{5,9}$";
+        if(value.match(checknumber)!=null || value.match(checknumber_bolt)!=null){
+            return true;
+        }else{
+            return false;
+        }
     }
 }
 

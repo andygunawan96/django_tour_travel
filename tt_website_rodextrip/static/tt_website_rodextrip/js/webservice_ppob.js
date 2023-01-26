@@ -346,7 +346,7 @@ function search_ppob(){
     }else if(bill_type == 'e-voucher'){
         product_code = document.getElementById('evoucher_type').value;
 
-        if(check_evoucher(customer_number) == true){
+        if(check_evoucher(customer_number, product_code) == true){
             for(i in ppob_data.product_data){
                 if(check_break == false){
                     for(j in ppob_data.product_data[i]){
