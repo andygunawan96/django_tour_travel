@@ -443,6 +443,14 @@ function search_ppob(){
                 }
             }
         }
+        if($cable_tv_type_name == 'Indovision' || $cable_tv_type_name == 'Indovision Top TV' || $cable_tv_type_name == 'Indovision Oke Vision' || $cable_tv_type_name == 'First Media')
+        {
+            total = document.getElementById('cable_tv_nominal').value;
+            if (total == 0 || total == '')
+            {
+                error_log += 'Please fill payment amount!';
+            }
+        }
     }else if(bill_type == 'internet'){
         product_code = document.getElementById('internet_type').value;
 
@@ -485,6 +493,14 @@ function search_ppob(){
                 }else{
                     break;
                 }
+            }
+        }
+        if($internet_type_name == 'CBN' || $internet_type_name == 'Indosatnet' || $internet_type_name == 'Centrinnet')
+        {
+            total = document.getElementById('internet_nominal').value;
+            if (total == 0 || total == '')
+            {
+                error_log += 'Please fill payment amount!';
             }
         }
     }else if(bill_type == 'telephone'){
@@ -575,6 +591,11 @@ function search_ppob(){
                 }
             }
         }
+        total = document.getElementById('insurance_nominal').value;
+        if (total == 0 || total == '')
+        {
+            error_log += 'Please fill payment amount!';
+        }
     }else if(bill_type == 'pdam'){
         product_code = document.getElementById('pdam_type').value;
 
@@ -663,6 +684,11 @@ function search_ppob(){
                 }
             }
         }
+        total = document.getElementById('credit_installment_nominal').value;
+        if (total == 0 || total == '')
+        {
+            error_log += 'Please fill payment amount!';
+        }
     }else if(bill_type == 'credit card'){
         product_code = document.getElementById('credit_card_type').value;
 
@@ -706,6 +732,11 @@ function search_ppob(){
                     break;
                 }
             }
+        }
+        total = document.getElementById('credit_card_nominal').value;
+        if (total == 0 || total == '')
+        {
+            error_log += 'Please fill payment amount!';
         }
     }
     if(user_login.co_agent_frontend_security.includes('b2c_limitation') == true){
