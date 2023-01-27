@@ -1299,7 +1299,14 @@ def get_new_cache(signature, type='all'):
                     _logger.error(
                         'ERROR promotion banner file \n' + str(e) + '\n' + traceback.format_exc())
 
-
+        ## update javascript version agar cache mobile terupdate juga & bisa restart tanpa update javascript_version tetapi klik update di page_admin
+        file = read_cache("javascript_version", 'cache_web', 90911)
+        if file:
+            javascript_version = int(file)
+        else:
+            javascript_version = 1
+        javascript_version += 1
+        write_cache(javascript_version, 'javascript_version')
         logging.getLogger("info_logger").error("DONE GENERATE NEW CACHE!")
         return True
     except Exception as e:
