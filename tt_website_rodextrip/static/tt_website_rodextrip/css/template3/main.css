@@ -9231,3 +9231,11 @@ for better animation effect */
 .share-btn.whatsapp    { background: #3AC371; }
 .share-btn.telegram    { background: #419fd9; }
 .share-btn.line    { background: #53cf48; }
+
+
+#reservation_table_mode_id th {
+  position: sticky;
+  top: -1px;  /* 0px if you don't have a navbar, but something is required */
+  background: white;
+  z-index: 9999;
+}

@@ -2115,24 +2115,33 @@
         document.getElementById("airline_departure").value = document.getElementById("airline_departure_temp").value;
         document.getElementById("airline_return").value = document.getElementById("airline_departure").value;
 
-        $('input[name="airline_departure"]').daterangepicker({
-          singleDatePicker: true,
-          autoUpdateInput: true,
-          startDate: $('#airline_departure').val(),
-          minDate: moment(),
-          maxDate: moment().subtract(-365, 'days'),
-          showDropdowns: true,
-          opens: 'center',
-          locale: {
-              format: 'DD MMM YYYY',
-          }
+        var picker_airline_departure = new Lightpick({
+            field: document.getElementById('airline_departure'),
+            singleDate: true,
+            startDate: $('#airline_departure').val(),
+            minDate: moment(),
+            maxDate: moment().subtract(-1, 'years'),
+            nextFocus: '#show_total_pax_flight'
         });
 
-        $('input[name="airline_departure"]').on('apply.daterangepicker', function(ev, picker) {
-            setTimeout(function(){
-                $("#show_total_pax_flight").click();
-            }, 200);
-        });
+        //$('input[name="airline_departure"]').daterangepicker({
+        //  singleDatePicker: true,
+        //  autoUpdateInput: true,
+        //  startDate: $('#airline_departure').val(),
+        //  minDate: moment(),
+        //  maxDate: moment().subtract(-365, 'days'),
+        //  showDropdowns: true,
+        //  opens: 'center',
+        //  locale: {
+        //      format: 'DD MMM YYYY',
+        //  }
+        //});
+
+        //$('input[name="airline_departure"]').on('apply.daterangepicker', function(ev, picker) {
+        //    setTimeout(function(){
+        //        $("#show_total_pax_flight").click();
+        //    }, 200);
+        //});
       }
 
       else if(document.getElementById('radio_airline_rt').checked) {
@@ -2215,26 +2224,37 @@
         document.getElementById("airline_return").value = date_convert;
         document.getElementById("airline_departure_return").value = document.getElementById("airline_departure").value + '-' + document.getElementById("airline_return").value;
 
-        $('input[name="airline_departure_return"]').daterangepicker({
-          singleDatePicker: false,
-          autoUpdateInput: true,
-          opens: 'center',
-          autoApply: true,
-          startDate: $('#airline_departure').val(),
-          endDate: $('#airline_return').val(),
-          minDate: moment(),
-          maxDate: moment().subtract(-365, 'days'),
-          showDropdowns: true,
-          locale: {
-              format: 'DD MMM YYYY',
-          }
+        var picker_airline_departure_return = new Lightpick({
+            field: document.getElementById('airline_departure_return'),
+            singleDate: false,
+            hoveringTooltip: false,
+            startDate: $('#airline_departure').val(),
+            endDate: $('#airline_return').val(),
+            minDate: moment(),
+            maxDate: moment().subtract(-1, 'years'),
+            nextFocus: '#show_total_pax_flight',
         });
 
-        $('input[name="airline_departure_return"]').on('apply.daterangepicker', function(ev, picker) {
-            setTimeout(function(){
-                $("#show_total_pax_flight").click();
-            }, 200);
-        });
+        //$('input[name="airline_departure_return"]').daterangepicker({
+        //  singleDatePicker: false,
+        //  autoUpdateInput: true,
+        //  opens: 'center',
+        //  autoApply: true,
+        //  startDate: $('#airline_departure').val(),
+        //  endDate: $('#airline_return').val(),
+        //  minDate: moment(),
+        //  maxDate: moment().subtract(-365, 'days'),
+        //  showDropdowns: true,
+        //  locale: {
+        //      format: 'DD MMM YYYY',
+        //  }
+        //});
+
+        //$('input[name="airline_departure_return"]').on('apply.daterangepicker', function(ev, picker) {
+        //    setTimeout(function(){
+        //        $("#show_total_pax_flight").click();
+        //    }, 200);
+        //});
 
       }else if(document.getElementById('radio_airline_mc').checked) {
         text_mc='';

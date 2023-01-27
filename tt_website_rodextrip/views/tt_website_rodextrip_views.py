@@ -752,8 +752,9 @@ def admin(request):
                     ##
 
                     ## LIVE CHAT
-                    if not os.path.exists("/var/log/django/file_cache/live_chat"):
-                        os.mkdir('/var/log/django/file_cache/live_chat')
+                    path = var_log_path('live_chat')
+                    if not os.path.exists(path):
+                        os.mkdir(path)
                     fs_live_chat = FileSystemStorage()
                     fs_live_chat.location += '/live_chat'
                     if not os.path.exists(fs.location):
@@ -761,11 +762,11 @@ def admin(request):
                     live_chat_total_number = int(request.POST.get('number_of_live_chat', 0))
                     if live_chat_total_number != 0:
                         live_chat_total_number += 1
-                    data = os.listdir('/var/log/django/file_cache/live_chat')
+                    data = os.listdir(path)
 
                     ## hapus data yg sudah ada
                     for rec in data:
-                        os.remove('/var/log/django/file_cache/live_chat/' + rec)
+                        os.remove('%s/%s' % (path, rec))
 
                     ## add data baru
                     for i in range(1,live_chat_total_number):
@@ -1369,8 +1370,9 @@ def get_cache_data():
     return response
 
 def get_data_template(request, type='home', provider_type = []):
-    if not os.path.exists("/var/log/django/file_cache/live_chat"):
-        os.mkdir('/var/log/django/file_cache/live_chat')
+    path = var_log_path('live_chat')
+    if not os.path.exists(path):
+        os.mkdir(path)
     template = 1
     logo = '/static/tt_website_rodextrip/images/icon/skytors_logo.png'
     logo_icon = '/static/tt_website_rodextrip/images/icon/skytors.png'
@@ -1596,7 +1598,8 @@ def get_data_template(request, type='home', provider_type = []):
 
         get_frequent_flyer = get_frequent_flyer_all_data({}, request.session.get('signature', ''))
 
-        data = os.listdir('/var/log/django/file_cache/live_chat')
+        path = var_log_path('live_chat')
+        data = os.listdir(path)
         for index, rec in enumerate(data):
             file = read_cache(rec[:-4], 'live_chat', 90911)
             live_chat_vendor = ''

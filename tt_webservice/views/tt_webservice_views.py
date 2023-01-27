@@ -7,6 +7,7 @@ from tools.parser import *
 from datetime import datetime
 import requests
 from tools import util
+from ..static.tt_webservice.url import *
 _logger = logging.getLogger("rodextrip_logger")
 
 def get_cache_version():
@@ -29,7 +30,10 @@ def get_cache_data():
     return response
 
 def var_log_path(folder):
-    return '/var/log/django/file_cache/%s/' % folder
+    try:
+        return '%s/file_cache/%s' % (default_path, folder)
+    except:
+        return '/var/log/django/file_cache/%s' % folder
 
 def write_cache(data, file_name, folder='cache_web'):
     try:
@@ -39,8 +43,8 @@ def write_cache(data, file_name, folder='cache_web'):
         save_res['datetime'] = date_time
         save_res['data'] = data
         rand_id = str(random.randint(0, 1000))
-        temp_name = '%s%s.%s.txt' % (var_log_path(folder), file_name, rand_id)
-        file_name = '%s%s.txt' % (var_log_path(folder), file_name)
+        temp_name = '%s/%s.%s.txt' % (var_log_path(folder), file_name, rand_id)
+        file_name = '%s/%s.txt' % (var_log_path(folder), file_name)
         _file = open(temp_name, 'w+')
         _file.write(json.dumps(save_res))
         _file.close()
@@ -53,7 +57,7 @@ def write_cache(data, file_name, folder='cache_web'):
 def read_cache(file_name, folder, time=300):
     try:
         date_time = datetime.now()
-        file = open(var_log_path(folder) + "%s.txt" % (file_name), "r")
+        file = open("%s/%s.txt" % (var_log_path(folder), file_name), "r")
         data = file.read()
         file.close()
         if data:

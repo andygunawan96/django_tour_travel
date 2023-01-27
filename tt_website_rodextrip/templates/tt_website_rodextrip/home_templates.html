@@ -169,19 +169,26 @@
 
 <!--wizard hotel testing-->
 <div class="modal fade" id="myModalWizardHotel" role="dialog" data-keyboard="false">
-    <div class="modal-dialog">
+    <div class="overlay_modal_custom" data-dismiss="modal"></div>
+    <div class="modal-dialog modal_custom_fixed">
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Hotel' %}</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <div class="row">
+                    <div class="col-xs-6 pb-3">
+                        <h4 class="modal-title"><i class="fas fa-hotel"></i> {% trans 'Hotel' %}</h4>
+                    </div>
+                    <div class="col-xs-6">
+                        <button type="button" class="close modal_custom_close" data-dismiss="modal">&times;</button>
+                    </div>
+                </div>
             </div>
             <div class="modal-body">
                 <form action="{% url 'tt_website_rodextrip:hotel_search'%}" method="POST" class="form-wrap" id="hotel_searchForm_wizard">
                     {% csrf_token %}
                     <input type="hidden" name="hotel_detail" id='hotel_detail'>
                     <div class="row">
-                        <div class="col-lg-12 col-md-12" style="margin-bottom:5px;">
+                        <div class="col-lg-12 col-md-12 mb-3">
                             <span><i class="fas fa-calendar-alt"></i> {% trans 'Check-in - Check-out' %}</span>
                             <div class="input-container-search-ticket">
                                 <input class="form-control" type="text" name="hotel_checkin_checkout_wizard" id="hotel_checkin_checkout_wizard" placeholder="{% trans 'Check-in - Check-out Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-In - Check-out Date '" autocomplete="off" style="background:white; height:43px;" readonly/>
@@ -191,7 +198,7 @@
                             <input class="form-control" type="hidden" name="hotel_checkout_wizard" id="hotel_checkout_wizard"  autocomplete="off" placeholder="Check-out Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-out Date '" />
                         </div>
 
-                        <div class="col-lg-6 col-md-6" style="margin-bottom:5px;">
+                        <div class="col-lg-12 mb-3">
                             <span><i class="fas fa-users"></i> {% trans 'Guest' %}</span>
                             <div class="input-container-search-ticket btn-group">
                                 <button id="show_total_pax_hotel_wizard" style="text-align:left;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></button>
@@ -271,7 +278,7 @@
                             </div>
                         </div>
 
-                        <div class="col-lg-6 col-md-6" style="margin-bottom:5px;">
+                        <div class="col-lg-12 mb-3">
                             <span><i class="fas fa-globe-asia"></i> {% trans 'Guest Nationality' %}</span>
                             <select class="js-example-basic-single" name="hotel_id_nationality_wizard_id" style="width:100%;" id="hotel_id_nationality_wizard_id" placeholder="{% trans 'Guest Nationality' %}" onchange="auto_complete('hotel_id_nationality')" class="nice-select-default">
                                 {% for country in countries %}
@@ -1711,17 +1718,11 @@
                             <form action="" method="POST" class="form-wrap" id="bill_searchForm">
                                 {% csrf_token %}
                                 <div class="row">
-                                    <div class="col-lg-12" id="radio_bill_search" style="padding:0px; text-align:left;margin-bottom:10px;" onchange="set_container_bill();">
-                                        <label class="radio-button-custom crlabel">
-                                            <span style="font-size:13px; color:{{text_color}};">BPJS</span>
-                                            <input type="radio" checked="checked" name="bills_type" value="bpjs">
-                                            <span class="checkmark-radio crspan"></span>
-                                        </label>
-                                        <label class="radio-button-custom crlabel">
-                                            <span style="font-size:13px; color:{{text_color}};">PLN</span>
-                                            <input type="radio"  name="bills_type" value="pln">
-                                            <span class="checkmark-radio crspan"></span>
-                                        </label>
+                                    <div class="col-lg-12" id="radio_bill_search" style="padding:0px; text-align:left;margin-bottom:10px;">
+
+                                    </div>
+                                    <div class="col-lg-12" id="radio_bill_search2" style="padding:0px; text-align:left;margin-bottom:10px;" onchange="set_container_bill();">
+
                                     </div>
                                     {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                                     <div class="col-lg-12 col-md-12 col-sm-12" style="margin-bottom:15px;">
@@ -2679,17 +2680,11 @@
                         <form action="" class="form-wrap" id="bill_searchForm" method="post">
                             {% csrf_token %}
                             <div class="row">
-                                <div class="col-lg-12" id="radio_bill_search" style="text-align:left;margin-bottom:10px;" onchange="set_container_bill();">
-                                    <label class="radio-button-custom crlabel">
-                                        <span style="font-size:13px; color:{{text_color}};">BPJS</span>
-                                        <input type="radio" checked="checked" name="bills_type" value="bpjs">
-                                        <span class="checkmark-radio crspan"></span>
-                                    </label>
-                                    <label class="radio-button-custom crlabel">
-                                        <span style="font-size:13px; color:{{text_color}};">PLN</span>
-                                        <input type="radio"  name="bills_type" value="pln">
-                                        <span class="checkmark-radio crspan"></span>
-                                    </label>
+                                <div class="col-lg-12" id="radio_bill_search" style="text-align:left;margin-bottom:10px;">
+
+                                </div>
+                                <div class="col-lg-12" id="radio_bill_search2" style="text-align:left;margin-bottom:10px;" onchange="set_container_bill();">
+
                                 </div>
                                 {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                                 <div class="col-lg-12 col-md-12 col-sm-12" style="margin-bottom:15px;">
@@ -4050,17 +4045,11 @@
                             <form action="" class="form-wrap" id="bill_searchForm" method="post">
                                 {% csrf_token %}
                                 <div class="row">
-                                    <div class="col-lg-12" id="radio_bill_search" style="text-align:left;margin-bottom:10px;" onchange="set_container_bill();">
-                                        <label class="radio-button-custom crlabel">
-                                            <span style="font-size:13px; color:{{text_color}};">BPJS</span>
-                                            <input type="radio" checked="checked" name="bills_type" value="bpjs">
-                                            <span class="checkmark-radio crspan"></span>
-                                        </label>
-                                        <label class="radio-button-custom crlabel">
-                                            <span style="font-size:13px; color:{{text_color}};">PLN</span>
-                                            <input type="radio"  name="bills_type" value="pln">
-                                            <span class="checkmark-radio crspan"></span>
-                                        </label>
+                                    <div class="col-lg-12" id="radio_bill_search" style="text-align:left;margin-bottom:10px;">
+
+                                    </div>
+                                    <div class="col-lg-12" id="radio_bill_search2" style="text-align:left;margin-bottom:10px;" onchange="set_container_bill();">
+
                                     </div>
                                     {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                                     <div class="col-lg-12 col-md-12 col-sm-12" style="margin-bottom:15px;">
@@ -5490,17 +5479,11 @@
                                     <form action="" class="form-wrap" id="bill_searchForm" method="post">
                                         {% csrf_token %}
                                         <div class="row">
-                                            <div class="col-lg-12" id="radio_bill_search" style="text-align:left;margin-bottom:10px;" onchange="set_container_bill();">
-                                                <label class="radio-button-custom crlabel">
-                                                    <span style="font-size:13px; color:{{text_color}};">BPJS</span>
-                                                    <input type="radio" checked="checked" name="bills_type" value="bpjs">
-                                                    <span class="checkmark-radio crspan"></span>
-                                                </label>
-                                                <label class="radio-button-custom crlabel">
-                                                    <span style="font-size:13px; color:{{text_color}};">PLN</span>
-                                                    <input type="radio"  name="bills_type" value="pln">
-                                                    <span class="checkmark-radio crspan"></span>
-                                                </label>
+                                            <div class="col-lg-12" id="radio_bill_search" style="text-align:left;margin-bottom:10px;">
+
+                                            </div>
+                                            <div class="col-lg-12" id="radio_bill_search2" style="text-align:left;margin-bottom:10px;" onchange="set_container_bill();">
+
                                             </div>
                                             {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                                             <div class="col-lg-12 col-md-12 col-sm-12" style="margin-bottom:15px;">
@@ -6900,17 +6883,11 @@
                                     <form action="" class="form-wrap" id="bill_searchForm" method="post">
                                         {% csrf_token %}
                                         <div class="row">
-                                            <div class="col-lg-12" id="radio_bill_search" style="text-align:left;margin-bottom:10px;" onchange="set_container_bill();">
-                                                <label class="radio-button-custom crlabel">
-                                                    <span style="font-size:13px; color:{{text_color}};">BPJS</span>
-                                                    <input type="radio" checked="checked" name="bills_type" value="bpjs">
-                                                    <span class="checkmark-radio crspan"></span>
-                                                </label>
-                                                <label class="radio-button-custom crlabel">
-                                                    <span style="font-size:13px; color:{{text_color}};">PLN</span>
-                                                    <input type="radio"  name="bills_type" value="pln">
-                                                    <span class="checkmark-radio crspan"></span>
-                                                </label>
+                                            <div class="col-lg-12" id="radio_bill_search" style="text-align:left;margin-bottom:10px;">
+
+                                            </div>
+                                            <div class="col-lg-12" id="radio_bill_search2" style="text-align:left;margin-bottom:10px;" onchange="set_container_bill();">
+
                                             </div>
                                             {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                                             <div class="col-lg-12 col-md-12 col-sm-12" style="margin-bottom:15px;">
@@ -8210,17 +8187,11 @@
                 <form action="" method="POST" class="form-wrap" id="bill_searchForm" onsubmit="return search_train_validation()">
                     {% csrf_token %}
                     <div class="row">
-                        <div class="col-lg-12" id="radio_bill_search" style="text-align:left;margin-bottom:10px;" onchange="set_container_bill();">
-                            <label class="radio-button-custom" style="margin-bottom:0px;">
-                                <span style="font-size:13px; color:{{text_color}};">BPJS</span>
-                                <input type="radio" checked="checked" name="bills_type" value="bpjs">
-                                <span class="checkmark-radio"></span>
-                            </label>
-                            <label class="radio-button-custom" style="margin-bottom:0px;">
-                                <span style="font-size:13px; color:{{text_color}};">PLN</span>
-                                <input type="radio"  name="bills_type" value="pln">
-                                <span class="checkmark-radio"></span>
-                            </label>
+                        <div class="col-lg-12" id="radio_bill_search" style="text-align:left;margin-bottom:10px;">
+
+                        </div>
+                        <div class="col-lg-12" id="radio_bill_search2" style="text-align:left;margin-bottom:10px;" onchange="set_container_bill();">
+
                         </div>
                         {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                         <div class="col-lg-12 col-md-12 col-sm-12" style="margin-bottom:15px;">
@@ -9264,14 +9235,15 @@
     </div>
 </section>
 
-
 <div id="promotion">
 
 </div>
 
+
 {% include 'tt_website_rodextrip/footer.html' %}
 {% include 'tt_website_rodextrip/plugin_live_youtube.html' %}
 <script>
+
     get_carriers();
     {% for rec in provider_types_sequence %}
         if('{{rec.name}}' == "health_care"){
@@ -9940,29 +9912,40 @@
                     document.getElementById('destination_id_flight').value = '{{airline_destination}}';
                     airline_destination = '{{airline_destination}}';
                 }
+
                 try{
                     airline_date = cache.airline.departure;
                 }catch(err){
                     airline_date = now;
                 }
-                $('input[name="airline_departure"]').daterangepicker({
-                    singleDatePicker: true,
-                    autoUpdateInput: true,
+
+                var picker_airline_departure = new Lightpick({
+                    field: document.getElementById('airline_departure'),
+                    singleDate: true,
                     startDate: airline_date,
                     minDate: moment(),
                     maxDate: moment().subtract(-1, 'years'),
-                    showDropdowns: true,
-                    opens: 'center',
-                    locale: {
-                        format: 'DD MMM YYYY',
-                    }
+                    nextFocus: '#show_total_pax_flight'
                 });
 
-                $('input[name="airline_departure"]').on('apply.daterangepicker', function(ev, picker) {
-                    setTimeout(function(){
-                        $("#show_total_pax_flight").click();
-                    }, 200);
-                });
+                //$('input[name="airline_departure"]').daterangepicker({
+                //    singleDatePicker: true,
+                //    autoUpdateInput: true,
+                //    startDate: airline_date,
+                //    minDate: moment(),
+                //    maxDate: moment().subtract(-1, 'years'),
+                //   showDropdowns: true,
+                //   opens: 'center',
+                //    locale: {
+                //        format: 'DD MMM YYYY',
+                //    }
+                //});
+
+                //$('input[name="airline_departure"]').on('apply.daterangepicker', function(ev, picker) {
+                //    setTimeout(function(){
+                //        $("#show_total_pax_flight").click();
+                //    }, 200);
+                //});
 
             {% endif %}
             {% if "train" in provider and "ticketing_train" in username.co_agent_frontend_security %}
@@ -9981,24 +9964,34 @@
                 }catch(err){
                     train_date = now;
                 }
-                $('input[name="train_departure"]').daterangepicker({
-                    singleDatePicker: true,
-                    autoUpdateInput: true,
+
+                var picker_train_departure = new Lightpick({
+                    field: document.getElementById('train_departure'),
+                    singleDate: true,
                     startDate: train_date,
                     minDate: moment(),
-                    maxDate: moment().subtract(-45, 'days'),
-                    showDropdowns: true,
-                    opens: 'center',
-                    locale: {
-                        format: 'DD MMM YYYY',
-                    }
+                    maxDate: moment().subtract(-1, 'months'),
+                    nextFocus: '#show_total_pax_train'
                 });
 
-                $('input[name="train_departure"]').on('apply.daterangepicker', function(ev, picker) {
-                    setTimeout(function(){
-                        $("#show_total_pax_train").click();
-                    }, 200);
-                });
+                //$('input[name="train_departure"]').daterangepicker({
+                //    singleDatePicker: true,
+                //    autoUpdateInput: true,
+                //    startDate: train_date,
+                //    minDate: moment(),
+                //    maxDate: moment().subtract(-45, 'days'),
+                //    showDropdowns: true,
+                //    opens: 'center',
+                //    locale: {
+                //        format: 'DD MMM YYYY',
+                //    }
+                //});
+
+                //$('input[name="train_departure"]').on('apply.daterangepicker', function(ev, picker) {
+                //    setTimeout(function(){
+                //        $("#show_total_pax_train").click();
+                //    }, 200);
+                //});
 
             {% endif %}
 
@@ -10018,24 +10011,34 @@
                 }catch(err){
                     bus_date = now;
                 }
-                $('input[name="bus_departure"]').daterangepicker({
-                    singleDatePicker: true,
-                    autoUpdateInput: true,
+
+                var picker_bus_departure = new Lightpick({
+                    field: document.getElementById('bus_departure'),
+                    singleDate: true,
                     startDate: bus_date,
                     minDate: moment(),
-                    maxDate: moment().subtract(-90, 'days'),
-                    showDropdowns: true,
-                    opens: 'center',
-                    locale: {
-                        format: 'DD MMM YYYY',
-                    }
+                    maxDate: moment().subtract(-3, 'months'),
+                    nextFocus: '#show_total_pax_bus'
                 });
 
-                $('input[name="bus_departure"]').on('apply.daterangepicker', function(ev, picker) {
-                    setTimeout(function(){
-                        $("#show_total_pax_bus").click();
-                    }, 200);
-                });
+                //$('input[name="bus_departure"]').daterangepicker({
+                //    singleDatePicker: true,
+                //    autoUpdateInput: true,
+                //    startDate: bus_date,
+                //    minDate: moment(),
+                //    maxDate: moment().subtract(-90, 'days'),
+                //    showDropdowns: true,
+                //    opens: 'center',
+                //    locale: {
+                //        format: 'DD MMM YYYY',
+                //    }
+                //});
+
+                //$('input[name="bus_departure"]').on('apply.daterangepicker', function(ev, picker) {
+                //    setTimeout(function(){
+                //        $("#show_total_pax_bus").click();
+                //    }, 200);
+                //});
 
             {% endif %}
 
@@ -10045,73 +10048,169 @@
                     hotel_checkout = cache.hotel.checkout
                 }catch(err){
                     hotel_checkin = now;
-                    hotel_checkout = moment().subtract(-2, 'days');
+                    hotel_checkout = moment().subtract(-2, 'days').format('DD MMM YYYY');
                 }
 
-                $('input[name="hotel_checkin_checkout"]').daterangepicker({
-                    singleDatePicker: false,
-                    autoUpdateInput: true,
-                    opens: 'center',
-                    autoApply: true,
+                var oneDay = 24*60*60*1000;
+                var firstDate = new Date(hotel_checkin);
+                var secondDate = new Date(hotel_checkout);
+                $("#hotel_checkin").val(firstDate);
+                $("#hotel_checkout").val(secondDate);
+
+                var diffDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay)));
+                $("#total_night_search").text(diffDays);
+
+                var picker_hotel_checkin_checkout = new Lightpick({
+                    field: document.getElementById('hotel_checkin_checkout'),
+                    singleDate: false,
+                    hoveringTooltip: false,
+                    minDays: 2,
+                    maxDays: 31,
                     startDate: hotel_checkin,
                     endDate: hotel_checkout,
                     minDate: moment(),
                     maxDate: moment().subtract(-366, 'days'),
-                    showDropdowns: true,
-                    locale: {
-                        format: 'DD MMM YYYY',
+                    nextFocus: '#show_total_pax_hotel',
+                    onSelect: function(start, end){
+                        moment_checkIn = moment($("#hotel_checkin").val()).format('DD MMM YYYY');
+                        moment_checkOut = moment($("#hotel_checkout").val()).format('DD MMM YYYY');
+                        moment_start = moment(start).format('DD MMM YYYY');
+                        moment_end = moment(end).format('DD MMM YYYY');
+                        if(moment_checkIn != moment_start && moment_checkOut != moment_end){
+                            $("#hotel_checkin").val(start.format('DD MMM YYYY'));
+                            $("#hotel_checkout").val(end.format('DD MMM YYYY'));
+                        }else{
+                            if(moment_checkIn == moment_start){
+                                $("#hotel_checkin").val(moment_checkIn);
+                            }
+                            if(moment_checkOut != moment_end){
+                                $("#hotel_checkin").val(start.format('DD MMM YYYY'));
+                                $("#hotel_checkout").val(end.format('DD MMM YYYY'));
+                            }
+                        }
+                    },
+                    onClose: function(){
+                        oneDay = 24*60*60*1000;
+                        firstDate = new Date($("#hotel_checkin").val());
+                        secondDate = new Date($("#hotel_checkout").val());
+
+                        diffDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay)));
+                        $("#total_night_search").text(diffDays);
                     }
                 });
 
-                $('input[name="hotel_checkin_checkout"]').on('apply.daterangepicker', function(ev, picker) {
-                    $(this).val(picker.startDate.format('DD MMM YYYY') + ' - ' + picker.endDate.format('DD MMM YYYY'));
-                    $("#hotel_checkin").val(picker.startDate.format('DD MMM YYYY'));
-                    $("#hotel_checkout").val(picker.endDate.format('DD MMM YYYY'));
+                //$('input[name="hotel_checkin_checkout"]').daterangepicker({
+                //    singleDatePicker: false,
+                //    autoUpdateInput: true,
+                //    opens: 'center',
+                //    autoApply: true,
+                //    startDate: hotel_checkin,
+                //    endDate: hotel_checkout,
+                //    minDate: moment(),
+                //    maxDate: moment().subtract(-366, 'days'),
+                //    showDropdowns: true,
+                //    locale: {
+                //        format: 'DD MMM YYYY',
+                //    }
+                //});
 
-                    var oneDay = 24*60*60*1000;
-                    var firstDate = new Date($("#hotel_checkin").val());
-                    var secondDate = new Date($("#hotel_checkout").val());
-
-                    var diffDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay)));
-                    $("#total_night_search").text(diffDays);
-
-                    setTimeout(function(){
-                        $("#show_total_pax_hotel").click();
-                    }, 200);
-                });
+                //$('input[name="hotel_checkin_checkout"]').on('apply.daterangepicker', function(ev, picker) {
+                //    $(this).val(picker.startDate.format('DD MMM YYYY') + ' - ' + picker.endDate.format('DD MMM YYYY'));
+                //    $("#hotel_checkin").val(picker.startDate.format('DD MMM YYYY'));
+                //    $("#hotel_checkout").val(picker.endDate.format('DD MMM YYYY'));
+                //    var oneDay = 24*60*60*1000;
+                //    var firstDate = new Date($("#hotel_checkin").val());
+                //    var secondDate = new Date($("#hotel_checkout").val());
+                //
+                //    var diffDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay)));
+                //    $("#total_night_search").text(diffDays);
+                //
+                //    setTimeout(function(){
+                //        $("#show_total_pax_hotel").click();
+                //    }, 200);
+                //});
 
                 //wizard
-                $('input[name="hotel_checkin_checkout_wizard"]').daterangepicker({
-                    singleDatePicker: false,
-                    autoUpdateInput: true,
-                    opens: 'center',
-                    autoApply: true,
+                var oneDayWizard = 24*60*60*1000;
+                var firstDateWizard = new Date(hotel_checkin);
+                var secondDateWizard = new Date(hotel_checkout);
+                $("#hotel_checkin_wizard").val(firstDateWizard);
+                $("#hotel_checkout_wizard").val(secondDateWizard);
+
+                var diffDaysWizard = Math.round(Math.abs((firstDateWizard.getTime() - secondDateWizard.getTime())/(oneDayWizard)));
+                $("#total_night_search_wizard").text(diffDaysWizard);
+
+                var picker_hotel_checkin_checkout_wizard = new Lightpick({
+                    field: document.getElementById('hotel_checkin_checkout_wizard'),
+                    parentEl: '#hotel_searchForm_wizard',
+                    singleDate: false,
+                    hoveringTooltip: false,
+                    minDays: 2,
+                    maxDays: 31,
                     startDate: hotel_checkin,
                     endDate: hotel_checkout,
                     minDate: moment(),
                     maxDate: moment().subtract(-366, 'days'),
-                    showDropdowns: true,
-                    locale: {
-                        format: 'DD MMM YYYY',
+                    nextFocus: '#show_total_pax_hotel_wizard',
+                    onSelect: function(start, end){
+                        moment_checkInWizard = moment($("#hotel_checkin_wizard").val()).format('DD MMM YYYY');
+                        moment_checkOutWizard = moment($("#hotel_checkout_wizard").val()).format('DD MMM YYYY');
+                        moment_startWizard = moment(start).format('DD MMM YYYY');
+                        moment_endWizard = moment(end).format('DD MMM YYYY');
+                        if(moment_checkInWizard != moment_startWizard && moment_checkOutWizard != moment_endWizard){
+                            $("#hotel_checkin_wizard").val(start.format('DD MMM YYYY'));
+                            $("#hotel_checkout_wizard").val(end.format('DD MMM YYYY'));
+                        }else{
+                            if(moment_checkInWizard == moment_startWizard){
+                                $("#hotel_checkin_wizard").val(moment_checkInWizard);
+                            }
+                            if(moment_checkOutWizard != moment_endWizard){
+                                $("#hotel_checkin_wizard").val(start.format('DD MMM YYYY'));
+                                $("#hotel_checkout_wizard").val(end.format('DD MMM YYYY'));
+                            }
+                        }
+                    },
+                    onClose: function(){
+                        oneDayWizard = 24*60*60*1000;
+                        firstDateWizard = new Date($("#hotel_checkin_wizard").val());
+                        secondDateWizard = new Date($("#hotel_checkout_wizard").val());
+
+                        diffDaysWizard = Math.round(Math.abs((firstDateWizard.getTime() - secondDateWizard.getTime())/(oneDay)));
+                        $("#total_night_search_wizard").text(diffDaysWizard);
                     }
                 });
 
-                $('input[name="hotel_checkin_checkout_wizard"]').on('apply.daterangepicker', function(ev, picker) {
-                    $(this).val(picker.startDate.format('DD MMM YYYY') + ' - ' + picker.endDate.format('DD MMM YYYY'));
-                    $("#hotel_checkin_wizard").val(picker.startDate.format('DD MMM YYYY'));
-                    $("#hotel_checkout_wizard").val(picker.endDate.format('DD MMM YYYY'));
+                //$('input[name="hotel_checkin_checkout_wizard"]').daterangepicker({
+                //    singleDatePicker: false,
+                //    autoUpdateInput: true,
+                //    opens: 'center',
+                //    autoApply: true,
+                //    startDate: hotel_checkin,
+                //    endDate: hotel_checkout,
+                //    minDate: moment(),
+                //    maxDate: moment().subtract(-366, 'days'),
+                //    showDropdowns: true,
+                //    locale: {
+                //        format: 'DD MMM YYYY',
+                //    }
+                //});
 
-                    var oneDay = 24*60*60*1000;
-                    var firstDate = new Date($("#hotel_checkin_wizard").val());
-                    var secondDate = new Date($("#hotel_checkout_wizard").val());
-
-                    var diffDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay)));
-                    $("#total_night_search_wizard").text(diffDays);
-
-                    setTimeout(function(){
-                        $("#show_total_pax_hotel_wizard").click();
-                    }, 200);
-                });
+                //$('input[name="hotel_checkin_checkout_wizard"]').on('apply.daterangepicker', function(ev, picker) {
+                //    $(this).val(picker.startDate.format('DD MMM YYYY') + ' - ' + picker.endDate.format('DD MMM YYYY'));
+                //    $("#hotel_checkin_wizard").val(picker.startDate.format('DD MMM YYYY'));
+                //    $("#hotel_checkout_wizard").val(picker.endDate.format('DD MMM YYYY'))//;
+                //
+                //    var oneDay = 24*60*60*1000;
+                //    var firstDate = new Date($("#hotel_checkin_wizard").val());
+                //    var secondDate = new Date($("#hotel_checkout_wizard").val())//;
+                //
+                //    var diffDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay)));
+                //    $("#total_night_search_wizard").text(diffDays);
+                //
+                //    setTimeout(function(){
+                //        $("#show_total_pax_hotel_wizard").click();
+                //    }, 200);
+                //});
                 //wizard
             {% endif %}
             {% if "visa" in provider and "ticketing_visa" in username.co_agent_frontend_security %}
@@ -10157,8 +10256,9 @@
                 });
             {% endif %}
             {% if "ppob" in provider and "ticketing_ppob" in username.co_agent_frontend_security %}
-                get_config_ppob();
                 get_carrier_providers_ppob();
+                get_carriers_ppob();
+                ppob_get_provider_list(true);
                 $("#bill_searchForm").bind("keypress", function(e) {
                     if (e.keyCode == 13) {
                         return false;
@@ -10239,6 +10339,7 @@
         document.getElementById("start").value = moment().format('YYYY-MM-DD');
         document.getElementById("end").value = moment().subtract(-1, 'years').format('YYYY-MM-DD');
         get_public_holiday(document.getElementById("start").value, document.getElementById("end").value, document.getElementById("country_id").value, );
+        new_get_public_holiday(document.getElementById("start").value, document.getElementById("end").value, document.getElementById("country_id").value, );
     }catch(err){
 
     }

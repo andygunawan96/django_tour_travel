@@ -260,7 +260,7 @@ def get_config(request):
 def search(request):
     try:
         data = {
-            "product_code": int(request.POST['product_code']),
+            "product_code": request.POST['product_code'],
             "customer_number": request.POST['customer_number'],
             "provider": request.POST['provider'],
         }

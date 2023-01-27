@@ -18,6 +18,8 @@ destination_multi_city = [];
 var myVar;
 now_page = '';
 
+picker_multi_city = [];
+
 var departure_list = [
     {
         value:'All',
@@ -405,57 +407,58 @@ function add_multi_city(type){
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-4">
-                    <span class="span-search-ticket">Class</span>`;
+                    <span class="span-search-ticket">Prefered Class</span>`;
                     if(template == 1){
                         text_paxs += `
                         <div class="input-container-search-ticket btn-group">
-                            <div class="form-select" id="default-select`+counter_airline_search+`">
-                                <select id="cabin_class_flight`+counter_airline_search+`" name="cabin_class_flight`+counter_airline_search+`" data-live-search="true" size="4">`;
+                            <div class="form-select" id="default-select">
+                                <select id="cabin_class_flight_mc" name="cabin_class_flight_mc" data-live-search="true" size="4">`;
                     }
                     else if(template == 2){
                         text_paxs += `
                         <div>
-                            <div class="form-select" id="default-select`+counter_airline_search+`">
-                                <select id="cabin_class_flight`+counter_airline_search+`" name="cabin_class_flight`+counter_airline_search+`" data-live-search="true" size="4" class="form-control">`;
+                            <div class="form-select" id="default-select">
+                                <select id="cabin_class_flight_mc" name="cabin_class_flight_mc" data-live-search="true" size="4" class="form-control">`;
                     }
                     else if(template == 3){
                        text_paxs += `
                        <div class="form-group">
-                            <div class="default-select" id="default-select`+counter_airline_search+`">
-                                <select id="cabin_class_flight`+counter_airline_search+`" name="cabin_class_flight`+counter_airline_search+`" data-live-search="true" size="4">`;
+                            <div class="default-select" id="default-select">
+                                <select id="cabin_class_flight_mc" name="cabin_class_flight_mc" data-live-search="true" size="4">`;
                     }
                     else if(template == 4){
                         text_paxs += `
                         <div class="input-container-search-ticket btn-group">
                             <div class="form-select">
-                                <select class="nice-select-default" id="cabin_class_flight`+counter_airline_search+`" name="cabin_class_flight`+counter_airline_search+`">`;
+                                <select class="nice-select-default" id="cabin_class_flight_mc" name="cabin_class_flight_mc">`;
                     }
                     else if(template == 5 || template == 6){
                         text_paxs += `
                         <div>
-                            <select class="form-control" id="cabin_class_flight`+counter_airline_search+`" name="cabin_class_flight`+counter_airline_search+`">`;
+                            <select class="form-control" id="cabin_class_flight_mc" name="cabin_class_flight_mc">`;
                     }
-                        for(i in cabin_class){
-                            try{
-                                if(type == 'search'){
-                                    if(airline_request.cabin_class[0] == cabin_class[i].value)
-                                        text_paxs+=`<option value="`+cabin_class[i].value+`" selected>`+cabin_class[i].name+`</option>`;
-                                    else
-                                        text_paxs+=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
-                                }else if(i == 0){
-                                    if(type == 'home')
-                                        text_paxs+=`<option value="`+cabin_class[i].value+`" selected>`+cabin_class[i].name+`</option>`;
-                                    else
-                                        text_paxs+=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
-                                }else
-                                    text_paxs+=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
-                            }catch(err){
-                                if(i == 0)
+                    for(i in cabin_class){
+                        try{
+                            if(type == 'search'){
+                                if(airline_request.cabin_class == cabin_class[i].value)
                                     text_paxs+=`<option value="`+cabin_class[i].value+`" selected>`+cabin_class[i].name+`</option>`;
                                 else
                                     text_paxs+=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
-                            }
+                            }else if(i == 0){
+                                if(type == 'home')
+                                    text_paxs+=`<option value="`+cabin_class[i].value+`" selected>`+cabin_class[i].name+`</option>`;
+                                else
+                                    text_paxs+=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
+                            }else
+                                text_paxs+=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
+                        }catch(err){
+                            console.log(err);
+                            if(i == 0)
+                                text_paxs+=`<option value="`+cabin_class[i].value+`" selected>`+cabin_class[i].name+`</option>`;
+                            else
+                                text_paxs+=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
                         }
+                    }
                      text_paxs+=`</select>
                         </div>
                     </div>
@@ -465,11 +468,11 @@ function add_multi_city(type){
             document.getElementById("mc_airline_paxs").appendChild(node_paxs);
             get_carrier_code_list(type, counter_airline_search);
             airline_provider_list_mc.push(airline_provider_list);
-            $('#cabin_class_flight'+counter_airline_search).niceSelect();
+            $('#cabin_class_flight_mc').niceSelect();
 
-            $('#cabin_class_flight1').on('change', function() {
+            $('#cabin_class_flight_mc').on('change', function() {
                 setTimeout(function(){
-                    $("#origin_id_flight1").focus();
+                    $("#origin_id_flight"+counter_airline_search).focus();
                 }, 200);
             });
         }
@@ -498,46 +501,46 @@ function add_multi_city(type){
                     <div class="col-lg-12" style="text-align:left; padding:0px; margin-top:10px; margin-bottom:10px;">
                         <h5 style="color:`+text_color+`">Flight-`+counter_airline_search+`</h5>
                     </div>
-                        <div class="col-lg-8">
-                            <div class="row">
-                                <div class="col-lg-6 col-md-6 col-sm-6 airline-from" style="padding-left:0px;">
-                                    <span class="span-search-ticket"><i class="fas fa-plane-departure"></i> From</span>
-                                        <div class="input-container-search-ticket">
-                                            <div class="form-select">`;
-                                            if(type == 'search'){
-                                                if(airline_request.destination[counter_airline_search - 1] != null)
-                                                    text+=`
-                                                    <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+airline_request.origin[counter_airline_search - 1]+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
-                                                else{
-                                                    temp = document.getElementById('destination_id_flight'+(counter_airline_search-1).toString()).value;
-                                                    text+=`
-                                                    <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+temp+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
-                                                }
-                                            }else if(counter_airline_search==1)
-                                                try{
-                                                    text+=`
-                                                    <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+airline_request.origin[counter_airline_search - 1]+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
-                                                }catch(err){
-                                                    text+=`
-                                                    <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+airline_origin+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
-                                                }
-                                            else{
-                                                temp = document.getElementById('destination_id_flight'+(counter_airline_search-1).toString()).value;
-                                                text+=`
-                                                <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+temp+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
-                                                //<select class="form-control" style="width:100%;" id="origin_id_flight`+counter_airline_search+`" placeholder="City or Airport or IATA" onchange="airline_autocomplete('origin', `+counter_airline_search+`)">
-                                            }
-                                    text+=`
-                                            </div>
-                                        </div>
+                    <div class="col-lg-12">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-6 airline-from" style="padding-left:0px;">
+                                <span class="span-search-ticket"><i class="fas fa-plane-departure"></i> From</span>
+                                <div class="input-container-search-ticket">
+                                    <div class="form-select">`;
+                                    if(type == 'search'){
+                                        if(airline_request.destination[counter_airline_search - 1] != null)
+                                            text+=`
+                                            <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+airline_request.origin[counter_airline_search - 1]+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                        else{
+                                            temp = document.getElementById('destination_id_flight'+(counter_airline_search-1).toString()).value;
+                                            text+=`
+                                            <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+temp+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                        }
+                                    }else if(counter_airline_search==1)
+                                        try{
+                                            text+=`
+                                            <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+airline_request.origin[counter_airline_search - 1]+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                        }catch(err){
+                                            text+=`
+                                            <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+airline_origin+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                        }
+                                    else{
+                                        temp = document.getElementById('destination_id_flight'+(counter_airline_search-1).toString()).value;
+                                        text+=`
+                                        <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+temp+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                        //<select class="form-control" style="width:100%;" id="origin_id_flight`+counter_airline_search+`" placeholder="City or Airport or IATA" onchange="airline_autocomplete('origin', `+counter_airline_search+`)">
+                                    }
+                            text+=`
                                     </div>
-                                    <div class="image-change-route-vertical">
-                                        <h4><a class="switch_a" href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5; color:black;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
-                                    </div>
-                                    <div class="image-change-route-horizontal">
-                                        <h4><a class="horizontal-arrow" href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5; color:`+text_color+`;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon"><i class="fas fa-exchange-alt icon-change"></i></i></a></h4>
-                                    </div>
-                                <div class="col-lg-6 col-md-6 col-sm-6 airline-to" style="z-index:5; padding-right:0px;">
+                                </div>
+                            </div>
+                            <div class="image-change-route-vertical">
+                                <h4><a class="switch_a" href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5; color:black;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                            </div>
+                            <div class="image-change-route-horizontal">
+                                <h4><a class="horizontal-arrow" href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5; color:`+text_color+`;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon"><i class="fas fa-exchange-alt icon-change"></i></i></a></h4>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 airline-to" style="z-index:5; padding-right:0px;padding:0px;">
                                 <span class="span-search-ticket"><i class="fas fa-plane-arrival"></i> To</span>
                                 <div class="input-container-search-ticket">
                                     <div class="form-select">`;
@@ -565,12 +568,73 @@ function add_multi_city(type){
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4" style="padding:0px;">
-                        <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>
-                        <div class="input-container-search-ticket">
-                            <input type="text" class="form-control" name="airline_departure`+counter_airline_search+`" id="airline_departure`+counter_airline_search+`" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly style="background:white;">
-                        </div>
-                    </div>
+                    <div class="col-lg-12">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6" style="padding-left:0px;">
+                                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>
+                                <div class="input-container-search-ticket">
+                                    <input type="text" class="form-control" name="airline_departure`+counter_airline_search+`" id="airline_departure`+counter_airline_search+`" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly style="background:white;">
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6" style="padding:0px;">
+                                <span class="span-search-ticket">Class</span>`;
+                                if(template == 1){
+                                    text += `
+                                    <div class="input-container-search-ticket btn-group">
+                                        <div class="form-select" id="default-select`+counter_airline_search+`">
+                                            <select id="cabin_class_flight`+counter_airline_search+`" name="cabin_class_flight`+counter_airline_search+`" data-live-search="true" size="4">`;
+                                }
+                                else if(template == 2){
+                                    text += `
+                                    <div>
+                                        <div class="form-select" id="default-select`+counter_airline_search+`">
+                                            <select id="cabin_class_flight`+counter_airline_search+`" name="cabin_class_flight`+counter_airline_search+`" data-live-search="true" size="4" class="form-control">`;
+                                }
+                                else if(template == 3){
+                                   text += `
+                                   <div class="form-group">
+                                        <div class="default-select" id="default-select`+counter_airline_search+`">
+                                            <select id="cabin_class_flight`+counter_airline_search+`" name="cabin_class_flight`+counter_airline_search+`" data-live-search="true" size="4">`;
+                                }
+                                else if(template == 4){
+                                    text += `
+                                    <div class="input-container-search-ticket btn-group">
+                                        <div class="form-select">
+                                            <select class="nice-select-default" id="cabin_class_flight`+counter_airline_search+`" name="cabin_class_flight`+counter_airline_search+`">`;
+                                }
+                                else if(template == 5 || template == 6){
+                                    text += `
+                                    <div>
+                                        <select class="form-control" id="cabin_class_flight`+counter_airline_search+`" name="cabin_class_flight`+counter_airline_search+`">`;
+                                }
+                                    for(i in cabin_class){
+                                        try{
+                                            if(type == 'search'){
+                                                if(airline_request.cabin_class_list[counter_airline_search-1] == cabin_class[i].value)
+                                                    text +=`<option value="`+cabin_class[i].value+`" selected>`+cabin_class[i].name+`</option>`;
+                                                else
+                                                    text +=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
+                                            }else if(i == 0){
+                                                if(type == 'home')
+                                                    text +=`<option value="`+cabin_class[i].value+`" selected>`+cabin_class[i].name+`</option>`;
+                                                else
+                                                    text +=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
+                                            }else
+                                                text +=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
+                                        }catch(err){
+                                            if(i == 0)
+                                                text +=`<option value="`+cabin_class[i].value+`" selected>`+cabin_class[i].name+`</option>`;
+                                            else
+                                                text +=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
+                                        }
+                                    }
+                                 text +=`</select>
+                                    </div>
+                                </div>
+                                <h5 style="text-align:left;color:`+text_color+`">If supported by airlines</h5>
+                            </div>
+                       </div>
+                   </div>
                 </div>
             </div>`;
         }
@@ -580,39 +644,39 @@ function add_multi_city(type){
                 <div class="col-lg-12" style="text-align:left; margin-top:10px; margin-bottom:10px;">
                     <h5 style="color:`+text_color+`;">Flight-`+counter_airline_search+`</h5>
                 </div>
-                    <div class="col-lg-8">
-                        <div class="row">
-                            <div class="col-lg-6 col-md-6 col-sm-6 airline-from">
-                                <span class="span-search-ticket"><i class="fas fa-plane-departure"></i> From</span>
-                                    <div class="input-container-search-ticket">`;
-                                        if(type == 'search'){
-                                            if(airline_request.destination[counter_airline_search - 1] != null)
-                                                text+=`
-                                                <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+airline_request.origin[counter_airline_search - 1]+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
-                                            else{
-                                                temp = document.getElementById('destination_id_flight'+(counter_airline_search-1).toString()).value;
-                                                text+=`
-                                                <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+temp+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
-                                            }
-                                        }else if(counter_airline_search==1)
-                                            text+=`
-                                            <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+airline_origin+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
-                                        else{
-                                            temp = document.getElementById('destination_id_flight'+(counter_airline_search-1).toString()).value;
-                                            text+=`
-                                            <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+temp+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
-                                            //<select class="form-control" style="width:100%;" id="origin_id_flight`+counter_airline_search+`" placeholder="City or Airport or IATA" onchange="airline_autocomplete('origin', `+counter_airline_search+`)">
-                                        }
-                                text+=`
-                                    </div>
-                                </div>
-                                <div class="image-change-route-vertical">
-                                    <h4><a class="switch_a" href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
-                                </div>
-                                <div class="image-change-route-horizontal">
-                                    <h4><a class="horizontal-arrow" href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5; color:`+text_color+`;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon"><i class="fas fa-exchange-alt icon-change"></i></i></a></h4>
-                                </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6 airline-to" style="z-index:5;">
+                <div class="col-lg-12">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6 airline-from">
+                        <span class="span-search-ticket"><i class="fas fa-plane-departure"></i> From</span>
+                            <div class="input-container-search-ticket">`;
+                                if(type == 'search'){
+                                    if(airline_request.destination[counter_airline_search - 1] != null)
+                                        text+=`
+                                        <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+airline_request.origin[counter_airline_search - 1]+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                    else{
+                                        temp = document.getElementById('destination_id_flight'+(counter_airline_search-1).toString()).value;
+                                        text+=`
+                                        <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+temp+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                    }
+                                }else if(counter_airline_search==1)
+                                    text+=`
+                                    <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+airline_origin+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                else{
+                                    temp = document.getElementById('destination_id_flight'+(counter_airline_search-1).toString()).value;
+                                    text+=`
+                                    <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+temp+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                    //<select class="form-control" style="width:100%;" id="origin_id_flight`+counter_airline_search+`" placeholder="City or Airport or IATA" onchange="airline_autocomplete('origin', `+counter_airline_search+`)">
+                                }
+                        text+=`
+                            </div>
+                        </div>
+                        <div class="image-change-route-vertical">
+                            <h4><a class="switch_a" href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                        </div>
+                        <div class="image-change-route-horizontal">
+                            <h4><a class="horizontal-arrow" href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5; color:`+text_color+`;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon"><i class="fas fa-exchange-alt icon-change"></i></i></a></h4>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 airline-to" style="z-index:5;">
                             <span class="span-search-ticket"><i class="fas fa-plane-arrival"></i> To</span>
                             <div class="input-container-search-ticket">`;
                                 if(type == 'search'){
@@ -639,10 +703,71 @@ function add_multi_city(type){
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4">
-                    <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>
-                    <div class="input-container-search-ticket">
-                        <input type="text" class="form-control" name="airline_departure`+counter_airline_search+`" id="airline_departure`+counter_airline_search+`" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly style="background:white;">
+                <div class="col-lg-12">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>
+                            <div class="input-container-search-ticket">
+                                <input type="text" class="form-control" name="airline_departure`+counter_airline_search+`" id="airline_departure`+counter_airline_search+`" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly style="background:white;">
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6">
+                            <span class="span-search-ticket">Class</span>`;
+                            if(template == 1){
+                                text += `
+                                <div class="input-container-search-ticket btn-group">
+                                    <div class="form-select" id="default-select`+counter_airline_search+`">
+                                        <select id="cabin_class_flight`+counter_airline_search+`" name="cabin_class_flight`+counter_airline_search+`" data-live-search="true" size="4">`;
+                            }
+                            else if(template == 2){
+                                text += `
+                                <div>
+                                    <div class="form-select" id="default-select`+counter_airline_search+`">
+                                        <select id="cabin_class_flight`+counter_airline_search+`" name="cabin_class_flight`+counter_airline_search+`" data-live-search="true" size="4" class="form-control">`;
+                            }
+                            else if(template == 3){
+                               text += `
+                               <div class="form-group">
+                                    <div class="default-select" id="default-select`+counter_airline_search+`">
+                                        <select id="cabin_class_flight`+counter_airline_search+`" name="cabin_class_flight`+counter_airline_search+`" data-live-search="true" size="4">`;
+                            }
+                            else if(template == 4){
+                                text += `
+                                <div class="input-container-search-ticket btn-group">
+                                    <div class="form-select">
+                                        <select class="nice-select-default" id="cabin_class_flight`+counter_airline_search+`" name="cabin_class_flight`+counter_airline_search+`">`;
+                            }
+                            else if(template == 5 || template == 6){
+                                text += `
+                                <div>
+                                    <select class="form-control" id="cabin_class_flight`+counter_airline_search+`" name="cabin_class_flight`+counter_airline_search+`">`;
+                            }
+                            for(i in cabin_class){
+                                try{
+                                    if(type == 'search'){
+                                        if(airline_request.cabin_class_list[counter_airline_search-1] == cabin_class[i].value)
+                                            text +=`<option value="`+cabin_class[i].value+`" selected>`+cabin_class[i].name+`</option>`;
+                                        else
+                                            text +=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
+                                    }else if(i == 0){
+                                        if(type == 'home')
+                                            text +=`<option value="`+cabin_class[i].value+`" selected>`+cabin_class[i].name+`</option>`;
+                                        else
+                                            text +=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
+                                    }else
+                                        text +=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
+                                }catch(err){
+                                    if(i == 0)
+                                        text +=`<option value="`+cabin_class[i].value+`" selected>`+cabin_class[i].name+`</option>`;
+                                    else
+                                        text +=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
+                                }
+                            }
+                             text +=`</select>
+                                </div>
+                            </div>
+                            <h5 style="text-align:left;color:`+text_color+`">If supported by airlines</h5>
+                        </div>
                     </div>
                 </div>
             </div>`;
@@ -653,33 +778,33 @@ function add_multi_city(type){
                 <div class="col-lg-12" style="text-align:left; margin-top:10px; margin-bottom:10px;">
                     <h5 style="color:`+text_color+`;">Flight-`+counter_airline_search+`</h5>
                 </div>
-                    <div class="col-lg-12">
-                        <div class="row">
-                            <div class="col-lg-6 col-md-6 col-sm-6 airline-from">
-                                <span class="span-search-ticket"><i class="fas fa-plane-departure"></i> From</span>
-                                    <div class="form-group">`;
-                                        if(type == 'search'){
-                                            if(airline_request.destination[counter_airline_search - 1] != null)
-                                                text+=`
-                                                <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+airline_request.origin[counter_airline_search - 1]+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
-                                            else{
-                                                temp = document.getElementById('destination_id_flight'+(counter_airline_search-1).toString()).value;
-                                                text+=`
-                                                <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+temp+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
-                                            }
-                                        }else if(counter_airline_search==1)
-                                            text+=`
-                                            <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+airline_origin+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
-                                        else{
-                                            temp = document.getElementById('destination_id_flight'+(counter_airline_search-1).toString()).value;
-                                            text+=`
-                                            <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+temp+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
-                                            //<select class="form-control" style="width:100%;" id="origin_id_flight`+counter_airline_search+`" placeholder="City or Airport or IATA" onchange="airline_autocomplete('origin', `+counter_airline_search+`)">
-                                        }
-                                text+=`
-                                    </div>
-                                </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6 airline-to" style="z-index:5;">
+                <div class="col-lg-12">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6 airline-from">
+                        <span class="span-search-ticket"><i class="fas fa-plane-departure"></i> From</span>
+                            <div class="form-group">`;
+                                if(type == 'search'){
+                                    if(airline_request.destination[counter_airline_search - 1] != null)
+                                        text+=`
+                                        <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+airline_request.origin[counter_airline_search - 1]+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                    else{
+                                        temp = document.getElementById('destination_id_flight'+(counter_airline_search-1).toString()).value;
+                                        text+=`
+                                        <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+temp+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                    }
+                                }else if(counter_airline_search==1)
+                                    text+=`
+                                    <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+airline_origin+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                else{
+                                    temp = document.getElementById('destination_id_flight'+(counter_airline_search-1).toString()).value;
+                                    text+=`
+                                    <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+temp+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                    //<select class="form-control" style="width:100%;" id="origin_id_flight`+counter_airline_search+`" placeholder="City or Airport or IATA" onchange="airline_autocomplete('origin', `+counter_airline_search+`)">
+                                }
+                        text+=`
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 airline-to" style="z-index:5;">
                             <h3 class="image-change-route-vertical"><a class="switch_a" href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5;" id="flight_switch`+counter_airline_search+`"><i class="fas fa-exchange-alt"></i></a></h3>
                             <h3 class="image-change-route-horizontal"><a class="switch_a" href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5;" id="flight_switch`+counter_airline_search+`"><i class="fas fa-exchange-alt icon-change"></i></a></h3>
                             <span class="span-search-ticket"><i class="fas fa-plane-arrival"></i> To</span>
@@ -709,9 +834,70 @@ function add_multi_city(type){
                     </div>
                 </div>
                 <div class="col-lg-12">
-                    <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>
-                    <div class="form-group">
-                        <input type="text" class="form-control" name="airline_departure`+counter_airline_search+`" id="airline_departure`+counter_airline_search+`" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly style="background:white;">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>
+                            <div class="form-group">
+                                <input type="text" class="form-control" name="airline_departure`+counter_airline_search+`" id="airline_departure`+counter_airline_search+`" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly style="background:white;">
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6">
+                            <span class="span-search-ticket">Class</span>`;
+                            if(template == 1){
+                                text += `
+                                <div class="input-container-search-ticket btn-group">
+                                    <div class="form-select" id="default-select`+counter_airline_search+`">
+                                        <select id="cabin_class_flight`+counter_airline_search+`" name="cabin_class_flight`+counter_airline_search+`" data-live-search="true" size="4">`;
+                            }
+                            else if(template == 2){
+                                text += `
+                                <div>
+                                    <div class="form-select" id="default-select`+counter_airline_search+`">
+                                        <select id="cabin_class_flight`+counter_airline_search+`" name="cabin_class_flight`+counter_airline_search+`" data-live-search="true" size="4" class="form-control">`;
+                            }
+                            else if(template == 3){
+                               text += `
+                               <div class="form-group">
+                                    <div class="default-select" id="default-select`+counter_airline_search+`">
+                                        <select id="cabin_class_flight`+counter_airline_search+`" name="cabin_class_flight`+counter_airline_search+`" data-live-search="true" size="4">`;
+                            }
+                            else if(template == 4){
+                                text += `
+                                <div class="input-container-search-ticket btn-group">
+                                    <div class="form-select">
+                                        <select class="nice-select-default" id="cabin_class_flight`+counter_airline_search+`" name="cabin_class_flight`+counter_airline_search+`">`;
+                            }
+                            else if(template == 5 || template == 6){
+                                text += `
+                                <div>
+                                    <select class="form-control" id="cabin_class_flight`+counter_airline_search+`" name="cabin_class_flight`+counter_airline_search+`">`;
+                            }
+                            for(i in cabin_class){
+                                try{
+                                    if(type == 'search'){
+                                        if(airline_request.cabin_class_list[counter_airline_search-1] == cabin_class[i].value)
+                                            text +=`<option value="`+cabin_class[i].value+`" selected>`+cabin_class[i].name+`</option>`;
+                                        else
+                                            text +=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
+                                    }else if(i == 0){
+                                        if(type == 'home')
+                                            text +=`<option value="`+cabin_class[i].value+`" selected>`+cabin_class[i].name+`</option>`;
+                                        else
+                                            text +=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
+                                    }else
+                                        text +=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
+                                }catch(err){
+                                    if(i == 0)
+                                        text +=`<option value="`+cabin_class[i].value+`" selected>`+cabin_class[i].name+`</option>`;
+                                    else
+                                        text +=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
+                                }
+                            }
+                             text +=`</select>
+                                </div>
+                            </div>
+                            <h5 style="text-align:left;color:`+text_color+`">If supported by airlines</h5>
+                        </div>
                     </div>
                 </div>
             </div>`;
@@ -722,34 +908,34 @@ function add_multi_city(type){
                 <div class="col-lg-12" style="text-align:left; margin-top:10px; margin-bottom:10px;">
                     <h5 style="color:`+text_color+`;">Flight-`+counter_airline_search+`</h5>
                 </div>
-                    <div class="col-lg-8">
-                        <div class="row">
-                            <div class="col-lg-6 col-md-6 col-sm-6 airline-from">
-                                <span class="span-search-ticket">From</span>
-                                    <div class="input-container-search-ticket">
-                                        <i class="fas fa-plane-departure" style="padding:14px; height: 43px; width: 45px; background:`+color+`; color:`+text_color+`;"></i>`;
-                                        if(type == 'search'){
-                                            if(airline_request.destination[counter_airline_search - 1] != null)
-                                                text+=`
-                                                <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+airline_request.origin[counter_airline_search - 1]+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
-                                            else{
-                                                temp = document.getElementById('destination_id_flight'+(counter_airline_search-1).toString()).value;
-                                                text+=`
-                                                <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+temp+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
-                                            }
-                                        }else if(counter_airline_search==1)
-                                            text+=`
-                                            <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+airline_origin+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
-                                        else{
-                                            temp = document.getElementById('destination_id_flight'+(counter_airline_search-1).toString()).value;
-                                            text+=`
-                                            <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+temp+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
-                                            //<select class="form-control" style="width:100%;" id="origin_id_flight`+counter_airline_search+`" placeholder="City or Airport or IATA" onchange="airline_autocomplete('origin', `+counter_airline_search+`)">
-                                        }
-                                text+=`
-                                    </div>
-                                </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6 airline-to" style="z-index:5;">
+                <div class="col-lg-12">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6 airline-from">
+                        <span class="span-search-ticket">From</span>
+                            <div class="input-container-search-ticket">
+                                <i class="fas fa-plane-departure" style="padding:14px; height: 43px; width: 45px; background:`+color+`; color:`+text_color+`;"></i>`;
+                                if(type == 'search'){
+                                    if(airline_request.destination[counter_airline_search - 1] != null)
+                                        text+=`
+                                        <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+airline_request.origin[counter_airline_search - 1]+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                    else{
+                                        temp = document.getElementById('destination_id_flight'+(counter_airline_search-1).toString()).value;
+                                        text+=`
+                                        <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+temp+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                    }
+                                }else if(counter_airline_search==1)
+                                    text+=`
+                                    <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+airline_origin+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                else{
+                                    temp = document.getElementById('destination_id_flight'+(counter_airline_search-1).toString()).value;
+                                    text+=`
+                                    <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+temp+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                    //<select class="form-control" style="width:100%;" id="origin_id_flight`+counter_airline_search+`" placeholder="City or Airport or IATA" onchange="airline_autocomplete('origin', `+counter_airline_search+`)">
+                                }
+                        text+=`
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 airline-to" style="z-index:5;">
                             <h4 class="image-change-route-vertical"><a class="switch_a" href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5;" id="flight_switch`+counter_airline_search+`"><span class="icon icon-exchange"></span></a></h4>
                             <h4 class="image-change-route-horizontal"><a class="horizontal-arrow" href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5;" id="flight_switch`+counter_airline_search+`"><span class="icon icon-exchange"></span></a></h4>
                             <span class="span-search-ticket">To</span>
@@ -779,11 +965,72 @@ function add_multi_city(type){
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4">
-                    <span class="span-search-ticket">Departure</span>
-                    <div class="input-container-search-ticket">
-                        <i class="fas fa-calendar-alt" style="padding:14px; height: 43px; width: 45px; background:`+color+`; color:`+text_color+`;"></i>
-                        <input type="text" class="form-control" name="airline_departure`+counter_airline_search+`" id="airline_departure`+counter_airline_search+`" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly style="background:white;">
+                <div class="col-lg-12">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <span class="span-search-ticket">Departure</span>
+                            <div class="input-container-search-ticket">
+                                <i class="fas fa-calendar-alt" style="padding:14px; height: 43px; width: 45px; background:`+color+`; color:`+text_color+`;"></i>
+                                <input type="text" class="form-control" name="airline_departure`+counter_airline_search+`" id="airline_departure`+counter_airline_search+`" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly style="background:white;">
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6">
+                            <span class="span-search-ticket">Class</span>`;
+                            if(template == 1){
+                                text += `
+                                <div class="input-container-search-ticket btn-group">
+                                    <div class="form-select" id="default-select`+counter_airline_search+`">
+                                        <select id="cabin_class_flight`+counter_airline_search+`" name="cabin_class_flight`+counter_airline_search+`" data-live-search="true" size="4">`;
+                            }
+                            else if(template == 2){
+                                text += `
+                                <div>
+                                    <div class="form-select" id="default-select`+counter_airline_search+`">
+                                        <select id="cabin_class_flight`+counter_airline_search+`" name="cabin_class_flight`+counter_airline_search+`" data-live-search="true" size="4" class="form-control">`;
+                            }
+                            else if(template == 3){
+                               text += `
+                               <div class="form-group">
+                                    <div class="default-select" id="default-select`+counter_airline_search+`">
+                                        <select id="cabin_class_flight`+counter_airline_search+`" name="cabin_class_flight`+counter_airline_search+`" data-live-search="true" size="4">`;
+                            }
+                            else if(template == 4){
+                                text += `
+                                <div class="input-container-search-ticket btn-group">
+                                    <div class="form-select">
+                                        <select class="nice-select-default" id="cabin_class_flight`+counter_airline_search+`" name="cabin_class_flight`+counter_airline_search+`">`;
+                            }
+                            else if(template == 5 || template == 6){
+                                text += `
+                                <div>
+                                    <select class="form-control" id="cabin_class_flight`+counter_airline_search+`" name="cabin_class_flight`+counter_airline_search+`">`;
+                            }
+                            for(i in cabin_class){
+                                try{
+                                    if(type == 'search'){
+                                        if(airline_request.cabin_class_list[counter_airline_search-1] == cabin_class[i].value)
+                                            text +=`<option value="`+cabin_class[i].value+`" selected>`+cabin_class[i].name+`</option>`;
+                                        else
+                                            text +=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
+                                    }else if(i == 0){
+                                        if(type == 'home')
+                                            text +=`<option value="`+cabin_class[i].value+`" selected>`+cabin_class[i].name+`</option>`;
+                                        else
+                                            text +=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
+                                    }else
+                                        text +=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
+                                }catch(err){
+                                    if(i == 0)
+                                        text +=`<option value="`+cabin_class[i].value+`" selected>`+cabin_class[i].name+`</option>`;
+                                    else
+                                        text +=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
+                                }
+                            }
+                             text +=`</select>
+                                </div>
+                            </div>
+                            <h5 style="text-align:left;color:`+text_color+`">If supported by airlines</h5>
+                        </div>
                     </div>
                 </div>
             </div>`;
@@ -794,37 +1041,37 @@ function add_multi_city(type){
                 <div class="col-lg-12" style="text-align:left; margin-top:10px; margin-bottom:10px;">
                     <h5 style="color:`+text_color+`;">Flight-`+counter_airline_search+`</h5>
                 </div>
-                    <div class="col-lg-8">
-                        <div class="row">
-                            <div class="col-lg-6 col-md-6 col-sm-6 airline-from">
-                                <span class="span-search-ticket"><i class="fas fa-plane-departure"></i> From</span>
-                                        <div class="input-container-search-ticket">`;
-                                        if(type == 'search'){
-                                            if(airline_request.destination[counter_airline_search - 1] != null)
-                                                text+=`
-                                                <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+airline_request.origin[counter_airline_search - 1]+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
-                                            else{
-                                                temp = document.getElementById('destination_id_flight'+(counter_airline_search-1).toString()).value;
-                                                text+=`
-                                                <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+temp+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
-                                            }
-                                        }else if(counter_airline_search==1)
-                                            text+=`
-                                            <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+airline_origin+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
-                                        else{
-                                            temp = document.getElementById('destination_id_flight'+(counter_airline_search-1).toString()).value;
-                                            text+=`
-                                            <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+temp+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
-                                            //<select class="form-control" style="width:100%;" id="origin_id_flight`+counter_airline_search+`" placeholder="City or Airport or IATA" onchange="airline_autocomplete('origin', `+counter_airline_search+`)">
-                                        }
+                <div class="col-lg-12">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6 airline-from">
+                            <span class="span-search-ticket"><i class="fas fa-plane-departure"></i> From</span>
+                            <div class="input-container-search-ticket">`;
+                            if(type == 'search'){
+                                if(airline_request.destination[counter_airline_search - 1] != null)
+                                    text+=`
+                                    <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+airline_request.origin[counter_airline_search - 1]+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                else{
+                                    temp = document.getElementById('destination_id_flight'+(counter_airline_search-1).toString()).value;
+                                    text+=`
+                                    <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+temp+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                }
+                            }else if(counter_airline_search==1)
                                 text+=`
-                                    </div>
-                                </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6 airline-to" style="z-index:5;">
-                                <h4 class="image-change-route-vertical3"><a class="switch_a" href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
-                                <h4 class="image-change-route-horizontal3"><a class="horizontal-arrow" href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt icon-change"></i></i></a></h4>
-                                <span class="span-search-ticket"><i class="fas fa-plane-arrival"></i> To</span>
-                                    <div class="input-container-search-ticket">`;
+                                <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+airline_origin+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                            else{
+                                temp = document.getElementById('destination_id_flight'+(counter_airline_search-1).toString()).value;
+                                text+=`
+                                <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+temp+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                //<select class="form-control" style="width:100%;" id="origin_id_flight`+counter_airline_search+`" placeholder="City or Airport or IATA" onchange="airline_autocomplete('origin', `+counter_airline_search+`)">
+                            }
+                            text+=`
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 airline-to" style="z-index:5;">
+                            <h4 class="image-change-route-vertical3"><a class="switch_a" href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                            <h4 class="image-change-route-horizontal3"><a class="horizontal-arrow" href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt icon-change"></i></i></a></h4>
+                            <span class="span-search-ticket"><i class="fas fa-plane-arrival"></i> To</span>
+                                <div class="input-container-search-ticket">`;
                                 if(type == 'search'){
                                     if(airline_request.destination[counter_airline_search - 1] != null)
                                         text+=`
@@ -849,10 +1096,71 @@ function add_multi_city(type){
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4">
-                    <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>
-                    <div class="input-container-search-ticket">
-                        <input type="text" class="form-control" name="airline_departure`+counter_airline_search+`" id="airline_departure`+counter_airline_search+`" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly style="background:white;" >
+                <div class="col-lg-12">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>
+                            <div class="input-container-search-ticket">
+                                <input type="text" class="form-control" name="airline_departure`+counter_airline_search+`" id="airline_departure`+counter_airline_search+`" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly style="background:white;" >
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6">
+                            <span class="span-search-ticket">Class</span>`;
+                            if(template == 1){
+                                text += `
+                                <div class="input-container-search-ticket btn-group">
+                                    <div class="form-select" id="default-select`+counter_airline_search+`">
+                                        <select id="cabin_class_flight`+counter_airline_search+`" name="cabin_class_flight`+counter_airline_search+`" data-live-search="true" size="4">`;
+                            }
+                            else if(template == 2){
+                                text += `
+                                <div>
+                                    <div class="form-select" id="default-select`+counter_airline_search+`">
+                                        <select id="cabin_class_flight`+counter_airline_search+`" name="cabin_class_flight`+counter_airline_search+`" data-live-search="true" size="4" class="form-control">`;
+                            }
+                            else if(template == 3){
+                               text += `
+                               <div class="form-group">
+                                    <div class="default-select" id="default-select`+counter_airline_search+`">
+                                        <select id="cabin_class_flight`+counter_airline_search+`" name="cabin_class_flight`+counter_airline_search+`" data-live-search="true" size="4">`;
+                            }
+                            else if(template == 4){
+                                text += `
+                                <div class="input-container-search-ticket btn-group">
+                                    <div class="form-select">
+                                        <select class="nice-select-default" id="cabin_class_flight`+counter_airline_search+`" name="cabin_class_flight`+counter_airline_search+`">`;
+                            }
+                            else if(template == 5 || template == 6){
+                                text += `
+                                <div>
+                                    <select class="form-control" id="cabin_class_flight`+counter_airline_search+`" name="cabin_class_flight`+counter_airline_search+`">`;
+                            }
+                            for(i in cabin_class){
+                                try{
+                                    if(type == 'search'){
+                                        if(airline_request.cabin_class_list[counter_airline_search-1] == cabin_class[i].value)
+                                            text +=`<option value="`+cabin_class[i].value+`" selected>`+cabin_class[i].name+`</option>`;
+                                        else
+                                            text +=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
+                                    }else if(i == 0){
+                                        if(type == 'home')
+                                            text +=`<option value="`+cabin_class[i].value+`" selected>`+cabin_class[i].name+`</option>`;
+                                        else
+                                            text +=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
+                                    }else
+                                        text +=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
+                                }catch(err){
+                                    if(i == 0)
+                                        text +=`<option value="`+cabin_class[i].value+`" selected>`+cabin_class[i].name+`</option>`;
+                                    else
+                                        text +=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
+                                }
+                            }
+                             text +=`</select>
+                                </div>
+                            </div>
+                            <h5 style="text-align:left;color:`+text_color+`">If supported by airlines</h5>
+                        </div>
                     </div>
                 </div>
             </div>`;
@@ -864,46 +1172,46 @@ function add_multi_city(type){
                     <div class="col-lg-12" style="text-align:left; margin-top:10px; margin-bottom:10px;">
                         <h5 style="color:`+text_color+`">Flight-`+counter_airline_search+`</h5>
                     </div>
-                        <div class="col-lg-8">
-                            <div class="row">
-                                <div class="col-lg-6 col-md-6 airline-from">
-                                    <span class="span-search-ticket"><i class="fas fa-plane-departure"></i> From</span>
-                                        <div class="input-container-search-ticket">
-                                            <div class="form-select">`;
-                                            if(type == 'search'){
-                                                if(airline_request.destination[counter_airline_search - 1] != null)
-                                                    text+=`
-                                                    <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+airline_request.origin[counter_airline_search - 1]+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
-                                                else{
-                                                    temp = document.getElementById('destination_id_flight'+(counter_airline_search-1).toString()).value;
-                                                    text+=`
-                                                    <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+temp+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
-                                                }
-                                            }else if(counter_airline_search==1)
-                                                try{
-                                                    text+=`
-                                                    <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+airline_request.origin[counter_airline_search - 1]+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
-                                                }catch(err){
-                                                    text+=`
-                                                    <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+airline_origin+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
-                                                }
-                                            else{
-                                                temp = document.getElementById('destination_id_flight'+(counter_airline_search-1).toString()).value;
-                                                text+=`
-                                                <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+temp+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
-                                                //<select class="form-control" style="width:100%;" id="origin_id_flight`+counter_airline_search+`" placeholder="City or Airport or IATA" onchange="airline_autocomplete('origin', `+counter_airline_search+`)">
-                                            }
-                                    text+=`
-                                            </div>
-                                        </div>
+                    <div class="col-lg-12">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 airline-from">
+                                <span class="span-search-ticket"><i class="fas fa-plane-departure"></i> From</span>
+                                <div class="input-container-search-ticket">
+                                    <div class="form-select">`;
+                                    if(type == 'search'){
+                                        if(airline_request.destination[counter_airline_search - 1] != null)
+                                            text+=`
+                                            <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+airline_request.origin[counter_airline_search - 1]+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                        else{
+                                            temp = document.getElementById('destination_id_flight'+(counter_airline_search-1).toString()).value;
+                                            text+=`
+                                            <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+temp+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                        }
+                                    }else if(counter_airline_search==1)
+                                        try{
+                                            text+=`
+                                            <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+airline_request.origin[counter_airline_search - 1]+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                        }catch(err){
+                                            text+=`
+                                            <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+airline_origin+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                        }
+                                    else{
+                                        temp = document.getElementById('destination_id_flight'+(counter_airline_search-1).toString()).value;
+                                        text+=`
+                                        <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+temp+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                        //<select class="form-control" style="width:100%;" id="origin_id_flight`+counter_airline_search+`" placeholder="City or Airport or IATA" onchange="airline_autocomplete('origin', `+counter_airline_search+`)">
+                                    }
+                            text+=`
                                     </div>
-                                    <div class="image-change-route-vertical">
-                                        <h4><a class="switch_a" href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5; color:black;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
-                                    </div>
-                                    <div class="image-change-route-horizontal">
-                                        <h4><a class="horizontal-arrow" href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5; color:`+text_color+`;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon"><i class="fas fa-exchange-alt icon-change"></i></i></a></h4>
-                                    </div>
-                                <div class="col-lg-6 col-md-6 airline-to" style="z-index:5;">
+                                </div>
+                            </div>
+                            <div class="image-change-route-vertical">
+                                <h4><a class="switch_a" href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5; color:black;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                            </div>
+                            <div class="image-change-route-horizontal">
+                                <h4><a class="horizontal-arrow" href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5; color:`+text_color+`;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon"><i class="fas fa-exchange-alt icon-change"></i></i></a></h4>
+                            </div>
+                            <div class="col-lg-6 col-md-6 airline-to" style="z-index:5;">
                                 <span class="span-search-ticket"><i class="fas fa-plane-arrival"></i> To</span>
                                 <div class="input-container-search-ticket">
                                     <div class="form-select">`;
@@ -931,10 +1239,71 @@ function add_multi_city(type){
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4">
-                        <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>
-                        <div class="input-container-search-ticket">
-                            <input type="text" class="form-control" name="airline_departure`+counter_airline_search+`" id="airline_departure`+counter_airline_search+`" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly style="background:white;">
+                    <div class="col-lg-12">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>
+                                <div class="input-container-search-ticket">
+                                    <input type="text" class="form-control" name="airline_departure`+counter_airline_search+`" id="airline_departure`+counter_airline_search+`" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly style="background:white;">
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6">
+                                <span class="span-search-ticket">Class</span>`;
+                                if(template == 1){
+                                    text += `
+                                    <div class="input-container-search-ticket btn-group">
+                                        <div class="form-select" id="default-select`+counter_airline_search+`">
+                                            <select id="cabin_class_flight`+counter_airline_search+`" name="cabin_class_flight`+counter_airline_search+`" data-live-search="true" size="4">`;
+                                }
+                                else if(template == 2){
+                                    text += `
+                                    <div>
+                                        <div class="form-select" id="default-select`+counter_airline_search+`">
+                                            <select id="cabin_class_flight`+counter_airline_search+`" name="cabin_class_flight`+counter_airline_search+`" data-live-search="true" size="4" class="form-control">`;
+                                }
+                                else if(template == 3){
+                                   text += `
+                                   <div class="form-group">
+                                        <div class="default-select" id="default-select`+counter_airline_search+`">
+                                            <select id="cabin_class_flight`+counter_airline_search+`" name="cabin_class_flight`+counter_airline_search+`" data-live-search="true" size="4">`;
+                                }
+                                else if(template == 4){
+                                    text += `
+                                    <div class="input-container-search-ticket btn-group">
+                                        <div class="form-select">
+                                            <select class="nice-select-default" id="cabin_class_flight`+counter_airline_search+`" name="cabin_class_flight`+counter_airline_search+`">`;
+                                }
+                                else if(template == 5 || template == 6){
+                                    text += `
+                                    <div>
+                                        <select class="form-control" id="cabin_class_flight`+counter_airline_search+`" name="cabin_class_flight`+counter_airline_search+`">`;
+                                }
+                                for(i in cabin_class){
+                                    try{
+                                        if(type == 'search'){
+                                            if(airline_request.cabin_class_list[counter_airline_search-1] == cabin_class[i].value)
+                                                text +=`<option value="`+cabin_class[i].value+`" selected>`+cabin_class[i].name+`</option>`;
+                                            else
+                                                text +=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
+                                        }else if(i == 0){
+                                            if(type == 'home')
+                                                text +=`<option value="`+cabin_class[i].value+`" selected>`+cabin_class[i].name+`</option>`;
+                                            else
+                                                text +=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
+                                        }else
+                                            text +=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
+                                    }catch(err){
+                                        if(i == 0)
+                                            text +=`<option value="`+cabin_class[i].value+`" selected>`+cabin_class[i].name+`</option>`;
+                                        else
+                                            text +=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
+                                    }
+                                }
+                                 text +=`</select>
+                                    </div>
+                                </div>
+                                <h5 style="text-align:left;color:`+text_color+`">If supported by airlines</h5>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -964,20 +1333,44 @@ function add_multi_city(type){
                     min_date = airline_request.departure[counter]
                 else
                     min_date = $('input[name="airline_departure'+(counter_airline_search - 1)+'"]').val()
-            $('input[name="airline_departure'+counter_airline_search+'"]').daterangepicker({
-              singleDatePicker: true,
-              autoUpdateInput: true,
-              opens: 'center',
-              startDate: airline_request.departure[counter_airline_search-1],
-              minDate: min_date,
-              maxDate: moment().subtract(-365, 'days'),
-              showDropdowns: true,
-              locale: {
-                  format: 'DD MMM YYYY',
-              }
+
+            picker_multi_city[counter_airline_search] = new Lightpick({
+                field: document.getElementById('airline_departure'+counter_airline_search),
+                singleDate: true,
+                startDate: airline_request.departure[counter_airline_search-1],
+                minDate: min_date,
+                maxDate: moment().subtract(-1, 'years'),
+                idNumber: counter_airline_search,
+                onSelect: function(date){
+                    onchange_mc_date(this._opts.idNumber);
+                    setTimeout(function(){
+                        $("#origin_id_flight"+parseInt(this._opts.idNumber+1)).focus();
+                    }, 200);
+                }
             });
 
-            $('input[name="airline_departure'+counter_airline_search+'"]').on('apply.daterangepicker', function(ev, picker) {
+            //            $('input[name="airline_departure'+counter_airline_search+'"]').daterangepicker({
+            //              singleDatePicker: true,
+            //              autoUpdateInput: true,
+            //              opens: 'center',
+            //              startDate: airline_request.departure[counter_airline_search-1],
+            //              minDate: min_date,
+            //              maxDate: moment().subtract(-365, 'days'),
+            //              showDropdowns: true,
+            //              locale: {
+            //                  format: 'DD MMM YYYY',
+            //              }
+            //            });
+            //
+            //            $('input[name="airline_departure'+counter_airline_search+'"]').on('apply.daterangepicker', function(ev, picker) {
+            //                setTimeout(function(){
+            //                    $("#origin_id_flight"+counter_airline_search).focus();
+            //                }, 200);
+            //            });
+
+            $('#cabin_class_flight'+counter_airline_search).niceSelect();
+
+            $('#cabin_class_flight'+counter_airline_search).on('change', function() {
                 setTimeout(function(){
                     $("#origin_id_flight"+counter_airline_search).focus();
                 }, 200);
@@ -1002,69 +1395,95 @@ function add_multi_city(type){
                 min_date = moment().format('DD MMM YYYY');
                 pick_date = moment().format('DD MMM YYYY');
             }
-            $('input[name="airline_departure'+counter_airline_search+'"]').daterangepicker({
-              singleDatePicker: true,
-              autoUpdateInput: true,
-              opens: 'center',
-              startDate: pick_date,
-              minDate: min_date,
-              maxDate: moment().subtract(-365, 'days'),
-              showDropdowns: true,
-              locale: {
-                  format: 'DD MMM YYYY',
-              }
-            });
-            $('input[name="airline_departure'+counter_airline_search+'"]').on('apply.daterangepicker', function(ev, picker) {
-                var this_temp_date = ev.currentTarget.id;
-                setTimeout(function(){
-                    $("#origin_id_flight"+parseInt(parseInt(this_temp_date.substr(this_temp_date.length-1,1))+1).toString()).focus();
-                }, 200);
 
-                for(i=0;i<=counter_airline_search;i++){
-                    $('input[name="airline_departure'+i+'"]').on('apply.daterangepicker', function(ev, picker) {
-                        var this_temp_date = ev.currentTarget.id;
-                        setTimeout(function(){
-                            $("#origin_id_flight"+parseInt(parseInt(this_temp_date.substr(this_temp_date.length-1,1))+1).toString()).focus();
-                        }, 200);
-                    });
+            picker_multi_city[counter_airline_search] = new Lightpick({
+                field: document.getElementById('airline_departure'+counter_airline_search),
+                singleDate: true,
+                startDate: pick_date,
+                minDate: min_date,
+                maxDate: moment().subtract(-1, 'years'),
+                idNumber: counter_airline_search,
+                onSelect: function(){
+                    onchange_mc_date(this._opts.idNumber);
+                    setTimeout(function(){
+                        $("#origin_id_flight"+parseInt(this._opts.idNumber+1)).focus();
+                    }, 200);
                 }
+            });
+
+            //            $('input[name="airline_departure'+counter_airline_search+'"]').daterangepicker({
+            //              singleDatePicker: true,
+            //              autoUpdateInput: true,
+            //              opens: 'center',
+            //              startDate: pick_date,
+            //              minDate: min_date,
+            //              maxDate: moment().subtract(-365, 'days'),
+            //              showDropdowns: true,
+            //              locale: {
+            //                  format: 'DD MMM YYYY',
+            //              }
+            //            });
+            //            $('input[name="airline_departure'+counter_airline_search+'"]').on('apply.daterangepicker', function(ev, picker) {
+            //                var this_temp_date = ev.currentTarget.id;
+            //                setTimeout(function(){
+            //                    $("#origin_id_flight"+parseInt(parseInt(this_temp_date.substr(this_temp_date.length-1,1))+1).toString()).focus();
+            //                }, 200);
+            //
+            //                for(i=0;i<=counter_airline_search;i++){
+            //                    $('input[name="airline_departure'+i+'"]').on('apply.daterangepicker', function(ev, picker) {
+            //                        var this_temp_date = ev.currentTarget.id;
+            //                        setTimeout(function(){
+            //                            $("#origin_id_flight"+parseInt(parseInt(this_temp_date.substr(this_temp_date.length-1,1))+1).toString()).focus();
+            //                        }, 200);
+            //                    });
+            //                }
+            //            });
+            $('#cabin_class_flight'+counter_airline_search).niceSelect();
+
+            $('#cabin_class_flight'+counter_airline_search).on('change', function() {
+                setTimeout(function(){
+                    $("#origin_id_flight"+counter_airline_search).focus();
+                }, 200);
             });
         }
 
-        $('input[name="airline_departure'+counter_airline_search+'"]').change(function() {
-            val = parseInt(this.id.replace ( /[^\d.]/g, '' ));
-            for(i=val;i<=counter_airline_search;i++){
-                if(i != val){
-                    min_date = '';
-                    try{
-                        if($("#airline_departure"+(i-1).toString()).val() != undefined){
-                            min_date = $("#airline_departure"+(i-1).toString()).val();
-                            pick_date = $("#airline_departure"+(i).toString()).val();
-                        }else{
-                            min_date = $("#airline_departure").val()
-                            pick_date = $("#airline_departure"+(i).toString()).val();
-                        }
-                        if(moment(pick_date) < moment(pick_date))
-                        pick_date = min_date;
-                    }catch(err){
-                        min_date = $("#airline_departure").val()
-                        pick_date = $("#airline_departure").val()
-                    }
-                    $('input[name="airline_departure'+i+'"]').daterangepicker({
-                      singleDatePicker: true,
-                      autoUpdateInput: true,
-                      opens: 'center',
-                      startDate: pick_date,
-                      minDate: min_date,
-                      maxDate: moment().subtract(-365, 'days'),
-                      showDropdowns: true,
-                      locale: {
-                          format: 'DD MMM YYYY',
-                      }
-                    });
-                }
-            }
-        });
+//        $('input[name="airline_departure'+counter_airline_search+'"]').change(function() {
+//            val = parseInt(this.id.replace ( /[^\d.]/g, '' ));
+//            for(i=val;i<=counter_airline_search;i++){
+//                if(i != val){
+//                    min_date = '';
+//                    try{
+//                        if($("#airline_departure"+(i-1).toString()).val() != undefined){
+//                            min_date = $("#airline_departure"+(i-1).toString()).val();
+//                            pick_date = $("#airline_departure"+(i).toString()).val();
+//                        }else{
+//                            min_date = $("#airline_departure").val()
+//                            pick_date = $("#airline_departure"+(i).toString()).val();
+//                        }
+//                        if(moment(pick_date) < moment(min_date))
+//                            pick_date = min_date;
+//                    }
+//                    catch(err){
+//                        min_date = $("#airline_departure").val()
+//                        pick_date = $("#airline_departure").val()
+//                    }
+//
+//
+//                    $('input[name="airline_departure'+i+'"]').daterangepicker({
+//                      singleDatePicker: true,
+//                      autoUpdateInput: true,
+//                      opens: 'center',
+//                      startDate: pick_date,
+//                      minDate: min_date,
+//                      maxDate: moment().subtract(-365, 'days'),
+//                      showDropdowns: true,
+//                      locale: {
+//                          format: 'DD MMM YYYY',
+//                      }
+//                    });
+//                }
+//            }
+//        });
 
         var temp_origin = new autoComplete({
             selector: '#origin_id_flight'+counter_airline_search,
@@ -9379,5 +9798,44 @@ function get_default_ssr(pax, itinerary, page){
             document.getElementById('included_ssr'+id_co).innerHTML = default_ssr_text;
         }
     }
+}
 
+function onchange_mc_date(val){
+    for(i=val;i<=counter_airline_search;i++){
+        if(i != val){
+            min_date = '';
+            try{
+                if($("#airline_departure"+(i-1).toString()).val() != undefined){
+                    min_date = $("#airline_departure"+(i-1).toString()).val();
+                    pick_date = $("#airline_departure"+(i).toString()).val();
+                }else{
+                    min_date = $("#airline_departure").val()
+                    pick_date = $("#airline_departure"+(i).toString()).val();
+                }
+                if(moment(pick_date) < moment(min_date))
+                    pick_date = min_date;
+            }
+            catch(err){
+                min_date = $("#airline_departure").val()
+                pick_date = $("#airline_departure").val()
+            }
+
+            picker_multi_city[i].destroy();
+            document.getElementById('airline_departure'+i).value = pick_date;
+            picker_multi_city[i] = new Lightpick({
+                field: document.getElementById('airline_departure'+i),
+                singleDate: true,
+                startDate: pick_date,
+                minDate: min_date,
+                maxDate: moment().subtract(-1, 'years'),
+                idNumber: i,
+                onSelect: function(date){
+                    onchange_mc_date(this._opts.idNumber);
+                    setTimeout(function(){
+                        $("#origin_id_flight"+parseInt(this._opts.idNumber+1)).focus();
+                    }, 200);
+                }
+            });
+        }
+    }
 }

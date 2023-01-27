@@ -5984,7 +5984,7 @@ function clear_passenger(type, sequence){
 }
 
 function check_pln_non_tagihan(value){
-    var checknumber = "^[1-5][0-9]{12}$";
+    var checknumber = "^[1-5][0-9]{11,12}$";
     if(value.match(checknumber)!=null){
         return true;
     }else{
@@ -5995,7 +5995,7 @@ function check_pln_non_tagihan(value){
 function check_pln_prepaid(value){
     var checknumber = "^([1-5][0-9]|[0-9])[0-9]{10}$";
     if(value.match(checknumber)!=null){
-        return true
+        return true;
     }else{
         return false;
     }
@@ -6004,19 +6004,55 @@ function check_pln_prepaid(value){
 function check_pln_postpaid(value){
     var checknumber = "^[1-5][0-9]{11}$";
     if(value.match(checknumber)!=null){
-        return true
+        return true;
     }else{
         return false;
     }
 }
 
-function check_evoucher(value){
-    var checknumber = "^08[1-9]{2}[0-9]{5,9}$";
-    if(value.match(checknumber)!=null){
-        return true
-    }else{
-        return false;
+function check_evoucher(value, value2){
+    if(value2 == 'postpaid_mobile_lwa' || value2 == 'postpaid_mobile_gri' || value2 == 'postpaid_mobile_swj')
+    {
+        return true;
     }
+    else
+    {
+        var checknumber = "^08[1-9]{2}[0-9]{5,9}$";
+        var checknumber_bolt = "^999[1-9]{1}[0-9]{5,9}$";
+        if(value.match(checknumber)!=null || value.match(checknumber_bolt)!=null){
+            return true;
+        }else{
+            return false;
+        }
+    }
+}
+
+function check_cable_tv(value){
+    return true;
+}
+
+function check_internet(value){
+    return true;
+}
+
+function check_telephone(value){
+    return true;
+}
+
+function check_insurance(value){
+    return true;
+}
+
+function check_pdam(value){
+    return true;
+}
+
+function check_credit_installment(value){
+    return true;
+}
+
+function check_credit_card(value){
+    return true;
 }
 
 function check_email(value){
@@ -6427,39 +6463,54 @@ function get_payment_espay(order_number_full){
                     else
                         window.location.reload();
                 }else if(payment_acq2[payment_method][selected].save_url == true){
-                    Swal.fire({
-                      title: "Success, continue to payment?",
-                      type: 'success',
-                      showCancelButton: true,
-                      confirmButtonColor: '#3085d6',
-                      cancelButtonColor: 'blue',
-                      confirmButtonText: 'Payment',
-                      cancelButtonText: 'Copy Link'
-                    }).then((result) => {
-                        if (result.value) {
+                    // agent
+                    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
+                        Swal.fire({
+                          title: "Success, continue to payment?",
+                          type: 'success',
+                          showCancelButton: true,
+                          confirmButtonColor: '#3085d6',
+                          cancelButtonColor: 'blue',
+                          confirmButtonText: 'Payment',
+                          cancelButtonText: 'Copy Link'
+                        }).then((result) => {
+                            if (result.value) {
+                                window.location.href = msg.result.response.url;
+
+                            }else{
+                                const el = document.createElement('textarea');
+                                el.value = msg.result.response.url;
+                                document.body.appendChild(el);
+                                el.select();
+                                document.execCommand('copy');
+                                document.body.removeChild(el);
+                                const Toast = Swal.mixin({
+                                  toast: true,
+                                  position: 'top-end',
+                                  showConfirmButton: false,
+                                  timer: 3000
+                                })
+                                Toast.fire({
+                                  type: 'success',
+                                  title: 'Copied Successfully'
+                                })
+                                close_div('payment_acq');
+                                if(window.location.href.split('/')[window.location.href.split('/').length-1] == 'payment')
+                                    window.location.href = '/' + provider_type + '/booking/' + btoa(order_number_id);
+                            }
+                        })
+                    }else{
+                        // b2c
+                        Swal.fire({
+                          title: "Success, continue to payment?",
+                          type: 'success',
+                          confirmButtonColor: '#3085d6',
+                          cancelButtonColor: 'blue',
+                          confirmButtonText: 'Payment',
+                        }).then((result) => {
                             window.location.href = msg.result.response.url;
-
-                        }else{
-                            const el = document.createElement('textarea');
-                            el.value = msg.result.response.url;
-                            document.body.appendChild(el);
-                            el.select();
-                            document.execCommand('copy');
-                            document.body.removeChild(el);
-
-                            const Toast = Swal.mixin({
-                              toast: true,
-                              position: 'top-end',
-                              showConfirmButton: false,
-                              timer: 3000
-                            })
-                            Toast.fire({
-                              type: 'success',
-                              title: 'Copied Successfully'
-                            })
-                            close_div('payment_acq');
-                        }
-                    })
+                        })
+                    }
                 }else
                     window.location.href = '/payment/espay/' + order_number_full;
             }else{
@@ -8759,9 +8810,20 @@ function delete_identity_expired_date(type, id){
 }
 
 function close_upload_attachment(val,type){
-    if(type == '')
+    if(type == ''){
+        try{
+        //from web browser
+            if(document.getElementById('upload_idcard_type').value == '#myModal_attachment2'){
+                btn_webcam = document.getElementById('button_webcam2')
+            }else{
+                btn_webcam = document.getElementById('button_webcam1')
+            }
+            if(btn_webcam.value == 'Close Webcam'){
+                open_webcam();
+            }
+        }catch(err){/* from mobile*/}
         $('#myModal_attachment'+val).modal('hide');
-    else if(type == 'edit')
+    }else if(type == 'edit')
         $('#myModal_attachment_edit'+val).modal('hide');
 }
 

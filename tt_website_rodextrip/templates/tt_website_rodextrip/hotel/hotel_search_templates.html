@@ -1500,37 +1500,77 @@
       var diffDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay)));
       $("#total_night_search").text(diffDays);
 
-      $('input[name="hotel_checkin_checkout"]').daterangepicker({
-          singleDatePicker: false,
-          autoUpdateInput: true,
-          opens: 'center',
-          autoApply: true,
+      var picker_hotel_checkin_checkout = new Lightpick({
+          field: document.getElementById('hotel_checkin_checkout'),
+          singleDate: false,
+          hoveringTooltip: false,
+          minDays: 2,
+          maxDays: 31,
           startDate: $("#hotel_checkin").val(),
           endDate: $("#hotel_checkout").val(),
           minDate: moment(),
           maxDate: moment().subtract(-366, 'days'),
-          showDropdowns: true,
-          locale: {
-              format: 'DD MMM YYYY',
+          nextFocus: '#show_total_pax_hotel',
+          onSelect: function(start, end){
+              moment_checkIn = moment($("#hotel_checkin").val()).format('DD MMM YYYY');
+              moment_checkOut = moment($("#hotel_checkout").val()).format('DD MMM YYYY');
+              moment_start = moment(start).format('DD MMM YYYY');
+              moment_end = moment(end).format('DD MMM YYYY');
+              if(moment_checkIn != moment_start && moment_checkOut != moment_end){
+                  $("#hotel_checkin").val(start.format('DD MMM YYYY'));
+                  $("#hotel_checkout").val(end.format('DD MMM YYYY'));
+              }else{
+                  if(moment_checkIn == moment_start){
+                      $("#hotel_checkin").val(moment_checkIn);
+                  }
+                  if(moment_checkOut != moment_end){
+                      $("#hotel_checkin").val(start.format('DD MMM YYYY'));
+                      $("#hotel_checkout").val(end.format('DD MMM YYYY'));
+                  }
+              }
+          },
+          onClose: function(){
+              oneDay = 24*60*60*1000;
+              firstDate = new Date($("#hotel_checkin").val());
+              secondDate = new Date($("#hotel_checkout").val());
+
+              diffDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay)));
+              $("#total_night_search").text(diffDays);
           }
       });
 
-      $('input[name="hotel_checkin_checkout"]').on('apply.daterangepicker', function(ev, picker) {
-          $(this).val(picker.startDate.format('DD MMM YYYY') + ' - ' + picker.endDate.format('DD MMM YYYY'));
-            $("#hotel_checkin").val(picker.startDate.format('DD MMM YYYY'));
-            $("#hotel_checkout").val(picker.endDate.format('DD MMM YYYY'));
 
-            var oneDay = 24*60*60*1000;
-            var firstDate = new Date($("#hotel_checkin").val());
-            var secondDate = new Date($("#hotel_checkout").val());
+      //$('input[name="hotel_checkin_checkout"]').daterangepicker({
+      //    singleDatePicker: false,
+      //    autoUpdateInput: true,
+      //    opens: 'center',
+      //    autoApply: true,
+      //    startDate: $("#hotel_checkin").val(),
+      //    endDate: $("#hotel_checkout").val(),
+      //    minDate: moment(),
+      //    maxDate: moment().subtract(-366, 'days'),
+      //    showDropdowns: true,
+      //    locale: {
+      //       format: 'DD MMM YYYY',
+      //    }
+      //});
 
-            var diffDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay)));
-            $("#total_night_search").text(diffDays);
-
-            setTimeout(function(){
-                $("#show_total_pax_hotel").click();
-            }, 200);
-      });
+      //$('input[name="hotel_checkin_checkout"]').on('apply.daterangepicker', function(ev, picker) {
+      //   $(this).val(picker.startDate.format('DD MMM YYYY') + ' - ' + picker.endDate.format('DD MMM YYYY'));
+      //      $("#hotel_checkin").val(picker.startDate.format('DD MMM YYYY'));
+      //      $("#hotel_checkout").val(picker.endDate.format('DD MMM YYYY'));
+      //
+      //      var oneDay = 24*60*60*1000;
+      //      var firstDate = new Date($("#hotel_checkin").val());
+      //      var secondDate = new Date($("#hotel_checkout").val());
+      //
+      //      var diffDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay)));
+      //      $("#total_night_search").text(diffDays);
+      //
+      //      setTimeout(function(){
+      //          $("#show_total_pax_hotel").click();
+      //      }, 200);
+      //});
 
         $('#hotel_id_nationality_id').on('select2:close', function (e) {
             setTimeout(function(){

@@ -939,23 +939,27 @@ def get_new_cache(signature, type='all'):
             write_cache(res, "get_holiday_cache", 'cache_web')
             # remove cache airline
             try:
-                os.remove("/var/log/django/file_cache/cache_web/get_list_provider.txt")
+                path = "%s/%s" % (var_log_path('cache_web'), 'get_list_provider.txt')
+                os.remove(path)
             except Exception as e:
                 _logger.error(str(e) + traceback.format_exc())
             try:
-                os.remove("/var/log/django/file_cache/cache_web/get_list_provider_data.txt")
+                path = "%s/%s" % (var_log_path('cache_web'), 'get_list_provider_data.txt')
+                os.remove(path)
             except Exception as e:
                 _logger.error(str(e) + traceback.format_exc())
             try:
-                os.remove("/var/log/django/file_cache/cache_web/get_airline_carriers.txt")
-                airline.get_carriers('', signature)
+                path = "%s/%s" % (var_log_path('cache_web'), 'get_airline_carriers.txt')
+                os.remove(path)
             except:
-                airline.get_carriers('', signature)
+                _logger.info('Error delete file cache get_airline_carriers')
+            airline.get_carriers('', signature)
             try:
-                os.remove("/var/log/django/file_cache/cache_web/get_airline_active_carriers.txt")
-                airline.get_carriers_search('', signature)
+                path = "%s/%s" % (var_log_path('cache_web'), 'get_airline_active_carriers.txt')
+                os.remove(path)
             except:
-                airline.get_carriers_search('', signature)
+                _logger.info('Error delete file cache get_airline_active_carriers')
+            airline.get_carriers_search('', signature)
 
             try:
                 file = open("tt_webservice/static/tt_webservice/phc_city.json", "r")

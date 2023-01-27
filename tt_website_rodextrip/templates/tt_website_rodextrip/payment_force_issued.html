@@ -153,6 +153,7 @@
 </section>
 {% include 'tt_website_rodextrip/footer.html' %}
 <script>
+    provider_type = '{{type}}';
     try{
         get_payment_acq('Issued',passengers.booker.booker_seq_id, '{{order_number}}', 'billing',signature,'{{type}}');
 
