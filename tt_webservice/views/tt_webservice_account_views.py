@@ -1303,7 +1303,7 @@ def set_about_us(request):
                                 filename = "/".join(text)
             else:
                 filename = ''
-            os.remove('%s/' % (path, data[int(request.POST['paragraph_number'])]))
+            os.remove('%s/%s' % (path, data[int(request.POST['paragraph_number'])]))
             data = os.listdir(path)
             while True:
                 if counter == 0 and sequence + '.txt' in data:

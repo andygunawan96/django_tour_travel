@@ -2935,6 +2935,17 @@ function set_cable_tv_div(){
             </div>
         </div>
         `;
+        if($cable_tv_type_name == 'Indovision' || $cable_tv_type_name == 'Indovision Top TV' || $cable_tv_type_name == 'Indovision Oke Vision' || $cable_tv_type_name == 'First Media')
+        {
+            text += `
+                <div class="col-lg-12" style="padding:0px; text-align:left;margin-bottom:10px;">
+                    <span class="span-search-ticket">Payment Amount</span>
+                    <div class="input-container-search-ticket">
+                        <input type="number" class="form-control" name="cable_tv_nominal" id="cable_tv_nominal" placeholder="Nominal" autocomplete="off"/>
+                    </div>
+                </div>
+            `;
+        }
     }
     else if (template == 2){
         text = `
@@ -2945,6 +2956,17 @@ function set_cable_tv_div(){
             </div>
         </div>
         `;
+        if($cable_tv_type_name == 'Indovision' || $cable_tv_type_name == 'Indovision Top TV' || $cable_tv_type_name == 'Indovision Oke Vision' || $cable_tv_type_name == 'First Media')
+        {
+            text += `
+                <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+                    <span class="span-search-ticket">Payment Amount</span>
+                    <div class="input-container-search-ticket">
+                        <input type="number" class="form-control" name="cable_tv_nominal" id="cable_tv_nominal" placeholder="Nominal" autocomplete="off"/>
+                    </div>
+                </div>
+            `;
+        }
     }
     else if (template == 3){
         text = `
@@ -2955,6 +2977,17 @@ function set_cable_tv_div(){
             </div>
         </div>
         `;
+        if($cable_tv_type_name == 'Indovision' || $cable_tv_type_name == 'Indovision Top TV' || $cable_tv_type_name == 'Indovision Oke Vision' || $cable_tv_type_name == 'First Media')
+        {
+            text += `
+                <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+                    <span class="span-search-ticket">Payment Amount</span>
+                    <div class="input-container-search-ticket">
+                        <input type="number" class="form-control" name="cable_tv_nominal" id="cable_tv_nominal" placeholder="Nominal" autocomplete="off"/>
+                    </div>
+                </div>
+            `;
+        }
     }
     else if(template == 4){
         text = `
@@ -2965,6 +2998,17 @@ function set_cable_tv_div(){
             </div>
         </div>
         `;
+        if($cable_tv_type_name == 'Indovision' || $cable_tv_type_name == 'Indovision Top TV' || $cable_tv_type_name == 'Indovision Oke Vision' || $cable_tv_type_name == 'First Media')
+        {
+            text += `
+                <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+                    <span class="span-search-ticket">Payment Amount</span>
+                    <div class="input-container-search-ticket">
+                        <input type="number" class="form-control" name="cable_tv_nominal" id="cable_tv_nominal" placeholder="Nominal" autocomplete="off"/>
+                    </div>
+                </div>
+            `;
+        }
     }
     else if(template == 5){
         text = `
@@ -2975,6 +3019,17 @@ function set_cable_tv_div(){
             </div>
         </div>
         `;
+        if($cable_tv_type_name == 'Indovision' || $cable_tv_type_name == 'Indovision Top TV' || $cable_tv_type_name == 'Indovision Oke Vision' || $cable_tv_type_name == 'First Media')
+        {
+            text += `
+                <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+                    <span class="span-search-ticket">Payment Amount</span>
+                    <div class="input-container-search-ticket">
+                        <input type="number" class="form-control" name="cable_tv_nominal" id="cable_tv_nominal" placeholder="Nominal" autocomplete="off"/>
+                    </div>
+                </div>
+            `;
+        }
     }
     else if(template == 6){
         text = `
@@ -2985,6 +3040,17 @@ function set_cable_tv_div(){
             </div>
         </div>
         `;
+        if($cable_tv_type_name == 'Indovision' || $cable_tv_type_name == 'Indovision Top TV' || $cable_tv_type_name == 'Indovision Oke Vision' || $cable_tv_type_name == 'First Media')
+        {
+            text += `
+                <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+                    <span class="span-search-ticket">Payment Amount</span>
+                    <div class="input-container-search-ticket">
+                        <input type="number" class="form-control" name="cable_tv_nominal" id="cable_tv_nominal" placeholder="Nominal" autocomplete="off"/>
+                    </div>
+                </div>
+            `;
+        }
     }
 
     document.getElementById('cable_tv_div').innerHTML = text;
@@ -3002,6 +3068,17 @@ function set_internet_div(){
             </div>
         </div>
         `;
+        if($internet_type_name == 'CBN' || $internet_type_name == 'Indosatnet' || $internet_type_name == 'Centrinnet')
+        {
+            text += `
+                <div class="col-lg-12" style="padding:0px; text-align:left;margin-bottom:10px;">
+                    <span class="span-search-ticket">Payment Amount</span>
+                    <div class="input-container-search-ticket">
+                        <input type="number" class="form-control" name="internet_nominal" id="internet_nominal" placeholder="Nominal" autocomplete="off"/>
+                    </div>
+                </div>
+            `;
+        }
     }
     else if (template == 2){
         text = `
@@ -3012,6 +3089,17 @@ function set_internet_div(){
             </div>
         </div>
         `;
+        if($internet_type_name == 'CBN' || $internet_type_name == 'Indosatnet' || $internet_type_name == 'Centrinnet')
+        {
+            text += `
+                <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+                    <span class="span-search-ticket">Payment Amount</span>
+                    <div class="input-container-search-ticket">
+                        <input type="number" class="form-control" name="internet_nominal" id="internet_nominal" placeholder="Nominal" autocomplete="off"/>
+                    </div>
+                </div>
+            `;
+        }
     }
     else if (template == 3){
         text = `
@@ -3022,6 +3110,17 @@ function set_internet_div(){
             </div>
         </div>
         `;
+        if($internet_type_name == 'CBN' || $internet_type_name == 'Indosatnet' || $internet_type_name == 'Centrinnet')
+        {
+            text += `
+                <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+                    <span class="span-search-ticket">Payment Amount</span>
+                    <div class="input-container-search-ticket">
+                        <input type="number" class="form-control" name="internet_nominal" id="internet_nominal" placeholder="Nominal" autocomplete="off"/>
+                    </div>
+                </div>
+            `;
+        }
     }
     else if(template == 4){
         text = `
@@ -3032,6 +3131,17 @@ function set_internet_div(){
             </div>
         </div>
         `;
+        if($internet_type_name == 'CBN' || $internet_type_name == 'Indosatnet' || $internet_type_name == 'Centrinnet')
+        {
+            text += `
+                <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+                    <span class="span-search-ticket">Payment Amount</span>
+                    <div class="input-container-search-ticket">
+                        <input type="number" class="form-control" name="internet_nominal" id="internet_nominal" placeholder="Nominal" autocomplete="off"/>
+                    </div>
+                </div>
+            `;
+        }
     }
     else if(template == 5){
         text = `
@@ -3042,6 +3152,17 @@ function set_internet_div(){
             </div>
         </div>
         `;
+        if($internet_type_name == 'CBN' || $internet_type_name == 'Indosatnet' || $internet_type_name == 'Centrinnet')
+        {
+            text += `
+                <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+                    <span class="span-search-ticket">Payment Amount</span>
+                    <div class="input-container-search-ticket">
+                        <input type="number" class="form-control" name="internet_nominal" id="internet_nominal" placeholder="Nominal" autocomplete="off"/>
+                    </div>
+                </div>
+            `;
+        }
     }
     else if(template == 6){
         text = `
@@ -3052,6 +3173,17 @@ function set_internet_div(){
             </div>
         </div>
         `;
+        if($internet_type_name == 'CBN' || $internet_type_name == 'Indosatnet' || $internet_type_name == 'Centrinnet')
+        {
+            text += `
+                <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+                    <span class="span-search-ticket">Payment Amount</span>
+                    <div class="input-container-search-ticket">
+                        <input type="number" class="form-control" name="internet_nominal" id="internet_nominal" placeholder="Nominal" autocomplete="off"/>
+                    </div>
+                </div>
+            `;
+        }
     }
 
     document.getElementById('internet_div').innerHTML = text;
@@ -3136,6 +3268,14 @@ function set_insurance_div(){
             </div>
         </div>
         `;
+        text += `
+            <div class="col-lg-12" style="padding:0px; text-align:left;margin-bottom:10px;">
+                <span class="span-search-ticket">Payment Amount</span>
+                <div class="input-container-search-ticket">
+                    <input type="number" class="form-control" name="insurance_nominal" id="insurance_nominal" placeholder="Nominal" autocomplete="off"/>
+                </div>
+            </div>
+        `;
     }
     else if (template == 2){
         text = `
@@ -3145,6 +3285,14 @@ function set_insurance_div(){
                 <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Polis" autocomplete="off"/>
             </div>
         </div>
+        `;
+        text += `
+            <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+                <span class="span-search-ticket">Payment Amount</span>
+                <div class="input-container-search-ticket">
+                    <input type="number" class="form-control" name="insurance_nominal" id="insurance_nominal" placeholder="Nominal" autocomplete="off"/>
+                </div>
+            </div>
         `;
     }
     else if (template == 3){
@@ -3156,6 +3304,14 @@ function set_insurance_div(){
             </div>
         </div>
         `;
+        text += `
+            <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+                <span class="span-search-ticket">Payment Amount</span>
+                <div class="input-container-search-ticket">
+                    <input type="number" class="form-control" name="insurance_nominal" id="insurance_nominal" placeholder="Nominal" autocomplete="off"/>
+                </div>
+            </div>
+        `;
     }
     else if(template == 4){
         text = `
@@ -3165,6 +3321,14 @@ function set_insurance_div(){
                 <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Polis" autocomplete="off"/>
             </div>
         </div>
+        `;
+        text += `
+            <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+                <span class="span-search-ticket">Payment Amount</span>
+                <div class="input-container-search-ticket">
+                    <input type="number" class="form-control" name="insurance_nominal" id="insurance_nominal" placeholder="Nominal" autocomplete="off"/>
+                </div>
+            </div>
         `;
     }
     else if(template == 5){
@@ -3176,6 +3340,14 @@ function set_insurance_div(){
             </div>
         </div>
         `;
+        text += `
+            <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+                <span class="span-search-ticket">Payment Amount</span>
+                <div class="input-container-search-ticket">
+                    <input type="number" class="form-control" name="insurance_nominal" id="insurance_nominal" placeholder="Nominal" autocomplete="off"/>
+                </div>
+            </div>
+        `;
     }
     else if(template == 6){
         text = `
@@ -3185,6 +3357,14 @@ function set_insurance_div(){
                 <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Polis" autocomplete="off"/>
             </div>
         </div>
+        `;
+        text += `
+            <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+                <span class="span-search-ticket">Payment Amount</span>
+                <div class="input-container-search-ticket">
+                    <input type="number" class="form-control" name="insurance_nominal" id="insurance_nominal" placeholder="Nominal" autocomplete="off"/>
+                </div>
+            </div>
         `;
     }
 
@@ -3270,6 +3450,14 @@ function set_credit_installment_div(){
             </div>
         </div>
         `;
+        text += `
+            <div class="col-lg-12" style="padding:0px; text-align:left;margin-bottom:10px;">
+                <span class="span-search-ticket">Payment Amount</span>
+                <div class="input-container-search-ticket">
+                    <input type="number" class="form-control" name="credit_installment_nominal" id="credit_installment_nominal" placeholder="Nominal" autocomplete="off"/>
+                </div>
+            </div>
+        `;
     }
     else if (template == 2){
         text = `
@@ -3279,6 +3467,14 @@ function set_credit_installment_div(){
                 <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Kontrak" autocomplete="off"/>
             </div>
         </div>
+        `;
+        text += `
+            <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+                <span class="span-search-ticket">Payment Amount</span>
+                <div class="input-container-search-ticket">
+                    <input type="number" class="form-control" name="credit_installment_nominal" id="credit_installment_nominal" placeholder="Nominal" autocomplete="off"/>
+                </div>
+            </div>
         `;
     }
     else if (template == 3){
@@ -3290,6 +3486,14 @@ function set_credit_installment_div(){
             </div>
         </div>
         `;
+        text += `
+            <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+                <span class="span-search-ticket">Payment Amount</span>
+                <div class="input-container-search-ticket">
+                    <input type="number" class="form-control" name="credit_installment_nominal" id="credit_installment_nominal" placeholder="Nominal" autocomplete="off"/>
+                </div>
+            </div>
+        `;
     }
     else if(template == 4){
         text = `
@@ -3299,6 +3503,14 @@ function set_credit_installment_div(){
                 <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Kontrak" autocomplete="off"/>
             </div>
         </div>
+        `;
+        text += `
+            <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+                <span class="span-search-ticket">Payment Amount</span>
+                <div class="input-container-search-ticket">
+                    <input type="number" class="form-control" name="credit_installment_nominal" id="credit_installment_nominal" placeholder="Nominal" autocomplete="off"/>
+                </div>
+            </div>
         `;
     }
     else if(template == 5){
@@ -3310,6 +3522,14 @@ function set_credit_installment_div(){
             </div>
         </div>
         `;
+        text += `
+            <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+                <span class="span-search-ticket">Payment Amount</span>
+                <div class="input-container-search-ticket">
+                    <input type="number" class="form-control" name="credit_installment_nominal" id="credit_installment_nominal" placeholder="Nominal" autocomplete="off"/>
+                </div>
+            </div>
+        `;
     }
     else if(template == 6){
         text = `
@@ -3319,6 +3539,14 @@ function set_credit_installment_div(){
                 <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Kontrak" autocomplete="off"/>
             </div>
         </div>
+        `;
+        text += `
+            <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+                <span class="span-search-ticket">Payment Amount</span>
+                <div class="input-container-search-ticket">
+                    <input type="number" class="form-control" name="credit_installment_nominal" id="credit_installment_nominal" placeholder="Nominal" autocomplete="off"/>
+                </div>
+            </div>
         `;
     }
 
@@ -3337,6 +3565,14 @@ function set_credit_card_div(){
             </div>
         </div>
         `;
+        text += `
+            <div class="col-lg-12" style="padding:0px; text-align:left;margin-bottom:10px;">
+                <span class="span-search-ticket">Payment Amount</span>
+                <div class="input-container-search-ticket">
+                    <input type="number" class="form-control" name="credit_card_nominal" id="credit_card_nominal" placeholder="Nominal" autocomplete="off"/>
+                </div>
+            </div>
+        `;
     }
     else if (template == 2){
         text = `
@@ -3346,6 +3582,14 @@ function set_credit_card_div(){
                 <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Kartu Kredit" autocomplete="off"/>
             </div>
         </div>
+        `;
+        text += `
+            <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+                <span class="span-search-ticket">Payment Amount</span>
+                <div class="input-container-search-ticket">
+                    <input type="number" class="form-control" name="credit_card_nominal" id="credit_card_nominal" placeholder="Nominal" autocomplete="off"/>
+                </div>
+            </div>
         `;
     }
     else if (template == 3){
@@ -3357,6 +3601,14 @@ function set_credit_card_div(){
             </div>
         </div>
         `;
+        text += `
+            <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+                <span class="span-search-ticket">Payment Amount</span>
+                <div class="input-container-search-ticket">
+                    <input type="number" class="form-control" name="credit_card_nominal" id="credit_card_nominal" placeholder="Nominal" autocomplete="off"/>
+                </div>
+            </div>
+        `;
     }
     else if(template == 4){
         text = `
@@ -3366,6 +3618,14 @@ function set_credit_card_div(){
                 <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Kartu Kredit" autocomplete="off"/>
             </div>
         </div>
+        `;
+        text += `
+            <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+                <span class="span-search-ticket">Payment Amount</span>
+                <div class="input-container-search-ticket">
+                    <input type="number" class="form-control" name="credit_card_nominal" id="credit_card_nominal" placeholder="Nominal" autocomplete="off"/>
+                </div>
+            </div>
         `;
     }
     else if(template == 5){
@@ -3377,6 +3637,14 @@ function set_credit_card_div(){
             </div>
         </div>
         `;
+        text += `
+            <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+                <span class="span-search-ticket">Payment Amount</span>
+                <div class="input-container-search-ticket">
+                    <input type="number" class="form-control" name="credit_card_nominal" id="credit_card_nominal" placeholder="Nominal" autocomplete="off"/>
+                </div>
+            </div>
+        `;
     }
     else if(template == 6){
         text = `
@@ -3386,6 +3654,14 @@ function set_credit_card_div(){
                 <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Kartu Kredit" autocomplete="off"/>
             </div>
         </div>
+        `;
+        text += `
+            <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+                <span class="span-search-ticket">Payment Amount</span>
+                <div class="input-container-search-ticket">
+                    <input type="number" class="form-control" name="credit_card_nominal" id="credit_card_nominal" placeholder="Nominal" autocomplete="off"/>
+                </div>
+            </div>
         `;
     }
 
