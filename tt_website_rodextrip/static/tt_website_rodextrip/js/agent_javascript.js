@@ -12,17 +12,25 @@ function table_reservation(data, mode_view, restart=false){
     if(mode_view == "table_mode"){
         if(document.getElementById('reservation_table_mode_id') == null){
 
-            text+=`<div style="overflow-y:auto;"><table style="margin-top:15px; background:white; width:100%;" id="reservation_table_mode_id" class="list-of-reservation">`;
+            var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+            if (isMobile) {
+                text+=`<div style="overflow:auto;">`;
+            }else{
+                text+=`<div style="overflow:auto; max-height:600px;">`;
+            }
+
+            text+=`
+            <table style="margin-top:15px; background:white; width:100%;" id="reservation_table_mode_id" class="list-of-reservation">`;
             text+=`
             <tr>
                 <th><div style="width:30px;">No.</div></th>
-                <th><div style="width:150px;">PNR</div></th>
-                <th><div style="width:150px;">Hold Date</div></th>
+                <th><div style="width:150px;">PNR, Order Number</div></th>
+                <th><div style="width:170px;">Hold Date</div></th>
                 <th><div style="width:150px;">Booker Name</div></th>
                 <th><div style="width:200px;">Info</div></th>
                 <th><div style="width:150px;">Provider</div></th>`;
                 if($("input[name='filter']:checked").val() == 'airline')
-                    text+=`<th><div style="width:150px;">Flight Number</div></th>`;
+                    text+=`<th><div style="width:100px;">Flight Number</div></th>`;
                 if($("input[name='filter']:checked").val() == 'hotel'){
                     text+=`<th><div style="width:80px;">Total R/N</div></th>`;
                 }else{
@@ -31,9 +39,8 @@ function table_reservation(data, mode_view, restart=false){
                 text+=`
                 <th><div style="width:150px;">State</div></th>
                 <th><div style="width:150px;">Agent Name</div></th>
-                <th><div style="width:150px;">Order Number</div></th>
-                <th><div style="width:150px;">Booked</div></th>
-                <th><div style="width:150px;">Issued</div></th>
+                <th><div style="width:170px;">Booked</div></th>
+                <th><div style="width:170px;">Issued</div></th>
                 <th><div style="width:150px;">Action</div></th>
             </tr>`;
         }
@@ -41,11 +48,17 @@ function table_reservation(data, mode_view, restart=false){
             text+=`
             <tr>
                 <form action="" method="POST" id="gotobooking`+data_counter+`">
-                    <td>`+(data_counter+1)+`</td>`;
+                    <td>`+(data_counter+1)+`</td>
+                    <td>`;
                     if(data[i].pnr)
-                        text+= `<td>`+data[i].pnr+`</div></td>`;
+                        text+= `<b>PNR</b><br/>`+data[i].pnr+`<br/>`;
                     else
-                        text+= `<td>-</td>`;
+                        text+= `<b>PNR</b><br/>-<br/>`;
+
+                    text+=`<b>Order Number</b><br/><span name="order_number">`+data[i].order_number+`</span>`;
+                    text+=`</td>`;
+
+
                     if(data[i].hold_date == false){
                         text+= `<td>-</td>`;
                     }
@@ -65,8 +78,14 @@ function table_reservation(data, mode_view, restart=false){
                     }catch(err){
 
                     }
-                    if($("input[name='filter']:checked").val() == 'airline')
-                        text+=`<td>`+data[i].flight_number+`</b></td>`;
+                    if($("input[name='filter']:checked").val() == 'airline'){
+                        var flightArr = data[i].flight_number.split(';');
+                        text+=`<td>`;
+                        for(fl in flightArr){
+                            text+=flightArr[fl]+`<br/>`;
+                        }
+                        text+=`</td>`;
+                    }
                     text+=`<td>`+data[i].total_pax+`</b></td>`;
                     text+= `<td>`;
 
@@ -85,34 +104,34 @@ function table_reservation(data, mode_view, restart=false){
 
                     text+=data[i].state_description+`</b></td>`;
                     text+= `<td>`+data[i].agent_name+`</td>`;
-                    text+=`<td name="order_number">`+data[i].order_number+`</td>`;
 
                     text+= `<td>`;
                     if(data[i].booked_date)
-                        text+= `<i>`+data[i].booked_date+`</i><br/>`;
+                        text+= `<b>Date</b><br/>`+data[i].booked_date+`<br/>`;
                     else
-                        text+= `-<br/>`;
+                        text+= `<b>Date</b><br/>-<br/>`;
+
                     if(data[i].booked_uid == false){
-                        text+= `<b>-</b>`;
+                        text+= `<b>by</b><br/>-`;
                     }
                     else{
-                        text+= `<b>by: `+data[i].booked_uid+`</b>`;
+                        text+= `<b>by</b><br/>`+data[i].booked_uid;
                     }
 
                     text+= `</td>`;
 
                     text+= `<td>`;
                     if(data[i].issued_date == false){
-                        text+= `-<br/>`;
+                        text+= `<b>Date</b><br/>-<br/>`;
                     }
                     else{
-                        text+= `<i>`+data[i].issued_date+`</i><br/>`;
+                        text+= `<b>Date</b><br/>`+data[i].issued_date+`<br/>`;
                     }
                     if(data[i].issued_uid == false){
-                        text+= `<b>by: -</b>`;
+                        text+= `<b>by</b><br/>-`;
                     }
                     else{
-                        text+= `<b>by: `+data[i].issued_uid+`</b>`;
+                        text+= `<b>by</b><br/>`+data[i].issued_uid;
                     }
                     text+= `</td>`;
 
