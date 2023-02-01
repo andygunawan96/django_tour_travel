@@ -43,6 +43,8 @@ var airline_cabin_class_list = {
 }
 
 var airline_departure = 'departure';
+picker_multi = [];
+
 function elapse_time(departure,arrival){
     arrival_time = (parseInt(arrival[1].split(':')[0])*3600)+(parseInt(arrival[1].split(':')[1])*60);
     departure_time = (parseInt(departure[1].split(':')[0])*3600)+(parseInt(departure[1].split(':')[1])*60);
