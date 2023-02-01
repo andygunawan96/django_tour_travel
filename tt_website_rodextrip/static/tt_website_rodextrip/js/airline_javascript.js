@@ -8027,7 +8027,7 @@ function get_airline_review(){
                             text+=`<div class="col-lg-12" style="padding-bottom:15px;">`;
                             try{
                                 for(j in passengers_ssr[i].ff_numbers){
-                                    text+= `<label>`+passengers_ssr[i].ff_numbers[j].ff_code+`: `+passengers_ssr[i].ff_numbers[j].ff_number+`</label><br/>`;
+                                    text+= `<b style="text-transform: capitalize;">`+passengers_ssr[i].ff_numbers[j].ff_code+`: </b><i>`+passengers_ssr[i].ff_numbers[j].ff_number+`</i><br/>`;
                                 }
                             }catch(err){
                                 console.log(err); // error kalau ada element yg tidak ada
