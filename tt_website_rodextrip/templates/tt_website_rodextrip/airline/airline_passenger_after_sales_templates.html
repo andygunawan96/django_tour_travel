@@ -139,15 +139,15 @@
                                 <div class="passenger_div" onclick="show_paxs_airline('adult', '{{forloop.counter}}');">
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                            <span style="color:{{text_color}}; text-align:center; font-size:15px;">{% trans 'Passenger' %} {% trans 'Adult' %} - {{forloop.counter}}</span>
+                                            <h4><i class="fas fa-user"></i> {% trans 'Adult' %} - {{forloop.counter}}</h4>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                                            <span style="color:{{text_color}}; text-align:right; margin-right:5px; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
-                                            <span style="color:{{text_color}}; text-align:right; margin-right:5px; {% if forloop.counter == 1 %} display:none; {% endif %}" id="adult_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
+                                            <span style="color:black; text-align:right; margin-right:5px; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
+                                            <span style="color:black; text-align:right; margin-right:5px; {% if forloop.counter == 1 %} display:none; {% endif %}" id="adult_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid {{color}}; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_paxs{{forloop.counter}}">
+                                <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid #cdcdcd; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_paxs{{forloop.counter}}">
                                     <div class="row">
                                         <div class="col-lg-6" style="text-align:left;">
                                             <div class="input-container-search-ticket">
@@ -861,7 +861,7 @@
 
                         <div class="row">
                             {% if is_change_name == True %}
-                            <div class="col-lg-4">
+                            <div class="col-lg-4 mb-3">
                                 <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger_aftersales({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_name');">
                                     {% trans 'Update Name' %}
                                     <div class="ld ld-ring ld-cycle"></div>
@@ -870,7 +870,7 @@
                             {% endif %}
 
                             {% if is_change_identity == True %}
-                            <div class="col-lg-4">
+                            <div class="col-lg-4 mb-3">
                                 <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger_aftersales({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_identity');">
                                     {% trans 'Update Identity' %}
                                     <div class="ld ld-ring ld-cycle"></div>
@@ -878,14 +878,14 @@
                             </div>
                             {% endif %}
                             {% if is_change_name == True and is_change_identity == True %}
-                            <div class="col-lg-4">
+                            <div class="col-lg-4 mb-3">
                                 <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger_aftersales({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_all');">
                                     {% trans 'Update All' %}
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>
                             </div>
                             {% endif %}
-                            <div class="col-lg-4">
+                            <div class="col-lg-4 mb-3">
                                 <button class="btn-next for-show-website primary-btn-white next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="go_back_page();">
                                     {% trans 'Cancel' %}
                                     <div class="ld ld-ring ld-cycle"></div>
@@ -924,7 +924,7 @@
                                 </div>
                             </div>
                             {% if is_change_name == True %}
-                            <div class="col-lg-4">
+                            <div class="col-lg-4 mb-3">
                                 <button class="btn-next for-show-mobile primary-btn next-passenger-train ld-ext-right" style="width:100%;margin-top:10px;" type="button" value="Next" onclick="next_disabled();check_passenger_aftersales({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_name');">
                                     {% trans 'Update Name' %}
                                     <div class="ld ld-ring ld-cycle"></div>
@@ -932,7 +932,7 @@
                             </div>
                             {% endif %}
                             {% if is_change_identity == True %}
-                            <div class="col-lg-4">
+                            <div class="col-lg-4 mb-3">
                                 <button class="btn-next for-show-mobile primary-btn next-passenger-train ld-ext-right" style="width:100%;margin-top:10px;" type="button" value="Next" onclick="next_disabled();check_passenger_aftersales({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_identity');">
                                     {% trans 'Update Identity' %}
                                     <div class="ld ld-ring ld-cycle"></div>
@@ -940,14 +940,14 @@
                             </div>
                             {% endif %}
                             {% if is_change_name == True and is_change_identity == True %}
-                            <div class="col-lg-4">
+                            <div class="col-lg-4 mb-3">
                                 <button class="btn-next for-show-mobile primary-btn next-passenger-train ld-ext-right" style="width:100%;margin-top:10px;" type="button" value="Next" onclick="next_disabled();check_passenger_aftersales({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_all');">
                                     {% trans 'Update All' %}
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>
                             </div>
                             {% endif %}
-                            <div class="col-lg-4">
+                            <div class="col-lg-4 mb-3">
                                 <button class="btn-next for-show-mobile primary-btn-white next-passenger-train ld-ext-right" style="width:100%;margin-top:10px;" type="button" value="Next" onclick="go_back_page();">
                                     {% trans 'Cancel' %}
                                     <div class="ld ld-ring ld-cycle"></div>
@@ -1018,15 +1018,15 @@
                                         <div class="passenger_div" onclick="show_paxs_airline('adult', '{{forloop.counter}}');">
                                             <div class="row">
                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                                    <span style="color:{{text_color}}; text-align:center; font-size:15px;">{% trans 'Passenger' %} {% trans 'Adult' %} - {{forloop.counter}}</span>
+                                                    <h4><i class="fas fa-user"></i> {% trans 'Adult' %} - {{forloop.counter}}</h4>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                                                    <span style="color:{{text_color}}; text-align:right; margin-right:5px; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
-                                                    <span style="color:{{text_color}}; text-align:right; margin-right:5px; {% if forloop.counter == 1 %} display:none; {% endif %}" id="adult_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
+                                                    <span style="color:black; text-align:right; margin-right:5px; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
+                                                    <span style="color:black; text-align:right; margin-right:5px; {% if forloop.counter == 1 %} display:none; {% endif %}" id="adult_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid {{color}}; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_paxs{{forloop.counter}}">
+                                        <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid #cdcdcd; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_paxs{{forloop.counter}}">
                                             <div class="row">
                                                 <div class="col-lg-6" style="text-align:left;">
                                                     <div class="input-container-search-ticket">
@@ -1719,7 +1719,7 @@
                                 {% endfor %}
                                 <div class="row">
                                     {% if is_change_name == True %}
-                                    <div class="col-lg-4">
+                                    <div class="col-lg-4 mb-3">
                                         <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger_aftersales({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_name');">
                                             {% trans 'Update Name' %}
                                             <div class="ld ld-ring ld-cycle"></div>
@@ -1728,7 +1728,7 @@
                                     {% endif %}
 
                                     {% if is_change_identity == True %}
-                                    <div class="col-lg-4">
+                                    <div class="col-lg-4 mb-3">
                                         <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger_aftersales({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_identity');">
                                             {% trans 'Update Identity' %}
                                             <div class="ld ld-ring ld-cycle"></div>
@@ -1736,14 +1736,14 @@
                                     </div>
                                     {% endif %}
                                     {% if is_change_name == True and is_change_identity == True %}
-                                    <div class="col-lg-4">
+                                    <div class="col-lg-4 mb-3">
                                         <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger_aftersales({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_all');">
                                             {% trans 'Update All' %}
                                             <div class="ld ld-ring ld-cycle"></div>
                                         </button>
                                     </div>
                                     {% endif %}
-                                    <div class="col-lg-4">
+                                    <div class="col-lg-4 mb-3">
                                         <button class="btn-next for-show-website primary-btn-white next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="go_back_page();">
                                             {% trans 'Cancel' %}
                                             <div class="ld ld-ring ld-cycle"></div>
@@ -1783,7 +1783,7 @@
                                     </div>
 
                                     {% if is_change_name == True %}
-                                    <div class="col-lg-4">
+                                    <div class="col-lg-4 mb-3">
                                         <button class="btn-next for-show-mobile primary-btn next-passenger-train ld-ext-right" style="width:100%;margin-top:10px;" type="button" value="Next" onclick="next_disabled();check_passenger_aftersales({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_name');">
                                             {% trans 'Update Name' %}
                                             <div class="ld ld-ring ld-cycle"></div>
@@ -1791,7 +1791,7 @@
                                     </div>
                                     {% endif %}
                                     {% if is_change_identity == True %}
-                                    <div class="col-lg-4">
+                                    <div class="col-lg-4 mb-3">
                                         <button class="btn-next for-show-mobile primary-btn next-passenger-train ld-ext-right" style="width:100%;margin-top:10px;" type="button" value="Next" onclick="next_disabled();check_passenger_aftersales({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_identity');">
                                             {% trans 'Update Identity' %}
                                             <div class="ld ld-ring ld-cycle"></div>
@@ -1799,14 +1799,14 @@
                                     </div>
                                     {% endif %}
                                     {% if is_change_name == True and is_change_identity == True %}
-                                    <div class="col-lg-4">
+                                    <div class="col-lg-4 mb-3">
                                         <button class="btn-next for-show-mobile primary-btn next-passenger-train ld-ext-right" style="width:100%;margin-top:10px;" type="button" value="Next" onclick="next_disabled();check_passenger_aftersales({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_all');">
                                             {% trans 'Update All' %}
                                             <div class="ld ld-ring ld-cycle"></div>
                                         </button>
                                     </div>
                                     {% endif %}
-                                    <div class="col-lg-4">
+                                    <div class="col-lg-4 mb-3">
                                         <button class="btn-next for-show-mobile primary-btn-white next-passenger-train ld-ext-right" style="width:100%;margin-top:10px;" type="button" value="Next" onclick="go_back_page();">
                                             {% trans 'Cancel' %}
                                             <div class="ld ld-ring ld-cycle"></div>
@@ -1873,15 +1873,15 @@
                                 <div class="passenger_div" onclick="show_paxs_airline('adult', '{{forloop.counter}}');">
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                            <span style="color:{{text_color}}; text-align:center; font-size:15px;">{% trans 'Passenger' %} {% trans 'Adult' %} - {{forloop.counter}}</span>
+                                            <h4><i class="fas fa-user"></i> {% trans 'Adult' %} - {{forloop.counter}}</h4>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                                            <span style="color:{{text_color}}; text-align:right; margin-right:5px; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
-                                            <span style="color:{{text_color}}; text-align:right; margin-right:5px; {% if forloop.counter == 1 %} display:none; {% endif %}" id="adult_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
+                                            <span style="color:black; text-align:right; margin-right:5px; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
+                                            <span style="color:black; text-align:right; margin-right:5px; {% if forloop.counter == 1 %} display:none; {% endif %}" id="adult_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid {{color}}; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_paxs{{forloop.counter}}">
+                                <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid #cdcdcd; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_paxs{{forloop.counter}}">
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-6" style="text-align:left;">
                                             <div class="form-group">
@@ -2608,7 +2608,7 @@
 
                         <div class="row">
                             {% if is_change_name == True %}
-                            <div class="col-lg-4">
+                            <div class="col-lg-4 mb-3">
                                 <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger_aftersales({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_name');">
                                     {% trans 'Update Name' %}
                                     <div class="ld ld-ring ld-cycle"></div>
@@ -2617,7 +2617,7 @@
                             {% endif %}
 
                             {% if is_change_identity == True %}
-                            <div class="col-lg-4">
+                            <div class="col-lg-4 mb-3">
                                 <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger_aftersales({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_identity');">
                                     {% trans 'Update Identity' %}
                                     <div class="ld ld-ring ld-cycle"></div>
@@ -2625,14 +2625,14 @@
                             </div>
                             {% endif %}
                             {% if is_change_name == True and is_change_identity == True %}
-                            <div class="col-lg-4">
+                            <div class="col-lg-4 mb-3">
                                 <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger_aftersales({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_all');">
                                     {% trans 'Update All' %}
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>
                             </div>
                             {% endif %}
-                            <div class="col-lg-4">
+                            <div class="col-lg-4 mb-3">
                                 <button class="btn-next for-show-website primary-btn-white next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="go_back_page();">
                                     {% trans 'Cancel' %}
                                     <div class="ld ld-ring ld-cycle"></div>
@@ -2672,7 +2672,7 @@
                                 </div>
                             </div>
                             {% if is_change_name == True %}
-                            <div class="col-lg-4">
+                            <div class="col-lg-4 mb-3">
                                 <button class="btn-next for-show-mobile primary-btn next-passenger-train ld-ext-right" style="width:100%;margin-top:10px;" type="button" value="Next" onclick="next_disabled();check_passenger_aftersales({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_name');">
                                     {% trans 'Update Name' %}
                                     <div class="ld ld-ring ld-cycle"></div>
@@ -2680,7 +2680,7 @@
                             </div>
                             {% endif %}
                             {% if is_change_identity == True %}
-                            <div class="col-lg-4">
+                            <div class="col-lg-4 mb-3">
                                 <button class="btn-next for-show-mobile primary-btn next-passenger-train ld-ext-right" style="width:100%;margin-top:10px;" type="button" value="Next" onclick="next_disabled();check_passenger_aftersales({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_identity');">
                                     {% trans 'Update Identity' %}
                                     <div class="ld ld-ring ld-cycle"></div>
@@ -2688,14 +2688,14 @@
                             </div>
                             {% endif %}
                             {% if is_change_name == True and is_change_identity == True %}
-                            <div class="col-lg-4">
+                            <div class="col-lg-4 mb-3">
                                 <button class="btn-next for-show-mobile primary-btn next-passenger-train ld-ext-right" style="width:100%;margin-top:10px;" type="button" value="Next" onclick="next_disabled();check_passenger_aftersales({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_all');">
                                     {% trans 'Update All' %}
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>
                             </div>
                             {% endif %}
-                            <div class="col-lg-4">
+                            <div class="col-lg-4 mb-3">
                                 <button class="btn-next for-show-mobile primary-btn-white next-passenger-train ld-ext-right" style="width:100%;margin-top:10px;" type="button" value="Next" onclick="go_back_page();">
                                     {% trans 'Cancel' %}
                                     <div class="ld ld-ring ld-cycle"></div>
@@ -2767,15 +2767,15 @@
                             <div class="passenger_div" onclick="show_paxs_airline('adult', '{{forloop.counter}}');">
                                 <div class="row">
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                        <span style="color:{{text_color}}; text-align:center; font-size:15px;">Passenger Adult - {{forloop.counter}}</span>
+                                        <h4><i class="fas fa-user"></i> {% trans 'Adult' %} - {{forloop.counter}}</h4>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                                        <span style="color:{{text_color}}; text-align:right; margin-right:5px; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
-                                        <span style="color:{{text_color}}; text-align:right; margin-right:5px; {% if forloop.counter == 1 %} display:none; {% endif %}" id="adult_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
+                                        <span style="color:black; text-align:right; margin-right:5px; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
+                                        <span style="color:black; text-align:right; margin-right:5px; {% if forloop.counter == 1 %} display:none; {% endif %}" id="adult_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid {{color}}; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_paxs{{forloop.counter}}">
+                            <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid #cdcdcd; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_paxs{{forloop.counter}}">
                                 <div class="row">
                                     <div class="col-lg-6" style="text-align:left;">
                                         <div class="input-container-search-ticket">
@@ -3495,7 +3495,7 @@
 
                     <div class="row">
                         {% if is_change_name == True %}
-                        <div class="col-lg-4">
+                        <div class="col-lg-4 mb-3">
                             <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger_aftersales({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_name');">
                                 {% trans 'Update Name' %}
                                 <div class="ld ld-ring ld-cycle"></div>
@@ -3504,7 +3504,7 @@
                         {% endif %}
 
                         {% if is_change_identity == True %}
-                        <div class="col-lg-4">
+                        <div class="col-lg-4 mb-3">
                             <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger_aftersales({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_identity');">
                                 {% trans 'Update Identity' %}
                                 <div class="ld ld-ring ld-cycle"></div>
@@ -3512,14 +3512,14 @@
                         </div>
                         {% endif %}
                         {% if is_change_name == True and is_change_identity == True %}
-                        <div class="col-lg-4">
+                        <div class="col-lg-4 mb-3">
                             <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger_aftersales({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_all');">
                                 {% trans 'Update All' %}
                                 <div class="ld ld-ring ld-cycle"></div>
                             </button>
                         </div>
                         {% endif %}
-                        <div class="col-lg-4">
+                        <div class="col-lg-4 mb-3">
                             <button class="btn-next for-show-website primary-btn-white next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="go_back_page();">
                                 {% trans 'Cancel' %}
                                 <div class="ld ld-ring ld-cycle"></div>
@@ -3559,7 +3559,7 @@
                             </div>
                         </div>
                         {% if is_change_name == True %}
-                        <div class="col-lg-4">
+                        <div class="col-lg-4 mb-3">
                             <button class="btn-next for-show-mobile primary-btn next-passenger-train ld-ext-right" style="width:100%;margin-top:10px;" type="button" value="Next" onclick="next_disabled();check_passenger_aftersales({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_name');">
                                 {% trans 'Update Name' %}
                                 <div class="ld ld-ring ld-cycle"></div>
@@ -3567,7 +3567,7 @@
                         </div>
                         {% endif %}
                         {% if is_change_identity == True %}
-                        <div class="col-lg-4">
+                        <div class="col-lg-4 mb-3">
                             <button class="btn-next for-show-mobile primary-btn next-passenger-train ld-ext-right" style="width:100%;margin-top:10px;" type="button" value="Next" onclick="next_disabled();check_passenger_aftersales({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_identity');">
                                 {% trans 'Update Identity' %}
                                 <div class="ld ld-ring ld-cycle"></div>
@@ -3575,14 +3575,14 @@
                         </div>
                         {% endif %}
                         {% if is_change_name == True and is_change_identity == True %}
-                        <div class="col-lg-4">
+                        <div class="col-lg-4 mb-3">
                             <button class="btn-next for-show-mobile primary-btn next-passenger-train ld-ext-right" style="width:100%;margin-top:10px;" type="button" value="Next" onclick="next_disabled();check_passenger_aftersales({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_all');">
                                 {% trans 'Update All' %}
                                 <div class="ld ld-ring ld-cycle"></div>
                             </button>
                         </div>
                         {% endif %}
-                        <div class="col-lg-4">
+                        <div class="col-lg-4 mb-3">
                             <button class="btn-next for-show-mobile primary-btn-white next-passenger-train ld-ext-right" style="width:100%;margin-top:10px;" type="button" value="Next" onclick="go_back_page();">
                                 {% trans 'Cancel' %}
                                 <div class="ld ld-ring ld-cycle"></div>
@@ -3643,15 +3643,15 @@
                                 <div class="passenger_div" onclick="show_paxs_airline('adult', '{{forloop.counter}}');">
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                            <span style="color:{{text_color}}; text-align:center; font-size:15px;">Passenger Adult - {{forloop.counter}}</span>
+                                            <h4><i class="fas fa-user"></i> {% trans 'Adult' %} - {{forloop.counter}}</h4>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                                            <span style="color:{{text_color}}; text-align:right; margin-right:5px; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
-                                            <span style="color:{{text_color}}; text-align:right; margin-right:5px; {% if forloop.counter == 1 %} display:none; {% endif %}" id="adult_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
+                                            <span style="color:black; text-align:right; margin-right:5px; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
+                                            <span style="color:black; text-align:right; margin-right:5px; {% if forloop.counter == 1 %} display:none; {% endif %}" id="adult_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid {{color}}; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_paxs{{forloop.counter}}">
+                                <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid #cdcdcd; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_paxs{{forloop.counter}}">
                                     <div class="row">
                                         <div class="col-lg-6" style="text-align:left;">
                                             <div class="input-container-search-ticket">
@@ -4372,7 +4372,7 @@
 
                         <div class="row">
                             {% if is_change_name == True %}
-                            <div class="col-lg-4">
+                            <div class="col-lg-4 mb-3">
                                 <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger_aftersales({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_name');">
                                     {% trans 'Update Name' %}
                                     <div class="ld ld-ring ld-cycle"></div>
@@ -4381,7 +4381,7 @@
                             {% endif %}
 
                             {% if is_change_identity == True %}
-                            <div class="col-lg-4">
+                            <div class="col-lg-4 mb-3">
                                 <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger_aftersales({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_identity');">
                                     {% trans 'Update Identity' %}
                                     <div class="ld ld-ring ld-cycle"></div>
@@ -4389,14 +4389,14 @@
                             </div>
                             {% endif %}
                             {% if is_change_name == True and is_change_identity == True %}
-                            <div class="col-lg-4">
+                            <div class="col-lg-4 mb-3">
                                 <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger_aftersales({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_all');">
                                     {% trans 'Update All' %}
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>
                             </div>
                             {% endif %}
-                            <div class="col-lg-4">
+                            <div class="col-lg-4 mb-3">
                                 <button class="btn-next for-show-website primary-btn-white next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="go_back_page();">
                                     {% trans 'Cancel' %}
                                     <div class="ld ld-ring ld-cycle"></div>
@@ -4435,7 +4435,7 @@
                                 </div>
                             </div>
                             {% if is_change_name == True %}
-                            <div class="col-lg-4">
+                            <div class="col-lg-4 mb-3">
                                 <button class="btn-next for-show-mobile primary-btn next-passenger-train ld-ext-right" style="width:100%;margin-top:10px;" type="button" value="Next" onclick="next_disabled();check_passenger_aftersales({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_name');">
                                     {% trans 'Update Name' %}
                                     <div class="ld ld-ring ld-cycle"></div>
@@ -4443,7 +4443,7 @@
                             </div>
                             {% endif %}
                             {% if is_change_identity == True %}
-                            <div class="col-lg-4">
+                            <div class="col-lg-4 mb-3">
                                 <button class="btn-next for-show-mobile primary-btn next-passenger-train ld-ext-right" style="width:100%;margin-top:10px;" type="button" value="Next" onclick="next_disabled();check_passenger_aftersales({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_identity');">
                                     {% trans 'Update Identity' %}
                                     <div class="ld ld-ring ld-cycle"></div>
@@ -4451,14 +4451,14 @@
                             </div>
                             {% endif %}
                             {% if is_change_name == True and is_change_identity == True %}
-                            <div class="col-lg-4">
+                            <div class="col-lg-4 mb-3">
                                 <button class="btn-next for-show-mobile primary-btn next-passenger-train ld-ext-right" style="width:100%;margin-top:10px;" type="button" value="Next" onclick="next_disabled();check_passenger_aftersales({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_all');">
                                     {% trans 'Update All' %}
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>
                             </div>
                             {% endif %}
-                            <div class="col-lg-4">
+                            <div class="col-lg-4 mb-3">
                                 <button class="btn-next for-show-mobile primary-btn-white next-passenger-train ld-ext-right" style="width:100%;margin-top:10px;" type="button" value="Next" onclick="go_back_page();">
                                     {% trans 'Cancel' %}
                                     <div class="ld ld-ring ld-cycle"></div>
@@ -4521,15 +4521,15 @@
                                 <div class="passenger_div" onclick="show_paxs_airline('adult', '{{forloop.counter}}');">
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                            <span style="color:{{text_color}}; text-align:center; font-size:15px;">Passenger Adult - {{forloop.counter}}</span>
+                                            <h4><i class="fas fa-user"></i> {% trans 'Adult' %} - {{forloop.counter}}</h4>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                                            <span style="color:{{text_color}}; text-align:right; margin-right:5px; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
-                                            <span style="color:{{text_color}}; text-align:right; margin-right:5px; {% if forloop.counter == 1 %} display:none; {% endif %}" id="adult_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
+                                            <span style="color:black; text-align:right; margin-right:5px; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
+                                            <span style="color:black; text-align:right; margin-right:5px; {% if forloop.counter == 1 %} display:none; {% endif %}" id="adult_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid {{color}}; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_paxs{{forloop.counter}}">
+                                <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid #cdcdcd; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_paxs{{forloop.counter}}">
                                     <div class="row">
                                         <div class="col-lg-6" style="text-align:left;">
                                             <div class="input-container-search-ticket">
@@ -5249,7 +5249,7 @@
 
                         <div class="row">
                             {% if is_change_name == True %}
-                            <div class="col-lg-4">
+                            <div class="col-lg-4 mb-3">
                                 <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger_aftersales({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_name');">
                                     {% trans 'Update Name' %}
                                     <div class="ld ld-ring ld-cycle"></div>
@@ -5258,7 +5258,7 @@
                             {% endif %}
 
                             {% if is_change_identity == True %}
-                            <div class="col-lg-4">
+                            <div class="col-lg-4 mb-3">
                                 <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger_aftersales({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_identity');">
                                     {% trans 'Update Identity' %}
                                     <div class="ld ld-ring ld-cycle"></div>
@@ -5266,14 +5266,14 @@
                             </div>
                             {% endif %}
                             {% if is_change_name == True and is_change_identity == True %}
-                            <div class="col-lg-4">
+                            <div class="col-lg-4 mb-3">
                                 <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger_aftersales({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_all');">
                                     {% trans 'Update All' %}
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>
                             </div>
                             {% endif %}
-                            <div class="col-lg-4">
+                            <div class="col-lg-4 mb-3">
                                 <button class="btn-next for-show-website primary-btn-white next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="go_back_page();">
                                     {% trans 'Cancel' %}
                                     <div class="ld ld-ring ld-cycle"></div>
@@ -5311,7 +5311,7 @@
                                 </div>
                             </div>
                             {% if is_change_name == True %}
-                            <div class="col-lg-4">
+                            <div class="col-lg-4 mb-3">
                                 <button class="btn-next for-show-mobile primary-btn next-passenger-train ld-ext-right" style="width:100%;margin-top:10px;" type="button" value="Next" onclick="next_disabled();check_passenger_aftersales({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_name');">
                                     {% trans 'Update Name' %}
                                     <div class="ld ld-ring ld-cycle"></div>
@@ -5319,7 +5319,7 @@
                             </div>
                             {% endif %}
                             {% if is_change_identity == True %}
-                            <div class="col-lg-4">
+                            <div class="col-lg-4 mb-3">
                                 <button class="btn-next for-show-mobile primary-btn next-passenger-train ld-ext-right" style="width:100%;margin-top:10px;" type="button" value="Next" onclick="next_disabled();check_passenger_aftersales({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_identity');">
                                     {% trans 'Update Identity' %}
                                     <div class="ld ld-ring ld-cycle"></div>
@@ -5327,14 +5327,14 @@
                             </div>
                             {% endif %}
                             {% if is_change_name == True and is_change_identity == True %}
-                            <div class="col-lg-4">
+                            <div class="col-lg-4 mb-3">
                                 <button class="btn-next for-show-mobile primary-btn next-passenger-train ld-ext-right" style="width:100%;margin-top:10px;" type="button" value="Next" onclick="next_disabled();check_passenger_aftersales({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_all');">
                                     {% trans 'Update All' %}
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>
                             </div>
                             {% endif %}
-                            <div class="col-lg-4">
+                            <div class="col-lg-4 mb-3">
                                 <button class="btn-next for-show-mobile primary-btn-white next-passenger-train ld-ext-right" style="width:100%;margin-top:10px;" type="button" value="Next" onclick="go_back_page();">
                                     {% trans 'Cancel' %}
                                     <div class="ld ld-ring ld-cycle"></div>

@@ -799,6 +799,19 @@ def get_provider_description(request):
             "provider_type": 'airline'
         }
     except Exception as e:
+        ## from mobile
+        try:
+            headers = {
+                "Accept": "application/json,text/html,application/xml",
+                "Content-Type": "application/json",
+                "action": "get_provider_list",
+                "signature": request.data['signature']
+            }
+            data = {
+                "provider_type": 'airline'
+            }
+        except:
+            _logger.error("Error not from mobile")
         _logger.error(str(e) + '\n' + traceback.format_exc())
     file = read_cache("get_list_provider_data", 'cache_web')
     if not file:
@@ -3567,9 +3580,10 @@ def get_reschedule_availability_v2(request):
         for provider in data_request:
             for journey in provider['journeys']:
                 journey['departure_date'] = parse_date_time_to_server(journey['departure_date'])
-                journey['cabin_class'] = provider['cabin_class']
+                ## update cabin_class per journey
+                # journey['cabin_class'] = provider['cabin_class']
             provider['passengers'] = passenger
-            provider.pop('cabin_class')
+            # provider.pop('cabin_class')
         data = {
             'reschedule_list': data_request,
             'order_number': order_number,
@@ -4661,7 +4675,13 @@ def getDuration(departure_date, departure_time,arrival_date,arrival_time):
 def search_mobile(request):
     # get_data_awal
     file = read_cache("get_list_provider_data", 'cache_web', 90911)
-    provider_list_data = file
+    if file:
+        provider_list_data = file
+    else:
+        get_provider_description(request)
+        file = read_cache("get_list_provider_data", 'cache_web', 90911)
+        if file:
+            provider_list_data = file
     airline_destinations = []
     file = read_cache("airline_destination", 'cache_web', 90911)
     if file:
