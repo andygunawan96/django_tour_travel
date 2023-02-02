@@ -1337,7 +1337,7 @@ function add_multi_city(type){
             picker_multi_city[counter_airline_search] = new Lightpick({
                 field: document.getElementById('airline_departure'+counter_airline_search),
                 singleDate: true,
-                startDate: airline_request.departure[counter_airline_search-1],
+                startDate: airline_request.departure[counter_airline_search-1] ? airline_request.departure[counter_airline_search-1] : min_date,
                 minDate: min_date,
                 maxDate: moment().subtract(-1, 'years'),
                 idNumber: counter_airline_search,
