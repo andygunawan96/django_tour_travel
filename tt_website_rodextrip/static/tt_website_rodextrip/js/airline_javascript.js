@@ -610,7 +610,7 @@ function add_multi_city(type){
                                     for(i in cabin_class){
                                         try{
                                             if(type == 'search'){
-                                                if(airline_request.cabin_class_list[counter_airline_search-1] == cabin_class[i].value)
+                                                if(airline_request.cabin_class_list[counter_airline_search-1] == cabin_class[i].value || airline_request.cabin_class_list.length < counter_airline_search && i == 0)
                                                     text +=`<option value="`+cabin_class[i].value+`" selected>`+cabin_class[i].name+`</option>`;
                                                 else
                                                     text +=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
@@ -745,7 +745,7 @@ function add_multi_city(type){
                             for(i in cabin_class){
                                 try{
                                     if(type == 'search'){
-                                        if(airline_request.cabin_class_list[counter_airline_search-1] == cabin_class[i].value)
+                                        if(airline_request.cabin_class_list[counter_airline_search-1] == cabin_class[i].value || airline_request.cabin_class_list.length < counter_airline_search && i == 0)
                                             text +=`<option value="`+cabin_class[i].value+`" selected>`+cabin_class[i].name+`</option>`;
                                         else
                                             text +=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
@@ -875,7 +875,7 @@ function add_multi_city(type){
                             for(i in cabin_class){
                                 try{
                                     if(type == 'search'){
-                                        if(airline_request.cabin_class_list[counter_airline_search-1] == cabin_class[i].value)
+                                        if(airline_request.cabin_class_list[counter_airline_search-1] == cabin_class[i].value || airline_request.cabin_class_list.length < counter_airline_search && i == 0)
                                             text +=`<option value="`+cabin_class[i].value+`" selected>`+cabin_class[i].name+`</option>`;
                                         else
                                             text +=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
@@ -1008,7 +1008,7 @@ function add_multi_city(type){
                             for(i in cabin_class){
                                 try{
                                     if(type == 'search'){
-                                        if(airline_request.cabin_class_list[counter_airline_search-1] == cabin_class[i].value)
+                                        if(airline_request.cabin_class_list[counter_airline_search-1] == cabin_class[i].value || airline_request.cabin_class_list.length < counter_airline_search && i == 0)
                                             text +=`<option value="`+cabin_class[i].value+`" selected>`+cabin_class[i].name+`</option>`;
                                         else
                                             text +=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
@@ -1138,7 +1138,7 @@ function add_multi_city(type){
                             for(i in cabin_class){
                                 try{
                                     if(type == 'search'){
-                                        if(airline_request.cabin_class_list[counter_airline_search-1] == cabin_class[i].value)
+                                        if(airline_request.cabin_class_list[counter_airline_search-1] == cabin_class[i].value || airline_request.cabin_class_list.length < counter_airline_search && i == 0)
                                             text +=`<option value="`+cabin_class[i].value+`" selected>`+cabin_class[i].name+`</option>`;
                                         else
                                             text +=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
@@ -1281,7 +1281,7 @@ function add_multi_city(type){
                                 for(i in cabin_class){
                                     try{
                                         if(type == 'search'){
-                                            if(airline_request.cabin_class_list[counter_airline_search-1] == cabin_class[i].value)
+                                            if(airline_request.cabin_class_list[counter_airline_search-1] == cabin_class[i].value || airline_request.cabin_class_list.length < counter_airline_search && i == 0)
                                                 text +=`<option value="`+cabin_class[i].value+`" selected>`+cabin_class[i].name+`</option>`;
                                             else
                                                 text +=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
