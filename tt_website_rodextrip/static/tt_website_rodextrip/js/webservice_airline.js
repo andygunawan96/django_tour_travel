@@ -10330,6 +10330,21 @@ function reroute_btn(){
                                         <input type="text" style="background:white;margin-top:5px;" class="form-control" name="airline_departure" id="airline_departure`+flight+`" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
                                     </div>
                                 </div>
+
+                                <div class="col-lg-12">
+                                    <div class="form-select">
+                                        <select id="cabin_class`+flight+`" name="cabin_class`+flight+`" class="nice-select-default reissued-class-airline">
+                                            <option value="Y" selected="">Economy</option>`;
+                                            if(airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[0].carrier_code == 'QG')
+                                                text +=`<option value="W">Royal Green</option>`;
+                                            else
+                                                text +=`<option value="W">Premium Economy</option>`;
+                                            text +=`
+                                            <option value="C">Business</option>
+                                            <option value="F">First Class</option>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>`;
@@ -10343,7 +10358,7 @@ function reroute_btn(){
         flight++;
     }
 //    document.getElementById('reissue_div').innerHTML = text;
-//    $('.reissued-class-airline').niceSelect();
+    $('.reissued-class-airline').niceSelect();
     counter_airline = 1;
     for(i in airline_get_detail.result.response.provider_bookings){
         is_provider_can_reroute = false;
