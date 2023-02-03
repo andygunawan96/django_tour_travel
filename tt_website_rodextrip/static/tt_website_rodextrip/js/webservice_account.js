@@ -741,7 +741,7 @@ function sort_transaction(){
                         data_search[i] = data_search[j];
                         data_search[j] = temp;
                     }
-                }else{
+                }else if(sort_type == 'order_number'){
                     if(data_search[i].order_number < data_search[j].order_number){
                         var temp = data_search[i];
                         data_search[i] = data_search[j];
