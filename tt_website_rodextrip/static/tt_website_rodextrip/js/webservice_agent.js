@@ -3080,11 +3080,6 @@ function pick_passenger_copy(type, sequence, product, identity=''){
     else{
         // ISI PAX
         try{
-            clear_btn_top(type, passenger_number);
-            clear_search_pax(type, passenger_number);
-        }catch(err){}
-
-        try{
             // IDENTITY
             if(['Booker','booker'].includes(type) == false){
                 var need_identity = null;
@@ -3996,13 +3991,6 @@ function pick_passenger_copy(type, sequence, product, identity=''){
             //change booker
             check = 0;
             if(check == 0){
-                if(product == 'group_booking'){
-                    clear_btn_top('booker', '');
-                    clear_search_pax('booker','');
-                }else{
-                    close_modal_check('booker', '');
-                }
-
                 if(document.getElementById('train_booker_search'))
                     document.getElementById('train_booker_search').value = '';
                 if(document.getElementById('train_booker_search_type'))
@@ -4356,6 +4344,17 @@ function pick_passenger_copy(type, sequence, product, identity=''){
             }
         }
     }
+    try{
+        if(type != 'booker'){
+            clear_btn_top(type, passenger_number);
+            clear_search_pax(type, passenger_number);
+            close_modal_check(type, passenger_number);
+        }else{
+            clear_btn_top(type, '');
+            clear_search_pax(type, '');
+            close_modal_check(type, '');
+        }
+    }catch(err){console.log('lalala');console.log(err);}
 }
 
 function copy_booker_to_passenger(val, type){
@@ -7350,6 +7349,7 @@ function move_pax_cache(){
         });
     }else{
         document.getElementById('show_error_log').innerHTML = '';
+        on_off_overlay_bar('box-passenger-db', 'overlay_box_passenger_db'); clear_search_pax('passenger','');
     }
 }
 
@@ -9763,6 +9763,11 @@ function change_identity_type(id, automatic_change_number=true){
             document.getElementById(id.replace('id_type','identity_expired_date_required')).style.color = 'white';
             document.getElementById(id.replace('id_type','identity_number_required')).style.color = 'white';
             document.getElementById(id.replace('id_type','country_of_issued_required')).style.color = 'white';
+        }
+        if(document.getElementById(id).value == 'passport'){
+            document.getElementById(id.replace('id_type','birth_date') + '_required').innerHTML = '*';
+        }else if(!birth_date_required){
+            document.getElementById(id.replace('id_type','birth_date') + '_required').innerHTML = '';
         }
     }catch(err){
         console.log(err); // di html tidak ada id id_type
