@@ -280,7 +280,7 @@ function set_container_bill(){
                 <div class="col-lg-12" style="padding:0px; text-align:left;">
                     <span class="span-search-ticket">Product Type</span>
                     <div class="input-container-search-ticket">
-                        <div class="form-select" id="bpjs-select">
+                        <div class="form-select" id="evoucher-select">
                             <select id="evoucher_type" name="evoucher_type" class="nice-select-default" onchange="set_evoucher_div();">`;
                             car_counter = 0;
                             for(i in ppob_prod_data[bill_type]){
@@ -593,7 +593,7 @@ function set_container_bill(){
                 <div class="col-lg-12 mb-3" style="text-align:left;">
                     <span class="span-search-ticket">Product Type</span>
                     <div class="input-container-search-ticket">
-                        <div class="form-select" id="bpjs-select">
+                        <div class="form-select" id="evoucher-select">
                             <select id="evoucher_type" name="evoucher_type" class="nice-select-default" onchange="set_evoucher_div();">`;
                             car_counter = 0;
                             for(i in ppob_prod_data[bill_type]){
@@ -906,7 +906,7 @@ function set_container_bill(){
                 <div class="col-lg-12 mb-3" style="text-align:left;">
                     <span class="span-search-ticket">Product Type</span>
                     <div class="input-container-search-ticket">
-                        <div class="form-select" id="bpjs-select">
+                        <div class="form-select" id="evoucher-select">
                             <select id="evoucher_type" name="evoucher_type" class="nice-select-default" onchange="set_evoucher_div();">`;
                             car_counter = 0;
                             for(i in ppob_prod_data[bill_type]){
@@ -1219,7 +1219,7 @@ function set_container_bill(){
                 <div class="col-lg-12 mb-3" style="text-align:left;">
                     <span class="span-search-ticket">Product Type</span>
                     <div class="input-container-search-ticket">
-                        <div class="form-select" id="bpjs-select">
+                        <div class="form-select" id="evoucher-select">
                             <select id="evoucher_type" name="evoucher_type" class="nice-select-default" onchange="set_evoucher_div();">`;
                             car_counter = 0;
                             for(i in ppob_prod_data[bill_type]){
@@ -1532,7 +1532,7 @@ function set_container_bill(){
                 <div class="col-lg-12 mb-3" style="text-align:left;">
                     <span class="span-search-ticket">Product Type</span>
                     <div class="input-container-search-ticket">
-                        <div class="form-select" id="bpjs-select">
+                        <div class="form-select" id="evoucher-select">
                             <select id="evoucher_type" name="evoucher_type" class="nice-select-default" onchange="set_evoucher_div();">`;
                             car_counter = 0;
                             for(i in ppob_prod_data[bill_type]){
@@ -1843,7 +1843,7 @@ function set_container_bill(){
                 <div class="col-lg-12" style="text-align:left;">
                     <span class="span-search-ticket">Product Type</span>
                     <div class="input-container-search-ticket">
-                        <div class="form-select" id="bpjs-select">
+                        <div class="form-select" id="evoucher-select">
                             <select id="evoucher_type" name="evoucher_type" class="nice-select-default" onchange="set_evoucher_div();">`;
                             car_counter = 0;
                             for(i in ppob_prod_data[bill_type]){
