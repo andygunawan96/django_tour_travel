@@ -8545,7 +8545,7 @@ function airline_get_reprice(data){
             'booking_data': JSON.stringify(airline_get_detail)
        },
        success: function(msg) {
-            airline_get_booking(data);
+            airline_get_booking(data, true);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error airline reprice');
