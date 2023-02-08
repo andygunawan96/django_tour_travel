@@ -905,7 +905,7 @@
                                                             <tr><th style="color:{{text_color}};">Product</th><th style="color:{{text_color}};">Sequence</th></tr>
                                                             {% for provider_type in provider_types_sequence %}
                                                             {% if provider_type.name != 'bank' and provider_type.name != 'offline' and provider_type.name != 'issued_offline' and provider_type.name != 'payment'%}
-                                                            <tr><td style="color:{{text_color}};">{{provider_type.name}}</td><td style="color:{{text_color}};"><input type="hidden" name="product_name{{forloop.counter}}" value="{{provider_type.name}}"><input type="text" class="form-control" name="product_sequence{{forloop.counter}}" id="product_sequence{{forloop.counter}}" placeholder="{% trans 'Sequence' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Sequence '" value="{{provider_type.sequence}}"></td></tr>
+                                                            <tr><td style="color:{{text_color}};">{{provider_type.name}}</td><td style="color:{{text_color}};"><input type="hidden" name="product_name{{forloop.counter}}" value="{{provider_type.code}}"><input type="text" class="form-control" name="product_sequence{{forloop.counter}}" id="product_sequence{{forloop.counter}}" placeholder="{% trans 'Sequence' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Sequence '" value="{{provider_type.sequence}}"></td></tr>
                                                             {% endif %}
                                                             {% endfor %}
                                                         </table>
@@ -2285,7 +2285,7 @@
                                                         <tr><th style="color:{{text_color}};">Product</th><th style="color:{{text_color}};">Sequence</th></tr>
                                                         {% for provider_type in provider_types_sequence %}
                                                         {% if provider_type.name != 'bank' and provider_type.name != 'offline' and provider_type.name != 'issued_offline' and provider_type.name != 'payment'%}
-                                                        <tr><td style="color:{{text_color}};">{{provider_type.name}}</td><td style="color:{{text_color}};"><input type="hidden" name="product_name{{forloop.counter}}" value="{{provider_type.name}}"><input type="text" class="form-control" name="product_sequence{{forloop.counter}}" id="product_sequence{{forloop.counter}}" placeholder="{% trans 'Sequence' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Sequence '" value="{{provider_type.sequence}}"></td></tr>
+                                                        <tr><td style="color:{{text_color}};">{{provider_type.name}}</td><td style="color:{{text_color}};"><input type="hidden" name="product_name{{forloop.counter}}" value="{{provider_type.code}}"><input type="text" class="form-control" name="product_sequence{{forloop.counter}}" id="product_sequence{{forloop.counter}}" placeholder="{% trans 'Sequence' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Sequence '" value="{{provider_type.sequence}}"></td></tr>
                                                         {% endif %}
                                                         {% endfor %}
                                                     </table>
@@ -3665,7 +3665,7 @@
                                                 <tr><th style="color:{{text_color}};">Product</th><th style="color:{{text_color}};">Sequence</th></tr>
                                                 {% for provider_type in provider_types_sequence %}
                                                 {% if provider_type.name != 'bank' and provider_type.name != 'offline' and provider_type.name != 'issued_offline' and provider_type.name != 'payment'%}
-                                                <tr><td style="color:{{text_color}};">{{provider_type.name}}</td><td style="color:{{text_color}};"><input type="hidden" name="product_name{{forloop.counter}}" value="{{provider_type.name}}"><input type="text" class="form-control" name="product_sequence{{forloop.counter}}" id="product_sequence{{forloop.counter}}" placeholder="{% trans 'Sequence' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Sequence '" value="{{provider_type.sequence}}"></td></tr>
+                                                <tr><td style="color:{{text_color}};">{{provider_type.name}}</td><td style="color:{{text_color}};"><input type="hidden" name="product_name{{forloop.counter}}" value="{{provider_type.code}}"><input type="text" class="form-control" name="product_sequence{{forloop.counter}}" id="product_sequence{{forloop.counter}}" placeholder="{% trans 'Sequence' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Sequence '" value="{{provider_type.sequence}}"></td></tr>
                                                 {% endif %}
                                                 {% endfor %}
                                             </table>
@@ -5048,7 +5048,7 @@
                                             <tr><th style="color:{{text_color}};">Product</th><th style="color:{{text_color}};">Sequence</th></tr>
                                             {% for provider_type in provider_types_sequence %}
                                             {% if provider_type.name != 'bank' and provider_type.name != 'offline' and provider_type.name != 'issued_offline' and provider_type.name != 'payment'%}
-                                            <tr><td style="color:{{text_color}};">{{provider_type.name}}</td><td style="color:{{text_color}};"><input type="hidden" name="product_name{{forloop.counter}}" value="{{provider_type.name}}"><input type="text" class="form-control" name="product_sequence{{forloop.counter}}" id="product_sequence{{forloop.counter}}" placeholder="{% trans 'Sequence' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Sequence '" value="{{provider_type.sequence}}"></td></tr>
+                                            <tr><td style="color:{{text_color}};">{{provider_type.name}}</td><td style="color:{{text_color}};"><input type="hidden" name="product_name{{forloop.counter}}" value="{{provider_type.code}}"><input type="text" class="form-control" name="product_sequence{{forloop.counter}}" id="product_sequence{{forloop.counter}}" placeholder="{% trans 'Sequence' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Sequence '" value="{{provider_type.sequence}}"></td></tr>
                                             {% endif %}
                                             {% endfor %}
                                         </table>
@@ -6432,7 +6432,7 @@
                                                     <tr><th style="color:{{text_color}};">Product</th><th style="color:{{text_color}};">Sequence</th></tr>
                                                     {% for provider_type in provider_types_sequence %}
                                                     {% if provider_type.name != 'bank' and provider_type.name != 'offline' and provider_type.name != 'issued_offline' and provider_type.name != 'payment'%}
-                                                    <tr><td style="color:{{text_color}};">{{provider_type.name}}</td><td style="color:{{text_color}};"><input type="hidden" name="product_name{{forloop.counter}}" value="{{provider_type.name}}"><input type="text" class="form-control" name="product_sequence{{forloop.counter}}" id="product_sequence{{forloop.counter}}" placeholder="{% trans 'Sequence' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Sequence '" value="{{provider_type.sequence}}"></td></tr>
+                                                    <tr><td style="color:{{text_color}};">{{provider_type.name}}</td><td style="color:{{text_color}};"><input type="hidden" name="product_name{{forloop.counter}}" value="{{provider_type.code}}"><input type="text" class="form-control" name="product_sequence{{forloop.counter}}" id="product_sequence{{forloop.counter}}" placeholder="{% trans 'Sequence' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Sequence '" value="{{provider_type.sequence}}"></td></tr>
                                                     {% endif %}
                                                     {% endfor %}
                                                 </table>
@@ -8028,7 +8028,7 @@
                                                         <tr><th style="color:{{text_color}};">Product</th><th style="color:{{text_color}};">Sequence</th></tr>
                                                         {% for provider_type in provider_types_sequence %}
                                                         {% if provider_type.name != 'bank' and provider_type.name != 'offline' and provider_type.name != 'issued_offline' and provider_type.name != 'payment'%}
-                                                        <tr><td style="color:{{text_color}};">{{provider_type.name}}</td><td style="color:{{text_color}};"><input type="hidden" name="product_name{{forloop.counter}}" value="{{provider_type.name}}"><input type="text" class="form-control" name="product_sequence{{forloop.counter}}" id="product_sequence{{forloop.counter}}" placeholder="{% trans 'Sequence' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Sequence '" value="{{provider_type.sequence}}"></td></tr>
+                                                        <tr><td style="color:{{text_color}};">{{provider_type.name}}</td><td style="color:{{text_color}};"><input type="hidden" name="product_name{{forloop.counter}}" value="{{provider_type.code}}"><input type="text" class="form-control" name="product_sequence{{forloop.counter}}" id="product_sequence{{forloop.counter}}" placeholder="{% trans 'Sequence' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Sequence '" value="{{provider_type.sequence}}"></td></tr>
                                                         {% endif %}
                                                         {% endfor %}
                                                     </table>
