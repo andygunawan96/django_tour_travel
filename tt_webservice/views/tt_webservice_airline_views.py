@@ -2286,30 +2286,24 @@ def get_booking(request):
     return res
 
 def get_airline_reprice(request):
-    url_request = url + 'booking/airline/private'
+    url_request = url + 'booking/airline'
 
     booking_data = json.loads(request.POST['booking_data'])
-    for provider in booking_data['result']['response']['provider_bookings']:
-        try:
-            data = {
-                'pnr': provider['pnr'],
-                'pnr2': provider['pnr2'],
-                'reference': provider['reference'],
-                'provider': provider['provider'],
-                'is_retrieved': False,
-                'pricing_date': False
-            }
-            headers = {
-                "Accept": "application/json,text/html,application/xml",
-                "Content-Type": "application/json",
-                "action": "reprice_booking",
-                "signature": request.POST['signature'],
-            }
-            res = send_request_api(request, url_request, headers, data, 'POST', 300)
-        except Exception as e:
-            _logger.error(str(e) + '\n' + traceback.format_exc())
+    try:
+        data = {
+            "order_number": booking_data['result']['response']['order_number']
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "repricing_booking",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
 
-    return ERR.get_no_error()
+    return res
 
 def update_service_charge(request):
     # nanti ganti ke get_ssr_availability
