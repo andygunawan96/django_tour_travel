@@ -6205,7 +6205,7 @@ function check_passenger(adult, child, infant, type=''){
 //       }else{
 //           document.getElementById('adult_last_name'+i).style['border-color'] = '#EFEFEF';
 //       }
-       if(birth_date_required == true){
+       if(birth_date_required == true || document.getElementById('adult_id_type'+i).value == 'passport'){
            if(check_date(document.getElementById('adult_birth_date'+i).value)==false){
                error_log+= 'Birth date wrong for passenger adult '+i+'!</br>\n';
                document.getElementById('adult_birth_date'+i).style['border-color'] = 'red';

@@ -230,7 +230,10 @@
                                 <br/>
                             </div>
                         </div>
-                        <div class="col-md-4" id="div_sync_status" style="text-align:right;" hidden>
+                        <div class="col-md-2" id="div_sync_reprice" style="text-align:right;" hidden>
+                            <input type="button" class="primary-btn mb-3" id="button-sync-reprice" value="Sync Reprice" onclick="please_wait_transaction();airline_get_reprice('{{order_number}}')">
+                        </div>
+                        <div class="col-md-2" id="div_sync_status" style="text-align:right;" hidden>
                             <input type="button" class="primary-btn mb-3" id="button-sync-status" value="Sync Status" onclick="please_wait_transaction();airline_get_booking('{{order_number}}',true)">
                         </div>
                     </div>

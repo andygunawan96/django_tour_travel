@@ -6352,6 +6352,8 @@ function airline_get_booking(data, sync=false){
                if(msg.result.error_code == 0){
                 if(['booked', 'partial_booked', 'partial_issued', 'fail_issued', 'halt_booked'].includes(msg.result.response.state)){
                     document.getElementById('div_sync_status').hidden = false;
+                    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+                        document.getElementById('div_sync_reprice').hidden = false;
                     try{
                         if(user_login.co_job_position_is_request_required == true && msg.result.response.issued_request_status != "approved")
                         {
@@ -8529,6 +8531,27 @@ function airline_get_booking(data, sync=false){
             $('.loader-rodextrip').fadeOut();
        },timeout: 300000
     });
+}
+
+function airline_get_reprice(data){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/airline",
+       headers:{
+            'action': 'get_airline_reprice',
+       },
+       data: {
+            'signature': signature,
+            'booking_data': JSON.stringify(airline_get_detail)
+       },
+       success: function(msg) {
+            airline_get_booking(data);
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error airline reprice');
+            airline_get_booking(data)
+       },timeout: 300000
+    })
 }
 
 function cancel_btn_location(){

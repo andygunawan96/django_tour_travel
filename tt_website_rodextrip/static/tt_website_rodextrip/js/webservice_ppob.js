@@ -47,7 +47,7 @@ function get_config_ppob(){
        success: function(msg) {
             ppob_data = msg;
             text = '';
-            prov_counter = 0
+            prov_counter = 0;
             first_prov_loop = ''
             for (prov_loop in provider_list_data)
             {
@@ -61,6 +61,10 @@ function get_config_ppob(){
                 else if (prov_loop == 'ppob_espay')
                 {
                     text+='Espay';
+                }
+                else if (prov_loop == 'rodextrip_ppob')
+                {
+                    text+='Orbisway';
                 }
                 else
                 {
