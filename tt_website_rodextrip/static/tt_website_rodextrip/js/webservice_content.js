@@ -610,18 +610,18 @@ function get_banner(type,page){
                                     <div class="form-select">
                                         <select id="`+type+i+`_provider_type" style="width:100%" name="`+type+i+`_provider_type" class="nice-select-default">
                                             <option value="external">External</option>`;
-                                        for(j in provider_list_template){
-                                            if(provider_list_template[j] != "offline" &&
-                                               provider_list_template[j] != "bank" &&
-                                               provider_list_template[j] != "issued_offline" &&
-                                               provider_list_template[j] != "payment" &&
-                                               provider_list_template[j] != "issued_offline"){
-                                               if(msg.result.response[i].provider_type != provider_list_template[j]){
+                                        for(j in provider_types_sequence){
+                                            if(provider_types_sequence[j].code != "offline" &&
+                                               provider_types_sequence[j].code != "bank" &&
+                                               provider_types_sequence[j].code != "issued_offline" &&
+                                               provider_types_sequence[j].code != "payment" &&
+                                               provider_types_sequence[j].code != "issued_offline"){
+                                               if(msg.result.response[i].provider_type != provider_types_sequence[j].code){
                                                 text+=`
-                                                    <option value="`+provider_list_template[j]+`">`+provider_list_template[j]+`</option>`;
+                                                    <option value="`+provider_types_sequence[j].code+`">`+provider_types_sequence[j].name+`</option>`;
                                                }else{
                                                 text+=`
-                                                    <option value="`+provider_list_template[j]+`" selected>`+provider_list_template[j]+`</option>`;
+                                                    <option value="`+provider_types_sequence[j].code+`" selected>`+provider_types_sequence[j].name+`</option>`;
                                                }
 
                                             }

@@ -80,8 +80,8 @@
                             <label>{% trans 'Product' %}</label>
                             <select class="form-control js-example-basic-single" name="product" style="width:100%;" id="product" onchange="change_product();" class="nice-select-default">
                                 {% for rec in provider_types_sequence %}
-                                {% if rec.name == 'airline' or rec.name == 'hotel' or rec.name == 'train' or rec.name == 'phc' %}
-                                <option value="{{rec.name}}" {%if rec.name == 'airline'%} selected{% endif %}>{{rec.name}}</option>
+                                {% if rec.code == 'airline' or rec.code == 'hotel' or rec.code == 'train' or rec.code == 'phc' %}
+                                <option value="{{rec.code}}" {%if rec.code == 'airline'%} selected{% endif %}>{{rec.name}}</option>
                                 {% endif %}
                                 {% endfor%}
                             </select>
@@ -125,8 +125,8 @@
                             <div class="form-select">
                                 <select class="form-control js-example-basic-single" name="product" style="width:100%;" id="product" onchange="change_product();" class="nice-select-default">
                                     {% for rec in provider_types_sequence %}
-                                    {% if rec.name == 'airline' or rec.name == 'hotel' or rec.name == 'train' %}
-                                    <option value="{{rec.name}}" {%if rec.name == 'airline'%} selected{% endif %}>{{rec.name}}</option>
+                                    {% if rec.code == 'airline' or rec.code == 'hotel' or rec.code == 'train' %}
+                                    <option value="{{rec.code}}" {%if rec.code == 'airline'%} selected{% endif %}>{{rec.name}}</option>
                                     {% endif %}
                                     {% endfor%}
                                 </select>
@@ -171,8 +171,8 @@
                             <div class="form-select">
                                 <select class="form-control js-example-basic-single" name="product" style="width:100%;" id="product" onchange="change_product();" class="nice-select-default">
                                     {% for rec in provider_types_sequence %}
-                                    {% if rec.name == 'airline' or rec.name == 'hotel' or rec.name == 'train' %}
-                                    <option value="{{rec.name}}" {%if rec.name == 'airline'%} selected{% endif %}>{{rec.name}}</option>
+                                    {% if rec.code == 'airline' or rec.code == 'hotel' or rec.code == 'train' %}
+                                    <option value="{{rec.code}}" {%if rec.code == 'airline'%} selected{% endif %}>{{rec.name}}</option>
                                     {% endif %}
                                     {% endfor%}
                                 </select>
@@ -217,8 +217,8 @@
                             <div class="form-select">
                                 <select class="form-control js-example-basic-single" name="product" style="width:100%;" id="product" onchange="change_product();" class="nice-select-default">
                                     {% for rec in provider_types_sequence %}
-                                    {% if rec.name == 'airline' or rec.name == 'hotel' or rec.name == 'train' %}
-                                    <option value="{{rec.name}}" {%if rec.name == 'airline'%} selected{% endif %}>{{rec.name}}</option>
+                                    {% if rec.code == 'airline' or rec.code == 'hotel' or rec.code == 'train' %}
+                                    <option value="{{rec.code}}" {%if rec.code == 'airline'%} selected{% endif %}>{{rec.name}}</option>
                                     {% endif %}
                                     {% endfor%}
                                 </select>
@@ -262,8 +262,8 @@
                             <div class="form-select">
                                 <select class="form-control js-example-basic-single" name="product" style="width:100%;" id="product" onchange="change_product();" class="nice-select-default">
                                     {% for rec in provider_types_sequence %}
-                                    {% if rec.name == 'airline' or rec.name == 'hotel' or rec.name == 'train' %}
-                                    <option value="{{rec.name}}" {%if rec.name == 'airline'%} selected{% endif %}>{{rec.name}}</option>
+                                    {% if rec.code == 'airline' or rec.code == 'hotel' or rec.name == 'train' %}
+                                    <option value="{{rec.code}}" {%if rec.code == 'airline'%} selected{% endif %}>{{rec.name}}</option>
                                     {% endif %}
                                     {% endfor%}
                                 </select>
@@ -307,8 +307,8 @@
                             <div class="form-select">
                                 <select class="form-control js-example-basic-single" name="product" style="width:100%;" id="product" onchange="change_product();" class="nice-select-default">
                                     {% for rec in provider_types_sequence %}
-                                    {% if rec.name == 'airline' or rec.name == 'hotel' or rec.name == 'train' %}
-                                    <option value="{{rec.name}}" {%if rec.name == 'airline'%} selected{% endif %}>{{rec.name}}</option>
+                                    {% if rec.code == 'airline' or rec.code == 'hotel' or rec.code == 'train' %}
+                                    <option value="{{rec.code}}" {%if rec.code == 'airline'%} selected{% endif %}>{{rec.name}}</option>
                                     {% endif %}
                                     {% endfor%}
                                 </select>

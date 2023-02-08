@@ -396,6 +396,11 @@ Licence URI: http://www.os-templates.com/template-terms
     user_login = JSON.parse(user_login.replace(/&#39;/g, '"'));
     name = `{{name}}`;
     web_name = `{{name}}`;
+    provider_types_sequence = `{{provider_types_sequence}}`;
+    provider_types_sequence = provider_types_sequence.replace(/False/g, '""');
+    provider_types_sequence = provider_types_sequence.replace(/True/g, '""');
+    provider_types_sequence = JSON.parse(provider_types_sequence.replace(/&#39;/g, '"'));
+
     provider_list_template = `{{provider}}`;
     provider_list_template = provider_list_template.replace(/False/g, '""');
     provider_list_template = provider_list_template.replace(/True/g, '""');

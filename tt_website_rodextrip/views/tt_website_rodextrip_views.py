@@ -1552,13 +1552,15 @@ def get_data_template(request, type='home', provider_type = []):
                 provider_start += 1
         for idx, rec in enumerate(sequence, start=1):
             temp_provider_types_sequence.append({
-                'name': rec,
+                'code': rec,
+                'name': "%s%s" % (rec[0].upper(), rec[1:].replace('_',' ')),
                 'sequence': sequence.get(rec) or idx
             })
         #kalau tidak ada provider health_care buat frontend
-        if not any(temporary['name'] == 'health_care' for temporary in temp_provider_types_sequence):
+        if not any(temporary['code'] == 'health_care' for temporary in temp_provider_types_sequence):
             temp_provider_types_sequence.append({
-                'name': 'health_care',
+                'code': 'health_care',
+                'name': 'Health Care',
                 'sequence': ''
             })
         provider_types_sequence = temp_provider_types_sequence
@@ -1568,7 +1570,7 @@ def get_data_template(request, type='home', provider_type = []):
             provider_types_sequence_file = file
             for rec in provider_types_sequence:
                 try:
-                    rec['sequence'] = provider_types_sequence_file.get(rec['name'], '')
+                    rec['sequence'] = provider_types_sequence_file.get(rec['code'], '')
                 except:
                     pass
 
