@@ -16088,13 +16088,13 @@ function upload_image(){
     });
 }
 
-function get_carrier_providers_reservation(){
+function get_providers_airline(){
     getToken();
     $.ajax({
        type: "POST",
        url: "/webservice/airline",
        headers:{
-            'action': 'get_provider_description',
+            'action': 'get_provider_list_backend',
        },
        data: {
             'signature': signature
@@ -16102,8 +16102,10 @@ function get_carrier_providers_reservation(){
        success: function(msg) {
            provider_list = msg;
            text = '';
-           for(i in provider_list){
-                text += `<option value="`+i+`">`+provider_list[i].provider_name+`</option>`;
+           if(msg.result.error_code == 0){
+               for(i in msg.result.response){
+                    text += `<option value="`+msg.result.response[i].code+`">`+msg.result.response[i].name+`</option>`;
+               }
            }
            document.getElementById('provider').innerHTML += text;
            $('#provider').niceSelect('update');

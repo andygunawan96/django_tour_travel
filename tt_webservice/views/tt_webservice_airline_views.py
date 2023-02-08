@@ -90,6 +90,8 @@ def api_models(request):
             res = get_data_seat_page(request)
         elif req_data['action'] == 'get_data':
             res = get_data(request)
+        elif req_data['action'] == 'get_provider_list_backend':
+            res = get_provider_list_backend(request)
         elif req_data['action'] == 'get_frequent_flyer_all_data':
             res = get_frequent_flyer_all_data(request)
         elif req_data['action'] == 'get_carrier_providers':
@@ -787,6 +789,61 @@ def get_carriers_search(request, signature=''):
         except Exception as e:
             _logger.error('ERROR read file get_airline_active_carriers\n' + str(e) + '\n' + traceback.format_exc())
 
+    return res
+
+def get_provider_list_backend(request, signature=''):
+    try:
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "get_provider_list_backend",
+        }
+        if signature:
+            headers.update({"signature": signature})
+        else:
+            headers.update({"signature": request.POST['signature']})
+        data = {
+            'provider_type': 'airline'
+        }
+    except Exception as e:
+        ## from mobile
+        try:
+            headers = {
+                "Accept": "application/json,text/html,application/xml",
+                "Content-Type": "application/json",
+                "action": "get_providers_airline",
+                "signature": request.data['signature']
+            }
+            data = {
+                'provider_type': 'airline'
+            }
+        except:
+            _logger.error("Error not from mobile")
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    file = read_cache("get_list_provider_airline", 'cache_web')
+    if not file:
+        url_request = url + 'content'
+        res = send_request_api(request, url_request, headers, data, 'POST')
+        try:
+            if res['result']['error_code'] == 0:
+                write_cache(res, "get_list_provider_airline", 'cache_web')
+                _logger.info("write get_list_provider_airline")
+            else:
+                try:
+                    file = read_cache("get_list_provider_airline", 'cache_web')
+                    if file:
+                        res = file
+                    _logger.info("read file get_list_provider_airline SIGNATURE " + request.POST['signature'])
+                except Exception as e:
+                    _logger.error('ERROR read file get_list_provider_airline\n' + str(e) + '\n' + traceback.format_exc())
+        except Exception as e:
+            _logger.error(str(e) + '\n' + traceback.format_exc())
+    else:
+        try:
+            file = read_cache("get_list_provider_airline", 'cache_web', 90911)
+            res = file
+        except Exception as e:
+            _logger.error('ERROR read file get_list_provider_airline\n' + str(e) + '\n' + traceback.format_exc())
     return res
 
 def get_provider_description(request):
