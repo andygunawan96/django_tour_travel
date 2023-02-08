@@ -223,7 +223,7 @@ function set_container_bill(){
                             <select id="bpjs_type" name="bpjs_type" class="nice-select-default" onchange="get_bpjs_name();">`;
                             car_counter = 0;
                             for(i in ppob_prod_data[bill_type]){
-                                if (carrier_provider_ppob.hasOwnProperty(ppob_prod_data[bill_type][i].code) && carrier_provider_ppob[ppob_prod_data[bill_type][i].code.split('~')[0]].includes(bill_prov))
+                                if (carrier_provider_ppob.hasOwnProperty(ppob_prod_data[bill_type][i].code.split('~')[0]) && carrier_provider_ppob[ppob_prod_data[bill_type][i].code.split('~')[0]].includes(bill_prov))
                                 {
                                     text+=`
                                     <option value="`+ppob_prod_data[bill_type][i].code+`">`+ppob_prod_data[bill_type][i].name+`</option>
