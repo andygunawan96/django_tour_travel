@@ -16103,7 +16103,7 @@ function get_carrier_providers_reservation(){
            provider_list = msg;
            text = '';
            for(i in provider_list){
-                text += `<option value="`+i+`">`+i+`</option>`;
+                text += `<option value="`+i+`">`+provider_list[i].provider_name+`</option>`;
            }
            document.getElementById('provider').innerHTML += text;
            $('#provider').niceSelect('update');
