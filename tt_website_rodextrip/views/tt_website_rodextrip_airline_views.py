@@ -111,12 +111,14 @@ def search(request):
             if file:
                 carrier = file
             airline_destinations = []
-            try:
-                file = read_cache("get_airline_active_carriers", 'cache_web', 90911)
-                if file:
-                    response = file
-            except Exception as e:
-                _logger.error('ERROR get_airline_active_carriers file\n' + str(e) + '\n' + traceback.format_exc())
+            # try:
+            #     file = read_cache("get_airline_active_carriers", 'cache_web', 90911)
+            #     if file:
+            #         response = file
+            # except Exception as e:
+            #     _logger.error('ERROR get_airline_active_carriers file\n' + str(e) + '\n' + traceback.format_exc())
+            response = get_carriers_search(request, request.session['signature'])
+
             values = get_data_template(request, 'search')
 
             airline_carriers = {'All': {'name': 'All', 'code': 'all','is_excluded_from_b2c': False}}
