@@ -788,7 +788,12 @@ def get_carriers_search(request, signature=''):
             res = file
         except Exception as e:
             _logger.error('ERROR read file get_airline_active_carriers\n' + str(e) + '\n' + traceback.format_exc())
-
+    if 'allowed_search_config' in globals():
+        if len(allowed_search_config):
+            new_res = {}
+            for carrier in allowed_search_config:
+                new_res[carrier] = res[carrier]
+            res = new_res
     return res
 
 def get_provider_list_backend(request, signature=''):
