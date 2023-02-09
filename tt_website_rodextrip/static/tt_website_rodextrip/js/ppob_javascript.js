@@ -2438,6 +2438,7 @@ function set_pln_div(){
 function set_bpjs_div(bill_prov){
     var bpjs_selection = document.getElementById('bpjs_type')
     $bpjs_type_name = bpjs_selection.options[bpjs_selection.selectedIndex].text;
+    $bpjs_type_value = bpjs_selection.options[bpjs_selection.selectedIndex].value;
     if(template == 1){
         if($bpjs_type_name.includes('BPJS Kesehatan')){
             text = `
@@ -2445,7 +2446,7 @@ function set_bpjs_div(bill_prov){
                 <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Pay Until</span>
                 <div class="input-container-search-ticket btn-group">
                     <div class="form-select" id="default-select">`;
-                        if(bill_prov == 'ppob_espay')
+                        if(bill_prov == 'ppob_espay' || $bpjs_type_value.includes('~ppob_espay'))
                         {
                             text += `<select id="bpjs_month" name="bpjs_month" class="nice-select-default" disabled>`;
                         }
@@ -2497,7 +2498,7 @@ function set_bpjs_div(bill_prov){
             <div class="col-lg-3 col-md-3 col-sm-12" id="train_date_search" style="margin-bottom:15px;">
                 <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Pay Until</span>
                     <div class="form-select" id="default-select">`;
-                        if(bill_prov == 'ppob_espay')
+                        if(bill_prov == 'ppob_espay' || $bpjs_type_value.includes('~ppob_espay'))
                         {
                             text += `<select id="bpjs_month" name="bpjs_month" class="nice-select-default" disabled>`;
                         }
@@ -2537,7 +2538,7 @@ function set_bpjs_div(bill_prov){
                 <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Pay Until</span>
                 <div class="form-group">
                     <div class="default-select">`;
-                        if(bill_prov == 'ppob_espay')
+                        if(bill_prov == 'ppob_espay' || $bpjs_type_value.includes('~ppob_espay'))
                         {
                             text += `<select id="bpjs_month" name="bpjs_month" class="nice-select-default" disabled>`;
                         }
@@ -2579,7 +2580,7 @@ function set_bpjs_div(bill_prov){
                 <div class="input-container-search-ticket">
                     <i class="fas fa-calendar-alt" style="padding:14px; height: 43px; width: 45px; background:`+color+`; color:`+text_color+`;"></i>
                     <div class="form-select" id="default-select">`;
-                        if(bill_prov == 'ppob_espay')
+                        if(bill_prov == 'ppob_espay' || $bpjs_type_value.includes('~ppob_espay'))
                         {
                             text += `<select id="bpjs_month" name="bpjs_month" class="nice-select-default" disabled>`;
                         }
@@ -2621,7 +2622,7 @@ function set_bpjs_div(bill_prov){
                 <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Pay Until</span>
                 <div class="input-container-search-ticket btn-group">
                     <div class="form-select" id="default-select">`;
-                        if(bill_prov == 'ppob_espay')
+                        if(bill_prov == 'ppob_espay' || $bpjs_type_value.includes('~ppob_espay'))
                         {
                             text += `<select id="bpjs_month" name="bpjs_month" class="nice-select-default" disabled>`;
                         }
@@ -2662,7 +2663,7 @@ function set_bpjs_div(bill_prov){
                 <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Pay Until</span>
                 <div class="input-container-search-ticket btn-group">
                     <div class="form-select" id="default-select">`;
-                        if(bill_prov == 'ppob_espay')
+                        if(bill_prov == 'ppob_espay' || $bpjs_type_value.includes('~ppob_espay'))
                         {
                             text += `<select id="bpjs_month" name="bpjs_month" class="nice-select-default" disabled>`;
                         }
