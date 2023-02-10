@@ -49,29 +49,11 @@ function get_config_ppob(){
             text = '';
             prov_counter = 0;
             first_prov_loop = ''
-            for (prov_loop in provider_list_data)
+            for (prov_loop in provider_list_data_ppob)
             {
                 text+=`
                 <label class="radio-button-custom" style="margin-bottom:20px;">
-                <span style="font-size:13px; color:`+text_color+`;">`;
-                if (prov_loop == 'mkm')
-                {
-                    text+='MKM';
-                }
-                else if (prov_loop == 'ppob_espay')
-                {
-                    text+='Espay';
-                }
-                else if (prov_loop == 'rodextrip_ppob')
-                {
-                    text+='Orbisway';
-                }
-                else
-                {
-                    prov_counter_disp = prov_counter + 1;
-                    text+='Provider ' + prov_counter_disp.toString();
-                }
-                text+=`</span>`;
+                <span style="font-size:13px; color:`+text_color+`;">`+provider_list_data_ppob[prov_loop].name+`</span>`;
                 if(prov_counter == 0){
                     first_prov_loop = prov_loop;
                     text+=`<input type="radio" checked="checked" name="bills_provider" onclick="get_carrier_setup('`+prov_loop+`');" value="`+prov_loop+`">`;
@@ -141,15 +123,25 @@ function ppob_get_provider_list(is_get_config=false){
        type: "POST",
        url: "/webservice/ppob",
        headers:{
-            'action': 'get_provider_description',
+            'action': 'get_provider_list',
        },
        data: {
             'signature': signature
        },
        success: function(msg) {
-           provider_list_data = msg;
+           provider_list_data_ppob = msg;
            if (is_get_config)
            {
+               for (ppob_prov in provider_list_data_ppob)
+               {
+                   for (ppob_prov_backend in provider_list_ppob)
+                   {
+                        if (provider_list_ppob[ppob_prov_backend].code == provider_list_data_ppob[ppob_prov].provider)
+                        {
+                            provider_list_data_ppob[ppob_prov]['name'] = provider_list_ppob[ppob_prov_backend].name
+                        }
+                   }
+               }
                get_config_ppob();
            }
        },
@@ -157,6 +149,30 @@ function ppob_get_provider_list(is_get_config=false){
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error ppob get provider list');
        },timeout: 60000
     });
+}
+
+function get_providers_ppob(){
+    getToken();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/ppob",
+       headers:{
+            'action': 'get_provider_list_backend',
+       },
+       data: {
+            'signature': signature
+       },
+       success: function(msg) {
+           if(msg.result.error_code == 0){
+               provider_list_ppob = msg.result.response;
+               ppob_get_provider_list(true);
+           }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+           error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error ppob get providers');
+       },timeout: 60000
+    });
+
 }
 
 function search_ppob(){
@@ -1086,7 +1102,7 @@ function ppob_get_booking(data){
                     try{
                        check_cancel = 0;
                        for(i in msg.result.response.provider_booking){
-                            if(provider_list_data[msg.result.response.provider_booking[i].provider].is_post_booked_cancel){
+                            if(provider_list_data_ppob[msg.result.response.provider_booking[i].provider].is_post_booked_cancel){
                                 check_cancel = 1;
                             }
                        }
