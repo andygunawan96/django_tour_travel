@@ -68,8 +68,10 @@ def api_models(request):
             res = get_carriers(request)
         elif req_data['action'] == 'get_carrier_providers':
             res = get_carrier_providers(request)
-        elif req_data['action'] == 'get_provider_description':
-            res = get_provider_description(request)
+        elif req_data['action'] == 'get_provider_list':
+            res = get_provider_list(request)
+        elif req_data['action'] == 'get_provider_list_backend':
+            res = get_provider_list_backend(request)
         elif req_data['action'] == 'get_config':
             res = get_config(request)
         elif req_data['action'] == 'search':
@@ -202,7 +204,7 @@ def get_carrier_providers(request):
     return res
 
 
-def get_provider_description(request):
+def get_provider_list(request):
     try:
         headers = {
             "Accept": "application/json,text/html,application/xml",
@@ -245,6 +247,62 @@ def get_provider_description(request):
             res = file
         except Exception as e:
             _logger.error('ERROR get_list_provider_data file\n' + str(e) + '\n' + traceback.format_exc())
+    return res
+
+
+def get_provider_list_backend(request, signature=''):
+    try:
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "get_provider_list_backend",
+        }
+        if signature:
+            headers.update({"signature": signature})
+        else:
+            headers.update({"signature": request.POST['signature']})
+        data = {
+            'provider_type': 'ppob'
+        }
+    except Exception as e:
+        ## from mobile
+        try:
+            headers = {
+                "Accept": "application/json,text/html,application/xml",
+                "Content-Type": "application/json",
+                "action": "get_providers_ppob",
+                "signature": request.data['signature']
+            }
+            data = {
+                'provider_type': 'ppob'
+            }
+        except:
+            _logger.error("Error not from mobile")
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    file = read_cache("get_list_provider_ppob", 'cache_web')
+    if not file:
+        url_request = url + 'content'
+        res = send_request_api(request, url_request, headers, data, 'POST')
+        try:
+            if res['result']['error_code'] == 0:
+                write_cache(res, "get_list_provider_ppob", 'cache_web')
+                _logger.info("write get_list_provider_ppob")
+            else:
+                try:
+                    file = read_cache("get_list_provider_ppob", 'cache_web')
+                    if file:
+                        res = file
+                    _logger.info("read file get_list_provider_ppob SIGNATURE " + request.POST['signature'])
+                except Exception as e:
+                    _logger.error('ERROR read file get_list_provider_ppob\n' + str(e) + '\n' + traceback.format_exc())
+        except Exception as e:
+            _logger.error(str(e) + '\n' + traceback.format_exc())
+    else:
+        try:
+            file = read_cache("get_list_provider_ppob", 'cache_web', 90911)
+            res = file
+        except Exception as e:
+            _logger.error('ERROR read file get_list_provider_ppob\n' + str(e) + '\n' + traceback.format_exc())
     return res
 
 
