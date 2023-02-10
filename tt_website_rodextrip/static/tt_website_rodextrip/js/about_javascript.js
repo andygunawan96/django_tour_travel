@@ -113,13 +113,10 @@ function change_about_us(){
         document.getElementById('paragraph_active').checked = about_us[paragraph_number].state;
         document.getElementById('sequence_paragraph').value = parseInt(about_us[paragraph_number].sequence);
         document.getElementById('title_paragraph').value = about_us[paragraph_number].title;
-        document.getElementById("paragraph_img").src = about_us[paragraph_number].image_paragraph;
         if(about_us[paragraph_number].image_paragraph != '/media/image_about_us/'){
-            document.getElementById('paragraph_img_label').style.display = "block";
-            document.getElementById('paragraph_img').style.display = "block";
+            document.getElementById("paragraph_img").src = about_us[paragraph_number].image_paragraph;
         }else{
-            document.getElementById('paragraph_img_label').style.display = "none";
-            document.getElementById('paragraph_img').style.display = "none";
+            document.getElementById("paragraph_img").src = '/static/tt_website_rodextrip/images/no pic/no-image-available.jpg';
         }
         document.getElementById('delete_paragraph').hidden = false;
         CKEDITOR.instances.body_paragraph.setData(about_us[paragraph_number].body);
@@ -127,9 +124,9 @@ function change_about_us(){
         document.getElementById('paragraph_active').checked = false;
         document.getElementById('sequence_paragraph').value = 1;
         document.getElementById('title_paragraph').value = '';
-        document.getElementById("paragraph_img").src = '';
         document.getElementById("image_paragraph").value = '';
         document.getElementById('delete_paragraph').hidden = true;
+        document.getElementById("paragraph_img").src = '/static/tt_website_rodextrip/images/no pic/no-image-available.jpg';
         CKEDITOR.instances.body_paragraph.setData('');
     }
 

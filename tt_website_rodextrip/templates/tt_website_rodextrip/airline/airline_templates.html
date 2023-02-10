@@ -1766,6 +1766,16 @@
 
     $( document ).ready(function() {
       $('.js-example-basic-single').select2();
+
+      try{
+          document.getElementById("country_id").value = 100;
+          document.getElementById("start").value = moment().format('YYYY-MM-DD');
+          document.getElementById("end").value = moment().subtract(-1, 'years').format('YYYY-MM-DD');
+          get_public_holiday(document.getElementById("start").value, document.getElementById("end").value, document.getElementById("country_id").value);
+          new_get_public_holiday(document.getElementById("start").value, document.getElementById("end").value, document.getElementById("country_id").value);
+      }catch(err){
+      }
+
       var now = moment().format('DD MMM YYYY');
         {% if "airline" in provider and "ticketing_airline" in username.co_agent_frontend_security %}
             try{

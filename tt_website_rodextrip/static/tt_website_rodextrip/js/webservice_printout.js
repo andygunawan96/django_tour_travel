@@ -299,8 +299,10 @@ function get_list_report_footer(){
                         text += `<option value='`+printout[i].code+`'>`+printout[i].name+`</option>`;
                     }
                     document.getElementById('printout_choose').innerHTML = text;
-                    $('#printout_choose').select2();
-//                    $('#printout_choose').niceSelect('update');
+                    $('.js-example-basic-single').niceSelect('destroy');
+                    $('.js-example-basic-single').select2();
+                    //$('#printout_choose').select2();
+                    //$('#printout_choose').niceSelect('update');
                     change_printout();
                 }else{
                     //MEDICAL

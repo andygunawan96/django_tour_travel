@@ -5,48 +5,55 @@ function add_table_of_contact(data){
     var node = document.createElement("div");
     text+=`
         <div class='row' id="contact`+counter_contact+`_id">
-            <div class="col-lg-1 col-md-1 col-sm-1" style="color:`+text_color+`;padding-top:10px;">
-                `+counter_contact+`
-            </div>
-            <div class="col-lg-3 col-md-3 col-sm-3">
-                <div class="input-container-search-ticket" style="display:unset;">`;
-                    if(template == 1 || template == 2 || template == 6){
-                        text+=`<div class="form-select">`;
-                    }else if(template == 3){
-                        text+=`<div class="default-select">`;
-                    }else if(template == 4){
-                        text+=`<div class="default-select">`;
-                    }else if(template == 5){
-                        text+=`<div class="default-select">`;
-                    }
-                    text+=`
-                        <select id="contact_title`+counter_contact+`" name="contact_title`+counter_contact+`" class="nice-select-default">`;
-                        var contact_us = ['Phone', 'Whatsapp', 'Line', 'Email', 'Telegram', 'Other'];
-                        for (i = 0; i < contact_us.length; i++) {
-                            text+=`<option value="`+contact_us[i]+`"`;
-                            if(contact_us[i] == data[0]){
-                                text+=`selected`;
+            <div class="col-lg-12" style="padding:15px; border-bottom:1px solid #cdcdcd;">
+                <div class="row">
+                    <div class="col-xs-6">
+                        <h5>Contact #`+counter_contact+`</h5>
+                    </div>
+                    <div class="col-xs-6" style="text-align:right;">
+                        <button type="button" class="primary-delete-date" onclick="delete_table_of_contact(`+counter_contact+`)">
+                            Delete <i class="fa fa-times" style="color:#E92B2B;font-size:20px;"></i>
+                        </button>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4">
+                        <div class="input-container-search-ticket" style="display:unset;">
+                            <h6 style="margin-bottom:10px;">Select Contact</h6>`;
+                            if(template == 1 || template == 2 || template == 6){
+                                text+=`<div class="form-select">`;
+                            }else if(template == 3){
+                                text+=`<div class="default-select">`;
+                            }else if(template == 4){
+                                text+=`<div class="default-select">`;
+                            }else if(template == 5){
+                                text+=`<div class="default-select">`;
                             }
-                            text+=`>`+contact_us[i]+`</option>`;
-                        }
-                        text+=`</select>
+                            text+=`
+                                <select id="contact_title`+counter_contact+`" name="contact_title`+counter_contact+`" class="nice-select-default">`;
+                                var contact_us = ['Phone', 'Whatsapp', 'Line', 'Email', 'Telegram', 'Other'];
+                                for (i = 0; i < contact_us.length; i++) {
+                                    text+=`<option value="`+contact_us[i]+`"`;
+                                    if(contact_us[i] == data[0]){
+                                        text+=`selected`;
+                                    }
+                                    text+=`>`+contact_us[i]+`</option>`;
+                                }
+                                text+=`</select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4">
+                        <h6 style="margin-bottom:10px;">Contact</h6>
+                        <div class="input-container-search-ticket">
+                            <input type="text" class="form-control" name="contact_url`+counter_contact+`" id="contact_url`+counter_contact+`" placeholder="Contact " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Contact '" value="`+data[1]+`">
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4">
+                        <h6 style="margin-bottom:10px;">Name</h6>
+                        <div class="input-container-search-ticket">
+                            <input type="text" class="form-control" name="contact_name`+counter_contact+`" id="contact_name`+counter_contact+`" placeholder="Contact Name" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Contact Name'" value="`+data[2]+`">
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-3 col-md-3 col-sm-3">
-                <div class="input-container-search-ticket">
-                    <input type="text" class="form-control" name="contact_url`+counter_contact+`" id="contact_url`+counter_contact+`" placeholder="Contact " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Contact '" value="`+data[1]+`">
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-4">
-                <div class="input-container-search-ticket">
-                    <input type="text" class="form-control" name="contact_name`+counter_contact+`" id="contact_name`+counter_contact+`" placeholder="Contact Name" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Contact Name'" value="`+data[2]+`">
-                </div>
-            </div>
-            <div class="col-lg-1 col-md-1 col-sm-1" style="color:`+text_color+`;">
-                <button type="button" class="primary-delete-date" onclick="delete_table_of_contact(`+counter_contact+`)">
-                    <i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i>
-                </button>
             </div>
         </div>`;
     node.innerHTML = text;

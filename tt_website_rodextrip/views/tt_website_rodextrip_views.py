@@ -1370,10 +1370,10 @@ def get_data_template(request, type='home', provider_type = []):
     if not os.path.exists(path):
         os.mkdir(path)
     template = 1
-    logo = '/static/tt_website_rodextrip/images/icon/skytors_logo.png'
-    logo_icon = '/static/tt_website_rodextrip/images/icon/skytors.png'
+    logo = '/static/tt_website_rodextrip/images/icon/orbis_logo.png'
+    logo_icon = '/static/tt_website_rodextrip/images/icon/orbis_title.png'
     if type == 'registration':
-        background = 'https://www.skytors.id/web/image/28381'
+        background = '/static/tt_website_rodextrip/images/bg_7.jpg'
     else:
         background = '/static/tt_website_rodextrip/images/bg_7.jpg'
     color = '#f15a22'
@@ -1393,9 +1393,9 @@ def get_data_template(request, type='home', provider_type = []):
     backend_url = ''
     script_espay = ''
     contact_us = ''
-    bg_login = ''
-    bg_search = ''
-    bg_regis = ''
+    bg_login = '/static/tt_website_rodextrip/images/bg_7.jpg'
+    bg_search = '/static/tt_website_rodextrip/images/bg_7.jpg'
+    bg_regis = '/static/tt_website_rodextrip/images/bg_registration.jpg'
     google_analytics = ''
     login_background_color = '#333333'
     airline_origin = ''
@@ -1689,9 +1689,9 @@ def get_data_template(request, type='home', provider_type = []):
                             background = line.split('\n')[0]
                     else:
                         if type == 'admin':
-                            bg_regis = 'https://www.skytors.id/web/image/28381'
+                            bg_regis = '/static/tt_website_rodextrip/images/bg_registration.jpg'
                         else:
-                            background = 'https://www.skytors.id/web/image/28381'
+                            background = '/static/tt_website_rodextrip/images/bg_registration.jpg'
                 elif idx == 13:
                     if line != '':
                         espay_api_key = line.split('\n')[0]
