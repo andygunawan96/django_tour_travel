@@ -5,48 +5,56 @@ function add_table_of_social(data){
     var node = document.createElement("div");
     text+=`
         <div class='row' id="social`+counter_social+`_id">
-            <div class="col-lg-1 col-md-1 col-sm-1" style="color:`+text_color+`;padding-top:10px;">
-                `+counter_social+`
-            </div>
-            <div class="col-lg-3 col-md-3 col-sm-3">
-                <div class="input-container-search-ticket" style="display:unset;">`;
-                    if(template == 1 || template == 2 || template == 6){
-                        text+=`<div class="form-select">`;
-                    }else if(template == 3){
-                        text+=`<div class="default-select">`;
-                    }else if(template == 4){
-                        text+=`<div class="default-select">`;
-                    }else if(template == 5){
-                        text+=`<div class="default-select">`;
-                    }
-                    text+=`
-                        <select id="social_title`+counter_social+`" name="social_title`+counter_social+`" class="nice-select-default">`;
-                        var social_us = ['Instagram', 'Facebook', 'Twitter', 'Youtube', 'TikTok', 'Other'];
-                        for (i = 0; i < social_us.length; i++) {
-                            text+=`<option value="`+social_us[i]+`"`;
-                            if(social_us[i] == data[0]){
-                                text+=`selected`;
+            <div class="col-lg-12" style="padding:15px; border-bottom:1px solid #cdcdcd;">
+                <div class="row">
+                    <div class="col-xs-6">
+                        <h5>Social Media #`+counter_social+`</h5>
+                    </div>
+                    <div class="col-xs-6" style="text-align:right;">
+                        <button type="button" class="primary-delete-date" onclick="delete_table_of_social(`+counter_social+`)">
+                            Delete <i class="fa fa-times" style="color:#E92B2B;font-size:20px;"></i>
+                        </button>
+                    </div>
+
+                    <div class="col-lg-4 col-md-4 col-sm-4">
+                        <div class="input-container-search-ticket" style="display:unset;">
+                            <h6 style="margin-bottom:10px;">Social Media</h6>`;
+                            if(template == 1 || template == 2 || template == 6){
+                                text+=`<div class="form-select">`;
+                            }else if(template == 3){
+                                text+=`<div class="default-select">`;
+                            }else if(template == 4){
+                                text+=`<div class="default-select">`;
+                            }else if(template == 5){
+                                text+=`<div class="default-select">`;
                             }
-                            text+=`>`+social_us[i]+`</option>`;
-                        }
-                        text+=`</select>
+                            text+=`
+                                <select id="social_title`+counter_social+`" name="social_title`+counter_social+`" class="nice-select-default">`;
+                                var social_us = ['Instagram', 'Facebook', 'Twitter', 'Youtube', 'TikTok', 'Other'];
+                                for (i = 0; i < social_us.length; i++) {
+                                    text+=`<option value="`+social_us[i]+`"`;
+                                    if(social_us[i] == data[0]){
+                                        text+=`selected`;
+                                    }
+                                    text+=`>`+social_us[i]+`</option>`;
+                                }
+                                text+=`</select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4">
+                        <h6 style="margin-bottom:10px;">Name</h6>
+                        <div class="input-container-search-ticket">
+                            <input type="text" class="form-control" name="social_name`+counter_social+`" id="social_name`+counter_social+`" placeholder="Social Media Name" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Social Media Name'" value="`+data[1]+`">
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4">
+                        <h6 style="margin-bottom:10px;">URL</h6>
+                        <div class="input-container-search-ticket">
+                            <input type="text" class="form-control" name="social_url`+counter_social+`" id="social_url`+counter_social+`" placeholder="URL, example: https://www.instagram.com/ " onfocus="this.placeholder = ''" onblur="this.placeholder = 'URL, example: https://www.instagram.com/ '" value="`+data[2]+`">
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-3 col-md-3 col-sm-3">
-                <div class="input-container-search-ticket">
-                    <input type="text" class="form-control" name="social_name`+counter_social+`" id="social_name`+counter_social+`" placeholder="Social Media Name" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Social Media Name'" value="`+data[1]+`">
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-4">
-                <div class="input-container-search-ticket">
-                    <input type="text" class="form-control" name="social_url`+counter_social+`" id="social_url`+counter_social+`" placeholder="URL, example: https://www.instagram.com/ " onfocus="this.placeholder = ''" onblur="this.placeholder = 'URL, example: https://www.instagram.com/ '" value="`+data[2]+`">
-                </div>
-            </div>
-            <div class="col-lg-1 col-md-1 col-sm-1" style="color:`+text_color+`;">
-                <button type="button" class="primary-delete-date" onclick="delete_table_of_social(`+counter_social+`)">
-                    <i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i>
-                </button>
             </div>
         </div>`;
     node.innerHTML = text;

@@ -10258,7 +10258,7 @@
             {% if "ppob" in provider and "ticketing_ppob" in username.co_agent_frontend_security %}
                 get_carrier_providers_ppob();
                 get_carriers_ppob();
-                get_providers_ppob();
+                ppob_get_provider_list(true);
                 $("#bill_searchForm").bind("keypress", function(e) {
                     if (e.keyCode == 13) {
                         return false;

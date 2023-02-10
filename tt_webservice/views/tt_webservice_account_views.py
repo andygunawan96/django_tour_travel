@@ -914,14 +914,13 @@ def get_highlight_url(request):
 def set_contact_url(request):
     data = ''
     data_list = json.loads(request.POST['data'])
-    if len(data_list) != 0:
-        for rec in data_list:
-            if rec[0] != '' and rec[1] != '':
-                if data != '':
-                    data += '\n'
-                data += '%s:contact:%s:contact:%s' % (rec[0], rec[1], rec[2])
+    for rec in data_list:
+        if rec[0] != '' and rec[1] != '':
+            if data != '':
+                data += '\n'
+            data += '%s:contact:%s:contact:%s' % (rec[0], rec[1], rec[2])
 
-        write_cache(data, "contact_data", 'cache_web')
+    write_cache(data, "contact_data", 'cache_web')
     return 0
 
 
@@ -939,14 +938,13 @@ def get_contact_url(request):
 def set_social_url(request):
     data = ''
     data_list = json.loads(request.POST['data'])
-    if len(data_list) != 0:
-        for rec in data_list:
-            if rec[0] != '' and rec[2] != '':
-                if data != '':
-                    data += '\n'
-                data += '%s:social:%s:social:%s' % (rec[0], rec[1], rec[2])
+    for rec in data_list:
+        if rec[0] != '' and rec[2] != '':
+            if data != '':
+                data += '\n'
+            data += '%s:social:%s:social:%s' % (rec[0], rec[1], rec[2])
 
-        write_cache(data, "social_data", 'cache_web')
+    write_cache(data, "social_data", 'cache_web')
     return 0
 
 

@@ -7778,13 +7778,13 @@ display: block;
 }
 
 .primary-btn-cancel {
-  background: transparent;
+  background: #ff3030;
   line-height: 35px;
   padding-left: 15px;
   padding-right: 15px;
   border: none;
   border-radius: 3px;
-  color: #e81c30;
+  color: white;
   display: inline-block;
   font-size: 14px;
   font-weight: 500;
@@ -9238,4 +9238,39 @@ for better animation effect */
   top: -1px;  /* 0px if you don't have a navbar, but something is required */
   background: white;
   z-index: 9999;
+}
+
+.preview_login{
+    height: 100%;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.preview_login_header{
+    min-height: 12%;
+    z-index: 10;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.preview_login_bg{
+    width: 100%;
+    min-height: 88%;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    position: relative;
+    z-index: 1;
 }
