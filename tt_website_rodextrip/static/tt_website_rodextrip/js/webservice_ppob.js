@@ -189,7 +189,7 @@ function search_ppob(){
         product_code = document.getElementById('bpjs_type').value;
 
         amount_of_month = document.getElementById('bpjs_month').value;
-        if($bpjs_type_name == 'BPJS Kesehatan'){
+        if($bpjs_type_name.includes('BPJS Kesehatan')){
             if(check_number(customer_number) == true){
                 for(i in ppob_data.product_data){
                     if(check_break == false){
@@ -235,7 +235,7 @@ function search_ppob(){
     }else if(bill_type == 'pln'){
         product_code = document.getElementById('pln_type').value;
 
-        if($pln_type_name == 'PLN Prepaid'){
+        if($pln_type_name.includes('PLN Prepaid')){
             if(check_pln_prepaid(customer_number) == true){
                 for(i in ppob_data.product_data){
                     if(check_break == false){
@@ -278,7 +278,7 @@ function search_ppob(){
                 }
             }
             total = document.getElementById('pln_nominal').value
-        }else if($pln_type_name == 'PLN Postpaid'){
+        }else if($pln_type_name.includes('PLN Postpaid')){
             if(check_pln_postpaid(customer_number) == true){
                 for(i in ppob_data.product_data){
                     if(check_break == false){
@@ -320,7 +320,7 @@ function search_ppob(){
                     }
                 }
             }
-        }else if($pln_type_name == 'PLN Non Tagihan'){
+        }else if($pln_type_name.includes('PLN Non Tagihan')){
             if(check_pln_non_tagihan(customer_number) == true){
                 for(i in ppob_data.product_data){
                     if(check_break == false){
@@ -407,7 +407,7 @@ function search_ppob(){
                 }
             }
         }
-        if($evoucher_type_name == 'Prepaid Mobile'){
+        if($evoucher_type_name.includes('Prepaid Mobile')){
             var radios_nominal = document.getElementsByName('e-voucher_nominal');
             for (var k = 0, length = radios_nominal.length; k < length; k++) {
                 if (radios_nominal[k].checked) {
@@ -463,7 +463,7 @@ function search_ppob(){
                 }
             }
         }
-        if($cable_tv_type_name == 'Indovision' || $cable_tv_type_name == 'Indovision Top TV' || $cable_tv_type_name == 'Indovision Oke Vision' || $cable_tv_type_name == 'First Media')
+        if($cable_tv_type_name.includes('Indovision') || $cable_tv_type_name.includes('Indovision Top TV') || $cable_tv_type_name.includes('Indovision Oke Vision') || $cable_tv_type_name.includes('First Media'))
         {
             total = document.getElementById('cable_tv_nominal').value;
             if (total == 0 || total == '')
@@ -515,7 +515,7 @@ function search_ppob(){
                 }
             }
         }
-        if($internet_type_name == 'CBN' || $internet_type_name == 'Indosatnet' || $internet_type_name == 'Centrinnet')
+        if($internet_type_name.includes('CBN') || $internet_type_name.includes('Indosatnet') || $internet_type_name.includes('Centrinnet'))
         {
             total = document.getElementById('internet_nominal').value;
             if (total == 0 || total == '')
