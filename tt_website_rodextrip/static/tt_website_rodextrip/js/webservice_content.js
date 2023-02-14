@@ -570,74 +570,93 @@ function get_banner(type,page){
                     text += `<div class="row">`;
                     for(i in msg.result.response){
                         text += `
-                        <div class="col-lg-6" style="border: 1px solid `+text_color+`;justify-content:center">
-                            <div class="row" style="flex:1;justify-content:center;align-items:center; padding:20px 0px;">
-                            <img src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" style="max-width:50vh;"/>
-                            </div>
+                        <div class="col-lg-12" style="border-top:1px solid #cdcdcd; padding:15px;">
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <h6 style="color:`+text_color+`;margin-bottom:10px;">URL</h6>
-                                    <div class="form-select">
-                                        <input type="text" class="form-control" id="`+type+i+`_image_url_page" name="`+type+i+`_image_url_page" placeholder="Url"`;
-                                        if(msg.result.response[i].url_page != false && msg.result.response[i].url_page != undefined)
-                                            text+=` value="`+msg.result.response[i].url_page+`"/>`;
-                                        else
-                                            text+=` value=""/>`;
-                                text+=`
-                                    </div>
+                                    <h6>Banner #`+(parseInt(i)+1)+`</h6>
                                 </div>
-                                <div class="col-lg-6 mt-2">
-                                    <h6 style="color:`+text_color+`;margin-bottom:10px;">Sequence</h6>
-                                    <div class="form-select">
-                                        <input type="text" class="form-control" id="`+type+i+`_sequence" name="`+type+i+`sequence" placeholder="Sequence"`;
-                                        if(msg.result.response[i].sequence != false && msg.result.response[i].sequence != undefined)
-                                            text+=` value="`+msg.result.response[i].sequence+`"/>`;
-                                        else
-                                            text+=` value=""/>`;
-                                text+=`
-                                    </div>
-                                    <label class="check_box_custom mt-2">
-                                        <span style="font-size:13px;color:`+text_color+`;">Active</span>
+                                <div class="col-lg-12" style="display:flex">
+                                    <label class="check_box_custom mt-2" style="padding-right:10px;">
+                                        <span style="font-size:13px;">Active</span>
                                         <input type="checkbox" value="" id="`+type+i+`_active" name="`+type+i+`_active"`;
                                         if(msg.result.response[i].active == true)
                                             text+=` checked`;
                                         text+=`>
                                         <span class="check_box_span_custom"></span>
                                     </label>
-                                </div>
-                                <div class="col-lg-6 mt-2">
-                                    <h6 style="color:`+text_color+`;margin-bottom:10px;">Provider Type</h6>
-                                    <div class="form-select">
-                                        <select id="`+type+i+`_provider_type" style="width:100%" name="`+type+i+`_provider_type" class="nice-select-default">
-                                            <option value="external">External</option>`;
-                                        for(j in provider_types_sequence){
-                                            if(provider_types_sequence[j].code != "offline" &&
-                                               provider_types_sequence[j].code != "bank" &&
-                                               provider_types_sequence[j].code != "issued_offline" &&
-                                               provider_types_sequence[j].code != "payment" &&
-                                               provider_types_sequence[j].code != "issued_offline"){
-                                               if(msg.result.response[i].provider_type != provider_types_sequence[j].code){
-                                                text+=`
-                                                    <option value="`+provider_types_sequence[j].code+`">`+provider_types_sequence[j].name+`</option>`;
-                                               }else{
-                                                text+=`
-                                                    <option value="`+provider_types_sequence[j].code+`" selected>`+provider_types_sequence[j].name+`</option>`;
-                                               }
-
-                                            }
-                                        }
-                                            text+=`
-                                        </select>
-                                    </div>
                                     <label class="check_box_custom mt-2">
-                                        <span style="font-size:13px;color:`+text_color+`;">Delete</span>
+                                        <span style="font-size:13px;">Delete</span>
                                         <input type="checkbox" value="" id="`+type+i+`_delete" name="`+type+i+`_delete">
                                         <span class="check_box_span_custom"></span>
                                     </label>
                                 </div>
                             </div>
                         </div>
-                        `;
+                        <div class="col-lg-12">
+                            <div class="row">
+                                <div class="col-lg-5">
+                                    <img class="mb-3" src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" style="width:100%; height:auto;"/>
+                                </div>
+                                <div class="col-lg-7">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <h6 style="margin-bottom:10px;">URL</h6>
+                                            <div class="form-select">
+                                                <input type="text" class="form-control" id="`+type+i+`_image_url_page" name="`+type+i+`_image_url_page" placeholder="Url"`;
+                                                if(msg.result.response[i].url_page != false && msg.result.response[i].url_page != undefined)
+                                                    text+=` value="`+msg.result.response[i].url_page+`"/>`;
+                                                 else
+                                                    text+=` value=""/>`;
+                                            text+=`
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 mt-2">
+                                            <h6 style="margin-bottom:10px;">Sequence</h6>
+                                            <div class="form-select">
+                                                <input type="text" class="form-control" id="`+type+i+`_sequence" name="`+type+i+`sequence" placeholder="Sequence"`;
+                                                if(msg.result.response[i].sequence != false && msg.result.response[i].sequence != undefined)
+                                                    text+=` value="`+msg.result.response[i].sequence+`"/>`;
+                                                else
+                                                    text+=` value=""/>`;
+                                            text+=`
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 mt-2 mb-3">
+                                            <h6 style="margin-bottom:10px;">Provider Type</h6>`;
+
+                                            if(template == 3){
+                                                text+=`<div class="default-select">`;
+                                            }else{
+                                                text+=`<div class="form-select">`;
+                                            }
+
+                                            text+=`
+                                                <select id="`+type+i+`_provider_type" style="width:100%" name="`+type+i+`_provider_type" class="nice-select-default">
+                                                    <option value="external">External</option>`;
+                                                for(j in provider_types_sequence){
+                                                    if(provider_types_sequence[j].code != "offline" &&
+                                                       provider_types_sequence[j].code != "bank" &&
+                                                       provider_types_sequence[j].code != "issued_offline" &&
+                                                       provider_types_sequence[j].code != "payment" &&
+                                                       provider_types_sequence[j] != "issued_offline"){
+                                                       if(msg.result.response[i].provider_type != provider_types_sequence[j].code){
+                                                        text+=`
+                                                            <option value="`+provider_types_sequence[j].code+`">`+provider_types_sequence[j].name+`</option>`;
+                                                       }else{
+                                                        text+=`
+                                                            <option value="`+provider_types_sequence[j].code+`" selected>`+provider_types_sequence[j].name+`</option>`;
+                                                       }
+
+                                                    }
+                                                }
+                                                    text+=`
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>`;
                     }
                     text += `</div>`;
                     banner_list[type] = msg.result.response;
@@ -1681,12 +1700,19 @@ function change_dynamic_page(){
             document.getElementById('sequence_dynamic_page').value = dynamic_page[page_number].sequence;
         document.getElementById('delete_page').hidden = false;
         document.getElementById('page_url').value = dynamic_page[page_number].url;
+        if(dynamic_page[page_number].image_paragraph != '/media/image_dynamic/'){
+            document.getElementById("dynamic_img").src = dynamic_page[page_number].image_carousel;
+        }else{
+            document.getElementById("dynamic_img").src = '/static/tt_website_rodextrip/images/no pic/no-image-available.jpg';
+        }
+        console.log(dynamic_page[page_number]);
         CKEDITOR.instances.editor.setData(dynamic_page[page_number].body);
     }else{
         document.getElementById('page_active').checked = false;
         document.getElementById('title_dynamic_page').value = '';
         document.getElementById('delete_page').hidden = true;
         document.getElementById('page_url').value = '';
+        document.getElementById("dynamic_img").src = '/static/tt_website_rodextrip/images/no pic/no-image-available.jpg';
         CKEDITOR.instances.editor.setData('');
     }
 
@@ -1702,7 +1728,7 @@ function run_top_up_page(){
 
 function run_payment_information_page(){
     document.getElementById('editor_payment_information_test').innerHTML = `
-        <h4 style="margin-bottom:10px;color:`+text_color+`;">Result</h4>
+        <h4 style="margin-bottom:10px;">Result</h4>
         <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
             <div class="panel panel-default">
                 <div class="instruction-heading" role="tab" id="headingOne">
@@ -1897,17 +1923,17 @@ function render_preview_template(){
     value_template = parseInt(document.getElementById("template").value);
     setTimeout(function(){
         if(value_template == 1){
-            document.getElementById("preview_template").innerHTML = `<img src="/static/tt_website_rodextrip/img/preview/HomeTemplate1.png" alt="Preview Template" style="height:auto; width:100%;"/>`;
+            document.getElementById("preview_template").innerHTML = `<h6 class="mb-3">Template 1</h6><img src="/static/tt_website_rodextrip/img/preview/HomeTemplate1.png" alt="Preview Template 1" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>`;
         }else if(value_template == 2){
-            document.getElementById("preview_template").innerHTML = `<img src="/static/tt_website_rodextrip/img/preview/HomeTemplate2.png" alt="Preview Template" style="height:auto; width:100%;"/>`;
+            document.getElementById("preview_template").innerHTML = `<h6 class="mb-3">Template 2</h6><img src="/static/tt_website_rodextrip/img/preview/HomeTemplate2.png" alt="Preview Template 2" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>`;
         }else if(value_template == 3){
-            document.getElementById("preview_template").innerHTML = `<img src="/static/tt_website_rodextrip/img/preview/HomeTemplate3.png" alt="Preview Template" style="height:auto; width:100%;"/>`;
+            document.getElementById("preview_template").innerHTML = `<h6 class="mb-3">Template 3</h6><img src="/static/tt_website_rodextrip/img/preview/HomeTemplate3.png" alt="Preview Template 3" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>`;
         }else if(value_template == 4){
-            document.getElementById("preview_template").innerHTML = `<img src="/static/tt_website_rodextrip/img/preview/HomeTemplate4.png" alt="Preview Template" style="height:auto; width:100%;"/>`;
+            document.getElementById("preview_template").innerHTML = `<h6 class="mb-3">Template 4</h6><img src="/static/tt_website_rodextrip/img/preview/HomeTemplate4.png" alt="Preview Template 4" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>`;
         }else if(value_template == 5){
-            document.getElementById("preview_template").innerHTML = `<img src="/static/tt_website_rodextrip/img/preview/HomeTemplate5.png" alt="Preview Template" style="height:auto; width:100%;"/>`;
+            document.getElementById("preview_template").innerHTML = `<h6 class="mb-3">Template 5</h6><img src="/static/tt_website_rodextrip/img/preview/HomeTemplate5.png" alt="Preview Template 5" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>`;
         }else if(value_template == 6){
-            document.getElementById("preview_template").innerHTML = `<img src="/static/tt_website_rodextrip/img/preview/HomeTemplate6.png" alt="Preview Template" style="height:auto; width:100%;"/>`;
+            document.getElementById("preview_template").innerHTML = `<h6 class="mb-3">Template 6</h6><img src="/static/tt_website_rodextrip/img/preview/HomeTemplate6.png" alt="Preview Template 6" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>`;
         }
         document.getElementById("preview_template_loading").style.display = "none";
     }, 1000);
@@ -1934,6 +1960,10 @@ function render_preview_login_tab(){
     document.getElementById("preview_text_forget").style.color = "#"+login_txt_color;
     document.getElementById("preview_text_forgetic").style.color = "#"+login_txt_color;
     document.getElementById("preview_text_sign").style.color = "#"+login_txt_color;
+
+    //nama website
+    document.getElementById("preview_lamp").innerHTML = ""+document.getElementById("website_name").value;
+    document.getElementById("preview_lamp").style = "font-size:50px; text-shadow: 0 0 5px #"+login_color+", 0 0 15px #"+login_color+", 0 0 20px #"+login_color+", 0 0 40px #"+login_color+", 0 0 60px transparent, 0 0 10px "+login_color+", 0 0 98px transparent;";
 }
 
 function render_preview_color_tab(){
@@ -2012,6 +2042,7 @@ function render_preview_color_tab(){
     //button
     document.getElementById("preview_button_btn").style = "background-color: #"+btn_color+ "!important; color:#"+txt_color+" !important;";
     document.getElementById("preview_button_btnlg").style = "background-color: #"+btn_color+ "!important; color:#"+txt_color+" !important; margin-bottom:5px; margin-top:5px;";
+    document.getElementById("preview_button_search").style = "background-color: #"+btn_color+ "!important; color:#"+txt_color+" !important;";
 
     //button white
     document.getElementById("preview_button_btnwhite").style.border = "1px solid #"+btn_color;
@@ -2027,6 +2058,11 @@ function render_preview_color_tab(){
     //radio
     document.getElementById("preview_button_radio").style = "background-color: #"+btn_color+ "!important;";
     document.getElementById("preview_text_radio").style = "color: #"+txt_color+ "!important;";
+
+    //title
+    document.getElementById("preview_text_extxt_title").style = "border-left:5px solid #"+btn_color+ "!important; padding-left:10px;";
+    document.getElementById("preview_text_exdiv_titlebox").style = "background: #"+btn_color+ "!important; border:1px solid #cdcdcd; padding:15px;";
+    document.getElementById("preview_text_extxt_titlebox").style = "color: #"+txt_color+ "!important;";
 
     //change font + text color
     value_font = String(document.getElementById("font").value);
@@ -2045,6 +2081,9 @@ function render_preview_color_tab(){
             document.getElementById("preview_text_extxtlabel").style = "font-family: "+text_font+ ", Arial !important; color:#"+txt_color+";";
             document.getElementById("preview_text_extxtspan").style = "font-family: "+text_font+ ", Arial !important; color:#"+txt_color+";";
             document.getElementById("preview_text_extxtp").style = "font-family: "+text_font+ ", Arial !important; color:#"+txt_color+";";
+
+            document.getElementById("preview_text_search").style = "font-family: "+text_font+ ", Arial !important; color:#"+txt_color+";";
+            document.getElementById("preview_input_search").style = "font-family: "+text_font+ ", Arial !important;";
         }).catch(function(error) {
             console.log(err);
         });
@@ -2063,6 +2102,9 @@ function render_preview_color_tab(){
         document.getElementById("preview_text_extxtlabel").style = "font-family: "+text_font+ " !important; color:#"+txt_color+";";
         document.getElementById("preview_text_extxtspan").style = "font-family: "+text_font+ " !important; color:#"+txt_color+";";
         document.getElementById("preview_text_extxtp").style = "font-family: "+text_font+ " !important; color:#"+txt_color+";";
+
+        document.getElementById("preview_text_search").style = "font-family: "+text_font+ " !important; color:#"+txt_color+";";
+        document.getElementById("preview_input_search").style = "font-family: "+text_font+ " !important;";
     }
 
 }
@@ -2103,18 +2145,29 @@ function preview_show_hide(prev){
     else{
         var preview = document.getElementById(prev);
     }
-    var preview_title = document.getElementById(prev+'_title');
     var preview_btn = document.getElementById(prev+'_btn');
 
     if (preview.style.display === "none") {
         preview.style.display = "block";
-        preview_title.style.display = "block";
         preview_btn.innerHTML = 'Hide Preview <i class="fas fa-eye-slash"></i>';
     }
     else {
         preview.style.display = "none";
-        preview_title.style.display = "none";
         preview_btn.innerHTML = 'Preview Your Changes <i class="fas fa-eye"></i>';
+    }
+}
+
+function preview_show_hide_example(prev){
+    var preview = document.getElementById(prev);
+    var preview_btn = document.getElementById(prev+'_btn');
+
+    if (preview.style.display === "none") {
+        preview.style.display = "block";
+        preview_btn.innerHTML = 'Hide <i class="fas fa-eye-slash"></i>';
+    }
+    else {
+        preview.style.display = "none";
+        preview_btn.innerHTML = 'Info <i class="fas fa-info-circle"></i>';
     }
 }
 
@@ -2768,4 +2821,12 @@ function cancel_reservation_issued_request(request_number)
             hide_modal_waiting_transaction();
        },timeout: 60000
     });
+}
+
+function get_url_image_file(url, id, element){
+    if(element == 'img'){
+        document.getElementById(id).src = url;
+    }else if(element == 'background_image'){
+        document.getElementById(id).style.backgroundImage = "linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)), url('"+url+"')";
+    }
 }

@@ -4,26 +4,40 @@ function add_table_of_highlight(data){
     counter_highlight = counter_highlight + 1;
     var node = document.createElement("div");
     text+=`
-        <div class='row' id="highlight`+counter_highlight+`_id">
-            <div class="col-lg-1 col-md-1 col-sm-1" style="color:`+text_color+`;padding-top:10px;">
-                `+counter_highlight+`
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-4">
-                <div class="input-container-search-ticket">
-                    <input type="text" class="form-control" name="highlight_title`+counter_highlight+`" id="highlight_title`+counter_highlight+`" placeholder="Title " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Title '" value="`+data.title+`">
+    <div class='row' id="highlight`+counter_highlight+`_id">
+        <div class="col-lg-12" style="padding:15px; border-bottom:1px solid #cdcdcd;">
+            <div class="row">
+                <div class="col-xs-6">
+                    <h5>Highlight #`+counter_highlight+`</h5>
+                </div>
+                <div class="col-xs-6" style="text-align:right;">
+                    <button type="button" class="primary-delete-date" onclick="delete_table_of_highlight(`+counter_highlight+`)">
+                        Delete <i class="fa fa-times" style="color:#E92B2B;font-size:20px;"></i>
+                    </button>
+                </div>
+                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                    <h6 style="margin-bottom:10px;">Title</h6>
+                    <div class="input-container-search-ticket">`;
+                        if(data.title == '' || data.title == undefined)
+                            text+=`<input type="text" class="form-control" name="highlight_title`+counter_highlight+`" id="highlight_title`+counter_highlight+`" placeholder="Title " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Title '" value="">`;
+                        else
+                            text+=`<input type="text" class="form-control" name="highlight_title`+counter_highlight+`" id="highlight_title`+counter_highlight+`" placeholder="Title " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Title '" value="`+data.title+`">`;
+                    text+=`
+                    </div>
+                </div>
+                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                    <h6 style="margin-bottom:10px;">URL</h6>
+                    <div class="input-container-search-ticket">`;
+                        if(data.title == '' || data.title == undefined)
+                            text+=`<input type="text" class="form-control" name="highlight_url`+counter_highlight+`" id="highlight_url`+counter_highlight+`" placeholder="Highlight URL " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Highlight URL '" value="">`;
+                        else
+                            text+=`<input type="text" class="form-control" name="highlight_url`+counter_highlight+`" id="highlight_url`+counter_highlight+`" placeholder="Highlight URL " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Highlight URL '" value="`+data.url+`">`;
+                    text+=`
+                    </div>
                 </div>
             </div>
-            <div class="col-lg-6 col-md-6 col-sm-6">
-                <div class="input-container-search-ticket">
-                    <input type="text" class="form-control" name="highlight_url`+counter_highlight+`" id="highlight_url`+counter_highlight+`" placeholder="Highlight URL " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Highlight URL '" value="`+data.url+`">
-                </div>
-            </div>
-            <div class="col-lg-1 col-md-1 col-sm-1" style="color:`+text_color+`;">
-                <button type="button" class="primary-delete-date" onclick="delete_table_of_highlight(`+counter_highlight+`)">
-                    <i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i>
-                </button>
-            </div>
-        </div>`;
+        </div>
+    </div>`;
     node.innerHTML = text;
     document.getElementById("highlight_div").appendChild(node);
 }

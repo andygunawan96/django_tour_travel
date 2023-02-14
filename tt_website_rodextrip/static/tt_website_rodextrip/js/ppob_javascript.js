@@ -220,7 +220,7 @@ function set_container_bill(){
                     <span class="span-search-ticket">Product Type</span>
                     <div class="input-container-search-ticket">
                         <div class="form-select" id="bpjs-select">
-                            <select id="bpjs_type" name="bpjs_type" class="nice-select-default" onchange="get_bpjs_name();">`;
+                            <select id="bpjs_type" name="bpjs_type" class="nice-select-default" onchange="set_bpjs_div('`+bill_prov+`');">`;
                             car_counter = 0;
                             for(i in ppob_prod_data[bill_type]){
                                 if (carrier_provider_ppob.hasOwnProperty(ppob_prod_data[bill_type][i].code.split('~')[0]) && carrier_provider_ppob[ppob_prod_data[bill_type][i].code.split('~')[0]].includes(bill_prov))
@@ -532,7 +532,7 @@ function set_container_bill(){
                     <span class="span-search-ticket">Product Type</span>
                     <div class="input-container-search-ticket">
                         <div class="form-select" id="bpjs-select">
-                            <select id="bpjs_type" name="bpjs_type" class="nice-select-default" onchange="get_bpjs_name();">`;
+                            <select id="bpjs_type" name="bpjs_type" class="nice-select-default" onchange="set_bpjs_div('`+bill_prov+`');">`;
                             car_counter = 0;
                             for(i in ppob_prod_data[bill_type]){
                                 if (carrier_provider_ppob.hasOwnProperty(ppob_prod_data[bill_type][i].code.split('~')[0]) && carrier_provider_ppob[ppob_prod_data[bill_type][i].code.split('~')[0]].includes(bill_prov))
@@ -845,7 +845,7 @@ function set_container_bill(){
                     <span class="span-search-ticket">Product Type</span>
                     <div class="input-container-search-ticket">
                         <div class="form-select" id="bpjs-select">
-                            <select id="bpjs_type" name="bpjs_type" class="nice-select-default" onchange="get_bpjs_name();">`;
+                            <select id="bpjs_type" name="bpjs_type" class="nice-select-default" onchange="set_bpjs_div('`+bill_prov+`');">`;
                             car_counter = 0;
                             for(i in ppob_prod_data[bill_type]){
                                 if (carrier_provider_ppob.hasOwnProperty(ppob_prod_data[bill_type][i].code.split('~')[0]) && carrier_provider_ppob[ppob_prod_data[bill_type][i].code.split('~')[0]].includes(bill_prov))
@@ -1158,7 +1158,7 @@ function set_container_bill(){
                     <span class="span-search-ticket">Product Type</span>
                     <div class="input-container-search-ticket">
                         <div class="form-select" id="bpjs-select">
-                            <select id="bpjs_type" name="bpjs_type" class="nice-select-default" onchange="get_bpjs_name();">`;
+                            <select id="bpjs_type" name="bpjs_type" class="nice-select-default" onchange="set_bpjs_div('`+bill_prov+`');">`;
                             car_counter = 0;
                             for(i in ppob_prod_data[bill_type]){
                                 if (carrier_provider_ppob.hasOwnProperty(ppob_prod_data[bill_type][i].code.split('~')[0]) && carrier_provider_ppob[ppob_prod_data[bill_type][i].code.split('~')[0]].includes(bill_prov))
@@ -1471,7 +1471,7 @@ function set_container_bill(){
                     <span class="span-search-ticket">Product Type</span>
                     <div class="input-container-search-ticket">
                         <div class="form-select" id="bpjs-select">
-                            <select id="bpjs_type" name="bpjs_type" class="nice-select-default" onchange="get_bpjs_name();">`;
+                            <select id="bpjs_type" name="bpjs_type" class="nice-select-default" onchange="set_bpjs_div('`+bill_prov+`');">`;
                             car_counter = 0;
                             for(i in ppob_prod_data[bill_type]){
                                 if (carrier_provider_ppob.hasOwnProperty(ppob_prod_data[bill_type][i].code.split('~')[0]) && carrier_provider_ppob[ppob_prod_data[bill_type][i].code.split('~')[0]].includes(bill_prov))
@@ -1783,7 +1783,7 @@ function set_container_bill(){
                     <span class="span-search-ticket">Product Type</span>
                     <div class="input-container-search-ticket">
                         <div class="form-select" id="bpjs-select">
-                            <select id="bpjs_type" name="bpjs_type" class="nice-select-default" onchange="get_bpjs_name();">`;
+                            <select id="bpjs_type" name="bpjs_type" class="nice-select-default" onchange="set_bpjs_div('`+bill_prov+`');">`;
                             car_counter = 0;
                             for(i in ppob_prod_data[bill_type]){
                                 if (carrier_provider_ppob.hasOwnProperty(ppob_prod_data[bill_type][i].code.split('~')[0]) && carrier_provider_ppob[ppob_prod_data[bill_type][i].code.split('~')[0]].includes(bill_prov))
@@ -2708,8 +2708,8 @@ function set_bpjs_div(bill_prov){
             </div>`;
         }
     }
-
     document.getElementById('bpjs_div').innerHTML = text;
+    $('#bpjs_month').niceSelect();
 }
 
 function set_evoucher_div(){

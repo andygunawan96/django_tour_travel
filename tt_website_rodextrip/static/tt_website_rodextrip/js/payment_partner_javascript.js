@@ -80,7 +80,7 @@ function change_payment_partner(){
         document.getElementById('partner_active').checked = false;
         document.getElementById('payment_partner_sequence').value = 0;
         document.getElementById('payment_partner_name').value = '';
-        document.getElementById("partner_img").src = '';
+        document.getElementById("partner_img").src = '/static/tt_website_rodextrip/images/no pic/no-image-available.jpg';
         document.getElementById("image_partner").value = '';
         document.getElementById('delete_partner').hidden = true;
     }

@@ -1507,14 +1507,25 @@
     {% if username.co_user_login != '' %}
 
     $( document ).ready(function() {
-      $('.js-example-basic-single').select2();
-      {% if "hotel" in provider and "ticketing_hotel" in username.co_agent_frontend_security %}
-      $("#hotel_checkin").val(moment().subtract(-1, 'days').format('DD MMM YYYY'));
-      $("#hotel_checkout").val(moment().subtract(-2, 'days').format('DD MMM YYYY'));
-      $("#hotel_checkin_wizard").val(moment().subtract(-1, 'days').format('DD MMM YYYY'));
-      $("#hotel_checkout_wizard").val(moment().subtract(-2, 'days').format('DD MMM YYYY'));
-      {% endif %}
-      var now = moment().format('DD MMM YYYY');
+        $('.js-example-basic-single').select2();
+        {% if "hotel" in provider and "ticketing_hotel" in username.co_agent_frontend_security %}
+        $("#hotel_checkin").val(moment().subtract(-1, 'days').format('DD MMM YYYY'));
+        $("#hotel_checkout").val(moment().subtract(-2, 'days').format('DD MMM YYYY'));
+        $("#hotel_checkin_wizard").val(moment().subtract(-1, 'days').format('DD MMM YYYY'));
+        $("#hotel_checkout_wizard").val(moment().subtract(-2, 'days').format('DD MMM YYYY'));
+        {% endif %}
+
+        try{
+            document.getElementById("country_id").value = 100;
+            document.getElementById("start").value = moment().format('YYYY-MM-DD');
+            document.getElementById("end").value = moment().subtract(-1, 'years').format('YYYY-MM-DD');
+            get_public_holiday(document.getElementById("start").value, document.getElementById("end").value, document.getElementById("country_id").value);
+            new_get_public_holiday(document.getElementById("start").value, document.getElementById("end").value, document.getElementById("country_id").value);
+        }catch(err){
+
+        }
+
+        var now = moment().format('DD MMM YYYY');
 
         {% if "hotel" in provider and "ticketing_hotel" in username.co_agent_frontend_security %}
             try{
