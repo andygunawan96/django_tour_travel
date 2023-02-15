@@ -6195,6 +6195,13 @@ function check_name(title,first,last, length){
         return false;
 }
 
+function check_name_adult_infant(data, length){
+    if(data.length <= length){
+        return true;
+    }else
+        return false;
+}
+
 function check_regex(value,regex){
     var val = regex;//number
     if(value.match(val)!=null){
