@@ -848,7 +848,10 @@ def admin(request):
                         provider.append('health_care')
                     for idx, data in enumerate(request.session.get('provider'), start=1):
                         try:
-                            text[request.POST['product_name'+str(idx)]] = request.POST['product_sequence'+str(idx)]
+                            text[request.POST['product_name'+str(idx)]] = {
+                                "sequence": request.POST['product_sequence'+str(idx)],
+                                "display": request.POST['product_display_name'+str(idx)],
+                            }
                         except Exception as e:
                             pass
                     if len(text) > 0:
@@ -1570,9 +1573,14 @@ def get_data_template(request, type='home', provider_type = []):
             provider_types_sequence_file = file
             for rec in provider_types_sequence:
                 try:
-                    rec['sequence'] = provider_types_sequence_file.get(rec['code'], '')
+                    rec['sequence'] = provider_types_sequence_file.get(rec['code'], '')['sequence']
+                    rec['display'] = provider_types_sequence_file.get(rec['code'], '')['display'].upper()
                 except:
-                    pass
+                    try:
+                        rec['sequence'] = provider_types_sequence_file.get(rec['code'], '')
+                        rec['display'] = ''
+                    except:
+                        pass
 
         #check sequence
         last_sequence = 0

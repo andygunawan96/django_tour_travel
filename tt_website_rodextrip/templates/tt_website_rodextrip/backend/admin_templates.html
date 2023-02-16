@@ -119,8 +119,8 @@
                                                     <div class="form-select">
                                                         <select id="website_mode" name="website_mode" data-size="7" data-live-search="true" required="required" tabindex="-98" class="nice-select-default">
                                                             <option value="btb" {% if website_mode == 'btb' %} selected {% endif%}>BTB (Login)</option> <!--SIGNUP BTB-->
-                                                            <option value="btb_with_signup_b2c" {% if website_mode == 'btb_with_signup_b2c' %} selected {% endif%}>BTB (Login With Signup B2C)</option> <!--SIGNUP BTB, BTC-->
-                                                            <option value="btc" {% if website_mode == 'btc' %} selected {% endif%}>B2C (Without B2B Login)</option> <!--SIGNUP BTC-->
+                                                            <option value="btb_with_signup_b2c" {% if website_mode == 'btb_with_signup_b2c' %} selected {% endif%}>BTB (With Signup B2C)</option> <!--SIGNUP BTB, BTC-->
+                                                            <option value="btc" {% if website_mode == 'btc' %} selected {% endif%}>B2C (Without B2B Signup)</option> <!--SIGNUP BTC-->
                                                             <option value="btc_btb" {% if website_mode == 'btc_btb' %} selected {% endif%}>B2C (With Signup B2B)</option> <!--SIGNUP BTB, BTC-->
                                                         </select>
                                                     </div>
@@ -1021,7 +1021,7 @@
                                                                     {% if provider_type.name != 'bank' and provider_type.name != 'offline' and provider_type.name != 'issued_offline' and provider_type.name != 'payment'%}
                                                                     <tr>
                                                                         <td>{{provider_type.name}}</td>
-                                                                        <td><input type="text" class="form-control" name="product_display_name{{forloop.counter}}" id="product_display_name{{forloop.counter}}" placeholder="{% trans 'Product Display Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Product Display Name '" value=""></td>
+                                                                        <td><input type="text" class="form-control" name="product_display_name{{forloop.counter}}" id="product_display_name{{forloop.counter}}" placeholder="{% trans 'Product Display Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Product Display Name '" value="{{provider_type.display}}"></td>
                                                                         <td><input type="hidden" name="product_name{{forloop.counter}}" value="{{provider_type.code}}"><input type="text" class="form-control" name="product_sequence{{forloop.counter}}" id="product_sequence{{forloop.counter}}" placeholder="{% trans 'Sequence' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Sequence '" value="{{provider_type.sequence}}"></td>
                                                                     </tr>
                                                                     {% endif %}
@@ -1673,7 +1673,7 @@
                                                     <select id="website_mode" name="website_mode" data-size="7" data-live-search="true" required="required" tabindex="-98" class="nice-select-default">
                                                         <option value="btb" {% if website_mode == 'btb' %} selected {% endif%}>BTB (Login)</option> <!--SIGNUP BTB-->
                                                         <option value="btb_with_signup_b2c" {% if website_mode == 'btb_with_signup_b2c' %} selected {% endif%}>BTB (Login With Signup B2C)</option> <!--SIGNUP BTB, BTC-->
-                                                        <option value="btc" {% if website_mode == 'btc' %} selected {% endif%}>B2C (Without B2B Login)</option> <!--SIGNUP BTC-->
+                                                        <option value="btc" {% if website_mode == 'btc' %} selected {% endif%}>B2C (Without B2B Signup)</option> <!--SIGNUP BTC-->
                                                         <option value="btc_btb" {% if website_mode == 'btc_btb' %} selected {% endif%}>B2C (With Signup B2B)</option> <!--SIGNUP BTB, BTC-->
                                                     </select>
                                                 </div>
@@ -3222,7 +3222,7 @@
                                                 <select id="website_mode" name="website_mode" data-size="7" data-live-search="true" required="required" tabindex="-98" class="nice-select-default">
                                                     <option value="btb" {% if website_mode == 'btb' %} selected {% endif%}>BTB (Login)</option> <!--SIGNUP BTB-->
                                                     <option value="btb_with_signup_b2c" {% if website_mode == 'btb_with_signup_b2c' %} selected {% endif%}>BTB (Login With Signup B2C)</option> <!--SIGNUP BTB, BTC-->
-                                                    <option value="btc" {% if website_mode == 'btc' %} selected {% endif%}>B2C (Without B2B Login)</option> <!--SIGNUP BTC-->
+                                                    <option value="btc" {% if website_mode == 'btc' %} selected {% endif%}>B2C (Without B2B Signup)</option> <!--SIGNUP BTC-->
                                                     <option value="btc_btb" {% if website_mode == 'btc_btb' %} selected {% endif%}>B2C (With Signup B2B)</option> <!--SIGNUP BTB, BTC-->
                                                 </select>
                                             </div>
@@ -4766,7 +4766,7 @@
                                             <select id="website_mode" name="website_mode" data-size="7" data-live-search="true" required="required" tabindex="-98" class="nice-select-default">
                                                 <option value="btb" {% if website_mode == 'btb' %} selected {% endif%}>BTB (Login)</option> <!--SIGNUP BTB-->
                                                 <option value="btb_with_signup_b2c" {% if website_mode == 'btb_with_signup_b2c' %} selected {% endif%}>BTB (Login With Signup B2C)</option> <!--SIGNUP BTB, BTC-->
-                                                <option value="btc" {% if website_mode == 'btc' %} selected {% endif%}>B2C (Without B2B Login)</option> <!--SIGNUP BTC-->
+                                                <option value="btc" {% if website_mode == 'btc' %} selected {% endif%}>B2C (Without B2B Signup)</option> <!--SIGNUP BTC-->
                                                 <option value="btc_btb" {% if website_mode == 'btc_btb' %} selected {% endif%}>B2C (With Signup B2B)</option> <!--SIGNUP BTB, BTC-->
                                             </select>
                                         </div>
@@ -6312,7 +6312,7 @@
                                                 <select id="website_mode" name="website_mode" data-size="7" data-live-search="true" required="required" tabindex="-98" class="nice-select-default">
                                                     <option value="btb" {% if website_mode == 'btb' %} selected {% endif%}>BTB (Login)</option> <!--SIGNUP BTB-->
                                                     <option value="btb_with_signup_b2c" {% if website_mode == 'btb_with_signup_b2c' %} selected {% endif%}>BTB (Login With Signup B2C)</option> <!--SIGNUP BTB, BTC-->
-                                                    <option value="btc" {% if website_mode == 'btc' %} selected {% endif%}>B2C (Without B2B Login)</option> <!--SIGNUP BTC-->
+                                                    <option value="btc" {% if website_mode == 'btc' %} selected {% endif%}>B2C (Without B2B Signup)</option> <!--SIGNUP BTC-->
                                                     <option value="btc_btb" {% if website_mode == 'btc_btb' %} selected {% endif%}>B2C (With Signup B2B)</option> <!--SIGNUP BTB, BTC-->
                                                 </select>
                                             </div>
@@ -8071,7 +8071,7 @@
                                             <select id="website_mode" name="website_mode" data-size="7" data-live-search="true" required="required" tabindex="-98" class="nice-select-default">
                                                 <option value="btb" {% if website_mode == 'btb' %} selected {% endif%}>BTB (Login)</option> <!--SIGNUP BTB-->
                                                 <option value="btb_with_signup_b2c" {% if website_mode == 'btb_with_signup_b2c' %} selected {% endif%}>BTB (Login With Signup B2C)</option> <!--SIGNUP BTB, BTC-->
-                                                <option value="btc" {% if website_mode == 'btc' %} selected {% endif%}>B2C (Without B2B Login)</option> <!--SIGNUP BTC-->
+                                                <option value="btc" {% if website_mode == 'btc' %} selected {% endif%}>B2C (Without B2B Signup)</option> <!--SIGNUP BTC-->
                                                 <option value="btc_btb" {% if website_mode == 'btc_btb' %} selected {% endif%}>B2C (With Signup B2B)</option> <!--SIGNUP BTB, BTC-->
                                             </select>
                                         </div>

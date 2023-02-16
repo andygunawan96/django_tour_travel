@@ -5145,7 +5145,7 @@ function airline_detail(type){
                                             if(airline_request.adult != 0){
                                                 try{
                                                     if(airline_price[price_counter].ADT['roc'] != null)
-                                                        price = airline_price[i].ADT['roc'];
+                                                        price = airline_price[price_counter].ADT['roc'];
                                                     if(airline_price[price_counter].ADT.tax != null)
                                                         price += airline_price[price_counter].ADT.tax;
                                                     if(upsell_price_dict.hasOwnProperty('adult') && i == 0) //upsell hanya di gunakan di provider pertama
@@ -6774,11 +6774,10 @@ function check_passenger(adult, child, infant, type=''){
    }
 
    for(i=1;i<=infant;i++){
-       if(check_name(document.getElementById('infant_title'+i).value,
-       document.getElementById('infant_first_name'+i).value,
-       document.getElementById('infant_last_name'+i).value,
-       length_name) == false){
-           error_log+= 'Total of infant '+i+' name maximum '+length_name+' characters!</br>\n';
+       name = document.getElementById('adult_title'+i).value+document.getElementById('adult_first_name'+i).value+' '+document.getElementById('adult_last_name'+i).value;
+       name += document.getElementById('infant_title'+i).value+document.getElementById('infant_first_name'+i).value+' '+document.getElementById('infant_last_name'+i).value;
+       if(check_name_adult_infant(name, length_name) == false){
+           error_log+= 'Total of adult and infant '+i+' name maximum '+length_name+' characters!</br>\n';
            document.getElementById('infant_first_name'+i).style['border-color'] = 'red';
            document.getElementById('infant_last_name'+i).style['border-color'] = 'red';
        }else{
