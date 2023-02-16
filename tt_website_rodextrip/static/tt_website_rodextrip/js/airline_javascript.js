@@ -5145,7 +5145,7 @@ function airline_detail(type){
                                             if(airline_request.adult != 0){
                                                 try{
                                                     if(airline_price[price_counter].ADT['roc'] != null)
-                                                        price = airline_price[i].ADT['roc'];
+                                                        price = airline_price[price_counter].ADT['roc'];
                                                     if(airline_price[price_counter].ADT.tax != null)
                                                         price += airline_price[price_counter].ADT.tax;
                                                     if(upsell_price_dict.hasOwnProperty('adult') && i == 0) //upsell hanya di gunakan di provider pertama
