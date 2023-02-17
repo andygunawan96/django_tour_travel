@@ -5,9 +5,11 @@
  */
 
 //edit
-day_now = 0;//publicholiday
+day_now = 1;//publicholiday
 tempMonth = '';//string&public
+tempMonthInt = 1;
 tempYear = '';//string&public
+tempHoliday = '';
 
 function new_get_public_holiday(start_date, end_date, country_id){
     getToken();
@@ -340,13 +342,15 @@ function next_focus_after_date(id){
       }
 
       //edited public holiday
-      var calendarDate = tempYear+'-'+tempMonth+'-'+parseInt(day_now);
-      var calendarDateFormat = moment(calendarDate).format('YYYY-MM-DD');
+      if(tempHoliday == 'is-holiday-check'){
+          if (new_date_api !== {}) {
+              var calendarDateFormat = moment(String(tempYear+'/'+tempMonthInt+'/'+day_now)).format('DD/MM/YYYY');
 
-      if (typeof new_date_api !== 'undefined') {
-          for (var new_i in new_date_api.result.response){
-              if(new_date_api.result.response[new_i].date == calendarDateFormat){
-                  day.className.push('is-holiday');
+              for (var new_i in new_date_api.result.response){
+                  var temp_new_date = moment(new_date_api.result.response[new_i].date).format('DD/MM/YYYY');
+                  if(temp_new_date === calendarDateFormat){
+                      day.className.push('is-holiday');
+                  }
               }
           }
       }
@@ -422,6 +426,7 @@ function next_focus_after_date(id){
         if (idx === date.toDate().getMonth()) {
           option.setAttribute('selected', 'selected');
           tempMonth = option.text; //edited
+          tempMonthInt = idx+1; //edited
         }
 
         select.appendChild(option);
@@ -544,6 +549,7 @@ function next_focus_after_date(id){
             daysInMonth = prevMonth.daysInMonth();
 
           for (var d = prevMonth.get('date'); d <= daysInMonth; d++) {
+            tempHoliday = '';
             html += renderDay(opts, prevMonth, i > 0, 'is-previous-month');
 
             prevMonth.add(1, 'day');
@@ -555,6 +561,7 @@ function next_focus_after_date(id){
 
         for (var d = 0; d < daysInMonth; d++) {
           day_now = d+1;
+          tempHoliday = 'is-holiday-check';
           html += renderDay(opts, day);
           day.add(1, 'day');
         }
@@ -564,6 +571,7 @@ function next_focus_after_date(id){
 
         if (nextDays < 7) {
           for (var d = nextMonth.get('date'); d <= nextDays; d++) {
+            tempHoliday = '';
             html += renderDay(
               opts,
               nextMonth,
@@ -578,13 +586,14 @@ function next_focus_after_date(id){
         html += '</div>'; // lightpick__days
 
         for (var d = 0; d < daysInMonth; d++) {
-            var tempDateRender = tempYear+'-'+tempMonth+'-'+parseInt(d+1);
-            var tempDateRenderFormat = moment(tempDateRender).format('YYYY-MM-DD');
+            var tempDateRender = String(tempYear+'/'+tempMonthInt+'/'+parseInt(d+1));
+            var tempDateRenderFormat = moment(tempDateRender).format('DD/MM/YYYY');
             var tempDateRender2 = d+1;
 
-            if (typeof new_date_api !== 'undefined') {
+            if (new_date_api !== {}) {
                 for (var new_i in new_date_api.result.response){
-                    if(new_date_api.result.response[new_i].date == tempDateRenderFormat){
+                    var temp_date_footer = moment(new_date_api.result.response[new_i].date).format('DD/MM/YYYY');
+                    if(temp_date_footer === tempDateRenderFormat){
                         html += '<div style="margin-top:10px; margin-bottom:10px; padding:5px;"><span style="color:red; padding:3px; border:1px solid black; background:#f7f7f7;"> ' + tempDateRender2 + '</span> <span style="font-size:12px;"> '+ new_date_api.result.response[new_i].name +' </span></div>';
                     }
                 }
@@ -603,6 +612,7 @@ function next_focus_after_date(id){
     updateDates = function(el, opts) {
       var days = el.querySelectorAll('.lightpick__day');
       [].forEach.call(days, function(day) {
+        tempHoliday = 'is-holiday-check';
         day.outerHTML = renderDay(
           opts,
           parseInt(day.getAttribute('data-time')),

@@ -29,7 +29,7 @@ function add_table_of_contact(data){
                             }
                             text+=`
                                 <select id="contact_title`+counter_contact+`" name="contact_title`+counter_contact+`" class="nice-select-default">`;
-                                var contact_us = ['Phone', 'Whatsapp', 'Line', 'Email', 'Telegram', 'Other'];
+                                var contact_us = ['Just Title','Phone', 'Whatsapp', 'Line', 'Email', 'Telegram', 'Other'];
                                 for (i = 0; i < contact_us.length; i++) {
                                     text+=`<option value="`+contact_us[i]+`"`;
                                     if(contact_us[i] == data[0]){
@@ -110,32 +110,60 @@ function get_contact(type){
                     for(i in msg){
                         if(template == 6){
                             text += `<li>`;
-                        }
-                        if(msg[i][0] == "Phone"){
-                            text += `<a href="tel:`+msg[i][1]+`" target="_blank">`;
-                            text+=`<img style="margin-bottom:10px; height:30px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/phone.png" alt="Phone"/>`+msg[i][0]+`: `+msg[i][1]+`</a>`;
-                        }else if(msg[i][0] == "Whatsapp"){
-                            text += `<a href="https://wa.me/`+msg[i][1]+`" target="_blank">`;
-                            text+=`<img style="margin-bottom:10px; height:33px; width:auto; padding-right:5px;" src="/static/tt_website_rodextrip/img/whatsappic.png" alt="Whatsapp"/>`+msg[i][0]+`: `+msg[i][1]+`</a>`;
-                        }else if(msg[i][0] == "Line"){
-                            text+=`<img style="margin-bottom:10px; height:30px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/line.png" alt="Line"/>
-                            <div class="line-it-button" data-lang="en" data-type="friend" data-lineid="`+msg[i][1]+`" style="display: none;">`+msg[i][0]+`</div>`;
-                        }else if(msg[i][0] == "Telegram"){
-                            text += `<a href="https://t.me/`+msg[i][1]+`" target="_blank">`;
-                            text+=`<img style="margin-bottom:10px; height:30px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/telegram.png" alt="Telegram"/>`+msg[i][0]+`: `+msg[i][1]+`</a>`;
-                        }else if(msg[i][0] == "Email"){
-                            text += `<a href="mailto:`+msg[i][1]+`" target="_blank">`;
-                            text+=`<img style="margin-bottom:10px; height:30px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/email.png" alt="Email"/>`+msg[i][1]+`</a>`;
-                        }else if(msg[i][0] == "Other"){
-                            text+=`<img style="margin-bottom:10px; height:30px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/other.png" alt="Other"/>`+msg[i][1]+``;
-                        }
-                        if(msg[i][2] != ''){
-                            text+=` - `+msg[i][2]+``;
+                        }else{
+                            text += `<div style="margin-bottom:10px;">`;
                         }
 
-                        text+=`<br/>`;
+                        if(msg[i][0] == "Just Title"){
+                            text+=`
+                            <h5 style="border-bottom:1px solid #cdcdcd;">
+                                <img style="height:30px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/office.png" alt="Office"/>
+                                `+msg[i][1]+`
+                            </h5>`;
+                        }else if(msg[i][0] == "Phone"){
+                            text += `
+                            <a href="tel:`+msg[i][1]+`" style="font-weight:bold; margin-bottom:10px;" target="_blank">
+                                <img style="height:30px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/phone.png" alt="Phone"/>
+                                <span>
+                                    `+msg[i][0]+`: `+msg[i][1]+`
+                                    <b style="padding-left:10px;">`+msg[i][2]+`</b>
+                                </span>
+                            </a>`;
+                        }else if(msg[i][0] == "Whatsapp"){
+                            text += `
+                            <a href="https://wa.me/`+msg[i][1]+`" style="font-weight:bold;" target="_blank">
+                                <img style="height:33px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/whatsappic.png" alt="Whatsapp"/>`+msg[i][0]+`: `+msg[i][1]+`
+                            </a>
+                            <b style="padding-left:10px;">`+msg[i][2]+`</b>`;
+                        }else if(msg[i][0] == "Line"){
+                            text+=`
+                            <img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png" alt="Line"/>
+                            <b style="padding-right:10px;">`+msg[i][2]+` <b/>
+                            <div class="line-it-button" data-lang="en" data-type="friend" data-lineid="`+msg[i][1]+`" style="display: none;">
+                                `+msg[i][0]+`
+                            </div>`;
+                        }else if(msg[i][0] == "Telegram"){
+                            text += `
+                            <a href="https://t.me/`+msg[i][1]+`" style="font-weight:bold;" target="_blank">
+                                <img style="height:30px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/telegram.png" alt="Telegram"/>
+                                `+msg[i][0]+`: `+msg[i][1]+`
+                                <b style="padding-left:10px;">`+msg[i][2]+`</b>
+                            </a>`;
+                        }else if(msg[i][0] == "Email"){
+                            text += `
+                            <a href="mailto:`+msg[i][1]+`" style="font-weight:bold;" target="_blank">
+                                <img style="height:30px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/email.png" alt="Email"/>
+                                `+msg[i][1]+`
+                                <b style="padding-left:10px;">`+msg[i][2]+`</b>
+                            </a>`;
+                        }else if(msg[i][0] == "Other"){
+                            text+=`<img style="height:30px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/other.png" alt="Other"/>`+msg[i][1]+``;
+                        }
+
                         if(template == 6){
                             text += `</li><br/>`;
+                        }else{
+                            text += `</div>`;
                         }
                     }
                 }
