@@ -622,7 +622,14 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div id="big_banner">
+
+                                                                <br/>
+                                                                <button type="button" class="primary-btn" id="help_big_banner_btn" onclick="preview_show_hide_example('help_big_banner');" style="color:{{text_color}}">Info <i class="fas fa-info-circle" style="font-size:16px;"></i></button>
+                                                                <div id="help_big_banner" style="display:none; background: #f7f7f7; border:1px solid #cdcdcd; padding:15px; overflow:auto;">
+                                                                    <img src="{{static_path}}images/guide/admin_setting/help_big_banner.png" alt="Help Big Banner" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
+                                                                </div>
+
+                                                                <div id="big_banner" class="mt-3">
 
                                                                 </div>
                                                             </div>
@@ -662,7 +669,14 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div id="small_banner">
+
+                                                                <br/>
+                                                                <button type="button" class="primary-btn" id="help_small_banner_btn" onclick="preview_show_hide_example('help_small_banner');" style="color:{{text_color}}">Info <i class="fas fa-info-circle" style="font-size:16px;"></i></button>
+                                                                <div id="help_small_banner" style="display:none; background: #f7f7f7; border:1px solid #cdcdcd; padding:15px; overflow:auto;">
+                                                                    <img src="{{static_path}}images/guide/admin_setting/help_small_banner.png" alt="Help Small Banner" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
+                                                                </div>
+
+                                                                <div id="small_banner" class="mt-3">
 
                                                                 </div>
                                                             </div>
@@ -702,7 +716,13 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div id="promotion">
+
+                                                                <br/>
+                                                                <button type="button" class="primary-btn" id="help_promotion_banner_btn" onclick="preview_show_hide_example('help_promotion_banner');" style="color:{{text_color}}">Info <i class="fas fa-info-circle" style="font-size:16px;"></i></button>
+                                                                <div id="help_promotion_banner" style="display:none; background: #f7f7f7; border:1px solid #cdcdcd; padding:15px; overflow:auto;">
+                                                                    <img src="{{static_path}}images/guide/admin_setting/help_promotion_banner.png" alt="Help Promotion Banner" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
+                                                                </div>
+                                                                <div id="promotion" class="mt-3">
 
                                                                 </div>
                                                             </div>
@@ -859,11 +879,19 @@
                                                                 </div>
                                                                 <div class="col-lg-12" style="padding-bottom:15px; border-bottom: 1px solid #cdcdcd;">
                                                                     <h6>Note: </h6><br/>
+                                                                    <div style="margin-bottom:10px;"><span style="font-size:15px; font-weight:bold; color:{{color}}">Just Title</span> <span style="font-size:14px; font-weight:500;"> Only used for titles such as company names or others, example: ORBISWAY</span></div>
                                                                     <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/phone.png" alt="Phone"><span style="font-size:14px; font-weight:500;"> Phone (don't use anything symbol), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">6231566200 or 031566200</span><br/>
                                                                     <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/whatsapp.png" alt="Whatsapp"><span style="font-size:14px; font-weight:500;">Whatsapp (use code country on first number), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">6231566200 </span><br/>
                                                                     <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/line.png" alt="Line"><span style="font-size:14px; font-weight:500;">Line (use @), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">@youridline </span><br/>
                                                                     <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/telegram.png" alt="Telegram"><span style="font-size:14px; font-weight:500;">Telegram (don't use @), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">youridtelegram </span><br/>
                                                                     <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/email.png" alt="Email"><span style="font-size:14px; font-weight:500;">Email, example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">youremail@example.com </span><br/>
+                                                                    <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/phone.png" alt="Phone"><span style="font-size:14px; font-weight:500;"> Phone (don't use anything symbol), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">6231566200 or 031566200</span><br/>
+                                                                    <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/other.png" alt="Other"/><span style="font-size:14px; font-weight:500;"> Only used if the desired contact option is not available</span><br/>
+
+                                                                    <button type="button" class="primary-btn mt-3" id="help_contact_us_btn" onclick="preview_show_hide_example('help_contact_us');" style="color:{{text_color}}">Info <i class="fas fa-info-circle" style="font-size:16px;"></i></button>
+                                                                    <div id="help_contact_us" style="display:none; background: #f7f7f7; border:1px solid #cdcdcd; padding:15px; overflow:auto;">
+                                                                        <img src="{{static_path}}images/guide/admin_setting/help_contact_us.png" alt="Help Small Banner" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
+                                                                    </div>
                                                                 </div>
                                                                 <div class="col-lg-12" id="contact_div" style="margin-top:15px;">
 
@@ -891,7 +919,12 @@
                                                                     <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/facebook.png" alt="Facebook">
                                                                     <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/tiktok.png" alt="Tiktok">
                                                                     <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/twitter.png" alt="Twitter">
-                                                                    <br/><span style="font-size:14px; font-weight:500;">URL must use https, example: <span style="color:{{color}}; font-size:14px; font-weight:500;">https://www.yourdomain.com/</span></span>
+                                                                    <br/><span style="font-size:14px; font-weight:500;">URL must use https, example: <span style="color:{{color}}; font-size:14px; font-weight:500;">https://www.yourdomain.com/</span></span><br/>
+
+                                                                    <button type="button" class="primary-btn mt-3" id="help_social_media_btn" onclick="preview_show_hide_example('help_social_media');" style="color:{{text_color}}">Info <i class="fas fa-info-circle" style="font-size:16px;"></i></button>
+                                                                    <div id="help_social_media" style="display:none; background: #f7f7f7; border:1px solid #cdcdcd; padding:15px; overflow:auto;">
+                                                                        <img src="{{static_path}}images/guide/admin_setting/help_social_media.png" alt="Help Small Banner" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
+                                                                    </div>
                                                                 </div>
                                                                 <div class="col-lg-12" id="social_div">
 
@@ -918,6 +951,12 @@
                                                                             <select class="nice-select-default" style="width:100%;" id="partner_choose" onchange="change_payment_partner();">
 
                                                                             </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="mb-3">
+                                                                        <button type="button" class="primary-btn" id="help_payment_partner_btn" onclick="preview_show_hide_example('help_payment_partner');" style="color:{{text_color}}">Info <i class="fas fa-info-circle" style="font-size:16px;"></i></button>
+                                                                        <div id="help_payment_partner" style="display:none; background: #f7f7f7; border:1px solid #cdcdcd; padding:15px; overflow:auto;">
+                                                                            <img src="{{static_path}}images/guide/admin_setting/help_payment_partner.png" alt="Help Small Banner" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
                                                                         </div>
                                                                     </div>
                                                                     <label class="check_box_custom">
@@ -1344,15 +1383,15 @@
                                                     <h6 class="single_border_custom_left mb-3" style="padding-left:10px;">{% trans 'Update Cache Data' %}</h6>
                                                 </div>
                                             </div>
-                                            <button type="button" class="primary-btn" id="update_cache_version" onclick="update_cache_version_func('data');">Update Cache</button>
+                                            <button type="button" class="primary-btn" id="update_cache_version" onclick="update_cache_version_func('data');">Update Cache Data</button>
                                         </div>
                                         <div class="col-lg-12" style="background:white; border:1px solid #cdcdcd; padding:15px;">
                                             <div class="row">
                                                 <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
-                                                    <h6 class="single_border_custom_left mb-3" style="padding-left:10px;">{% trans 'Update Cache Data' %}</h6>
+                                                    <h6 class="single_border_custom_left mb-3" style="padding-left:10px;">{% trans 'Update Cache Image' %}</h6>
                                                 </div>
                                             </div>
-                                            <button type="button" class="primary-btn" id="update_cache_image" onclick="update_cache_version_func('image');">Update Cache</button>
+                                            <button type="button" class="primary-btn" id="update_cache_image" onclick="update_cache_version_func('image');">Update Cache Image</button>
                                         </div>
                                         {% endif %}
                                     </div>
@@ -1372,6 +1411,12 @@
                                                                     </select>
                                                                     <input type="hidden" class="form-control" name="page_url" id="page_url">
                                                                 </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-12 mb-3">
+                                                            <button type="button" class="primary-btn" id="help_dynamic_page_btn" onclick="preview_show_hide_example('help_dynamic_page');" style="color:{{text_color}}">Info <i class="fas fa-info-circle" style="font-size:16px;"></i></button>
+                                                            <div id="help_dynamic_page" style="display:none; background: #f7f7f7; border:1px solid #cdcdcd; padding:15px; overflow:auto;">
+                                                                <img src="{{static_path}}images/guide/admin_setting/help_dynamic_page.png" alt="Help Small Banner" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-12">
@@ -2173,7 +2218,14 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div id="big_banner">
+
+                                                            <br/>
+                                                            <button type="button" class="primary-btn" id="help_big_banner_btn" onclick="preview_show_hide_example('help_big_banner');" style="color:{{text_color}}">Info <i class="fas fa-info-circle" style="font-size:16px;"></i></button>
+                                                            <div id="help_big_banner" style="display:none; background: #f7f7f7; border:1px solid #cdcdcd; padding:15px; overflow:auto;">
+                                                                <img src="{{static_path}}images/guide/admin_setting/help_big_banner.png" alt="Help Big Banner" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
+                                                            </div>
+
+                                                            <div id="big_banner" class="mt-3">
 
                                                             </div>
                                                         </div>
@@ -2213,7 +2265,14 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div id="small_banner">
+
+                                                            <br/>
+                                                            <button type="button" class="primary-btn" id="help_small_banner_btn" onclick="preview_show_hide_example('help_small_banner');" style="color:{{text_color}}">Info <i class="fas fa-info-circle" style="font-size:16px;"></i></button>
+                                                            <div id="help_small_banner" style="display:none; background: #f7f7f7; border:1px solid #cdcdcd; padding:15px; overflow:auto;">
+                                                                <img src="{{static_path}}images/guide/admin_setting/help_small_banner.png" alt="Help Small Banner" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
+                                                            </div>
+
+                                                            <div id="small_banner" class="mt-3">
 
                                                             </div>
                                                         </div>
@@ -2253,7 +2312,12 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div id="promotion">
+                                                            <br/>
+                                                            <button type="button" class="primary-btn" id="help_promotion_banner_btn" onclick="preview_show_hide_example('help_promotion_banner');" style="color:{{text_color}}">Info <i class="fas fa-info-circle" style="font-size:16px;"></i></button>
+                                                            <div id="help_promotion_banner" style="display:none; background: #f7f7f7; border:1px solid #cdcdcd; padding:15px; overflow:auto;">
+                                                                <img src="{{static_path}}images/guide/admin_setting/help_promotion_banner.png" alt="Help Promotion Banner" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
+                                                            </div>
+                                                            <div id="promotion" class="mt-3">
 
                                                             </div>
                                                         </div>
@@ -2410,13 +2474,21 @@
                                                             <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
                                                                 <h6 class="single_border_custom_left mb-3" style="padding-left:10px;">{% trans 'Contact Us' %}</h6>
                                                             </div>
-                                                            <div class="col-lg-12" style="padding-bottom:15px; border-bottom: 1px solid #cdcdcd;">
+                                                            <div class="col-lg-12 mb-3" style="padding-bottom:15px; border-bottom: 1px solid #cdcdcd;">
                                                                 <h6>Note: </h6><br/>
+                                                                <div style="margin-bottom:10px;"><span style="font-size:15px; font-weight:bold; color:{{color}}">Just Title</span> <span style="font-size:14px; font-weight:500;"> Only used for titles such as company names or others, example: ORBISWAY</span></div>
                                                                 <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/phone.png" alt="Phone"><span style="font-size:14px; font-weight:500;"> Phone (don't use anything symbol), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">6231566200 or 031566200</span><br/>
                                                                 <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/whatsapp.png" alt="Whatsapp"><span style="font-size:14px; font-weight:500;">Whatsapp (use code country on first number), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">6231566200 </span><br/>
                                                                 <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/line.png" alt="Line"><span style="font-size:14px; font-weight:500;">Line (use @), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">@youridline </span><br/>
                                                                 <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/telegram.png" alt="Telegram"><span style="font-size:14px; font-weight:500;">Telegram (don't use @), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">youridtelegram </span><br/>
                                                                 <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/email.png" alt="Email"><span style="font-size:14px; font-weight:500;">Email, example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">youremail@example.com </span><br/>
+                                                                <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/phone.png" alt="Phone"><span style="font-size:14px; font-weight:500;"> Phone (don't use anything symbol), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">6231566200 or 031566200</span><br/>
+                                                                <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/other.png" alt="Other"/><span style="font-size:14px; font-weight:500;"> Only used if the desired contact option is not available</span><br/>
+
+                                                                <button type="button" class="primary-btn mt-3" id="help_contact_us_btn" onclick="preview_show_hide_example('help_contact_us');" style="color:{{text_color}}">Info <i class="fas fa-info-circle" style="font-size:16px;"></i></button>
+                                                                <div id="help_contact_us" style="display:none; background: #f7f7f7; border:1px solid #cdcdcd; padding:15px; overflow:auto;">
+                                                                    <img src="{{static_path}}images/guide/admin_setting/help_contact_us.png" alt="Help Small Banner" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
+                                                                </div>
                                                             </div>
                                                             <div class="col-lg-12" id="contact_div" style="margin-top:15px;">
 
@@ -2444,7 +2516,11 @@
                                                                 <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/facebook.png" alt="Facebook">
                                                                 <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/tiktok.png" alt="Tiktok">
                                                                 <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/twitter.png" alt="Twitter">
-                                                                <br/><span style="font-size:14px; font-weight:500;">URL must use https, example: <span style="color:{{color}}; font-size:14px; font-weight:500;">https://www.yourdomain.com/</span></span>
+                                                                <br/><span style="font-size:14px; font-weight:500;">URL must use https, example: <span style="color:{{color}}; font-size:14px; font-weight:500;">https://www.yourdomain.com/</span></span><br/>
+                                                                <button type="button" class="primary-btn mt-3" id="help_social_media_btn" onclick="preview_show_hide_example('help_social_media');" style="color:{{text_color}}">Info <i class="fas fa-info-circle" style="font-size:16px;"></i></button>
+                                                                <div id="help_social_media" style="display:none; background: #f7f7f7; border:1px solid #cdcdcd; padding:15px; overflow:auto;">
+                                                                    <img src="{{static_path}}images/guide/admin_setting/help_social_media.png" alt="Help Small Banner" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
+                                                                </div>
                                                             </div>
                                                             <div class="col-lg-12" id="social_div">
 
@@ -2471,6 +2547,12 @@
                                                                         <select class="nice-select-default" style="width:100%;" id="partner_choose" onchange="change_payment_partner();">
 
                                                                         </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <button type="button" class="primary-btn" id="help_payment_partner_btn" onclick="preview_show_hide_example('help_payment_partner');" style="color:{{text_color}}">Info <i class="fas fa-info-circle" style="font-size:16px;"></i></button>
+                                                                    <div id="help_payment_partner" style="display:none; background: #f7f7f7; border:1px solid #cdcdcd; padding:15px; overflow:auto;">
+                                                                        <img src="{{static_path}}images/guide/admin_setting/help_payment_partner.png" alt="Help Small Banner" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
                                                                     </div>
                                                                 </div>
                                                                 <label class="check_box_custom">
@@ -2894,15 +2976,15 @@
                                                 <h6 class="single_border_custom_left mb-3" style="padding-left:10px;">{% trans 'Update Cache Data' %}</h6>
                                             </div>
                                         </div>
-                                        <button type="button" class="primary-btn" id="update_cache_version" onclick="update_cache_version_func('data');">Update Cache</button>
+                                        <button type="button" class="primary-btn" id="update_cache_version" onclick="update_cache_version_func('data');">Update Cache Data</button>
                                     </div>
                                     <div class="col-lg-12" style="background:white; border:1px solid #cdcdcd; padding:15px;">
                                         <div class="row">
                                             <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
-                                                <h6 class="single_border_custom_left mb-3" style="padding-left:10px;">{% trans 'Update Cache Data' %}</h6>
+                                                <h6 class="single_border_custom_left mb-3" style="padding-left:10px;">{% trans 'Update Cache Image' %}</h6>
                                             </div>
                                         </div>
-                                        <button type="button" class="primary-btn" id="update_cache_image" onclick="update_cache_version_func('image');">Update Cache</button>
+                                        <button type="button" class="primary-btn" id="update_cache_image" onclick="update_cache_version_func('image');">Update Cache Image</button>
                                     </div>
                                     {% endif %}
                                 </div>
@@ -2923,6 +3005,20 @@
                                                                 <input type="hidden" class="form-control" name="page_url" id="page_url">
                                                             </div>
                                                         </div>
+                                                    </div>
+                                                    <div class="col-lg-12 mb-3">
+                                                        <button type="button" class="primary-btn" id="help_dynamic_page_btn" onclick="preview_show_hide_example('help_dynamic_page');" style="color:{{text_color}}">Info <i class="fas fa-info-circle" style="font-size:16px;"></i></button>
+                                                        <div id="help_dynamic_page" style="display:none; background: #f7f7f7; border:1px solid #cdcdcd; padding:15px; overflow:auto;">
+                                                            <img src="{{static_path}}images/guide/admin_setting/help_dynamic_page.png" alt="Help Small Banner" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12 mb-1">
+                                                        <h6 style="margin-bottom:10px;">{% trans 'Display' %}</h6>
+                                                        <label class="check_box_custom">
+                                                            <span>{% trans 'Active' %}</span>
+                                                            <input type="checkbox" id="page_active" checked="checked" />
+                                                            <span class="check_box_span_custom"></span>
+                                                        </label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -2948,14 +3044,6 @@
                                                 <div class="form-select">
                                                     <input type="text" class="form-control" name="sequence_dynamic_page" id="sequence_dynamic_page" placeholder="{% trans 'Sequence' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Sequence '" value="">
                                                 </div>
-                                            </div>
-                                            <div class="col-lg-12">
-                                                <h6 style="margin-bottom:10px;">{% trans 'Display' %}</h6>
-                                                <label class="check_box_custom">
-                                                    <span>{% trans 'Active' %}</span>
-                                                    <input type="checkbox" id="page_active" checked="checked" />
-                                                    <span class="check_box_span_custom"></span>
-                                                </label>
                                             </div>
                                             <div class="col-lg-12" style="margin-bottom:15px;">
                                                 <textarea class="ckeditor" name="editor" id="editor"></textarea>
@@ -3728,7 +3816,14 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div id="big_banner">
+
+                                                        <br/>
+                                                        <button type="button" class="primary-btn" id="help_big_banner_btn" onclick="preview_show_hide_example('help_big_banner');" style="color:{{text_color}}">Info <i class="fas fa-info-circle" style="font-size:16px;"></i></button>
+                                                        <div id="help_big_banner" style="display:none; background: #f7f7f7; border:1px solid #cdcdcd; padding:15px; overflow:auto;">
+                                                            <img src="{{static_path}}images/guide/admin_setting/help_big_banner.png" alt="Help Big Banner" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
+                                                        </div>
+
+                                                        <div id="big_banner" class="mt-3">
 
                                                         </div>
                                                     </div>
@@ -3768,7 +3863,14 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div id="small_banner">
+
+                                                        <br/>
+                                                        <button type="button" class="primary-btn" id="help_small_banner_btn" onclick="preview_show_hide_example('help_small_banner');" style="color:{{text_color}}">Info <i class="fas fa-info-circle" style="font-size:16px;"></i></button>
+                                                        <div id="help_small_banner" style="display:none; background: #f7f7f7; border:1px solid #cdcdcd; padding:15px; overflow:auto;">
+                                                            <img src="{{static_path}}images/guide/admin_setting/help_small_banner.png" alt="Help Small Banner" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
+                                                        </div>
+
+                                                        <div id="small_banner" class="mt-3">
 
                                                         </div>
                                                     </div>
@@ -3808,7 +3910,12 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div id="promotion">
+                                                        <br/>
+                                                        <button type="button" class="primary-btn" id="help_promotion_banner_btn" onclick="preview_show_hide_example('help_promotion_banner');" style="color:{{text_color}}">Info <i class="fas fa-info-circle" style="font-size:16px;"></i></button>
+                                                        <div id="help_promotion_banner" style="display:none; background: #f7f7f7; border:1px solid #cdcdcd; padding:15px; overflow:auto;">
+                                                            <img src="{{static_path}}images/guide/admin_setting/help_promotion_banner.png" alt="Help Promotion Banner" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
+                                                        </div>
+                                                        <div id="promotion" class="mt-3">
 
                                                         </div>
                                                     </div>
@@ -3965,11 +4072,18 @@
                                                         </div>
                                                         <div class="col-lg-12" style="padding-bottom:15px; border-bottom: 1px solid #cdcdcd;">
                                                             <h6>Note: </h6><br/>
+                                                            <div style="margin-bottom:10px;"><span style="font-size:15px; font-weight:bold; color:{{color}}">Just Title</span> <span style="font-size:14px; font-weight:500;"> Only used for titles such as company names or others, example: ORBISWAY</span></div>
                                                             <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/phone.png" alt="Phone"><span style="font-size:14px; font-weight:500;"> Phone (don't use anything symbol), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">6231566200 or 031566200</span><br/>
                                                             <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/whatsapp.png" alt="Whatsapp"><span style="font-size:14px; font-weight:500;">Whatsapp (use code country on first number), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">6231566200 </span><br/>
                                                             <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/line.png" alt="Line"><span style="font-size:14px; font-weight:500;">Line (use @), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">@youridline </span><br/>
                                                             <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/telegram.png" alt="Telegram"><span style="font-size:14px; font-weight:500;">Telegram (don't use @), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">youridtelegram </span><br/>
                                                             <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/email.png" alt="Email"><span style="font-size:14px; font-weight:500;">Email, example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">youremail@example.com </span><br/>
+                                                            <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/phone.png" alt="Phone"><span style="font-size:14px; font-weight:500;"> Phone (don't use anything symbol), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">6231566200 or 031566200</span><br/>
+                                                            <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/other.png" alt="Other"/><span style="font-size:14px; font-weight:500;"> Only used if the desired contact option is not available</span><br/>
+                                                            <button type="button" class="primary-btn mt-3" id="help_contact_us_btn" onclick="preview_show_hide_example('help_contact_us');" style="color:{{text_color}}">Info <i class="fas fa-info-circle" style="font-size:16px;"></i></button>
+                                                            <div id="help_contact_us" style="display:none; background: #f7f7f7; border:1px solid #cdcdcd; padding:15px; overflow:auto;">
+                                                                <img src="{{static_path}}images/guide/admin_setting/help_contact_us.png" alt="Help Small Banner" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
+                                                            </div>
                                                         </div>
                                                         <div class="col-lg-12" id="contact_div" style="margin-top:15px;">
 
@@ -3997,7 +4111,11 @@
                                                             <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/facebook.png" alt="Facebook">
                                                             <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/tiktok.png" alt="Tiktok">
                                                             <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/twitter.png" alt="Twitter">
-                                                            <br/><span style="font-size:14px; font-weight:500;">URL must use https, example: <span style="color:{{color}}; font-size:14px; font-weight:500;">https://www.yourdomain.com/</span></span>
+                                                            <br/><span style="font-size:14px; font-weight:500;">URL must use https, example: <span style="color:{{color}}; font-size:14px; font-weight:500;">https://www.yourdomain.com/</span></span><br/>
+                                                            <button type="button" class="primary-btn mt-3" id="help_social_media_btn" onclick="preview_show_hide_example('help_social_media');" style="color:{{text_color}}">Info <i class="fas fa-info-circle" style="font-size:16px;"></i></button>
+                                                            <div id="help_social_media" style="display:none; background: #f7f7f7; border:1px solid #cdcdcd; padding:15px; overflow:auto;">
+                                                                <img src="{{static_path}}images/guide/admin_setting/help_social_media.png" alt="Help Small Banner" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
+                                                            </div>
                                                         </div>
                                                         <div class="col-lg-12" id="social_div">
 
@@ -4023,6 +4141,12 @@
                                                                 <select class="nice-select-default" style="width:100%;" id="partner_choose" onchange="change_payment_partner();">
 
                                                                 </select>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <button type="button" class="primary-btn" id="help_payment_partner_btn" onclick="preview_show_hide_example('help_payment_partner');" style="color:{{text_color}}">Info <i class="fas fa-info-circle" style="font-size:16px;"></i></button>
+                                                                <div id="help_payment_partner" style="display:none; background: #f7f7f7; border:1px solid #cdcdcd; padding:15px; overflow:auto;">
+                                                                    <img src="{{static_path}}images/guide/admin_setting/help_payment_partner.png" alt="Help Small Banner" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
+                                                                </div>
                                                             </div>
                                                             <label class="check_box_custom">
                                                                 <span>{% trans 'Active' %}</span>
@@ -4443,15 +4567,15 @@
                                             <h6 class="single_border_custom_left mb-3" style="padding-left:10px;">{% trans 'Update Cache Data' %}</h6>
                                         </div>
                                     </div>
-                                    <button type="button" class="primary-btn" id="update_cache_version" onclick="update_cache_version_func('data');">Update Cache</button>
+                                    <button type="button" class="primary-btn" id="update_cache_version" onclick="update_cache_version_func('data');">Update Cache Data</button>
                                 </div>
                                 <div class="col-lg-12" style="background:white; border:1px solid #cdcdcd; padding:15px;">
                                     <div class="row">
                                         <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
-                                            <h6 class="single_border_custom_left mb-3" style="padding-left:10px;">{% trans 'Update Cache Data' %}</h6>
+                                            <h6 class="single_border_custom_left mb-3" style="padding-left:10px;">{% trans 'Update Cache Image' %}</h6>
                                         </div>
                                     </div>
-                                    <button type="button" class="primary-btn" id="update_cache_image" onclick="update_cache_version_func('image');">Update Cache</button>
+                                    <button type="button" class="primary-btn" id="update_cache_image" onclick="update_cache_version_func('image');">Update Cache Image</button>
                                 </div>
                                 {% endif %}
                             </div>
@@ -4470,6 +4594,20 @@
                                                         </select>
                                                         <input type="hidden" class="form-control" name="page_url" id="page_url">
                                                     </div>
+                                                </div>
+                                                <div class="col-lg-12 mb-3">
+                                                    <button type="button" class="primary-btn" id="help_dynamic_page_btn" onclick="preview_show_hide_example('help_dynamic_page');" style="color:{{text_color}}">Info <i class="fas fa-info-circle" style="font-size:16px;"></i></button>
+                                                    <div id="help_dynamic_page" style="display:none; background: #f7f7f7; border:1px solid #cdcdcd; padding:15px; overflow:auto;">
+                                                        <img src="{{static_path}}images/guide/admin_setting/help_dynamic_page.png" alt="Help Small Banner" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <h6 style="margin-bottom:10px;">{% trans 'Display' %}</h6>
+                                                    <label class="check_box_custom">
+                                                        <span>{% trans 'Active' %}</span>
+                                                        <input type="checkbox" id="page_active" checked="checked" />
+                                                        <span class="check_box_span_custom"></span>
+                                                    </label>
                                                 </div>
                                             </div>
                                         </div>
@@ -4495,14 +4633,6 @@
                                             <div class="form-select">
                                                 <input type="text" class="form-control" name="sequence_dynamic_page" id="sequence_dynamic_page" placeholder="{% trans 'Sequence' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Sequence '" value="">
                                             </div>
-                                        </div>
-                                        <div class="col-lg-12">
-                                            <h6 style="margin-bottom:10px;">{% trans 'Display' %}</h6>
-                                            <label class="check_box_custom">
-                                                <span>{% trans 'Active' %}</span>
-                                                <input type="checkbox" id="page_active" checked="checked" />
-                                                <span class="check_box_span_custom"></span>
-                                            </label>
                                         </div>
                                         <div class="col-lg-12" style="margin-bottom:15px;">
                                             <textarea class="ckeditor" name="editor" id="editor"></textarea>
@@ -5266,7 +5396,14 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div id="big_banner">
+
+                                                    <br/>
+                                                    <button type="button" class="primary-btn" id="help_big_banner_btn" onclick="preview_show_hide_example('help_big_banner');" style="color:{{text_color}}">Info <i class="fas fa-info-circle" style="font-size:16px;"></i></button>
+                                                    <div id="help_big_banner" style="display:none; background: #f7f7f7; border:1px solid #cdcdcd; padding:15px; overflow:auto;">
+                                                        <img src="{{static_path}}images/guide/admin_setting/help_big_banner.png" alt="Help Big Banner" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
+                                                    </div>
+
+                                                    <div id="big_banner" class="mt-3">
 
                                                     </div>
                                                 </div>
@@ -5306,7 +5443,14 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div id="small_banner">
+
+                                                    <br/>
+                                                    <button type="button" class="primary-btn" id="help_small_banner_btn" onclick="preview_show_hide_example('help_small_banner');" style="color:{{text_color}}">Info <i class="fas fa-info-circle" style="font-size:16px;"></i></button>
+                                                    <div id="help_small_banner" style="display:none; background: #f7f7f7; border:1px solid #cdcdcd; padding:15px; overflow:auto;">
+                                                        <img src="{{static_path}}images/guide/admin_setting/help_small_banner.png" alt="Help Small Banner" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
+                                                    </div>
+
+                                                    <div id="small_banner" class="mt-3">
 
                                                     </div>
                                                 </div>
@@ -5346,7 +5490,12 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div id="promotion">
+                                                    <br/>
+                                                    <button type="button" class="primary-btn" id="help_promotion_banner_btn" onclick="preview_show_hide_example('help_promotion_banner');" style="color:{{text_color}}">Info <i class="fas fa-info-circle" style="font-size:16px;"></i></button>
+                                                    <div id="help_promotion_banner" style="display:none; background: #f7f7f7; border:1px solid #cdcdcd; padding:15px; overflow:auto;">
+                                                        <img src="{{static_path}}images/guide/admin_setting/help_promotion_banner.png" alt="Help Promotion Banner" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
+                                                    </div>
+                                                    <div id="promotion" class="mt-3">
 
                                                     </div>
                                                 </div>
@@ -5505,11 +5654,18 @@
                                                     </div>
                                                     <div class="col-lg-12" style="padding-bottom:15px; border-bottom: 1px solid #cdcdcd;">
                                                         <h6>Note: </h6><br/>
+                                                        <div style="margin-bottom:10px;"><span style="font-size:15px; font-weight:bold; color:{{color}}">Just Title</span> <span style="font-size:14px; font-weight:500;"> Only used for titles such as company names or others, example: ORBISWAY</span></div>
                                                         <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/phone.png" alt="Phone"><span style="font-size:14px; font-weight:500;"> Phone (don't use anything symbol), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">6231566200 or 031566200</span><br/>
                                                         <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/whatsapp.png" alt="Whatsapp"><span style="font-size:14px; font-weight:500;">Whatsapp (use code country on first number), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">6231566200 </span><br/>
                                                         <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/line.png" alt="Line"><span style="font-size:14px; font-weight:500;">Line (use @), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">@youridline </span><br/>
                                                         <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/telegram.png" alt="Telegram"><span style="font-size:14px; font-weight:500;">Telegram (don't use @), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">youridtelegram </span><br/>
                                                         <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/email.png" alt="Email"><span style="font-size:14px; font-weight:500;">Email, example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">youremail@example.com </span><br/>
+                                                        <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/phone.png" alt="Phone"><span style="font-size:14px; font-weight:500;"> Phone (don't use anything symbol), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">6231566200 or 031566200</span><br/>
+                                                        <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/other.png" alt="Other"/><span style="font-size:14px; font-weight:500;"> Only used if the desired contact option is not available</span><br/>
+                                                        <button type="button" class="primary-btn mt-3" id="help_contact_us_btn" onclick="preview_show_hide_example('help_contact_us');" style="color:{{text_color}}">Info <i class="fas fa-info-circle" style="font-size:16px;"></i></button>
+                                                        <div id="help_contact_us" style="display:none; background: #f7f7f7; border:1px solid #cdcdcd; padding:15px; overflow:auto;">
+                                                            <img src="{{static_path}}images/guide/admin_setting/help_contact_us.png" alt="Help Small Banner" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
+                                                        </div>
                                                     </div>
                                                     <div class="col-lg-12" id="contact_div" style="margin-top:15px;">
 
@@ -5537,7 +5693,11 @@
                                                         <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/facebook.png" alt="Facebook">
                                                         <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/tiktok.png" alt="Tiktok">
                                                         <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/twitter.png" alt="Twitter">
-                                                        <br/><span style="font-size:14px; font-weight:500;">URL must use https, example: <span style="color:{{color}}; font-size:14px; font-weight:500;">https://www.yourdomain.com/</span></span>
+                                                        <br/><span style="font-size:14px; font-weight:500;">URL must use https, example: <span style="color:{{color}}; font-size:14px; font-weight:500;">https://www.yourdomain.com/</span></span><br/>
+                                                        <button type="button" class="primary-btn mt-3" id="help_social_media_btn" onclick="preview_show_hide_example('help_social_media');" style="color:{{text_color}}">Info <i class="fas fa-info-circle" style="font-size:16px;"></i></button>
+                                                        <div id="help_social_media" style="display:none; background: #f7f7f7; border:1px solid #cdcdcd; padding:15px; overflow:auto;">
+                                                            <img src="{{static_path}}images/guide/admin_setting/help_social_media.png" alt="Help Small Banner" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
+                                                        </div>
                                                     </div>
                                                     <div class="col-lg-12" id="social_div">
 
@@ -5564,6 +5724,12 @@
                                                                 <select class="nice-select-default" style="width:100%;" id="partner_choose" onchange="change_payment_partner();">
 
                                                                 </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <button type="button" class="primary-btn" id="help_payment_partner_btn" onclick="preview_show_hide_example('help_payment_partner');" style="color:{{text_color}}">Info <i class="fas fa-info-circle" style="font-size:16px;"></i></button>
+                                                            <div id="help_payment_partner" style="display:none; background: #f7f7f7; border:1px solid #cdcdcd; padding:15px; overflow:auto;">
+                                                                <img src="{{static_path}}images/guide/admin_setting/help_payment_partner.png" alt="Help Small Banner" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
                                                             </div>
                                                         </div>
                                                         <label class="check_box_custom">
@@ -5987,15 +6153,15 @@
                                         <h6 class="single_border_custom_left mb-3" style="padding-left:10px;">{% trans 'Update Cache Data' %}</h6>
                                     </div>
                                 </div>
-                                <button type="button" class="primary-btn" id="update_cache_version" onclick="update_cache_version_func('data');">Update Cache</button>
+                                <button type="button" class="primary-btn" id="update_cache_version" onclick="update_cache_version_func('data');">Update Cache Data</button>
                             </div>
                             <div class="col-lg-12" style="background:white; border:1px solid #cdcdcd; padding:15px;">
                                 <div class="row">
                                     <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
-                                        <h6 class="single_border_custom_left mb-3" style="padding-left:10px;">{% trans 'Update Cache Data' %}</h6>
+                                        <h6 class="single_border_custom_left mb-3" style="padding-left:10px;">{% trans 'Update Cache Image' %}</h6>
                                     </div>
                                 </div>
-                                <button type="button" class="primary-btn" id="update_cache_image" onclick="update_cache_version_func('image');">Update Cache</button>
+                                <button type="button" class="primary-btn" id="update_cache_image" onclick="update_cache_version_func('image');">Update Cache Image</button>
                             </div>
                             {% endif %}
                         </div>
@@ -6016,6 +6182,20 @@
                                                         <input type="hidden" class="form-control" name="page_url" id="page_url">
                                                     </div>
                                                 </div>
+                                            </div>
+                                            <div class="col-lg-12 mb-3">
+                                                <button type="button" class="primary-btn" id="help_dynamic_page_btn" onclick="preview_show_hide_example('help_dynamic_page');" style="color:{{text_color}}">Info <i class="fas fa-info-circle" style="font-size:16px;"></i></button>
+                                                <div id="help_dynamic_page" style="display:none; background: #f7f7f7; border:1px solid #cdcdcd; padding:15px; overflow:auto;">
+                                                    <img src="{{static_path}}images/guide/admin_setting/help_dynamic_page.png" alt="Help Small Banner" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <h6 style="margin-bottom:10px;">{% trans 'Display' %}</h6>
+                                                <label class="check_box_custom">
+                                                    <span>{% trans 'Active' %}</span>
+                                                    <input type="checkbox" id="page_active" checked="checked" />
+                                                    <span class="check_box_span_custom"></span>
+                                                </label>
                                             </div>
                                         </div>
                                     </div>
@@ -6042,13 +6222,11 @@
                                             <input type="text" class="form-control" name="sequence_dynamic_page" id="sequence_dynamic_page" placeholder="{% trans 'Sequence' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Sequence '" value="">
                                         </div>
                                     </div>
-                                    <div class="col-lg-12">
-                                        <h6 style="margin-bottom:10px;">{% trans 'Display' %}</h6>
-                                        <label class="check_box_custom">
-                                            <span>{% trans 'Active' %}</span>
-                                            <input type="checkbox" id="page_active" checked="checked" />
-                                            <span class="check_box_span_custom"></span>
-                                        </label>
+                                    <div class="col-lg-12 mb-3">
+                                        <button type="button" class="primary-btn" id="help_dynamic_page_btn" onclick="preview_show_hide_example('help_dynamic_page');" style="color:{{text_color}}">Info <i class="fas fa-info-circle" style="font-size:16px;"></i></button>
+                                        <div id="help_dynamic_page" style="display:none; background: #f7f7f7; border:1px solid #cdcdcd; padding:15px; overflow:auto;">
+                                            <img src="{{static_path}}images/guide/admin_setting/help_dynamic_page.png" alt="Help Small Banner" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
+                                        </div>
                                     </div>
                                     <div class="col-lg-12" style="margin-bottom:15px;">
                                         <textarea class="ckeditor" name="editor" id="editor"></textarea>
@@ -6812,7 +6990,14 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div id="big_banner">
+
+                                                        <br/>
+                                                        <button type="button" class="primary-btn" id="help_big_banner_btn" onclick="preview_show_hide_example('help_big_banner');" style="color:{{text_color}}">Info <i class="fas fa-info-circle" style="font-size:16px;"></i></button>
+                                                        <div id="help_big_banner" style="display:none; background: #f7f7f7; border:1px solid #cdcdcd; padding:15px; overflow:auto;">
+                                                            <img src="{{static_path}}images/guide/admin_setting/help_big_banner.png" alt="Help Big Banner" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
+                                                        </div>
+
+                                                        <div id="big_banner" class="mt-3">
 
                                                         </div>
                                                     </div>
@@ -6852,7 +7037,14 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div id="small_banner">
+
+                                                        <br/>
+                                                        <button type="button" class="primary-btn" id="help_small_banner_btn" onclick="preview_show_hide_example('help_small_banner');" style="color:{{text_color}}">Info <i class="fas fa-info-circle" style="font-size:16px;"></i></button>
+                                                        <div id="help_small_banner" style="display:none; background: #f7f7f7; border:1px solid #cdcdcd; padding:15px; overflow:auto;">
+                                                            <img src="{{static_path}}images/guide/admin_setting/help_small_banner.png" alt="Help Small Banner" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
+                                                        </div>
+
+                                                        <div id="small_banner" class="mt-3">
 
                                                         </div>
                                                     </div>
@@ -6892,7 +7084,12 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div id="promotion">
+                                                        <br/>
+                                                        <button type="button" class="primary-btn" id="help_promotion_banner_btn" onclick="preview_show_hide_example('help_promotion_banner');" style="color:{{text_color}}">Info <i class="fas fa-info-circle" style="font-size:16px;"></i></button>
+                                                        <div id="help_promotion_banner" style="display:none; background: #f7f7f7; border:1px solid #cdcdcd; padding:15px; overflow:auto;">
+                                                            <img src="{{static_path}}images/guide/admin_setting/help_promotion_banner.png" alt="Help Promotion Banner" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
+                                                        </div>
+                                                        <div id="promotion" class="mt-3">
 
                                                         </div>
                                                     </div>
@@ -7051,11 +7248,18 @@
                                                         </div>
                                                         <div class="col-lg-12" style="padding-bottom:15px; border-bottom: 1px solid #cdcdcd;">
                                                             <h6>Note: </h6><br/>
+                                                            <div style="margin-bottom:10px;"><span style="font-size:15px; font-weight:bold; color:{{color}}">Just Title</span> <span style="font-size:14px; font-weight:500;"> Only used for titles such as company names or others, example: ORBISWAY</span></div>
                                                             <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/phone.png" alt="Phone"><span style="font-size:14px; font-weight:500;"> Phone (don't use anything symbol), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">6231566200 or 031566200</span><br/>
                                                             <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/whatsapp.png" alt="Whatsapp"><span style="font-size:14px; font-weight:500;">Whatsapp (use code country on first number), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">6231566200 </span><br/>
                                                             <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/line.png" alt="Line"><span style="font-size:14px; font-weight:500;">Line (use @), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">@youridline </span><br/>
                                                             <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/telegram.png" alt="Telegram"><span style="font-size:14px; font-weight:500;">Telegram (don't use @), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">youridtelegram </span><br/>
                                                             <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/email.png" alt="Email"><span style="font-size:14px; font-weight:500;">Email, example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">youremail@example.com </span><br/>
+                                                            <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/phone.png" alt="Phone"><span style="font-size:14px; font-weight:500;"> Phone (don't use anything symbol), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">6231566200 or 031566200</span><br/>
+                                                            <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/other.png" alt="Other"/><span style="font-size:14px; font-weight:500;"> Only used if the desired contact option is not available</span><br/>
+                                                            <button type="button" class="primary-btn mt-3" id="help_contact_us_btn" onclick="preview_show_hide_example('help_contact_us');" style="color:{{text_color}}">Info <i class="fas fa-info-circle" style="font-size:16px;"></i></button>
+                                                            <div id="help_contact_us" style="display:none; background: #f7f7f7; border:1px solid #cdcdcd; padding:15px; overflow:auto;">
+                                                                <img src="{{static_path}}images/guide/admin_setting/help_contact_us.png" alt="Help Small Banner" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
+                                                            </div>
                                                         </div>
                                                         <div class="col-lg-12" id="contact_div" style="margin-top:15px;">
 
@@ -7083,7 +7287,15 @@
                                                             <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/facebook.png" alt="Facebook">
                                                             <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/tiktok.png" alt="Tiktok">
                                                             <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/twitter.png" alt="Twitter">
-                                                            <br/><span style="font-size:14px; font-weight:500;">URL must use https, example: <span style="color:{{color}}; font-size:14px; font-weight:500;">https://www.yourdomain.com/</span></span>
+                                                            <br/><span style="font-size:14px; font-weight:500;">URL must use https, example: <span style="color:{{color}}; font-size:14px; font-weight:500;">https://www.yourdomain.com/</span></span><br/>
+                                                            <button type="button" class="primary-btn mt-3" id="help_social_media_btn" onclick="preview_show_hide_example('help_social_media');" style="color:{{text_color}}">Info <i class="fas fa-info-circle" style="font-size:16px;"></i></button>
+                                                            <div id="help_social_media" style="display:none; background: #f7f7f7; border:1px solid #cdcdcd; padding:15px; overflow:auto;">
+                                                                <img src="{{static_path}}images/guide/admin_setting/help_social_media.png" alt="Help Small Banner" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
+                                                            </div>
+                                                            <button type="button" class="primary-btn mt-3" id="help_social_media_btn" onclick="preview_show_hide_example('help_social_media');" style="color:{{text_color}}">Info <i class="fas fa-info-circle" style="font-size:16px;"></i></button>
+                                                            <div id="help_social_media" style="display:none; background: #f7f7f7; border:1px solid #cdcdcd; padding:15px; overflow:auto;">
+                                                                <img src="{{static_path}}images/guide/admin_setting/help_social_media.png" alt="Help Small Banner" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
+                                                            </div>
                                                         </div>
                                                         <div class="col-lg-12" id="social_div">
 
@@ -7110,6 +7322,12 @@
                                                                     <select class="nice-select-default" style="width:100%;" id="partner_choose" onchange="change_payment_partner();">
 
                                                                     </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <button type="button" class="primary-btn" id="help_payment_partner_btn" onclick="preview_show_hide_example('help_payment_partner');" style="color:{{text_color}}">Info <i class="fas fa-info-circle" style="font-size:16px;"></i></button>
+                                                                <div id="help_payment_partner" style="display:none; background: #f7f7f7; border:1px solid #cdcdcd; padding:15px; overflow:auto;">
+                                                                    <img src="{{static_path}}images/guide/admin_setting/help_payment_partner.png" alt="Help Small Banner" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
                                                                 </div>
                                                             </div>
                                                             <label class="check_box_custom">
@@ -7533,15 +7751,15 @@
                                             <h6 class="single_border_custom_left mb-3" style="padding-left:10px;">{% trans 'Update Cache Data' %}</h6>
                                         </div>
                                     </div>
-                                    <button type="button" class="primary-btn" id="update_cache_version" onclick="update_cache_version_func('data');">Update Cache</button>
+                                    <button type="button" class="primary-btn" id="update_cache_version" onclick="update_cache_version_func('data');">Update Cache Data</button>
                                 </div>
                                 <div class="col-lg-12" style="background:white; border:1px solid #cdcdcd; padding:15px;">
                                     <div class="row">
                                         <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
-                                            <h6 class="single_border_custom_left mb-3" style="padding-left:10px;">{% trans 'Update Cache Data' %}</h6>
+                                            <h6 class="single_border_custom_left mb-3" style="padding-left:10px;">{% trans 'Update Cache Image' %}</h6>
                                         </div>
                                     </div>
-                                    <button type="button" class="primary-btn" id="update_cache_image" onclick="update_cache_version_func('image');">Update Cache</button>
+                                    <button type="button" class="primary-btn" id="update_cache_image" onclick="update_cache_version_func('image');">Update Cache Image</button>
                                 </div>
                                 {% endif %}
                             </div>
@@ -7562,6 +7780,20 @@
                                                             <input type="hidden" class="form-control" name="page_url" id="page_url">
                                                         </div>
                                                     </div>
+                                                </div>
+                                                <div class="col-lg-12 mb-3">
+                                                    <button type="button" class="primary-btn" id="help_dynamic_page_btn" onclick="preview_show_hide_example('help_dynamic_page');" style="color:{{text_color}}">Info <i class="fas fa-info-circle" style="font-size:16px;"></i></button>
+                                                    <div id="help_dynamic_page" style="display:none; background: #f7f7f7; border:1px solid #cdcdcd; padding:15px; overflow:auto;">
+                                                        <img src="{{static_path}}images/guide/admin_setting/help_dynamic_page.png" alt="Help Small Banner" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <h6 style="margin-bottom:10px;">{% trans 'Display' %}</h6>
+                                                    <label class="check_box_custom">
+                                                        <span>{% trans 'Active' %}</span>
+                                                        <input type="checkbox" id="page_active" checked="checked" />
+                                                        <span class="check_box_span_custom"></span>
+                                                    </label>
                                                 </div>
                                             </div>
                                         </div>
@@ -7587,14 +7819,6 @@
                                             <div class="form-select">
                                                 <input type="text" class="form-control" name="sequence_dynamic_page" id="sequence_dynamic_page" placeholder="{% trans 'Sequence' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Sequence '" value="">
                                             </div>
-                                        </div>
-                                        <div class="col-lg-12">
-                                            <h6 style="margin-bottom:10px;">{% trans 'Display' %}</h6>
-                                            <label class="check_box_custom">
-                                                <span>{% trans 'Active' %}</span>
-                                                <input type="checkbox" id="page_active" checked="checked" />
-                                                <span class="check_box_span_custom"></span>
-                                            </label>
                                         </div>
                                         <div class="col-lg-12" style="margin-bottom:15px;">
                                             <textarea class="ckeditor" name="editor" id="editor"></textarea>
@@ -7963,7 +8187,7 @@
                     <!--</div>-->
                     <!--<br/><br/>-->
                     <!--<h6>Image Small Banner</h6><br/>-->
-                    <!--<div id="small_banner">-->
+                    <!--<div id="small_banner" class="mt-3">-->
 
                     <!--</div>-->
                     <!--<hr/>-->
@@ -7997,7 +8221,7 @@
                     <!--</div>-->
                     <!--<br/><br/>-->
                     <!--<h6 style="margin-bottom:10px;">Image Promotion Banner</h6>-->
-                    <!--<div id="promotion">-->
+                    <!--<div id="promotion" class="mt-3">-->
 
                     <!--</div>-->
                     <!--<hr/>-->
@@ -8561,7 +8785,14 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div id="big_banner">
+
+                                                    <br/>
+                                                    <button type="button" class="primary-btn" id="help_big_banner_btn" onclick="preview_show_hide_example('help_big_banner');" style="color:{{text_color}}">Info <i class="fas fa-info-circle" style="font-size:16px;"></i></button>
+                                                    <div id="help_big_banner" style="display:none; background: #f7f7f7; border:1px solid #cdcdcd; padding:15px; overflow:auto;">
+                                                        <img src="{{static_path}}images/guide/admin_setting/help_big_banner.png" alt="Help Big Banner" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
+                                                    </div>
+
+                                                    <div id="big_banner" class="mt-3">
 
                                                     </div>
                                                 </div>
@@ -8601,7 +8832,14 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div id="small_banner">
+
+                                                    <br/>
+                                                    <button type="button" class="primary-btn" id="help_small_banner_btn" onclick="preview_show_hide_example('help_small_banner');" style="color:{{text_color}}">Info <i class="fas fa-info-circle" style="font-size:16px;"></i></button>
+                                                    <div id="help_small_banner" style="display:none; background: #f7f7f7; border:1px solid #cdcdcd; padding:15px; overflow:auto;">
+                                                        <img src="{{static_path}}images/guide/admin_setting/help_small_banner.png" alt="Help Small Banner" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
+                                                    </div>
+
+                                                    <div id="small_banner" class="mt-3">
 
                                                     </div>
                                                 </div>
@@ -8641,7 +8879,12 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div id="promotion">
+                                                    <br/>
+                                                    <button type="button" class="primary-btn" id="help_promotion_banner_btn" onclick="preview_show_hide_example('help_promotion_banner');" style="color:{{text_color}}">Info <i class="fas fa-info-circle" style="font-size:16px;"></i></button>
+                                                    <div id="help_promotion_banner" style="display:none; background: #f7f7f7; border:1px solid #cdcdcd; padding:15px; overflow:auto;">
+                                                        <img src="{{static_path}}images/guide/admin_setting/help_promotion_banner.png" alt="Help Promotion Banner" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
+                                                    </div>
+                                                    <div id="promotion" class="mt-3">
 
                                                     </div>
                                                 </div>
@@ -8799,11 +9042,18 @@
                                                     </div>
                                                     <div class="col-lg-12" style="padding-bottom:15px; border-bottom: 1px solid #cdcdcd;">
                                                         <h6>Note: </h6><br/>
+                                                        <div style="margin-bottom:10px;"><span style="font-size:15px; font-weight:bold; color:{{color}}">Just Title</span> <span style="font-size:14px; font-weight:500;"> Only used for titles such as company names or others, example: ORBISWAY</span></div>
                                                         <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/phone.png" alt="Phone"><span style="font-size:14px; font-weight:500;"> Phone (don't use anything symbol), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">6231566200 or 031566200</span><br/>
                                                         <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/whatsapp.png" alt="Whatsapp"><span style="font-size:14px; font-weight:500;">Whatsapp (use code country on first number), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">6231566200 </span><br/>
                                                         <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/line.png" alt="Line"><span style="font-size:14px; font-weight:500;">Line (use @), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">@youridline </span><br/>
                                                         <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/telegram.png" alt="Telegram"><span style="font-size:14px; font-weight:500;">Telegram (don't use @), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">youridtelegram </span><br/>
                                                         <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/email.png" alt="Email"><span style="font-size:14px; font-weight:500;">Email, example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">youremail@example.com </span><br/>
+                                                        <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/phone.png" alt="Phone"><span style="font-size:14px; font-weight:500;"> Phone (don't use anything symbol), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">6231566200 or 031566200</span><br/>
+                                                        <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/other.png" alt="Other"/><span style="font-size:14px; font-weight:500;"> Only used if the desired contact option is not available</span><br/>
+                                                        <button type="button" class="primary-btn mt-3" id="help_contact_us_btn" onclick="preview_show_hide_example('help_contact_us');" style="color:{{text_color}}">Info <i class="fas fa-info-circle" style="font-size:16px;"></i></button>
+                                                        <div id="help_contact_us" style="display:none; background: #f7f7f7; border:1px solid #cdcdcd; padding:15px; overflow:auto;">
+                                                            <img src="{{static_path}}images/guide/admin_setting/help_contact_us.png" alt="Help Small Banner" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
+                                                        </div>
                                                     </div>
                                                     <div class="col-lg-12" id="contact_div" style="margin-top:15px;">
 
@@ -8831,7 +9081,11 @@
                                                         <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/facebook.png" alt="Facebook">
                                                         <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/tiktok.png" alt="Tiktok">
                                                         <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/twitter.png" alt="Twitter">
-                                                        <br/><span style="font-size:14px; font-weight:500;">URL must use https, example: <span style="color:{{color}}; font-size:14px; font-weight:500;">https://www.yourdomain.com/</span></span>
+                                                        <br/><span style="font-size:14px; font-weight:500;">URL must use https, example: <span style="color:{{color}}; font-size:14px; font-weight:500;">https://www.yourdomain.com/</span></span><br/>
+                                                        <button type="button" class="primary-btn mt-3" id="help_social_media_btn" onclick="preview_show_hide_example('help_social_media');" style="color:{{text_color}}">Info <i class="fas fa-info-circle" style="font-size:16px;"></i></button>
+                                                        <div id="help_social_media" style="display:none; background: #f7f7f7; border:1px solid #cdcdcd; padding:15px; overflow:auto;">
+                                                            <img src="{{static_path}}images/guide/admin_setting/help_social_media.png" alt="Help Small Banner" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
+                                                        </div>
                                                     </div>
                                                     <div class="col-lg-12" id="social_div">
 
@@ -8858,6 +9112,12 @@
                                                                 <select class="nice-select-default" style="width:100%;" id="partner_choose" onchange="change_payment_partner();">
 
                                                                 </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <button type="button" class="primary-btn" id="help_payment_partner_btn" onclick="preview_show_hide_example('help_payment_partner');" style="color:{{text_color}}">Info <i class="fas fa-info-circle" style="font-size:16px;"></i></button>
+                                                            <div id="help_payment_partner" style="display:none; background: #f7f7f7; border:1px solid #cdcdcd; padding:15px; overflow:auto;">
+                                                                <img src="{{static_path}}images/guide/admin_setting/help_payment_partner.png" alt="Help Small Banner" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
                                                             </div>
                                                         </div>
                                                         <label class="check_box_custom">
@@ -9288,15 +9548,15 @@
                                         <h6 class="single_border_custom_left mb-3" style="padding-left:10px;">{% trans 'Update Cache Data' %}</h6>
                                     </div>
                                 </div>
-                                <button type="button" class="primary-btn" id="update_cache_version" onclick="update_cache_version_func('data');">Update Cache</button>
+                                <button type="button" class="primary-btn" id="update_cache_version" onclick="update_cache_version_func('data');">Update Cache Data</button>
                             </div>
                             <div class="col-lg-12" style="background:white; border:1px solid #cdcdcd; padding:15px;">
                                 <div class="row">
                                     <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
-                                        <h6 class="single_border_custom_left mb-3" style="padding-left:10px;">{% trans 'Update Cache Data' %}</h6>
+                                        <h6 class="single_border_custom_left mb-3" style="padding-left:10px;">{% trans 'Update Cache Image' %}</h6>
                                     </div>
                                 </div>
-                                <button type="button" class="primary-btn" id="update_cache_image" onclick="update_cache_version_func('image');">Update Cache</button>
+                                <button type="button" class="primary-btn" id="update_cache_image" onclick="update_cache_version_func('image');">Update Cache Image</button>
                             </div>
                             {% endif %}
                         </div>
@@ -9317,6 +9577,20 @@
                                                         <input type="hidden" class="form-control" name="page_url" id="page_url">
                                                     </div>
                                                 </div>
+                                            </div>
+                                            <div class="col-lg-12 mb-3">
+                                                <button type="button" class="primary-btn" id="help_dynamic_page_btn" onclick="preview_show_hide_example('help_dynamic_page');" style="color:{{text_color}}">Info <i class="fas fa-info-circle" style="font-size:16px;"></i></button>
+                                                <div id="help_dynamic_page" style="display:none; background: #f7f7f7; border:1px solid #cdcdcd; padding:15px; overflow:auto;">
+                                                    <img src="{{static_path}}images/guide/admin_setting/help_dynamic_page.png" alt="Help Small Banner" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <h6 style="margin-bottom:10px;">{% trans 'Display' %}</h6>
+                                                <label class="check_box_custom">
+                                                    <span>{% trans 'Active' %}</span>
+                                                    <input type="checkbox" id="page_active" checked="checked" />
+                                                    <span class="check_box_span_custom"></span>
+                                                </label>
                                             </div>
                                         </div>
                                     </div>
@@ -9341,14 +9615,6 @@
                                         <div class="form-select">
                                             <input type="text" class="form-control" name="sequence_dynamic_page" id="sequence_dynamic_page" placeholder="{% trans 'Sequence' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Sequence '" value="">
                                         </div>
-                                    </div>
-                                    <div class="col-lg-12">
-                                        <h6 style="margin-bottom:10px;">{% trans 'Display' %}</h6>
-                                        <label class="check_box_custom">
-                                            <span>{% trans 'Active' %}</span>
-                                            <input type="checkbox" id="page_active" checked="checked" />
-                                            <span class="check_box_span_custom"></span>
-                                        </label>
                                     </div>
                                     <div class="col-lg-12" style="margin-bottom:15px;">
                                         <textarea class="ckeditor" name="editor" id="editor"></textarea>

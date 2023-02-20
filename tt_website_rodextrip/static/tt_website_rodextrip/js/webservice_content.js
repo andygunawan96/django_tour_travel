@@ -972,25 +972,8 @@ function get_banner(type,page){
                                     autoplay: true,
                                     autoplayTimeout:10000,
                                     autoplayHoverPause:false,
+                                    items:1,
                                     navText: ['<i class="fas fa-chevron-left owl-wh"/>', '<i class="fas fa-chevron-right owl-wh"/>'],
-                                    responsive:{
-                                        0:{
-                                            items:1,
-                                            nav:true,
-                                            center: false,
-                                            autoWidth: false,
-                                        },
-                                        600:{
-                                            items:1,
-                                            nav:true,
-                                            center: false,
-                                            autoWidth: false,
-                                        },
-                                        1000:{
-                                            items:1,
-                                            nav:true,
-                                        }
-                                    }
                                 });
                             }
                             else{

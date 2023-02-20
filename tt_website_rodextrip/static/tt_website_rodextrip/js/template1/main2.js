@@ -311,19 +311,20 @@ $(document).ready(function() {
     });
 
 //    $('.owl-carousel-banner').owlCarousel({
-//        loop:false,
+//        loop:true,
 //        nav: true,
-//        rewind: true,
+//        rewind: false,
 //        margin: 20,
 //        responsiveClass:true,
 //        dots: true,
 //        lazyLoad:true,
-//        merge: false,
+//        merge: true,
 //        smartSpeed:500,
 //        center: true,
-//        autoWidth: true,
-//        autoplay: false,
-//        autoplayTimeout:8000,
+//        autoHeight: false,
+//        autoWidth: false,
+//        autoplay: true,
+//        autoplayTimeout:10000,
 //        autoplayHoverPause:false,
 //        navText: ['<i class="fas fa-chevron-left owl-wh"/>', '<i class="fas fa-chevron-right owl-wh"/>'],
 //        responsive:{
