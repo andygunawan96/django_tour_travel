@@ -1667,92 +1667,99 @@ function change_top_up_method(){
         text = `<div class="col-sm-12" data-id="253" data-token="">
         <div class="row">`;
         for(i in va_number){
+            if(i==0){
+                text+=`<div class="col-lg-12" style="cursor:pointer; background:`+text_color+`; border:1px solid #cdcdcd; padding:15px; display:block;" id="up_`+va_number[i].name+`" onclick="div_dropdown('`+va_number[i].name+`');">`;
+            }else{
+                text+=`<div class="col-lg-12" style="cursor:pointer; background:`+text_color+`; border:1px solid #cdcdcd; padding:15px; display:none;" id="up_`+va_number[i].name+`" onclick="div_dropdown('`+va_number[i].name+`');">`;
+            }
             text+=`
-            <div class="col-lg-12" style="cursor:pointer; background:`+text_color+`; border:1px solid #cdcdcd; padding:15px; display:none;" id="up_`+va_number[i].name+`" onclick="div_dropdown('`+va_number[i].name+`');">
                 <div class="row">
-                    <div class="col-lg-1 col-md-1 mb-1" style="text-align:center;">`;
-                    if(va_number[i].image){
-                        text+=`<img style="width:auto; height:30px;" alt="Logo `+va_number[i].name+`" src="`+va_number[i].image+`"/>`;
-                    }else{
-                        text+=`<img style="width:auto; height:30px;" alt="Logo `+va_number[i].name+`" src="/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg"/>`;
-                    }
-                    text+=`
-                    </div>
-                    <div class="col-lg-11 col-md-11" style="display: flex;align-items: center;">
-                        <h6>`;
-                           if(va_number[i].heading){
-                                text+=va_number[i].heading;
-                            }else{
-                                text+=va_number[i].name;
-                            }
+                    <div class="col-lg-12" style="display: flex;align-items: center;">
+                        <h5 class="single_border_custom_left" style="padding-left:10px;">`;
+                        if(va_number[i].image){
+                            text+=`<img style="width:auto; height:50px;" alt="Logo `+va_number[i].name+`" src="`+va_number[i].image+`"/>`;
+                        }else{
+                            text+=`<img style="width:auto; height:50px;" alt="Logo `+va_number[i].name+`" src="/static/tt_website_rodextrip/images/no pic/no-bank.png"/>`;
+                        }
+                        if(va_number[i].heading){
+                            text+=`<b style="padding-left:10px;">`+va_number[i].heading+`</b>`;
+                        }else{
+                            text+=`<b style="padding-left:10px;">`+va_number[i].name+`</b>`;
+                        }
                         text+=`
                             <b style="padding-left:10px;padding-right:10px; color:`+color+`">
                                 <i class="fas fa-chevron-up"></i>
                             </b>
-                        </h6>
+                        </h5>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-12 mb-3" style="cursor:pointer; background:`+text_color+`; border:1px solid #cdcdcd; padding:15px; display:block;" id="down_`+va_number[i].name+`" onclick="div_dropdown('`+va_number[i].name+`');">
+            </div>`;
+            if(i==0){
+                text+=`<div class="col-lg-12 mb-3" style="cursor:pointer; background:`+text_color+`; border:1px solid #cdcdcd; padding:15px; display:none;" id="down_`+va_number[i].name+`" onclick="div_dropdown('`+va_number[i].name+`');">`;
+            }else{
+                text+=`<div class="col-lg-12 mb-3" style="cursor:pointer; background:`+text_color+`; border:1px solid #cdcdcd; padding:15px; display:block;" id="down_`+va_number[i].name+`" onclick="div_dropdown('`+va_number[i].name+`');">`;
+            }
+            text+=`
                 <div class="row">
-                    <div class="col-lg-1 col-md-1 mb-1" style="text-align:center;">`;
-                    if(va_number[i].image){
-                        text+=`<img style="width:auto; height:30px;" alt="Logo `+va_number[i].name+`" src="`+va_number[i].image+`"/>`;
-                    }else{
-                        text+=`<img style="width:auto; height:30px;" alt="Logo `+va_number[i].name+`" src="/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg"/>`;
-                    }
-                    text+=`
-                    </div>
-                    <div class="col-lg-11 col-md-11" style="display: flex;align-items: center;">
-                        <h6>`;
-                           if(va_number[i].heading){
-                                text+=va_number[i].heading;
-                            }else{
-                                text+=va_number[i].name;
-                            }
+                    <div class="col-lg-12" style="display: flex;align-items: center;">
+                        <h5 class="single_border_custom_left" style="padding-left:10px;">`;
+                        if(va_number[i].image){
+                            text+=`<img style="width:auto; height:50px;" alt="Logo `+va_number[i].name+`" src="`+va_number[i].image+`"/>`;
+                        }else{
+                            text+=`<img style="width:auto; height:50px;" alt="Logo `+va_number[i].name+`" src="/static/tt_website_rodextrip/images/no pic/no-bank.png"/>`;
+                        }
+                        if(va_number[i].heading){
+                            text+=`<b style="padding-left:10px;">`+va_number[i].heading+`</b>`;
+                        }else{
+                            text+=`<b style="padding-left:10px;">`+va_number[i].name+`</b>`;
+                        }
                         text+=`
                             <b style="padding-left:10px;padding-right:10px; color:`+color+`">
                                 <i class="fas fa-chevron-down"></i>
                             </b>
-                        </h6>
+                        </h5>
                     </div>
                 </div>
             </div>`;
 
-            text += `
-            <div class="col-lg-12 mb-3" style="background:white; border:1px solid #cdcdcd; padding:15px; display:none;" id="div_`+va_number[i].name+`">
-                <div class="row">
-                    <div class="col-lg-1 col-md-1 mb-1" style="text-align:center;"></div>
-                    <div class="col-lg-11 col-md-11 mb-1">
-                        <b class="mb-2">`+va_number[i].name+`</b><br/>
-                        <b style="color:`+color+`; font-size:20px; padding-right:5px;">`+va_number[i].account_number+`</b>
-                        <span onclick="copy_value('`+va_number[i].account_number+`');" style="cursor:pointer; font-weight:500;color:`+color+`; font-size:14px;">
-                            COPY <i class="fas fa-copy"></i>
-                        </span>
+            if(i==0){
+                text += `<div class="col-lg-12 mb-3" style="background:white; border:1px solid #cdcdcd; padding:15px; display:block;" id="div_`+va_number[i].name+`">`;
+            }else{
+                text += `<div class="col-lg-12 mb-3" style="background:white; border:1px solid #cdcdcd; padding:15px; display:none;" id="div_`+va_number[i].name+`">`;
+            }
 
-                        <hr/>
-                        <strong>Fee Top Up (exclude bank charges): </strong><br/>
-                        <span>`+va_number[i].currency+` `+getrupiah(va_number[i].price_component.fee)+`</span>
-                    </div>`;
+            text+=`
+            <div class="row">
+                <div class="col-lg-12 mb-1">
+                    <h4 class="mb-2">`+va_number[i].name+`</h4>
+                    <b style="color:`+color+`; font-size:20px; padding-right:5px;">`+va_number[i].account_number+`</b>
+                    <span onclick="copy_value('`+va_number[i].account_number+`');" style="cursor:pointer; font-weight:500;color:`+color+`; font-size:14px;">
+                        COPY <i class="fas fa-copy"></i>
+                    </span>
 
-                    if(va_number[i].description_msg != ''){
-                        text+=`
-                        <div class="col-lg-1 col-md-1 mb-1" style="text-align:center;"></div>
-                        <div class="col-lg-11 col-md-11 mb-1">
-                            <hr/>
+                    <hr/>
+                    <strong>Fee Top Up (exclude bank charges): </strong><br/>
+                    <span>`+va_number[i].currency+` `+getrupiah(va_number[i].price_component.fee)+`</span>
+                </div>`;
+
+                if(va_number[i].description_msg != ''){
+                    text+=`
+                    <div style="margin:0px 15px; width:100%;">
+                        <div class="col-lg-12" style="background:#f7f7f7; border:1px solid #cdcdcd; padding:15px;">
                             <strong>Description: </strong><br/>
                             `+va_number[i].description_msg+`
-                        </div>`;
-                    }
-                    if(va_number[i].html != ''){
-                        text+=`
-                        <div class="col-lg-1 col-md-1 mb-1" style="text-align:center;"></div>
-                        <div class="col-lg-11 col-md-11 mb-1">
-                            <hr/>
+                        </div>
+                    </div>`;
+                }
+                if(va_number[i].html != ''){
+                    text+=`
+                    <div style="margin:0px 15px; width:100%;">
+                        <div class="col-lg-12" style="background:#f7f7f7; border:1px solid #cdcdcd; padding:15px;">
                             <strong>Guide: </strong><br/>
                             `+va_number[i].html+`
-                        </div>`;
-                    }
+                        </div>
+                    </div>`;
+                }
                     text+=`
                 </div>
             </div>`;
@@ -1767,31 +1774,38 @@ function change_top_up_method(){
                             text+=`
                             <div class="col-lg-12" style="cursor:pointer; background:`+text_color+`; border:1px solid #cdcdcd; padding:15px; display:none;" id="up_other_bank" onclick="div_dropdown('other_bank');">
                                 <div class="row">
-                                    <div class="col-lg-12" style="height:30px; display: flex;align-items: center;">
-                                        <h6>
-                                            `+payment_how_to_obj[i][j].heading+`
-                                             <b style="padding-left:10px;padding-right:10px; color:`+color+`">
-                                                 <i class="fas fa-chevron-up"></i>
-                                             </b>
-                                        </h6>
+                                    <div class="col-lg-12" style="display: flex;align-items: center;">
+                                        <h5 class="single_border_custom_left" style="padding-left:10px;">`;
+                                            text+=`<img style="width:auto; height:50px;" alt="Logo Other Bank" src="/static/tt_website_rodextrip/images/no pic/no-bank.png"/>`;
+                                            text+=`<b style="padding-left:10px;">`+payment_how_to_obj[i][j].heading+`</b>`;
+                                            text+=`
+                                            <b style="padding-left:10px;padding-right:10px; color:`+color+`">
+                                                <i class="fas fa-chevron-up"></i>
+                                            </b>
+                                        </h5>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-lg-12" style="cursor:pointer; background:`+text_color+`; border:1px solid #cdcdcd; padding:15px; display:block;" id="down_other_bank" onclick="div_dropdown('other_bank');">
                                 <div class="row">
-                                    <div class="col-lg-12" style="height:30px; display: flex;align-items: center;">
-                                        <h6>
-                                            `+payment_how_to_obj[i][j].heading+`
-                                             <b style="padding-left:10px;padding-right:10px; color:`+color+`">
+                                    <div class="col-lg-12" style="display: flex;align-items: center;">
+                                        <h5 class="single_border_custom_left" style="padding-left:10px;">
+                                            <img style="width:auto; height:50px;" alt="Logo Other Bank" src="/static/tt_website_rodextrip/images/no pic/no-bank.png"/>
+                                            <b style="padding-left:10px;">`+payment_how_to_obj[i][j].heading+`</b>
+                                            <b style="padding-left:10px;padding-right:10px; color:`+color+`">
                                                  <i class="fas fa-chevron-down"></i>
                                              </b>
-                                        </h6>
+                                        </h5>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-lg-12" style="background:white; border:1px solid #cdcdcd; padding:15px; display:none;" id="div_other_bank">
-                                <strong>Guide: </strong><br/>
-                                `+payment_how_to_obj[i][j].html+`
+                                <div style="margin:15px 0px; width:100%;">
+                                    <div class="col-lg-12" style="background:#f7f7f7; border:1px solid #cdcdcd; padding:15px;">
+                                        <strong>Guide: </strong><br/>
+                                        `+payment_how_to_obj[i][j].html+`
+                                    </div>
+                                </div>
                             </div>`;
                         }
                     }
@@ -1801,7 +1815,8 @@ function change_top_up_method(){
             <script type="text/javascript" src="/tt_payment_gw_edc/static/src/js/jquery.payment.js"></script>
         </div>
     </div>`;
-    }else{
+    }
+    else{
         text = `
         <div class="col-lg-12" style="background:white; border:1px solid #cdcdcd; padding:15px;">
             <div class="row">

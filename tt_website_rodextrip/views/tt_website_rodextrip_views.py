@@ -45,8 +45,19 @@ provider_type = {
     'SM': 'sentramedika',
     'LP': 'labpintar',
     'GB': 'groupbooking',
-
 }
+
+
+def check_big_banner():
+    try:
+        check_banner = 0
+        file = read_cache("big_banner_cache", 'cache_web', 90911)
+        if len(file['result']['response']) != 0:
+            check_banner = 1
+    except Exception as e:
+        _logger.error(str(e) + traceback.format_exc())
+    return check_banner
+
 
 def check_captcha(request):
     try:
@@ -269,7 +280,7 @@ def index(request):
                                 'update_data': 'false',
                                 'static_path_url_server': get_url_static_path(),
                                 'signature': request.session['signature'],
-
+                                'big_banner_value': check_big_banner(),
                             })
                         except Exception as e:
                             _logger.error(str(e) + '\n' + traceback.format_exc())
@@ -333,7 +344,6 @@ def goto_dashboard(request):
 
 def testing_chat(request):
     try:
-
         if 'user_account' in request.session._session and 'admin' in request.session['user_account']['co_agent_frontend_security']:
             values = get_data_template(request)
             values.update({

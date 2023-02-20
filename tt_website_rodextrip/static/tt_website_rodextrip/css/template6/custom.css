@@ -4485,3 +4485,106 @@ for better animation effect */
     position: relative;
     z-index: 1;
 }
+
+
+.stripe {
+  border: 1px solid white;
+  height: 20%;
+  background-color: #babbbc;
+}
+
+.small-stripe {
+  width: 40%;
+}
+
+.medium-stripe {
+  width: 70%;
+}
+
+.long-stripe {
+  width: 100%;
+}
+
+.div_stripe.loading_stripe, .owl-carousel {
+  animation: hintloading 2s ease-in-out 0s infinite reverse;
+  -webkit-animation: hintloading 2s ease-in-out 0s infinite reverse;
+}
+
+@keyframes hintloading
+{
+  0% {
+    opacity: 0.7;
+  }
+  50%  {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.7;
+  }
+}
+
+@-webkit-keyframes hintloading
+{
+  0% {
+    opacity: 0.7;
+  }
+  50%  {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.;
+  }
+}
+
+
+@media (min-width: 1200px) {
+    .stripe_big_banner{
+        height:380px !important;
+        width:100%;
+    }
+}
+
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+    .stripe_big_banner{
+        height:320px !important;
+        width:100%;
+    }
+}
+
+@media (max-width: 991px) and (min-width: 768px) {
+    .stripe_big_banner{
+        height:250px !important;
+        width:100%;
+    }
+}
+
+@media (max-width: 767px) and (min-width: 576px) {
+    .stripe_big_banner{
+        height:190px !important;
+        width:100%;
+    }
+}
+
+@media (max-width: 575px) and (min-width: 426px) {
+    .stripe_big_banner{
+        height:150px !important;
+        width:100%;
+    }
+}
+
+@media (max-width: 425px) {
+    .stripe_big_banner{
+        height:140px !important;
+        width:100%;
+    }
+}
+
+.stripe_big_banner{
+    background:#f7f7f7;
+}
+
+.stripe_search_title{
+    background:#f7f7f7;
+}
+
+

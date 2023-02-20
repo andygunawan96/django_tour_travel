@@ -13,7 +13,9 @@ Licence URI: http://www.os-templates.com/template-terms
     <script>
         google_analytics = '{{google_analytics}}';
         google_tag_manager_key = '{{google_tag_manager_key}}';
+        big_banner_value = {{big_banner_value}};
     </script>
+
     {% if '{{google_tag_manager_key}}' != '' %}
     <!-- Google Tag Manager -->
     <script>
@@ -51,7 +53,6 @@ Licence URI: http://www.os-templates.com/template-terms
               grecaptcha.execute('{{site_key}}', {action: ''}).then(function(token) {
                   $('#'+id).val(token)
                   button_onclick(type);
-
               });
           }else{
               button_onclick(type);
@@ -515,7 +516,6 @@ Licence URI: http://www.os-templates.com/template-terms
             background-color: {{tab_color}} !important;
         }
         .banner-right .tab-content {
-            background: {{tab_color}} !important;
             border-bottom-left-radius: 7px;
             border-bottom-right-radius: 7px;
         }
