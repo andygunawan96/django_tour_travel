@@ -5739,74 +5739,89 @@ function airline_force_commit_booking(val){
 
 function airline_hold_booking(val){
     title = '';
-    if(val == 0)
-        title = 'Are you sure want to Hold Booking?';
-    else if(val == 1)
+//    if(val == 0)
+//        title = 'Are you sure want to Hold Booking?';
+    if(val == 1){
         title = 'Are you sure want to Force Issued this booking?';
-    Swal.fire({
-      title: title,
-      type: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes'
-    }).then((result) => {
-      if (result.value) {
-        if (val==0){
-            please_wait_transaction();
-            $('.next-loading-booking').addClass("running");
-            $('.next-loading-booking').prop('disabled', true);
-            $('.next-loading-issued').prop('disabled', true);
-            $('.issued_booking_btn').prop('disabled', true);
-        }
-        else{
-            please_wait_transaction();
-            $('.next-loading-booking').prop('disabled', true);
-            $('.next-loading-issued').addClass("running");
-            $('.next-loading-issued').prop('disabled', true);
-            $('.issued_booking_btn').prop('disabled', true);
-        }
-        if(val == 1){
-            try{
-                document.getElementById("passengers").value = JSON.stringify(passengers);
-                document.getElementById("signature").value = signature;
-                document.getElementById("provider").value = 'airline';
-                document.getElementById("type").value = 'airline_review';
-                document.getElementById("voucher_code").value = voucher_code;
-                document.getElementById("discount").value = JSON.stringify(discount_voucher);
-                document.getElementById("session_time_input").value = time_limit;
-            }catch(err){
-                console.log(err)
+        Swal.fire({
+          title: title,
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes'
+        }).then((result) => {
+          if (result.value) {
+            if (val==0){
+                please_wait_transaction();
+                $('.next-loading-booking').addClass("running");
+                $('.next-loading-booking').prop('disabled', true);
+                $('.next-loading-issued').prop('disabled', true);
+                $('.issued_booking_btn').prop('disabled', true);
             }
-        }else if(val == 0){
-            try{
-                document.getElementById("passengers").value = JSON.stringify(passengers);
-                document.getElementById("signature").value = signature;
-                document.getElementById("provider").value = 'airline';
-                document.getElementById("type").value = 'airline_book_then_issued';
-                document.getElementById("voucher_code").value = voucher_code;
-                document.getElementById("discount").value = JSON.stringify(discount_voucher);
-                document.getElementById("session_time_input").value = time_limit;
-            }catch(err){
-                console.log(err)
+            else{
+                please_wait_transaction();
+                $('.next-loading-booking').prop('disabled', true);
+                $('.next-loading-issued').addClass("running");
+                $('.next-loading-issued').prop('disabled', true);
+                $('.issued_booking_btn').prop('disabled', true);
             }
+            if(val == 1){
+                try{
+                    document.getElementById("passengers").value = JSON.stringify(passengers);
+                    document.getElementById("signature").value = signature;
+                    document.getElementById("provider").value = 'airline';
+                    document.getElementById("type").value = 'airline_review';
+                    document.getElementById("voucher_code").value = voucher_code;
+                    document.getElementById("discount").value = JSON.stringify(discount_voucher);
+                    document.getElementById("session_time_input").value = time_limit;
+                }catch(err){
+                    console.log(err)
+                }
+            }else if(val == 0){
+                try{
+                    document.getElementById("passengers").value = JSON.stringify(passengers);
+                    document.getElementById("signature").value = signature;
+                    document.getElementById("provider").value = 'airline';
+                    document.getElementById("type").value = 'airline_book_then_issued';
+                    document.getElementById("voucher_code").value = voucher_code;
+                    document.getElementById("discount").value = JSON.stringify(discount_voucher);
+                    document.getElementById("session_time_input").value = time_limit;
+                }catch(err){
+                    console.log(err)
+                }
 
-        }else if(user_login.co_agent_frontend_security.includes('b2c_limitation')){
-            try{
-                document.getElementById("passengers").value = JSON.stringify(passengers);
-                document.getElementById("signature").value = signature;
-                document.getElementById("provider").value = 'airline';
-                document.getElementById("type").value = 'airline';
-                document.getElementById("voucher_code").value = voucher_code;
-                document.getElementById("discount").value = JSON.stringify(discount_voucher);
-                document.getElementById("session_time_input").value = time_limit;
-            }catch(err){
-                console.log(err)
+            }else if(user_login.co_agent_frontend_security.includes('b2c_limitation')){
+                try{
+                    document.getElementById("passengers").value = JSON.stringify(passengers);
+                    document.getElementById("signature").value = signature;
+                    document.getElementById("provider").value = 'airline';
+                    document.getElementById("type").value = 'airline';
+                    document.getElementById("voucher_code").value = voucher_code;
+                    document.getElementById("discount").value = JSON.stringify(discount_voucher);
+                    document.getElementById("session_time_input").value = time_limit;
+                }catch(err){
+                    console.log(err)
+                }
             }
-        }
+            airline_update_contact_booker(val);
+          }
+        })
+    }else{
+        please_wait_transaction();
+        $('.next-loading-booking').addClass("running");
+        $('.next-loading-booking').prop('disabled', true);
+        $('.next-loading-issued').prop('disabled', true);
+        $('.issued_booking_btn').prop('disabled', true);
+        document.getElementById("passengers").value = JSON.stringify(passengers);
+        document.getElementById("signature").value = signature;
+        document.getElementById("provider").value = 'airline';
+        document.getElementById("type").value = 'airline_book_then_issued';
+        document.getElementById("voucher_code").value = voucher_code;
+        document.getElementById("discount").value = JSON.stringify(discount_voucher);
+        document.getElementById("session_time_input").value = time_limit;
         airline_update_contact_booker(val);
-      }
-    })
+    }
 }
 
 function create_new_reservation(){
