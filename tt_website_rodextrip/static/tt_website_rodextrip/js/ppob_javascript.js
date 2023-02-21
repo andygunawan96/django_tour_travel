@@ -5397,32 +5397,31 @@ function check_hp_number(evoucher_val){
                         text_img+=`<img src="/static/tt_website_rodextrip/images/icon/bolt.png" alt="Bolt" style="width:auto; height:60px; padding:0px;">`;
                     }
                     text_img+=`</label>`;
-
-                    text_img+=`
-                    <label class="radio-img">
-                        <input type="radio" name="voucher-type" value="ovo" onchange="set_evoucher_type();">
-                        <img src="/static/tt_website_rodextrip/images/icon/ovo.png" alt="OVO" style="width:auto; height:60px; padding:0px;">
-                    </label>`;
-
-                    text_img+=`
-                    <label class="radio-img">
-                        <input type="radio" name="voucher-type" value="gopay" onchange="set_evoucher_type();">
-                        <img src="/static/tt_website_rodextrip/images/icon/gopay.png" alt="GO-PAY" style="width:auto; height:60px; padding:0px;">
-                    </label>`;
                 }
-                else{
-                    text_img+=`
-                    <label class="radio-img">
-                        <input type="radio" checked="checked" name="voucher-type" value="ovo" onchange="set_evoucher_type();">
-                        <img src="/static/tt_website_rodextrip/images/icon/ovo.png" alt="OVO" style="width:auto; height:60px; padding:0px;">
-                    </label>`;
+                text_img+=`
+                <label class="radio-img">
+                    <input type="radio" checked="checked" name="voucher-type" value="ovo" onchange="set_evoucher_type();">
+                    <img src="/static/tt_website_rodextrip/images/icon/ovo.png" alt="OVO" style="width:auto; height:60px; padding:0px;">
+                </label>`;
 
-                    text_img+=`
-                    <label class="radio-img">
-                        <input type="radio" name="voucher-type" value="gopay" onchange="set_evoucher_type();">
-                        <img src="/static/tt_website_rodextrip/images/icon/gopay.png" alt="GO-PAY" style="width:auto; height:60px; padding:0px;">
-                    </label>`;
-                }
+                text_img+=`
+                <label class="radio-img">
+                    <input type="radio" name="voucher-type" value="gopay" onchange="set_evoucher_type();">
+                    <img src="/static/tt_website_rodextrip/images/icon/gopay.png" alt="GO-PAY" style="width:auto; height:60px; padding:0px;">
+                </label>`;
+
+                text_img+=`
+                <label class="radio-img">
+                    <input type="radio" name="voucher-type" value="shopee" onchange="set_evoucher_type();">
+                    <img src="/static/tt_website_rodextrip/images/icon/shopee.png" alt="SHOPEE" style="width:auto; height:60px; padding:0px;">
+                </label>`;
+
+                text_img+=`
+                <label class="radio-img">
+                    <input type="radio" name="voucher-type" value="dana" onchange="set_evoucher_type();">
+                    <img src="/static/tt_website_rodextrip/images/icon/dana.png" alt="DANA" style="width:auto; height:60px; padding:0px;">
+                </label>`;
+
             text_img+=`</div>
             </div>`;
             document.getElementById('img_operator').innerHTML = text_img;
@@ -5505,6 +5504,42 @@ function set_evoucher_type(){
         }else if(v_type == 'gopay'){
             for(i in ppob_data.voucher_data.prepaid_mobile[sel_prov_ppob]){
                 code_includes = i.includes("GP") || i.includes("GJ");
+                if(code_includes == true){
+                    if(template != 3){
+                        text_nominal+=`<div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 mb-3">`;
+                    }else{
+                        text_nominal+=`<div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 mb-3">`;
+                    }
+
+                    text_nominal+=`
+                        <label class="radio-label" style="padding:unset; width:100%;">
+                            <input type="radio" name="e-voucher_nominal" value="`+i+`">
+                            <div class="div_label"><span style="color:`+text_color+`;">`+ppob_data.voucher_data.prepaid_mobile[sel_prov_ppob][i]+`</span></div>
+                        </label>
+                    </div>`;
+                }
+            }
+        }else if(v_type == 'shopee'){
+            for(i in ppob_data.voucher_data.prepaid_mobile[sel_prov_ppob]){
+                code_includes = i.includes("SP");
+                if(code_includes == true){
+                    if(template != 3){
+                        text_nominal+=`<div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 mb-3">`;
+                    }else{
+                        text_nominal+=`<div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 mb-3">`;
+                    }
+
+                    text_nominal+=`
+                        <label class="radio-label" style="padding:unset; width:100%;">
+                            <input type="radio" name="e-voucher_nominal" value="`+i+`">
+                            <div class="div_label"><span style="color:`+text_color+`;">`+ppob_data.voucher_data.prepaid_mobile[sel_prov_ppob][i]+`</span></div>
+                        </label>
+                    </div>`;
+                }
+            }
+        }else if(v_type == 'dana'){
+            for(i in ppob_data.voucher_data.prepaid_mobile[sel_prov_ppob]){
+                code_includes = i.includes("DNA");
                 if(code_includes == true){
                     if(template != 3){
                         text_nominal+=`<div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 mb-3">`;
