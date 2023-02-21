@@ -63,6 +63,7 @@ function issued_offline_page(){
             get_data_issued_offline();
             try{
                 get_public_holiday(moment().format('YYYY-MM-DD'), moment().subtract(-1, 'years').format('YYYY-MM-DD'), 100 );
+                new_get_public_holiday(moment().format('YYYY-MM-DD'), moment().subtract(-1, 'years').format('YYYY-MM-DD'), 100 );
             }catch(err){
                 console.log(err);
             }
