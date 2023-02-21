@@ -5400,13 +5400,13 @@ function check_hp_number(evoucher_val){
 
                     text_img+=`
                     <label class="radio-img">
-                        <input type="radio" checked="checked" name="voucher-type" value="ovo" onchange="set_evoucher_type();">
+                        <input type="radio" name="voucher-type" value="ovo" onchange="set_evoucher_type();">
                         <img src="/static/tt_website_rodextrip/images/icon/ovo.png" alt="OVO" style="width:auto; height:60px; padding:0px;">
                     </label>`;
                 }else{
                     text_img+=`
                     <label class="radio-img">
-                        <input type="radio" name="voucher-type" value="ovo" onchange="set_evoucher_type();">
+                        <input type="radio" checked="checked" name="voucher-type" value="ovo" onchange="set_evoucher_type();">
                         <img src="/static/tt_website_rodextrip/images/icon/ovo.png" alt="OVO" style="width:auto; height:60px; padding:0px;">
                     </label>`;
                 }
