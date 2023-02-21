@@ -5397,12 +5397,19 @@ function check_hp_number(evoucher_val){
                         text_img+=`<img src="/static/tt_website_rodextrip/images/icon/bolt.png" alt="Bolt" style="width:auto; height:60px; padding:0px;">`;
                     }
                     text_img+=`</label>`;
+
+                    text_img+=`
+                    <label class="radio-img">
+                        <input type="radio" checked="checked" name="voucher-type" value="ovo" onchange="set_evoucher_type();">
+                        <img src="/static/tt_website_rodextrip/images/icon/ovo.png" alt="OVO" style="width:auto; height:60px; padding:0px;">
+                    </label>`;
+                }else{
+                    text_img+=`
+                    <label class="radio-img">
+                        <input type="radio" name="voucher-type" value="ovo" onchange="set_evoucher_type();">
+                        <img src="/static/tt_website_rodextrip/images/icon/ovo.png" alt="OVO" style="width:auto; height:60px; padding:0px;">
+                    </label>`;
                 }
-                text_img+=`
-                <label class="radio-img">
-                    <input type="radio" checked="checked" name="voucher-type" value="ovo" onchange="set_evoucher_type();">
-                    <img src="/static/tt_website_rodextrip/images/icon/ovo.png" alt="OVO" style="width:auto; height:60px; padding:0px;">
-                </label>`;
 
                 text_img+=`
                 <label class="radio-img">
@@ -5453,6 +5460,7 @@ function set_evoucher_type(){
     }
 
     text_nominal+=`<div class="col-lg-12 mb-3"><h6 style="color:`+text_color+`">Choose Voucher</h6></div>`;
+    text_nominal_copy = text_nominal;
 
     if(ppob_data.voucher_data.prepaid_mobile.hasOwnProperty(sel_prov_ppob))
     {
@@ -5557,7 +5565,10 @@ function set_evoucher_type(){
             }
         }
     }
-
+    if(text_nominal == text_nominal_copy)
+    {
+        text_nominal += `<div class="col-lg-12"><h6 style="color:`+text_color+`">No Voucher Available</h6></div>`;
+    }
     document.getElementById('e-voucher_nominal_div').innerHTML = text_nominal;
 
 }
