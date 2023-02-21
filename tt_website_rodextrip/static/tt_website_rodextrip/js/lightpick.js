@@ -10,6 +10,7 @@ tempMonth = '';//string&public
 tempMonthInt = 1;
 tempYear = '';//string&public
 tempHoliday = '';
+new_date_api = {};
 
 function new_get_public_holiday(start_date, end_date, country_id){
     getToken();
@@ -343,7 +344,7 @@ function next_focus_after_date(id){
 
       //edited public holiday
       if(tempHoliday == 'is-holiday-check'){
-          if (new_date_api !== {}) {
+          if (new_date_api.hasOwnProperty("result")) {
               var calendarDateFormat = moment(String(tempYear+'/'+tempMonthInt+'/'+day_now)).format('DD/MM/YYYY');
 
               for (var new_i in new_date_api.result.response){
@@ -590,11 +591,11 @@ function next_focus_after_date(id){
             var tempDateRenderFormat = moment(tempDateRender).format('DD/MM/YYYY');
             var tempDateRender2 = d+1;
 
-            if (new_date_api !== {}) {
+            if (new_date_api.hasOwnProperty("result")){
                 for (var new_i in new_date_api.result.response){
                     var temp_date_footer = moment(new_date_api.result.response[new_i].date).format('DD/MM/YYYY');
                     if(temp_date_footer === tempDateRenderFormat){
-                        html += '<div style="margin-top:10px; margin-bottom:10px; padding:5px;"><span style="color:red; padding:3px; border:1px solid black; background:#f7f7f7;"> ' + tempDateRender2 + '</span> <span style="font-size:12px;"> '+ new_date_api.result.response[new_i].name +' </span></div>';
+                        html += '<div style="margin-top:10px; margin-bottom:10px; padding:3px 10px;"><span style="color:red; padding:3px 10px; border:1px solid black; background:white;"> ' + tempDateRender2 + '</span> <span style="font-size:13px;"> '+ new_date_api.result.response[new_i].name +' </span></div>';
                     }
                 }
             }
