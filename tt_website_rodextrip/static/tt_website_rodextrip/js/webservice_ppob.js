@@ -186,7 +186,8 @@ function search_ppob(){
     customer_email = '';
     check_break = false;
     if(bill_type == 'bpjs'){
-        product_code = document.getElementById('bpjs_type').value;
+        var prod_selection = document.getElementById('bpjs_type');
+        product_code = prod_selection.options[prod_selection.selectedIndex].value;
 
         amount_of_month = document.getElementById('bpjs_month').value;
         if($bpjs_type_name.includes('BPJS Kesehatan')){
@@ -233,7 +234,8 @@ function search_ppob(){
             }
         }
     }else if(bill_type == 'pln'){
-        product_code = document.getElementById('pln_type').value;
+        var prod_selection = document.getElementById('pln_type');
+        product_code = prod_selection.options[prod_selection.selectedIndex].value;
 
         if($pln_type_name.includes('PLN Prepaid')){
             if(check_pln_prepaid(customer_number) == true){
@@ -364,7 +366,8 @@ function search_ppob(){
             }
         }
     }else if(bill_type == 'e-voucher'){
-        product_code = document.getElementById('evoucher_type').value;
+        var prod_selection = document.getElementById('evoucher_type');
+        product_code = prod_selection.options[prod_selection.selectedIndex].value;
 
         if(check_evoucher(customer_number, product_code) == true){
             for(i in ppob_data.product_data){
@@ -419,8 +422,17 @@ function search_ppob(){
                 error_log += 'Please choose voucher!';
             }
         }
+
+        if($evoucher_type_name.includes('Game Voucher')){
+            var game_voucher_selection = document.getElementById('game_voucher')
+            e_voucher = game_voucher_selection.options[game_voucher_selection.selectedIndex].value;
+            if (e_voucher == ''){
+                error_log += 'Please choose voucher!';
+            }
+        }
     }else if(bill_type == 'cable tv'){
-        product_code = document.getElementById('cable_tv_type').value;
+        var prod_selection = document.getElementById('cable_tv_type');
+        product_code = prod_selection.options[prod_selection.selectedIndex].value;
 
         if(check_cable_tv(customer_number) == true){
             for(i in ppob_data.product_data){
@@ -472,7 +484,8 @@ function search_ppob(){
             }
         }
     }else if(bill_type == 'internet'){
-        product_code = document.getElementById('internet_type').value;
+        var prod_selection = document.getElementById('internet_type');
+        product_code = prod_selection.options[prod_selection.selectedIndex].value;
 
         if(check_internet(customer_number) == true){
             for(i in ppob_data.product_data){
@@ -524,7 +537,8 @@ function search_ppob(){
             }
         }
     }else if(bill_type == 'telephone'){
-        product_code = document.getElementById('telephone_type').value;
+        var prod_selection = document.getElementById('telephone_type');
+        product_code = prod_selection.options[prod_selection.selectedIndex].value;
 
         if(check_telephone(customer_number) == true){
             for(i in ppob_data.product_data){
@@ -568,7 +582,8 @@ function search_ppob(){
             }
         }
     }else if(bill_type == 'insurance'){
-        product_code = document.getElementById('insurance_type').value;
+        var prod_selection = document.getElementById('insurance_type');
+        product_code = prod_selection.options[prod_selection.selectedIndex].value;
 
         if(check_insurance(customer_number) == true){
             for(i in ppob_data.product_data){
@@ -617,7 +632,8 @@ function search_ppob(){
             error_log += 'Please fill payment amount!';
         }
     }else if(bill_type == 'pdam'){
-        product_code = document.getElementById('pdam_type').value;
+        var prod_selection = document.getElementById('pdam_type');
+        product_code = prod_selection.options[prod_selection.selectedIndex].value;
 
         if(check_pdam(customer_number) == true){
             for(i in ppob_data.product_data){
@@ -660,8 +676,109 @@ function search_ppob(){
                 }
             }
         }
+        var pdam_voucher_selection = document.getElementById('pdam_voucher')
+        e_voucher = pdam_voucher_selection.options[pdam_voucher_selection.selectedIndex].value;
+        if (e_voucher == ''){
+            error_log += 'Please choose area!';
+        }
+    }else if(bill_type == 'pbb'){
+        var prod_selection = document.getElementById('pbb_type');
+        product_code = prod_selection.options[prod_selection.selectedIndex].value;
+
+        if(check_pbb(customer_number) == true){
+            for(i in ppob_data.product_data){
+                if(check_break == false){
+                    for(j in ppob_data.product_data[i]){
+                        if(ppob_data.product_data[i][j].name == $pbb_type_name){
+                            if(customer_number.length < ppob_data.product_data[i][j].min_cust_number || customer_number.length > ppob_data.product_data[i][j].max_cust_number){
+                                if(ppob_data.product_data[i][j].min_cust_number != ppob_data.product_data[i][j].max_cust_number){
+                                    error_log += 'Please check customer number must be between '+ppob_data.product_data[i][j].min_cust_number+ ' and '+ ppob_data.product_data[i][j].max_cust_number+'\n';
+                                }else{
+                                    error_log += 'Please check customer number must be at least '+ppob_data.product_data[i][j].min_cust_number+'\n';
+                                }
+                                check_break = true;
+                                break;
+                            }
+                        }
+                    }
+                }else{
+                    break;
+                }
+            }
+        }else{
+            for(i in ppob_data.product_data){
+                if(check_break == false){
+                    for(j in ppob_data.product_data[i]){
+                        if(ppob_data.product_data[i][j].name == $pbb_type_name){
+                            if(ppob_data.product_data[i][j].min_cust_number != ppob_data.product_data[i][j].max_cust_number){
+                                error_log += 'Please check customer number must be between '+ppob_data.product_data[i][j].min_cust_number+ ' and '+ ppob_data.product_data[i][j].max_cust_number+'\n';
+                                check_break = true;
+                                break;
+                            }else{
+                                error_log += 'Please check customer number must be at least '+ppob_data.product_data[i][j].min_cust_number+'\n';
+                                check_break = true;
+                                break;
+                            }
+                        }
+                    }
+                }else{
+                    break;
+                }
+            }
+        }
+        var pbb_voucher_selection = document.getElementById('pbb_voucher')
+        e_voucher = pbb_voucher_selection.options[pbb_voucher_selection.selectedIndex].value;
+        if (e_voucher == ''){
+            error_log += 'Please choose area!';
+        }
+    }else if(bill_type == 'gas'){
+        var prod_selection = document.getElementById('gas_type');
+        product_code = prod_selection.options[prod_selection.selectedIndex].value;
+
+        if(check_gas(customer_number) == true){
+            for(i in ppob_data.product_data){
+                if(check_break == false){
+                    for(j in ppob_data.product_data[i]){
+                        if(ppob_data.product_data[i][j].name == $gas_type_name){
+                            if(customer_number.length < ppob_data.product_data[i][j].min_cust_number || customer_number.length > ppob_data.product_data[i][j].max_cust_number){
+                                if(ppob_data.product_data[i][j].min_cust_number != ppob_data.product_data[i][j].max_cust_number){
+                                    error_log += 'Please check customer number must be between '+ppob_data.product_data[i][j].min_cust_number+ ' and '+ ppob_data.product_data[i][j].max_cust_number+'\n';
+                                }else{
+                                    error_log += 'Please check customer number must be at least '+ppob_data.product_data[i][j].min_cust_number+'\n';
+                                }
+                                check_break = true;
+                                break;
+                            }
+                        }
+                    }
+                }else{
+                    break;
+                }
+            }
+        }else{
+            for(i in ppob_data.product_data){
+                if(check_break == false){
+                    for(j in ppob_data.product_data[i]){
+                        if(ppob_data.product_data[i][j].name == $gas_type_name){
+                            if(ppob_data.product_data[i][j].min_cust_number != ppob_data.product_data[i][j].max_cust_number){
+                                error_log += 'Please check customer number must be between '+ppob_data.product_data[i][j].min_cust_number+ ' and '+ ppob_data.product_data[i][j].max_cust_number+'\n';
+                                check_break = true;
+                                break;
+                            }else{
+                                error_log += 'Please check customer number must be at least '+ppob_data.product_data[i][j].min_cust_number+'\n';
+                                check_break = true;
+                                break;
+                            }
+                        }
+                    }
+                }else{
+                    break;
+                }
+            }
+        }
     }else if(bill_type == 'credit installment'){
-        product_code = document.getElementById('credit_installment_type').value;
+        var prod_selection = document.getElementById('credit_installment_type');
+        product_code = prod_selection.options[prod_selection.selectedIndex].value;
 
         if(check_credit_installment(customer_number) == true){
             for(i in ppob_data.product_data){
@@ -710,7 +827,8 @@ function search_ppob(){
             error_log += 'Please fill payment amount!';
         }
     }else if(bill_type == 'credit card'){
-        product_code = document.getElementById('credit_card_type').value;
+        var prod_selection = document.getElementById('credit_card_type');
+        product_code = prod_selection.options[prod_selection.selectedIndex].value;
 
         if(check_credit_card(customer_number) == true){
             for(i in ppob_data.product_data){

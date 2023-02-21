@@ -5922,9 +5922,10 @@ function search_reorder(){
         "adult":0,
         "child":0,
         "infant":0,
-        "cabin_class":[],
+        "cabin_class":"",
         "is_combo_price":"false",
         "carrier_codes":[],
+        "cabin_class_list":[],
         "counter":"0",
         "flight":""
     };
@@ -5951,7 +5952,9 @@ function search_reorder(){
                 provider_list_reorder[journey_list_copy[i].segments[j].provider] = [];
             if(provider_list_reorder[journey_list_copy[i].segments[j].provider].includes(journey_list_copy[i].segments[j].carrier_code) == false)
                 provider_list_reorder[journey_list_copy[i].segments[j].provider].push(journey_list_copy[i].segments[j].carrier_code)
-            airline_request['cabin_class'].push(journey_list_copy[i].segments[j].cabin_class)
+            airline_request['cabin_class'] = journey_list_copy[i].segments[j].cabin_class
+            if(j == 0)
+                airline_request['cabin_class_list'].push(journey_list_copy[i].segments[j].cabin_class)
         }
         airline_request['origin'].push(journey_list_copy[i].origin+' - '+journey_list_copy[i].origin_city+' - '+journey_list_copy[i].origin_country+' - '+journey_list_copy[i].origin_name)
         airline_request['destination'].push(journey_list_copy[i].destination+' - '+journey_list_copy[i].destination_city+' - '+journey_list_copy[i].destination_country+' - '+journey_list_copy[i].destination_name)
@@ -6077,8 +6080,10 @@ function re_order_find_journey(){
                 for(j in journey_list_copy[i].segments){
                     for(y in airline_data_reorder[x].segments){
                         if(journey_list_copy[i].segments[j].segment_code == airline_data_reorder[x].segments[y].segment_code){
+                            fare_found = false;
                             for(z in airline_data_reorder[x].segments[y].fares){
                                 if(airline_data_reorder[x].segments[y].fares[z].class_of_service == journey_list_copy[i].segments[j].class_of_service && airline_data_reorder[x].segments[y].fares[z].available_count >= airline_request.adult + airline_request.child){
+                                    fare_found = true;
                                     journey[journey.length-1].segments.push({
                                         "carrier_code": airline_data_reorder[x].segments[y].carrier_code,
                                         "class_of_service": airline_data_reorder[x].segments[y].fares[z].class_of_service,
@@ -6088,6 +6093,18 @@ function re_order_find_journey(){
                                     break;
                                 }
                             }
+                            if(fare_found == false)
+                                for(z in airline_data_reorder[x].segments[y].fares){
+                                    if(airline_data_reorder[x].segments[y].fares[z].available_count >= airline_request.adult + airline_request.child){
+                                        journey[journey.length-1].segments.push({
+                                            "carrier_code": airline_data_reorder[x].segments[y].carrier_code,
+                                            "class_of_service": airline_data_reorder[x].segments[y].fares[z].class_of_service,
+                                            "fare_code": airline_data_reorder[x].segments[y].fares[z].fare_code,
+                                            "segment_code": airline_data_reorder[x].segments[y].segment_code,
+                                        });
+                                        break;
+                                    }
+                                }
                         }
                     }
                 }
@@ -6117,13 +6134,25 @@ function re_order_find_journey(){
         $('#button-sync-status').prop('disabled', false);
         setTimeout(function(){
             $("#waitingTransaction").modal('hide');
+            Swal.fire({
+              title: 'Sorry, this journey is not available, do you want to change with other journey?',
+              type: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Yes'
+            }).then((result) => {
+                if (result.value) {
+                    window.location.href = '/airline/search';
+                }
+            })
         }, 2000);
 
-        Swal.fire({
-            type: 'warning',
-            title: 'Oops!',
-            html: error_log,
-       });
+//        Swal.fire({
+//            type: 'warning',
+//            title: 'Oops!',
+//            html: error_log,
+//       });
     }else{
         setTimeout(function(){
             please_wait_custom('Select Data Journey <i class="fas fa-check-circle" style="color:'+color+';"></i><br/>Get Price, please wait <img src="/static/tt_website_rodextrip/img/loading-dot-white.gif" style="height:50px; width:50px;"/>');

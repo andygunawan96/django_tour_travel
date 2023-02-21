@@ -1056,7 +1056,8 @@ def seat_map(request, signature):
                     for rec in airline_get_booking_resp['result']['response']['provider_bookings']:
                         for ticket in rec['tickets']:
                             for fee in ticket['fees']:
-                                fee.pop('description_text')
+                                if fee.get('description_text'):
+                                    fee.pop('description_text')
                         if rec.get('rules'):
                             rec.pop('rules')
                         for journey in rec['journeys']:
@@ -1065,7 +1066,8 @@ def seat_map(request, signature):
                                     segment.pop('fare_details')
                     for rec in airline_get_booking_resp['result']['response']['passengers']:
                         for fee in rec['fees']:
-                            fee.pop('description_text')
+                            if fee.get('description_text'):
+                                fee.pop('description_text')
                     for rec in airline_get_booking_resp['result']['response']['reschedule_list']:
                         for provider_booking in rec['provider_bookings']:
                             if(provider_booking.get('rules')):

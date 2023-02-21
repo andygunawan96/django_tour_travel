@@ -6010,7 +6010,7 @@ function check_pln_postpaid(value){
 }
 
 function check_evoucher(value, value2){
-    if(value2 == 'postpaid_mobile_lwa' || value2 == 'postpaid_mobile_gri' || value2 == 'postpaid_mobile_swj')
+    if(value2 == 'game_voucher' || value2 == 'postpaid_mobile_lwa' || value2 == 'postpaid_mobile_gri' || value2 == 'postpaid_mobile_swj')
     {
         return true;
     }
@@ -6043,6 +6043,14 @@ function check_insurance(value){
 }
 
 function check_pdam(value){
+    return true;
+}
+
+function check_pbb(value){
+    return true;
+}
+
+function check_gas(value){
     return true;
 }
 
