@@ -3161,17 +3161,7 @@ function set_evoucher_div(){
                     <div class="input-container-search-ticket">
                         <div class="form-select">
                             <select id="game_voucher" name="game_voucher" class="form-control js-example-basic-single" style="width:100%;">
-                                <option value="">-- Select Game Voucher --</option>
-            `;
 
-            if(ppob_data.voucher_data.game.hasOwnProperty(bill_prov))
-            {
-                for(i in ppob_data.voucher_data.game[bill_prov])
-                {
-                    text += `<option value="`+i+`">`+ppob_data.voucher_data.game[bill_prov][i]+`</option>`;
-                }
-            }
-            text+=`
                             </select>
                         </div>
                     </div>
@@ -3231,17 +3221,7 @@ function set_evoucher_div(){
                     <div class="input-container-search-ticket">
                         <div class="form-select">
                             <select id="game_voucher" name="game_voucher" class="form-control js-example-basic-single" style="width:100%;">
-                                <option value="">-- Select Game Voucher --</option>
-            `;
 
-            if(ppob_data.voucher_data.game.hasOwnProperty(bill_prov))
-            {
-                for(i in ppob_data.voucher_data.game[bill_prov])
-                {
-                    text += `<option value="`+i+`">`+ppob_data.voucher_data.game[bill_prov][i]+`</option>`;
-                }
-            }
-            text+=`
                             </select>
                         </div>
                     </div>
@@ -3301,17 +3281,7 @@ function set_evoucher_div(){
                     <div class="input-container-search-ticket">
                         <div class="form-select">
                             <select id="game_voucher" name="game_voucher" class="form-control js-example-basic-single" style="width:100%;">
-                                <option value="">-- Select Game Voucher --</option>
-            `;
 
-            if(ppob_data.voucher_data.game.hasOwnProperty(bill_prov))
-            {
-                for(i in ppob_data.voucher_data.game[bill_prov])
-                {
-                    text += `<option value="`+i+`">`+ppob_data.voucher_data.game[bill_prov][i]+`</option>`;
-                }
-            }
-            text+=`
                             </select>
                         </div>
                     </div>
@@ -3372,17 +3342,7 @@ function set_evoucher_div(){
                     <div class="input-container-search-ticket">
                         <div class="form-select">
                             <select id="game_voucher" name="game_voucher" class="form-control js-example-basic-single" style="width:100%;">
-                                <option value="">-- Select Game Voucher --</option>
-            `;
 
-            if(ppob_data.voucher_data.game.hasOwnProperty(bill_prov))
-            {
-                for(i in ppob_data.voucher_data.game[bill_prov])
-                {
-                    text += `<option value="`+i+`">`+ppob_data.voucher_data.game[bill_prov][i]+`</option>`;
-                }
-            }
-            text+=`
                             </select>
                         </div>
                     </div>
@@ -3442,17 +3402,7 @@ function set_evoucher_div(){
                     <div class="input-container-search-ticket">
                         <div class="form-select">
                             <select id="game_voucher" name="game_voucher" class="form-control js-example-basic-single" style="width:100%;">
-                                <option value="">-- Select Game Voucher --</option>
-            `;
 
-            if(ppob_data.voucher_data.game.hasOwnProperty(bill_prov))
-            {
-                for(i in ppob_data.voucher_data.game[bill_prov])
-                {
-                    text += `<option value="`+i+`">`+ppob_data.voucher_data.game[bill_prov][i]+`</option>`;
-                }
-            }
-            text+=`
                             </select>
                         </div>
                     </div>
@@ -3512,17 +3462,7 @@ function set_evoucher_div(){
                     <div class="input-container-search-ticket">
                         <div class="form-select">
                             <select id="game_voucher" name="game_voucher" class="form-control js-example-basic-single" style="width:100%;">
-                                <option value="">-- Select Game Voucher --</option>
-            `;
 
-            if(ppob_data.voucher_data.game.hasOwnProperty(bill_prov))
-            {
-                for(i in ppob_data.voucher_data.game[bill_prov])
-                {
-                    text += `<option value="`+i+`">`+ppob_data.voucher_data.game[bill_prov][i]+`</option>`;
-                }
-            }
-            text+=`
                             </select>
                         </div>
                     </div>
@@ -3546,7 +3486,7 @@ function set_evoucher_div(){
     }
 
     document.getElementById('e-voucher_div').innerHTML = text;
-    $('#game_voucher').select2();
+    set_voucher_options($evoucher_type_value, 'game');
 }
 
 function set_cable_tv_div(){
@@ -4000,6 +3940,7 @@ function set_insurance_div(){
 function set_pdam_div(){
     var pdam_selection = document.getElementById('pdam_type')
     $pdam_type_name = pdam_selection.options[pdam_selection.selectedIndex].text;
+    $pdam_type_value = pdam_selection.options[pdam_selection.selectedIndex].value;
     if(template == 1){
         text = `
             <div class="col-lg-12" style="padding:0px; text-align:left;margin-bottom:10px;">
@@ -4007,17 +3948,7 @@ function set_pdam_div(){
                 <div class="input-container-search-ticket">
                     <div class="form-select">
                         <select id="pdam_voucher" name="pdam_voucher" class="form-control js-example-basic-single" style="width:100%;">
-                            <option value="">-- Select Area --</option>
-        `;
 
-        if(ppob_data.voucher_data.pdam.hasOwnProperty(bill_prov))
-        {
-            for(i in ppob_data.voucher_data.pdam[bill_prov])
-            {
-                text += `<option value="`+i+`">`+ppob_data.voucher_data.pdam[bill_prov][i]+`</option>`;
-            }
-        }
-        text+=`
                         </select>
                     </div>
                 </div>
@@ -4039,17 +3970,7 @@ function set_pdam_div(){
                 <div class="input-container-search-ticket">
                     <div class="form-select">
                         <select id="pdam_voucher" name="pdam_voucher" class="form-control js-example-basic-single" style="width:100%;">
-                            <option value="">-- Select Area --</option>
-        `;
 
-        if(ppob_data.voucher_data.pdam.hasOwnProperty(bill_prov))
-        {
-            for(i in ppob_data.voucher_data.pdam[bill_prov])
-            {
-                text += `<option value="`+i+`">`+ppob_data.voucher_data.pdam[bill_prov][i]+`</option>`;
-            }
-        }
-        text+=`
                         </select>
                     </div>
                 </div>
@@ -4071,17 +3992,7 @@ function set_pdam_div(){
                 <div class="input-container-search-ticket">
                     <div class="form-select">
                         <select id="pdam_voucher" name="pdam_voucher" class="form-control js-example-basic-single" style="width:100%;">
-                            <option value="">-- Select Area --</option>
-        `;
 
-        if(ppob_data.voucher_data.pdam.hasOwnProperty(bill_prov))
-        {
-            for(i in ppob_data.voucher_data.pdam[bill_prov])
-            {
-                text += `<option value="`+i+`">`+ppob_data.voucher_data.pdam[bill_prov][i]+`</option>`;
-            }
-        }
-        text+=`
                         </select>
                     </div>
                 </div>
@@ -4103,17 +4014,7 @@ function set_pdam_div(){
                 <div class="input-container-search-ticket">
                     <div class="form-select">
                         <select id="pdam_voucher" name="pdam_voucher" class="form-control js-example-basic-single" style="width:100%;">
-                            <option value="">-- Select Area --</option>
-        `;
 
-        if(ppob_data.voucher_data.pdam.hasOwnProperty(bill_prov))
-        {
-            for(i in ppob_data.voucher_data.pdam[bill_prov])
-            {
-                text += `<option value="`+i+`">`+ppob_data.voucher_data.pdam[bill_prov][i]+`</option>`;
-            }
-        }
-        text+=`
                         </select>
                     </div>
                 </div>
@@ -4135,17 +4036,7 @@ function set_pdam_div(){
                 <div class="input-container-search-ticket">
                     <div class="form-select">
                         <select id="pdam_voucher" name="pdam_voucher" class="form-control js-example-basic-single" style="width:100%;">
-                            <option value="">-- Select Area --</option>
-        `;
 
-        if(ppob_data.voucher_data.pdam.hasOwnProperty(bill_prov))
-        {
-            for(i in ppob_data.voucher_data.pdam[bill_prov])
-            {
-                text += `<option value="`+i+`">`+ppob_data.voucher_data.pdam[bill_prov][i]+`</option>`;
-            }
-        }
-        text+=`
                         </select>
                     </div>
                 </div>
@@ -4167,17 +4058,7 @@ function set_pdam_div(){
                 <div class="input-container-search-ticket">
                     <div class="form-select">
                         <select id="pdam_voucher" name="pdam_voucher" class="form-control js-example-basic-single" style="width:100%;">
-                            <option value="">-- Select Area --</option>
-        `;
 
-        if(ppob_data.voucher_data.pdam.hasOwnProperty(bill_prov))
-        {
-            for(i in ppob_data.voucher_data.pdam[bill_prov])
-            {
-                text += `<option value="`+i+`">`+ppob_data.voucher_data.pdam[bill_prov][i]+`</option>`;
-            }
-        }
-        text+=`
                         </select>
                     </div>
                 </div>
@@ -4194,12 +4075,13 @@ function set_pdam_div(){
     }
 
     document.getElementById('pdam_div').innerHTML = text;
-    $('#pdam_voucher').select2();
+    set_voucher_options($pdam_type_value, 'pdam');
 }
 
 function set_pbb_div(){
     var pbb_selection = document.getElementById('pbb_type')
     $pbb_type_name = pbb_selection.options[pbb_selection.selectedIndex].text;
+    $pbb_type_value = pbb_selection.options[pbb_selection.selectedIndex].value;
     if(template == 1){
         text = `
             <div class="col-lg-12" style="padding:0px; text-align:left;margin-bottom:10px;">
@@ -4207,17 +4089,7 @@ function set_pbb_div(){
                 <div class="input-container-search-ticket">
                     <div class="form-select">
                         <select id="pbb_voucher" name="pbb_voucher" class="form-control js-example-basic-single" style="width:100%;">
-                            <option value="">-- Select Area --</option>
-        `;
 
-        if(ppob_data.voucher_data.pbb.hasOwnProperty(bill_prov))
-        {
-            for(i in ppob_data.voucher_data.pbb[bill_prov])
-            {
-                text += `<option value="`+i+`">`+ppob_data.voucher_data.pbb[bill_prov][i]+`</option>`;
-            }
-        }
-        text+=`
                         </select>
                     </div>
                 </div>
@@ -4239,17 +4111,7 @@ function set_pbb_div(){
                 <div class="input-container-search-ticket">
                     <div class="form-select">
                         <select id="pbb_voucher" name="pbb_voucher" class="form-control js-example-basic-single" style="width:100%;">
-                            <option value="">-- Select Area --</option>
-        `;
 
-        if(ppob_data.voucher_data.pbb.hasOwnProperty(bill_prov))
-        {
-            for(i in ppob_data.voucher_data.pbb[bill_prov])
-            {
-                text += `<option value="`+i+`">`+ppob_data.voucher_data.pbb[bill_prov][i]+`</option>`;
-            }
-        }
-        text+=`
                         </select>
                     </div>
                 </div>
@@ -4271,17 +4133,7 @@ function set_pbb_div(){
                 <div class="input-container-search-ticket">
                     <div class="form-select">
                         <select id="pbb_voucher" name="pbb_voucher" class="form-control js-example-basic-single" style="width:100%;">
-                            <option value="">-- Select Area --</option>
-        `;
 
-        if(ppob_data.voucher_data.pbb.hasOwnProperty(bill_prov))
-        {
-            for(i in ppob_data.voucher_data.pbb[bill_prov])
-            {
-                text += `<option value="`+i+`">`+ppob_data.voucher_data.pbb[bill_prov][i]+`</option>`;
-            }
-        }
-        text+=`
                         </select>
                     </div>
                 </div>
@@ -4303,17 +4155,7 @@ function set_pbb_div(){
                 <div class="input-container-search-ticket">
                     <div class="form-select">
                         <select id="pbb_voucher" name="pbb_voucher" class="form-control js-example-basic-single" style="width:100%;">
-                            <option value="">-- Select Area --</option>
-        `;
 
-        if(ppob_data.voucher_data.pbb.hasOwnProperty(bill_prov))
-        {
-            for(i in ppob_data.voucher_data.pbb[bill_prov])
-            {
-                text += `<option value="`+i+`">`+ppob_data.voucher_data.pbb[bill_prov][i]+`</option>`;
-            }
-        }
-        text+=`
                         </select>
                     </div>
                 </div>
@@ -4335,17 +4177,7 @@ function set_pbb_div(){
                 <div class="input-container-search-ticket">
                     <div class="form-select">
                         <select id="pbb_voucher" name="pbb_voucher" class="form-control js-example-basic-single" style="width:100%;">
-                            <option value="">-- Select Area --</option>
-        `;
 
-        if(ppob_data.voucher_data.pbb.hasOwnProperty(bill_prov))
-        {
-            for(i in ppob_data.voucher_data.pbb[bill_prov])
-            {
-                text += `<option value="`+i+`">`+ppob_data.voucher_data.pbb[bill_prov][i]+`</option>`;
-            }
-        }
-        text+=`
                         </select>
                     </div>
                 </div>
@@ -4367,17 +4199,7 @@ function set_pbb_div(){
                 <div class="input-container-search-ticket">
                     <div class="form-select">
                         <select id="pbb_voucher" name="pbb_voucher" class="form-control js-example-basic-single" style="width:100%;">
-                            <option value="">-- Select Area --</option>
-        `;
 
-        if(ppob_data.voucher_data.pbb.hasOwnProperty(bill_prov))
-        {
-            for(i in ppob_data.voucher_data.pbb[bill_prov])
-            {
-                text += `<option value="`+i+`">`+ppob_data.voucher_data.pbb[bill_prov][i]+`</option>`;
-            }
-        }
-        text+=`
                         </select>
                     </div>
                 </div>
@@ -4394,7 +4216,7 @@ function set_pbb_div(){
     }
 
     document.getElementById('pbb_div').innerHTML = text;
-    $('#pbb_voucher').select2();
+    set_voucher_options($pbb_type_value, 'pbb');
 }
 
 function set_gas_div(){
@@ -5351,15 +5173,7 @@ function check_hp_number(evoucher_val){
             }
             else
             {
-                var prov_radios = document.getElementsByName('bills_provider');
-                for (var j_prov = 0, prov_length = prov_radios.length; j_prov < prov_length; j_prov++) {
-                    if (prov_radios[j_prov].checked) {
-                        // do whatever you want with the checked radio
-                        sel_prov_ppob = prov_radios[j_prov].value;
-                        // only one radio can be logically checked, don't check the rest
-                        break;
-                    }
-                }
+                sel_prov_ppob = bill_prov;
             }
 
             if(nominal_number_list.hasOwnProperty(sel_prov_ppob)){
@@ -5442,6 +5256,68 @@ function check_hp_number(evoucher_val){
         document.getElementById("input_alert").textContent = "";
         document.getElementById("input_alert").style.display = "none";
         checking_number = 0;
+    }
+}
+
+function set_voucher_options(evoucher_val, carr_type){
+    sel_prov_ppob = '';
+    split_code = evoucher_val.split('~');
+    if(split_code.length > 1)
+    {
+        sel_prov_ppob = split_code[1];
+    }
+    else
+    {
+        var radios_prov = document.getElementsByName('bills_provider');
+        for (var k = 0, prov_length = radios_prov.length; k < prov_length; k++) {
+            if (radios_prov[k].checked) {
+                // do whatever you want with the checked radio
+                sel_prov_ppob = radios_prov[k].value;
+                // only one radio can be logically checked, don't check the rest
+                break;
+            }
+        }
+    }
+
+    text = '';
+    if(carr_type == 'game')
+    {
+        text += `<option value="">-- Select Game Voucher --</option>`;
+        if(ppob_data.voucher_data.game.hasOwnProperty(sel_prov_ppob))
+        {
+            for(i in ppob_data.voucher_data.game[sel_prov_ppob])
+            {
+                text += `<option value="`+i+`">`+ppob_data.voucher_data.game[sel_prov_ppob][i]+`</option>`;
+            }
+        }
+        document.getElementById('game_voucher').innerHTML = text;
+        $('#game_voucher').select2();
+    }
+    else if(carr_type == 'pdam')
+    {
+        text += `<option value="">-- Select Area --</option>`;
+        if(ppob_data.voucher_data.pdam.hasOwnProperty(sel_prov_ppob))
+        {
+            for(i in ppob_data.voucher_data.pdam[sel_prov_ppob])
+            {
+                text += `<option value="`+i+`">`+ppob_data.voucher_data.pdam[sel_prov_ppob][i]+`</option>`;
+            }
+        }
+        document.getElementById('pdam_voucher').innerHTML = text;
+        $('#pdam_voucher').select2();
+    }
+    else if(carr_type == 'pbb')
+    {
+        text += `<option value="">-- Select Area --</option>`;
+        if(ppob_data.voucher_data.pbb.hasOwnProperty(sel_prov_ppob))
+        {
+            for(i in ppob_data.voucher_data.pbb[sel_prov_ppob])
+            {
+                text += `<option value="`+i+`">`+ppob_data.voucher_data.pbb[sel_prov_ppob][i]+`</option>`;
+            }
+        }
+        document.getElementById('pbb_voucher').innerHTML = text;
+        $('#pbb_voucher').select2();
     }
 }
 
