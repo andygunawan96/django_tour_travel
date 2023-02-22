@@ -3486,7 +3486,9 @@ function set_evoucher_div(){
     }
 
     document.getElementById('e-voucher_div').innerHTML = text;
-    set_voucher_options($evoucher_type_value, 'game');
+    if($evoucher_type_name.includes('Game Voucher')){
+        set_voucher_options($evoucher_type_value, 'game');
+    }
 }
 
 function set_cable_tv_div(){
