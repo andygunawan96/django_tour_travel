@@ -1965,7 +1965,7 @@ function render_notification(){
 
 
     value_provider_notif = $("input[name='provider_notification_radio']:checked").val();
-
+    text = '';
     for(i in render_data_notification){
 
         print_provider = false;
@@ -2038,7 +2038,6 @@ function render_notification(){
             }else if(render_data_notification[i].provider_type == 'groupbooking'){
                 url_goto = '/groupbooking/booking/';
             }
-            text = '';
             text+=`
             <div class="col-lg-12" style="cursor:pointer;">
                 <div class="row">
@@ -2125,10 +2124,12 @@ function render_notification(){
                     <hr/>
                 </div>
             </div>`;
-            document.getElementById('notification_detail').innerHTML += text;
-            $(".bell_notif").addClass("infinite");
-            $(".bell_notif").css("color", color);
         //                              document.getElementById('notification_detail2').innerHTML += text;
         }
+    }
+    if(text){
+        document.getElementById('notification_detail').innerHTML += text;
+        $(".bell_notif").addClass("infinite");
+        $(".bell_notif").css("color", color);
     }
 }
