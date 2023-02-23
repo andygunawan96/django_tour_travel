@@ -5245,6 +5245,12 @@ function check_hp_number(evoucher_val){
                     <img src="/static/tt_website_rodextrip/images/icon/dana.png" alt="DANA" style="width:auto; height:60px; padding:0px;">
                 </label>`;
 
+                text_img+=`
+                <label class="radio-img">
+                    <input type="radio" name="voucher-type" value="linkaja" onchange="set_evoucher_type();">
+                    <img src="/static/tt_website_rodextrip/images/icon/linkaja.png" alt="LINKAJA" style="width:auto; height:60px; padding:0px;">
+                </label>`;
+
             text_img+=`</div>
             </div>`;
             document.getElementById('img_operator').innerHTML = text_img;
@@ -5426,6 +5432,24 @@ function set_evoucher_type(){
         }else if(v_type == 'dana'){
             for(i in ppob_data.voucher_data.prepaid_mobile[sel_prov_ppob]){
                 code_includes = i.includes("DNA");
+                if(code_includes == true){
+                    if(template != 3){
+                        text_nominal+=`<div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 mb-3">`;
+                    }else{
+                        text_nominal+=`<div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 mb-3">`;
+                    }
+
+                    text_nominal+=`
+                        <label class="radio-label" style="padding:unset; width:100%;">
+                            <input type="radio" name="e-voucher_nominal" value="`+i+`">
+                            <div class="div_label"><span style="color:`+text_color+`;">`+ppob_data.voucher_data.prepaid_mobile[sel_prov_ppob][i]+`</span></div>
+                        </label>
+                    </div>`;
+                }
+            }
+        }else if(v_type == 'linkaja'){
+            for(i in ppob_data.voucher_data.prepaid_mobile[sel_prov_ppob]){
+                code_includes = i.includes("LAJ");
                 if(code_includes == true){
                     if(template != 3){
                         text_nominal+=`<div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 mb-3">`;
