@@ -8771,75 +8771,6 @@ ul.popular2_tabs li.current .image-rounded-icon{
     }
 }
 
-
-@media (min-width: 1200px) {
-    .owl-carousel-hotel-img .owl-item img{
-        max-height:452px;
-    }
-
-    .owl-carousel-hotel-img-modal .owl-item img{
-        max-height:452px;
-    }
-
-    .owl-carousel-banner .owl-item img{
-        height:360px !important;
-    }
-}
-
-@media only screen and (min-width: 992px) and (max-width: 1199px) {
-    .owl-carousel-banner .owl-item img{
-        height:300px !important;
-    }
-}
-
-@media (max-width: 991px) and (min-width: 768px) {
-    .owl-carousel-hotel-img .owl-item img{
-        max-height:400px;
-    }
-
-    .owl-carousel-hotel-img-modal .owl-item img{
-        max-height:350px;
-    }
-
-    .owl-carousel-banner .owl-item img{
-        height:230px !important;
-    }
-}
-
-@media (max-width: 767px) and (min-width: 576px) {
-    .owl-carousel-hotel-img .owl-item img{
-        max-height:250px;
-    }
-
-    .owl-carousel-hotel-img-modal .owl-item img{
-        max-height:300px;
-    }
-
-    .owl-carousel-banner .owl-item img{
-        height:170px !important;
-    }
-}
-
-@media (max-width: 575px) and (min-width: 426px) {
-    .owl-carousel-hotel-img .owl-item img{
-        max-height:220px;
-    }
-
-    .owl-carousel-hotel-img-modal .owl-item img{
-        max-height:250px;
-    }
-    .owl-carousel-banner .owl-item img{
-        height:150px !important;
-    }
-}
-
-@media (max-width: 425px) {
-    .owl-carousel-banner .owl-item img{
-        height:130px !important;
-    }
-}
-
-
 .notes-description {
   max-width: 400px;
   position:relative;
@@ -10181,6 +10112,49 @@ for better animation effect */
     z-index: 1;
 }
 
+.div_stripe{
+    position: relative;
+    height: 100%;
+    width: 100%;
+    background: rgb(227,227,227);
+    background: linear-gradient(90deg, rgba(227,227,227,1) 0%, rgba(182,182,182,1) 7%, rgba(182,182,182,1) 13%, rgba(227,227,227,1) 25%);
+    background-size:900%;
+    background-position: 100% 0%;
+    z-index: 44;
+    overflow: hidden;
+    border-radius: 5px;
+}
+.loading_stripe{
+  position: absolute;
+  left: -45%;
+  height: 100%;
+  width: 45%;
+  background-image: linear-gradient(to left, rgba(255,255,255, .05), rgba(255,255,255, .3), rgba(255,255,255, .6), rgba(255,255,255, .3), rgba(255,255,255, .05));
+  background-image: -moz-linear-gradient(to left, rgba(255,255,255, .05), rgba(255,255,255, .3), rgba(255,255,255, .6), rgba(255,255,255, .3), rgba(255,255,255, .05));
+  background-image: -webkit-linear-gradient(to left, rgba(255,255,255, .05), rgba(255,255,255, .3), rgba(255,255,255, .6), rgba(255,255,255, .3), rgba(255,255,255, .05));
+  animation: loading 1s infinite;
+  z-index: 45;
+}
+@keyframes loading {
+  0%{
+    left: -45%;
+  }
+  100%{
+    left: 100%;
+  }
+}
+
+@keyframes left-right {
+  0%{
+    left: -30%;
+  }
+  50%{
+    left: 100%
+  }
+  100%{
+    left: -45%;
+  }
+}
 
 .stripe {
   border: 1px solid white;
@@ -10200,85 +10174,301 @@ for better animation effect */
   width: 100%;
 }
 
-.div_stripe.loading_stripe, .owl-carousel {
-  animation: hintloading 2s ease-in-out 0s infinite reverse;
-  -webkit-animation: hintloading 2s ease-in-out 0s infinite reverse;
+.owl-carousel-banner.owl-drag .owl-item{
+   background: url("https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/ajax-loader.gif") no-repeat center center;
+}
+.owl-carousel-banner .owl-item img{
+    width: 100% !important;
 }
 
-@keyframes hintloading
-{
-  0% {
-    opacity: 0.7;
-  }
-  50%  {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0.7;
-  }
+.owl-carousel-suggest.owl-drag .owl-item{
+   background: url("https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/ajax-loader.gif") no-repeat center center;
+}
+.owl-carousel-suggest .owl-item img{
+   width: 100% !important;
 }
 
-@-webkit-keyframes hintloading
-{
-  0% {
-    opacity: 0.7;
-  }
-  50%  {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0.;
-  }
+.owl-carousel-login.owl-drag .owl-item{
+   height: 360px;
+   background: url("https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/ajax-loader.gif") no-repeat center center;
 }
 
+.stripe_dynamic_page{
+    height:260px !important;
+    width:100%;
+}
 
 @media (min-width: 1200px) {
+    /*Big Banner*/
     .stripe_big_banner{
         height:380px !important;
         width:100%;
     }
+    .owl-carousel-banner.owl-drag .owl-item{
+        height:360px !important;
+    }
+    .owl-carousel-banner .owl-item img{
+        max-height:360px !important;
+    }
+
+    /*Small Banner*/
+    .stripe_small_banner{
+        height:255px !important;
+        width:100%;
+    }
+    .stripe_small_banner.show_hide_mb{
+        display:block;
+    }
+    .stripe_small_banner.show_hide{
+        display:block;
+    }
+    .owl-carousel-suggest.owl-drag .owl-item{
+        height:270px !important;
+    }
+    .owl-carousel-suggest .owl-item img{
+        max-height:270px !important;
+    }
+
+    /*Dynamic Page*/
+    .stripe_dynamic_page.show_hide_mb{
+        display:block;
+    }
+    .stripe_dynamic_page.show_hide{
+        display:block;
+    }
+
+    /**/
+    .owl-carousel-hotel-img .owl-item img{
+        max-height:452px;
+    }
+    .owl-carousel-hotel-img-modal .owl-item img{
+        max-height:452px;
+    }
 }
 
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
+    /*Big Banner*/
     .stripe_big_banner{
         height:320px !important;
         width:100%;
     }
+    .owl-carousel-banner.owl-drag .owl-item{
+        height:300px !important;
+    }
+    .owl-carousel-banner .owl-item img{
+        max-height:300px !important;
+    }
+
+    /*Small Banner*/
+    .stripe_small_banner{
+        height:260px !important;
+        width:100%;
+    }
+    .stripe_small_banner.show_hide_mb{
+        display:block;
+    }
+    .stripe_small_banner.show_hide{
+        display:block;
+    }
+    .owl-carousel-suggest.owl-drag .owl-item{
+        height:230px !important;
+    }
+    .owl-carousel-suggest .owl-item img{
+        max-height:230px !important;
+    }
+
+    /*Dynamic Page*/
+    .stripe_dynamic_page.show_hide_mb{
+        display:block;
+    }
+    .stripe_dynamic_page.show_hide{
+        display:block;
+    }
 }
 
 @media (max-width: 991px) and (min-width: 768px) {
+    /*Big Banner*/
     .stripe_big_banner{
         height:250px !important;
         width:100%;
     }
+    .owl-carousel-banner.owl-drag .owl-item{
+        height:230px !important;
+    }
+    .owl-carousel-banner .owl-item img{
+        max-height:230px !important;
+    }
+
+    /*Small Banner*/
+    .stripe_small_banner{
+        height:255px !important;
+        width:100%;
+    }
+    .stripe_small_banner.show_hide_mb{
+        display:block;
+    }
+    .stripe_small_banner.show_hide{
+        display:none;
+    }
+    .owl-carousel-suggest.owl-drag .owl-item{
+        height:335px !important;
+    }
+    .owl-carousel-suggest .owl-item img{
+        max-height:335px !important;
+    }
+
+    /*Dynamic Page*/
+    .stripe_dynamic_page.show_hide_mb{
+        display:block;
+    }
+    .stripe_dynamic_page.show_hide{
+        display:none;
+    }
+
+    /**/
+    .owl-carousel-hotel-img .owl-item img{
+        max-height:400px;
+    }
+    .owl-carousel-hotel-img-modal .owl-item img{
+        max-height:350px;
+    }
 }
 
 @media (max-width: 767px) and (min-width: 576px) {
+    /*Big Banner*/
     .stripe_big_banner{
         height:190px !important;
         width:100%;
     }
+    .owl-carousel-banner.owl-drag .owl-item{
+        height:170px !important;
+    }
+    .owl-carousel-banner .owl-item img{
+        max-height:170px !important;
+    }
+
+    /*Small Banner*/
+    .stripe_small_banner{
+        height:255px !important;
+        width:100%;
+    }
+    .stripe_small_banner.show_hide_mb{
+        display:none;
+    }
+    .stripe_small_banner.show_hide{
+        display:none;
+    }
+    .owl-carousel-suggest.owl-drag .owl-item{
+        height:245px !important;
+    }
+    .owl-carousel-suggest .owl-item img{
+        max-height:245px !important;
+    }
+
+    /*Dynamic Page*/
+    .stripe_dynamic_page.show_hide_mb{
+        display:none;
+    }
+    .stripe_dynamic_page.show_hide{
+        display:none;
+    }
+
+    /**/
+    .owl-carousel-hotel-img .owl-item img{
+        max-height:250px;
+    }
+    .owl-carousel-hotel-img-modal .owl-item img{
+        max-height:300px;
+    }
 }
 
 @media (max-width: 575px) and (min-width: 426px) {
+    /*Big Banner*/
     .stripe_big_banner{
         height:150px !important;
         width:100%;
     }
+    .owl-carousel-banner.owl-drag .owl-item{
+        height:170px !important;
+    }
+    .owl-carousel-banner .owl-item img{
+        max-height:170px !important;
+    }
+
+    /*Small Banner*/
+    .stripe_small_banner{
+        height:255px !important;
+        width:100%;
+    }
+    .stripe_small_banner.show_hide_mb{
+        display:none;
+    }
+    .stripe_small_banner.show_hide{
+        display:none;
+    }
+    .owl-carousel-suggest.owl-drag .owl-item{
+        height:500px !important;
+    }
+    .owl-carousel-suggest .owl-item img{
+        max-height:500px !important;
+    }
+
+    /*Dynamic Page*/
+    .stripe_dynamic_page.show_hide_mb{
+        display:none;
+    }
+    .stripe_dynamic_page.show_hide{
+        display:none;
+    }
+
+    /**/
+    .owl-carousel-hotel-img .owl-item img{
+        max-height:220px;
+    }
+    .owl-carousel-hotel-img-modal .owl-item img{
+        max-height:250px;
+    }
+
 }
 
 @media (max-width: 425px) {
+    /*Big Banner*/
     .stripe_big_banner{
         height:140px !important;
         width:100%;
     }
+    .owl-carousel-banner.owl-drag .owl-item{
+        height:130px !important;
+    }
+    .owl-carousel-banner .owl-item img{
+        max-height: 130px !important;
+    }
+
+    /*Small Banner*/
+    .stripe_small_banner{
+        height:380px !important;
+        width:100%;
+    }
+    .stripe_small_banner.show_hide_mb{
+        display:none;
+    }
+    .stripe_small_banner.show_hide{
+        display:none;
+    }
+    .owl-carousel-suggest.owl-drag .owl-item{
+        max-height:500px !important;
+    }
+    .owl-carousel-suggest .owl-item img{
+        max-height:500px !important;
+    }
+
+    /*Dynamic Page*/
+    .stripe_dynamic_page.show_hide_mb{
+        display:none;
+    }
+    .stripe_dynamic_page.show_hide{
+        display:none;
+    }
 }
 
-.stripe_big_banner{
-    background:#f7f7f7;
-}
-
-.stripe_search_title{
-    background:#f7f7f7;
-}
 

@@ -65,8 +65,10 @@ def passport(request):
                 'javascript_version': javascript_version,
                 'update_data': 'false',
                 'static_path_url_server': get_url_static_path(),
+                'big_banner_value': check_big_banner(),
+                'small_banner_value': check_small_banner(),
+                'dynamic_page_value': check_dynamic_page(),
                 'signature': request.session['signature'],
-
             })
         except Exception as e:
             _logger.error(str(e) + '\n' + traceback.format_exc())
