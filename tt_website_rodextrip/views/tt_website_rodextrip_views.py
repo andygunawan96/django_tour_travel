@@ -58,6 +58,26 @@ def check_big_banner():
         _logger.error(str(e) + traceback.format_exc())
     return check_banner
 
+def check_small_banner():
+    try:
+        check_banner = 0
+        file = read_cache("small_banner_cache", 'cache_web', 90911)
+        if len(file['result']['response']) != 0:
+            check_banner = 1
+    except Exception as e:
+        _logger.error(str(e) + traceback.format_exc())
+    return check_banner
+
+def check_dynamic_page():
+    try:
+        check_page = 0
+        path = var_log_path('page_dynamic')
+        if len(os.listdir('%s/' % path)) != 0:
+            check_page = 1
+    except Exception as e:
+        _logger.error(str(e) + traceback.format_exc())
+    return check_page
+
 
 def check_captcha(request):
     try:
@@ -281,6 +301,8 @@ def index(request):
                                 'static_path_url_server': get_url_static_path(),
                                 'signature': request.session['signature'],
                                 'big_banner_value': check_big_banner(),
+                                'small_banner_value': check_small_banner(),
+                                'dynamic_page_value': check_dynamic_page(),
                             })
                         except Exception as e:
                             _logger.error(str(e) + '\n' + traceback.format_exc())
@@ -522,6 +544,9 @@ def login(request):
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'javascript_version': javascript_version,
                 'static_path_url_server': get_url_static_path(),
+                'big_banner_value': check_big_banner(),
+                'small_banner_value': check_small_banner(),
+                'dynamic_page_value': check_dynamic_page(),
                 'username': {'co_user_login': ''}
             })
         except Exception as e:
