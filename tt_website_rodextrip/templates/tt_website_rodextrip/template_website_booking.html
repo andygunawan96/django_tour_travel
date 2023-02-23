@@ -283,10 +283,12 @@ Licence URI: http://www.os-templates.com/template-terms
         }
         {%elif template == 6%}
         .div_search_area_home {
-            background-image: url("{{background}}") !important;
-            background-position: center center !important;
-            background-size: cover !important;
-            background-repeat: no-repeat !important;
+          background: linear-gradient(0deg,rgba(0, 0, 0, 0.4),rgba(0, 0, 0, 0.4)),url("{{background}}") !important;
+          background: -moz-linear-gradient(0deg,rgba(0, 0, 0, 0.4),rgba(0, 0, 0, 0.4)),url("{{background}}") !important;
+          background-attachment: fixed !important;
+          background-position: center !important;
+          background-size: cover !important;
+          background-repeat: no-repeat !important;
         }
         {% endif %}
 
@@ -1974,11 +1976,11 @@ Licence URI: http://www.os-templates.com/template-terms
             background: {{color}};
             opacity:0.8;
         }
-        .div_cst{
-            border-bottom:5px solid {{color}};
+        .div_cst:hover .hover_cst{
+            color:{{color}} !important;
         }
-        .div_cst:hover{
-            transform: translateY(-1.0rem);
+        .div_cst:hover .image-rounded-icon{
+            border: 5px solid {{color}} !important;
         }
 
         ul.create_tabs li.current{

@@ -230,18 +230,68 @@
 </div>
 
 <section class="h-100" id="go_more" style="padding:50px 0px;">
+	{% if dynamic_page_value == 1 %}
 	<div class="container" style="height:80%;">
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="title text-center" id="dynamic_page">
-
+				{% if template == 1 %}
+				<div class="title text-center pb-4">
+					<h1>INFORMATION</h1>
+				</div>
+				{% elif template == 2 %}
+				<div class="section-heading text-center wow fadeInUp" data-wow-delay="100ms" style="margin-bottom:20px;">
+					<h1>INFORMATION</h1>
+				</div>
+				{% elif template == 3 %}
+				<div class="pb-20 header-text">
+					<h1>INFORMATION</h1>
+				</div>
+				{% elif template == 4 %}
+				<div class="text-center border-primary mb-5">
+					<h1 class="font-weight-light text-primary" style="color:black !important">INFORMATION</h1>
+				</div>
+				{% elif template == 5 %}
+				<div class="menu-content">
+					<div class="title text-center">
+						<h1>INFORMATION</h1>
+					</div>
+				</div>
+				{% elif template == 6 %}
+				<div class="menu-content">
+					<div class="fetured-info py-lg-3 py-3">
+						<h3>INFORMATION</h3>
+					</div>
+				</div>
+				{% endif %}
 				</div>
 			</div>
 		</div>
 		<div class="row" id="owl-login">
-
+			<div class="col-lg-4 col-md-6">
+				<div class="stripe_dynamic_page">
+					<div class="div_stripe">
+						<div class="loading_stripe"></div>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-4 col-md-6">
+				<div class="stripe_dynamic_page show_hide_mb">
+					<div class="div_stripe">
+						<div class="loading_stripe"></div>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-4 col-md-6">
+				<div class="stripe_dynamic_page show_hide">
+					<div class="div_stripe">
+						<div class="loading_stripe"></div>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
+	{% endif %}
 	<div class="container" style="height:20%;">
 		<div class="row" style="padding:5px 30px;">
 <!--			<div class="col-lg-12" id="contact_login_div" style="text-align:center;">-->
@@ -295,7 +345,9 @@
 <!--===============================================================================================-->
 <!--loading-bar-->
 <script>
+	{% if dynamic_page_value == 1 %}
 	get_dynamic_page('login');
+	{% endif %}
 	//get_social('login');
 	//get_contact('login');
 

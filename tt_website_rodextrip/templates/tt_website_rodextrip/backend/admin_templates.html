@@ -257,13 +257,12 @@
                                                                 {%if background %}
                                                                 <img id="preview_home_ori" src="{{background}}" alt="Home Background" style="width:100%; height:auto;"/>
                                                                 {% endif %}
-                                                                <br/><h6 class="mt-2">*<i>Result check on tab Preview <i class="fas fa-eye"></i><br/>(Except Template 6)</i> </h6>
                                                             </div>
                                                             <div class="col-lg-8">
                                                                 <h6>Recommended Size: </h6>
                                                                 <span>Width: 1920px, Height: 1080px</span><br/>
                                                                 <div class="input-container-search-ticket mb-2">
-                                                                    <input type="file" name="fileBackgroundHome" id="fileBackgroundHome" accept="image/*, video/*" onchange="file_validation('fileBackgroundHome'); get_url_image_file(window.URL.createObjectURL(this.files[0]), 'preview_tab_background', 'background_image');"/>
+                                                                    <input type="file" name="fileBackgroundHome" id="fileBackgroundHome" accept="image/*, video/*" onchange="file_validation('fileBackgroundHome'); get_url_image_file(window.URL.createObjectURL(this.files[0]), 'preview_tab_background', 'background_image'); get_url_image_file(window.URL.createObjectURL(this.files[0]), 'preview_home_ori', 'img');"/>
                                                                 </div>
                                                                 <span id="size_fileBackgroundHome"></span>
                                                                 <button type="button" class="primary-btn" id="help_home_bg_btn" onclick="preview_show_hide_example('help_home_bg');" style="color:{{text_color}}">Info <i class="fas fa-info-circle" style="font-size:16px;"></i></button>
@@ -364,19 +363,19 @@
                                                             <img src="{{static_path}}img/preview/HomeTemplate1.png" alt="Preview Template" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
                                                             {% elif template == 2%}
                                                             <h6 class="mb-3">Template 2</h6>
-                                                            <img src="{{static_path}}img/preview/HomeTemplate2.png" alt="Preview Template" style="height:auto; width:100%; border:1px solid #cdcdcd;"/>
+                                                            <img src="{{static_path}}img/preview/HomeTemplate2.png" alt="Preview Template" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
                                                             {% elif template == 3%}
                                                             <h6 class="mb-3">Template 3</h6>
-                                                            <img src="{{static_path}}img/preview/HomeTemplate3.png" alt="Preview Template" style="height:auto; width:100%; border:1px solid #cdcdcd;"/>
+                                                            <img src="{{static_path}}img/preview/HomeTemplate3.png" alt="Preview Template" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
                                                             {% elif template == 4%}
                                                             <h6 class="mb-3">Template 4</h6>
-                                                            <img src="{{static_path}}img/preview/HomeTemplate4.png" alt="Preview Template" style="height:auto; width:100%; border:1px solid #cdcdcd;"/>
+                                                            <img src="{{static_path}}img/preview/HomeTemplate4.png" alt="Preview Template" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
                                                             {% elif template == 5%}
                                                             <h6 class="mb-3">Template 5</h6>
-                                                            <img src="{{static_path}}img/preview/HomeTemplate5.png" alt="Preview Template" style="height:auto; width:100%; border:1px solid #cdcdcd;"/>
+                                                            <img src="{{static_path}}img/preview/HomeTemplate5.png" alt="Preview Template" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
                                                             {% elif template == 6%}
                                                             <h6 class="mb-3">Template 6</h6>
-                                                            <img src="{{static_path}}img/preview/HomeTemplate6.png" alt="Preview Template" style="height:auto; width:100%; border:1px solid #cdcdcd;"/>
+                                                            <img src="{{static_path}}img/preview/HomeTemplate6.png" alt="Preview Template" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
                                                             {% endif %}
                                                         </div>
                                                     </div>
@@ -880,12 +879,12 @@
                                                                 <div class="col-lg-12" style="padding-bottom:15px; border-bottom: 1px solid #cdcdcd;">
                                                                     <h6>Note: </h6><br/>
                                                                     <div style="margin-bottom:10px;"><span style="font-size:15px; font-weight:bold; color:{{color}}">Just Title</span> <span style="font-size:14px; font-weight:500;"> Only used for titles such as company names or others, example: ORBISWAY</span></div>
-                                                                    <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/phone.png" alt="Phone"><span style="font-size:14px; font-weight:500;"> Phone (don't use anything symbol), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">6231566200 or 031566200</span><br/>
-                                                                    <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/whatsapp.png" alt="Whatsapp"><span style="font-size:14px; font-weight:500;">Whatsapp (use code country on first number), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">6231566200 </span><br/>
+                                                                    <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/phone.png" alt="Phone"><span style="font-size:14px; font-weight:500;"> Phone (don't use anything symbol), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">6231123456 or 031123456</span><br/>
+                                                                    <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/whatsapp.png" alt="Whatsapp"><span style="font-size:14px; font-weight:500;">Whatsapp (use code country on first number), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">6231123456 </span><br/>
                                                                     <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/line.png" alt="Line"><span style="font-size:14px; font-weight:500;">Line (use @), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">@youridline </span><br/>
                                                                     <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/telegram.png" alt="Telegram"><span style="font-size:14px; font-weight:500;">Telegram (don't use @), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">youridtelegram </span><br/>
                                                                     <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/email.png" alt="Email"><span style="font-size:14px; font-weight:500;">Email, example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">youremail@example.com </span><br/>
-                                                                    <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/phone.png" alt="Phone"><span style="font-size:14px; font-weight:500;"> Phone (don't use anything symbol), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">6231566200 or 031566200</span><br/>
+                                                                    <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/phone.png" alt="Phone"><span style="font-size:14px; font-weight:500;"> Phone (don't use anything symbol), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">6231123456 or 031123456</span><br/>
                                                                     <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/other.png" alt="Other"/><span style="font-size:14px; font-weight:500;"> Only used if the desired contact option is not available</span><br/>
 
                                                                     <button type="button" class="primary-btn mt-3" id="help_contact_us_btn" onclick="preview_show_hide_example('help_contact_us');" style="color:{{text_color}}">Info <i class="fas fa-info-circle" style="font-size:16px;"></i></button>
@@ -1771,7 +1770,7 @@
                                                             <h6>Recommended Size: </h6>
                                                             <i>Max.Width: 150px, Max.Height: 40px</i><br/>
                                                             <div class="input-container-search-ticket mb-2">
-                                                                <input type="file" name="fileToUpload" id="fileToUpload" accept="image/*" onchange="file_validation('fileToUpload'); get_url_image_file(window.URL.createObjectURL(this.files[0]), 'preview_logo', 'img');"/>
+                                                                <input type="file" name="fileToUpload" id="fileToUpload" accept="image/*" onchange="file_validation('fileToUpload'); get_url_image_file(window.URL.createObjectURL(this.files[0]), 'preview_logo', 'img'); get_url_image_file(window.URL.createObjectURL(this.files[0]), 'preview_logo_ori', 'img');"/>
                                                             </div>
                                                             <span id="size_fileToUpload"></span>
                                                             <button type="button" class="primary-btn" id="help_logo_btn" onclick="preview_show_hide_example('help_logo');" style="color:{{text_color}}">Info <i class="fas fa-info-circle" style="font-size:16px;"></i></button>
@@ -1800,7 +1799,7 @@
                                                             <h6>Recommended Size: </h6>
                                                             <i>Width: 50px, Height: 50px</i><br/>
                                                             <div class="input-container-search-ticket mb-2">
-                                                                <input type="file" name="filelogoicon" id="filelogoicon" accept="image/*" onchange="file_validation('filelogoicon');"/>
+                                                                <input type="file" name="filelogoicon" id="filelogoicon" accept="image/*" onchange="file_validation('filelogoicon'); get_url_image_file(window.URL.createObjectURL(this.files[0]), 'preview_logo_title', 'img');"/>
                                                             </div>
                                                             <span id="size_filelogoicon"></span>
                                                             <button type="button" class="primary-btn" id="help_logo_title_btn" onclick="preview_show_hide_example('help_logo_title');" style="color:{{text_color}}">Info <i class="fas fa-info-circle" style="font-size:16px;"></i></button>
@@ -1854,13 +1853,12 @@
                                                             {%if background %}
                                                             <img id="preview_home_ori" src="{{background}}" alt="Home Background" style="width:100%; height:auto;"/>
                                                             {% endif %}
-                                                            <br/><h6 class="mt-2">*<i>Result check on tab Preview <i class="fas fa-eye"></i><br/>(Except Template 6)</i> </h6>
                                                         </div>
                                                         <div class="col-lg-8">
                                                             <h6>Recommended Size: </h6>
                                                             <span>Width: 1920px, Height: 1080px</span><br/>
                                                             <div class="input-container-search-ticket mb-2">
-                                                                <input type="file" name="fileBackgroundHome" id="fileBackgroundHome" accept="image/*, video/*" onchange="file_validation('fileBackgroundHome'); get_url_image_file(window.URL.createObjectURL(this.files[0]), 'preview_tab_background', 'background_image');"/>
+                                                                <input type="file" name="fileBackgroundHome" id="fileBackgroundHome" accept="image/*, video/*" onchange="file_validation('fileBackgroundHome'); get_url_image_file(window.URL.createObjectURL(this.files[0]), 'preview_tab_background', 'background_image'); get_url_image_file(window.URL.createObjectURL(this.files[0]), 'preview_home_ori', 'img');"/>
                                                             </div>
                                                             <span id="size_fileBackgroundHome"></span>
                                                             <button type="button" class="primary-btn" id="help_home_bg_btn" onclick="preview_show_hide_example('help_home_bg');" style="color:{{text_color}}">Info <i class="fas fa-info-circle" style="font-size:16px;"></i></button>
@@ -1962,19 +1960,19 @@
                                                         <img src="{{static_path}}img/preview/HomeTemplate1.png" alt="Preview Template" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
                                                         {% elif template == 2%}
                                                         <h6 class="mb-3">Template 2</h6>
-                                                        <img src="{{static_path}}img/preview/HomeTemplate2.png" alt="Preview Template" style="height:auto; width:100%; border:1px solid #cdcdcd;"/>
+                                                        <img src="{{static_path}}img/preview/HomeTemplate2.png" alt="Preview Template" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
                                                         {% elif template == 3%}
                                                         <h6 class="mb-3">Template 3</h6>
-                                                        <img src="{{static_path}}img/preview/HomeTemplate3.png" alt="Preview Template" style="height:auto; width:100%; border:1px solid #cdcdcd;"/>
+                                                        <img src="{{static_path}}img/preview/HomeTemplate3.png" alt="Preview Template" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
                                                         {% elif template == 4%}
                                                         <h6 class="mb-3">Template 4</h6>
-                                                        <img src="{{static_path}}img/preview/HomeTemplate4.png" alt="Preview Template" style="height:auto; width:100%; border:1px solid #cdcdcd;"/>
+                                                        <img src="{{static_path}}img/preview/HomeTemplate4.png" alt="Preview Template" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
                                                         {% elif template == 5%}
                                                         <h6 class="mb-3">Template 5</h6>
-                                                        <img src="{{static_path}}img/preview/HomeTemplate5.png" alt="Preview Template" style="height:auto; width:100%; border:1px solid #cdcdcd;"/>
+                                                        <img src="{{static_path}}img/preview/HomeTemplate5.png" alt="Preview Template" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
                                                         {% elif template == 6%}
                                                         <h6 class="mb-3">Template 6</h6>
-                                                        <img src="{{static_path}}img/preview/HomeTemplate6.png" alt="Preview Template" style="height:auto; width:100%; border:1px solid #cdcdcd;"/>
+                                                        <img src="{{static_path}}img/preview/HomeTemplate6.png" alt="Preview Template" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
                                                         {% endif %}
                                                     </div>
                                                 </div>
@@ -2477,12 +2475,12 @@
                                                             <div class="col-lg-12 mb-3" style="padding-bottom:15px; border-bottom: 1px solid #cdcdcd;">
                                                                 <h6>Note: </h6><br/>
                                                                 <div style="margin-bottom:10px;"><span style="font-size:15px; font-weight:bold; color:{{color}}">Just Title</span> <span style="font-size:14px; font-weight:500;"> Only used for titles such as company names or others, example: ORBISWAY</span></div>
-                                                                <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/phone.png" alt="Phone"><span style="font-size:14px; font-weight:500;"> Phone (don't use anything symbol), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">6231566200 or 031566200</span><br/>
-                                                                <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/whatsapp.png" alt="Whatsapp"><span style="font-size:14px; font-weight:500;">Whatsapp (use code country on first number), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">6231566200 </span><br/>
+                                                                <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/phone.png" alt="Phone"><span style="font-size:14px; font-weight:500;"> Phone (don't use anything symbol), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">6231123456 or 031123456</span><br/>
+                                                                <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/whatsapp.png" alt="Whatsapp"><span style="font-size:14px; font-weight:500;">Whatsapp (use code country on first number), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">6231123456 </span><br/>
                                                                 <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/line.png" alt="Line"><span style="font-size:14px; font-weight:500;">Line (use @), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">@youridline </span><br/>
                                                                 <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/telegram.png" alt="Telegram"><span style="font-size:14px; font-weight:500;">Telegram (don't use @), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">youridtelegram </span><br/>
                                                                 <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/email.png" alt="Email"><span style="font-size:14px; font-weight:500;">Email, example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">youremail@example.com </span><br/>
-                                                                <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/phone.png" alt="Phone"><span style="font-size:14px; font-weight:500;"> Phone (don't use anything symbol), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">6231566200 or 031566200</span><br/>
+                                                                <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/phone.png" alt="Phone"><span style="font-size:14px; font-weight:500;"> Phone (don't use anything symbol), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">6231123456 or 031123456</span><br/>
                                                                 <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/other.png" alt="Other"/><span style="font-size:14px; font-weight:500;"> Only used if the desired contact option is not available</span><br/>
 
                                                                 <button type="button" class="primary-btn mt-3" id="help_contact_us_btn" onclick="preview_show_hide_example('help_contact_us');" style="color:{{text_color}}">Info <i class="fas fa-info-circle" style="font-size:16px;"></i></button>
@@ -3034,7 +3032,7 @@
                                                 <span>Max.Width: 1100px, Height: 360px</span><br/>
 
                                                 <div class="input-container-search-ticket">
-                                                    <input type="file" style="" name="image_carousel" id="image_carousel" accept="image/*" onchange="file_validation('image_carousel');"/>
+                                                    <input type="file" style="" name="image_carousel" id="image_carousel" accept="image/*" onchange="file_validation('image_carousel'); get_url_image_file(window.URL.createObjectURL(this.files[0]), 'dynamic_img', 'img');"/>
                                                 </div>
                                                 <br/><span id="size_image_carousel"></span><br/>
                                                 <img src="{{static_path}}images/no pic/no-image-available.jpg" id="dynamic_img" alt="Dynamic Image" style="width:100%; max-width:400px; margin-bottom:15px;">
@@ -3363,7 +3361,7 @@
                                                         <h6>Recommended Size: </h6>
                                                         <i>Max.Width: 150px, Max.Height: 40px</i><br/>
                                                         <div class="input-container-search-ticket mb-2">
-                                                            <input type="file" name="fileToUpload" id="fileToUpload" accept="image/*" onchange="file_validation('fileToUpload'); get_url_image_file(window.URL.createObjectURL(this.files[0]), 'preview_logo', 'img');"/>
+                                                            <input type="file" name="fileToUpload" id="fileToUpload" accept="image/*" onchange="file_validation('fileToUpload'); get_url_image_file(window.URL.createObjectURL(this.files[0]), 'preview_logo', 'img'); get_url_image_file(window.URL.createObjectURL(this.files[0]), 'preview_logo_ori', 'img');"/>
                                                         </div>
                                                         <span id="size_fileToUpload"></span>
                                                         <button type="button" class="primary-btn" id="help_logo_btn" onclick="preview_show_hide_example('help_logo');" style="color:{{text_color}}">Info <i class="fas fa-info-circle" style="font-size:16px;"></i></button>
@@ -3392,7 +3390,7 @@
                                                         <h6>Recommended Size: </h6>
                                                         <i>Width: 50px, Height: 50px</i><br/>
                                                         <div class="input-container-search-ticket mb-2">
-                                                            <input type="file" name="filelogoicon" id="filelogoicon" accept="image/*" onchange="file_validation('filelogoicon');"/>
+                                                            <input type="file" name="filelogoicon" id="filelogoicon" accept="image/*" onchange="file_validation('filelogoicon'); get_url_image_file(window.URL.createObjectURL(this.files[0]), 'preview_logo_title', 'img');"/>
                                                         </div>
                                                         <span id="size_filelogoicon"></span>
                                                         <button type="button" class="primary-btn" id="help_logo_title_btn" onclick="preview_show_hide_example('help_logo_title');" style="color:{{text_color}}">Info <i class="fas fa-info-circle" style="font-size:16px;"></i></button>
@@ -3446,13 +3444,12 @@
                                                         {%if background %}
                                                         <img id="preview_home_ori" src="{{background}}" alt="Home Background" style="width:100%; height:auto;"/>
                                                         {% endif %}
-                                                        <br/><h6 class="mt-2">*<i>Result check on tab Preview <i class="fas fa-eye"></i><br/>(Except Template 6)</i> </h6>
                                                     </div>
                                                     <div class="col-lg-8">
                                                         <h6>Recommended Size: </h6>
                                                         <span>Width: 1920px, Height: 1080px</span><br/>
                                                         <div class="input-container-search-ticket mb-2">
-                                                            <input type="file" name="fileBackgroundHome" id="fileBackgroundHome" accept="image/*, video/*" onchange="file_validation('fileBackgroundHome'); get_url_image_file(window.URL.createObjectURL(this.files[0]), 'preview_tab_background', 'background_image');"/>
+                                                            <input type="file" name="fileBackgroundHome" id="fileBackgroundHome" accept="image/*, video/*" onchange="file_validation('fileBackgroundHome'); get_url_image_file(window.URL.createObjectURL(this.files[0]), 'preview_tab_background', 'background_image'); get_url_image_file(window.URL.createObjectURL(this.files[0]), 'preview_home_ori', 'img');"/>
                                                         </div>
                                                         <span id="size_fileBackgroundHome"></span>
                                                         <button type="button" class="primary-btn" id="help_home_bg_btn" onclick="preview_show_hide_example('help_home_bg');" style="color:{{text_color}}">Info <i class="fas fa-info-circle" style="font-size:16px;"></i></button>
@@ -3554,19 +3551,19 @@
                                                     <img src="{{static_path}}img/preview/HomeTemplate1.png" alt="Preview Template" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
                                                     {% elif template == 2%}
                                                     <h6 class="mb-3">Template 2</h6>
-                                                    <img src="{{static_path}}img/preview/HomeTemplate2.png" alt="Preview Template" style="height:auto; width:100%; border:1px solid #cdcdcd;"/>
+                                                    <img src="{{static_path}}img/preview/HomeTemplate2.png" alt="Preview Template" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
                                                     {% elif template == 3%}
                                                     <h6 class="mb-3">Template 3</h6>
-                                                    <img src="{{static_path}}img/preview/HomeTemplate3.png" alt="Preview Template" style="height:auto; width:100%; border:1px solid #cdcdcd;"/>
+                                                    <img src="{{static_path}}img/preview/HomeTemplate3.png" alt="Preview Template" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
                                                     {% elif template == 4%}
                                                     <h6 class="mb-3">Template 4</h6>
-                                                    <img src="{{static_path}}img/preview/HomeTemplate4.png" alt="Preview Template" style="height:auto; width:100%; border:1px solid #cdcdcd;"/>
+                                                    <img src="{{static_path}}img/preview/HomeTemplate4.png" alt="Preview Template" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
                                                     {% elif template == 5%}
                                                     <h6 class="mb-3">Template 5</h6>
-                                                    <img src="{{static_path}}img/preview/HomeTemplate5.png" alt="Preview Template" style="height:auto; width:100%; border:1px solid #cdcdcd;"/>
+                                                    <img src="{{static_path}}img/preview/HomeTemplate5.png" alt="Preview Template" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
                                                     {% elif template == 6%}
                                                     <h6 class="mb-3">Template 6</h6>
-                                                    <img src="{{static_path}}img/preview/HomeTemplate6.png" alt="Preview Template" style="height:auto; width:100%; border:1px solid #cdcdcd;"/>
+                                                    <img src="{{static_path}}img/preview/HomeTemplate6.png" alt="Preview Template" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
                                                     {% endif %}
                                                 </div>
                                             </div>
@@ -4002,7 +3999,7 @@
                                                     <div class="row">
                                                         <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
                                                             <div class="row">
-                                                                <div class="col-lg-12">
+                                                                <div class="col-lg-12 mb-3">
                                                                     <h6 style="margin-bottom:10px;">{% trans 'Choose Paragraph' %}</h6>
                                                                     <div class="default-select">
                                                                         <select class="nice-select-default" style="width:100%;" id="paragraph_choose" onchange="change_about_us();">
@@ -4073,12 +4070,12 @@
                                                         <div class="col-lg-12" style="padding-bottom:15px; border-bottom: 1px solid #cdcdcd;">
                                                             <h6>Note: </h6><br/>
                                                             <div style="margin-bottom:10px;"><span style="font-size:15px; font-weight:bold; color:{{color}}">Just Title</span> <span style="font-size:14px; font-weight:500;"> Only used for titles such as company names or others, example: ORBISWAY</span></div>
-                                                            <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/phone.png" alt="Phone"><span style="font-size:14px; font-weight:500;"> Phone (don't use anything symbol), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">6231566200 or 031566200</span><br/>
-                                                            <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/whatsapp.png" alt="Whatsapp"><span style="font-size:14px; font-weight:500;">Whatsapp (use code country on first number), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">6231566200 </span><br/>
+                                                            <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/phone.png" alt="Phone"><span style="font-size:14px; font-weight:500;"> Phone (don't use anything symbol), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">6231123456 or 031123456</span><br/>
+                                                            <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/whatsapp.png" alt="Whatsapp"><span style="font-size:14px; font-weight:500;">Whatsapp (use code country on first number), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">6231123456 </span><br/>
                                                             <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/line.png" alt="Line"><span style="font-size:14px; font-weight:500;">Line (use @), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">@youridline </span><br/>
                                                             <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/telegram.png" alt="Telegram"><span style="font-size:14px; font-weight:500;">Telegram (don't use @), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">youridtelegram </span><br/>
                                                             <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/email.png" alt="Email"><span style="font-size:14px; font-weight:500;">Email, example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">youremail@example.com </span><br/>
-                                                            <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/phone.png" alt="Phone"><span style="font-size:14px; font-weight:500;"> Phone (don't use anything symbol), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">6231566200 or 031566200</span><br/>
+                                                            <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/phone.png" alt="Phone"><span style="font-size:14px; font-weight:500;"> Phone (don't use anything symbol), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">6231123456 or 031123456</span><br/>
                                                             <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/other.png" alt="Other"/><span style="font-size:14px; font-weight:500;"> Only used if the desired contact option is not available</span><br/>
                                                             <button type="button" class="primary-btn mt-3" id="help_contact_us_btn" onclick="preview_show_hide_example('help_contact_us');" style="color:{{text_color}}">Info <i class="fas fa-info-circle" style="font-size:16px;"></i></button>
                                                             <div id="help_contact_us" style="display:none; background: #f7f7f7; border:1px solid #cdcdcd; padding:15px; overflow:auto;">
@@ -4137,7 +4134,7 @@
                                                             <h6 class="single_border_custom_left mb-3" style="padding-left:10px;">{% trans 'Payment Partner' %}</h6>
                                                         </div>
                                                         <div class="col-lg-12 mb-3">
-                                                            <div class="default-select">
+                                                            <div class="default-select mb-3">
                                                                 <select class="nice-select-default" style="width:100%;" id="partner_choose" onchange="change_payment_partner();">
 
                                                                 </select>
@@ -4189,7 +4186,7 @@
                                                         </div>
                                                         <div class="col-lg-12 mb-3">
                                                             <h6 style="margin-bottom:10px;">{% trans 'Choose FAQ' %}</h6>
-                                                            <div class="default-select">
+                                                            <div class="default-select mb-3">
                                                                 <select class="nice-select-default" style="width:100%;" id="faq_choose" onchange="change_faq();">
 
                                                                 </select>
@@ -4328,10 +4325,10 @@
                                                         <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
                                                             <h6 class="single_border_custom_left mb-3" style="padding-left:10px;">{% trans 'Payment Information' %}</h6>
                                                         </div>
-                                                        <div class="col-lg-12">
+                                                        <div class="col-lg-12 mb-3">
                                                             <h6 style="margin-bottom:10px;">{% trans 'Name' %}</h6>
                                                             <div class="input-container-search-ticket">
-                                                                <div class="form-select">
+                                                                <div class="default-select" style="width:100%;">
                                                                     <select class="nice-select-default" style="width:100%;" id="payment_information_choose" onchange="change_payment_information();">
 
                                                                     </select>
@@ -4588,7 +4585,7 @@
                                             <div class="row">
                                                 <div class="col-lg-12">
                                                     <h6 style="margin-bottom:10px;" class="control-label" for="city_id">{% trans 'Page' %}</h6>
-                                                    <div class="default-select">
+                                                    <div class="default-select mb-3">
                                                         <select class="nice-select-default" style="width:100%;" id="page_choose" onchange="change_dynamic_page();">
 
                                                         </select>
@@ -4623,7 +4620,7 @@
                                             <span>Max.Width: 1100px, Height: 360px</span><br/>
 
                                             <div class="input-container-search-ticket">
-                                                <input type="file" style="" name="image_carousel" id="image_carousel" accept="image/*" onchange="file_validation('image_carousel');"/>
+                                                <input type="file" style="" name="image_carousel" id="image_carousel" accept="image/*" onchange="file_validation('image_carousel'); get_url_image_file(window.URL.createObjectURL(this.files[0]), 'dynamic_img', 'img');"/>
                                             </div>
                                             <br/><span id="size_image_carousel"></span><br/>
                                             <img src="{{static_path}}images/no pic/no-image-available.jpg" id="dynamic_img" alt="Dynamic Image" style="width:100%; max-width:400px; margin-bottom:15px;">
@@ -4949,7 +4946,7 @@
                                                     <h6>Recommended Size: </h6>
                                                     <i>Max.Width: 150px, Max.Height: 40px</i><br/>
                                                     <div class="input-container-search-ticket mb-2">
-                                                        <input type="file" name="fileToUpload" id="fileToUpload" accept="image/*" onchange="file_validation('fileToUpload'); get_url_image_file(window.URL.createObjectURL(this.files[0]), 'preview_logo', 'img');"/>
+                                                        <input type="file" name="fileToUpload" id="fileToUpload" accept="image/*" onchange="file_validation('fileToUpload'); get_url_image_file(window.URL.createObjectURL(this.files[0]), 'preview_logo', 'img'); get_url_image_file(window.URL.createObjectURL(this.files[0]), 'preview_logo_ori', 'img');"/>
                                                     </div>
                                                     <span id="size_fileToUpload"></span>
                                                     <button type="button" class="primary-btn" id="help_logo_btn" onclick="preview_show_hide_example('help_logo');" style="color:{{text_color}}">Info <i class="fas fa-info-circle" style="font-size:16px;"></i></button>
@@ -4978,7 +4975,7 @@
                                                     <h6>Recommended Size: </h6>
                                                     <i>Width: 50px, Height: 50px</i><br/>
                                                     <div class="input-container-search-ticket mb-2">
-                                                        <input type="file" name="filelogoicon" id="filelogoicon" accept="image/*" onchange="file_validation('filelogoicon');"/>
+                                                        <input type="file" name="filelogoicon" id="filelogoicon" accept="image/*" onchange="file_validation('filelogoicon'); get_url_image_file(window.URL.createObjectURL(this.files[0]), 'preview_logo_title', 'img');"/>
                                                     </div>
                                                     <span id="size_filelogoicon"></span>
                                                     <button type="button" class="primary-btn" id="help_logo_title_btn" onclick="preview_show_hide_example('help_logo_title');" style="color:{{text_color}}">Info <i class="fas fa-info-circle" style="font-size:16px;"></i></button>
@@ -5032,13 +5029,12 @@
                                                     {%if background %}
                                                     <img id="preview_home_ori" src="{{background}}" alt="Home Background" style="width:100%; height:auto;"/>
                                                     {% endif %}
-                                                    <br/><h6 class="mt-2">*<i>Result check on tab Preview <i class="fas fa-eye"></i><br/>(Except Template 6)</i> </h6>
                                                 </div>
                                                 <div class="col-lg-8">
                                                     <h6>Recommended Size: </h6>
                                                     <span>Width: 1920px, Height: 1080px</span><br/>
                                                     <div class="input-container-search-ticket mb-2">
-                                                        <input type="file" name="fileBackgroundHome" id="fileBackgroundHome" accept="image/*, video/*" onchange="file_validation('fileBackgroundHome'); get_url_image_file(window.URL.createObjectURL(this.files[0]), 'preview_tab_background', 'background_image');"/>
+                                                        <input type="file" name="fileBackgroundHome" id="fileBackgroundHome" accept="image/*, video/*" onchange="file_validation('fileBackgroundHome'); get_url_image_file(window.URL.createObjectURL(this.files[0]), 'preview_tab_background', 'background_image'); get_url_image_file(window.URL.createObjectURL(this.files[0]), 'preview_home_ori', 'img');"/>
                                                     </div>
                                                     <span id="size_fileBackgroundHome"></span>
                                                     <button type="button" class="primary-btn" id="help_home_bg_btn" onclick="preview_show_hide_example('help_home_bg');" style="color:{{text_color}}">Info <i class="fas fa-info-circle" style="font-size:16px;"></i></button>
@@ -5140,19 +5136,19 @@
                                                 <img src="{{static_path}}img/preview/HomeTemplate1.png" alt="Preview Template" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
                                                 {% elif template == 2%}
                                                 <h6 class="mb-3">Template 2</h6>
-                                                <img src="{{static_path}}img/preview/HomeTemplate2.png" alt="Preview Template" style="height:auto; width:100%; border:1px solid #cdcdcd;"/>
+                                                <img src="{{static_path}}img/preview/HomeTemplate2.png" alt="Preview Template" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
                                                 {% elif template == 3%}
                                                 <h6 class="mb-3">Template 3</h6>
-                                                <img src="{{static_path}}img/preview/HomeTemplate3.png" alt="Preview Template" style="height:auto; width:100%; border:1px solid #cdcdcd;"/>
+                                                <img src="{{static_path}}img/preview/HomeTemplate3.png" alt="Preview Template" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
                                                 {% elif template == 4%}
                                                 <h6 class="mb-3">Template 4</h6>
-                                                <img src="{{static_path}}img/preview/HomeTemplate4.png" alt="Preview Template" style="height:auto; width:100%; border:1px solid #cdcdcd;"/>
+                                                <img src="{{static_path}}img/preview/HomeTemplate4.png" alt="Preview Template" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
                                                 {% elif template == 5%}
                                                 <h6 class="mb-3">Template 5</h6>
-                                                <img src="{{static_path}}img/preview/HomeTemplate5.png" alt="Preview Template" style="height:auto; width:100%; border:1px solid #cdcdcd;"/>
+                                                <img src="{{static_path}}img/preview/HomeTemplate5.png" alt="Preview Template" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
                                                 {% elif template == 6%}
                                                 <h6 class="mb-3">Template 6</h6>
-                                                <img src="{{static_path}}img/preview/HomeTemplate6.png" alt="Preview Template" style="height:auto; width:100%; border:1px solid #cdcdcd;"/>
+                                                <img src="{{static_path}}img/preview/HomeTemplate6.png" alt="Preview Template" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
                                                 {% endif %}
                                             </div>
                                         </div>
@@ -5655,12 +5651,12 @@
                                                     <div class="col-lg-12" style="padding-bottom:15px; border-bottom: 1px solid #cdcdcd;">
                                                         <h6>Note: </h6><br/>
                                                         <div style="margin-bottom:10px;"><span style="font-size:15px; font-weight:bold; color:{{color}}">Just Title</span> <span style="font-size:14px; font-weight:500;"> Only used for titles such as company names or others, example: ORBISWAY</span></div>
-                                                        <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/phone.png" alt="Phone"><span style="font-size:14px; font-weight:500;"> Phone (don't use anything symbol), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">6231566200 or 031566200</span><br/>
-                                                        <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/whatsapp.png" alt="Whatsapp"><span style="font-size:14px; font-weight:500;">Whatsapp (use code country on first number), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">6231566200 </span><br/>
+                                                        <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/phone.png" alt="Phone"><span style="font-size:14px; font-weight:500;"> Phone (don't use anything symbol), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">6231123456 or 031123456</span><br/>
+                                                        <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/whatsapp.png" alt="Whatsapp"><span style="font-size:14px; font-weight:500;">Whatsapp (use code country on first number), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">6231123456 </span><br/>
                                                         <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/line.png" alt="Line"><span style="font-size:14px; font-weight:500;">Line (use @), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">@youridline </span><br/>
                                                         <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/telegram.png" alt="Telegram"><span style="font-size:14px; font-weight:500;">Telegram (don't use @), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">youridtelegram </span><br/>
                                                         <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/email.png" alt="Email"><span style="font-size:14px; font-weight:500;">Email, example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">youremail@example.com </span><br/>
-                                                        <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/phone.png" alt="Phone"><span style="font-size:14px; font-weight:500;"> Phone (don't use anything symbol), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">6231566200 or 031566200</span><br/>
+                                                        <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/phone.png" alt="Phone"><span style="font-size:14px; font-weight:500;"> Phone (don't use anything symbol), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">6231123456 or 031123456</span><br/>
                                                         <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/other.png" alt="Other"/><span style="font-size:14px; font-weight:500;"> Only used if the desired contact option is not available</span><br/>
                                                         <button type="button" class="primary-btn mt-3" id="help_contact_us_btn" onclick="preview_show_hide_example('help_contact_us');" style="color:{{text_color}}">Info <i class="fas fa-info-circle" style="font-size:16px;"></i></button>
                                                         <div id="help_contact_us" style="display:none; background: #f7f7f7; border:1px solid #cdcdcd; padding:15px; overflow:auto;">
@@ -6211,7 +6207,7 @@
                                         <span>Max.Width: 1100px, Height: 360px</span><br/>
 
                                         <div class="input-container-search-ticket">
-                                            <input type="file" style="" name="image_carousel" id="image_carousel" accept="image/*" onchange="file_validation('image_carousel');"/>
+                                            <input type="file" style="" name="image_carousel" id="image_carousel" accept="image/*" onchange="file_validation('image_carousel'); get_url_image_file(window.URL.createObjectURL(this.files[0]), 'dynamic_img', 'img');"/>
                                         </div>
                                         <br/><span id="size_image_carousel"></span><br/>
                                         <img src="{{static_path}}images/no pic/no-image-available.jpg" id="dynamic_img" alt="Dynamic Image" style="width:100%; max-width:400px; margin-bottom:15px;">
@@ -6543,7 +6539,7 @@
                                                         <h6>Recommended Size: </h6>
                                                         <i>Max.Width: 150px, Max.Height: 40px</i><br/>
                                                         <div class="input-container-search-ticket mb-2">
-                                                            <input type="file" name="fileToUpload" id="fileToUpload" accept="image/*" onchange="file_validation('fileToUpload'); get_url_image_file(window.URL.createObjectURL(this.files[0]), 'preview_logo', 'img');"/>
+                                                            <input type="file" name="fileToUpload" id="fileToUpload" accept="image/*" onchange="file_validation('fileToUpload'); get_url_image_file(window.URL.createObjectURL(this.files[0]), 'preview_logo', 'img'); get_url_image_file(window.URL.createObjectURL(this.files[0]), 'preview_logo_ori', 'img');"/>
                                                         </div>
                                                         <span id="size_fileToUpload"></span>
                                                         <button type="button" class="primary-btn" id="help_logo_btn" onclick="preview_show_hide_example('help_logo');" style="color:{{text_color}}">Info <i class="fas fa-info-circle" style="font-size:16px;"></i></button>
@@ -6572,7 +6568,7 @@
                                                         <h6>Recommended Size: </h6>
                                                         <i>Width: 50px, Height: 50px</i><br/>
                                                         <div class="input-container-search-ticket mb-2">
-                                                            <input type="file" name="filelogoicon" id="filelogoicon" accept="image/*" onchange="file_validation('filelogoicon');"/>
+                                                            <input type="file" name="filelogoicon" id="filelogoicon" accept="image/*" onchange="file_validation('filelogoicon'); get_url_image_file(window.URL.createObjectURL(this.files[0]), 'preview_logo_title', 'img');"/>
                                                         </div>
                                                         <span id="size_filelogoicon"></span>
                                                         <button type="button" class="primary-btn" id="help_logo_title_btn" onclick="preview_show_hide_example('help_logo_title');" style="color:{{text_color}}">Info <i class="fas fa-info-circle" style="font-size:16px;"></i></button>
@@ -6626,13 +6622,12 @@
                                                         {%if background %}
                                                         <img id="preview_home_ori" src="{{background}}" alt="Home Background" style="width:100%; height:auto;"/>
                                                         {% endif %}
-                                                        <br/><h6 class="mt-2">*<i>Result check on tab Preview <i class="fas fa-eye"></i><br/>(Except Template 6)</i> </h6>
                                                     </div>
                                                     <div class="col-lg-8">
                                                         <h6>Recommended Size: </h6>
                                                         <span>Width: 1920px, Height: 1080px</span><br/>
                                                         <div class="input-container-search-ticket mb-2">
-                                                            <input type="file" name="fileBackgroundHome" id="fileBackgroundHome" accept="image/*, video/*" onchange="file_validation('fileBackgroundHome'); get_url_image_file(window.URL.createObjectURL(this.files[0]), 'preview_tab_background', 'background_image');"/>
+                                                            <input type="file" name="fileBackgroundHome" id="fileBackgroundHome" accept="image/*, video/*" onchange="file_validation('fileBackgroundHome'); get_url_image_file(window.URL.createObjectURL(this.files[0]), 'preview_tab_background', 'background_image'); get_url_image_file(window.URL.createObjectURL(this.files[0]), 'preview_home_ori', 'img');"/>
                                                         </div>
                                                         <span id="size_fileBackgroundHome"></span>
                                                         <button type="button" class="primary-btn" id="help_home_bg_btn" onclick="preview_show_hide_example('help_home_bg');" style="color:{{text_color}}">Info <i class="fas fa-info-circle" style="font-size:16px;"></i></button>
@@ -6734,19 +6729,19 @@
                                                     <img src="{{static_path}}img/preview/HomeTemplate1.png" alt="Preview Template" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
                                                     {% elif template == 2%}
                                                     <h6 class="mb-3">Template 2</h6>
-                                                    <img src="{{static_path}}img/preview/HomeTemplate2.png" alt="Preview Template" style="height:auto; width:100%; border:1px solid #cdcdcd;"/>
+                                                    <img src="{{static_path}}img/preview/HomeTemplate2.png" alt="Preview Template" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
                                                     {% elif template == 3%}
                                                     <h6 class="mb-3">Template 3</h6>
-                                                    <img src="{{static_path}}img/preview/HomeTemplate3.png" alt="Preview Template" style="height:auto; width:100%; border:1px solid #cdcdcd;"/>
+                                                    <img src="{{static_path}}img/preview/HomeTemplate3.png" alt="Preview Template" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
                                                     {% elif template == 4%}
                                                     <h6 class="mb-3">Template 4</h6>
-                                                    <img src="{{static_path}}img/preview/HomeTemplate4.png" alt="Preview Template" style="height:auto; width:100%; border:1px solid #cdcdcd;"/>
+                                                    <img src="{{static_path}}img/preview/HomeTemplate4.png" alt="Preview Template" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
                                                     {% elif template == 5%}
                                                     <h6 class="mb-3">Template 5</h6>
-                                                    <img src="{{static_path}}img/preview/HomeTemplate5.png" alt="Preview Template" style="height:auto; width:100%; border:1px solid #cdcdcd;"/>
+                                                    <img src="{{static_path}}img/preview/HomeTemplate5.png" alt="Preview Template" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
                                                     {% elif template == 6%}
                                                     <h6 class="mb-3">Template 6</h6>
-                                                    <img src="{{static_path}}img/preview/HomeTemplate6.png" alt="Preview Template" style="height:auto; width:100%; border:1px solid #cdcdcd;"/>
+                                                    <img src="{{static_path}}img/preview/HomeTemplate6.png" alt="Preview Template" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
                                                     {% endif %}
                                                 </div>
                                             </div>
@@ -7249,12 +7244,12 @@
                                                         <div class="col-lg-12" style="padding-bottom:15px; border-bottom: 1px solid #cdcdcd;">
                                                             <h6>Note: </h6><br/>
                                                             <div style="margin-bottom:10px;"><span style="font-size:15px; font-weight:bold; color:{{color}}">Just Title</span> <span style="font-size:14px; font-weight:500;"> Only used for titles such as company names or others, example: ORBISWAY</span></div>
-                                                            <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/phone.png" alt="Phone"><span style="font-size:14px; font-weight:500;"> Phone (don't use anything symbol), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">6231566200 or 031566200</span><br/>
-                                                            <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/whatsapp.png" alt="Whatsapp"><span style="font-size:14px; font-weight:500;">Whatsapp (use code country on first number), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">6231566200 </span><br/>
+                                                            <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/phone.png" alt="Phone"><span style="font-size:14px; font-weight:500;"> Phone (don't use anything symbol), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">6231123456 or 031123456</span><br/>
+                                                            <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/whatsapp.png" alt="Whatsapp"><span style="font-size:14px; font-weight:500;">Whatsapp (use code country on first number), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">6231123456 </span><br/>
                                                             <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/line.png" alt="Line"><span style="font-size:14px; font-weight:500;">Line (use @), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">@youridline </span><br/>
                                                             <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/telegram.png" alt="Telegram"><span style="font-size:14px; font-weight:500;">Telegram (don't use @), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">youridtelegram </span><br/>
                                                             <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/email.png" alt="Email"><span style="font-size:14px; font-weight:500;">Email, example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">youremail@example.com </span><br/>
-                                                            <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/phone.png" alt="Phone"><span style="font-size:14px; font-weight:500;"> Phone (don't use anything symbol), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">6231566200 or 031566200</span><br/>
+                                                            <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/phone.png" alt="Phone"><span style="font-size:14px; font-weight:500;"> Phone (don't use anything symbol), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">6231123456 or 031123456</span><br/>
                                                             <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/other.png" alt="Other"/><span style="font-size:14px; font-weight:500;"> Only used if the desired contact option is not available</span><br/>
                                                             <button type="button" class="primary-btn mt-3" id="help_contact_us_btn" onclick="preview_show_hide_example('help_contact_us');" style="color:{{text_color}}">Info <i class="fas fa-info-circle" style="font-size:16px;"></i></button>
                                                             <div id="help_contact_us" style="display:none; background: #f7f7f7; border:1px solid #cdcdcd; padding:15px; overflow:auto;">
@@ -7809,7 +7804,7 @@
                                             <span>Max.Width: 1100px, Height: 360px</span><br/>
 
                                             <div class="input-container-search-ticket">
-                                                <input type="file" style="" name="image_carousel" id="image_carousel" accept="image/*" onchange="file_validation('image_carousel');"/>
+                                                <input type="file" style="" name="image_carousel" id="image_carousel" accept="image/*" onchange="file_validation('image_carousel'); get_url_image_file(window.URL.createObjectURL(this.files[0]), 'dynamic_img', 'img');"/>
                                             </div>
                                             <br/><span id="size_image_carousel"></span><br/>
                                             <img src="{{static_path}}images/no pic/no-image-available.jpg" id="dynamic_img" alt="Dynamic Image" style="width:100%; max-width:400px; margin-bottom:15px;">
@@ -8348,7 +8343,7 @@
                                                     <h6>Recommended Size: </h6>
                                                     <i>Max.Width: 150px, Max.Height: 40px</i><br/>
                                                     <div class="input-container-search-ticket mb-2">
-                                                        <input type="file" name="fileToUpload" id="fileToUpload" accept="image/*" onchange="file_validation('fileToUpload'); get_url_image_file(window.URL.createObjectURL(this.files[0]), 'preview_logo', 'img');"/>
+                                                        <input type="file" name="fileToUpload" id="fileToUpload" accept="image/*" onchange="file_validation('fileToUpload'); get_url_image_file(window.URL.createObjectURL(this.files[0]), 'preview_logo', 'img'); get_url_image_file(window.URL.createObjectURL(this.files[0]), 'preview_logo_ori', 'img');"/>
                                                     </div>
                                                     <span id="size_fileToUpload"></span>
                                                     <button type="button" class="primary-btn" id="help_logo_btn" onclick="preview_show_hide_example('help_logo');" style="color:{{text_color}}">Info <i class="fas fa-info-circle" style="font-size:16px;"></i></button>
@@ -8377,7 +8372,7 @@
                                                     <h6>Recommended Size: </h6>
                                                     <i>Width: 50px, Height: 50px</i><br/>
                                                     <div class="input-container-search-ticket mb-2">
-                                                        <input type="file" name="filelogoicon" id="filelogoicon" accept="image/*" onchange="file_validation('filelogoicon');"/>
+                                                        <input type="file" name="filelogoicon" id="filelogoicon" accept="image/*" onchange="file_validation('filelogoicon'); get_url_image_file(window.URL.createObjectURL(this.files[0]), 'preview_logo_title', 'img');"/>
                                                     </div>
                                                     <span id="size_filelogoicon"></span>
                                                     <button type="button" class="primary-btn" id="help_logo_title_btn" onclick="preview_show_hide_example('help_logo_title');" style="color:{{text_color}}">Info <i class="fas fa-info-circle" style="font-size:16px;"></i></button>
@@ -8431,7 +8426,6 @@
                                                     {%if background %}
                                                     <img id="preview_home_ori" src="{{background}}" alt="Home Background" style="width:100%; height:auto;"/>
                                                     {% endif %}
-                                                    <br/><h6 class="mt-2">*<i>Result check on tab Preview <i class="fas fa-eye"></i><br/>(Except Template 6)</i> </h6>
                                                 </div>
                                                 <div class="col-lg-8">
                                                     <h6>Recommended Size: </h6>
@@ -8539,19 +8533,19 @@
                                                 <img src="{{static_path}}img/preview/HomeTemplate1.png" alt="Preview Template" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
                                                 {% elif template == 2%}
                                                 <h6 class="mb-3">Template 2</h6>
-                                                <img src="{{static_path}}img/preview/HomeTemplate2.png" alt="Preview Template" style="height:auto; width:100%; border:1px solid #cdcdcd;"/>
+                                                <img src="{{static_path}}img/preview/HomeTemplate2.png" alt="Preview Template" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
                                                 {% elif template == 3%}
                                                 <h6 class="mb-3">Template 3</h6>
-                                                <img src="{{static_path}}img/preview/HomeTemplate3.png" alt="Preview Template" style="height:auto; width:100%; border:1px solid #cdcdcd;"/>
+                                                <img src="{{static_path}}img/preview/HomeTemplate3.png" alt="Preview Template" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
                                                 {% elif template == 4%}
                                                 <h6 class="mb-3">Template 4</h6>
-                                                <img src="{{static_path}}img/preview/HomeTemplate4.png" alt="Preview Template" style="height:auto; width:100%; border:1px solid #cdcdcd;"/>
+                                                <img src="{{static_path}}img/preview/HomeTemplate4.png" alt="Preview Template" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
                                                 {% elif template == 5%}
                                                 <h6 class="mb-3">Template 5</h6>
-                                                <img src="{{static_path}}img/preview/HomeTemplate5.png" alt="Preview Template" style="height:auto; width:100%; border:1px solid #cdcdcd;"/>
+                                                <img src="{{static_path}}img/preview/HomeTemplate5.png" alt="Preview Template" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
                                                 {% elif template == 6%}
                                                 <h6 class="mb-3">Template 6</h6>
-                                                <img src="{{static_path}}img/preview/HomeTemplate6.png" alt="Preview Template" style="height:auto; width:100%; border:1px solid #cdcdcd;"/>
+                                                <img src="{{static_path}}img/preview/HomeTemplate6.png" alt="Preview Template" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>
                                                 {% endif %}
                                             </div>
                                         </div>
@@ -8565,10 +8559,10 @@
                                                     <h6>{% trans 'Header Login Background Color' %}</h6>
                                                     <div class="input-container-search-ticket">
                                                         <div class="form-select">
-                                                            <input class="jscolor nice-select-default" value="{{bg_login_background_color}}" name="tab_login_background" id="tab_login_background" onchange="render_preview_login_tab();">
+                                                            <input class="jscolor nice-select-default" style="width:100%;" value="{{bg_login_background_color}}" name="tab_login_background" id="tab_login_background" onchange="render_preview_login_tab();">
                                                         </div>
                                                         <button type="button" title="No Fill" class="primary-delete-date" onclick="no_fill('tab_login'); render_preview_login_tab();"><i class="fas fa-tint-slash" style="color:{{color}};"></i></button>
-                                                        <label class="check_box_custom" style="margin-top:auto;margin-bottom:auto;">
+                                                        <label class="check_box_custom" style="margin-top:15px;">
                                                             <span>Opacity</span>
                                                             <input type="checkbox" onchange="render_preview_login_tab();" id="tab_login_background_checkbox" name="tab_login_background_checkbox" {%if checkbox_login_background_color == 'B3'%} checked="checked" {% endif %} />
                                                             <span class="check_box_span_custom"></span>
@@ -8579,10 +8573,10 @@
                                                     <h6>{% trans 'Tab Box Color' %}</h6>
                                                     <div class="input-container-search-ticket">
                                                         <div class="form-select">
-                                                            <input class="jscolor nice-select-default" value="{{bg_tab_color}}" name="bg_tab_pick" id="bg_tab_pick" onchange="render_preview_color_tab();">
+                                                            <input class="jscolor nice-select-default" style="width:100%;" value="{{bg_tab_color}}" name="bg_tab_pick" id="bg_tab_pick" onchange="render_preview_color_tab();">
                                                         </div>
                                                         <button type="button" title="No Fill" class="primary-delete-date" onclick="no_fill('tab_bg'); render_preview_color_tab();"><i class="fas fa-tint-slash" style="color:{{color}};"></i></button>
-                                                        <label class="check_box_custom" style="margin-top:auto;margin-bottom:auto;">
+                                                        <label class="check_box_custom" style="margin-top:15px;">
                                                             <span>Opacity</span>
                                                             <input type="checkbox" id="bg_tab_pick_checkbox" name="bg_tab_pick_checkbox" onchange="render_preview_color_tab();" {%if checkbox_tab_color == 'B3'%} checked="checked" {% endif %} />
                                                             <span class="check_box_span_custom"></span>
@@ -8603,19 +8597,19 @@
                                                 <div class="col-lg-12">
                                                     <h6>{% trans 'Header Login Text Color' %}</h6>
                                                     <div class="form-select">
-                                                        <input class="jscolor nice-select-default" value="{{text_color_login}}" name="text_pick_login" id="text_pick_login" onchange="render_preview_login_tab();">
+                                                        <input class="jscolor nice-select-default" style="width:100%;" value="{{text_color_login}}" name="text_pick_login" id="text_pick_login" onchange="render_preview_login_tab();">
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-12">
                                                     <h6>{% trans 'Text Color' %}</h6>
                                                     <div class="form-select">
-                                                        <input class="jscolor nice-select-default" value="{{text_color}}" name="text_pick" id="text_pick" onchange="render_preview_color_tab();">
+                                                        <input class="jscolor nice-select-default" style="width:100%;" value="{{text_color}}" name="text_pick" id="text_pick" onchange="render_preview_color_tab();">
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-12">
                                                     <h6>{% trans 'Button Color' %}</h6>
                                                     <div class="form-select">
-                                                        <input class="jscolor nice-select-default" value="{{color}}" name="color_pick" id="color_pick" onchange="render_preview_color_tab();">
+                                                        <input class="jscolor nice-select-default" style="width:100%;" value="{{color}}" name="color_pick" id="color_pick" onchange="render_preview_color_tab();">
                                                     </div>
                                                     <span>*Include Multiple Title & Login Button</span>
                                                 </div>
@@ -9043,12 +9037,12 @@
                                                     <div class="col-lg-12" style="padding-bottom:15px; border-bottom: 1px solid #cdcdcd;">
                                                         <h6>Note: </h6><br/>
                                                         <div style="margin-bottom:10px;"><span style="font-size:15px; font-weight:bold; color:{{color}}">Just Title</span> <span style="font-size:14px; font-weight:500;"> Only used for titles such as company names or others, example: ORBISWAY</span></div>
-                                                        <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/phone.png" alt="Phone"><span style="font-size:14px; font-weight:500;"> Phone (don't use anything symbol), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">6231566200 or 031566200</span><br/>
-                                                        <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/whatsapp.png" alt="Whatsapp"><span style="font-size:14px; font-weight:500;">Whatsapp (use code country on first number), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">6231566200 </span><br/>
+                                                        <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/phone.png" alt="Phone"><span style="font-size:14px; font-weight:500;"> Phone (don't use anything symbol), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">6231123456 or 031123456</span><br/>
+                                                        <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/whatsapp.png" alt="Whatsapp"><span style="font-size:14px; font-weight:500;">Whatsapp (use code country on first number), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">6231123456 </span><br/>
                                                         <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/line.png" alt="Line"><span style="font-size:14px; font-weight:500;">Line (use @), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">@youridline </span><br/>
                                                         <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/telegram.png" alt="Telegram"><span style="font-size:14px; font-weight:500;">Telegram (don't use @), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">youridtelegram </span><br/>
                                                         <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/email.png" alt="Email"><span style="font-size:14px; font-weight:500;">Email, example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">youremail@example.com </span><br/>
-                                                        <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/phone.png" alt="Phone"><span style="font-size:14px; font-weight:500;"> Phone (don't use anything symbol), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">6231566200 or 031566200</span><br/>
+                                                        <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/phone.png" alt="Phone"><span style="font-size:14px; font-weight:500;"> Phone (don't use anything symbol), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">6231123456 or 031123456</span><br/>
                                                         <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/other.png" alt="Other"/><span style="font-size:14px; font-weight:500;"> Only used if the desired contact option is not available</span><br/>
                                                         <button type="button" class="primary-btn mt-3" id="help_contact_us_btn" onclick="preview_show_hide_example('help_contact_us');" style="color:{{text_color}}">Info <i class="fas fa-info-circle" style="font-size:16px;"></i></button>
                                                         <div id="help_contact_us" style="display:none; background: #f7f7f7; border:1px solid #cdcdcd; padding:15px; overflow:auto;">
@@ -9605,7 +9599,7 @@
                                         <h6>Recommended Size: </h6>
                                         <span>Max.Width: 1100px, Height: 360px</span><br/>
                                         <div class="input-container-search-ticket">
-                                            <input type="file" style="" name="image_carousel" id="image_carousel" accept="image/*" onchange="file_validation('image_carousel');"/>
+                                            <input type="file" style="" name="image_carousel" id="image_carousel" accept="image/*" onchange="file_validation('image_carousel'); get_url_image_file(window.URL.createObjectURL(this.files[0]), 'dynamic_img', 'img');"/>
                                         </div>
                                         <br/><span id="size_image_carousel"></span><br/>
                                         <img src="{{static_path}}images/no pic/no-image-available.jpg" id="dynamic_img" alt="Dynamic Image" style="width:100%; max-width:400px; margin-bottom:15px;">

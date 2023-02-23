@@ -250,277 +250,128 @@ function get_banner(type,page){
             if(msg.result.error_code == 0){
                 document.getElementById(type).innerHTML = '';
                 text = '';
-                cek_available_provider = 0;
                 if(page == 'home'){
-                    if(msg.result.response.length == 0)
+                    if(msg.result.response.length == 0){
                         document.getElementById(type).style.display = 'none';
+                    }
                     if(type == 'big_banner'){
                         banner_list['big_banner'] = msg.result.response;
-                        if(template != 6){
-                            text+=`<div class="owl-carousel-banner owl-theme">`;
-                            for(i in msg.result.response){
+                        text+=`<div class="owl-carousel-banner owl-theme">`;
+                        for(i in msg.result.response){
+                            if(msg.result.response[i].active == true){
                                 text+=`
                                 <div class="item">
                                     <center>
-                                        <img style="cursor:pointer" src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" onclick="banner_click('big_banner','`+msg.result.response[i].seq_id+`')" />
+                                        <img class="owl-lazy" style="cursor:pointer" data-src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" onclick="banner_click('big_banner','`+msg.result.response[i].seq_id+`')" />
                                     </center>
                                 </div>`;
                             }
-                            text+=`</div>`;
                         }
-                        else{
-                            var cek_active = 0;
-                            for(i in msg.result.response){
-                                if(msg.result.response[i].active == true){
-                                    cek_active = 1;
-                                }
-                            }
-
-                            text+=`
-                                <div class="csslider infinity" id="slider1">`;
-                                if(cek_active == 1){
-                                    for(i in msg.result.response){
-                                        temp_slider = parseInt(i)+1;
-                                        if(temp_slider == 1){
-                                            text+=`<input type="radio" name="slides" checked="checked" id="slides_`+temp_slider+`" />`;
-                                        }else{
-                                            text+=`<input type="radio" name="slides" id="slides_`+temp_slider+`" />`;
-                                        }
-                                    }
-                                }else{
-                                    text+=`<input type="radio" name="slides" checked="checked" id="slides_1" />`;
-                                }
-                                text+=`<ul>`;
-                                if(cek_active == 1){
-                                    for(i in msg.result.response){
-                                        temp_slider = parseInt(i)+1;
-                                        text+=`
-                                        <li>
-                                            <div class="banner-top`+temp_slider+`" id="banner-top`+temp_slider+`">
-                                                <div class="overlay"></div>
-                                            </div>
-                                        </li>`;
-                                    }
-                                }else{
-                                    text+=`
-                                    <li>
-                                        <div class="banner-top1" id="banner-top1">
-                                            <div class="overlay"></div>
-                                        </div>
-                                    </li>`;
-                                }
-                                text+=`</ul>
-                                <div class="arrows">`;
-                                if(cek_active == 1){
-                                    for(i in msg.result.response){
-                                        temp_slider = parseInt(i)+1;
-                                        text+=`
-                                            <label for="slides_`+temp_slider+`"></label>
-                                        `;
-                                    }
-                                }
-                                text+=`</div>`;
-                            }
                         text+=`</div>`;
                     }
                     else if(type == 'small_banner'){
-                        var cek_active = 0;
-                        for(i in msg.result.response){
-                            if(msg.result.response[i].active == true){
-                                cek_active = 1;
-                            }
-                        }
-
                         banner_list['small_banner'] = msg.result.response;
                         if(template == 1){
                             text+=`
-                            <section class="popular-destination-area section-gap" style="z-index:0; position:relative;">
-                                <div class="container">
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <div class="menu-content">
-                                                <div class="title text-center">
-                                                    <h1>HOT DEALS</h1>
-                                                </div>
-                                                <br/>
-                                            </div>
-                                            <div class="owl-carousel-suggest owl-theme">`;
-                                            //<div style="background:red; position:absolute; right:0px; padding:5px; z-index:10;">
-                                            //    <h5 style="color:`+text_color+`;">SOLD OUT BRO</h5>
-                                            //</div>
-                                            for(i in msg.result.response){
-                                                text+=`
-                                                <div class="item">
-                                                    <div class="single-destination relative">
-                                                        <div class="thumb relative">
-                                                            <img style="cursor:pointer;" src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" onclick="banner_click('small_banner','`+msg.result.response[i].seq_id+`')"/>
-                                                        </div>
-                                                    </div>
-                                                </div>`;
-                                            }
-                                            text+=`</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </section>`;
-                        }else if(template == 2){
-                            text+=`
-                            <section class="roberto-service-area" style="z-index:0; background:white;">
-                                <div class="container">
-                                    <div class="row">
-                                        <div class="col-xs-12">
-                                            <div class="section-heading text-center wow fadeInUp" data-wow-delay="100ms" style="margin-bottom:20px;">
-                                                <h1>HOT DEALS</h1>
-                                            </div>
-                                            <div class="owl-carousel-suggest owl-theme">`;
-                                            //<div style="background:red; position:absolute; right:0px; padding:5px; z-index:10;">
-                                            //    <h5 style="color:`+text_color+`;">SOLD OUT BRO</h5>
-                                            //</div>
-                                            for(i in msg.result.response){
-                                                text+=`
-                                                <div class="item">
-                                                    <div class="single-destination relative">
-                                                        <div class="thumb relative">
-                                                            <img style="cursor:pointer;" src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" onclick="banner_click('small_banner','`+msg.result.response[i].seq_id+`')"/>
-                                                        </div>
-                                                    </div>
-                                                </div>`;
-                                            }
-                                            text+=`</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </section>`;
-                        }else if(template == 3){
-                            text+=`
-                            <section class="feature-area section-gap" id="service">
-                                <div class="container">
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <div class="row d-flex justify-content-center">
-                                                <div class="col-md-8 pb-20 header-text">
-                                                    <h1>HOT DEALS</h1>
-                                                </div>
-                                            </div>
-                                            <div class="owl-carousel-suggest owl-theme">`;
-                                            //<div style="background:red; position:absolute; right:0px; padding:5px; z-index:10;">
-                                            //    <h5 style="color:`+text_color+`;">SOLD OUT BRO</h5>
-                                            //</div>
-                                            for(i in msg.result.response){
-                                                text+=`
-                                                <div class="item">
-                                                    <div class="single-destination relative">
-                                                        <div class="thumb relative">
-                                                            <img style="cursor:pointer;" src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" onclick="banner_click('small_banner','`+msg.result.response[i].seq_id+`')"/>
-                                                        </div>
-                                                    </div>
-                                                </div>`;
-                                            }
-                                            text+=`</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </section>`;
-                        }else if(template == 4){
-                            text+=`
-                            <div class="site-section" style="background: #f7f7f7;">
-                                <div class="container">
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <div class="row justify-content-center mb-5">
-                                                <div class="col-md-7 text-center border-primary">
-                                                    <h1 class="font-weight-light text-primary" style="color:black !important">HOT DEALS</h1>
-                                                </div>
-                                            </div>
-                                            <div class="owl-carousel-suggest owl-theme">`;
-                                            //<div style="background:red; position:absolute; right:0px; padding:5px; z-index:10;">
-                                            //    <h5 style="color:`+text_color+`;">SOLD OUT BRO</h5>
-                                            //</div>
-                                            for(i in msg.result.response){
-                                                text+=`
-                                                <div class="item">
-                                                    <div class="single-destination relative">
-                                                        <div class="thumb relative">
-                                                            <img style="cursor:pointer;" src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" onclick="banner_click('small_banner','`+msg.result.response[i].seq_id+`')"/>
-                                                        </div>
-                                                    </div>
-                                                </div>`;
-                                            }
-                                            text+=`</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>`;
-                        }else if(template == 5){
-                            text+=`
-                            <section class="popular-destination-area section-gap" style="z-index:0; position:relative;">
-                                <div class="container">
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <div class="menu-content">
-                                                <div class="title text-center">
-                                                    <h1>HOT DEALS</h1>
-                                                </div>
-                                                <br/>
-                                            </div>
-                                            <div class="owl-carousel-suggest owl-theme">`;
-                                            //<div style="background:red; position:absolute; right:0px; padding:5px; z-index:10;">
-                                            //    <h5 style="color:`+text_color+`;">SOLD OUT BRO</h5>
-                                            //</div>
-                                            for(i in msg.result.response){
-                                                text+=`
-                                                <div class="item">
-                                                    <div class="single-destination relative">
-                                                        <div class="thumb relative">
-                                                            <img style="cursor:pointer;" src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" onclick="banner_click('small_banner','`+msg.result.response[i].seq_id+`')"/>
-                                                        </div>
-                                                    </div>
-                                                </div>`;
-                                            }
-                                            text+=`</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </section>`;
-                        }else if(template == 6){
-                            if(cek_active == 1){
-                                text+=`
-                                <section class="about">
-                                    <div class="container">
-                                        <div class="row">
-                                            <div class="col-lg-12">`;
-                                                text+=`
-                                                <div class="fetured-info py-lg-3 py-3 mb-3">
-                                                    <h3 class="text-center">
-                                                        HOT DEALS
-                                                    </h3>
-                                                </div>
-                                                <div class="owl-carousel-suggest owl-theme">`;
-                                                for(i in msg.result.response){
-                                                    text+=`
-                                                    <div class="item">
-                                                        <div class="single-destination relative">
-                                                            <div class="thumb relative">
-                                                                <img style="cursor:pointer;" src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" onclick="banner_click('small_banner','`+msg.result.response[i].seq_id+`')"/>
-                                                            </div>
-                                                        </div>
-                                                    </div>`;
-                                                }
-                                                text+=`</div>`;
-                                            text+=`
-                                        </div>
-                                    </div>
-                                </section>`;
+                            <div class="owl-carousel-suggest owl-theme">`;
+                            for(i in msg.result.response){
+                                if(msg.result.response[i].active == true){
+                                    text+=`
+                                    <div class="item">
+                                        <img class="owl-lazy" style="cursor:pointer;" data-src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" onclick="banner_click('small_banner','`+msg.result.response[i].seq_id+`')"/>
+                                    </div>`;
+                                }
                             }
+                            text+=`</div>`;
+                        }
+                        else if(template == 2){
+                            text+=`
+                            <div class="owl-carousel-suggest owl-theme">`;
+                            for(i in msg.result.response){
+                                if(msg.result.response[i].active == true){
+                                    text+=`
+                                    <div class="item">
+                                        <div class="single-destination relative">
+                                            <div class="thumb relative">
+                                                <img class="owl-lazy" style="cursor:pointer;" data-src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" onclick="banner_click('small_banner','`+msg.result.response[i].seq_id+`')"/>
+                                            </div>
+                                        </div>
+                                    </div>`;
+                                }
+                            }
+                            text+=`</div>`;
+                        }
+                        else if(template == 3){
+                            text+=`
+                            <div class="owl-carousel-suggest owl-theme">`;
+                            for(i in msg.result.response){
+                                if(msg.result.response[i].active == true){
+                                    text+=`
+                                    <div class="item">
+                                        <div class="single-destination relative">
+                                            <div class="thumb relative">
+                                                <img class="owl-lazy" style="cursor:pointer;" data-src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" onclick="banner_click('small_banner','`+msg.result.response[i].seq_id+`')"/>
+                                            </div>
+                                        </div>
+                                    </div>`;
+                                }
+                            }
+                            text+=`</div>`;
+                        }
+                        else if(template == 4){
+                            text+=`
+                            <div class="owl-carousel-suggest owl-theme">`;
+                            for(i in msg.result.response){
+                                if(msg.result.response[i].active == true){
+                                    text+=`
+                                    <div class="item">
+                                        <div class="single-destination relative">
+                                            <div class="thumb relative">
+                                                <img class="owl-lazy" style="cursor:pointer;" data-src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" onclick="banner_click('small_banner','`+msg.result.response[i].seq_id+`')"/>
+                                            </div>
+                                        </div>
+                                    </div>`;
+                                }
+                            }
+                            text+=`</div>`;
+                        }
+                        else if(template == 5){
+                            text+=`
+                            <div class="owl-carousel-suggest owl-theme">`;
+                            for(i in msg.result.response){
+                                if(msg.result.response[i].active == true){
+                                    text+=`
+                                    <div class="item">
+                                        <div class="single-destination relative">
+                                            <div class="thumb relative">
+                                                <img class="owl-lazy" style="cursor:pointer;" data-src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" onclick="banner_click('small_banner','`+msg.result.response[i].seq_id+`')"/>
+                                            </div>
+                                        </div>
+                                    </div>`;
+                                }
+                            }
+                            text+=`</div>`;
+                        }
+                        else if(template == 6){
+                            text+=`
+                            <div class="owl-carousel-suggest owl-theme">`;
+                            for(i in msg.result.response){
+                                if(msg.result.response[i].active == true){
+                                    text+=`
+                                    <div class="item">
+                                        <div class="single-destination relative">
+                                            <div class="thumb relative">
+                                                <img class="owl-lazy" style="cursor:pointer;" data-src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" onclick="banner_click('small_banner','`+msg.result.response[i].seq_id+`')"/>
+                                            </div>
+                                        </div>
+                                    </div>`;
+                                }
+                            }
+                            text+=`</div>`;
                         }
                     }
                     else if(type == 'promotion'){
                         banner_list['promotion'] = msg.result.response;
-//                    <div class="col-lg-12">
-//                                            <center>
-//                                                <h2 class="modal-title animated pulse infinite" style="color:#ffffff;"> PROMOTIONS! </h2>
-//                                            </center>
-//                                        </div>
                         text+=`
                         <div class="modal fade" id="myModalPromotion" role="dialog">
                             <div class="modal-dialog">
@@ -538,12 +389,14 @@ function get_banner(type,page){
                                                 <div class="col-lg-12">`;
                                                     text+=`<div class="owl-carousel-promotion owl-theme">`;
                                                     for(i in msg.result.response){
-                                                        text+=`
-                                                        <div class="item">
-                                                            <center>
-                                                                <img src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" style="max-width:500px; max-height:500px; cursor:pointer;" onclick="banner_click('promotion','`+msg.result.response[i].seq_id+`')"/>
-                                                            </center>
-                                                        </div>`;
+                                                        if(msg.result.response[i].active == true){
+                                                            text+=`
+                                                            <div class="item">
+                                                                <center>
+                                                                    <img class="owl-lazy" data-src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" style="max-width:500px; max-height:500px; cursor:pointer;" onclick="banner_click('promotion','`+msg.result.response[i].seq_id+`')"/>
+                                                                </center>
+                                                            </div>`;
+                                                        }
                                                     }
                                                     text+=`</div>`;
                                                 text+=`
@@ -663,282 +516,141 @@ function get_banner(type,page){
                 }
 
                 else{
-                    var cek_active = 0;
-                    for(i in msg.result.response){
-                        if(msg.result.response[i].provider_type == page){
-                            cek_available_provider = 1;
-                            if(msg.result.response[i].active == true){
-                                cek_active = 1;
-                            }
-                        }
-                    }
-
                     if(msg.result.response.length == 0)
                         document.getElementById(type).style.display = 'none';
 
                     if(type == 'big_banner'){
                         banner_list['big_banner'] = msg.result.response;
-                        if(template != 6){
-                            text+=`<div class="owl-carousel-banner owl-theme">`;
-                            for(i in msg.result.response){
-                                text+=`
-                                <div class="item">
-                                    <center>
-                                        <img style="cursor:pointer" src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" onclick="banner_click('big_banner','`+msg.result.response[i].seq_id+`')" />
-                                    </center>
-                                </div>`;
-                            }
-                            text+=`</div>`;
-                        }
-                        else{
-                            text+=`
-                                <div class="csslider infinity" id="slider1">`;
-                                if(cek_active == 1){
-                                    for(i in msg.result.response){
-                                        temp_slider = parseInt(i)+1;
-                                        if(temp_slider == 1){
-                                            text+=`<input type="radio" name="slides" checked="checked" id="slides_`+temp_slider+`" />`;
-                                        }else{
-                                            text+=`<input type="radio" name="slides" id="slides_`+temp_slider+`" />`;
-                                        }
-                                    }
-                                }else{
-                                    text+=`<input type="radio" name="slides" checked="checked" id="slides_1" />`;
-                                }
-                                text+=`<ul>`;
-                                if(cek_active == 1){
-                                    for(i in msg.result.response){
-                                        temp_slider = parseInt(i)+1;
-                                        text+=`
-                                        <li>
-                                            <div class="banner-top`+temp_slider+`" id="banner-top`+temp_slider+`">
-                                                <div class="overlay"></div>
-                                            </div>
-                                        </li>`;
-                                    }
-                                }else{
+                        text+=`<div class="owl-carousel-banner owl-theme">`;
+                        for(i in msg.result.response){
+                            if(msg.result.response[i].provider_type != false){
+                                if(msg.result.response[i].provider_type == page && msg.result.response[i].active == true){
                                     text+=`
-                                    <li>
-                                        <div class="banner-top1" id="banner-top1">
-                                            <div class="overlay"></div>
-                                        </div>
-                                    </li>`;
+                                    <div class="item">
+                                        <center>
+                                            <img class="owl-lazy" style="cursor:pointer" data-src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" onclick="banner_click('big_banner','`+msg.result.response[i].seq_id+`')" />
+                                        </center>
+                                    </div>`;
                                 }
-                                text+=`</ul>
-                                <div class="arrows">`;
-                                if(cek_active == 1){
-                                    for(i in msg.result.response){
-                                        temp_slider = parseInt(i)+1;
-                                        text+=`
-                                            <label for="slides_`+temp_slider+`"></label>
-                                        `;
-                                    }
-                                }
-                                text+=`</div>`;
                             }
+                        }
                         text+=`</div>`;
                     }
                     if(type == 'small_banner'){
-                        //banner_list['small_banner'] = msg.result.response;
-                        if(cek_active == 1){
+                        banner_list['small_banner'] = msg.result.response;
                         if(template == 1){
-                                text+=`
-                                <section class="popular-destination-area section-gap" style="z-index:0; position:relative;">
-                                    <div class="container">
-                                        <div class="row">
-                                            <div class="col-lg-12">
-                                                <div class="menu-content">
-                                                    <div class="title text-center">
-                                                        <h1>HOT DEALS</h1>
-                                                    </div>
-                                                    <br/>
+                            text+=`
+                            <div class="owl-carousel-suggest owl-theme">`;
+                            for(i in msg.result.response){
+                                if(msg.result.response[i].provider_type != false){
+                                    if(msg.result.response[i].provider_type == page && msg.result.response[i].active == true){
+                                        text+=`
+                                        <div class="item">
+                                            <div class="single-destination relative">
+                                                <div class="thumb relative">
+                                                    <img class="owl-lazy" style="cursor:pointer;" data-src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" onclick="banner_click('small_banner','`+msg.result.response[i].seq_id+`')"/>
                                                 </div>
-                                                <div class="owl-carousel-suggest owl-theme">`;
-                                                //<div style="background:red; position:absolute; right:0px; padding:5px; z-index:10;">
-                                                //    <h5 style="color:`+text_color+`;">SOLD OUT BRO</h5>
-                                                //</div>
-                                                for(i in msg.result.response){
-                                                    if(msg.result.response[i].provider_type == page){
-                                                        text+=`
-                                                        <div class="item">
-                                                            <div class="single-destination relative">
-                                                                <div class="thumb relative">
-                                                                    <img style="cursor:pointer;" src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" onclick="banner_click('small_banner','`+msg.result.response[i].seq_id+`')"/>
-                                                                </div>
-                                                            </div>
-                                                        </div>`;
-                                                    }
-                                                }
-                                                text+=`</div>
                                             </div>
-                                        </div>
-                                    </div>
-                                </section>`;
-                            }
-                            else if(template == 2){
-                                text+=`
-                                <section class="roberto-service-area" style="z-index:0; background:white;">
-                                    <div class="container">
-                                        <div class="row">
-                                            <div class="col-xs-12">
-                                                <div class="section-heading text-center wow fadeInUp" data-wow-delay="100ms" style="margin-bottom:20px;">
-                                                    <h1>HOT DEALS</h1>
-                                                </div>
-                                                <div class="owl-carousel-suggest owl-theme">`;
-                                                //<div style="background:red; position:absolute; right:0px; padding:5px; z-index:10;">
-                                                //    <h5 style="color:`+text_color+`;">SOLD OUT BRO</h5>
-                                                //</div>
-                                                for(i in msg.result.response){
-                                                    text+=`
-                                                    <div class="item">
-                                                        <div class="single-destination relative">
-                                                            <div class="thumb relative">
-                                                                <img style="cursor:pointer;" src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" onclick="banner_click('small_banner','`+msg.result.response[i].seq_id+`')"/>
-                                                            </div>
-                                                        </div>
-                                                    </div>`;
-                                                }
-                                                text+=`</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </section>`;
-                            }
-                            else if(template == 3){
-                                text+=`
-                                <section class="feature-area section-gap" id="service">
-                                    <div class="container">
-                                        <div class="row">
-                                            <div class="col-lg-12">
-                                                <div class="row d-flex justify-content-center">
-                                                    <div class="col-md-8 pb-20 header-text">
-                                                        <h1>HOT DEALS</h1>
-                                                    </div>
-                                                </div>
-                                                <div class="owl-carousel-suggest owl-theme">`;
-                                                //<div style="background:red; position:absolute; right:0px; padding:5px; z-index:10;">
-                                                //    <h5 style="color:`+text_color+`;">SOLD OUT BRO</h5>
-                                                //</div>
-                                                for(i in msg.result.response){
-                                                    text+=`
-                                                    <div class="item">
-                                                        <div class="single-destination relative">
-                                                            <div class="thumb relative">
-                                                                <img style="cursor:pointer;" src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" onclick="banner_click('small_banner','`+msg.result.response[i].seq_id+`')"/>
-                                                            </div>
-                                                        </div>
-                                                    </div>`;
-                                                }
-                                                text+=`</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </section>`;
-                            }
-                            else if(template == 4){
-                                text+=`
-                                <div class="site-section" style="background: #f7f7f7;">
-                                    <div class="container">
-                                        <div class="row">
-                                            <div class="col-lg-12">
-                                                <div class="row justify-content-center mb-5">
-                                                    <div class="col-md-7 text-center border-primary">
-                                                        <h1 class="font-weight-light text-primary" style="color:black !important">HOT DEALS</h1>
-                                                    </div>
-                                                </div>
-                                                <div class="owl-carousel-suggest owl-theme">`;
-                                                //<div style="background:red; position:absolute; right:0px; padding:5px; z-index:10;">
-                                                //    <h5 style="color:`+text_color+`;">SOLD OUT BRO</h5>
-                                                //</div>
-                                                for(i in msg.result.response){
-                                                    text+=`
-                                                    <div class="item">
-                                                        <div class="single-destination relative">
-                                                            <div class="thumb relative">
-                                                                <img style="cursor:pointer;" src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" onclick="banner_click('small_banner','`+msg.result.response[i].seq_id+`')"/>
-                                                            </div>
-                                                        </div>
-                                                    </div>`;
-                                                }
-                                                text+=`</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>`;
-                            }
-                            else if(template == 5){
-                                text+=`
-                                <section class="popular-destination-area section-gap" style="z-index:0; position:relative;">
-                                    <div class="container">
-                                        <div class="row">
-                                            <div class="col-lg-12">
-                                                <div class="menu-content">
-                                                    <div class="title text-center">
-                                                        <h1>HOT DEALS</h1>
-                                                    </div>
-                                                    <br/>
-                                                </div>
-                                                <div class="owl-carousel-suggest owl-theme">`;
-                                                //<div style="background:red; position:absolute; right:0px; padding:5px; z-index:10;">
-                                                //    <h5 style="color:`+text_color+`;">SOLD OUT BRO</h5>
-                                                //</div>
-                                                for(i in msg.result.response){
-                                                    text+=`
-                                                    <div class="item">
-                                                        <div class="single-destination relative">
-                                                            <div class="thumb relative">
-                                                                <img style="cursor:pointer;" src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" onclick="banner_click('small_banner','`+msg.result.response[i].seq_id+`')"/>
-                                                            </div>
-                                                        </div>
-                                                    </div>`;
-                                                }
-                                                text+=`</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </section>`;
-                            }
-                            else if(template == 6){
-                                text+=`
-                                <section class="about py-lg-5 py-md-5 py-3" style="background:#f7f7f7;">
-                                    <div class="container">
-                                        <div class="row">
-                                            <div class="col-lg-12">
-                                                <div class="fetured-info py-lg-3 py-3 mb-3">
-                                                    <h3 class="text-center">
-                                                        HOT DEALS
-                                                    </h3>
-                                                </div>
-                                                <div class="owl-carousel-suggest owl-theme">`;
-                                                //<div style="background:red; position:absolute; right:0px; padding:5px; z-index:10;">
-                                                //    <h5 style="color:`+text_color+`;">SOLD OUT BRO</h5>
-                                                //</div>
-                                                var cek_active = 0;
-                                                for(i in msg.result.response){
-                                                    if(msg.result.response[i].active == true){
-                                                        cek_active = 1;
-                                                    }
-                                                }
-                                                if(cek_active == 1){
-                                                    for(i in msg.result.response){
-                                                        if(msg.result.response[i].provider_type == page){
-                                                            text+=`
-                                                            <div class="item">
-                                                                <div class="single-destination relative">
-                                                                    <div class="thumb relative">
-                                                                        <img style="cursor:pointer;" src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" onclick="banner_click('small_banner','`+msg.result.response[i].seq_id+`')"/>
-                                                                    </div>
-                                                                </div>
-                                                            </div>`;
-                                                        }
-                                                    }
-                                                }
-                                                text+=`</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </section>`;
+                                        </div>`;
+                                    }
                                 }
+                            }
+                            text+=`</div>`;
+                        }
+                        else if(template == 2){
+                            text+=`
+                            <div class="owl-carousel-suggest owl-theme">`;
+                            for(i in msg.result.response){
+                                if(msg.result.response[i].provider_type != false){
+                                    if(msg.result.response[i].provider_type == page && msg.result.response[i].active == true){
+                                        text+=`
+                                        <div class="item">
+                                            <div class="single-destination relative">
+                                                <div class="thumb relative">
+                                                    <img class="owl-lazy" style="cursor:pointer;" data-src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" onclick="banner_click('small_banner','`+msg.result.response[i].seq_id+`')"/>
+                                                </div>
+                                            </div>
+                                        </div>`;
+                                    }
+                                }
+                            }
+                            text+=`</div>`;
+                        }
+                        else if(template == 3){
+                            text+=`
+                            <div class="owl-carousel-suggest owl-theme">`;
+                            for(i in msg.result.response){
+                                if(msg.result.response[i].provider_type != false){
+                                    if(msg.result.response[i].provider_type == page && msg.result.response[i].active == true){
+                                        text+=`
+                                        <div class="item">
+                                            <div class="single-destination relative">
+                                                <div class="thumb relative">
+                                                    <img class="owl-lazy" style="cursor:pointer;" data-src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" onclick="banner_click('small_banner','`+msg.result.response[i].seq_id+`')"/>
+                                                </div>
+                                            </div>
+                                        </div>`;
+                                    }
+                                }
+                            }
+                            text+=`</div>`;
+                        }
+                        else if(template == 4){
+                            text+=`
+                            <div class="owl-carousel-suggest owl-theme">`;
+                            for(i in msg.result.response){
+                                if(msg.result.response[i].provider_type != false){
+                                    if(msg.result.response[i].provider_type == page && msg.result.response[i].active == true){
+                                        text+=`
+                                        <div class="item">
+                                            <div class="single-destination relative">
+                                                <div class="thumb relative">
+                                                    <img class="owl-lazy" style="cursor:pointer;" data-src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" onclick="banner_click('small_banner','`+msg.result.response[i].seq_id+`')"/>
+                                                </div>
+                                            </div>
+                                        </div>`;
+                                    }
+                                }
+                            }
+                            text+=`</div>`;
+                        }
+                        else if(template == 5){
+                            text+=`
+                            <div class="owl-carousel-suggest owl-theme">`;
+                            for(i in msg.result.response){
+                                if(msg.result.response[i].provider_type != false){
+                                    if(msg.result.response[i].provider_type == page && msg.result.response[i].active == true){
+                                        text+=`
+                                        <div class="item">
+                                            <div class="single-destination relative">
+                                                <div class="thumb relative">
+                                                    <img class="owl-lazy" style="cursor:pointer;" data-src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" onclick="banner_click('small_banner','`+msg.result.response[i].seq_id+`')"/>
+                                                </div>
+                                            </div>
+                                        </div>`;
+                                    }
+                                }
+                            }
+                            text+=`</div>`;
+                        }
+                        else if(template == 6){
+                            text+=`
+                            <div class="owl-carousel-suggest owl-theme">`;
+                            for(i in msg.result.response){
+                                if(msg.result.response[i].provider_type != false){
+                                    if(msg.result.response[i].provider_type == page && msg.result.response[i].active == true){
+                                        text+=`
+                                        <div class="item">
+                                            <div class="single-destination relative">
+                                                <div class="thumb relative">
+                                                    <img class="owl-lazy" style="cursor:pointer;" data-src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" onclick="banner_click('small_banner','`+msg.result.response[i].seq_id+`')"/>
+                                                </div>
+                                            </div>
+                                        </div>`;
+                                    }
+                                }
+                            }
+                            text+=`</div>`;
                         }
                     }
                 }
@@ -953,7 +665,6 @@ function get_banner(type,page){
                 if(msg.result.response.length > 0){
                     if(page == 'home'){
                         checkCookie();
-
                         if(type == 'big_banner'){
                             if(template != 6){
                                 $('.owl-carousel-banner').owlCarousel({
@@ -964,6 +675,7 @@ function get_banner(type,page){
                                     responsiveClass:true,
                                     dots: true,
                                     lazyLoad:true,
+                                    lazyLoadEager:true,
                                     merge: true,
                                     smartSpeed:500,
                                     center: true,
@@ -977,26 +689,31 @@ function get_banner(type,page){
                                 });
                             }
                             else{
-                                var cek_active = 0;
-                                for(i in msg.result.response){
-                                    if(msg.result.response[i].active == true){
-                                        cek_active = 1;
-                                    }
-                                }
-                                if(cek_active == 1){
-                                    for(i in msg.result.response){
-                                        temp_slider = parseInt(i)+1;
-                                        document.getElementById("banner-top"+temp_slider).style = "background: url('"+msg.result.response[i].url+"'); background-repeat: no-repeat; background-size: 100% 100%;";
-                                    }
-                                }else{
-                                    document.getElementById("banner-top1").style = "background: url('"+background+"'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
-                                }
+                                $('.owl-carousel-banner').owlCarousel({
+                                    loop:false,
+                                    nav: true,
+                                    rewind: false,
+                                    margin: 20,
+                                    responsiveClass:true,
+                                    dots: false,
+                                    lazyLoad:true,
+                                    lazyLoadEager:true,
+                                    merge: true,
+                                    smartSpeed:500,
+                                    center: true,
+                                    autoHeight: false,
+                                    autoWidth: false,
+                                    autoplay: true,
+                                    autoplayTimeout:10000,
+                                    autoplayHoverPause:false,
+                                    items:1,
+                                    navText: ['<i class="fas fa-chevron-left owl-wh"/>', '<i class="fas fa-chevron-right owl-wh"/>'],
+                                });
                             }
                         }
-
                         else if(type == 'small_banner'){
                             $('.owl-carousel-suggest').owlCarousel({
-                                loop:false,
+                                loop:true,
                                 nav: true,
                                 navRewind:true,
                                 rewind: true,
@@ -1006,27 +723,21 @@ function get_banner(type,page){
                                 dots: false,
                                 merge: false,
                                 lazyLoad:true,
-                                smartSpeed:500,
+                                lazyLoadEager:true,
+                                smartSpeed:1000,
                                 autoplay: false,
                                 autoplayTimeout:10000,
                                 autoplayHoverPause:false,
                                 navText: ['<i class="fa fa-chevron-left owl-wh"/>', '<i class="fa fa-chevron-right owl-wh"/>'],
                                 responsive:{
                                     0:{
+                                        items:1,
+                                    },
+                                    576:{
                                         items:2,
-                                        nav:true
                                     },
-                                    480:{
-                                        items:2,
-                                        nav:true
-                                    },
-                                    768:{
-                                        items:3,
-                                        nav:true
-                                    },
-                                    961:{
+                                    992:{
                                         items:4,
-                                        nav:true,
                                     }
                                 }
                             });
@@ -1043,30 +754,13 @@ function get_banner(type,page){
                                 dots: false,
                                 merge: false,
                                 lazyLoad:true,
+                                lazyLoadEager:true,
                                 smartSpeed:500,
                                 autoHeight: false,
                                 autoplay: true,
                                 autoplayTimeout:3000,
                                 autoplayHoverPause:false,
                                 navText: ['<i class="fa fa-chevron-left owl-wh"/>', '<i class="fa fa-chevron-right owl-wh"/>'],
-                                responsive:{
-                                    0:{
-                                        items:1,
-                                        nav:false
-                                    },
-                                    480:{
-                                        items:1,
-                                        nav:false
-                                    },
-                                    768:{
-                                        items:1,
-                                        nav:false
-                                    },
-                                    961:{
-                                        items:1,
-                                        nav:false,
-                                    }
-                                }
                             });
 
                             if(check_modal == "false"){
@@ -1084,198 +778,82 @@ function get_banner(type,page){
                     }
 
                     else{
-                        if(cek_available_provider == 1){
-                            if(type == 'big_banner'){
-                                if(template != 6){
-                                    $('.owl-carousel-banner').owlCarousel({
-                                        loop:true,
-                                        nav: true,
-                                        rewind: false,
-                                        margin: 20,
-                                        responsiveClass:true,
-                                        dots: true,
-                                        lazyLoad:true,
-                                        merge: true,
-                                        smartSpeed:500,
-                                        center: true,
-                                        autoHeight: false,
-                                        autoWidth: false,
-                                        autoplay: true,
-                                        autoplayTimeout:10000,
-                                        autoplayHoverPause:false,
-                                        navText: ['<i class="fas fa-chevron-left owl-wh"/>', '<i class="fas fa-chevron-right owl-wh"/>'],
-                                        responsive:{
-                                            0:{
-                                                items:1,
-                                                nav:true,
-                                                center: false,
-                                                autoWidth: false,
-                                            },
-                                            600:{
-                                                items:1,
-                                                nav:true,
-                                                center: false,
-                                                autoWidth: false,
-                                            },
-                                            1000:{
-                                                items:1,
-                                                nav:true,
-                                            }
-                                        }
-                                    });
-                                }
-
-                                else{
-                                    var cek_active = 0;
-                                    for(i in msg.result.response){
-                                        if(msg.result.response[i].active == true){
-                                            cek_active = 1;
-                                        }
-                                    }
-
-                                    if(cek_active == 1){
-                                        for(i in msg.result.response){
-                                            temp_slider = parseInt(i)+1;
-                                            document.getElementById("banner-top"+temp_slider).style = "background: url('"+msg.result.response[i].url+"'); background-repeat: no-repeat; background-size: 100% 100%;";
-                                        }
-                                    }else{
-                                        document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_airlines.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
-                                    }
-                                }
-                            }
-                            if(type == 'small_banner'){
-                                $('.owl-carousel-suggest').owlCarousel({
-                                    loop:false,
+                        if(type == 'big_banner'){
+                            if(template != 6){
+                                $('.owl-carousel-banner').owlCarousel({
+                                    loop:true,
                                     nav: true,
-                                    navRewind:true,
-                                    rewind: true,
+                                    rewind: false,
                                     margin: 20,
-                                    items:4,
                                     responsiveClass:true,
-                                    dots: false,
-                                    merge: false,
+                                    dots: true,
                                     lazyLoad:true,
+                                    lazyLoadEager:true,
+                                    merge: true,
                                     smartSpeed:500,
-                                    autoplay: false,
+                                    center: true,
+                                    autoHeight: false,
+                                    autoWidth: false,
+                                    autoplay: true,
                                     autoplayTimeout:10000,
                                     autoplayHoverPause:false,
-                                    navText: ['<i class="fa fa-chevron-left owl-wh"/>', '<i class="fa fa-chevron-right owl-wh"/>'],
-                                    responsive:{
-                                        0:{
-                                            items:2,
-                                            nav:true
-                                        },
-                                        480:{
-                                            items:2,
-                                            nav:true
-                                        },
-                                        768:{
-                                            items:3,
-                                            nav:true
-                                        },
-                                        961:{
-                                            items:4,
-                                            nav:true,
-                                        }
-                                    }
+                                    items:1,
+                                    navText: ['<i class="fas fa-chevron-left owl-wh"/>', '<i class="fas fa-chevron-right owl-wh"/>'],
+                                });
+                            }
+                            else{
+                                $('.owl-carousel-banner').owlCarousel({
+                                    loop:false,
+                                    nav: true,
+                                    rewind: false,
+                                    margin: 20,
+                                    responsiveClass:true,
+                                    dots: false,
+                                    lazyLoad:true,
+                                    lazyLoadEager:true,
+                                    merge: true,
+                                    smartSpeed:500,
+                                    center: true,
+                                    autoHeight: false,
+                                    autoWidth: false,
+                                    autoplay: true,
+                                    autoplayTimeout:10000,
+                                    autoplayHoverPause:false,
+                                    items:1,
+                                    navText: ['<i class="fas fa-chevron-left owl-wh"/>', '<i class="fas fa-chevron-right owl-wh"/>'],
                                 });
                             }
                         }
-                        else{
-                            if(template == 6){
-                                if(type == "big_banner"){
-                                    if(page == "airline"){
-                                        document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_airlines.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
-                                    }else if(page == "hotel"){
-                                        document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_hotel.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
-                                    }else if(page == "train"){
-                                        document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_train.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
-                                    }else if(page == "ppob"){
-                                        document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_ppob.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
-                                    }else if(page == "activity"){
-                                        document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_activity.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
-                                    }else if(page == "tour"){
-                                        document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_tour.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
-                                    }else if(page == "visa"){
-                                        document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_visa.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
-                                    }else if(page == "passport"){
-                                        document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_passport.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
-                                    }else if(page == "event"){
-                                        document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_event.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
-                                    }else if(page == "bus"){
-                                        document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_mitra_bus.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
-                                    }else if(page == "mitra_keluarga"){
-                                        document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_mitra_keluarga.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
-                                    }else if(page == "periksain"){
-                                        document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_periksain.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
-                                    }else if(page == "phc"){
-                                        document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_phc.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
-                                    }else if(page == "labpintar"){
-                                        document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_lab_pintar.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
-                                    }else if(page == "medical"){
-                                        document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_national_hospital.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
-                                    }else if(page == "swabexpress"){
-                                        document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_swab_express.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
-                                    }else if(page == "sentramedika"){
-                                        document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_sentra_medika.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
-                                    }else if(page == "insurance"){
-                                        document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_insurance.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
+                        if(type == 'small_banner'){
+                            $('.owl-carousel-suggest').owlCarousel({
+                                loop:true,
+                                nav: true,
+                                navRewind:true,
+                                rewind: true,
+                                margin: 20,
+                                items:4,
+                                responsiveClass:true,
+                                dots: false,
+                                merge: false,
+                                lazyLoad:true,
+                                lazyLoadEager:true,
+                                smartSpeed:1000,
+                                autoplay: false,
+                                autoplayTimeout:10000,
+                                autoplayHoverPause:false,
+                                navText: ['<i class="fa fa-chevron-left owl-wh"/>', '<i class="fa fa-chevron-right owl-wh"/>'],
+                                responsive:{
+                                    0:{
+                                        items:1,
+                                    },
+                                    576:{
+                                        items:2,
+                                    },
+                                    992:{
+                                        items:4,
                                     }
                                 }
-                            }
-                        }
-                    }
-                }
-                else{
-                    if(page == 'home'){
-                        if(template == 6){
-                            if(type == "big_banner"){
-                                document.getElementById("banner-top1").style = "background: url('"+background+"'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
-                                document.getElementById("big_banner").style.display = "block";
-                            }
-                        }
-                    }else{
-                        if(template == 6){
-                            if(type == "big_banner"){
-                                if(page == "airline"){
-                                    document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_airlines.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
-                                }else if(page == "hotel"){
-                                    document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_hotel.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
-                                }else if(page == "train"){
-                                    document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_train.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
-                                }else if(page == "ppob"){
-                                    document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_ppob.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
-                                }else if(page == "activity"){
-                                    document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_activity.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
-                                }else if(page == "tour"){
-                                    document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_tour.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
-                                }else if(page == "visa"){
-                                    document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_visa.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
-                                }else if(page == "passport"){
-                                    document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_passport.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
-                                }else if(page == "event"){
-                                    document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_event.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
-                                }else if(page == "bus"){
-                                    document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_bus.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
-                                }else if(page == "mitrakeluarga"){
-                                    document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_mitra_keluarga.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
-                                }else if(page == "periksain"){
-                                    document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_periksain.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
-                                }else if(page == "phc"){
-                                    document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_phc.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
-                                }else if(page == "labpintar"){
-                                    document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_lab_pintar.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
-                                }else if(page == "medical"){
-                                    document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_national_hospital.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
-                                }else if(page == "swabexpress"){
-                                    document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_swab_express.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
-                                }else if(page == "sentramedika"){
-                                    document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_sentra_medika.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
-                                }else if(page == "insurance"){
-                                    document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_insurance.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
-                                }
-                                document.getElementById("big_banner").style.display = "block";
-                            }
+                            });
                         }
                     }
                 }
@@ -1503,9 +1081,8 @@ function get_dynamic_page(type){
                     for(i in msg.result.response){
                         if(msg.result.response[i].state == true){
                             check_dynamic = true;
-                            text += `<div class="item">`;
                             text+=`
-                            <div class="single-recent-blog-post item" style="margin-top:0px; cursor:unset; margin-bottom:10px; border:1px solid #cdcdcd;">
+                            <div class="item" style="margin-top:0px; cursor:unset; margin-bottom:10px; border:1px solid #cdcdcd;">
                                 <div class="single-destination relative" style="margin-bottom:unset;">
                                     <div class="thumb relative" alt="`+msg.result.response[i].title+`" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:170px; background: white url('`+msg.result.response[i].image_carousel+`'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="window.location.href='/page/`+msg.result.response[i].url+`'">`;
                                     if(template != 6){
@@ -1542,91 +1119,15 @@ function get_dynamic_page(type){
 //                        document.getElementById('owl-login2').innerHTML = text;
 
                         if(check_dynamic){
-                            if(template == 1){
-                                document.getElementById('dynamic_page').innerHTML = `
-                                <div class="title text-center pb-4">
-                                    <h1>INFORMATION</h1>
-                                </div>`;
-                            }else if(template == 2){
-                                document.getElementById('dynamic_page').innerHTML = `
-                                <div class="section-heading text-center wow fadeInUp" data-wow-delay="100ms" style="margin-bottom:20px;">
-                                    <h1>INFORMATION</h1>
-                                </div>`;
-                            }else if(template == 3){
-                                document.getElementById('dynamic_page').innerHTML = `
-                                <div class="pb-20 header-text">
-                                    <h1>INFORMATION</h1>
-                                </div>`;
-                            }else if(template == 4){
-                                document.getElementById('dynamic_page').innerHTML = `
-                                <div class="text-center border-primary mb-5">
-                                    <h1 class="font-weight-light text-primary" style="color:black !important">INFORMATION</h1>
-                                </div>`;
-                            }else if(template == 5){
-                                document.getElementById('dynamic_page').innerHTML = `
-                                <div class="menu-content">
-                                    <div class="title text-center">
-                                        <h1>INFORMATION</h1>
-                                    </div>
-                                    <br/>
-                                </div>`;
-                            }else if(template == 6){
-                                document.getElementById('dynamic_page').innerHTML = `
-                                <div class="menu-content">
-                                    <div class="fetured-info py-lg-3 py-3">
-                                        <h3>INFORMATION</h3>
-                                    </div>
-                                    <br/>
-                                </div>`;
-                            }
                             check_available_dynamic = 1;
                         }
                         get_social('login');
                     }else if(type == 'home'){
-                        if(check_dynamic){
-                            if(template == 1){
-                                document.getElementById('dynamic_page').innerHTML = `
-                                <div class="title text-center">
-                                    <h1>INFORMATION</h1>
-                                </div>`;
-                            }else if(template == 2){
-                                document.getElementById('dynamic_page').innerHTML = `
-                                <div class="section-heading text-center wow fadeInUp" data-wow-delay="100ms" style="margin-bottom:20px;">
-                                    <h1>INFORMATION</h1>
-                                </div>`;
-                            }else if(template == 3){
-                                document.getElementById('dynamic_page').innerHTML = `
-                                <div class="pb-20 header-text">
-                                    <h1>INFORMATION</h1>
-                                </div>`;
-                            }else if(template == 4){
-                                document.getElementById('dynamic_page').innerHTML = `
-                                <div class="text-center border-primary mb-5 mt-5">
-                                    <h1 class="font-weight-light text-primary" style="color:black !important">INFORMATION</h1>
-                                </div>`;
-                            }else if(template == 5){
-                                document.getElementById('dynamic_page').innerHTML = `
-                                <div class="menu-content">
-                                    <div class="title text-center">
-                                        <h1>INFORMATION</h1>
-                                    </div>
-                                    <br/>
-                                </div>`;
-                            }else if(template == 6){
-                                document.getElementById('dynamic_page').innerHTML = `
-                                <div class="menu-content">
-                                    <div class="fetured-info py-lg-3 py-3">
-                                        <h3>INFORMATION</h3>
-                                    </div>
-                                    <br/>
-                                </div>`;
-                            }
-                        }
                         document.getElementById('owl-login2').innerHTML = text;
                     }
 
                     $('.owl-carousel-login').owlCarousel({
-                        loop:true,
+                        loop:false,
                         nav: true,
                         navRewind:true,
                         rewind: true,
@@ -1636,27 +1137,21 @@ function get_dynamic_page(type){
                         dots: false,
                         merge: false,
                         lazyLoad:true,
+                        lazyLoadEager:true,
                         smartSpeed:500,
                         autoplay: true,
-                        autoplayTimeout:5000,
+                        autoplayTimeout:10000,
                         autoplayHoverPause:false,
                         navText: ['<i class="fa fa-chevron-left owl-wh"/>', '<i class="fa fa-chevron-right owl-wh"/>'],
                         responsive:{
                             0:{
                                 items:1,
-                                nav:true
-                            },
-                            480:{
-                                items:1,
-                                nav:true
                             },
                             768:{
                                 items:2,
-                                nav:true
                             },
-                            961:{
+                            992:{
                                 items:3,
-                                nav:true,
                             }
                         }
                     });
