@@ -3147,15 +3147,6 @@ function set_evoucher_div(){
         }
         else if($evoucher_type_name.includes('Game Voucher')){
             text = `
-            <div class="col-lg-12" style="padding:0px; text-align:left;margin-bottom:10px;">
-                <span class="span-search-ticket"><i class="fas fa-user"></i> User ID / UUID</span>
-                <div class="input-container-search-ticket">
-                    <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="User ID / UUID" autocomplete="off"/>
-                </div>
-            </div>
-            `;
-
-            text += `
                 <div class="col-lg-12" style="padding:0px; text-align:left;margin-bottom:10px;">
                     <span class="span-search-ticket">Select Voucher</span>
                     <div class="input-container-search-ticket">
@@ -3166,6 +3157,40 @@ function set_evoucher_div(){
                         </div>
                     </div>
                 </div>
+            `;
+            text += `
+            <div class="col-lg-12" style="padding:0px; text-align:left;margin-bottom:10px;">
+                <span class="span-search-ticket"><i class="fas fa-user"></i> User ID / UUID</span>
+                <div class="input-container-search-ticket">
+                    <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="User ID / UUID" autocomplete="off"/>
+                </div>
+            </div>
+            `;
+        }
+        else if($evoucher_type_name.includes('Other Voucher')){
+            text = `
+                <div class="col-lg-12" style="padding:0px; text-align:left;margin-bottom:10px;">
+                    <span class="span-search-ticket">Select Voucher</span>
+                    <div class="input-container-search-ticket">
+                        <div class="form-select">
+                            <select id="other_voucher" name="other_voucher" class="form-control js-example-basic-single" style="width:100%;">
+
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            `;
+            text += `
+            <div class="col-lg-12" style="padding:0px; text-align:left;margin-bottom:10px;">
+                <span class="span-search-ticket"><i class="fas fa-mobile"></i> Nomor Handphone Pelanggan</span>
+                <div class="input-container-search-ticket">
+                    <input type="text" class="form-control hp_number" name="bpjs_number" id="bpjs_number" placeholder="Nomor Handphone Pelanggan" autocomplete="off"/>
+                </div>
+                <div style="text-align:left;">
+                    <h6 style="color:`+color+`;" id="input_alert" style="display:none;"></h6>
+                    <span style="color:`+text_color+`;">Contoh: 081234567890</span>
+                </div>
+            </div>
             `;
         }
         else {
@@ -3207,15 +3232,6 @@ function set_evoucher_div(){
         }
         else if($evoucher_type_name.includes('Game Voucher')){
             text = `
-            <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
-                <span class="span-search-ticket"><i class="fas fa-user"></i> User ID / UUID</span>
-                <div class="input-container-search-ticket">
-                    <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="User ID / UUID" autocomplete="off"/>
-                </div>
-            </div>
-            `;
-
-            text += `
                 <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
                     <span class="span-search-ticket">Select Voucher</span>
                     <div class="input-container-search-ticket">
@@ -3226,6 +3242,40 @@ function set_evoucher_div(){
                         </div>
                     </div>
                 </div>
+            `;
+            text += `
+            <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+                <span class="span-search-ticket"><i class="fas fa-user"></i> User ID / UUID</span>
+                <div class="input-container-search-ticket">
+                    <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="User ID / UUID" autocomplete="off"/>
+                </div>
+            </div>
+            `;
+        }
+        else if($evoucher_type_name.includes('Other Voucher')){
+            text = `
+                <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+                    <span class="span-search-ticket">Select Voucher</span>
+                    <div class="input-container-search-ticket">
+                        <div class="form-select">
+                            <select id="other_voucher" name="other_voucher" class="form-control js-example-basic-single" style="width:100%;">
+
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            `;
+            text += `
+            <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+                <span class="span-search-ticket"><i class="fas fa-mobile"></i> Nomor Handphone Pelanggan</span>
+                <div class="input-container-search-ticket">
+                    <input type="text" class="form-control hp_number" name="bpjs_number" id="bpjs_number" placeholder="Nomor Handphone Pelanggan" autocomplete="off"/>
+                </div>
+                <div style="text-align:left;">
+                    <h6 style="color:`+color+`;" id="input_alert" style="display:none;"></h6>
+                    <span style="color:`+text_color+`;">Contoh: 081234567890</span>
+                </div>
+            </div>
             `;
         }
         else {
@@ -3267,15 +3317,6 @@ function set_evoucher_div(){
         }
         else if($evoucher_type_name.includes('Game Voucher')){
             text = `
-            <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
-                <span class="span-search-ticket"><i class="fas fa-user"></i> User ID / UUID</span>
-                <div class="input-container-search-ticket">
-                    <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="User ID / UUID" autocomplete="off"/>
-                </div>
-            </div>
-            `;
-
-            text += `
                 <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
                     <span class="span-search-ticket">Select Voucher</span>
                     <div class="input-container-search-ticket">
@@ -3286,6 +3327,40 @@ function set_evoucher_div(){
                         </div>
                     </div>
                 </div>
+            `;
+            text += `
+            <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+                <span class="span-search-ticket"><i class="fas fa-user"></i> User ID / UUID</span>
+                <div class="input-container-search-ticket">
+                    <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="User ID / UUID" autocomplete="off"/>
+                </div>
+            </div>
+            `;
+        }
+        else if($evoucher_type_name.includes('Other Voucher')){
+            text = `
+                <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+                    <span class="span-search-ticket">Select Voucher</span>
+                    <div class="input-container-search-ticket">
+                        <div class="form-select">
+                            <select id="other_voucher" name="other_voucher" class="form-control js-example-basic-single" style="width:100%;">
+
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            `;
+            text += `
+            <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+                <span class="span-search-ticket"><i class="fas fa-mobile"></i> Nomor Handphone Pelanggan</span>
+                <div class="input-container-search-ticket">
+                    <input type="text" class="form-control hp_number" name="bpjs_number" id="bpjs_number" placeholder="Nomor Handphone Pelanggan" autocomplete="off"/>
+                </div>
+                <div style="text-align:left;">
+                    <h6 style="color:`+color+`;" id="input_alert" style="display:none;"></h6>
+                    <span style="color:`+text_color+`;">Contoh: 081234567890</span>
+                </div>
+            </div>
             `;
         }
         else {
@@ -3328,15 +3403,6 @@ function set_evoucher_div(){
         }
         else if($evoucher_type_name.includes('Game Voucher')){
             text = `
-            <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
-                <span class="span-search-ticket"><i class="fas fa-user"></i> User ID / UUID</span>
-                <div class="input-container-search-ticket">
-                    <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="User ID / UUID" autocomplete="off"/>
-                </div>
-            </div>
-            `;
-
-            text += `
                 <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
                     <span class="span-search-ticket">Select Voucher</span>
                     <div class="input-container-search-ticket">
@@ -3347,6 +3413,40 @@ function set_evoucher_div(){
                         </div>
                     </div>
                 </div>
+            `;
+            text += `
+            <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+                <span class="span-search-ticket"><i class="fas fa-user"></i> User ID / UUID</span>
+                <div class="input-container-search-ticket">
+                    <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="User ID / UUID" autocomplete="off"/>
+                </div>
+            </div>
+            `;
+        }
+        else if($evoucher_type_name.includes('Other Voucher')){
+            text = `
+                <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+                    <span class="span-search-ticket">Select Voucher</span>
+                    <div class="input-container-search-ticket">
+                        <div class="form-select">
+                            <select id="other_voucher" name="other_voucher" class="form-control js-example-basic-single" style="width:100%;">
+
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            `;
+            text += `
+            <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+                <span class="span-search-ticket"><i class="fas fa-mobile"></i> Nomor Handphone Pelanggan</span>
+                <div class="input-container-search-ticket">
+                    <input type="text" class="form-control hp_number" name="bpjs_number" id="bpjs_number" placeholder="Nomor Handphone Pelanggan" autocomplete="off"/>
+                </div>
+                <div style="text-align:left;">
+                    <h6 style="color:`+color+`;" id="input_alert" style="display:none;"></h6>
+                    <span style="color:`+text_color+`;">Contoh: 081234567890</span>
+                </div>
+            </div>
             `;
         }
         else {
@@ -3388,15 +3488,6 @@ function set_evoucher_div(){
         }
         else if($evoucher_type_name.includes('Game Voucher')){
             text = `
-            <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
-                <span class="span-search-ticket"><i class="fas fa-user"></i> User ID / UUID</span>
-                <div class="input-container-search-ticket">
-                    <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="User ID / UUID" autocomplete="off"/>
-                </div>
-            </div>
-            `;
-
-            text += `
                 <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
                     <span class="span-search-ticket">Select Voucher</span>
                     <div class="input-container-search-ticket">
@@ -3407,6 +3498,40 @@ function set_evoucher_div(){
                         </div>
                     </div>
                 </div>
+            `;
+            text += `
+            <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+                <span class="span-search-ticket"><i class="fas fa-user"></i> User ID / UUID</span>
+                <div class="input-container-search-ticket">
+                    <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="User ID / UUID" autocomplete="off"/>
+                </div>
+            </div>
+            `;
+        }
+        else if($evoucher_type_name.includes('Other Voucher')){
+            text += `
+                <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+                    <span class="span-search-ticket">Select Voucher</span>
+                    <div class="input-container-search-ticket">
+                        <div class="form-select">
+                            <select id="other_voucher" name="other_voucher" class="form-control js-example-basic-single" style="width:100%;">
+
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            `;
+            text = `
+            <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+                <span class="span-search-ticket"><i class="fas fa-mobile"></i> Nomor Handphone Pelanggan</span>
+                <div class="input-container-search-ticket">
+                    <input type="text" class="form-control hp_number" name="bpjs_number" id="bpjs_number" placeholder="Nomor Handphone Pelanggan" autocomplete="off"/>
+                </div>
+                <div style="text-align:left;">
+                    <h6 style="color:`+color+`;" id="input_alert" style="display:none;"></h6>
+                    <span style="color:`+text_color+`;">Contoh: 081234567890</span>
+                </div>
+            </div>
             `;
         }
         else {
@@ -3448,15 +3573,6 @@ function set_evoucher_div(){
         }
         else if($evoucher_type_name.includes('Game Voucher')){
             text = `
-            <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
-                <span class="span-search-ticket"><i class="fas fa-user"></i> User ID / UUID</span>
-                <div class="input-container-search-ticket">
-                    <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="User ID / UUID" autocomplete="off"/>
-                </div>
-            </div>
-            `;
-
-            text += `
                 <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
                     <span class="span-search-ticket">Select Voucher</span>
                     <div class="input-container-search-ticket">
@@ -3467,6 +3583,40 @@ function set_evoucher_div(){
                         </div>
                     </div>
                 </div>
+            `;
+            text += `
+            <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+                <span class="span-search-ticket"><i class="fas fa-user"></i> User ID / UUID</span>
+                <div class="input-container-search-ticket">
+                    <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="User ID / UUID" autocomplete="off"/>
+                </div>
+            </div>
+            `;
+        }
+        else if($evoucher_type_name.includes('Other Voucher')){
+            text += `
+                <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+                    <span class="span-search-ticket">Select Voucher</span>
+                    <div class="input-container-search-ticket">
+                        <div class="form-select">
+                            <select id="other_voucher" name="other_voucher" class="form-control js-example-basic-single" style="width:100%;">
+
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            `;
+            text = `
+            <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+                <span class="span-search-ticket"><i class="fas fa-mobile"></i> Nomor Handphone Pelanggan</span>
+                <div class="input-container-search-ticket">
+                    <input type="text" class="form-control hp_number" name="bpjs_number" id="bpjs_number" placeholder="Nomor Handphone Pelanggan" autocomplete="off"/>
+                </div>
+                <div style="text-align:left;">
+                    <h6 style="color:`+color+`;" id="input_alert" style="display:none;"></h6>
+                    <span style="color:`+text_color+`;">Contoh: 081234567890</span>
+                </div>
+            </div>
             `;
         }
         else {
@@ -3488,6 +3638,9 @@ function set_evoucher_div(){
     document.getElementById('e-voucher_div').innerHTML = text;
     if($evoucher_type_name.includes('Game Voucher')){
         set_voucher_options($evoucher_type_value, 'game');
+    }
+    else if($evoucher_type_name.includes('Other Voucher')){
+        set_voucher_options($evoucher_type_value, 'others');
     }
 }
 
@@ -5300,6 +5453,19 @@ function set_voucher_options(evoucher_val, carr_type){
         }
         document.getElementById('game_voucher').innerHTML = text;
         $('#game_voucher').select2();
+    }
+    else if(carr_type == 'others')
+    {
+        text += `<option value="">-- Select Voucher --</option>`;
+        if(ppob_data.voucher_data.others.hasOwnProperty(sel_prov_ppob))
+        {
+            for(i in ppob_data.voucher_data.others[sel_prov_ppob])
+            {
+                text += `<option value="`+i+`">`+ppob_data.voucher_data.others[sel_prov_ppob][i]+`</option>`;
+            }
+        }
+        document.getElementById('other_voucher').innerHTML = text;
+        $('#other_voucher').select2();
     }
     else if(carr_type == 'pdam')
     {
