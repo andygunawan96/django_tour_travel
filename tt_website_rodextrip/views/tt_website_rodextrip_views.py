@@ -48,22 +48,38 @@ provider_type = {
 }
 
 
-def check_big_banner():
+def check_big_banner(provider_page):
     try:
         check_banner = 0
         file = read_cache("big_banner_cache", 'cache_web', 90911)
         if len(file['result']['response']) != 0:
-            check_banner = 1
+            for banner in file['result']['response']:
+                if banner['active']:
+                    if provider_page == 'home':
+                        check_banner = 1
+                        break
+                    else:
+                        if banner['provider_type'] == provider_page:
+                            check_banner = 1
+                            break
     except Exception as e:
         _logger.error(str(e) + traceback.format_exc())
     return check_banner
 
-def check_small_banner():
+def check_small_banner(provider_page):
     try:
         check_banner = 0
         file = read_cache("small_banner_cache", 'cache_web', 90911)
         if len(file['result']['response']) != 0:
-            check_banner = 1
+            for banner in file['result']['response']:
+                if banner['active']:
+                    if provider_page == 'home':
+                        check_banner = 1
+                        break
+                    else:
+                        if banner['provider_type'] == provider_page:
+                            check_banner = 1
+                            break
     except Exception as e:
         _logger.error(str(e) + traceback.format_exc())
     return check_banner
@@ -300,8 +316,8 @@ def index(request):
                                 'update_data': 'false',
                                 'static_path_url_server': get_url_static_path(),
                                 'signature': request.session['signature'],
-                                'big_banner_value': check_big_banner(),
-                                'small_banner_value': check_small_banner(),
+                                'big_banner_value': check_big_banner('home'),
+                                'small_banner_value': check_small_banner('home'),
                                 'dynamic_page_value': check_dynamic_page(),
                             })
                         except Exception as e:
@@ -544,8 +560,8 @@ def login(request):
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'javascript_version': javascript_version,
                 'static_path_url_server': get_url_static_path(),
-                'big_banner_value': check_big_banner(),
-                'small_banner_value': check_small_banner(),
+                'big_banner_value': check_big_banner('home'),
+                'small_banner_value': check_small_banner('home'),
                 'dynamic_page_value': check_dynamic_page(),
                 'username': {'co_user_login': ''}
             })

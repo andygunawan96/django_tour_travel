@@ -55,186 +55,263 @@
 {%if template == 1%}
 <section class="testimonial-area section-gap overlay-bg" data-aos="fade-up" style="padding-top:60px; padding-bottom:60px; z-index:1; position:relative; background-image:url('{{static_path}}images/bg_bus.jpg') !important">
     <div class="overlay overlay-bg"></div>
-        <div class="container">
-            <div class="row">
-                {% if username.co_user_login != '' %}
-                <div id="overlay-search-box" onclick="off_overlay()"></div>
-                <div class="col-lg-12">
-                    <div id="big_banner" style="padding-bottom:15px;">
-
+    <div class="container">
+        <div class="row">
+            {% if username.co_user_login != '' %}
+            <div id="overlay-search-box" onclick="off_overlay()"></div>
+            {% if big_banner_value == 1 %}
+            <div class="col-lg-12">
+                <div id="big_banner" style="padding-bottom:15px;">
+                    <div class="stripe_big_banner">
+                        <div class="div_stripe">
+                            <div class="loading_stripe"></div>
+                        </div>
                     </div>
                 </div>
-                <div class="col-lg-12">
-                    <h4 style="color:{{text_color}}; padding-bottom:20px;">
-                        {% if username.co_user_login != 'agent_b2c' %}
-                        {% trans 'Hello' %}, {{username.co_user_name}}!
-                        {% trans 'Grow your business with' %} <span class="lamp">{{name}}</span>
-                        {% else %}
-                        {% trans 'Hello, dear customer, book your trip with us' %}
-                        {% endif %}
-                    </h4>
+            </div>
+            {% endif %}
+            <div class="col-lg-12">
+                <h4 style="color:{{text_color}}; padding-bottom:20px;">
+                    {% if username.co_user_login != 'agent_b2c' %}
+                    {% trans 'Hello' %}, {{username.co_user_name}}!
+                    {% trans 'Grow your business with' %} <span class="lamp">{{name}}</span>
+                    {% else %}
+                    {% trans 'Hello, dear customer, book your trip with us' %}
+                    {% endif %}
+                </h4>
 
+            </div>
+            {% else %}
+            <div class="col-lg-12" style="text-align:center; padding-top: 20px;">
+                <div style="background:rgba(20,20,20,0.7); padding:50px 0px 50px 0px; border-radius:7px;">
+                    <h3 style="color:{{text_color}};">Already a <span class="lamp">{{name}}</span> member?</h3>
+                    <h4 style="color:{{text_color}}; padding-top:5px;">Sign in to make booking easier!</h4>
+                    <button class="primary-btn" type="button" style="margin-top:15px;" onclick="location.href='{% url 'tt_website_rodextrip:login'%}';">
+                        Sign in <i class="fas fa-sign-in-alt"></i>
+                    </button>
                 </div>
-                {% else %}
-                <div class="col-lg-12" style="text-align:center; padding-top: 20px;">
-                    <div style="background:rgba(20,20,20,0.7); padding:50px 0px 50px 0px; border-radius:7px;">
-                        <h3 style="color:{{text_color}};">Already a <span class="lamp">{{name}}</span> member?</h3>
-                        <h4 style="color:{{text_color}}; padding-top:5px;">Sign in to make booking easier!</h4>
-                        <button class="primary-btn" type="button" style="margin-top:15px;" onclick="location.href='{% url 'tt_website_rodextrip:login'%}';">
-                            Sign in <i class="fas fa-sign-in-alt"></i>
-                        </button>
-                    </div>
-                </div>
-                {% endif %}
+            </div>
+            {% endif %}
 
-                {% if username.co_user_login != '' %}
-                <input type="hidden" id="country_id"/>
-                <input type="hidden" id="start"/>
-                <input type="hidden" id="end"/>
+            {% if username.co_user_login != '' %}
+            <input type="hidden" id="country_id"/>
+            <input type="hidden" id="start"/>
+            <input type="hidden" id="end"/>
 
-                <div class="col-lg-12" id="div-search-overlay">
-                    {% if "bus" in provider and "ticketing_bus" in username.co_agent_frontend_security %}
-                    <div class="banner-right">
-                        <!--<img src="{{static_path}}images/christmas-icon2.png" style="width:auto; height:90px; position:absolute; right:-35px; top:35px; float:right; z-index:200;" alt="">-->
-                        <div class="tab-content" id="myTabContent" style="border-radius:7px;">
-                            <div class="tab-pane fade  show active" id="bus" role="tabpanel" aria-labelledby="bus-tab">
-                                <form action="{% url 'tt_website_rodextrip:bus_search'%}" method="POST" class="form-wrap" id="bus_searchForm" onsubmit="return search_bus_validation()">
-                                    {% csrf_token %}
-                                    <input type="hidden" name="g-recaptcha-response" id='recaptcha_bus'>
-                                    <div class="row">
-                                        <div class="col-lg-12" id="radio_bus_search" style="padding:0px; text-align:left;margin-bottom:10px;">
-                                            <label class="radio-button-custom crlabel" style="margin-bottom:0px;">
-                                                <span style="font-size:13px; color:{{text_color}};">{% trans 'One Way' %}</span>
-                                                <input type="radio" checked="checked" name="radio_bus_type" value="oneway">
-                                                <span class="checkmark-radio crspan"></span>
-                                            </label>
-                                            <label class="radio-button-custom crlabel" style="margin-bottom:0px;">
-                                                <span style="font-size:13px; color:{{text_color}};">{% trans 'Round Trip' %}</span>
-                                                <input type="radio" name="radio_bus_type" value="roundtrip">
-                                                <span class="checkmark-radio crspan"></span>
-                                            </label>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="row">
-                                                <div class="col-lg-6 col-md-6 col-sm-6 bus-from" style="padding-left:0px;">
-                                                    <span class="span-search-ticket"><i class="fas fa-bus"></i> {% trans 'From' %}</span>
-                                                    <div class="input-container-search-ticket">
-                                                        <input id="bus_origin" name="bus_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('bus_origin').select();" onclick="set_bus_search_value_to_false();" value="BD - Bandung">
-                                                    </div>
-                                                </div>
-                                                <div class="image-change-route-vertical2">
-                                                    <h4><a href="javascript:bus_switch();" style="z-index:5; color:black;" id="bus_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
-                                                </div>
-                                                <div class="image-change-route-horizontal2">
-                                                    <h4><a class="horizontal-arrow" href="javascript:bus_switch();" style="z-index:5; color:{{text_color}} !important;" id="bus_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt"></i></i></a></h4>
-                                                </div>
-
-                                                <div class="col-lg-6 col-md-6 col-sm-6 bus-to" style="z-index:5; padding-right:0px;">
-                                                    <span class="span-search-ticket"><i class="fas fa-map-marked-alt"></i> {% trans 'To' %}</span>
-                                                    <div class="input-container-search-ticket">
-                                                        <input id="bus_destination" name="bus_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('bus_destination').select();" onclick="set_bus_search_value_to_false();" value="GMR - Gambir">
-                                                    </div>
+            <div class="col-lg-12" id="div-search-overlay">
+                {% if "bus" in provider and "ticketing_bus" in username.co_agent_frontend_security %}
+                <div class="banner-right">
+                    <!--<img src="{{static_path}}images/christmas-icon2.png" style="width:auto; height:90px; position:absolute; right:-35px; top:35px; float:right; z-index:200;" alt="">-->
+                    <div class="tab-content" id="myTabContent" style="min-height:300px; background: {{tab_color}} !important;">
+                        <div class="tab-pane fade  show active" id="bus" role="tabpanel" aria-labelledby="bus-tab">
+                            <form action="{% url 'tt_website_rodextrip:bus_search'%}" method="POST" class="form-wrap" id="bus_searchForm" onsubmit="return search_bus_validation()">
+                                {% csrf_token %}
+                                <input type="hidden" name="g-recaptcha-response" id='recaptcha_bus'>
+                                <div class="row">
+                                    <div class="col-lg-12" id="radio_bus_search" style="padding:0px; text-align:left;margin-bottom:10px;">
+                                        <label class="radio-button-custom crlabel" style="margin-bottom:0px;">
+                                            <span style="font-size:13px; color:{{text_color}};">{% trans 'One Way' %}</span>
+                                            <input type="radio" checked="checked" name="radio_bus_type" value="oneway">
+                                            <span class="checkmark-radio crspan"></span>
+                                        </label>
+                                        <label class="radio-button-custom crlabel" style="margin-bottom:0px;">
+                                            <span style="font-size:13px; color:{{text_color}};">{% trans 'Round Trip' %}</span>
+                                            <input type="radio" name="radio_bus_type" value="roundtrip">
+                                            <span class="checkmark-radio crspan"></span>
+                                        </label>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="row">
+                                            <div class="col-lg-6 col-md-6 col-sm-6 bus-from" style="padding-left:0px;">
+                                                <span class="span-search-ticket"><i class="fas fa-bus"></i> {% trans 'From' %}</span>
+                                                <div class="input-container-search-ticket">
+                                                    <input id="bus_origin" name="bus_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('bus_origin').select();" onclick="set_bus_search_value_to_false();" value="BD - Bandung">
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="col-lg-3 col-md-6 col-sm-6" style="padding:0px;" id="bus_date_search">
-                                            <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Departure' %}</span>
-                                            <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control" id="bus_departure" name="bus_departure" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly/>
+                                            <div class="image-change-route-vertical2">
+                                                <h4><a href="javascript:bus_switch();" style="z-index:5; color:black;" id="bus_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
                                             </div>
-                                        </div>
-                                        <div class="col-lg-3 col-md-6 col-sm-6" style="padding:0px;">
-                                            <span class="span-search-ticket"><i class="fas fa-users"></i> {% trans 'Passenger' %}</span>
-                                            <div class="input-container-search-ticket btn-group">
-                                                <button id="show_total_pax_bus" style="text-align:left;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
-                                                <ul class="dropdown-menu" role="menu">
-                                                    <div class="row" style="padding:10px;">
-                                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                                            <div style="float:left;">
-                                                                <label>
-                                                                    <span style="color:black; font-size:13px;">{% trans 'Adult' %}<br/></span>
-                                                                    <span style="color:gray; font-size:11px;">({% trans 'Age' %} 3+)</span>
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                                            <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                                <button type="button" class="left-minus-adult-bus btn-custom-circle" id="left-minus-adult-bus" data-type="minus" data-field="" disabled>
-                                                                    <i class="fas fa-minus"></i>
-                                                                </button>
-                                                                <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="bus_adult" name="bus_adult" value="1" min="1" readonly>
-                                                                <button type="button" class="right-plus-adult-bus btn-custom-circle" id="right-plus-adult-bus" data-type="plus" data-field="">
-                                                                    <i class="fas fa-plus"></i>
-                                                                </button>
-                                                            </div>
-                                                        </div>
+                                            <div class="image-change-route-horizontal2">
+                                                <h4><a class="horizontal-arrow" href="javascript:bus_switch();" style="z-index:5; color:{{text_color}} !important;" id="bus_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                                            </div>
 
-                                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                                            <div style="float:left;">
-                                                                <label>
-                                                                    <span style="color:black; font-size:13px;">{% trans 'Infant' %}<br/></span>
-                                                                    <span style="color:gray; font-size:11px;">({% trans 'Age' %} < 3)</span>
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                                            <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                                <button type="button" class="left-minus-infant-bus btn-custom-circle" id="left-minus-infant-bus" data-type="minus" data-field="" disabled>
-                                                                    <i class="fas fa-minus"></i>
-                                                                </button>
-                                                                <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="bus_infant" name="bus_infant" value="0" readonly>
-                                                                <button type="button" class="right-plus-infant-bus btn-custom-circle" id="right-plus-infant-bus" data-type="plus" data-field="">
-                                                                    <i class="fas fa-plus"></i>
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-12" style="text-align:right;">
-                                                        <hr/>
-                                                        <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('bus','passenger');">Done</button>
-                                                    </div>
-                                                    </div>
-                                                </ul>
+                                            <div class="col-lg-6 col-md-6 col-sm-6 bus-to" style="z-index:5; padding-right:0px;">
+                                                <span class="span-search-ticket"><i class="fas fa-map-marked-alt"></i> {% trans 'To' %}</span>
+                                                <div class="input-container-search-ticket">
+                                                    <input id="bus_destination" name="bus_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('bus_destination').select();" onclick="set_bus_search_value_to_false();" value="GMR - Gambir">
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <br/>
+                                    <div class="col-lg-3 col-md-6 col-sm-6" style="padding:0px;" id="bus_date_search">
+                                        <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Departure' %}</span>
+                                        <div class="input-container-search-ticket">
+                                            <input type="text" class="form-control" id="bus_departure" name="bus_departure" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly/>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-6 col-sm-6" style="padding:0px;">
+                                        <span class="span-search-ticket"><i class="fas fa-users"></i> {% trans 'Passenger' %}</span>
+                                        <div class="input-container-search-ticket btn-group">
+                                            <button id="show_total_pax_bus" style="text-align:left;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
+                                            <ul class="dropdown-menu" role="menu">
+                                                <div class="row" style="padding:10px;">
+                                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                        <div style="float:left;">
+                                                            <label>
+                                                                <span style="color:black; font-size:13px;">{% trans 'Adult' %}<br/></span>
+                                                                <span style="color:gray; font-size:11px;">({% trans 'Age' %} 3+)</span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                        <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                            <button type="button" class="left-minus-adult-bus btn-custom-circle" id="left-minus-adult-bus" data-type="minus" data-field="" disabled>
+                                                                <i class="fas fa-minus"></i>
+                                                            </button>
+                                                            <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="bus_adult" name="bus_adult" value="1" min="1" readonly>
+                                                            <button type="button" class="right-plus-adult-bus btn-custom-circle" id="right-plus-adult-bus" data-type="plus" data-field="">
+                                                                <i class="fas fa-plus"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
 
-                                    <input type="hidden" id="bus_response" name="response"/>
-                                    <center>
-                                        <button class="primary-btn ld-ext-right" id="btn-search-bus" type="button" onclick="get_captcha('recaptcha_bus','bus');" value="Submit">
-                                            <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                                            {% trans 'Search' %}
-                                            <div class="ld ld-ring ld-cycle"></div>
-                                        </button>
-                                    </center>
-                                </form>
-                            </div>
+                                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                        <div style="float:left;">
+                                                            <label>
+                                                                <span style="color:black; font-size:13px;">{% trans 'Infant' %}<br/></span>
+                                                                <span style="color:gray; font-size:11px;">({% trans 'Age' %} < 3)</span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                        <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                            <button type="button" class="left-minus-infant-bus btn-custom-circle" id="left-minus-infant-bus" data-type="minus" data-field="" disabled>
+                                                                <i class="fas fa-minus"></i>
+                                                            </button>
+                                                            <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="bus_infant" name="bus_infant" value="0" readonly>
+                                                            <button type="button" class="right-plus-infant-bus btn-custom-circle" id="right-plus-infant-bus" data-type="plus" data-field="">
+                                                                <i class="fas fa-plus"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12" style="text-align:right;">
+                                                        <hr/>
+                                                        <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('bus','passenger');">Done</button>
+                                                    </div>
+                                                </div>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br/>
+
+                                <input type="hidden" id="bus_response" name="response"/>
+                                <center>
+                                    <button class="primary-btn ld-ext-right" id="btn-search-bus" type="button" onclick="get_captcha('recaptcha_bus','bus');" value="Submit">
+                                        <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                        {% trans 'Search' %}
+                                        <div class="ld ld-ring ld-cycle"></div>
+                                    </button>
+                                </center>
+                            </form>
                         </div>
                     </div>
-                    {% endif %}
                 </div>
                 {% endif %}
             </div>
-        </div>
-    </section>
-
-    <div id="small_banner" style="padding: 0px 0px 15px 0px;">
-
-    </div>
-    {% if website_mode == 'btc' or website_mode == 'btc_btb' %}
-    <div class="title text-center" id="dynamic_page">
-
-    </div>
-    <br/>
-    <div class="owl-carousel-login owl-theme form-box-login">
-        <div id="owl-login2" style="padding: 0px 0px 15px 0px;">
-
+            {% endif %}
         </div>
     </div>
-    {% endif %}
+</section>
+{% if small_banner_value == 1 %}
+<section class="popular-destination-area section-gap" style="z-index:0; position:relative; padding-bottom:20px; background:white;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="menu-content">
+                    <div class="title text-center">
+                        <h1>HOT DEALS</h1>
+                    </div>
+                    <br/>
+                </div>
+                <div id="small_banner">
+                    <div class="row">
+                        <div class="col-lg-3 col-sm-6">
+                            <div class="stripe_small_banner">
+                                <div class="div_stripe">
+                                    <div class="loading_stripe"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-sm-6">
+                            <div class="stripe_small_banner show_hide_mb">
+                                <div class="div_stripe">
+                                    <div class="loading_stripe"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-sm-6">
+                            <div class="stripe_small_banner show_hide">
+                                <div class="div_stripe">
+                                    <div class="loading_stripe"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-sm-6">
+                            <div class="stripe_small_banner show_hide">
+                                <div class="div_stripe">
+                                    <div class="loading_stripe"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+<!--{% if dynamic_page_value == 1 %}-->
+<!--<section class="popular-destination-area" style="z-index:0; position:relative;">-->
+<!--    <div class="container">-->
+<!--        <div class="row">-->
+<!--            <div class="col-lg-12 mb-3">-->
+<!--                <div class="title text-center pb-4" id="dynamic_page">-->
+<!--                    <h1>INFORMATION</h1>-->
+<!--                </div>-->
+<!--                <div class="col-lg-12" id="owl-login2" style="padding:0px;">-->
+<!--                    <div class="row">-->
+<!--                        <div class="col-lg-4 col-md-6">-->
+<!--                            <div class="stripe_dynamic_page">-->
+<!--                                <div class="div_stripe">-->
+<!--                                    <div class="loading_stripe"></div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="col-lg-4 col-md-6">-->
+<!--                            <div class="stripe_dynamic_page show_hide_mb">-->
+<!--                                <div class="div_stripe">-->
+<!--                                    <div class="loading_stripe"></div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="col-lg-4 col-md-6">-->
+<!--                            <div class="stripe_dynamic_page show_hide">-->
+<!--                                <div class="div_stripe">-->
+<!--                                    <div class="loading_stripe"></div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</section>-->
+<!--{% endif %}-->
 
     {% elif template == 2 %}
-    <div class="banner-area-rodex bg-img bg-overlay jarallax" style="background-image: url('{{static_path}}images/bg_bus.jpg') !important;">
+    <div class="banner-area-div bg-img bg-overlay jarallax" style="background-image: url('{{static_path}}images/bg_bus.jpg') !important;">
         <div class="container h-100">
             <div class="row h-100 align-items-center">
             </div>

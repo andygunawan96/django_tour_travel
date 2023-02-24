@@ -41,7 +41,7 @@ def can_book(now, dep):
     return dep > now
 
 def medical(request, vendor=''):
-    if vendor in ['medical', 'periksain', 'phc']:
+    if vendor in ['periksain', 'phc']:
         if 'user_account' in request.session._session and 'ticketing_phc' in request.session['user_account']['co_agent_frontend_security'] or \
             'user_account' in request.session._session and 'ticketing_periksain' in request.session['user_account']['co_agent_frontend_security']:
             try:
@@ -93,8 +93,8 @@ def medical(request, vendor=''):
                     'javascript_version': javascript_version,
                     'update_data': 'false',
                     'static_path_url_server': get_url_static_path(),
-                    'big_banner_value': check_big_banner(),
-                    'small_banner_value': check_small_banner(),
+                    'big_banner_value': check_big_banner(vendor),
+                    'small_banner_value': check_small_banner(vendor),
                     'dynamic_page_value': check_dynamic_page(),
                     'signature': request.session['signature'],
                     'vendor': vendor

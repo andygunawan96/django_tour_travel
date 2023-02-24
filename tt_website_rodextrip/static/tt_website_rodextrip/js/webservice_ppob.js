@@ -422,10 +422,16 @@ function search_ppob(){
                 error_log += 'Please choose voucher!';
             }
         }
-
-        if($evoucher_type_name.includes('Game Voucher')){
+        else if($evoucher_type_name.includes('Game Voucher')){
             var game_voucher_selection = document.getElementById('game_voucher')
             e_voucher = game_voucher_selection.options[game_voucher_selection.selectedIndex].value;
+            if (e_voucher == ''){
+                error_log += 'Please choose voucher!';
+            }
+        }
+        else if($evoucher_type_name.includes('Other Voucher')){
+            var other_voucher_selection = document.getElementById('other_voucher')
+            e_voucher = other_voucher_selection.options[other_voucher_selection.selectedIndex].value;
             if (e_voucher == ''){
                 error_log += 'Please choose voucher!';
             }

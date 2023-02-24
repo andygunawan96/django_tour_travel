@@ -1993,7 +1993,7 @@
 </div>
 
 {% elif template == 2 %}
-<div class="banner-area-rodex bg-img bg-overlay jarallax" style="background-image: url('{{background}}');">
+<div class="banner-area-div bg-img bg-overlay jarallax" style="background-image: url('{{background}}');">
     <div class="container h-100">
         <div class="row">
             {% if big_banner_value == 1 %}
@@ -4821,7 +4821,6 @@
     </div>
 </section>
 {% endif %}
-
 {% if dynamic_page_value == 1 %}
 <section class="feature-area section-gap" style="position:relative; z-index:0;">
     <div class="container">
@@ -6471,7 +6470,7 @@
                             {% endif %}
                         </div>
                     </div>
-                    <div class="banner-content col-xl-12 " id="div-search-overlay">
+                    <div class="banner-content col-xl-12">
                         <div class="search-field" style="min-height:300px; padding:20px;">
                             <div class="row">
                                 {% if username.co_user_login != '' %}
@@ -7812,7 +7811,6 @@
     </div>
 </section>
 {% endif %}
-
 {% if dynamic_page_value == 1 %}
 <section class="section-gap pb-5" style="background:white; z-index:0; position:relative;">
     <div class="container">
@@ -9672,8 +9670,6 @@
 <div id="promotion">
 
 </div>
-
-
 {% include 'tt_website_rodextrip/footer.html' %}
 {% include 'tt_website_rodextrip/plugin_live_youtube.html' %}
 <script>
