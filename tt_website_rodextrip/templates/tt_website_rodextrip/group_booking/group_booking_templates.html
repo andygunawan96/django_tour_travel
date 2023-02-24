@@ -135,264 +135,339 @@
 {% endif%}
 {% endif%}
 
-    {%if template == 1%}
-    <section class="testimonial-area section-gap overlay-bg" data-aos="fade-up" style="padding-top:60px; padding-bottom:60px; z-index:1; position:relative; background-image:url('{{static_path}}images/bg_airlines.jpg') !important">
-        <div class="overlay overlay-bg"></div>
-        <div class="container">
-            <div class="row">
-                {% if username.co_user_login != '' %}
-                <div id="overlay-search-box" onclick="off_overlay()"></div>
-                <div class="col-lg-12">
-                    <div id="big_banner" style="padding-bottom:15px;">
+{%if template == 1%}
+<section class="testimonial-area section-gap overlay-bg" data-aos="fade-up" style="padding-top:60px; padding-bottom:60px; z-index:1; position:relative; background-image:url('{{static_path}}images/bg_airlines.jpg') !important">
+    <div class="overlay overlay-bg"></div>
+    <div class="container">
+        <div class="row">
+            {% if username.co_user_login != '' %}
+            <div id="overlay-search-box" onclick="off_overlay()"></div>
+            {% if big_banner_value == 1 %}
+            <div class="col-lg-12">
+                <div id="big_banner" style="padding-bottom:15px;">
+                    <div class="stripe_big_banner">
+                        <div class="div_stripe">
+                            <div class="loading_stripe"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            <div class="col-lg-12">
+                <h4 style="color:{{text_color}}; padding-bottom:20px;">
+                    {% if username.co_user_login != 'agent_b2c' %}
+                    {% trans 'Hello' %}, {{username.co_user_name}}!
+                    {% trans 'Grow your business with' %} <span class="lamp">{{name}}</span>
+                    {% else %}
+                    {% trans 'Hello, dear customer, book your trip with us' %}
+                    {% endif %}
+                </h4>
+            </div>
+            {% else %}
+            <div class="col-lg-12" style="text-align:center; padding-top: 20px;">
+                <div style="background:rgba(20,20,20,0.7); padding:50px 0px 50px 0px; border-radius:7px;">
+                    <h3 style="color:{{text_color}};">Already a <span class="lamp">{{name}}</span> member?</h3>
+                    <h4 style="color:{{text_color}}; padding-top:5px;">Sign in to make booking easier!</h4>
+                    <button class="primary-btn" type="button" style="margin-top:15px;" onclick="location.href='{% url 'tt_website_rodextrip:login'%}';">
+                        Sign in <i class="fas fa-sign-in-alt"></i>
+                    </button>
+                </div>
+            </div>
+            {% endif %}
 
+            {% if username.co_user_login != '' %}
+            <input type="hidden" id="country_id"/>
+            <input type="hidden" id="start"/>
+            <input type="hidden" id="end"/>
+
+            <div class="col-lg-12" id="div-search-overlay">
+                {% if "ticketing_airline" in username.co_agent_frontend_security %}
+                <div class="banner-right">
+                    <!--<img src="{{static_path}}images/christmas-icon2.png" style="width:auto; height:90px; position:absolute; right:-35px; top:35px; float:right; z-index:200;" alt="">-->
+                    <div class="tab-content" id="myTabContent" style="border-radius:7px;">
+                        <div class="row">
+                            <div class="col-lg-12" id="groupbooking_searchForm">
+
+                            </div>
+                        </div>
+                        <form action="" method="POST" class="form-wrap" id="airline_searchForm" style="padding:0px 30px; display:none;">
+                            {% csrf_token %}
+                            <input type="hidden" name="g-recaptcha-response" id='recaptcha_airline'>
+                            <div class="row">
+                                <div class="col-lg-12" id="radio_airline_search" style="padding:0px; text-align:left;margin-bottom:10px;">
+                                    <label class="radio-button-custom crlabel">
+                                        <span style="font-size:13px; color:{{text_color}};">{% trans 'One Way' %}</span>
+                                        <input type="radio" checked="checked" name="radio_airline_type" value="oneway">
+                                        <span class="checkmark-radio crspan"></span>
+                                    </label>
+                                    <label class="radio-button-custom crlabel">
+                                        <span style="font-size:13px; color:{{text_color}};">{% trans 'Round Trip' %}</span>
+                                        <input type="radio" name="radio_airline_type" value="roundtrip">
+                                        <span class="checkmark-radio crspan"></span>
+                                    </label>
+                                </div>
+                                <div class="col-lg-12" style="display:none;padding:0px; text-align:left;margin-bottom:10px;">
+                                    <div class="checkbox" style="display:none;" id="checkbox_combo_price">
+                                        <label class="check_box_custom cblabel">
+                                            <span style="font-size:13px; color:{{text_color}};">{% trans 'Is Combo Price' %}</span>
+                                            <input type="checkbox" value="" id="is_combo_price" name="is_combo_price" disabled>
+                                            <span class="check_box_span_custom cbspan"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12" id="ori_airline">
+                                    <div class="row">
+                                        <div class="col-lg-8">
+                                            <div class="row">
+                                                <div class="col-lg-6 col-md-6 col-sm-6 airline-from" style="padding-left:0px;">
+                                                    <span class="span-search-ticket"><i class="fas fa-plane-departure"></i> {% trans 'From' %}</span>
+                                                    <div class="input-container-search-ticket">
+                                                        <div class="form-select">
+                                                            <input id="origin_id_flight" name="origin_id_flight" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('origin_id_flight').select();" onclick="set_airline_search_value_to_false();" autocomplete="off">
+                                                            <!--<select class="form-control js-example-basic-single" name="state" style="width:100%;" id="origin_id_flight" placeholder="City or Airport or IATA" onchange="airline_autocomplete('origin')">-->
+
+                                                            <!--</select>-->
+                                                        </div>
+                                                        <!--<input type="hidden" name="origin_id_flight" id="airline_origin_flight" />-->
+                                                    </div>
+                                                </div>
+                                                <div class="image-change-route-vertical">
+                                                    <span><a href="javascript:airline_switch();" tabindex="-1" style="z-index:5; color:black;" id="flight_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></span>
+                                                </div>
+                                                <div class="image-change-route-horizontal">
+                                                    <span><a class="horizontal-arrow" href="javascript:airline_switch();" tabindex="-1" style="z-index:5; color:{{text_color}};" id="flight_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt icon-change"></i></i></a></span>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6 airline-to" style="z-index:5; padding-right:0px;">
+                                                    <span class="span-search-ticket"><i class="fas fa-plane-arrival"></i> {% trans 'To' %}</span>
+                                                    <div class="input-container-search-ticket">
+                                                        <div class="form-select">
+                                                            <input id="destination_id_flight" name="destination_id_flight" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('destination_id_flight').select();" onclick="set_airline_search_value_to_false();">
+                                                            <!--<select class="form-control js-example-basic-single" name="state" style="width:100%;" id="destination_id_flight" name="destination_id_flight" placeholder="City or Airport or IATA" onchange="airline_autocomplete('destination')">-->
+
+                                                            <!--</select>-->
+                                                        </div>
+                                                        <!--<input type="hidden" name="destination_id_flight" id="airline_destination_flight" />-->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-6 col-sm-6" id="airline_date_search" style="padding:0px;">
+                                            <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Departure' %}</span>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control" name="airline_departure" id="airline_departure" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-6 col-sm-6" style="padding:0px;">
+                                            <span class="span-search-ticket"><i class="fas fa-users"></i> {% trans 'Passenger' %}</span>
+                                            <div class="input-container-search-ticket btn-group">
+                                                <button id="show_total_pax_flight_gb" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align:left; cursor:pointer;">
+                                                    1 {% trans 'Adult' %}, 0 {% trans 'Child' %}, 0 {% trans 'Infant' %}
+                                                </button>
+                                                <ul class="dropdown-menu" role="menu">
+                                                    <div class="row" style="padding:10px;">
+                                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                            <div style="float:left;">
+                                                                <label>
+                                                                    <span style="color:black; font-size:13px;">{% trans 'Adult' %}</span><br/>
+                                                                    <span style="color:gray; font-size:11px;">({% trans 'Age' %} 11+)</span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                            <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                                <button type="button" style="height:35px;" class="left-minus-adult-flight_gb btn-custom-circle" id="left-minus-adult-flight_gb" data-type="minus" data-field="" disabled>
+                                                                    <i class="fas fa-minus"></i>
+                                                                </button>
+                                                                <input type="number" style="padding:5px !important; background:none; font-size:13px; text-align:center; width:60px;" id="adult_flight_gb" name="adult_flight_gb" value="10" min="10" max="50">
+                                                                <button type="button" style="height:35px;" class="right-plus-adult-flight_gb btn-custom-circle" id="right-plus-adult-flight_gb" data-type="plus" data-field="">
+                                                                    <i class="fas fa-plus"></i>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                            <div style="float:left;">
+                                                                <label>
+                                                                    <span style="color:black; font-size:13px;">{% trans 'Child' %}<br/></span>
+                                                                    <span style="color:gray; font-size:11px;">({% trans 'Age' %} 2 - 11)</span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                            <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                                <button type="button" style="height:35px;" class="left-minus-child-flight_gb btn-custom-circle" id="left-minus-child-flight_gb" data-type="minus" data-field="" disabled>
+                                                                    <i class="fas fa-minus"></i>
+                                                                </button>
+                                                                <input type="number" style="padding:5px !important; font-size:13px; text-align:center; width:60px;" id="child_flight_gb" name="child_flight_gb" value="0" min="0">
+                                                                <button type="button" style="height:35px;" class="right-plus-child-flight_gb btn-custom-circle" id="right-plus-child-flight_gb" data-type="plus" data-field="">
+                                                                    <i class="fas fa-plus"></i>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                            <div style="float:left;">
+                                                                <label>
+                                                                    <span style="color:black; font-size:13px;">{% trans 'Infant' %}<br/></span>
+                                                                    <span style="color:gray; font-size:11px;">({% trans 'Age' %} < 2)</span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                            <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                                <button type="button" style="height:35px;" class="left-minus-infant-flight_gb btn-custom-circle" id="left-minus-infant-flight_gb" data-type="minus" data-field="" disabled>
+                                                                    <i class="fas fa-minus"></i>
+                                                                </button>
+                                                                <input type="number" style="padding:5px !important; font-size:13px; text-align:center; width:60px;" id="infant_flight_gb" name="infant_flight_gb" value="0">
+                                                                <button type="button" style="height:35px;" class="right-plus-infant-flight_gb btn-custom-circle" id="right-plus-infant-flight_gb" data-type="plus" data-field="">
+                                                                    <i class="fas fa-plus"></i>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-12" style="text-align:right;">
+                                                            <hr/>
+                                                            <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('airline','passenger');">Done</button>
+                                                        </div>
+                                                    </div>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-6 col-sm-6" style="padding:0px;">
+                                            <span class="span-search-ticket"><i class="fas fa-plane"></i> {% trans 'Airline' %}</span>
+                                            <div class="input-container-search-ticket btn-group">
+                                                <button id="show_provider_airline" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="text-align:left; cursor:pointer;">{% trans 'Choose Airline' %}</button>
+                                                <!--                                                <input id="provider_flight_btn" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"/>-->
+                                                <ul id="provider_flight_content" class="dropdown-menu" style="padding:10px 25px 10px 10px; z-index:8; overflow-y:unset; overflow-x:unset;">
+
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-6 col-sm-6" style="padding:0px;">
+                                            <span class="span-search-ticket">{% trans 'Class' %}</span>
+                                            <div class="input-container-search-ticket btn-group">
+                                                <div class="form-select" id="default-select">
+                                                    <select id="cabin_class_flight" name="cabin_class_flight" class="nice-select-default">
+                                                        {% for cabin_class in airline_cabin_class_list %}
+                                                        <option value="{{cabin_class.value}}" {% if cabin_class.value == "Y" %} selected {% endif %}>{{cabin_class.name}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12" id="mc_airline_default">
+
+                                </div>
+                                <input type="hidden" class="col-lg-12" id="counter" name="counter"/>
+
+                            </div>
+                            <br/>
+                        </form>
+                        <center>
+                            <button class="button-search primary-btn ld-ext-right mb-3" id="btn-search-hotel_wizard" onclick="group_booking_commit_booking();" type="button">
+                                Request Group Booking
+                                <div class="ld ld-ring ld-cycle"></div>
+                            </button>
+                        </center>
                     </div>
-                </div>
-                <div class="col-lg-12">
-                    <h4 style="color:{{text_color}}; padding-bottom:20px;">
-                        {% if username.co_user_login != 'agent_b2c' %}
-                        {% trans 'Hello' %}, {{username.co_user_name}}!
-                        {% trans 'Grow your business with' %} <span class="lamp">{{name}}</span>
-                        {% else %}
-                        {% trans 'Hello, dear customer, book your trip with us' %}
-                        {% endif %}
-                    </h4>
-                </div>
-                {% else %}
-                <div class="col-lg-12" style="text-align:center; padding-top: 20px;">
-                    <div style="background:rgba(20,20,20,0.7); padding:50px 0px 50px 0px; border-radius:7px;">
-                        <h3 style="color:{{text_color}};">Already a <span class="lamp">{{name}}</span> member?</h3>
-                        <h4 style="color:{{text_color}}; padding-top:5px;">Sign in to make booking easier!</h4>
-                        <button class="primary-btn" type="button" style="margin-top:15px;" onclick="location.href='{% url 'tt_website_rodextrip:login'%}';">
-                            Sign in <i class="fas fa-sign-in-alt"></i>
-                        </button>
-                    </div>
+                    <!--<img src="{{static_path}}images/christmas-icon1.png" style="width:auto; height:110px; position:absolute; left:-20px; bottom:-20px;" alt="">-->
                 </div>
                 {% endif %}
-
-                {% if username.co_user_login != '' %}
-                <input type="hidden" id="country_id"/>
-                <input type="hidden" id="start"/>
-                <input type="hidden" id="end"/>
-
-                <div class="col-lg-12" id="div-search-overlay">
-                    {% if "ticketing_airline" in username.co_agent_frontend_security %}
-                    <div class="banner-right">
-                        <!--<img src="{{static_path}}images/christmas-icon2.png" style="width:auto; height:90px; position:absolute; right:-35px; top:35px; float:right; z-index:200;" alt="">-->
-                        <div class="tab-content" id="myTabContent" style="border-radius:7px;">
-                            <div class="row">
-                                <div class="col-lg-12" id="groupbooking_searchForm">
-
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% if small_banner_value == 1 %}
+<section class="popular-destination-area section-gap" style="z-index:0; position:relative; padding-bottom:20px; background:white;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="menu-content">
+                    <div class="title text-center">
+                        <h1>HOT DEALS</h1>
+                    </div>
+                    <br/>
+                </div>
+                <div id="small_banner">
+                    <div class="row">
+                        <div class="col-lg-3 col-sm-6">
+                            <div class="stripe_small_banner">
+                                <div class="div_stripe">
+                                    <div class="loading_stripe"></div>
                                 </div>
                             </div>
-                            <form action="" method="POST" class="form-wrap" id="airline_searchForm" style="padding:0px 30px; display:none;">
-                                {% csrf_token %}
-                                <input type="hidden" name="g-recaptcha-response" id='recaptcha_airline'>
-                                <div class="row">
-                                    <div class="col-lg-12" id="radio_airline_search" style="padding:0px; text-align:left;margin-bottom:10px;">
-                                        <label class="radio-button-custom crlabel">
-                                            <span style="font-size:13px; color:{{text_color}};">{% trans 'One Way' %}</span>
-                                            <input type="radio" checked="checked" name="radio_airline_type" value="oneway">
-                                            <span class="checkmark-radio crspan"></span>
-                                        </label>
-                                        <label class="radio-button-custom crlabel">
-                                            <span style="font-size:13px; color:{{text_color}};">{% trans 'Round Trip' %}</span>
-                                            <input type="radio" name="radio_airline_type" value="roundtrip">
-                                            <span class="checkmark-radio crspan"></span>
-                                        </label>
-                                    </div>
-                                    <div class="col-lg-12" style="display:none;padding:0px; text-align:left;margin-bottom:10px;">
-                                        <div class="checkbox" style="display:none;" id="checkbox_combo_price">
-                                            <label class="check_box_custom cblabel">
-                                                <span style="font-size:13px; color:{{text_color}};">{% trans 'Is Combo Price' %}</span>
-                                                <input type="checkbox" value="" id="is_combo_price" name="is_combo_price" disabled>
-                                                <span class="check_box_span_custom cbspan"></span>
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12" id="ori_airline">
-                                        <div class="row">
-                                            <div class="col-lg-8">
-                                                <div class="row">
-                                                    <div class="col-lg-6 col-md-6 col-sm-6 airline-from" style="padding-left:0px;">
-                                                        <span class="span-search-ticket"><i class="fas fa-plane-departure"></i> {% trans 'From' %}</span>
-                                                        <div class="input-container-search-ticket">
-                                                            <div class="form-select">
-                                                                <input id="origin_id_flight" name="origin_id_flight" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('origin_id_flight').select();" onclick="set_airline_search_value_to_false();" autocomplete="off">
-                                                                <!--<select class="form-control js-example-basic-single" name="state" style="width:100%;" id="origin_id_flight" placeholder="City or Airport or IATA" onchange="airline_autocomplete('origin')">-->
-
-                                                                <!--</select>-->
-                                                            </div>
-                                                            <!--<input type="hidden" name="origin_id_flight" id="airline_origin_flight" />-->
-                                                        </div>
-                                                    </div>
-                                                    <div class="image-change-route-vertical">
-                                                        <span><a href="javascript:airline_switch();" tabindex="-1" style="z-index:5; color:black;" id="flight_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></span>
-                                                    </div>
-                                                    <div class="image-change-route-horizontal">
-                                                        <span><a class="horizontal-arrow" href="javascript:airline_switch();" tabindex="-1" style="z-index:5; color:{{text_color}};" id="flight_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt icon-change"></i></i></a></span>
-                                                    </div>
-                                                    <div class="col-lg-6 col-md-6 col-sm-6 airline-to" style="z-index:5; padding-right:0px;">
-                                                        <span class="span-search-ticket"><i class="fas fa-plane-arrival"></i> {% trans 'To' %}</span>
-                                                        <div class="input-container-search-ticket">
-                                                            <div class="form-select">
-                                                                <input id="destination_id_flight" name="destination_id_flight" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('destination_id_flight').select();" onclick="set_airline_search_value_to_false();">
-                                                                <!--<select class="form-control js-example-basic-single" name="state" style="width:100%;" id="destination_id_flight" name="destination_id_flight" placeholder="City or Airport or IATA" onchange="airline_autocomplete('destination')">-->
-
-                                                                <!--</select>-->
-                                                            </div>
-                                                            <!--<input type="hidden" name="destination_id_flight" id="airline_destination_flight" />-->
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-4 col-md-6 col-sm-6" id="airline_date_search" style="padding:0px;">
-                                                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Departure' %}</span>
-                                                <div class="input-container-search-ticket">
-                                                    <input type="text" class="form-control" name="airline_departure" id="airline_departure" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-4 col-md-6 col-sm-6" style="padding:0px;">
-                                                <span class="span-search-ticket"><i class="fas fa-users"></i> {% trans 'Passenger' %}</span>
-                                                <div class="input-container-search-ticket btn-group">
-                                                    <button id="show_total_pax_flight_gb" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align:left; cursor:pointer;">
-                                                        1 {% trans 'Adult' %}, 0 {% trans 'Child' %}, 0 {% trans 'Infant' %}
-                                                    </button>
-                                                    <ul class="dropdown-menu" role="menu">
-                                                        <div class="row" style="padding:10px;">
-                                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                                                <div style="float:left;">
-                                                                    <label>
-                                                                        <span style="color:black; font-size:13px;">{% trans 'Adult' %}</span><br/>
-                                                                        <span style="color:gray; font-size:11px;">({% trans 'Age' %} 11+)</span>
-                                                                    </label>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                                                <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                                    <button type="button" style="height:35px;" class="left-minus-adult-flight_gb btn-custom-circle" id="left-minus-adult-flight_gb" data-type="minus" data-field="" disabled>
-                                                                        <i class="fas fa-minus"></i>
-                                                                    </button>
-                                                                    <input type="number" style="padding:5px !important; background:none; font-size:13px; text-align:center; width:60px;" id="adult_flight_gb" name="adult_flight_gb" value="10" min="10" max="50">
-                                                                    <button type="button" style="height:35px;" class="right-plus-adult-flight_gb btn-custom-circle" id="right-plus-adult-flight_gb" data-type="plus" data-field="">
-                                                                        <i class="fas fa-plus"></i>
-                                                                    </button>
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                                                <div style="float:left;">
-                                                                    <label>
-                                                                        <span style="color:black; font-size:13px;">{% trans 'Child' %}<br/></span>
-                                                                        <span style="color:gray; font-size:11px;">({% trans 'Age' %} 2 - 11)</span>
-                                                                    </label>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                                                <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                                    <button type="button" style="height:35px;" class="left-minus-child-flight_gb btn-custom-circle" id="left-minus-child-flight_gb" data-type="minus" data-field="" disabled>
-                                                                        <i class="fas fa-minus"></i>
-                                                                    </button>
-                                                                    <input type="number" style="padding:5px !important; font-size:13px; text-align:center; width:60px;" id="child_flight_gb" name="child_flight_gb" value="0" min="0">
-                                                                    <button type="button" style="height:35px;" class="right-plus-child-flight_gb btn-custom-circle" id="right-plus-child-flight_gb" data-type="plus" data-field="">
-                                                                        <i class="fas fa-plus"></i>
-                                                                    </button>
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                                                <div style="float:left;">
-                                                                    <label>
-                                                                        <span style="color:black; font-size:13px;">{% trans 'Infant' %}<br/></span>
-                                                                        <span style="color:gray; font-size:11px;">({% trans 'Age' %} < 2)</span>
-                                                                    </label>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                                                <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                                    <button type="button" style="height:35px;" class="left-minus-infant-flight_gb btn-custom-circle" id="left-minus-infant-flight_gb" data-type="minus" data-field="" disabled>
-                                                                        <i class="fas fa-minus"></i>
-                                                                    </button>
-                                                                    <input type="number" style="padding:5px !important; font-size:13px; text-align:center; width:60px;" id="infant_flight_gb" name="infant_flight_gb" value="0">
-                                                                    <button type="button" style="height:35px;" class="right-plus-infant-flight_gb btn-custom-circle" id="right-plus-infant-flight_gb" data-type="plus" data-field="">
-                                                                        <i class="fas fa-plus"></i>
-                                                                    </button>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-lg-12" style="text-align:right;">
-                                                                <hr/>
-                                                                <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('airline','passenger');">Done</button>
-                                                            </div>
-                                                        </div>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-4 col-md-6 col-sm-6" style="padding:0px;">
-                                                <span class="span-search-ticket"><i class="fas fa-plane"></i> {% trans 'Airline' %}</span>
-                                                <div class="input-container-search-ticket btn-group">
-                                                    <button id="show_provider_airline" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="text-align:left; cursor:pointer;">{% trans 'Choose Airline' %}</button>
-                                                    <!--                                                <input id="provider_flight_btn" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"/>-->
-                                                    <ul id="provider_flight_content" class="dropdown-menu" style="padding:10px 25px 10px 10px; z-index:8; overflow-y:unset; overflow-x:unset;">
-
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-4 col-md-6 col-sm-6" style="padding:0px;">
-                                                <span class="span-search-ticket">{% trans 'Class' %}</span>
-                                                <div class="input-container-search-ticket btn-group">
-                                                    <div class="form-select" id="default-select">
-                                                        <select id="cabin_class_flight" name="cabin_class_flight" class="nice-select-default">
-                                                            {% for cabin_class in airline_cabin_class_list %}
-                                                            <option value="{{cabin_class.value}}" {% if cabin_class.value == "Y" %} selected {% endif %}>{{cabin_class.name}}</option>
-                                                            {% endfor %}
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12" id="mc_airline_default">
-
-                                    </div>
-                                    <input type="hidden" class="col-lg-12" id="counter" name="counter"/>
-
-                                </div>
-                                <br/>
-                            </form>
-                            <center>
-                                <button class="button-search primary-btn ld-ext-right mb-3" id="btn-search-hotel_wizard" onclick="group_booking_commit_booking();" type="button">
-                                    Request Group Booking
-                                    <div class="ld ld-ring ld-cycle"></div>
-                                </button>
-                            </center>
                         </div>
-                        <!--<img src="{{static_path}}images/christmas-icon1.png" style="width:auto; height:110px; position:absolute; left:-20px; bottom:-20px;" alt="">-->
+                        <div class="col-lg-3 col-sm-6">
+                            <div class="stripe_small_banner show_hide_mb">
+                                <div class="div_stripe">
+                                    <div class="loading_stripe"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-sm-6">
+                            <div class="stripe_small_banner show_hide">
+                                <div class="div_stripe">
+                                    <div class="loading_stripe"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-sm-6">
+                            <div class="stripe_small_banner show_hide">
+                                <div class="div_stripe">
+                                    <div class="loading_stripe"></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    {% endif %}
                 </div>
-                {% endif %}
             </div>
         </div>
-    </section>
-    <div id="small_banner" style="padding: 0px 0px 15px 0px;">
-
     </div>
+</section>
+{% endif %}
+<!--{% if dynamic_page_value == 1 %}-->
+<!--<section class="popular-destination-area" style="z-index:0; position:relative;">-->
+<!--    <div class="container">-->
+<!--        <div class="row">-->
+<!--            <div class="col-lg-12 mb-3">-->
+<!--                <div class="title text-center pb-4" id="dynamic_page">-->
+<!--                    <h1>INFORMATION</h1>-->
+<!--                </div>-->
+<!--                <div class="col-lg-12" id="owl-login2" style="padding:0px;">-->
+<!--                    <div class="row">-->
+<!--                        <div class="col-lg-4 col-md-6">-->
+<!--                            <div class="stripe_dynamic_page">-->
+<!--                                <div class="div_stripe">-->
+<!--                                    <div class="loading_stripe"></div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="col-lg-4 col-md-6">-->
+<!--                            <div class="stripe_dynamic_page show_hide_mb">-->
+<!--                                <div class="div_stripe">-->
+<!--                                    <div class="loading_stripe"></div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="col-lg-4 col-md-6">-->
+<!--                            <div class="stripe_dynamic_page show_hide">-->
+<!--                                <div class="div_stripe">-->
+<!--                                    <div class="loading_stripe"></div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</section>-->
+<!--{% endif %}-->
 
-    <section class="popular-destination-area" style="z-index:0; position:relative;">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 mb-3">
-                    <div class="title text-center pb-4" id="dynamic_page">
-
-                    </div>
-                    <div class="row" id="owl-login2">
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
     {% elif template == 2 %}
-    <div class="banner-area-rodex bg-img bg-overlay jarallax" style="background-image: url('{{static_path}}images/bg_airlines.jpg') !important;">
+    <div class="banner-area-div bg-img bg-overlay jarallax" style="background-image: url('{{static_path}}images/bg_airlines.jpg') !important;">
         <div class="container h-100">
             <div class="row h-100 align-items-center">
             </div>
