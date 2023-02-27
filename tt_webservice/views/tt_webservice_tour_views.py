@@ -13,6 +13,7 @@ from .tt_webservice_views import *
 from .tt_webservice import *
 from .tt_webservice_voucher_views import *
 from ..views import tt_webservice_agent_views as webservice_agent
+from tt_website_rodextrip.views import tt_website_rodextrip_views as rodextrip_views
 _logger = logging.getLogger("rodextrip_logger")
 
 month = {
@@ -218,9 +219,11 @@ def get_auto_complete_gateway(request):
 def get_data(request):
     try:
         temp_data = get_cache_data()
+        template_data = rodextrip_views.get_data_template(request)
 
         response = {
-            'tour_countries': temp_data['result']['response']['tour']['countries']
+            'tour_countries': temp_data['result']['response']['tour']['countries'],
+            'tour_search_template': template_data['tour_search_template']
         }
 
         # res = search2(request)
@@ -228,6 +231,7 @@ def get_data(request):
     except Exception as e:
         response = {
             'tour_countries': [],
+            'tour_search_template': 'default_search'
         }
 
         _logger.error(str(e) + '\n' + traceback.format_exc())

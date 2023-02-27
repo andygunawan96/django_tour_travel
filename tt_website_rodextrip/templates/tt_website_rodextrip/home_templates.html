@@ -1242,6 +1242,30 @@
                         </div>
                         {% endif %}
                         {% if "tour" in provider and "ticketing_tour" in username.co_agent_frontend_security %}
+                        {% if tour_search_template == 'country_search' %}
+                        <div class="tab-pane fade" id="tour" role="tabpanel" aria-labelledby="tour-tab">
+                            <form action="{% url 'tt_website_rodextrip:tour_search'%}" id="tour_search_form" class="form-wrap" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="g-recaptcha-response" id='recaptcha_tour'>
+                                <input type="hidden" name="tour_query" id="tour_query" value=""/>
+                                <input type="hidden" name="tour_cities" id="tour_cities" value="0"/>
+                                <input type="hidden" name="tour_dest_month" id="tour_dest_month" value="00"/>
+                                <input type="hidden" name="tour_dest_year" id="tour_dest_year" value="0000"/>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="row">
+                                            <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Select Country' %} </span>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-12" id="tour_countries" style="padding:0px; text-align:left;margin-bottom:10px;">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        {% else %}
                         <div class="tab-pane fade" id="tour" role="tabpanel" aria-labelledby="tour-tab">
                             <form action="{% url 'tt_website_rodextrip:tour_search'%}" id="tour_search_form" class="form-wrap" method="post">
                                 {% csrf_token %}
@@ -1335,6 +1359,7 @@
                                 </center>
                             </form>
                         </div>
+                        {% endif %}
                         {% endif %}
                         {% if "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_visa" in username.co_agent_frontend_security %}
                         <div class="tab-pane fade" id="visa" role="tabpanel" aria-labelledby="visa-tab">
@@ -2577,6 +2602,30 @@
                     </div>
                     {% endif %}
                     {% if "tour" in provider and "ticketing_tour" in username.co_agent_frontend_security %}
+                    {% if tour_search_template == 'country_search' %}
+                    <div id="tab-tour" class="tab-content">
+                        <form action="{% url 'tt_website_rodextrip:tour_search'%}" id="tour_search_form" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="g-recaptcha-response" id='recaptcha_tour'>
+                            <input type="hidden" name="tour_query" id="tour_query" value=""/>
+                            <input type="hidden" name="tour_cities" id="tour_cities" value="0"/>
+                            <input type="hidden" name="tour_dest_month" id="tour_dest_month" value="00"/>
+                            <input type="hidden" name="tour_dest_year" id="tour_dest_year" value="0000"/>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="row">
+                                        <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Select Country' %} </span>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-12" id="tour_countries" style="padding:0px; text-align:left;margin-bottom:10px;">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    {% else %}
                     <div id="tab-tour" class="tab-content">
                         <form action="{% url 'tt_website_rodextrip:tour_search'%}" id="tour_search_form" method="post">
                             {% csrf_token %}
@@ -2670,6 +2719,7 @@
                             </center>
                         </form>
                     </div>
+                    {% endif %}
                     {% endif %}
                     {% if "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_visa" in username.co_agent_frontend_security %}
                     <div id="tab-visa" class="tab-content">
@@ -4010,6 +4060,31 @@
                         </div>
                         {% endif %}
                         {% if "tour" in provider and "ticketing_tour" in username.co_agent_frontend_security %}
+                        {% if tour_search_template == 'country_search' %}
+                        <div id="tab-tour" class="tab-content">
+                            <h4 class="pb-30" style="color:{{text_color}};">{% trans 'Book Your Tour' %}</h4>
+                            <form action="{% url 'tt_website_rodextrip:tour_search'%}" id="tour_search_form" class="form-wrap" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="g-recaptcha-response" id='recaptcha_tour'>
+                                <input type="hidden" name="tour_query" id="tour_query" value=""/>
+                                <input type="hidden" name="tour_cities" id="tour_cities" value="0"/>
+                                <input type="hidden" name="tour_dest_month" id="tour_dest_month" value="00"/>
+                                <input type="hidden" name="tour_dest_year" id="tour_dest_year" value="0000"/>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="row">
+                                            <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Select Country' %} </span>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-12" id="tour_countries" style="padding:0px; text-align:left;margin-bottom:10px;">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        {% else %}
                         <div id="tab-tour" class="tab-content">
                             <h4 class="pb-30" style="color:{{text_color}};">{% trans 'Book Your Tour' %}</h4>
                             <form action="{% url 'tt_website_rodextrip:tour_search'%}" id="tour_search_form" class="form-wrap" method="post">
@@ -4100,6 +4175,7 @@
                                 </center>
                             </form>
                         </div>
+                        {% endif %}
                         {% endif %}
                         {% if "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_visa" in username.co_agent_frontend_security %}
                         <div id="tab-visa" class="tab-content">
@@ -5511,6 +5587,30 @@
                                 </div>
                                 {% endif %}
                                 {% if "tour" in provider and "ticketing_tour" in username.co_agent_frontend_security %}
+                                {% if tour_search_template == 'country_search' %}
+                                <div class="form-search-wrap tab-content" id="tab-tour" data-aos="fade-up" data-aos-delay="200">
+                                    <form action="{% url 'tt_website_rodextrip:tour_search'%}" id="tour_search_form" method="post">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="g-recaptcha-response" id='recaptcha_tour'>
+                                        <input type="hidden" name="tour_query" id="tour_query" value=""/>
+                                        <input type="hidden" name="tour_cities" id="tour_cities" value="0"/>
+                                        <input type="hidden" name="tour_dest_month" id="tour_dest_month" value="00"/>
+                                        <input type="hidden" name="tour_dest_year" id="tour_dest_year" value="0000"/>
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="row">
+                                                    <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Select Country' %} </span>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-12" id="tour_countries" style="padding:0px; text-align:left;margin-bottom:10px;">
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                {% else %}
                                 <div class="form-search-wrap tab-content" id="tab-tour" data-aos="fade-up" data-aos-delay="200">
                                     <form action="{% url 'tt_website_rodextrip:tour_search'%}" id="tour_search_form" method="post">
                                         {% csrf_token %}
@@ -5601,6 +5701,7 @@
                                         </center>
                                     </form>
                                 </div>
+                                {% endif %}
                                 {% endif %}
                                 {% if "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_visa" in username.co_agent_frontend_security %}
                                 <div class="form-search-wrap tab-content" id="tab-visa" data-aos="fade-up" data-aos-delay="200">
@@ -7001,6 +7102,30 @@
                                     </div>
                                     {% endif %}
                                     {% if "tour" in provider and "ticketing_tour" in username.co_agent_frontend_security %}
+                                    {% if tour_search_template == 'country_search' %}
+                                    <div id="tab-tour" class="tab-content">
+                                        <form action="{% url 'tt_website_rodextrip:tour_search'%}" id="tour_search_form" class="form-wrap" method="post">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="g-recaptcha-response" id='recaptcha_tour'>
+                                            <input type="hidden" name="tour_query" id="tour_query" value=""/>
+                                            <input type="hidden" name="tour_cities" id="tour_cities" value="0"/>
+                                            <input type="hidden" name="tour_dest_month" id="tour_dest_month" value="00"/>
+                                            <input type="hidden" name="tour_dest_year" id="tour_dest_year" value="0000"/>
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div class="row">
+                                                        <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Select Country' %} </span>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-lg-12" id="tour_countries" style="padding:0px; text-align:left;margin-bottom:10px;">
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    {% else %}
                                     <div id="tab-tour" class="tab-content">
                                         <form action="{% url 'tt_website_rodextrip:tour_search'%}" id="tour_search_form" class="form-wrap" method="post">
                                             {% csrf_token %}
@@ -7092,6 +7217,7 @@
                                             </center>
                                         </form>
                                     </div>
+                                    {% endif %}
                                     {% endif %}
                                     {% if "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_visa" in username.co_agent_frontend_security %}
                                     <div id="tab-visa" class="tab-content">
@@ -8731,6 +8857,53 @@
     </div>
 </section>
 {% elif "tour" in provider and "ticketing_tour" in username.co_agent_frontend_security and rec.code == "tour" %}
+{% if tour_search_template == 'country_search' %}
+<section class="about mb-5" style="display:none;" id="box_tour">
+    <div class="container">
+        <div class="row" style="padding:15px;">
+            <div class="col-lg-2"></div>
+            {% if username.co_user_login != '' %}
+            <div class="col-lg-8">
+                <div class="row">
+                    <div class="col-lg-12" style="border:1px solid {{color}}; float:left; padding:15px;">
+                        <button class="primary-btn-white" style="float:left; margin-bottom:0px;" onclick="product_change_box('choose')">
+                            <i class="fas fa-arrow-circle-left"></i> Back
+                        </button>
+                        <h4 class="heading" style="text-align:right;">
+                            <img style="width:auto; height:25px" src="{{static_path}}images/icon/color-tour.png" alt="Tour Icon"/>
+                            {% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}
+                        </h4>
+                    </div>
+                    <div class="col-lg-12" style="background:{{tab_color}}; padding:30px;">
+                        <form action="{% url 'tt_website_rodextrip:tour_search'%}" id="tour_search_form" class="form-wrap" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="g-recaptcha-response" id='recaptcha_tour'>
+                            <input type="hidden" name="tour_query" id="tour_query" value=""/>
+                            <input type="hidden" name="tour_cities" id="tour_cities" value="0"/>
+                            <input type="hidden" name="tour_dest_month" id="tour_dest_month" value="00"/>
+                            <input type="hidden" name="tour_dest_year" id="tour_dest_year" value="0000"/>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="row">
+                                        <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Select Country' %} </span>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-12" id="tour_countries" style="padding:0px; text-align:left;margin-bottom:10px;">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            <div class="col-lg-2"></div>
+        </div>
+    </div>
+</section>
+{% else %}
 <section class="about mb-5" style="display:none;" id="box_tour">
     <div class="container">
         <div class="row" style="padding:15px;">
@@ -8847,6 +9020,7 @@
         </div>
     </div>
 </section>
+{% endif %}
 {% elif "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_visa" in username.co_agent_frontend_security and rec.code == "visa" %}
 <section class="about mb-5" style="display:none;" id="box_visa">
     <div class="container">
@@ -10022,7 +10196,7 @@
             });
 
             {% endif %}
-            {% if "tour" in provider and "ticketing_tour" in username.co_agent_frontend_security %}
+            {% if "tour" in provider and "ticketing_tour" in username.co_agent_frontend_security and tour_search_template == "default_search" %}
             get_dept_year();
             var tour_autocomplete = new autoComplete({
                 selector: '#tour_query',
