@@ -1060,7 +1060,6 @@ function get_dynamic_page(type){
                                 </div>
                             </div>`;
                             //buat owlcaoursel
-                            text+=`</div>`;
                         }
                     }
                     //buat owlcaoursel
