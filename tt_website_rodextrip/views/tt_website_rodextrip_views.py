@@ -7,6 +7,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import authentication, permissions
 from tt_webservice.views.tt_webservice_agent_views import *
+from tt_webservice.views.tt_webservice_content_views import *
 from tt_webservice.views.tt_webservice_airline_views import *
 from tt_webservice.views.tt_webservice_payment_views import *
 from tt_webservice.views.tt_webservice_views import *
@@ -47,6 +48,34 @@ provider_type = {
     'GB': 'groupbooking',
 }
 
+def check_banner(page, banner_type):
+    check_banner = 0
+    try:
+        if banner_type == 'big_banner':
+            file = get_banner_data('big_banner')
+        elif banner_type == 'small_banner':
+            file = get_banner_data('big_banner')
+        elif banner_type == 'promotion':
+            file = get_banner_data('big_banner')
+        elif banner_type == 'dynamic_page':
+            file = get_dynamic_page({})
+            if len(file['result']['response']) != 0:
+                check_banner = 1
+        else:
+            file = False
+        if file:
+            for banner in file['result']['response']:
+                if banner['active']:
+                    if page == 'home':
+                        check_banner = 1
+                        break
+                    else:
+                        if banner['provider_type'] == page:
+                            check_banner = 1
+                            break
+    except Exception as e:
+        _logger.error(str(e) + traceback.format_exc())
+    return check_banner
 
 def check_big_banner(provider_page):
     try:
@@ -316,9 +345,9 @@ def index(request):
                                 'update_data': 'false',
                                 'static_path_url_server': get_url_static_path(),
                                 'signature': request.session['signature'],
-                                'big_banner_value': check_big_banner('home'),
-                                'small_banner_value': check_small_banner('home'),
-                                'dynamic_page_value': check_dynamic_page(),
+                                'big_banner_value': check_banner('home', 'big_banner'),
+                                'small_banner_value': check_banner('home', 'small_banner'),
+                                'dynamic_page_value': check_banner('', 'dynamic_page'),
                             })
                         except Exception as e:
                             _logger.error(str(e) + '\n' + traceback.format_exc())
@@ -560,9 +589,9 @@ def login(request):
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'javascript_version': javascript_version,
                 'static_path_url_server': get_url_static_path(),
-                'big_banner_value': check_big_banner('home'),
-                'small_banner_value': check_small_banner('home'),
-                'dynamic_page_value': check_dynamic_page(),
+                'big_banner_value': check_banner('home', 'big_banner'),
+                'small_banner_value': check_banner('home', 'small_banner'),
+                'dynamic_page_value': check_banner('', 'dynamic_page'),
                 'username': {'co_user_login': ''}
             })
         except Exception as e:

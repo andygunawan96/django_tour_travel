@@ -1789,27 +1789,39 @@ function select_passenger(val){
         else
             document.getElementById('seat_journey'+parseInt(parseInt(i)+1)).innerHTML = '';
     }
+    print_behavior = false;
     if(pax[val-1].hasOwnProperty('behaviors') && Object.keys(pax[val-1].behaviors).length > 0){
-        print_behavior = false;
-        text=`<br/><b>Behavior History:</b><br/>`;
         for(j in pax[val-1].behaviors){
             if(j.toLowerCase() == 'train'){
-                print_behavior = true;
-                text+=`<b>`+j+`</b><br/>`;
-                for(k in pax[val-1].behaviors[j]){
-                    text+=`<span><i>`+k+`: </i><b>`+pax[val-1].behaviors[j][k].value+`</b>`;
-                    if(pax[val-1].behaviors[j][k].remark != '' && pax[val-1].behaviors[j][k].remark != false)
-                        text +=` - `+pax[val-1].behaviors[j][k].remark;
-                    text+=`</span><br/>`;
+                if(pax[val-1].behaviors[j]){
+                    print_behavior = true;
+                    text=`<br/><b>Behavior History:</b><br/>`;
+                    text+=`<b>`+j+`</b><br/>`;
+                    text += `<textarea id="passenger_remark" rows="`+parseInt(parseInt(pax[val-1].behaviors[j].split('\n').length)+2)+`" cols="40" onchange="update_remark(`+parseInt(parseInt(val)-1)+`)">`+pax[val-1].behaviors[j].split('<br/>').join('\n')+`</textarea><br/>`;
                 }
             }
         }
-        if(print_behavior)
-            document.getElementById('detail_behavior_passenger').innerHTML = text;
     }
-
+    if(print_behavior)
+        document.getElementById('detail_behavior_passenger').innerHTML = text;
+    else{
+        text=`<br/><b>Behavior History:</b><br/>`;
+        text+=`<b>Seat:</b><br/>`;
+        text+= `<textarea id="passenger_remark" rows="6" cols="40" onchange="update_remark(`+parseInt(parseInt(val)-1)+`)">Solo Traveller:\n\nGroup Traveller:\n</textarea><br/>`;
+        document.getElementById('detail_behavior_passenger').innerHTML = text;
+    }
     pax_click = val;
     print_seat_map();
+}
+
+function update_remark(val){
+    if(!pax[val].hasOwnProperty('behaviors')){
+        pax[val]['behaviors'] = {}
+    }
+    if(!pax[val]['behaviors'].hasOwnProperty('Train')){
+        pax[val]['behaviors']['Train'] = ""
+    }
+    pax[val]['behaviors']['Train'] = document.getElementById('passenger_remark').value.split('\n').join('<br/>');
 }
 
 function select_journey(val){

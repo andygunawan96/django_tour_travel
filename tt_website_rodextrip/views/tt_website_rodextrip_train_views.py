@@ -92,9 +92,9 @@ def train(request):
                 'javascript_version': javascript_version,
                 'update_data': 'false',
                 'static_path_url_server': get_url_static_path(),
-                'big_banner_value': check_big_banner('train'),
-                'small_banner_value': check_small_banner('train'),
-                'dynamic_page_value': check_dynamic_page(),
+                'big_banner_value': check_banner('train', 'big_banner'),
+                'small_banner_value': check_banner('train', 'small_banner'),
+                'dynamic_page_value': check_banner('', 'dynamic_page'),
                 'signature': request.session['signature'],
 
             })

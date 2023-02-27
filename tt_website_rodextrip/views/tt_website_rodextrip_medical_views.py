@@ -93,9 +93,9 @@ def medical(request, vendor=''):
                     'javascript_version': javascript_version,
                     'update_data': 'false',
                     'static_path_url_server': get_url_static_path(),
-                    'big_banner_value': check_big_banner(vendor),
-                    'small_banner_value': check_small_banner(vendor),
-                    'dynamic_page_value': check_dynamic_page(),
+                    'big_banner_value': check_banner(vendor, 'big_banner'),
+                    'small_banner_value': check_banner(vendor, 'small_banner'),
+                    'dynamic_page_value': check_banner('', 'dynamic_page'),
                     'signature': request.session['signature'],
                     'vendor': vendor
 

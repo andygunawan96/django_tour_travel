@@ -2129,12 +2129,7 @@ function filter_search_passenger(passenger_type='passenger', number='', product=
                         if(j.toLowerCase() == product || product == 'cache'){
                             print_pop_behavior = true;
                             response_pop_behavior+=`<b><i class="fas fa-angle-right"></i> `+j+`</b><br/>`;
-                            for(k in msg.result.response[i].behaviors[j]){
-                                response_pop_behavior+=`<span><i>`+k+`: </i><b>`+msg.result.response[i].behaviors[j][k].value+`</b>`;
-                                if(msg.result.response[i].behaviors[j][k].remark != '' && msg.result.response[i].behaviors[j][k].remark != false)
-                                    response_pop_behavior +=` - `+msg.result.response[i].behaviors[j][k].remark;
-                                response_pop_behavior+=`</span><br/>`;
-                            }
+                            response_pop_behavior+=`<span>`+msg.result.response[i].behaviors[j]+`</span><br/>`;
                         }
                     }
                     if(print_pop_behavior){
@@ -2231,12 +2226,7 @@ function filter_search_passenger(passenger_type='passenger', number='', product=
                         if(j.toLowerCase() == product || product == 'cache'){
                             print_pop_behavior = true;
                             response_pop_behavior+=`<b><i class="fas fa-angle-right"></i> `+j+`</b><br/>`;
-                            for(k in msg.result.response[i].behaviors[j]){
-                                response_pop_behavior+=`<span><i>`+k+`: </i><b>`+msg.result.response[i].behaviors[j][k].value+`</b>`;
-                                if(msg.result.response[i].behaviors[j][k].remark != '' && msg.result.response[i].behaviors[j][k].remark != false)
-                                    response_pop_behavior +=` - `+msg.result.response[i].behaviors[j][k].remark;
-                                response_pop_behavior+=`</span><br/>`;
-                            }
+                            response_pop_behavior+=`<span>`+msg.result.response[i].behaviors[j]+`</span><br/>`;
                         }
                     }
                     if(print_pop_behavior){
@@ -7261,12 +7251,7 @@ function get_passenger_cache(type,update_cache=false){
                             for(j in msg.result.response[i].behaviors){
                                 print_pop_behavior = true;
                                 response_pop_behavior+=`<b><i class="fas fa-angle-right"></i> `+j+`</b><br/>`;
-                                for(k in msg.result.response[i].behaviors[j]){
-                                    response_pop_behavior+=`<span><i>`+k+`: </i><b>`+msg.result.response[i].behaviors[j][k].value+`</b>`;
-                                    if(msg.result.response[i].behaviors[j][k].remark != '' && msg.result.response[i].behaviors[j][k].remark != false)
-                                        response_pop_behavior +=` - `+msg.result.response[i].behaviors[j][k].remark;
-                                    response_pop_behavior+=`</span><br/>`;
-                                }
+                                response_pop_behavior+=`<span>`+msg.result.response[i].behaviors[j]+`</span><br/>`;
                             }
                             if(print_pop_behavior){
                                 new jBox('Tooltip', {
