@@ -44,12 +44,7 @@
         {% endfor %}
         {% for key, provider_type in passenger.behaviors.items %}
             provider_type = `{{key}}`;
-            pax[pax.length-1]['behaviors'][provider_type] = {};
-            {% for key,behavior_provider in provider_type.items %}
-                pax[pax.length-1]['behaviors'][provider_type][`{{key}}`] = {};
-                pax[pax.length-1]['behaviors'][provider_type][`{{key}}`]['value'] = `{{behavior_provider.value}}`;
-                pax[pax.length-1]['behaviors'][provider_type][`{{key}}`]['remark'] = `{{behavior_provider.remark}}`;
-            {% endfor%}
+            pax[pax.length-1]['behaviors'][`{{key}}`] = `{{provider_type}}`;
         {% endfor %}
     {% endfor %}
 </script>

@@ -80,9 +80,9 @@ def airline(request):
                 'javascript_version': javascript_version,
                 'update_data': 'false',
                 'static_path_url_server': get_url_static_path(),
-                'big_banner_value': check_big_banner('airline'),
-                'small_banner_value': check_small_banner('airline'),
-                'dynamic_page_value': check_dynamic_page(),
+                'big_banner_value': check_banner('airline', 'big_banner'),
+                'small_banner_value': check_banner('airline', 'small_banner'),
+                'dynamic_page_value': check_banner('', 'dynamic_page'),
                 'signature': request.session['signature'],
             })
         except Exception as e:
@@ -697,8 +697,16 @@ def ssr(request, signature):
                         'airline_list': airline_list
                     })
                     airline_list = []
-                passenger = request.session['passenger_with_ssr_%s' % signature]
-
+                passengers = request.session['passenger_with_ssr_%s' % signature]
+                for pax in passengers:
+                    if not pax.get('behaviors'):
+                        pax['behaviors'] = {}
+                    if not pax['behaviors'].get('Airline'):
+                        pax['behaviors']['Airline'] = ""
+                    if pax['behaviors'].get('Airline'):
+                        pax['behaviors']['Airline'] = pax['behaviors']['Airline'].replace('<br/>', '\n')
+                    else:
+                        pax['behaviors']['Airline'] = 'Solo Traveller\n\nGroupTraveller\n'
                 time_limit = get_timelimit_product(request, 'airline')
                 if time_limit == 0:
                     time_limit = int(request.POST['time_limit_input'])
@@ -719,7 +727,7 @@ def ssr(request, signature):
                     'upsell': request.session.get('airline_upsell_'+signature) and request.session.get('airline_upsell_'+signature) or 0,
                     'signature': signature,
                     'airline_ssrs': airline_ssr,
-                    'passengers': passenger,
+                    'passengers': passengers,
                     'username': request.session['user_account'],
                     'javascript_version': javascript_version,
                     'static_path_url_server': get_url_static_path(),
@@ -1015,6 +1023,9 @@ def seat_map(request, signature):
                                         'currency': '',
                                         'price': ''
                                     })
+                    if pax.get('behaviors'):
+                        if pax['behaviors'].get('Airline'):
+                            pax['behaviors']['Airline'] = pax['behaviors']['Airline'].replace('<p>','').replace('</p>','').replace('<br>','\n')
 
                 additional_price_input = ''
                 additional_price = request.POST['additional_price_input'].split(',')
@@ -1322,8 +1333,14 @@ def review(request, signature):
                     sell_ssrs = []
                     sell_ssrs_request = []
                     passengers_list = []
-                    for pax in passenger:
+                    for idx, pax in enumerate(passenger, start=1):
                         pax['ssr_list'] = []
+                        if not pax.get('behaviors'):
+                            pax['behaviors'] = {}
+                        if not pax['behaviors'].get('Airline'):
+                            pax['behaviors']['Airline'] = ""
+                        pax['behaviors']['Airline'] = request.POST['passenger%s' % idx]
+
                     ssr_response = request.session['airline_get_ssr_%s' % signature]['result']['response']
                     no_ssr_count = 0
                     for counter_ssr_availability_provider, ssr_package in enumerate(ssr_response['ssr_availability_provider']):
@@ -1377,6 +1394,11 @@ def review(request, signature):
                     #
                     for idx, pax in enumerate(passengers):
                         passenger[idx]['seat_list'] = passengers[idx]['seat_list']
+                        if not passenger[idx].get('behaviors'):
+                            passenger[idx]['behaviors'] = {}
+                        if not passenger[idx]['behaviors'].get('Airline'):
+                            passenger[idx]['behaviors']['Airline'] = ""
+                        passenger[idx]['behaviors']['Airline'] = pax['behaviors']['Airline']
                     seat_map_list = request.session['airline_get_seat_availability_%s' % signature]['result']['response']
                     segment_seat_request = []
 

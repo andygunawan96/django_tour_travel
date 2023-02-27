@@ -1375,7 +1375,7 @@ function get_airline_data_seat_page(after_sales){
            }
 
            get_seat_map_response();
-           set_first_passenger_seat_map_airline(0);
+           set_passenger_seat_map_airline(0);
            $( document ).ready(function() {
                 if(breadcrumb == 1)
                     breadcrumb_create("airline", 3, 0);
@@ -4813,23 +4813,23 @@ function set_passenger_seat_map_airline(val){
     <h5>
         <i class="fas fa-user"></i> `+passengers[val].title+` `+passengers[val].first_name+` `+passengers[val].last_name+`
     </h5>`;
+    var is_seat_behavior = false
+    text_behaviors = '';
+    print_behavior = false;
     if(passengers[val].hasOwnProperty('behaviors') && Object.keys(passengers[val].behaviors).length > 0){
-        print_behavior = false;
-        text_behaviors=`<br/><b>Behavior History:</b><br/>`;
         for(j in passengers[val].behaviors){
             if(j.toLowerCase() == 'airline'){
                 print_behavior = true;
-                text_behaviors+=`<b>`+j+`</b><br/>`;
-                for(k in passengers[val].behaviors[j]){
-                    text_behaviors+=`<span><b>`+k+`: </b><i>`+passengers[val].behaviors[j][k].value+`</i>`;
-                    if(passengers[val].behaviors[j][k].remark != '' && passengers[val].behaviors[j][k].remark != false)
-                        text_behaviors +=` - `+passengers[val].behaviors[j][k].remark;
-                    text_behaviors+=`</span><br/>`;
-                }
+                text_behaviors=`<br/><b>Behavior History:</b><br/>`;
+                text_behaviors += `<textarea id="passenger_remark" rows="`+parseInt(parseInt(passengers[val].behaviors[j].split('\n').length)+2)+`" cols="50" onchange="update_remark(`+val+`)">`+passengers[val].behaviors[j].split('<br/>').join('\n')+`</textarea><br/>`;
             }
         }
-        if(print_behavior)
-            text += text_behaviors;
+    }
+    if(print_behavior)
+        text += text_behaviors;
+    else{
+        text+=`<br/><b>Behavior History:</b><br/>`;
+        text+= `<textarea id="passenger_remark" rows="6" cols="50" onchange="update_remark(`+val+`)">Solo Traveller:\n\nGroup Traveller:\n</textarea><br/>`;
     }
     text+=`
     <div class="row">`;
@@ -4856,19 +4856,37 @@ function set_passenger_seat_map_airline(val){
         text+=`</div>`;
     }
     text+=`</div>`;
-    document.getElementById('passenger'+(passenger_pick+1)).style.background = 'white';
-    document.getElementById('passenger'+(passenger_pick+1)).style.color = 'black';
-    document.getElementById('passenger'+(val+1)).style.background = color;
-    document.getElementById('passenger'+(val+1)).style.color = 'white';
-    passenger_pick = val;
-    document.getElementById('airline_passenger_detail_seat').innerHTML = text;
+    is_set_first_time = true;
     try{
-        show_seat_map(set_seat_show_segments,true);
-        airline_detail(type);
+        document.getElementById('passenger'+(passenger_pick+1)).style.background = 'white';
+        document.getElementById('passenger'+(passenger_pick+1)).style.color = 'black';
+        document.getElementById('passenger'+(val+1)).style.background = color;
+        document.getElementById('passenger'+(val+1)).style.color = 'white';
+        passenger_pick = val;
+        is_set_first_time = false;
     }catch(err){
-        airline_detail('request_new');
+        // first passenger pick
     }
+    document.getElementById('airline_passenger_detail_seat').innerHTML = text;
+    if(is_set_first_time){
+        try{
+            show_seat_map(set_seat_show_segments,true);
+            airline_detail(type);
+        }catch(err){
+            console.log(err);
+            airline_detail('request_new');
+        }
+    }
+}
 
+function update_remark(val){
+    if(!passengers[val].hasOwnProperty('behaviors')){
+        passengers[val]['behaviors'] = {}
+    }
+    if(!passengers[val]['behaviors'].hasOwnProperty('Airline')){
+        passengers[val]['behaviors']['Airline'] = ""
+    }
+    passengers[val]['behaviors']['Airline'] = document.getElementById('passenger_remark').value.split('\n').join('<br/>');
 }
 
 function set_first_passenger_seat_map_airline(val){

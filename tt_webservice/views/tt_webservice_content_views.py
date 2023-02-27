@@ -588,11 +588,11 @@ def get_banner(request):
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     if request.POST['type'] == 'big_banner':
-        file = read_cache("big_banner_cache", 'cache_web', 86400)
+        file = get_banner_data('big_banner')
     elif request.POST['type'] == 'small_banner':
-        file = read_cache("small_banner_cache", 'cache_web', 86400)
+        file = get_banner_data('small_banner')
     elif request.POST['type'] == 'promotion':
-        file = read_cache("promotion_banner_cache", 'cache_web', 86400)
+        file = get_banner_data('promotion')
     if not file:
         url_request = url + 'content'
         res = send_request_api(request, url_request, headers, data, 'POST')
@@ -668,6 +668,16 @@ def get_banner(request):
         res = file
     return res
 
+def get_banner_data(type):
+    if type == "big_banner":
+        file = read_cache("big_banner_cache", 'cache_web', 86400)
+    elif type == "small_banner":
+        file = read_cache("small_banner_cache", 'cache_web', 86400)
+    elif type == "promotion":
+        file = read_cache("promotion_banner_cache", 'cache_web', 86400)
+    else:
+        file = False
+    return file
 
 def set_inactive_delete_banner(request):
     try:
