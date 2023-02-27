@@ -1996,11 +1996,12 @@ def deactivate_corporate_mode(request):
     try:
         if res['result']['error_code'] == 0:
             cur_session = request.session['user_account']
-            for key in res['result']['response']:
+            for key in res['result']['response']['delete_list']:
                 if cur_session.get(key):
                     del cur_session[key]
             if cur_session.get('co_customer_parent_seq_id'):
                 del cur_session['co_customer_parent_seq_id']
+            cur_session.update(res['result']['response']['update_dict'])
             set_session(request, 'user_account', cur_session)
             _logger.info("SUCCESS deactivate_corporate_mode SIGNATURE " + request.POST['signature'])
         else:
