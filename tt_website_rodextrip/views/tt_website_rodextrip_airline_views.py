@@ -699,9 +699,14 @@ def ssr(request, signature):
                     airline_list = []
                 passengers = request.session['passenger_with_ssr_%s' % signature]
                 for pax in passengers:
-                    if pax.get('behaviors'):
-                        if pax['behaviors'].get('Airline'):
-                            pax['behaviors']['Airline'] = pax['behaviors']['Airline'].replace('<br/>', '\n')
+                    if not pax.get('behaviors'):
+                        pax['behaviors'] = {}
+                    if not pax['behaviors'].get('Airline'):
+                        pax['behaviors']['Airline'] = ""
+                    if pax['behaviors'].get('Airline'):
+                        pax['behaviors']['Airline'] = pax['behaviors']['Airline'].replace('<br/>', '\n')
+                    else:
+                        pax['behaviors']['Airline'] = 'Solo Traveller\n\nGroupTraveller\n'
                 time_limit = get_timelimit_product(request, 'airline')
                 if time_limit == 0:
                     time_limit = int(request.POST['time_limit_input'])
