@@ -4815,8 +4815,8 @@ function set_passenger_seat_map_airline(val){
     </h5>`;
     var is_seat_behavior = false
     text_behaviors = '';
+    print_behavior = false;
     if(passengers[val].hasOwnProperty('behaviors') && Object.keys(passengers[val].behaviors).length > 0){
-        print_behavior = false;
         for(j in passengers[val].behaviors){
             if(j.toLowerCase() == 'airline'){
                 print_behavior = true;
