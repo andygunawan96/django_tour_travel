@@ -505,10 +505,17 @@ def seat_map(request):
                 is_b2c_field_from_review.update({
                     'value': False
                 })
-
+            paxs = request.session['train_passenger_request']
+            for pax in paxs:
+                if not pax.get('behaviors'):
+                    pax['behaviors'] = {}
+                if not pax['behaviors'].get('Train'):
+                    pax['behaviors']['Train'] = ""
+                if pax['behaviors']['Train']:
+                    pax['behaviors']['Train'] = pax['behaviors']['Train'].replace('<br/>','\n')
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
-                'paxs': request.session['train_passenger_request'],
+                'paxs': paxs,
                 'order_number': request.POST['order_number'],
                 'username': request.session['user_account'],
                 'signature': request.session['train_signature'],
