@@ -4828,9 +4828,8 @@ function set_passenger_seat_map_airline(val){
     if(print_behavior)
         text += text_behaviors;
     else{
-        text_behaviors=`<br/><b>Behavior History:</b><br/>`;
-        text_behaviors+=`<b>Seat:</b><br/>`;
-        text_behaviors += `<textarea id="passenger_remark" rows="6" cols="50" onchange="update_remark(`+val+`)">Solo Traveller:\n\nGroup Traveller:\n</textarea><br/>`;
+        text+=`<br/><b>Behavior History:</b><br/>`;
+        text+= `<textarea id="passenger_remark" rows="6" cols="50" onchange="update_remark(`+val+`)">Solo Traveller:\n\nGroup Traveller:\n</textarea><br/>`;
     }
     text+=`
     <div class="row">`;
