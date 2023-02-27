@@ -8347,7 +8347,7 @@
             });
       {% endfor %}
     });
-    {% if 'co_customer_parent_type_name' in username and username.co_customer_parent_type_name == "COR" %}
+    {% if username.co_customer_seq_id %}
         get_automatic_booker('{{username.co_customer_seq_id}}');
     {% endif %}
     get_airline_data_passenger_page();
