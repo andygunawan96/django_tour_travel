@@ -140,6 +140,10 @@ function getrupiah(price){
     }
 }
 
+function hexToBase64(str) {
+    return btoa(String.fromCharCode.apply(null, str.replace(/\r|\n/g, "").replace(/([\da-fA-F]{2}) ?/g, "0x$1 ").replace(/ +$/, "").split(" ")));
+}
+
 function tour_get_city_search_name(current_city_id=0){
     search_city_name = 'All Cities';
     sel_objs = $('#tour_countries').select2('data');

@@ -425,6 +425,7 @@ function get_activity_config(type, val){
                 activity_country.push({
                     'city': city,
                     'name': msg.activity_locations[i].name,
+                    'code': msg.activity_locations[i].code,
                     'id': msg.activity_locations[i].uuid
                 });
             }
@@ -619,7 +620,7 @@ function activity_search(){
                         low_price_slider = activity_data[i].activity_price;
                    }
 
-                   if (activity_data[i].images.length > 0)
+                   if (activity_data[i].images.length > 0 && activity_data[i].images[0].url+activity_data[i].images[0].path)
                    {
                        img_src = activity_data[i].images[0].url+activity_data[i].images[0].path;
                    }
@@ -1533,13 +1534,16 @@ function activity_get_detail(activity_uuid){
                    }
                    for (i in activity_data.images)
                    {
-                        activity_media_txt += `<div class="item" style="background: rgba(0,0,0,0.9);">
+                        if (activity_data.images[i].path)
+                        {
+                            activity_media_txt += `<div class="item" style="background: rgba(0,0,0,0.9);">
                                                         <img class="img-fluid" src="`+activity_data.images[i].url+``+activity_data.images[i].path+`" alt="Activity" style="display: block; width:100%; height:350px; object-fit: contain;">
-                                                </div>`;
+                                                   </div>`;
 
-                        activity_media_thumb_txt += `<div class="item" style="text-align:center; cursor:pointer;">
-                                                        <img class="img-fluid owl-current-click" alt="Activity" src="`+activity_data.images[i].url+``+activity_data.images[i].path+`" style="max-width:100%; height:75px;">
-                                                    </div>`;
+                            activity_media_thumb_txt += `<div class="item" style="text-align:center; cursor:pointer;">
+                                                            <img class="img-fluid owl-current-click" alt="Activity" src="`+activity_data.images[i].url+``+activity_data.images[i].path+`" style="max-width:100%; height:75px;">
+                                                         </div>`;
+                        }
                    }
 
                    activity_carousel_txt = `

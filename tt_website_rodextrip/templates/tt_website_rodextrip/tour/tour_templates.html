@@ -1085,7 +1085,7 @@
     <script>
     {% if username.co_user_login != '' %}
         try{
-            {% if "tour" in provider and "ticketing_tour" in username.co_agent_frontend_security %}
+            {% if "tour" in provider and "ticketing_tour" in username.co_agent_frontend_security and tour_search_template == "default_search" %}
             get_dept_year();
             var tour_autocomplete = new autoComplete({
                 selector: '#tour_query',

@@ -181,11 +181,11 @@ function tour_page_search(){
             tour_request = msg.tour_request;
             tour_login('');
             get_dept_year();
-            tour_filter_render();
             get_tour_auto_complete('search');
+            tour_filter_render();
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get data swab express');
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error tour page search');
        },timeout: 300000
     });
 }
@@ -265,7 +265,7 @@ function get_tour_config(type, val){
        success: function(msg) {
             tour_country = [];
             sub_category = {};
-
+            var tour_search_template = msg.tour_search_template;
             var country_selection = document.getElementById('tour_countries');
 
             for(i in msg.tour_countries){
@@ -283,7 +283,9 @@ function get_tour_config(type, val){
                 tour_country.push({
                     'city': city,
                     'name': msg.tour_countries[i].name,
-                    'id': msg.tour_countries[i].uuid
+                    'code': msg.tour_countries[i].code,
+                    'id': msg.tour_countries[i].uuid,
+                    'image': msg.tour_countries[i].image
                 });
             }
 
@@ -313,19 +315,45 @@ function get_tour_config(type, val){
             }
             else
             {
-                country_txt += `<option value="0" selected="">All Countries</option>`;
-                for(i in tour_country)
+                if(tour_search_template == 'country_search')
                 {
-                    country_txt += `<option value="`+tour_country[i].id+`">`+tour_country[i].name+`</option>`;
+                    for(i in tour_country)
+                    {
+                        country_txt += `
+                        <label class="radio-img" style="vertical-align:top;">
+                        <input type="radio" name="tour_countries" value="`+tour_country[i].id+`">
+                        <img src="`+tour_country[i].image+`" alt="`+tour_country[i].name+`" style="width:150px; height:150; padding:0px;"><br/>
+                        <div style="text-align:center; margin-top:5px; max-width:90px; height: 50px; word-break: break-word;"><span style="font-size:13px; color:`+text_color+`;">`+tour_country[i].name+`</span></div>
+                        </label>
+                        `;
+                    }
+                }
+                else
+                {
+                    country_txt += `<option value="0" selected="">All Countries</option>`;
+                    for(i in tour_country)
+                    {
+                        country_txt += `<option value="`+tour_country[i].id+`">`+tour_country[i].name+`</option>`;
+                    }
                 }
             }
 
             country_selection.innerHTML = country_txt;
-            if(template == 1 || template == 2 || template == 5){
-                $('#tour_countries').niceSelect('update');
+
+            if(tour_search_template == 'country_search')
+            {
+                $('input[type=radio][name=tour_countries]').on('change', function() {
+                    $('#tour_search_form').submit();
+                });
+            }
+            else
+            {
+                if(template == 1 || template == 2 || template == 5){
+                    $('#tour_countries').niceSelect('update');
+                }
+                country_selection.setAttribute("onchange", "auto_complete_tour('tour_countries');");
             }
 
-            country_selection.setAttribute("onchange", "auto_complete_tour('tour_countries');");
             if(type == 'search')
             {
                 if (dest_country)
