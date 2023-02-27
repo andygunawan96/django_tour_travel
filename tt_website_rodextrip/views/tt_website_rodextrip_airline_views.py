@@ -1333,7 +1333,7 @@ def review(request, signature):
                         if not pax.get('behaviors'):
                             pax['behaviors'] = {}
                         if not pax['behaviors'].get('Airline'):
-                            pax['behaviors']['Airline'] = {}
+                            pax['behaviors']['Airline'] = ""
                         pax['behaviors']['Airline'] = request.POST['passenger%s' % idx]
 
                     ssr_response = request.session['airline_get_ssr_%s' % signature]['result']['response']
@@ -1392,7 +1392,7 @@ def review(request, signature):
                         if not passenger[idx].get('behaviors'):
                             passenger[idx]['behaviors'] = {}
                         if not passenger[idx]['behaviors'].get('Airline'):
-                            passenger[idx]['behaviors']['Airline'] = {}
+                            passenger[idx]['behaviors']['Airline'] = ""
                         passenger[idx]['behaviors']['Airline'] = pax['behaviors']['Airline']
                     seat_map_list = request.session['airline_get_seat_availability_%s' % signature]['result']['response']
                     segment_seat_request = []
