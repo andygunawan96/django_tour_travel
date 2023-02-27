@@ -8228,9 +8228,7 @@ function get_airline_review(){
             for(j in passengers_ssr[i].behaviors){
                 if(j.toLowerCase() == 'airline'){
                     text_behavior+=`<b>`+j+`</b><br/>`;
-                    for(k in passengers_ssr[i].behaviors[j]){
-                        text_behavior+=`<span><b>`+k+`: </b><i>`+passengers_ssr[i].behaviors[j][k].value+`</i></span><br/>`;
-                    }
+                    text_behavior+=`<span>`+passengers_ssr[i].behaviors[j]+`</span><br/>`;
                 }
             }
             if(text_behavior != ''){
