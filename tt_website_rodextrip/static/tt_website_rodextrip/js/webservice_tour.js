@@ -343,6 +343,7 @@ function get_tour_config(type, val){
             if(tour_search_template == 'country_search')
             {
                 $('input[type=radio][name=tour_countries]').on('change', function() {
+                    $('input[type=radio][name=tour_countries]').attr("disabled",true);
                     $('#tour_search_form').submit();
                 });
             }
