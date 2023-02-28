@@ -804,6 +804,7 @@ def admin(request):
                     text += '\n' ## wa chat yg lama deprecated
                     text += request.POST['google_api_key'] + '\n'
                     text += request.POST['setting_login_page'] + '\n'
+                    text += request.POST['tour_search_template'] + '\n'
                     write_cache(text, "data_cache_template", 'cache_web')
                     temp = text.split('\n')
                     for idx, rec in enumerate(temp):
@@ -1463,6 +1464,7 @@ def get_data_template(request, type='home', provider_type = []):
     airline_country = []
     phone_code = []
     website_name = 'Tors'
+    tour_search_template = 'default_search'
     # tawk_chat = 0
     # wa_chat = 0
     # wa_number = ''
@@ -1834,6 +1836,9 @@ def get_data_template(request, type='home', provider_type = []):
                 elif idx == 25:
                     if line != '':
                         setting_login_page = line.split('\n')[0]
+                elif idx == 26:
+                    if line != '':
+                        tour_search_template = line.split('\n')[0]
             if color == '':
                 color = '#f15a22'
             if len(background.split('\n')) > 1:
@@ -1845,6 +1850,7 @@ def get_data_template(request, type='home', provider_type = []):
         'website_mode': website_mode,
         'logo_icon': logo_icon,
         'template': template,
+        'tour_search_template': tour_search_template,
         'color': color,
         'name': website_name,
         'background': background,

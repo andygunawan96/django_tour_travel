@@ -181,11 +181,11 @@ function tour_page_search(){
             tour_request = msg.tour_request;
             tour_login('');
             get_dept_year();
-            tour_filter_render();
             get_tour_auto_complete('search');
+            tour_filter_render();
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get data swab express');
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error tour page search');
        },timeout: 300000
     });
 }
@@ -265,7 +265,7 @@ function get_tour_config(type, val){
        success: function(msg) {
             tour_country = [];
             sub_category = {};
-
+            var tour_search_template = msg.tour_search_template;
             var country_selection = document.getElementById('tour_countries');
 
             for(i in msg.tour_countries){
@@ -283,7 +283,9 @@ function get_tour_config(type, val){
                 tour_country.push({
                     'city': city,
                     'name': msg.tour_countries[i].name,
-                    'id': msg.tour_countries[i].uuid
+                    'code': msg.tour_countries[i].code,
+                    'id': msg.tour_countries[i].uuid,
+                    'image': msg.tour_countries[i].image
                 });
             }
 
@@ -313,19 +315,75 @@ function get_tour_config(type, val){
             }
             else
             {
-                country_txt += `<option value="0" selected="">All Countries</option>`;
-                for(i in tour_country)
+                if(tour_search_template == 'country_search')
                 {
-                    country_txt += `<option value="`+tour_country[i].id+`">`+tour_country[i].name+`</option>`;
+                    for(i in tour_country){
+                        country_txt += `
+                        <label class="radio-img" style="margin-bottom:15px; margin-right:15px; border: 2px solid #cdcdcd; height:130px; width:190px; background: linear-gradient(0deg, rgba(0, 0, 0, 0.1),rgba(0, 0, 0, 0.1)),url('`+tour_country[i].image+`') !important; background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;">
+                            <input type="radio" name="tour_countries" value="`+tour_country[i].id+`">
+                            <span style="display:inline-flex; float:left; padding-top:10px; padding-left:10px; font-size:18px; color:`+text_color+`; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;">`+tour_country[i].name+`</span>
+                        </label>`;
+                    }
+                }
+                else
+                {
+                    country_txt += `<option value="0" selected="">All Countries</option>`;
+                    for(i in tour_country)
+                    {
+                        country_txt += `<option value="`+tour_country[i].id+`">`+tour_country[i].name+`</option>`;
+                    }
                 }
             }
 
             country_selection.innerHTML = country_txt;
-            if(template == 1 || template == 2 || template == 5){
-                $('#tour_countries').niceSelect('update');
+
+            if(tour_search_template == 'country_search')
+            {
+                $('input[type=radio][name=tour_countries]').on('change', function() {
+                    $('#tour_search_form').submit();
+                });
+
+                $('.owl-carousel-tour-country').owlCarousel({
+                    loop:false,
+                    nav: false,
+                    navRewind:true,
+                    rewind: true,
+                    margin: 20,
+                    items:3,
+                    responsiveClass:true,
+                    dots: true,
+                    merge: false,
+                    lazyLoad:true,
+                    lazyLoadEager:true,
+                    smartSpeed:500,
+                    autoHeight: false,
+                    autoWidth: false,
+                    autoplay: false,
+                    autoplayTimeout:10000,
+                    autoplayHoverPause:false,
+                    navText: ['<i class="fa fa-chevron-left owl-wh"/>', '<i class="fa fa-chevron-right owl-wh"/>'],
+                    responsive:{
+                        0:{
+                            items:3,
+                        },
+                        768:{
+                            items:4,
+                        },
+                        992:{
+                            items:5,
+                        }
+                    }
+                });
+
+            }
+            else
+            {
+                if(template == 1 || template == 2 || template == 5){
+                    $('#tour_countries').niceSelect('update');
+                }
+                country_selection.setAttribute("onchange", "auto_complete_tour('tour_countries');");
             }
 
-            country_selection.setAttribute("onchange", "auto_complete_tour('tour_countries');");
             if(type == 'search')
             {
                 if (dest_country)

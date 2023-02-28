@@ -67,13 +67,13 @@ def tour(request):
             except:
                 pass
 
-                # tour
-                try:
-                    tour_countries = response['result']['response']['tour']['countries']
-                except Exception as e:
-                    tour_countries = []
-                    _logger.error(str(e) + '\n' + traceback.format_exc())
-                # tour
+            # tour
+            try:
+                tour_countries = response['result']['response']['tour']['countries']
+            except Exception as e:
+                tour_countries = []
+                _logger.error(str(e) + '\n' + traceback.format_exc())
+            # tour
 
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
