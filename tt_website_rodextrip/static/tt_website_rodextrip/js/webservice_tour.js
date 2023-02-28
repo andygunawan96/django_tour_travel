@@ -182,7 +182,6 @@ function tour_page_search(){
             tour_login('');
             get_dept_year();
             get_tour_auto_complete('search');
-            tour_filter_render();
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error tour page search');
@@ -342,39 +341,6 @@ function get_tour_config(type, val){
                 $('input[type=radio][name=tour_countries]').on('change', function() {
                     $('#tour_search_form').submit();
                 });
-
-                $('.owl-carousel-tour-country').owlCarousel({
-                    loop:false,
-                    nav: false,
-                    navRewind:true,
-                    rewind: true,
-                    margin: 20,
-                    items:3,
-                    responsiveClass:true,
-                    dots: true,
-                    merge: false,
-                    lazyLoad:true,
-                    lazyLoadEager:true,
-                    smartSpeed:500,
-                    autoHeight: false,
-                    autoWidth: false,
-                    autoplay: false,
-                    autoplayTimeout:10000,
-                    autoplayHoverPause:false,
-                    navText: ['<i class="fa fa-chevron-left owl-wh"/>', '<i class="fa fa-chevron-right owl-wh"/>'],
-                    responsive:{
-                        0:{
-                            items:3,
-                        },
-                        768:{
-                            items:4,
-                        },
-                        992:{
-                            items:5,
-                        }
-                    }
-                });
-
             }
             else
             {
