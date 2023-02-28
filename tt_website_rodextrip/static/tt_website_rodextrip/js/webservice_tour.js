@@ -317,15 +317,12 @@ function get_tour_config(type, val){
             {
                 if(tour_search_template == 'country_search')
                 {
-                    for(i in tour_country)
-                    {
+                    for(i in tour_country){
                         country_txt += `
-                        <label class="radio-img" style="vertical-align:top;">
-                        <input type="radio" name="tour_countries" value="`+tour_country[i].id+`">
-                        <img src="`+tour_country[i].image+`" alt="`+tour_country[i].name+`" style="width:150px; height:150; padding:0px;"><br/>
-                        <div style="text-align:center; margin-top:5px; max-width:90px; height: 50px; word-break: break-word;"><span style="font-size:13px; color:`+text_color+`;">`+tour_country[i].name+`</span></div>
-                        </label>
-                        `;
+                        <label class="radio-img" style="margin-bottom:15px; margin-right:15px; border: 2px solid #cdcdcd; height:130px; width:190px; background: linear-gradient(0deg, rgba(0, 0, 0, 0.1),rgba(0, 0, 0, 0.1)),url('`+tour_country[i].image+`') !important; background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;">
+                            <input type="radio" name="tour_countries" value="`+tour_country[i].id+`">
+                            <span style="display:inline-flex; float:left; padding-top:10px; padding-left:10px; font-size:18px; color:`+text_color+`; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;">`+tour_country[i].name+`</span>
+                        </label>`;
                     }
                 }
                 else
@@ -345,6 +342,39 @@ function get_tour_config(type, val){
                 $('input[type=radio][name=tour_countries]').on('change', function() {
                     $('#tour_search_form').submit();
                 });
+
+                $('.owl-carousel-tour-country').owlCarousel({
+                    loop:false,
+                    nav: false,
+                    navRewind:true,
+                    rewind: true,
+                    margin: 20,
+                    items:3,
+                    responsiveClass:true,
+                    dots: true,
+                    merge: false,
+                    lazyLoad:true,
+                    lazyLoadEager:true,
+                    smartSpeed:500,
+                    autoHeight: false,
+                    autoWidth: false,
+                    autoplay: false,
+                    autoplayTimeout:10000,
+                    autoplayHoverPause:false,
+                    navText: ['<i class="fa fa-chevron-left owl-wh"/>', '<i class="fa fa-chevron-right owl-wh"/>'],
+                    responsive:{
+                        0:{
+                            items:3,
+                        },
+                        768:{
+                            items:4,
+                        },
+                        992:{
+                            items:5,
+                        }
+                    }
+                });
+
             }
             else
             {
