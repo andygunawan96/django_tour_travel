@@ -6501,6 +6501,8 @@ function get_payment_espay(order_number_full){
                                 close_div('payment_acq');
                                 if(window.location.href.split('/')[window.location.href.split('/').length-1] == 'payment')
                                     window.location.href = '/' + provider_type + '/booking/' + btoa(order_number_id);
+                                else if(window.location.href.split('/')[window.location.href.split('/').length-1] == 'top_up')
+                                    window.location.href = '/top_up/history';
                             }
                         })
                     }else{
