@@ -1231,7 +1231,12 @@ function commit_top_up(){
        },
        success: function(msg) {
         if(msg.result.error_code == 0){
-            document.getElementById('top_up_form').submit();
+            // tambah kalau bayar dari credit card
+            if(payment_method == 'creditcard_topup')
+                get_payment_order_number(msg.result.response.name)
+            else{
+                document.getElementById('top_up_form').submit();
+            }
         }else{
             Swal.fire({
               type: 'error',
@@ -1560,9 +1565,10 @@ function table_top_up_history(){
 
                     text+= `<div class="col-lg-4" style="text-align:right; padding: 15px;">`;
                     if(data[i].state == 'request' || data[i].state == 'confirm'){
-                        text+= `
-                        <input type='button' class="primary-btn-custom" value='Cancel' onclick="cancel_top_up('`+data[i].name+`')" />
-                        <input type='button' style="margin-top:5px;" class="primary-btn-custom" value='Pre Invoice' onclick="get_printout('`+data[i].name+`', 'invoice','top_up');" />`;
+                        text+= `<input type='button' class="primary-btn-custom" value='Cancel' onclick="cancel_top_up('`+data[i].name+`')" />`;
+                        if(data[i].hasOwnProperty('url'))
+                            text+=`<input type='button' style="margin-top:5px;margin-left:5px;" class="primary-btn-custom" value='Payment Link' onclick="payment_url('`+data[i].url+`');" />`;
+                        text+=`<input type='button' style="margin-top:5px;margin-left:5px;" class="primary-btn-custom" value='Pre Invoice' onclick="get_printout('`+data[i].name+`', 'invoice','top_up');" />`;
                     }
                     if(data[i].state == 'confirm'){
                         text+= `
@@ -1588,6 +1594,41 @@ function table_top_up_history(){
         $('#loading-search-top-up').hide();
         $('#top_up_found').show();
     }
+}
+
+function payment_url(url){
+
+    Swal.fire({
+      title: "Payment Link",
+      type: 'success',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: 'blue',
+      confirmButtonText: 'Payment',
+      cancelButtonText: 'Copy Link'
+    }).then((result) => {
+        if (result.value) {
+            window.location.href = url;
+
+        }else{
+            const el = document.createElement('textarea');
+            el.value = url;
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+            const Toast = Swal.mixin({
+              toast: true,
+              position: 'top-end',
+              showConfirmButton: false,
+              timer: 3000
+            })
+            Toast.fire({
+              type: 'success',
+              title: 'Copied Successfully'
+            })
+        }
+    })
 }
 
 function table_top_up_quota_history(){
