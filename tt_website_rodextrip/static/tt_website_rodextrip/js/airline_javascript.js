@@ -8049,7 +8049,12 @@ function get_airline_review(){
                             }
 
                             if(passengers_ssr[i].hasOwnProperty('behaviors') && Object.keys(passengers_ssr[i].behaviors).length > 0){
-                                text+=`<label id="pop_behaviors`+i+`" style="color:`+color+`;margin-bottom:unset;"> See Behavior History <i class="fas fa-chevron-down"></i></label><br/>`;
+                                for(j in passengers_ssr[i].behaviors){
+                                    if(j.toLowerCase() == 'airline'){
+                                        text+=`<label id="pop_behaviors`+i+`" style="color:`+color+`;margin-bottom:unset;"> See Behavior History <i class="fas fa-chevron-down"></i></label><br/>`;
+                                        break;
+                                    }
+                                }
                             }
 
                             i_id = parseInt(i)+1;
