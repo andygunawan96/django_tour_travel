@@ -12,6 +12,7 @@
 <script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_account.js?version={{javascript_version}}"></script>
 <script>
+    global_provider_type = 'tour';
     static_path_url_server = '{{static_path_url_server}}'
     signature = '{{signature}}';
 
@@ -625,6 +626,12 @@
                                             </div>
                                             <span style="font-size:12px; padding:0;">{% trans 'Example' %}: 812345678</span>
                                         </div>
+                                        <div class="col-lg-12 mb-3" >
+                                            <label>{% trans 'Behaviors' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <textarea id="adult_behaviors_{{forloop.counter}}" name="adult_behaviors_{{forloop.counter}}" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;" rows="6" cols="45"></textarea>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -878,6 +885,12 @@
                                                 </div>
                                                 <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('child', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                 <input type="hidden" name="child_country_of_issued{{forloop.counter}}" id="child_country_of_issued{{forloop.counter}}" />
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 mb-3" >
+                                            <label>{% trans 'Behaviors' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <textarea id="child_behaviors_{{forloop.counter}}" name="child_behaviors_{{forloop.counter}}" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;" rows="6" cols="45"></textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -1136,6 +1149,12 @@
                                                 </div>
                                                 <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('infant', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                 <input type="hidden" name="infant_country_of_issued{{forloop.counter}}" id="infant_country_of_issued{{forloop.counter}}" />
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 mb-3" >
+                                            <label>{% trans 'Behaviors' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <textarea id="infant_behaviors_{{forloop.counter}}" name="infant_behaviors_{{forloop.counter}}" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;" rows="6" cols="45"></textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -1806,6 +1825,12 @@
                                                 </div>
                                                 <span style="font-size:12px; padding:0;">{% trans 'Example' %}: 812345678</span>
                                             </div>
+                                            <div class="col-lg-12 mb-3" >
+                                                <label>{% trans 'Behaviors' %}</label>
+                                                <div class="input-container-search-ticket">
+                                                    <textarea id="adult_behaviors_{{forloop.counter}}" name="adult_behaviors_{{forloop.counter}}" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;" rows="6" cols="45"></textarea>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -2053,6 +2078,12 @@
                                                     </select>
                                                     <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('child', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     <input type="hidden" name="child_country_of_issued{{forloop.counter}}" id="child_country_of_issued{{forloop.counter}}" />
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12 mb-3" >
+                                                <label>{% trans 'Behaviors' %}</label>
+                                                <div class="input-container-search-ticket">
+                                                    <textarea id="child_behaviors_{{forloop.counter}}" name="child_behaviors_{{forloop.counter}}" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;" rows="6" cols="45"></textarea>
                                                 </div>
                                             </div>
                                         </div>
@@ -2305,6 +2336,12 @@
                                                 </div>
                                                 <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('infant', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                 <input type="hidden" name="infant_country_of_issued{{forloop.counter}}" id="infant_country_of_issued{{forloop.counter}}" />
+                                            </div>
+                                            <div class="col-lg-12 mb-3" >
+                                                <label>{% trans 'Behaviors' %}</label>
+                                                <div class="input-container-search-ticket">
+                                                    <textarea id="infant_behaviors_{{forloop.counter}}" name="infant_behaviors_{{forloop.counter}}" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;" rows="6" cols="45"></textarea>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -2992,6 +3029,12 @@
                                             </div>
                                             <span style="font-size:12px; padding:0;">{% trans 'Example' %}: 812345678</span>
                                         </div>
+                                        <div class="col-lg-12 mb-3" >
+                                            <label>{% trans 'Behaviors' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <textarea id="adult_behaviors_{{forloop.counter}}" name="adult_behaviors_{{forloop.counter}}" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;" rows="6" cols="45"></textarea>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -3247,6 +3290,12 @@
                                                 </div>
                                                 <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('child', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                 <input type="hidden" name="child_country_of_issued{{forloop.counter}}" id="child_country_of_issued{{forloop.counter}}" />
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 mb-3" >
+                                            <label>{% trans 'Behaviors' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <textarea id="child_behaviors_{{forloop.counter}}" name="child_behaviors_{{forloop.counter}}" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;" rows="6" cols="45"></textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -3507,6 +3556,12 @@
                                                 </div>
                                                 <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('infant', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                 <input type="hidden" name="infant_country_of_issued{{forloop.counter}}" id="infant_country_of_issued{{forloop.counter}}" />
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 mb-3" >
+                                            <label>{% trans 'Behaviors' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <textarea id="infant_behaviors_{{forloop.counter}}" name="infant_behaviors_{{forloop.counter}}" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;" rows="6" cols="45"></textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -4189,6 +4244,12 @@
                                             </div>
                                             <span style="font-size:12px; padding:0;">{% trans 'Example' %}: 812345678</span>
                                         </div>
+                                        <div class="col-lg-12 mb-3" >
+                                            <label>{% trans 'Behaviors' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <textarea id="adult_behaviors_{{forloop.counter}}" name="adult_behaviors_{{forloop.counter}}" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;" rows="6" cols="45"></textarea>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -4442,6 +4503,12 @@
                                                 </select>
                                                 <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('child', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                 <input type="hidden" name="child_country_of_issued{{forloop.counter}}" id="child_country_of_issued{{forloop.counter}}" />
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 mb-3" >
+                                            <label>{% trans 'Behaviors' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <textarea id="child_behaviors_{{forloop.counter}}" name="child_behaviors_{{forloop.counter}}" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;" rows="6" cols="45"></textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -4700,6 +4767,12 @@
                                                 </select>
                                                 <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('infant', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                 <input type="hidden" name="infant_country_of_issued{{forloop.counter}}" id="infant_country_of_issued{{forloop.counter}}" />
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 mb-3" >
+                                            <label>{% trans 'Behaviors' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <textarea id="infant_behaviors_{{forloop.counter}}" name="infant_behaviors_{{forloop.counter}}" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;" rows="6" cols="45"></textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -5377,6 +5450,12 @@
                                             </div>
                                             <label style="font-size:12px; padding:0;">{% trans 'Example' %}: 812345678</label>
                                         </div>
+                                        <div class="col-lg-12 mb-3" >
+                                            <label>{% trans 'Behaviors' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <textarea id="adult_behaviors_{{forloop.counter}}" name="adult_behaviors_{{forloop.counter}}" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;" rows="6" cols="45"></textarea>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -5630,6 +5709,12 @@
                                                 </div>
                                                 <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('child', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                 <input type="hidden" name="child_country_of_issued{{forloop.counter}}" id="child_country_of_issued{{forloop.counter}}" />
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 mb-3" >
+                                            <label>{% trans 'Behaviors' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <textarea id="child_behaviors_{{forloop.counter}}" name="child_behaviors_{{forloop.counter}}" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;" rows="6" cols="45"></textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -5888,6 +5973,12 @@
                                                 </div>
                                                 <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('infant', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                 <input type="hidden" name="infant_country_of_issued{{forloop.counter}}" id="infant_country_of_issued{{forloop.counter}}" />
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 mb-3" >
+                                            <label>{% trans 'Behaviors' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <textarea id="infant_behaviors_{{forloop.counter}}" name="infant_behaviors_{{forloop.counter}}" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;" rows="6" cols="45"></textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -6572,6 +6663,12 @@
                                             </div>
                                             <span style="font-size:12px; padding:0;">{% trans 'Example' %}: 812345678</span>
                                         </div>
+                                        <div class="col-lg-12 mb-3" >
+                                            <label>{% trans 'Behaviors' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <textarea id="adult_behaviors_{{forloop.counter}}" name="adult_behaviors_{{forloop.counter}}" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;" rows="6" cols="45"></textarea>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -6825,6 +6922,12 @@
                                                 </div>
                                                 <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('child', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                 <input type="hidden" name="child_country_of_issued{{forloop.counter}}" id="child_country_of_issued{{forloop.counter}}" />
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 mb-3" >
+                                            <label>{% trans 'Behaviors' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <textarea id="child_behaviors_{{forloop.counter}}" name="child_behaviors_{{forloop.counter}}" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;" rows="6" cols="45"></textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -7083,6 +7186,12 @@
                                                 </div>
                                                 <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('infant', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                 <input type="hidden" name="infant_country_of_issued{{forloop.counter}}" id="infant_country_of_issued{{forloop.counter}}" />
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 mb-3" >
+                                            <label>{% trans 'Behaviors' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <textarea id="infant_behaviors_{{forloop.counter}}" name="infant_behaviors_{{forloop.counter}}" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;" rows="6" cols="45"></textarea>
                                             </div>
                                         </div>
                                     </div>

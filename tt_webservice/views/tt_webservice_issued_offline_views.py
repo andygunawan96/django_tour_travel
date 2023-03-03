@@ -381,6 +381,11 @@ def update_passenger(request):
                         if request.POST['passenger_nationality_code' + str(i)] == country['name']:
                             nationality_code = country['code']
                             break
+                behaviors = {}
+                if request.POST.get('passenger_behaviors' + str(i)):
+                    behaviors.update({
+                        "offline": request.POST['passenger_behaviors' + str(i)]
+                    })
                 passenger.append({
                     "pax_type": pax_type,
                     "first_name": request.POST['passenger_first_name' + str(i)],
@@ -388,7 +393,8 @@ def update_passenger(request):
                     "title": request.POST['passenger_title' + str(i)],
                     "birth_date": birth_date,
                     "nationality_code": nationality_code,
-                    'passenger_seq_id': request.POST['passenger_id' + str(i)] != '' and request.POST['passenger_id' + str(i)] or ''
+                    'passenger_seq_id': request.POST['passenger_id' + str(i)] != '' and request.POST['passenger_id' + str(i)] or '',
+                    'behaviors': behaviors
                 })
                 try:
                     if request.POST['passenger_identity_type' + str(i)] != '':
