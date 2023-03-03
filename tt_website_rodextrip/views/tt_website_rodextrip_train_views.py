@@ -280,6 +280,9 @@ def review(request, signature):
             }
             for i in range(int(request.session['train_request']['adult'])):
                 img_identity_data = [sel_img[:2] for sel_img in img_list_data if 'adult' in sel_img[2].lower() and 'identity' in sel_img[2].lower() and str(i + 1) in sel_img[2].lower()]
+                behaviors = {}
+                if request.POST.get('adult_behaviors_' + str(i + 1)):
+                    behaviors = {'train': request.POST['adult_behaviors_' + str(i + 1)]}
                 adult.append({
                     "pax_type": "ADT",
                     "first_name": request.POST['adult_first_name' + str(i + 1)],
@@ -293,6 +296,7 @@ def review(request, signature):
                     "passenger_seq_id": request.POST['adult_id' + str(i + 1)],
                     "identity_type": request.POST['adult_id_type' + str(i + 1)],
                     "identity_image": img_identity_data,
+                    "behaviors": behaviors,
                 })
 
                 if i == 0:
@@ -364,6 +368,9 @@ def review(request, signature):
 
             for i in range(int(request.session['train_request']['infant'])):
                 img_identity_data = [sel_img[:2] for sel_img in img_list_data if 'infant' in sel_img[2].lower() and 'identity' in sel_img[2].lower() and str(i + 1) in sel_img[2].lower()]
+                behaviors = {}
+                if request.POST.get('infant_behaviors_' + str(i + 1)):
+                    behaviors = {'train': request.POST['infant_behaviors_' + str(i + 1)]}
                 infant.append({
                     "pax_type": "INF",
                     "first_name": request.POST['infant_first_name' + str(i + 1)],
@@ -377,6 +384,7 @@ def review(request, signature):
                     "identity_number": request.POST['infant_passport_number' + str(i + 1)],
                     "identity_type": request.POST['infant_id_type' + str(i + 1)],
                     "identity_image": img_identity_data,
+                    "behaviors": behaviors,
                 })
             set_session(request, 'train_create_passengers', {
                 'booker': booker,

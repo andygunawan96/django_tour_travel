@@ -151,7 +151,6 @@ def search(request):
     else:
         return no_session_logout(request)
 
-
 def detail_with_path(request, id):
     if 'user_account' in request.session._session:
         try:
@@ -274,7 +273,6 @@ def detail(request):
     else:
         return no_session_logout(request)
 
-
 def detail_static(request):
     try:
         javascript_version = get_javascript_version()
@@ -300,7 +298,6 @@ def detail_static(request):
         _logger.error(str(e) + '\n' + traceback.format_exc())
         raise Exception('Make response code 500!')
     return render(request, MODEL_NAME+'/hotel/hotel_detail_static.html', values)
-
 
 def passengers(request):
     if 'user_account' in request.session._session:
@@ -415,6 +412,9 @@ def review(request):
                 for i in range(int(request.session['hotel_request']['adult'])):
                     if request.POST['adult_first_name' + str(i + 1)] == '':
                         continue
+                    behaviors = {}
+                    if request.POST.get('adult_behaviors_' + str(i + 1)):
+                        behaviors = {'hotel': request.POST['adult_behaviors_' + str(i + 1)]}
                     adult.append({
                         "pax_type": "ADT",
                         "first_name": request.POST['adult_first_name' + str(i + 1)],
@@ -423,7 +423,8 @@ def review(request):
                         "birth_date": request.POST['adult_birth_date' + str(i + 1)],
                         "nationality_name": request.POST['adult_nationality' + str(i + 1)],
                         "passenger_seq_id": request.POST['adult_id' + str(i + 1)],
-                        "room_number": '1'
+                        "room_number": '1',
+                        "behaviors": behaviors,
                     })
                     printout_paxs.append({
                         "name": request.POST['adult_title' + str(i + 1)] + ' ' + request.POST[
@@ -506,6 +507,9 @@ def review(request):
                     })
 
                 for i in range(int(request.session['hotel_request']['child'])):
+                    behaviors = {}
+                    if request.POST.get('child_behaviors_' + str(i + 1)):
+                        behaviors = {'hotel': request.POST['child_behaviors_' + str(i + 1)]}
                     child.append({
                         "pax_type": "CHD",
                         "first_name": request.POST['child_first_name' + str(i + 1)],
@@ -514,7 +518,8 @@ def review(request):
                         "birth_date": request.POST['child_birth_date' + str(i + 1)],
                         "nationality_name": request.POST['child_nationality' + str(i + 1)],
                         "passenger_seq_id": request.POST['child_id' + str(i + 1)],
-                        "room_number": '1'
+                        "room_number": '1',
+                        "behaviors": behaviors,
                     })
                     printout_paxs.append({
                         "name": request.POST['child_title' + str(i + 1)] + ' ' + request.POST[

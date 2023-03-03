@@ -175,10 +175,10 @@
                                             <h5><i class="fas fa-user"></i> {{pax.title}} {{pax.first_name}} {{pax.last_name}}</h5>
                                             {% if 'behaviors' in pax  and pax.behaviors|length > 0%}
                                                 {% for key, provider_type in pax.behaviors.items %}
-                                                    {% if key == 'Airline'%}
+                                                    {% if key == 'airline'%}
                                             <h6 class="mt-3" style="color:{{color}};">Behaviors History</h6>
                                             <b>{{key}}</b><br/>
-                                            <textarea name="passenger{{counter_pax}}" cols="50" rows="6">{{provider_type}}</textarea>
+                                            <textarea name="passenger{{counter_pax}}" cols="50" rows="6" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;">{{provider_type}}</textarea>
                                                     {% endif %}
                                                 {% endfor %}
                                             {% endif %}

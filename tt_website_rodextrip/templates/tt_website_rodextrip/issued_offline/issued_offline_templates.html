@@ -20,6 +20,7 @@
 <script src="{{ static_path }}js/xlsx/xlsx.full.min.js"></script>
 <script src="{{ static_path }}js/xlsx/jszip.js"></script>
 <script>
+    global_provider_type = 'offline';
     static_path_url_server = '{{static_path_url_server}}'
     airline_destination = [];
     {% for airline in airline_destinations %}

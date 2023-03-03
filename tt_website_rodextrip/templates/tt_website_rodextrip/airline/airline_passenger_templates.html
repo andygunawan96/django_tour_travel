@@ -18,6 +18,7 @@
 <script src="{{ static_path }}js/jbox/playground-inception.js"></script>
 <script src="{{ static_path }}js/jbox/playground-login.js"></script>
 <script>
+    global_provider_type = 'airline';
     static_path_url_server = '{{static_path_url_server}}'
     function check_years_old(sequence, type){
         var birth_date = '';
@@ -755,6 +756,13 @@
                                             </div>
                                             <span style="font-size:12px; padding:0;">{% trans 'Example' %}: 812345678</span>
                                         </div>
+
+                                        <div class="col-lg-12 mb-3" >
+                                            <label>{% trans 'Behaviors' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <textarea id="adult_behaviors_{{forloop.counter}}" name="adult_behaviors_{{forloop.counter}}" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;" rows="6" cols="45"></textarea>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -1081,6 +1089,15 @@
                                         </div>
                                             {% endif %}
                                         {% endfor %}
+
+
+                                        <div class="col-lg-12 mb-3" >
+                                            <label>{% trans 'Behaviors' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <textarea id="child_behaviors_{{forloop.counter}}" name="child_behaviors_{{forloop.counter}}" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;" rows="6" cols="45"></textarea>
+                                            </div>
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -1380,6 +1397,12 @@
                                                         <input type="hidden" name="infant_country_of_issued{{forloop.counter}}" id="infant_country_of_issued{{forloop.counter}}" />
                                                     </div>
                                                 </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 mb-3" >
+                                            <label>{% trans 'Behaviors' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <textarea id="infant_behaviors_{{forloop.counter}}" name="infant_behaviors_{{forloop.counter}}" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;" rows="6" cols="45"></textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -2101,6 +2124,13 @@
                                                     </div>
                                                     <label style="font-size:12px; padding:0;">{% trans 'Example' %}: 812345678</label>
                                                 </div>
+
+                                                <div class="col-lg-12 mb-3" >
+                                                    <label>{% trans 'Behaviors' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <textarea id="adult_behaviors_{{forloop.counter}}" name="adult_behaviors_{{forloop.counter}}" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;" rows="6" cols="45"></textarea>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -2420,6 +2450,13 @@
                                                 </div>
                                                     {% endif %}
                                                 {% endfor %}
+                                                <div class="col-lg-12 mb-3" >
+                                                    <label>{% trans 'Behaviors' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <textarea id="child_behaviors_{{forloop.counter}}" name="child_behaviors_{{forloop.counter}}" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;" rows="6" cols="45"></textarea>
+                                                    </div>
+                                                </div>
+
                                             </div>
                                         </div>
                                     </div>
@@ -2713,6 +2750,13 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6"></div>
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12 mb-3" >
+                                                    <label>{% trans 'Behaviors' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <textarea id="infant_behaviors_{{forloop.counter}}" name="infant_behaviors_{{forloop.counter}}" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;" rows="6" cols="45"></textarea>
                                                     </div>
                                                 </div>
                                             </div>
@@ -3457,6 +3501,12 @@
                                             </div>
                                             <label style="font-size:12px; padding:0;">{% trans 'Example' %}: 812345678</label>
                                         </div>
+                                        <div class="col-lg-12 mb-3" >
+                                            <label>{% trans 'Behaviors' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <textarea id="adult_behaviors_{{forloop.counter}}" name="adult_behaviors_{{forloop.counter}}" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;" rows="6" cols="45"></textarea>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -3786,6 +3836,14 @@
                                         </div>
                                             {% endif %}
                                         {% endfor %}
+
+
+                                        <div class="col-lg-12 mb-3" >
+                                            <label>{% trans 'Behaviors' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <textarea id="child_behaviors_{{forloop.counter}}" name="child_behaviors_{{forloop.counter}}" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;" rows="6" cols="45"></textarea>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -4090,6 +4148,12 @@
                                                         <input type="hidden" name="infant_country_of_issued{{forloop.counter}}" id="infant_country_of_issued{{forloop.counter}}" />
                                                     </div>
                                                 </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 mb-3" >
+                                            <label>{% trans 'Behaviors' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <textarea id="infant_behaviors_{{forloop.counter}}" name="infant_behaviors_{{forloop.counter}}" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;" rows="6" cols="45"></textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -4836,6 +4900,12 @@
                                         </div>
                                         <label style="font-size:12px; padding:0;">{% trans 'Example' %}: 812345678</label>
                                     </div>
+                                    <div class="col-lg-12 mb-3" >
+                                        <label>{% trans 'Behaviors' %}</label>
+                                        <div class="input-container-search-ticket">
+                                            <textarea id="adult_behaviors_{{forloop.counter}}" name="adult_behaviors_{{forloop.counter}}" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;" rows="6" cols="45"></textarea>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -5162,6 +5232,15 @@
                                     </div>
                                         {% endif %}
                                     {% endfor %}
+
+
+                                    <div class="col-lg-12 mb-3" >
+                                        <label>{% trans 'Behaviors' %}</label>
+                                        <div class="input-container-search-ticket">
+                                            <textarea id="child_behaviors_{{forloop.counter}}" name="child_behaviors_{{forloop.counter}}" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;" rows="6" cols="45"></textarea>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
@@ -5462,6 +5541,12 @@
                                                     <input type="hidden" name="infant_country_of_issued{{forloop.counter}}" id="infant_country_of_issued{{forloop.counter}}" />
                                                 </div>
                                             </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 mb-3" >
+                                        <label>{% trans 'Behaviors' %}</label>
+                                        <div class="input-container-search-ticket">
+                                            <textarea id="infant_behaviors_{{forloop.counter}}" name="infant_behaviors_{{forloop.counter}}" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;" rows="6" cols="45"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -6193,6 +6278,12 @@
                                             </div>
                                             <label style="font-size:12px; padding:0;">{% trans 'Example' %}: 812345678</label>
                                         </div>
+                                        <div class="col-lg-12 mb-3" >
+                                            <label>{% trans 'Behaviors' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <textarea id="adult_behaviors_{{forloop.counter}}" name="adult_behaviors_{{forloop.counter}}" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;" rows="6" cols="45"></textarea>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -6492,6 +6583,39 @@
                                                         <input type="hidden" name="child_country_of_issued{{forloop.counter}}" id="child_country_of_issued{{forloop.counter}}" />
                                                     </div>
                                                 </div>
+                                            </div>
+                                        </div>
+
+                                        {% for ff in ff_request %}
+                                            {% if 'program_name' in ff %}
+                                        <div class="col-lg-6 mb-3" id="child_ff_program_{{counter}}_{{forloop.counter}}">
+                                            <label style="color:white">*</label>
+                                            <label>{% trans 'Frequent Flyer Program Journey' %} {{forloop.counter}}</label>
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select">
+                                                    <select class="form-control js-example-basic-single" name="child_ff_request{{counter}}_{{forloop.counter}}_id" style="width:100%;" id="child_ff_request{{counter}}_{{forloop.counter}}_id" onchange="auto_complete('child_ff_request{{counter}}_{{forloop.counter}}')" class="nice-select-default">
+                                                        <option value="">{% trans 'Frequent Flyer Program' %}</option>
+                                                        {% for ff_program in ff.ff_availability %}
+                                                        <option value="{{ff_program.ff_code}}">{{ff_program.name}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                                <input type="hidden" name="child_ff_request{{counter}}_{{forloop.counter}}" id="child_ff_request{{counter}}_{{forloop.counter}}" />
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6" id="child_ff_value_{{counter}}_{{forloop.counter}}">
+                                            <label>{% trans 'Frequent Flyer Number' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control" name="child_ff_number{{counter}}_{{forloop.counter}}" id="child_ff_number{{counter}}_{{forloop.counter}}" placeholder="{% trans 'Frequent Flyer Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Frequent Flyer Number '">
+                                            </div>
+                                        </div>
+                                            {% endif %}
+                                        {% endfor %}
+
+                                        <div class="col-lg-12 mb-3" >
+                                            <label>{% trans 'Behaviors' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <textarea id="child_behaviors_{{forloop.counter}}" name="child_behaviors_{{forloop.counter}}" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;" rows="6" cols="45"></textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -6795,32 +6919,12 @@
                                                 </div>
                                             </div>
                                         </div>
-
-                                        {% for ff in ff_request %}
-                                            {% if 'program_name' in ff %}
-                                        <div class="col-lg-6 mb-3" id="child_ff_program_{{counter}}_{{forloop.counter}}">
-                                            <label style="color:white">*</label>
-                                            <label>{% trans 'Frequent Flyer Program Journey' %} {{forloop.counter}}</label>
+                                        <div class="col-lg-12 mb-3" >
+                                            <label>{% trans 'Behaviors' %}</label>
                                             <div class="input-container-search-ticket">
-                                                <div class="form-select">
-                                                    <select class="form-control js-example-basic-single" name="child_ff_request{{counter}}_{{forloop.counter}}_id" style="width:100%;" id="child_ff_request{{counter}}_{{forloop.counter}}_id" onchange="auto_complete('child_ff_request{{counter}}_{{forloop.counter}}')" class="nice-select-default">
-                                                        <option value="">{% trans 'Frequent Flyer Program' %}</option>
-                                                        {% for ff_program in ff.ff_availability %}
-                                                        <option value="{{ff_program.ff_code}}">{{ff_program.name}}</option>
-                                                        {% endfor %}
-                                                    </select>
-                                                </div>
-                                                <input type="hidden" name="child_ff_request{{counter}}_{{forloop.counter}}" id="child_ff_request{{counter}}_{{forloop.counter}}" />
+                                                <textarea id="infant_behaviors_{{forloop.counter}}" name="infant_behaviors_{{forloop.counter}}" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;" rows="6" cols="45"></textarea>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6" id="child_ff_value_{{counter}}_{{forloop.counter}}">
-                                            <label>{% trans 'Frequent Flyer Number' %}</label>
-                                            <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control" name="child_ff_number{{counter}}_{{forloop.counter}}" id="child_ff_number{{counter}}_{{forloop.counter}}" placeholder="{% trans 'Frequent Flyer Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Frequent Flyer Number '">
-                                            </div>
-                                        </div>
-                                            {% endif %}
-                                        {% endfor %}
                                     </div>
 
                                 </div>
@@ -7553,6 +7657,12 @@
                                             </div>
                                             <label style="font-size:12px; padding:0;">{% trans 'Example' %}: 812345678</label>
                                         </div>
+                                        <div class="col-lg-12 mb-3" >
+                                            <label>{% trans 'Behaviors' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <textarea id="adult_behaviors_{{forloop.counter}}" name="adult_behaviors_{{forloop.counter}}" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;" rows="6" cols="45"></textarea>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -7851,6 +7961,40 @@
                                                         <input type="hidden" name="child_country_of_issued{{forloop.counter}}" id="child_country_of_issued{{forloop.counter}}" />
                                                     </div>
                                                 </div>
+                                            </div>
+                                        </div>
+
+
+                                        {% for ff in ff_request %}
+                                            {% if 'program_name' in ff %}
+                                        <div class="col-lg-6 mb-3" id="child_ff_program_{{counter}}_{{forloop.counter}}">
+                                            <label style="color:white">*</label>
+                                            <label>{% trans 'Frequent Flyer Program Journey' %} {{forloop.counter}}</label>
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select">
+                                                    <select class="form-control js-example-basic-single" name="child_ff_request{{counter}}_{{forloop.counter}}_id" style="width:100%;" id="child_ff_request{{counter}}_{{forloop.counter}}_id" onchange="auto_complete('child_ff_request{{counter}}_{{forloop.counter}}')" class="nice-select-default">
+                                                        <option value="">{% trans 'Frequent Flyer Program' %}</option>
+                                                        {% for ff_program in ff.ff_availability %}
+                                                        <option value="{{ff_program.ff_code}}">{{ff_program.name}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                                <input type="hidden" name="child_ff_request{{counter}}_{{forloop.counter}}" id="child_ff_request{{counter}}_{{forloop.counter}}" />
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6" id="child_ff_value_{{counter}}_{{forloop.counter}}">
+                                            <label>{% trans 'Frequent Flyer Number' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control" name="child_ff_number{{counter}}_{{forloop.counter}}" id="child_ff_number{{counter}}_{{forloop.counter}}" placeholder="{% trans 'Frequent Flyer Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Frequent Flyer Number '">
+                                            </div>
+                                        </div>
+                                            {% endif %}
+                                        {% endfor %}
+
+                                        <div class="col-lg-12 mb-3" >
+                                            <label>{% trans 'Behaviors' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <textarea id="child_behaviors_{{forloop.counter}}" name="child_behaviors_{{forloop.counter}}" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;" rows="6" cols="45"></textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -8154,7 +8298,12 @@
                                                 </div>
                                             </div>
                                         </div>
-
+                                        <div class="col-lg-12 mb-3" >
+                                            <label>{% trans 'Behaviors' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <textarea id="infant_behaviors_{{forloop.counter}}" name="infant_behaviors_{{forloop.counter}}" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;" rows="6" cols="45"></textarea>
+                                            </div>
+                                        </div>
                                         {% for ff in ff_request %}
                                             {% if 'program_name' in ff %}
                                         <div class="col-lg-6" id="child_ff_program_{{counter}}_{{forloop.counter}}">

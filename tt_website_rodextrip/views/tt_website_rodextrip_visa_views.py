@@ -313,6 +313,9 @@ def review(request):
             try:
                 for i in range(int(request.session['visa_passenger']['adult'])):
                     img_identity_data = [sel_img[:2] for sel_img in img_list_data if 'adult' in sel_img[2].lower() and 'identity' in sel_img[2].lower() and str(i + 1) in sel_img[2].lower()]
+                    behaviors = {}
+                    if request.POST.get('adult_behaviors_' + str(i + 1)):
+                        behaviors = {'visa': request.POST['adult_behaviors_' + str(i + 1)]}
                     adult.append({
                         "pax_type": "ADT",
                         "first_name": request.POST['adult_first_name' + str(i + 1)],
@@ -325,6 +328,7 @@ def review(request):
                         "identity_number": request.POST['adult_passport_number' + str(i + 1)],
                         "identity_type": "passport",
                         "identity_image": img_identity_data,
+                        "behaviors": behaviors,
                         "passenger_seq_id": request.POST['adult_id' + str(i + 1)]
                     })
 
@@ -406,6 +410,9 @@ def review(request):
             try:
                 for i in range(int(request.session['visa_passenger']['child'])):
                     img_identity_data = [sel_img[:2] for sel_img in img_list_data if 'child' in sel_img[2].lower() and 'identity' in sel_img[2].lower() and str(i + 1) in sel_img[2].lower()]
+                    behaviors = {}
+                    if request.POST.get('child_behaviors_' + str(i + 1)):
+                        behaviors = {'visa': request.POST['child_behaviors_' + str(i + 1)]}
                     child.append({
                         "pax_type": "CHD",
                         "first_name": request.POST['child_first_name' + str(i + 1)],
@@ -418,6 +425,7 @@ def review(request):
                         "identity_country_of_issued_name": request.POST['child_country_of_issued' + str(i + 1)],
                         "identity_type": "passport",
                         "identity_image": img_identity_data,
+                        "behaviors": behaviors,
                         "passenger_seq_id": request.POST['child_id' + str(i + 1)]
 
 
@@ -428,6 +436,9 @@ def review(request):
             try:
                 for i in range(int(request.session['visa_passenger']['infant'])):
                     img_identity_data = [sel_img[:2] for sel_img in img_list_data if 'infant' in sel_img[2].lower() and 'identity' in sel_img[2].lower() and str(i + 1) in sel_img[2].lower()]
+                    behaviors = {}
+                    if request.POST.get('infant_behaviors_' + str(i + 1)):
+                        behaviors = {'visa': request.POST['infant_behaviors_' + str(i + 1)]}
                     infant.append({
                         "pax_type": "INF",
                         "first_name": request.POST['infant_first_name' + str(i + 1)],
@@ -440,6 +451,7 @@ def review(request):
                         "identity_country_of_issued_name": request.POST['infant_country_of_issued' + str(i + 1)],
                         "identity_type": "passport",
                         "identity_image": img_identity_data,
+                        "behaviors": behaviors,
                         "passenger_seq_id": request.POST['infant_id' + str(i + 1)]
                     })
             except:

@@ -2592,6 +2592,12 @@ function group_booking_update_passenger(){
                   $(this).siblings(".select2-container").css('border', '1px solid red');
                 });
            }
+           behaviors = {}
+           try{
+                if(document.getElementById('adult_behaviors_'+ (i)).value){
+                    behaviors['groupbooking'] = document.getElementById('adult_behaviors_'+ (i)).value;
+                }
+            }catch(err){console.log(err);}
            pax.push({
                 "pax_type": "ADT", //hardcode dulu sementara
                 "first_name": document.getElementById('adult_first_name'+i).value,
@@ -2607,7 +2613,8 @@ function group_booking_update_passenger(){
                     "identity_expdate": document.getElementById('adult_identity_expired_date'+i).value != '' && document.getElementById('adult_identity_expired_date'+i).value != 'Invalid Date' ? moment(document.getElementById('adult_identity_expired_date'+i).value,'DD MMM YYYY').format('YYYY-MM-DD') : '',
                     "identity_number": document.getElementById('adult_identity_number'+i).value,
                     "identity_type": document.getElementById('adult_identity_type'+i).value
-                }
+                },
+                "behaviors": behaviors
            })
            pax_counter++;
        }catch(err){console.log(err);}
@@ -3749,6 +3756,12 @@ function add_table_of_passenger(type, data){
                                                     text+=`</div>`;
                                                 }
                                             text+=`
+                                            </div>
+                                            <div class="col-lg-12 mb-3" >
+                                                <label>Behaviors</label>
+                                                <div class="input-container-search-ticket">
+                                                    <textarea id="adult_behaviors_`+parseInt(counter_passenger+1)+`" name="adult_behaviors_`+parseInt(counter_passenger+1)+`" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;" rows="6" cols="45"></textarea>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

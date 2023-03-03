@@ -226,7 +226,7 @@ function add_table_of_passenger(type){
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-3">
-                                    <button type="button" id="passenger_btn_io_click`+parseInt(counter_passenger+1)+`" class="primary-btn" onclick="get_customer_list('','`+parseInt(counter_passenger+1)+`','issued_booking'); search_modal_pe_none();">Search</button>
+                                    <button type="button" id="passenger_btn_io_click`+parseInt(counter_passenger+1)+`" class="primary-btn" onclick="get_customer_list('','`+parseInt(counter_passenger+1)+`','offline'); search_modal_pe_none();">Search</button>
                                 </div>
                             </div>
                             <span><i class="fas fa-exclamation-triangle" style="font-size:18px; color:#ffcc00;"></i> Using this means you can't change title, first name, and last name</span>
@@ -529,6 +529,13 @@ function add_table_of_passenger(type){
                                             </div>
                                             <span style="font-size:12px; padding:0;">Example: +62812345678</span>
                                         </div>
+
+                                        <div class="col-lg-12 mb-3" >
+                                            <label>Behaviors</label>
+                                            <div class="input-container-search-ticket">
+                                                <textarea id="adult_behaviors_`+parseInt(counter_passenger+1)+`" name="adult_behaviors_`+parseInt(counter_passenger+1)+`" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;" rows="6" cols="45"></textarea>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-lg-12" style="padding:0px;">
@@ -614,12 +621,12 @@ function delete_table_of_passenger(counter){
     count_pax = 1;
     for(i=0;i<counter_passenger;i++){
         try{
-            document.getElementById('passenger_number'+i).innerHTML = count_pax;
+            document.getElementById('passenger_number'+i).innerHTML = '#'+count_pax;
             document.getElementById('passenger_number_modal_header'+i).innerHTML = 'Passenger '+count_pax;
-            document.getElementById('passenger_number_modal_title'+i).innerHTML = 'Passenger - '+count_pax;
+//            document.getElementById('passenger_number_modal_title'+i).innerHTML = 'Passenger - '+count_pax;
             count_pax++;
         }catch(err){
-
+            console.log(err);
         }
     }
     if(document.getElementById('table_of_passenger').innerHTML.trim() == ''){
