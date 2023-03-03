@@ -566,6 +566,40 @@ function set_radio_payment(type){
     }
 }
 
+function toggle_corpor_mode_div(prov_type){
+    if(document.getElementById('checkbox_corpor_mode_'+prov_type).checked == true){
+        if(typeof(agent_corpor_data) === 'undefined'){
+            get_corpor_list(prov_type);
+        }else{
+            document.getElementById('div_corpor_mode_'+prov_type).style.display = "block";
+        }
+    }
+    else{
+        document.getElementById('div_corpor_mode_'+prov_type).style.display = "none";
+    }
+}
+
+function render_corbooker_list(prov_type){
+    var cor_selection = document.getElementById(prov_type+'_corpor_select');
+    var cor_sel_value = cor_selection.options[cor_selection.selectedIndex].value;
+    document.getElementById(prov_type+'_corpor_select_post').value = cor_sel_value;
+    text = ``;
+    for(i in agent_corpor_data[cor_sel_value].booker_data){
+        text += `<option value="`+i+`">`+agent_corpor_data[cor_sel_value].booker_data[i].name+`</option>`;
+    }
+    document.getElementById(prov_type+'_corbooker_select').innerHTML = text;
+    $('#'+prov_type+'_corbooker_select').select2();
+    if(text != ''){
+        set_corbooker_post_value(prov_type);
+    }
+}
+
+function set_corbooker_post_value(prov_type){
+    var corbooker_selection = document.getElementById(prov_type+'_corbooker_select');
+    var corbooker_sel_value = corbooker_selection.options[corbooker_selection.selectedIndex].value;
+    document.getElementById(prov_type+'_corbooker_select_post').value = corbooker_sel_value;
+}
+
 //    if(document.getElementById('payment_selection').value == 'cash'){
 //        text = '';
 //        for(i in response.acquirers.cash){
