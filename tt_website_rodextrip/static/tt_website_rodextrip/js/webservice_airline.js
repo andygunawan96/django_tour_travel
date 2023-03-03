@@ -4819,9 +4819,11 @@ function set_passenger_seat_map_airline(val){
     if(passengers[val].hasOwnProperty('behaviors') && Object.keys(passengers[val].behaviors).length > 0){
         for(j in passengers[val].behaviors){
             if(j.toLowerCase() == 'airline'){
-                print_behavior = true;
-                text_behaviors=`<br/><b>Behavior History:</b><br/>`;
-                text_behaviors += `<textarea id="passenger_remark" rows="`+parseInt(parseInt(passengers[val].behaviors[j].split('\n').length)+2)+`" cols="50" onchange="update_remark(`+val+`)">`+passengers[val].behaviors[j].split('<br/>').join('\n')+`</textarea><br/>`;
+                if(passengers[val].behaviors[j]){
+                    print_behavior = true;
+                    text_behaviors=`<br/><b>Behavior History:</b><br/>`;
+                    text_behaviors += `<textarea id="passenger_remark" rows="`+parseInt(parseInt(passengers[val].behaviors[j].split('\n').length)+2)+`" cols="50" onchange="update_remark(`+val+`)" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;">`+passengers[val].behaviors[j].split('<br/>').join('\n')+`</textarea><br/>`;
+                }
             }
         }
     }
@@ -4829,7 +4831,7 @@ function set_passenger_seat_map_airline(val){
         text += text_behaviors;
     else{
         text+=`<br/><b>Behavior History:</b><br/>`;
-        text+= `<textarea id="passenger_remark" rows="6" cols="50" onchange="update_remark(`+val+`)">Solo Traveller:\n\nGroup Traveller:\n</textarea><br/>`;
+        text+= `<textarea id="passenger_remark" rows="6" cols="50" onchange="update_remark(`+val+`)" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;"></textarea><br/>`;
     }
     text+=`
     <div class="row">`;

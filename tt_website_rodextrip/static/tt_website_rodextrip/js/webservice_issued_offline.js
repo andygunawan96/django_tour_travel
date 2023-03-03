@@ -852,6 +852,12 @@ function update_passenger(){
                 document.getElementById('adult_nationality' + (i + 1)).style['border-color'] = '#EFEFEF';
             }
 
+            try{
+                if(document.getElementById('adult_behaviors_'+ (i + 1)).value){
+                    request['passenger_behaviors'+i] = document.getElementById('adult_behaviors_'+ (i + 1)).value;
+                }
+            }catch(err){console.log(err);}
+
 //            request['passenger_birth_date'+i] = document.getElementById('adult_birth_date' + (i + 1)).value;
 //            try{
 //                request['passenger_identity_number'+i] = document.getElementById('adult_identity_number' + (i + 1)).value;

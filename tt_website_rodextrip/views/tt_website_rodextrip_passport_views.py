@@ -270,6 +270,9 @@ def review(request):
             }
             try:
                 for i in range(int(request.session['passport_passenger']['adult'])):
+                    behaviors = {}
+                    if request.POST.get('adult_behaviors_' + str(i + 1)):
+                        behaviors = {'activity': request.POST['adult_behaviors_' + str(i + 1)]}
                     adult.append({
                         "pax_type": "ADT",
                         "first_name": request.POST['adult_first_name' + str(i + 1)],
@@ -281,7 +284,8 @@ def review(request):
                         "identity_expdate": request.POST['adult_passport_expired_date' + str(i + 1)],
                         "identity_number": request.POST['adult_passport_number' + str(i + 1)],
                         "identity_type": "passport",
-                        "passenger_seq_id": request.POST['adult_id' + str(i + 1)]
+                        "passenger_seq_id": request.POST['adult_id' + str(i + 1)],
+                        "behaviors": behaviors,
                     })
 
                     if i == 0:

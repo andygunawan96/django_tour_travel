@@ -379,6 +379,9 @@ def review(request):
             }
             # for i in range(int(request.session['event_request'].get('adult') or 1)):
             for i in range(1):
+                behaviors = {}
+                if request.POST.get('adult_behaviors_' + str(i + 1)):
+                    behaviors = {'event': request.POST['adult_behaviors_' + str(i + 1)]}
                 adult.append({
                     "pax_type": "ADT",
                     "first_name": request.POST['adult_first_name' + str(i + 1)],
@@ -387,6 +390,7 @@ def review(request):
                     "birth_date": request.POST['adult_birth_date' + str(i + 1)],
                     "nationality_name": request.POST['adult_nationality' + str(i + 1)],
                     "passenger_seq_id": request.POST['adult_id' + str(i + 1)],
+                    "behaviors": behaviors,
                 })
                 if i == 0:
                     if request.POST['myRadios'] == 'yes':

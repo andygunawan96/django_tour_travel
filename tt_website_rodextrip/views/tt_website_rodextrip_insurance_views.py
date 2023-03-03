@@ -156,7 +156,6 @@ def search(request):
     else:
         return no_session_logout(request)
 
-
 def passenger(request):
     if 'user_account' in request.session._session:
         try:
@@ -340,6 +339,9 @@ def review(request):
                     if request.POST.get('adult_additional_benefit' + str(i + 1)):
                         addons = json.loads(request.POST['adult_additional_benefit' + str(i + 1)])
 
+                behaviors = {}
+                if request.POST.get('adult_behaviors_' + str(i + 1)):
+                    behaviors = {'activity': request.POST['adult_behaviors_' + str(i + 1)]}
                 img_identity_data = [sel_img[:2] for sel_img in img_list_data if 'adult' in sel_img[2].lower() and 'identity' in sel_img[2].lower() and str(i + 1) in sel_img[2].lower()]
                 adult.append({
                     "pax_type": "ADT",
@@ -371,7 +373,8 @@ def review(request):
                         "city": request.POST['adult_city' + str(i + 1)],
                         "place_of_birth": request.POST['adult_place_of_birth' + str(i + 1)],
                         "addons": addons
-                    }
+                    },
+                    "behaviors": behaviors,
                 })
 
                 if i == 0:

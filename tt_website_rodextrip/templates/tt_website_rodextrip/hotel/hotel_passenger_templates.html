@@ -14,6 +14,7 @@
 <script src="{{ static_path }}js/moment.js"></script>
 
 <script>
+    global_provider_type = 'hotel';
     static_path_url_server = '{{static_path_url_server}}'
     signature = `{{signature}}`;
     function check_years_old(sequence, type){
@@ -552,6 +553,13 @@
                                             </div>
                                             <label style="font-size:12px; padding:0;">{% trans 'Example' %}: 812345678</label>
                                         </div>
+
+                                        <div class="col-lg-12 mb-3" >
+                                            <label>{% trans 'Behaviors' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <textarea id="adult_behaviors_{{forloop.counter}}" name="adult_behaviors_{{forloop.counter}}" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;" rows="6" cols="45"></textarea>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -739,6 +747,12 @@
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control date-picker-birth" name="child_birth_date{{forloop.counter}}" id="child_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}},'child')" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                                 <input type="hidden" class="form-control" name="child_years_old{{forloop.counter}}" id="child_years_old{{forloop.counter}}">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 mb-3" >
+                                            <label>{% trans 'Behaviors' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <textarea id="child_behaviors_{{forloop.counter}}" name="child_behaviors_{{forloop.counter}}" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;" rows="6" cols="45"></textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -1404,6 +1418,12 @@
                                                 </div>
                                                 <span style="font-size:12px; padding:0;">{% trans 'Example' %}: 812345678</span>
                                             </div>
+                                            <div class="col-lg-12 mb-3" >
+                                                <label>{% trans 'Behaviors' %}</label>
+                                                <div class="input-container-search-ticket">
+                                                    <textarea id="adult_behaviors_{{forloop.counter}}" name="adult_behaviors_{{forloop.counter}}" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;" rows="6" cols="45"></textarea>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -1590,6 +1610,12 @@
                                                 <div class="input-container-search-ticket">
                                                     <input style="background:white;" type="text" class="form-control date-picker-birth" name="child_birth_date{{forloop.counter}}" id="child_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}},'child')" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                                     <input type="hidden" class="form-control" name="child_years_old{{forloop.counter}}" id="child_years_old{{forloop.counter}}">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12 mb-3" >
+                                                <label>{% trans 'Behaviors' %}</label>
+                                                <div class="input-container-search-ticket">
+                                                    <textarea id="child_behaviors_{{forloop.counter}}" name="child_behaviors_{{forloop.counter}}" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;" rows="6" cols="45"></textarea>
                                                 </div>
                                             </div>
                                         </div>
@@ -2259,6 +2285,12 @@
                                             </div>
                                             <label style="font-size:12px; padding:0;">{% trans 'Example' %}: 812345678</label>
                                         </div>
+                                        <div class="col-lg-12 mb-3" >
+                                            <label>{% trans 'Behaviors' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <textarea id="adult_behaviors_{{forloop.counter}}" name="adult_behaviors_{{forloop.counter}}" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;" rows="6" cols="45"></textarea>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -2447,6 +2479,12 @@
                                             <div class="form-group">
                                                 <input type="text" style="background:white;" class="form-control date-picker-birth" name="child_birth_date{{forloop.counter}}" id="child_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}},'child')" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                                 <input type="hidden" class="form-control" name="child_years_old{{forloop.counter}}" id="child_years_old{{forloop.counter}}">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 mb-3" >
+                                            <label>{% trans 'Behaviors' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <textarea id="child_behaviors_{{forloop.counter}}" name="child_behaviors_{{forloop.counter}}" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;" rows="6" cols="45"></textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -3118,6 +3156,12 @@
                                         </div>
                                         <span style="font-size:12px; padding:0;">{% trans 'Example' %}: 812345678</span>
                                     </div>
+                                    <div class="col-lg-12 mb-3" >
+                                        <label>{% trans 'Behaviors' %}</label>
+                                        <div class="input-container-search-ticket">
+                                            <textarea id="adult_behaviors_{{forloop.counter}}" name="adult_behaviors_{{forloop.counter}}" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;" rows="6" cols="45"></textarea>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -3308,6 +3352,12 @@
                                         <div class="input-container-search-ticket">
                                             <input type="text" style="background:white;" class="form-control date-picker-birth" name="child_birth_date{{forloop.counter}}" id="child_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}},'child')" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                             <input type="hidden" class="form-control" name="child_years_old{{forloop.counter}}" id="child_years_old{{forloop.counter}}">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 mb-3" >
+                                        <label>{% trans 'Behaviors' %}</label>
+                                        <div class="input-container-search-ticket">
+                                            <textarea id="child_behaviors_{{forloop.counter}}" name="child_behaviors_{{forloop.counter}}" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;" rows="6" cols="45"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -3978,6 +4028,12 @@
                                             </div>
                                             <span style="font-size:12px; padding:0;">{% trans 'Example' %}: 812345678</span>
                                         </div>
+                                        <div class="col-lg-12 mb-3" >
+                                            <label>{% trans 'Behaviors' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <textarea id="adult_behaviors_{{forloop.counter}}" name="adult_behaviors_{{forloop.counter}}" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;" rows="6" cols="45"></textarea>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -4168,6 +4224,12 @@
                                             <div class="input-container-search-ticket">
                                                 <input type="text" style="background:white;" class="form-control date-picker-birth" name="child_birth_date{{forloop.counter}}" id="child_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}},'child')" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                                 <input type="hidden" class="form-control" name="child_years_old{{forloop.counter}}" id="child_years_old{{forloop.counter}}">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 mb-3" >
+                                            <label>{% trans 'Behaviors' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <textarea id="child_behaviors_{{forloop.counter}}" name="child_behaviors_{{forloop.counter}}" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;" rows="6" cols="45"></textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -4840,6 +4902,12 @@
                                             </div>
                                             <span style="font-size:12px; padding:0;">{% trans 'Example' %}: 812345678</span>
                                         </div>
+                                        <div class="col-lg-12 mb-3" >
+                                            <label>{% trans 'Behaviors' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <textarea id="adult_behaviors_{{forloop.counter}}" name="adult_behaviors_{{forloop.counter}}" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;" rows="6" cols="45"></textarea>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -5030,6 +5098,12 @@
                                             <div class="input-container-search-ticket">
                                                 <input type="text" style="background:white;" class="form-control date-picker-birth" name="child_birth_date{{forloop.counter}}" id="child_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}},'child')" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                                 <input type="hidden" class="form-control" name="child_years_old{{forloop.counter}}" id="child_years_old{{forloop.counter}}">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 mb-3" >
+                                            <label>{% trans 'Behaviors' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <textarea id="child_behaviors_{{forloop.counter}}" name="child_behaviors_{{forloop.counter}}" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;" rows="6" cols="45"></textarea>
                                             </div>
                                         </div>
                                     </div>

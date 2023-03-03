@@ -701,12 +701,10 @@ def ssr(request, signature):
                 for pax in passengers:
                     if not pax.get('behaviors'):
                         pax['behaviors'] = {}
-                    if not pax['behaviors'].get('Airline'):
-                        pax['behaviors']['Airline'] = ""
-                    if pax['behaviors'].get('Airline'):
-                        pax['behaviors']['Airline'] = pax['behaviors']['Airline'].replace('<br/>', '\n')
-                    else:
-                        pax['behaviors']['Airline'] = 'Solo Traveller\n\nGroupTraveller\n'
+                    if not pax['behaviors'].get('airline'):
+                        pax['behaviors']['airline'] = ""
+                    if pax['behaviors'].get('airline'):
+                        pax['behaviors']['airline'] = pax['behaviors']['airline'].replace('<br/>', '\n')
                 time_limit = get_timelimit_product(request, 'airline')
                 if time_limit == 0:
                     time_limit = int(request.POST['time_limit_input'])
@@ -1023,9 +1021,12 @@ def seat_map(request, signature):
                                         'currency': '',
                                         'price': ''
                                     })
-                    if pax.get('behaviors'):
-                        if pax['behaviors'].get('Airline'):
-                            pax['behaviors']['Airline'] = pax['behaviors']['Airline'].replace('<p>','').replace('</p>','').replace('<br>','\n')
+                    if not pax.get('behaviors'):
+                        pax['behaviors'] = {}
+                    if not pax['behaviors'].get('airline'):
+                        pax['behaviors']['airline'] = ""
+                    if pax['behaviors'].get('airline'):
+                        pax['behaviors']['airline'] = pax['behaviors']['airline'].replace('<br/>', '\n')
 
                 additional_price_input = ''
                 additional_price = request.POST['additional_price_input'].split(',')
@@ -1528,7 +1529,9 @@ def review(request, signature):
                                     country_of_issued_code = country['code']
                                     break
                     img_identity_data = [sel_img[:2] for sel_img in img_list_data if 'adult' in sel_img[2].lower() and 'identity' in sel_img[2].lower() and str(i + 1) in sel_img[2].lower()]
-
+                    behaviors = {}
+                    if request.POST.get('adult_behaviors_' + str(i + 1)):
+                        behaviors = {'airline': request.POST['adult_behaviors_' + str(i + 1)]}
                     adult.append({
                         "pax_type": "ADT",
                         "first_name": request.POST['adult_first_name' + str(i + 1)],
@@ -1544,7 +1547,7 @@ def review(request, signature):
                         "passenger_seq_id": request.POST['adult_id' + str(i + 1)],
                         "identity_type": request.POST['adult_id_type' + str(i + 1)],
                         "ff_numbers": ff_number,
-                        "behaviors": json.loads(request.POST['adult_behaviors' + str(i + 1)]) if request.POST.get('adult_behaviors' + str(i + 1)) else {},
+                        "behaviors": behaviors,
                         "identity_image": img_identity_data,
                         "is_valid_identity": is_valid_identity,
                         "is_request_wheelchair": is_wheelchair
@@ -1681,6 +1684,11 @@ def review(request, signature):
                                     break
 
                     img_identity_data = [sel_img[:2] for sel_img in img_list_data if 'child' in sel_img[2].lower() and 'identity' in sel_img[2].lower() and str(i + 1) in sel_img[2].lower()]
+
+                    behaviors = {}
+                    if request.POST.get('child_behaviors_' + str(i + 1)):
+                        behaviors = {'airline': request.POST['child_behaviors_' + str(i + 1)]}
+
                     child.append({
                         "pax_type": "CHD",
                         "first_name": request.POST['child_first_name' + str(i + 1)],
@@ -1696,7 +1704,7 @@ def review(request, signature):
                         "passenger_seq_id": request.POST['child_id' + str(i + 1)],
                         "identity_type": request.POST['child_id_type' + str(i + 1)],
                         "ff_numbers": ff_number,
-                        "behaviors": json.loads(request.POST['child_behaviors' + str(i + 1)]) if request.POST.get('child_behaviors' + str(i + 1)) else {},
+                        "behaviors": behaviors,
                         "identity_image": img_identity_data,
                         "is_valid_identity": is_valid_identity,
                         "is_request_wheelchair": is_wheelchair
@@ -1737,6 +1745,9 @@ def review(request, signature):
                                     country_of_issued_code = country['code']
                                     break
                     img_identity_data = [sel_img[:2] for sel_img in img_list_data if 'infant' in sel_img[2].lower() and 'identity' in sel_img[2].lower() and str(i + 1) in sel_img[2].lower()]
+                    behaviors = {}
+                    if request.POST.get('infant_behaviors_' + str(i + 1)):
+                        behaviors = {'airline': request.POST['infant_behaviors_' + str(i + 1)]}
                     infant.append({
                         "pax_type": "INF",
                         "first_name": request.POST['infant_first_name' + str(i + 1)],
@@ -1751,7 +1762,7 @@ def review(request, signature):
                         "identity_country_of_issued_code": country_of_issued_code,
                         "passenger_seq_id": request.POST['infant_id' + str(i + 1)],
                         "identity_type": request.POST['infant_id_type' + str(i + 1)],
-                        "behaviors": json.loads(request.POST['infant_behaviors' + str(i + 1)]) if request.POST.get('infant_behaviors' + str(i + 1)) else {},
+                        "behaviors": behaviors,
                         "identity_image": img_identity_data,
                         "is_valid_identity": is_valid_identity,
                         "is_request_wheelchair": is_wheelchair

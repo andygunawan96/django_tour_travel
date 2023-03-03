@@ -170,7 +170,6 @@ def search(request):
     else:
         return no_session_logout(request)
 
-
 def detail(request, tour_code):
     try:
         javascript_version = get_javascript_version()
@@ -254,7 +253,6 @@ def detail(request, tour_code):
         raise Exception('Make response code 500!')
 
     return render(request, MODEL_NAME+'/tour/tour_detail_templates.html', values)
-
 
 def passenger(request):
     if 'user_account' in request.session._session:
@@ -443,7 +441,6 @@ def passenger(request):
     else:
         return no_session_logout(request)
 
-
 def review(request):
     if 'user_account' in request.session._session:
         try:
@@ -490,6 +487,9 @@ def review(request):
             temp_pax_id = 0
             for i in range(int(request.session['tour_booking_data']['adult'])):
                 img_identity_data = [sel_img[:2] for sel_img in img_list_data if 'adult' in sel_img[2].lower() and 'identity' in sel_img[2].lower() and str(i + 1) in sel_img[2].lower()]
+                behaviors = {}
+                if request.POST.get('adult_behaviors_' + str(i + 1)):
+                    behaviors = {'tour': request.POST['adult_behaviors_' + str(i + 1)]}
                 adult.append({
                     "temp_pax_id": temp_pax_id,
                     "first_name": request.POST['adult_first_name' + str(i + 1)],
@@ -509,6 +509,7 @@ def review(request):
                     "mobile": request.POST.get('adult_cp' + str(i + 1)) and request.POST['adult_phone' + str(i + 1)] or ' - ',
                     "email": request.POST.get('adult_cp' + str(i + 1)) and request.POST['adult_email' + str(i + 1)] or ' - ',
                     "is_cp": request.POST.get('adult_cp' + str(i + 1)),
+                    "behaviors": behaviors,
 
                 })
                 printout_paxs.append({
@@ -589,6 +590,9 @@ def review(request):
 
             for i in range(int(request.session['tour_booking_data']['child'])):
                 img_identity_data = [sel_img[:2] for sel_img in img_list_data if 'child' in sel_img[2].lower() and 'identity' in sel_img[2].lower() and str(i + 1) in sel_img[2].lower()]
+                behaviors = {}
+                if request.POST.get('child_behaviors_' + str(i + 1)):
+                    behaviors = {'tour': request.POST['child_behaviors_' + str(i + 1)]}
                 child.append({
                     "temp_pax_id": temp_pax_id,
                     "first_name": request.POST['child_first_name'+str(i+1)],
@@ -604,6 +608,7 @@ def review(request):
                     "identity_image": img_identity_data,
                     "passenger_seq_id": request.POST['child_id'+str(i+1)],
                     "identity_type": "passport",
+                    "behaviors": behaviors,
                 })
                 printout_paxs.append({
                     "name": request.POST['child_title' + str(i + 1)] + ' ' + request.POST['child_first_name' + str(i + 1)] + ' ' + request.POST['child_last_name' + str(i + 1)],
@@ -616,6 +621,9 @@ def review(request):
 
             for i in range(int(request.session['tour_booking_data']['infant'])):
                 img_identity_data = [sel_img[:2] for sel_img in img_list_data if 'infant' in sel_img[2].lower() and 'identity' in sel_img[2].lower() and str(i + 1) in sel_img[2].lower()]
+                behaviors = {}
+                if request.POST.get('infant_behaviors_' + str(i + 1)):
+                    behaviors = {'tour': request.POST['infant_behaviors_' + str(i + 1)]}
                 infant.append({
                     "temp_pax_id": temp_pax_id,
                     "first_name": request.POST['infant_first_name'+str(i+1)],
@@ -630,6 +638,7 @@ def review(request):
                     "identity_country_of_issued_name": request.POST.get('infant_country_of_issued' + str(i + 1)) and request.POST['infant_country_of_issued' + str(i + 1)] or '',
                     "identity_image": img_identity_data,
                     "passenger_seq_id": request.POST['infant_id'+str(i+1)],
+                    "behaviors": behaviors,
                     "identity_type": "passport",
                 })
                 printout_paxs.append({

@@ -2771,13 +2771,13 @@ function pick_passenger_copy(type, sequence, product, identity=''){
         }
 //        get_customer_parent();
     }
-    else if(type == '' || product == 'issued_offline' || product == 'group_booking'){
+    else if(type == '' || product == 'offline' || product == 'group_booking'){
 
-        if(product == 'issued_offline' || product == 'group_booking'){
+        if(product == 'offline' || product == 'group_booking'){
             clear_btn_top('booker', '');
             clear_search_pax('booker','');
         }
-        else if(product == 'issued_booking'){
+        else if(product == 'offline'){
             clear_btn_top('', passenger_number);
             clear_search_pax('', passenger_number);
         }
@@ -3063,6 +3063,17 @@ function pick_passenger_copy(type, sequence, product, identity=''){
             document.getElementById('search_result_'+type+passenger_number).innerHTML = '';
             update_contact('passenger',passenger_number);
             document.getElementsByName('radio_passenger'+passenger_number)[1].checked = true;
+            try{
+                if(passenger_data[sequence].hasOwnProperty('behaviors')){
+                    if(product)
+                        product_behaviors = product;
+                    else
+                        product_behaviors = global_provider_type;
+                    if(passenger_data[sequence].behaviors.hasOwnProperty(product_behaviors)){
+                        document.getElementById('adult_behaviors_'+passenger_number).value = passenger_data[sequence].behaviors[product_behaviors].split('<br/>').join('\n');
+                    }
+                }
+            }catch(err){console.log(err);}
             radio_button('passenger',passenger_number);
 //            $('#myModalPassenger'+parseInt(passenger_number-1)).modal('hide');
         }
@@ -3442,6 +3453,14 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                         }catch(err){
                             console.log(err);
                         }
+                        try{
+                            if(passenger_data[sequence].hasOwnProperty('behaviors')){
+                                product_behaviors = product;
+                                if(passenger_data[sequence].behaviors.hasOwnProperty(product_behaviors)){
+                                    document.getElementById(type+'_behaviors_'+passenger_number).value = passenger_data[sequence].behaviors[product_behaviors].split('<br/>').join('\n');
+                                }
+                            }
+                        }catch(err){console.log(err);}
 
             //            if (document.getElementById("default-select")) {
             //                $('#adult_nationality'+passenger_number+'_id').niceSelect('update');
@@ -3600,6 +3619,15 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                             console.log(err);
                         }
 
+                        try{
+                            if(passenger_data[sequence].hasOwnProperty('behaviors')){
+                                product_behaviors = product;
+                                if(passenger_data[sequence].behaviors.hasOwnProperty(product_behaviors)){
+                                    document.getElementById('adult_behaviors_'+passenger_number).value = passenger_data[sequence].behaviors[product_behaviors].split('<br/>').join('\n');
+                                }
+                            }
+                        }catch(err){console.log(err);}
+
                         $('#adult_nationality'+passenger_number+'_id').niceSelect('update');
                         $('#adult_country_of_issued'+passenger_number).niceSelect('update');
                         $('#myModal_adult'+passenger_number).modal('hide');
@@ -3732,6 +3760,15 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                                 }
                             }catch(err){console.log(err);}
                         }
+
+                        try{
+                            if(passenger_data[sequence].hasOwnProperty('behaviors')){
+                                product_behaviors = product;
+                                if(passenger_data[sequence].behaviors.hasOwnProperty(product_behaviors)){
+                                    document.getElementById('child_behaviors_'+passenger_number).value = passenger_data[sequence].behaviors[product_behaviors].split('<br/>').join('\n');
+                                }
+                            }
+                        }catch(err){console.log(err);}
                         $('#child_nationality'+passenger_number+'_id').niceSelect('update');
                         $('#child_country_of_issued'+passenger_number).niceSelect('update');
                         $('#myModal_child'+passenger_number).modal('hide');
@@ -3842,6 +3879,14 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                 //                $('#adult_nationality'+passenger_number+'_id').niceSelect('update');
                 //                $('#adult_nationality1_id').niceSelect('update');
                 //            };
+                        try{
+                            if(passenger_data[sequence].hasOwnProperty('behaviors')){
+                                product_behaviors = product;
+                                if(passenger_data[sequence].behaviors.hasOwnProperty(product_behaviors)){
+                                    document.getElementById('infant_behaviors_'+passenger_number).value = passenger_data[sequence].behaviors[product_behaviors].split('<br/>').join('\n');
+                                }
+                            }
+                        }catch(err){console.log(err);}
                         $('#infant_nationality'+passenger_number+'_id').niceSelect('update');
                         $('#infant_country_of_issued'+passenger_number).niceSelect('update');
                         $('#myModal_infant'+passenger_number).modal('hide');
@@ -3950,6 +3995,14 @@ function pick_passenger_copy(type, sequence, product, identity=''){
             //                $('#adult_nationality'+passenger_number+'_id').niceSelect('update');
             //                $('#adult_nationality1_id').niceSelect('update');
             //            };
+                        try{
+                            if(passenger_data[sequence].hasOwnProperty('behaviors')){
+                                product_behaviors = product;
+                                if(passenger_data[sequence].behaviors.hasOwnProperty(product_behaviors)){
+                                    document.getElementById('infant_behaviors_'+passenger_number).value = passenger_data[sequence].behaviors[product_behaviors].split('<br/>').join('\n');
+                                }
+                            }
+                        }catch(err){console.log(err);}
                         $('#senior_nationality'+passenger_number+'_id').niceSelect('update');
                         $('#senior_country_of_issued'+passenger_number).niceSelect('update');
                         $('#myModal_senior'+passenger_number).modal('hide');
@@ -4173,7 +4226,7 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                 //untuk booker check
                 passenger_data_pick.push(passenger_data[sequence]);
                 passenger_data_pick[passenger_data_pick.length-1].sequence = 'booker';
-                if(['issued_offline', 'group_booking'].includes(product) ==  false)
+                if(['offline', 'group_booking'].includes(product) ==  false)
                     $('#myModal').modal('hide');
                 document.getElementById('search_result').innerHTML = '';
             }
@@ -4344,7 +4397,7 @@ function pick_passenger_copy(type, sequence, product, identity=''){
             clear_search_pax(type, '');
             close_modal_check(type, '');
         }
-    }catch(err){console.log('lalala');console.log(err);}
+    }catch(err){console.log(err);}
 }
 
 function copy_booker_to_passenger(val, type){
@@ -4440,7 +4493,7 @@ function copy_booker(val,type,identity){
         }
         var is_auto_add_identity = true;
         var passenger_number_copy_booker = 1;
-        if(type == 'issued_offline'){
+        if(type == 'offline'){
             if(document.getElementById('booker_title').value != '' &&
                document.getElementById('booker_first_name').value != '' &&
                document.getElementById('booker_nationality').value != '' &&
@@ -4508,6 +4561,15 @@ function copy_booker(val,type,identity){
                             document.getElementById('adult_nationality'+i+'_id').disabled = true;
                             document.getElementById('adult_email'+i).readOnly = true;
                             document.getElementById('adult_phone'+i).readOnly = true;
+
+                            try{
+                                if(data_booker.hasOwnProperty('behaviors')){
+                                    product_behaviors = type;
+                                    if(data_booker.behaviors.hasOwnProperty(product_behaviors)){
+                                        document.getElementById('adult_behaviors_'+i).value = data_booker.behaviors[product_behaviors].split('<br/>').join('\n');
+                                    }
+                                }
+                            }catch(err){console.log(err)}
                             //document.getElementById('adult_phone_code1_id').disabled = true;
                             if(document.getElementById('adult_birth_date'+i).value != '')
                                 document.getElementById('adult_birth_date'+i).disabled = true;
@@ -4612,6 +4674,15 @@ function copy_booker(val,type,identity){
 //                    document.getElementById('adult_nationality1').value = document.getElementById('booker_nationality').value;
 //                    document.getElementById('adult_nationality1_id').disabled = true;
 
+                    try{
+                        if(data_booker.hasOwnProperty('behaviors')){
+                            product_behaviors = type;
+                            if(data_booker.behaviors.hasOwnProperty(product_behaviors)){
+                                document.getElementById('adult_behaviors_1').value = data_booker.behaviors[product_behaviors].split('<br/>').join('\n');
+                            }
+                        }
+                    }catch(err){console.log(err)}
+
                     $('#adult_nationality1_id').val(document.getElementById('booker_nationality').value).trigger('change');
                     $('#adult_nationality1_id').select2({"disabled":true});
                     document.getElementById('adult_email1').readOnly = true;
@@ -4715,6 +4786,15 @@ function copy_booker(val,type,identity){
                     $('#adult_passport_passport_country_of_issued1_id').val(data_booker['identities']['passport'].identity_country_of_issued_name).trigger('change');
                 }
             }
+
+            try{
+                if(data_booker.hasOwnProperty('behaviors')){
+                    product_behaviors = type;
+                    if(data_booker.behaviors.hasOwnProperty(product_behaviors)){
+                        document.getElementById('adult_behaviors_1').value = data_booker.behaviors[product_behaviors].split('<br/>').join('\n');
+                    }
+                }
+            }catch(err){console.log(err)}
 
             document.getElementById('adult_nationality1_id').disabled = true;
             document.getElementById('adult_email1').readOnly = true;
@@ -5010,7 +5090,7 @@ function copy_booker(val,type,identity){
         }
     }else{
         //kosongi avatar
-        if(type == 'issued_offline' || type == 'groupbooking'){
+        if(type == 'offline' || type == 'groupbooking'){
             for(i=1;i<=counter_passenger;i++){
                 if(document.getElementById('adult_first_name'+i)){
                     break;
@@ -5107,6 +5187,11 @@ function copy_booker(val,type,identity){
             }catch(err){
 
             }
+
+            try{
+                document.getElementById('adult_behaviors_1').value = ''
+            }catch(err){console.log(err)}
+
             document.getElementById('adult_id'+i).value = '';
             if(typeof ff_request !== 'undefined' && typeof data_booker !== 'undefined' && data_booker.hasOwnProperty('frequent_flyer_list')){
                 var index_ff = 1;
@@ -5211,6 +5296,11 @@ function copy_booker(val,type,identity){
             }catch(err){
                 console.log(err); // error tidak ada table dengan id name_pax, id_passenger, birth_date, sample_method (medical)
             }
+
+            try{
+                document.getElementById('adult_behaviors_1').value = ''
+            }catch(err){console.log(err)}
+
             document.getElementById('adult_id1').value = '';
 
             if(typeof ff_request !== 'undefined' && typeof data_booker !== 'undefined' && data_booker.hasOwnProperty('frequent_flyer_list')){
@@ -5350,6 +5440,9 @@ function clear_passenger(type, sequence){
             document.getElementById('select2-adult_country_of_issued'+sequence+'_id-container').innerHTML = 'Country Of Issued';
             document.getElementById('adult_country_of_issued'+sequence+'_id').value = 'Country Of Issued';
             try{
+                document.getElementById('adult_behaviors_'+sequence).value = '';
+            }catch(err){console.log(err)}
+            try{
                 if(typeof ff_request !== 'undefined'){
                     for(j=1;j<=ff_request.length;j++){
                         try{
@@ -5415,6 +5508,9 @@ function clear_passenger(type, sequence){
             document.getElementById('select2-infant_country_of_issued'+sequence+'_id-container').innerHTML = 'Country Of Issued';
             document.getElementById('infant_country_of_issued'+sequence+'_id').value = 'Country Of Issued';
             try{
+                document.getElementById('infant_behaviors_'+sequence).value = '';
+            }catch(err){console.log(err)}
+            try{
                 if(typeof ff_request !== 'undefined'){
                     for(j=1;j<=ff_request.length;j++){
                         try{
@@ -5478,6 +5574,9 @@ function clear_passenger(type, sequence){
         document.getElementById('select2-senior_country_of_issued'+sequence+'_id-container').innerHTML = 'Country Of Issued';
         document.getElementById('senior_country_of_issued'+sequence+'_id').value = 'Country Of Issued';
         try{
+            document.getElementById('senior_behaviors_'+sequence).value = '';
+        }catch(err){console.log(err)}
+        try{
             if(typeof ff_request !== 'undefined'){
                 for(j=1;j<=ff_request.length;j++){
                     try{
@@ -5536,6 +5635,9 @@ function clear_passenger(type, sequence){
         document.getElementById('child_country_of_issued'+sequence).value = '';
         document.getElementById('select2-child_country_of_issued'+sequence+'_id-container').innerHTML = 'Country Of Issued';
         document.getElementById('child_country_of_issued'+sequence+'_id').value = 'Country Of Issued';
+        try{
+            document.getElementById('child_behaviors_'+sequence).value = '';
+        }catch(err){console.log(err)}
         try{
             if(typeof ff_request !== 'undefined'){
                 for(j=1;j<=ff_request.length;j++){
@@ -5619,6 +5721,10 @@ function clear_passenger(type, sequence){
                     document.getElementById('select2-adult_country_of_issued'+sequence+'_id-container').innerHTML = 'Indonesia';
 
                     document.getElementById('adult_address'+sequence).value = '';
+
+                    try{
+                        document.getElementById('adult_behaviors_'+sequence).value = '';
+                    }catch(err){console.log(err)}
 
                     if(vendor == 'phc'){
                         //personal data
@@ -5923,6 +6029,9 @@ function clear_passenger(type, sequence){
             }catch(err){
                 console.log(err);
             }
+            try{
+                document.getElementById(type+'_behaviors_'+sequence).value = '';
+            }catch(err){console.log(err)}
             try{
                 document.getElementById(type+'_passport_number'+sequence).value = '';
                 document.getElementById(type+'_passport_number'+sequence).readOnly = false;
@@ -8652,6 +8761,14 @@ function pick_passenger_cache_copy(val, identity){
                 }
             }
 
+            // add behavior
+            try{
+                if(passenger_data_cache[val].hasOwnProperty('behaviors')){
+                    if(passenger_data_cache[val]['behaviors'].hasOwnProperty(global_provider_type))
+                        document.getElementById(type+'_behaviors_'+passenger_number).value = passenger_data_cache[val]['behaviors']['global_provider_type'];
+                }
+            }catch(err){console.log(err)}
+
             //add frequent flyer
             try{
                 if(typeof ff_request !== 'undefined'){
@@ -8726,7 +8843,7 @@ function pick_passenger_cache_copy(val, identity){
                 else if(document.URL.split('/')[document.URL.split('/').length-1] == 'passenger')
                     provider_type_copy = document.URL.split('/')[document.URL.split('/').length-2]
                 else if(document.URL.split('/')[document.URL.split('/').length-1] == 'issued_offline')
-                    provider_type_copy = 'issued_offline'
+                    provider_type_copy = 'offline'
 
                 data_booker = passenger_data_cache[val];
                 document.getElementsByName('myRadios')[0].checked = 'checked';
@@ -10097,7 +10214,7 @@ function filter_top_right(pax_btn, num, prd){
             }
         }
 
-        if(prd == 'issued_offline' || prd == 'group_booking'){
+        if(prd == 'group_booking'){
             if(pax_btn == 'booker'){
                 value_radio_pax = document.querySelector('input[name="radio_booker"]:checked').value;
             }else if(pax_btn == 'contact'){
@@ -10112,7 +10229,7 @@ function filter_top_right(pax_btn, num, prd){
             else{
                 document.getElementById('button_tr_'+pax_btn+num).style.display = 'none';
             }
-        }else if(prd == 'issued_booking'){
+        }else if(prd == 'offline'){
             value_radio_pax = document.querySelector('input[name="radio_passenger' + parseInt(num) + '"]:checked').value;;
             if(value_radio_pax == 'search')
                 document.getElementById('button_tr_'+parseInt(num)).style.display = 'block';
