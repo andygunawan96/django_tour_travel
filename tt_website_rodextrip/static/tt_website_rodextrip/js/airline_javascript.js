@@ -230,6 +230,20 @@ function airline_goto_search(){
                 error_log+= 'Please use autocomplete for destination '+i+'\n';
         }
     }
+
+    try{
+        if(document.getElementById('checkbox_corpor_mode_airline').checked){
+            var cor_selection = document.getElementById('airline_corpor_select');
+            var corbooker_selection = document.getElementById('airline_corbooker_select');
+            if(!cor_selection.options[cor_selection.selectedIndex].value || !corbooker_selection.options[corbooker_selection.selectedIndex].value)
+            {
+                error_log+= 'Please choose Corporate and Booker, or uncheck "Activate Corporate Mode" if you do not wish to activate it\n';
+            }
+        }
+    }catch(err){
+        console.log('no corpor mode checkbox on airline search UI');
+    }
+
 //    error_log = ''; //DEV GARUDA
     if(error_log == ''){
         $('.button-search').addClass("running");

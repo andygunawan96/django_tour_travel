@@ -862,11 +862,11 @@ def get_new_cache(signature, type='all'):
                 if res_cache_ppob['result']['error_code'] == 0:
                     res_cache_ppob = res_cache_ppob['result']['response']
                 else:
-                    _logger.info("ERROR GET CACHE FROM TOUR " + json.dumps(res_cache_ppob) + '\n' + traceback.format_exc())
+                    _logger.info("ERROR GET CACHE FROM PPOB " + json.dumps(res_cache_ppob) + '\n' + traceback.format_exc())
                     res_cache_ppob = False
             except Exception as e:
                 res_cache_ppob = False
-                _logger.info("ERROR GET CACHE FROM TOUR " + json.dumps(res_cache_ppob) + '\n' + str(e) + '\n' + traceback.format_exc())
+                _logger.info("ERROR GET CACHE FROM PPOB " + json.dumps(res_cache_ppob) + '\n' + str(e) + '\n' + traceback.format_exc())
 
             res = {
                 'result': {
