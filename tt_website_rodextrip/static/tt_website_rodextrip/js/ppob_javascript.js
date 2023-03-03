@@ -157,14 +157,16 @@ function get_carrier_setup(car_provider){
         {
             text+=`
             <label class="radio-img" style="vertical-align:top;">`;
-            if(counter == 0){
-                text+=`<input type="radio" checked="checked" name="bills_type" value="`+i+`">`;
-            }else{
-                text+=`<input type="radio" name="bills_type" value="`+i+`">`;
-            }
-            img_path = "/static/tt_website_rodextrip/images/icon/"+i.toString().toLowerCase().replace('-','').replace(' ','_')+".png";
-            text+=`<img src="`+img_path+`" alt="`+i.toString().toUpperCase()+`" style="width:70px; height:70px; padding:0px;"><br/>
-            <div style="text-align:center; margin-top:5px; max-width:90px; height: 50px; word-break: break-word;"><span style="font-size:13px; color:`+text_color+`;">`+i.toString().toUpperCase()+`</span></div>
+                if(counter == 0){
+                    text+=`<input type="radio" checked="checked" name="bills_type" value="`+i+`">`;
+                }else{
+                    text+=`<input type="radio" name="bills_type" value="`+i+`">`;
+                }
+                img_path = "/static/tt_website_rodextrip/images/icon/"+i.toString().toLowerCase().replace('-','').replace(' ','_')+".png";
+                text+=`<img src="`+img_path+`" alt="`+i.toString().toUpperCase()+`" style="width:80px; height:80px; padding:0px;">
+                <div style="width:100px; color:`+text_color+`;">
+                    <span>`+i.toString().toUpperCase()+`</span>
+                </div>
             </label>`;
             counter++;
         }
@@ -5348,7 +5350,7 @@ function check_hp_number(evoucher_val){
             <div class="row">
                 <div class="col-lg-12">`;
                 if(code_voucher != ''){
-                    text_img+=`<label class="radio-img">
+                    text_img+=`<label class="radio-img" style="height:70px;">
                     <input type="radio" checked="checked" name="voucher-type" value="pulsa" onchange="set_evoucher_type();">`;
                     if(code_voucher == "TSEL" || code_voucher == "TS"){
                         text_img+=`<img src="/static/tt_website_rodextrip/images/icon/telkomsel.png" alt="Telkomsel" style="width:auto; height:60px; padding:0px;">`;
@@ -5368,38 +5370,38 @@ function check_hp_number(evoucher_val){
                     text_img+=`</label>`;
 
                     text_img+=`
-                    <label class="radio-img">
+                    <label class="radio-img" style="height:70px;">
                         <input type="radio" name="voucher-type" value="ovo" onchange="set_evoucher_type();">
                         <img src="/static/tt_website_rodextrip/images/icon/ovo.png" alt="OVO" style="width:auto; height:60px; padding:0px;">
                     </label>`;
                 }else{
                     text_img+=`
-                    <label class="radio-img">
+                    <label class="radio-img" style="height:70px;">
                         <input type="radio" checked="checked" name="voucher-type" value="ovo" onchange="set_evoucher_type();">
                         <img src="/static/tt_website_rodextrip/images/icon/ovo.png" alt="OVO" style="width:auto; height:60px; padding:0px;">
                     </label>`;
                 }
 
                 text_img+=`
-                <label class="radio-img">
+                <label class="radio-img" style="height:70px;">
                     <input type="radio" name="voucher-type" value="gopay" onchange="set_evoucher_type();">
                     <img src="/static/tt_website_rodextrip/images/icon/gopay.png" alt="GO-PAY" style="width:auto; height:60px; padding:0px;">
                 </label>`;
 
                 text_img+=`
-                <label class="radio-img">
+                <label class="radio-img" style="height:70px;">
                     <input type="radio" name="voucher-type" value="shopee" onchange="set_evoucher_type();">
                     <img src="/static/tt_website_rodextrip/images/icon/shopee.png" alt="SHOPEE" style="width:auto; height:60px; padding:0px;">
                 </label>`;
 
                 text_img+=`
-                <label class="radio-img">
+                <label class="radio-img" style="height:70px;">
                     <input type="radio" name="voucher-type" value="dana" onchange="set_evoucher_type();">
                     <img src="/static/tt_website_rodextrip/images/icon/dana.png" alt="DANA" style="width:auto; height:60px; padding:0px;">
                 </label>`;
 
                 text_img+=`
-                <label class="radio-img">
+                <label class="radio-img" style="height:70px;">
                     <input type="radio" name="voucher-type" value="linkaja" onchange="set_evoucher_type();">
                     <img src="/static/tt_website_rodextrip/images/icon/linkaja.png" alt="LINKAJA" style="width:auto; height:60px; padding:0px;">
                 </label>`;
@@ -5535,7 +5537,7 @@ function set_evoucher_type(){
                         text_nominal+=`
                             <label class="radio-label" style="padding:unset; width:100%;">
                                 <input type="radio" name="e-voucher_nominal" value="`+i+`">
-                                <div class="div_label"><span style="color:`+text_color+`;">`+ppob_data.voucher_data.prepaid_mobile[sel_prov_ppob][i]+`</span></div>
+                                <div class="div_label"><span style="black">`+ppob_data.voucher_data.prepaid_mobile[sel_prov_ppob][i]+`</span></div>
                             </label>
                         </div>`;
                     }
@@ -5554,7 +5556,7 @@ function set_evoucher_type(){
                     text_nominal+=`
                         <label class="radio-label" style="padding:unset; width:100%;">
                             <input type="radio" name="e-voucher_nominal" value="`+i+`">
-                            <div class="div_label"><span style="color:`+text_color+`;">`+ppob_data.voucher_data.prepaid_mobile[sel_prov_ppob][i]+`</span></div>
+                            <div class="div_label"><span style="color:black;">`+ppob_data.voucher_data.prepaid_mobile[sel_prov_ppob][i]+`</span></div>
                         </label>
                     </div>`;
                 }
@@ -5572,7 +5574,7 @@ function set_evoucher_type(){
                     text_nominal+=`
                         <label class="radio-label" style="padding:unset; width:100%;">
                             <input type="radio" name="e-voucher_nominal" value="`+i+`">
-                            <div class="div_label"><span style="color:`+text_color+`;">`+ppob_data.voucher_data.prepaid_mobile[sel_prov_ppob][i]+`</span></div>
+                            <div class="div_label"><span style="color:black;">`+ppob_data.voucher_data.prepaid_mobile[sel_prov_ppob][i]+`</span></div>
                         </label>
                     </div>`;
                 }
@@ -5590,7 +5592,7 @@ function set_evoucher_type(){
                     text_nominal+=`
                         <label class="radio-label" style="padding:unset; width:100%;">
                             <input type="radio" name="e-voucher_nominal" value="`+i+`">
-                            <div class="div_label"><span style="color:`+text_color+`;">`+ppob_data.voucher_data.prepaid_mobile[sel_prov_ppob][i]+`</span></div>
+                            <div class="div_label"><span style="color:black;">`+ppob_data.voucher_data.prepaid_mobile[sel_prov_ppob][i]+`</span></div>
                         </label>
                     </div>`;
                 }
@@ -5608,7 +5610,7 @@ function set_evoucher_type(){
                     text_nominal+=`
                         <label class="radio-label" style="padding:unset; width:100%;">
                             <input type="radio" name="e-voucher_nominal" value="`+i+`">
-                            <div class="div_label"><span style="color:`+text_color+`;">`+ppob_data.voucher_data.prepaid_mobile[sel_prov_ppob][i]+`</span></div>
+                            <div class="div_label"><span style="color:black;">`+ppob_data.voucher_data.prepaid_mobile[sel_prov_ppob][i]+`</span></div>
                         </label>
                     </div>`;
                 }
@@ -5626,7 +5628,7 @@ function set_evoucher_type(){
                     text_nominal+=`
                         <label class="radio-label" style="padding:unset; width:100%;">
                             <input type="radio" name="e-voucher_nominal" value="`+i+`">
-                            <div class="div_label"><span style="color:`+text_color+`;">`+ppob_data.voucher_data.prepaid_mobile[sel_prov_ppob][i]+`</span></div>
+                            <div class="div_label"><span style="color:black;">`+ppob_data.voucher_data.prepaid_mobile[sel_prov_ppob][i]+`</span></div>
                         </label>
                     </div>`;
                 }

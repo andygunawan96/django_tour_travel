@@ -42,7 +42,7 @@ function add_table_of_contact(data){
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-4">
-                        <h6 style="margin-bottom:10px;">Contact</h6>
+                        <h6 style="margin-bottom:10px;"><label style="color:red">*</label>Contact</h6>
                         <div class="input-container-search-ticket">
                             <input type="text" class="form-control" name="contact_url`+counter_contact+`" id="contact_url`+counter_contact+`" placeholder="Contact" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Contact '" value="`+data[1]+`">
                         </div>
@@ -96,7 +96,7 @@ function get_contact(type){
                         if(template == 1){
                             text+=`<hr/><h6 style="color:black">Contact us</h6>`;
                         }else if(template == 2){
-                            text+=`<hr/><h6 class="widget-title" style="color:black">Contact us</h6>`;
+                            text+=`<hr/><h6 class="widget-title" style="color:black; font-size:22px; margin-bottom:25px;">Contact us</h6>`;
                         }else if(template == 3){
                             text+=`<hr/><h6 class="widget-title" style="color:black">Contact us</h6>`;
                         }else if(template == 4){
@@ -129,39 +129,56 @@ function get_contact(type){
                             </h5>`;
                         }else if(msg[i][0] == "Phone"){
                             text += `
-                            <a href="tel:`+msg[i][1]+`" style="font-weight:bold; margin-bottom:10px;" target="_blank">
-                                <img style="height:30px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/phone.png" alt="Phone"/>`+msg[i][0]+`
-                            </a>
-                            <b style="padding-left:10px;">`+msg[i][2]+`</b>`;
+                            <a href="tel:`+msg[i][1]+`" style="font-weight:500; margin-bottom:10px;" target="_blank">
+                                <img style="height:30px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/phone.png" alt="Phone"/>
+                                `+msg[i][0]+``;
+                                if(msg[i][2] != ''){
+                                    text += `<span style="padding-left:5px;">`+msg[i][2]+`</span>`;
+                                }
+                            text+=`</a>`;
                         }else if(msg[i][0] == "Whatsapp"){
                             text += `
-                            <a href="https://wa.me/`+msg[i][1]+`" style="font-weight:bold;" target="_blank">
-                                <img style="height:33px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/whatsappic.png" alt="Whatsapp"/>`+msg[i][0]+`
-                            </a>
-                            <b style="padding-left:10px;">`+msg[i][2]+`</b>`;
+                            <a href="https://wa.me/`+msg[i][1]+`" style="font-weight:500;" target="_blank">
+                                <img style="height:33px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/whatsappic.png" alt="Whatsapp"/>
+                                `+msg[i][0]+``;
+                                if(msg[i][2] != ''){
+                                    text += `<span style="padding-left:5px; font-weight:500;">`+msg[i][2]+`</span>`;
+                                }
+                            text+=`</a>`;
                         }else if(msg[i][0] == "Line"){
                             text+=`
-                            <img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png" alt="Line"/>
-                            <b style="padding-right:10px;">`+msg[i][2]+`</b>
+                            <img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png" alt="Line"/>`;
+                            if(msg[i][2] != ''){
+                                text += `<span style="padding-left:15px; font-weight:500;">`+msg[i][2]+`</span>`;
+                            }
+                            text+=`
                             <div class="line-it-button" data-lang="en" data-type="friend" data-lineid="`+msg[i][1]+`" style="display: none;">
                                 `+msg[i][0]+`
                             </div>`;
                         }else if(msg[i][0] == "Telegram"){
                             text += `
-                            <a href="https://t.me/`+msg[i][1]+`" style="font-weight:bold;" target="_blank">
+                            <a href="https://t.me/`+msg[i][1]+`" style="font-weight:500;" target="_blank">
                                 <img style="height:30px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/telegram.png" alt="Telegram"/>
-                                `+msg[i][0]+`
-                            </a>
-                            <b style="padding-left:10px;">`+msg[i][2]+`</b>`;
+                                `+msg[i][0]+``;
+                                if(msg[i][2] != ''){
+                                    text += `<span style="padding-left:5px; font-weight:500;">`+msg[i][2]+`</span>`;
+                                }
+                            text+=`</a>`;
                         }else if(msg[i][0] == "Email"){
                             text += `
-                            <a href="mailto:`+msg[i][1]+`" style="font-weight:bold;" target="_blank">
+                            <a href="mailto:`+msg[i][1]+`" style="font-weight:500;" target="_blank">
                                 <img style="height:30px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/email.png" alt="Email"/>
-                                `+msg[i][0]+`
-                            </a>
-                            <b style="padding-left:10px;">`+msg[i][2]+`</b>`;
+                                `+msg[i][0]+``;
+                                if(msg[i][2] != ''){
+                                    text += `<span style="padding-left:5px; font-weight:500;">`+msg[i][2]+`</span>`;
+                                }
+                            text+=`</a>`;
                         }else if(msg[i][0] == "Other"){
-                            text+=`<img style="height:30px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/other.png" alt="Other"/>`;
+                            text+=`<span style="font-weight:500;"></span><img style="height:30px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/other.png" alt="Other"/>
+                            `+msg[i][1]+``;
+                            if(msg[i][2] != ''){
+                                text += `<span style="padding-left:5px; font-weight:500;">`+msg[i][2]+`</span>`;
+                            }
                         }
 
                         if(template == 6){
