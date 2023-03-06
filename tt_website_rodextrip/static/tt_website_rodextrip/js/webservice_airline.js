@@ -4858,19 +4858,20 @@ function set_passenger_seat_map_airline(val){
         text+=`</div>`;
     }
     text+=`</div>`;
-    is_set_first_time = true;
+    is_set_first_time = false;
     try{
         document.getElementById('passenger'+(passenger_pick+1)).style.background = 'white';
         document.getElementById('passenger'+(passenger_pick+1)).style.color = 'black';
         document.getElementById('passenger'+(val+1)).style.background = color;
         document.getElementById('passenger'+(val+1)).style.color = 'white';
         passenger_pick = val;
-        is_set_first_time = false;
+        is_set_not_first_time = true;
     }catch(err){
         // first passenger pick
+        console.log(err);
     }
     document.getElementById('airline_passenger_detail_seat').innerHTML = text;
-    if(is_set_first_time){
+    if(is_set_not_first_time){
         try{
             show_seat_map(set_seat_show_segments,true);
             airline_detail(type);
@@ -8380,7 +8381,7 @@ function airline_get_booking(data, sync=false){
                                 text += `
                                         <div class="row" style="margin-bottom:5px;">
                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                                <span style="font-weight:500;font-size:15px;">`+msg.result.response.refund_list[i].reschedule_number+`</span></div>
+                                                <span style="font-weight:500;font-size:15px;">`+msg.result.response.refund_list[i].refund_number+`</span></div>
                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
                                                 <span style="font-weight:500;font-size:15px;">State: `+msg.result.response.refund_list[i].state+`</span>
                                             </div>
