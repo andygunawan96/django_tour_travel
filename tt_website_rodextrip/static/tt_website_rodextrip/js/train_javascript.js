@@ -1796,7 +1796,7 @@ function select_passenger(val){
                 if(pax[val-1].behaviors[j]){
                     print_behavior = true;
                     text=`<br/><b>Behavior History:</b><br/>`;
-                    text += `<textarea id="passenger_remark" rows="`+parseInt(parseInt(pax[val-1].behaviors[j].split('\n').length)+2)+`" cols="40" onchange="update_remark(`+parseInt(parseInt(val)-1)+`)">`+pax[val-1].behaviors[j].split('<br/>').join('\n')+`</textarea><br/>`;
+                    text += `<textarea id="passenger_remark" class="form-control" style="resize: none; height:200px;" rows="`+parseInt(parseInt(pax[val-1].behaviors[j].split('\n').length)+2)+`" cols="40" onchange="update_remark(`+parseInt(parseInt(val)-1)+`)">`+pax[val-1].behaviors[j].split('<br/>').join('\n')+`</textarea><br/>`;
                 }
             }
         }
@@ -1805,7 +1805,7 @@ function select_passenger(val){
         document.getElementById('detail_behavior_passenger').innerHTML = text;
     else{
         text=`<br/><b>Behavior History:</b><br/>`;
-        text+= `<textarea id="passenger_remark" rows="6" cols="40" onchange="update_remark(`+parseInt(parseInt(val)-1)+`)">Solo Traveller:\n\nGroup Traveller:\n</textarea><br/>`;
+        text+= `<textarea id="passenger_remark" class="form-control" style="resize: none; height:200px;" rows="6" cols="40" onchange="update_remark(`+parseInt(parseInt(val)-1)+`)">Solo Traveller:\n\nGroup Traveller:\n</textarea><br/>`;
         document.getElementById('detail_behavior_passenger').innerHTML = text;
     }
     pax_click = val;
