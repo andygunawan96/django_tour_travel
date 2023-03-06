@@ -176,9 +176,9 @@
                                             {% if 'behaviors' in pax  and pax.behaviors|length > 0%}
                                                 {% for key, provider_type in pax.behaviors.items %}
                                                     {% if key == 'airline'%}
-                                            <h6 class="mt-3" style="color:{{color}};">Behaviors History</h6>
-                                            <b>{{key}}</b><br/>
-                                            <textarea name="passenger{{counter_pax}}" cols="50" rows="6" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;">{{provider_type}}</textarea>
+                                                    <h6 class="mt-3" style="color:{{color}};">Behaviors History</h6>
+                                                    <b>{{key}}</b><br/>
+                                                    <textarea class="form-control" style="resize: none; height:200px;" name="passenger{{counter_pax}}" cols="50" rows="6" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;">{{provider_type}}</textarea>
                                                     {% endif %}
                                                 {% endfor %}
                                             {% endif %}
