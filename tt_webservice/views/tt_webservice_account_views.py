@@ -83,6 +83,8 @@ def api_models(request):
             res = signup_user(request)
         elif req_data['action'] == 'get_balance':
             res = get_balance(request)
+        elif req_data['action'] == 'get_corpor_list':
+            res = get_corpor_list(request)
         elif req_data['action'] == 'get_account':
             res = get_account(request)
         elif req_data['action'] == 'get_transactions':
@@ -416,6 +418,30 @@ def get_balance_request(request):
         if res['result']['error_code'] == 0:
             time_check.set_new_time_out('balance')
             time_check.set_first_time('balance')
+    return res
+
+
+def get_corpor_list(request):
+    try:
+        data = {}
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "get_corpor_list",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+
+    url_request = url + 'account'
+    res = send_request_api(request, url_request, headers, data, 'POST')
+    try:
+        if res['result']['error_code'] == 0:
+            _logger.info("get_corpor_list SUCCESS SIGNATURE " + request.POST['signature'])
+        else:
+            _logger.error("get_corpor_list ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
 
 def get_transactions(request):

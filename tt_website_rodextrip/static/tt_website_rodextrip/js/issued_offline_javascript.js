@@ -533,7 +533,7 @@ function add_table_of_passenger(type){
                                         <div class="col-lg-12 mb-3" >
                                             <label>Behaviors</label>
                                             <div class="input-container-search-ticket">
-                                                <textarea id="adult_behaviors_`+parseInt(counter_passenger+1)+`" name="adult_behaviors_`+parseInt(counter_passenger+1)+`" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;" rows="6" cols="45"></textarea>
+                                                <textarea class="form-control" style="resize: none; height:200px;" id="adult_behaviors_`+parseInt(counter_passenger+1)+`" name="adult_behaviors_`+parseInt(counter_passenger+1)+`" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;" rows="6" cols="45"></textarea>
                                             </div>
                                         </div>
                                     </div>

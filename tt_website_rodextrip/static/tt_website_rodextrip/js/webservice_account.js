@@ -205,6 +205,47 @@ function get_balance(val){
     }
 }
 
+function get_corpor_list(prov_type){
+    document.getElementById('corpor_list_loading').style.display = "block";
+    $.ajax({
+       type: "POST",
+       url: "/webservice/account",
+       headers:{
+            'action': 'get_corpor_list',
+       },
+       data: {
+            'signature': signature
+       },
+       success: function(msg) {
+        document.getElementById('corpor_list_loading').style.display = "none";
+        if(msg.result.error_code == 0){
+            agent_corpor_data = msg.result.response.customer_parent_data;
+            text = ``;
+            for(i in agent_corpor_data){
+                text += `<option value="`+i+`">`+agent_corpor_data[i].name+`</option>`;
+            }
+            document.getElementById(prov_type+'_corpor_select').innerHTML = text;
+            document.getElementById('div_corpor_mode_'+prov_type).style.display = "block";
+            $('#'+prov_type+'_corpor_select').select2();
+            if(text != '')
+            {
+                render_corbooker_list(prov_type);
+            }
+        }else{
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: #ff9900;">Error get agent corpor list </span>' + msg.result.error_msg,
+            })
+        }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            document.getElementById('corpor_list_loading').style.display = "none";
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get agent corpor list');
+       },timeout: 60000
+    });
+}
+
 function get_account(){
     limit_transaction = 20;
     if(typeof variable !== 'undefined'){
