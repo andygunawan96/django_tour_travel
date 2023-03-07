@@ -152,7 +152,7 @@ function set_airline_search_value_to_true(){
     airline_search_value = 'true';
 }
 
-function add_promotion_code(){
+function add_promotion_code(car_code='', osi_code=''){
     text = '';
     if(promotion_code == 0)
         text +=`<div class="row">
@@ -166,10 +166,10 @@ function add_promotion_code(){
     text += `
         <div class="row banner-right" id="promotion_code_line`+promotion_code+`">
             <div class="col-lg-6 form-wrap" style="padding:0px 15px 0px 15px; text-align:left;">
-                <input type="text" class="form-control" id="code_line`+promotion_code+`" name="code_line`+promotion_code+`" placeholder="Code"/>
+                <input type="text" class="form-control" id="code_line`+promotion_code+`" name="code_line`+promotion_code+`" placeholder="Code" value="`+osi_code+`"/>
             </div>
             <div class="col-lg-6 form-wrap" style="padding:0px 15px 0px 15px; text-align:left;">
-                <input type="text" class="form-control" id="carrier_code_line`+promotion_code+`" name="carrier_code_line`+promotion_code+`" placeholder="ex GA"/>
+                <input type="text" class="form-control" id="carrier_code_line`+promotion_code+`" name="carrier_code_line`+promotion_code+`" placeholder="ex GA" value="`+car_code+`"/>
             </div>
             <div class="col-lg-12" style="text-align:right;">
                 <button type="button" class="primary-delete-date" onclick="delete_promotion_code(`+promotion_code+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:16px;"></i> Delete</button>

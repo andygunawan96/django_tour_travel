@@ -2557,6 +2557,11 @@ function airline_search(provider,carrier_codes,last_send=false,re_order=false){
                                        key: airline_list_count
                                    });
                                    airline_list_count++;
+                                   if(user_login.hasOwnProperty('co_customer_parent_osi_codes')){
+                                       if(user_login['co_customer_parent_osi_codes'].hasOwnProperty(obj2.segments[0].carrier_code)){
+                                            add_promotion_code(obj2.segments[0].carrier_code, user_login['co_customer_parent_osi_codes'][obj2.segments[0].carrier_code]);
+                                       }
+                                   }
                                }
                            })
 
