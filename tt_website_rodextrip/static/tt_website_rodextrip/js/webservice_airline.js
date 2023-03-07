@@ -14778,6 +14778,7 @@ function sell_reschedule_v2(){
 
                            }
                            get_price_itinerary_reissue_request(airline_response, msg.result.response.total_admin_fee, msg.result.response.sell_reschedule_provider);
+                           commission = 0;
                            if(airline_get_detail.result.response.state == 'issued'){
                                get_payment_acq('Issued',airline_get_detail.result.response.booker.seq_id, airline_get_detail.result.response.order_number, 'billing',signature,'airline_reissue');
                                document.getElementById('payment_acq').hidden = false;
