@@ -54,9 +54,7 @@ def check_banner(page, banner_type):
         if banner_type == 'big_banner':
             file = get_banner_data('big_banner')
         elif banner_type == 'small_banner':
-            file = get_banner_data('big_banner')
-        elif banner_type == 'promotion':
-            file = get_banner_data('big_banner')
+            file = get_banner_data('small_banner')
         elif banner_type == 'dynamic_page':
             file = get_dynamic_page({})
             if len(file['result']['response']) != 0:
