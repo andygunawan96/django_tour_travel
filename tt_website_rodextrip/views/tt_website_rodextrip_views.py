@@ -54,9 +54,7 @@ def check_banner(page, banner_type):
         if banner_type == 'big_banner':
             file = get_banner_data('big_banner')
         elif banner_type == 'small_banner':
-            file = get_banner_data('big_banner')
-        elif banner_type == 'promotion':
-            file = get_banner_data('big_banner')
+            file = get_banner_data('small_banner')
         elif banner_type == 'dynamic_page':
             file = get_dynamic_page({})
             if len(file['result']['response']) != 0:
@@ -804,7 +802,8 @@ def admin(request):
                     text += '\n' ## wa chat yg lama deprecated
                     text += request.POST['google_api_key'] + '\n'
                     text += request.POST['setting_login_page'] + '\n'
-                    text += request.POST['tour_search_template'] + '\n'
+                    if 'tour' in request.session.get('provider', []):
+                        text += request.POST['tour_search_template'] + '\n'
                     write_cache(text, "data_cache_template", 'cache_web')
                     temp = text.split('\n')
                     for idx, rec in enumerate(temp):

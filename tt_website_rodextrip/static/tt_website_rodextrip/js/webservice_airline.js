@@ -2557,6 +2557,11 @@ function airline_search(provider,carrier_codes,last_send=false,re_order=false){
                                        key: airline_list_count
                                    });
                                    airline_list_count++;
+                                   if(user_login.hasOwnProperty('co_customer_parent_osi_codes')){
+                                       if(user_login['co_customer_parent_osi_codes'].hasOwnProperty(obj2.segments[0].carrier_code)){
+                                            add_promotion_code(obj2.segments[0].carrier_code, user_login['co_customer_parent_osi_codes'][obj2.segments[0].carrier_code]);
+                                       }
+                                   }
                                }
                            })
 
@@ -14778,6 +14783,7 @@ function sell_reschedule_v2(){
 
                            }
                            get_price_itinerary_reissue_request(airline_response, msg.result.response.total_admin_fee, msg.result.response.sell_reschedule_provider);
+                           commission = 0;
                            if(airline_get_detail.result.response.state == 'issued'){
                                get_payment_acq('Issued',airline_get_detail.result.response.booker.seq_id, airline_get_detail.result.response.order_number, 'billing',signature,'airline_reissue');
                                document.getElementById('payment_acq').hidden = false;
