@@ -3161,10 +3161,24 @@ function set_evoucher_div(){
                 </div>
             `;
             text += `
-            <div class="col-lg-12" style="padding:0px; text-align:left;margin-bottom:10px;">
+            <div class="col-lg-6" style="padding:0px; text-align:left;margin-bottom:10px;">
                 <span class="span-search-ticket"><i class="fas fa-user"></i> User ID / UUID</span>
                 <div class="input-container-search-ticket">
                     <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="User ID / UUID" autocomplete="off"/>
+                </div>
+                <div style="text-align:left;">
+                    <h6 style="color:`+color+`;" id="input_alert" style="display:none;"></h6>
+                    <span style="color:`+text_color+`;">*Beberapa voucher game akan diberikan dalam bentuk code setelah pembayaran berhasil.</span>
+                </div>
+            </div>
+            <div class="col-lg-6" style="padding:0px; text-align:left;margin-bottom:10px;">
+                <span class="span-search-ticket"><i class="fas fa-map-marker"></i> Server / Zone ID</span>
+                <div class="input-container-search-ticket">
+                    <input type="text" class="form-control" name="game_zone_id" id="game_zone_id" placeholder="Server / Zone ID" autocomplete="off"/>
+                </div>
+                <div style="text-align:left;">
+                    <h6 style="color:`+color+`;" id="input_alert" style="display:none;"></h6>
+                    <span style="color:`+text_color+`;">*Server / Zone ID hanya perlu diisi untuk voucher game tertentu saja.</span>
                 </div>
             </div>
             `;
@@ -3246,10 +3260,24 @@ function set_evoucher_div(){
                 </div>
             `;
             text += `
-            <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+            <div class="col-lg-6" style="text-align:left;margin-bottom:10px;">
                 <span class="span-search-ticket"><i class="fas fa-user"></i> User ID / UUID</span>
                 <div class="input-container-search-ticket">
                     <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="User ID / UUID" autocomplete="off"/>
+                </div>
+                <div style="text-align:left;">
+                    <h6 style="color:`+color+`;" id="input_alert" style="display:none;"></h6>
+                    <span style="color:`+text_color+`;">*Beberapa voucher game akan diberikan dalam bentuk code setelah pembayaran berhasil.</span>
+                </div>
+            </div>
+            <div class="col-lg-6" style="text-align:left;margin-bottom:10px;">
+                <span class="span-search-ticket"><i class="fas fa-map-marker"></i> Server / Zone ID</span>
+                <div class="input-container-search-ticket">
+                    <input type="text" class="form-control" name="game_zone_id" id="game_zone_id" placeholder="Server / Zone ID" autocomplete="off"/>
+                </div>
+                <div style="text-align:left;">
+                    <h6 style="color:`+color+`;" id="input_alert" style="display:none;"></h6>
+                    <span style="color:`+text_color+`;">*Server / Zone ID hanya perlu diisi untuk voucher game tertentu saja.</span>
                 </div>
             </div>
             `;
@@ -3331,10 +3359,24 @@ function set_evoucher_div(){
                 </div>
             `;
             text += `
-            <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+            <div class="col-lg-6" style="text-align:left;margin-bottom:10px;">
                 <span class="span-search-ticket"><i class="fas fa-user"></i> User ID / UUID</span>
                 <div class="input-container-search-ticket">
                     <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="User ID / UUID" autocomplete="off"/>
+                </div>
+                <div style="text-align:left;">
+                    <h6 style="color:`+color+`;" id="input_alert" style="display:none;"></h6>
+                    <span style="color:`+text_color+`;">*Beberapa voucher game akan diberikan dalam bentuk code setelah pembayaran berhasil.</span>
+                </div>
+            </div>
+            <div class="col-lg-6" style="text-align:left;margin-bottom:10px;">
+                <span class="span-search-ticket"><i class="fas fa-map-marker"></i> Server / Zone ID</span>
+                <div class="input-container-search-ticket">
+                    <input type="text" class="form-control" name="game_zone_id" id="game_zone_id" placeholder="Server / Zone ID" autocomplete="off"/>
+                </div>
+                <div style="text-align:left;">
+                    <h6 style="color:`+color+`;" id="input_alert" style="display:none;"></h6>
+                    <span style="color:`+text_color+`;">*Server / Zone ID hanya perlu diisi untuk voucher game tertentu saja.</span>
                 </div>
             </div>
             `;
@@ -3417,10 +3459,24 @@ function set_evoucher_div(){
                 </div>
             `;
             text += `
-            <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+            <div class="col-lg-6" style="text-align:left;margin-bottom:10px;">
                 <span class="span-search-ticket"><i class="fas fa-user"></i> User ID / UUID</span>
                 <div class="input-container-search-ticket">
                     <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="User ID / UUID" autocomplete="off"/>
+                </div>
+                <div style="text-align:left;">
+                    <h6 style="color:`+color+`;" id="input_alert" style="display:none;"></h6>
+                    <span style="color:`+text_color+`;">*Beberapa voucher game akan diberikan dalam bentuk code setelah pembayaran berhasil.</span>
+                </div>
+            </div>
+            <div class="col-lg-6" style="text-align:left;margin-bottom:10px;">
+                <span class="span-search-ticket"><i class="fas fa-map-marker"></i> Server / Zone ID</span>
+                <div class="input-container-search-ticket">
+                    <input type="text" class="form-control" name="game_zone_id" id="game_zone_id" placeholder="Server / Zone ID" autocomplete="off"/>
+                </div>
+                <div style="text-align:left;">
+                    <h6 style="color:`+color+`;" id="input_alert" style="display:none;"></h6>
+                    <span style="color:`+text_color+`;">*Server / Zone ID hanya perlu diisi untuk voucher game tertentu saja.</span>
                 </div>
             </div>
             `;
@@ -3502,10 +3558,24 @@ function set_evoucher_div(){
                 </div>
             `;
             text += `
-            <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+            <div class="col-lg-6" style="text-align:left;margin-bottom:10px;">
                 <span class="span-search-ticket"><i class="fas fa-user"></i> User ID / UUID</span>
                 <div class="input-container-search-ticket">
                     <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="User ID / UUID" autocomplete="off"/>
+                </div>
+                <div style="text-align:left;">
+                    <h6 style="color:`+color+`;" id="input_alert" style="display:none;"></h6>
+                    <span style="color:`+text_color+`;">*Beberapa voucher game akan diberikan dalam bentuk code setelah pembayaran berhasil.</span>
+                </div>
+            </div>
+            <div class="col-lg-6" style="text-align:left;margin-bottom:10px;">
+                <span class="span-search-ticket"><i class="fas fa-map-marker"></i> Server / Zone ID</span>
+                <div class="input-container-search-ticket">
+                    <input type="text" class="form-control" name="game_zone_id" id="game_zone_id" placeholder="Server / Zone ID" autocomplete="off"/>
+                </div>
+                <div style="text-align:left;">
+                    <h6 style="color:`+color+`;" id="input_alert" style="display:none;"></h6>
+                    <span style="color:`+text_color+`;">*Server / Zone ID hanya perlu diisi untuk voucher game tertentu saja.</span>
                 </div>
             </div>
             `;
@@ -3587,10 +3657,24 @@ function set_evoucher_div(){
                 </div>
             `;
             text += `
-            <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+            <div class="col-lg-6" style="text-align:left;margin-bottom:10px;">
                 <span class="span-search-ticket"><i class="fas fa-user"></i> User ID / UUID</span>
                 <div class="input-container-search-ticket">
                     <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="User ID / UUID" autocomplete="off"/>
+                </div>
+                <div style="text-align:left;">
+                    <h6 style="color:`+color+`;" id="input_alert" style="display:none;"></h6>
+                    <span style="color:`+text_color+`;">*Beberapa voucher game akan diberikan dalam bentuk code setelah pembayaran berhasil.</span>
+                </div>
+            </div>
+            <div class="col-lg-6" style="text-align:left;margin-bottom:10px;">
+                <span class="span-search-ticket"><i class="fas fa-map-marker"></i> Server / Zone ID</span>
+                <div class="input-container-search-ticket">
+                    <input type="text" class="form-control" name="game_zone_id" id="game_zone_id" placeholder="Server / Zone ID" autocomplete="off"/>
+                </div>
+                <div style="text-align:left;">
+                    <h6 style="color:`+color+`;" id="input_alert" style="display:none;"></h6>
+                    <span style="color:`+text_color+`;">*Server / Zone ID hanya perlu diisi untuk voucher game tertentu saja.</span>
                 </div>
             </div>
             `;

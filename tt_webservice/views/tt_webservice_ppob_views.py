@@ -338,6 +338,10 @@ def search(request):
             data.update({
                 'e_voucher_code': request.POST['e_voucher_code']
             })
+        if request.POST.get('game_zone_id'):
+            data.update({
+                'game_zone_id': request.POST['game_zone_id']
+            })
         set_session(request, 'ppob_search_request', data)
         headers = {
             "Accept": "application/json,text/html,application/xml",
