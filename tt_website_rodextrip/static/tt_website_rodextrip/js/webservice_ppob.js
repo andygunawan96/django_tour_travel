@@ -177,12 +177,12 @@ function get_providers_ppob(){
 
 function search_ppob(){
     product_code = '';
-    customer_number = '';
     amount_of_month = 0;
     total = 0;
     e_voucher = '';
     error_log = '';
     customer_number = document.getElementById('bpjs_number').value;
+    game_zone_id = '';
     customer_email = '';
     check_break = false;
     if(bill_type == 'bpjs'){
@@ -428,6 +428,7 @@ function search_ppob(){
             if (e_voucher == ''){
                 error_log += 'Please choose voucher!';
             }
+            game_zone_id = document.getElementById('game_zone_id').value;
         }
         else if($evoucher_type_name.includes('Other Voucher')){
             var other_voucher_selection = document.getElementById('other_voucher')
@@ -910,6 +911,7 @@ function search_ppob(){
            },
            data: {
                 'customer_number': customer_number,
+                'game_zone_id': game_zone_id,
                 'product_code': product_code,
                 'provider': search_provider_ppob,
                 'signature': signature,
