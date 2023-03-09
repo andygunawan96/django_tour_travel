@@ -6109,7 +6109,7 @@ function check_pln_postpaid(value){
 }
 
 function check_evoucher(value, value2){
-    if(value2 == 'game_voucher' || value2 == 'postpaid_mobile_lwa' || value2 == 'postpaid_mobile_gri' || value2 == 'postpaid_mobile_swj')
+    if(['game_voucher', 'postpaid_mobile_lwa', 'postpaid_mobile_gri', 'postpaid_mobile_swj'].includes(value2.split('~')[0]))
     {
         return true;
     }
