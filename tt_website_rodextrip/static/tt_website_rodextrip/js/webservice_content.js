@@ -1156,25 +1156,60 @@ function run_top_up_page(){
 }
 
 function run_payment_information_page(){
+    heading = document.getElementById('payment_information_heading').value;
     document.getElementById('editor_payment_information_test').innerHTML = `
-        <h4 style="margin-bottom:10px;">Result</h4>
-        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-            <div class="panel panel-default">
-                <div class="instruction-heading" role="tab" id="headingOne">
-                    <h4 class="panel-title">
-                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseFour">
-                            `+document.getElementById('payment_information_heading').value+`
-                        </a>
-                    </h4>
+    <br/>
+    <div class="row">
+        <div class="col-lg-12" style="cursor:pointer; background:#FFFFFF; border:1px solid #cdcdcd; padding:15px; display:block;" id="up_payment_information" onclick="div_dropdown('payment_information');">
+            <div class="row">
+                <div class="col-lg-12" style="display: flex;align-items: center;">
+                    <h5 class="single_border_custom_left" style="padding-left:10px;"><img style="width:auto; height:50px;" alt="Logo" src=""><b style="padding-left:10px;">`+heading+`</b>
+                        <b style="padding-left:10px;padding-right:10px; color:#F15A22">
+                            <i class="fas fa-chevron-up"></i>
+                        </b>
+                    </h5>
                 </div>
-                <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne" style="">
-                    <div class="panel-body">
-    ` + CKEDITOR.instances['body_payment_information'].getData() + `
+            </div>
+        </div>
+        <div class="col-lg-12 mb-3" style="cursor:pointer; background:#FFFFFF; border:1px solid #cdcdcd; padding:15px; display:none;" id="down_payment_information" onclick="div_dropdown('payment_information');">
+            <div class="row">
+                <div class="col-lg-12" style="display: flex;align-items: center;">
+                    <h5 class="single_border_custom_left" style="padding-left:10px;"><img style="width:auto; height:50px;" alt="Logo" src=""><b style="padding-left:10px;">`+heading+`</b>
+                        <b style="padding-left:10px;padding-right:10px; color:#F15A22">
+                            <i class="fas fa-chevron-down"></i>
+                        </b>
+                    </h5>
+                </div>
+            </div>
+        </div><div class="col-lg-12 mb-3" style="background:white; border:1px solid #cdcdcd; padding:15px; display:block;" id="div_payment_information">
+        <div class="row">
+            <div class="col-lg-12 mb-1">
+                <h4 class="mb-2">Your Virtual Account</h4>
+                <b style="color:#F15A22; font-size:20px; padding-right:5px;">[%automatic from data%]</b>
+                <span onclick="copy_value('[%automatic from data%]');" style="cursor:pointer; font-weight:500;color:#F15A22; font-size:14px;">
+                    COPY <i class="fas fa-copy"></i>
+                </span>
+
+                <hr>
+                <strong>Fee Top Up (exclude bank charges): </strong><br>
+                <span>[%automatic from data%]</span>
+            </div>
+                <div style="margin:0px 15px; width:100%;">
+                    <div class="col-lg-12" style="background:#f7f7f7; border:1px solid #cdcdcd; padding:15px;">
+                        <strong>Description: </strong><br>
+                        [%automatic from data%]
+                    </div>
+                </div>
+                <div style="margin:0px 15px; width:100%;">
+                    <div class="col-lg-12" style="background:#f7f7f7; border:1px solid #cdcdcd; padding:15px;">
+                        <strong>Guide: </strong><br>
+                        ` + CKEDITOR.instances['body_payment_information'].getData() + `
+
                     </div>
                 </div>
             </div>
-        </div>`;
-
+        </div>
+    </div>`;
 }
 
 function update_dynamic_page(){
