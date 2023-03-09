@@ -1588,7 +1588,7 @@ function filter_search_passenger(passenger_type='passenger', number='', product=
                         response+=`<div class="row">`;
         //                    var number_i = parseInt(i)+1;
                         number_i = parseInt(counter_passenger_print)+1;
-                        response+=`<div class="col-lg-12" style="margin-bottom:30px; border:1px solid #cdcdcd; background:white; padding:15px">`;
+                        response+=`<div class="col-lg-12" style="margin-bottom:30px; border-top:1px solid #cdcdcd; border-bottom:1px solid #cdcdcd; background:white; padding:15px">`;
                         response+=`
                             <h4 class="single_border_custom_bottom" style="margin-bottom:5px; width:50px; word-break:break-word;">#`+number_i+`.</h4>
                             <div class="row">

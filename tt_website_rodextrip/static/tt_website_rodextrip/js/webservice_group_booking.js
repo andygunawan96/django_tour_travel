@@ -3419,7 +3419,6 @@ function add_table_of_passenger(type, data){
                                     </div>
                                 </div>
                                 <span><i class="fas fa-exclamation-triangle" style="font-size:18px; color:#ffcc00;"></i> Using this means you can't change title, first name, and last name</span>
-                                <span style="font-size:14px;">Max 100 customers in 1 search</span>
                                 <div class="loading-pax-train" style="text-align:center; margin-top:15px; display:none;">
                                     <span style="font-size:18px; font-weight:bold;"> PLEASE WAIT </span><img src="/static/tt_website_rodextrip/img/search.gif" alt="Search" style="height:50px; width:50px;"/>
                                 </div>
