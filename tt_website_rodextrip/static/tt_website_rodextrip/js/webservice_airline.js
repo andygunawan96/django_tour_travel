@@ -3516,7 +3516,7 @@ function get_price_itinerary_request(){
                         fare_list = [];
                         counter_class_of_service = 0;
                         for(l in airline_pick_list[journey_idx].segments[k].fares){
-                            if(airline_pick_list[journey_idx].segments[k].fares[l].class_of_service == get_price_airline_response.result.request.schedules[i].journeys[j].segments[k].class_of_service){
+                            if(airline_pick_list[journey_idx].segments[k].fares[l].class_of_service[0] == get_price_airline_response.result.request.schedules[i].journeys[j].segments[k].class_of_service[0]){
                                 airline_pick_list[journey_idx].segments[k].fares[l].is_fare_pick = false;
                                 if(airline_pick_list[journey_idx].segments[k].fares[l].fare_code == get_price_airline_response.result.request.schedules[i].journeys[j].segments[k].fare_code){
                                     airline_pick_list[journey_idx].segments[k].fares[l].is_fare_pick = true;
