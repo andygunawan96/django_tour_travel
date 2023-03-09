@@ -1752,11 +1752,12 @@ function change_top_up_method(){
                     </div>`;
                 }
                 if(va_number[i].html != ''){
+                    account_number = `<a style="cursor:pointer;" onclick="copy_value('`+va_number[i].account_number+`');"><b style="color:`+color+`;">`+va_number[i].account_number+`</b></a>`;
                     text+=`
                     <div style="margin:0px 15px; width:100%;">
                         <div class="col-lg-12" style="background:#f7f7f7; border:1px solid #cdcdcd; padding:15px;">
                             <strong>Guide: </strong><br/>
-                            `+va_number[i].html+`
+                            `+va_number[i].html.replace('[%VA%]', account_number)+`
                         </div>
                     </div>`;
                 }
