@@ -9300,8 +9300,8 @@ function change_date_shortcut(val){
         $('#button_chart_airline').hide();
         $('#choose-ticket-flight').show();
         $('#airlines_result_ticket').show();
-//        send_search_to_api();
-        airline_signin('');
+        send_search_to_api();
+//        airline_signin('');
       }
     })
 
