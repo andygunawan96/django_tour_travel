@@ -1413,7 +1413,7 @@
                             <div class="col-lg-4"></div>
                             <div class="col-lg-4"></div>
                             <div class="col-lg-4">
-                                <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}});">
+                                <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" id="next_to_review" disabled style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}});">
                                     {% trans 'Next' %}
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>
@@ -1456,7 +1456,7 @@
                                 </div>
                             </div>
                             <div class="col-lg-12">
-                                <button class="btn-next for-show-mobile primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}});">
+                                <button class="btn-next for-show-mobile primary-btn next-passenger-train ld-ext-right" id="next_to_review_mobile" disabled style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}});">
                                     {% trans 'Next' %}
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>
@@ -2762,7 +2762,7 @@
                                     <div class="col-lg-4"></div>
                                     <div class="col-lg-4"></div>
                                     <div class="col-lg-4">
-                                        <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}});">
+                                        <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" id="next_to_review" disabled style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}});">
                                             {% trans 'Next' %}
                                             <div class="ld ld-ring ld-cycle"></div>
                                         </button>
@@ -2806,7 +2806,7 @@
                                     </div>
 
                                     <div class="col-lg-12">
-                                        <button class="btn-next for-show-mobile primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}});">
+                                        <button class="btn-next for-show-mobile primary-btn next-passenger-train ld-ext-right" id="next_to_review_mobile" disabled style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}});">
                                             {% trans 'Next' %}
                                             <div class="ld ld-ring ld-cycle"></div>
                                         </button>
@@ -4156,7 +4156,7 @@
                             <div class="col-lg-4"></div>
                             <div class="col-lg-4"></div>
                             <div class="col-lg-4">
-                                <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}});">
+                                <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" id="next_to_review" disabled style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}});">
                                     {% trans 'Next' %}
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>
@@ -4199,7 +4199,7 @@
                                 </div>
                             </div>
                             <div class="col-lg-12">
-                                <button class="btn-next for-show-mobile primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}});">
+                                <button class="btn-next for-show-mobile primary-btn next-passenger-train ld-ext-right" id="next_to_review_mobile" disabled style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}});">
                                     {% trans 'Next' %}
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>
@@ -5545,7 +5545,7 @@
                         <div class="col-lg-4"></div>
                         <div class="col-lg-4"></div>
                         <div class="col-lg-4">
-                            <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}});">
+                            <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" id="next_to_review" disabled style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}});">
                                 {% trans 'Next' %}
                                 <div class="ld ld-ring ld-cycle"></div>
                             </button>
@@ -5588,7 +5588,7 @@
                             </div>
                         </div>
                         <div class="col-lg-12">
-                            <button class="btn-next for-show-mobile primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}});">
+                            <button class="btn-next for-show-mobile primary-btn next-passenger-train ld-ext-right" id="next_to_review_mobile" disabled style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}});">
                                 {% trans 'Next' %}
                                 <div class="ld ld-ring ld-cycle"></div>
                             </button>
@@ -6918,7 +6918,7 @@
                             <div class="col-lg-4"></div>
                             <div class="col-lg-4"></div>
                             <div class="col-lg-4">
-                                <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}});">
+                                <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" id="next_to_review" disabled style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}});">
                                     {% trans 'Next' %}
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>
@@ -6961,7 +6961,7 @@
                                 </div>
                             </div>
                             <div class="col-lg-12">
-                                <button class="btn-next for-show-mobile primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}});">
+                                <button class="btn-next for-show-mobile primary-btn next-passenger-train ld-ext-right" id="next_to_review_mobile" disabled style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}});">
                                     {% trans 'Next' %}
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>
@@ -8292,7 +8292,7 @@
                             <div class="col-lg-4"></div>
                             <div class="col-lg-4"></div>
                             <div class="col-lg-4">
-                                <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}});">
+                                <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" id="next_to_review" disabled style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}});">
                                     {% trans 'Next' %}
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>
@@ -8335,7 +8335,7 @@
                                 </div>
                             </div>
                             <div class="col-lg-12">
-                                <button class="btn-next for-show-mobile primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}});">
+                                <button class="btn-next for-show-mobile primary-btn next-passenger-train ld-ext-right" id="next_to_review_mobile" disabled style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}});">
                                     {% trans 'Next' %}
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>

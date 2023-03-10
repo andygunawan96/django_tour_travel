@@ -734,7 +734,14 @@ function get_airline_data_passenger_page(type='default'){
                adult = airline_request.adult;
                child = airline_request.child;
                infant = airline_request.infant;
-               data_ssrs = msg.ssr.result.response.ssr_availability_provider;
+               try{
+                    data_ssrs = msg.ssr.result.response.ssr_availability_provider;
+                    document.getElementById('next_to_review').disabled = false;
+                    document.getElementById('next_to_review_mobile').disabled = false;
+               }catch(err){
+                    data_ssrs = {};
+                    get_seat_availability('');
+               }
                if(msg.hasOwnProperty('pax_cache')){
                     pax_cache_reorder = msg.pax_cache;
                     if(msg.pax_cache.hasOwnProperty('booker'))
@@ -2084,14 +2091,8 @@ function airline_get_provider_list(type, data=''){
                 if(is_wheelchair == 1){
                     //kalau wheelchair di setting dari gateway check apakah ada ssr wheelchair kalau ada print
                     is_wheelchair = 0;
-                    for(i in data_ssrs){
-                        if(data_ssrs[i].hasOwnProperty('ssr_availability')){
-                            if(data_ssrs[i].ssr_availability.hasOwnProperty('wheelchair')){
-                                is_wheelchair = 1;
-                                break;
-                            }
-                        }
-                    }
+                    if(provider_list_data[airline_pick[i].provider].is_pre_wheelchair)
+                        is_wheelchair = 1;
                 }
                 if(check_ff == 0){
                     for(i=1;i<=adult;i++){
@@ -4580,7 +4581,7 @@ function airline_sell_journeys(){
        success: function(msg) {
            if(msg.result.error_code == 0){
                document.getElementById('airline_sell_journey_response').value = JSON.stringify(msg.result.response);
-               get_seat_availability('');
+               get_ff_availability('');
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 auto_logout();
            }else if(msg.result.error_code == 4024){
@@ -4630,9 +4631,9 @@ function get_seat_availability(type){
             'signature': signature
        },
        success: function(msg) {
-            if(type == '' || type == 'reorder')
+            if(type == '' || type == 'reorder'){
                 get_ssr_availability(type);
-            else if(type == 'request_new_seat' && msg.result.error_code == 0)
+            }else if(type == 'request_new_seat' && msg.result.error_code == 0)
                 window.location.href='/airline/seat_map';
             else{
                 Swal.fire({
@@ -5163,7 +5164,9 @@ function get_ssr_availability(type){
        },
        success: function(msg) {
             if(type == '' || type == 'reorder'){
-                get_ff_availability(type);
+//                get_ff_availability(type);
+                document.getElementById('next_to_review').disabled = false;
+                document.getElementById('next_to_review_mobile').disabled = false;
             }else if(type == 'request_new_ssr' && msg.result.error_code == 0)
                 window.location.href='/airline/ssr';
             else if(type == 'request_new_ssr')
