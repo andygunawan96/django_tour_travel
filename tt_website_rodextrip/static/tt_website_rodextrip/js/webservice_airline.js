@@ -3899,7 +3899,7 @@ function get_price_itinerary_request(){
                                                                 else
                                                                     text_family_fare += `
                                                                             <input type="radio" `;
-                                                                text_family_fare += `name="price_detail_`+journey_idx+`_`+k+`" id="price_detail_`+journey_idx+`_`+k+`_`+l+`" value="`+journey_idx+`_`+k+`_`+l+`" onchange="change_airline_pick(`+journey_idx+`,`+k+`,`+l+`,'`+family_provider_list[i].journeys[j].segments[k].fares[l].fare_code+`');">
+                                                                text_family_fare += `name="price_detail_`+journey_idx+`_`+k+`" id="price_detail_`+journey_idx+`_`+k+`_`+l+`" value="`+journey_idx+`_`+k+`_`+l+`" onchange="change_airline_pick(`+journey_idx+`,`+k+`,`+l+`,'`+family_provider_list[i].journeys[j].segments[k].fares[l].fare_code+`','`+family_provider_list[i].journeys[j].segments[k].fares[l].group_fare_id+`');">
                                                                             <span class="checkmark-radio"></span>
                                                                         </label>
                                                                     </div>
@@ -4197,15 +4197,17 @@ function get_price_itinerary_request(){
     });
 }
 
-function change_airline_pick(journey_idx, segment_idx, fare_idx, fare_code){
-    var radios = document.getElementsByName('journeypick'+parseInt(parseInt(journey_idx)+1)+'segment'+segment_idx+'fare');
-    for (var j = 0, length = radios.length; j < length; j++) {
-        if (radios[j].value == fare) {
-            radios[j].checked = 'checked';
-            break;
+function change_airline_pick(journey_idx, segment_idx, fare_idx, fare_code,group_fare_id){
+    journey[journey_idx].segments[segment_idx].fare_code = fare_code;
+    if(group_fare_id){
+        for(j in family_journey_list[journey_idx].segments){
+            if(j != parseInt(segment_idx))
+                for(k in family_journey_list[journey_idx].segments[j].fares){
+                    if(family_journey_list[journey_idx].segments[j].fares[k].group_fare_id == group_fare_id)
+                        journey[journey_idx].segments[j].fare_code = family_journey_list[journey_idx].segments[j].fares[k].fare_code;
+                }
         }
     }
-    journey[journey_idx].segments[segment_idx].fare_code = fare_code;
     request_airline_price();
 }
 
