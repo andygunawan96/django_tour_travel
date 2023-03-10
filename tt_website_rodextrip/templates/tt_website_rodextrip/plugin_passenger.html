@@ -5752,7 +5752,8 @@
 
         return new File([u8arr], filename + '.' + dataurl.split('/')[1].split(';')[0], {type:mime});
     }
-    if(navigator.userAgentData.mobile){
+    var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    if(isMobile){
         document.getElementById('button_webcam2').style.display = 'none';
         document.getElementById('button_webcam1').style.display = 'none';
     }
