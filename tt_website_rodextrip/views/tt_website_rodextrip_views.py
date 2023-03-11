@@ -802,8 +802,7 @@ def admin(request):
                     text += '\n' ## wa chat yg lama deprecated
                     text += request.POST['google_api_key'] + '\n'
                     text += request.POST['setting_login_page'] + '\n'
-                    if 'tour' in request.session.get('provider', []):
-                        text += request.POST['tour_search_template'] + '\n'
+                    text += request.POST['tour_search_template'] + '\n'
                     write_cache(text, "data_cache_template", 'cache_web')
                     temp = text.split('\n')
                     for idx, rec in enumerate(temp):
