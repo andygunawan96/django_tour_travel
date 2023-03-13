@@ -1645,7 +1645,7 @@ $(document).ready(function(){
                 singleDate: true,
                 startDate: moment(),
                 minDate: moment(),
-                maxDate: moment().subtract(-1, 'months'),
+                maxDate: moment().subtract(-2, 'months'),
                 nextFocus: '#show_total_pax_train'
             });
 
@@ -1730,7 +1730,7 @@ $(document).ready(function(){
                 startDate: moment(),
                 endDate: moment().subtract(-1, 'days'),
                 minDate: moment(),
-                maxDate: moment().subtract(-1, 'months'),
+                maxDate: moment().subtract(-2, 'months'),
                 nextFocus: '#show_total_pax_train',
                 onSelect: function(start, end){
                     $("#train_departure").val(start.format('DD MMM YYYY'));
