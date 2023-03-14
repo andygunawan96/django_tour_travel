@@ -2461,10 +2461,11 @@ function airline_search(provider,carrier_codes,last_send=false,re_order=false){
        },
        success: function(msg) {
            if(msg.error_code == 0){
-              document.getElementById('airlineAirline_generalShow_loading').innerHTML = '';
-              document.getElementById('airlineAirline_generalShow_loading2').innerHTML = '';
               if(!re_order){
                   try{
+                      document.getElementById('airlineAirline_generalShow_loading').innerHTML = '';
+                      document.getElementById('airlineAirline_generalShow_loading2').innerHTML = '';
+
                       datasearch2(msg.response);
                       var bar1 = new ldBar("#barFlightSearch");
                       var bar2 = document.getElementById('barFlightSearch').ldBar;
