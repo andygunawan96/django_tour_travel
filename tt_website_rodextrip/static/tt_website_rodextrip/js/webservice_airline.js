@@ -752,6 +752,7 @@ function get_airline_data_passenger_page(type='default'){
                     for(j in airline_pick[i].journeys)
                         departure_date = moment(airline_pick[i].journeys[j].departure_date, 'DD MMM YYYY').format('YYYY-MM-DD');
                }
+               get_agent_currency_rate();
                airline_get_provider_list('passenger');
            }else if(type == 'aftersales'){
                airline_request = msg.airline_request;
@@ -1252,6 +1253,7 @@ function get_airline_data_review_page(){
            airline_request = msg.airline_request;
            upsell_price_dict = msg.upsell_price_dict;
            upsell_price_dict_ssr = msg.upsell_price_dict_ssr;
+           get_agent_currency_rate();
            airline_get_provider_list('review');
 
        },
@@ -1324,6 +1326,7 @@ function get_airline_data_ssr_page(after_sales){
            airline_carriers = msg.airline_carriers;
            passengers = msg.passengers;
            ssr_page_type = '';
+           get_agent_currency_rate();
            if(after_sales){
                now_page = 'ssr_after_sales';
                airline_get_detail = msg.airline_getbooking;
@@ -1368,6 +1371,7 @@ function get_airline_data_seat_page(after_sales){
            airline_carriers = msg.airline_carriers;
            passengers = msg.passengers;
            seat_page_type = '';
+           get_agent_currency_rate();
            if(after_sales){
                airline_get_detail = msg.airline_getbooking;
                breadcrumb = 2;
@@ -1418,6 +1422,7 @@ function airline_signin(data,type=''){
                     if(is_reorder)
                         re_order_set_pax_signature()
                 }else if(data != '' && type == ''){
+                    get_agent_currency_rate();
                     get_airline_config('home');
                     airline_get_provider_list('get_booking', data); //get booking pindah di dalem get provider list karena jika get booking balik dulu provider error tidak ada
                 }else if(data != '' && type == 'refund'){
@@ -2886,6 +2891,26 @@ function change_fare(journey, segment, fares){
         document.getElementById('fare'+journey).innerHTML = 'IDR ' + getrupiah(price_discount.toString());
         if(price != price_discount)
             document.getElementById('fare_no_discount'+journey).innerHTML = 'IDR ' + getrupiah(price.toString());
+        if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && price){
+//            if(currency_rate_data.result.response.agent.hasOwnProperty(user_login.agent_name)){ // buat o3
+            for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
+                for(k in currency_rate_data.result.response.agent[j]){
+                    if(currency_rate_data.result.is_show_provider.includes(k)){
+                        try{
+                            price_convert = (price_discount/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
+                            if(price_convert%1 == 0)
+                                price_convert = parseInt(price_convert);
+                            document.getElementById('fare'+journey+'_other_currency_'+k).innerHTML = 'Estimated ' + k + ' ' + getrupiah(price_convert);
+                        }catch(err){
+                            console.log(err);
+                        }
+                    }
+                }
+                break;
+            }
+//            }
+        }
+        document.getElementById('fare'+journey).innerHTML = 'IDR ' + getrupiah(price_discount.toString());
     }
 //    airline_data[journey].total_price = price;
 
@@ -3989,7 +4014,25 @@ function get_price_itinerary_request(){
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">`;
                         text_detail_next+=`<span style="font-size:14px; font-weight: bold;"><b>`+airline_price[0].ADT.currency+` `+getrupiah(Math.ceil(total_price+total_discount))+`</b></span><br/>`;
-
+                        if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && total_price){
+//                            if(currency_rate_data.result.response.agent.hasOwnProperty(user_login.agent_name)){ // buat o3
+                            for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
+                                for(k in currency_rate_data.result.response.agent[j]){
+                                    if(currency_rate_data.result.is_show_provider.includes(k)){
+                                        try{
+                                            price_convert = (Math.ceil(total_price+total_discount)/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
+                                            if(price_convert%1 == 0)
+                                                price_convert = parseInt(price_convert);
+                                            text_detail_next+=`<span style="font-size:14px; font-weight: bold;"><b>Estimated `+k+` `+getrupiah(price_convert)+`</b></span><br/>`;
+                                        }catch(err){
+                                            console.log(err);
+                                        }
+                                    }
+                                }
+                                break;
+                            }
+//                            }
+                        }
                         text_detail_next+=`
                         </div>
                     </div>
@@ -8362,7 +8405,32 @@ function airline_get_booking(data, sync=false){
 
                             }
                             text_detail+= `</span>
-                        </div>
+                        </div>`;
+                        if(['booked', 'partial_booked', 'partial_issued', 'halt_booked'].includes(msg.result.response.state)){
+                            if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && total_price){
+                //                if(currency_rate_data.result.response.agent.hasOwnProperty(user_login.agent_name)){ // buat o3
+                                for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
+                                    for(k in currency_rate_data.result.response.agent[j]){
+                                        if(currency_rate_data.result.is_show_provider.includes(k)){
+                                            try{
+                                                price_convert = parseFloat((total_price)/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
+                                                if(price_convert%1 == 0)
+                                                    price_convert = parseInt(price_convert);
+                                                text_detail+=`
+                                                    <div class="col-lg-12" style="text-align:right;">
+                                                        <span style="font-size:13px; font-weight:bold;" id="total_price_`+k+`"> Estimated `+k+` `+price_convert+`</span><br/>
+                                                    </div>`;
+                                            }catch(err){
+                                                console.log(err);
+                                            }
+                                        }
+                                    }
+                                    break;
+                                }
+                //                }
+                            }
+                        }
+                        text_detail+=`
                     </div>`;
                     if(['booked', 'halt_booked'].includes(msg.result.response.state) && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
                         text_detail+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:auto; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
@@ -12902,6 +12970,7 @@ function get_price_itinerary_reissue_request(airline_response, total_admin_fee, 
         </div>
     </div>`;
         $text += '‣ Grand Total: IDR '+ getrupiah(Math.ceil(total_price)) + '\nPrices and availability may change at any time';
+        final_total_fee = total_price;
     }else{
         text+=`
     <div class="col-lg-12">
@@ -12925,6 +12994,29 @@ function get_price_itinerary_reissue_request(airline_response, total_admin_fee, 
     </div>`;
         $text += '‣ Admin Fee: IDR '+ getrupiah(Math.ceil(total_admin_fee)) + '\n';
         $text += '‣ Grand Total: IDR '+ getrupiah(Math.ceil(total_price) + Math.ceil(total_admin_fee)) + '\nPrices and availability may change at any time';
+        final_total_fee = total_price + total_admin_fee;
+    }
+    if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && final_total_fee){
+//        if(currency_rate_data.result.response.agent.hasOwnProperty(user_login.agent_name)){ // buat o3
+        for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
+            for(k in currency_rate_data.result.response.agent[j]){
+                if(currency_rate_data.result.is_show_provider.includes(k)){
+                    try{
+                        price_convert = parseFloat((final_total_fee)/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
+                        if(price_convert%1 == 0)
+                            price_convert = parseInt(price_convert);
+                        text+=`
+                            <div class="col-lg-12" style="text-align:right;">
+                                <span style="font-size:14px; font-weight:bold;" id="total_price_`+k+`"><b> Estimated `+k+` `+price_convert+`</b></span><br/>
+                            </div>`;
+                    }catch(err){
+                        console.log(err);
+                    }
+                }
+            }
+            break;
+        }
+//        }
     }
     text+=`
     <div class="col-lg-12" style="padding-bottom:10px;">
@@ -14813,7 +14905,6 @@ function airline_get_reschedule_itinerary_v2(){
                }
                get_price_itinerary_reissue_request(airline_response, msg.result.response.total_admin_fee, msg.result.response.reschedule_itinerary_provider);
                get_airline_channel_repricing_data_reschedule(msg.result.response.reschedule_itinerary_provider);
-               console.log(msg.result.response.reschedule_itinerary_provider);
                document.getElementById('airline_detail').innerHTML += `
                 <div class="col-lg-12" style="background-color:white; padding:15px; border: 1px solid #cdcdcd; margin-bottom:15px;" id="sell_reschedule_div">
                     <input type="button" class="primary-btn" style="width:100%;" onclick="sell_reschedule_v2();" value="Proceed">
@@ -14921,6 +15012,17 @@ function sell_reschedule_v2(){
 
                            }
                            get_price_itinerary_reissue_request(airline_response, msg.result.response.total_admin_fee, msg.result.response.sell_reschedule_provider);
+                           try{
+                               is_need_get_channel_repricing = true;
+                               for(i in document.getElementById('repricing_type').options){
+                                    if(document.getElementById('repricing_type').options[i].value == 'passenger'){
+                                        is_need_get_channel_repricing = false;
+                                        break;
+                                    }
+                               }
+                               if(is_need_get_channel_repricing)
+                                    get_airline_channel_repricing_data_reschedule(msg.result.response.sell_reschedule_provider);
+                           }catch(err){console.log(err);}
                            commission = 0;
                            if(airline_get_detail.result.response.state == 'issued'){
                                get_payment_acq('Issued',airline_get_detail.result.response.booker.seq_id, airline_get_detail.result.response.order_number, 'billing',signature,'airline_reissue');

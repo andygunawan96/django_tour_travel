@@ -3060,6 +3060,21 @@ function sort(){
                                        text+=`<span id="fare_no_discount`+i+`" class="basic_fare_field cross_price" style="font-size:14px; color:#929292;"></span><br/>`;
                                        text+=`<span id="fare`+i+`" class="basic_fare_field copy_price price_template"></span><br/>`;
 
+                                       if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show){
+//                                            if(currency_rate_data.result.response.agent.hasOwnProperty(user_login.agent_name)){ // buat o3
+                                                for(j in currency_rate_data.result.response.agent){ //asumsi 1 agent hanya HO
+                                                    for(k in currency_rate_data.result.response.agent[j]){
+                                                        if(currency_rate_data.result.is_show_provider.includes(k)){
+                                                            try{
+                                                                text+=`<span id="fare`+i+`_other_currency_`+k+`" class="basic_fare_field copy_price price_template"></span><br/>`;
+                                                            }catch(err){console.log(err);}
+                                                        }
+                                                    }
+                                                    break;
+                                                }
+//                                            }
+                                       }
+
                                        if(provider_list_data.hasOwnProperty(airline[i].provider) == true && provider_list_data[airline[i].provider].description != '')
                                             text += `<span style="margin-right:5px;">`+provider_list_data[airline[i].provider].description+`</span>`;
                                        if(airline[i].can_book == true && airline[i].can_book_check_arrival_on_next_departure == true){
@@ -3810,6 +3825,25 @@ function sort(){
                                     if(total_discount != 0)
                                         document.getElementById('fare_no_discount'+i).innerHTML = airline[i].currency+' '+getrupiah(airline[i].total_price + total_discount);
                                     document.getElementById('fare'+i).innerHTML = airline[i].currency+' '+getrupiah(airline[i].total_price);
+                                    if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && airline[i].total_price){
+//                                        if(currency_rate_data.result.response.agent.hasOwnProperty(user_login.agent_name)){ // buat o3
+                                        for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
+                                            for(k in currency_rate_data.result.response.agent[j]){
+                                                if(currency_rate_data.result.is_show_provider.includes(k)){
+                                                    try{
+                                                        price_convert = (airline[i].total_price/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
+                                                        if(price_convert%1 == 0)
+                                                            price_convert = parseInt(price_convert);
+                                                        document.getElementById('fare'+i+'_other_currency_'+k).innerHTML = 'Estimated ' + k + ' ' + getrupiah(price_convert);
+                                                    }catch(err){
+                                                        console.log(err);
+                                                    }
+                                                }
+                                            }
+                                            break;
+                                        }
+//                                        }
+                                    }
 
                                 }else if(airline[i].can_book == true)
                                     document.getElementById('fare'+i).innerHTML = 'Choose to view price';
@@ -4321,6 +4355,25 @@ function airline_pick_mc(type){
                             text += `<br/><span id="fare_no_discount_detail_pick`+airline_pick_list[i].airline_pick_sequence+`" class="basic_fare_field cross_price" style="font-size:14px; color:#929292;">`+currency+` `+getrupiah(price)+`</span><br/>`
                         }
                         text+= `<span id="fare_detail_pick`+airline_pick_list[i].airline_pick_sequence+`" class="basic_fare_field price_template" style="font-size:16px;font-weight: bold; color:`+color+`; padding:10px 0px;">`+currency+' '+getrupiah(price-total_discount) + '</span>';
+                        if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && price){
+//                            if(currency_rate_data.result.response.agent.hasOwnProperty(user_login.agent_name)){ // buat o3
+                            for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
+                                for(k in currency_rate_data.result.response.agent[j]){
+                                    if(currency_rate_data.result.is_show_provider.includes(k)){
+                                        try{
+                                            price_convert = (Math.ceil(price-total_discount)/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
+                                            if(price_convert%1 == 0)
+                                                price_convert = parseInt(price_convert);
+                                            text+=`<span style="font-size:14px; font-weight: bold;"><b>Estimated `+k+` `+getrupiah(price_convert)+`</b></span><br/>`;
+                                        }catch(err){
+                                            console.log(err);
+                                        }
+                                    }
+                                }
+                                break;
+                            }
+//                            }
+                        }
                     }
 
                     text+=`</span><br/>`;
@@ -5540,7 +5593,30 @@ function airline_detail(type){
                     <span style="font-size:14px; font-weight:bold;" id="total_price"><b> `+airline_price[i].ADT.currency+` `+parseFloat(grand_total_price+total_discount)+`</b></span><br/>`;
             }
             text+=`
-            </div>
+            </div>`;
+            if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && grand_total_price){
+//                if(currency_rate_data.result.response.agent.hasOwnProperty(user_login.agent_name)){ // buat o3
+                for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
+                    for(k in currency_rate_data.result.response.agent[j]){
+                        if(currency_rate_data.result.is_show_provider.includes(k)){
+                            try{
+                                price_convert = ((grand_total_price+total_discount)/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
+                                if(price_convert%1 == 0)
+                                    price_convert = parseInt(price_convert);
+                                text+=`
+                                    <div class="col-lg-12" style="text-align:right;">
+                                        <span style="font-size:14px; font-weight:bold;" id="total_price_`+k+`"><b> Estimated `+k+` `+getrupiah(price_convert)+`</b></span><br/>
+                                    </div>`;
+                            }catch(err){
+                                console.log(err);
+                            }
+                        }
+                    }
+                    break;
+                }
+//                }
+            }
+            text+=`
         </div>`;
         if(document.URL.split('/')[document.URL.split('/').length-2] == 'review'){
             tax = 0;
@@ -5827,7 +5903,30 @@ function airline_detail(type){
             text+=`
                 <span style="font-size:14px; font-weight:bold;" id="total_price"><b>`+getrupiah(total_price+additional_price)+`</b></span><br/>`;
             text+=`
-            </div>
+            </div>`;
+            if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && total_price+additional_price){
+//                if(currency_rate_data.result.response.agent.hasOwnProperty(user_login.agent_name)){ // buat o3
+                for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
+                    for(k in currency_rate_data.result.response.agent[j]){
+                        if(currency_rate_data.result.is_show_provider.includes(k)){
+                            try{
+                                price_convert = ((total_price+additional_price)/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
+                                if(price_convert%1 == 0)
+                                    price_convert = parseInt(price_convert);
+                                text+=`
+                                    <div class="col-lg-12" style="text-align:right;">
+                                        <span style="font-size:14px; font-weight:bold;" id="total_price_`+k+`"><b> Estimated `+k+` `+getrupiah(price_convert)+`</b></span><br/>
+                                    </div>`;
+                            }catch(err){
+                                console.log(err);
+                            }
+                        }
+                    }
+                    break;
+                }
+//                }
+            }
+            text+=`
         </div>`;
 
         if(window.location.pathname.includes('review_after_sales') && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)

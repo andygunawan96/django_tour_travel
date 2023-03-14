@@ -477,7 +477,7 @@ def get_current_search(request):
             _logger.error('ERROR current search use cache')
 
     url_request = url + 'booking/hotel'
-    res = send_request_api(request, url_request, headers, data, 'POST', 300)
+    res = send_request_api(request, url_request, headers, data, 'POST', 10)
     if request.session.get('hotel_set_signature', False):
         set_session(request, 'hotel_signature', request.POST['signature'])
     return res

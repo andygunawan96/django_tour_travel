@@ -203,6 +203,7 @@ function hotel_signin(data, need_signin=false){
            if(msg.result.error_code == 0){
                signature = msg.result.response.signature;
                get_carriers_hotel();
+               get_agent_currency_rate();
                if(data == '' && need_signin == false){
                     get_top_facility();
 
@@ -689,6 +690,7 @@ function hotel_detail_page(){
             hotel_facility_request(facilities);
             var firstDate = msg.check_in;
             var secondDate = msg.check_out;
+            get_agent_currency_rate();
             hotel_detail_request(moment(firstDate).format('DD MMM YYYY'), moment(secondDate).format('DD MMM YYYY'));
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -1266,6 +1268,33 @@ function create_detail_room(i, data){
     }
     detail_price_txt += `<div class="row"><div class="col-lg-6 col-md-6 col-sm-6 col-xs-6"><span style="font-weight:700;">Grand Total:</span></div>`;
     detail_price_txt += `<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6"><span style="font-weight:700;">IDR `+getrupiah(data.prices[i].price_total + discount_hotel)+`</span></div></div>`;
+
+    if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && data.prices[i].price_total + discount_hotel){
+//    if(currency_rate_data.result.response.agent.hasOwnProperty(user_login.agent_name)){ // buat o3
+        for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
+            for(k in currency_rate_data.result.response.agent[j]){
+                if(currency_rate_data.result.is_show_provider.includes(k)){
+                    try{
+                        price_convert = ((data.prices[i].price_total + discount_hotel)/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
+                        if(price_convert%1 == 0)
+                            price_convert = parseInt(price_convert);
+                        detail_price_txt+=`
+                        <div class="row">
+                            <div class="col-lg-6" style="">
+                            </div>
+                            <div class="col-lg-6" style="">
+                                <span style="font-weight:700;">Estimated `+k+` `+getrupiah(price_convert)+`</span>
+                            </div>
+                        </div>`;
+                    }catch(err){
+                        console.log(err);
+                    }
+                }
+            }
+            break;
+        }
+    //    }
+    }
 
     document.getElementById('detail_room-tab_edit').innerHTML = detail_room_txt;
     document.getElementById('price_room-tab_edit').innerHTML = detail_price_txt;
@@ -3149,6 +3178,32 @@ function hotel_get_booking(data){
                                 text_detail+= `</span>
                             </div>
                         </div>`;
+                        if(['booked'].includes(msg.result.response.state)){
+                            if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && total_price){
+                //                if(currency_rate_data.result.response.agent.hasOwnProperty(user_login.agent_name)){ // buat o3
+                                for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
+                                    for(k in currency_rate_data.result.response.agent[j]){
+                                        if(currency_rate_data.result.is_show_provider.includes(k)){
+                                            try{
+                                                price_convert = parseFloat((total_price)/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
+                                                if(price_convert%1 == 0)
+                                                    price_convert = parseInt(price_convert);
+                                                text_detail+=`
+                                                <div class="row">
+                                                    <div class="col-lg-12" style="text-align:right;">
+                                                        <span style="font-size:13px; font-weight:bold;"> Estimated `+k+` `+price_convert+`</span>
+                                                    </div>
+                                                </div>`;
+                                            }catch(err){
+                                                console.log(err);
+                                            }
+                                        }
+                                    }
+                                    break;
+                                }
+                //                }
+                            }
+                        }
                         if(msg.result.response.state != 'issued' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
                             text_detail+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="bank" style="width:auto; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
                         text_detail+=`<div class="row">

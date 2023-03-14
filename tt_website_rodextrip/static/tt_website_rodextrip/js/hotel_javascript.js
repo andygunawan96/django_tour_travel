@@ -1136,21 +1136,44 @@ function render_hotel_search(hotel_data_print, i){
                             text+=`
                             <span style="font-size:16px; font-weight: 700;">`+arr[0][1]['currency']+` ` + getrupiah(arr[0][1]['price']) + `</span>
                             <span style="font-size:16px; font-weight: 700; color:`+color+`;">` + arr[0][0] +`</span>`;
+
+                            if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && arr[0][1]['price']){
+                        //        if(currency_rate_data.result.response.agent.hasOwnProperty(user_login.agent_name)){ // buat o3
+                                for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
+                                    for(k in currency_rate_data.result.response.agent[j]){
+                                        if(currency_rate_data.result.is_show_provider.includes(k)){
+                                            try{
+                                                price_convert = parseFloat((arr[0][1]['price'])/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
+                                                if(price_convert%1 == 0)
+                                                    price_convert = parseInt(price_convert);
+                                                text+=`
+                                                    <div class="col-lg-12" style="text-align:right;">
+                                                        <span style="font-size:14px; font-weight:bold;" id="total_price_`+k+`"><b> Estimated `+k+` `+price_convert+`</b></span><br/>
+                                                    </div>`;
+                                            }catch(err){
+                                                console.log(err);
+                                            }
+                                        }
+                                    }
+                                    break;
+                                }
+                        //        }
+                            }
                         }
-                            if(arr.length > 1){
-                                text+=`<br/><span style="color:`+color+`; font-size:13px; font-weight:700; text-align:left; cursor:pointer;" id="view_all`+i+`"> More Price<i class="fas fa-caret-down"></i></span>`;
-                            }
-                            text+=`
-                            <br/>
-                            <span class="carrier_code_template">for `+total_room+` room, `+total_night+` night</span><br/>`;
-                            try{
-                                if(arr.length != 0)
-                                    text+=`<button type="button" class="primary-btn-custom" onclick="goto_detail('hotel',`+i+`)" style="font-size:13px;">Click here for Best Price!</button>`;
-                                else
-                                    text+=`<button type="button" class="primary-btn-custom" style="background-color:#cdcdcd;" onclick="goto_detail('hotel',`+i+`)">No Available Price</button>`;
-                            }catch(err){
+                        if(arr.length > 1){
+                            text+=`<br/><span style="color:`+color+`; font-size:13px; font-weight:700; text-align:left; cursor:pointer;" id="view_all`+i+`"> More Price<i class="fas fa-caret-down"></i></span>`;
+                        }
+                        text+=`
+                        <br/>
+                        <span class="carrier_code_template">for `+total_room+` room, `+total_night+` night</span><br/>`;
+                        try{
+                            if(arr.length != 0)
+                                text+=`<button type="button" class="primary-btn-custom" onclick="goto_detail('hotel',`+i+`)" style="font-size:13px;">Click here for Best Price!</button>`;
+                            else
                                 text+=`<button type="button" class="primary-btn-custom" style="background-color:#cdcdcd;" onclick="goto_detail('hotel',`+i+`)">No Available Price</button>`;
-                            }
+                        }catch(err){
+                            text+=`<button type="button" class="primary-btn-custom" style="background-color:#cdcdcd;" onclick="goto_detail('hotel',`+i+`)">No Available Price</button>`;
+                        }
                             text+=`
                         </div>
                     </div>
@@ -1577,6 +1600,31 @@ function hotel_room_pick(key, key2){
             <span style="font-weight:500;">(for `+total_room+` room, `+total_night+` night)</span>
         </div>
     </div>`;
+
+    if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && total_price_hotel+discount_hotel){
+//        if(currency_rate_data.result.response.agent.hasOwnProperty(user_login.agent_name)){ // buat o3
+        for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
+            for(k in currency_rate_data.result.response.agent[j]){
+                if(currency_rate_data.result.is_show_provider.includes(k)){
+                    try{
+                        price_convert = ((total_price_hotel+discount_hotel)/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
+                        if(price_convert%1 == 0)
+                            price_convert = parseInt(price_convert);
+                        text += `
+                            <div class="row">
+                                <div class="col-lg-12" style="text-align:right;">
+                                    <span style="font-weight:bold;font-size:15px;"> Estimated`+k+` `+ getrupiah(price_convert) +`</span><br/>
+                                </div>
+                            </div>`;
+                    }catch(err){
+                        console.log(err);
+                    }
+                }
+            }
+            break;
+        }
+//        }
+    }
 
     if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
         text += `<br/>`;
@@ -2238,6 +2286,32 @@ function hotel_detail(old_cancellation_policy){
     }catch(err){
         console.log(err); // error kalau ada element yg tidak ada
     }
+
+    if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && total_price_hotel){
+//    if(currency_rate_data.result.response.agent.hasOwnProperty(user_login.agent_name)){ // buat o3
+        for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
+            for(k in currency_rate_data.result.response.agent[j]){
+                if(currency_rate_data.result.is_show_provider.includes(k)){
+                    try{
+                        price_convert = (Math.ceil(total_price_hotel)/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
+                        if(price_convert%1 == 0)
+                            price_convert = parseInt(price_convert);
+                        text+=`
+                        <div class="row">
+                            <div class="col-lg-12" style="text-align:right;">
+                                <span style="font-weight:bold;font-size:15px;">Estimated `+k+` `+getrupiah(price_convert)+`</span>
+                            </div>
+                        </div>`;
+                    }catch(err){
+                        console.log(err);
+                    }
+                }
+            }
+            break;
+        }
+    //    }
+    }
+
     if(document.URL.split('/')[document.URL.split('/').length-1] == 'review' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
         text+=`<div class="row"><div class="col-lg-12"><div style="text-align:right;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:auto; height:25px; cursor:pointer;" onclick="show_repricing();"/></div></div></div>`;
     }
@@ -3135,6 +3209,28 @@ function render_room_hotel(data_room_hotel_list){
                                 text+= '<span style="text-decoration: line-through;color:#cdcdcd;">' + data_room_hotel_list[i].currency + ' ' + getrupiah(data_room_hotel_list[i].total_without_discount) +'</span><br/>';
                             text+= '<span class="price_room" style="font-weight: bold; font-size:14px;">' +  data_room_hotel_list[i].currency + ' ' + getrupiah(data_room_hotel_list[i].total)+'</span><br/><span class="copy_total_rn carrier_code_template" style="font-size:12px;">(for '+total_room+' room, '+total_night+' night)</span><br/>';
                         }
+
+                        if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && data_room_hotel_list[i].total){
+                //            if(currency_rate_data.result.response.agent.hasOwnProperty(user_login.agent_name)){ // buat o3
+                            for(k in currency_rate_data.result.response.agent){ // asumsi hanya HO
+                                for(l in currency_rate_data.result.response.agent[k]){
+                                    if(currency_rate_data.result.is_show_provider.includes(l)){
+                                        try{
+                                            price_convert = (data_room_hotel_list[i].total/currency_rate_data.result.response.agent[k][l].rate).toFixed(2);
+                                            if(price_convert%1 == 0)
+                                                price_convert = parseInt(price_convert);
+                                            text+=`
+                                                <span class="price_room" style="font-weight: bold; font-size:14px;"> Estimated `+l+` `+getrupiah(price_convert)+` </span><br/>`;
+                                        }catch(err){
+                                            console.log(err);
+                                        }
+                                    }
+                                }
+                                break;
+                            }
+                //            }
+                        }
+
                         if (data_room_hotel_list[i].availability == 'available'){
                             if(hotel_room_detail_pick != null  && hotel_room_detail_pick == i){
                                 text+=`<button class="primary-btn-custom-un" style="margin-bottom:unset;" type="button" onclick="hotel_room_pick(`+i+`,`+j+`);" id="button`+i+`">Chosen</button>`;
