@@ -2608,13 +2608,20 @@ function sort(){
         document.getElementById("airlines_ticket").appendChild(node);
         node = document.createElement("div");
 
-        document.getElementById('airlines_result_ticket').innerHTML = '';
-        document.getElementById("airlines_ticket_loading").innerHTML = '';
-        document.getElementById("airlineAirline_generalShow_loading").innerHTML = '<h6>No Airlines Found</h6>';
-        document.getElementById("airlineAirline_generalShow_loading2").innerHTML = '<h6>No Airlines Found</h6>';
+        try{
+            document.getElementById('airlines_result_ticket').innerHTML = '';
+            document.getElementById("airlines_ticket_loading").innerHTML = '';
+            document.getElementById("airlineAirline_generalShow_loading").innerHTML = '<h6>Flights not Found</h6>';
+            document.getElementById("airlineAirline_generalShow_loading2").innerHTML = '<h6>Flights not Found</h6>';
+        }catch(err){console.log(err)}
     }else{
         //show data
         sorting = '';
+
+        try{
+            document.getElementById("airlineAirline_generalShow_loading").innerHTML = '';
+            document.getElementById("airlineAirline_generalShow_loading2").innerHTML = '';
+        }catch(err){console.log(err)}
 
         var radios = document.getElementsByName('radio_sorting');
         for (var j = 0, length = radios.length; j < length; j++) {
@@ -3878,8 +3885,8 @@ function sort(){
 
         document.getElementById('airlines_result_ticket').innerHTML = '';
         document.getElementById("airlines_ticket_loading").innerHTML = '';
-        document.getElementById("airlineAirline_generalShow_loading").innerHTML = '<h6>No Airlines Found</h6>';
-        document.getElementById("airlineAirline_generalShow_loading2").innerHTML = '<h6>No Airlines Found</h6>';
+        document.getElementById("airlineAirline_generalShow_loading").innerHTML = '<h6>Flights not Found</h6>';
+        document.getElementById("airlineAirline_generalShow_loading2").innerHTML = '<h6>Flights not Found</h6>';
 
         Swal.fire({
           type: 'error',
@@ -3905,6 +3912,9 @@ function sort(){
         var node_co = document.createElement("div");
         node_co.innerHTML = text_co;
         document.getElementById("airlines_result_ticket").appendChild(node_co);
+
+        document.getElementById("airlineAirline_generalShow_loading").innerHTML = '';
+        document.getElementById("airlineAirline_generalShow_loading2").innerHTML = '';
    }
 }
 
@@ -9405,6 +9415,104 @@ function change_date_shortcut(val){
         document.getElementById("badge-flight-notif").innerHTML = "";
         document.getElementById("badge-flight-notif2").innerHTML = "";
         document.getElementById('waitFlightSearch').style.display = 'block';
+        //filter airlines web
+        document.getElementById('airlineAirline_generalShow_loading').innerHTML = `
+        <div class="place_div_left_right">
+            <span style="font-weight:bold; font-size:14px;">
+                <div class="stripe_div_small70">
+                    <div class="div_stripe">
+                        <div class="loading_stripe"></div>
+                    </div>
+                </div>
+            </span>
+            <label style="position:absolute; right:0px;">
+                <div class="stripe_checkbox">
+                    <div class="div_stripe">
+                        <div class="loading_stripe"></div>
+                    </div>
+                </div>
+            </label>
+        </div>
+        <div class="place_div_grid">
+            <label>
+                <div class="stripe_div_medium160">
+                    <div class="div_stripe">
+                        <div class="loading_stripe"></div>
+                    </div>
+                </div>
+            </label>
+            <label>
+                <div class="stripe_div_medium130">
+                    <div class="div_stripe">
+                        <div class="loading_stripe"></div>
+                    </div>
+                </div>
+            </label>
+            <label>
+                <div class="stripe_div_medium160">
+                    <div class="div_stripe">
+                        <div class="loading_stripe"></div>
+                    </div>
+                </div>
+            </label>
+            <label>
+                <div class="stripe_div_small100">
+                    <div class="div_stripe">
+                        <div class="loading_stripe"></div>
+                    </div>
+                </div>
+            </label>
+        </div>`;
+        //filter airlines mobile
+        document.getElementById('airlineAirline_generalShow_loading2').innerHTML = `
+        <div class="place_div_left_right">
+            <span style="font-weight:bold; font-size:14px;">
+                <div class="stripe_div_small70">
+                    <div class="div_stripe">
+                        <div class="loading_stripe"></div>
+                    </div>
+                </div>
+            </span>
+            <label style="position:absolute; right:0px;">
+                <div class="stripe_checkbox">
+                    <div class="div_stripe">
+                        <div class="loading_stripe"></div>
+                    </div>
+                </div>
+            </label>
+        </div>
+        <div class="place_div_grid">
+            <label>
+                <div class="stripe_div_medium160">
+                    <div class="div_stripe">
+                        <div class="loading_stripe"></div>
+                    </div>
+                </div>
+            </label>
+            <label>
+                <div class="stripe_div_medium130">
+                    <div class="div_stripe">
+                        <div class="loading_stripe"></div>
+                    </div>
+                </div>
+            </label>
+            <label>
+                <div class="stripe_div_medium160">
+                    <div class="div_stripe">
+                        <div class="loading_stripe"></div>
+                    </div>
+                </div>
+            </label>
+            <label>
+                <div class="stripe_div_small100">
+                    <div class="div_stripe">
+                        <div class="loading_stripe"></div>
+                    </div>
+                </div>
+            </label>
+        </div>`;
+
+        //we found
         document.getElementById('airlines_result_ticket').innerHTML = `
         <div class="place_div_white">
             <span style="font-weight:bold; font-size:14px;">
@@ -9423,6 +9531,7 @@ function change_date_shortcut(val){
             </label>
         </div>`;
 
+        //hasil search
         document.getElementById('airlines_ticket_loading').innerHTML = `
         <div class="place_div_dynamic">
             <span style="font-weight:bold; font-size:14px;">

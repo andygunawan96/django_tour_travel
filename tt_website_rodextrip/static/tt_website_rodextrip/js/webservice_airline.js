@@ -2501,10 +2501,12 @@ function airline_search(provider,carrier_codes,last_send=false,re_order=false){
                         document.getElementById("airlines_ticket").appendChild(node);
                         node = document.createElement("div");
 
-                        document.getElementById('airlines_result_ticket').innerHTML = '';
-                        document.getElementById("airlines_ticket_loading").innerHTML = '';
-                        document.getElementById("airlineAirline_generalShow_loading").innerHTML = '<h6>No Airlines Found</h6>';
-                        document.getElementById("airlineAirline_generalShow_loading2").innerHTML = '<h6>No Airlines Found</h6>';
+                        try{
+                            document.getElementById('airlines_result_ticket').innerHTML = '';
+                            document.getElementById("airlines_ticket_loading").innerHTML = '';
+                            document.getElementById("airlineAirline_generalShow_loading").innerHTML = '<h6>Flights not Found</h6>';
+                            document.getElementById("airlineAirline_generalShow_loading2").innerHTML = '<h6>Flights not Found</h6>';
+                        }catch(err){console.log(err)}
                   }
                   var node = document.createElement("div");
                   var node2 = document.createElement("div");
