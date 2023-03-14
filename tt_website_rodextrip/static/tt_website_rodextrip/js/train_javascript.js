@@ -88,6 +88,7 @@ var cabin_list = [
     }
 ]
 
+
 //function train_check_search(){
 //
 //    var error_log = '';
@@ -598,6 +599,7 @@ function change_train(val){
     document.getElementById("badge-train-notif2").innerHTML = "0";
     document.getElementById("badge-copy-notif").innerHTML = 0;
     document.getElementById("badge-copy-notif2").innerHTML = 0;
+    $('#train_result').show();
     $('#button_copy_train').hide();
     change_date_next_prev(val);
     train_ticket_pick();
@@ -610,7 +612,9 @@ function train_get_detail(){
     $('#button_chart_train').show();
     $("#badge-train-notif").addClass("infinite");
     $("#myModalTicketTrain").modal('show');
+    $('#train_result').hide();
     train_detail_text = '';
+    train_detail_footer = '';
     total_price = 0;
     total_commission = 0;
     total_tax = 0;
@@ -799,6 +803,7 @@ function train_get_detail(){
                     }
     //                $text += '1x Convenience fee '+price['currency']+' '+ getrupiah(journeys[i].fares[0].service_charge_summary[0].total_tax) + '\n\n';
                 }
+                $text += '\n';
                 train_detail_text+=`
                 <div class="col-lg-6 col-xs-6" style="text-align:left;">
                     <span style="font-size:13px;">1x Convenience fee</span>
@@ -820,80 +825,86 @@ function train_get_detail(){
             </div>
         </div>`;
     }
-    train_detail_text += `
-    <div class="row" style="padding-top:10px; background:white;">`;
-    try{
-        if(total_discount != 0){
-            train_detail_text += `
-            <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                <span style="font-size:13px; font-weight:bold;"><b>Discount</b></span><br>
-            </div>
-            <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                <span style="font-size:13px; font-weight:bold; color:#e04022; font-weight:bold;"> -`+price['currency']+` `+getrupiah(total_discount*-1)+`</span><br>
-            </div>`;
+    train_detail_footer += `
+    <div class="row" style="background:white;">`;
+        try{
+            if(total_discount != 0){
+                train_detail_footer += `
+                <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                    <span style="font-size:13px; font-weight:bold;"><b>Discount</b></span><br>
+                </div>
+                <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                    <span style="font-size:13px; font-weight:bold; color:#e04022; font-weight:bold;"> -`+price['currency']+` `+getrupiah(total_discount*-1)+`</span><br>
+                </div>`;
 
-            $text += '‣ Discount: IDR ' +getrupiah(total_discount*-1) + '\n';
-        }
-    }catch(err){console.log(err);}
-
-    train_detail_text += `
-            <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                <span style="font-size:13px;font-weight:bold;"><b>Total</b></span><br>
-            </div>
-            <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                <span style="font-size:13px;font-weight:bold;"><b>`+price['currency']+` `+getrupiah(total_price+total_tax+total_discount)+`</b></span><br>
-            </div>
-
-            <div class="col-lg-12" style="padding-bottom:10px;">
-            <hr/>
-            <span style="font-size:14px; font-weight:bold;"><i class="fas fa-share-alt"></i> Share This on:</span><br/>`;
-
-            $text += '‣ Grand Total: '+ getrupiah(parseInt(total_price+total_tax+total_discount));
-            share_data();
-            var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-            if (isMobile) {
-                train_detail_text+=`
-                    <a href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png" alt="Whatsapp"/></a>
-                    <a href="line://msg/text/`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png" alt="Line"/></a>
-                    <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png" alt="Telegram"/></a>
-                    <a href="mailto:?subject=This is the train price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png" alt="Email"/></a>`;
-            } else {
-                train_detail_text+=`
-                    <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png" alt="Whatsapp"/></a>
-                    <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png" alt="Line"/></a>
-                    <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png" alt="Telegram"/></a>
-                    <a href="mailto:?subject=This is the train price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png" alt="Email"/></a>`;
+                $text += '‣ Discount: IDR ' +getrupiah(total_discount*-1) + '\n';
             }
-        train_detail_text +=`
-            </div>`;
-        if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
-            train_detail_text += `<div class="col-lg-12">`;
-            train_detail_text+= print_commission(total_commission,'show_commission');
-            train_detail_text += `</div>`;
+        }catch(err){console.log(err);}
+
+        train_detail_footer += `
+        <div class="col-lg-6 col-xs-6" style="text-align:left;">
+            <span style="font-size:13px;font-weight:bold;"><b>Total</b></span><br>
+        </div>
+        <div class="col-lg-6 col-xs-6" style="text-align:right;">
+            <span style="font-size:13px;font-weight:bold;"><b>`+price['currency']+` `+getrupiah(total_price+total_tax+total_discount)+`</b></span><br>
+        </div>
+
+        <div class="col-lg-12">
+        <hr/>
+        <span style="font-size:14px; font-weight:bold;"><i class="fas fa-share-alt"></i> Share This on:</span><br/>
+        <div style="padding:7px 0px 15px 0px; display:inline-block;">`;
+
+        $text += '‣ Grand Total: '+ getrupiah(parseInt(total_price+total_tax+total_discount));
+        share_data();
+        var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        if (isMobile) {
+            train_detail_footer+=`
+                <a href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png" alt="Whatsapp"/></a>
+                <a href="line://msg/text/`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png" alt="Line"/></a>
+                <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png" alt="Telegram"/></a>
+                <a href="mailto:?subject=This is the train price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png" alt="Email"/></a>`;
+        } else {
+            train_detail_footer+=`
+                <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png" alt="Whatsapp"/></a>
+                <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png" alt="Line"/></a>
+                <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png" alt="Telegram"/></a>
+                <a href="mailto:?subject=This is the train price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png" alt="Email"/></a>`;
         }
-        train_detail_text+=`
-            <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom:5px;">
-                <input class="primary-btn-white" style="width:100%;" type="button" onclick="copy_data();" value="Copy" >
+        train_detail_footer +=`
             </div>
-            <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom:5px;">`;
+            <div style="float:right;">
+                <button class="primary-btn-white" type="button" onclick="copy_data();">
+                    <i class="fas fa-copy"></i> Copy Train Detail
+                </button>
+            </div>
+        </div>`;
+
+        if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
+            train_detail_footer += `<div class="col-lg-12">`;
+            train_detail_footer+= print_commission(total_commission,'show_commission');
+            train_detail_footer += `</div>`;
+        }
+        train_detail_footer+=`
+            <div class="col-lg-6 col-md-6 col-sm-6" style="padding-bottom:5px;">`;
             if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-                train_detail_text+=`
+                train_detail_footer+=`
                     <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Hide YPM"><br/>
                 `;
-            train_detail_text += `</div>`;
+            train_detail_footer += `</div>`;
             if(agent_security.includes('book_reservation') == true)
-            train_detail_text+=`
-            <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom:5px;">
+            train_detail_footer+=`
+            <div class="col-lg-6 col-md-6 col-sm-6" style="padding-bottom:5px;">
                 <button class="primary-btn-ticket next-loading next-search-train ld-ext-right" style="width:100%;" onclick="goto_passenger();" type="button" value="Next">
                     Next
                     <i class="fas fa-angle-right"></i>
                     <div class="ld ld-ring ld-cycle"></div>
                 </button>
             </div>`;
-            train_detail_text+=`
-        </div>`;
+    train_detail_footer+=`
+    </div>`;
     console.log($text);
     document.getElementById('train_detail').innerHTML = train_detail_text;
+    document.getElementById('train_footer_detail').innerHTML = train_detail_footer;
 
     for(i in journeys){
         if(journeys[i].hasOwnProperty('search_banner')){
@@ -2045,34 +2056,26 @@ function sort(value){
         }
     }
     //set
-    ticket_count = parseInt(data_filter.length);
-    document.getElementById("train_result").innerHTML = '';
-
-    text_co = `
-    <div class="we_found_box" style="border:1px solid #cdcdcd; background-color:white; margin-top:-2px; margin-bottom:10px; padding:10px;">
-        <span style="font-weight:bold; font-size:14px;"> We found `+ticket_count+` train</span>
-        <label class="check_box_custom" style="float:right;">
-            <span class="span-search-ticket" style="color:black;">Select All to Copy</span>
-            <input type="checkbox" id="check_all_copy" onchange="check_all_result();"/>
-            <span class="check_box_span_custom"></span>
-        </label>
-    </div>`;
-    var node_co = document.createElement("div");
-    node_co.innerHTML = text_co;
-    document.getElementById("train_result").appendChild(node_co);
+    //ticket_count = parseInt(data_filter.length);
 
     document.getElementById("train_ticket_loading").innerHTML = '';
-
     var response = '';
+    ticket_count = 0;
+    total_train_count = 0;
     if(data_filter.length != 0){
         for(i in data_filter){
             if(train_request.departure[train_request_pick] == data_filter[i].departure_date[0] && journeys.length != train_request.departure.length && train_request.destination[train_request_pick].split(' - ')[0] == data_filter[i].destination && train_request.origin[train_request_pick].split(' - ')[0] == data_filter[i].origin){
-                if(data_filter[i].available_count >= parseInt(passengers.adult) && data_filter[i].can_book_three_hours == true && data_filter[i].can_book_check_arrival_on_next_departure == true)
+                total_train_count++;
+
+                if(data_filter[i].available_count >= parseInt(passengers.adult) && data_filter[i].can_book_three_hours == true && data_filter[i].can_book_check_arrival_on_next_departure == true){
                     response+=`<div class="sorting-box-b">`;
+                    ticket_count++;
+                }
     //            else if(data_filter[i].available_count > parseInt(passengers.adult) && data_filter[i].can_book == false)
     //                response+=`<div class="sorting-box-b">`;
-                else
+                else{
                     response+=`<div style="background-color:#E5E5E5; padding:15px; margin-bottom:15px; border:1px solid #cdcdcd;">`;
+                }
                 response += `
                     <span class="copy_train" hidden>`+i+`</span>`;
                 response+=`
@@ -2152,7 +2155,7 @@ function sort(value){
                                     <i class="fas fa-clock"></i><span class="copy_duration" style="font-weight:500;"> `+data_filter[i].elapsed_time.split(':')[0]+`h `+data_filter[i].elapsed_time.split(':')[1]+`m</span><br><span class="copy_transit" style="font-weight:500;">Duration</span>
                                 </div>
                             </div>
-                            <div style="float:right; margin-top:15px; margin-bottom:10px; text-align:right;">`;
+                            <div style="margin-top:15px; margin-bottom:10px; text-align:right;">`;
                             check = 0;
                             for(j in journeys){
                                 if(journeys[j].sequence == data_filter[i].sequence){
@@ -2160,7 +2163,7 @@ function sort(value){
                                         response += `<span class="basic_fare_field cross_price" style="font-size:14px; color:#929292;">IDR `+getrupiah(data_filter[i].without_discount_price)+`</span><br/>`
                                     }
                                     response+=`
-                                    <span class="copy_price" style="font-size:16px; margin-right:10px; font-weight: bold; color:#505050;">IDR `+getrupiah(data_filter[i].price)+`</span>
+                                    <span class="copy_price" style="font-size:16px; margin-right:10px; font-weight: bold; color:`+color+`;">IDR `+getrupiah(data_filter[i].price)+`</span>
                                     <input class="primary-btn-custom-un" style="margin-top:10px;" type="button" onclick="choose_train(`+i+`,`+data_filter[i].sequence+`);"  id="train_choose`+i+`" disabled value="Chosen">`;
                                     check = 1;
                                 }
@@ -2195,7 +2198,8 @@ function sort(value){
                 </div>`;
             }
         }
-    }else{
+    }
+    else{
         if (document.getElementById("button_chart_train").style.display === "none") {
             response +=`
             <div style="padding:5px; margin:10px;">
@@ -2209,7 +2213,21 @@ function sort(value){
     }
     train_data_filter = data_filter;
     document.getElementById('train_ticket').innerHTML = response;
+
     document.getElementById('loading-search-train').hidden = true;
+    document.getElementById("train_result").innerHTML = '';
+    text_co = `
+    <div class="we_found_box" style="border:1px solid #cdcdcd; background-color:white; margin-top:-2px; margin-bottom:10px; padding:10px;">
+        <span style="font-weight:bold; font-size:14px;"> We found `+total_train_count+` train</span>
+        <label class="check_box_custom" style="float:right;">
+            <span class="span-search-ticket" style="color:black;">Select All</span>
+            <input type="checkbox" id="check_all_copy" onchange="check_all_result();"/>
+            <span class="check_box_span_custom"></span>
+        </label>
+    </div>`;
+    var node_co = document.createElement("div");
+    node_co.innerHTML = text_co;
+    document.getElementById("train_result").appendChild(node_co);
 
     for(i in data_filter){
         if(data_filter[i].hasOwnProperty('search_banner')){
@@ -2236,7 +2254,6 @@ function sort(value){
            }
         }
     }
-
 }
 
 function train_ticket_pick(){
@@ -2269,49 +2286,53 @@ function train_ticket_pick(){
                 }
                 response+=`
                 </div>
-                <div class="col-lg-12">
-                    <h4>`+journeys[i].carrier_name+` - (`+journeys[i].carrier_number+`)  - `+journeys[i].cabin_class[1]+`</h4>
+                <div class="col-lg-3" style="margin-bottom:15px;">
+                    <h5>`+journeys[i].carrier_name+` - (`+journeys[i].carrier_number+`)</h5>
+                    <span class="copy_cabin_class" style="font-weight:500; font-size:14px;">`+journeys[i].cabin_class[1]+` (`+journeys[i].class_of_service+`)</span>
                 </div>
-                <div class="col-lg-4 col-xs-6">
-                    <table style="width:100%">
-                        <tr>
-                            <td><h5>`+journeys[i].departure_date[1]+`</h5></td>
-                            <td style="padding-left:15px;">
-                                <img src="/static/tt_website_rodextrip/img/icon/train-01.png" alt="Train" style="width:20px; height:20px;"/>
-                            </td>
-                            <td style="height:30px;padding:0 15px;width:100%">
-                                <div style="display:inline-block;position:relative;width:100%">
-                                    <div style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
-                                    <div class="origin-code-snippet" style="background-color:#d4d4d4;right:-6px"></div>
-                                    <div style="height:30px;min-width:25px;position:relative;width:0%"/>
-                                </div>
-                            </td>
-                        </tr>
-                    </table>
-                    <span>`+journeys[i].departure_date[0]+`</span><br/>
-                    <span style="font-weight:500;">`+journeys[i].origin_name+` (`+journeys[i].origin+`)</span>
+                <div class="col-lg-6 col-md-8" style="margin-bottom:15px;">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <table style="width:100%">
+                                <tr>
+                                    <td><h5>`+journeys[i].departure_date[1]+`</h5></td>
+                                    <td style="padding-left:15px;">
+                                        <img src="/static/tt_website_rodextrip/img/icon/train-01.png" alt="Train" style="width:20px; height:20px;"/>
+                                    </td>
+                                    <td style="height:30px;padding:0 15px;width:100%">
+                                        <div style="display:inline-block;position:relative;width:100%">
+                                            <div style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
+                                            <div class="origin-code-snippet" style="background-color:#d4d4d4;right:-6px"></div>
+                                            <div style="height:30px;min-width:25px;position:relative;width:0%"/>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <span>`+journeys[i].departure_date[0]+`</span><br/>
+                            <span style="font-weight:500;">`+journeys[i].origin_name+` (`+journeys[i].origin+`)</span>
+                        </div>
+                        <div class="col-xs-6">
+                            <table style="width:100%; margin-bottom:6px;">
+                                <tr>
+                                    <td><h5>`+journeys[i].arrival_date[1]+`</h5></td>
+                                    <td></td>
+                                    <td style="height:30px;padding:0 15px;width:100%"></td>
+                                </tr>
+                            </table>
+                            <span>`+journeys[i].arrival_date[0]+`</span><br/>
+                            <span style="font-weight:500;">`+journeys[i].destination_name+` (`+journeys[i].destination+`)</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-lg-4 col-xs-6" style="padding:0;">
-                    <table style="width:100%; margin-bottom:6px;">
-                        <tr>
-                            <td><h5>`+journeys[i].arrival_date[1]+`</h5></td>
-                            <td></td>
-                            <td style="height:30px;padding:0 15px;width:100%"></td>
-                        </tr>
-                    </table>
-                    <span>`+journeys[i].arrival_date[0]+`</span><br/>
-                    <span style="font-weight:500;">`+journeys[i].destination_name+` (`+journeys[i].destination+`)</span>
-                </div>
-
-                <div class="col-lg-4">
-                    <div style="float:right; margin-top:20px; margin-bottom:10px;">`;
+                <div class="col-lg-3 col-md-4">
+                    <div style="margin-top:15px; margin-bottom:10px; text-align:right;">`;
                     check = 0;
                     if(journeys[i].price != journeys[i].without_discount_price){
                         response += `<span class="basic_fare_field cross_price" style="font-size:14px; color:#929292;">IDR `+getrupiah(journeys[i].without_discount_price)+`</span><br/>`
                     }
                     response+=`
-                        <span style="font-size:16px; margin-right:10px; font-weight: bold; color:#505050;">IDR `+getrupiah(journeys[i].price)+`</span>
-                        <input class="primary-btn-custom" type="button" onclick="change_train(`+i+`)"  id="train_choose`+i+`" value="Change">`;
+                        <span style="font-size:16px; margin-bottom:10px; font-weight: bold; color:`+color+`;">IDR `+getrupiah(journeys[i].price)+`</span><br/>
+                        <input class="primary-btn-custom mt-2" type="button" onclick="change_train(`+i+`)"  id="train_choose`+i+`" value="Change">`;
                 if(journeys[i].available_count<50)
                     response+=`<br/><span style="font-size:13px; float:right; color:`+color+`">`+journeys[i].available_count+` seat(s) left</span>`;
                 else if(journeys[i].available_count<=1 )
@@ -2535,7 +2556,6 @@ function checkboxCopyBox(id){
         if(copycount == ticket_count){
             document.getElementById("check_all_copy").checked = true;
         }
-
     } else {
         document.getElementById("check_all_copy").checked = false;
     }
@@ -2582,7 +2602,7 @@ function get_checked_copy_result(){
     var train_number = 0;
     node = document.createElement("div");
     //text+=`<div class="col-lg-12"><h5>`+value_flight_type+`</h5><hr/></div>`;
-    text+=`<div class="col-lg-12" style="min-height=200px; max-height:500px; overflow-y: scroll;">`;
+    text+=`<div class="col-lg-12">`;
     $(".copy_result:checked").each(function(obj) {
         var parent_train = $(this).parent().parent().parent().parent();
         var name_train = parent_train.find('.copy_train_name').html();
@@ -2610,24 +2630,29 @@ function get_checked_copy_result(){
         $text+='====================\n\n';
 
         if(train_number == 1){
-            text+=`<div class="row pb-3" id="div_list`+id_train+`" style="border-bottom:1px solid #cdcdcd;">`;
+            text+=`<div class="row pb-3" id="div_list`+id_train+`" style="padding-top:15px; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; margin-bottom:15px; background:white;">`;
         }else{
-            text+=`<div class="row pt-3 pb-3" id="div_list`+id_train+`" style="border-bottom:1px solid #cdcdcd;">`;
+            text+=`<div class="row pt-3 pb-3" id="div_list`+id_train+`" style="padding-top:15px; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; margin-bottom:15px; background:white;">`;
         }
 
         text+=`
             <div class="col-lg-9">
                 <h5 class="single_border_custom_left" style="padding-left:5px;">Option-`+train_number+`</h5>
-                <h5 style="margin-bottom:5px;">`+name_train+`</h5>
-                <span style="font-weight:500; font-size:14px;">`+cabin_train+`</span>
             </div>
             <div class="col-lg-3" style="text-align:right;">
                 <span style="font-weight:500; cursor:pointer;" onclick="delete_checked_copy_result(`+id_train+`);">Delete <i class="fas fa-times-circle" style="color:red; font-size:18px;"></i></span>
             </div>
-            <div class="col-lg-6" style="text-align:left;">
+            <div class="col-lg-12">
+                <hr/>
+            </div>
+            <div class="col-lg-12">
+                <h5 style="margin-bottom:5px;">`+name_train+`</h5>
+                <span style="font-weight:500; font-size:14px;">`+cabin_train+`</span>
+            </div>
+            <div class="col-xs-6" style="text-align:left;">
                 <b>Departure</b><br/><span>`+departure_train+`, `+date_depart+` `+time_depart+` </span>
             </div>
-            <div class="col-lg-6" style="text-align:right;">
+            <div class="col-xs-6" style="text-align:right;">
                 <b>Return</b><br/><span>`+arrival_train+`, `+date_arr+` `+time_arr+` </span>
             </div>
             <div class="col-lg-12" style="text-align:right;">`;
@@ -2635,59 +2660,66 @@ function get_checked_copy_result(){
                 text+=`<span>`+seat_train+`</span><br/>`;
             }
             text+=`
-                <span style="font-size:13px; font-weight:800; color:`+color+`;">Price: `+price_train+`</span>
+                <span class="price_template" style="float:right;">`+price_train+`</span>
             </div>
         </div>`;
     });
     text+=`
-    </div>
+    </div>`;
+    text_footer =`
     <div class="col-lg-12" style="margin-bottom:15px;" id="share_result">
-        <span style="font-size:14px; font-weight:bold;"><i class="fas fa-share-alt"></i> Share This on:</span><br/>`;
-        share_data();
-        var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-        if (isMobile) {
-            text+=`
-                <a href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png" alt="Whatsapp"/></a>`;
-            if(train_number < 11){
-                text+=`
-                    <a href="line://msg/text/`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png" alt="Line"/></a>
-                    <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png" alt="Telegram"/></a>`;
+        <span style="font-size:14px; font-weight:bold;"><i class="fas fa-share-alt"></i> Share This on:</span><br/>
+        <div style="padding:7px 0px 15px 0px; display:inline-block;">`;
+            share_data();
+            var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+            if (isMobile) {
+                text_footer+=`
+                    <a href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png" alt="Whatsapp"/></a>`;
+                if(train_number < 11){
+                    text_footer+=`
+                        <a href="line://msg/text/`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png" alt="Line"/></a>
+                        <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png" alt="Telegram"/></a>`;
+                }
+                else{
+                    text_footer+=`
+                    <a href="#" target="_blank" title="Share by Line" style="padding-right:5px; cursor:not-allowed;"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line-gray.png" alt="Line Disable"/></a>
+                    <a href="#" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram-gray.png" alt="Telegram Disable"/></a>`;
+                }
+                text_footer+=`
+                    <a href="mailto:?subject=This is the train price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png" alt="Email"/></a>`;
+            } else {
+                text_footer+=`
+                    <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png" alt="Whatsapp"/></a>`;
+                if(train_number < 11){
+                    text_footer+=`
+                        <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png" alt="Line"/></a>
+                        <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png" alt="Telegram"/></a>`;
+                }
+                else{
+                    text_footer+=`
+                    <a href="#" title="Share by Line" style="padding-right:5px; cursor:not-allowed;"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line-gray.png" alt="Line Disable"/></a>
+                    <a href="#" title="Share by Telegram" style="padding-right:5px; cursor:not-allowed;"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram-gray.png" alt="Telegram Disable"/></a>`;
+                }
+                text_footer+=`
+                    <a href="mailto:?subject=This is the train price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png" alt="Email"/></a>`;
             }
-            else{
-                text+=`
-                <a href="#" target="_blank" title="Share by Line" style="padding-right:5px; cursor:not-allowed;"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line-gray.png" alt="Line Disable"/></a>
-                <a href="#" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram-gray.png" alt="Telegram Disable"/></a>`;
+            if(train_number > 10){
+                text_footer+=`<br/><span style="color:red;">Nb: Share on Line and Telegram Max 10 Train</span>`;
             }
-            text+=`
-                <a href="mailto:?subject=This is the train price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png" alt="Email"/></a>`;
-        } else {
-            text+=`
-                <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png" alt="Whatsapp"/></a>`;
-            if(train_number < 11){
-                text+=`
-                    <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png" alt="Line"/></a>
-                    <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png" alt="Telegram"/></a>`;
-            }
-            else{
-                text+=`
-                <a href="#" title="Share by Line" style="padding-right:5px; cursor:not-allowed;"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line-gray.png" alt="Line Disable"/></a>
-                <a href="#" title="Share by Telegram" style="padding-right:5px; cursor:not-allowed;"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram-gray.png" alt="Telegram Disable"/></a>`;
-            }
-            text+=`
-                <a href="mailto:?subject=This is the train price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png" alt="Email"/></a>`;
-        }
-        if(train_number > 10){
-            text+=`<br/><span style="color:red;">Nb: Share on Line and Telegram Max 10 Train</span>`;
-        }
-    text+=`
-    </div>
-    <div class="col-lg-12" id="copy_result">
-        <input class="primary-btn-white" style="width:100%;" type="button" onclick="copy_data();" value="Copy">
+            text_footer+=`
+        </div>
+        <div style="float:right;" id="copy_result">
+            <button class="primary-btn-white" type="button" onclick="copy_data();">
+                <i class="fas fa-copy"></i> Copy
+            </button>
+        </div>
     </div>`;
 
     node.innerHTML = text;
     node.className = "row";
     document.getElementById("show-list-copy-train").appendChild(node);
+
+    document.getElementById("footer_list_copy").innerHTML = text_footer;
 
 //    if(hotel_number > 10){
 //        document.getElementById("mobile_line").style.display = "none";
@@ -2762,7 +2794,500 @@ function change_date_shortcut(val){
         document.getElementById('loading-search-train').style.display = 'block';
         document.getElementById('loading-search-train').hidden = false;
         document.getElementById('train_ticket').innerHTML = '';
-        document.getElementById('train_result').innerHTML = '';
+        document.getElementById('train_result').innerHTML = `
+        <div class="place_div_white">
+        <span style="font-weight:bold; font-size:14px;">
+            <div class="stripe_div_medium130">
+                <div class="div_stripe">
+                    <div class="loading_stripe"></div>
+                </div>
+            </div>
+        </span>
+            <label style="position:absolute; right:10px;">
+                <div class="stripe_div_small100">
+                    <div class="div_stripe">
+                        <div class="loading_stripe"></div>
+                    </div>
+                </div>
+            </label>
+        </div>`;
+
+        $('#train_result').show();
+
+        document.getElementById('train_ticket_loading').innerHTML = `
+        <div class="sorting-box-b mt-3 mb-3">
+            <div class="row">
+                <div class="col-xs-10">
+                    <div class="stripe_div_small70">
+                        <div class="div_stripe">
+                            <div class="loading_stripe"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-2" style="padding:0px 15px 15px 15px;">
+                    <label style="position:absolute; right:15px;">
+                        <div class="stripe_checkbox">
+                            <div class="div_stripe">
+                                <div class="loading_stripe"></div>
+                            </div>
+                        </div>
+                    </label>
+                </div>
+
+                <div class="col-lg-3" style="margin-top:10px;">
+                    <span>
+                        <div class="stripe_2row_small">
+                            <div class="div_stripe">
+                                <div class="loading_stripe"></div>
+                            </div>
+                        </div>
+                    </span>
+                    <div class="stripe_div_small100" style="margin-top:5px;">
+                        <div class="div_stripe">
+                            <div class="loading_stripe"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-8" style="margin-bottom:15px;">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <table style="width:100%">
+                                <tbody>
+                                <tr>
+                                    <td style="padding-bottom:20px;">
+                                        <h5>
+                                            <div class="stripe_div_small70">
+                                                <div class="div_stripe">
+                                                    <div class="loading_stripe"></div>
+                                                </div>
+                                            </div>
+                                        </h5>
+                                    </td>
+                                    <td style="padding-left:15px;">
+                                        <img src="/static/tt_website_rodextrip/img/icon/train-01.png" alt="Train" style="width:20px; height:20px; margin-top:5px;">
+                                    </td>
+                                    <td style="height:30px;padding:0 15px;width:100%">
+                                        <div style="display:inline-block;position:relative;width:100%">
+                                            <div style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
+                                            <div class="origin-code-snippet" style="background-color:#d4d4d4;right:-6px"></div>
+                                            <div style="height:30px;min-width:40px;position:relative;width:0%">
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <span>
+                                    <div class="stripe_span">
+                                        <div class="div_stripe">
+                                            <div class="loading_stripe"></div>
+                                        </div>
+                                    </div>
+                                </span>
+                            <span>
+                                    <div class="stripe_span">
+                                        <div class="div_stripe">
+                                            <div class="loading_stripe"></div>
+                                        </div>
+                                    </div>
+                                </span><br>
+                        </div>
+                        <div class="col-xs-6">
+                            <table style="width:100%; margin-bottom:5px;">
+                                <tbody>
+                                <tr>
+                                    <td style="padding-bottom:15px;">
+                                        <h5>
+                                            <div class="stripe_div_small70">
+                                                <div class="div_stripe">
+                                                    <div class="loading_stripe"></div>
+                                                </div>
+                                            </div>
+                                        </h5>
+                                    </td>
+                                    <td></td>
+                                    <td style="height:30px;padding:0 15px;width:100%"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <span>
+                                <div class="stripe_span">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                            </span>
+                            <span>
+                                <div class="stripe_span">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                            </span><br>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-4">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <span>
+                                <div class="stripe_span">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                            </span>
+                        </div>
+                        <div class="col-xs-12">
+                            <span>
+                                <div class="stripe_span">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                            </span>
+                        </div>
+                        <div class="col-xs-12" style="margin-top:15px;">
+                            <span style="float:right;">
+                                <div class="stripe_div_small100">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                            </span>
+                        </div>
+                        <div class="col-xs-12" style="margin-top:10px;">
+                            <span style="float:right;">
+                                <div class="stripe_button">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="sorting-box-b mb-3">
+            <div class="row">
+                <div class="col-xs-10">
+                    <div class="stripe_div_small70">
+                        <div class="div_stripe">
+                            <div class="loading_stripe"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-2" style="padding:0px 15px 15px 15px;">
+                    <label style="position:absolute; right:15px;">
+                        <div class="stripe_checkbox">
+                            <div class="div_stripe">
+                                <div class="loading_stripe"></div>
+                            </div>
+                        </div>
+                    </label>
+                </div>
+
+                <div class="col-lg-3" style="margin-top:10px;">
+                    <span>
+                        <div class="stripe_2row_small">
+                            <div class="div_stripe">
+                                <div class="loading_stripe"></div>
+                            </div>
+                        </div>
+                    </span>
+                    <div class="stripe_div_small100" style="margin-top:5px;">
+                        <div class="div_stripe">
+                            <div class="loading_stripe"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-8" style="margin-bottom:15px;">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <table style="width:100%">
+                                <tbody>
+                                <tr>
+                                    <td style="padding-bottom:20px;">
+                                        <h5>
+                                            <div class="stripe_div_small70">
+                                                <div class="div_stripe">
+                                                    <div class="loading_stripe"></div>
+                                                </div>
+                                            </div>
+                                        </h5>
+                                    </td>
+                                    <td style="padding-left:15px;">
+                                        <img src="/static/tt_website_rodextrip/img/icon/train-01.png" alt="Train" style="width:20px; height:20px; margin-top:5px;">
+                                    </td>
+                                    <td style="height:30px;padding:0 15px;width:100%">
+                                        <div style="display:inline-block;position:relative;width:100%">
+                                            <div style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
+                                            <div class="origin-code-snippet" style="background-color:#d4d4d4;right:-6px"></div>
+                                            <div style="height:30px;min-width:40px;position:relative;width:0%">
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <span>
+                                    <div class="stripe_span">
+                                        <div class="div_stripe">
+                                            <div class="loading_stripe"></div>
+                                        </div>
+                                    </div>
+                                </span>
+                            <span>
+                                    <div class="stripe_span">
+                                        <div class="div_stripe">
+                                            <div class="loading_stripe"></div>
+                                        </div>
+                                    </div>
+                                </span><br>
+                        </div>
+                        <div class="col-xs-6">
+                            <table style="width:100%; margin-bottom:5px;">
+                                <tbody>
+                                <tr>
+                                    <td style="padding-bottom:15px;">
+                                        <h5>
+                                            <div class="stripe_div_small70">
+                                                <div class="div_stripe">
+                                                    <div class="loading_stripe"></div>
+                                                </div>
+                                            </div>
+                                        </h5>
+                                    </td>
+                                    <td></td>
+                                    <td style="height:30px;padding:0 15px;width:100%"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <span>
+                                <div class="stripe_span">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                            </span>
+                            <span>
+                                <div class="stripe_span">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                            </span><br>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-4">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <span>
+                                <div class="stripe_span">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                            </span>
+                        </div>
+                        <div class="col-xs-12">
+                            <span>
+                                <div class="stripe_span">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                            </span>
+                        </div>
+                        <div class="col-xs-12" style="margin-top:15px;">
+                            <span style="float:right;">
+                                <div class="stripe_div_small100">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                            </span>
+                        </div>
+                        <div class="col-xs-12" style="margin-top:10px;">
+                            <span style="float:right;">
+                                <div class="stripe_button">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="sorting-box-b mb-3">
+            <div class="row">
+                <div class="col-xs-10">
+                    <div class="stripe_div_small70">
+                        <div class="div_stripe">
+                            <div class="loading_stripe"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-2" style="padding:0px 15px 15px 15px;">
+                    <label style="position:absolute; right:15px;">
+                        <div class="stripe_checkbox">
+                            <div class="div_stripe">
+                                <div class="loading_stripe"></div>
+                            </div>
+                        </div>
+                    </label>
+                </div>
+
+                <div class="col-lg-3" style="margin-top:10px;">
+                    <span>
+                        <div class="stripe_2row_small">
+                            <div class="div_stripe">
+                                <div class="loading_stripe"></div>
+                            </div>
+                        </div>
+                    </span>
+                    <div class="stripe_div_small100" style="margin-top:5px;">
+                        <div class="div_stripe">
+                            <div class="loading_stripe"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-8" style="margin-bottom:15px;">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <table style="width:100%">
+                                <tbody>
+                                <tr>
+                                    <td style="padding-bottom:20px;">
+                                        <h5>
+                                            <div class="stripe_div_small70">
+                                                <div class="div_stripe">
+                                                    <div class="loading_stripe"></div>
+                                                </div>
+                                            </div>
+                                        </h5>
+                                    </td>
+                                    <td style="padding-left:15px;">
+                                        <img src="/static/tt_website_rodextrip/img/icon/train-01.png" alt="Train" style="width:20px; height:20px; margin-top:5px;">
+                                    </td>
+                                    <td style="height:30px;padding:0 15px;width:100%">
+                                        <div style="display:inline-block;position:relative;width:100%">
+                                            <div style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
+                                            <div class="origin-code-snippet" style="background-color:#d4d4d4;right:-6px"></div>
+                                            <div style="height:30px;min-width:40px;position:relative;width:0%">
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <span>
+                                    <div class="stripe_span">
+                                        <div class="div_stripe">
+                                            <div class="loading_stripe"></div>
+                                        </div>
+                                    </div>
+                                </span>
+                            <span>
+                                    <div class="stripe_span">
+                                        <div class="div_stripe">
+                                            <div class="loading_stripe"></div>
+                                        </div>
+                                    </div>
+                                </span><br>
+                        </div>
+                        <div class="col-xs-6">
+                            <table style="width:100%; margin-bottom:5px;">
+                                <tbody>
+                                <tr>
+                                    <td style="padding-bottom:15px;">
+                                        <h5>
+                                            <div class="stripe_div_small70">
+                                                <div class="div_stripe">
+                                                    <div class="loading_stripe"></div>
+                                                </div>
+                                            </div>
+                                        </h5>
+                                    </td>
+                                    <td></td>
+                                    <td style="height:30px;padding:0 15px;width:100%"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <span>
+                                <div class="stripe_span">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                            </span>
+                            <span>
+                                <div class="stripe_span">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                            </span><br>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-4">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <span>
+                                <div class="stripe_span">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                            </span>
+                        </div>
+                        <div class="col-xs-12">
+                            <span>
+                                <div class="stripe_span">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                            </span>
+                        </div>
+                        <div class="col-xs-12" style="margin-top:15px;">
+                            <span style="float:right;">
+                                <div class="stripe_div_small100">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                            </span>
+                        </div>
+                        <div class="col-xs-12" style="margin-top:10px;">
+                            <span style="float:right;">
+                                <div class="stripe_button">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>`;
+        document.getElementById("badge-train-notif").innerHTML = "0";
+        document.getElementById("badge-train-notif2").innerHTML = "0";
+        $("#badge-train-notif").removeClass("infinite");
+        $("#badge-train-notif2").removeClass("infinite");
+        $("#myModalTicketTrain").modal('hide');
+        $('#button_chart_train').hide();
+        $('#choose-ticket-train').show();
+        $('#airlines_result_ticket').show();
         train_signin('');
         train_ticket_pick();
         //send_request_search();
