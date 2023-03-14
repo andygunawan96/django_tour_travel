@@ -1203,6 +1203,23 @@ def get_new_cache(signature, type='all'):
             except Exception as e:
                 _logger.error(str(e) + '\n' + traceback.format_exc())
 
+            headers = {
+                "Accept": "application/json,text/html,application/xml",
+                "Content-Type": "application/json",
+                "action": "get_agent_currency_rate",
+                "signature": signature,
+            }
+            url_request = url + 'content'
+            res = send_request_api({}, url_request, headers, data, 'POST', 300)
+            try:
+                if res['result']['error_code'] == 0:
+                    write_cache(res, 'currency_rate')
+                    _logger.info("get_currency_rate SUCCESS SIGNATURE " + headers['signature'])
+                else:
+                    _logger.error('ERROR get_currency_rate file\n' + str(e) + '\n' + traceback.format_exc())
+            except Exception as e:
+                _logger.error(str(e) + '\n' + traceback.format_exc())
+
 
         if type == 'all' or type == 'image':
             #banner

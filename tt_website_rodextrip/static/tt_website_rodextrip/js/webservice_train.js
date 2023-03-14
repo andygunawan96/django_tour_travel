@@ -463,6 +463,10 @@ function train_search(provider, signature, type){
                                 </div>
                             `;
                             document.getElementById('train_ticket').innerHTML = response;
+
+                            document.getElementById('train_result').innerHTML = '';
+                            document.getElementById("train_ticket_loading").innerHTML = '';
+
                             Swal.fire({
                               type: 'error',
                               title: 'Oops!',
@@ -504,6 +508,10 @@ function train_search(provider, signature, type){
                             </div>
                         `;
                         document.getElementById('train_ticket').innerHTML = response;
+
+                        document.getElementById('train_result').innerHTML = '';
+                        document.getElementById("train_ticket_loading").innerHTML = '';
+
                         Swal.fire({
                           type: 'error',
                           title: 'Oops!',

@@ -2607,6 +2607,11 @@ function sort(){
         node.innerHTML = text;
         document.getElementById("airlines_ticket").appendChild(node);
         node = document.createElement("div");
+
+        document.getElementById('airlines_result_ticket').innerHTML = '';
+        document.getElementById("airlines_ticket_loading").innerHTML = '';
+        document.getElementById("airlineAirline_generalShow_loading").innerHTML = '<h6>No Airlines Found</h6>';
+        document.getElementById("airlineAirline_generalShow_loading2").innerHTML = '<h6>No Airlines Found</h6>';
     }else{
         //show data
         sorting = '';
@@ -3059,6 +3064,21 @@ function sort(){
                                    <div class="col-lg-6 col-md-6 col-sm-6 mt-2" style="text-align:right;">`;
                                        text+=`<span id="fare_no_discount`+i+`" class="basic_fare_field cross_price" style="font-size:14px; color:#929292;"></span><br/>`;
                                        text+=`<span id="fare`+i+`" class="basic_fare_field copy_price price_template"></span><br/>`;
+
+                                       if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show){
+//                                            if(currency_rate_data.result.response.agent.hasOwnProperty(user_login.agent_name)){ // buat o3
+                                                for(j in currency_rate_data.result.response.agent){ //asumsi 1 agent hanya HO
+                                                    for(k in currency_rate_data.result.response.agent[j]){
+                                                        if(currency_rate_data.result.is_show_provider.includes(k)){
+                                                            try{
+                                                                text+=`<span id="fare`+i+`_other_currency_`+k+`" class="basic_fare_field copy_price price_template"></span><br/>`;
+                                                            }catch(err){console.log(err);}
+                                                        }
+                                                    }
+                                                    break;
+                                                }
+//                                            }
+                                       }
 
                                        if(provider_list_data.hasOwnProperty(airline[i].provider) == true && provider_list_data[airline[i].provider].description != '')
                                             text += `<span style="margin-right:5px;">`+provider_list_data[airline[i].provider].description+`</span>`;
@@ -3810,6 +3830,25 @@ function sort(){
                                     if(total_discount != 0)
                                         document.getElementById('fare_no_discount'+i).innerHTML = airline[i].currency+' '+getrupiah(airline[i].total_price + total_discount);
                                     document.getElementById('fare'+i).innerHTML = airline[i].currency+' '+getrupiah(airline[i].total_price);
+                                    if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && airline[i].total_price){
+//                                        if(currency_rate_data.result.response.agent.hasOwnProperty(user_login.agent_name)){ // buat o3
+                                        for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
+                                            for(k in currency_rate_data.result.response.agent[j]){
+                                                if(currency_rate_data.result.is_show_provider.includes(k)){
+                                                    try{
+                                                        price_convert = (airline[i].total_price/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
+                                                        if(price_convert%1 == 0)
+                                                            price_convert = parseInt(price_convert);
+                                                        document.getElementById('fare'+i+'_other_currency_'+k).innerHTML = 'Estimated ' + k + ' ' + getrupiah(price_convert);
+                                                    }catch(err){
+                                                        console.log(err);
+                                                    }
+                                                }
+                                            }
+                                            break;
+                                        }
+//                                        }
+                                    }
 
                                 }else if(airline[i].can_book == true)
                                     document.getElementById('fare'+i).innerHTML = 'Choose to view price';
@@ -3836,6 +3875,12 @@ function sort(){
         node.innerHTML = text;
         document.getElementById("airlines_ticket").appendChild(node);
         node = document.createElement("div");
+
+        document.getElementById('airlines_result_ticket').innerHTML = '';
+        document.getElementById("airlines_ticket_loading").innerHTML = '';
+        document.getElementById("airlineAirline_generalShow_loading").innerHTML = '<h6>No Airlines Found</h6>';
+        document.getElementById("airlineAirline_generalShow_loading2").innerHTML = '<h6>No Airlines Found</h6>';
+
         Swal.fire({
           type: 'error',
           title: 'Oops!',
@@ -3922,7 +3967,6 @@ function change_departure(val){
     $('#button_chart_airline').hide();
     $('#choose-ticket-flight').show();
     $('#airlines_result_ticket').show();
-
 
 }
 
@@ -4321,6 +4365,25 @@ function airline_pick_mc(type){
                             text += `<br/><span id="fare_no_discount_detail_pick`+airline_pick_list[i].airline_pick_sequence+`" class="basic_fare_field cross_price" style="font-size:14px; color:#929292;">`+currency+` `+getrupiah(price)+`</span><br/>`
                         }
                         text+= `<span id="fare_detail_pick`+airline_pick_list[i].airline_pick_sequence+`" class="basic_fare_field price_template" style="font-size:16px;font-weight: bold; color:`+color+`; padding:10px 0px;">`+currency+' '+getrupiah(price-total_discount) + '</span>';
+                        if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && price){
+//                            if(currency_rate_data.result.response.agent.hasOwnProperty(user_login.agent_name)){ // buat o3
+                            for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
+                                for(k in currency_rate_data.result.response.agent[j]){
+                                    if(currency_rate_data.result.is_show_provider.includes(k)){
+                                        try{
+                                            price_convert = (Math.ceil(price-total_discount)/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
+                                            if(price_convert%1 == 0)
+                                                price_convert = parseInt(price_convert);
+                                            text+=`<span style="font-size:14px; font-weight: bold;"><b>Estimated `+k+` `+getrupiah(price_convert)+`</b></span><br/>`;
+                                        }catch(err){
+                                            console.log(err);
+                                        }
+                                    }
+                                }
+                                break;
+                            }
+//                            }
+                        }
                     }
 
                     text+=`</span><br/>`;
@@ -5540,7 +5603,30 @@ function airline_detail(type){
                     <span style="font-size:14px; font-weight:bold;" id="total_price"><b> `+airline_price[i].ADT.currency+` `+parseFloat(grand_total_price+total_discount)+`</b></span><br/>`;
             }
             text+=`
-            </div>
+            </div>`;
+            if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && grand_total_price){
+//                if(currency_rate_data.result.response.agent.hasOwnProperty(user_login.agent_name)){ // buat o3
+                for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
+                    for(k in currency_rate_data.result.response.agent[j]){
+                        if(currency_rate_data.result.is_show_provider.includes(k)){
+                            try{
+                                price_convert = ((grand_total_price+total_discount)/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
+                                if(price_convert%1 == 0)
+                                    price_convert = parseInt(price_convert);
+                                text+=`
+                                    <div class="col-lg-12" style="text-align:right;">
+                                        <span style="font-size:14px; font-weight:bold;" id="total_price_`+k+`"><b> Estimated `+k+` `+getrupiah(price_convert)+`</b></span><br/>
+                                    </div>`;
+                            }catch(err){
+                                console.log(err);
+                            }
+                        }
+                    }
+                    break;
+                }
+//                }
+            }
+            text+=`
         </div>`;
         if(document.URL.split('/')[document.URL.split('/').length-2] == 'review'){
             tax = 0;
@@ -5827,7 +5913,30 @@ function airline_detail(type){
             text+=`
                 <span style="font-size:14px; font-weight:bold;" id="total_price"><b>`+getrupiah(total_price+additional_price)+`</b></span><br/>`;
             text+=`
-            </div>
+            </div>`;
+            if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && total_price+additional_price){
+//                if(currency_rate_data.result.response.agent.hasOwnProperty(user_login.agent_name)){ // buat o3
+                for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
+                    for(k in currency_rate_data.result.response.agent[j]){
+                        if(currency_rate_data.result.is_show_provider.includes(k)){
+                            try{
+                                price_convert = ((total_price+additional_price)/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
+                                if(price_convert%1 == 0)
+                                    price_convert = parseInt(price_convert);
+                                text+=`
+                                    <div class="col-lg-12" style="text-align:right;">
+                                        <span style="font-size:14px; font-weight:bold;" id="total_price_`+k+`"><b> Estimated `+k+` `+getrupiah(price_convert)+`</b></span><br/>
+                                    </div>`;
+                            }catch(err){
+                                console.log(err);
+                            }
+                        }
+                    }
+                    break;
+                }
+//                }
+            }
+            text+=`
         </div>`;
 
         if(window.location.pathname.includes('review_after_sales') && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
@@ -9133,10 +9242,10 @@ function get_checked_copy_result(){
 //                }
                 $text+='--------------------\n';
                 if(combo_price != undefined){
-                    text+=`<span class="price_template" style="float:right;">Price: `+price_airline+` (`+combo_price+`)</span><br/>`;
+                    text+=`<span class="price_template" style="float:right;">`+price_airline+` (`+combo_price+`)</span><br/>`;
                     $text += 'Price: '+price_airline+ ' ('+combo_price+')\n';
                 }else{
-                    text+=`<span class="price_template" style="float:right;">Price: `+price_airline+`</span><br/>`;
+                    text+=`<span class="price_template" style="float:right;">`+price_airline+`</span><br/>`;
                     $text += 'Price: '+price_airline+'\n';
                 }
 
@@ -9151,7 +9260,8 @@ function get_checked_copy_result(){
     </div>`;
     text_footer =`
     <div class="col-lg-12" style="margin-bottom:15px;" id="share_result">
-        <span style="font-size:14px; font-weight:bold;"><i class="fas fa-share-alt"></i> Share This on:</span><br/>`;
+        <span style="font-size:14px; font-weight:bold;"><i class="fas fa-share-alt"></i> Share This on:</span><br/>
+        <div style="padding:7px 0px 15px 0px; display:inline-block;">`;
         share_data();
         var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
         if (isMobile) {
@@ -9189,9 +9299,12 @@ function get_checked_copy_result(){
             text_footer+=`<br/><span style="color:red;">Nb: Share on Line and Telegram Max 10 Airline</span>`;
         }
     text_footer+=`
-    </div>
-    <div class="col-lg-12" id="copy_result">
-        <input class="primary-btn-white" style="width:100%;" type="button" onclick="copy_data();" value="Copy">
+        </div>
+        <div style="float:right;" id="copy_result">
+            <button class="primary-btn-white" type="button" onclick="copy_data();">
+                <i class="fas fa-copy"></i> Copy
+            </button>
+        </div>
     </div>`;
 
     node.innerHTML = text;
@@ -9292,7 +9405,632 @@ function change_date_shortcut(val){
         document.getElementById("badge-flight-notif").innerHTML = "";
         document.getElementById("badge-flight-notif2").innerHTML = "";
         document.getElementById('waitFlightSearch').style.display = 'block';
-        document.getElementById('airlines_result_ticket').innerHTML = '';
+        document.getElementById('airlines_result_ticket').innerHTML = `
+        <div class="place_div_white">
+            <span style="font-weight:bold; font-size:14px;">
+                <div class="stripe_div_medium130">
+                    <div class="div_stripe">
+                        <div class="loading_stripe"></div>
+                    </div>
+                </div>
+            </span>
+            <label style="position:absolute; right:10px;">
+                <div class="stripe_div_small100">
+                    <div class="div_stripe">
+                        <div class="loading_stripe"></div>
+                    </div>
+                </div>
+            </label>
+        </div>`;
+
+        document.getElementById('airlines_ticket_loading').innerHTML = `
+        <div class="place_div_dynamic">
+            <span style="font-weight:bold; font-size:14px;">
+                <div class="stripe_div_medium130">
+                    <div class="div_stripe">
+                        <div class="loading_stripe"></div>
+                    </div>
+                </div>
+            </span>
+        </div>
+        <div class="search-box-result mb-3">
+            <div class="row" style="padding:10px;">
+                <div class="col-xs-10">
+                    <div class="stripe_div_small70">
+                        <div class="div_stripe">
+                            <div class="loading_stripe"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-2" style="padding:0px 15px 15px 15px;">
+                    <label style="position:absolute; right:15px;">
+                        <div class="stripe_checkbox">
+                            <div class="div_stripe">
+                                <div class="loading_stripe"></div>
+                            </div>
+                        </div>
+                    </label>
+                </div>
+                <div class="col-lg-12" style="margin-top:10px;">
+                    <div class="row mt-2">
+                        <div class="col-lg-2">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <span>
+                                        <div class="stripe_span">
+                                            <div class="div_stripe">
+                                                <div class="loading_stripe"></div>
+                                            </div>
+                                        </div>
+                                    </span><br>
+                                    <div class="stripe_icon_img">
+                                        <div class="div_stripe">
+                                            <div class="loading_stripe"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-10">
+                            <div class="row">
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+                                    <table style="width:100%">
+                                        <tbody>
+                                        <tr>
+                                            <td style="padding-bottom:20px;">
+                                                <h5>
+                                                    <div class="stripe_div_small70">
+                                                        <div class="div_stripe">
+                                                            <div class="loading_stripe"></div>
+                                                        </div>
+                                                    </div>
+                                                </h5>
+                                            </td>
+                                            <td style="padding-left:15px;">
+                                                <img src="/static/tt_website_rodextrip/img/icon/airlines-01.png" alt="Airline" style="width:20px; height:20px; margin-top:5px;">
+                                            </td>
+                                            <td style="height:30px;padding:0 15px;width:100%">
+                                                <div style="display:inline-block;position:relative;width:100%">
+                                                    <div style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
+                                                    <div class="origin-code-snippet" style="background-color:#d4d4d4;right:-6px"></div>
+                                                    <div style="height:30px;min-width:40px;position:relative;width:0%">
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <span>
+                                        <div class="stripe_span">
+                                            <div class="div_stripe">
+                                                <div class="loading_stripe"></div>
+                                            </div>
+                                        </div>
+                                    </span>
+                                    <span>
+                                        <div class="stripe_span">
+                                            <div class="div_stripe">
+                                                <div class="loading_stripe"></div>
+                                            </div>
+                                        </div>
+                                    </span><br>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 mb-2">
+                                    <table style="width:100%; margin-bottom:5px;">
+                                        <tbody>
+                                        <tr>
+                                            <td style="padding-bottom:15px;">
+                                                <h5>
+                                                    <div class="stripe_div_small70">
+                                                        <div class="div_stripe">
+                                                            <div class="loading_stripe"></div>
+                                                        </div>
+                                                    </div>
+                                                </h5>
+                                            </td>
+                                            <td></td>
+                                            <td style="height:30px;padding:0 15px;width:100%"></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <span>
+                                        <div class="stripe_span">
+                                            <div class="div_stripe">
+                                                <div class="loading_stripe"></div>
+                                            </div>
+                                        </div>
+                                    </span>
+                                    <span>
+                                        <div class="stripe_span">
+                                            <div class="div_stripe">
+                                                <div class="loading_stripe"></div>
+                                            </div>
+                                        </div>
+                                    </span><br>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <span>
+                                                <div class="stripe_span">
+                                                    <div class="div_stripe">
+                                                        <div class="loading_stripe"></div>
+                                                    </div>
+                                                </div>
+                                            </span>
+                                        </div>
+                                        <div class="col-xs-12">
+                                            <span>
+                                                <div class="stripe_span">
+                                                    <div class="div_stripe">
+                                                        <div class="loading_stripe"></div>
+                                                    </div>
+                                                </div>
+                                            </span>
+                                        </div>
+                                        <div class="col-xs-12">
+                                            <div class="row">
+                                                <div class="col-xs-12">
+                                                    <span>
+                                                        <div class="stripe_span">
+                                                            <div class="div_stripe">
+                                                                <div class="loading_stripe"></div>
+                                                            </div>
+                                                        </div>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12">
+                                            <span>
+                                                <div class="stripe_span">
+                                                    <div class="div_stripe">
+                                                        <div class="loading_stripe"></div>
+                                                    </div>
+                                                </div>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6" style="padding-bottom:10px; margin-top: 15px;">
+                    <span>
+                        <div class="stripe_span">
+                            <div class="div_stripe">
+                                <div class="loading_stripe"></div>
+                            </div>
+                        </div>
+                    </span>
+                    <span>
+                        <div class="stripe_span">
+                            <div class="div_stripe">
+                                <div class="loading_stripe"></div>
+                            </div>
+                        </div>
+                    </span>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <span style="float:right;">
+                                <div class="stripe_price">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                            </span>
+                        </div>
+                        <div class="col-lg-12">
+                            <span style="float:right;">
+                                <div class="stripe_button">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="search-box-result mb-3">
+            <div class="row" style="padding:10px;">
+                <div class="col-xs-10"></div>
+                <div class="col-xs-2" style="padding:0px 15px 15px 15px;">
+                    <label style="position:absolute; right:15px;">
+                        <div class="stripe_checkbox">
+                            <div class="div_stripe">
+                                <div class="loading_stripe"></div>
+                            </div>
+                        </div>
+                    </label>
+                </div>
+                <div class="col-lg-12">
+                    <div class="row mt-2">
+                        <div class="col-lg-2">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <span>
+                                        <div class="stripe_span">
+                                            <div class="div_stripe">
+                                                <div class="loading_stripe"></div>
+                                            </div>
+                                        </div>
+                                    </span><br>
+                                    <div class="stripe_icon_img">
+                                        <div class="div_stripe">
+                                            <div class="loading_stripe"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-10">
+                            <div class="row">
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+                                    <table style="width:100%">
+                                        <tbody>
+                                        <tr>
+                                            <td style="padding-bottom:20px;">
+                                                <h5>
+                                                    <div class="stripe_div_small70">
+                                                        <div class="div_stripe">
+                                                            <div class="loading_stripe"></div>
+                                                        </div>
+                                                    </div>
+                                                </h5>
+                                            </td>
+                                            <td style="padding-left:15px;">
+                                                <img src="/static/tt_website_rodextrip/img/icon/airlines-01.png" alt="Airline" style="width:20px; height:20px; margin-top:5px;">
+                                            </td>
+                                            <td style="height:30px;padding:0 15px;width:100%">
+                                                <div style="display:inline-block;position:relative;width:100%">
+                                                    <div style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
+                                                    <div class="origin-code-snippet" style="background-color:#d4d4d4;right:-6px"></div>
+                                                    <div style="height:30px;min-width:40px;position:relative;width:0%">
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <span>
+                                        <div class="stripe_span">
+                                            <div class="div_stripe">
+                                                <div class="loading_stripe"></div>
+                                            </div>
+                                        </div>
+                                    </span>
+                                    <span>
+                                        <div class="stripe_span">
+                                            <div class="div_stripe">
+                                                <div class="loading_stripe"></div>
+                                            </div>
+                                        </div>
+                                    </span><br>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 mb-2">
+                                    <table style="width:100%; margin-bottom:5px;">
+                                        <tbody>
+                                        <tr>
+                                            <td style="padding-bottom:15px;">
+                                                <h5>
+                                                    <div class="stripe_div_small70">
+                                                        <div class="div_stripe">
+                                                            <div class="loading_stripe"></div>
+                                                        </div>
+                                                    </div>
+                                                </h5>
+                                            </td>
+                                            <td></td>
+                                            <td style="height:30px;padding:0 15px;width:100%"></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <span>
+                                        <div class="stripe_span">
+                                            <div class="div_stripe">
+                                                <div class="loading_stripe"></div>
+                                            </div>
+                                        </div>
+                                    </span>
+                                    <span>
+                                        <div class="stripe_span">
+                                            <div class="div_stripe">
+                                                <div class="loading_stripe"></div>
+                                            </div>
+                                        </div>
+                                    </span><br>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <span>
+                                                <div class="stripe_span">
+                                                    <div class="div_stripe">
+                                                        <div class="loading_stripe"></div>
+                                                    </div>
+                                                </div>
+                                            </span>
+                                        </div>
+                                        <div class="col-xs-12">
+                                            <span>
+                                                <div class="stripe_span">
+                                                    <div class="div_stripe">
+                                                        <div class="loading_stripe"></div>
+                                                    </div>
+                                                </div>
+                                            </span>
+                                        </div>
+                                        <div class="col-xs-12">
+                                            <div class="row">
+                                                <div class="col-xs-12">
+                                                    <span>
+                                                        <div class="stripe_span">
+                                                            <div class="div_stripe">
+                                                                <div class="loading_stripe"></div>
+                                                            </div>
+                                                        </div>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12">
+                                            <span>
+                                                <div class="stripe_span">
+                                                    <div class="div_stripe">
+                                                        <div class="loading_stripe"></div>
+                                                    </div>
+                                                </div>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6" style="padding-bottom:10px; margin-top: 15px;">
+                    <span>
+                        <div class="stripe_span">
+                            <div class="div_stripe">
+                                <div class="loading_stripe"></div>
+                            </div>
+                        </div>
+                    </span>
+                    <span>
+                        <div class="stripe_span">
+                            <div class="div_stripe">
+                                <div class="loading_stripe"></div>
+                            </div>
+                        </div>
+                    </span>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <span style="float:right;">
+                                <div class="stripe_price">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                            </span>
+                        </div>
+                        <div class="col-lg-12">
+                            <span style="float:right;">
+                                <div class="stripe_button">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="search-box-result mb-3">
+            <div class="row" style="padding:10px;">
+                <div class="col-xs-10"></div>
+                <div class="col-xs-2" style="padding:0px 15px 15px 15px;">
+                    <label style="position:absolute; right:15px;">
+                        <div class="stripe_checkbox">
+                            <div class="div_stripe">
+                                <div class="loading_stripe"></div>
+                            </div>
+                        </div>
+                    </label>
+                </div>
+                <div class="col-lg-12">
+                    <div class="row mt-2">
+                        <div class="col-lg-2">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <span>
+                                        <div class="stripe_span">
+                                            <div class="div_stripe">
+                                                <div class="loading_stripe"></div>
+                                            </div>
+                                        </div>
+                                    </span><br>
+                                    <div class="stripe_icon_img">
+                                        <div class="div_stripe">
+                                            <div class="loading_stripe"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-10">
+                            <div class="row">
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+                                    <table style="width:100%">
+                                        <tbody>
+                                        <tr>
+                                            <td style="padding-bottom:20px;">
+                                                <h5>
+                                                    <div class="stripe_div_small70">
+                                                        <div class="div_stripe">
+                                                            <div class="loading_stripe"></div>
+                                                        </div>
+                                                    </div>
+                                                </h5>
+                                            </td>
+                                            <td style="padding-left:15px;">
+                                                <img src="/static/tt_website_rodextrip/img/icon/airlines-01.png" alt="Airline" style="width:20px; height:20px; margin-top:5px;">
+                                            </td>
+                                            <td style="height:30px;padding:0 15px;width:100%">
+                                                <div style="display:inline-block;position:relative;width:100%">
+                                                    <div style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
+                                                    <div class="origin-code-snippet" style="background-color:#d4d4d4;right:-6px"></div>
+                                                    <div style="height:30px;min-width:40px;position:relative;width:0%">
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <span>
+                                        <div class="stripe_span">
+                                            <div class="div_stripe">
+                                                <div class="loading_stripe"></div>
+                                            </div>
+                                        </div>
+                                    </span>
+                                    <span>
+                                        <div class="stripe_span">
+                                            <div class="div_stripe">
+                                                <div class="loading_stripe"></div>
+                                            </div>
+                                        </div>
+                                    </span><br>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 mb-2">
+                                    <table style="width:100%; margin-bottom:5px;">
+                                        <tbody>
+                                        <tr>
+                                            <td style="padding-bottom:15px;">
+                                                <h5>
+                                                    <div class="stripe_div_small70">
+                                                        <div class="div_stripe">
+                                                            <div class="loading_stripe"></div>
+                                                        </div>
+                                                    </div>
+                                                </h5>
+                                            </td>
+                                            <td></td>
+                                            <td style="height:30px;padding:0 15px;width:100%"></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <span>
+                                        <div class="stripe_span">
+                                            <div class="div_stripe">
+                                                <div class="loading_stripe"></div>
+                                            </div>
+                                        </div>
+                                    </span>
+                                    <span>
+                                        <div class="stripe_span">
+                                            <div class="div_stripe">
+                                                <div class="loading_stripe"></div>
+                                            </div>
+                                        </div>
+                                    </span><br>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <span>
+                                                <div class="stripe_span">
+                                                    <div class="div_stripe">
+                                                        <div class="loading_stripe"></div>
+                                                    </div>
+                                                </div>
+                                            </span>
+                                        </div>
+                                        <div class="col-xs-12">
+                                            <span>
+                                                <div class="stripe_span">
+                                                    <div class="div_stripe">
+                                                        <div class="loading_stripe"></div>
+                                                    </div>
+                                                </div>
+                                            </span>
+                                        </div>
+                                        <div class="col-xs-12">
+                                            <div class="row">
+                                                <div class="col-xs-12">
+                                                    <span>
+                                                        <div class="stripe_span">
+                                                            <div class="div_stripe">
+                                                                <div class="loading_stripe"></div>
+                                                            </div>
+                                                        </div>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12">
+                                            <span>
+                                                <div class="stripe_span">
+                                                    <div class="div_stripe">
+                                                        <div class="loading_stripe"></div>
+                                                    </div>
+                                                </div>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6" style="padding-bottom:10px; margin-top: 15px;">
+                    <span>
+                        <div class="stripe_span">
+                            <div class="div_stripe">
+                                <div class="loading_stripe"></div>
+                            </div>
+                        </div>
+                    </span>
+                    <span>
+                        <div class="stripe_span">
+                            <div class="div_stripe">
+                                <div class="loading_stripe"></div>
+                            </div>
+                        </div>
+                    </span>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <span style="float:right;">
+                                <div class="stripe_price">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                            </span>
+                        </div>
+                        <div class="col-lg-12">
+                            <span style="float:right;">
+                                <div class="stripe_button">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>`;
+
         $("#badge-flight-notif").removeClass("infinite");
         $("#badge-flight-notif2").removeClass("infinite");
         $("#myModalTicketFlight").modal('hide');

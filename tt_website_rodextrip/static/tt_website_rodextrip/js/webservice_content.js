@@ -2294,3 +2294,118 @@ function get_url_image_file(url, id, element){
         document.getElementById(id).style.backgroundImage = "linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)), url('"+url+"')";
     }
 }
+
+function get_agent_currency_rate(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/content",
+       headers:{
+            'action': 'get_agent_currency_rate',
+       },
+       data: {
+           'signature': signature
+       },
+       success: function(msg) {
+           if(msg.result.error_code == 0){
+                currency_rate_data = msg;
+                if(document.URL.split('/')[document.URL.split('/').length-1] == 'page_admin'){
+                    if(currency_rate_data.result.is_show){
+                        document.getElementById('is_show_estimate_price').checked = true;
+                        document.getElementById('other_currency').style.display = 'block';
+                    }else{
+                        document.getElementById('is_show_estimate_price').checked = false;
+                        document.getElementById('other_currency').style.display = 'none';
+                    }
+                    text = '';
+                    if(msg.result.response.currency_list.length > 0)
+                        text = `<table>
+                                    <tr>
+                                        <td style="width:10%">No</td>
+                                        <td style="width:30%">Currency</td>
+                                        <td style="width:30%">Is Show</td>
+                                    </tr>`;
+                    counter_table = 1;
+                    for(i in msg.result.response.currency_list){
+                        text += `
+                                    <tr>
+                                        <td>`+counter_table+`</td>
+                                        <td>`+msg.result.response.currency_list[i]+`</td>
+                                        <td>
+                                            <div class="input-container-search-ticket">
+                                                <label class="check_box_custom">
+                                                    <input type="checkbox" id="is_show_currency_`+counter_table+`" name="is_show_currency_`+counter_table+`" value="`+msg.result.response.currency_list[i]+`" `;
+                        if(msg.result.is_show_provider.includes(msg.result.response.currency_list[i]))
+                            text += `checked`;
+                        text +=`/>
+                                                    <span class="check_box_span_custom"></span>
+                                                </label>
+                                            </div>
+                                        </td>
+                                    </tr>`;
+                        counter_table++;
+                    }
+                    if(text)
+                        text += '</table>'
+                    document.getElementById('other_currency').innerHTML = text;
+                }
+           }else{
+               Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error get currency </span>' + msg.result.error_msg,
+                })
+           }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+
+       },timeout: 60000
+    });
+}
+
+function show_currency(){
+    if(document.getElementById('is_show_estimate_price').checked)
+        document.getElementById('other_currency').style.display = 'block';
+    else
+        document.getElementById('other_currency').style.display = 'none';
+}
+
+function update_estimate_price(){
+    request_data = [];
+    counter_table = 1;
+    for(i in currency_rate_data.result.response.currency_list){
+        if(document.getElementById('is_show_currency_'+counter_table).checked)
+            request_data.push(document.getElementById('is_show_currency_'+counter_table).value);
+        counter_table++;
+    }
+    $.ajax({
+       type: "POST",
+       url: "/webservice/content",
+       headers:{
+            'action': 'update_estimate_price',
+       },
+       data: {
+           'signature': signature,
+           'is_show_estimate_price': document.getElementById('is_show_estimate_price').checked,
+           'provider': JSON.stringify(request_data)
+       },
+       success: function(msg) {
+           if(msg.error_code == 0){
+                Swal.fire({
+                  type: 'success',
+                  title: 'Updated!',
+                  html: 'Currency',
+                })
+                get_agent_currency_rate();
+           }else{
+               Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error save currency </span>' + msg.result.error_msg,
+                })
+           }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+
+       },timeout: 60000
+    });
+}

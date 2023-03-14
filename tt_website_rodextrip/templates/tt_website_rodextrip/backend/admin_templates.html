@@ -814,6 +814,7 @@
                                                 <li class="edit_tab-link " data-tab="printout_color-tab_edit"><label>{% trans 'Printout Setting Color' %}</label></li>
                                                 <li class="edit_tab-link " data-tab="notification_train-tab_edit"><label>{% trans 'Notification Train' %}</label></li>
                                                 <li class="edit_tab-link " data-tab="notification_airline-tab_edit"><label>{% trans 'Notification Airline' %}</label></li>
+                                                <li class="edit_tab-link " data-tab="currency-tab_edit"><label>{% trans 'Estimate Currency' %}</label></li>
                                             </ul>
                                             <div class="banner-right">
                                                 <div id="about-tab_edit" class="edit_tab-content current" style="padding:15px;">
@@ -1378,6 +1379,31 @@
                                                         </div>
                                                         <div class="col-lg-12" style="text-align:center;">
                                                             <button type="button" class="primary-btn update_banner_btn" onclick="update_notification_airline();">{% trans 'Save Change' %}</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div id="currency-tab_edit" class="edit_tab-content" style="padding:15px;">
+                                                    <div class="row" style="text-align:left;">
+                                                        <div class="col-lg-12 mb-3" style="background:white; border:1px solid #cdcdcd; padding:15px;">
+                                                            <div class="row">
+                                                                <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                                                                    <h6 class="single_border_custom_left mb-3" style="padding-left:10px;">{% trans 'Currency' %}</h6>
+                                                                </div>
+                                                                <div class="col-lg-12" style="margin-bottom:15px;">
+                                                                    <div class="input-container-search-ticket">
+                                                                        <label class="check_box_custom">
+                                                                            <span>Show Estimate Price In Other Currency?</span>
+                                                                            <input type="checkbox" id="is_show_estimate_price" name="is_show_estimate_price" onchange="show_currency();" />
+                                                                            <span class="check_box_span_custom"></span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-12" id="other_currency" style="display:none;">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-12" style="text-align:center;">
+                                                            <button type="button" class="primary-btn update_banner_btn" onclick="update_estimate_price();">{% trans 'Save Change' %}</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -2427,6 +2453,7 @@
                                             <li class="edit_tab-link " data-tab="printout_color-tab_edit"><label>{% trans 'Printout Setting Color' %}</label></li>
                                             <li class="edit_tab-link " data-tab="notification_train-tab_edit"><label>{% trans 'Notification Train' %}</label></li>
                                             <li class="edit_tab-link " data-tab="notification_airline-tab_edit"><label>{% trans 'Notification Airline' %}</label></li>
+                                            <li class="edit_tab-link " data-tab="currency-tab_edit"><label>{% trans 'Estimate Currency' %}</label></li>
                                         </ul>
                                         <div class="banner-right">
                                             <div id="about-tab_edit" class="edit_tab-content current" style="padding:15px;">
@@ -2987,6 +3014,31 @@
                                                     </div>
                                                     <div class="col-lg-12" style="text-align:center;">
                                                         <button type="button" class="primary-btn update_banner_btn" onclick="update_notification_airline();">{% trans 'Save Change' %}</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="currency-tab_edit" class="edit_tab-content" style="padding:15px;">
+                                                <div class="row" style="text-align:left;">
+                                                    <div class="col-lg-12 mb-3" style="background:white; border:1px solid #cdcdcd; padding:15px;">
+                                                        <div class="row">
+                                                            <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                                                                <h6 class="single_border_custom_left mb-3" style="padding-left:10px;">{% trans 'Currency' %}</h6>
+                                                            </div>
+                                                            <div class="col-lg-12" style="margin-bottom:15px;">
+                                                                <div class="input-container-search-ticket">
+                                                                    <label class="check_box_custom">
+                                                                        <span>Show Estimate Price In Other Currency?</span>
+                                                                        <input type="checkbox" id="is_show_estimate_price" name="is_show_estimate_price" onchange="show_currency();" />
+                                                                        <span class="check_box_span_custom"></span>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-12" id="other_currency" style="display:none;">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12" style="text-align:center;">
+                                                        <button type="button" class="primary-btn update_banner_btn" onclick="update_estimate_price();">{% trans 'Save Change' %}</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -4042,6 +4094,7 @@
                                         <li class="edit_tab-link " data-tab="printout_color-tab_edit"><label>{% trans 'Printout Setting Color' %}</label></li>
                                         <li class="edit_tab-link " data-tab="notification_train-tab_edit"><label>{% trans 'Notification Train' %}</label></li>
                                         <li class="edit_tab-link " data-tab="notification_airline-tab_edit"><label>{% trans 'Notification Airline' %}</label></li>
+                                        <li class="edit_tab-link " data-tab="currency-tab_edit"><label>{% trans 'Estimate Currency' %}</label></li>
                                     </ul>
                                     <div class="banner-right">
                                         <div id="about-tab_edit" class="edit_tab-content current" style="padding:15px;">
@@ -4595,6 +4648,31 @@
                                                 </div>
                                                 <div class="col-lg-12" style="text-align:center;">
                                                     <button type="button" class="primary-btn update_banner_btn" onclick="update_notification_airline();">{% trans 'Save Change' %}</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="currency-tab_edit" class="edit_tab-content" style="padding:15px;">
+                                            <div class="row" style="text-align:left;">
+                                                <div class="col-lg-12 mb-3" style="background:white; border:1px solid #cdcdcd; padding:15px;">
+                                                    <div class="row">
+                                                        <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                                                            <h6 class="single_border_custom_left mb-3" style="padding-left:10px;">{% trans 'Currency' %}</h6>
+                                                        </div>
+                                                        <div class="col-lg-12" style="margin-bottom:15px;">
+                                                            <div class="input-container-search-ticket">
+                                                                <label class="check_box_custom">
+                                                                    <span>Show Estimate Price In Other Currency?</span>
+                                                                    <input type="checkbox" id="is_show_estimate_price" name="is_show_estimate_price" onchange="show_currency();" />
+                                                                    <span class="check_box_span_custom"></span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-12" id="other_currency" style="display:none;">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12" style="text-align:center;">
+                                                    <button type="button" class="primary-btn update_banner_btn" onclick="update_estimate_price();">{% trans 'Save Change' %}</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -5639,6 +5717,7 @@
                                     <li class="edit_tab-link " data-tab="printout_color-tab_edit"><label>{% trans 'Printout Setting Color' %}</label></li>
                                     <li class="edit_tab-link " data-tab="notification_train-tab_edit"><label>{% trans 'Notification Train' %}</label></li>
                                     <li class="edit_tab-link " data-tab="notification_airline-tab_edit"><label>{% trans 'Notification Airline' %}</label></li>
+                                    <li class="edit_tab-link " data-tab="currency-tab_edit"><label>{% trans 'Estimate Currency' %}</label></li>
                                 </ul>
                                 <div class="banner-right">
                                     <div id="about-tab_edit" class="edit_tab-content current" style="padding:15px;">
@@ -6198,6 +6277,31 @@
                                             </div>
                                             <div class="col-lg-12" style="text-align:center;">
                                                 <button type="button" class="primary-btn update_banner_btn" onclick="update_notification_airline();">{% trans 'Save Change' %}</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="currency-tab_edit" class="edit_tab-content" style="padding:15px;">
+                                        <div class="row" style="text-align:left;">
+                                            <div class="col-lg-12 mb-3" style="background:white; border:1px solid #cdcdcd; padding:15px;">
+                                                <div class="row">
+                                                    <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                                                        <h6 class="single_border_custom_left mb-3" style="padding-left:10px;">{% trans 'Currency' %}</h6>
+                                                    </div>
+                                                    <div class="col-lg-12" style="margin-bottom:15px;">
+                                                        <div class="input-container-search-ticket">
+                                                            <label class="check_box_custom">
+                                                                <span>Show Estimate Price In Other Currency?</span>
+                                                                <input type="checkbox" id="is_show_estimate_price" name="is_show_estimate_price" onchange="show_currency();" />
+                                                                <span class="check_box_span_custom"></span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12" id="other_currency" style="display:none;">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12" style="text-align:center;">
+                                                <button type="button" class="primary-btn update_banner_btn" onclick="update_estimate_price();">{% trans 'Save Change' %}</button>
                                             </div>
                                         </div>
                                     </div>
@@ -7250,6 +7354,7 @@
                                         <li class="edit_tab-link " data-tab="printout_color-tab_edit"><label>{% trans 'Printout Setting Color' %}</label></li>
                                         <li class="edit_tab-link " data-tab="notification_train-tab_edit"><label>{% trans 'Notification Train' %}</label></li>
                                         <li class="edit_tab-link " data-tab="notification_airline-tab_edit"><label>{% trans 'Notification Airline' %}</label></li>
+                                        <li class="edit_tab-link " data-tab="currency-tab_edit"><label>{% trans 'Estimate Currency' %}</label></li>
                                     </ul>
                                     <div class="banner-right">
                                         <div id="about-tab_edit" class="edit_tab-content current" style="padding:15px;">
@@ -7813,6 +7918,31 @@
                                                 </div>
                                                 <div class="col-lg-12" style="text-align:center;">
                                                     <button type="button" class="primary-btn update_banner_btn" onclick="update_notification_airline();">{% trans 'Save Change' %}</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="currency-tab_edit" class="edit_tab-content" style="padding:15px;">
+                                            <div class="row" style="text-align:left;">
+                                                <div class="col-lg-12 mb-3" style="background:white; border:1px solid #cdcdcd; padding:15px;">
+                                                    <div class="row">
+                                                        <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                                                            <h6 class="single_border_custom_left mb-3" style="padding-left:10px;">{% trans 'Currency' %}</h6>
+                                                        </div>
+                                                        <div class="col-lg-12" style="margin-bottom:15px;">
+                                                            <div class="input-container-search-ticket">
+                                                                <label class="check_box_custom">
+                                                                    <span>Show Estimate Price In Other Currency?</span>
+                                                                    <input type="checkbox" id="is_show_estimate_price" name="is_show_estimate_price" onchange="show_currency();" />
+                                                                    <span class="check_box_span_custom"></span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-12" id="other_currency" style="display:none;">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12" style="text-align:center;">
+                                                    <button type="button" class="primary-btn update_banner_btn" onclick="update_estimate_price();">{% trans 'Save Change' %}</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -9061,6 +9191,7 @@
                                     <li class="edit_tab-link " data-tab="printout_color-tab_edit"><label>{% trans 'Printout Setting Color' %}</label></li>
                                     <li class="edit_tab-link " data-tab="notification_train-tab_edit"><label>{% trans 'Notification Train' %}</label></li>
                                     <li class="edit_tab-link " data-tab="notification_airline-tab_edit"><label>{% trans 'Notification Airline' %}</label></li>
+                                    <li class="edit_tab-link " data-tab="currency-tab_edit"><label>{% trans 'Estimate Currency' %}</label></li>
                                 </ul>
                                 <div class="banner-right">
                                     <div id="about-tab_edit" class="edit_tab-content current" style="padding:15px;">
@@ -9627,6 +9758,31 @@
                                             </div>
                                             <div class="col-lg-12" style="text-align:center;">
                                                 <button type="button" class="primary-btn update_banner_btn" onclick="update_notification_airline();">{% trans 'Save Change' %}</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="currency-tab_edit" class="edit_tab-content" style="padding:15px;">
+                                        <div class="row" style="text-align:left;">
+                                            <div class="col-lg-12 mb-3" style="background:white; border:1px solid #cdcdcd; padding:15px;">
+                                                <div class="row">
+                                                    <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                                                        <h6 class="single_border_custom_left mb-3" style="padding-left:10px;">{% trans 'Currency' %}</h6>
+                                                    </div>
+                                                    <div class="col-lg-12" style="margin-bottom:15px;">
+                                                        <div class="input-container-search-ticket">
+                                                            <label class="check_box_custom">
+                                                                <span>Show Estimate Price In Other Currency?</span>
+                                                                <input type="checkbox" id="is_show_estimate_price" name="is_show_estimate_price" onchange="show_currency();" />
+                                                                <span class="check_box_span_custom"></span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12" id="other_currency" style="display:none;">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12" style="text-align:center;">
+                                                <button type="button" class="primary-btn update_banner_btn" onclick="update_estimate_price();">{% trans 'Save Change' %}</button>
                                             </div>
                                         </div>
                                     </div>
@@ -10240,6 +10396,8 @@
         get_airline_config('home');
         get_list_report_footer();
         get_va_bank();
+
+        get_agent_currency_rate();
 
         get_banner('big_banner','admin');
         get_banner('small_banner','admin');
