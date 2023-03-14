@@ -177,6 +177,11 @@ function train_switch(){
 //</label><br/>
 
 function train_filter_render(){
+    document.getElementById("sorting-train").innerHTML = '';
+    document.getElementById("sorting-train2").innerHTML = '';
+    document.getElementById("filter").innerHTML = '';
+    document.getElementById("filter2").innerHTML = '';
+
     text = '';
     text+= `<h4 style="display: inline;">Filter</h4><a style="float: right; cursor: pointer;" onclick="reset_filter();"><i style="color:`+color+`;" class="fa fa-refresh"></i> Reset</a>
             <hr/>
@@ -2042,6 +2047,7 @@ function sort(value){
     //set
     ticket_count = parseInt(data_filter.length);
     document.getElementById("train_result").innerHTML = '';
+
     text_co = `
     <div class="we_found_box" style="border:1px solid #cdcdcd; background-color:white; margin-top:-2px; margin-bottom:10px; padding:10px;">
         <span style="font-weight:bold; font-size:14px;"> We found `+ticket_count+` train</span>
@@ -2055,8 +2061,9 @@ function sort(value){
     node_co.innerHTML = text_co;
     document.getElementById("train_result").appendChild(node_co);
 
-    var response = '';
+    document.getElementById("train_ticket_loading").innerHTML = '';
 
+    var response = '';
     if(data_filter.length != 0){
         for(i in data_filter){
             if(train_request.departure[train_request_pick] == data_filter[i].departure_date[0] && journeys.length != train_request.departure.length && train_request.destination[train_request_pick].split(' - ')[0] == data_filter[i].destination && train_request.origin[train_request_pick].split(' - ')[0] == data_filter[i].origin){
@@ -2100,48 +2107,52 @@ function sort(value){
                            }
                         response+=`
                         </div>
-                        <div class="col-lg-12">
-                            <h4 class="copy_train_name">`+data_filter[i].carrier_name+` - (`+data_filter[i].carrier_number+`)  - `+data_filter[i].cabin_class[1]+` (`+data_filter[i].class_of_service+`)</h4>
+                        <div class="col-lg-3" style="margin-bottom:15px;">
+                            <h5 class="copy_train_name">`+data_filter[i].carrier_name+` (`+data_filter[i].carrier_number+`)</h5>
+                            <span class="copy_cabin_class" style="font-weight:500; font-size:14px;">`+data_filter[i].cabin_class[1]+` (`+data_filter[i].class_of_service+`)</span>
                         </div>
-                        <div class="col-lg-4 col-md-4 col-xs-6 mb-1">
-                            <table style="width:100%">
-                                <tr>
-                                    <td><h5 class="copy_time_depart">`+data_filter[i].departure_date[1]+`</h5></td>
-                                    <td style="padding-left:15px;">
-                                        <img src="/static/tt_website_rodextrip/img/icon/train-01.png" alt="Train" style="width:20px; height:20px;"/>
-                                    </td>
-                                    <td style="height:30px;padding:0 15px;width:100%">
-                                        <div style="display:inline-block;position:relative;width:100%">
-                                            <div style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
-                                            <div class="origin-code-snippet" style="background-color:#d4d4d4;right:-6px"></div>
-                                            <div style="height:30px;min-width:25px;position:relative;width:0%"/>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </table>
-                            <span class="copy_date_depart">`+data_filter[i].departure_date[0]+`</span><br/>
-                            <span class="copy_departure" style="font-weight:500;">`+data_filter[i].origin_name+` (`+data_filter[i].origin+`)</span>
+                        <div class="col-lg-6 col-md-8" style="margin-bottom:15px;">
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <table style="width:100%">
+                                        <tr>
+                                            <td><h5 class="copy_time_depart">`+data_filter[i].departure_date[1]+`</h5></td>
+                                            <td style="padding-left:15px;">
+                                                <img src="/static/tt_website_rodextrip/img/icon/train-01.png" alt="Train" style="width:20px; height:20px;"/>
+                                            </td>
+                                            <td style="height:30px;padding:0 15px;width:100%">
+                                                <div style="display:inline-block;position:relative;width:100%">
+                                                    <div style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
+                                                    <div class="origin-code-snippet" style="background-color:#d4d4d4;right:-6px"></div>
+                                                    <div style="height:30px;min-width:25px;position:relative;width:0%"/>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <span class="copy_date_depart">`+data_filter[i].departure_date[0]+`</span><br/>
+                                    <span class="copy_departure" style="font-weight:500;">`+data_filter[i].origin_name+` (`+data_filter[i].origin+`)</span>
+                                </div>
+                                <div class="col-xs-6 mb-1">
+                                    <table style="width:100%; margin-bottom:6px;">
+                                        <tr>
+                                            <td><h5 class="copy_time_arr">`+data_filter[i].arrival_date[1]+`</h5></td>
+                                            <td></td>
+                                            <td style="height:30px;padding:0 15px;width:100%"></td>
+                                        </tr>
+                                    </table>
+                                    <span class="copy_date_arr">`+data_filter[i].arrival_date[0]+`</span><br/>
+                                    <span class="copy_arrival" style="font-weight:500;">`+data_filter[i].destination_name+` (`+data_filter[i].destination+`)</span>
+                                </div>
+                            </div>
+                        </div>
 
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-xs-6 mb-1" style="padding:0;">
-                            <table style="width:100%; margin-bottom:6px;">
-                                <tr>
-                                    <td><h5 class="copy_time_arr">`+data_filter[i].arrival_date[1]+`</h5></td>
-                                    <td></td>
-                                    <td style="height:30px;padding:0 15px;width:100%"></td>
-                                </tr>
-                            </table>
-                            <span class="copy_date_arr">`+data_filter[i].arrival_date[0]+`</span><br/>
-                            <span class="copy_arrival" style="font-weight:500;">`+data_filter[i].destination_name+` (`+data_filter[i].destination+`)</span>
-                        </div>
-
-                        <div class="col-lg-4 col-md-4">
+                        <div class="col-lg-3 col-md-4">
                             <div class="row">
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     <i class="fas fa-clock"></i><span class="copy_duration" style="font-weight:500;"> `+data_filter[i].elapsed_time.split(':')[0]+`h `+data_filter[i].elapsed_time.split(':')[1]+`m</span><br><span class="copy_transit" style="font-weight:500;">Duration</span>
                                 </div>
                             </div>
-                            <div style="float:right; margin-top:20px; margin-bottom:10px; text-align:right;">`;
+                            <div style="float:right; margin-top:15px; margin-bottom:10px; text-align:right;">`;
                             check = 0;
                             for(j in journeys){
                                 if(journeys[j].sequence == data_filter[i].sequence){
@@ -2150,7 +2161,7 @@ function sort(value){
                                     }
                                     response+=`
                                     <span class="copy_price" style="font-size:16px; margin-right:10px; font-weight: bold; color:#505050;">IDR `+getrupiah(data_filter[i].price)+`</span>
-                                    <input class="primary-btn-custom-un" type="button" onclick="choose_train(`+i+`,`+data_filter[i].sequence+`);"  id="train_choose`+i+`" disabled value="Chosen">`;
+                                    <input class="primary-btn-custom-un" style="margin-top:10px;" type="button" onclick="choose_train(`+i+`,`+data_filter[i].sequence+`);"  id="train_choose`+i+`" disabled value="Chosen">`;
                                     check = 1;
                                 }
                             }
@@ -2160,19 +2171,19 @@ function sort(value){
                                 response += `<span class="copy_price" style="font-size:16px; font-weight: bold; color:`+color+`;">IDR `+getrupiah(data_filter[i].price)+`</span><br/>`;
                                 if(data_filter[i].available_count >= parseInt(passengers.adult) && data_filter[i].can_book_three_hours == true && data_filter[i].can_book_check_arrival_on_next_departure == true)
                                     response+=`
-                                    <input class="primary-btn-custom" type="button" onclick="choose_train(`+i+`,`+data_filter[i].sequence+`)"  id="train_choose`+i+`" value="Choose">`;
+                                    <input class="primary-btn-custom" style="margin-top:10px;" type="button" onclick="choose_train(`+i+`,`+data_filter[i].sequence+`)"  id="train_choose`+i+`" value="Choose">`;
                                 else if(data_filter[i].available_count > parseInt(passengers.adult) && data_filter[i].can_book_three_hours == false)
                                     response+=`
-                                    <input class="primary-btn-custom" style="background:#E5E5E5; color:`+color+`;border:1px solid black;" type="button" onclick="alert_message_swal('Sorry, you can choose 3 or more hours from now!');"  id="train_choose`+i+`" value="Choose">`;
+                                    <input class="primary-btn-custom" style="margin-top:10px; background:#E5E5E5; color:`+color+`;border:1px solid black;" type="button" onclick="alert_message_swal('Sorry, you can choose 3 or more hours from now!');"  id="train_choose`+i+`" value="Choose">`;
                                 else if(data_filter[i].available_count > parseInt(passengers.adult) && data_filter[i].can_book_check_arrival_on_next_departure == false)
                                     response+=`
-                                    <input class="primary-btn-custom" type="button" onclick="alert_message_swal('Sorry, arrival time you pick does not match with this journey!');"  id="train_choose`+i+`" value="Choose">`;
+                                    <input class="primary-btn-custom" style="margin-top:10px;" type="button" onclick="alert_message_swal('Sorry, arrival time you pick does not match with this journey!');"  id="train_choose`+i+`" value="Choose">`;
                                 else if(data_filter[i].available_count < parseInt(passengers.adult))
                                     response+=`
-                                    <input class="disabled-btn" type="button" id="train_choose`+i+`" value="Not Available" disabled>`
+                                    <input class="disabled-btn" style="margin-top:10px;" type="button" id="train_choose`+i+`" value="Not Available" disabled>`
                                 else if(data_filter[i].available_count <= 0)
                                     response+=`
-                                    <input class="disabled-btn" type="button" id="train_choose`+i+`" value="Sold" disabled>`
+                                    <input class="disabled-btn" style="margin-top:10px;" type="button" id="train_choose`+i+`" value="Sold" disabled>`
                             }
                         if(data_filter[i].available_count<50)
                             response+=`<br/><span class="copy_seat" style="font-size:13px; float:right; color:`+color+`">`+data_filter[i].available_count+` seat(s) left</span>`;
@@ -2575,6 +2586,7 @@ function get_checked_copy_result(){
     $(".copy_result:checked").each(function(obj) {
         var parent_train = $(this).parent().parent().parent().parent();
         var name_train = parent_train.find('.copy_train_name').html();
+        var cabin_train = parent_train.find('.copy_cabin_class').html();
         var time_depart = parent_train.find('.copy_time_depart').html();
         var date_depart = parent_train.find('.copy_date_depart').html();
         var departure_train = parent_train.find('.copy_departure').html();
@@ -2587,7 +2599,7 @@ function get_checked_copy_result(){
         var id_train = parent_train.find('.id_copy_result').html();
         train_number = train_number + 1;
         $text += 'Option-'+train_number+'\n';
-        $text += ''+name_train+ '\n';
+        $text += ''+name_train+'\n'+cabin_train+'\n';
         $text += departure_train+', '+date_depart+' '+time_depart;
         $text += ' → ';
         $text += arrival_train+', '+date_arr+' '+time_arr+'\n';
@@ -2607,6 +2619,7 @@ function get_checked_copy_result(){
             <div class="col-lg-9">
                 <h5 class="single_border_custom_left" style="padding-left:5px;">Option-`+train_number+`</h5>
                 <h5 style="margin-bottom:5px;">`+name_train+`</h5>
+                <span style="font-weight:500; font-size:14px;">`+cabin_train+`</span>
             </div>
             <div class="col-lg-3" style="text-align:right;">
                 <span style="font-weight:500; cursor:pointer;" onclick="delete_checked_copy_result(`+id_train+`);">Delete <i class="fas fa-times-circle" style="color:red; font-size:18px;"></i></span>
@@ -2766,6 +2779,57 @@ function change_date_next_prev(counter){
     else
         flight_date = moment(train_request.departure[counter-1]);
     var date_format = 'DD MMM YYYY';
+
+    document.getElementById('change_date_search').innerHTML = `
+    <div class="owl-carousel owl-theme">
+        <div class="item" id="prev_date_2">
+
+        </div>
+        <div class="item" id="prev_date_1">
+
+        </div>
+        <div class="item" id="now_date">
+
+        </div>
+        <div class="item" id="next_date_1">
+
+        </div>
+        <div class="item" id="next_date_2">
+
+        </div>
+    </div>`;
+
+    $('.owl-carousel').owlCarousel({
+        loop:false,
+        nav: true,
+        margin: 20,
+        responsiveClass:true,
+        dots: false,
+        smartSpeed:500,
+        autoplay: false,
+        autoplayTimeout:5000,
+        autoplayHoverPause:false,
+        navText: ['<i class="fa fa-caret-left owl-wh"/>', '<i class="fa fa-caret-right owl-wh"/>'],
+        responsive:{
+            0:{
+                items:5,
+                nav:true
+            },
+            480:{
+                items:5,
+                nav:true
+            },
+            768:{
+                items:5,
+                nav:true
+            },
+            961:{
+                items:5,
+                nav:true
+            }
+        }
+    });
+
     document.getElementById('now_date').innerHTML = `<div style="background:white; border:2px solid `+color+`; padding:15px; text-align: center;">`+flight_date.format(date_format)+`</div>`;
     document.getElementById('prev_date_1').innerHTML = `<div class="button_date_np date_item_p1" id="div_onclick_p1" style="background:white; padding:15px; text-align: center;" onclick="change_date_shortcut(1);">`+flight_date.subtract(+1, 'days').format(date_format)+`</div>`;
     document.getElementById('prev_date_2').innerHTML = `<div class="button_date_np date_item_p2" id="div_onclick_p2" style="background:white; padding:15px; text-align: center;" onclick="change_date_shortcut(2);">`+flight_date.subtract(+1, 'days').format(date_format)+`</div>`;
