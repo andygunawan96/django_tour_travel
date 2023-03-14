@@ -132,6 +132,10 @@ def api_models(request):
             res = cancel_reservation_issued_request(request)
         elif req_data['action'] == 'get_provider_type_sequence':
             res = get_provider_type_sequence(request)
+        elif req_data['action'] == 'get_agent_currency_rate':
+            res = get_agent_currency_rate(request)
+        elif req_data['action'] == 'update_estimate_price':
+            res = update_estimate_price(request)
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:
@@ -1328,3 +1332,54 @@ def get_provider_type_sequence(request):
         "error_msg": '',
         "response": provider_types_sequence
     }
+
+def get_agent_currency_rate(request):
+    try:
+        data = {}
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "get_agent_currency_rate",
+            "signature": request.POST['signature'],
+        }
+
+        url_request = url + 'content'
+    except Exception as e:
+        _logger.error("%s, %s" % (str(e), traceback.format_exc()))
+
+    file = read_cache("currency_rate", 'cache_web', 1800)
+    if file:
+        res = file
+    else:
+        res = send_request_api(request, url_request, headers, data, 'POST', 300)
+        try:
+            if res['result']['error_code'] == 0:
+                write_cache(res, 'currency_rate')
+                _logger.info("SUCCESS cancel_reservation_issued_request SIGNATURE " + request.POST['signature'])
+            else:
+                _logger.error(
+                    "ERROR cancel_reservation_issued_request SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(
+                        res))
+        except Exception as e:
+            _logger.error(str(e) + '\n' + traceback.format_exc())
+
+    file = read_cache("currency_rate_show", 'cache_web', 90911)
+    if file:
+        res['result'].update(file)
+    else:
+        res['result']['is_show'] = False
+        res['result']['is_show_provider'] = []
+    return res
+
+def update_estimate_price(request):
+    if request.POST['is_show_estimate_price'] == 'true':
+        is_show_estimate_price = True
+    else:
+        is_show_estimate_price = False
+    req = {
+        "is_show": is_show_estimate_price,
+        "is_show_provider": json.loads(request.POST['provider'])
+    }
+    write_cache(req, 'currency_rate_show')
+    return ERR.get_no_error_api()
+
