@@ -302,12 +302,16 @@ def search(request):
             hotel_request_data = request.session['hotel_request_data']
             hotel_request_data['hotel_id'] = request.POST.get('id') or ''
             set_session(request, 'hotel_request_data', hotel_request_data)
-            signature = request.session.get('hotel_signature', '')
+            try:
+                signature = request.session['hotel_error']['signature']
+            except Exception as e:
+                _logger.error(str(e) + traceback.format_exc())
             try:
                 del request.session['hotel_request_data']['pax_country']
             except Exception as e:
                 _logger.error(str(e) + traceback.format_exc())
-            if data == request.session['hotel_request_data'] and request.session['hotel_error']['error_code'] == 0 and sum([len(rec) for rec in request.session['hotel_response_search_%s' % signature]['result']['response'].values()]) != 0:
+            res = request.session['hotel_response_search_%s' % signature]
+            if data == request.session['hotel_request_data'] and request.session['hotel_error']['error_code'] == 0 and sum([len(rec) for rec in res['result']['response'].values()]) != 0:
                 data = {}
                 set_session(request, 'hotel_signature', request.session['hotel_error']['signature'])
             else:
@@ -354,7 +358,6 @@ def search(request):
         set_session(request, 'hotel_response_search_%s' % signature, res)
     else:
         signature = request.session['hotel_signature']
-        res = request.session['hotel_response_search_%s' % signature]
     try:
         counter = 0
         sequence = 0

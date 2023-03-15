@@ -206,6 +206,7 @@ function hotel_signin(data, need_signin=false){
                get_agent_currency_rate();
                if(data == '' && need_signin == false){
                     get_top_facility();
+                    hotel_search();
 
                }else if(data == '' && need_signin == true){
                     hotel_search_in_detail();
@@ -772,7 +773,6 @@ function get_top_facility(){
        success: function(msg) {
         if(msg.result.error_code == 0){
             top_facility = msg.result.response;
-            hotel_search();
             if (top_facility){
                 facility_filter_html = `<hr><h6 class="filter_general" onclick="show_hide_general('hotelFacilities');">Facilities <i class="fas fa-chevron-down" id="hotelFacilities_generalDown" style="float:right; display:none;"></i><i class="fas fa-chevron-up" id="hotelFacilities_generalUp" style="float:right; display:block;"></i></h6>
                 <div id="hotelFacilities_generalShow" style="display:inline-block;">`;
