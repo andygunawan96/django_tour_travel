@@ -85,7 +85,7 @@ ul {
 
 header {
     position: relative !important;
-    z-index: 999;
+    z-index: 1000;
     width: 100%;
     background: #000000 !important;
 }
