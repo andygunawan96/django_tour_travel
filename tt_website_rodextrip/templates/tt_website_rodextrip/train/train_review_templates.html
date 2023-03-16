@@ -390,13 +390,14 @@
 {% include 'tt_website_rodextrip/modal_signin_signup.html' %}
 {% endif %}
 <script>
-    get_train_data_review_page();
+    get_agent_currency_rate();
     function goto_seat_map(){
         document.getElementById('train_seat_map').innerHTML += `{% csrf_token %}`;
         document.getElementById('train_seat_map').submit();
     }
     //get_payment_acq('Issued','{{passenger.booker.booker_seq_id}}', '', 'billing',signature,'train_review');
     $( document ).ready(function() {
+        get_train_data_review_page();
         breadcrumb_create("train", 4, 0);
     });
     function train_seat_map(){

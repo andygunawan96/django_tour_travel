@@ -1825,6 +1825,12 @@ function check_passenger(adult, child, room){
 //           }
        if(i == 1)
             pax_required = true;
+       if(!pax_required){
+            if(document.getElementById('adult_first_name'+i).value || document.getElementById('adult_last_name'+i).value ||
+               document.getElementById('adult_title'+i).value){
+                pax_required = true;
+            }
+       }
        if(pax_required){
            if(pax_list.includes(document.getElementById('adult_first_name'+i).value+document.getElementById('adult_last_name'+i).value) == true && document.getElementById('adult_first_name'+i).value != '')
                 error_log+= 'please use different name for adult passenger '+i+'!</br>\n';

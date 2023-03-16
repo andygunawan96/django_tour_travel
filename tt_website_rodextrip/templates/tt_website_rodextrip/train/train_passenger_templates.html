@@ -5670,8 +5670,9 @@
 {% include 'tt_website_rodextrip/modal_signin_signup.html' %}
 {% endif %}
 <script>
-    get_train_data_passenger_page();
+    get_agent_currency_rate();
     $( document ).ready(function() {
+        get_train_data_passenger_page();
         $('.js-example-basic-single').niceSelect('destroy');
         $('.js-example-basic-single').select2();
         auto_complete('booker_nationality');

@@ -2899,6 +2899,7 @@ function change_fare(journey, segment, fares){
         document.getElementById('fare'+journey).innerHTML = 'IDR ' + getrupiah(price_discount.toString());
         if(price != price_discount)
             document.getElementById('fare_no_discount'+journey).innerHTML = 'IDR ' + getrupiah(price.toString());
+        document.getElementById('fare'+journey).innerHTML = 'IDR ' + getrupiah(price_discount.toString());
         if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && price){
 //            if(currency_rate_data.result.response.agent.hasOwnProperty(user_login.agent_name)){ // buat o3
             for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
@@ -2918,7 +2919,6 @@ function change_fare(journey, segment, fares){
             }
 //            }
         }
-        document.getElementById('fare'+journey).innerHTML = 'IDR ' + getrupiah(price_discount.toString());
     }
 //    airline_data[journey].total_price = price;
 

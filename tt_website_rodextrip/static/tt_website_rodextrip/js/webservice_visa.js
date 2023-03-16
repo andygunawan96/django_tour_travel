@@ -72,6 +72,7 @@ function visa_signin(data){
        success: function(msg) {
             if(msg.result.error_code == 0){
                 signature = msg.result.response.signature;
+                get_agent_currency_rate();
                 get_carriers_visa();
                 if(data == ''){
                     search_visa()

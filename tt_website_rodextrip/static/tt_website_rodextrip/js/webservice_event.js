@@ -757,6 +757,32 @@ function event_get_booking(data){
                         text_detail+= `</span>
                     </div>
                 </div>`;
+                if(['booked', 'partial_booked', 'partial_issued', 'halt_booked'].includes(msg.result.response.state)){
+                    if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && total_price){
+                //        if(currency_rate_data.result.response.agent.hasOwnProperty(user_login.agent_name)){ // buat o3
+                        for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
+                            for(k in currency_rate_data.result.response.agent[j]){
+                                if(currency_rate_data.result.is_show_provider.includes(k)){
+                                    try{
+                                        price_convert = (parseFloat(total_price)/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
+                                        if(price_convert%1 == 0)
+                                            price_convert = parseInt(price_convert);
+                                        text_detail+=`
+                                            <div class="row" style="margin-bottom:10px;">
+                                                <div class="col-lg-12" style="text-align:right;">
+                                                    <span style="font-size:13px; font-weight:bold;" id="total_price_`+k+`"> Estimated `+k+` `+price_convert+`</span><br/>
+                                                </div>
+                                            </div>`;
+                                    }catch(err){
+                                        console.log(err);
+                                    }
+                                }
+                            }
+                            break;
+                        }
+                //        }
+                    }
+                }
                 if(msg.result.response.state == 'booked' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
                     text_detail+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:auto; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
                 else if(msg.result.response.state == 'issued' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
@@ -956,6 +982,7 @@ function event_signin(data){
        success: function(msg) {
            if(msg.result.error_code == 0){
                signature = msg.result.response.signature;
+               get_agent_currency_rate();
                get_carriers_event();
                if(data != ''){
                     event_get_booking(data);
@@ -1233,6 +1260,28 @@ function event_options(id){
                                     text+= '<span class="option_price" style="font-weight: bold; font-size:15px; padding-bottom:10px; padding-top:5px;"> '+ msg.result.response[i].currency + ' ' + parseInt(msg.result.response[i].price) +'</span><br/>';
                                 else
                                     text+= '<span class="option_price" style="font-weight: bold; font-size:15px; padding-bottom:10px; padding-top:5px;"> '+ msg.result.response[i].currency + ' ' + getrupiah(parseInt(msg.result.response[i].price))+'</span><br/>';
+
+                                if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && msg.result.response[i].price){
+                            //        if(currency_rate_data.result.response.agent.hasOwnProperty(user_login.agent_name)){ // buat o3
+                                    for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
+                                        for(k in currency_rate_data.result.response.agent[j]){
+                                            if(currency_rate_data.result.is_show_provider.includes(k)){
+                                                try{
+                                                    price_convert = (msg.result.response[i].price/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
+                                                    if(price_convert%1 == 0)
+                                                        price_convert = parseInt(price_convert);
+                                                    text+=`
+                                                        <span class="option_price" style="font-weight: bold; font-size:15px; padding-bottom:10px; padding-top:5px;"> Estimated `+k+` `+price_convert+`</span><br/>`;
+                                                }catch(err){
+                                                    console.log(err);
+                                                }
+                                            }
+                                        }
+                                        break;
+                                    }
+                            //        }
+                                }
+
                                 text+=`</div>
                                 <div class="col-lg-12 col-md-6 col-sm-6">`;
                                 text+=`
@@ -1549,7 +1598,28 @@ function event_options(id){
                 }
                 price_start.sort(function(a, b){return a - b});
                 document.getElementById("price_start_event").textContent = msg.result.response[0].currency+" "+getrupiah(parseInt(price_start[0]));
-
+                if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && price_start[0]){
+                    text_currency = '';
+            //        if(currency_rate_data.result.response.agent.hasOwnProperty(user_login.agent_name)){ // buat o3
+                    for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
+                        for(k in currency_rate_data.result.response.agent[j]){
+                            if(currency_rate_data.result.is_show_provider.includes(k)){
+                                try{
+                                    price_convert = (price_start[0]/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
+                                    if(price_convert%1 == 0)
+                                        price_convert = parseInt(price_convert);
+                                    text_currency+=`<span style="font-weight:500; font-size:14px;"> Estimated `+k+` `+price_convert+`</span><br/>`;
+                                }catch(err){
+                                    console.log(err);
+                                }
+                            }
+                        }
+                        break;
+                    }
+                    if(text_currency)
+                        document.getElementById('price_start_event_other').innerHTML = text_currency;
+            //        }
+                }
                 hotel_price = msg.result.prices;
 
 
@@ -2170,28 +2240,25 @@ function update_service_charge(type){
         }
         repricing_order_number = event_get_detail.result.response.order_number;
     }else{
-        upsell_price_dict = {};
+        upsell_price = 0;
         upsell = []
         counter_pax = 0;
-        val = adult;
         currency = json_event_option_code[0]['currency'];
-        for(i in val){
-            if(val[i].pax_type in upsell_price_dict == false)
-                upsell_price_dict[val[i].pax_type] = 0;
+        for(i in adult){
             list_price = []
-            if(document.getElementById(val[i].first_name+val[i].last_name+'_repricing').innerHTML != '-' && document.getElementById(val[i].first_name+val[i].last_name+'_repricing').innerHTML != '0'){
+            if(document.getElementById('Reservation_repricing').innerHTML != '-' && document.getElementById('Reservation_repricing').innerHTML != '0'){
                 list_price.push({
-                    'amount': parseInt(document.getElementById(val[i].first_name+val[i].last_name+'_repricing').innerHTML.split(',').join('')),
+                    'amount': parseInt(document.getElementById('Reservation_repricing').innerHTML.split(',').join('')),
                     'currency_code': currency
                 });
-                upsell_price_dict[val[i].pax_type] += parseInt(document.getElementById(val[i].first_name+val[i].last_name+'_repricing').innerHTML.split(',').join(''));
+                upsell_price += parseInt(document.getElementById('Reservation_repricing').innerHTML.split(',').join(''));
                 upsell.push({
                     'sequence': counter_pax,
-                    'pricing': JSON.parse(JSON.stringify(list_price)),
-                    'pax_type': 'ADT'
+                    'pricing': JSON.parse(JSON.stringify(list_price))
                 });
             }
             counter_pax++;
+            break; //upsell per reservasi
         }
         val = json_event_option_code;
     }

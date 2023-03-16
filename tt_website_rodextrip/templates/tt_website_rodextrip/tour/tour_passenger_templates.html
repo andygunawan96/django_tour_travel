@@ -11,6 +11,7 @@
 <script src="{{ static_path }}js/moment.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_account.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_content.js?version={{javascript_version}}"></script>
 <script>
     global_provider_type = 'tour';
     static_path_url_server = '{{static_path_url_server}}'
@@ -7280,6 +7281,7 @@
 {% endif %}
 
 <script>
+    get_agent_currency_rate();
     $( document ).ready(function() {
         get_price_itinerary_cache('passenger');
         breadcrumb_create("tour", 4, 0);
