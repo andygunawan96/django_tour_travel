@@ -213,6 +213,30 @@ function update_table_new(type){
                         <h6>`+currency+` `+getrupiah(price)+`</h6>
                     </div>
                 </div>`;
+            if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && price){
+        //        if(currency_rate_data.result.response.agent.hasOwnProperty(user_login.agent_name)){ // buat o3
+                for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
+                    for(k in currency_rate_data.result.response.agent[j]){
+                        if(currency_rate_data.result.is_show_provider.includes(k)){
+                            try{
+                                price_convert = (price/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
+                                if(price_convert%1 == 0)
+                                    price_convert = parseInt(price_convert);
+                                text+=`
+                                    <div class="row" style="margin-bottom:15px;">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:right;">
+                                            <h6> Estimated `+k+` `+price_convert+`</h6>
+                                        </div>
+                                    </div>`;
+                            }catch(err){
+                                console.log(err);
+                            }
+                        }
+                    }
+                    break;
+                }
+        //        }
+            }
             $text += '\n';
             $text += 'Grand Total: '+currency + ' '+getrupiah(price);
             try{
@@ -367,6 +391,30 @@ function update_table_new(type){
                     <h6>`+currency+` `+getrupiah(price)+`</h6>
                 </div>
             </div>`;
+        if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && price){
+    //        if(currency_rate_data.result.response.agent.hasOwnProperty(user_login.agent_name)){ // buat o3
+            for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
+                for(k in currency_rate_data.result.response.agent[j]){
+                    if(currency_rate_data.result.is_show_provider.includes(k)){
+                        try{
+                            price_convert = (price/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
+                            if(price_convert%1 == 0)
+                                price_convert = parseInt(price_convert);
+                            text+=`
+                                <div class="row" style="margin-bottom:15px;">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:right;">
+                                        <h6> Estimated `+k+` `+price_convert+`</h6>
+                                    </div>
+                                </div>`;
+                        }catch(err){
+                            console.log(err);
+                        }
+                    }
+                }
+                break;
+            }
+    //        }
+        }
         $text += '\n';
         $text += 'Grand Total: '+currency + ' '+getrupiah(price);
         try{
@@ -624,7 +672,30 @@ function update_table_new(type){
                 <h6>`+currency+` `+getrupiah(grand_total_price)+`</h6>
             </div>
         </div>`;
-
+        if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && grand_total_price){
+    //        if(currency_rate_data.result.response.agent.hasOwnProperty(user_login.agent_name)){ // buat o3
+            for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
+                for(k in currency_rate_data.result.response.agent[j]){
+                    if(currency_rate_data.result.is_show_provider.includes(k)){
+                        try{
+                            price_convert = (grand_total_price/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
+                            if(price_convert%1 == 0)
+                                price_convert = parseInt(price_convert);
+                            text+=`
+                                <div class="row" style="margin-bottom:15px;">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:right;">
+                                        <h6> Estimated `+k+` `+price_convert+`</h6>
+                                    </div>
+                                </div>`;
+                        }catch(err){
+                            console.log(err);
+                        }
+                    }
+                }
+                break;
+            }
+    //        }
+        }
         if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
             text+=`<div style="text-align:right;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:auto; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
 
@@ -861,6 +932,33 @@ function update_table_new(type){
                 </div>
             </div>`;
 
+            if(['booked', 'partial_booked', 'partial_issued', 'halt_booked', 'issued'].includes(visa.state)){
+                if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && total_price){
+            //        if(currency_rate_data.result.response.agent.hasOwnProperty(user_login.agent_name)){ // buat o3
+                    for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
+                        for(k in currency_rate_data.result.response.agent[j]){
+                            if(currency_rate_data.result.is_show_provider.includes(k)){
+                                try{
+                                    price_convert = (total_price/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
+                                    if(price_convert%1 == 0)
+                                        price_convert = parseInt(price_convert);
+                                    text_detail+=`
+                                        <div class="row" style="margin-bottom:10px;">
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:right;">
+                                                <h6> Estimated `+k+` `+price_convert+`</h6>
+                                            </div>
+                                        </div>`;
+                                }catch(err){
+                                    console.log(err);
+                                }
+                            }
+                        }
+                        break;
+                    }
+            //        }
+                }
+            }
+
             if(visa.state == 'booked' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
                 text_detail+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:auto; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
             }
@@ -1088,6 +1186,30 @@ function update_table(type){
                         <h6>`+currency+` `+getrupiah(price)+`</h6>
                     </div>
                 </div>`;
+            if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && price){
+        //        if(currency_rate_data.result.response.agent.hasOwnProperty(user_login.agent_name)){ // buat o3
+                for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
+                    for(k in currency_rate_data.result.response.agent[j]){
+                        if(currency_rate_data.result.is_show_provider.includes(k)){
+                            try{
+                                price_convert = (price/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
+                                if(price_convert%1 == 0)
+                                    price_convert = parseInt(price_convert);
+                                text+=`
+                                    <div class="row" style="margin-bottom:15px;">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:right;">
+                                            <h6> Estimated `+k+` `+price_convert+`</h6>
+                                        </div>
+                                    </div>`;
+                            }catch(err){
+                                console.log(err);
+                            }
+                        }
+                    }
+                    break;
+                }
+        //        }
+            }
             $text += '\n';
             $text += 'Grand Total: '+currency + ' '+getrupiah(price);
             try{
@@ -1234,6 +1356,30 @@ function update_table(type){
                     <h6>`+currency+` `+getrupiah(price)+`</h6>
                 </div>
             </div>`;
+        if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && price){
+    //        if(currency_rate_data.result.response.agent.hasOwnProperty(user_login.agent_name)){ // buat o3
+            for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
+                for(k in currency_rate_data.result.response.agent[j]){
+                    if(currency_rate_data.result.is_show_provider.includes(k)){
+                        try{
+                            price_convert = (price/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
+                            if(price_convert%1 == 0)
+                                price_convert = parseInt(price_convert);
+                            text+=`
+                                <div class="row" style="margin-bottom:15px;">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:right;">
+                                        <h6> Estimated `+k+` `+price_convert+`</h6>
+                                    </div>
+                                </div>`;
+                        }catch(err){
+                            console.log(err);
+                        }
+                    }
+                }
+                break;
+            }
+    //        }
+        }
         $text += '\n';
         $text += 'Grand Total: '+currency + ' '+getrupiah(price);
         try{
@@ -1485,6 +1631,30 @@ function update_table(type){
                     <h6>`+currency+` `+getrupiah(grand_total_price)+`</h6>
                 </div>
             </div>`;
+        if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && grand_total_price){
+    //        if(currency_rate_data.result.response.agent.hasOwnProperty(user_login.agent_name)){ // buat o3
+            for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
+                for(k in currency_rate_data.result.response.agent[j]){
+                    if(currency_rate_data.result.is_show_provider.includes(k)){
+                        try{
+                            price_convert = (grand_total_price/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
+                            if(price_convert%1 == 0)
+                                price_convert = parseInt(price_convert);
+                            text+=`
+                                <div class="row" style="margin-bottom:15px;">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:right;">
+                                        <h6> Estimated `+k+` `+price_convert+`</h6>
+                                    </div>
+                                </div>`;
+                        }catch(err){
+                            console.log(err);
+                        }
+                    }
+                }
+                break;
+            }
+    //        }
+        }
         $text += '\n';
         $text += 'Grand Total: '+currency + ' '+getrupiah(grand_total_price);
         try{
@@ -1712,6 +1882,31 @@ function update_table(type){
                     text_detail+= `</span>
                 </div>
             </div>`;
+
+            if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && total_price){
+        //        if(currency_rate_data.result.response.agent.hasOwnProperty(user_login.agent_name)){ // buat o3
+                for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
+                    for(k in currency_rate_data.result.response.agent[j]){
+                        if(currency_rate_data.result.is_show_provider.includes(k)){
+                            try{
+                                price_convert = (total_price/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
+                                if(price_convert%1 == 0)
+                                    price_convert = parseInt(price_convert);
+                                text_detail+=`
+                                    <div class="row" style="margin-bottom:10px;">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:right;">
+                                            <h6> Estimated `+k+` `+price_convert+`</h6>
+                                        </div>
+                                    </div>`;
+                            }catch(err){
+                                console.log(err);
+                            }
+                        }
+                    }
+                    break;
+                }
+        //        }
+            }
 
             if(visa.state == 'booked' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
                 text_detail+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:auto; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
@@ -2417,6 +2612,7 @@ function check_on_off_radio(pax_type,number,value){
         pax_process = document.getElementsByName('adult_process_type'+number);
         pax_price = document.getElementById('adult_price'+number);
         name = document.getElementById('adult_name'+number).innerHTML;
+        other_currency_rate = document.getElementById('adult_other_price'+number);
     }else if(pax_type == 'chd'){
         pax_required = document.getElementById('child_required'+number);
         pax_required_up = document.getElementById('child_required_up'+number);
@@ -2427,6 +2623,7 @@ function check_on_off_radio(pax_type,number,value){
         pax_process = document.getElementsByName('child_process_type'+number);
         pax_price = document.getElementById('child_price'+number);
         name = document.getElementById('child_name'+number).innerHTML;
+        other_currency_rate = document.getElementById('child_other_price'+number);
     }else if(pax_type == 'inf'){
         pax_required = document.getElementById('infant_required'+number);
         pax_required_up = document.getElementById('infant_required_up'+number);
@@ -2437,6 +2634,7 @@ function check_on_off_radio(pax_type,number,value){
         pax_process = document.getElementsByName('infant_process_type'+number);
         pax_price = document.getElementById('infant_price'+number);
         name = document.getElementById('infant_name'+number).innerHTML;
+        other_currency_rate = document.getElementById('infant_other_price'+number);
     }
     if(value == 'visa'){
         if(pax_check.value != 'false'){
@@ -2578,6 +2776,31 @@ function check_on_off_radio(pax_type,number,value){
                         currency = sell_visa['search_data'][i].service_charges[j].currency;
                 }
                 pax_price.innerHTML = currency + ' ' + getrupiah(price_perpax.toString());
+                if(other_currency_rate){
+                    text_currency = ''
+                    if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && price_perpax){
+                //        if(currency_rate_data.result.response.agent.hasOwnProperty(user_login.agent_name)){ // buat o3
+                        for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
+                            for(k in currency_rate_data.result.response.agent[j]){
+                                if(currency_rate_data.result.is_show_provider.includes(k)){
+                                    try{
+                                        price_convert = (price_perpax/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
+                                        if(price_convert%1 == 0)
+                                            price_convert = parseInt(price_convert);
+                                        text_currency+=`
+                                            <h6> Estimated `+k+` `+price_convert+`</h6>`;
+                                    }catch(err){
+                                        console.log(err);
+                                    }
+                                }
+                            }
+                            break;
+                        }
+                //        }
+                    }
+                    if(text_currency)
+                        other_currency_rate.innerHTML = text_currency;
+                }
                 text_requirements = '';
                 text_requirements+=`<div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6"><h6>Document</h6><br/></div>
@@ -2684,6 +2907,7 @@ function set_value_radio_first(pax_type,number){
             sell_visa['search_data'][parseInt(document.getElementById('adult_check'+number).value)].total_pax++;
             document.getElementById('adult_check'+number).value = 'false';
             document.getElementById('adult_required'+number).innerHTML = '';
+            document.getElementById('adult_other_price'+number).innerHTML = '';
         }
         try{
             list_of_name = document.getElementById('adult_name'+number).innerHTML;
@@ -2721,6 +2945,7 @@ function set_value_radio_first(pax_type,number){
             sell_visa['search_data'][parseInt(document.getElementById('child_check'+number).value)].total_pax++;
             document.getElementById('child_check'+number).value = 'false';
             document.getElementById('child_required'+number).innerHTML = '';
+            document.getElementById('child_other_price'+number).innerHTML = '';
         }
         try{
             list_of_name = document.getElementById('child_name'+number).innerHTML;
@@ -2758,6 +2983,7 @@ function set_value_radio_first(pax_type,number){
             sell_visa['search_data'][parseInt(document.getElementById('infant_check'+number).value)].total_pax++;
             document.getElementById('infant_check'+number).value = 'false';
             document.getElementById('infant_required'+number).innerHTML = '';
+            document.getElementById('infant_other_price'+number).innerHTML = '';
         }
         try{
             list_of_name = document.getElementById('infant_name'+number).innerHTML;

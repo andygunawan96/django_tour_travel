@@ -46,6 +46,7 @@ function insurance_signin(data){
            if(msg.result.error_code == 0){
                insurance_signature = msg.result.response.signature;
                signature = msg.result.response.signature;
+               get_agent_currency_rate();
                if(data == ''){
                     get_insurance_data_search_page();
                     insurance_get_availability();
@@ -630,7 +631,34 @@ function sort(data){
                                                 <span> / Package</span>`;
                                         text+=`
                                             </span>
-                                            <br/>
+                                            <br/>`;
+                                        if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && insurance_data_filter[i][j].total_price){
+//                                            if(currency_rate_data.result.response.agent.hasOwnProperty(user_login.agent_name)){ // buat o3
+                                            for(k in currency_rate_data.result.response.agent){ // asumsi hanya HO
+                                                for(l in currency_rate_data.result.response.agent[k]){
+                                                    if(currency_rate_data.result.is_show_provider.includes(l)){
+                                                        try{
+                                                            price_convert = (insurance_data_filter[i][j].total_price/currency_rate_data.result.response.agent[k][l].rate).toFixed(2);
+                                                            if(price_convert%1 == 0)
+                                                                price_convert = parseInt(price_convert);
+                                                            text+=`<span style="float:right; margin-right:5px; margin-bottom:5px;"><span style="font-size:16px;font-weight:bold; color:`+color+`;" id="total_price_`+l+`"> Estimated `+l+` `+price_convert+`</span>`;
+                                                            if(insurance_data_filter[i][j].type_trip_name != 'Family')
+                                                                text+=`
+                                                                    <span> / Pax</span>`;
+                                                            else
+                                                                text+=`
+                                                                    <span> / Package</span>`;
+                                                            text+=`<br/>`;
+                                                        }catch(err){
+                                                            console.log(err);
+                                                        }
+                                                    }
+                                                }
+                                                break;
+                                            }
+//                                            }
+                                        }
+                                        text+=`
                                             <button style="line-height:32px; width:100%;" type="button" class="primary-btn" onclick="modal_policy('`+i+`','`+sequence+`')">BUY</button>
                                         </div>
                                         <div class="col-lg-12 mt-3">`;
@@ -1656,6 +1684,30 @@ function price_detail(){
                 <span style="font-size:13px; font-weight:500;">`+price.currency+` `+getrupiah(grandtotal+additional_price)+`</span><br/>
             </div>
         </div>`;
+    if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && grandtotal+additional_price){
+//        if(currency_rate_data.result.response.agent.hasOwnProperty(user_login.agent_name)){ // buat o3
+        for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
+            for(k in currency_rate_data.result.response.agent[j]){
+                if(currency_rate_data.result.is_show_provider.includes(k)){
+                    try{
+                        price_convert = (parseFloat(grandtotal+additional_price)/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
+                        if(price_convert%1 == 0)
+                            price_convert = parseInt(price_convert);
+                        text+=`
+                            <div class="row" style="padding:5px;">
+                                <div class="col-lg-12" style="text-align:right;">
+                                    <span style="font-size:13px; font-weight:500;" id="total_price_`+k+`"> Estimated `+k+` `+price_convert+`</span><br/>
+                                </div>
+                            </div>`;
+                    }catch(err){
+                        console.log(err);
+                    }
+                }
+            }
+            break;
+        }
+//        }
+    }
 
     if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
         text+=print_commission(price['rac']*-1,'show_commission')
@@ -3044,7 +3096,32 @@ function insurance_get_booking(data, sync=false){
 
                             }
                             text_detail+= `</span>
-                        </div>
+                        </div>`;
+                        if(['booked', 'partial_booked', 'partial_issued', 'halt_booked'].includes(msg.result.response.state)){
+                            if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && total_price){
+                        //        if(currency_rate_data.result.response.agent.hasOwnProperty(user_login.agent_name)){ // buat o3
+                                for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
+                                    for(k in currency_rate_data.result.response.agent[j]){
+                                        if(currency_rate_data.result.is_show_provider.includes(k)){
+                                            try{
+                                                price_convert = (parseFloat(total_price)/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
+                                                if(price_convert%1 == 0)
+                                                    price_convert = parseInt(price_convert);
+                                                text_detail+=`
+                                                    <div class="col-lg-12" style="text-align:right;">
+                                                        <span style="font-size:13px; font-weight:bold;" id="total_price_`+k+`"> Estimated `+k+` `+price_convert+`</span><br/>
+                                                    </div>`;
+                                            }catch(err){
+                                                console.log(err);
+                                            }
+                                        }
+                                    }
+                                    break;
+                                }
+                        //        }
+                            }
+                        }
+                        text_detail+=`
                     </div>`;
                     if(msg.result.response.state == 'booked' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
                         text_detail+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:auto; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;

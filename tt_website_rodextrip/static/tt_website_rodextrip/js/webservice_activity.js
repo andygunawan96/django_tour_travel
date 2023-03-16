@@ -281,6 +281,7 @@ function activity_login(data, type=''){
 
            if(msg.result.error_code == 0){
                signature = msg.result.response.signature;
+               get_agent_currency_rate();
                get_carriers_activity();
                if(type == '' || data == ''){
                    activity_search();
@@ -698,7 +699,27 @@ function activity_search(){
                                                     text+=`
                                                     </div>
                                                     <div class="col-lg-12">
-                                                        <span style="float:left; font-size:16px;font-weight:bold;">IDR `+getrupiah(activity_data[i].activity_price)+`  </span>
+                                                        <span style="float:left; font-size:16px;font-weight:bold;">IDR `+getrupiah(activity_data[i].activity_price)+`  </span>`;
+                                                    if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && activity_data[i].activity_price){
+                            //                            if(currency_rate_data.result.response.agent.hasOwnProperty(user_login.agent_name)){ // buat o3
+                                                        for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
+                                                            for(k in currency_rate_data.result.response.agent[j]){
+                                                                if(currency_rate_data.result.is_show_provider.includes(k)){
+                                                                    try{
+                                                                        price_convert = (Math.ceil(activity_data[i].activity_price)/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
+                                                                        if(price_convert%1 == 0)
+                                                                            price_convert = parseInt(price_convert);
+                                                                        text+=`<br/><span style="float:left; font-size:16px;font-weight:bold;">Estimated `+k+` `+getrupiah(price_convert)+`</span>`;
+                                                                    }catch(err){
+                                                                        console.log(err);
+                                                                    }
+                                                                }
+                                                            }
+                                                            break;
+                                                        }
+                            //                            }
+                                                    }
+                                                    text+=`
                                                         <button style="float:right; line-height:32px;" type="button" class="primary-btn" onclick="go_to_detail('`+activity_data[i].sequence+`')">BUY</button>
                                                     </div>
                                                 </div>
@@ -749,7 +770,27 @@ function activity_search(){
                                                     text+=`
                                                     </div>
                                                     <div class="col-lg-12">
-                                                        <span style="float:left; font-size:16px;font-weight:bold;">IDR `+getrupiah(activity_data[i].activity_price)+`  </span>
+                                                        <span style="float:left; font-size:16px;font-weight:bold;">IDR `+getrupiah(activity_data[i].activity_price)+`  </span>`;
+                                                    if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && activity_data[i].activity_price){
+                            //                            if(currency_rate_data.result.response.agent.hasOwnProperty(user_login.agent_name)){ // buat o3
+                                                        for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
+                                                            for(k in currency_rate_data.result.response.agent[j]){
+                                                                if(currency_rate_data.result.is_show_provider.includes(k)){
+                                                                    try{
+                                                                        price_convert = (Math.ceil(activity_data[i].activity_price)/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
+                                                                        if(price_convert%1 == 0)
+                                                                            price_convert = parseInt(price_convert);
+                                                                        text+=`<br/><span style="float:left; font-size:16px;font-weight:bold;">Estimated `+k+` `+getrupiah(price_convert)+`</span>`;
+                                                                    }catch(err){
+                                                                        console.log(err);
+                                                                    }
+                                                                }
+                                                            }
+                                                            break;
+                                                        }
+                            //                            }
+                                                    }
+                                                    text+=`
                                                         <button style="float:right; line-height:32px;" type="button" class="primary-btn" onclick="go_to_detail('`+activity_data[i].sequence+`')">BUY</button>
                                                     </div>
                                                 </div>
@@ -3840,6 +3881,32 @@ function activity_get_booking(data){
                            <span style="font-weight:bold">IDR `+getrupiah(Math.ceil(total_price))+`</span>
                       </div>
                  </div>`;
+                 if(['booked', 'partial_booked', 'partial_issued', 'halt_booked'].includes(msg.result.response.state)){
+                     if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && total_price){
+    //                    if(currency_rate_data.result.response.agent.hasOwnProperty(user_login.agent_name)){ // buat o3
+                        for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
+                            for(k in currency_rate_data.result.response.agent[j]){
+                                if(currency_rate_data.result.is_show_provider.includes(k)){
+                                    try{
+                                        price_convert = (total_price/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
+                                        if(price_convert%1 == 0)
+                                            price_convert = parseInt(price_convert);
+                                        price_text+=`
+                                            <div class="row">
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:right;">
+                                                    <span style="font-weight:bold;">Estimated `+k+` `+getrupiah(price_convert)+`</span>
+                                                </div>
+                                            </div>`;
+                                    }catch(err){
+                                        console.log(err);
+                                    }
+                                }
+                            }
+                            break;
+                        }
+    //                    }
+                     }
+                 }
                  if(msg.result.response.state == 'booked' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
                     price_text+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:auto; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
                  else if(msg.result.response.state == 'issued' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){

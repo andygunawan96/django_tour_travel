@@ -9,6 +9,7 @@
 <script src="{{ static_path }}js/webservice_token.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/event_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_event.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_content.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/moment.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
@@ -577,6 +578,7 @@
                                         <div class="col-lg-6" style="text-align:right;">
                                             <h6>Price Start From</h6>
                                             <span style="font-weight:500; font-size:14px;" id="price_start_event"></span><br/>
+                                            <div id="price_start_event_other"></div>
                                             <button class="primary-btn" type="button" id="select-room-event2">Buy Ticket</button>
                                         </div>
                                     </div>
@@ -760,7 +762,7 @@
 
 
 <script>
-    get_event_config('detail');
+    get_agent_currency_rate();
     var event_autocomplete = new autoComplete({
         selector: '#event_name_id',
         minChars: 0,
@@ -839,6 +841,7 @@
     event_options('{{event_code.id}}');
     var myIndex = 0;
     $(document).ready(function () {
+        get_event_config('detail');
         if(document.getElementById("balance_search") && document.getElementById("balance"))
             document.getElementById("balance_search").innerHTML = document.getElementById("balance").innerHTML;
 

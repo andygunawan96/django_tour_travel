@@ -6,6 +6,7 @@
 <!--<script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js?version={{javascript_version}}"></script>-->
 <script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_insurance.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_content.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/moment.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_payment_acq.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_printout.js?version={{javascript_version}}"></script>
@@ -421,9 +422,10 @@
 {% include 'tt_website_rodextrip/footer.html' %}
 
 <script>
-    get_insurance_data_review_page();
+    get_agent_currency_rate();
     $(document).ready(function () {
         breadcrumb_create("insurance", 5, 0);
+        get_insurance_data_review_page();
     });
 </script>
 {% endblock %}

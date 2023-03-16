@@ -959,7 +959,7 @@ function render_hotel_search(hotel_data_print, i){
                 detail = JSON.stringify(hotel_data_print);
                 detail = detail.replace(/'/g, "");
                 text+=`<input type="hidden" id="hotel_detail`+i+`" name="hotel_detail" value='`+detail+`'/>`;
-                if(top_facility.length != 0 ){
+                if(typeof(top_facility) !== 'undefined' && top_facility.length != 0 ){
                     text+=`<div style="padding-bottom:5px;">`;
                 }
                 else{
@@ -999,7 +999,7 @@ function render_hotel_search(hotel_data_print, i){
                 text+=`</span>
                     </div>`;
 
-                    if(top_facility.length != 0 ){
+                    if(typeof(top_facility) !== 'undefined' && top_facility.length != 0 ){
                         text+=`<div style="padding-bottom:5px; height:90px;"><span>Facilities</span><br/>`;
 
                         text+=`
@@ -1825,6 +1825,12 @@ function check_passenger(adult, child, room){
 //           }
        if(i == 1)
             pax_required = true;
+       if(!pax_required){
+            if(document.getElementById('adult_first_name'+i).value || document.getElementById('adult_last_name'+i).value ||
+               document.getElementById('adult_title'+i).value){
+                pax_required = true;
+            }
+       }
        if(pax_required){
            if(pax_list.includes(document.getElementById('adult_first_name'+i).value+document.getElementById('adult_last_name'+i).value) == true && document.getElementById('adult_first_name'+i).value != '')
                 error_log+= 'please use different name for adult passenger '+i+'!</br>\n';
