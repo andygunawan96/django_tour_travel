@@ -1676,11 +1676,11 @@ function change_top_up_method(){
                 <div class="row">
                     <div class="col-lg-12" style="display: flex;align-items: center;">
                         <h5 class="single_border_custom_left" style="padding-left:10px;">`;
-                        if(va_number[i].image){
-                            text+=`<img style="width:auto; height:50px;" alt="Logo `+va_number[i].name+`" src="`+va_number[i].image+`"/>`;
-                        }else{
-                            text+=`<img style="width:auto; height:50px;" alt="Logo `+va_number[i].name+`" src="/static/tt_website_rodextrip/images/no pic/no-bank.png"/>`;
-                        }
+//                        if(va_number[i].image){
+//                            text+=`<img style="width:auto; height:50px;" alt="Logo `+va_number[i].name+`" src="`+va_number[i].image+`"/>`;
+//                        }else{
+//                            text+=`<img style="width:auto; height:50px;" alt="Logo `+va_number[i].name+`" src="/static/tt_website_rodextrip/images/no pic/no-bank.png"/>`;
+//                        }
                         if(va_number[i].heading){
                             text+=`<b style="padding-left:10px;">`+va_number[i].heading+`</b>`;
                         }else{
