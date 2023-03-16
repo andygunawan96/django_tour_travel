@@ -10,6 +10,7 @@
 <script src="{{ static_path }}js/webservice_account.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/visa_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_content.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/moment.js?version={{javascript_version}}"></script>
 
 <script>
@@ -7076,8 +7077,9 @@
 {% include 'tt_website_rodextrip/footer.html' %}
 
 <script>
-    visa_page_passenger();
+    get_agent_currency_rate();
     $( document ).ready(function() {
+        visa_page_passenger();
         breadcrumb_create("visa", 3, 0);
         $('.js-example-basic-single').select2();
         auto_complete('booker_nationality');

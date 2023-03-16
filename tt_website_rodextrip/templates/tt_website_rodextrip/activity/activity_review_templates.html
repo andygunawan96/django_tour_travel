@@ -6,6 +6,7 @@
 <!--<script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js?version={{javascript_version}}"></script>-->
 <script src="{{ static_path }}js/webservice_token.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_content.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/activity_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_activity.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/moment.js?version={{javascript_version}}"></script>
@@ -472,8 +473,9 @@
 {% include 'tt_website_rodextrip/footer.html' %}
 
 <script>
-    activity_review_page();
+    get_agent_currency_rate();
     $(document).ready(function () {
+        activity_review_page();
         breadcrumb_create("activity", 5, 0);
     });
 </script>

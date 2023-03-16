@@ -6,6 +6,7 @@
 <!--<script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js?version={{javascript_version}}"></script>-->
 <script src="{{ static_path }}js/webservice_token.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_content.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/activity_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_activity.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
@@ -10141,8 +10142,9 @@
 {% endif %}
 
 <script>
-    activity_passenger_page();
+    get_agent_currency_rate();
     $( document ).ready(function() {
+        activity_passenger_page();
         breadcrumb_create("activity", 4, 0);
         $('.js-example-basic-single').niceSelect('destroy');
         $('.js-example-basic-single').select2();

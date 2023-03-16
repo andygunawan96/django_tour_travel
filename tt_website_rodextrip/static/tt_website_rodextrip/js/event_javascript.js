@@ -919,6 +919,31 @@ function render_object(val, new_int){
         </div>
     </div>`;
 
+    if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && grand_total_option){
+//        if(currency_rate_data.result.response.agent.hasOwnProperty(user_login.agent_name)){ // buat o3
+        for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
+            for(k in currency_rate_data.result.response.agent[j]){
+                if(currency_rate_data.result.is_show_provider.includes(k)){
+                    try{
+                        price_convert = (parseFloat(grand_total_option)/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
+                        if(price_convert%1 == 0)
+                            price_convert = parseInt(price_convert);
+                        text+=`
+                            <div class="row">
+                                <div class="col-lg-12" style="text-align:right;">
+                                    <span style="font-size:15px; font-weight:bold;" id="total_price_`+k+`"> Estimated `+k+` `+price_convert+`</span><br/>
+                                </div>
+                            </div>`;
+                    }catch(err){
+                        console.log(err);
+                    }
+                }
+            }
+            break;
+        }
+//        }
+    }
+
     hotel_room_pick_button(total_commission)
 
     if (option_pick === undefined || option_pick.length == 0){
@@ -1076,8 +1101,34 @@ function render_object_from_value(val){
                 </div>
             </div>
         </div>
-    </div>
+    </div>`;
 
+    if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && grand_total_option){
+//        if(currency_rate_data.result.response.agent.hasOwnProperty(user_login.agent_name)){ // buat o3
+        for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
+            for(k in currency_rate_data.result.response.agent[j]){
+                if(currency_rate_data.result.is_show_provider.includes(k)){
+                    try{
+                        price_convert = (parseFloat(grand_total_option)/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
+                        if(price_convert%1 == 0)
+                            price_convert = parseInt(price_convert);
+                        text+=`
+                            <div class="row">
+                                <div class="col-lg-12" style="text-align:right;">
+                                    <span style="font-size:15px; font-weight:bold;" id="total_price_`+k+`"> Estimated `+k+` `+price_convert+`</span><br/>
+                                </div>
+                            </div>`;
+                    }catch(err){
+                        console.log(err);
+                    }
+                }
+            }
+            break;
+        }
+//        }
+    }
+
+    text+=`
     <div class="row">
         <div class="col-lg-12" style="padding-bottom:10px;">
             <hr/>

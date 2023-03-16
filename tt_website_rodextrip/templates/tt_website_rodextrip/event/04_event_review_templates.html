@@ -7,6 +7,7 @@
 <script src="{{ static_path }}js/webservice_token.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_event.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_content.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/event_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_payment_acq.js?version={{javascript_version}}"></script>
@@ -518,9 +519,10 @@
 <script>
     //document.getElementById('voucher_discount').style.display = 'none';
     //get_payment_acq('Issued','{{booker.booker_seq_id}}', '', 'billing',signature,'hotel_review');
-    event_page_review();
+    get_agent_currency_rate();
     $( document ).ready(function() {
-      breadcrumb_create("event", 5, 0);
+        event_page_review();
+        breadcrumb_create("event", 5, 0);
     });
 </script>
 {% endblock %}

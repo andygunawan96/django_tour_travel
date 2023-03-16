@@ -12,6 +12,7 @@
 <script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/pricing_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_payment_acq.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_content.js?version={{javascript_version}}"></script>
 
 <script>
     static_path_url_server = '{{static_path_url_server}}'
@@ -232,7 +233,7 @@
                                             </div>
                                             <div class="col-lg-5" style="text-align:right; margin-bottom:10px;">
                                                 <h6>Price <span id="adult_price{{counter}}"></span></h6>
-
+                                                <div id="adult_other_price{{counter}}"></div>
                                                 <h6 style="cursor:pointer;color:{{color}};" onclick="set_value_radio_first('adult',{{counter}})">Reset <i class="fas fa-sync-alt"></i></h6>
                                                 <input type="hidden" id="adult_check{{counter}}" value="false"/>
                                             </div>
@@ -303,7 +304,7 @@
                                             </div>
                                             <div class="col-lg-5" style="text-align:right; margin-bottom:10px;">
                                                 <h6>{% trans 'Price' %} <span id="child_price{{counter}}"></span></h6>
-
+                                                <div id="child_other_price{{counter}}"></div>
                                                 <h6 style="cursor:pointer;color:{{color}};" onclick="set_value_radio_first('child',{{counter}})">{% trans 'Reset' %} <i class="fas fa-sync-alt"></i></h6>
                                                 <input type="hidden" id="child_check{{counter}}" value="false"/>
                                             </div>
@@ -372,7 +373,7 @@
                                             </div>
                                             <div class="col-lg-5" style="text-align:right; margin-bottom:10px;">
                                                 <h6>{% trans 'Price' %} <span id="infant_price{{counter}}"></span></h6>
-
+                                                <div id="infant_other_price{{counter}}"></div>
                                                 <h6 style="cursor:pointer;color:{{color}};" onclick="set_value_radio_first('infant',{{counter}})">{% trans 'Reset' %} <i class="fas fa-sync-alt"></i></h6>
                                                 <input type="hidden" id="infant_check{{counter}}" value="false"/>
                                             </div>
@@ -572,8 +573,9 @@
 {% include 'tt_website_rodextrip/footer.html' %}
 
 <script>
-    visa_page_review();
+    get_agent_currency_rate();
     $( document ).ready(function() {
+        visa_page_review();
         breadcrumb_create("visa", 4, 0);
         get_payment_acq('Issued','{{passengers.booker.booker_seq_id}}', '', 'billing',signature,'visa');
     });

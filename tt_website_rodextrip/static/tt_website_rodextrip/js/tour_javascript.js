@@ -1795,7 +1795,30 @@ function sort(tour_dat, exist_check){
                                                         <div class="col-lg-12 mb-2">
                                                             <span style="font-size:13px; color:#616161; float:left; margin-top:10px;">Starting From</span>
                                                             <span style="font-size:14px;font-weight:bold; float:right; margin-top:10px;">IDR `+getrupiah(tour_dat[i].est_starting_price)+`</span><br/>
-                                                        </div>
+                                                        </div>`;
+                                                        if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && tour_dat[i].est_starting_price){
+                                                    //        if(currency_rate_data.result.response.agent.hasOwnProperty(user_login.agent_name)){ // buat o3
+                                                            for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
+                                                                for(k in currency_rate_data.result.response.agent[j]){
+                                                                    if(currency_rate_data.result.is_show_provider.includes(k)){
+                                                                        try{
+                                                                            price_convert = (parseFloat(tour_dat[i].est_starting_price)/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
+                                                                            if(price_convert%1 == 0)
+                                                                                price_convert = parseInt(price_convert);
+                                                                            text+=`
+                                                                                <div class="col-lg-12">
+                                                                                    <span style="font-size:14px;font-weight:bold; float:right; margin-top:10px;" id="total_price_`+k+`"> Estimated `+k+` `+price_convert+`</span><br/>
+                                                                                </div>`;
+                                                                        }catch(err){
+                                                                            console.log(err);
+                                                                        }
+                                                                    }
+                                                                }
+                                                                break;
+                                                            }
+                                                    //        }
+                                                        }
+                                                        text+=`
                                                         <div class="col-lg-12">
                                                             <button href="#" class="primary-btn-custom" type="button" onclick="go_to_detail('`+tour_dat[i].tour_code+`')" style="width:100%;">BOOK</button><br/>
                                                         </div>

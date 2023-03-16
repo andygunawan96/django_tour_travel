@@ -65,6 +65,7 @@
 
 {% include 'tt_website_rodextrip/header.html' %}
 {% include 'tt_website_rodextrip/logout.html' %}
+{% include 'tt_website_rodextrip/loading_screen.html' %}
 {% include 'tt_website_rodextrip/plugin_passenger.html' %}
 {% include 'tt_website_rodextrip/notification_box.html' %}
 <title id="title_search">{{name}} Hotel - {{hotel_search.destination}}</title>
@@ -1619,6 +1620,7 @@
     });
 
     function goto_detail(type, counter){
+       $('.loader-rodextrip').fadeIn();
        document.getElementById('hotel'+counter).innerHTML += `{% csrf_token %}`;
        document.getElementById('hotel'+counter).innerHTML += `<input type='hidden' value='`+time_limit+`' name='time_limit_input'/>`;
        try{
