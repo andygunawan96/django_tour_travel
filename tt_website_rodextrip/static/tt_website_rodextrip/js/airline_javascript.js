@@ -4384,7 +4384,7 @@ function airline_pick_mc(type){
                                             price_convert = (Math.ceil(price-total_discount)/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
                                             if(price_convert%1 == 0)
                                                 price_convert = parseInt(price_convert);
-                                            text+=`<span style="font-size:14px; font-weight: bold;"><b>Estimated `+k+` `+getrupiah(price_convert)+`</b></span><br/>`;
+                                            text+=`<br/><span class="basic_fare_field price_template" style="font-size:16px;font-weight: bold; color:`+color+`; padding:10px 0px;"> Estimated `+k+` `+getrupiah(price_convert)+`</span>`;
                                         }catch(err){
                                             console.log(err);
                                         }
