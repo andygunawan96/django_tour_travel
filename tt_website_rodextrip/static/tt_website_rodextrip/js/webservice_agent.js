@@ -1212,6 +1212,9 @@ function radio_button(type,val){
         }
     }
     if(type == 'pax_cache'){
+        passenger_data_edit_phone = 0;
+        passenger_data_edit_ff = 0;
+        document.getElementById('passenger_edit_ff_table').innerHTML = '';
         document.getElementById('passenger_update').hidden = true;
 
         if(value == 'chosen'){
@@ -1298,7 +1301,19 @@ function session_time_limit(){
             document.getElementById('session_time').innerHTML = ``+ parseInt(time_limit/60) % 24 +`m:`+ (time_limit%60) +`s`;
             document.getElementById('elapse_time').innerHTML = ``+ parseInt((1200 - time_limit)/60) % 24 +`m:`+ ((1200 - time_limit)%60) +`s`;
         }else{
-            window.location.href = url_home;
+            error_session = 'Booking session has expired, please retry or search a different option';
+            if(document.URL.split('/')[document.URL.split('/').length-1] == 'payment')
+                error_session += ' or check your reservation';
+            Swal.fire({
+              title: error_session,
+              type: 'warning',
+              confirmButtonColor: color,
+              confirmButtonText: 'Back to Homepage'
+            }).then((result) => {
+                if (result.value) {
+                    window.location.href = url_home;
+                }
+            })
             clearInterval(timeLimitInterval);
         }
     }, 1000);
@@ -9543,6 +9558,9 @@ function update_passenger_backend(){
                                 }catch(err){
                                     console.log(err);
                                 }
+                                passenger_data_edit_phone = 0;
+                                passenger_data_edit_ff = 0;
+                                document.getElementById('passenger_edit_ff_table').innerHTML = '';
                                 document.getElementById('passenger_chosen').hidden = false;
                                 document.getElementById('passenger_update').hidden = true;
                                 get_passenger_cache('chosen',true);
