@@ -424,7 +424,7 @@ function hotel_get_current_search(){
                    error_ajax(XMLHttpRequest, textStatus, errorThrown, '');
                }
             });
-        }, 10000);
+        }, 5000);
     }
 }
 //signin jadi 1 sama search
