@@ -1351,9 +1351,9 @@ def review(request, signature):
                         pax['ssr_list'] = []
                         if not pax.get('behaviors'):
                             pax['behaviors'] = {}
-                        if not pax['behaviors'].get('Airline'):
-                            pax['behaviors']['Airline'] = ""
-                        pax['behaviors']['Airline'] = request.POST['passenger%s' % idx]
+                        if not pax['behaviors'].get('airline'):
+                            pax['behaviors']['airline'] = ""
+                        pax['behaviors']['airline'] = request.POST['passenger%s' % idx]
 
                     ssr_response = request.session['airline_get_ssr_%s' % signature]['result']['response']
                     no_ssr_count = 0
@@ -1410,9 +1410,9 @@ def review(request, signature):
                         passenger[idx]['seat_list'] = passengers[idx]['seat_list']
                         if not passenger[idx].get('behaviors'):
                             passenger[idx]['behaviors'] = {}
-                        if not passenger[idx]['behaviors'].get('Airline'):
-                            passenger[idx]['behaviors']['Airline'] = ""
-                        passenger[idx]['behaviors']['Airline'] = pax['behaviors']['Airline']
+                        if not passenger[idx]['behaviors'].get('airline'):
+                            passenger[idx]['behaviors']['airline'] = ""
+                        passenger[idx]['behaviors']['airline'] = pax['behaviors']['airline']
                     seat_map_list = request.session['airline_get_seat_availability_%s' % signature]['result']['response']
                     segment_seat_request = []
 
@@ -1439,13 +1439,15 @@ def review(request, signature):
                     set_session(request, 'airline_seat_request_%s' % signature, segment_seat_request)
 
                 except Exception as e:
+                    _logger.error("#####ERROR CHOOSE SEAT#####")
+                    _logger.error("%s, %s" % (str(e), traceback.format_exc()))
                     try:
                         passenger = request.session['airline_create_passengers_%s' % signature]['adult'] + request.session['airline_create_passengers_%s' % signature]['child']
                         for pax in passenger:
                             if pax.get('seat_list'):
                                 pax.pop('seat_list')
-                    except:
-                        print('airline no seatmap')
+                    except Exception as e:
+                        _logger.error("%s, %s" % (str(e), traceback.format_exc()))
 
 
             elif request.META.get('HTTP_REFERER').split('/')[len(request.META.get('HTTP_REFERER').split('/'))-2] == 'passenger':
