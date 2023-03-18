@@ -298,6 +298,135 @@ def search(request):
             'nationality': request.POST['nationality'].split(' - ')[0],
             'is_bussiness_trip': request.POST['business_trip'],
         }
+        if data == request.session.get('hotel_search_request', ''):
+            try: ## USE CACHE
+                signature = request.session['hotel_error']['signature']
+            except: ## FIRST TIME
+                signature = request.POST['signature']
+        else:
+            signature = request.POST['signature']
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "search",
+            "signature": signature
+        }
+        set_session(request, 'hotel_search_request', data)
+    except Exception as e:
+        if request.POST.get('use_cache'):
+            data = request.session['hotel_search_request']
+            signature = request.POST['signature']
+            headers = {
+                "Accept": "application/json,text/html,application/xml",
+                "Content-Type": "application/json",
+                "action": "search",
+                "signature": signature
+            }
+            _logger.info(msg='use cache login change b2c to login')
+        else:
+            _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+
+    url_request = url + 'booking/hotel'
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
+    try:
+        counter = 0
+        sequence = 0
+        res['result']['signature'] = signature
+        if res['result']['error_code'] == 0:
+            set_session(request, 'hotel_signature', signature)
+            set_session(request, 'hotel_error', {
+                'error_code': res['result']['error_code'],
+                'signature': signature
+            })
+
+            hotel_data = []
+            for hotel in res['result']['response']['city_ids']:
+                hotel.update({
+                    'sequence': sequence,
+                    'counter': counter
+                })
+                counter += 1
+                sequence += 1
+
+            counter = 0
+
+            for hotel in res['result']['response']['country_ids']:
+                hotel.update({
+                    'sequence': sequence,
+                    'counter': counter
+                })
+                counter += 1
+                sequence += 1
+
+            counter = 0
+
+            for hotel in res['result']['response']['hotel_ids']:
+                hotel.update({
+                    'sequence': sequence,
+                    'counter': counter
+                })
+                counter += 1
+                sequence += 1
+
+            counter = 0
+
+            for hotel in res['result']['response']['landmark_ids']:
+                hotel.update({
+                    'sequence': sequence,
+                    'counter': counter
+                })
+                counter += 1
+                sequence += 1
+        else:
+            _logger.error("ERROR search_hotel SIGNATURE " + request.session['hotel_signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    return res
+
+def search_2(request):
+    try:
+        child_age = []
+        if request.POST['child_age'] != '':
+            child_age = request.POST['child_age'].split(',')
+        response = get_cache_data()
+        id = ''
+        country_id = ''
+        destination_id = ''
+        hotel_id = ''
+        landmark_id = ''
+        set_session(request, 'hotel_set_signature', True)
+        try:
+            for hotel in response['result']['response']['hotel_config']:
+                if request.POST['destination'] == hotel['name']:
+                    if hotel['type'] == 'Country':
+                        country_id = int(hotel['id'])
+                        id = int(hotel['id'])
+                    elif hotel['type'] == 'City':
+                        destination_id = int(hotel['id'])
+                        id = int(hotel['id'])
+                    elif hotel['type'] == 'Hotel':
+                        hotel_id = int(hotel['id'])
+                        id = int(hotel['id'])
+                    elif hotel['type'] == 'Landmark':
+                        landmark_id = int(hotel['id'])
+                        id = int(hotel['id'])
+                    break
+        except:
+            pass
+
+        data = {
+            'child': int(request.POST['child']),
+            'hotel_id': request.POST.get('id') or '',
+            'search_name': request.POST.get('destination') and ' - '.join(request.POST.get('destination').split(' - ')[:-1]) or '',
+            'room': int(request.POST['room']),
+            'checkout_date': str(datetime.strptime(request.POST['checkout'], '%d %b %Y'))[:10],
+            'checkin_date': str(datetime.strptime(request.POST['checkin'], '%d %b %Y'))[:10],
+            'adult': int(request.POST['adult']),
+            'destination_id': destination_id,
+            'child_ages': child_age,
+            'nationality': request.POST['nationality'].split(' - ')[0],
+            'is_bussiness_trip': request.POST['business_trip'],
+        }
         try:
             hotel_request_data = request.session['hotel_request_data']
             hotel_request_data['hotel_id'] = request.POST.get('id') or ''
@@ -459,6 +588,85 @@ def get_current_search(request):
             'nationality': request.POST['nationality'].split(' - ')[0],
             'is_bussiness_trip': request.POST['business_trip'],
         }
+        if data == request.session.get('hotel_current_search_request', ''):
+            try: ## USE CACHE
+                signature = request.session['hotel_error']['signature']
+            except: ## FIRST TIME
+                signature = request.POST['signature']
+        else:
+            signature = request.POST['signature']
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "get_current_search",
+            "signature": signature
+        }
+        set_session(request, 'hotel_current_search_request', data)
+    except Exception as e:
+        if request.POST.get('use_cache'):
+            data = request.session['hotel_search_request']
+            signature = request.POST['signature']
+            headers = {
+                "Accept": "application/json,text/html,application/xml",
+                "Content-Type": "application/json",
+                "action": "get_current_search",
+                "signature": signature
+            }
+            _logger.info('current search use cache')
+        else:
+            _logger.error('ERROR current search use cache')
+
+    url_request = url + 'booking/hotel'
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
+    if request.session.get('hotel_set_signature', False):
+        set_session(request, 'hotel_signature', request.POST['signature'])
+    return res
+
+def get_current_search_2(request):
+    try:
+        child_age = []
+        if request.POST['child_age'] != '':
+            child_age = request.POST['child_age'].split(',')
+        response = get_cache_data()
+        id = ''
+        country_id = ''
+        destination_id = ''
+        hotel_id = ''
+        landmark_id = ''
+        set_session(request, 'hotel_set_signature', True)
+        try:
+            for hotel in response['result']['response']['hotel_config']:
+                if request.POST['destination'] == hotel['name']:
+                    if hotel['type'] == 'Country':
+                        country_id = int(hotel['id'])
+                        id = int(hotel['id'])
+                    elif hotel['type'] == 'City':
+                        destination_id = int(hotel['id'])
+                        id = int(hotel['id'])
+                    elif hotel['type'] == 'Hotel':
+                        hotel_id = int(hotel['id'])
+                        id = int(hotel['id'])
+                    elif hotel['type'] == 'Landmark':
+                        landmark_id = int(hotel['id'])
+                        id = int(hotel['id'])
+                    break
+        except:
+            pass
+
+        data = {
+            'child': int(request.POST['child']),
+            'hotel_id': request.POST.get('id') or '',
+            'search_name': request.POST.get('destination') and ' - '.join(
+                request.POST.get('destination').split(' - ')[:-1]) or '',
+            'room': int(request.POST['room']),
+            'checkout_date': str(datetime.strptime(request.POST['checkout'], '%d %b %Y'))[:10],
+            'checkin_date': str(datetime.strptime(request.POST['checkin'], '%d %b %Y'))[:10],
+            'adult': int(request.POST['adult']),
+            'destination_id': destination_id,
+            'child_ages': child_age,
+            'nationality': request.POST['nationality'].split(' - ')[0],
+            'is_bussiness_trip': request.POST['business_trip'],
+        }
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
@@ -484,7 +692,6 @@ def get_current_search(request):
     if request.session.get('hotel_set_signature', False):
         set_session(request, 'hotel_signature', request.POST['signature'])
     return res
-
 
 def detail(request):
     try:
