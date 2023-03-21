@@ -301,16 +301,16 @@ def search(request):
                         'bool': True
                     }
                 }]
-                for rec in file:
+                for rec in response:
                     airline_carriers[0][rec] = {
-                        'name': file[rec]['name'],
-                        'display_name': file[rec]['display_name'],
-                        'code': file[rec]['code'],
-                        'icao': file[rec]['icao'],
-                        'call_sign': file[rec]['call_sign'],
-                        'is_favorite': file[rec]['is_favorite'],
-                        'provider': file[rec]['provider'],
-                        'is_excluded_from_b2c': file[rec]['is_excluded_from_b2c'],
+                        'name': response[rec]['name'],
+                        'display_name': response[rec]['display_name'],
+                        'code': response[rec]['code'],
+                        'icao': response[rec]['icao'],
+                        'call_sign': response[rec]['call_sign'],
+                        'is_favorite': response[rec]['is_favorite'],
+                        'provider': response[rec]['provider'],
+                        'is_excluded_from_b2c': response[rec]['is_excluded_from_b2c'],
                         'bool': False
                     }
                 set_session(request, 'airline_carriers_request', airline_carriers)

@@ -6450,7 +6450,7 @@ function re_order_sell_journeys(){
                 document.getElementById('airline_sell_journey_response').value = JSON.stringify(msg.result.response);
                 setTimeout(function(){
                    please_wait_custom('Sell Journey <i class="fas fa-check-circle" style="color:'+color+';"></i><br/>Redirect page, please wait <img src="/static/tt_website_rodextrip/img/loading-dot-white.gif" style="height:50px; width:50px;"/>');
-                   get_seat_availability('reorder');
+                   get_ff_availability('reorder');
                 }, 1000);
            }else{
                 please_wait_custom('Sell Journey Failed <i class="fas fa-times-circle" style="color:#f53e31"></i>');
