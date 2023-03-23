@@ -6175,6 +6175,7 @@ function get_airline_channel_repricing_data(){
 }
 
 function get_airline_channel_repricing_data_reschedule(msg){
+    counter = 0;
     price_arr_repricing = {};
     pax_type_repricing = [];
 
