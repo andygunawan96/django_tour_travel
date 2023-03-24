@@ -1635,17 +1635,17 @@
             <div class="col-lg-3">
                 {% if username.co_user_login != 'agent_b2c' %}
                 {% if template == 1 %}
-                <div class="row" id="info_user_search" style="padding-top:15px; padding-bottom:5px; position: sticky; top: 51px; display:none; z-index: 999;">
+                <div class="row" id="info_user_search" style="padding-bottom:15px; position: sticky; top: 66px; display:none; z-index: 999;">
                 {% elif template == 2 %}
-                <div class="row" id="info_user_search" style="padding-top:15px; padding-bottom:5px; position: sticky; top: 50px; display:none; z-index: 999;">
+                <div class="row" id="info_user_search" style="padding-bottom:15px; position: sticky; top: 65px; display:none; z-index: 999;">
                 {% elif template == 3 %}
-                <div class="row" id="info_user_search" style="padding-top:15px; padding-bottom:5px; position: sticky; top: 54px; display:none; z-index: 999;">
+                <div class="row" id="info_user_search" style="padding-bottom:15px; position: sticky; top: 69px; display:none; z-index: 999;">
                 {% elif template == 4 %}
-                <div class="row" id="info_user_search" style="padding-top:15px; padding-bottom:5px; position: sticky; top: 56px; display:none; z-index: 999;">
+                <div class="row" id="info_user_search" style="padding-bottom:15px; position: sticky; top: 71px; display:none; z-index: 999;">
                 {% elif template == 5 %}
-                <div class="row" id="info_user_search" style="padding-top:15px; padding-bottom:5px; position: sticky; top: 55px; display:none; z-index: 999;">
+                <div class="row" id="info_user_search" style="padding-bottom:15px; position: sticky; top: 70px; display:none; z-index: 999;">
                 {% else %}
-                <div class="row" id="info_user_search" style="padding-top:15px; padding-bottom:5px; position: sticky; top: 58px; display:none; z-index: 999;">
+                <div class="row" id="info_user_search" style="padding-bottom:15px; position: sticky; top: 73px; display:none; z-index: 999;">
                 {% endif %}
                     <div class="col-lg-12">
                         <div style="padding:10px; background:white; border:1px solid #cdcdcd;">
@@ -1669,18 +1669,156 @@
                 </div>
 
                 <div class="modal fade" id="myModalFilter" role="dialog">
-                    <div class="modal-dialog">
+                    <div class="overlay_modal_custom" data-dismiss="modal"></div>
+                    <div class="modal-dialog modal_custom_fixed">
                         <!-- Modal content-->
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h4 class="modal-title" style="color:{{text_color}};"> {% trans 'Filter' %}</i></h4>
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <div class="row">
+                                    <div class="col-xs-6 pb-3">
+                                        <h4 class="modal-title" style="padding-bottom:5px;"><i class="fas fa-filter"></i> {% trans 'Filter' %}</h4>
+                                        <a style="cursor: pointer;" onclick="reset_filter();"><i style="color:`+color+`;" class="fa fa-refresh"></i> Reset</a>
+                                    </div>
+                                    <div class="col-xs-6">
+                                        <button type="button" class="close modal_custom_close" data-dismiss="modal">&times;</button>
+                                    </div>
+                                </div>
                             </div>
                             <div class="modal-body">
-                                <div class="row" style="min-height=100px; max-height:400px; overflow-y: scroll;">
-                                    <div class="col-lg-12">
-                                        <div id="filter2">
-
+                                <div class="row">
+                                    <div class="col-lg-12" id="filter2" style="background:white; padding:15px;">
+                                        <div class="place_div_left_right">
+                                            <span style="font-weight:bold; font-size:14px;">
+                                                <div class="stripe_div_medium130">
+                                                    <div class="div_stripe">
+                                                        <div class="loading_stripe"></div>
+                                                    </div>
+                                                </div>
+                                            </span>
+                                        </div>
+                                        <div class="place_div_grid">
+                                            <label>
+                                                <div class="stripe_div_small40">
+                                                    <div class="div_stripe">
+                                                        <div class="loading_stripe"></div>
+                                                    </div>
+                                                </div>
+                                            </label>
+                                            <label>
+                                                <div class="stripe_div_small100">
+                                                    <div class="div_stripe">
+                                                        <div class="loading_stripe"></div>
+                                                    </div>
+                                                </div>
+                                            </label>
+                                            <label>
+                                                <div class="stripe_div_small100">
+                                                    <div class="div_stripe">
+                                                        <div class="loading_stripe"></div>
+                                                    </div>
+                                                </div>
+                                            </label>
+                                            <label>
+                                                <div class="stripe_div_small100">
+                                                    <div class="div_stripe">
+                                                        <div class="loading_stripe"></div>
+                                                    </div>
+                                                </div>
+                                            </label>
+                                            <label>
+                                                <div class="stripe_div_small100">
+                                                    <div class="div_stripe">
+                                                        <div class="loading_stripe"></div>
+                                                    </div>
+                                                </div>
+                                            </label>
+                                        </div>
+                                        <hr/>
+                                        <div class="place_div_left_right">
+                                            <span style="font-weight:bold; font-size:14px;">
+                                                <div class="stripe_div_small100">
+                                                    <div class="div_stripe">
+                                                        <div class="loading_stripe"></div>
+                                                    </div>
+                                                </div>
+                                            </span>
+                                        </div>
+                                        <div class="place_div_grid">
+                                            <label>
+                                                <div class="stripe_div_small40">
+                                                    <div class="div_stripe">
+                                                        <div class="loading_stripe"></div>
+                                                    </div>
+                                                </div>
+                                            </label>
+                                            <label>
+                                                <div class="stripe_div_small100">
+                                                    <div class="div_stripe">
+                                                        <div class="loading_stripe"></div>
+                                                    </div>
+                                                </div>
+                                            </label>
+                                            <label>
+                                                <div class="stripe_div_small100">
+                                                    <div class="div_stripe">
+                                                        <div class="loading_stripe"></div>
+                                                    </div>
+                                                </div>
+                                            </label>
+                                            <label>
+                                                <div class="stripe_div_small100">
+                                                    <div class="div_stripe">
+                                                        <div class="loading_stripe"></div>
+                                                    </div>
+                                                </div>
+                                            </label>
+                                            <label>
+                                                <div class="stripe_div_small100">
+                                                    <div class="div_stripe">
+                                                        <div class="loading_stripe"></div>
+                                                    </div>
+                                                </div>
+                                            </label>
+                                        </div>
+                                        <hr/>
+                                        <div class="place_div_left_right">
+                                            <span style="font-weight:bold; font-size:14px;">
+                                                <div class="stripe_div_small70">
+                                                    <div class="div_stripe">
+                                                        <div class="loading_stripe"></div>
+                                                    </div>
+                                                </div>
+                                            </span>
+                                        </div>
+                                        <div class="place_div_grid">
+                                            <label>
+                                                <div class="stripe_div_small100">
+                                                    <div class="div_stripe">
+                                                        <div class="loading_stripe"></div>
+                                                    </div>
+                                                </div>
+                                            </label>
+                                            <label>
+                                                <div class="stripe_div_small100">
+                                                    <div class="div_stripe">
+                                                        <div class="loading_stripe"></div>
+                                                    </div>
+                                                </div>
+                                            </label>
+                                            <label>
+                                                <div class="stripe_div_small100">
+                                                    <div class="div_stripe">
+                                                        <div class="loading_stripe"></div>
+                                                    </div>
+                                                </div>
+                                            </label>
+                                            <label>
+                                                <div class="stripe_div_small100">
+                                                    <div class="div_stripe">
+                                                        <div class="loading_stripe"></div>
+                                                    </div>
+                                                </div>
+                                            </label>
                                         </div>
                                     </div>
                                 </div>
@@ -1690,18 +1828,45 @@
                 </div>
 
                 <div class="modal fade" id="myModalSort" role="dialog">
-                    <div class="modal-dialog">
+                    <div class="overlay_modal_custom" data-dismiss="modal"></div>
+                    <div class="modal-dialog modal_custom_fixed">
                         <!-- Modal content-->
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h4 class="modal-title" style="color:{{text_color}};"> {% trans 'Sort' %} </i></h4>
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <div class="row">
+                                    <div class="col-xs-6 pb-3">
+                                        <h4 class="modal-title"><i class="fas fa-sort"></i> {% trans 'Sort' %}</h4>
+                                    </div>
+                                    <div class="col-xs-6">
+                                        <button type="button" class="close modal_custom_close" data-dismiss="modal">&times;</button>
+                                    </div>
+                                </div>
                             </div>
                             <div class="modal-body">
-                                <div class="row" style="min-height=100px; max-height:400px; overflow-y: scroll;">
-                                    <div class="col-lg-12">
-                                        <div id="sorting-train2">
-
+                                <div class="row">
+                                    <div class="col-lg-12" id="sorting-train2" style="background:white; padding:15px;">
+                                        <div class="place_div_grid">
+                                            <label>
+                                                <div class="stripe_div_medium160 mb-3">
+                                                    <div class="div_stripe">
+                                                        <div class="loading_stripe"></div>
+                                                    </div>
+                                                </div>
+                                            </label>
+                                            <label>
+                                                <div class="stripe_div_medium160 mb-3">
+                                                    <div class="div_stripe">
+                                                        <div class="loading_stripe"></div>
+                                                    </div>
+                                                </div>
+                                            </label>
+                                            <label>
+                                                <div class="stripe_div_medium160 mb-3">
+                                                    <div class="div_stripe">
+                                                        <div class="loading_stripe"></div>
+                                                    </div>
+                                                </div>
+                                            </label>
                                         </div>
                                     </div>
                                 </div>
@@ -1962,13 +2127,13 @@
                 <div class="row">
                     <div class="col-lg-12" id="train_result">
                         <div class="place_div_white">
-                        <span style="font-weight:bold; font-size:14px;">
-                            <div class="stripe_div_medium130">
-                                <div class="div_stripe">
-                                    <div class="loading_stripe"></div>
+                            <span style="font-weight:bold; font-size:14px;">
+                                <div class="stripe_div_medium130">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
                                 </div>
-                            </div>
-                        </span>
+                            </span>
                             <label style="position:absolute; right:10px;">
                                 <div class="stripe_div_small100">
                                     <div class="div_stripe">

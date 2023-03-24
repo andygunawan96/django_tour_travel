@@ -1801,13 +1801,6 @@ function airline_filter_render(){
                     </div>
                 </div>
             </span>
-            <label style="position:absolute; right:0px;">
-                <div class="stripe_checkbox">
-                    <div class="div_stripe">
-                        <div class="loading_stripe"></div>
-                    </div>
-                </div>
-            </label>
         </div>
         <div class="place_div_grid">
             <label>
@@ -3904,7 +3897,7 @@ function sort(){
         <div class="we_found_box" style="border:1px solid #cdcdcd; background-color:white; margin-bottom:-5px; padding:10px;">
             <span style="font-weight:bold; font-size:14px;"> We found `+ticket_count+` flights</span>
             <label class="check_box_custom" style="float:right;">
-                <span class="span-search-ticket" style="color:black;">Select all</span>
+                <span class="span-search-ticket" style="color:black;">Select All to Copy</span>
                 <input type="checkbox" id="check_all_copy" onchange="check_all_result();"/>
                 <span class="check_box_span_custom"></span>
             </label>
@@ -6175,6 +6168,7 @@ function get_airline_channel_repricing_data(){
 }
 
 function get_airline_channel_repricing_data_reschedule(msg){
+    counter = 0;
     price_arr_repricing = {};
     pax_type_repricing = [];
 
@@ -9311,7 +9305,7 @@ function get_checked_copy_result(){
     text_footer+=`
         </div>
         <div style="float:right;" id="copy_result">
-            <button class="primary-btn-white" type="button" onclick="copy_data();">
+            <button class="primary-btn-white" style="width:150px;" type="button" onclick="copy_data();">
                 <i class="fas fa-copy"></i> Copy
             </button>
         </div>

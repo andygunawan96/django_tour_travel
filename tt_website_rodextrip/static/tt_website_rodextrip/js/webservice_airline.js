@@ -7866,14 +7866,22 @@ function airline_get_booking(data, sync=false){
                                     if(provider != msg.result.response.provider_bookings.length - 1)
                                         if(ticket != '')
                                             ticket += ', ';
-                                    if(ff_request != '')
-                                        ff_request += '<br/>';
-                                    if(msg.result.response.provider_bookings[provider].tickets[pax].ff_name != '' && msg.result.response.provider_bookings[provider].tickets[pax].ff_number != '')
-                                        ff_request += msg.result.response.provider_bookings[provider].tickets[pax].ff_name + ': '+ msg.result.response.provider_bookings[provider].tickets[pax].ff_number;
+                                    // if(ff_request != '')
+                                    //     ff_request += '<br/>';
+                                    // if(msg.result.response.provider_bookings[provider].tickets[pax].ff_name != '' && msg.result.response.provider_bookings[provider].tickets[pax].ff_number != '')
+                                    //     ff_request += msg.result.response.provider_bookings[provider].tickets[pax].ff_name + ': '+ msg.result.response.provider_bookings[provider].tickets[pax].ff_number;
                                 }catch(err){
 
                                 }
                             }
+
+                            for(ff_counter in msg.result.response.passengers[pax].frequent_flyers){
+                                if(ff_request != '')
+                                    ff_request += '<br/>';
+                                ff_request += '<b>' + msg.result.response.passengers[pax].frequent_flyers[ff_counter].ff_name + ':</b> '+ msg.result.response.passengers[pax].frequent_flyers[ff_counter].ff_number;
+                            }
+                            if(ff_request)
+                                ff_request += '<br/>';
 
                             if(pax == 0){
                                 text+=`<div class="col-lg-12">`;
