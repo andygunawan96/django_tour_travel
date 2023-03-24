@@ -269,9 +269,7 @@ function train_filter_render(){
 
 
     text = '';
-    text+= `<h4 style="display: inline;">Filter</h4><a style="float: right; cursor: pointer;" onclick="reset_filter();"><i style="color:`+color+`;" class="fa fa-refresh"></i> Reset</a>
-            <hr/>
-            <h6 style="padding-bottom:10px;">Departure Time</h6>`;
+    text+= `<h6 style="padding-bottom:10px;">Departure Time</h6>`;
     for(i in departure_list){
         if(i == 0)
             text += `
@@ -333,7 +331,7 @@ function train_filter_render(){
     document.getElementById("filter2").appendChild(node2);
     node2 = document.createElement("div");
 
-    text = `<h6 style="padding-bottom:10px;">Sorting</h6><hr/>`;
+    text = '';
     for(i in sorting_list){
         if(i == 0){
             text+=`
@@ -2290,7 +2288,7 @@ function sort(value){
     <div class="we_found_box" style="border:1px solid #cdcdcd; background-color:white; margin-top:-2px; margin-bottom:10px; padding:10px;">
         <span style="font-weight:bold; font-size:14px;"> We found `+total_train_count+` train</span>
         <label class="check_box_custom" style="float:right;">
-            <span class="span-search-ticket" style="color:black;">Select All</span>
+            <span class="span-search-ticket" style="color:black;">Select All to Copy</span>
             <input type="checkbox" id="check_all_copy" onchange="check_all_result();"/>
             <span class="check_box_span_custom"></span>
         </label>
@@ -2801,7 +2799,7 @@ function get_checked_copy_result(){
             text_footer+=`
         </div>
         <div style="float:right;" id="copy_result">
-            <button class="primary-btn-white" type="button" onclick="copy_data();">
+            <button class="primary-btn-white" style="width:150px;" type="button" onclick="copy_data();">
                 <i class="fas fa-copy"></i> Copy
             </button>
         </div>
