@@ -773,7 +773,7 @@ function get_top_facility(){
        success: function(msg) {
         if(msg.result.error_code == 0){
             top_facility = msg.result.response;
-            if (top_facility){
+            if (top_facility.length != 0){
                 facility_filter_html = `<hr><h6 class="filter_general" onclick="show_hide_general('hotelFacilities');">Facilities <i class="fas fa-chevron-down" id="hotelFacilities_generalDown" style="float:right; display:none;"></i><i class="fas fa-chevron-up" id="hotelFacilities_generalUp" style="float:right; display:block;"></i></h6>
                 <div id="hotelFacilities_generalShow" style="display:inline-block;">`;
                 for(i in top_facility){
@@ -922,9 +922,272 @@ function hotel_detail_request(checkin_date, checkout_date){
     // Remove Copy dan Next button waktu ganti tanggal START
     document.getElementById("hotel_detail_button").innerHTML = '';
     // Remove Copy dan Next button waktu ganti tanggal END
-    document.getElementById("detail_room_pick").innerHTML = '';
     document.getElementById('hotel_detail_table').innerHTML = '';
-    document.getElementById("select_copy_all").innerHTML = '';
+    document.getElementById("detail_room_pick").innerHTML = `
+    <div class="detail-hotel-box">
+        <div class="row" style="margin-bottom:15px;">
+            <div class="col-lg-12 mb-2">
+                <div class="stripe_checkbox" style="float:right;">
+                    <div class="div_stripe">
+                        <div class="loading_stripe"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3">
+                <div class="stripe_img_big_room">
+                    <div class="div_stripe">
+                        <div class="loading_stripe"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-9 col-md-9">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="stripe_div_100" style="margin-bottom:5px;">
+                            <div class="div_stripe">
+                                <div class="loading_stripe"></div>
+                            </div>
+                        </div>
+                        <div class="place_div_left_right">
+                            <div class="stripe_div_small100">
+                                <div class="div_stripe">
+                                    <div class="loading_stripe"></div>
+                                </div>
+                            </div>
+                            <label style="position:absolute; right:0px;">
+                                <div class="stripe_div_small100">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                        <hr style="margin:5px 0px;">
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="row">
+                            <div class="col-lg-8 col-md-8">
+                                <div class="stripe_div_medium115" style="margin-bottom:5px;">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                                <div class="stripe_div_small85" style="margin-bottom:5px;">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                                <div class="stripe_div_medium145" style="margin-bottom:5px;">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-4" style="text-align:right;">
+                                <div class="stripe_price" style="float:right">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                                <div class="stripe_button" style="float:right;">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="detail-hotel-box">
+        <div class="row" style="margin-bottom:15px;">
+            <div class="col-lg-12 mb-2">
+                <div class="stripe_checkbox" style="float:right;">
+                    <div class="div_stripe">
+                        <div class="loading_stripe"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3">
+                <div class="stripe_img_big_room">
+                    <div class="div_stripe">
+                        <div class="loading_stripe"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-9 col-md-9">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="stripe_div_100" style="margin-bottom:5px;">
+                            <div class="div_stripe">
+                                <div class="loading_stripe"></div>
+                            </div>
+                        </div>
+                        <div class="place_div_left_right">
+                            <div class="stripe_div_small100">
+                                <div class="div_stripe">
+                                    <div class="loading_stripe"></div>
+                                </div>
+                            </div>
+                            <label style="position:absolute; right:0px;">
+                                <div class="stripe_div_small100">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                        <hr style="margin:5px 0px;">
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="row">
+                            <div class="col-lg-8 col-md-8">
+                                <div class="stripe_div_medium115" style="margin-bottom:5px;">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                                <div class="stripe_div_small85" style="margin-bottom:5px;">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                                <div class="stripe_div_medium145" style="margin-bottom:5px;">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-4" style="text-align:right;">
+                                <div class="stripe_price" style="float:right">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                                <div class="stripe_button" style="float:right;">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="detail-hotel-box">
+        <div class="row" style="margin-bottom:15px;">
+            <div class="col-lg-12 mb-2">
+                <div class="stripe_checkbox" style="float:right;">
+                    <div class="div_stripe">
+                        <div class="loading_stripe"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3">
+                <div class="stripe_img_big_room">
+                    <div class="div_stripe">
+                        <div class="loading_stripe"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-9 col-md-9">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="stripe_div_100" style="margin-bottom:5px;">
+                            <div class="div_stripe">
+                                <div class="loading_stripe"></div>
+                            </div>
+                        </div>
+                        <div class="place_div_left_right">
+                            <div class="stripe_div_small100">
+                                <div class="div_stripe">
+                                    <div class="loading_stripe"></div>
+                                </div>
+                            </div>
+                            <label style="position:absolute; right:0px;">
+                                <div class="stripe_div_small100">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                        <hr style="margin:5px 0px;">
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="row">
+                            <div class="col-lg-8 col-md-8">
+                                <div class="stripe_div_medium115" style="margin-bottom:5px;">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                                <div class="stripe_div_small85" style="margin-bottom:5px;">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                                <div class="stripe_div_medium145" style="margin-bottom:5px;">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-4" style="text-align:right;">
+                                <div class="stripe_price" style="float:right">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                                <div class="stripe_button" style="float:right;">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>`;
+
+    document.getElementById("select_copy_all").innerHTML =`
+    <div class="place_div_white" style="margin-bottom:15px;">
+        <span style="font-weight:bold; font-size:14px;">
+            <div class="stripe_div_medium130">
+                <div class="div_stripe">
+                    <div class="loading_stripe"></div>
+                </div>
+            </div>
+        </span>
+        <label style="position:absolute; right:10px;">
+            <div class="stripe_div_small100">
+                <div class="div_stripe">
+                    <div class="loading_stripe"></div>
+                </div>
+            </div>
+        </label>
+    </div>`;
+
+    document.getElementById("pagination-container").innerHTML =`
+    <div class="stripe_div_pagination">
+        <div class="div_stripe">
+            <div class="loading_stripe"></div>
+        </div>
+    </div>`;
+    document.getElementById("pagination-container2").innerHTML =`
+    <div class="stripe_div_pagination">
+        <div class="div_stripe">
+            <div class="loading_stripe"></div>
+        </div>
+    </div>`;
+
+
     // date_hotel
     document.getElementById('date_hotel').innerHTML = 'Date: ' + checkin_date + ' - ' + checkout_date;
     is_first_render_room_hotel = true;
@@ -980,7 +1243,7 @@ function hotel_detail_request(checkin_date, checkout_date){
                             <h6 class="mb-2">Show All</h6>
                             <div class="checkbox-inline1">
                                <label class="check_box_custom">
-                                    <span class="span-search-ticket" style="color:black;">Select All</span>
+                                    <span class="span-search-ticket" style="color:black;">Select All to Copy</span>
                                     <input type="checkbox" id="checkbox_room_all" onclick="filter_room_hotel('','');">
                                     <span class="check_box_span_custom"></span>
                                 </label>
@@ -1153,10 +1416,34 @@ function hotel_detail_request(checkin_date, checkout_date){
                   html: '<span style="color: #ff9900;">Error hotel request room </span>' + msg.result.error_msg,
                 })
                 $('.loader-rodextrip').fadeOut();
+                document.getElementById("select_copy_all").innerHTML = '';
+                document.getElementById('detail_room_pick').innerHTML = `
+                <div style="padding:5px; margin:10px;">
+                    <div style="text-align:center">
+                        <img src="/static/tt_website_rodextrip/images/nofound/no-hotel.png" style="width:60px; height:60px;" alt="Hotel Not Found" title="" />
+                        <br/><br/>
+                        <span style="font-size:14px; font-weight:600;">Oops! Room not found.</span>
+                    </div>
+                </div>`;
+                document.getElementById("pagination-container").innerHTML = '';
+                document.getElementById("pagination-container2").innerHTML = '';
+                document.getElementById("filterRoom_generalShow").innerHTML = 'Not Found';
             }
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
                 error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error hotel detail request');
+                document.getElementById("select_copy_all").innerHTML = '';
+                document.getElementById('detail_room_pick').innerHTML = `
+                <div style="padding:5px; margin:10px;">
+                    <div style="text-align:center">
+                        <img src="/static/tt_website_rodextrip/images/nofound/no-hotel.png" style="width:60px; height:60px;" alt="Hotel Not Found" title="" />
+                        <br/><br/>
+                        <span style="font-size:14px; font-weight:600;">Oops! Room not found.</span>
+                    </div>
+                </div>`;
+                document.getElementById("pagination-container").innerHTML = '';
+                document.getElementById("pagination-container2").innerHTML = '';
+                document.getElementById("filterRoom_generalShow").innerHTML = 'Not Found';
            },timeout: 180000
         });
     },500);
@@ -1191,7 +1478,7 @@ function create_detail_room(i, data){
                 for(k in data.prices[i].rooms[j].images){
                 detail_room_txt+=`
                     <div class="item" style="cursor:zoom-in; float:none; display:inline-block; text-align:center;">
-                    <img class="img-hotel-detail zoom-img" src="`+data.prices[i].rooms[j].images[k].url+`" style="border:1px solid #cdcdcd; height:200px; margin:auto; width:auto;" alt="Room Hotel" onerror="this.src='/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg';" style="margin: auto; max-height:300px; width:unset;">
+                        <img class="owl-lazy img-hotel-detail zoom-img" data-src="`+data.prices[i].rooms[j].images[k].url+`" style="border:1px solid #cdcdcd; height:200px; margin:auto; width:auto;" alt="Room Hotel" onerror="this.src='/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg';" style="margin: auto; max-height:300px; width:unset;">
                     </div>`;
                }
             detail_room_txt+=`</div>`;
@@ -1308,6 +1595,7 @@ function create_detail_room(i, data){
         responsiveClass:true,
         dots: false,
         lazyLoad:true,
+        lazyLoadEager:true,
         merge: false,
         smartSpeed:500,
         autoplay: false,
@@ -3417,16 +3705,15 @@ function get_checked_copy_result_room(){
 
     node = document.createElement("div");
     text+=`
-    <div class="col-lg-12" id="information_hotel">
+    <div class="col-lg-12" style="background:white; padding:15px; margin-bottom:15px; border-top:1px solid #cdcdcd; border-bottom:1px solid #cdcdcd;" id="information_hotel">
         <h6>`+name_hotel+` `+rating_hotel+ `</h6>`;
         if(address_hotel != '')
             text+=`
         <span>Address: `+address_hotel+`</span><br/>`;
         text+=`
         <span>Date: `+datecico+`</span><br/><br/>
-        <h6>Room List:</h6><hr/>
     </div>
-    <div class="col-lg-12" style="min-height=200px; max-height:500px; overflow-y: scroll;">`;
+    <div class="col-lg-12">`;
     $(".copy_result:checked").each(function(obj) {
         var parent_room = $(this).parent().parent().parent().parent();
         var name_room = parent_room.find('.name_room').text();
@@ -3457,73 +3744,87 @@ function get_checked_copy_result_room(){
             $text += size_room+' '+unit_room+'\n';
         }
 
+        text+=`<div class="row" id="div_list`+id_room+`" style="padding-top:15px; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; margin-bottom:15px; background:white;">`;
+
         text+=`
-            <div class="row" id="div_list`+id_room+`">
-                <div class="col-lg-8">
-                    <h6>`+name_room+` </h6>
-                    <span>`+qty_room+` Room</span><br/>
-                    <span>`+meal_room+`</span><br/>
-                    <span style="font-weight:500;">Price: `+price_room+`</span>
-                    <span style="font-weight:500;">`+total_room_night+`</span>
-                </div>
-                <div class="col-lg-4" style="text-align:right;">
-                    <span style="font-weight:500; cursor:pointer;" onclick="delete_checked_copy_result_room(`+id_room+`);">Delete <i class="fas fa-times-circle" style="color:red; font-size:18px;"></i></span>
-                </div>
-                <div class="col-lg-12"><hr/></div>
-            </div>`;
+            <div class="col-lg-9">
+                <h6 class="single_border_custom_left" style="padding-left:5px;"> ROOM OPTION-`+room_number+`</h6>
+            </div>
+            <div class="col-lg-3" style="text-align:right;">
+                <span style="font-weight:500; cursor:pointer;" onclick="delete_checked_copy_result_room(`+id_room+`);">Delete <i class="fas fa-times-circle" style="color:red; font-size:18px;"></i></span>
+            </div>
+            <div class="col-lg-12">
+                <hr/>
+            </div>
+            <div class="col-lg-12">
+                <h6>`+name_room+` </h6>
+                <span>`+qty_room+` Room</span><br/>
+                <span>`+meal_room+`</span><br/>
+            </div>
+            <div class="col-lg-12 mb-3" style="text-align:right;">
+                <h6>Price: <b style="color:`+color+`;">`+price_room+`<br/>`+total_room_night+`</b></h6>
+            </div>
+
+        </div>`;
 
         $text += '\nPrice: '+price_room+'\n\n';
         $text += '▬▬▬▬▬\n';
     });
 
     $text += '===Price may change at any time===';
-    text+=`</div>
-    <div class="col-lg-12" style="margin-bottom:15px; margin-top:15px;" id="share_result">
+    text+=`</div>`;
+
+    text_footer = `
+    <div class="col-lg-12" id="share_result">
         <span style="font-size:14px; font-weight:bold;">Share this on:</span><br/>`;
         share_data_room();
         var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
         if (isMobile) {
-            text+=`
+            text_footer+=`
                 <a href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png" alt="Whatsapp"/></a>`;
             if(room_number < 11){
-                text+=`
+                text_footer+=`
                     <a href="line://msg/text/`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png" alt="Line"/></a>
                     <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png" alt="Telegram"/></a>`;
             }
             else{
-                text+=`
+                text_footer+=`
                 <a href="#" target="_blank" title="Share by Line" style="padding-right:5px; cursor:not-allowed;"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line-gray.png" alt="Line Disable"/></a>
                 <a href="#" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram-gray.png" alt="Telegram Disable"/></a>`;
             }
-            text+=`
+            text_footer+=`
                 <a href="mailto:?subject=This is the hotel price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png" alt="Email"/></a>`;
         } else {
-            text+=`
+            text_footer+=`
                 <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png" alt="Whatsapp"/></a>`;
             if(room_number < 11){
-                text+=`
+                text_footer+=`
                     <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png" alt="Line"/></a>
                     <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png" alt="Telegram"/></a>`;
             }
             else{
-                text+=`
+                text_footer+=`
                 <a href="#" title="Share by Line" style="padding-right:5px; cursor:not-allowed;"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line-gray.png" alt="Line Disable"/></a>
                 <a href="#" title="Share by Telegram" style="padding-right:5px; cursor:not-allowed;"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram-gray.png" alt="Telegram Disable"/></a>`;
             }
-            text+=`
+            text_footer+=`
                 <a href="mailto:?subject=This is the hotel price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png" alt="Email"/></a>`;
         }
         if(room_number > 10){
-            text+=`<br/><span style="color:red;">Nb: Share on Line and Telegram Max 10 Room</span>`;
+            text_footer+=`<br/><span style="color:red;">Nb: Share on Line and Telegram Max 10 Room</span>`;
         }
-    text+=`
-    </div>
-    <div class="col-lg-12" id="copy_result">
-        <input class="primary-btn-white" style="width:100%;" type="button" onclick="copy_data_room();" value="Copy">
+        text_footer+=`
+        <div style="float:right;" id="copy_result">
+            <button class="primary-btn-white" style="width:150px;" type="button" onclick="copy_data_room();">
+                <i class="fas fa-copy"></i> Copy
+            </button>
+        </div>
     </div>`;
     node.innerHTML = text;
     node.className = "row";
     document.getElementById("show-list-copy-hotel").appendChild(node);
+
+    document.getElementById("footer_list_copy").innerHTML = text_footer;
 
     if(room_number > 10){
         document.getElementById("mobile_line").style.display = "none";
