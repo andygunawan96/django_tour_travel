@@ -3919,6 +3919,8 @@ function get_price_itinerary_request(){
                                                         try{
                                                             for(l in family_provider_list[i].journeys[j].segments[k].fares){
                                                                 description = '';
+                                                                if(family_provider_list[i].journeys[j].segments[k].fares[l].fare_name)
+                                                                       description+=`<br/>`+family_provider_list[i].journeys[j].segments[k].fares[l].fare_name;
                                                                 for(m in family_provider_list[i].journeys[j].segments[k].fares[l].description){
                                                                     description += '<br/>' + family_provider_list[i].journeys[j].segments[k].fares[l].description[m];
                                                                 }
