@@ -1,0 +1,810 @@
+{% extends 'tt_website/template_website_booking.html' %}
+{% load i18n %}
+{% load static from staticfiles %}
+{% block content %}
+<!--<script src="{{ static_path }}js/webservice_token.js"></script>-->
+<!--<script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js?version={{javascript_version}}"></script>-->
+<script src="{{ static_path }}js/webservice_token.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_account.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_airline.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/moment.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_printout.js?version={{javascript_version}}"></script>
+<script>
+    static_path_url_server = '{{static_path_url_server}}'
+    airline_carriers = `{{airline_carriers}}`;
+    airline_carriers = airline_carriers.replace(/&#39;/g, '"');
+    airline_carriers = airline_carriers.replace(/&quot;/g, '"');
+    airline_carriers = airline_carriers.replace(/False/g, 'false');
+    airline_carriers = airline_carriers.replace(/True/g, 'true');
+    airline_carriers = JSON.parse(airline_carriers);
+    signature = `{{signature}}`;
+
+    function reset_filter(){
+        document.getElementById('name').value = '';
+        document.getElementById('pnr').value = '';
+        document.getElementById('booker_name').value = '';
+        document.getElementById('start_date').value = '';
+        document.getElementById('end_date').value = '';
+        document.getElementById('state').value = 'all';
+    }
+    provider_types_sequence = `{{provider_types_sequence}}`;
+    provider_types_sequence = provider_types_sequence.replace(/&#39;/g, '"');
+    provider_types_sequence = provider_types_sequence.replace(/&quot;/g, '"');
+    provider_types_sequence = provider_types_sequence.replace(/False/g, 'false');
+    provider_types_sequence = provider_types_sequence.replace(/True/g, 'true');
+    provider_types_sequence = JSON.parse(provider_types_sequence);
+    console.log(provider_types_sequence)
+</script>
+<title>{{name}} - {% trans 'Reservation' %}</title>
+
+{% include 'tt_website/logout.html' %}
+{% include 'tt_website/header.html' %}
+{% include 'tt_website/booking_from_vendor_airline.html' %}
+{% include 'tt_website/notification_box.html' %}
+{% if template == 1%}
+<section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
+{% elif template == 2%}
+<section style="padding-top:30px; padding-bottom:40px; background:#f7f7f7;">
+{% elif template == 3%}
+<section class="relative" style="padding:50px 0px 50px 0px; background:#f7f7f7; border-bottom:2px solid #cdcdcd;">
+{% elif template == 4%}
+<section style="padding:50px 0px 50px 0px; background:#f7f7f7;">
+{% elif template == 5%}
+<section style="padding:50px 0px 50px 0px; background:white; border-bottom:2px solid #cdcdcd; background:#f7f7f7;">
+{% elif template == 6%}
+<section style="padding:50px 0px 50px 0px; background:white; border-bottom:2px solid #cdcdcd; background:#f7f7f7;">
+{% endif %}
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="form-wrap" style="margin-bottom:30px; background:white; border:1px solid #cdcdcd; border-radius:14px;">
+                    <div class="row banner-right" style="margin-top:15px;">
+                        <div class="col-lg-12">
+                            <h4 style="padding:0px 15px 0px 15px;">{% trans 'Reservation Type' %}</h4>
+                            <div id="type" style="padding:10px;">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-wrap" style="margin-bottom:25px; padding:15px; border:1px solid #cdcdcd; border-radius:14px; background:white;">
+                    <h4>{% trans 'Search by' %}</h4>
+                    {%if template == 1%}
+                    <div class="row banner-right">
+                        <div class="col-lg-12 form-wrap" style="padding:15px; text-align:left;display:none;" id="search">
+                            <div class="row">
+                                <div class="col-lg-4 col-md-6">
+                                    <input type="text" id="pnr" class="form-control enter_reservation" placeholder="PNR or Order Number" onfocus="this.placeholder = ''" onblur="this.placeholder = 'PNR or Order Number'" autocomplete="off"/>
+                                </div>
+                                <div class="col-lg-4 col-md-6">
+                                    <input type="text" id="booker_name" class="form-control enter_reservation" placeholder="{% trans 'Booker name' %}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Booker name'" autocomplete="off"/>
+                                </div>
+                                <div class="col-lg-4 col-md-6">
+                                    <input type="text" id="name" class="form-control enter_reservation" placeholder="{% trans 'Passenger name' %}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passenger Name'" autocomplete="off"/>
+                                </div>
+                                <div class="col-lg-4 col-md-6">
+                                    <span><i class="fas fa-calendar-alt"></i> {% trans 'Start Book Date' %}</span>
+                                    <div class="input-container-search-ticket">
+                                        <input type="text" class="form-control" name="start_date" id="start_date" placeholder="{% trans 'Start Book Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Start Date '" autocomplete="off" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-6">
+                                    <span><i class="fas fa-calendar-alt"></i> {% trans 'End Book Date' %}</span>
+                                    <div class="input-container-search-ticket">
+                                        <input type="text" class="form-control" name="end_date" id="end_date" placeholder="{% trans 'End Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'End Date '" autocomplete="off" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-6">
+                                    <span>{% trans 'State' %}</span>
+                                    <div class="input-container-search-ticket btn-group">
+                                        <div class="form-select" id="default-select">
+                                            <select id="state" class="nice-select-default">
+                                                <option value="all">All</option>
+                                                <option value="is_need_update_identity">Need Update Identity</option>
+                                                <option value="draft">Draft</option>
+                                                <option value="booked">Booked</option>
+                                                <option value="issued">Issued</option>
+                                                <option value="pending">Pending</option>
+                                                <option value="done">Done</option>
+                                                <option value="rejected">Rejected</option>
+                                                <option value="refund">Refund</option>
+                                                <option value="cancel">Cancelled</option>
+                                                <option value="cancel2">Expired</option>
+                                                <option value="fail_booked">Failed (Book)</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-6" style="display:none;" id="provider_div">
+                                    <span>{% trans 'Provider' %}</span>
+                                    <div class="input-container-search-ticket btn-group">
+                                        <div class="form-select" id="default-select">
+                                            <select id="provider" class="nice-select-default">
+                                                <option value="">All</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-6" style="display:none;" id="empty_div">
+                                </div>
+
+                                <div class="col-lg-12" style="text-align:right;">
+                                    <a href="#" style="font-size:14px; font-weight:600; text-decoration:underline;" onclick="reset_filter();"><i class="fas fa-redo"></i> {% trans 'RESET' %}</a>
+                                </div>
+
+                                <div class="col-lg-12" style="text-align:center;">
+                                    <input type="button" class="primary-btn-custom" value="Search" onclick="get_transactions('filter');" id="button" disabled/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% elif template == 2 %}
+                    <div class="row hotel-search-form-area" style="bottom:0px; padding-left:15px; padding-right:15px;">
+                        <div class="col-lg-12 hotel-search-form" style="background-color:unset; padding:unset; box-shadow:unset;display:none;" id="search">
+                            <div class="row">
+                                <div class="col-lg-4 col-md-6">
+                                    <input type="text" id="pnr" class="form-control enter_reservation" placeholder="PNR or Order Number" onfocus="this.placeholder = ''" onblur="this.placeholder = 'PNR or Order Number'" autocomplete="off"/>
+                                </div>
+                                <div class="col-lg-4 col-md-6">
+                                    <input type="text" id="booker_name" class="form-control enter_reservation" placeholder="{% trans 'Booker name' %}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Booker name'" autocomplete="off"/>
+                                </div>
+                                <div class="col-lg-4 col-md-6">
+                                    <input type="text" id="name" class="form-control enter_reservation" placeholder="{% trans 'Passenger name' %}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passenger Name'" autocomplete="off"/>
+                                </div>
+                                <div class="col-lg-4 col-md-6">
+                                    <span><i class="fas fa-calendar-alt"></i> {% trans 'Start Book Date' %}</span>
+                                    <div class="input-container-search-ticket">
+                                        <input type="text" style="background:white;" class="form-control" name="start_date" id="start_date" placeholder="{% trans 'Start Book Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Start Date '" autocomplete="off" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-6">
+                                    <span><i class="fas fa-calendar-alt"></i> {% trans 'End Book Date' %}</span>
+                                    <div class="input-container-search-ticket">
+                                        <input type="text" style="background:white;" class="form-control" name="end_date" id="end_date" placeholder="{% trans 'End Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'End Date '" autocomplete="off" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-6">
+                                    <span>{% trans 'State' %}</span>
+                                    <div class="form-select" id="default-select">
+                                        <select id="state">
+                                            <option value="all">All</option>
+                                            <option value="is_need_update_identity">Need Update Identity</option>
+                                            <option value="draft">Draft</option>
+                                            <option value="booked">Booked</option>
+                                            <option value="issued">Issued</option>
+                                            <option value="pending">Pending</option>
+                                            <option value="done">Done</option>
+                                            <option value="rejected">Rejected</option>
+                                            <option value="cancel">Cancelled</option>
+                                            <option value="cancel2">Expired</option>
+                                            <option value="fail_booked">Failed (Book)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-6" style="display:none;" id="provider_div">
+                                    <span>{% trans 'Provider' %}</span>
+                                    <div class="input-container-search-ticket btn-group">
+                                        <div class="form-select" id="default-select">
+                                            <select id="provider" class="nice-select-default">
+                                                <option value="">All</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-6" style="display:none;" id="empty_div">
+                                </div>
+
+                                <div class="col-lg-12" style="text-align:right;">
+                                    <a href="#" style="font-size:14px; font-weight:600; text-decoration:underline;" onclick="reset_filter();"><i class="fas fa-redo"></i> {% trans 'RESET' %}</a>
+                                </div>
+
+                                <div class="col-lg-12" style="text-align:center;">
+                                    <input type="button" class="primary-btn-custom" value="Search" onclick="get_transactions('filter');" id="button" disabled />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% elif template == 3 %}
+                    <div class="row fullscreen d-flex" style="bottom:0px; padding-left:15px; padding-right:15px;">
+                        <div class="col-lg-12 header-right" style="background-color:unset; padding:unset; box-shadow:unset; border:unset;display:none;" id="search">
+                            <div class="row">
+                                <div class="col-lg-4 col-md-6">
+                                    <input type="text" id="pnr" class="form-control enter_reservation" placeholder="PNR or Order Number" onfocus="this.placeholder = ''" onblur="this.placeholder = 'PNR or Order Number'" autocomplete="off"/>
+                                </div>
+                                <div class="col-lg-4 col-md-6">
+                                    <input type="text" id="booker_name" class="form-control enter_reservation" placeholder="{% trans 'Booker name' %}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Booker name'" autocomplete="off"/>
+                                </div>
+                                <div class="col-lg-4 col-md-6">
+                                    <input type="text" id="name" class="form-control enter_reservation" placeholder="{% trans 'Passenger name' %}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passenger Name'" autocomplete="off"/>
+                                </div>
+                                <div class="col-lg-4 col-md-6">
+                                    <span><i class="fas fa-calendar-alt"></i> {% trans 'Start Book Date' %}</span>
+                                    <div class="input-container-search-ticket">
+                                        <input type="text" style="background:white;" class="form-control" name="start_date" id="start_date" placeholder="{% trans 'Start Book Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Start Date '" autocomplete="off" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-6">
+                                    <span><i class="fas fa-calendar-alt"></i> {% trans 'End Book Date' %}</span>
+                                    <div class="input-container-search-ticket">
+                                        <input type="text" style="background:white;" class="form-control" name="end_date" id="end_date" placeholder="{% trans 'End Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'End Date '" autocomplete="off" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-6">
+                                    <span>{% trans 'State' %}</span>
+                                    <div class="form-group">
+                                        <div class="default-select" id="default-select">
+                                            <select id="state">
+                                                <option value="all">All</option>
+                                                <option value="is_need_update_identity">Need Update Identity</option>
+                                                <option value="draft">Draft</option>
+                                                <option value="booked">Booked</option>
+                                                <option value="issued">Issued</option>
+                                                <option value="pending">Pending</option>
+                                                <option value="done">Done</option>
+                                                <option value="rejected">Rejected</option>
+                                                <option value="cancel">Cancelled</option>
+                                                <option value="cancel2">Expired</option>
+                                                <option value="fail_booked">Failed (Book)</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-6" style="display:none;" id="provider_div">
+                                    <span>{% trans 'Provider' %}</span>
+                                    <div class="input-container-search-ticket btn-group">
+                                        <div class="form-select" id="default-select">
+                                            <select id="provider" class="nice-select-default">
+                                                <option value="">All</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-6" style="display:none;" id="empty_div">
+                                </div>
+
+                                <div class="col-lg-12" style="text-align:right;">
+                                    <a href="#" style="font-size:14px; font-weight:600; text-decoration:underline;" onclick="reset_filter();"><i class="fas fa-redo"></i> {% trans 'RESET' %}</a>
+                                </div>
+
+                                <div class="col-lg-12" style="text-align:center;">
+                                    <input type="button" class="primary-btn-custom" value="Search" onclick="get_transactions('filter');" id="button" disabled/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% elif template == 4 %}
+                    <div class="row align-items-end justify-content-center">
+                        <div class="banner-content col-xl-12 search-field" style="display:none;" id="search">
+                            <div class="row">
+                                <div class="col-lg-4 col-md-6">
+                                    <input type="text" id="pnr" class="form-control enter_reservation" placeholder="PNR or Order Number" onfocus="this.placeholder = ''" onblur="this.placeholder = 'PNR or Order Number'" autocomplete="off"/>
+                                </div>
+                                <div class="col-lg-4 col-md-6">
+                                    <input type="text" id="booker_name" class="form-control enter_reservation" placeholder="{% trans 'Booker name' %}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Booker name'" autocomplete="off"/>
+                                </div>
+                                <div class="col-lg-4 col-md-6">
+                                    <input type="text" id="name" class="form-control enter_reservation" placeholder="{% trans 'Passenger name' %}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passenger Name'" autocomplete="off"/>
+                                </div>
+                                <div class="col-lg-4 col-md-6">
+                                    <span><i class="fas fa-calendar-alt"></i> {% trans 'Start Book Date' %}</span>
+                                    <div class="input-container-search-ticket">
+                                        <input type="text" style="background:white;" class="form-control" name="start_date" id="start_date" placeholder="{% trans 'Start Book Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Start Date '" autocomplete="off" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-6">
+                                    <span><i class="fas fa-calendar-alt"></i> {% trans 'End Book Date' %}</span>
+                                    <div class="input-container-search-ticket">
+                                        <input type="text" style="background:white;" class="form-control" name="end_date" id="end_date" placeholder="{% trans 'End Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'End Date '" autocomplete="off" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-6">
+                                    <span>{% trans 'State' %}</span>
+                                    <div class="input-container-search-ticket btn-group">
+                                        <div class="form-select" id="default-select">
+                                            <select class="nice-select-default" id="state">
+                                                <option value="all">All</option>
+                                                <option value="is_need_update_identity">Need Update Identity</option>
+                                                <option value="draft">Draft</option>
+                                                <option value="booked">Booked</option>
+                                                <option value="issued">Issued</option>
+                                                <option value="pending">Pending</option>
+                                                <option value="done">Done</option>
+                                                <option value="rejected">Rejected</option>
+                                                <option value="cancel">Cancelled</option>
+                                                <option value="cancel2">Expired</option>
+                                                <option value="fail_booked">Failed (Book)</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-6" style="display:none;" id="provider_div">
+                                    <span>{% trans 'Provider' %}</span>
+                                    <div class="input-container-search-ticket btn-group">
+                                        <div class="form-select" id="default-select">
+                                            <select id="provider" class="nice-select-default">
+                                                <option value="">All</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-6" style="display:none;" id="empty_div">
+                                </div>
+
+                                <div class="col-lg-12" style="text-align:right;">
+                                    <a href="#" style="font-size:14px; font-weight:600; text-decoration:underline; color:#f15a22;" onclick="reset_filter();"><i class="fas fa-redo"></i> {% trans 'RESET' %}</a>
+                                </div>
+
+                                <div class="col-lg-12" style="text-align:center;">
+                                    <input type="button" class="primary-btn-custom" value="Search" onclick="get_transactions('filter');" id="button" disabled/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% elif template == 5 %}
+                    <div class="row banner-right">
+                        <div class="col-lg-12 form-wrap" style="padding:15px; text-align:left;display:none;" id="search">
+                            <div class="row">
+                                <div class="col-lg-4 col-md-6">
+                                    <input type="text" id="pnr" class="form-control enter_reservation" placeholder="PNR or Order Number" onfocus="this.placeholder = ''" onblur="this.placeholder = 'PNR or Order Number'" autocomplete="off"/>
+                                </div>
+                                <div class="col-lg-4 col-md-6">
+                                    <input type="text" id="booker_name" class="form-control enter_reservation" placeholder="{% trans 'Booker name' %}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Booker name'" autocomplete="off"/>
+                                </div>
+                                <div class="col-lg-4 col-md-6">
+                                    <input type="text" id="name" class="form-control enter_reservation" placeholder="{% trans 'Passenger name' %}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passenger Name'" autocomplete="off"/>
+                                </div>
+                                <div class="col-lg-4 col-md-6">
+                                    <span><i class="fas fa-calendar-alt"></i> {% trans 'Start Book Date' %}</span>
+                                    <div class="input-container-search-ticket">
+                                        <input type="text" style="background:white;" class="form-control" name="start_date" id="start_date" placeholder="{% trans 'Start Book Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Start Date '" autocomplete="off" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-6">
+                                    <span><i class="fas fa-calendar-alt"></i> {% trans 'End Book Date' %}</span>
+                                    <div class="input-container-search-ticket">
+                                        <input type="text" style="background:white;" class="form-control" name="end_date" id="end_date" placeholder="{% trans 'End Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'End Date '" autocomplete="off" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-6">
+                                    <span>{% trans 'State' %}</span>
+                                    <div class="input-container-search-ticket">
+                                        <div class="form-select" id="default-select">
+                                            <select id="state">
+                                                <option value="all">All</option>
+                                                <option value="is_need_update_identity">Need Update Identity</option>
+                                                <option value="draft">Draft</option>
+                                                <option value="booked">Booked</option>
+                                                <option value="issued">Issued</option>
+                                                <option value="pending">Pending</option>
+                                                <option value="done">Done</option>
+                                                <option value="rejected">Rejected</option>
+                                                <option value="cancel">Cancelled</option>
+                                                <option value="cancel2">Expired</option>
+                                                <option value="fail_booked">Failed (Book)</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-6" style="display:none;" id="provider_div">
+                                    <span>{% trans 'Provider' %}</span>
+                                    <div class="input-container-search-ticket btn-group">
+                                        <div class="form-select" id="default-select">
+                                            <select id="provider" class="nice-select-default">
+                                                <option value="">All</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-6" style="display:none;" id="empty_div">
+                                </div>
+
+                                <div class="col-lg-12" style="text-align:right;">
+                                    <a href="#" style="font-size:14px; font-weight:600; text-decoration:underline;" onclick="reset_filter();"><i class="fas fa-redo"></i> {% trans 'RESET' %}</a>
+                                </div>
+
+                                <div class="col-lg-12" style="text-align:center;">
+                                    <input type="button" class="primary-btn-custom" value="Search" onclick="get_transactions('filter');" id="button" disabled/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% elif template == 6 %}
+                    <div class="row banner-right">
+                        <div class="col-lg-12 form-wrap" style="padding:15px; text-align:left;" id="search">
+                            <div class="row">
+                                <div class="col-lg-4 col-md-6">
+                                    <input type="text" id="pnr" class="form-control enter_reservation" placeholder="PNR" onfocus="this.placeholder = ''" onblur="this.placeholder = 'PNR'" autocomplete="off"/>
+                                </div>
+                                <div class="col-lg-4 col-md-6">
+                                    <input type="text" id="booker_name" class="form-control enter_reservation" placeholder="{% trans 'Booker name' %}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Booker name'" autocomplete="off"/>
+                                </div>
+                                <div class="col-lg-4 col-md-6">
+                                    <input type="text" id="name" class="form-control enter_reservation" placeholder="{% trans 'Passenger name' %}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passenger Name'" autocomplete="off"/>
+                                </div>
+                                <div class="col-lg-4 col-md-6">
+                                    <span><i class="fas fa-calendar-alt"></i> {% trans 'Start Book Date' %}</span>
+                                    <div class="input-container-search-ticket">
+                                        <input type="text" style="background:white;" class="form-control" name="start_date" id="start_date" placeholder="{% trans 'Start Book Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Start Date '" autocomplete="off" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-6">
+                                    <span><i class="fas fa-calendar-alt"></i> {% trans 'End Book Date' %}</span>
+                                    <div class="input-container-search-ticket">
+                                        <input type="text" style="background:white;" class="form-control" name="end_date" id="end_date" placeholder="{% trans 'End Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'End Date '" autocomplete="off" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-6">
+                                    <span>{% trans 'State' %}</span>
+                                    <div class="input-container-search-ticket">
+                                        <div class="form-select" id="default-select">
+                                            <select id="state">
+                                                <option value="all">All</option>
+                                                <option value="is_need_update_identity">Need Update Identity</option>
+                                                <option value="draft">Draft</option>
+                                                <option value="booked">Booked</option>
+                                                <option value="issued">Issued</option>
+                                                <option value="pending">Pending</option>
+                                                <option value="done">Done</option>
+                                                <option value="rejected">Rejected</option>
+                                                <option value="cancel">Cancelled</option>
+                                                <option value="cancel2">Expired</option>
+                                                <option value="fail_booked">Failed (Book)</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-6" style="display:none;" id="provider_div">
+                                    <span>{% trans 'Provider' %}</span>
+                                    <div class="input-container-search-ticket btn-group">
+                                        <div class="form-select" id="default-select">
+                                            <select id="provider" class="nice-select-default">
+                                                <option value="">All</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-6" style="display:none;" id="empty_div">
+                                </div>
+
+
+                                <div class="col-lg-12" style="text-align:right;">
+                                    <a href="#" style="font-size:14px; font-weight:600; text-decoration:underline;" onclick="reset_filter();"><i class="fas fa-redo"></i> {% trans 'RESET' %}</a>
+                                </div>
+
+                                <div class="col-lg-12" style="text-align:center;">
+                                    <input type="button" class="primary-btn-custom" value="Search" onclick="get_transactions('filter');" id="button"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <div class="col-lg-12">
+                    <div class="row">
+                        <div class="col-lg-12" style="display:none; margin-bottom:25px; padding:15px; border:1px solid #cdcdcd; border-radius:14px; background:white;" id="sort_div">
+                            <h4 class="mb-3">Sort</h4>
+                            <label class="radio-button-custom">
+                                <span>Order Number</span>
+                                <input type="radio" name="sort_reservation_id" value="order_number" onclick="sort_transaction();">
+                                <span class="checkmark-radio"></span>
+                            </label>
+                            <label class="radio-button-custom">
+                                <span>Flight Number</span>
+                                <input type="radio" name="sort_reservation_id" value="flight_number" onclick="sort_transaction();">
+                                <span class="checkmark-radio"></span>
+                            </label>
+                            <label class="radio-button-custom">
+                                <span>Departure Date</span>
+                                <input type="radio" name="sort_reservation_id" value="departure_date" onclick="sort_transaction();">
+                                <span class="checkmark-radio"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-12" style="padding:0px;">
+                    <h4 class="mb-3">Result</h4>
+                </div>
+
+                <div class="col-lg-12">
+                    <div class="row mb-3">
+                        <div class="col-lg-12" style="text-align:left; padding: 0px;">
+                            <label class="radio-label" style="width:150px; cursor:pointer; height:30px;">
+                                <input type="radio" name="view_type_reservation" value="table_mode" checked onchange="table_reservation(data_search,'table_mode',true);">
+                                <div class="div_radio_bg">Table Mode <i class="fas fa-table" style="padding-left:5px;"></i></div>
+                            </label>
+                            <label class="radio-label" style="width:150px; cursor:pointer; height:30px;">
+                                <input type="radio" name="view_type_reservation" value="card_mode" onchange="table_reservation(data_search,'card_mode',true);">
+                                <div class="div_radio_bg">Card Mode <i class="fas fa-square" style="padding-left:5px;"></i></div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-3" id="table_reservation">
+
+                </div>
+
+                <div class="col-lg-12 mb-3" style="padding:0px;">
+                    <div id="loading-search-reservation" style="margin-bottom:20px;">
+                        <div class="col-lg-12">
+                            <div class="sk-circle">
+                                <div class="sk-circle1 sk-child"></div>
+                                <div class="sk-circle2 sk-child"></div>
+                                <div class="sk-circle3 sk-child"></div>
+                                <div class="sk-circle4 sk-child"></div>
+                                <div class="sk-circle5 sk-child"></div>
+                                <div class="sk-circle6 sk-child"></div>
+                                <div class="sk-circle7 sk-child"></div>
+                                <div class="sk-circle8 sk-child"></div>
+                                <div class="sk-circle9 sk-child"></div>
+                                <div class="sk-circle10 sk-child"></div>
+                                <div class="sk-circle11 sk-child"></div>
+                                <div class="sk-circle12 sk-child"></div>
+                            </div>
+                            <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
+                        </div>
+                    </div>
+                    <div class="row" id="load_more_reservation" style="display:none;">
+                        <div class="col-lg-12" style="text-align:center; cursor:pointer;" onclick="load_more_reservation();">
+                            <button type="button" class="primary-btn" style="width:100%;">Load More Data</button><br/>
+                            <i class="fas fa-angle-down animated fadeInDown infinite" style="font-size:30px;"></i>
+                        </div>
+                    </div>
+                </div>
+                <center><div class="alert alert-danger" id="reservation_found" role="alert" style="margin-top:10px; display:none;"><h6><i class="fas fa-search-minus"></i> Oops! Data reservation not found!</h6></div></center>
+                <div id="desc">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<script>
+    signin_rodextrip('reservation');
+    var text = '';
+    text+=`<div class="row">`;
+    selected = true;
+    text_product = ''
+    for(i in provider_types_sequence){
+        add_product = false;
+        if(provider_types_sequence[i].name != 'health_care'){//health_care provider buatan dari frontend tidak ada di backend
+            text_product=`<div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">`;
+                text_product += `<label class="radio-button-custom">`;
+                if(provider_types_sequence[i].code == 'airline' && user_login.co_agent_frontend_security.includes('ticketing_airline') || provider_types_sequence[i].code == 'airline' &&  user_login.co_agent_frontend_security.includes('process_channel_booking')){
+                    text_product+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/airlines_black.png" alt="Airline Icon"/>`;
+                    add_product = true;
+                }else if(provider_types_sequence[i].code == 'hotel' && user_login.co_agent_frontend_security.includes('ticketing_hotel') || provider_types_sequence[i].code == 'hotel' && user_login.co_agent_frontend_security.includes('process_channel_booking')){
+                    text_product+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/hotel_black.png" alt="Hotel Icon"/>`;
+                    add_product = true;
+                }else if(provider_types_sequence[i].code == 'train' && user_login.co_agent_frontend_security.includes('ticketing_train') || provider_types_sequence[i].code == 'train' && user_login.co_agent_frontend_security.includes('process_channel_booking')){
+                    text_product+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/train_black.png" alt="Train Icon"/>`;
+                    add_product = true;
+                }else if(provider_types_sequence[i].code == 'ppob' && user_login.co_agent_frontend_security.includes('ticketing_ppob') || provider_types_sequence[i].code == 'ppob' && user_login.co_agent_frontend_security.includes('process_channel_booking')){
+                    text_product+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/ppob_black.png" alt="PPOB Icon"/>`;
+                    add_product = true;
+                }else if(provider_types_sequence[i].code == 'activity' && user_login.co_agent_frontend_security.includes('ticketing_activity') || provider_types_sequence[i].code == 'activity' && user_login.co_agent_frontend_security.includes('process_channel_booking')){
+                    text_product+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/activity_black.png" alt="Event Icon"/>`;
+                    add_product = true;
+                }else if(provider_types_sequence[i].code == 'tour' && user_login.co_agent_frontend_security.includes('ticketing_tour') || provider_types_sequence[i].code == 'tour' &&  user_login.co_agent_frontend_security.includes('process_channel_booking')){
+                    text_product+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/tour_black.png" alt="Tour Icon"/>`;
+                    add_product = true;
+                }else if(provider_types_sequence[i].code == 'event' && user_login.co_agent_frontend_security.includes('ticketing_event') || provider_types_sequence[i].code == 'event' && user_login.co_agent_frontend_security.includes('process_channel_booking')){
+                    text_product+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/event_black.png" alt="Event Icon"/>`;
+                    add_product = true;
+                }else if(provider_types_sequence[i].code == 'visa' && user_login.co_agent_frontend_security.includes('ticketing_visa') || provider_types_sequence[i].code == 'visa' && user_login.co_agent_frontend_security.includes('process_channel_booking')){
+                    text_product+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/visa_black.png" alt="Visa Icon"/>`;
+                    add_product = true;
+                }else if(provider_types_sequence[i].code == 'periksain' && user_login.co_agent_frontend_security.includes('ticketing_periksain') || provider_types_sequence[i].code == 'periksain' && user_login.co_agent_frontend_security.includes('process_channel_booking')){
+                    text_product+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/swab_black.png" alt="Periksain Icon"/>`;
+                    add_product = true;
+                }else if(provider_types_sequence[i].code == 'phc' && user_login.co_agent_frontend_security.includes('ticketing_medical') || provider_types_sequence[i].code == 'phc' && user_login.co_agent_frontend_security.includes('process_channel_booking')){
+                    text_product+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/swab_black.png" alt="PHC Icon"/>`;
+                    add_product = true;
+                }else if(provider_types_sequence[i].code == 'passport' && user_login.co_agent_frontend_security.includes('ticketing_passport') || provider_types_sequence[i].code == 'passport' && user_login.co_agent_frontend_security.includes('process_channel_booking')){
+                    text_product+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/passport_black.png" alt="Passport Icon"/>`;
+                    add_product = true;
+                }else if(provider_types_sequence[i].code == 'bus' && user_login.co_agent_frontend_security.includes('ticketing_bus') || provider_types_sequence[i].code == 'bus' && user_login.co_agent_frontend_security.includes('process_channel_booking')){
+                    text_product+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/bus_black.png" alt="Bus Icon"/>`;
+                    add_product = true;
+                }else if(provider_types_sequence[i].code == 'medical' && user_login.co_agent_frontend_security.includes('ticketing_medical') || provider_types_sequence[i].code == 'medical' && user_login.co_agent_frontend_security.includes('process_channel_booking')){
+                    text_product+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/swab_black.png" alt="Medical Icon"/>`;
+                    add_product = true;
+                }else if(provider_types_sequence[i].code == 'labpintar' && user_login.co_agent_frontend_security.includes('ticketing_labpintar') || provider_types_sequence[i].code == 'labpintar' && user_login.co_agent_frontend_security.includes('process_channel_booking')){
+                    text_product+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/swab_black.png" alt="Lab Pintar Icon"/>`;
+                    add_product = true;
+                }else if(provider_types_sequence[i].code == 'swabexpress' && user_login.co_agent_frontend_security.includes('ticketing_swabexpress') || provider_types_sequence[i].code == 'swabexpress' && user_login.co_agent_frontend_security.includes('process_channel_booking')){
+                    text_product+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/swab_black.png" alt="Swab Express Icon"/>`;
+                    add_product = true;
+                }else if(provider_types_sequence[i].code == 'insurance' && user_login.co_agent_frontend_security.includes('ticketing_insurance') || provider_types_sequence[i].code == 'insurance' && user_login.co_agent_frontend_security.includes('process_channel_booking')){
+                    text_product+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/insurance_black.png" alt="Insurance Icon"/>`;
+                    add_product = true;
+                }else if(provider_types_sequence[i].code == 'mitrakeluarga' && user_login.co_agent_frontend_security.includes('ticketing_mitrakeluarga') || provider_types_sequence[i].code == 'mitrakeluarga' && user_login.co_agent_frontend_security.includes('process_channel_booking')){
+                    text_product+=`<img style="width:auto; height:15px" src="{{static_path}}images/icon/swab_black.png" alt="Swab Express Icon"/>`;
+                    add_product = true;
+                }else if(provider_types_sequence[i].code == 'sentramedika' && user_login.co_agent_frontend_security.includes('ticketing_sentramedika') || provider_types_sequence[i].code == 'sentramedika' && user_login.co_agent_frontend_security.includes('process_channel_booking')){
+                    text_product+=`<img style="width:auto; height:15px" src="{{static_path}}images/icon/swab_black.png" alt="Sentra Medika Icon"/>`;
+                    add_product = true;
+                }else if(provider_types_sequence[i].code == 'groupbooking' && user_login.co_agent_frontend_security.includes('ticketing_group_booking') || provider_types_sequence[i].code == 'groupbooking' && user_login.co_agent_frontend_security.includes('process_channel_booking')){
+                    text_product+=`<img style="width:auto; height:15px" src="{{static_path}}images/icon/groupbooking_black.png" alt="Group Booking Icon"/>`;
+                    add_product = true;
+                }
+                text_product+=`
+                    <span>`+provider_types_sequence[i].name.charAt(0).toUpperCase()+provider_types_sequence[i].name.slice(1).toLowerCase()+`</span>
+                    <input type="radio" name="filter" value="`+provider_types_sequence[i].code+`" onclick="get_transactions('filter');" `;
+                if(selected)
+                    text_product += `checked`;
+                    text_product+=`>
+                    <span class="checkmark-radio"></span>
+                </label>`;
+            text_product+=`</div>`;
+            if(add_product){
+                text += text_product;
+                selected = false
+            }
+        }
+
+    }
+    if(user_login.co_agent_frontend_security.includes('ticketing_offline') || user_login.co_agent_frontend_security.includes('process_channel_booking'))
+        text += `
+        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-6">
+            <label class="radio-button-custom">
+                <img style="width:auto; height:15px" src="{{static_path}}images/icon/offline_black.png" alt="Offline Icon"/>
+                <span>Offline</span>
+                <input type="radio" name="filter" value="offline" onclick="get_transactions('filter');">
+                <span class="checkmark-radio"></span>
+            </label>
+        </div>`;
+    text+=`</div>`;
+    document.getElementById('type').innerHTML = text;
+    //get_transactions('reset');
+    function goto_detail_reservation(key){
+        document.getElementById('gotobooking'+key).innerHTML += `{% csrf_token %}`;
+        document.getElementById('gotobooking'+key).innerHTML += `<input type=hidden name="order_number" value="`+data_search[key].order_number+`" />`;
+
+        if(data_search[key].provider_type == 'airline'){
+            document.getElementById('gotobooking'+key).action = '/airline/booking/' + btoa(data_search[key].order_number);
+        }else if(data_search[key].provider_type == 'train'){
+            document.getElementById('gotobooking'+key).action = '/train/booking/' + btoa(data_search[key].order_number);
+        }else if(data_search[key].provider_type == 'activity'){
+            document.getElementById('gotobooking'+key).action = '/activity/booking/' + btoa(data_search[key].order_number);
+        }else if(data_search[key].provider_type == 'hotel'){
+            document.getElementById('gotobooking'+key).action = '/hotel/booking/' + btoa(data_search[key].order_number);
+        }else if(data_search[key].provider_type == 'visa'){
+            document.getElementById('gotobooking'+key).action = '/visa/booking/' + btoa(data_search[key].order_number);
+        }else if(data_search[key].provider_type == 'tour'){
+            document.getElementById('gotobooking'+key).action = '/tour/booking/' + btoa(data_search[key].order_number);
+        }else if(data_search[key].provider_type == 'offline'){
+            document.getElementById('gotobooking'+key).action = '/issued_offline/booking/' + btoa(data_search[key].order_number);
+        }else if(data_search[key].provider_type == 'passport'){
+            document.getElementById('gotobooking'+key).action = '/passport/booking/' + btoa(data_search[key].order_number);
+        }else if(data_search[key].provider_type == 'ppob'){
+            document.getElementById('gotobooking'+key).action = '/ppob/booking/' + btoa(data_search[key].order_number);
+        }else if(data_search[key].provider_type == 'event'){
+            document.getElementById('gotobooking'+key).action = '/event/booking/' + btoa(data_search[key].order_number);
+        }else if(data_search[key].provider_type == 'periksain' || data_search[key].provider_type == 'phc'){
+            document.getElementById('gotobooking'+key).action = '/medical/booking/' + btoa(data_search[key].order_number);
+        }else if(data_search[key].provider_type == 'medical'){
+            document.getElementById('gotobooking'+key).action = '/medical_global/booking/' + btoa(data_search[key].order_number);
+        }else if(data_search[key].provider_type == 'bus'){
+            document.getElementById('gotobooking'+key).action = '/bus/booking/' + btoa(data_search[key].order_number);
+        }else if(data_search[key].provider_type == 'swabexpress'){
+            document.getElementById('gotobooking'+key).action = '/swab_express/booking/' + btoa(data_search[key].order_number);
+        }else if(data_search[key].provider_type == 'labpintar'){
+            document.getElementById('gotobooking'+key).action = '/lab_pintar/booking/' + btoa(data_search[key].order_number);
+        }else if(data_search[key].provider_type == 'insurance'){
+            document.getElementById('gotobooking'+key).action = '/insurance/booking/' + btoa(data_search[key].order_number);
+        }else if(data_search[key].provider_type == 'mitrakeluarga'){
+            document.getElementById('gotobooking'+key).action = '/mitra_keluarga/booking/' + btoa(data_search[key].order_number);
+        }else if(data_search[key].provider_type == 'sentramedika'){
+            document.getElementById('gotobooking'+key).action = '/sentra_medika/booking/' + btoa(data_search[key].order_number);
+        }else if(data_search[key].provider_type == 'groupbooking'){
+            document.getElementById('gotobooking'+key).action = '/group_booking/booking/' + btoa(data_search[key].order_number);
+        }
+        document.getElementById('gotobooking'+key).submit();
+    }
+    function load_more_reservation(){
+        if(load_more == true){
+            //get_agent_booking();
+            get_transactions();
+        }
+    }
+    $(document).ready(function () {
+        get_providers_airline();
+        //$(window).scroll(function() {
+        //    if($(window).scrollTop() >= $(document).height() - ($(window).height() + 600)) {
+        //        if(load_more == true){
+        //            //get_agent_booking();
+        //            get_transactions();
+        //        }
+        //    }
+        //});
+
+        $(".enter_reservation").keypress(function(event) {
+            if (event.keyCode === 13) {
+                $("#button").click();
+            }
+        });
+
+        try{
+            $('input[name="start_date"]').daterangepicker({
+              singleDatePicker: true,
+              autoUpdateInput: true,
+              startDate: moment(),
+              minDate: moment().subtract(+730, 'days'),
+              maxDate: moment(),
+              showDropdowns: true,
+              opens: 'center',
+              locale: {
+                  format: 'DD MMM YYYY',
+              }
+            });
+            $('input[name="end_date"]').daterangepicker({
+              singleDatePicker: true,
+              autoUpdateInput: true,
+              startDate: moment(),
+              minDate: moment(),
+              maxDate: moment(),
+              showDropdowns: true,
+              opens: 'center',
+              locale: {
+                  format: 'DD MMM YYYY',
+              }
+            });
+
+            $('input[name="end_date"]').change(function() {
+                min_date = document.getElementById('end_date').value;
+                if(document.getElementById('start_date').value != '')
+                    pick_date = document.getElementById('start_date').value;
+                else
+                    pick_date = document.getElementById('end_date').value;
+
+                $('input[name="start_date"]').daterangepicker({
+                  singleDatePicker: true,
+                  autoUpdateInput: true,
+                  opens: 'center',
+                  startDate: pick_date,
+                  minDate: moment().subtract(+730, 'days'),
+                  maxDate: min_date,
+                  showDropdowns: true,
+                  locale: {
+                      format: 'DD MMM YYYY',
+                  }
+                });
+            });
+
+            $('input[name="start_date"]').change(function() {
+                min_date = document.getElementById('start_date').value;
+                if(document.getElementById('end_date').value != '')
+                    pick_date = document.getElementById('end_date').value;
+                else
+                    pick_date = document.getElementById('start_date').value;
+
+                console.log(pick_date);
+                console.log(min_date);
+                $('input[name="end_date"]').daterangepicker({
+                  singleDatePicker: true,
+                  autoUpdateInput: true,
+                  opens: 'center',
+                  startDate: pick_date,
+                  minDate: min_date,
+                  maxDate: moment(),
+                  showDropdowns: true,
+                  locale: {
+                      format: 'DD MMM YYYY',
+                  }
+                });
+            });
+        }catch(err){
+            console.log(err) //ada element yg tidak ada
+        }
+        $('input[name="start_date"]').val("");
+        $('input[name="end_date"]').val("");
+    });
+</script>
+{% include 'tt_website/footer.html' %}
+{% endblock %}

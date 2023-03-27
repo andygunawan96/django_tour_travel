@@ -10,7 +10,7 @@ import json
 import logging
 import traceback
 from .tt_webservice_views import *
-_logger = logging.getLogger("rodextrip_logger")
+_logger = logging.getLogger("website_logger")
 
 month = {
     'Jan': '01',

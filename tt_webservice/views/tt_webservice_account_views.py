@@ -12,7 +12,7 @@ import base64
 import os
 from django.core.files.storage import FileSystemStorage
 
-_logger = logging.getLogger("rodextrip_logger")
+_logger = logging.getLogger("website_logger")
 from .tt_webservice_views import *
 from .tt_webservice import *
 import time
@@ -175,7 +175,7 @@ def signin(request):
         "action": "signin",
         "signature": ''
     }
-
+    user_global, password_global, api_key = get_credential(request)
     data = {
         "user": user_global,
         "password": password_global,
@@ -269,7 +269,7 @@ def auto_signin(request):
         "action": "signin",
         "signature": ''
     }
-
+    user_global, password_global, api_key = get_credential(request)
     data = {
         "user": user_global,
         "password": password_global,
@@ -320,19 +320,6 @@ def reset_password(request):
             _logger.error("reset_password ERROR SIGNATURE " + res_signin['result']['response']['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
-    return res
-
-def get_version(request):
-    javascript_version = get_cache_version()
-    res = {
-        'result': {
-            'error_code': 0,
-            'error_msg': '',
-            'response': {
-                'version': javascript_version
-            }
-        }
-    }
     return res
 
 def get_account(request):
@@ -917,7 +904,7 @@ def set_highlight_url(request):
                 "title": rec[0],
                 "url": rec[1]
             })
-    write_cache(data, "highlight_data", 'cache_web')
+    write_cache(data, "highlight_data", request, 'cache_web')
 
     return 0
 
@@ -925,7 +912,7 @@ def set_highlight_url(request):
 def get_highlight_url(request):
     data = []
     try:
-        file = read_cache("highlight_data", 'cache_web', 90911)
+        file = read_cache("highlight_data", 'cache_web', request, 90911)
         if file:
             for line in file:
                 data.append({
@@ -946,14 +933,14 @@ def set_contact_url(request):
                 data += '\n'
             data += '%s:contact:%s:contact:%s' % (rec[0], rec[1], rec[2])
 
-    write_cache(data, "contact_data", 'cache_web')
+    write_cache(data, "contact_data", request, 'cache_web')
     return 0
 
 
 def get_contact_url(request):
     data = []
     try:
-        file = read_cache("contact_data", 'cache_web', 90911)
+        file = read_cache("contact_data", 'cache_web', request, 90911)
         for line in file.split('\n'):
             data.append(line.split(':contact:'))
     except Exception as e:
@@ -970,14 +957,14 @@ def set_social_url(request):
                 data += '\n'
             data += '%s:social:%s:social:%s' % (rec[0], rec[1], rec[2])
 
-    write_cache(data, "social_data", 'cache_web')
+    write_cache(data, "social_data", request, 'cache_web')
     return 0
 
 
 def get_social_url(request):
     data = []
     try:
-        file = read_cache("social_data", 'cache_web', 90911)
+        file = read_cache("social_data", 'cache_web', request, 90911)
         for line in file.split('\n'):
             data.append(line.split(':social:'))
     except Exception as e:
@@ -988,11 +975,11 @@ def get_social_url(request):
 def get_payment_partner(request):
     try:
         response = []
-        path = var_log_path('payment_partner')
+        path = var_log_path(request, 'payment_partner')
         if not os.path.exists(path):
             os.mkdir(path)
         for data in os.listdir(path):
-            file = read_cache(data[:-4], "payment_partner", 90911)
+            file = read_cache(data[:-4], "payment_partner", request, 90911)
             state = ''
             sequence = ''
             title = ''
@@ -1036,16 +1023,16 @@ def get_payment_partner(request):
 
 def delete_payment_partner(request):
     try:
-        path = var_log_path('payment_partner')
+        path = var_log_path(request, 'payment_partner')
         data = os.listdir(path)
         os.remove('%s/%s' % (path, data[int(request.POST['partner_number'])]))
         # check image
         fs = FileSystemStorage()
-        fs.location += '/image_payment_partner'
+        fs.location = media_path(request, fs.location, 'image_payment_partner')
         data = os.listdir(path)
         image_list = []
         for rec in data:
-            file = read_cache(rec[:-4], "payment_partner", 90911)
+            file = read_cache(rec[:-4], "payment_partner", request, 90911)
             for idx, line in enumerate(file.split('\n')):
                 if idx == 3:
                     line = line.split('\n')[0]
@@ -1080,10 +1067,8 @@ def delete_payment_partner(request):
 def set_payment_partner(request):
     try:
         fs = FileSystemStorage()
-        fs.location += '/image_payment_partner'
-        if not os.path.exists(fs.location):
-            os.mkdir(fs.location)
-        path = var_log_path('payment_partner')
+        fs.location = media_path(request, fs.location, 'image_payment_partner')
+        path = var_log_path(request, 'payment_partner')
         if not os.path.exists(path):
             os.mkdir(path)
 
@@ -1112,17 +1097,18 @@ def set_payment_partner(request):
                         title += str(counter)
                     break
             text = request.POST['state'] + '\n' + sequence + '\n' + title + '\n' + fs.base_url + "image_payment_partner/" + filename
-            write_cache(text, "".join(title.split(' ')), "payment_partner")
+            write_cache(text, "".join(title.split(' ')), request, "payment_partner")
         #replace
         else:
             if filename == '':
-                file = read_cache(data[int(request.POST['partner_number'])][:-4], "payment_partner", 90911)
+                file = read_cache(data[int(request.POST['partner_number'])][:-4], "payment_partner", request, 90911)
                 for idx, line in enumerate(file.split('\n')):
                     if idx == 3:
                         text = line.split('\n')[0].split('/')
-                        text.pop(0)
-                        text.pop(0)
-                        text.pop(0)
+                        text.pop(0)  ## ''
+                        text.pop(0)  ## media
+                        text.pop(0)  ## image dynamic
+                        text.pop(0)  ## domain
                         filename = "/".join(text)
             os.remove('%s/%s' % (path, data[int(request.POST['partner_number'])]))
             data = os.listdir(path)
@@ -1136,19 +1122,20 @@ def set_payment_partner(request):
                         title += str(counter)
                     break
             text = request.POST['state'] + '\n' + sequence + '\n' + title + '\n' + fs.base_url + "image_payment_partner/" + filename
-            write_cache(text, "".join(title.split(' ')), "payment_partner")
+            write_cache(text, "".join(title.split(' ')), request, "payment_partner")
         #check image
         data = os.listdir(path)
         image_list = []
         for rec in data:
-            file = read_cache(rec[:-4], "payment_partner", 90911)
+            file = read_cache(rec[:-4], "payment_partner", request, 90911)
             if file:
                 for idx, line in enumerate(file.split('\n')):
                     if idx == 3:
                         text = line.split('\n')[0].split('/')
-                        text.pop(0)
-                        text.pop(0)
-                        text.pop(0)
+                        text.pop(0)  ## ''
+                        text.pop(0)  ## media
+                        text.pop(0)  ## image dynamic
+                        text.pop(0)  ## domain
                         image_list.append("/".join(text))
         for data in os.listdir(fs.location):
             if not data in image_list:
@@ -1180,11 +1167,11 @@ def set_payment_partner(request):
 def get_about_us(request):
     try:
         response = []
-        path = var_log_path('about_us')
+        path = var_log_path(request, 'about_us')
         if not os.path.exists(path):
             os.mkdir(path)
         for data in os.listdir(path):
-            file = read_cache(data[:-4], "about_us", 90911)
+            file = read_cache(data[:-4], "about_us", request, 90911)
             if file:
                 state = ''
                 sequence = ''
@@ -1233,16 +1220,16 @@ def get_about_us(request):
 
 def delete_about_us(request):
     try:
-        path = var_log_path('about_us')
+        path = var_log_path(request, 'about_us')
         data = os.listdir(path)
         os.remove('%s/%s' % (path, data[int(request.POST['paragraph_number'])]))
         # check image
         fs = FileSystemStorage()
-        fs.location += '/image_about_us'
+        fs.location = media_path(request, 'image_about_us')
         data = os.listdir(path)
         image_list = []
         for rec in data:
-            file = read_cache(rec[:-4], "about_us", 90911)
+            file = read_cache(rec[:-4], "about_us", request, 90911)
             if file:
                 for idx, line in enumerate(file.split('\n')):
                     if idx == 4:
@@ -1278,10 +1265,8 @@ def delete_about_us(request):
 def set_about_us(request):
     try:
         fs = FileSystemStorage()
-        fs.location += '/image_about_us'
-        if not os.path.exists(fs.location):
-            os.mkdir(fs.location)
-        path = var_log_path('about_us')
+        fs.location = media_path(request, 'image_about_us')
+        path = var_log_path(request, 'about_us')
         if not os.path.exists(path):
             os.mkdir(path)
 
@@ -1311,19 +1296,20 @@ def set_about_us(request):
                         sequence += str(counter)
                     break
             text = request.POST['state'] + '\n' + sequence + '\n' + title + '\n' + body + '\n' + fs.base_url + "image_about_us/" + filename
-            write_cache(text, "".join(sequence.split(' ')), "about_us")
+            write_cache(text, "".join(sequence.split(' ')), request, "about_us")
         #replace
         else:
             if request.POST['delete_img'] == 'false':
                 if filename == '':
-                    file = read_cache(data[int(request.POST['paragraph_number'])][:-4], "about_us", 90911)
+                    file = read_cache(data[int(request.POST['paragraph_number'])][:-4], "about_us", request, 90911)
                     if file:
                         for idx, line in enumerate(file.split('\n')):
                             if idx == 4:
                                 text = line.split('\n')[0].split('/')
-                                text.pop(0)
-                                text.pop(0)
-                                text.pop(0)
+                                text.pop(0)  ## ''
+                                text.pop(0)  ## media
+                                text.pop(0)  ## image dynamic
+                                text.pop(0)  ## domain
                                 filename = "/".join(text)
             else:
                 filename = ''
@@ -1339,19 +1325,20 @@ def set_about_us(request):
                         sequence += str(counter)
                     break
             text = request.POST['state'] + '\n' + sequence + '\n' + title + '\n' + body + '\n' + fs.base_url + "image_about_us/" + filename
-            write_cache(text, "".join(sequence.split(' ')), "about_us")
+            write_cache(text, "".join(sequence.split(' ')), request, "about_us")
         #check image
         data = os.listdir(path)
         image_list = []
         for rec in data:
-            file = read_cache(rec[:-4], "about_us", 90911)
+            file = read_cache(rec[:-4], "about_us", request, 90911)
             if file:
                 for idx, line in enumerate(file.split('\n')):
                     if idx == 4:
                         text = line.split('\n')[0].split('/')
-                        text.pop(0)
-                        text.pop(0)
-                        text.pop(0)
+                        text.pop(0)  ## ''
+                        text.pop(0)  ## media
+                        text.pop(0)  ## image dynamic
+                        text.pop(0)  ## domain
                         image_list.append("/".join(text))
         for data in os.listdir(fs.location):
             if not data in image_list:
@@ -1383,11 +1370,11 @@ def set_about_us(request):
 def get_faq(request):
     try:
         response = []
-        path = var_log_path('faq')
+        path = var_log_path(request, 'faq')
         if not os.path.exists(path):
             os.mkdir(path)
         for data in os.listdir(path):
-            file = read_cache(data[:-4], "faq", 90911)
+            file = read_cache(data[:-4], "faq", request, 90911)
             if file:
                 state = ''
                 sequence = ''
@@ -1432,12 +1419,12 @@ def get_faq(request):
 
 def delete_faq(request):
     try:
-        path = var_log_path('faq')
+        path = var_log_path(request, 'faq')
         data = os.listdir(path)
         os.remove('%s/%s' % (path, data[int(request.POST['faq_number'])]))
         data = os.listdir(path)
         for rec in data:
-            file = read_cache(rec[:-4], "faq", 90911)
+            file = read_cache(rec[:-4], "faq", request, 90911)
             if file:
                 for idx, line in enumerate(file.split('\n')):
                     if idx == 4:
@@ -1468,7 +1455,7 @@ def delete_faq(request):
 
 def set_faq(request):
     try:
-        path = var_log_path('faq')
+        path = var_log_path(request, 'faq')
         if not os.path.exists(path):
             os.mkdir(path)
 
@@ -1492,18 +1479,19 @@ def set_faq(request):
                         sequence += str(counter)
                     break
             text = request.POST['state'] + '\n' + sequence + '\n' + title + '\n' + body + '\n' + filename
-            write_cache(text, "".join(sequence.split(' ')), "faq")
+            write_cache(text, "".join(sequence.split(' ')), request, "faq")
         #replace
         else:
             if filename == '':
-                file = read_cache(data[int(request.POST['faq_number'])], "faq", 90911)
+                file = read_cache(data[int(request.POST['faq_number'])], "faq", request, 90911)
                 if file:
                     for idx, line in enumerate(file.split('\n')):
                         if idx == 4:
                             text = line.split('\n')[0].split('/')
-                            text.pop(0)
-                            text.pop(0)
-                            text.pop(0)
+                            text.pop(0)  ## ''
+                            text.pop(0)  ## media
+                            text.pop(0)  ## image dynamic
+                            text.pop(0)  ## domain
                             filename = "/".join(text)
             os.remove('%s/%s' % (path, data[int(request.POST['faq_number'])]))
             data = os.listdir(path)
@@ -1517,7 +1505,7 @@ def set_faq(request):
                         sequence += str(counter)
                     break
             text = request.POST['state'] + '\n' + sequence + '\n' + title + '\n' + body + '\n' + filename
-            write_cache(text, "".join(sequence.split(' ')), "faq")
+            write_cache(text, "".join(sequence.split(' ')), request, "faq")
 
         res = {
             'result': {
@@ -1565,7 +1553,7 @@ def get_va_number(request):
             for rec in res['result']['response']:
                 for data in res['result']['response'][rec]:
                     if type(data['acquirer_seq_id']) == str:
-                        file = read_cache(data['acquirer_seq_id'], "payment_information", 90911)
+                        file = read_cache(data['acquirer_seq_id'], "payment_information", request, 90911)
                         if file:
                             for idx, data_cache in enumerate(file.split('\n')):
                                 if idx == 0:
@@ -1602,7 +1590,7 @@ def get_va_number_for_mobile(request):
             })
             for rec in res['result']['response']:
                 for data in res['result']['response'][rec]:
-                    file = read_cache(data['acquirer_seq_id'], "payment_information", 90911)
+                    file = read_cache(data['acquirer_seq_id'], "payment_information", request, 90911)
                     if file:
                         for idx, data_cache in enumerate(file.split('\n')):
                             if idx == 0:
@@ -1625,7 +1613,7 @@ def get_va_number_for_mobile(request):
 
 def get_va_bank(request):
     try:
-        path = var_log_path('payment_information')
+        path = var_log_path(request, 'payment_information')
         if not os.path.exists(path):
             os.mkdir(path)
         headers = {
@@ -1644,7 +1632,7 @@ def get_va_bank(request):
                 "type": ''
             })
             for rec in res['result']['response']:
-                file = read_cache(rec['acquirer_seq_id'], "payment_information", 90911)
+                file = read_cache(rec['acquirer_seq_id'], "payment_information", request, 90911)
                 if file:
                     for idx, data_cache in enumerate(file.split('\n')):
                         if idx == 0:
@@ -1667,11 +1655,11 @@ def get_va_bank(request):
 
 def set_payment_information(request):
     try:
-        path = var_log_path('payment_information')
+        path = var_log_path(request, 'payment_information')
         if not os.path.exists(path):
             os.mkdir(path)
         text = request.POST['heading'] + '\n' + request.POST['body'].replace('\n','<br>')
-        write_cache(text, request.POST['title'], "payment_information")
+        write_cache(text, request.POST['title'], request, "payment_information")
         res = {
             'result': {
                 'error_code': 0,
@@ -1723,7 +1711,7 @@ def get_vendor_balance(request):
         if request.POST['using_cache'] == 'false':
             res = get_vendor_balance_request(request)
         else:
-            file = read_cache("get_vendor_balance", 'cache_web')
+            file = read_cache("get_vendor_balance", 'cache_web', request)
             if not file:
                 res = get_vendor_balance_request(request)
             else:
@@ -1763,7 +1751,7 @@ def get_vendor_balance_request(request):
                 'data': data_vendor,
                 'cache_time': datetime.now().strftime("%Y-%m-%d %H:%M")
             }
-            write_cache(res, "get_vendor_balance", 'cache_web')
+            write_cache(res, "get_vendor_balance", request, 'cache_web')
     except Exception as e:
         res = {
             'result': {

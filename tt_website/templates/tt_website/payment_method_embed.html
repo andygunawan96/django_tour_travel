@@ -1,0 +1,641 @@
+{% extends 'tt_website/template_website_booking.html' %}
+{% load i18n %}
+{% load static from staticfiles %}
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{{ static_path }}vendor/bootstrap/css/bootstrap.min.css?version={{javascript_version}}">
+<!--===============================================================================================-->
+<link rel="stylesheet" type="text/css" href="{{ static_path }}fonts/font-awesome-4.7.0/css/font-awesome.min.css?version={{javascript_version}}">
+<!--===============================================================================================-->
+<link rel="stylesheet" type="text/css" href="{{ static_path }}vendor/animate/animate.css?version={{javascript_version}}">
+<!--===============================================================================================-->
+<link rel="stylesheet" type="text/css" href="{{ static_path }}fonts/Linearicons-Free-v1.0.0/icon-font.min.css?version={{javascript_version}}">
+<!--===============================================================================================-->
+<link rel="stylesheet" type="text/css" href="{{ static_path }}vendor/css-hamburgers/hamburgers.min.css?version={{javascript_version}}">
+<!--===============================================================================================-->
+<link rel="stylesheet" type="text/css" href="{{ static_path }}vendor/animsition/css/animsition.min.css?version={{javascript_version}}">
+<!--===============================================================================================-->
+<link rel="stylesheet" type="text/css" href="{{ static_path }}vendor/select2/select2.min.css?version={{javascript_version}}">
+<!--===============================================================================================-->
+<link rel="stylesheet" type="text/css" href="{{ static_path }}vendor/daterangepicker/daterangepicker.css?version={{javascript_version}}">
+<link rel="stylesheet" type="text/css" href="{{ static_path }}login/css/util.css?version={{javascript_version}}">
+<link rel="stylesheet" type="text/css" href="{{ static_path }}login/css/main.css?version={{javascript_version}}">
+
+<link rel="stylesheet" type="text/css" href="{{ static_path }}login/css/owl.carousel.css?version={{javascript_version}}">
+<link rel="stylesheet" type="text/css" href="{{ static_path }}login/css/owl.theme.default.min.css?version={{javascript_version}}">
+<link rel="stylesheet" type="text/css" href="{{ static_path }}login/css/owl.theme.green.min.css?version={{javascript_version}}">
+<!--loadingbar-->
+<link rel="stylesheet" href="{{ static_path }}css/loading.css?version={{javascript_version}}">
+<link rel="stylesheet" href="{{ static_path }}css/loading-btn.css?version={{javascript_version}}">
+<link rel="stylesheet" href="{{ static_path }}css/loading-bar.css?version={{javascript_version}}">
+
+<script src="{{ static_path }}js/webservice_content.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_token.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/vendor/owl.carousel.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/vendor/login_main.js?version={{javascript_version}}"></script>
+<style>
+    body{
+        padding-top: unset !important;
+        padding-bottom: unset !important;
+    }
+
+    .testimonial-area{
+        min-height:100vh;
+    }
+
+    .table>tbody>tr>td,
+    .table>tbody>tr>th,
+    .table>tfoot>tr>td,
+    .table>tfoot>tr>th,
+    .table>thead>tr>td,
+    .table>thead>tr>th{
+        border-top: unset !important;
+        border: unset !important;
+    }
+</style>
+<title>{{name}} - Payment Method</title>
+<script>
+    signature = `{{signature}}`;
+    order_number = `{{order_number}}`;
+    order_number = order_number.split('.')[0] + '.' + order_number.split('.')[1];
+    name = `{{name}}`;
+    create_date = `{{create_date}}`;
+    order_number_full = `{{order_number}}`;
+</script>
+{% if provider_payment == 'espay'%}
+
+<link href="{{ static_path }}css/espay/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ static_path }}css/espay/stylev3.min.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ static_path }}css/espay/jumbotron-narrow.min.css" media="screen" rel="stylesheet" type="text/css">
+
+{%if template == 1%}
+<header id="header" class="header_breadcrumb" style="position:sticky; top:0px;">
+    <div class="main-menu">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <span><a href="{% url 'tt_website:index'%}" style="color:{{color}} !important; font-size:14px;"><i class="fas fa-home"></i> {% trans 'Back to Home' %}</a></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+{% elif template == 2 or template == 3 or template == 4 or template == 5%}
+<header class="header_breadcrumb" style="text-align:center; position:sticky; top:0px; z-index:100; border-bottom:1px solid #cdcdcd;">
+    <div class="main-menu">
+        <div class="container">
+            <div class="row align-items-center justify-content-between d-flex">
+                <div id="logo" class="col-lg-12">
+                    <span><a href="{% url 'tt_website:index'%}" style="color:{{color}} !important; font-size:14px;"><i class="fas fa-home"></i> {% trans 'Back to Home' %}</a></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+{% endif %}
+
+<section data-aos="fade-up" style="background: #f7f7f7;padding-top:30px; padding-bottom:15px; z-index:1; position:relative;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12" style="background-color:white;padding:15px; border:1px solid #cdcdcd;">
+                <div id="parentId"></div>
+                <!--<iframe id="sgoplus-iframe" src="" scrolling="no" frameborder="0" width="100%" height="500"></iframe>-->
+                <div id="selectBank">
+                    <div style="padding:5px;">
+                        <img src="{{logo}}" style="max-height:40px;max-width:150px;">
+                    </div>
+                    <form name="form" method="post" style="margin: 5px;" id="form_espay">
+                        {% if bank_name != False %}
+                        <h3 style="" class="text-center">SILAKAN SELESAIKAN PEMBAYARAN ANDA</h3>
+                        <div class="text-center"><span class="sub-label-header">YOUR PAYMENT IS UNCOMPLETED</span></div>
+                        <br>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="wrapper">
+                                    <form class="order-detail-form-atm">
+                                        <label class="header-title">Detail Pesanan</label><br>
+                                        <span class="sub-label-header">Order Detail</span><hr/>
+                                        <table class="table table-responsive tbl-custom" style="border: unset !important;">
+                                            <tbody>
+                                            <tr>
+                                                <td> <b>Nama Merchant</b><br>   <span class="sub-label">Merchant Name</span></td>
+                                                <td>:</td>
+                                                <td>{{name}} </td>
+                                            </tr>
+                                            <tr>
+                                                <td> <b>Nomor Pemesanan</b><br>   <span class="sub-label">Order No</span></td>
+                                                <td>:</td>
+                                                <td id="order_number_td">
+                                                    <script>
+                                                        document.getElementById('order_number_td').innerHTML += order_number;
+                                                    </script>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td> <b>Tanggal/Jam Transaksi</b><br> <span class="sub-label">Date/Time Transaction</span>
+                                                </td>
+                                                <td>:</td>
+                                                <td>{{create_date}}</td>
+                                            </tr>
+
+                                            <tr>
+                                                <td colspan="3">
+                                                    <div id="emailresult" style="margin-top: 10px"></div>
+                                                    <br>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <b>Jumlah yang harus Dibayar</b><br/> <span class="sub-label">Total Paid</span>
+                                    </div>
+                                    <div class="col-sm-6 mb-2">
+                                        <div class="panel panel-n">
+                                            <div class="panel-body-n" id="amount_div">
+                                                <script>
+                                                document.getElementById('amount_div').innerHTML += getrupiah(`{{amount}}`);
+                                                </script>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <b>Nomor VA</b><br/> <span class="sub-label">Virtual Account Number</span>
+                                    </div>
+                                    <div class="col-sm-6 mb-2">
+                                        <div class="panel panel-default">
+                                            <div class="panel-body-n">
+                                                {{va_number}}
+                                                <span style="float: right; cursor: pointer;color:{{color}}" onclick="copy_data();">
+                                                    Copy <i class="fa fa-clone" aria-hidden="true"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <b>Nama Bank Tujuan</b><br/> <span class="sub-label">Destination Bank Name </span>
+                                    </div>
+                                    <div class="col-sm-6 mb-2">
+                                        <div class="panel panel-default">
+                                            <div class="panel-body-n">
+                                                {{bank_name}}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <b>Batas Pembayaran</b><br/><span class="sub-label">Transfer Due Date</span>
+                                    </div>
+                                    <div class="col-sm-6 mb-2">
+                                        <div class="panel panel-default">
+                                            <div class="panel-body-n" id="timelimit">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12 mt-4" style="margin-bottom:10px;">
+                                <hr/>
+                                <div class="row mt-4">
+                                    <div class="col-md-6 mb-3">
+                                        <div class="text-center">
+                                            <button class="primary-btn" type="button" id="btn_done" >{% trans 'Check Status Reservation'%}</button>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <div class="text-center">
+                                            <button class="primary-btn" type="button" id="btn_create_reservation" onclick="window.location='/';">{% trans 'Create New Reservation'%}</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {% else %}
+                        <h3 class="text-center">SILAKAN SELESAIKAN PEMBAYARAN ANDA</h3>
+                        <div class="text-center"><span class="sub-label-header">YOUR PAYMENT IS UNCOMPLETED</span></div>
+                        <br>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="wrapper">
+                                    <form class="order-detail-form-atm">
+                                        <label class="header-title">Detail Pesanan</label><br>
+                                        <span class="sub-label-header">Order Detail</span><hr/>
+                                        <table class="table table-responsive tbl-custom">
+                                            <tbody>
+                                            <tr>
+                                                <td> <b>Nama Merchant</b><br>   <span class="sub-label">Merchant Name</span></td>
+                                                <td>:</td>
+                                                <td>{{name}} </td>
+                                            </tr>
+                                            <tr>
+                                                <td> <b>Nomor Pemesanan</b><br>   <span class="sub-label">Order No</span></td>
+                                                <td>:</td>
+                                                <td id="order_number_td">
+                                                    <script>
+                                                        document.getElementById('order_number_td').innerHTML += order_number;
+                                                    </script>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td> <b>Tanggal/Jam Transaksi</b><br> <span class="sub-label">Date/Time Transaction</span>
+                                                </td>
+                                                <td>:</td>
+                                                <td>{{create_date}}</td>
+                                            </tr>
+
+                                            <tr>
+                                                <td colspan="3">
+                                                    <div id="emailresult" style="margin-top: 10px">ERROR PAYMENT</div>
+                                                    <br>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6 col-md-6 col-lg-6">
+                                <b>Jumlah yang harus Dibayar</b><br/> <span class="sub-label">Total Paid</span>
+
+                                <div class="panel panel-n">
+                                    <div class="panel-body-n" id="amount_div">
+                                        <script>
+                                            document.getElementById('amount_div').innerHTML += getrupiah(`{{amount}}`);
+                                        </script>
+                                    </div>
+                                </div>
+
+                                <p class="label-total">Nomor VA</p> <span class="sub-label">Virtual Account Number</span>
+
+                                <div class="panel panel-default">
+                                    <div class="panel-body-n">
+                                        -
+                                    </div>
+                                </div>
+
+                                <p class="label-total">Nama Bank Tujuan</p> <span class="sub-label">Destination Bank Name </span>
+
+                                <div class="panel panel-default">
+                                    <div class="panel-body-n">
+                                        -
+                                    </div>
+                                </div>
+
+                                <p class="label-total">Pembayaran anda harus sudah dilakukan sebelum time limit</p>
+                                <span class="sub-label">Transfer Due Date</span>
+
+                                <div class="panel panel-default">
+                                    <div class="panel-body-n" id="timelimit">
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:10px;">
+                                <div class="col-lg-6">
+                                    <div class="text-center">
+                                        <button class="btn btn-lg btn-warning" type="button" id="btn_done" >{% trans 'Check Status Reservation'%}</button>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="text-center">
+                                        <button class="btn btn-lg btn-warning" type="button" id="btn_create_reservation" onclick="window.location='/';">{% trans 'Create New Reservation'%}</button>
+                                    </div>
+                                </div>
+
+                            </div><br>
+                        </div>
+                        {% endif %}
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section style="background: #f7f7f7; padding-top:15px; padding-bottom:30px; z-index:1; position:relative;">
+    <div class="container">
+        <div class="row" style="background: white; border:1px solid #cdcdcd; padding:15px;">
+            <div class="col-lg-12" style="padding:0px;">
+                <h3>{% trans 'Transfer Guide' %}</h3><br/>
+            </div>
+            {% for data_payment in data_payments%}
+            <div class="col-lg-12" style="margin-bottom:20px;">
+                <div class="row">
+                    <div class="col-lg-12 div_dropdown" style="padding:0px;" onclick="div_dropdown('{{data_payment.acquirer_seq_id}}');">
+                        <div class="p-3" style="border: 1px solid {{color}}; cursor:pointer;">
+                            <span style="color:{{color}}; font-weight:bold;">{{data_payment.heading}}</span>
+                            <span class="ion-ios-arrow-down" id="down_{{data_payment.acquirer_seq_id}}" style="float: right; cursor: pointer; display: inline-block;"><i class="fas fa-caret-down" style="color:{{color}};"></i></span>
+                            <span class="ion-ios-arrow-up" id="up_{{data_payment.acquirer_seq_id}}" style="float: right; cursor: pointer; display: none;"><i class="fas fa-caret-up" style="color:{{color}};"></i></span>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 mb-3" id="div_{{data_payment.acquirer_seq_id}}" style="background:white; border:1px solid #cdcdcd; padding:15px; display: none;">
+                        {% autoescape off %}
+                        {{data_payment.html}}
+                        {% endautoescape %}
+                    </div>
+                </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<script>
+try{
+    document.getElementById("btn_done").onclick = function() {window.location='/{{provider_type}}'+'/booking/'+btoa(order_number); }
+}catch(err){
+    console.log(err); // error kalau ada element yg tidak ada
+}
+</script>
+<!--<iframe id="sgoplus-iframe" src="" scrolling="no" frameborder="0" width="100%" height="500"></iframe>-->
+<!--testing-->
+<!--<script type="text/javascript" src="https://sandbox-kit.espay.id/public/signature/js"></script>-->
+<!--<script type="text/javascript">-->
+    <!--window.onload = function() {-->
+        <!--var data = {-->
+            <!--key: "607f7f813a320e34946ebf52d4d39461",-->
+            <!--paymentId: '{{order_number}}',-->
+            <!--backUrl: "https://localhost:8000",-->
+            <!--commCode: "SGWKCBJRODEX",-->
+            <!--bankCode:"008",-->
+        <!--},-->
+        <!--sgoPlusIframe = document.getElementById("sgoplus-iframe");-->
+        <!--if (sgoPlusIframe !== null) sgoPlusIframe.src = SGOSignature.getIframeURL(data);-->
+        <!--SGOSignature.receiveForm();-->
+    <!--};-->
+<!--</script>-->
+<!--testing-->
+{% else %}
+<link href="{{ static_path }}css/espay/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ static_path }}css/espay/stylev3.min.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ static_path }}css/espay/jumbotron-narrow.min.css" media="screen" rel="stylesheet" type="text/css">
+
+{%if template == 1%}
+<header id="header" class="header_breadcrumb" style="position:sticky; top:0px;">
+    <div class="main-menu">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <span><a href="{% url 'tt_website:index'%}" style="color:{{color}} !important; font-size:14px;"><i class="fas fa-home"></i> {% trans 'Back to Home' %}</a></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+{% elif template == 2 or template == 3 or template == 4 or template == 5%}
+<header class="header_breadcrumb" style="text-align:center; position:sticky; top:0px; z-index:100; border-bottom:1px solid #cdcdcd;">
+    <div class="main-menu">
+        <div class="container">
+            <div class="row align-items-center justify-content-between d-flex">
+                <div id="logo" class="col-lg-12">
+                    <span><a href="{% url 'tt_website:index'%}" style="color:{{color}} !important; font-size:14px;"><i class="fas fa-home"></i> {% trans 'Back to Home' %}</a></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+{% endif %}
+
+<section data-aos="fade-up" style="background: #f7f7f7;padding-top:30px; padding-bottom:15px; z-index:1; position:relative;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12" style="background-color:white;padding:15px; border:1px solid #cdcdcd;">
+                <div id="parentId"></div>
+                <!--<iframe id="sgoplus-iframe" src="" scrolling="no" frameborder="0" width="100%" height="500"></iframe>-->
+                <div id="selectBank">
+                    <div style="padding:5px;">
+                        <img src="{{logo}}" style="max-height:40px;max-width:150px;">
+                    </div>
+                    <form name="form" method="post" style="margin: 5px;" id="form_espay">
+                        <h3 style="" class="text-center">SILAKAN SELESAIKAN PEMBAYARAN ANDA</h3>
+                        <div class="text-center"><span class="sub-label-header">YOUR PAYMENT IS UNCOMPLETED</span></div><hr/>
+                        <div class="text-center"><span class="sub-label-header">MOHON DIPASTIKAN TRANSFER SESUAI NOMINAL ANGKA UNIK<br/>UNTUK MEMASTIKAN PEMBAYARAN ANDA DITERIMA</span></div>
+                        <div class="text-center"><span class="sub-label-header">PLEASE MAKE SURE TRANSFER ACCORDING TO THE UNIQUE NUMBER<br/>TO ENSURE YOUR PAYMENT IS RECEIVED</span></div>
+                        <br>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="wrapper">
+                                    <form class="order-detail-form-atm">
+                                        <label class="header-title">Detail Pesanan</label><br>
+                                        <span class="sub-label-header">Order Detail</span><hr/>
+                                        <table class="table table-responsive tbl-custom" style="border: unset !important;">
+                                            <tbody>
+                                            <tr>
+                                                <td> <b>Nama Merchant</b><br>   <span class="sub-label">Merchant Name</span></td>
+                                                <td>:</td>
+                                                <td>{{name}} </td>
+                                            </tr>
+                                            <tr>
+                                                <td> <b>Nomor Pemesanan</b><br>   <span class="sub-label">Order No</span></td>
+                                                <td>:</td>
+                                                <td id="order_number_td">
+                                                    <script>
+                                                        document.getElementById('order_number_td').innerHTML += order_number;
+                                                     </script>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td> <b>Tanggal/Jam Transaksi</b><br> <span class="sub-label">Date/Time Transaction</span>
+                                                </td>
+                                                <td>:</td>
+                                                <td>{{create_date}}</td>
+                                            </tr>
+
+                                            <tr>
+                                                <td colspan="3">
+                                                    <div id="emailresult" style="margin-top: 10px"></div>
+                                                    <br>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <b>Jumlah yang harus Dibayar</b><br/> <span class="sub-label">Total Paid</span>
+                                    </div>
+                                    <div class="col-sm-6 mb-2">
+                                        <div class="panel panel-n">
+                                            <div class="panel-body-n" id="amount_div">
+                                                <script>
+                                                    document.getElementById('amount_div').innerHTML += getrupiah(`{{amount}}`);
+                                                </script>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <b>Nama Rekening {{name}}</b><br/> <span class="sub-label">Account Name</span>
+                                    </div>
+                                    <div class="col-sm-6 mb-2">
+                                        <div class="panel panel-default">
+                                            <div class="panel-body-n">
+                                                {{account_name}}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <b>Nomor Rekening {{name}}</b><br/> <span class="sub-label">Account Number</span>
+                                    </div>
+                                    <div class="col-sm-6 mb-2">
+                                        <div class="panel panel-default">
+                                            <div class="panel-body-n">
+                                                {{nomor_rekening}}
+                                                <span style="float: right; cursor: pointer;color:{{color}}" onclick="copy_data();">
+                                                    Copy <i class="fa fa-clone" aria-hidden="true"></i>
+                                                </span>
+                                                <!--<i class="fa fa-clone" aria-hidden="true" style="float: right; cursor: pointer;" onclick="copy_data();"></i>-->
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <b>Nama Bank Tujuan</b><br/> <span class="sub-label">Destination Bank Name </span>
+                                    </div>
+                                    <div class="col-sm-6 mb-2">
+                                        <div class="panel panel-default">
+                                            <div class="panel-body-n">
+                                                Bank BCA
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <b>Batas Pembayaran</b><br/><span class="sub-label">Transfer Due Date</span>
+                                    </div>
+                                    <div class="col-sm-6 mb-2">
+                                        <div class="panel panel-default">
+                                            <div class="panel-body-n" id="timelimit">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12 mt-4" style="margin-bottom:10px;">
+                                <hr/>
+                                <div class="row mt-4">
+                                    <div class="col-md-6 mb-3">
+                                        <div class="text-center">
+                                            <button class="primary-btn" type="button" id="btn_done" >{% trans 'Check Status Reservation'%}</button>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <div class="text-center">
+                                            <button class="primary-btn" type="button" id="btn_create_reservation" onclick="window.location='/';">{% trans 'Create New Reservation'%}</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section style="background: #f7f7f7; padding-top:15px; padding-bottom:30px; z-index:1; position:relative;">
+    <div class="container">
+        <div class="row" style="background: white; border:1px solid #cdcdcd; padding:15px;">
+            <div class="col-lg-12" style="padding:0px;">
+                <h3>{% trans 'Transfer Guide' %}</h3><br/>
+            </div>
+            {% for data_payment in data_payments%}
+            <div class="col-lg-12 div_dropdown" style="padding:0px;" onclick="div_dropdown('{{data_payment.seq_id}}');">
+                <div class="p-3" style="border: 1px solid {{color}};">
+                    <span><b>{{data_payment.heading}}</b></span>
+                    <span class="ion-ios-arrow-down" id="down_{{data_payment.seq_id}}" style="float: right; cursor: pointer; display: inline-block;"><i class="fas fa-caret-down" style="color:{{color}};"></i></span>
+                    <span class="ion-ios-arrow-up" id="up_{{data_payment.seq_id}}" style="float: right; cursor: pointer; display: none;"><i class="fas fa-caret-up" style="color:{{color}};"></i></span>
+                </div>
+            </div>
+            <div class="col-lg-12 mb-3 mt-3" id="div_{{data_payment.seq_id}}" style="padding:0px; display: none;">
+                {% autoescape off %}
+                {{data_payment.html}}
+                {% endautoescape %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+<script>
+document.getElementById("btn_done").onclick = function() {window.location='/{{provider_type}}'+'/booking/'+btoa(order_number); }
+</script>
+
+{% endif %}
+<script>
+    //DI GANTI KE JS AGAR BISA DAPAT LOCAL TIME
+    var nomor_rekening = '{{nomor_rekening}}';
+    var tes = moment.utc('{{time_limit}}');
+    if(nomor_rekening != 'False')
+        tes.subtract(16,'minutes');
+    tes = tes.format('YYYY-MM-DD HH:mm:ss');
+    var localTime  = moment.utc(tes).toDate();
+    var timelimit = moment(localTime).format('DD MMM YYYY HH:mm');
+    document.getElementById('timelimit').innerHTML = timelimit;
+
+    function copy_data(){
+        //
+        text_copy = `{{va_number}}`;
+        if(text_copy == '' || text_copy == 'False'){
+            text_copy = `{{nomor_rekening}}`.split('.').join('');
+        }
+        const el = document.createElement('textarea');
+        el.value = text_copy;
+        document.body.appendChild(el);
+        el.select();
+        document.execCommand('copy');
+        document.body.removeChild(el);
+
+        const Toast = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 3000
+        })
+
+        Toast.fire({
+          type: 'success',
+          title: 'Copied Successfully'
+        })
+    }
+
+    function div_dropdown(type){
+        var general_down = document.getElementById('down_'+type);
+        var general_up = document.getElementById('up_'+type);
+        var general_show = document.getElementById('div_'+type);
+
+        if (general_down.style.display === "none") {
+            general_up.style.display = "none";
+            general_down.style.display = "inline-block";
+            general_show.style.display = "none";
+        }
+        else {
+            general_up.style.display = "inline-block";
+            general_down.style.display = "none";
+            general_show.style.display = "block";
+        }
+    }
+</script>
+
+{% endblock %}

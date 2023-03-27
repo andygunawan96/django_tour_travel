@@ -1,0 +1,2347 @@
+{% load static from staticfiles %}
+{% load i18n %}
+<!DOCTYPE html>
+<!--
+Template Name: Pcomspace
+Author: <a href="http://www.os-templates.com/">OS Templates</a>
+Author URI: http://www.os-templates.com/
+Licence: Free to use under our free template licence terms
+Licence URI: http://www.os-templates.com/template-terms
+-->
+<html>
+<head>
+    <script>
+        google_analytics = '{{google_analytics}}';
+        google_tag_manager_key = '{{google_tag_manager_key}}';
+    </script>
+
+    {% if '{{google_tag_manager_key}}' != '' %}
+    <!-- Google Tag Manager -->
+    <script>
+    if(google_tag_manager_key != ''){
+        (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','{{google_tag_manager_key}}');
+    }
+    </script>
+    <!-- End Google Tag Manager -->
+    {% endif %}
+
+     <!--Global site tag (gtag.js) - Google Analytics-->
+    {%if '{{google_analytics}}' != ''%}
+        <script async src="https://www.googletagmanager.com/gtag/js?id={{google_analytics}}"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', '{{google_analytics}}');
+        </script>
+    {% endif %}
+
+    {% if google_recaptcha == '1' %}
+    <script src="https://www.google.com/recaptcha/api.js?render={{site_key}}"></script>
+    {% endif %}
+
+    <script>
+        function get_captcha(id,type){
+          var form = this;
+          if('{{google_recaptcha}}' == '1'){
+              grecaptcha.execute('{{site_key}}', {action: ''}).then(function(token) {
+                  $('#'+id).val(token)
+                  button_onclick(type);
+              });
+          }else{
+              button_onclick(type);
+          }
+        }
+
+        function button_onclick(type){
+            if(type == 'airline')
+                airline_goto_search();
+            else if(type == 'train')
+                train_check_search_values();
+            else if(type == 'hotel')
+                hotel_search_validation();
+            else if(type == 'activity')
+                activity_search_form_submit();
+            else if(type == 'tour')
+                tour_search_form_submit();
+            else if(type == 'visa')
+                document.getElementById('visa_searchForm').submit();
+            else if(type == 'passport')
+                document.getElementById('passport_searchForm').submit();
+            else if(type == 'event')
+                event_search_validation();
+            else if(type == 'bus')
+                bus_check_search_values();
+            else if(type == 'signin_btc')
+                signin_btc();
+            else if(type == 'signin_btb')
+                signin();
+            else if(type == 'medical1'){
+                document.getElementById('medical_searchForm1').action = '/periksain/passenger/' + document.getElementById('medical_type_periksain').value;
+                document.getElementById('medical_searchForm1').submit();
+            }else if(type == 'medical2'){
+                document.getElementById('medical_searchForm2').action = '/phc/passenger/' + document.getElementById('medical_type_phc').value;
+                document.getElementById('medical_searchForm2').submit();
+            }else if(type == 'medical_global'){
+                document.getElementById('medical_global_searchForm').action = '/medical_global/passenger/' + document.getElementById('medical_type_medical').value;
+                document.getElementById('medical_global_searchForm').submit();
+            }else if(type == 'swab_express'){
+                document.getElementById('swab_express_searchForm').action = '/swab_express/passenger/' + document.getElementById('medical_type_swab_express').value;
+                document.getElementById('swab_express_searchForm').submit();
+            }else if(type == 'lab_pintar'){
+                document.getElementById('lab_pintar_searchForm').action = '/lab_pintar/passenger/' + document.getElementById('medical_type_lab_pintar').value;
+                document.getElementById('lab_pintar_searchForm').submit();
+            }else if(type == 'mitra_keluarga'){
+                document.getElementById('mitra_keluarga_searchForm').action = '/mitra_keluarga/passenger/' + document.getElementById('medical_type_mitra_keluarga').value;
+                document.getElementById('mitra_keluarga_searchForm').submit();
+            }else if(type == 'sentra_medika'){
+                document.getElementById('sentra_medika_searchForm').action = '/sentra_medika/passenger/' + document.getElementById('medical_type_sentra_medika').value;
+                document.getElementById('sentra_medika_searchForm').submit();
+            }else if(type == 'insurance'){
+                document.getElementById('insurance_searchForm').submit();
+            }
+        }
+        function change_password_type(){
+            if($("#password_style").hasClass("fa-eye-slash") || $("#password_style2").hasClass("fa-eye-slash")){
+                try{
+                    document.getElementById('text_show_hide_pw').innerText = "Hide Password";
+                }catch(err){
+                    console.log(err) //ada element yg tidak ada
+                }
+                try{
+                    $("#password_style").addClass('fa-eye');
+                    $("#password_style").removeClass("fa-eye-slash");
+                    $("#password_style2").addClass('fa-eye');
+                    $("#password_style2").removeClass("fa-eye-slash");
+                    try{
+                        //PAGE LOGIN
+                        document.getElementById('password2').type = 'text';
+                    }catch(err){
+                        console.log(err) //ada element yg tidak ada
+                    }
+                    try{
+                        document.getElementById('password').type = 'text';
+                    }catch(err){
+                        console.log(err) //ada element yg tidak ada
+                    }
+                }catch(err){
+                    console.log(err) //ada element yg tidak ada
+                }
+            }else{
+                try{
+                    document.getElementById('text_show_hide_pw').innerText = "Show Password";
+                }catch(err){
+                    console.log(err) //ada element yg tidak ada
+                }
+
+                try{
+                    $("#password_style").addClass('fa-eye-slash');
+                    $("#password_style").removeClass("fa-eye");
+                    $("#password_style2").addClass('fa-eye-slash');
+                    $("#password_style2").removeClass("fa-eye");
+                    try{
+                        //PAGE LOGIN
+                        document.getElementById('password2').type = 'password';
+                    }catch(err){
+                        console.log(err) //ada element yg tidak ada
+                    }
+                    try{
+                        //PAGE HOME
+                        document.getElementById('password').type = 'password';
+                    }catch(err){
+                        console.log(err) //ada element yg tidak ada
+                    }
+
+                }catch(err){
+                    console.log(err) //ada element yg tidak ada
+                }
+            }
+        }
+    </script>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="author" content="Rodextrip" />
+
+    <!--<link href="{{ static_path }}layout/styles/layout.css" rel="stylesheet" type="text/css" media="all">-->
+
+    <link rel="icon" href="{{ logo_icon }}" sizes="16x16" type="image/png">
+    <!--<link href="https://fonts.googleapis.com/css?family=Poppins:100,200,400,300,500,600,700" rel="stylesheet">-->
+
+    <script>
+        login_color_base = '{{login_background_color}}';
+        login_color_base = login_color_base.substr(0,7);
+        text_color_login = `{{text_color_login}}`;
+    </script>
+
+    <!--template1-->
+    <link rel="stylesheet" type="text/css" href="{{ static_path }}css/lightpick.css">
+    <script src="{{ static_path }}js/moment.js?version={{javascript_version}}"></script>
+<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>-->
+    <script src="{{ static_path }}js/lightpick.js"></script>
+
+    <style>
+        .login-header{
+            background-image: url('{{background}}');
+        }
+        .jBox-TooltipBorder .jBox-container, .jBox-TooltipBorder .jBox-pointer:after{
+            border:2px solid {{color}} !important;
+        }
+
+        ul.btn_tabs li{
+            border: 2px solid {{color}} !important;
+        }
+
+        ul.btn_tabs li.current{
+            background: {{color}} !important;
+            color: {{text_color}} !important;
+        }
+
+        ul.btn_tabs li.current .image-rounded-icon{
+            background: {{color}} !important;
+        }
+
+        .daterangepicker td.disabled, .daterangepicker option.disabled {
+            text-decoration-color: {{color}} !important;
+        }
+
+        .height40 {
+            height:40px;
+        }
+
+        .height60 {
+            height:60px;
+        }
+
+        {% if username.co_user_login == default_user %}
+
+            .tab_custom_login {
+                background-color: {{login_background_color}} !important;
+            }
+            {% if template == 1 or template == 3 or template == 5%}
+                .lnr_color {
+                    color: {{text_color_login}} !important;
+                }
+            {% else %}
+                .site-navbar {
+                    border-bottom: unset !important;
+                }
+            {% endif %}
+        {% endif %}
+
+        {%if template == 1%}
+        .testimonial-area {
+            background-image: url("{{background}}") !important;
+            background-position: center center !important;
+            background-size: cover !important;
+            background-repeat: no-repeat !important;
+        }
+        .price-area {
+          background: linear-gradient(0deg,rgba(0, 0, 0, 0.4),rgba(0, 0, 0, 0.4)),url("{{background}}") !important;
+          min-height: 300px;
+          background-position: center center !important;
+          background-size: cover !important;
+          background-repeat: no-repeat !important;
+        }
+        {%elif template == 2%}
+        .bg-img{
+            min-height:250px;
+        }
+        {%elif template == 3%}
+        .banner-area{
+            background-image: url("{{background}}") !important;
+            min-height:225px;
+        }
+        {%elif template == 4%}
+        .price-area {
+          background: linear-gradient(0deg,rgba(0, 0, 0, 0.4),rgba(0, 0, 0, 0.4)),url("{{background}}") !important;
+          background-position: center center !important;
+          background-size: cover !important;
+          background-repeat: no-repeat !important;
+        }
+        {%elif template == 5%}
+        .home-banner-area {
+          background: linear-gradient(0deg,rgba(0, 0, 0, 0.4),rgba(0, 0, 0, 0.4)),url("{{background}}") !important;
+          background: -moz-linear-gradient(0deg,rgba(0, 0, 0, 0.4),rgba(0, 0, 0, 0.4)),url("{{background}}") !important;
+          background-attachment: fixed !important;
+          background-position: center !important;
+          background-size: cover !important;
+          background-repeat: no-repeat !important;
+        }
+        .price-area {
+          background: linear-gradient(0deg,rgba(0, 0, 0, 0.4),rgba(0, 0, 0, 0.4)),url("{{background}}") !important;
+          background-attachment: fixed !important;
+          background-position: center center !important;
+          background-size: cover !important;
+          background-repeat: no-repeat !important;
+        }
+        {%elif template == 6%}
+        .div_search_area_home {
+          background: linear-gradient(0deg,rgba(0, 0, 0, 0.4),rgba(0, 0, 0, 0.4)),url("{{background}}") !important;
+          background: -moz-linear-gradient(0deg,rgba(0, 0, 0, 0.4),rgba(0, 0, 0, 0.4)),url("{{background}}") !important;
+          background-attachment: fixed !important;
+          background-position: center !important;
+          background-size: cover !important;
+          background-repeat: no-repeat !important;
+        }
+        {% endif %}
+
+    </style>
+    <link rel="stylesheet" href="{{ static_path }}css/jquery.dataTables.min.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/auto-complete.css?version={{javascript_version}}">
+    {%if template == 1%}
+    <link rel="stylesheet" href="{{ static_path }}css/template1/animate.min.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/bootstrap.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/font-awesome.min.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/template1/jquery-ui.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/linearicons.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/template1/magnific-popup.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/main.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/template1/nice-select.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/template1/owl.carousel.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/template1/owl.theme.default.min.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/template1/owl.theme.green.min.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/template1/font.css?version={{javascript_version}}">
+    <!--select2-->
+    <link rel="stylesheet" href="{{ static_path }}css/select2.css?version={{javascript_version}}">
+
+    <!--template2-->
+    {% elif template == 2 %}
+    <link rel="stylesheet" href="{{ static_path }}css/template2/default-assets/classy-nav.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/template2/animate.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/template2/animate.min.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/template2/bootstrap.min.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/template2/bootstrap-datepicker.min.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/template2/font-awesome.min.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/template2/jquery-ui.min.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/template2/magnific-popup.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/template2/nice-select.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/template2/owl.carousel.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/template2/owl.theme.default.min.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/template2/owl.theme.green.min.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/linearicons.css?version={{javascript_version}}">
+    <!--    <link rel="stylesheet" href="{{ static_path }}css/template2/owl.carousel.min.css">-->
+    <link rel="stylesheet" href="{{ static_path }}css/template2/style.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/template2/select2.css?version={{javascript_version}}">
+
+    {% elif template == 3 %}
+    <link rel="stylesheet" href="{{ static_path }}css/template3/linearicons.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/template3/font-awesome.min.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/template3/bootstrap.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/template3/magnific-popup.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/template3/nice-select.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/template3/animate.min.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/template3/owl.carousel.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/template3/owl.theme.default.min.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/template3/owl.theme.green.min.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/template3/main.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/template3/select2.css?version={{javascript_version}}">
+
+    {% elif template == 4 %}
+    <link rel="stylesheet" href="{{ static_path }}fonts/template4/fonts/icomoon/style.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/template4/bootstrap.min.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/template4/animate.min.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/template4/nice-select.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/template4/magnific-popup.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/template4/jquery-ui.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/template4/owl.carousel.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/template4/owl.theme.default.min.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/template4/bootstrap-datepicker.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}fonts/template4/fonts/flaticon/font/flaticon.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/template4/aos.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/template4/rangeslider.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/template4/style.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/template4/select2.css?version={{javascript_version}}">
+    {% elif template == 5 %}
+    <link rel="stylesheet" href="{{ static_path }}css/template5/linearicons.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/template5/font-awesome.min.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/template5/nice-select.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/template5/animate.min.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/template5/ion.rangeSlider.css?version={{javascript_version}}"/>
+    <link rel="stylesheet" href="{{ static_path }}css/template5/ion.rangeSlider.skinFlat.css?version={{javascript_version}}"/>
+    <link rel="stylesheet" href="{{ static_path }}css/template5/bootstrap.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/template5/owl.carousel.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/template5/owl.theme.default.min.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/template5/owl.theme.green.min.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/template5/main.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/template5/select2.css?version={{javascript_version}}">
+
+    {% elif template == 6 %}
+    <script>
+        addEventListener("load", function () {
+            setTimeout(hideURLbar, 0);
+        }, false);
+
+        function hideURLbar() {
+            window.scrollTo(0, 1);
+        }
+    </script>
+
+<!--    $(".form-group .col-xs-12").addClass("row");-->
+<!--    $(".form-group .row").removeClass("removeClass");-->
+	<!-- css files -->
+    <link rel="stylesheet" href="{{ static_path }}css/template1/animate.min.css?version={{javascript_version}}">
+    <link href="{{ static_path }}css/template6/bootstrap.css" rel='stylesheet' type='text/css' /><!-- bootstrap css -->
+    <link href="{{ static_path }}css/template6/style.css" rel='stylesheet' type='text/css' /><!-- custom css -->
+    <link href="{{ static_path }}css/template6/font-awesome.min.css" rel="stylesheet"><!-- fontawesome css -->
+    <link href="{{ static_path }}css/template6/nice-select.css" rel="stylesheet"><!-- fontawesome css -->
+    <link rel="stylesheet" href="{{ static_path }}css/template1/magnific-popup.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/template6/select2.css?version={{javascript_version}}">
+	<!-- //css files -->
+    <link rel="stylesheet" href="{{ static_path }}css/template6/owl.carousel.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/template6/owl.theme.default.min.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/template6/owl.theme.green.min.css?version={{javascript_version}}">
+
+	<link rel="stylesheet" href="{{ static_path }}css/template6/css_slider.css" type="text/css">
+	<link rel="stylesheet" href="{{ static_path }}css/template6/custom.css" type="text/css">
+
+	<!-- google fonts -->
+    <link href="//fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900" rel="stylesheet">
+	<link href="//fonts.googleapis.com/css?family=Source+Sans+Pro:200,200i,300,300i,400,400i,600,600i,700,700i,900,900i" rel="stylesheet">
+	<!-- //google fonts -->
+
+
+    {%endif%}
+    <!--jbox-->
+    <link rel="stylesheet" href="{{ static_path }}css/jbox/jBox.all.css?version={{javascript_version}}">
+<!--    <link rel="stylesheet" href="{{ static_path }}css/jbox/normalize.css?version={{javascript_version}}">-->
+    <link rel="stylesheet" href="{{ static_path }}css/jbox/playground-avatars.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/jbox/playground-inception.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/jbox/playground-login.css?version={{javascript_version}}">
+
+    <!--font-->
+    <link rel="stylesheet" href="{{ static_path }}css/all.min.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/sweetalert2.min.css?version={{javascript_version}}">
+    <!--cart-->
+    <link rel="stylesheet" href="{{ static_path }}css/cart.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/simplePagination.css?version={{javascript_version}}">
+    <!--daterangepicker-->
+    <link rel="stylesheet" href="{{ static_path }}css/daterangepicker.css?version={{javascript_version}}">
+    <!--loadingbar-->
+    <link rel="stylesheet" href="{{ static_path }}css/loading.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/loading-btn.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/loading-bar.css?version={{javascript_version}}">
+    <!--select2-->
+    <!--other-->
+    <script src="{{ static_path }}js/vendor/jquery-2.2.4.min.js?version={{javascript_version}}"></script>
+    <script>
+        bottom = 60;
+    </script>
+
+    <style media="screen" type="text/css">
+        .bx-imopenlines-config-sidebar{
+            height: 65% !important;
+            top: 35% !important;
+            width: 25%;
+            min-height: 65% !important;
+        }
+        .bx-imopenlines-config-sidebar-info-block-container{
+            display: none !important;
+        }
+        .connector-icon{
+            background-size: 60% auto !important;
+        }
+        .b24-widget-button-position-bottom-right{
+            right:-5px !important;
+            bottom: 52px !important;
+        }
+        .b24-widget-button-inner-mask{
+            height:unset !important;
+            width:unset !important;
+            min-width:unset !important;
+            -webkit-width:unset !important;
+            background: {{color}} !important;
+            border-radius: unset !important;
+        }
+        .b24-widget-button-pulse-animate{
+            -webkit-animation: unset !important;
+            animation: unset !important;
+        }
+        .b24-widget-button-block{
+            border-radius: unset !important;
+            height:65px !important;
+            width:65px !important;
+        }
+        .b24-widget-button-inner-block{
+            background-color: {{color}} !important;
+            border-radius: unset !important;
+        }
+        .b24-widget-button-openline_livechat{
+            background-color: {{color}} !important;
+        }
+        .b24-widget-button-popup{
+            border-color: {{color}} !important;
+            border-radius: unset !important;
+        }
+        .b24-widget-button-popup-triangle{
+            border-color: {{color}} !important;
+        }
+        .b24-widget-button-pulse{
+            border-color: {{color}} !important;
+            border-radius: unset !important;
+        }
+    </style>
+    <style>
+        .radio-label > input:checked + .div_radio_bg{
+            background: {{color}};
+        }
+        .radio-label .div_radio_bg:hover{
+            background: {{color}};
+        }
+
+        .sticky-event-active{
+            background: {{color}};
+        }
+        .forgot-pass-login{
+            color:{{color}};
+            font-size:15px;
+            font-weight:700;
+        }
+
+        .radio-label > input:checked + .div_label{
+            border:2px solid {{color}} !important;
+            background: {{color}};
+            color:white;
+        }
+
+        tbody {
+            vertical-align: top;
+        }
+
+        .nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
+            background-color: {{tab_color}} !important;
+        }
+        .banner-right .tab-content {
+            border-bottom-left-radius: 7px;
+            border-bottom-right-radius: 7px;
+        }
+        ::selection {
+          background-color: {{color}} !important;
+          color: #fff;
+        }
+        .jBox-Modal .jBox-title{
+            background: {{color}};
+            color: {{text_color}};
+        }
+        .jBox-TooltipBorder.jBox-closeButton-box:before{
+            background: {{color}} !important;
+        }
+        .jBox-closeButton-box .jBox-closeButton{
+            background: {{color}};
+        }
+        .jBox-closeButton path{
+            fill: {{text_color}} !important;
+        }
+        .style-scrollbar::-webkit-scrollbar-thumb{
+	        background-color: {{tab_color}};
+	    }
+	    .modal-title{
+            color: {{text_color}};
+	    }
+	    ul.btn_tabs li:hover{
+           color: {{color}};
+        }
+        .faq-que{
+            cursor:pointer;
+        }
+        .faq-que b:hover{
+            color: {{color}} !important;
+        }
+        .cbspan{
+            background-color: {{text_color}};
+        }
+        .cblabel:hover input ~ .cbspan{
+            background-color: {{text_color}}B3;
+        }
+        .cblabel input:checked ~ .cbspan {
+            background-color: {{color}} !important;
+        }
+        .crspan{
+            background-color: {{text_color}};
+        }
+        .crlabel:hover input ~ .crspan{
+            background-color: {{text_color}}B3 !important;
+        }
+        .crlabel input:checked ~ .crspan{
+            background-color: {{color}} !important;
+        }
+        .check_box_custom input:checked ~ .check_box_span_custom{
+            background-color: {{color}} !important;
+        }
+        .radio-button-custom input:checked ~ .checkmark-radio{
+            background-color: {{color}} !important;
+        }
+        .button_date_np:hover{
+            background-color: {{color}} !important;
+            color: {{text_color}};
+        }
+
+        .bx-livechat-head{
+            background-color: {{color}} !important;
+        }
+
+        .notif-hover:hover{
+            color: {{color}} !important;
+            opacity:0.7;
+        }
+
+        @keyframes dash {
+          to {
+            stroke-dashoffset: 0;
+          }
+        }
+
+        @keyframes filling {
+           0%, 90% { fill: {{color}};
+            fill-opacity: 0; }
+          100% { fill: {{color}};
+            fill-opacity: 1; }
+        }
+
+
+        .lamp{
+            text-shadow: 0 0 5px {{color}}, 0 0 15px {{color}}, 0 0 20px {{color}}, 0 0 40px {{color}}, 0 0 60px transparent, 0 0 10px #ff8d00, 0 0 98px transparent
+        }
+        @-webkit-keyframes blink {
+          20%,
+          24%,
+          55% {
+            color: #111;
+            text-shadow: none;
+          }
+
+          0%,
+          19%,
+          21%,
+          23%,
+          25%,
+          54%,
+          56%,
+          100% {
+        /*     color: #fccaff;
+            text-shadow: 0 0 5px #f562ff, 0 0 15px #f562ff, 0 0 25px #f562ff,
+              0 0 20px #f562ff, 0 0 30px #890092, 0 0 80px #890092, 0 0 80px #890092; */
+          text-shadow: 0 0 5px {{color}}, 0 0 15px {{color}}, 0 0 20px {{color}}, 0 0 20px {{color}}, 0 0 60px transparent, 0 0 10px #ff8d00, 0 0 98px transparent;
+            color: #fff6a9;
+          }
+        }
+
+        @keyframes blink {
+          20%,
+          24%,
+          55% {
+            color: #111;
+            text-shadow: none;
+          }
+
+          0%,
+          19%,
+          21%,
+          23%,
+          25%,
+          54%,
+          56%,
+          100% {
+        /*     color: #fccaff;
+            text-shadow: 0 0 5px #f562ff, 0 0 15px #f562ff, 0 0 25px #f562ff,
+              0 0 20px #f562ff, 0 0 30px #890092, 0 0 80px #890092, 0 0 80px #890092; */
+          text-shadow: 0 0 5px {{color}}, 0 0 15px {{color}}, 0 0 20px {{color}}, 0 0 20px {{color}}, 0 0 60px transparent, 0 0 10px #ff8d00, 0 0 98px transparent;
+            color: #fff6a9;
+          }
+        }
+
+        .br-done {
+            color: {{color}};
+        }
+        .br-done:hover {
+            color: {{color}};
+            cursor: pointer;
+            opacity:0.9;
+        }
+        .br-icon-done {
+            background-color: {{color}};
+        }
+        .br-icon-done:hover {
+            background-color: {{color}};
+            opacity:0.9;
+            cursor: pointer;
+        }
+
+        .br-icon-active {
+            background-color: {{color}};
+        }
+        .br-active {
+            color: {{color}};
+        }
+        .count_time{
+            font-size:14px; font-weight:700; color:{{color}};
+        }
+
+        .primary-btn-white{
+            border: 1px solid #cacaca;
+        }
+
+        .primary-btn-white:hover{
+            background: {{color}};
+        }
+
+        .primary-btn-custom {
+            background: {{color}};
+            line-height: 35px;
+            padding-left: 15px;
+            padding-right: 15px;
+            border: none;
+            border-radius: 3px;
+            color: {{text_color}};
+            display: inline-block;
+            font-size: 14px;
+            font-weight: 500;
+            position: relative;
+            -webkit-transition: all 0.3s ease 0s;
+            -moz-transition: all 0.3s ease 0s;
+            -o-transition: all 0.3s ease 0s;
+            transition: all 0.3s ease 0s;
+            cursor: pointer;
+            position: relative;
+            border-radius: 3px;
+        }
+        .primary-btn {
+            background: {{color}};
+            line-height: 42px;
+            border: none;
+            color: {{text_color}};
+            display: inline-block;
+            font-size: 14px;
+            font-weight: 500;
+            position: relative;
+            border-radius: 3px;
+            -webkit-transition: all 0.3s ease 0s;
+            -moz-transition: all 0.3s ease 0s;
+            -o-transition: all 0.3s ease 0s;
+            transition: all 0.3s ease 0s;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .center-div div {
+            background-color: {{color}};
+            display: inline-block;
+            color: rgb(174, 215, 241);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            -webkit-animation-name: inner-center-div;
+            -webkit-animation-duration: 4s;
+            -webkit-animation-iteration-count: infinite;
+            animation-name: inner-center-div;
+            animation-duration: 4s;
+            animation-iteration-count: infinite;
+        }
+        .primary-btn-logout {
+            background: {{color}};
+            line-height: 30px;
+            padding-left: 20px;
+            padding-right: 20px;
+            border: none;
+            border-radius: 3px;
+            color: black;
+            display: inline-block;
+            font-size: 14px;
+            font-weight: 500;
+            position: relative;
+            -webkit-transition: all 0.3s ease 0s;
+            -moz-transition: all 0.3s ease 0s;
+            -o-transition: all 0.3s ease 0s;
+            transition: all 0.3s ease 0s;
+            cursor: pointer;
+            position: relative;
+            width: 100%;
+        }
+
+        .btn-custom-circle {
+            text-align: center;
+            background-color: {{color}};
+            text-align: center;
+            white-space: nowrap;
+            user-select: none;
+            border: 1px solid transparent;
+            cursor: pointer;
+            color: #000;
+            height: 30px;
+        }
+        .btn-custom-circle:hover {
+            background-color: {{color}};
+            opacity:0.9;
+        }
+        .btn-custom-circle:disabled {
+            border: 1px solid #999999;
+            background-color: #E1E1E1 !important;
+            color: #A5A5A5;
+            cursor:not-allowed;
+        }
+        .detail-link{
+            text-decoration: unset;
+            color: {{color}};
+        }
+        .detail-link:hover{
+            color: {{color}};
+            opacity:0.8;
+        }
+        .activity_btn_advance{
+            background: {{color}};
+            color: rgb(255, 255, 255);
+            cursor: pointer;
+            display: block;
+        }
+        .select2-container--default .select2-results__option--highlighted[aria-selected] {
+            background-color: {{color}} !important;
+            color: white;
+        }
+        .autocomplete-suggestion.selected {
+            background: #cdcdcd;
+        }
+        .primary-btn:hover {
+            background: {{color}};
+            opacity: 0.9;
+        }
+        .primary-btn-ad {
+            background: {{color}};
+            line-height: 42px;
+            padding-left: 15px;
+            padding-right: 15px;
+            margin-right: 5px;
+            border: none;
+            color: #fff;
+            display: inline-block;
+            font-size: 14px;
+            font-weight: 500;
+            position: relative;
+            -webkit-transition: all 0.3s ease 0s;
+            -moz-transition: all 0.3s ease 0s;
+            -o-transition: all 0.3s ease 0s;
+            transition: all 0.3s ease 0s;
+            cursor: pointer;
+            position: relative;
+        }
+        .primary-btn-ad:hover {
+            background: {{color}};
+            opacity: 0.9;
+        }
+        .primary-btn-custom:hover {
+            background: {{color}};
+            opacity: 0.9;
+        }
+        .search-box-result:hover {
+            border: 1px solid {{color}} !important;
+        }
+        .price_template{
+            font-size: 15px;
+            font-weight: bold;
+            color: {{color}};
+        }
+        .carrier_code_template{
+            color: {{color}};
+            font-weight: 500;
+        }
+        .flight_type_template{
+            font-weight: bold;
+            font-size: 14px;
+            color: {{color}};
+        }
+        .StepProgress-item.is-done::before {
+            border-left: 2px solid {{color}};
+        }
+        .StepProgress-item.is-done::after {
+            /* content: "?"; */
+            font-size: 10px;
+            color: #FFF;
+            text-align: center;
+            border: 2px solid {{color}};
+            background-color: white;
+        }
+        .StepProgress-item.is-end::after {
+            font-size: 10px;
+            color: #FFF;
+            text-align: center;
+            border: 2px solid {{color}};
+            background-color: white;
+        }
+        .filter_general:hover {
+            color: {{color}};
+        }
+        .primary-btn-ticket {
+            background: {{color}};
+            line-height: 40px;
+            padding-left: 20px;
+            padding-right: 20px;
+            border: none;
+            border-radius: 3px;
+            color: {{text_color}};
+            display: inline-block;
+            font-size: 14px;
+            font-weight: 500;
+            position: relative;
+            -webkit-transition: all 0.3s ease 0s;
+            -moz-transition: all 0.3s ease 0s;
+            -o-transition: all 0.3s ease 0s;
+            transition: all 0.3s ease 0s;
+            cursor: pointer;
+            position: relative;
+        }
+        .primary-btn-ticket:hover {
+            background: {{color}};
+            opacity: 0.9;
+        }
+        .mystickycopybot {
+            position: fixed;
+            bottom: 180px;
+            right: 0px;
+            z-index: 99;
+            border: 1px solid gray;
+            outline: none;
+            background-color: {{color}};
+            color: white;
+            cursor: pointer;
+            height: 55px;
+            width: 55px;
+            border-radius: 0px;
+            padding-left: 0px !important;
+            padding-right: 0px !important;
+        }
+        .mystickycopybot:hover {
+            background-color: {{color}};
+            opacity:0.9;
+        }
+        .myticket {
+            position: fixed;
+            top: 75px;
+            right: 0px;
+            z-index: 1049;
+            background-color: {{color}};
+            color: white;
+            font-size:16px;
+            height: 55px;
+            width: 55px;
+            border: 1px solid transparent;
+            border-radius: 0px;
+            cursor: pointer;
+            outline: none;
+            cursor: pointer;
+        }
+        .myticket:hover {
+            background-color: {{color}};
+        }
+        .mytickethotel {
+            position: fixed;
+            top: 75px;
+            right: 0px;
+            background-color: {{color}};
+            color: white;
+            font-size:16px;
+            height: 55px;
+            width: 55px;
+            border: 1px solid transparent;
+            border-radius: 0px;
+            cursor: pointer;
+            outline: none;
+            cursor: pointer;
+        }
+        .mytickethotel:hover {
+            background-color: {{color}};
+        }
+        .passenger_div {
+            background-color: white;
+            padding: 15px;
+            cursor: pointer;
+            border: 1px solid #cdcdcd;
+        }
+        .voucher_div {
+            background-color: white;
+            text-align:left;
+            padding: 10px;
+            border: 1px solid {{color}};
+            margin-top: 15px;
+            position: relative;
+            z-index: 5;
+        }
+        .br-book {
+            color: {{color}};
+        }
+        .br-icon-book {
+            background-color: {{color}};
+        }
+        .form-login-control:focus {
+            color: black;
+            border-bottom: 1px solid {{color}} !important;
+        }
+        .primary-btn-logout:hover {
+            background: {{color}};
+            opacity: 0.9;
+        }
+        .irs-from, .irs-to, .irs-single {
+            color: #fff;
+            font-size: 14px;
+            line-height: 1.333;
+            text-shadow: none;
+            padding: 1px 5px;
+            background: {{color}};
+            border-radius: 3px;
+            -moz-border-radius: 3px;
+        }
+        .btn-primary {
+            color: #fff;
+            background-color: {{color}};
+            border-color: {{color}};
+        }
+        .btn-primary:hover{
+            background-color: {{color}};
+            border-color: {{color}};
+            opacity:0.8;
+        }
+        .sticky-tour-active {
+            background: {{color}};
+            color: white;
+        }
+        .primary-btn-sticky-hotel:hover {
+            background: {{color}};
+            color: white;
+        }
+        .nav-tabs-activity {
+            background-color: {{color}};
+            height: 41px !important;
+        }
+        .tab-menu-activity:hover {
+            color: white;
+            background-color: {{color}};
+            opacity:0.9;
+            text-decoration: unset;
+        }
+        .tab-menu-activity.active {
+            color: white;
+            background-color: {{color}};
+            opacity:0.9;
+        }
+
+        .tab-menu-activity {
+            color: white;
+            background-color: {{color}};
+            display: block;
+            width: 100%;
+            height: 100%;
+            padding-top: 10px;
+        }
+        .li-activity:hover {
+            background-color: white;
+        }
+        .icon-search-ticket{
+            background: {{color}};
+            color: {{text_color}};
+        }
+        .myticket_static {
+            background-color: {{color}};
+            color: white;
+            height: 32px;
+            width: 180px;
+            border: 1px solid transparent;
+            border-radius: 3px;
+            cursor: pointer;
+            outline: none;
+            float: right;
+        }
+        .irs-bar {
+            height: 10px;
+            top: 33px;
+            border-top: 1px solid {{color}};
+            border-bottom: 1px solid {{color}};
+            background: {{color}};
+            background: linear-gradient(to top, {{color}} 0%, {{color}} 100%);
+        }
+        .facility_hotel {
+            margin-right:5px; color:{{color}}; font-size:11px; word-break: break-all;
+        }
+        .myticket_static_detail {
+            background-color: {{color}};
+            color: white;
+            height: 32px;
+            width: 180px;
+            border: 1px solid transparent;
+            border-radius: 3px;
+            cursor: pointer;
+            outline: none;
+            float: right;
+            margin: 8px;
+        }
+        .sticky-hotel-active {
+            background: {{color}};
+            opacity: 0.9;
+            color: white;
+        }
+        .sticky-hotel-event {
+            background: {{color}};
+            opacity: 0.9;
+            color: white;
+        }
+        .light-theme .current {
+            background: {{color}};
+            border: 2px solid {{color}};
+            color: {{color}};
+            opacity: 0.9;
+            box-shadow: 0 1px 0 rgba(255,255,255,1), 0 0 2px rgba(0, 0, 0, 0.3) inset;
+            cursor: default;
+        }
+        .light-theme a:hover, .light-theme li:not(.disabled):not(.active) span:hover{
+            color: {{color}};
+        }
+        .sticky-activity-active {
+            background: {{color}};
+            color: white;
+        }
+        .btn-activity.active {
+            background-color: {{color}};
+            opacity: 0.9;
+            color: white;
+        }
+        .btn-activity:hover {
+            background-color: {{color}};
+            color: white;
+        }
+        .btn-activity {
+            background: white;
+            border: 2px solid {{color}};
+            color: black;
+        }
+        .primary-btn-standard {
+            background: #f7f7f7;
+            line-height: 42px;
+            padding-left: 30px;
+            padding-right: 30px;
+            border: 1px solid {{color}} !important;
+            color: #000;
+            display: inline-block;
+            font-size: 14px;
+            font-weight: 500;
+            position: relative;
+            border-radius: 3px;
+            -webkit-transition: all 0.3s ease 0s;
+            -moz-transition: all 0.3s ease 0s;
+            -o-transition: all 0.3s ease 0s;
+            transition: all 0.3s ease 0s;
+            cursor: pointer;
+            position: relative;
+        }
+        .primary-btn-standard:hover {
+            background: {{color}} !important;
+            opacity: 0.9;
+            color: white;
+            border: 1px solid #C04B21;
+        }
+        .detail-hotel-box:hover {
+            border: 1px solid {{color}} !important;
+        }
+        .detail-event-box:hover {
+            border: 1px solid {{color}} !important;
+        }
+        .border-event{
+            border-right:2px solid {{color}};
+        }
+        @media (max-width: 767px) {
+            .border-event{
+                border-bottom:2px solid {{color}};
+                border-right:unset;
+                margin-bottom:15px;
+            }
+        }
+        .form-select-2 .nice-select .list{
+            border: 1px solid {{color}};
+        }
+        .form-select-2 .nice-select .list .option.selected{
+            color: {{color}};
+        }
+        .primary-btn-custom-un {
+            background: #fff;
+            opacity: 0.9;
+            line-height: 35px;
+            padding-left: 20px;
+            padding-right: 20px;
+            border: 1px solid {{color}};
+            cursor: not-allowed;
+            color: {{color}};
+            display: inline-block;
+            font-size: 14px;
+            font-weight: 500;
+            position: relative;
+            -webkit-transition: all 0.3s ease 0s;
+            -moz-transition: all 0.3s ease 0s;
+            -o-transition: all 0.3s ease 0s;
+            transition: all 0.3s ease 0s;
+            cursor: pointer;
+            position: relative;
+            border-radius: 3px;
+        }
+        .image-rounded-icon2:hover {
+            border: 1px solid {{color}};
+            color: {{color}};
+        }
+        .notif-hover:hover {
+            color: {{color}};
+            opacity: 0.9;
+        }
+        .form-control:focus {
+            border: 1px solid {{color}} !important;
+        }
+        .hover_name:hover {
+            color: {{color}} !important;
+        }
+        .sorting-box-b:hover {
+            border: 1px solid {{color}};
+            z-index: 9;
+        }
+        .badge-notif {
+            border: 1px solid {{color}};
+            opacity: 0.9;
+        }
+        .img_hotel_smallbot:hover{
+            border: 1px solid {{color}};
+        }
+        .select2-container--default .select2-search--dropdown .select2-search__field{
+            border: 1px solid {{color}};
+        }
+        .button-seat-pass-cancel{
+            background: #ff3030 !important;
+        }
+
+        .button-seat-pass-cancel:hover{
+            background: #e04022 !important;
+        }
+
+        .primary-btn-sorting:focus{
+            color: {{color}};
+        }
+
+        .primary-btn-all-sticky{
+            background: {{color}};
+        }
+
+        .primary-btn-all-sticky:hover{
+            background: {{color}};
+            opacity: 0.8;
+        }
+
+        .span-search-ticket{
+            color: {{text_color}};
+        }
+
+        .center-div-t div{
+            background-color: {{color}};
+        }
+
+        .radio-img  > input:checked + img{
+          border:3px solid {{color}};
+        }
+
+        .tags_btn{
+            color: {{color}};
+        }
+
+        .tags_btn:hover{
+            background: {{color}} !important;
+            color:{{text_color}} !important;
+            text-decoration: unset;
+        }
+
+        .tags_btn_rsv{
+            color: {{text_color}};
+            background:{{color}};
+        }
+
+        .tags_btn_rsv:hover{
+            background: {{text_color}};
+            color: {{color}};
+        }
+
+        .color-custom{
+            color: {{text_color}};
+        }
+        .text-btn-custom{
+            color: {{color}};
+        }
+        .button-custom{
+            background-color: {{color}};
+        }
+
+        .jBox-NoticeFancy.jBox-Notice-color .jBox-container {
+          color: {{text_color}} !important;
+          background: {{color}} !important;
+        }
+
+        .ticket-layout:before{
+            border: 5px solid {{color}};
+            border-top-color: transparent;
+            border-left-color: transparent;
+        }
+        .ticket-layout:after{
+            border: 5px solid {{color}};
+            border-top-color: transparent;
+            border-left-color: transparent;
+        }
+        .ticket-layout{
+            background: linear-gradient(to right, {{color}}, {{color}}, {{color}}, {{color}})
+        }
+
+        .progress_icon-active {
+            background-color: {{color}};
+        }
+
+        .form-select-2 .nice-select .list .option:hover{
+            color: {{color}} !important;
+            background:#f7f7f7;
+            font-weight:600;
+        }
+
+        .form-select-2 .nice-select .list .option.selected{
+            font-weight:600;
+        }
+
+        .owl-bg-border{
+            border-bottom: 5px solid {{color}} !important;
+        }
+
+        .span_link:hover{
+            color:{{color}};
+        }
+
+        .span_link_white:hover{
+            color:{{color}};
+        }
+
+        .picture_identity_customer:hover{
+            border:1px solid {{color}} !important;
+        }
+
+        .single_border_custom_top{
+            border-top:5px solid {{color}};
+        }
+        .single_border_custom_right{
+            border-right:5px solid {{color}};
+        }
+        .single_border_custom_bottom{
+            border-bottom:5px solid {{color}};
+        }
+        .single_border_custom_left{
+            border-left:5px solid {{color}};
+        }
+
+        .border_custom_top{
+            border-top:10px solid {{color}};
+        }
+        .border_custom_right{
+            border-right:10px solid {{color}};
+        }
+        .border_custom_bottom{
+            border-bottom:10px solid {{color}};
+        }
+        .border_custom_left{
+            border-left:10px solid {{color}};
+        }
+
+        .text_btn_custom:hover{
+            color: {{color}};
+        }
+        ul.edit_tabs li:hover{
+            color: {{color}} !important;
+        }
+        ul.edit_tabs li label:hover{
+            color: {{color}} !important;
+        }
+        ul.template_tabs li:hover{
+            color: {{color}} !important;
+        }
+        ul.create_tabs li label:hover{
+            color: {{color}} !important;
+        }
+
+        .place_div_dynamic{
+            background: {{color}} !important;
+        }
+
+        {% if template == 1%}
+        {% if username.co_user_login == default_user %}
+            #mobile-nav-toggle{
+                margin-top:15px;
+            }
+        {% endif %}
+
+        #mobile-nav ul li span:hover{
+            color:{{color}};
+        }
+
+        .btn-txt-color{
+            color:{{text_color}};
+        }
+        ul.create_tabs li.current{
+            border-bottom: 5px solid {{color}};
+            color: {{color}};
+        }
+        ul.edit_tabs li.current{
+            border-bottom: 5px solid {{color}};
+            color: {{color}};
+        }
+        ul.template_tabs li.current{
+            border-bottom: 5px solid {{color}};
+            color: {{color}};
+        }
+        ul.template_tabs li.current{
+            border-bottom: 5px solid {{color}};
+            color: {{color}};
+        }
+        .guide_h1:hover{
+            color: {{color}};
+        }
+        a {
+            color: black;
+        }
+        a:hover {
+            color: {{color}};
+        }
+
+        .nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
+            background-color: rgba(30, 30, 30, 0.9);
+            color: {{text_color}};
+        }
+        .nav-tabs .nav-link.active .btn-txt-color{
+            color: {{text_color}};
+        }
+        .nav-tabs .nav-link:hover .image-rounded-icon {
+            background:{{color}};
+        }
+        .nav-link.active .image-rounded-icon {
+            background: {{color}};
+        }
+        #mobile-nav ul .menu-item-active{
+            color: {{color}};
+        }
+        #myBtnBTP {
+            background-color: {{color}};
+        }
+        #myBtnBTP:hover {
+            background-color: {{color}};
+            opacity: 0.9;
+        }
+        .nav-link.active .image-rounded-icon {
+            background: {{color}};
+        }
+        .form-select .nice-select .list .option.selected {
+            color: {{color}};
+            background: transparent;
+        }
+        .nav-menu li:hover > a {
+            color: {{color}};
+        }
+        .nav-menu ul li:hover > a {
+            color: {{color}};
+        }
+        #mobile-nav ul li a:hover {
+            color: {{color}};
+        }
+        #mobile-nav ul li a:hover {
+            color: {{color}};
+        }
+        .banner-right .form-wrap .form-control:focus {
+            box-shadow: none;
+            border: 1px solid {{color}};
+            outline:unset;
+        }
+        .modal-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            padding: 1rem;
+            border-bottom: 1px solid #e9ecef;
+            border-top-left-radius: 0.3rem;
+            border-top-right-radius: 0.3rem;
+            background-color: {{color}};
+        }
+        .single-footer-widget ul li a:hover {
+            color: {{color}};
+            text-decoration: unset;
+        }
+        .nice-select:active, .nice-select.open, .nice-select:focus {
+            border-color: {{color}};
+        }
+        .form-select .nice-select .list {
+            margin-top: 0;
+            border: 1px solid {{color}};
+            border-radius: 0px;
+            box-shadow: none;
+            width: 100%;
+            padding: 10px 0px 0px 0px;
+            min-height: 30px;
+            max-height: 150px;
+            overflow-y: scroll;
+        }
+        .owl-theme .owl-nav [class*=owl-] {
+            color: {{color}} !important;
+            font-size: 20px;
+            margin: 5px;
+            padding: 7px;
+            background: rgba(50,50,50,0.8);
+            text-shadow: 2px 2px black;
+            display: inline-block;
+            cursor: pointer;
+            border-radius: 2px;
+        }
+        .owl-theme .owl-dots .owl-dot.active span, .owl-theme .owl-dots .owl-dot:hover span{
+            color: {{color}} !important;
+            background: {{color}} !important;
+        }
+        .form-select .nice-select .list .option:hover {
+            color: {{color}};
+            background: transparent;
+        }
+        a:not([href]):not([tabindex]):hover, a:not([href]):not([tabindex]):focus {
+          color: {{color}};
+          text-decoration: none;
+          background:unset;
+        }
+        .horizontal-arrow:hover{
+            color: {{color}} !important;
+        }
+
+        {% elif template == 2%}
+
+        .form-control{
+            height: 43px;
+        }
+
+        {% if username.co_user_login == default_user %}
+        .classy-navbar-toggler .navbarToggler span{
+            background-color: {{text_color_login}};
+        }
+        {% endif %}
+
+        .hotel-search-form-area .hotel-search-form{
+            background: #f7f7f7;
+        }
+        ul.tabs{
+            padding:5px 10px 0px 0px;
+        }
+        ul.tabs li{
+            background:{{tab_color}};
+            border-bottom: 5px solid {{tab_color}};
+            color: {{text_color}};
+        }
+        ul.template_tabs li.current{
+            border-bottom: 5px solid {{color}};
+            color: {{color}};
+        }
+        ul.template_tabs li.current{
+            border-bottom: 5px solid {{color}};
+            color: {{color}};
+        }
+        .btn-txt-color{
+            color:{{text_color}};
+        }
+        a:hover{
+            color:{{color}};
+        }
+        .tab_body{
+            border:2px solid #cdcdcd;
+            background:{{tab_color}};
+        }
+        .image-rounded-icon3{
+            background: {{color}};
+        }
+        ul.tabs li.current {
+            border-bottom: 5px solid {{color}} !important;
+            color: {{color}};
+        }
+        ul.tabs li:hover {
+            color: {{color}};
+            border-bottom: 5px solid {{color}};
+        }
+        .nice-select .option.selected{
+            color: {{color}};
+        }
+        .nice-select .option:hover, .nice-select .option.focus, .nice-select .option.selected.focus{
+            color: {{color}};
+        }
+
+        .owl-theme .owl-dots .owl-dot.active span, .owl-theme .owl-dots .owl-dot:hover span{
+            color: {{color}} !important;
+            background: {{color}} !important;
+        }
+
+        .breakpoint-on .classynav ul li.has-down.active > .dd-trigger, .breakpoint-on .classynav ul li.megamenu-item.active > .dd-trigger{
+            background-color:{{color}};
+        }
+        #scrollUp{
+            background-color: {{color}};
+        }
+        #scrollUp:focus, #scrollUp:hover{
+            background-color: {{color}};
+            opacity:0.8;
+            color: white !important;
+        }
+        .modal-header {
+            background: {{color}};
+        }
+        ul.create_tabs li.current{
+            border-bottom: 5px solid {{color}};
+            color: {{color}};
+        }
+        ul.create_tabs li:hover{
+            color: {{color}};
+        }
+        ul.edit_tabs li.current{
+            border-bottom: 5px solid {{color}};
+            color: {{color}};
+        }
+        ul.edit_tabs li:hover{
+            color: {{color}};
+        }
+        .owl-theme .owl-nav [class*=owl-]{
+            background: {{color}};
+        }
+        .owl-theme .owl-nav [class*=owl-]:hover{
+            background: {{color}};
+            opacity: 1;
+        }
+        .nice-select:active, .nice-select.open, .nice-select:focus{
+            border-color: {{color}};
+        }
+        .classy-nav-container .classy-navbar .classynav ul li a:focus, .classy-nav-container .classy-navbar .classynav ul li a:hover{
+            color: {{color}};
+        }
+        .classy-nav-container .classy-navbar .classynav ul li.cn-dropdown-item ul li a:focus, .classy-nav-container .classy-navbar .classynav ul li.cn-dropdown-item ul li a:hover, .classy-nav-container .classy-navbar .classynav ul li.megamenu-item ul li a:focus, .classy-nav-container .classy-navbar .classynav ul li.megamenu-item ul li a:hover {
+            color: {{color}};
+        }
+        .image-rounded-icon{
+            background: {{color}};
+        }
+        .image-rounded-icon:hover{
+            border: 2px solid {{color}};
+        }
+        .horizontal-arrow:hover{
+            color: {{color}} !important;
+        }
+        .single-footer-widget .footer-nav li a:focus, .single-footer-widget .footer-nav li a:hover{
+            color: {{color}};
+        }
+        .banner-area-div{
+            height:60vh;
+        }
+        @media only screen and (max-width: 575px) {
+            .banner-area-div{
+                height:48vh !important;
+            }
+        }
+        @media only screen and (min-width: 576px) and (max-width: 767px) {
+            .banner-area-div{
+                height:57vh;
+            }
+        }
+        @media only screen and (min-width: 768px) and (max-width: 991px) {
+            .banner-area-div{
+                height:60vh;
+            }
+        }
+        @media only screen and (min-width: 992px) and (max-width: 1079px) {
+            .banner-area-div{
+                height:70vh;
+            }
+        }
+        {% elif template == 3 %}
+        .switch_a{
+            color:{{text_color}};
+        }
+        .switch_a:hover{
+            color:{{color}};
+        }
+        .header-right{
+            background-color: {{tab_color}};
+        }
+        .nav-menu a:hover{
+            color:{{color}} !important;
+        }
+        #mobile-nav ul li a:hover{
+            color:{{color}} !important;
+        }
+        ul.tabs li.current .btn-txt-color{
+            color:{{color}} !important;
+            font-weight: bold;
+            font-size:15px;
+        }
+        .image-rounded-icon{
+            background: {{color}};
+        }
+        .btn-txt-color{
+            color: {{text_color}};
+        }
+        .btn-txt-color:hover{
+            color: {{color}} !important;
+        }
+        ul.create_tabs li.current{
+            border-bottom: 5px solid {{color}};
+            color: {{color}};
+        }
+        ul.create_tabs li:hover{
+           color: {{color}};
+        }
+
+        ul.edit_tabs li.current{
+            border-bottom: 5px solid {{color}};
+            color: {{color}};
+        }
+        ul.edit_tabs li:hover{
+           color: {{color}};
+        }
+        ul.template_tabs li.current{
+            border-bottom: 5px solid {{color}};
+            color: {{color}};
+        }
+        ul.template_tabs li.current{
+            border-bottom: 5px solid {{color}};
+            color: {{color}};
+        }
+
+        .single-footer-widget ul li a:hover {
+            color: {{color}};
+            text-decoration: unset;
+        }
+
+        a:focus, a:hover{
+            color: {{color}};
+        }
+        .nav-menu a:hover{
+            color: {{color}} !important;
+        }
+        .nav-menu ul li:hover > a{
+            color: {{color}};
+        }
+        ul.tabs li.current{
+            color: {{color}};
+        }
+        .default-select .nice-select .list .option.selected{
+            color: {{color}};
+        }
+        .default-select .nice-select .list .option:hover{
+            color: {{color}};
+        }
+        .modal-header{
+            background: {{color}};
+        }
+        .owl-theme .owl-nav [class*=owl-]{
+            background: {{color}};
+        }
+        .owl-theme .owl-dots .owl-dot.active span, .owl-theme .owl-dots .owl-dot:hover span{
+            color: {{color}} !important;
+            background: {{color}} !important;
+        }
+
+        .owl-theme .owl-nav [class*=owl-]:hover{
+            background: {{color}};
+        }
+
+        #myBtnBTP{
+            background: {{color}};
+        }
+        #myBtnBTP:hover{
+            background: {{color}};
+            opacity: 0.8;
+        }
+        {% elif template == 4 %}
+        .image-change-route-vertical a{
+            color: {{text_color}};
+        }
+        .image-change-route-vertical a:hover{
+            color: {{color}};
+        }
+        .owl-theme .owl-nav [class*=owl-]{
+            background: {{color}};
+            color: {{text_color}} !important;
+        }
+        .owl-theme .owl-nav [class*=owl-]:hover{
+            background: {{color}} !important;
+            opacity: 1;
+        }
+        .owl-theme .owl-dots .owl-dot.active span, .owl-theme .owl-dots .owl-dot:hover span{
+            background: {{color}} !important;
+        }
+        .modal-header{
+            background-color: {{color}};
+        }
+        .border-primary{
+            border-color: {{color}} !important;
+        }
+        .border-primary:after{
+            background: {{color}};
+        }
+        .form-control:active, .form-control:focus {
+            border-color: {{color}};
+        }
+        ul.tabs li{
+            color: {{text_color}};
+            background: {{tab_color}};
+        }
+        ul.tabs li:hover{
+            color: {{text_color}};
+            background: {{color}};
+        }
+        ul.tabs li.current {
+            background: {{color}};
+        }
+        ul.tabs li.current label{
+            font-size:14px;
+        }
+        ul.template_tabs li.current{
+            border-bottom: 5px solid {{color}};
+            color: {{color}};
+        }
+        ul.template_tabs li.current{
+            border-bottom: 5px solid {{color}};
+            color: {{color}};
+        }
+        .site-navbar .site-navigation .site-menu .has-children:hover > a, .site-navbar .site-navigation .site-menu .has-children:focus > a, .site-navbar .site-navigation .site-menu .has-children:active > a {
+            color: {{color}};
+        }
+        .site-navbar .site-navigation .site-menu .has-children .dropdown{
+            border-top: 2px solid {{color}};
+        }
+        a:hover{
+            color: {{color}} !important;
+        }
+        ul.create_tabs li.current{
+            border-bottom: 5px solid {{color}};
+            color: {{color}};
+        }
+        ul.create_tabs li:hover{
+            color: {{color}};
+        }
+        ul.edit_tabs li.current{
+            border-bottom: 5px solid {{color}};
+            color: {{color}};
+        }
+        .nice-select:active, .nice-select.open, .nice-select:focus{
+            border-color: {{color}};
+        }
+        .nice-select .option:hover, .nice-select .option.focus, .nice-select .option.selected.focus{
+            color: {{color}};
+        }
+        .image-rounded-icon{
+            background: {{color}};
+        }
+        #myBtnBTP{
+            background-color: {{color}}
+        }
+        #myBtnBTP:hover{
+            background-color: {{color}};
+            opacity:0.8;
+        }
+        {% elif template == 5 %}
+        .owl-theme .owl-nav [class*=owl-]{
+            color: {{color}} !important;
+        }
+        .owl-theme .owl-nav [class*=owl-]:hover{
+            background: {{color}} !important;
+            color: white !important;
+            opacity: 1;
+        }
+        .owl-theme .owl-dots .owl-dot.active span, .owl-theme .owl-dots .owl-dot:hover span{
+            background: {{color}} !important;
+        }
+
+        #mobile-nav .sign_up_login{
+            color:white;
+        }
+        #mobile-nav .sign_up_login:hover{
+            color: {{color}};
+        }
+        .sign_up_login:hover{
+            color: {{color}};
+        }
+        .btn-txt-color{
+            color: {{text_color}};
+        }
+        #myBtnBTP {
+            background-color: {{color}};
+        }
+        #myBtnBTP:hover {
+            background-color: {{color}};
+            opacity: 0.9;
+        }
+
+        .image-rounded-icon{
+            background: {{color}};
+        }
+        a:focus, a:hover{
+            color: {{color}} !important;
+        }
+        .nav-menu li:hover > a, .nav-menu > .menu-active > a{
+            color: {{color}} !important;
+        }
+
+        .modal-header{
+            background: {{color}};
+        }
+        .search-field{
+            background: {{tab_color}};
+        }
+        .form-select .nice-select .list .option.selected{
+            color:{{color}};
+        }
+        .form-select .nice-select .list .option:hover{
+            color: {{color}};
+        }
+        ul.tabs li{
+            color: {{text_color}};
+        }
+        ul.tabs li:hover{
+            border-bottom: 5px solid {{color}};
+        }
+        ul.tabs li.current {
+            border-bottom: 5px solid {{color}};
+        }
+        ul.create_tabs li.current{
+            border-bottom: 5px solid {{color}};
+            color: {{color}};
+        }
+        ul.create_tabs li:hover{
+            color: {{color}};
+        }
+        ul.edit_tabs li.current{
+            border-bottom: 5px solid {{color}};
+            color: {{color}};
+        }
+        ul.edit_tabs li:hover{
+            color: {{color}};
+        }
+        ul.tabs li.current .image-rounded-icon{
+            background: {{color}} !important;
+        }
+        ul.template_tabs li.current{
+            border-bottom: 5px solid {{color}};
+            color: {{color}};
+        }
+        ul.template_tabs li.current{
+            border-bottom: 5px solid {{color}};
+            color: {{color}};
+        }
+
+        {% elif template == 6 %}
+        a {
+            color: black;
+        }
+        a:hover{
+            color: {{color}};
+        }
+        .footer_a{
+            color:black;
+            line-height:30px;
+        }
+        .footer_a:hover{
+            color:{{color}} !important;
+        }
+
+        ul.create_tabs li:hover{
+            color: {{color}} !important;
+        }
+        nav a{
+            color:{{text_color}};
+        }
+        .toggle{
+            background-color: {{color}};
+        }
+        .copy-right p{
+            color: {{text_color}};
+        }
+        .modal-header {
+            background: {{color}};
+        }
+        .image-change-route-vertical{
+            color: {{text_color}};
+        }
+        #myBtnBTP{
+            background: {{color}};
+        }
+        #myBtnBTP:hover{
+            background: {{color}};
+            opacity:0.8;
+        }
+        .div_cst:hover .hover_cst{
+            color:{{color}} !important;
+        }
+        .div_cst:hover .image-rounded-icon{
+            border: 5px solid {{color}} !important;
+        }
+
+        ul.create_tabs li.current{
+            border-bottom: 5px solid {{color}};
+            color: {{color}};
+        }
+        ul.edit_tabs li.current{
+            border-bottom: 5px solid {{color}};
+            color: {{color}};
+        }
+        ul.template_tabs li.current{
+            border-bottom: 5px solid {{color}};
+            color: {{color}};
+        }
+        ul.template_tabs li.current{
+            border-bottom: 5px solid {{color}};
+            color: {{color}};
+        }
+
+        nav a:hover{
+            color:{{color}};
+        }
+
+        .nice-select:active, .nice-select.open, .nice-select:focus {
+            border-color: {{color}};
+        }
+
+        .owl-theme .owl-nav [class*=owl-] {
+            color: {{color}};
+            font-size: 20px;
+            margin: 5px;
+            padding: 7px;
+            background: rgba(50,50,50,0.8);
+            text-shadow: 2px 2px black;
+            display: inline-block;
+            cursor: pointer;
+            border-radius: 2px;
+        }
+        .owl-theme .owl-dots .owl-dot.active span, .owl-theme .owl-dots .owl-dot:hover span{
+            background: {{color}};
+        }
+
+        {% endif %}
+
+    </style>
+
+    <script type="text/javascript" >
+    template = {{template}};
+    </script>
+    <script src="{{ static_path }}js/auto-complete.js?version={{javascript_version}}"></script>
+<!--    <script>-->
+<!--        window.onbeforeunload = function () {-->
+<!--            window.scrollTo(0, 0);-->
+<!--        };-->
+<!--    </script>-->
+</head>
+<script>
+    color = `{{color}}`;
+    text_color = `{{text_color}}`;
+    user_login = '{{username}}';
+    user_login = user_login.replace(/False/g, false);
+    user_login = user_login.replace(/True/g, true);
+    user_login = JSON.parse(user_login.replace(/&#39;/g, '"'));
+
+    default_user = '{{default_user}}';
+
+    name = `{{name}}`;
+    web_name = `{{name}}`;
+    background = `{{background}}`;
+
+    provider_types_sequence = `{{provider_types_sequence}}`;
+    provider_types_sequence = provider_types_sequence.replace(/False/g, '""');
+    provider_types_sequence = provider_types_sequence.replace(/True/g, '""');
+    provider_types_sequence = JSON.parse(provider_types_sequence.replace(/&#39;/g, '"'));
+
+    provider_list_template = `{{provider}}`;
+    provider_list_template = provider_list_template.replace(/False/g, '""');
+    provider_list_template = provider_list_template.replace(/True/g, '""');
+    provider_list_template = JSON.parse(provider_list_template.replace(/&#39;/g, '"'));
+</script>
+<script type="text/javascript">
+    // Broad cast that your're opening a page.
+    localStorage.openpages = Date.now();
+    page_open = 1;
+    var onLocalStorageEvent = function(e){
+
+        if(e.key == "openpages"){
+            // Listen if anybody else opening the same page!
+            localStorage.page_available = Date.now();
+        }
+        if(e.key == "page_available"){
+            //buat mobile
+            try{
+                if(window.location.href.split('/').length > 3)
+                    if(window.location.href.split('/')[3] != 'payment')
+                        alert("One more page already open");
+                else{
+                    alert("One more page already open");
+                    page_open = 0;
+                }
+            }catch(err){
+                console.log(err) //ada element yg tidak ada
+            }
+            //self.close();
+            //open(location, '_self').close();
+        }
+    };
+    window.addEventListener('storage', onLocalStorageEvent, false);
+    $( document ).ready(function() {
+      $('.js-example-basic-single').select2();
+    });
+</script>
+<!--change font-->
+{% if font.name != '' %}
+<script>
+// first parameter is font name
+// second parameter is the path to the font file
+var junction_font = new FontFace('{{font.name}}', 'url({{ static_path }}custom_font/{{font.font}})');
+junction_font.load().then(function(loaded_face) {
+	document.fonts.add(loaded_face);
+  	document.body.style.fontFamily = '"{{font.name}}", Arial';
+
+}).catch(function(error) {
+    console.log(err);
+});
+</script>
+<style>
+    h1, h2, h3, h4, h5, h6{
+        font-family: "{{font.name}}", Arial !important
+    }
+</style>
+{% endif %}
+<body>
+{% if '{{google_tag_manager_key}}' == ''%}
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id={{google_tag_manager_key}}"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+{% endif %}
+
+{% include 'tt_website/b2c_signup.html' %}
+
+{% include 'tt_website/plugin_live_chat.html' %}
+
+{% block content %}
+
+{% endblock %}
+<div id="alert-area" class="alert-area"></div>
+</body>
+<!-- JAVASCRIPTS -->
+
+<!--template1-->
+<!--IVAN-->
+<script>
+    url_home = `{% url 'tt_website:index'%}`;
+</script>
+{% if template == 1%}
+<script src="{{ static_path }}js/template1/easing.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template1/hoverIntent.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template1/jquery.ajaxchimp.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template1/jquery.magnific-popup.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template1/jquery.nice-select.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template1/jquery-ui.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template1/mail-script.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template1/main2.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template1/owl.carousel.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template1/popper.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template1/superfish.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/aos.js?version={{javascript_version}}"></script>
+
+<!--template2-->
+{% elif template == 2%}
+<script src="{{ static_path }}js/template2/jquery.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template2/popper.min.js?version={{javascript_version}}"></script>
+<!--<script src="{{ static_path }}js/template2/bootstrap.min.js"></script>-->
+<script src="{{ static_path }}js/template2/roberto.bundle.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template2/default-assets/active.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template2/main.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template1/owl.carousel.min.js?version={{javascript_version}}"></script>
+{% elif template == 3%}
+<script src="{{ static_path }}js/template3/vendor/jquery-2.2.4.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template1/owl.carousel.min.js?version={{javascript_version}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<!--<script src="{{ static_path }}js/template3/vendor/bootstrap.min.js"></script>-->
+<!--<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhOdIF3Y9382fqJYt5I_sswSrEw5eihAA"></script>-->
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template3/easing.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template3/hoverIntent.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template3/superfish.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template3/jquery.ajaxchimp.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template3/jquery.magnific-popup.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template3/jquery.sticky.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template3/jquery.nice-select.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template3/waypoints.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template3/jquery.counterup.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template3/parallax.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template3/mail-script.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template3/main.js?version={{javascript_version}}"></script>
+{% elif template == 4%}
+<script src="{{ static_path }}js/template4/jquery-3.3.1.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template4/jquery-migrate-3.0.1.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template4/jquery-ui.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template4/popper.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template4/jquery.nice-select.min.js?version={{javascript_version}}"></script>
+<!--<script src="{{ static_path }}js/template4/bootstrap.min.js"></script>-->
+<script src="{{ static_path }}js/template4/owl.carousel.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template4/jquery.stellar.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template4/jquery.countdown.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template4/jquery.magnific-popup.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template4/bootstrap-datepicker.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template4/aos.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template4/rangeslider.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template4/main.js?version={{javascript_version}}"></script>
+
+{% elif template == 5%}
+<!--<script src="{{ static_path }}js/template5/vendor/jquery-2.2.4.min.js"></script>-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+        crossorigin="anonymous"></script>
+<!--<script src="{{ static_path }}js/template5/vendor/bootstrap.min.js"></script>-->
+<script src="{{ static_path }}js/template5/jquery.ajaxchimp.min.js"></script>
+<script src="{{ static_path }}js/template5/jquery.nice-select.min.js"></script>
+<script src="{{ static_path }}js/template5/jquery.sticky.js"></script>
+<script src="{{ static_path }}js/template5/ion.rangeSlider.js"></script>
+<!--<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>-->
+<script src="{{ static_path }}js/template5/jquery.magnific-popup.min.js"></script>
+<script src="{{ static_path }}js/template5/owl.carousel.min.js"></script>
+<script src="{{ static_path }}js/template5/main.js"></script>
+
+{% elif template == 6%}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="{{ static_path }}js/template2/popper.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template1/jquery.magnific-popup.min.js?version={{javascript_version}}"></script>
+<!-- disable body scroll which navbar is in active -->
+<script src="{{ static_path }}js/template6/owl.carousel.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template6/jquery.nice-select.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template6/custom.js?version={{javascript_version}}"></script>
+<!--//-->
+<script>
+	$(function () {
+		$('.navbar-toggler').click(function () {
+			$('body').toggleClass('noscroll');
+		})
+	});
+</script>
+<!--/scroll-down-JS-->
+<!--pop-up-box-->
+
+<script>
+	$(document).ready(function () {
+		$('.popup-with-zoom-anim').magnificPopup({
+			type: 'inline',
+
+			fixedContentPos: false,
+			fixedBgPos: true,
+
+			overflowY: 'auto',
+
+			closeBtnInside: true,
+			preloader: false,
+
+			midClick: true,
+			removalDelay: 300,
+			mainClass: 'my-mfp-zoom-in'
+		});
+
+		$('.popup-with-move-anim').magnificPopup({
+			type: 'inline',
+
+			fixedContentPos: false,
+			fixedBgPos: true,
+
+			overflowY: 'auto',
+
+			closeBtnInside: true,
+			preloader: false,
+
+			midClick: true,
+			removalDelay: 300,
+			mainClass: 'my-mfp-slide-bottom'
+		});
+	});
+</script>
+
+<!--//pop-up-box-->
+<!-- for blog carousel slider -->
+<!--<script src="{{ static_path }}js/template6/owl.carousel1.js"></script>-->
+<script>
+	$(document).ready(function () {
+		$("#owl-demo2").owlCarousel({
+			items: 1,
+			lazyLoad: true,
+			autoPlay: true,
+			navigation: false,
+			navigationText: ["", ""],
+			rewindNav: false,
+			scrollPerPage: true,
+			pagination: false,
+			paginationNumbers: false,
+
+		})
+	});
+	$(document).ready(function () {
+		$("#owl-demo1").owlCarousel({
+			loop: true,
+			margin: 20,
+			responsiveClass: true,
+			responsive: {
+				0: {
+					items: 1,
+					nav: true
+				},
+				600: {
+					items: 2,
+					nav: false
+				},
+				1000: {
+					items: 3,
+					nav: true,
+					loop: false
+				}
+			}
+		})
+	})
+</script>
+
+
+{% endif %}
+<!--jbox-->
+<script src="{{ static_path }}js/jbox/jBox.all.js"></script>
+<script src="{{ static_path }}js/jbox/playground-avatars.js"></script>
+<script src="{{ static_path }}js/jbox/playground-inception.js"></script>
+<script src="{{ static_path }}js/jbox/playground-login.js"></script>
+
+<!--zoom-->
+<script src="{{ static_path }}js/jquery.zoom.min.js?version={{javascript_version}}"></script>
+<!--select2-->
+<script src="{{ static_path }}js/select2.js?version={{javascript_version}}"></script>
+<!--price slider-->
+<script src="{{ static_path }}js/price-slider.js?version={{javascript_version}}"></script>
+<!--loading-bar-->
+<script src="{{ static_path }}js/loading-bar.js?version={{javascript_version}}"></script>
+<!--datetimepicker-->
+<script src="{{ static_path }}js/daterangepicker.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/moment.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/sweetalert2.min.js?version={{javascript_version}}"></script>
+<!--cart-->
+<script src="{{ static_path }}js/cart.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/jquery.simplePagination.js?version={{javascript_version}}"></script>
+<!--other-->
+<script src="{{ static_path }}js/style.js?version={{javascript_version}}"></script>
+<script src="https://d.line-scdn.net/r/web/social-plugin/js/thirdparty/loader.min.js" async="async" defer="defer"></script>
+<!--<script src="{{ static_path }}js/maps.js?version={{javascript_version}}"></script>-->
+
+<script src="{{ static_path }}js/jquery.dataTables.min.js?version={{javascript_version}}"></script>
+
+<script src="{{ static_path }}js/vendor/bootstrap.min.js?version={{javascript_version}}"></script>
+<!--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhOdIF3Y9382fqJYt5I_sswSrEw5eihAA"></script>-->
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>-->
+<!--<script src="https://unpkg.com/aos@2.3.1/dist/aos.js?version={{javascript_version}}"></script>-->
+
+<!--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>-->
+<!--<script src="{{ static_path }}js/google-map.js' %}"></script>-->
+<!--<script src="{{ static_path }}js/main.js?version={{javascript_version}}"></script>-->
+<script src="{{ static_path }}js/language.js?version={{javascript_version}}"></script>
+
+</html>

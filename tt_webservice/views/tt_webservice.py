@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 import traceback
 import logging
 import json
-_logger = logging.getLogger("rodextrip_logger")
+_logger = logging.getLogger("website_logger")
 
 def set_session(request, session_key, data, depth = 1):
     if session_key in request.session:
@@ -30,6 +30,7 @@ def del_session(request, session_key):
 def send_request_api(request, url, headers, data, method="POST", timeout=30):
     res = util.send_request(url=url, data=data, headers=headers, method=method, timeout=timeout)
     try:
+        # if type(request) != dict and type(res) == 'dict' and len(res.keys()) > 0:
         if type(request) != dict:
             _check_expired(request, res)
     except Exception as e:

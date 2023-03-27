@@ -12,7 +12,7 @@ from .tt_webservice_views import *
 from .tt_webservice import *
 from .tt_webservice_voucher_views import *
 from ..views import tt_webservice_agent_views as webservice_agent
-_logger = logging.getLogger("rodextrip_logger")
+_logger = logging.getLogger("website_logger")
 
 month = {
     'Jan': '01',
@@ -91,7 +91,7 @@ def signin(request):
             "action": "signin",
             "signature": '',
         }
-
+        user_global, password_global, api_key = get_credential(request)
         data = {
             "user": user_global,
             "password": password_global,
@@ -132,16 +132,16 @@ def get_config(request):
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     url_request = url + 'booking/group_booking'
-    file = read_cache("group_booking_cache_data", 'cache_web', 86400)
+    file = read_cache("group_booking_cache_data", 'cache_web', request, 86400)
     # TODO VIN: Some Update Mekanisme ontime misal ada perubahan data dkk
     if not file:
         res = send_request_api(request, url_request, headers, data, 'POST')
         try:
             if res['result']['error_code'] == 0:
-                write_cache(res, "group_booking_cache_data", 'cache_web')
+                write_cache(res, "group_booking_cache_data", request, 'cache_web')
         except Exception as e:
             _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-            file = read_cache("group_booking_cache_data", 'cache_web', 90911)
+            file = read_cache("group_booking_cache_data", 'cache_web', request, 90911)
             if file:
                 res = file
     else:
@@ -193,7 +193,7 @@ def get_booking(request):
     # nanti ganti ke get_ssr_availability
     try:
         airline_destinations = []
-        file = read_cache("airline_destination", 'cache_web', 90911)
+        file = read_cache("airline_destination", 'cache_web', request, 90911)
         if file:
             response = file
         for country in response:
@@ -221,7 +221,7 @@ def get_booking(request):
     try:
         if res['result']['error_code'] == 0:
             nationality_code = ''
-            response = get_cache_data()
+            response = get_cache_data(request)
 
             for rec in res['result']['response']['ticket_list']:
                 rec.update({
@@ -387,23 +387,7 @@ def get_all_booking_state_booked(request):
 def update_passenger(request):
     # nanti ganti ke get_ssr_availability
     try:
-        nationality_code = ''
-        response = get_cache_data()
-
-
         pax = json.loads(request.POST['passengers'])
-        for rec in pax:
-            for country in response['result']['response']['airline']['country']:
-                if rec['nationality_code'] == country['name']:
-                    nationality_code = country['code']
-                    break
-            rec['nationality_code'] = nationality_code
-            if rec.get('identity'):
-                for country in response['result']['response']['airline']['country']:
-                    if rec['identity']['identity_country_of_issued_name'] == country['name']:
-                        nationality_code = country['code']
-                        break
-                rec['identity']['identity_country_of_issued_code'] = nationality_code
         data = {
             'order_number': request.POST['order_number'],
             "passengers": pax
@@ -429,13 +413,6 @@ def update_passenger(request):
 def update_booker(request):
     # nanti ganti ke get_ssr_availability
     try:
-        nationality_code = ''
-        response = get_cache_data()
-
-        for country in response['result']['response']['airline']['country']:
-            if request.POST['nationality'] == country['name']:
-                nationality_code = country['code']
-                break
         data = {
             # 'order_number': 'TB.190329533467'
             'order_number': request.POST['order_number'],
@@ -447,7 +424,7 @@ def update_booker(request):
                 "calling_code": request.POST['calling_code'],
                 "mobile": request.POST['mobile'],
                 "booker_seq_id": request.POST.get('booker_seq_id', ''),
-                "nationality_code": nationality_code
+                "nationality_code": request.POST['nationality_code']
             }
         }
         headers = {
@@ -471,13 +448,6 @@ def update_booker(request):
 def update_contact(request):
     # nanti ganti ke get_ssr_availability
     try:
-        nationality_code = ''
-        response = get_cache_data()
-
-        for country in response['result']['response']['airline']['country']:
-            if request.POST['nationality'] == country['name']:
-                nationality_code = country['code']
-                break
         data = {
             # 'order_number': 'TB.190329533467'
             'order_number': request.POST['order_number'],
@@ -491,7 +461,7 @@ def update_contact(request):
                     "mobile": request.POST['mobile'],
                     "contact_seq_id": request.POST['contact_seq_id'],
                     "is_also_booker": request.POST['is_also_booker'],
-                    "nationality_code": nationality_code
+                    "nationality_code": request.POST['nationality_code']
                 }
             ]
         }
