@@ -352,17 +352,6 @@ def index(request):
 
     return no_session_logout(request)
 
-def webcam(request):
-    javascript_version = get_javascript_version(request)
-    values = get_data_template(request, 'login')
-    values.update({
-        'static_path': path_util.get_static_path(MODEL_NAME),
-        'javascript_version': javascript_version,
-        'static_path_url_server': get_url_static_path(),
-        'username': request.session.get('user_account') or {'co_user_login': ''},
-    })
-    return render(request, MODEL_NAME + '/webcam.html', values)
-
 def no_session_logout(request):
     try:
         language = request.session['_language']
@@ -1521,6 +1510,7 @@ def get_data_template(request, type='home', provider_type = []):
     live_chat_embed_code = ''
     default_user = ''
     default_password = ''
+    is_show_breakdown_price = False
     ## live chat
 
     top_up_term = '''
@@ -1732,6 +1722,10 @@ def get_data_template(request, type='home', provider_type = []):
 
         default_user, default_password = get_credential_user_default(request)
 
+        file = read_cache("show_breakdown_price", 'cache_web', request, 90911)
+        if file:
+            is_show_breakdown_price = file
+
         file = read_cache("data_cache_template", 'cache_web', request, 90911)
         if file:
             for idx, line in enumerate(file.split('\n')):
@@ -1919,7 +1913,8 @@ def get_data_template(request, type='home', provider_type = []):
         # 'live_chat_embed_code': live_chat_embed_code,
         'live_chat': live_chat,
         'default_user': default_user,
-        'default_password': default_password
+        'default_password': default_password,
+        'is_show_breakdown_price': is_show_breakdown_price
     }
 
 

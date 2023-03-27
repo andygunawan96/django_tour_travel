@@ -2386,6 +2386,7 @@ function update_estimate_price(){
        data: {
            'signature': signature,
            'is_show_estimate_price': document.getElementById('is_show_estimate_price').checked,
+           'is_show_breakdown_price': document.getElementById('is_show_breakdown_price').checked,
            'provider': JSON.stringify(request_data)
        },
        success: function(msg) {

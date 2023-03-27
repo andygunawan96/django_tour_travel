@@ -3679,7 +3679,8 @@ function get_price_itinerary_request(){
                         }
                         if(counter_class_of_service > 1){
                             family_segment_journey.push({"fares":fare_list});
-                            is_family_fare = true;
+                        }else{
+                            family_segment_journey.push({"fares":[]});
                         }
                     }
                     journey_idx++;
@@ -3688,9 +3689,11 @@ function get_price_itinerary_request(){
                 family_provider_list.push({"journeys": family_journey_list});
            }
            for(i in family_journey_list){
-                if(family_journey_list[i].length > 0){
-                    is_family_fare = true;
-                    break;
+                for(j in family_journey_list[i].segments){
+                    if(family_journey_list[i].segments[j].fares.length > 0){
+                        is_family_fare = true;
+                        break;
+                    }
                 }
            }
            if(resJson.result.error_code == 0 && resJson.result.response.price_itinerary_provider.length!=0){

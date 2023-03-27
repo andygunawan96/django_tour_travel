@@ -2042,7 +2042,10 @@ Licence URI: http://www.os-templates.com/template-terms
     user_login = user_login.replace(/False/g, false);
     user_login = user_login.replace(/True/g, true);
     user_login = JSON.parse(user_login.replace(/&#39;/g, '"'));
-
+    if('{{is_show_breakdown_price}}' == 'True')
+        is_show_breakdown_price = true;
+    else
+        is_show_breakdown_price = false;
     default_user = '{{default_user}}';
 
     name = `{{name}}`;

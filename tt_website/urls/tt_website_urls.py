@@ -28,7 +28,6 @@ urlpatterns.append(re_path('credential_b2c', view.credential_b2c, name="credenti
 urlpatterns.append(re_path('credential', view.credential, name="credential"))
 # urlpatterns.append(re_path('guide/re_order_phc', view.tutorial_re_order_phc, name="tutorial_re_order_phc"))
 # urlpatterns.append(re_path('guide', view.tutorial, name="guide"))
-urlpatterns.append(re_path('webcam', view.webcam, name="webcam"))
 urlpatterns.append(re_path('', view.index, name="index"))
 
 # (?i) buat upper case to lower case bisa detect walaupun uppercase
