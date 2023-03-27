@@ -13,7 +13,7 @@ from .tt_webservice_views import *
 from .tt_webservice import *
 import time
 import copy
-_logger = logging.getLogger("rodextrip_logger")
+_logger = logging.getLogger("website_logger")
 
 @api_view(['GET', 'POST'])
 def api_models(request):
@@ -41,7 +41,7 @@ def login(request,func):
             "action": "signin",
             "signature": '',
         }
-
+        user_global, password_global, api_key = get_credential(request)
         data = {
             "user": user_global,
             "password": password_global,

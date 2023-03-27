@@ -15,7 +15,7 @@ from .tt_webservice import *
 from .tt_webservice_voucher_views import *
 from ..views import tt_webservice_agent_views as webservice_agent
 import time
-_logger = logging.getLogger("rodextrip_logger")
+_logger = logging.getLogger("website_logger")
 
 month = {
     'Jan': '01',
@@ -115,7 +115,7 @@ def login(request):
             "action": "signin",
             "signature": ''
         }
-
+        user_global, password_global, api_key = get_credential(request)
         data = {
             "user": user_global,
             "password": password_global,
@@ -194,7 +194,7 @@ def get_config(request):
                 "signature": request.data['signature']
             }
 
-        file = read_cache("medical_cache_data_%s" % provider, 'cache_web', 86400)
+        file = read_cache("medical_cache_data_%s" % provider, 'cache_web', request, 86400)
         # TODO VIN: Some Update Mekanisme ontime misal ada perubahan data dkk
         if not file:
             url_request = url + additional_url
@@ -212,10 +212,10 @@ def get_config(request):
                             "kota": json.loads(file.read())
                         }
                         file.close()
-                    write_cache(res, "medical_cache_data_%s" % provider, 'cache_web')
+                    write_cache(res, "medical_cache_data_%s" % provider, request, 'cache_web')
             except Exception as e:
                 _logger.info("ERROR GET CACHE medical " + provider + ' ' + json.dumps(res) + '\n' + str(e) + '\n' + traceback.format_exc())
-                file = read_cache("medical_cache_data_%s" % provider, 'cache_web', 86400)
+                file = read_cache("medical_cache_data_%s" % provider, 'cache_web', request, 86400)
                 if file:
                     res = file
 
@@ -245,7 +245,7 @@ def get_config_mobile(request):
         }
 
 
-        file = read_cache("medical_cache_data_%s" % provider, 'cache_web', 86400)
+        file = read_cache("medical_cache_data_%s" % provider, 'cache_web', request, 86400)
         # TODO VIN: Some Update Mekanisme ontime misal ada perubahan data dkk
         if not file:
             url_request = url + additional_url
@@ -259,14 +259,14 @@ def get_config_mobile(request):
                             "kota": json.loads(file.read())
                         }
                         file.close()
-                    write_cache(res, "medical_cache_data_%s" % provider, 'cache_web')
+                    write_cache(res, "medical_cache_data_%s" % provider, request, 'cache_web')
                     if request.data['type'] == 'kota':
                         res['result']['response'].pop('carriers_code')
                     else:
                         res['result']['response'].pop('kota')
             except Exception as e:
                 _logger.info("ERROR GET CACHE medical " + provider + ' ' + json.dumps(res) + '\n' + str(e) + '\n' + traceback.format_exc())
-                file = read_cache("medical_cache_data_%s" % provider, 'cache_web', 86400)
+                file = read_cache("medical_cache_data_%s" % provider, 'cache_web', request, 86400)
                 if file:
                     res = file
                     if request.data['type'] == 'kota':
@@ -464,28 +464,8 @@ def commit_booking(request):
         elif request.session.get('vendor_%s' % request.POST['signature']):
             data['provider'] = request.session['vendor_%s' % request.POST['signature']]
 
-        response = get_cache_data()
-
-        for country in response['result']['response']['airline']['country']:
-            if data['booker']['nationality_name'] == country['name']:
-                data['booker']['nationality_code'] = country['code']
-                break
-
-        for pax in data['contacts']:
-            for country in response['result']['response']['airline']['country']:
-                if pax['nationality_name'] == country['name']:
-                    pax['nationality_code'] = country['code']
-                    break
         for rec in data['passengers']:
             rec['birth_date'] = '%s-%s-%s' % (rec['birth_date'].split(' ')[2], month[rec['birth_date'].split(' ')[1]], rec['birth_date'].split(' ')[0])
-            for country in response['result']['response']['airline']['country']:
-                if rec['nationality_name'] == country['name']:
-                    rec['nationality_code'] = country['code']
-                    break
-            for country in response['result']['response']['airline']['country']:
-                if rec['identity']['identity_country_of_issued_name'] == country['name']:
-                    rec['identity']['identity_country_of_issued_code'] = country['code']
-                    break
             if rec['identity'].get('identity_expdate'):
                 if rec['identity']['identity_expdate']:
                     rec['identity']['identity_expdate'] = '%s-%s-%s' % (
@@ -574,7 +554,7 @@ def get_booking(request):
     url_request = url + additional_url
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
-        response = get_cache_data()
+        response = get_cache_data(request)
         if res['result']['error_code'] == 0:
             try:
                 res['result']['response']['can_issued'] = False
@@ -777,7 +757,7 @@ def get_transaction_by_analyst(request):
 def get_data_cache_passenger_medical(request):
     try:
         res = request.session['medical_passenger_cache']
-        response = get_cache_data()
+        response = get_cache_data(request)
         for rec in res:
             for country in response['result']['response']['airline']['country']:
                 if rec['nationality_code'] == country['code']:
@@ -819,7 +799,7 @@ def save_backend(request):
 
         data = json.loads(request.POST['request'])
 
-        response = get_cache_data()
+        response = get_cache_data(request)
         res = request.session['medical_passenger_cache']
         for idx, rec in enumerate(data['passengers']):
             rec['birth_date'] = '%s-%s-%s' % (rec['birth_date'].split(' ')[2], month[rec['birth_date'].split(' ')[1]], rec['birth_date'].split(' ')[0])
@@ -870,7 +850,7 @@ def verify_data(request):
         }
 
         data = json.loads(request.POST['request'])
-        response = get_cache_data()
+        response = get_cache_data(request)
 
         res = request.session['medical_passenger_cache']
         for idx, rec in enumerate(data['passengers']):
@@ -921,20 +901,20 @@ def verify_data(request):
 
 def get_medical_information(request):
     res = []
-    path = var_log_path('medical')
+    path = var_log_path(request, 'medical')
     if not os.path.exists(path):
         os.mkdir(path)
-    file = read_cache("periksain", 'medical', 90911)
+    file = read_cache("periksain", 'medical', request, 90911)
     res.append({
         'code': 'periksain',
         "html": file
     })
-    file = read_cache("phc_antigen", "medical", 90911)
+    file = read_cache("phc_antigen", "medical", request, 90911)
     res.append({
         "code": 'phc_antigen',
         "html": file
     })
-    file = read_cache("phc_pcr", "medical", 90911)
+    file = read_cache("phc_pcr", "medical", request, 90911)
     res.append({
         "code": 'phc_pcr',
         "html": file
@@ -947,12 +927,12 @@ def get_medical_information(request):
 
 
 def update_medical_information(request):
-    path = var_log_path('medical')
+    path = var_log_path(request, 'medical')
     if not os.path.exists(path):
         os.mkdir(path)
     try:
         data = request.POST['html']
-        write_cache(data, "%s" % request.POST['name'], 'medical')
+        write_cache(data, "%s" % request.POST['name'], request, 'medical')
         return ERR.get_no_error_api()
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
@@ -1036,7 +1016,7 @@ def page_passenger(request):
         res = {
             'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
         }
-        response = get_cache_data()
+        response = get_cache_data(request)
         res['countries'] = response['result']['response']['airline']['country']
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())

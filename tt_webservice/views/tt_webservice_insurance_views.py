@@ -16,7 +16,7 @@ from .tt_webservice_voucher_views import *
 from ..views import tt_webservice_agent_views as webservice_agent
 import time
 import copy
-_logger = logging.getLogger("rodextrip_logger")
+_logger = logging.getLogger("website_logger")
 
 month = {
     'Jan': '01',
@@ -100,7 +100,7 @@ def login(request):
             "action": "signin",
             "signature": ''
         }
-
+        user_global, password_global, api_key = get_credential(request)
         data = {
             "user": user_global,
             "password": password_global,
@@ -141,18 +141,18 @@ def get_carriers(request):
         }
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
-    file = read_cache("get_insurance_carriers", 'cache_web')
+    file = read_cache("get_insurance_carriers", 'cache_web', request)
     if not file:
         url_request = url + 'content'
         res = send_request_api(request, url_request, headers, data, 'POST')
         try:
             if res['result']['error_code'] == 0:
                 res = res['result']['response']
-                write_cache(res, "get_insurance_carriers", 'cache_web')
+                write_cache(res, "get_insurance_carriers", request, 'cache_web')
                 _logger.info("get_carriers Insurance RENEW SUCCESS SIGNATURE " + request.POST['signature'])
             else:
                 try:
-                    file = read_cache("get_insurance_carriers", 'cache_web', 90911)
+                    file = read_cache("get_insurance_carriers", 'cache_web', request, 90911)
                     if file:
                         res = file
                     _logger.info("get_carriers Insurance ERROR USE CACHE SIGNATURE " + request.POST['signature'])
@@ -162,7 +162,7 @@ def get_carriers(request):
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
-            file = read_cache("get_insurance_carriers", 'cache_web', 90911)
+            file = read_cache("get_insurance_carriers", 'cache_web', request, 90911)
             res = file
         except Exception as e:
             _logger.error('ERROR get_insurance_carriers file\n' + str(e) + '\n' + traceback.format_exc())
@@ -313,16 +313,16 @@ def get_config(request):
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     url_request = url + 'booking/insurance'
-    file = read_cache("insurance_cache_data", 'cache_web', 86400)
+    file = read_cache("insurance_cache_data", 'cache_web', request, 86400)
     # TODO VIN: Some Update Mekanisme ontime misal ada perubahan data dkk
     if not file:
         res = send_request_api(request, url_request, headers, data, 'POST')
         try:
             if res['result']['error_code'] == 0:
-                write_cache(res, "insurance_cache_data", 'cache_web')
+                write_cache(res, "insurance_cache_data", request, 'cache_web')
         except Exception as e:
             _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-            file = read_cache("insurance_cache_data", 'cache_web', 90911)
+            file = read_cache("insurance_cache_data", 'cache_web', request, 90911)
             if file:
                 res = file
     else:
@@ -424,17 +424,7 @@ def commit_booking(request):
 
         booker = request.session['insurance_create_passengers']['booker']
         contacts = request.session['insurance_create_passengers']['contact']
-        response = get_cache_data()
-        for country in response['result']['response']['airline']['country']:
-            if booker['nationality_name'] == country['name']:
-                booker['nationality_code'] = country['code']
-                break
-
-        for pax in contacts:
-            for country in response['result']['response']['airline']['country']:
-                if pax['nationality_name'] == country['name']:
-                    pax['nationality_code'] = country['code']
-                    break
+        response = get_cache_data(request)
         passenger = []
         for pax_type in request.session['insurance_create_passengers']:
             if pax_type != 'booker' and pax_type != 'contact':
@@ -457,11 +447,6 @@ def commit_booking(request):
                                             pax['data_insurance'][type]['birth_date'].split(' ')[2], month[pax['data_insurance'][type]['birth_date'].split(' ')[1]],
                                             pax['data_insurance'][type]['birth_date'].split(' ')[0]),
                                     })
-                    if pax['nationality_name'] != '':
-                        for country in response['result']['response']['airline']['country']:
-                            if pax['nationality_name'] == country['name']:
-                                pax['nationality_code'] = country['code']
-                                break
                     if pax['birth_date'] != '':
                         pax.update({
                             'birth_date': '%s-%s-%s' % (
@@ -476,13 +461,6 @@ def commit_booking(request):
                         })
                     except Exception as e:
                         _logger.error(str(e) + traceback.format_exc())
-                    if pax['identity_country_of_issued_name'] != '':
-                        for country in response['result']['response']['airline']['country']:
-                            if pax['identity_country_of_issued_name'] == country['name']:
-                                pax['identity_country_of_issued_code'] = country['code']
-                                break
-                    else:
-                        pax['identity_country_of_issued_code'] = ''
 
                     try:
                         pax.update({
@@ -492,15 +470,7 @@ def commit_booking(request):
                         })
                     except Exception as e:
                         _logger.error(str(e) + traceback.format_exc())
-                    if pax['identity_country_of_issued_name2'] != '':
-                        for country in response['result']['response']['airline']['country']:
-                            if pax['identity_country_of_issued_name2'] == country['name']:
-                                pax['identity_country_of_issued_code2'] = country['code']
-                                break
-                    else:
-                        pax['identity_country_of_issued_code2'] = ''
                     pax['identity'] = {
-                        "identity_country_of_issued_name": pax.pop('identity_country_of_issued_name'),
                         "identity_country_of_issued_code": pax.pop('identity_country_of_issued_code'),
                         "identity_expdate": pax.pop('identity_expdate'),
                         "identity_number": pax.pop('identity_number'),
@@ -509,7 +479,6 @@ def commit_booking(request):
                     }
                     if pax['identity_country_of_issued_name2']:
                         pax['identity_passport'] = {
-                            "identity_country_of_issued_name": pax.pop('identity_country_of_issued_name2'),
                             "identity_country_of_issued_code": pax.pop('identity_country_of_issued_code2'),
                             "identity_expdate": pax.pop('identity_expdate2'),
                             "identity_number": pax.pop('identity_number2'),

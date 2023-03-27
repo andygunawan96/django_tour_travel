@@ -14,7 +14,7 @@ import logging
 import traceback
 import copy
 
-_logger = logging.getLogger("rodextrip_logger")
+_logger = logging.getLogger("website_logger")
 
 month = {
     'Jan': '01',
@@ -304,6 +304,10 @@ def api_models(request):
             res = signin(request)
         elif req_data['action'] == 'signin_btc':
             res = signin_btc(request)
+        elif req_data['action'] == 'check_credential':
+            res = check_credential(request)
+        elif req_data['action'] == 'check_credential_b2c':
+            res = check_credential_b2c(request)
         elif req_data['action'] == 'delete_session':
             res = delete_session(request)
         elif req_data['action'] == 'static_path_url_server':
@@ -349,7 +353,7 @@ def signin(request):
         "action": "signin",
         "signature": ''
     }
-
+    user_global, password_global, api_key = get_credential(request)
     data = {
         "user": user_global,
         "password": password_global,
@@ -420,7 +424,7 @@ def signin(request):
                         except:
                             set_session(request, 'provider', [])
                         _logger.info("SIGNIN SUCCESS SIGNATURE " + res['result']['response']['signature'])
-                        response = get_cache_data()
+                        response = get_cache_data(request)
 
                         res['result']['response'].update({
                             # 'visa': response['result']['response']['visa'],
@@ -433,7 +437,7 @@ def signin(request):
                         })
                         logging.getLogger("info_logger").error("SUCCESS SIGNIN USE CACHE IN TXT!")
                 except Exception as e:
-                    get_new_cache(res['result']['response']['signature'])
+                    get_new_cache(request, res['result']['response']['signature'])
                     request.session.create()
             else:
                 res_user['result']['error_code'] = 500
@@ -475,6 +479,8 @@ def signin_btc(request):
     }
 
     try:
+        user_global, password_global, api_key = get_credential(request)
+        user_default, password_default = get_credential_user_default(request)
         data = {
             "user": user_global,
             "password": password_global,
@@ -548,8 +554,7 @@ def signin_btc(request):
                     except:
                         set_session(request, 'provider', [])
                     _logger.info("SIGNIN SUCCESS SIGNATURE " + res['result']['response']['signature'])
-                    javascript_version = get_cache_version()
-                    response = get_cache_data()
+                    response = get_cache_data(request)
 
                     res['result']['response'].update({
                         # 'visa': response['result']['response']['visa'],
@@ -562,7 +567,7 @@ def signin_btc(request):
                     })
                     logging.getLogger("info_logger").error("SUCCESS SIGNIN USE CACHE IN TXT!")
             except:
-                get_new_cache(res['result']['response']['signature'])
+                get_new_cache(request, res['result']['response']['signature'])
         else:
             _logger.error('ERROR SIGNIN_agent SOMETHING WHEN WRONG ' + json.dumps(res))
 
@@ -577,7 +582,85 @@ def signin_btc(request):
     except:
         return res
 
-def get_new_cache(signature, type='all'):
+def check_credential(request):
+    try:
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "signin",
+        }
+        data = {
+            "user": request.POST['username'],
+            "password": request.POST['password'],
+            "api_key": request.POST['api_key'],
+
+            "co_user": request.POST['username'],
+            "co_password": request.POST['password']
+        }
+    except Exception as e:
+        _logger.error('ERROR get user or password for btc login\n' + str(e) + '\n' + traceback.format_exc())
+    url_request = url + 'session'
+    res = send_request_api(request, url_request, headers, data, 'POST', 10)
+    try:
+        if res['result']['error_code'] == 0:
+            if request.POST.get('is_need_to_save', '') == 'true':
+                write_cache({
+                    "username": request.POST['username'],
+                    "password": request.POST['password'],
+                    "api_key": request.POST['api_key']}, 'credential', request)
+        else:
+            res = {
+                "result": {
+                    "response": "",
+                    "error_code": 500,
+                    "error_msg": "Please check your username, password, and apikey"
+                }
+            }
+            _logger.error('ERROR  SOMETHING WHEN WRONG ' + json.dumps(res))
+    except Exception as e:
+        _logger.error('ERROR SIGNIN\n' + str(e) + '\n' + traceback.format_exc())
+    return res
+
+def check_credential_b2c(request):
+    try:
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "signin",
+        }
+        user_global, password_global, api_key = get_credential(request)
+        data = {
+            "user": user_global,
+            "password": password_global,
+            "api_key": api_key,
+
+            "co_user": request.POST['username'],
+            "co_password": request.POST['password']
+        }
+    except Exception as e:
+        _logger.error('ERROR get user or password for btc login\n' + str(e) + '\n' + traceback.format_exc())
+    url_request = url + 'session'
+    res = send_request_api(request, url_request, headers, data, 'POST', 10)
+    try:
+        if res['result']['error_code'] == 0:
+            if request.POST.get('is_need_to_save', '') == 'true':
+                write_cache({
+                    "username": request.POST['username'],
+                    "password": request.POST['password']}, 'credential_user_default', request)
+        else:
+            res = {
+                "result": {
+                    "response": "",
+                    "error_code": 500,
+                    "error_msg": "Please check your username, password"
+                }
+            }
+            _logger.error('ERROR SET B2C LOGIN ' + json.dumps(res))
+    except Exception as e:
+        _logger.error('ERROR SIGNIN\n' + str(e) + '\n' + traceback.format_exc())
+    return res
+
+def get_new_cache(request, signature, type='all'):
     try:
         data = {}
         headers = {
@@ -630,7 +713,7 @@ def get_new_cache(signature, type='all'):
                                 'country': country['name'],
                                 'city': destination['city']
                             })
-                    write_cache(destination_train, "train_cache_data", 'cache_web')
+                    write_cache(destination_train, "train_cache_data", request, 'cache_web')
                 else:
                     _logger.info("ERROR GET CACHE FROM TRAIN SEARCH AUTOCOMPLETE " + json.dumps(res_destination_train)  + '\n' + traceback.format_exc())
             except Exception as e:
@@ -670,7 +753,7 @@ def get_new_cache(signature, type='all'):
             res_cache_hotel = send_request_api({}, url_request, headers, data, 'POST', 120)
             try:
                 if res_cache_hotel['result']['error_code'] == 0:
-                    write_cache(json.loads(res_cache_hotel['result']['response']), "hotel_cache_data", 'cache_web')
+                    write_cache(json.loads(res_cache_hotel['result']['response']), "hotel_cache_data", request, 'cache_web')
             except Exception as e:
                 _logger.info("ERROR GET CACHE FROM HOTEL SEARCH AUTOCOMPLETE " + json.dumps(res_cache_hotel) + '\n' + str(e) + '\n' + traceback.format_exc())
 
@@ -757,7 +840,7 @@ def get_new_cache(signature, type='all'):
             ff_request = send_request_api({}, url_request, headers, data, 'POST', 300)
             try:
                 if ff_request['result']['error_code'] == 0:
-                    write_cache(ff_request['result']['response'], "frequent_flyer_data", 'cache_web')
+                    write_cache(ff_request['result']['response'], "frequent_flyer_data", request, 'cache_web')
             except Exception as e:
                 _logger.error(str(e) + '\n' + traceback.format_exc())
 
@@ -797,7 +880,7 @@ def get_new_cache(signature, type='all'):
             res_cache_activity = send_request_api({}, url_request, headers, data, 'POST', 120)
             try:
                 if res_cache_activity['result']['error_code'] == 0:
-                    write_cache(res_cache_activity['result']['response'], "activity_cache_data", 'cache_web')
+                    write_cache(res_cache_activity['result']['response'], "activity_cache_data", request, 'cache_web')
             except Exception as e:
                 _logger.info(
                     "ERROR GET CACHE FROM ACTIVITY SEARCH AUTOCOMPLETE " + json.dumps(res_cache_activity) + '\n' + str(
@@ -839,7 +922,7 @@ def get_new_cache(signature, type='all'):
             res_cache_tour = send_request_api({}, url_request, headers, data, 'POST', 120)
             try:
                 if res_cache_tour['result']['error_code'] == 0:
-                    write_cache(res_cache_tour['result']['response'], "tour_cache_data", 'cache_web')
+                    write_cache(res_cache_tour['result']['response'], "tour_cache_data", request, 'cache_web')
             except Exception as e:
                 _logger.info(
                     "ERROR GET CACHE FROM TOUR SEARCH AUTOCOMPLETE " + json.dumps(res_cache_tour) + '\n' + str(
@@ -888,7 +971,7 @@ def get_new_cache(signature, type='all'):
             }
 
             # cache airline popular
-            file = read_cache("popular_destination_airline_cache", 'cache_web', 90911)
+            file = read_cache("popular_destination_airline_cache", 'cache_web', request, 90911)
             if file:
                 popular_airline = file
                 popular = []
@@ -919,8 +1002,8 @@ def get_new_cache(signature, type='all'):
                             })
             popular = popular + average
 
-            write_cache(popular, "airline_destination", 'cache_web')
-            write_cache(res, "version", 'cache_web')
+            write_cache(popular, "airline_destination", request, 'cache_web')
+            write_cache(res, "version", request, 'cache_web')
 
             # cache tanggal libur
             headers = {
@@ -936,26 +1019,26 @@ def get_new_cache(signature, type='all'):
             }
             url_request = url + 'content'
             res = send_request_api({}, url_request, headers, data, 'POST')
-            write_cache(res, "get_holiday_cache", 'cache_web')
+            write_cache(res, "get_holiday_cache", request, 'cache_web')
             # remove cache airline
             try:
-                path = "%s/%s" % (var_log_path('cache_web'), 'get_list_provider.txt')
+                path = "%s/%s" % (var_log_path(request, 'cache_web'), 'get_list_provider.txt')
                 os.remove(path)
             except Exception as e:
                 _logger.error(str(e) + traceback.format_exc())
             try:
-                path = "%s/%s" % (var_log_path('cache_web'), 'get_list_provider_data.txt')
+                path = "%s/%s" % (var_log_path(request, 'cache_web'), 'get_list_provider_data.txt')
                 os.remove(path)
             except Exception as e:
                 _logger.error(str(e) + traceback.format_exc())
             try:
-                path = "%s/%s" % (var_log_path('cache_web'), 'get_airline_carriers.txt')
+                path = "%s/%s" % (var_log_path(request, 'cache_web'), 'get_airline_carriers.txt')
                 os.remove(path)
             except:
                 _logger.info('Error delete file cache get_airline_carriers')
             airline.get_carriers('', signature)
             try:
-                path = "%s/%s" % (var_log_path('cache_web'), 'get_airline_active_carriers.txt')
+                path = "%s/%s" % (var_log_path(request, 'cache_web'), 'get_airline_active_carriers.txt')
                 os.remove(path)
             except:
                 _logger.info('Error delete file cache get_airline_active_carriers')
@@ -988,7 +1071,7 @@ def get_new_cache(signature, type='all'):
             try:
                 if res['result']['error_code'] == 0:
                     res['result']['response']['kota'] = data_kota
-                    write_cache(res, "medical_cache_data_%s" % provider, 'cache_web')
+                    write_cache(res, "medical_cache_data_%s" % provider, request, 'cache_web')
             except Exception as e:
                 _logger.info("ERROR UPDATE CACHE medical " + provider + ' ' + json.dumps(res) + '\n' + str(e) + '\n' + traceback.format_exc())
 
@@ -1020,7 +1103,7 @@ def get_new_cache(signature, type='all'):
                         "carriers_code": res['result']['response'],
                         "kota": data_kota
                     }
-                    write_cache(res, "medical_cache_data_%s" % provider, 'cache_web')
+                    write_cache(res, "medical_cache_data_%s" % provider, request, 'cache_web')
             except Exception as e:
                 _logger.info("ERROR UPDATE CACHE medical " + provider + ' ' + json.dumps(res) + '\n' + str(e) + '\n' + traceback.format_exc())
 
@@ -1042,7 +1125,7 @@ def get_new_cache(signature, type='all'):
 
             try:
                 if res['result']['error_code'] == 0:
-                    write_cache(res, "medical_global_cache_data", 'cache_web')
+                    write_cache(res, "medical_global_cache_data", request, 'cache_web')
             except Exception as e:
                 _logger.info("ERROR UPDATE CACHE medical " + provider + ' ' + json.dumps(res) + '\n' + str(e) + '\n' + traceback.format_exc())
 
@@ -1064,7 +1147,7 @@ def get_new_cache(signature, type='all'):
 
             try:
                 if res['result']['error_code'] == 0:
-                    write_cache(res, "swab_express_cache_data", 'cache_web')
+                    write_cache(res, "swab_express_cache_data", request, 'cache_web')
             except Exception as e:
                 _logger.info("ERROR UPDATE CACHE swab express " + provider + ' ' + json.dumps(res) + '\n' + str(
                     e) + '\n' + traceback.format_exc())
@@ -1087,7 +1170,7 @@ def get_new_cache(signature, type='all'):
 
             try:
                 if res['result']['error_code'] == 0:
-                    write_cache(res, "lab_pintar_cache_data", 'cache_web')
+                    write_cache(res, "lab_pintar_cache_data", request, 'cache_web')
             except Exception as e:
                 _logger.info("ERROR UPDATE CACHE lab pintar " + provider + ' ' + json.dumps(res) + '\n' + str(
                     e) + '\n' + traceback.format_exc())
@@ -1119,7 +1202,7 @@ def get_new_cache(signature, type='all'):
                     for rec in res['result']['response']:
                         if rec not in response['result']['response']:
                             response['result']['response'][rec] = res['result']['response'][rec]
-                    write_cache(response, "mitra_keluarga_cache_data", 'cache_web')
+                    write_cache(response, "mitra_keluarga_cache_data", request, 'cache_web')
             except Exception as e:
                 _logger.info("ERROR UPDATE CACHE mitra keluarga " + provider + ' ' + json.dumps(res) + '\n' + str(
                     e) + '\n' + traceback.format_exc())
@@ -1151,7 +1234,7 @@ def get_new_cache(signature, type='all'):
                     for rec in res['result']['response']:
                         if rec not in response['result']['response']:
                             response['result']['response'][rec] = res['result']['response'][rec]
-                    write_cache(response, "sentra_medika_cache_data", 'cache_web')
+                    write_cache(response, "sentra_medika_cache_data", request, 'cache_web')
             except Exception as e:
                 _logger.info("ERROR UPDATE CACHE sentra medika " + provider + ' ' + json.dumps(res) + '\n' + str(
                     e) + '\n' + traceback.format_exc())
@@ -1171,11 +1254,11 @@ def get_new_cache(signature, type='all'):
             try:
                 if res['result']['error_code'] == 0:
                     res = res['result']['response']
-                    write_cache(res, "get_bus_config", 'cache_web')
+                    write_cache(res, "get_bus_config", request, 'cache_web')
                     name_city_dict = {}
                     for rec in res['station']:
                         name_city_dict["%s - %s" % (res['station'][rec]['city'],res['station'][rec]['name'])] = rec
-                    write_cache(name_city_dict, "get_bus_config_dict_key_city", 'cache_web')
+                    write_cache(name_city_dict, "get_bus_config_dict_key_city", request, 'cache_web')
                     _logger.info("get_bus_config BUS RENEW SUCCESS SIGNATURE " + headers['signature'])
                 else:
                     _logger.error('ERROR get_bus_config file\n' + str(e) + '\n' + traceback.format_exc())
@@ -1196,7 +1279,7 @@ def get_new_cache(signature, type='all'):
             try:
                 if res['result']['error_code'] == 0:
                     res = res
-                    write_cache(res, "insurance_cache_data", 'cache_web')
+                    write_cache(res, "insurance_cache_data", request, 'cache_web')
                     _logger.info("get_bus_config INSURANCE RENEW SUCCESS SIGNATURE " + headers['signature'])
                 else:
                     _logger.error('ERROR get_insurance_config file\n' + str(e) + '\n' + traceback.format_exc())
@@ -1213,7 +1296,7 @@ def get_new_cache(signature, type='all'):
             res = send_request_api({}, url_request, headers, data, 'POST', 300)
             try:
                 if res['result']['error_code'] == 0:
-                    write_cache(res, 'currency_rate')
+                    write_cache(res, 'currency_rate', request)
                     _logger.info("get_currency_rate SUCCESS SIGNATURE " + headers['signature'])
                 else:
                     _logger.error('ERROR get_currency_rate file\n' + str(e) + '\n' + traceback.format_exc())
@@ -1249,7 +1332,7 @@ def get_new_cache(signature, type='all'):
                                 last_sequence += 1
                                 rec['sequence'] = last_sequence
                     res['result']['response'] = sorted(res['result']['response'], key=lambda k: int(k['sequence']))
-                    write_cache(res, "big_banner_cache", 'cache_web')
+                    write_cache(res, "big_banner_cache", request, 'cache_web')
                     _logger.info("big_banner RENEW SUCCESS SIGNATURE " + signature)
                 except Exception as e:
                     _logger.error(
@@ -1280,7 +1363,7 @@ def get_new_cache(signature, type='all'):
                                 last_sequence += 1
                                 rec['sequence'] = last_sequence
                     res['result']['response'] = sorted(res['result']['response'], key=lambda k: int(k['sequence']))
-                    write_cache(res, "small_banner_cache", 'cache_web')
+                    write_cache(res, "small_banner_cache", request, 'cache_web')
                     _logger.info("small_banner RENEW SUCCESS SIGNATURE " + signature)
                 except Exception as e:
                     _logger.error(
@@ -1311,20 +1394,20 @@ def get_new_cache(signature, type='all'):
                                 last_sequence += 1
                                 rec['sequence'] = last_sequence
                     res['result']['response'] = sorted(res['result']['response'], key=lambda k: int(k['sequence']))
-                    write_cache(res, "promotion_banner_cache", 'cache_web')
+                    write_cache(res, "promotion_banner_cache", request, 'cache_web')
                     _logger.info("promotion_banner RENEW SUCCESS SIGNATURE " + signature)
                 except Exception as e:
                     _logger.error(
                         'ERROR promotion banner file \n' + str(e) + '\n' + traceback.format_exc())
 
         ## update javascript version agar cache mobile terupdate juga & bisa restart tanpa update javascript_version tetapi klik update di page_admin
-        file = read_cache("javascript_version", 'cache_web', 90911)
+        file = read_cache("javascript_version", 'cache_web', request, 90911)
         if file:
             javascript_version = int(file)
         else:
             javascript_version = 1
         javascript_version += 1
-        write_cache(javascript_version, 'javascript_version')
+        write_cache(javascript_version, 'javascript_version', request)
         logging.getLogger("info_logger").error("DONE GENERATE NEW CACHE!")
         return True
     except Exception as e:
@@ -1336,7 +1419,7 @@ def get_new_cache(signature, type='all'):
 
 def update_cache_data(request):
     try:
-        res = get_new_cache(request.POST['signature'], 'data')
+        res = get_new_cache(request, request.POST['signature'], 'data')
         if res == True:
             res = {
                 'result': {
@@ -1366,7 +1449,7 @@ def update_cache_data(request):
 
 def update_cache_image(request):
     try:
-        res = get_new_cache(request.POST['signature'], 'image')
+        res = get_new_cache(request, request.POST['signature'], 'image')
         if res == True:
             res = {
                 'result': {
@@ -1713,7 +1796,7 @@ def update_customer_list(request):
 
 def create_customer(request):
     try:
-        response = get_cache_data()
+        response = get_cache_data(request)
         pax = json.loads(request.POST['passenger'])
         image = {
             'files_attachment_edit': 'avatar',
@@ -1805,7 +1888,7 @@ def update_customer(request):
             'files_attachment_3': 'sim',
             'files_attachment_4': 'other'
         }
-        response = get_cache_data()
+        response = get_cache_data(request)
         passenger = json.loads(request.POST['data'])
         passenger['birth_date'] = '%s-%s-%s' % (passenger['birth_date'].split(' ')[2], month[passenger['birth_date'].split(' ')[1]], passenger['birth_date'].split(' ')[0])
 

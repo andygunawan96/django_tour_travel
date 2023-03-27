@@ -14,7 +14,7 @@ from .tt_webservice_views import *
 from .tt_webservice import *
 from .tt_webservice_voucher_views import *
 from ..views import tt_webservice_agent_views as webservice_agent
-_logger = logging.getLogger("rodextrip_logger")
+_logger = logging.getLogger("website_logger")
 
 month = {
     'Jan': '01',
@@ -108,7 +108,7 @@ def login(request):
             "action": "signin",
             "signature": ''
         }
-
+        user_global, password_global, api_key = get_credential(request)
         data = {
             "user": user_global,
             "password": password_global,
@@ -142,7 +142,7 @@ def get_hotel_data_detail_page(request):
         res = {}
         res['response'] = request.session['train_pick']
         res['passengers'] = request.session['train_create_passengers']
-        file = read_cache("get_train_carriers", 'cache_web', 90911)
+        file = read_cache("get_train_carriers", 'cache_web', request, 90911)
         if file:
             res['train_carriers'] = file
         res['train_request'] = request.session['train_request']
@@ -180,18 +180,18 @@ def get_carriers(request):
         }
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
-    file = read_cache("get_hotel_carriers", 'cache_web')
+    file = read_cache("get_hotel_carriers", 'cache_web', request)
     if not file:
         url_request = url + 'content'
         res = send_request_api(request, url_request, headers, data, 'POST')
         try:
             if res['result']['error_code'] == 0:
                 res = res['result']['response']
-                write_cache(res, "get_hotel_carriers", 'cache_web')
+                write_cache(res, "get_hotel_carriers", request, 'cache_web')
                 _logger.info("get_carriers HOTEL RENEW SUCCESS SIGNATURE " + request.POST['signature'])
             else:
                 try:
-                    file = read_cache("get_hotel_carriers", 'cache_web', 90911)
+                    file = read_cache("get_hotel_carriers", 'cache_web', request, 90911)
                     if file:
                         res = file
                     _logger.info("get_carriers HOTEL ERROR USE CACHE SIGNATURE " + request.POST['signature'])
@@ -201,7 +201,7 @@ def get_carriers(request):
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
-            file = read_cache("get_hotel_carriers", 'cache_web', 90911)
+            file = read_cache("get_hotel_carriers", 'cache_web', request, 90911)
             res = file
         except Exception as e:
             _logger.error('ERROR get_carriers hotel file\n' + str(e) + '\n' + traceback.format_exc())
@@ -234,7 +234,7 @@ def get_auto_complete(request):
     req = request.POST
     record_json = []
     try:
-        file = read_cache("hotel_cache_data", 'cache_web', 90911)
+        file = read_cache("hotel_cache_data", 'cache_web', request, 90911)
         if file:
             record_cache = file
 
@@ -259,7 +259,7 @@ def search(request):
         child_age = []
         if request.POST['child_age'] != '':
             child_age = request.POST['child_age'].split(',')
-        response = get_cache_data()
+        response = get_cache_data(request)
         id = ''
         country_id = ''
         destination_id = ''
@@ -388,7 +388,7 @@ def search_2(request):
         child_age = []
         if request.POST['child_age'] != '':
             child_age = request.POST['child_age'].split(',')
-        response = get_cache_data()
+        response = get_cache_data(request)
         id = ''
         country_id = ''
         destination_id = ''
@@ -548,7 +548,7 @@ def get_current_search(request):
         child_age = []
         if request.POST['child_age'] != '':
             child_age = request.POST['child_age'].split(',')
-        response = get_cache_data()
+        response = get_cache_data(request)
         id = ''
         country_id = ''
         destination_id = ''
@@ -627,7 +627,7 @@ def get_current_search_2(request):
         child_age = []
         if request.POST['child_age'] != '':
             child_age = request.POST['child_age'].split(',')
-        response = get_cache_data()
+        response = get_cache_data(request)
         id = ''
         country_id = ''
         destination_id = ''
@@ -801,12 +801,12 @@ def get_top_facility(request):
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     url_request = url + 'booking/hotel'
-    file = read_cache("get_hotel_top_facility_data", 'cache_web', 86400)
+    file = read_cache("get_hotel_top_facility_data", 'cache_web', request, 86400)
     if not file:
         res = send_request_api(request, url_request, headers, data, 'POST')
         try:
             if res['result']['error_code'] == 0:
-                write_cache(res, "get_hotel_top_facility_data", 'cache_web')
+                write_cache(res, "get_hotel_top_facility_data", request, 'cache_web')
                 _logger.info("get_top_facility_hotel SUCCESS SIGNATURE " + request.session['hotel_signature'])
             else:
                 _logger.error("get_top_facility_hotel ERROR SIGNATURE " + request.session['hotel_signature'] + ' ' + json.dumps(res))
@@ -884,15 +884,10 @@ def provision(request):
 def create_booking(request):
     try:
         passenger = []
-        response = get_cache_data()
+        response = get_cache_data(request)
         for pax_type in request.session['hotel_review_pax']:
             if pax_type != 'contact' and pax_type != 'booker':
                 for pax in request.session['hotel_review_pax'][pax_type]:
-                    if pax['nationality_name'] != '':
-                        for country in response['result']['response']['airline']['country']:
-                            if pax['nationality_name'] == country['name']:
-                                pax['nationality_code'] = country['code']
-                                break
                     try:
                         pax.update({
                             'birth_date': '%s-%s-%s' % (
@@ -904,17 +899,7 @@ def create_booking(request):
                     passenger.append(pax)
         booker = request.session['hotel_review_pax']['booker']
         contacts = request.session['hotel_review_pax']['contact']
-        for country in response['result']['response']['airline']['country']:
-            if booker['nationality_name'] == country['name']:
-                booker['nationality_code'] = country['code']
-                booker['country_code'] = country['code']
-                break
 
-        for pax in contacts:
-            for country in response['result']['response']['airline']['country']:
-                if pax['nationality_name'] == country['name']:
-                    pax['nationality_code'] = country['code']
-                    break
         data = {
             "passengers": passenger,
             'user_id': request.session.get('co_uid') or '',

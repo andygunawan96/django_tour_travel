@@ -12,7 +12,7 @@ from .tt_webservice_views import *
 from .tt_webservice import *
 from .tt_webservice_voucher_views import *
 from ..views import tt_webservice_agent_views as webservice_agent
-_logger = logging.getLogger("rodextrip_logger")
+_logger = logging.getLogger("website_logger")
 
 month = {
     'Jan': '01',
@@ -83,7 +83,7 @@ def signin(request):
             "action": "signin",
             "signature": '',
         }
-
+        user_global, password_global, api_key = get_credential(request)
         data = {
             "user": user_global,
             "password": password_global,
@@ -112,7 +112,7 @@ def signin(request):
 
 def get_data(request):
     try:
-        response = get_cache_data()
+        response = get_cache_data(request)
 
         res = response['result']['response']['issued_offline']
     except Exception as e:
@@ -254,7 +254,7 @@ def set_data_issued_offline(request):
 
 def update_contact(request):
     contact = []
-    response = get_cache_data()
+    response = get_cache_data(request)
     try:
         for i in range(int(request.POST['counter_passenger'])):
             try:
@@ -266,7 +266,7 @@ def update_contact(request):
                         'email': request.POST['passenger_email' + str(i)],
                         'calling_code': request.POST['booker_calling_code'],
                         'mobile': request.POST['booker_mobile'],
-                        'nationality_name': request.POST['booker_nationality_code'],
+                        'nationality_code': request.POST['booker_nationality_code'],
                         'contact_seq_id': request.POST['passenger_id' + str(i)] != '' and request.POST['passenger_id' + str(i)] or ''
                     })
                     if i == 0:
@@ -294,7 +294,7 @@ def update_contact(request):
                 'email': request.POST['booker_email'],
                 'calling_code': request.POST['booker_calling_code'],
                 'mobile': request.POST['booker_mobile'],
-                'nationality_name': request.POST['booker_nationality_code'],
+                'nationality_code': request.POST['booker_nationality_code'],
                 'contact_seq_id': request.POST['booker_id'] != '' and request.POST['booker_id'] or '',
                 'is_also_booker': True
             })
@@ -312,20 +312,9 @@ def update_contact(request):
             'email': request.POST['booker_email'],
             'calling_code': request.POST['booker_calling_code'],
             'mobile': request.POST['booker_mobile'],
-            'nationality_name': request.POST['booker_nationality_code'],
+            'nationality_code': request.POST['booker_nationality_code'],
             'booker_seq_id': request.POST['booker_id'] != '' and request.POST['booker_id'] or ''
         }
-
-        for country in response['result']['response']['airline']['country']:
-            if booker['nationality_name'] == country['name']:
-                booker['nationality_code'] = country['code']
-                break
-
-        for pax in contact:
-            for country in response['result']['response']['airline']['country']:
-                if pax['nationality_name'] == country['name']:
-                    pax['nationality_code'] = country['code']
-                    break
 
         data = {
             'booker': booker,
@@ -353,7 +342,7 @@ def calculateAge(birthDate):
 def update_passenger(request):
     try:
         passenger = []
-        response = get_cache_data()
+        response = get_cache_data(request)
         for i in range(int(request.POST['counter_passenger'])):
             try:
                 birth_date = ''
@@ -376,11 +365,6 @@ def update_passenger(request):
                     pax_type = 'CHD'
                 elif pax_type < 2:
                     pax_type = 'INF'
-                if request.POST['passenger_nationality_code' + str(i)] != '':
-                    for country in response['result']['response']['airline']['country']:
-                        if request.POST['passenger_nationality_code' + str(i)] == country['name']:
-                            nationality_code = country['code']
-                            break
                 behaviors = {}
                 if request.POST.get('passenger_behaviors' + str(i)):
                     behaviors.update({
@@ -392,7 +376,7 @@ def update_passenger(request):
                     "last_name": request.POST.get('passenger_last_name' + str(i), ''),
                     "title": request.POST['passenger_title' + str(i)],
                     "birth_date": birth_date,
-                    "nationality_code": nationality_code,
+                    "nationality_code": request.POST.get('passenger_nationality_code' + str(i), ''),
                     'passenger_seq_id': request.POST['passenger_id' + str(i)] != '' and request.POST['passenger_id' + str(i)] or '',
                     'behaviors': behaviors
                 })
@@ -405,12 +389,8 @@ def update_passenger(request):
                             identity['identity_type'] = request.POST['passenger_identity_type' + str(i)]
                         identity["identity_expdate"] = passport_expdate
 
-                        if request.POST['passenger_country_of_issued' + str(i)] != '':
-                            for country in response['result']['response']['airline']['country']:
-                                if request.POST['passenger_country_of_issued' + str(i)] == country['name']:
-                                    country_of_issued_code = country['code']
-                                    break
-                            identity["identity_country_of_issued_code"] = country_of_issued_code
+                        if request.POST['passenger_country_of_issued' + str(i) + '_id'] != '':
+                            identity["identity_country_of_issued_code"] = request.POST['passenger_country_of_issued' + str(i) + '_id']
 
                         passenger[len(passenger)-1].update({
                             'identity': identity
@@ -654,10 +634,10 @@ def page_issued_offline(request):
         res = {
             'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
         }
-        response = get_cache_data()
+        response = get_cache_data(request)
         res['countries'] = response['result']['response']['airline']['country']
         try:
-            file = read_cache("get_airline_active_carriers", 'cache_web', 90911)
+            file = read_cache("get_airline_active_carriers", 'cache_web', request, 90911)
             res['airline_carriers'] = file
         except Exception as e:
             _logger.error('ERROR get_airline_active_carriers file\n' + str(e) + '\n' + traceback.format_exc())

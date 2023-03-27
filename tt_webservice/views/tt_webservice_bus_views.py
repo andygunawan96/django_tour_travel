@@ -13,7 +13,7 @@ from .tt_webservice_views import *
 from .tt_webservice import *
 from ..views import tt_webservice_agent_views as webservice_agent
 from .tt_webservice_voucher_views import *
-_logger = logging.getLogger("rodextrip_logger")
+_logger = logging.getLogger("website_logger")
 
 month = {
     'Jan': '01',
@@ -95,6 +95,7 @@ def api_models(request):
 
 def login(request):
     try:
+        user_global, password_global, api_key = get_credential(request)
         data = {
             "user": user_global,
             "password": password_global,
@@ -144,22 +145,22 @@ def get_config(request, signature=''):
         data = {}
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
-    file = read_cache("get_bus_config", 'cache_web', 90911)
+    file = read_cache("get_bus_config", 'cache_web', request, 90911)
     if not file:
         url_request = url + 'booking/bus'
         res = send_request_api(request, url_request, headers, data, 'POST')
         try:
             if res['result']['error_code'] == 0:
                 res = res['result']['response']
-                write_cache(res, "get_bus_config", 'cache_web')
+                write_cache(res, "get_bus_config", request, 'cache_web')
                 name_city_dict = {}
                 for rec in res['station']:
                     name_city_dict["%s - %s" %(res['station'][rec]['city'], res['station'][rec]['name'])] = rec
-                write_cache(name_city_dict, "get_bus_config_dict_key_city", 'cache_web')
+                write_cache(name_city_dict, "get_bus_config_dict_key_city", request, 'cache_web')
                 _logger.info("get_bus_config BUS RENEW SUCCESS SIGNATURE " + headers['signature'])
             else:
                 try:
-                    file = read_cache("get_bus_config", 'cache_web')
+                    file = read_cache("get_bus_config", 'cache_web', request)
                     if file:
                         res = file
                     _logger.info("get_bus_config BUS RENEW SUCCESS SIGNATURE " + headers['signature'])
@@ -169,7 +170,7 @@ def get_config(request, signature=''):
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
-            file = read_cache("get_bus_config", 'cache_web', 90911)
+            file = read_cache("get_bus_config", 'cache_web', request, 90911)
             res = file
         except Exception as e:
             _logger.error('ERROR get_bus_config file\n' + str(e) + '\n' + traceback.format_exc())
@@ -189,18 +190,18 @@ def get_config_provider(request):
         }
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
-    file = read_cache("bus_provider", 'cache_web')
+    file = read_cache("bus_provider", 'cache_web', request)
     if not file:
         url_request = url + 'content'
         res = send_request_api(request, url_request, headers, data, 'POST')
         try:
             if res['result']['error_code'] == 0:
                 #datetime
-                write_cache(res, "bus_provider", 'cache_web')
+                write_cache(res, "bus_provider", request, 'cache_web')
                 _logger.info("get_config_provider BUS RENEW SUCCESS SIGNATURE " + request.POST['signature'])
             else:
                 try:
-                    file = read_cache("bus_provider", 'cache_web', 90911)
+                    file = read_cache("bus_provider", 'cache_web', request, 90911)
                     if file:
                         res = file
                     _logger.info("read file bus_provider SUCCESS SIGNATURE " + request.POST['signature'])
@@ -210,7 +211,7 @@ def get_config_provider(request):
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
-            file = read_cache("bus_provider", 'cache_web', 90911)
+            file = read_cache("bus_provider", 'cache_web', request, 90911)
             res = file
         except Exception as e:
             _logger.error('ERROR get_config_provider bus file\n' + str(e) + '\n' + traceback.format_exc())
@@ -229,18 +230,18 @@ def get_carriers(request):
         }
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
-    file = read_cache("get_bus_carriers", 'cache_web')
+    file = read_cache("get_bus_carriers", 'cache_web', request)
     if not file:
         url_request = url + 'content'
         res = send_request_api(request, url_request, headers, data, 'POST')
         try:
             if res['result']['error_code'] == 0:
                 res = res['result']['response']
-                write_cache(res, "get_bus_carriers", 'cache_web')
+                write_cache(res, "get_bus_carriers", request, 'cache_web')
                 _logger.info("get_carriers BUS RENEW SUCCESS SIGNATURE " + request.POST['signature'])
             else:
                 try:
-                    file = read_cache("get_bus_carriers", 'cache_web', 90911)
+                    file = read_cache("get_bus_carriers", 'cache_web', request, 90911)
                     if file:
                         res = file
                     _logger.info("get_carriers BUS ERROR USE CACHE SIGNATURE " + request.POST['signature'])
@@ -250,7 +251,7 @@ def get_carriers(request):
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
-            file = read_cache("get_bus_carriers", 'cache_web', 90911)
+            file = read_cache("get_bus_carriers", 'cache_web', request, 90911)
             res = file
         except Exception as e:
             _logger.error('ERROR get_bus_carriers file\n' + str(e) + '\n' + traceback.format_exc())
@@ -259,7 +260,7 @@ def get_carriers(request):
 
 def get_data(request):
     try:
-        file = read_cache("bus_cache_data", 'cache_web', 90911)
+        file = read_cache("bus_cache_data", 'cache_web', request, 90911)
         if file:
             response = file
 
@@ -275,10 +276,10 @@ def search(request):
     try:
         bus_destinations = []
         bus_key_name = []
-        file = read_cache("get_bus_config", 'cache_web', 90911)
+        file = read_cache("get_bus_config", 'cache_web', request, 90911)
         if file:
             bus_destinations = file
-        file = read_cache("get_bus_config_dict_key_city", 'cache_web', 90911)
+        file = read_cache("get_bus_config_dict_key_city", 'cache_web', request, 90911)
         if file:
             bus_key_name = file
 
@@ -351,7 +352,7 @@ def get_rules(request):
     #bus
     try:
         bus_destinations = []
-        file = read_cache("get_bus_config", 'cache_web', 90911)
+        file = read_cache("get_bus_config", 'cache_web', request, 90911)
         if file:
             bus_destinations = file
 
@@ -424,27 +425,12 @@ def commit_booking(request):
     try:
         booker = request.session['bus_create_passengers']['booker']
         contacts = request.session['bus_create_passengers']['contact']
-        response = get_cache_data()
-        for country in response['result']['response']['airline']['country']:
-            if booker['nationality_name'] == country['name']:
-                booker['nationality_code'] = country['code']
-                break
 
-        for pax in contacts:
-            for country in response['result']['response']['airline']['country']:
-                if pax['nationality_name'] == country['name']:
-                    pax['nationality_code'] = country['code']
-                    break
         passenger = []
 
         for pax_type in request.session['bus_create_passengers']:
             if pax_type != 'booker' and pax_type != 'contact':
                 for pax in request.session['bus_create_passengers'][pax_type]:
-                    if pax['nationality_name'] != '':
-                        for country in response['result']['response']['airline']['country']:
-                            if pax['nationality_name'] == country['name']:
-                                pax['nationality_code'] = country['code']
-                                break
                     if pax['birth_date'] != '':
                         pax.update({
                             'birth_date': '%s-%s-%s' % (
@@ -460,16 +446,9 @@ def commit_booking(request):
                             })
                         except Exception as e:
                             _logger.error(str(e) + traceback.format_exc())
-                        if pax['identity_country_of_issued_name'] != '':
-                            for country in response['result']['response']['airline']['country']:
-                                if pax['identity_country_of_issued_name'] == country['name']:
-                                    pax['identity_country_of_issued_code'] = country['code']
-                                    break
-                        else:
-                            pax['identity_country_of_issued_code'] = ''
+
                         if pax['identity_type'] != '':
                             pax['identity'] = {
-                                "identity_country_of_issued_name": pax.pop('identity_country_of_issued_name'),
                                 "identity_country_of_issued_code": pax.pop('identity_country_of_issued_code'),
                                 "identity_expdate": pax.pop('identity_expdate'),
                                 "identity_number": pax.pop('identity_number'),
@@ -479,7 +458,6 @@ def commit_booking(request):
                         else:
                             pax['identity'] = {}
                     elif pax['pax_type'] == 'ADT':
-                        pax.pop('identity_country_of_issued_name')
                         pax.pop('identity_expdate')
                         pax.pop('identity_number')
                         pax.pop('identity_type')
@@ -550,7 +528,7 @@ def commit_booking(request):
 def get_booking(request):
     try:
         bus_destinations = {}
-        file = read_cache("get_bus_config", 'cache_web', 90911)
+        file = read_cache("get_bus_config", 'cache_web', request, 90911)
         if file:
             bus_destinations = file
         sync = False
@@ -882,7 +860,7 @@ def passenger_page(request):
         res = {}
         res['response'] = request.session['bus_pick']
         # carrier = {}
-        # file = read_cache("get_bus_config", 'cache_web', 90911)
+        # file = read_cache("get_bus_config", 'cache_web', request, 90911)
         # if file:
         #     carrier = file
         # res['bus_carriers'] = carrier

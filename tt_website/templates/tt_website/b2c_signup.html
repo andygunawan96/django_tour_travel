@@ -1,0 +1,127 @@
+{% load i18n %}
+
+<div class="modal fade" id="myModalb2c" role="dialog" data-keyboard="false">
+    <div class="modal-dialog" style="max-width:1000px;">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title" style="color:{{text_color}}"><i class="fas fa-user-plus"></i> {% trans 'Sign Up' %}</h6>
+                <button type="button" class="close" data-dismiss="modal" onclick="update_contact('booker');">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+
+                    {% if type_page == 'login' and website_mode == 'btb_with_signup_b2c' %}
+                    <div class="col-lg-4">
+                        <div id="b2c_signup" style="background-color:white; padding:20px; border:2px solid #cdcdcd;">
+                            <h3 style="font-weight:bold; margin-bottom:15px;">{{signup_btb_text}}</h3>
+                            <button onclick="location.href='/registration'" type="button" class="primary-btn-ticket" style="color:{{text_color}}; font-size:15px; font-weight:700;"><i class="fas fa-user-plus"></i> {{signup_btb_btn}}</button>
+                        </div>
+                        <!--href="{% url 'tt_website:registration' %}-->
+                    </div>
+                    {% elif type_page == 'login' and website_mode == 'btb' %}
+                    <div class="col-lg-12">
+                        <div id="b2c_signup" style="background-color:white; padding:20px; border:2px solid #cdcdcd;">
+                            <h3 style="font-weight:bold; margin-bottom:15px;">{{signup_btb_text}}</h3>
+                            <button onclick="location.href='/registration'" type="button" class="primary-btn-ticket" style="color:{{text_color}}; font-size:15px; font-weight:700;"><i class="fas fa-user-plus"></i> {{signup_btb_btn}}</button>
+                        </div>
+                        <!--href="{% url 'tt_website:registration' %}-->
+                    </div>
+                    {% endif %}
+                    {% if website_mode == 'btc' or website_mode == 'btc_btb' or website_mode == 'btb_with_signup_b2c' %}
+                    <div class="col-lg-{% if type_page == 'login' and website_mode == 'btb_with_signup_b2c' or type_page == 'login' and website_mode == 'btb' %}8{% else %}12{% endif %}">
+                        <div style="background-color:white; padding:10px; border:2px solid #cdcdcd;">
+                            <h6 style="font-weight:bold; color:{{color}};">{{signup_btb_btn}}</h6><hr/>
+                            <div class="row">
+                                <div class="col-lg-6 col-xs-6">
+                                    <span style="font-weight:600;"><span style="color:red">*</span> {% trans 'Title' %}</span>
+                                    <div class="input-container-search-ticket">
+                                        <div class="form-select-2" id="default-select" style="width:100%;">
+                                            <select id="b2c_title" name="b2c_title" class="nice-select-default">
+                                                <option value=""></option>
+                                                <option value="MR">MR</option>
+                                                <option value="MRS">MRS</option>
+                                                <option value="MS">MS</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-xs-6"></div>
+                                <div class="col-lg-6">
+                                    <br/>
+                                    <span style="font-weight:600;"><span style="color:red">*</span> {% trans 'First name and middle name (if any)' %}</span>
+                                    <div class="input-container-search-ticket">
+                                        <input type="text" onchange="capitalizeInput('b2c_first_name');" class="form-control" name="b2c_first_name" id="b2c_first_name" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
+                                    </div>
+                                    <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
+                                </div>
+                                <div class="col-lg-6">
+                                    <br/>
+                                    <span style="font-weight:600;">{% trans 'Last name' %}</span>
+                                    <div class="input-container-search-ticket">
+                                        <input type="text" onchange="capitalizeInput('b2c_last_name');" class="form-control" name="b2c_last_name" id="b2c_last_name" placeholder="{% trans 'Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                    </div>
+                                    <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
+                                </div>
+                                <div class="col-lg-6">
+                                    <br/>
+                                    <span style="font-weight:600;"><span style="color:red">*</span> {% trans 'Nationality' %}</span>
+                                    <div class="input-container-search-ticket">
+                                        <div class="form-select" style="width:100%; border-radius:unset;">
+                                            <select class="form-control js-example-basic-single" name="b2c_nationality_id" style="width:100%;" id="b2c_nationality_id" placeholder="{% trans 'Nationality' %}" class="nice-select-default">
+                                                {% for country in countries %}
+                                                <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <br/>
+                                    <span style="font-weight:600;"><span style="color:red">*</span> {% trans 'Contact Email Address' %}</span>
+                                    <div class="input-container-search-ticket">
+                                        <input type="text" class="form-control" name="b2c_email" id="b2c_email" placeholder="{% trans 'Email Address' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '">
+                                    </div>
+                                    <label style="font-size:12px; padding:0;">{% trans 'Example' %}: email@example.com</label>
+                                </div>
+                                <div class="col-lg-6">
+                                    <br/>
+                                    <span style="font-weight:600;"><span style="color:red">*</span> {% trans 'Phone Number' %}</span>
+                                    <div class="row">
+                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                            <div class="form-select">
+                                                <select class="form-control js-example-basic-single" name="b2c_phone_code_id" style="width:100%;" id="b2c_phone_code_id" onchange="auto_complete('b2c_phone_code');" class="nice-select-default">
+                                                    {% for phone in phone_code %}
+                                                    <option value="{{phone}}" {% if phone == 62%} selected {%endif%}>{{phone}}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                                            <input type="text" class="form-control" name="b2c_phone" id="b2c_phone" placeholder="{% trans 'Phone Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '">
+                                        </div>
+                                    </div>
+                                    <label style="font-size:12px; padding:0;">{% trans 'Example' %}: 812345678</label>
+                                </div>
+
+                                <div class="col-lg-12" style="text-align:center;">
+                                    <hr/>
+                                    <button type="button" class="primary-btn-ticket ld-ext-right" onclick="signup_b2c();" id="b2c_signup_btn">{% trans 'Sign Up Now' %}<div class="ld ld-ring ld-cycle"></div></button>
+                                </div>
+                                {%if template == 6%}
+                                <div class="col-lg-12 mt-3" style="text-align:center;">
+                                    <a style="margin-top:5px; font-size:13px; font-weight:500; cursor:pointer; text-transform: unset; padding:0px 2px;" data-toggle="modal" data-target="#myModalb2c" onclick="open_signin_close_signup_modal();"><i class="fas fa-sign-in-alt"></i> {% trans 'Sign In' %}</a>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="primary-btn" style="background-color:#cdcdcd; color:black;" data-dismiss="modal">{% trans 'Close' %}</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,286 @@
+{% extends 'tt_website/template_website_booking.html' %}
+{% load i18n %}
+{% load static from staticfiles %}
+{% block content %}
+<!--<script src="{{ static_path }}js/webservice_token.js"></script>-->
+<!--<script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js?version={{javascript_version}}"></script>-->
+<script src="{{ static_path }}js/webservice_token.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_airline.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_content.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/pricing_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_payment_acq.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/airline_javascript.js?version={{javascript_version}}"></script>
+<style>
+    a {
+      text-decoration: none;
+    }
+
+    .popover__wrapper {
+      position: relative;
+      display: inline-block;
+    }
+    .popover__content {
+      opacity: 0;
+      visibility: hidden;
+      position: absolute;
+      left: -150px;
+      transform: translate(0, 10px);
+      background-color: #ffffff;
+      padding: 1.5rem;
+      box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+      width: auto;
+    }
+    .popover__content:before {
+      position: absolute;
+      z-index: -1;
+      content: "";
+      right: calc(50% - 10px);
+      top: -8px;
+      border-style: solid;
+      border-width: 0 10px 10px 10px;
+      border-color: transparent transparent #ffffff transparent;
+      transition-duration: 0.3s;
+      transition-property: transform;
+    }
+    .popover__wrapper:hover .popover__content {
+      z-index: 10;
+      opacity: 1;
+      visibility: visible;
+      transform: translate(150px, 20px);
+      transition: all 0.5s cubic-bezier(0.75, -0.02, 0.2, 0.97);
+    }
+    .popover__message {
+      text-align: center;
+    }
+</style>
+<script>
+    static_path_url_server = '{{static_path_url_server}}'
+    additional_price = '{{additional_price}}';
+    addons_type = '{{addons_type}}';
+
+    airline_signature = `{{signature}}`;
+    signature = `{{signature}}`;
+
+    try{
+        time_limit = `{{time_limit}}`;
+        if(time_limit != ''){
+            time_limit = parseInt(time_limit);
+            session_time_limit();
+        }
+    }catch(err){
+
+    }
+</script>
+{% include 'tt_website/logout.html' %}
+{% include 'tt_website/modal_balance_vendor.html' %}
+<title>{{name}} Airline - Review After Sales</title>
+{% include 'tt_website/waiting_transaction_modal.html' %}
+<header id="header" class="header_breadcrumb" style="padding-top:0px;">
+    {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+    {% include 'tt_website/header_corporate.html' %}
+    {% endif %}
+    <div class="main-menu" style="padding-top:15px;">
+        <div class="container">
+            <div class="row align-items-center justify-content-between d-flex">
+                <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
+                    <a href="{% url 'tt_website:index'%}"><img src="{{logo}}" style="max-height:40px;max-width:150px;" alt="Logo {{name}}" title="{{name}}" /></a>
+                </div>
+                <div class="col-lg-10 col-md-10 col-sm-10" style="display:flex; padding-top:5px; padding-left:15px;">
+                    <div class="breadcrumbs-rdx br-done" onclick="location.href='{% url 'tt_website:index'%}';">
+                        <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check"></i></span>
+                        <span style="padding-left:5px;">Home</span>
+                        <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                    </div>
+                    <div class="breadcrumbs-rdx br-done" onclick="location.href='{% url 'tt_website:airline_search'%}';">
+                        <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check"></i></span>
+                        <span style="padding-left:5px;">Search</span>
+                        <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                    </div>
+                    <div class="breadcrumbs-rdx br-done">
+                        <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check"></i></span>
+                        <span style="padding-left:5px;">Passenger</span>
+                        <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                    </div>
+                    <div class="breadcrumbs-rdx br-active">
+                        <span class="breadcrumb-rdx-icon br-icon-active">4</span>
+                        <span style="padding-left:5px;">Booking</span>
+                        <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                    </div>
+                    <div class="breadcrumbs-rdx">
+                        <span class="breadcrumb-rdx-icon">5</span>
+                        <span style="padding-left:5px;">Issued</span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                {% include 'tt_website/balance_credit.html' %}
+            </div>
+        </div>
+    </div>
+</header>
+<div id="overlay-div-box" onclick="close_div('payment_acq');"></div>
+{% include 'tt_website/loading_screen.html' %}
+<section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
+    <div class="container">
+        <form method="POST" id="airline_booking" action="">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-lg-12" id="show_loading_booking_airline" hidden>
+                    <div class="center-div">
+                        <div>
+                            <img src="{{static_path}}img/loading-screen-white.gif" alt="Loading Screen" style="height:25px; width:25px;"/>
+                        </div>
+                    </div>
+                    <div style="text-align:center">
+                        <span style="font-size:18px; font-weight:bold;">{% trans 'PLEASE WAIT' %} ... </span>
+                    </div>
+                </div>
+                <div class="col-lg-12" style="padding-bottom:15px;">
+                    <h3>Please Review Your Booking</h3>
+                    <h4>Prices may changes at any time</h4>
+                </div>
+                <div class="col-lg-8" style="padding-bottom:20px;">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div id="airline_review">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4" style="padding-bottom:20px;">
+                    <div class="row" hidden>
+                        <div class="col-lg-12" style="padding-bottom:15px;">
+                            <div style="padding:10px; background:white; border:1px solid #cdcdcd;">
+                                <span style="font-size:14px; font-weight:600;"><i class="fas fa-stopwatch"></i> Session Time: <span class="count_time" id="session_time"> </span></span>
+                                <hr/>
+                                <span style="font-size:14px; font-weight:600;"><i class="fas fa-clock"></i> Elapsed Time: <span class="count_time" id="elapse_time"> </span></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="background-color:white; padding:15px; border:1px solid #cdcdcd; top:152px;" id="airline_detail">
+
+                    </div>
+                    <div class="modal fade" id="myModalRepricing" role="dialog">
+                        <div class="overlay_modal_custom" data-dismiss="modal"></div>
+                        <div class="modal-dialog modal_custom_fixed">
+                            <!-- Modal content-->
+                            <div class="modal-content" style="border-radius: 0;">
+                                <div class="modal-header">
+                                    <div class="row">
+                                        <div class="col-xs-6 pb-3">
+                                            <h4 class="modal-title"><i class="fas fa-money"></i> {% trans 'Reprice Change' %}</h4>
+                                        </div>
+                                        <div class="col-xs-6">
+                                            <button type="button" class="close modal_custom_close" data-dismiss="modal">&times;</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="row" id="pricing">
+                                                <div class="col-lg-12" style="border-top:1px solid #cdcdcd; border-bottom:1px solid #cdcdcd; background-color:white;">
+                                                    <div class="row">
+                                                        <div class="col-lg-12">
+                                                            <h4 class="single_border_custom_left" style="margin-top:15px; margin-bottom:15px; padding-left:10px; word-break:break-word;">{% trans 'Pricing' %}</h4>
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <select id="repricing_type" name="repricing_type" class="nice-select-default" onchange="reset_repricing();">
+                                                                <option value="passenger">Passenger</option>
+                                                            </select>
+                                                        </div>
+                                                        <hr/>
+                                                        <div class="col-lg-12 mb-3" style="text-align:right;">
+                                                            <button class="primary-btn-ticket" type="button" onclick="add_table_of_equation();"><i class="fas fa-plus-circle"></i></button>
+                                                            <button class="primary-btn-cancel" type="button" onclick="delete_table_of_equation();"><i class="fas fa-trash-alt"></i></button>
+                                                        </div>
+                                                        <div class="col-lg-12">
+                                                            <div style="padding:10px;" id="table_of_equation">
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-12" style="margin-bottom:15px; margin-top:15px;">
+                                                            <hr/>
+                                                            <center>
+                                                                <input class="primary-btn-ticket" type="button" onclick="calculate('request_new');" value="Calculate">
+                                                            </center>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="row">
+                                                <div class="col-lg-12" style="background-color:white; border-top:1px solid #cdcdcd; border-bottom:1px solid #cdcdcd; margin-top:15px;">
+                                                    <h4 class="single_border_custom_left" style="margin-top:15px; margin-bottom:15px; padding-left:10px; word-break:break-word;">{% trans 'Result Pricing' %}</h4>
+                                                    <div class="row" id="repricing_div">
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% if airline_getbooking.state == 'issued' %}
+                    <button class="primary-btn issued_booking_btn" type="button" style="width:100%; display:none;" onclick="focus_box('payment_acq');">
+                         {% trans 'Issued Booking' %}
+                    </button>
+
+                    <div style="background-color:white; padding:10px; border:1px solid {{color}};margin-top:10px; position:relative;" id="payment_acq">
+                        <button class="next-loading-booking primary-btn hold-seat-booking-train ld-ext-right" type="button" value="Hold Booking" onclick="after_sales_next_btn();" style="width:100%;">
+                            Next
+                            <div class="ld ld-ring ld-cycle"></div>
+                        </button>
+                    </div>
+                    {% endif %}
+                    <textarea id="data_copy" name="data_copy" rows="4" hidden></textarea>
+                </div>
+                {% if airline_getbooking.state == 'booked' %}
+                <div class="col-lg-8">
+                    <div class="row" style="padding-top:5px;">
+                        <div class="col-lg-4" style="padding-bottom:15px;">
+                            <button class="next-loading-issued primary-btn-white hold-seat-booking-train ld-ext-right" type="button" value="Issued Booking" onclick="cancel_after_sales();" style="width:100%;">
+                                Cancel
+                                <div class="ld ld-ring ld-cycle"></div>
+                            </button>
+                        </div>
+                        <div class="col-lg-4"></div>
+                        <div class="col-lg-4" style="padding-bottom:15px;">
+                            <button class="next-loading-booking primary-btn hold-seat-booking-train ld-ext-right" type="button" value="Hold Booking" onclick="after_sales_next_btn();" style="width:100%;">
+                                Proceed
+                                <div class="ld ld-ring ld-cycle"></div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </form>
+    </div>
+</section>
+
+
+<script>
+
+    booker_id = '{{airline_getbooking.booker.seq_id}}';
+    order_number = '{{airline_getbooking.order_number}}';
+    state = '{{airline_getbooking.state}}';
+    page = '{{page}}';
+    get_agent_currency_rate();
+    get_airline_data_review_after_sales_page();
+    try{
+        document.getElementById('payment_acq').hidden = false;
+    }catch(err){
+        console.log(err) //ada element yg tidak ada
+    }
+</script>
+<!-- loader -->
+{% endblock %}
