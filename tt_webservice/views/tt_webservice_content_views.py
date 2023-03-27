@@ -1381,5 +1381,10 @@ def update_estimate_price(request):
         "is_show_provider": json.loads(request.POST['provider'])
     }
     write_cache(req, 'currency_rate_show', request)
+    if request.POST['is_show_breakdown_price'] == 'true':
+        req = True
+    else:
+        req = False
+    write_cache(req, 'show_breakdown_price', request)
     return ERR.get_no_error_api()
 

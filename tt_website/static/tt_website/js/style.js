@@ -3734,6 +3734,8 @@ function pagination_numb(numb){
 
     if($pagination_type == "hotel"){
         change_image_hotel(numb);
+    }else if($pagination_type == "hotel_detail"){
+        change_image_hotel_detail(numb);
     }
 
     $('html, body').animate({

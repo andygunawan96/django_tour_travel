@@ -789,12 +789,7 @@ function reset_password_btc(){
 }
 
 function reset_password(){
-    username = '';
-    if( $(window).width() > 767){
-        username = $('#username2').val();
-    }else{
-        username = $('#username').val();
-    }
+    username = $('#forget_password_username').val();
     if(username != ''){
         $.ajax({
            type: "POST",
@@ -808,7 +803,9 @@ function reset_password(){
            success: function(msg) {
                 if(msg.result.error_code == 0){
                     signature = msg.result.response.signature;
-
+                    document.getElementById('reset_password_btn').disabled = false;
+                    $('.loading-button').prop('disabled', false);
+                    $('.loading-button').removeClass("running");
                     Swal.fire({
                       type: 'success',
                       title: 'Yeah!',
@@ -826,6 +823,12 @@ function reset_password(){
           title: 'Oops!',
           html: '<span style="color: red;">Error please input email! </span>',
         })
+        setTimeout(function() {
+            $('.loading-button').prop('disabled', false);
+            $('.loading-button').removeClass("running");
+//            document.getElementById('reset_password_btn').disabled = false;
+//            $('#reset_password_btn').removeClass("running");
+        }, 1000);
     }
 }
 

@@ -95,7 +95,7 @@
 										<input type="checkbox" value="" id="keep_me_signin2" name="keep_me_signin" checked="checked">
 										<span class="check_box_span_custom"></span>
 									</label>
-									<span class="forgot-pass-login"><i class="fa fa-lock" style="color:{{text_color_login}}"></i><a style="cursor:pointer; color:{{text_color_login}};" onclick="reset_password();"> {% trans 'Forget Password' %}</a></span>
+									<span class="forgot-pass-login"><i class="fa fa-lock" style="color:{{text_color_login}}"></i><a style="cursor:pointer; color:{{text_color_login}};" onclick="$('#myModalResetPassword').modal('show');"> {% trans 'Forget Password' %}</a></span>
 								</div>
 							</div>
 							<div class="col-lg-3 col-md-3" style="text-align:right;">
@@ -214,7 +214,7 @@
 						</label>
 					</div>
 					<div class="validate-input" style="text-align:center; padding-top:15px;">
-						<span style="color:{{color}};padding-top:15px;font-weight:700;"><i class="fa fa-lock"></i><a style="cursor:pointer;" onclick="reset_password();"> {% trans 'Forgot Password' %}</a></span>
+						<span style="color:{{color}};padding-top:15px;font-weight:700;"><i class="fa fa-lock"></i><a style="cursor:pointer;" onclick="$('#myModalResetPassword').modal('show');"> {% trans 'Forgot Password' %}</a></span>
 					</div>
 					<div class="validate-input" style="text-align:center; padding-top:15px;">
 						<span style="color:{{color}}; font-size:15px; font-weight:700;"><i class="fas fa-user-plus"></i><a style="cursor:pointer; color:{{color}};" data-toggle="modal" data-target="#myModalb2c"> {% trans 'Sign Up' %}</a></span>
@@ -313,6 +313,32 @@
 	</div>
 </section>
 
+
+<div class="modal fade" id="myModalResetPassword" role="dialog" data-keyboard="false">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Reset Password' %}</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="input-container-search-ticket">
+                    <input type="text" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:10px 0px;" id="forget_password_username" placeholder="Username" tabindex="1" />
+                </div>
+                <div class="input-container-search-ticket">
+                    <button type="button" onclick="reset_password();" class="loading-button primary-btn-custom ld-ext-right" style="margin:10px 0px;" id="reset_password_btn">
+                        Reset Password <i class="fas fa-sign-in-alt"></i>
+                        <div class="ld ld-ring ld-cycle"></div>
+                    </button><br/>
+                </div>
+            </div>
+			<div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 {% include 'tt_website/effect.html' %}
 
