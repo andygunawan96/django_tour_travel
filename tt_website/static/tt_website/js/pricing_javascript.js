@@ -134,10 +134,8 @@ function add_table_of_equation(percentage=true, is_ssr=false){
 }
 
 function add_repricing_number(val){
-    console.log('here');
     var amount = document.getElementById('calculation'+val).value.split(',');
     amount = amount.join('');
-    console.log(amount);
     if(amount.match('%')){
         amount = amount.split('%')[0];
         document.getElementById('calculation'+val).value = getrupiah(amount) + '%';

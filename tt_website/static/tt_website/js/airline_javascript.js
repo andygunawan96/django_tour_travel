@@ -3063,7 +3063,12 @@ function sort(){
                                    text+=`</div>
                                    <div class="col-lg-6 col-md-6 col-sm-6 mt-2" style="text-align:right;">`;
                                        text+=`<span id="fare_no_discount`+i+`" class="basic_fare_field cross_price" style="font-size:14px; color:#929292;"></span><br/>`;
-                                       text+=`<span id="fare`+i+`" class="basic_fare_field copy_price price_template"></span><br/>`;
+                                       text+=`<span id="fare`+i+`" class="basic_fare_field copy_price price_template"`;
+                                       if(is_show_breakdown_price){
+                                            text += ` style="cursor:pointer;">`;
+                                       }
+                                       text+=`></span>`;
+                                       text+=`<br/>`;
 
                                        if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show){
 //                                            if(currency_rate_data.result.response.agent.hasOwnProperty(user_login.agent_name)){ // buat o3
@@ -3830,6 +3835,53 @@ function sort(){
                                     if(total_discount != 0)
                                         document.getElementById('fare_no_discount'+i).innerHTML = airline[i].currency+' '+getrupiah(airline[i].total_price + total_discount);
                                     document.getElementById('fare'+i).innerHTML = airline[i].currency+' '+getrupiah(airline[i].total_price);
+                                    if(is_show_breakdown_price){
+                                        document.getElementById('fare'+i).innerHTML+= ` <i class="fas fa-caret-down price_template"></i>`;
+                                    }
+                                    if(is_show_breakdown_price){
+                                        var price_breakdown = {};
+                                        for(j in airline[i].segments){
+                                            for(k in airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary){
+                                                for(l in airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].service_charges){
+                                                    if(airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].service_charges[l].charge_type != 'RAC'){
+                                                        if(!price_breakdown.hasOwnProperty(airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].service_charges[l].charge_type))
+                                                            price_breakdown[airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].service_charges[l].charge_type] = 0;
+                                                        price_breakdown[airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].service_charges[l].charge_type] += airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].service_charges[l].total;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        var breakdown_text = '';
+                                        for(j in price_breakdown){
+                                            if(breakdown_text)
+                                                breakdown_text += '<br/>';
+                                            if(j != 'ROC')
+                                                breakdown_text += '<b>'+j+'</b> ';
+                                            else
+                                                breakdown_text += '<b>CONVENIENCE FEE</b> ';
+                                            breakdown_text += airline[i].currency + ' ' + getrupiah(price_breakdown[j]);
+                                        }
+                                        new jBox('Tooltip', {
+                                            attach: '#fare'+i,
+                                            target: '#fare'+i,
+                                            theme: 'TooltipBorder',
+                                            trigger: 'click',
+                                            adjustTracker: true,
+                                            closeOnClick: 'body',
+                                            closeButton: 'box',
+                                            animation: 'move',
+                                            position: {
+                                              x: 'left',
+                                              y: 'top'
+                                            },
+                                            outside: 'y',
+                                            pointer: 'left:20',
+                                            offset: {
+                                              x: 25
+                                            },
+                                            content: breakdown_text
+                                        });
+                                    }
                                     if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && airline[i].total_price){
 //                                        if(currency_rate_data.result.response.agent.hasOwnProperty(user_login.agent_name)){ // buat o3
                                         for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
@@ -4367,7 +4419,15 @@ function airline_pick_mc(type){
                         if(total_discount != 0){
                             text += `<br/><span id="fare_no_discount_detail_pick`+airline_pick_list[i].airline_pick_sequence+`" class="basic_fare_field cross_price" style="font-size:14px; color:#929292;">`+currency+` `+getrupiah(price)+`</span><br/>`
                         }
-                        text+= `<span id="fare_detail_pick`+airline_pick_list[i].airline_pick_sequence+`" class="basic_fare_field price_template" style="font-size:16px;font-weight: bold; color:`+color+`; padding:10px 0px;">`+currency+' '+getrupiah(price-total_discount) + '</span>';
+                        text+= `<span id="fare_detail_pick`+airline_pick_list[i].airline_pick_sequence+`" class="basic_fare_field price_template" style="font-size:16px;font-weight: bold; color:`+color+`; padding:10px 0px;`;
+                        if(is_show_breakdown_price){
+                            text+= "cursor:pointer;";
+                        }
+                        text+=`">`+currency+' '+getrupiah(price-total_discount);
+                        if(is_show_breakdown_price){
+                            text+= ` <i class="fas fa-caret-down price_template"></i>`;
+                        }
+                        text+='</span>';
                         if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && price){
 //                            if(currency_rate_data.result.response.agent.hasOwnProperty(user_login.agent_name)){ // buat o3
                             for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
@@ -4716,6 +4776,53 @@ function airline_pick_mc(type){
         </div>`;
     }
     document.getElementById('airline_ticket_pick').innerHTML = text;
+
+    if(is_show_breakdown_price){
+        var price_breakdown = {};
+        for(i in airline_pick_list){
+            for(j in airline_pick_list[i].segments){
+                for(k in airline_pick_list[i].segments[j].fares[airline_pick_list[i].segments[j].fare_pick].service_charge_summary){
+                    for(l in airline_pick_list[i].segments[j].fares[airline_pick_list[i].segments[j].fare_pick].service_charge_summary[k].service_charges){
+                        if(airline_pick_list[i].segments[j].fares[airline_pick_list[i].segments[j].fare_pick].service_charge_summary[k].service_charges[l].charge_type != 'RAC'){
+                            if(!price_breakdown.hasOwnProperty(airline_pick_list[i].segments[j].fares[airline_pick_list[i].segments[j].fare_pick].service_charge_summary[k].service_charges[l].charge_type))
+                                price_breakdown[airline_pick_list[i].segments[j].fares[airline_pick_list[i].segments[j].fare_pick].service_charge_summary[k].service_charges[l].charge_type] = 0;
+                            price_breakdown[airline_pick_list[i].segments[j].fares[airline_pick_list[i].segments[j].fare_pick].service_charge_summary[k].service_charges[l].charge_type] += airline_pick_list[i].segments[j].fares[airline_pick_list[i].segments[j].fare_pick].service_charge_summary[k].service_charges[l].total;
+                        }
+                    }
+                }
+            }
+            var breakdown_text = '';
+            for(j in price_breakdown){
+                if(breakdown_text)
+                    breakdown_text += '<br/>';
+                if(j != 'ROC')
+                    breakdown_text += '<b>'+j+'</b> ';
+                else
+                    breakdown_text += '<b>CONVENIENCE FEE</b> ';
+                breakdown_text += airline_pick_list[i].currency + ' ' + getrupiah(price_breakdown[j]);
+            }
+            new jBox('Tooltip', {
+                attach: '#fare_detail_pick'+airline_pick_list[i].airline_pick_sequence,
+                target: '#fare_detail_pick'+airline_pick_list[i].airline_pick_sequence,
+                theme: 'TooltipBorder',
+                trigger: 'click',
+                adjustTracker: true,
+                closeOnClick: 'body',
+                closeButton: 'box',
+                animation: 'move',
+                position: {
+                  x: 'left',
+                  y: 'top'
+                },
+                outside: 'y',
+                pointer: 'left:20',
+                offset: {
+                  x: 25
+                },
+                content: breakdown_text
+            });
+        }
+    }
     for(i in airline_pick_list){
         for(j in airline_pick_list[i].segments){
             for(k in airline_pick_list[i].segments[j].fares){
@@ -5614,10 +5721,22 @@ function airline_detail(type){
             }
             if(airline_price[0].ADT.currency == 'IDR'){
                 text+=`
-                    <span style="font-size:14px; font-weight:bold;" id="total_price"><b> `+airline_price[i].ADT.currency+` `+getrupiah(grand_total_price+total_discount)+`</b></span><br/>`;
+                    <span style="font-size:14px; font-weight:bold;`;
+                if(is_show_breakdown_price)
+                    text+='cursor:pointer;';
+                text+=`" id="total_price";><b> `+airline_price[i].ADT.currency+` `+getrupiah(grand_total_price+total_discount)+`</b>`;
+                if(is_show_breakdown_price)
+                    text+=`<i class="fas fa-caret-down"></i>`;
+                text+=`</span><br/>`;
             }else{
                 text+=`
-                    <span style="font-size:14px; font-weight:bold;" id="total_price"><b> `+airline_price[i].ADT.currency+` `+parseFloat(grand_total_price+total_discount)+`</b></span><br/>`;
+                    <span style="font-size:14px; font-weight:bold;`;
+                if(is_show_breakdown_price)
+                    text+='cursor:pointer;';
+                text+=`" id="total_price"><b> `+airline_price[i].ADT.currency+` `+parseFloat(grand_total_price+total_discount)+`</b>`;
+                if(is_show_breakdown_price)
+                    text+=`<i class="fas fa-caret-down"></i>`;
+                text+=`</span><br/>`;
             }
             text+=`
             </div>`;
@@ -6019,6 +6138,62 @@ function airline_detail(type){
         }
     }
 
+    if(is_show_breakdown_price){
+        var price_breakdown = {};
+        var currency_breakdown = '';
+        for(i in airline_price){
+            for(j in airline_price[i]){
+                for(k in airline_price[i][j]){
+                    if(!['currency', 'disc', 'rac'].includes(k)){
+                        if(!price_breakdown.hasOwnProperty(k))
+                            price_breakdown[k.toUpperCase()] = 0;
+                        price_breakdown[k.toUpperCase()] += airline_price[i][j][k];
+
+                    }
+                    if(k == 'currency' && currency_breakdown == '')
+                        currency_breakdown = airline_price[i][j][k];
+                }
+            }
+            // upsell
+            if(typeof upsell_price_dict !== 'undefined'){
+                for(i in upsell_price_dict){
+                    if(!price_breakdown.hasOwnProperty('ROC'))
+                        price_breakdown['ROC'] = 0;
+                    price_breakdown['ROC'] += upsell_price_dict[i];
+                }
+            }
+            var breakdown_text = '';
+            for(j in price_breakdown){
+                if(breakdown_text)
+                    breakdown_text += '<br/>';
+                if(j != 'ROC')
+                    breakdown_text += '<b>'+j+'</b> ';
+                else
+                    breakdown_text += '<b>CONVENIENCE FEE</b> ';
+                breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
+            }
+            new jBox('Tooltip', {
+                attach: '#total_price',
+                target: '#total_price',
+                theme: 'TooltipBorder',
+                trigger: 'click',
+                adjustTracker: true,
+                closeOnClick: 'body',
+                closeButton: 'box',
+                animation: 'move',
+                position: {
+                  x: 'left',
+                  y: 'top'
+                },
+                outside: 'y',
+                pointer: 'left:20',
+                offset: {
+                  x: 25
+                },
+                content: breakdown_text
+            });
+        }
+    }
 
     try{
         if(document.URL.split('/')[document.URL.split('/').length-1] == 'review'){
@@ -6714,14 +6889,13 @@ function check_passenger(adult, child, infant, type=''){
                     index_ff = j-1;
                     if(ff_request[index_ff].hasOwnProperty('error_code') == false){
                         error_ff = true
-                        if(document.getElementById('adult_ff_request'+i+'_'+j).value != '' && document.getElementById('adult_ff_request'+i+'_'+j).value != 'Frequent Flyer Program' && document.getElementById('adult_ff_number'+i+'_'+j).value != '')
+                        if(document.getElementById('adult_ff_request'+i+'_'+j + '_id').value != '')
                             error_ff = false
-                        else if(document.getElementById('adult_ff_request'+i+'_'+j).value == '' && document.getElementById('adult_ff_number'+i+'_'+j).value != '' ||
-                                document.getElementById('adult_ff_request'+i+'_'+j).value == 'Frequent Flyer Program' && document.getElementById('adult_ff_number'+i+'_'+j).value != ''){
+                        else if(document.getElementById('adult_ff_request'+i+'_'+j + '_id').value == '' && document.getElementById('adult_ff_number'+i+'_'+j).value != ''){
                             error_log+= 'Please choose Frequent Flyer Program Journey '+j+' for passenger adult '+i+'!</br>\n';
                             document.getElementById('adult_ff_number'+i+'_'+j).style['border-color'] = 'red';
-                        }else if(document.getElementById('adult_ff_request'+i+'_'+j).value != 'Frequent Flyer Program' && document.getElementById('adult_ff_number'+i+'_'+j).value == '' &&
-                            document.getElementById('adult_ff_request'+i+'_'+j).value != '' && document.getElementById('adult_ff_number'+i+'_'+j).value == ''){
+                        }else if(document.getElementById('adult_ff_request'+i+'_'+j + '_id').value != '' && document.getElementById('adult_ff_number'+i+'_'+j).value == '' &&
+                            document.getElementById('adult_ff_request'+i+'_'+j + '_id').value != '' && document.getElementById('adult_ff_number'+i+'_'+j).value == ''){
                             error_log+= 'Please fill Frequent Flyer Number '+j+' for passenger adult '+i+'!</br>\n';
                             document.getElementById('adult_ff_number'+i+'_'+j).style['border-color'] = 'red';
                         }else{
@@ -6729,7 +6903,7 @@ function check_passenger(adult, child, infant, type=''){
                         }
                         if(error_ff == false){
                             document.getElementById('adult_ff_number'+i+'_'+j).style['border-color'] = '#EFEFEF';
-                            document.getElementById('adult_ff_request'+i+'_'+j).style['border-color'] = '#EFEFEF';
+                            document.getElementById('adult_ff_request'+i+'_'+j+'_id').style['border-color'] = '#EFEFEF';
                         }
                     }
                }
@@ -7009,14 +7183,13 @@ function check_passenger(adult, child, infant, type=''){
                     index_ff = j-1;
                     if(ff_request[index_ff].hasOwnProperty('error_code') == false){
                         error_ff = true
-                        if(document.getElementById('child_ff_request'+i+'_'+j).value != '' && document.getElementById('child_ff_request'+i+'_'+j).value != 'Frequent Flyer Program' && document.getElementById('child_ff_number'+i+'_'+j).value != '')
+                        if(document.getElementById('child_ff_request'+i+'_'+j + '_id').value != '' && document.getElementById('child_ff_number'+i+'_'+j).value != '')
                             error_ff = false
-                        else if(document.getElementById('child_ff_request'+i+'_'+j).value == '' && document.getElementById('child_ff_number'+i+'_'+j).value != '' ||
-                                document.getElementById('child_ff_request'+i+'_'+j).value == 'Frequent Flyer Program' && document.getElementById('child_ff_number'+i+'_'+j).value != ''){
+                        else if(document.getElementById('child_ff_request'+i+'_'+j + '_id').value == '' && document.getElementById('child_ff_number'+i+'_'+j).value != ''){
                             error_log+= 'Please choose Frequent Flyer Program Journey '+j+' for passenger child '+i+'!</br>\n';
                             document.getElementById('child_ff_number'+i+'_'+j).style['border-color'] = 'red';
-                        }else if(document.getElementById('child_ff_request'+i+'_'+j).value != 'Frequent Flyer Program' && document.getElementById('child_ff_number'+i+'_'+j).value == '' &&
-                            document.getElementById('child_ff_request'+i+'_'+j).value != '' && document.getElementById('child_ff_number'+i+'_'+j).value == ''){
+                        }else if(document.getElementById('child_ff_request'+i+'_'+j + '_id').value != '' && document.getElementById('child_ff_number'+i+'_'+j).value == '' &&
+                            document.getElementById('child_ff_request'+i+'_'+j + '_id').value != '' && document.getElementById('child_ff_number'+i+'_'+j).value == ''){
                             error_log+= 'Please fill Frequent Flyer Number '+j+' for passenger child '+i+'!</br>\n';
                             document.getElementById('child_ff_number'+i+'_'+j).style['border-color'] = 'red';
                         }else{
@@ -7024,7 +7197,7 @@ function check_passenger(adult, child, infant, type=''){
                         }
                         if(error_ff == false){
                             document.getElementById('child_ff_number'+i+'_'+j).style['border-color'] = '#EFEFEF';
-                            document.getElementById('child_ff_request'+i+'_'+j).style['border-color'] = '#EFEFEF';
+                            document.getElementById('child_ff_request'+i+'_'+j + '_id').style['border-color'] = '#EFEFEF';
                         }
                     }
                }

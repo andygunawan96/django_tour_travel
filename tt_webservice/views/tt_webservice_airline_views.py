@@ -515,6 +515,7 @@ def get_data_ssr_page(request):
             res['airline_pick'] = request.session['airline_sell_journey_%s' % request.POST['signature']]['sell_journey_provider']
             res['price_itinerary'] = request.session['airline_sell_journey_%s' % request.POST['signature']]
             res['airline_request'] = request.session['airline_request_%s' % request.POST['signature']]
+            res['upsell'] = request.session.get('airline_upsell_' + request.POST['signature']) and request.session.get('airline_upsell_%s' % request.POST['signature']) or 0
         else:
             #post
             passenger = []
@@ -543,6 +544,7 @@ def get_data_seat_page(request):
             res['airline_pick'] = request.session['airline_sell_journey_%s' % request.POST['signature']]['sell_journey_provider']
             res['price_itinerary'] = request.session['airline_sell_journey_%s' % request.POST['signature']]
             res['airline_request'] = request.session['airline_request_%s' % request.POST['signature']]
+            res['upsell'] = request.session.get('airline_upsell_' + request.POST['signature']) and request.session.get('airline_upsell_%s' % request.POST['signature']) or 0
         else:
             # post
             passenger = []

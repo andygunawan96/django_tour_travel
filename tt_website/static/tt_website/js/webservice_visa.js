@@ -141,7 +141,7 @@ function visa_page_passenger(){
                 departure_date = moment(visa_request.departure, 'DD MMM YYYY').format('YYYY-MM-DD');
             get_carriers_visa();
             sell_visa();
-            //update_table('passenger');
+            //update_table_new('passenger');
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error visa get config provider');
@@ -407,14 +407,14 @@ function search_visa(){
                             quantity = 20;
                         }
                         this.value = quantity;
-                        update_table('search');
+                        update_table_new('search');
                         if (event.which == 13) {
                             event.preventDefault();
                         }
                     });
 
                 }
-                update_table('search');
+                update_table_new('search');
             }
 
             document.getElementById('loading-search-visa').hidden = true;

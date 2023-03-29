@@ -590,25 +590,52 @@ function sort(value){
                             }
                         }
                         if(check == 0){
+                            response+=`
+                                <span id="bus_price_`+i+`" class="copy_price" style="font-size:16px; margin-right:10px; font-weight: bold; color:`;
+                            if(data_filter[i].available_count >= parseInt(passengers.adult) && data_filter[i].can_book_three_hours == true && data_filter[i].can_book_check_arrival_on_next_departure == true || data_filter[i].available_count > parseInt(passengers.adult) && data_filter[i].can_book_three_hours == false)
+                                response+= color+';';
+                            else if(data_filter[i].available_count > parseInt(passengers.adult) && data_filter[i].can_book_check_arrival_on_next_departure == false)
+                                response+= '#505050;'
+                            if(is_show_breakdown_price)
+                                response+='cursor:pointer;';
+                            response+=`">IDR `+getrupiah(data_filter[i].price);
+                            if(is_show_breakdown_price)
+                                response+=`<i class="fas fa-caret-down price_template"></i>`;
+                            response+=`</span><br/>`;
+                            if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && data_filter[i].price){
+                        //        if(currency_rate_data.result.response.agent.hasOwnProperty(user_login.agent_name)){ // buat o3
+                                for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
+                                    for(k in currency_rate_data.result.response.agent[j]){
+                                        if(currency_rate_data.result.is_show_provider.includes(k)){
+                                            try{
+                                                price_convert = (parseFloat(data_filter[i].price)/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
+                                                if(price_convert%1 == 0)
+                                                    price_convert = parseInt(price_convert);
+                                                response+=`
+                                                    <span class="copy_price" style="font-size:16px; font-weight: bold; color:`+color+`;" id="total_price_`+k+`"> Estimated `+k+` `+price_convert+`</span>`;
+                                            }catch(err){
+                                                console.log(err);
+                                            }
+                                        }
+                                    }
+                                    break;
+                                }
+                        //        }
+                            }
                             if(data_filter[i].available_count >= parseInt(passengers.adult) && data_filter[i].can_book_three_hours == true && data_filter[i].can_book_check_arrival_on_next_departure == true)
                                 response+=`
-                                <span class="copy_price" style="font-size:16px; margin-right:10px; font-weight: bold; color:`+color+`;">IDR `+getrupiah(data_filter[i].price)+`</span><br/>
                                 <input class="primary-btn-custom" type="button" onclick="choose_bus(`+i+`,`+data_filter[i].sequence+`)"  id="bus_choose`+i+`" value="Choose">`;
                             else if(data_filter[i].available_count > parseInt(passengers.adult) && data_filter[i].can_book_three_hours == false)
                                 response+=`
-                                <span class="copy_price" style="font-size:16px; margin-right:10px; font-weight: bold; color:`+color+`;">IDR `+getrupiah(data_filter[i].price)+`</span><br/>
                                 <input class="disabled-btn" type="button" onclick="alert_message_swal('Sorry, you can choose 3 or more hours from now!');"  id="bus_choose`+i+`" value="Choose">`;
                             else if(data_filter[i].available_count > parseInt(passengers.adult) && data_filter[i].can_book_check_arrival_on_next_departure == false)
                                 response+=`
-                                <span class="copy_price" style="font-size:16px; margin-right:10px; font-weight: bold; color:#505050;">IDR `+getrupiah(data_filter[i].price)+`</span>
                                 <input class="disabled" type="button" onclick="alert_message_swal('Sorry, arrival time you pick does not match with this journey!');"  id="bus_choose`+i+`" value="Choose">`;
                             else if(data_filter[i].available_count < parseInt(passengers.adult))
                                 response+=`
-                                <span class="copy_price" style="font-size:16px; margin-right:10px;">IDR `+getrupiah(data_filter[i].price)+`</span>
                                 <input class="disabled-btn" type="button" id="bus_choose`+i+`" value="Not Available" disabled>`
                             else if(data_filter[i].available_count <= 0)
                                 response+=`
-                                <span class="copy_price" style="font-size:16px; margin-right:10px;">IDR `+getrupiah(data_filter[i].price)+`</span>
                                 <input class="disabled-btn" type="button" id="bus_choose`+i+`" value="Sold" disabled>`
                         }
                     if(data_filter[i].available_count<50)
@@ -636,6 +663,66 @@ function sort(value){
     document.getElementById('bus_ticket').innerHTML = response;
     $('#loading-search-bus').hide();
     document.getElementById('loading-search-bus').hidden = true;
+
+    for(i in data_filter){
+        if(is_show_breakdown_price){
+            if(bus_request.departure[bus_request_pick] == data_filter[i].departure_date[0] && journeys.length != bus_request.departure.length){
+                var price_breakdown = {};
+                var currency_breakdown = '';
+                for(j in data_filter[i].fares){
+                    for(k in data_filter[i].fares[j].service_charge_summary){
+                        for(l in data_filter[i].fares[j].service_charge_summary[k].service_charges){
+                            if(data_filter[i].fares[j].service_charge_summary[k].service_charges[l].charge_type != 'RAC'){
+                                if(!price_breakdown.hasOwnProperty(data_filter[i].fares[j].service_charge_summary[k].service_charges[l].charge_type))
+                                    price_breakdown[data_filter[i].fares[j].service_charge_summary[k].service_charges[l].charge_type] = 0;
+                                price_breakdown[data_filter[i].fares[j].service_charge_summary[k].service_charges[l].charge_type] += data_filter[i].fares[j].service_charge_summary[k].service_charges[l].total;
+                            }
+                            if(currency_breakdown == '')
+                                currency_breakdown = data_filter[i].fares[j].service_charge_summary[k].service_charges[l].currency;
+                        }
+                    }
+                }
+                // upsell
+                if(typeof upsell_price_dict !== 'undefined'){
+                    for(i in upsell_price_dict){
+                        if(!price_breakdown.hasOwnProperty('ROC'))
+                            price_breakdown['ROC'] = 0;
+                        price_breakdown['ROC'] += upsell_price_dict[i];
+                    }
+                }
+                var breakdown_text = '';
+                for(j in price_breakdown){
+                    if(breakdown_text)
+                        breakdown_text += '<br/>';
+                    if(j != 'ROC')
+                        breakdown_text += '<b>'+j+'</b> ';
+                    else
+                        breakdown_text += '<b>CONVENIENCE FEE</b> ';
+                    breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
+                }
+                new jBox('Tooltip', {
+                    attach: '#bus_price_'+ i,
+                    target: '#bus_price_'+ i,
+                    theme: 'TooltipBorder',
+                    trigger: 'click',
+                    adjustTracker: true,
+                    closeOnClick: 'body',
+                    closeButton: 'box',
+                    animation: 'move',
+                    position: {
+                      x: 'left',
+                      y: 'top'
+                    },
+                    outside: 'y',
+                    pointer: 'left:20',
+                    offset: {
+                      x: 25
+                    },
+                    content: breakdown_text
+                });
+            }
+        }
+    }
 }
 
 function choose_bus(data,key){
@@ -760,7 +847,34 @@ function bus_ticket_pick(){
                     <div style="float:right; margin-top:20px; margin-bottom:10px;">`;
                     check = 0;
                     response+=`
-                        <span style="font-size:16px; margin-right:10px; font-weight: bold; color:#505050;">IDR `+getrupiah(journeys[i].price)+`</span>
+                        <span id="train_pick_price_`+i+` style="font-size:16px; margin-right:10px; font-weight: bold; color:#505050;`;
+                        if(is_show_breakdown_price)
+                            response+='cursor:pointer;';
+                        response+=`">IDR `+getrupiah(journeys[i].price)+`</span>`;
+                        if(is_show_breakdown_price)
+                            response+=`<i class="fas fa-caret-down price_template"></i>`;
+                        if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && journeys[i].price){
+                    //        if(currency_rate_data.result.response.agent.hasOwnProperty(user_login.agent_name)){ // buat o3
+                            for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
+                                for(k in currency_rate_data.result.response.agent[j]){
+                                    if(currency_rate_data.result.is_show_provider.includes(k)){
+                                        try{
+                                            price_convert = (parseFloat(journeys[i].price)/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
+                                            if(price_convert%1 == 0)
+                                                price_convert = parseInt(price_convert);
+                                            response+=`
+                                                <br/>
+                                                <span style="font-size:16px; font-weight:bold;"> Estimated `+k+` `+price_convert+`</span>`;
+                                        }catch(err){
+                                            console.log(err);
+                                        }
+                                    }
+                                }
+                                break;
+                            }
+                    //        }
+                        }
+                        response+=`
                         <input class="primary-btn-custom" type="button" onclick="change_bus(`+i+`)"  id="bus_choose`+i+`" value="Change">`;
                 if(journeys[i].available_count<50)
                     response+=`<br/><span style="font-size:13px; float:right; color:`+color+`">`+journeys[i].available_count+` seat(s) left</span>`;
@@ -773,6 +887,64 @@ function bus_ticket_pick(){
 
     }
     document.getElementById('bus_pick_ticket').innerHTML = response;
+
+    for(i in journeys){
+        if(is_show_breakdown_price){
+            var price_breakdown = {};
+            var currency_breakdown = '';
+            for(j in journeys[i].fares){
+                for(k in journeys[i].fares[j].service_charge_summary){
+                    for(l in journeys[i].fares[j].service_charge_summary[k].service_charges){
+                        if(journeys[i].fares[j].service_charge_summary[k].service_charges[l].charge_type != 'RAC'){
+                            if(!price_breakdown.hasOwnProperty(journeys[i].fares[j].service_charge_summary[k].service_charges[l].charge_type))
+                                price_breakdown[journeys[i].fares[j].service_charge_summary[k].service_charges[l].charge_type] = 0;
+                            price_breakdown[journeys[i].fares[j].service_charge_summary[k].service_charges[l].charge_type] += journeys[i].fares[j].service_charge_summary[k].service_charges[l].total;
+                        }
+                        if(currency_breakdown == '')
+                            currency_breakdown = journeys[i].fares[j].service_charge_summary[k].service_charges[l].currency;
+                    }
+                }
+            }
+            // upsell
+            if(typeof upsell_price_dict !== 'undefined'){
+                for(i in upsell_price_dict){
+                    if(!price_breakdown.hasOwnProperty('ROC'))
+                        price_breakdown['ROC'] = 0;
+                    price_breakdown['ROC'] += upsell_price_dict[i];
+                }
+            }
+            var breakdown_text = '';
+            for(j in price_breakdown){
+                if(breakdown_text)
+                    breakdown_text += '<br/>';
+                if(j != 'ROC')
+                    breakdown_text += '<b>'+j+'</b> ';
+                else
+                    breakdown_text += '<b>CONVENIENCE FEE</b> ';
+                breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
+            }
+            new jBox('Tooltip', {
+                attach: '#train_pick_price_'+ i,
+                target: '#train_pick_price_'+ i,
+                theme: 'TooltipBorder',
+                trigger: 'click',
+                adjustTracker: true,
+                closeOnClick: 'body',
+                closeButton: 'box',
+                animation: 'move',
+                position: {
+                  x: 'left',
+                  y: 'top'
+                },
+                outside: 'y',
+                pointer: 'left:20',
+                offset: {
+                  x: 25
+                },
+                content: breakdown_text
+            });
+        }
+    }
 }
 
 function bus_get_detail(){
@@ -985,7 +1157,15 @@ function bus_get_detail(){
                 <span style="font-size:13px;font-weight:bold;"><b>Total</b></span><br>
             </div>
             <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                <span style="font-size:13px;font-weight:bold;"><b>`+price['currency']+` `+getrupiah(total_price+total_tax)+`</b></span><br>
+                <span id="total_price" style="font-size:13px;font-weight:bold;`;
+            if(is_show_breakdown_price){
+                bus_detail_text+= "cursor:pointer;";
+            }
+            bus_detail_text +=`"><b>`+price['currency']+` `+getrupiah(total_price+total_tax)+`</b>`;
+            if(is_show_breakdown_price){
+                bus_detail_text+= ` <i class="fas fa-caret-down"></i>`;
+            }
+            bus_detail_text+=`</span><br>
             </div>
 
             <div class="col-lg-12" style="padding-bottom:10px;">
@@ -1036,6 +1216,56 @@ function bus_get_detail(){
         </div>
     </div>`;
     document.getElementById('bus_detail').innerHTML = bus_detail_text;
+
+    for(i in journeys){
+        if(is_show_breakdown_price){
+            var price_breakdown = {};
+            var currency_breakdown = '';
+            for(j in journeys[i].fares){
+                for(k in journeys[i].fares[j].service_charge_summary){
+                    for(l in journeys[i].fares[j].service_charge_summary[k].service_charges){
+                        if(journeys[i].fares[j].service_charge_summary[k].service_charges[l].charge_type != 'RAC'){
+                            if(!price_breakdown.hasOwnProperty(journeys[i].fares[j].service_charge_summary[k].service_charges[l].charge_type))
+                                price_breakdown[journeys[i].fares[j].service_charge_summary[k].service_charges[l].charge_type] = 0;
+                            price_breakdown[journeys[i].fares[j].service_charge_summary[k].service_charges[l].charge_type] += journeys[i].fares[j].service_charge_summary[k].service_charges[l].total;
+                        }
+                        if(currency_breakdown == '')
+                            currency_breakdown = journeys[i].fares[j].service_charge_summary[k].service_charges[l].currency;
+                    }
+                }
+            }
+            var breakdown_text = '';
+            for(j in price_breakdown){
+                if(breakdown_text)
+                    breakdown_text += '<br/>';
+                if(j != 'ROC')
+                    breakdown_text += '<b>'+j+'</b> ';
+                else
+                    breakdown_text += '<b>CONVENIENCE FEE</b> ';
+                breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
+            }
+            new jBox('Tooltip', {
+                attach: '#total_price',
+                target: '#total_price',
+                theme: 'TooltipBorder',
+                trigger: 'click',
+                adjustTracker: true,
+                closeOnClick: 'body',
+                closeButton: 'box',
+                animation: 'move',
+                position: {
+                  x: 'left',
+                  y: 'top'
+                },
+                outside: 'y',
+                pointer: 'left:20',
+                offset: {
+                  x: 25
+                },
+                content: breakdown_text
+            });
+        }
+    }
 
     $('#loading-search-bus-choose').hide();
 
@@ -1366,9 +1596,42 @@ function bus_detail(){
             <span style="font-size:13px;"><b>Total</b></span><br>
         </div>
         <div class="col-lg-6 col-xs-6" style="text-align:right;">
-            <span style="font-size:13px;"><b>`+price['currency']+` `+getrupiah(grand_total_price)+`</b></span><br>
+            <span id="total_price" style="font-size:13px;`;
+    if(is_show_breakdown_price){
+        text+= "cursor:pointer;";
+    }
+    text+=`"><b>`+price['currency']+` `+getrupiah(grand_total_price)+`</b>`;
+    if(is_show_breakdown_price){
+        text+= ` <i class="fas fa-caret-down"></i>`;
+    }
+    text+=`</span><br>
         </div>
     </div>`;
+
+    if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && grand_total_price){
+//        if(currency_rate_data.result.response.agent.hasOwnProperty(user_login.agent_name)){ // buat o3
+        for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
+            for(k in currency_rate_data.result.response.agent[j]){
+                if(currency_rate_data.result.is_show_provider.includes(k)){
+                    try{
+                        price_convert = (grand_total_price/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
+                        if(price_convert%1 == 0)
+                            price_convert = parseInt(price_convert);
+                        text+=`
+                            <div class="row" style="margin-bottom:5px;">
+                                <div class="col-lg-12 col-xs-12" style="text-align:right;">
+                                    <span style="font-size:13px;"><b> Estimated `+k+` `+price_convert+`</b></span>
+                                </div>
+                            </div>`;
+                    }catch(err){
+                        console.log(err);
+                    }
+                }
+            }
+            break;
+        }
+//        }
+    }
 
     if(document.URL.split('/')[document.URL.split('/').length-1] == 'review' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
         text+=`<div class="mb-3" style="text-align:right;"><img src="/static/tt_website/img/bank.png" alt="Bank" style="width:auto; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
@@ -1417,6 +1680,63 @@ function bus_detail(){
     </div>`;
 
     document.getElementById('bus_detail').innerHTML = text;
+
+    for(i in bus_data){
+        if(is_show_breakdown_price){
+            var price_breakdown = {};
+            var currency_breakdown = '';
+            for(j in bus_data[i].fares){
+                for(k in bus_data[i].fares[j].service_charge_summary){
+                    for(l in bus_data[i].fares[j].service_charge_summary[k].service_charges){
+                        if(bus_data[i].fares[j].service_charge_summary[k].service_charges[l].charge_type != 'RAC'){
+                            if(!price_breakdown.hasOwnProperty(bus_data[i].fares[j].service_charge_summary[k].service_charges[l].charge_type))
+                                price_breakdown[bus_data[i].fares[j].service_charge_summary[k].service_charges[l].charge_type] = 0;
+                            price_breakdown[bus_data[i].fares[j].service_charge_summary[k].service_charges[l].charge_type] += bus_data[i].fares[j].service_charge_summary[k].service_charges[l].total;
+                        }
+                        if(currency_breakdown == '')
+                            currency_breakdown = bus_data[i].fares[j].service_charge_summary[k].service_charges[l].currency;
+                    }
+                }
+            }
+            if(typeof upsell_price_dict !== 'undefined'){
+                for(i in upsell_price_dict){
+                    if(!price_breakdown.hasOwnProperty('ROC'))
+                        price_breakdown['ROC'] = 0;
+                    price_breakdown['ROC'] += upsell_price_dict[i];
+                }
+            }
+            var breakdown_text = '';
+            for(j in price_breakdown){
+                if(breakdown_text)
+                    breakdown_text += '<br/>';
+                if(j != 'ROC')
+                    breakdown_text += '<b>'+j+'</b> ';
+                else
+                    breakdown_text += '<b>CONVENIENCE FEE</b> ';
+                breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
+            }
+            new jBox('Tooltip', {
+                attach: '#total_price',
+                target: '#total_price',
+                theme: 'TooltipBorder',
+                trigger: 'click',
+                adjustTracker: true,
+                closeOnClick: 'body',
+                closeButton: 'box',
+                animation: 'move',
+                position: {
+                  x: 'left',
+                  y: 'top'
+                },
+                outside: 'y',
+                pointer: 'left:20',
+                offset: {
+                  x: 25
+                },
+                content: breakdown_text
+            });
+        }
+    }
 }
 
 function check_passenger(adult, infant){
