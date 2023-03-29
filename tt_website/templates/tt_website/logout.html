@@ -1,0 +1,4 @@
+<form action="{% url 'tt_website:login'%}" method="POST" id="form_logout">
+    {% csrf_token %}
+    <input type="hidden" id="logout" name="logout" value=true>
+</form>

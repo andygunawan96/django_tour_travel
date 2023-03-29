@@ -17,7 +17,7 @@ import traceback
 import copy
 import time
 import math
-_logger = logging.getLogger("rodextrip_logger")
+_logger = logging.getLogger("website_logger")
 
 month = {
     'Jan': '01',
@@ -68,6 +68,12 @@ def api_models(request):
             res = login(request)
         elif req_data['action'] == 're_order_set_airline_request':
             res = re_order_set_airline_request(request)
+        elif req_data['action'] == 'save_allowed_config_search':
+            res = save_allowed_config_search(request)
+        elif req_data['action'] == 'get_allowed_config_search':
+            res = get_allowed_config_search(request)
+        elif req_data['action'] == 'get_all_carrier_airline':
+            res = get_all_carrier_airline(request)
         elif req_data['action'] == 'set_airline_pick':
             res = set_airline_pick(request)
         elif req_data['action'] == 're_order_set_passengers':
@@ -235,7 +241,7 @@ def login(request):
             "action": "signin",
             "signature": ''
         }
-
+        user_global, password_global, api_key = get_credential(request)
         data = {
             "user": user_global,
             "password": password_global,
@@ -342,7 +348,9 @@ def re_order_set_passengers(request):
                 "title": title,
                 "birth_date": pax['birth_date'],
                 "nationality_name": pax['nationality_name'],
+                "nationality_code": pax['nationality_code'],
                 "identity_country_of_issued_name": pax['identity_country_of_issued_name'] if pax['identity_country_of_issued_code'] != '' else '',
+                "identity_country_of_issued_code": pax['identity_country_of_issued_code'] if pax['identity_country_of_issued_code'] != '' else '',
                 "identity_expdate": convert_string_to_date_to_string_front_end(pax['identity_expdate']) if pax['identity_expdate'] != '' and pax['identity_expdate'] != False else '',
                 "identity_number": pax['identity_number'],
                 "passenger_seq_id": pax['seq_id'],
@@ -387,7 +395,7 @@ def get_data_search_page(request):
         res = {}
         res['airline_request'] = request.session.get('airline_request')
 
-        file = read_cache("get_airline_carriers", 'cache_web', 90911)
+        file = read_cache("get_airline_carriers", 'cache_web', request, 90911)
         if file:
             res['airline_all_carriers'] = file
         res['airline_carriers'] = request.session.get('airline_carriers_request')
@@ -405,7 +413,7 @@ def get_data_passenger_page(request):
         res['airline_pick'] = request.session['airline_sell_journey_%s' % request.POST['signature']]['sell_journey_provider']
         res['airline_get_price_request'] = request.session['airline_get_price_request_%s' % request.POST['signature']]
         res['price_itinerary'] = request.session['airline_sell_journey_%s' % request.POST['signature']]
-        file = read_cache("get_airline_carriers", 'cache_web', 90911)
+        file = read_cache("get_airline_carriers", 'cache_web', request, 90911)
         if file:
             res['airline_carriers'] = file
         if request.session.get('airline_get_ssr_%s' % request.POST['signature']):
@@ -438,7 +446,7 @@ def get_data_review_page(request):
         res['airline_pick'] = request.session['airline_sell_journey_%s' % request.POST['signature']]['sell_journey_provider']
         res['airline_request'] = request.session['airline_request_%s' % request.POST['signature']]
         res['price_itinerary'] = request.session['airline_sell_journey_%s' % request.POST['signature']]
-        file = read_cache("get_airline_carriers", 'cache_web', 90911)
+        file = read_cache("get_airline_carriers", 'cache_web', request, 90911)
         if file:
             res['airline_carriers'] = file
         res['passengers'] = request.session['airline_create_passengers_%s' % request.POST['signature']]
@@ -471,7 +479,7 @@ def get_data_review_page(request):
 def get_data_review_after_sales_page(request):
     try:
         res = {}
-        file = read_cache("get_airline_carriers", 'cache_web', 90911)
+        file = read_cache("get_airline_carriers", 'cache_web', request, 90911)
         if file:
             res['airline_carriers'] = file
 
@@ -486,7 +494,7 @@ def get_data_review_after_sales_page(request):
 def get_data_book_page(request):
     try:
         res = {}
-        file = read_cache("get_airline_carriers", 'cache_web', 90911)
+        file = read_cache("get_airline_carriers", 'cache_web', request, 90911)
         if file:
             res['airline_carriers'] = file
     except Exception as e:
@@ -496,7 +504,7 @@ def get_data_book_page(request):
 def get_data_ssr_page(request):
     try:
         res = {}
-        file = read_cache("get_airline_carriers", 'cache_web', 90911)
+        file = read_cache("get_airline_carriers", 'cache_web', request, 90911)
         if file:
             res['airline_carriers'] = file
         res['passengers'] = request.session['airline_create_passengers_%s' % request.POST['signature']]['adult'] + request.session['airline_create_passengers_%s' % request.POST['signature']]['child']
@@ -507,6 +515,7 @@ def get_data_ssr_page(request):
             res['airline_pick'] = request.session['airline_sell_journey_%s' % request.POST['signature']]['sell_journey_provider']
             res['price_itinerary'] = request.session['airline_sell_journey_%s' % request.POST['signature']]
             res['airline_request'] = request.session['airline_request_%s' % request.POST['signature']]
+            res['upsell'] = request.session.get('airline_upsell_' + request.POST['signature']) and request.session.get('airline_upsell_%s' % request.POST['signature']) or 0
         else:
             #post
             passenger = []
@@ -525,7 +534,7 @@ def get_data_ssr_page(request):
 def get_data_seat_page(request):
     try:
         res = {}
-        file = read_cache("get_airline_carriers", 'cache_web', 90911)
+        file = read_cache("get_airline_carriers", 'cache_web', request, 90911)
         if file:
             res['airline_carriers'] = file
         res['passengers'] = request.session['airline_create_passengers_%s' % request.POST['signature']]['adult'] + request.session['airline_create_passengers_%s' % request.POST['signature']]['child']
@@ -535,6 +544,7 @@ def get_data_seat_page(request):
             res['airline_pick'] = request.session['airline_sell_journey_%s' % request.POST['signature']]['sell_journey_provider']
             res['price_itinerary'] = request.session['airline_sell_journey_%s' % request.POST['signature']]
             res['airline_request'] = request.session['airline_request_%s' % request.POST['signature']]
+            res['upsell'] = request.session.get('airline_upsell_' + request.POST['signature']) and request.session.get('airline_upsell_%s' % request.POST['signature']) or 0
         else:
             # post
             passenger = []
@@ -568,7 +578,7 @@ def get_carrier_code_list(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    file = read_cache("get_airline_active_carriers", 'cache_web')
+    file = read_cache("get_airline_active_carriers", 'cache_web', request)
     if not file:
         url_request = url + 'content'
         res = send_request_api(request, url_request, headers, data, 'POST')
@@ -641,13 +651,13 @@ def get_carrier_code_list(request):
 
                 res = fav
                 try:
-                    write_cache(res, "get_airline_active_carriers", 'cache_web')
+                    write_cache(res, "get_airline_active_carriers", request, 'cache_web')
                     _logger.info("get_carrier_code_list AIRLINE RENEW SUCCESS SIGNATURE " + request.POST['signature'])
                 except Exception as e:
                     _logger.error('ERROR get_airline_active_carriers file \n' + str(e) + '\n' + traceback.format_exc())
             else:
                 try:
-                    file = read_cache("get_airline_active_carriers", 'cache_web', 90911)
+                    file = read_cache("get_airline_active_carriers", 'cache_web', request, 90911)
                     if file:
                         res = file
                     _logger.info("read file get_airline_active_carriers " + request.POST['signature'])
@@ -657,7 +667,7 @@ def get_carrier_code_list(request):
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
-            file = read_cache("get_airline_active_carriers", 'cache_web', 90911)
+            file = read_cache("get_airline_active_carriers", 'cache_web', request, 90911)
             res = file
         except Exception as e:
             _logger.error('ERROR read file get_airline_active_carriers\n' + str(e) + '\n' + traceback.format_exc())
@@ -676,18 +686,18 @@ def get_carrier_providers(request):
         }
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
-    file = read_cache("get_list_provider", 'cache_web')
+    file = read_cache("get_list_provider", 'cache_web', request)
     if not file:
         url_request = url + 'content'
         res = send_request_api(request, url_request, headers, data, 'POST')
         try:
             if res['result']['error_code'] == 0:
                 res = res['result']['response']
-                write_cache(res, "get_list_provider", 'cache_web')
+                write_cache(res, "get_list_provider", request, 'cache_web')
                 _logger.info("get_carrier_providers AIRLINE RENEW SUCCESS SIGNATURE " + request.POST['signature'])
             else:
                 try:
-                    file = read_cache("get_list_provider", 'cache_web')
+                    file = read_cache("get_list_provider", 'cache_web', request)
                     if file:
                         res = file
                     _logger.info("read get_list_provider SIGNATURE " + request.POST['signature'])
@@ -697,7 +707,7 @@ def get_carrier_providers(request):
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
-            file = read_cache("get_list_provider", 'cache_web', 90911)
+            file = read_cache("get_list_provider", 'cache_web', request, 90911)
             res = file
         except Exception as e:
             _logger.error('ERROR read file get_list_provider\n' + str(e) + '\n' + traceback.format_exc())
@@ -719,18 +729,18 @@ def get_carriers(request, signature=''):
         }
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
-    file = read_cache("get_airline_carriers", 'cache_web')
+    file = read_cache("get_airline_carriers", 'cache_web', request)
     if not file:
         url_request = url + 'content'
         res = send_request_api(request, url_request, headers, data, 'POST')
         try:
             if res['result']['error_code'] == 0:
                 res = res['result']['response']
-                write_cache(res, "get_airline_carriers", 'cache_web')
+                write_cache(res, "get_airline_carriers", request, 'cache_web')
                 _logger.info("get_airline_carriers AIRLINE SIGNATURE " + headers['signature'])
             else:
                 try:
-                    file = read_cache("get_airline_carriers", 'cache_web')
+                    file = read_cache("get_airline_carriers", 'cache_web', request)
                     if file:
                         res = file
                     _logger.info("get_airline_carriers AIRLINE SIGNATURE " + headers['signature'])
@@ -740,7 +750,7 @@ def get_carriers(request, signature=''):
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
-            file = read_cache("get_airline_carriers", 'cache_web', 90911)
+            file = read_cache("get_airline_carriers", 'cache_web', request, 90911)
             res = file
         except Exception as e:
             _logger.error('ERROR read file get_airline_carriers\n' + str(e) + '\n' + traceback.format_exc())
@@ -763,18 +773,18 @@ def get_carriers_search(request, signature=''):
         }
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
-    file = read_cache("get_airline_active_carriers", 'cache_web')
+    file = read_cache("get_airline_active_carriers", 'cache_web', request)
     if not file:
         url_request = url + 'content'
         res = send_request_api(request, url_request, headers, data, 'POST')
         try:
             if res['result']['error_code'] == 0:
                 res = res['result']['response']
-                write_cache(res, "get_airline_active_carriers", 'cache_web')
+                write_cache(res, "get_airline_active_carriers", request, 'cache_web')
                 _logger.info("get_carriers_search AIRLINE RENEW SUCCESS SIGNATURE " + headers['signature'])
             else:
                 try:
-                    file = read_cache("get_airline_active_carriers", 'cache_web')
+                    file = read_cache("get_airline_active_carriers", 'cache_web', request)
                     if file:
                         res = file
                     _logger.info("read file get_airline_active_carriers SIGNATURE " + request.POST['signature'])
@@ -784,17 +794,44 @@ def get_carriers_search(request, signature=''):
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
-            file = read_cache("get_airline_active_carriers", 'cache_web', 90911)
+            file = read_cache("get_airline_active_carriers", 'cache_web', request, 90911)
             res = file
         except Exception as e:
             _logger.error('ERROR read file get_airline_active_carriers\n' + str(e) + '\n' + traceback.format_exc())
-    if 'allowed_search_config' in globals():
-        if len(allowed_search_config):
-            new_res = {}
-            for carrier in allowed_search_config:
-                new_res[carrier] = res[carrier]
-            res = new_res
+
+    allowed_carrier_search = get_allowed_config_search(request)
+    if len(allowed_carrier_search):
+        new_res = {}
+        for carrier in allowed_carrier_search:
+            new_res[carrier] = res[carrier]
+        res = new_res
     return res
+
+def save_allowed_config_search(request):
+    data = json.loads(request.POST['airline_carriers'])
+    write_cache(data, 'allowed_airline_carriers', request)
+
+    return {
+        "result": {
+            "response": "",
+            "error_code": 0,
+            "error_msg": ""
+        }
+    }
+
+def get_allowed_config_search(request):
+    data = []
+    file = read_cache("allowed_airline_carriers", 'cache_web', request, 90911)
+    if file:
+        data = file
+    return data
+
+def get_all_carrier_airline(request):
+    data = []
+    file = read_cache("get_airline_active_carriers", 'cache_web', request, 90911)
+    if file:
+        data = file
+    return data
 
 def get_provider_list_backend(request, signature=''):
     try:
@@ -825,17 +862,17 @@ def get_provider_list_backend(request, signature=''):
         except:
             _logger.error("Error not from mobile")
         _logger.error(str(e) + '\n' + traceback.format_exc())
-    file = read_cache("get_list_provider_airline", 'cache_web')
+    file = read_cache("get_list_provider_airline", 'cache_web', request)
     if not file:
         url_request = url + 'content'
         res = send_request_api(request, url_request, headers, data, 'POST')
         try:
             if res['result']['error_code'] == 0:
-                write_cache(res, "get_list_provider_airline", 'cache_web')
+                write_cache(res, "get_list_provider_airline", request, 'cache_web')
                 _logger.info("write get_list_provider_airline")
             else:
                 try:
-                    file = read_cache("get_list_provider_airline", 'cache_web')
+                    file = read_cache("get_list_provider_airline", 'cache_web', request)
                     if file:
                         res = file
                     _logger.info("read file get_list_provider_airline SIGNATURE " + request.POST['signature'])
@@ -845,7 +882,7 @@ def get_provider_list_backend(request, signature=''):
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
-            file = read_cache("get_list_provider_airline", 'cache_web', 90911)
+            file = read_cache("get_list_provider_airline", 'cache_web', request, 90911)
             res = file
         except Exception as e:
             _logger.error('ERROR read file get_list_provider_airline\n' + str(e) + '\n' + traceback.format_exc())
@@ -877,7 +914,7 @@ def get_provider_description(request):
         except:
             _logger.error("Error not from mobile")
         _logger.error(str(e) + '\n' + traceback.format_exc())
-    file = read_cache("get_list_provider_data", 'cache_web')
+    file = read_cache("get_list_provider_data", 'cache_web', request)
     if not file:
         url_request = url + 'content'
         res = send_request_api(request, url_request, headers, data, 'POST')
@@ -887,11 +924,11 @@ def get_provider_description(request):
                 for i in res['result']['response']['providers']:
                     temp[i['provider']] = i
                 res = temp
-                write_cache(temp, "get_list_provider_data", 'cache_web')
+                write_cache(temp, "get_list_provider_data", request, 'cache_web')
                 _logger.info("get_provider_description AIRLINE RENEW SUCCESS SIGNATURE " + request.POST['signature'])
             else:
                 try:
-                    file = read_cache("get_list_provider_data", 'cache_web')
+                    file = read_cache("get_list_provider_data", 'cache_web', request)
                     if file:
                         res = file
                     _logger.info("read file get_list_provider_data SIGNATURE " + request.POST['signature'])
@@ -901,7 +938,7 @@ def get_provider_description(request):
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
-            file = read_cache("get_list_provider_data", 'cache_web', 90911)
+            file = read_cache("get_list_provider_data", 'cache_web', request, 90911)
             res = file
         except Exception as e:
             _logger.error('ERROR read file get_list_provider_data\n' + str(e) + '\n' + traceback.format_exc())
@@ -912,7 +949,7 @@ def search2(request):
     try:
         # airline
         airline_destinations = []
-        file = read_cache("airline_destination", 'cache_web', 90911)
+        file = read_cache("airline_destination", 'cache_web', request, 90911)
         if file:
             response = file
         for country in response:
@@ -1108,7 +1145,7 @@ def search2(request):
 
 def get_data(request):
     try:
-        file = read_cache("airline_destination", 'cache_web', 90911)
+        file = read_cache("airline_destination", 'cache_web', request, 90911)
         if file:
             response = file
 
@@ -1122,7 +1159,7 @@ def get_price_itinerary(request, boolean, counter):
     try:
         #baru
         airline_destinations = []
-        file = read_cache("airline_destination", 'cache_web', 90911)
+        file = read_cache("airline_destination", 'cache_web', request, 90911)
         if file:
             response = file
         for country in response:
@@ -1362,7 +1399,7 @@ def sell_journeys(request):
     #nanti ganti ke select journey
     try:
         airline_destinations = []
-        file = read_cache("airline_destination", 'cache_web', 90911)
+        file = read_cache("airline_destination", 'cache_web', request, 90911)
         if file:
             response = file
         for country in response:
@@ -1577,17 +1614,6 @@ def update_contacts(request):
     try:
         booker = copy.deepcopy(request.session['airline_create_passengers_%s' % request.POST['signature']]['booker'])
         contacts = copy.deepcopy(request.session['airline_create_passengers_%s' % request.POST['signature']]['contact'])
-        response = get_cache_data()
-        for country in response['result']['response']['airline']['country']:
-            if booker['nationality_name'] == country['name']:
-                booker['nationality_code'] = country['code']
-                break
-
-        for pax in contacts:
-            for country in response['result']['response']['airline']['country']:
-                if pax['nationality_name'] == country['name']:
-                    pax['nationality_code'] = country['code']
-                    break
         data = {
             'booker': booker,
             'contacts': contacts
@@ -1620,7 +1646,6 @@ def update_contacts(request):
 
 def update_passengers(request):
     try:
-        response = get_cache_data()
         passenger = []
         passenger_cache = copy.deepcopy(request.session['airline_create_passengers_%s' % request.POST['signature']])
         sell_journey_dict = request.session.get('airline_sell_journey_%s' % request.POST['signature'], {})
@@ -1636,17 +1661,6 @@ def update_passengers(request):
         for pax_type in passenger_cache:
             if pax_type != 'booker' and pax_type != 'contact':
                 for pax in passenger_cache[pax_type]:
-                    if pax['nationality_name'] != '':
-                        for country in response['result']['response']['airline']['country']:
-                            if pax['nationality_name'] == country['name']:
-                                pax['nationality_code'] = country['code']
-                                break
-
-                    if pax['identity_country_of_issued_name'] != '':
-                        for country in response['result']['response']['airline']['country']:
-                            if pax['identity_country_of_issued_name'] == country['name']:
-                                pax['identity_country_of_issued_code'] = country['code']
-                                break
                     if pax['birth_date'] != '':
                         pax.update({
                             'birth_date': '%s-%s-%s' % (
@@ -1661,7 +1675,6 @@ def update_passengers(request):
                         else:
                             identity_expired_date = ("%s-09-09" % (year_exp_date))
                         pax['identity'] = {
-                            "identity_country_of_issued_name": pax.get('identity_country_of_issued_name') or 'Indonesia',
                             "identity_country_of_issued_code": pax.get('identity_country_of_issued_code') or 'ID',
                             "identity_expdate": identity_expired_date,
                             "identity_number": pax.get('identity_number') or identity_number,
@@ -1670,7 +1683,6 @@ def update_passengers(request):
                             # "is_valid_identity": pax.pop('is_valid_identity')
                         }
                         try:
-                            pax.pop('identity_country_of_issued_name')
                             pax.pop('identity_expdate')
                             pax.pop('identity_number')
                             pax.pop('identity_type')
@@ -1686,7 +1698,6 @@ def update_passengers(request):
                                     pax['identity_expdate'].split(' ')[0])
                             })
                         pax['identity'] = {
-                            "identity_country_of_issued_name": pax.pop('identity_country_of_issued_name'),
                             "identity_country_of_issued_code": pax.get('identity_country_of_issued_code') or '',
                             "identity_expdate": pax.pop('identity_expdate'),
                             "identity_number": pax.pop('identity_number'),
@@ -1999,10 +2010,10 @@ def get_booking(request):
     url_request = url + 'booking/airline'
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
-        response = get_cache_data()
+        response = get_cache_data(request)
         airline_country = response['result']['response']['airline']['country']
         country = {}
-        file = read_cache("airline_destination", 'cache_web', 90911)
+        file = read_cache("airline_destination", 'cache_web', request, 90911)
         if file:
             response = file
         airline_destinations = []
@@ -2588,7 +2599,7 @@ def reissue(request):
     try:
         if res['result']['error_code'] == 0:
             airline_destinations = []
-            file = read_cache("airline_destination", 'cache_web', 90911)
+            file = read_cache("airline_destination", 'cache_web', request, 90911)
             if file:
                 response = file
             for country in response:
@@ -2755,7 +2766,7 @@ def get_price_reissue_construct(request,boolean, counter):
 
     if res['result']['error_code'] == 0:
         airline_destinations = []
-        file = read_cache("airline_destination", 'cache_web', 90911)
+        file = read_cache("airline_destination", 'cache_web', request, 90911)
         if file:
             response = file
         for country in response:
@@ -2920,7 +2931,7 @@ def sell_journey_reissue_construct(request,boolean, counter):
 
     if res['result']['error_code'] == 0:
         airline_destinations = []
-        file = read_cache("airline_destination", 'cache_web', 90911)
+        file = read_cache("airline_destination", 'cache_web', request, 90911)
         if file:
             response = file
         for country in response:
@@ -3201,13 +3212,13 @@ def get_provider_booking_from_vendor(request):
         }
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
-    file = read_cache("get_provider_booking_from_vendor_airline", 'cache_web', 86400)
+    file = read_cache("get_provider_booking_from_vendor_airline", 'cache_web', request, 86400)
     if not file:
         url_request = url + 'booking/airline'
         res = send_request_api(request, url_request, headers, data, 'POST', 300)
         try:
             if res['result']['error_code'] == 0:
-                write_cache(res, "get_provider_booking_from_vendor_airline", 'cache_web')
+                write_cache(res, "get_provider_booking_from_vendor_airline", request, 'cache_web')
                 _logger.info("SUCCESS get_provider_booking_from_vendor AIRLINE SIGNATURE " + request.POST['signature'])
             else:
                 _logger.error("ERROR get_provider_booking_from_vendor AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
@@ -3215,7 +3226,7 @@ def get_provider_booking_from_vendor(request):
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
-            file = read_cache("get_provider_booking_from_vendor_airline", 'cache_web', 90911)
+            file = read_cache("get_provider_booking_from_vendor_airline", 'cache_web', request, 90911)
             res = file
         except Exception as e:
             _logger.error('ERROR get_provider_booking_from_vendor_airline file\n' + str(e) + '\n' + traceback.format_exc())
@@ -3243,8 +3254,8 @@ def get_retrieve_booking_from_vendor(request):
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
-            response = get_cache_data()
-            file = read_cache("airline_destination", 'cache_web', 90911)
+            response = get_cache_data(request)
+            file = read_cache("airline_destination", 'cache_web', request, 90911)
             if file:
                 response = file
             airline_destinations = []
@@ -3686,7 +3697,7 @@ def get_reschedule_availability_v2(request):
     try:
         if res['result']['error_code'] == 0:
             airline_destinations = []
-            file = read_cache("airline_destination", 'cache_web', 90911)
+            file = read_cache("airline_destination", 'cache_web', request, 90911)
             if file:
                 response = file
             for country in response:
@@ -3852,7 +3863,7 @@ def get_reschedule_itinerary_v2(request):
 
     if res['result']['error_code'] == 0:
         airline_destinations = []
-        file = read_cache("airline_destination", 'cache_web', 90911)
+        file = read_cache("airline_destination", 'cache_web', request, 90911)
         if file:
             response = file
         for country in response:
@@ -4006,7 +4017,7 @@ def sell_reschedule_v2(request):
 
     if res['result']['error_code'] == 0:
         airline_destinations = []
-        file = read_cache("airline_destination", 'cache_web', 90911)
+        file = read_cache("airline_destination", 'cache_web', request, 90911)
         if file:
             response = file
         for country in response:
@@ -4552,7 +4563,7 @@ def cancel_v2(request):
 
 def update_post_pax_name(request):
     try:
-        response = get_cache_data()
+        response = get_cache_data(request)
         passenger = []
         passenger_cache = json.loads(request.POST['passengers'])
         data_awal_passenger = request.session['airline_get_booking_response']['result']['response']['passengers']
@@ -4620,7 +4631,7 @@ def update_post_pax_name(request):
 
 def update_post_pax_identity(request):
     try:
-        response = get_cache_data()
+        response = get_cache_data(request)
         passenger = []
         passenger_cache = json.loads(request.POST['passengers'])
         data_awal_passenger = request.session['airline_get_booking_response']['result']['response']['passengers']
@@ -4693,7 +4704,7 @@ def update_post_pax_identity(request):
     return res
 
 def get_frequent_flyer_all_data(request, signature):
-    data_file = read_cache("frequent_flyer_data", 'cache_web', 86400)
+    data_file = read_cache("frequent_flyer_data", 'cache_web', request, 86400)
     if not data_file:
         res = {}
         try:
@@ -4709,7 +4720,7 @@ def get_frequent_flyer_all_data(request, signature):
         except Exception as e:
             _logger.error(str(e) + '\n' + traceback.format_exc())
         if res['result']['error_code'] == 0:
-            write_cache(res['result']['response'], "frequent_flyer_data", 'cache_web')
+            write_cache(res['result']['response'], "frequent_flyer_data", request, 'cache_web')
             data_file = res['result']['response']
     res = []
     if data_file:
@@ -4758,16 +4769,16 @@ def getDuration(departure_date, departure_time,arrival_date,arrival_time):
 
 def search_mobile(request):
     # get_data_awal
-    file = read_cache("get_list_provider_data", 'cache_web', 90911)
+    file = read_cache("get_list_provider_data", 'cache_web', request, 90911)
     if file:
         provider_list_data = file
     else:
         get_provider_description(request)
-        file = read_cache("get_list_provider_data", 'cache_web', 90911)
+        file = read_cache("get_list_provider_data", 'cache_web', request, 90911)
         if file:
             provider_list_data = file
     airline_destinations = []
-    file = read_cache("airline_destination", 'cache_web', 90911)
+    file = read_cache("airline_destination", 'cache_web', request, 90911)
     if file:
         response = file
     for country in response:

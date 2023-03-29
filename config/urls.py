@@ -36,11 +36,11 @@ urlpatterns += i18n_patterns(
     url(r'^static/(?P<path>.*)$', django.views.static.serve, {'document_root': settings.STATIC_ROOT, 'show_indexes': settings.DEBUG}),
     url(r'^media(?P<path>.*)$', django.views.static.serve, {'document_root': settings.MEDIA_ROOT}),
     path('webservice', include('tt_webservice.urls')),
-    path('', include('tt_website_rodextrip.urls')), #django frontend aja
+    path('', include('tt_website.urls')), #django frontend aja
     # path('tt_base', include('tt_base.urls')),
     # path('activity', include('tt_website_activity.urls')),
     # path('web', include('tt_backend_skytors.urls')),
-    # path('', include('tt_website_rodextrip.urls')), #django backend
+    # path('', include('tt_website.urls')), #django backend
     # re_path('', website_skytors.index),
     # url('', view_tutorial.website_booking, name="home"),
     prefix_default_language=False,
@@ -52,7 +52,7 @@ urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
-handler400 = 'tt_website_rodextrip.views.tt_website_rodextrip_error.handler400'
-handler403 = 'tt_website_rodextrip.views.tt_website_rodextrip_error.handler403'
-handler404 = 'tt_website_rodextrip.views.tt_website_rodextrip_error.handler404'
-handler500 = 'tt_website_rodextrip.views.tt_website_rodextrip_error.handler500'
+handler400 = 'tt_website.views.tt_website_error.handler400'
+handler403 = 'tt_website.views.tt_website_error.handler403'
+handler404 = 'tt_website.views.tt_website_error.handler404'
+handler500 = 'tt_website.views.tt_website_error.handler500'

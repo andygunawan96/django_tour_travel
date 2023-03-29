@@ -15,7 +15,7 @@ from .tt_webservice import *
 from .tt_webservice_voucher_views import *
 from ..views import tt_webservice_agent_views as webservice_agent
 import time
-_logger = logging.getLogger("rodextrip_logger")
+_logger = logging.getLogger("website_logger")
 
 month = {
     'Jan': '01',
@@ -93,7 +93,7 @@ def login(request):
             "action": "signin",
             "signature": ''
         }
-
+        user_global, password_global, api_key = get_credential(request)
         data = {
             "user": user_global,
             "password": password_global,
@@ -135,18 +135,18 @@ def get_carriers(request):
         }
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
-    file = read_cache("get_event_carriers", 'cache_web')
+    file = read_cache("get_event_carriers", 'cache_web', request)
     if not file:
         url_request = url + 'content'
         res = send_request_api(request, url_request, headers, data, 'POST')
         try:
             if res['result']['error_code'] == 0:
                 res = res['result']['response']
-                write_cache(res, "get_event_carriers", 'cache_web')
+                write_cache(res, "get_event_carriers", request, 'cache_web')
                 _logger.info("get_carriers EVENT RENEW SUCCESS SIGNATURE " + request.POST['signature'])
             else:
                 try:
-                    file = read_cache("get_event_carriers", 'cache_web', 90911)
+                    file = read_cache("get_event_carriers", 'cache_web', request, 90911)
                     if file:
                         res = file
                     _logger.info("get_carriers EVENT ERROR USE CACHE SIGNATURE " + request.POST['signature'])
@@ -156,7 +156,7 @@ def get_carriers(request):
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
-            file = read_cache("get_event_carriers", 'cache_web', 90911)
+            file = read_cache("get_event_carriers", 'cache_web', request, 90911)
             res = file
         except Exception as e:
             _logger.error('ERROR get_event_carriers file\n' + str(e) + '\n' + traceback.format_exc())
@@ -172,19 +172,19 @@ def get_config(request):
             "action": "get_config",
             "signature": request.POST['signature']
         }
-        file = read_cache("event_cache_data", 'cache_web', 86400)
+        file = read_cache("event_cache_data", 'cache_web', request, 86400)
         # TODO VIN: Some Update Mekanisme ontime misal ada perubahan data dkk
         if not file:
             url_request = url + 'booking/event'
             res = send_request_api(request, url_request, headers, data, 'POST', 300)
             try:
                 if res['result']['error_code'] == 0:
-                    write_cache(res['result']['response'], "event_cache_data", 'cache_web')
+                    write_cache(res['result']['response'], "event_cache_data", request, 'cache_web')
             except Exception as e:
                 _logger.info(
                     "ERROR GET CACHE FROM EVENT SEARCH AUTOCOMPLETE" + json.dumps(res) + '\n' + str(
                         e) + '\n' + traceback.format_exc())
-                file = read_cache("event_cache_data", 'cache_web', 86400)
+                file = read_cache("event_cache_data", 'cache_web', request, 86400)
                 if file:
                     response = file
                     res = {
@@ -231,7 +231,7 @@ def get_auto_complete(request):
     req = request.POST
     record_json = []
     try:
-        file = read_cache("hotel_cache_data", 'cache_web', 90911)
+        file = read_cache("hotel_cache_data", 'cache_web', request, 90911)
         if file:
             record_cache = file
 
@@ -253,7 +253,7 @@ def get_auto_complete(request):
 
 def search(request):
     try:
-        response = get_cache_data()
+        response = get_cache_data(request)
         data = {
             'event_name': request.POST.get('event_name') and request.POST['event_name'].split(' - ')[0] or '',
             'vendor': request.POST.get('vendor') or '',
@@ -357,15 +357,10 @@ def extra_question(request):
 def create_booking(request):
     try:
         passenger = []
-        response = get_cache_data()
+        response = get_cache_data(request)
         for pax_type in request.session['event_review_pax']:
             if pax_type != 'contact' and pax_type != 'booker':
                 for pax in request.session['event_review_pax'][pax_type]:
-                    if pax['nationality_name'] != '':
-                        for country in response['result']['response']['airline']['country']:
-                            if pax['nationality_name'] == country['name']:
-                                pax['nationality_code'] = country['code']
-                                break
                     try:
                         pax.update({
                             'birth_date': '%s-%s-%s' % (
@@ -377,17 +372,6 @@ def create_booking(request):
                     passenger.append(pax)
         booker = request.session['event_review_pax']['booker']
         contacts = request.session['event_review_pax']['contact']
-        for country in response['result']['response']['airline']['country']:
-            if booker['nationality_name'] == country['name']:
-                booker['nationality_code'] = country['code']
-                booker['country_code'] = country['code']
-                break
-
-        for pax in contacts:
-            for country in response['result']['response']['airline']['country']:
-                if pax['nationality_name'] == country['name']:
-                    pax['nationality_code'] = country['code']
-                    break
         event_option_codes = []
         for i in request.session['event_option_code' + request.POST['signature']]:
             event_option_codes.append({
@@ -483,7 +467,6 @@ def get_booking(request):
 
 def issued_booking(request):
     try:
-        javascript_version = get_cache_version()
         # payment
         if request.POST['member'] == 'non_member':
             member = False

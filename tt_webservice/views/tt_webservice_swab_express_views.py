@@ -15,7 +15,7 @@ from .tt_webservice import *
 from .tt_webservice_voucher_views import *
 from ..views import tt_webservice_agent_views as webservice_agent
 import time
-_logger = logging.getLogger("rodextrip_logger")
+_logger = logging.getLogger("website_logger")
 
 month = {
     'Jan': '01',
@@ -109,7 +109,7 @@ def login(request):
             "action": "signin",
             "signature": ''
         }
-
+        user_global, password_global, api_key = get_credential(request)
         data = {
             "user": user_global,
             "password": password_global,
@@ -170,7 +170,7 @@ def get_config(request):
                 "signature": request.data['signature']
             }
 
-        file = read_cache("swab_express_cache_data", 'cache_web', 86400)
+        file = read_cache("swab_express_cache_data", 'cache_web', request, 86400)
         # TODO VIN: Some Update Mekanisme ontime misal ada perubahan data dkk
         if not file:
             url_request = url + additional_url
@@ -179,10 +179,10 @@ def get_config(request):
                 if res['result']['error_code'] == 0:
                     headers['action'] = 'get_provider_list'
                     # res_provider = send_request_api(request, url_request, headers, data, 'POST')
-                    write_cache(res, "swab_express_cache_data", 'cache_web')
+                    write_cache(res, "swab_express_cache_data", request, 'cache_web')
             except Exception as e:
                 _logger.info("ERROR GET CACHE swab_express " + json.dumps(res) + '\n' + str(e) + '\n' + traceback.format_exc())
-                file = read_cache("swab_express_cache_data", 'cache_web', 86400)
+                file = read_cache("swab_express_cache_data", 'cache_web', request, 86400)
                 if file:
                     res = file
 
@@ -279,28 +279,8 @@ def commit_booking(request):
         elif request.session.get('vendor_%s' % request.POST['signature']):
             data['provider'] = request.session['vendor_%s' % request.POST['signature']]
 
-        response = get_cache_data()
-
-        for country in response['result']['response']['airline']['country']:
-            if data['booker']['nationality_name'] == country['name']:
-                data['booker']['nationality_code'] = country['code']
-                break
-
-        for pax in data['contacts']:
-            for country in response['result']['response']['airline']['country']:
-                if pax['nationality_name'] == country['name']:
-                    pax['nationality_code'] = country['code']
-                    break
         for rec in data['passengers']:
             rec['birth_date'] = '%s-%s-%s' % (rec['birth_date'].split(' ')[2], month[rec['birth_date'].split(' ')[1]], rec['birth_date'].split(' ')[0])
-            for country in response['result']['response']['airline']['country']:
-                if rec['nationality_name'] == country['name']:
-                    rec['nationality_code'] = country['code']
-                    break
-            for country in response['result']['response']['airline']['country']:
-                if rec['identity']['identity_country_of_issued_name'] == country['name']:
-                    rec['identity']['identity_country_of_issued_code'] = country['code']
-                    break
 
         try:
             if bool(int(request.POST['force_issued'])) == True:
@@ -378,7 +358,7 @@ def get_booking(request):
     url_request = url + additional_url
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
-        response = get_cache_data()
+        response = get_cache_data(request)
         if res['result']['error_code'] == 0:
             try:
                 res['result']['response']['can_issued'] = False
@@ -599,7 +579,7 @@ def get_transaction_by_analyst(request):
 def get_data_cache_passenger_swab_express(request):
     try:
         res = request.session['swab_express_passenger_cache']
-        response = get_cache_data()
+        response = get_cache_data(request)
         for rec in res:
             for country in response['result']['response']['airline']['country']:
                 if rec['nationality_code'] == country['code']:
@@ -640,7 +620,7 @@ def save_backend(request):
         }
 
         data = json.loads(request.POST['request'])
-        response = get_cache_data()
+        response = get_cache_data(request)
         res = request.session['swab_express_passenger_cache']
         for idx, rec in enumerate(data['passengers']):
             rec['birth_date'] = '%s-%s-%s' % (rec['birth_date'].split(' ')[2], month[rec['birth_date'].split(' ')[1]], rec['birth_date'].split(' ')[0])
@@ -692,7 +672,7 @@ def verify_data(request):
 
         data = json.loads(request.POST['request'])
 
-        response = get_cache_data()
+        response = get_cache_data(request)
 
         res = request.session['swab_express_passenger_cache']
         for idx, rec in enumerate(data['passengers']):
@@ -816,7 +796,7 @@ def page_passenger(request):
         res = {
             'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
         }
-        response = get_cache_data()
+        response = get_cache_data(request)
         res['countries'] = response['result']['response']['airline']['country']
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())

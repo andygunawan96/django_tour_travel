@@ -1,0 +1,66 @@
+{% extends 'tt_website/template_website_booking.html' %}
+{% load i18n %}
+{% load static from staticfiles %}
+{% block content %}
+<script src="{{ static_path }}js/webservice_token.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_account.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_airline.js?version={{javascript_version}}"></script>
+<script>
+    signin_rodextrip();
+    signature = `{{signature}}`;
+</script>
+
+<style>
+    .div_chat {
+        font-family: "Courier New", Courier, monospace;
+    }
+</style>
+<title>{{name}} - Payment {{provider}}</title>
+
+{% if username.co_user_login != '' %}
+{% include 'tt_website/logout.html' %}
+{% endif %}
+{% include 'tt_website/header.html' %}
+{% include 'tt_website/loading_screen.html' %}
+{% include 'tt_website/waiting_transaction_modal.html' %}
+<section class="destinations-area" style="padding-top:30px; padding-bottom:40px; background:#f7f7f7;">
+    <div class="container">
+        <div class="col-lg-12 div_chat" id="chat" style="height:50vh;border: groove;border-color: black;overflow: auto;" >
+
+        </div>
+        <div id="div_chat_user" style="height:25vh;margin-top:10px;">
+            <div id="radio_airline_change_search" style="padding:0px; text-align:left;">
+                <label class="radio-button-custom">
+                    <span style="font-size:14px; color:{{color}};">Amadeus</span>
+                    <input type="radio" checked="checked" name="provider" id="provider" value="amadeus">
+                    <span class="checkmark-radio"></span>
+                </label>
+                <label class="radio-button-custom">
+                    <span style="font-size:14px; color:{{color}};">Altea</span>
+                    <input type="radio" name="provider" id="provider" value="altea">
+                    <span class="checkmark-radio"></span>
+                </label>
+            </div>
+            <textarea style="width:100%;" rows="4" id="message"></textarea>
+            <div>
+               <input type="button" id="send_command" class="btn-next primary-btn-ticket ld-ext-right" onclick="command_cryptic();" value="Send" style="width:100%;"/>
+           </div>
+        </div>
+    </div>
+</section>
+{% include 'tt_website/footer.html' %}
+<script>
+    document.getElementById("message").addEventListener("keyup", function(event) {
+      // Number 13 is the "Enter" key on the keyboard
+      if (event.keyCode === 13) {
+        // Cancel the default action, if needed
+        event.preventDefault();
+        // Trigger the button element with a click
+        document.getElementById("send_command").click();
+      }
+    });
+    counter = 0;
+</script>
+{% endblock %}

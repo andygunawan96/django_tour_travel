@@ -1,0 +1,754 @@
+{% load i18n %}
+
+<style>
+    [data-tooltip]:before {
+        /* needed - do not touch */
+        content: attr(data-tooltip);
+        position: absolute;
+        opacity: 0;
+
+        /* customizable */
+        transition: all 0.15s ease;
+        padding: 10px;
+        color: #333;
+        border-radius: 10px;
+        box-shadow: 2px 2px 1px #cdcdcd;
+    }
+
+    [data-tooltip]:hover:before {
+        /* needed - do not touch */
+        opacity: 1;
+
+        /* customizable */
+        background: {{color}};
+        color: {{text_color}};
+        margin-top: -50px;
+        margin-left: 20px;
+        text-align:left;
+        z-index:10000;
+    }
+
+    [data-tooltip]:not([data-tooltip-persistent]):before {
+        pointer-events: none;
+    }
+    .tooltip-inner {
+        white-space: pre-line;
+    }
+
+</style>
+
+{% include 'tt_website/waiting_transaction_modal.html' %}
+<!--<button type="button" style="background-color:{{color}};" id="get_booking_b2c" class="mystickybookingvendor" class="primary-btn" data-toggle="modal" data-target="#myModalPluginGetBookingB2C">-->
+<!--    <i class="fas fa-file"></i>-->
+<!--</button>-->
+<button type="button" style="background-color:{{color}};" id="get_booking_b2c" class="mystickybookingvendor getbooking-slide-toggle" onclick="on_off_overlay_bar('box-getbooking', 'overlay_box_getbooking');">
+    <i class="fas fa-file"></i>
+</button>
+
+<script>
+    document.getElementById('get_booking_b2c').style.bottom = JSON.parse(JSON.stringify(bottom.toString())) + 'px';
+    bottom+=60;
+    var_toggle_forget_booking = false;
+</script>
+
+<div class="box-getbooking">
+    <div class="overlay_box_getbooking" style="display:none;" onclick="on_off_overlay_bar('box-getbooking', 'overlay_box_getbooking')"></div>
+    <div class="box-getbooking-inner" id="passenger_input">
+        <form action="" class="form-wrap" style="text-align:left;" method="POST" id="form_get_booking_b2c" enctype="multipart/form-data">
+            <div class="row" style="background:white; position:sticky; padding-top:25px; z-index:1000; top:0px;">
+                <div class="col-xs-7">
+                    <h5 style="color:black; font-size:16px;"><i class="fas fa-file"></i> GET BOOKING</h5>
+                </div>
+                <div class="col-xs-5" style="text-align:right;">
+                    <i class="fas fa-times text_btn_custom" style="font-size:24px; font-weight:bold;" onclick="on_off_overlay_bar('box-getbooking', 'overlay_box_getbooking');"></i>
+                </div>
+                <div class="col-xs-12">
+                    <hr/>
+                </div>
+                <div class="col-xs-12">
+                    <div class="row" id="button_top_getbooking">
+
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-3" style="background:#f7f7f7;">
+                <div class="col-lg-12" style="padding:15px;">
+                    <div class="row" id="div_search_get_booking">
+                    {%if template == 1%}
+                        <div class="col-lg-12" style="margin-bottom:15px;">
+                            <label style="color:red">*</label>
+                            <label>{% trans 'Product' %}</label>
+                            <select class="form-control js-example-basic-single" name="product" style="width:100%;" id="product" onchange="change_product();" class="nice-select-default">
+                                {% for rec in provider_types_sequence %}
+                                {% if rec.code == 'airline' or rec.code == 'hotel' or rec.code == 'train' or rec.code == 'phc' %}
+                                <option value="{{rec.code}}" {%if rec.code == 'airline'%} selected{% endif %}>{{rec.name}}</option>
+                                {% endif %}
+                                {% endfor%}
+                            </select>
+                        </div>
+                        <div class="col-lg-12" style="margin-bottom:15px;">
+                            <div id="booking_id">
+
+                            </div>
+                            <span style="font-size:12px; padding:0;" id="example_booking_id">{% trans 'Example' %}: AL.2000002000</span>
+                        </div>
+                        <div class="col-lg-12" id="booking_id_hidden" style="display:none; margin-bottom:15px;">
+
+                        </div>
+                        <div class="col-lg-12" style="margin-bottom:15px;">
+                            <div id="departure_get_booking_b2c"></div>
+                        </div>
+                        <div class="col-lg-12" id="phone_number_get_booking_b2c" style="margin-bottom:15px;">
+                        <label style="color:red">*</label>
+                        <label>{% trans 'Phone Number' %}</label>
+                        <div class="row">
+                            <div class="col-xs-5">
+                                <div class="form-select">
+                                    <select class="form-control js-example-basic-single" name="phone_code_id" style="width:100%;" id="phone_code_id" onchange="auto_complete('phone_code');" class="nice-select-default">
+                                        {% for phone in phone_code %}
+                                        <option value="{{phone}}" {% if phone == 62%} selected {%endif%}>{{phone}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-xs-7">
+                                <input type="text" class="form-control" name="phone" id="phone" placeholder="{% trans 'Phone Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '" onchange="change_booker_value('airline');">
+                            </div>
+
+                        </div>
+                    </div>
+                    {% elif template == 2 %}
+                        <div class="col-lg-12" style="margin-bottom:15px;">
+                            <label style="color:red">*</label>
+                            <label>{% trans 'Product' %}</label>
+                            <div class="form-select">
+                                <select class="form-control js-example-basic-single" name="product" style="width:100%;" id="product" onchange="change_product();" class="nice-select-default">
+                                    {% for rec in provider_types_sequence %}
+                                    {% if rec.code == 'airline' or rec.code == 'hotel' or rec.code == 'train' %}
+                                    <option value="{{rec.code}}" {%if rec.code == 'airline'%} selected{% endif %}>{{rec.name}}</option>
+                                    {% endif %}
+                                    {% endfor%}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-12" style="margin-bottom:15px;">
+                            <div id="booking_id">
+
+                            </div>
+                            <span style="font-size:12px; padding:0;" id="example_booking_id">{% trans 'Example' %}: AL.2000002000</span>
+                        </div>
+                        <div class="col-lg-12" style="margin-bottom:15px;" id="booking_id_hidden">
+
+                        </div>
+                        <div class="col-lg-12" style="margin-bottom:15px;">
+                            <div id="departure_get_booking_b2c"></div>
+                        </div>
+                        <div class="col-lg-12" style="margin-bottom:15px;" id="phone_number_get_booking_b2c">
+                            <label style="color:red">*</label>
+                            <label>{% trans 'Phone Number' %}</label>
+                            <div class="row">
+                                <div class="col-xs-5 mb-2">
+                                    <div class="form-select">
+                                        <select class="form-control js-example-basic-single" name="phone_code_id" style="width:100%;" id="phone_code_id" onchange="auto_complete('phone_code');" class="nice-select-default">
+                                            {% for phone in phone_code %}
+                                            <option value="{{phone}}" {% if phone == 62%} selected {%endif%}>{{phone}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-xs-7">
+                                    <input type="text" class="form-control" name="phone" id="phone" placeholder="{% trans 'Phone Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '" onchange="change_booker_value('airline');">
+                                </div>
+
+                            </div>
+                        </div>
+                    {% elif template == 3 %}
+                        <div class="col-lg-12" style="margin-bottom:15px;">
+                            <label style="color:red">*</label>
+                            <label>{% trans 'Product' %}</label>
+                            <div class="form-select">
+                                <select class="form-control js-example-basic-single" name="product" style="width:100%;" id="product" onchange="change_product();" class="nice-select-default">
+                                    {% for rec in provider_types_sequence %}
+                                    {% if rec.code == 'airline' or rec.code == 'hotel' or rec.code == 'train' %}
+                                    <option value="{{rec.code}}" {%if rec.code == 'airline'%} selected{% endif %}>{{rec.name}}</option>
+                                    {% endif %}
+                                    {% endfor%}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-12" style="margin-bottom:15px;">
+                            <div id="booking_id">
+
+                            </div>
+                            <span style="font-size:12px; padding:0;" id="example_booking_id">{% trans 'Example' %}: AL.2000002000</span>
+                        </div>
+                        <div class="col-lg-12" style="margin-bottom:15px;" id="booking_id_hidden">
+
+                        </div>
+                        <div class="col-lg-12" style="margin-bottom:15px;">
+                            <div id="departure_get_booking_b2c"></div>
+                        </div>
+                        <div class="col-lg-12" style="margin-bottom:15px;" id="phone_number_get_booking_b2c">
+                            <label style="color:red">*</label>
+                            <label>{% trans 'Phone Number' %}</label>
+                            <div class="row">
+                                <div class="col-xs-5">
+                                    <div class="form-select">
+                                        <select class="form-control js-example-basic-single" name="phone_code_id" style="width:100%;" id="phone_code_id" onchange="auto_complete('phone_code');" class="nice-select-default">
+                                            {% for phone in phone_code %}
+                                            <option value="{{phone}}" {% if phone == 62%} selected {%endif%}>{{phone}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-xs-7">
+                                    <input type="text" class="form-control" name="phone" id="phone" placeholder="{% trans 'Phone Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '" onchange="change_booker_value('airline');">
+                                </div>
+
+                            </div>
+                        </div>
+                    {% elif template == 4 %}
+                        <div class="col-lg-12" style="margin-bottom:15px;">
+                            <label style="color:red">*</label>
+                            <label>{% trans 'Product' %}</label>
+                            <div class="form-select">
+                                <select class="form-control js-example-basic-single" name="product" style="width:100%;" id="product" onchange="change_product();" class="nice-select-default">
+                                    {% for rec in provider_types_sequence %}
+                                    {% if rec.code == 'airline' or rec.code == 'hotel' or rec.code == 'train' %}
+                                    <option value="{{rec.code}}" {%if rec.code == 'airline'%} selected{% endif %}>{{rec.name}}</option>
+                                    {% endif %}
+                                    {% endfor%}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-12" style="margin-bottom:15px;">
+                            <div id="booking_id">
+
+                            </div>
+                            <span style="font-size:12px; padding:0;" id="example_booking_id">{% trans 'Example' %}: AL.2000002000</span>
+                        </div>
+                        <div class="col-lg-12" style="margin-bottom:15px;" id="booking_id_hidden">
+
+                        </div>
+                        <div class="col-lg-12" style="margin-bottom:15px;">
+                            <div id="departure_get_booking_b2c"></div>
+                        </div>
+                        <div class="col-lg-12" style="margin-bottom:15px;" id="phone_number_get_booking_b2c">
+                            <label style="color:red">*</label>
+                            <label>{% trans 'Phone Number' %}</label>
+                            <div class="row">
+                                <div class="col-xs-5">
+                                    <div class="form-select">
+                                        <select class="form-control js-example-basic-single" name="phone_code_id" style="width:100%;" id="phone_code_id" onchange="auto_complete('phone_code');" class="nice-select-default">
+                                            {% for phone in phone_code %}
+                                            <option value="{{phone}}" {% if phone == 62%} selected {%endif%}>{{phone}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-xs-7">
+                                    <input type="text" class="form-control" name="phone" id="phone" placeholder="{% trans 'Phone Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '" onchange="change_booker_value('airline');">
+                                </div>
+                            </div>
+                        </div>
+                    {% elif template == 5 %}
+                        <div class="col-lg-12" style="margin-bottom:15px;">
+                            <label style="color:red">*</label>
+                            <label>{% trans 'Product' %}</label>
+                            <div class="form-select">
+                                <select class="form-control js-example-basic-single" name="product" style="width:100%;" id="product" onchange="change_product();" class="nice-select-default">
+                                    {% for rec in provider_types_sequence %}
+                                    {% if rec.code == 'airline' or rec.code == 'hotel' or rec.name == 'train' %}
+                                    <option value="{{rec.code}}" {%if rec.code == 'airline'%} selected{% endif %}>{{rec.name}}</option>
+                                    {% endif %}
+                                    {% endfor%}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-12" style="margin-bottom:15px;">
+                            <div id="booking_id">
+
+                            </div>
+                            <span style="font-size:12px; padding:0;" id="example_booking_id">{% trans 'Example' %}: AL.2000002000</span>
+                        </div>
+                        <div class="col-lg-12" id="booking_id_hidden" style="margin-bottom:15px;">
+
+                        </div>
+                        <div class="col-lg-12">
+                            <div id="departure_get_booking_b2c"></div>
+                        </div>
+                        <div class="col-lg-12" style="margin-bottom:15px;" id="phone_number_get_booking_b2c">
+                            <label style="color:red">*</label>
+                            <label>{% trans 'Phone Number' %}</label>
+                            <div class="row">
+                                <div class="col-xs-5">
+                                    <div class="form-select">
+                                        <select class="form-control js-example-basic-single" name="phone_code_id" style="width:100%;" id="phone_code_id" onchange="auto_complete('phone_code');" class="nice-select-default">
+                                            {% for phone in phone_code %}
+                                            <option value="{{phone}}" {% if phone == 62%} selected {%endif%}>{{phone}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-xs-7">
+                                    <input type="text" class="form-control" name="phone" id="phone" placeholder="{% trans 'Phone Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '" onchange="change_booker_value('airline');">
+                                </div>
+                            </div>
+                        </div>
+                    {% elif template == 6 %}
+                        <div class="col-lg-12" style="margin-bottom:15px;">
+                            <label style="color:red">*</label>
+                            <label>{% trans 'Product' %}</label>
+                            <div class="form-select">
+                                <select class="form-control js-example-basic-single" name="product" style="width:100%;" id="product" onchange="change_product();" class="nice-select-default">
+                                    {% for rec in provider_types_sequence %}
+                                    {% if rec.code == 'airline' or rec.code == 'hotel' or rec.code == 'train' %}
+                                    <option value="{{rec.code}}" {%if rec.code == 'airline'%} selected{% endif %}>{{rec.name}}</option>
+                                    {% endif %}
+                                    {% endfor%}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-12" style="margin-bottom:15px;">
+                            <div id="booking_id">
+
+                            </div>
+                            <span style="font-size:12px; padding:0;" id="example_booking_id">{% trans 'Example' %}: AL.2000002000</span>
+                        </div>
+                        <div class="col-lg-12" style="margin-bottom:15px;" id="booking_id_hidden">
+
+                        </div>
+                        <div class="col-lg-12" style="margin-bottom:15px;">
+                            <div id="departure_get_booking_b2c"></div>
+                        </div>
+                        <div class="col-lg-12" style="margin-bottom:15px;" id="phone_number_get_booking_b2c">
+                            <label style="color:red">*</label>
+                            <label>{% trans 'Phone Number' %}</label>
+                            <div class="row">
+                                <div class="col-xs-5">
+                                    <div class="form-select">
+                                        <select class="form-control js-example-basic-single" name="phone_code_id" style="width:100%;" id="phone_code_id" onchange="auto_complete('phone_code');" class="nice-select-default">
+                                            {% for phone in phone_code %}
+                                            <option value="{{phone}}" {% if phone == 62%} selected {%endif%}>{{phone}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-xs-7">
+                                    <input type="text" class="form-control" name="phone" id="phone" placeholder="{% trans 'Phone Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '" onchange="change_booker_value('airline');">
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                        <div class="col-lg-12 mb-2" style="text-align:left;">
+                            <a id="toggle_forget" style="cursor:pointer" onclick="toggle_forget_booking();">{% trans 'Forget Order Number'%}</a>
+                        </div>
+
+                        <div class="col-lg-12 mb-3" style="text-align:left;">
+                            <input type="button" id="get_booking" class="primary-btn btn-next ld-ext-right" onclick="check_booking();" value="Check Booking" style="width:100%;"/>
+                        </div>
+                    </div>
+
+                    <div class="row" id="div_result_get_booking" style="display:none;">
+                        <div class="col-lg-12 mb-3">
+                            <h6>Result Booking</h6>
+                        </div>
+                        <div class="col-lg-12" style="margin-top:5px;" id="result_get_booking">
+                            <h6>No booking found! Please check booking first!</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function toggle_forget_booking(){
+        var_toggle_forget_booking = !var_toggle_forget_booking;
+        toggle_forget_view();
+    }
+
+    function toggle_forget_view(){
+        var product = document.getElementById('product').value;
+        if(var_toggle_forget_booking == false){
+            document.getElementById('toggle_forget').innerHTML = 'Forget Order Number?';
+            document.getElementById('example_booking_id').hidden = false;
+            document.getElementById('booking_id').innerHTML = `
+                <label style="color:red">*</label>
+                <label>{% trans 'Order Number (ref. Number)' %}</label>
+                <div class="input-container-search-ticket">
+                    <input type="text" class="form-control" name="order_number_b2c" id="order_number_b2c" placeholder="{% trans 'Order Number (ref. Number)' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Booking ID (ref. Number)'" style="margin-bottom:0px;">
+                </div>`;
+            document.getElementById('booking_id_hidden').innerHTML = '';
+            document.getElementById('booking_id_hidden').style.display = "none";
+            if(product == 'airline' || product == 'train'){
+                document.getElementById('departure_get_booking_b2c').innerHTML = `<label style="color:red">*</label>
+                                        <label>{% trans 'Departure Date' %}</label>
+                                        <div class="input-container-search-ticket">
+                                            <input type="text" class="form-control" style="background:white; margin-bottom:5px;" name="departure" id="departure" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
+                                        </div>`;
+                $('input[name="departure"]').daterangepicker({
+                    parentEl: "#form_get_booking_b2c",
+                    singleDatePicker: true,
+                    autoUpdateInput: true,
+                    startDate: moment(),
+                    minDate: moment(),
+                    maxDate: moment().subtract(-1, 'years'),
+                    showDropdowns: true,
+                    opens: 'center',
+                    locale: {
+                        format: 'DD MMM YYYY',
+                    }
+                });
+                $('input[name="departure"]').val("");
+            }else if(product == 'hotel'){
+                document.getElementById('departure_get_booking_b2c').innerHTML = `<label style="color:red">*</label>
+                                        <label>{% trans 'Check In' %}</label>
+                                        <div class="input-container-search-ticket">
+                                            <input type="text" class="form-control" style="background:white; margin-bottom:5px;" name="departure" id="departure" placeholder="{% trans 'Check in date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check in date '" autocomplete="off" readonly>
+                                        </div>`;
+                $('input[name="departure"]').daterangepicker({
+                    parentEl: "#form_get_booking_b2c",
+                    singleDatePicker: true,
+                    autoUpdateInput: true,
+                    startDate: moment(),
+                    minDate: moment(),
+                    maxDate: moment().subtract(-1, 'years'),
+                    showDropdowns: true,
+                    opens: 'center',
+                    locale: {
+                        format: 'DD MMM YYYY',
+                    }
+                });
+                $('input[name="departure"]').val("");
+            }else if(product == 'phc'){
+                document.getElementById('departure_get_booking_b2c').innerHTML = `
+                    <label style="color:red" hidden>*</label>
+                    <label hidden>{% trans 'Departure Date' %}</label>
+                    <div class="input-container-search-ticket" hidden>
+                        <input type="text" class="form-control" style="background:white;" name="departure" id="departure" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
+                    </div>`;
+            }else{
+                document.getElementById('departure_get_booking_b2c').innerHTML = '';
+            }
+        }else{
+            document.getElementById('toggle_forget').innerHTML = 'Remember Order Number?';
+            document.getElementById('example_booking_id').hidden = true;
+            if(product == 'airline' || product == 'train'){
+                document.getElementById('booking_id').innerHTML = `
+                <label style="color:red">*</label>
+                <label>{% trans 'Origin' %}</label>
+                <div class="input-container-search-ticket">
+                    <input id="origin_b2c" name="origin_b2c" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0; margin-bottom:0px;" autocomplete="off" value="" onfocus="document.getElementById('origin_b2c').select();" onclick="set_airline_search_value_to_false();" autocomplete="off">
+                </div>`;
+                document.getElementById('booking_id_hidden').innerHTML = `
+                <label style="color:red">*</label>
+                <label>{% trans 'Destination' %}</label>
+                <div class="input-container-search-ticket">
+                    <input id="destination_b2c" name="destination_b2c" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0; margin-bottom:0px;" autocomplete="off" value="" onfocus="document.getElementById('destination_b2c').select();" onclick="set_airline_search_value_to_false();">
+                </div>`;
+                document.getElementById('booking_id_hidden').style.display = "block";
+                if(product == 'airline'){
+                    var b2c_origin = new autoComplete({
+                        selector: '#origin_b2c',
+                        minChars: 1,
+                        cache: false,
+                        delay:0,
+                        source: function(term, suggest){
+                            if(term.split(' - ').length == 4)
+                                    term = ''
+                            if(term.length > 1)
+                                suggest(airline_search_autocomplete(term));
+                        },
+                        onSelect: function(e, term, item){
+                            set_airline_search_value_to_true();
+                        }
+                    });
+                    var b2c_destination = new autoComplete({
+                        selector: '#destination_b2c',
+                        minChars: 0,
+                        cache: false,
+                        delay:0,
+                        source: function(term, suggest){
+                            if(term.split(' - ').length == 4)
+                                term = ''
+                            if(term.length > 1)
+                                suggest(airline_search_autocomplete(term));
+                        },
+                        onSelect: function(e, term, item){
+                            set_airline_search_value_to_true();
+                        }
+                    });
+                }else{
+                    var b2c_origin = new autoComplete({
+                        selector: '#origin_b2c',
+                        minChars: 1,
+                        cache: false,
+                        delay:0,
+                        source: function(term, suggest){
+                            if(term.split(' - ').length == 2)
+                                    term = ''
+                            if(term.length > 1)
+                                suggest(train_search_autocomplete(term));
+                        },
+                        onSelect: function(e, term, item){
+                            set_train_search_value_to_true();
+                        }
+                    });
+                    var b2c_destination = new autoComplete({
+                        selector: '#destination_b2c',
+                        minChars: 0,
+                        cache: false,
+                        delay:0,
+                        source: function(term, suggest){
+                            if(term.split(' - ').length == 4)
+                                term = ''
+                            if(term.length > 1)
+                                suggest(train_search_autocomplete(term));
+                        },
+                        onSelect: function(e, term, item){
+                            set_train_search_value_to_true();
+                        }
+                    });
+                }
+            }else if(product == 'hotel'){
+                document.getElementById('booking_id').innerHTML = `
+                <label style="color:red">*</label>
+                <label>{% trans 'City' %}</label>
+                <div class="input-container-search-ticket">
+                    <div class="form-select">
+                        <input id="city_b2c" name="city_b2c" class="form-control" type="text" placeholder="{% trans 'City' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" >
+                    </div>
+                </div>`;
+            }
+        }
+    }
+
+    function change_product(){
+        if(var_toggle_forget_booking == false){
+            var code_type = '';
+            if(document.getElementById('product').value == 'phc'){
+                code_type = 'PH';
+                document.getElementById('phone_number_get_booking_b2c').style.display = 'none';
+            }else if(document.getElementById('product').value == 'airline'){
+                code_type = 'AL';
+                document.getElementById('phone_number_get_booking_b2c').style.display = 'block';
+            }else if(document.getElementById('product').value == 'hotel'){
+                code_type = 'RESV';
+                document.getElementById('phone_number_get_booking_b2c').style.display = 'block';
+            }else if(document.getElementById('product').value == 'train'){
+                code_type = 'TN';
+                document.getElementById('phone_number_get_booking_b2c').style.display = 'block';
+            }
+            document.getElementById('example_booking_id').innerHTML = 'Example ' + code_type + '.2000002000';
+            document.getElementById('example_booking_id').hidden = false;
+        }else{
+                document.getElementById('example_booking_id').hidden = true;
+        }
+        if(document.getElementById('product').value == 'phc'){
+            document.getElementById('toggle_forget').hidden = true;
+        }else{
+            document.getElementById('toggle_forget').hidden = false;
+        }
+        var_toggle_forget_booking = false;
+        toggle_forget_view();
+    }
+
+    function check_booking(){
+        if(var_toggle_forget_booking == false &&
+           document.getElementById('product').value != '' &&
+           document.getElementById('phone').value != '' &&
+           document.getElementById('order_number_b2c').value != '' &&
+           document.getElementById('order_number_b2c').value != '' &&
+           document.getElementById('departure').value != ''
+            ||
+           var_toggle_forget_booking == true &&
+           document.getElementById('product').value == 'airline' &&
+           document.getElementById('phone').value != '' &&
+           document.getElementById('origin_b2c').value != '' &&
+           document.getElementById('destination_b2c').value != '' &&
+           document.getElementById('departure').value != ''
+            ||
+           var_toggle_forget_booking == true &&
+           document.getElementById('product').value == 'train' &&
+           document.getElementById('phone').value != '' &&
+           document.getElementById('origin_b2c').value != '' &&
+           document.getElementById('destination_b2c').value != '' &&
+           document.getElementById('departure').value != ''
+            ||
+           var_toggle_forget_booking == true &&
+           document.getElementById('product').value == 'hotel' &&
+           document.getElementById('phone').value != '' &&
+           document.getElementById('city_b2c').value != '' &&
+           document.getElementById('departure').value != ''){
+            var product = document.getElementById('product').value;
+            get_booking_product(product);
+        }else if(var_toggle_forget_booking == false &&
+           document.getElementById('product').value != '' &&
+           document.getElementById('phone').value != '' &&
+           document.getElementById('order_number_b2c').value != ''){
+            var product = document.getElementById('product').value;
+            get_booking_product(product);
+        }else if(var_toggle_forget_booking == false &&
+           document.getElementById('product').value == 'phc' &&
+           document.getElementById('order_number_b2c').value != ''){
+            var product = document.getElementById('product').value;
+            get_booking_product(product);
+        }else{
+            error_log = '';
+            if(document.getElementById('product').value == '')
+                error_log += 'Please choose product<br/>';
+            if(document.getElementById('phone').value == '')
+                error_log += 'Please input phone number<br/>';
+
+            if(var_toggle_forget_booking == false){
+                if(document.getElementById('order_number_b2c').value == '')
+                    error_log += 'Please input order number<br/>';
+                if(product == 'airline' || product == 'train'){
+                    if(document.getElementById('departure').value == '')
+                        error_log += 'Please input departure date<br/>';
+                }else if(product == 'hotel'){
+                    if(document.getElementById('departure').value == '')
+                        error_log += 'Please input check in date<br/>';
+                }
+            }else{
+                var product = document.getElementById('product').value;
+                if(product == 'airline' || product == 'train'){
+                    if(document.getElementById('origin_b2c').value == '')
+                        error_log += 'Please input Origin<br/>';
+                    if(document.getElementById('destination_b2c').value == '')
+                        error_log += 'Please input Destination<br/>';
+                    if(document.getElementById('departure').value == '')
+                        error_log += 'Please input departure date<br/>';
+                }else if(product == 'hotel'){
+                    if(document.getElementById('city_b2c').value == '')
+                        error_log += 'Please input City<br/>';
+                    if(document.getElementById('departure').value == '')
+                        error_log += 'Please input check in date<br/>';
+                }
+            }
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: error_log,
+            })
+        }
+    }
+
+    function get_booking_product(product){
+        getToken();
+        show_loading();
+        document.getElementById('get_booking').disabled = true;
+        document.getElementById('result_get_booking').innerHTML = '';
+        data = {
+            'product': document.getElementById('product').value,
+            'date': document.getElementById('departure').value,
+            'phone_number': document.getElementById('phone_code_id').value + ' - ' + document.getElementById('phone').value,
+            'signature': signature,
+            'forget_booking': var_toggle_forget_booking
+        }
+        if(var_toggle_forget_booking == false){
+            data['order_number'] =  document.getElementById('order_number_b2c').value.replace(' ','').toUpperCase();
+        }else{
+            if(product == 'airline' || product == 'train'){
+                data['origin'] = document.getElementById('origin_b2c').value;
+                data['destination'] = document.getElementById('destination_b2c').value;
+            }else if(product == 'hotel'){
+                data['city'] = document.getElementById('city_b2c').value;
+            }
+        }
+        $.ajax({
+           type: "POST",
+           url: "/webservice/content",
+           headers:{
+                'action': 'get_booking',
+           },
+           data: {
+                data: JSON.stringify(data)
+           },
+           success: function(msg) {
+               console.log(msg);
+               if(msg.result.error_code == 0 && msg.result.response != ''){
+                    if(data['forget_booking'] == false)
+                        window.location.href = '/'+data['product']+'/booking/'+btoa(document.getElementById('order_number_b2c').value);
+                    else{
+                        if(msg.result.response.length != 0){
+                            //bikin table
+                            text = '';
+                            if(data['product'] == 'airline' || data['product'] == 'train'){
+                                for(i in msg.result.response){
+                                    text+=`
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <h6 class="single_border_custom_left" style="padding-left:10px;">`+parseInt(parseInt(i)+1)+`. `+msg.result.response[i].order_number+`</h6>
+                                            <span><b>Departure:</b> <i>`+msg.result.response[i].departure_date+`</i></span><br/>
+                                            <b>Passenger</b><br/>`;
+                                            for(j in msg.result.response[i].passengers){
+                                                text+= msg.result.response[i].passengers[j].title + ' ' + msg.result.response[i].passengers[j].name + '<br/>';
+                                            }
+                                            text+=`
+                                            <div style="text-align:right;">
+                                                <input type='button' value='See detail' class="primary-btn-custom" onclick="goto_product('`+data['product']+`','`+msg.result.response[i].order_number+`')" />
+                                            </div>
+                                            <hr/>
+                                        </div>
+                                    </div>`;
+                                }
+                            }else if(data['product'] == 'hotel'){
+                                for(i in msg.result.response){
+                                    text+=`
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <h6 class="single_border_custom_left" style="padding-left:10px;">`+parseInt(parseInt(i)+1)+`. `+msg.result.response[i].order_number+`</h6>
+                                            <span><b>Hotel:</b> <i>`+msg.result.response[i].hotel_name+`</i></span><br/>
+                                            <span><b>Check in:</b> <i>`+msg.result.response[i].checkin_date+`</i></span><br/>
+                                            <span><b>Check out:</b> <i>`+msg.result.response[i].checkout_date+`</i></span><br/>
+                                            <div style="text-align:right;">
+                                                <input type='button' value='See detail' class="primary-btn-custom" onclick="goto_product('`+data['product']+`','`+msg.result.response[i].order_number+`')" />
+                                            </div>
+                                        </div>
+                                    </div>`;
+                                }
+                            }
+
+                            document.getElementById('result_get_booking').innerHTML = text;
+
+                            document.getElementById('button_top_getbooking').innerHTML = `
+                            <div class="col-xs-6">
+                                <button type="button" class="primary-btn-white" style="width:fit-content; float:left; display:block;" id="btn_back_get_booking" onclick="next_prev_side_div('btn_back', 'btn_result', 'div_result', 'div_search', 'get_booking')">
+                                    <i class="fas fa-arrow-left"></i> Back
+                                </button>
+                            </div>
+                            <div class="col-xs-6">
+                                <button type="button" class="primary-btn" style="width:fit-content; float:right; display:none;" id="btn_result_get_booking" onclick="next_prev_side_div('btn_result', 'btn_back', 'div_search', 'div_result', 'get_booking')">
+                                    Result Booking <i class="fas fa-arrow-right"></i>
+                                </button>
+                            </div>`;
+
+                            document.getElementById('btn_result_get_booking').style.display = "none";
+                            document.getElementById('div_search_get_booking').style.display = "none";
+                            document.getElementById('div_result_get_booking').style.display = "flex";
+                        }
+                    }
+               }else{
+                   Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: "Booking not found",
+                   })
+                   document.getElementById('button_top_getbooking').innerHTML = '';
+               }
+               document.getElementById('get_booking').disabled = false;
+           },
+           error: function(XMLHttpRequest, textStatus, errorThrown) {
+                document.getElementById('get_booking').disabled = false;
+           },timeout: 60000
+        });
+    }
+
+    function goto_product(product_name,order_number){
+        window.location.href = '/'+product_name+'/booking/'+btoa(order_number);
+    }
+    change_product();
+</script>

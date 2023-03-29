@@ -15,7 +15,7 @@ from .tt_webservice import *
 from .tt_webservice_voucher_views import *
 from ..views import tt_webservice_agent_views as webservice_agent
 import time
-_logger = logging.getLogger("rodextrip_logger")
+_logger = logging.getLogger("website_logger")
 
 month = {
     'Jan': '01',
@@ -106,7 +106,7 @@ def login(request):
             "action": "signin",
             "signature": '',
         }
-
+        user_global, password_global, api_key = get_credential(request)
         data = {
             "user": user_global,
             "password": password_global,
@@ -147,18 +147,18 @@ def get_carriers(request):
         }
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
-    file = read_cache("get_visa_carriers", 'cache_web')
+    file = read_cache("get_visa_carriers", 'cache_web', request)
     if not file:
         url_request = url + 'content'
         res = send_request_api(request, url_request, headers, data, 'POST')
         try:
             if res['result']['error_code'] == 0:
                 res = res['result']['response']
-                write_cache(res, "get_visa_carriers", 'cache_web')
+                write_cache(res, "get_visa_carriers", request, 'cache_web')
                 _logger.info("get_carriers VISA RENEW SUCCESS SIGNATURE " + request.POST['signature'])
             else:
                 try:
-                    file = read_cache("get_visa_carriers", 'cache_web', 90911)
+                    file = read_cache("get_visa_carriers", 'cache_web', request, 90911)
                     if file:
                         res = file
                     _logger.info("get_carriers VISA ERROR USE CACHE SIGNATURE " + request.POST['signature'])
@@ -168,7 +168,7 @@ def get_carriers(request):
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
-            file = read_cache("get_visa_carriers", 'cache_web', 90911)
+            file = read_cache("get_visa_carriers", 'cache_web', request, 90911)
             res = file
         except Exception as e:
             _logger.error('ERROR get_hotel_carriers file\n' + str(e) + '\n' + traceback.format_exc())
@@ -188,18 +188,18 @@ def get_config_provider(request):
         }
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
-    file = read_cache("visa_provider", 'cache_web')
+    file = read_cache("visa_provider", 'cache_web', request)
     if not file:
         url_request = url + 'content'
         res = send_request_api(request, url_request, headers, data, 'POST')
         try:
             if res['result']['error_code'] == 0:
                 #datetime
-                write_cache(res, "visa_provider", 'cache_web')
+                write_cache(res, "visa_provider", request, 'cache_web')
                 _logger.info("get_providers VISA RENEW SUCCESS SIGNATURE " + request.POST['signature'])
             else:
                 try:
-                    file = read_cache("visa_provider", 'cache_web', 90911)
+                    file = read_cache("visa_provider", 'cache_web', request, 90911)
                     if file:
                         res = file
                     _logger.info("get_provider_list ERROR USE CACHE SUCCESS SIGNATURE " + request.POST['signature'])
@@ -209,7 +209,7 @@ def get_config_provider(request):
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
-            file = read_cache("visa_provider", 'cache_web', 90911)
+            file = read_cache("visa_provider", 'cache_web', request, 90911)
             res = file
         except Exception as e:
             _logger.error('ERROR get_provider_list visa file\n' + str(e) + '\n' + traceback.format_exc())
@@ -217,7 +217,7 @@ def get_config_provider(request):
 
 def get_config(request):
     try:
-        response = get_cache_data()
+        response = get_cache_data(request)
 
         res = {}
         for visa_config in response['result']['response']['visa']:
@@ -385,17 +385,7 @@ def update_contact(request):
     try:
         booker = request.session['visa_create_passengers']['booker']
         contacts = request.session['visa_create_passengers']['contact']
-        response = get_cache_data()
-        for country in response['result']['response']['airline']['country']:
-            if booker['nationality_name'] == country['name']:
-                booker['nationality_code'] = country['code']
-                break
 
-        for pax in contacts:
-            for country in response['result']['response']['airline']['country']:
-                if pax['nationality_name'] == country['name']:
-                    pax['nationality_code'] = country['code']
-                    break
         data = {
             'booker': booker,
             'contacts': contacts
@@ -422,22 +412,10 @@ def update_contact(request):
 def update_passengers(request):
     try:
         passengers = []
-        response = get_cache_data()
         master_visa_id = json.loads(request.POST['id'])
         for pax_type in request.session['visa_create_passengers']:
             if pax_type != 'booker' and pax_type != 'contact':
                 for pax in request.session['visa_create_passengers'][pax_type]:
-                    if pax['nationality_name'] != '':
-                        for country in response['result']['response']['airline']['country']:
-                            if pax['nationality_name'] == country['name']:
-                                pax['nationality_code'] = country['code']
-                                break
-
-                    if pax['identity_country_of_issued_name'] != '':
-                        for country in response['result']['response']['airline']['country']:
-                            if pax['identity_country_of_issued_name'] == country['name']:
-                                pax['identity_country_of_issued_code'] = country['code']
-                                break
                     pax.update({
                         'birth_date': '%s-%s-%s' % (
                             pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
@@ -450,7 +428,6 @@ def update_passengers(request):
                                 pax['identity_expdate'].split(' ')[0])
                         })
                         pax['identity'] = {
-                            "identity_country_of_issued_name": pax.pop('identity_country_of_issued_name'),
                             "identity_country_of_issued_code": pax.pop('identity_country_of_issued_code'),
                             "identity_expdate": pax.pop('identity_expdate'),
                             "identity_number": pax.pop('identity_number'),
@@ -459,7 +436,6 @@ def update_passengers(request):
                         }
 
                     else:
-                        pax.pop('identity_country_of_issued_name')
                         pax.pop('identity_expdate')
                         pax.pop('identity_number')
                         pax.pop('identity_type')

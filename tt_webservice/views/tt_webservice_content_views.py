@@ -13,7 +13,7 @@ import logging
 import traceback
 from .tt_webservice_views import *
 from .tt_webservice import *
-_logger = logging.getLogger("rodextrip_logger")
+_logger = logging.getLogger("website_logger")
 
 from django.core.files.storage import FileSystemStorage
 import os
@@ -83,7 +83,7 @@ def api_models(request):
         elif req_data['action'] == 'set_inactive_delete_banner':
             res = set_inactive_delete_banner(request)
         elif req_data['action'] == 'get_country':
-            res = get_country()
+            res = get_country(request)
         elif req_data['action'] == 'update_image_passenger':
             res = update_image_passenger(request)
         elif req_data['action'] == 'get_public_holiday':
@@ -245,8 +245,8 @@ def update_image_passenger(request):
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
 
-def get_country():
-    response = get_cache_data()
+def get_country(request):
+    response = get_cache_data(request)
     try:
         airline_country = response['result']['response']['airline']['country']
         res = {
@@ -347,7 +347,7 @@ def update_notification_train(request):
         text += request.POST['train_review'] + '\n'
         text += request.POST['train_booking'] + '\n'
         text += request.POST['html']
-        write_cache(text, "notification_train", 'cache_web')
+        write_cache(text, "notification_train", request, 'cache_web')
 
         res = {
             'result': {
@@ -376,7 +376,7 @@ def update_notification_airline(request):
         text += request.POST['airline_review'] + '\n'
         text += request.POST['airline_booking'] + '\n'
         text += request.POST['html']
-        write_cache(text, "notification_airline", 'cache_web')
+        write_cache(text, "notification_airline", request, 'cache_web')
 
         res = {
             'result': {
@@ -398,7 +398,7 @@ def update_notification_airline(request):
 
 def get_notification_train(request):
     try:
-        file = read_cache("notification_train", 'cache_web', 90911)
+        file = read_cache("notification_train", 'cache_web', request, 90911)
         if file:
             data = {}
             for idx,rec in enumerate(file.split('\n')):
@@ -458,7 +458,7 @@ def get_notification_train(request):
 
 def get_notification_airline(request):
     try:
-        file = read_cache("notification_airline", 'cache_web', 90911)
+        file = read_cache("notification_airline", 'cache_web', request, 90911)
         if file:
             data = {}
             for idx,rec in enumerate(file.split('\n')):
@@ -520,7 +520,7 @@ def youtube_api_check(request):
     ### FITUR TIDAK DAPAT DI PAKAI KARENA PINDAH OAUTH2
     api_key_youtube = ''
     channel_id_youtube = ''
-    file = read_cache("youtube", 'cache_web', 90911)
+    file = read_cache("youtube", 'cache_web', request, 90911)
     if file:
         for idx, line in enumerate(file.split('\n')):
             if idx == 0 and line != '':
@@ -592,11 +592,11 @@ def get_banner(request):
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     if request.POST['type'] == 'big_banner':
-        file = get_banner_data('big_banner')
+        file = get_banner_data(request, 'big_banner')
     elif request.POST['type'] == 'small_banner':
-        file = get_banner_data('small_banner')
+        file = get_banner_data(request, 'small_banner')
     elif request.POST['type'] == 'promotion':
-        file = get_banner_data('promotion')
+        file = get_banner_data(request, 'promotion')
     if not file:
         url_request = url + 'content'
         res = send_request_api(request, url_request, headers, data, 'POST')
@@ -617,7 +617,7 @@ def get_banner(request):
                                     last_sequence += 1
                                     rec['sequence'] = last_sequence
                         res['result']['response'] = sorted(res['result']['response'], key=lambda k: int(k['sequence']))
-                        write_cache(res, "big_banner_cache", 'cache_web')
+                        write_cache(res, "big_banner_cache", request, 'cache_web')
                         _logger.info("big_banner RENEW SUCCESS SIGNATURE " + request.POST['signature'])
                     except Exception as e:
                         _logger.error(
@@ -637,7 +637,7 @@ def get_banner(request):
                                     last_sequence += 1
                                     rec['sequence'] = last_sequence
                         res['result']['response'] = sorted(res['result']['response'], key=lambda k: int(k['sequence']))
-                        write_cache(res, "small_banner_cache", 'cache_web')
+                        write_cache(res, "small_banner_cache", request, 'cache_web')
                         _logger.info("small_banner RENEW SUCCESS SIGNATURE " + request.POST['signature'])
                     except Exception as e:
                         _logger.error(
@@ -657,7 +657,7 @@ def get_banner(request):
                                     last_sequence += 1
                                     rec['sequence'] = last_sequence
                         res['result']['response'] = sorted(res['result']['response'],key=lambda k: int(k['sequence']))
-                        write_cache(res, "promotion_banner_cache", 'cache_web')
+                        write_cache(res, "promotion_banner_cache", request, 'cache_web')
                         _logger.info("promotion_banner RENEW SUCCESS SIGNATURE " + request.POST['signature'])
                     except Exception as e:
                         _logger.error(
@@ -672,13 +672,13 @@ def get_banner(request):
         res = file
     return res
 
-def get_banner_data(type):
+def get_banner_data(request, type):
     if type == "big_banner":
-        file = read_cache("big_banner_cache", 'cache_web', 86400)
+        file = read_cache("big_banner_cache", 'cache_web', request, 86400)
     elif type == "small_banner":
-        file = read_cache("small_banner_cache", 'cache_web', 86400)
+        file = read_cache("small_banner_cache", 'cache_web', request, 86400)
     elif type == "promotion":
-        file = read_cache("promotion_banner_cache", 'cache_web', 86400)
+        file = read_cache("promotion_banner_cache", 'cache_web', request, 86400)
     else:
         file = False
     return file
@@ -755,7 +755,7 @@ def get_top_up_term(request):
 <h6>MANDIRI INTERNET BANKING</h6>
 <li>1. Transaction Top up from internet banking mandiri open for 24 hours. Balance will be added automatically (REAL TIME) after payment with additional admin Top Up.<br><br></li>
     '''
-    file = read_cache("top_up_term", 'cache_web', 90911)
+    file = read_cache("top_up_term", 'cache_web', request, 90911)
     if file:
         text = file
     return text
@@ -792,13 +792,13 @@ def get_public_holiday(request):
             'start_date': request.POST['start_date'],
             'end_date': request.POST.get('end_date') and request.POST['end_date'] or False,
         }
-        file = read_cache("get_holiday_cache", 'cache_web', 86400)
+        file = read_cache("get_holiday_cache", 'cache_web', request, 86400)
         if not file:
             url_request = url + 'content'
             res = send_request_api(request, url_request, headers, data, 'POST')
             try:
                 #tambah datetime
-                write_cache(res, "get_holiday_cache", 'cache_web')
+                write_cache(res, "get_holiday_cache", request, 'cache_web')
                 _logger.info("get_public_holiday RENEW SUCCESS SIGNATURE " + request.POST['signature'])
             except Exception as e:
                 _logger.error('ERROR get_public_holiday file \n' + str(e) + '\n' + traceback.format_exc())
@@ -821,13 +821,13 @@ def get_public_holiday(request):
 def get_dynamic_page(request):
     try:
         response = []
-        path = var_log_path('page_dynamic')
+        path = var_log_path(request, 'page_dynamic')
         if not os.path.exists(path):
             os.mkdir(path)
         empty_sequence = False
         last_sequence = 1
         for data in os.listdir('%s/' % path):
-            file = read_cache(data[:-4], "page_dynamic", 90911)
+            file = read_cache(data[:-4], "page_dynamic", request, 90911)
             if file:
                 state = ''
                 title = ''
@@ -892,11 +892,11 @@ def get_dynamic_page(request):
 
 def get_dynamic_page_detail(request):
     try:
-        path = var_log_path('page_dynamic')
+        path = var_log_path(request, 'page_dynamic')
         if not os.path.exists(path):
             os.mkdir(path)
         response = {}
-        file = read_cache(request.POST['data'], "page_dynamic", 90911)
+        file = read_cache(request.POST['data'], "page_dynamic", request, 90911)
         if file:
             state = ''
             title = ''
@@ -940,11 +940,11 @@ def get_dynamic_page_detail(request):
 
 def get_dynamic_page_mobile_detail(request):
     try:
-        path = var_log_path('page_dynamic')
+        path = var_log_path(request, 'page_dynamic')
         if not os.path.exists(path):
             os.mkdir(path)
         response = {}
-        file = read_cache(request.data['data'], "page_dynamic", 90911)
+        file = read_cache(request.data['data'], "page_dynamic", request, 90911)
         if file:
             state = ''
             title = ''
@@ -988,16 +988,16 @@ def get_dynamic_page_mobile_detail(request):
 
 def delete_dynamic_page(request):
     try:
-        path = var_log_path('page_dynamic')
+        path = var_log_path(request, 'page_dynamic')
         data = os.listdir(path)
         os.remove('%s/%s.txt' % (path, request.POST['page_url']))
         # check image
         fs = FileSystemStorage()
-        fs.location += '/image_dynamic'
+        fs.location = media_path(request, fs.location,'image_dynamic')
         data = os.listdir(path)
         image_list = []
         for rec in data:
-            file = read_cache(rec[:-4], "page_dynamic", 90911)
+            file = read_cache(rec[:-4], "page_dynamic", request, 90911)
             if file:
                 for idx, line in enumerate(file.split('\n')):
                     if idx == 3:
@@ -1031,10 +1031,8 @@ def delete_dynamic_page(request):
 def set_dynamic_page(request):
     try:
         fs = FileSystemStorage()
-        fs.location += '/image_dynamic'
-        if not os.path.exists(fs.location):
-            os.mkdir(fs.location)
-        path = var_log_path('page_dynamic')
+        fs.location = media_path(request, fs.location, 'image_dynamic')
+        path = var_log_path(request, 'page_dynamic')
         if not os.path.exists(path):
             os.mkdir(path)
 
@@ -1059,12 +1057,12 @@ def set_dynamic_page(request):
                 else:
                     title_duplicate_counter += 1
                     trimmed_title_name += str(title_duplicate_counter)
-            text = request.POST['state'] + '\n' + title + '\n' + request.POST['body'] + '\n' + fs.base_url + "image_dynamic/" + filename + '\n' + sequence
-            write_cache(text, trimmed_title_name, 'page_dynamic')
+            text = request.POST['state'] + '\n' + title + '\n' + request.POST['body'] + '\n' + fs.base_url + request.META['HTTP_HOST'].split(':')[0] + "/image_dynamic/" + filename + '\n' + sequence
+            write_cache(text, trimmed_title_name, request, 'page_dynamic')
         #replace page
         else:
             if filename == '':
-                file = read_cache("%s" % request.POST['page_url'], "page_dynamic", 90911)
+                file = read_cache("%s" % request.POST['page_url'], "page_dynamic", request, 90911)
                 if file:
                     for idx, line in enumerate(file.split('\n')):
                         if idx == 3:
@@ -1072,21 +1070,23 @@ def set_dynamic_page(request):
                             text.pop(0) ## ''
                             text.pop(0) ## media
                             text.pop(0) ## image dynamic
+                            text.pop(0) ## domain
                             filename = "/".join(text) ## image
-            text = request.POST['state'] + '\n' + title + '\n' + request.POST['body'] + '\n' + fs.base_url + "image_dynamic/" + filename + '\n' + sequence
-            write_cache(text, "%s" % request.POST['page_url'], 'page_dynamic')
+            text = request.POST['state'] + '\n' + title + '\n' + request.POST['body'] + '\n' + fs.base_url + request.META['HTTP_HOST'].split(':')[0] + "/image_dynamic/" + filename + '\n' + sequence
+            write_cache(text, "%s" % request.POST['page_url'], request, 'page_dynamic')
         #check image
         data = os.listdir(path)
         image_list = []
         for rec in data:
-            file = read_cache(rec[:-4], "page_dynamic", 90911)
+            file = read_cache(rec[:-4], "page_dynamic", request, 90911)
             if file:
                 for idx, line in enumerate(file.split('\n')):
                     if idx == 3:
                         text = line.split('\n')[0].split('/')
-                        text.pop(0)
-                        text.pop(0)
-                        text.pop(0)
+                        text.pop(0)  ## ''
+                        text.pop(0)  ## media
+                        text.pop(0)  ## image dynamic
+                        text.pop(0)  ## domain
                         image_list.append("/".join(text))
         for data in os.listdir(fs.location):
             if not data in image_list:
@@ -1294,7 +1294,7 @@ def cancel_reservation_issued_request(request):
 
 def get_provider_type_sequence(request):
     provider_types_sequence = []
-    file = read_cache("provider_types_sequence", 'cache_web', 90911)
+    file = read_cache("provider_types_sequence", 'cache_web', request, 90911)
     if file:
         provider_types_sequence_file = file
         for rec in provider_types_sequence_file:
@@ -1347,14 +1347,14 @@ def get_agent_currency_rate(request):
     except Exception as e:
         _logger.error("%s, %s" % (str(e), traceback.format_exc()))
 
-    file = read_cache("currency_rate", 'cache_web', 1800)
+    file = read_cache("currency_rate", 'cache_web', request, 86400)
     if file:
         res = file
     else:
         res = send_request_api(request, url_request, headers, data, 'POST', 300)
         try:
             if res['result']['error_code'] == 0:
-                write_cache(res, 'currency_rate')
+                write_cache(res, 'currency_rate', request)
                 _logger.info("SUCCESS cancel_reservation_issued_request SIGNATURE " + request.POST['signature'])
             else:
                 _logger.error(
@@ -1363,7 +1363,7 @@ def get_agent_currency_rate(request):
         except Exception as e:
             _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    file = read_cache("currency_rate_show", 'cache_web', 90911)
+    file = read_cache("currency_rate_show", 'cache_web', request, 90911)
     if file:
         res['result'].update(file)
     else:
@@ -1380,6 +1380,11 @@ def update_estimate_price(request):
         "is_show": is_show_estimate_price,
         "is_show_provider": json.loads(request.POST['provider'])
     }
-    write_cache(req, 'currency_rate_show')
+    write_cache(req, 'currency_rate_show', request)
+    if request.POST['is_show_breakdown_price'] == 'true':
+        req = True
+    else:
+        req = False
+    write_cache(req, 'show_breakdown_price', request)
     return ERR.get_no_error_api()
 

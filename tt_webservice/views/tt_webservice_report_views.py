@@ -8,7 +8,7 @@ from ..static.tt_webservice.url import *
 import json
 import logging
 import traceback
-_logger = logging.getLogger("rodextrip_logger")
+_logger = logging.getLogger("website_logger")
 from .tt_webservice_views import *
 from .tt_webservice import *
 import time

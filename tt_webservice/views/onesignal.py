@@ -3,7 +3,7 @@ import json
 from tools import util, ERR
 from .tt_webservice_views import *
 import logging
-_logger = logging.getLogger("rodextrip_logger")
+_logger = logging.getLogger("website_logger")
 
 def send_notif(msg, url, segments='Subscribed Users', icon=False):
 

@@ -13,8 +13,8 @@ from .tt_webservice_views import *
 from .tt_webservice import *
 from .tt_webservice_voucher_views import *
 from ..views import tt_webservice_agent_views as webservice_agent
-from tt_website_rodextrip.views import tt_website_rodextrip_views as rodextrip_views
-_logger = logging.getLogger("rodextrip_logger")
+from tt_website.views import tt_website_views as rodextrip_views
+_logger = logging.getLogger("website_logger")
 
 month = {
     'Jan': '01',
@@ -97,6 +97,7 @@ def api_models(request):
 
 
 def login(request):
+    user_global, password_global, api_key = get_credential(request)
     data = {
         "user": user_global,
         "password": password_global,
@@ -139,18 +140,18 @@ def get_carriers(request):
         }
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
-    file = read_cache("get_tour_carriers", 'cache_web')
+    file = read_cache("get_tour_carriers", 'cache_web', request)
     if not file:
         url_request = url + 'content'
         res = send_request_api(request, url_request, headers, data, 'POST')
         try:
             if res['result']['error_code'] == 0:
                 res = res['result']['response']
-                write_cache(res, "get_tour_carriers", 'cache_web')
+                write_cache(res, "get_tour_carriers", request, 'cache_web')
                 _logger.info("get_carriers TOUR RENEW SUCCESS SIGNATURE " + request.POST['signature'])
             else:
                 try:
-                    file = read_cache("get_tour_carriers", 'cache_web', 90911)
+                    file = read_cache("get_tour_carriers", 'cache_web', request, 90911)
                     if file:
                         res = file
                     _logger.info("get_carriers TOUR ERROR USE CACHE SIGNATURE " + request.POST['signature'])
@@ -160,7 +161,7 @@ def get_carriers(request):
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
-            file = read_cache("get_tour_carriers", 'cache_web', 90911)
+            file = read_cache("get_tour_carriers", 'cache_web', request, 90911)
             res = file
         except Exception as e:
             _logger.error('ERROR get_tour_carriers file\n' + str(e) + '\n' + traceback.format_exc())
@@ -180,14 +181,14 @@ def get_auto_complete_gateway(request):
             "name": '',
             "limit": 9999
         }
-        file = read_cache("tour_cache_data", 'cache_web', 1800)
+        file = read_cache("tour_cache_data", 'cache_web', request, 1800)
         if not file:
             url_request = url + 'booking/tour'
             res = send_request_api(request, url_request, headers, data, 'POST', 120)
             try:
                 if res['result']['error_code'] == 0:
                     #datetime
-                    write_cache(res['result']['response'], "tour_cache_data", 'cache_web')
+                    write_cache(res['result']['response'], "tour_cache_data", request, 'cache_web')
                     res = {
                         'result': {
                             'error_code': 0,
@@ -218,7 +219,7 @@ def get_auto_complete_gateway(request):
 
 def get_data(request):
     try:
-        temp_data = get_cache_data()
+        temp_data = get_cache_data(request)
         template_data = rodextrip_views.get_data_template(request)
 
         response = {
@@ -467,20 +468,10 @@ def sell_tour(request):
 
 
 def update_contact(request):
-    response = get_cache_data()
+    response = get_cache_data(request)
 
     booker = request.session['tour_booking_data']['booker']
     contacts = request.session['tour_booking_data']['contact']
-    for country in response['result']['response']['airline']['country']:
-        if booker['nationality_name'] == country['name']:
-            booker['nationality_code'] = country['code']
-            break
-
-    for pax in contacts:
-        for country in response['result']['response']['airline']['country']:
-            if pax['nationality_name'] == country['name']:
-                pax['nationality_code'] = country['code']
-                break
 
     data = {
         "booker": booker,
@@ -500,7 +491,7 @@ def update_contact(request):
 
 def update_passengers(request):
     passenger = []
-    response = get_cache_data()
+    response = get_cache_data(request)
     room_choices = json.loads(request.POST['room_choice'])
 
     for pax in request.session['tour_booking_data']['adult_pax']:
@@ -508,17 +499,6 @@ def update_passengers(request):
             'birth_date': '%s-%s-%s' % (
                 pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]], pax['birth_date'].split(' ')[0]),
         })
-        if pax['nationality_name'] != '':
-            for country in response['result']['response']['airline']['country']:
-                if pax['nationality_name'] == country['name']:
-                    pax['nationality_code'] = country['code']
-                    break
-
-        if pax['identity_country_of_issued_name'] != '':
-            for country in response['result']['response']['airline']['country']:
-                if pax['nationality_name'] == country['name']:
-                    pax['identity_country_of_issued_code'] = country['code']
-                    break
         if pax['identity_expdate'] != '':
             pax.update({
                 'identity_expdate': '%s-%s-%s' % (
@@ -526,7 +506,6 @@ def update_passengers(request):
                     pax['identity_expdate'].split(' ')[0])
             })
             pax['identity'] = {
-                "identity_country_of_issued_name": pax.pop('identity_country_of_issued_name'),
                 "identity_country_of_issued_code": pax.pop('identity_country_of_issued_code'),
                 "identity_expdate": pax.pop('identity_expdate'),
                 "identity_number": pax.pop('identity_number'),
@@ -534,7 +513,6 @@ def update_passengers(request):
                 "identity_image": pax.pop('identity_image'),
             }
         else:
-            pax.pop('identity_country_of_issued_name')
             pax.pop('identity_expdate')
             pax.pop('identity_number')
             pax.pop('identity_type')
@@ -547,17 +525,6 @@ def update_passengers(request):
                 pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
                 pax['birth_date'].split(' ')[0]),
         })
-        if pax['nationality_name'] != '':
-            for country in response['result']['response']['airline']['country']:
-                if pax['nationality_name'] == country['name']:
-                    pax['nationality_code'] = country['code']
-                    break
-
-        if pax['identity_country_of_issued_name'] != '':
-            for country in response['result']['response']['airline']['country']:
-                if pax['nationality_name'] == country['name']:
-                    pax['identity_country_of_issued_code'] = country['code']
-                    break
         if pax['identity_expdate'] != '':
             pax.update({
                 'identity_expdate': '%s-%s-%s' % (
@@ -565,14 +532,12 @@ def update_passengers(request):
                     pax['identity_expdate'].split(' ')[0])
             })
             pax['identity'] = {
-                "identity_country_of_issued_name": pax.pop('identity_country_of_issued_name'),
                 "identity_country_of_issued_code": pax.pop('identity_country_of_issued_code'),
                 "identity_expdate": pax.pop('identity_expdate'),
                 "identity_number": pax.pop('identity_number'),
                 "identity_type": pax.pop('identity_type'),
             }
         else:
-            pax.pop('identity_country_of_issued_name')
             pax.pop('identity_expdate')
             pax.pop('identity_number')
             pax.pop('identity_type')
@@ -584,17 +549,6 @@ def update_passengers(request):
                 pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
                 pax['birth_date'].split(' ')[0]),
         })
-        if pax['nationality_name'] != '':
-            for country in response['result']['response']['airline']['country']:
-                if pax['nationality_name'] == country['name']:
-                    pax['nationality_code'] = country['code']
-                    break
-
-        if pax['identity_country_of_issued_name'] != '':
-            for country in response['result']['response']['airline']['country']:
-                if pax['nationality_name'] == country['name']:
-                    pax['identity_country_of_issued_code'] = country['code']
-                    break
         if pax['identity_expdate'] != '':
             pax.update({
                 'identity_expdate': '%s-%s-%s' % (
@@ -602,14 +556,12 @@ def update_passengers(request):
                     pax['identity_expdate'].split(' ')[0])
             })
             pax['identity'] = {
-                "identity_country_of_issued_name": pax.pop('identity_country_of_issued_name'),
                 "identity_country_of_issued_code": pax.pop('identity_country_of_issued_code'),
                 "identity_expdate": pax.pop('identity_expdate'),
                 "identity_number": pax.pop('identity_number'),
                 "identity_type": pax.pop('identity_type'),
             }
         else:
-            pax.pop('identity_country_of_issued_name')
             pax.pop('identity_expdate')
             pax.pop('identity_number')
             pax.pop('identity_type')
@@ -944,7 +896,7 @@ def get_auto_complete(request):
     req = request.POST
     record_json = []
     try:
-        file = read_cache("tour_cache_data", 'cache_web', 1800)
+        file = read_cache("tour_cache_data", 'cache_web', request, 1800)
         if file:
             record_cache = file
         else:
@@ -964,12 +916,12 @@ def get_auto_complete(request):
             try:
                 if res['result']['error_code'] == 0:
                     # datetime
-                    write_cache(res['result']['response'], "tour_cache_data", 'cache_web')
+                    write_cache(res['result']['response'], "tour_cache_data", request, 'cache_web')
                     record_cache = res['result']['response']
             except Exception as e:
                 _logger.error("ERROR GET CACHE FROM TOUR SEARCH AUTOCOMPLETE" + json.dumps(res) + '\n' + str(e) + '\n' + traceback.format_exc())
                 _logger.info('use old cache')
-                file = read_cache("tour_cache_data", 'cache_web', 90911)
+                file = read_cache("tour_cache_data", 'cache_web', request, 90911)
                 if file:
                     record_cache = file
 
