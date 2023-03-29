@@ -561,6 +561,8 @@ def api_models(request):
             res = check_credential(request)
         elif req_data['action'] == 'check_credential_b2c':
             res = check_credential_b2c(request)
+        elif req_data['action'] == 'back_to_btb_mode':
+            res = back_to_btb_mode(request)
         elif req_data['action'] == 'delete_session':
             res = delete_session(request)
         elif req_data['action'] == 'static_path_url_server':
@@ -873,6 +875,21 @@ def check_credential(request):
     except Exception as e:
         _logger.error('ERROR SIGNIN\n' + str(e) + '\n' + traceback.format_exc())
     return res
+
+def back_to_btb_mode(request):
+    file = read_cache("data_cache_template", 'cache_web', request, 90911)
+    if file:
+        file = file.split('\n')
+        file[16] = 'btb'
+        file = "\n".join(file)
+        write_cache(file, "data_cache_template", request)
+    return {
+        "result": {
+            "response": "",
+            "error_code": 0,
+            "error_msg": ""
+        }
+    }
 
 def check_credential_b2c(request):
     try:
