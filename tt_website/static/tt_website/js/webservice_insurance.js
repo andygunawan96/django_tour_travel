@@ -1681,9 +1681,17 @@ function price_detail(){
                 <span style="font-size:13px; font-weight:500;">Grand Total</span><br/>
             </div>
             <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" style="text-align:right;">
-                <span style="font-size:13px; font-weight:500;">`+price.currency+` `+getrupiah(grandtotal+additional_price)+`</span><br/>
-            </div>
-        </div>`;
+                <span id="total_price" style="font-size:13px; font-weight:500;`;
+            if(is_show_breakdown_price){
+                text+= "cursor:pointer;";
+            }
+            text+=`">`+price.currency+` `+getrupiah(grandtotal+additional_price);
+            if(is_show_breakdown_price){
+                text+= ` <i class="fas fa-caret-down"></i>`;
+            }
+            text+=`</span><br/>
+                </div>
+            </div>`;
     if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && grandtotal+additional_price){
 //        if(currency_rate_data.result.response.agent.hasOwnProperty(user_login.agent_name)){ // buat o3
         for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
@@ -1714,7 +1722,60 @@ function price_detail(){
     }
     if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
         text+=`<center><div style="margin-bottom:5px;"><input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Hide YPM"/></div>`;
-    document.getElementById('insurance_detail_table').innerHTML += text;
+    document.getElementById('insurance_detail_table').innerHTML = text;
+
+    if(is_show_breakdown_price){
+        var price_breakdown = {};
+        var currency_breakdown = '';
+        for(i in insurance_pick.service_charges){
+            if(insurance_pick.service_charges[i].charge_type != 'RAC'){
+                if(!price_breakdown.hasOwnProperty(insurance_pick.service_charges[i].charge_type))
+                    price_breakdown[insurance_pick.service_charges[i].charge_type] = 0;
+                price_breakdown[insurance_pick.service_charges[i].charge_type] += insurance_pick.service_charges[i].total;
+            }
+            if(currency_breakdown == '')
+                currency_breakdown = insurance_pick.service_charges[i].currency;
+        }
+        if(typeof upsell_price_dict !== 'undefined'){
+            for(i in upsell_price_dict){
+                if(!price_breakdown.hasOwnProperty('ROC'))
+                    price_breakdown['ROC'] = 0;
+                price_breakdown['ROC'] += upsell_price_dict[i];
+            }
+        }
+        if(additional_price)
+            price_breakdown['ADDITIONAL PRICE'] = additional_price;
+        var breakdown_text = '';
+        for(j in price_breakdown){
+            if(breakdown_text)
+                breakdown_text += '<br/>';
+            if(j != 'ROC')
+                breakdown_text += '<b>'+j+'</b> ';
+            else
+                breakdown_text += '<b>CONVENIENCE FEE</b> ';
+            breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
+        }
+        new jBox('Tooltip', {
+            attach: '#total_price',
+            target: '#total_price',
+            theme: 'TooltipBorder',
+            trigger: 'click',
+            adjustTracker: true,
+            closeOnClick: 'body',
+            closeButton: 'box',
+            animation: 'move',
+            position: {
+              x: 'left',
+              y: 'top'
+            },
+            outside: 'y',
+            pointer: 'left:20',
+            offset: {
+              x: 25
+            },
+            content: breakdown_text
+        });
+    }
 }
 
 function check_passenger(){
@@ -3096,14 +3157,20 @@ function insurance_get_booking(data, sync=false){
                             <span style="font-size:13px; font-weight: bold;">Grand Total</span>
                         </div>
                         <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                            <span style="font-size:13px; font-weight: bold;">`;
+                            <span id="total_price" style="font-size:13px; font-weight: bold;`;
+                            if(is_show_breakdown_price)
+                                text_detail+='cursor:pointer;';
+                            text_detail +=`">`;
                             try{
                                 text_detail+= price.currency+` `+getrupiah(total_price);
                                 $text += `\n` + 'Grand Total: ' +price.currency+` `+ getrupiah(total_price);
                             }catch(err){
 
                             }
-                            text_detail+= `</span>
+                            if(is_show_breakdown_price)
+                                text_detail+=`<i class="fas fa-caret-down"></i>`;
+                            text_detail+= `
+                            </span>
                         </div>`;
                         if(['booked', 'partial_booked', 'partial_issued', 'halt_booked'].includes(msg.result.response.state)){
                             if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && total_price){
@@ -3251,6 +3318,54 @@ function insurance_get_booking(data, sync=false){
                 document.getElementById('insurance_detail').innerHTML = text_detail;
                 document.getElementById('update_data_passenger').innerHTML = text_update_data_pax;
 
+                if(is_show_breakdown_price){
+                    var price_breakdown = {};
+                    var currency_breakdown = '';
+                    for(i in insurance_get_detail.result.response.passengers){
+                        for(j in insurance_get_detail.result.response.passengers[i].sale_service_charges){
+                            for(k in insurance_get_detail.result.response.passengers[i].sale_service_charges[j]){
+                                if(k != 'RAC'){
+                                    if(!price_breakdown.hasOwnProperty(k))
+                                        price_breakdown[k.toUpperCase()] = 0;
+                                    price_breakdown[k.toUpperCase()] += insurance_get_detail.result.response.passengers[i].sale_service_charges[j][k].amount;
+                                    if(currency_breakdown == '')
+                                        currency_breakdown = insurance_get_detail.result.response.passengers[i].sale_service_charges[j][k].currency;
+                                }
+                            }
+                        }
+
+                        var breakdown_text = '';
+                        for(j in price_breakdown){
+                            if(breakdown_text)
+                                breakdown_text += '<br/>';
+                            if(j != 'ROC')
+                                breakdown_text += '<b>'+j+'</b> ';
+                            else
+                                breakdown_text += '<b>CONVENIENCE FEE</b> ';
+                            breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
+                        }
+                        new jBox('Tooltip', {
+                            attach: '#total_price',
+                            target: '#total_price',
+                            theme: 'TooltipBorder',
+                            trigger: 'click',
+                            adjustTracker: true,
+                            closeOnClick: 'body',
+                            closeButton: 'box',
+                            animation: 'move',
+                            position: {
+                              x: 'left',
+                              y: 'top'
+                            },
+                            outside: 'y',
+                            pointer: 'left:20',
+                            offset: {
+                              x: 25
+                            },
+                            content: breakdown_text
+                        });
+                    }
+                }
 
 
                     //======================= Option =========================
@@ -5256,20 +5371,7 @@ function edit_additional_benefit(){
         additional_benefit_list = [];
     }
     //inner html additional price;
-    text = `
-        <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" style="text-align:left;">
-            <span style="font-size:13px; font-weight:500;">Additional Price</span><br/>
-        </div>
-        <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" style="text-align:right;">
-            <span style="font-size:13px; font-weight:500;">`+price.currency+` `+getrupiah(additional_price)+`</span><br/>
-        </div>
-        <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" style="text-align:left;">
-            <span style="font-size:13px; font-weight:500;">Grand Total</span><br/>
-        </div>
-        <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" style="text-align:right;">
-            <span style="font-size:13px; font-weight:500;">`+price.currency+` `+getrupiah(grandtotal+additional_price)+`</span><br/>
-        </div>`;
-    document.getElementById('additionalprice_div').innerHTML = text;
+    price_detail();
 
 }
 

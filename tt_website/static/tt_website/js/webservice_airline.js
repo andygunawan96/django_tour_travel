@@ -8646,7 +8646,8 @@ function airline_get_booking(data, sync=false){
                             }
                             if(is_show_breakdown_price)
                                 text_detail+=`<i class="fas fa-caret-down"></i>`;
-                            text_detail+= `</span>
+                            text_detail+= `
+                            </span>
                         </div>`;
                         if(['booked', 'partial_booked', 'partial_issued', 'halt_booked'].includes(msg.result.response.state)){
                             if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && total_price){
