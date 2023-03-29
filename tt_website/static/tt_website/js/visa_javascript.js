@@ -210,7 +210,15 @@ function update_table_new(type){
                         <h6>Grand Total</h6>
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                        <h6>`+currency+` `+getrupiah(price)+`</h6>
+                        <h6 id="total_price"`;
+                if(is_show_breakdown_price){
+                    text+= `style="cursor:pointer;"`;
+                }
+                text+= `>`+currency+` `+getrupiah(price);
+                if(is_show_breakdown_price){
+                    text += `<i class="fas fa-caret-down"></i>`;
+                }
+                text+=`</h6>
                     </div>
                 </div>`;
             if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && price){
@@ -388,7 +396,16 @@ function update_table_new(type){
                     <h6>Grand Total</h6>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                    <h6>`+currency+` `+getrupiah(price)+`</h6>
+                    <h6 id="total_price"`;
+                    if(is_show_breakdown_price){
+                        text+= `style="cursor:pointer;"`;
+                    }
+                    text+= `>`+currency+` `+getrupiah(price);
+                    if(is_show_breakdown_price){
+                        text += `<i class="fas fa-caret-down"></i>`;
+                    }
+                    text+=`
+                    </h6>
                 </div>
             </div>`;
         if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && price){
@@ -444,7 +461,7 @@ function update_table_new(type){
                 text +=`</div>
             </div>`;
             if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-                text+= print_commission(commission,'show_commission', currency)
+                text+= print_commission(commission*-1,'show_commission', currency)
             text+=`
             <div class="row" style="margin-top:10px; text-align:center;">
                <div class="col-lg-12">
@@ -528,7 +545,7 @@ function update_table_new(type){
                 price_perpax = 0;
                 for(j in sell_visa.search_data[i].service_charges){
                     if(sell_visa.search_data[i].service_charges[j].charge_type != 'RAC')
-                        price_perpax += sell_visa.search_data[i].service_charges[j].total;
+                        price_perpax += sell_visa.search_data[i].service_charges[j].total / sell_visa.search_data[i].pax;
                     if(currency == '')
                         currency = sell_visa.search_data[i].service_charges[j].currency;
                 }
@@ -670,7 +687,15 @@ function update_table_new(type){
                 <h6>Grand Total</h6>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                <h6>`+currency+` `+getrupiah(grand_total_price)+`</h6>
+                <h6 id="total_price"`;
+            if(is_show_breakdown_price){
+                text+= `style="cursor:pointer;"`;
+            }
+            text+= `>`+currency+` `+getrupiah(grand_total_price);
+            if(is_show_breakdown_price){
+                text += `<i class="fas fa-caret-down"></i>`;
+            }
+        text+=`</h6>
             </div>
         </div>`;
         if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && grand_total_price){
@@ -920,15 +945,17 @@ function update_table_new(type){
                     <span style="font-size:13px; font-weight: bold;">Grand Total</span>
                 </div>
                 <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                    <span style="font-size:13px; font-weight: bold;">`;
+                    <span id="total_price" style="font-size:13px; font-weight: bold;`;
+                    if(is_show_breakdown_price)
+                        text_detail+='cursor:pointer;';
+                    text_detail +=`">`;
                     try{
-                        if(total_price != 0)
-                            text_detail+= price.currency+` `+getrupiah(total_price);
-                        else
-                            text_detail+= 'Free';
+                        text_detail+= price.currency+` `+getrupiah(total_price);
                     }catch(err){
 
                     }
+                    if(is_show_breakdown_price)
+                        text_detail+=`<i class="fas fa-caret-down"></i>`;
                     text_detail+= `</span>
                 </div>
             </div>`;
@@ -1054,6 +1081,91 @@ function update_table_new(type){
         add_repricing();
     }
     document.getElementById('detail').innerHTML = text;
+
+    if(is_show_breakdown_price){
+        var price_breakdown = {};
+        var currency_breakdown = '';
+        if(type == 'search'){
+            for(i in visa){
+                pax_count = parseInt(document.getElementById('qty_pax_'+parseInt(parseInt(i)+1)).value);
+                for(j in visa[i].service_charges){
+                    if(visa[i].service_charges[j].charge_type != 'RAC'){
+                        if(!price_breakdown.hasOwnProperty(visa[i].service_charges[j].charge_type))
+                            price_breakdown[visa[i].service_charges[j].charge_type] = 0;
+                        price_breakdown[visa[i].service_charges[j].charge_type] += visa[i].service_charges[j].amount * pax_count;
+                    }
+                    if(currency_breakdown == '')
+                        currency_breakdown = visa[i].service_charges[j].currency;
+                }
+            }
+        }else if(['passenger','review'].includes(type)){
+            for(i in sell_visa.search_data){
+                if(sell_visa.search_data[i].pax != 0){
+                    for(j in sell_visa.search_data[i].service_charges){
+                        if(sell_visa.search_data[i].service_charges[j].charge_type != 'RAC'){
+                            if(!price_breakdown.hasOwnProperty(sell_visa.search_data[i].service_charges[j].charge_type))
+                                price_breakdown[sell_visa.search_data[i].service_charges[j].charge_type] = 0;
+                            price_breakdown[sell_visa.search_data[i].service_charges[j].charge_type] += sell_visa.search_data[i].service_charges[j].total
+                        }
+                        if(currency_breakdown == '')
+                            currency_breakdown = sell_visa.search_data[i].service_charges[j].currency;
+                    }
+                }
+            }
+        }else if(type == 'booking'){
+            for(i in visa_get_detail.result.response.passengers){
+                for(j in visa_get_detail.result.response.passengers[i].sale_service_charges){
+                    for(k in visa_get_detail.result.response.passengers[i].sale_service_charges[j]){
+                        if(k != 'RAC'){
+                            if(!price_breakdown.hasOwnProperty(k))
+                                price_breakdown[k.toUpperCase()] = 0;
+                            price_breakdown[k.toUpperCase()] += visa_get_detail.result.response.passengers[i].sale_service_charges[j][k].amount;
+                            if(currency_breakdown == '')
+                                currency_breakdown = visa_get_detail.result.response.passengers[i].sale_service_charges[j][k].currency;
+                        }
+                    }
+                }
+            }
+        }
+        if(typeof upsell_price_dict !== 'undefined'){
+            for(i in upsell_price_dict){
+                if(!price_breakdown.hasOwnProperty('ROC'))
+                    price_breakdown['ROC'] = 0;
+                price_breakdown['ROC'] += upsell_price_dict[i];
+            }
+        }
+
+        var breakdown_text = '';
+        for(j in price_breakdown){
+            if(breakdown_text)
+                breakdown_text += '<br/>';
+            if(j != 'ROC')
+                breakdown_text += '<b>'+j+'</b> ';
+            else
+                breakdown_text += '<b>CONVENIENCE FEE</b> ';
+            breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
+        }
+        new jBox('Tooltip', {
+            attach: '#total_price',
+            target: '#total_price',
+            theme: 'TooltipBorder',
+            trigger: 'click',
+            adjustTracker: true,
+            closeOnClick: 'body',
+            closeButton: 'box',
+            animation: 'move',
+            position: {
+              x: 'left',
+              y: 'top'
+            },
+            outside: 'y',
+            pointer: 'left:20',
+            offset: {
+              x: 25
+            },
+            content: breakdown_text
+        });
+    }
     $("#select_visa_first").hide();
 }
 
@@ -2781,6 +2893,52 @@ function check_on_off_radio(pax_type,number,value){
                         currency = sell_visa['search_data'][i].service_charges[j].currency;
                 }
                 pax_price.innerHTML = currency + ' ' + getrupiah(price_perpax.toString());
+
+                if(is_show_breakdown_price){
+                    var price_breakdown = {};
+                    var currency_breakdown = '';
+                    for(j in sell_visa['search_data'][i].service_charges){
+                        if(sell_visa['search_data'][i].service_charges[j].charge_type != 'RAC'){
+                            if(!price_breakdown.hasOwnProperty(sell_visa['search_data'][i].service_charges[j].charge_type))
+                                price_breakdown[sell_visa['search_data'][i].service_charges[j].charge_type] = 0;
+                            price_breakdown[sell_visa['search_data'][i].service_charges[j].charge_type] += sell_visa['search_data'][i].service_charges[j].total;
+                        }
+                        if(currency_breakdown == '')
+                            currency_breakdown = sell_visa['search_data'][i].service_charges[j].currency;
+                    }
+                    var breakdown_text = '';
+                    for(j in price_breakdown){
+                        if(breakdown_text)
+                            breakdown_text += '<br/>';
+                        if(j != 'ROC')
+                            breakdown_text += '<b>'+j+'</b> ';
+                        else
+                            breakdown_text += '<b>CONVENIENCE FEE</b> ';
+                        breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
+                    }
+                    pax_price.style.cursor = 'pointer';
+                    new jBox('Tooltip', {
+                        attach: '#'+pax_price.id,
+                        target: '#'+pax_price.id,
+                        theme: 'TooltipBorder',
+                        trigger: 'click',
+                        adjustTracker: true,
+                        closeOnClick: 'body',
+                        closeButton: 'box',
+                        animation: 'move',
+                        position: {
+                          x: 'left',
+                          y: 'top'
+                        },
+                        outside: 'y',
+                        pointer: 'left:20',
+                        offset: {
+                          x: 25
+                        },
+                        content: breakdown_text
+                    });
+                }
+
                 if(other_currency_rate){
                     text_currency = ''
                     if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && price_perpax){

@@ -1547,7 +1547,10 @@ function bus_get_booking(data, sync=false){
                             <span style="font-size:13px; font-weight: bold;">Grand Total</span>
                         </div>
                         <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                            <span style="font-size:13px; font-weight: bold;">`;
+                            <span id="total_price" style="font-size:13px; font-weight: bold;`;
+                            if(is_show_breakdown_price)
+                                text_detail+='cursor:pointer;';
+                            text_detail +=`">`;
                             try{
                                 if(total_price != 0)
                                     text_detail+= price.currency+` `+getrupiah(total_price);
@@ -1556,6 +1559,8 @@ function bus_get_booking(data, sync=false){
                             }catch(err){
 
                             }
+                            if(is_show_breakdown_price)
+                                text_detail+=`<i class="fas fa-caret-down"></i>`;
                             text_detail+= `</span>
                         </div>
                     </div>`;
@@ -1680,6 +1685,55 @@ function bus_get_booking(data, sync=false){
                 document.getElementById('show_title_bus').hidden = false;
                 document.getElementById('show_loading_booking_bus').hidden = true;
                 document.getElementById('bus_detail').innerHTML = text;
+
+                if(is_show_breakdown_price){
+                    var price_breakdown = {};
+                    var currency_breakdown = '';
+                    for(i in bus_get_detail.result.response.passengers){
+                        for(j in bus_get_detail.result.response.passengers[i].sale_service_charges){
+                            for(k in bus_get_detail.result.response.passengers[i].sale_service_charges[j]){
+                                if(k != 'RAC'){
+                                    if(!price_breakdown.hasOwnProperty(k))
+                                        price_breakdown[k.toUpperCase()] = 0;
+                                    price_breakdown[k.toUpperCase()] += bus_get_detail.result.response.passengers[i].sale_service_charges[j][k].amount;
+                                    if(currency_breakdown == '')
+                                        currency_breakdown = bus_get_detail.result.response.passengers[i].sale_service_charges[j][k].currency;
+                                }
+                            }
+                        }
+
+                        var breakdown_text = '';
+                        for(j in price_breakdown){
+                            if(breakdown_text)
+                                breakdown_text += '<br/>';
+                            if(j != 'ROC')
+                                breakdown_text += '<b>'+j+'</b> ';
+                            else
+                                breakdown_text += '<b>CONVENIENCE FEE</b> ';
+                            breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
+                        }
+                        new jBox('Tooltip', {
+                            attach: '#total_price',
+                            target: '#total_price',
+                            theme: 'TooltipBorder',
+                            trigger: 'click',
+                            adjustTracker: true,
+                            closeOnClick: 'body',
+                            closeButton: 'box',
+                            animation: 'move',
+                            position: {
+                              x: 'left',
+                              y: 'top'
+                            },
+                            outside: 'y',
+                            pointer: 'left:20',
+                            offset: {
+                              x: 25
+                            },
+                            content: breakdown_text
+                        });
+                    }
+                }
 
                 if(msg.result.response.state == 'cancel'){
                    document.getElementById('issued-breadcrumb').classList.remove("br-active");

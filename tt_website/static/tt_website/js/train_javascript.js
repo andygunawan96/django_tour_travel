@@ -844,7 +844,15 @@ function train_get_detail(){
             <span style="font-size:13px;font-weight:bold;"><b>Total</b></span><br>
         </div>
         <div class="col-lg-6 col-xs-6" style="text-align:right;">
-            <span style="font-size:13px;font-weight:bold;"><b>`+price['currency']+` `+getrupiah(total_price+total_tax+total_discount)+`</b></span><br>
+            <span id="total_price" style="font-size:13px;font-weight:bold;`;
+        if(is_show_breakdown_price){
+            train_detail_footer+= "cursor:pointer;";
+        }
+        train_detail_footer+=`"><b>`+price['currency']+` `+getrupiah(total_price+total_tax+total_discount)+`</b>`;
+        if(is_show_breakdown_price){
+            train_detail_footer+= ` <i class="fas fa-caret-down"></i>`;
+        }
+        train_detail_footer+=`</span><br>
         </div>`;
 
         if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && total_price+total_tax+total_discount){
@@ -930,6 +938,54 @@ function train_get_detail(){
     document.getElementById('train_footer_detail').innerHTML = train_detail_footer;
 
     for(i in journeys){
+        if(is_show_breakdown_price){
+            var price_breakdown = {};
+            var currency_breakdown = '';
+            for(j in journeys[i].fares){
+                for(k in journeys[i].fares[j].service_charge_summary){
+                    for(l in journeys[i].fares[j].service_charge_summary[k].service_charges){
+                        if(journeys[i].fares[j].service_charge_summary[k].service_charges[l].charge_type != 'RAC'){
+                            if(!price_breakdown.hasOwnProperty(journeys[i].fares[j].service_charge_summary[k].service_charges[l].charge_type))
+                                price_breakdown[journeys[i].fares[j].service_charge_summary[k].service_charges[l].charge_type] = 0;
+                            price_breakdown[journeys[i].fares[j].service_charge_summary[k].service_charges[l].charge_type] += journeys[i].fares[j].service_charge_summary[k].service_charges[l].total;
+                        }
+                        if(currency_breakdown == '')
+                            currency_breakdown = journeys[i].fares[j].service_charge_summary[k].service_charges[l].currency;
+                    }
+                }
+            }
+            var breakdown_text = '';
+            for(j in price_breakdown){
+                if(breakdown_text)
+                    breakdown_text += '<br/>';
+                if(j != 'ROC')
+                    breakdown_text += '<b>'+j+'</b> ';
+                else
+                    breakdown_text += '<b>CONVENIENCE FEE</b> ';
+                breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
+            }
+            new jBox('Tooltip', {
+                attach: '#total_price',
+                target: '#total_price',
+                theme: 'TooltipBorder',
+                trigger: 'click',
+                adjustTracker: true,
+                closeOnClick: 'body',
+                closeButton: 'box',
+                animation: 'move',
+                position: {
+                  x: 'left',
+                  y: 'top'
+                },
+                outside: 'y',
+                pointer: 'left:20',
+                offset: {
+                  x: 25
+                },
+                content: breakdown_text
+            });
+        }
+
         if(journeys[i].hasOwnProperty('search_banner')){
            for(banner_counter in journeys[i].search_banner){
                var max_banner_date = moment().subtract(parseInt(-1*journeys[i].search_banner[banner_counter].minimum_days), 'days').format('YYYY-MM-DD');
@@ -1250,7 +1306,15 @@ function train_detail(){
             <span style="font-size:13px;"><b>Total</b></span><br>
         </div>
         <div class="col-lg-6 col-xs-6" style="text-align:right;">
-            <span style="font-size:13px;"><b>`+price['currency']+` `+getrupiah(grand_total_price)+`</b></span><br>
+            <span id="total_price" style="font-size:13px;`;
+    if(is_show_breakdown_price){
+        text+= "cursor:pointer;";
+    }
+    text+=`"><b>`+price['currency']+` `+getrupiah(grand_total_price)+`</b>`;
+    if(is_show_breakdown_price){
+        text+= ` <i class="fas fa-caret-down"></i>`;
+    }
+    text+=`</span><br>
         </div>
     </div>`;
 
@@ -1347,6 +1411,60 @@ function train_detail(){
     document.getElementById('train_detail').innerHTML = text;
 
     for(i in train_data){
+        if(is_show_breakdown_price){
+            var price_breakdown = {};
+            var currency_breakdown = '';
+            for(j in train_data[i].fares){
+                for(k in train_data[i].fares[j].service_charge_summary){
+                    for(l in train_data[i].fares[j].service_charge_summary[k].service_charges){
+                        if(train_data[i].fares[j].service_charge_summary[k].service_charges[l].charge_type != 'RAC'){
+                            if(!price_breakdown.hasOwnProperty(train_data[i].fares[j].service_charge_summary[k].service_charges[l].charge_type))
+                                price_breakdown[train_data[i].fares[j].service_charge_summary[k].service_charges[l].charge_type] = 0;
+                            price_breakdown[train_data[i].fares[j].service_charge_summary[k].service_charges[l].charge_type] += train_data[i].fares[j].service_charge_summary[k].service_charges[l].total;
+                        }
+                        if(currency_breakdown == '')
+                            currency_breakdown = train_data[i].fares[j].service_charge_summary[k].service_charges[l].currency;
+                    }
+                }
+            }
+            if(typeof upsell_price_dict !== 'undefined'){
+                for(i in upsell_price_dict){
+                    if(!price_breakdown.hasOwnProperty('ROC'))
+                        price_breakdown['ROC'] = 0;
+                    price_breakdown['ROC'] += upsell_price_dict[i];
+                }
+            }
+            var breakdown_text = '';
+            for(j in price_breakdown){
+                if(breakdown_text)
+                    breakdown_text += '<br/>';
+                if(j != 'ROC')
+                    breakdown_text += '<b>'+j+'</b> ';
+                else
+                    breakdown_text += '<b>CONVENIENCE FEE</b> ';
+                breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
+            }
+            new jBox('Tooltip', {
+                attach: '#total_price',
+                target: '#total_price',
+                theme: 'TooltipBorder',
+                trigger: 'click',
+                adjustTracker: true,
+                closeOnClick: 'body',
+                closeButton: 'box',
+                animation: 'move',
+                position: {
+                  x: 'left',
+                  y: 'top'
+                },
+                outside: 'y',
+                pointer: 'left:20',
+                offset: {
+                  x: 25
+                },
+                content: breakdown_text
+            });
+        }
         if(train_data[i].hasOwnProperty('search_banner')){
            for(banner_counter in train_data[i].search_banner){
                var max_banner_date = moment().subtract(parseInt(-1*train_data[i].search_banner[banner_counter].minimum_days), 'days').format('YYYY-MM-DD');
@@ -2225,7 +2343,13 @@ function sort(value){
                             if(check == 0){
                                 if(data_filter[i].price != data_filter[i].without_discount_price)
                                     response += `<span class="basic_fare_field cross_price" style="font-size:14px; color:#929292;">IDR `+getrupiah(data_filter[i].without_discount_price)+`</span><br/>`;
-                                response += `<span class="copy_price" style="font-size:16px; font-weight: bold; color:`+color+`;">IDR `+getrupiah(data_filter[i].price)+`</span><br/>`;
+                                response += `<span class="copy_price" id="train_price_`+i+`" style="font-size:16px; font-weight: bold; color:`+color+`;`;
+                                if(is_show_breakdown_price)
+                                    response+='cursor:pointer;';
+                                response += `">IDR `+getrupiah(data_filter[i].price);
+                                if(is_show_breakdown_price)
+                                    response+=`<i class="fas fa-caret-down price_template"></i>`;
+                                response+=`</span><br/>`;
                                 if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && data_filter[i].price){
                             //        if(currency_rate_data.result.response.agent.hasOwnProperty(user_login.agent_name)){ // buat o3
                                     for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
@@ -2303,6 +2427,63 @@ function sort(value){
     document.getElementById("train_result").appendChild(node_co);
 
     for(i in data_filter){
+        if(is_show_breakdown_price){
+            if(train_request.departure[train_request_pick] == data_filter[i].departure_date[0] && journeys.length != train_request.departure.length && train_request.destination[train_request_pick].split(' - ')[0] == data_filter[i].destination && train_request.origin[train_request_pick].split(' - ')[0] == data_filter[i].origin){
+                var price_breakdown = {};
+                var currency_breakdown = '';
+                for(j in data_filter[i].fares){
+                    for(k in data_filter[i].fares[j].service_charge_summary){
+                        for(l in data_filter[i].fares[j].service_charge_summary[k].service_charges){
+                            if(data_filter[i].fares[j].service_charge_summary[k].service_charges[l].charge_type != 'RAC'){
+                                if(!price_breakdown.hasOwnProperty(data_filter[i].fares[j].service_charge_summary[k].service_charges[l].charge_type))
+                                    price_breakdown[data_filter[i].fares[j].service_charge_summary[k].service_charges[l].charge_type] = 0;
+                                price_breakdown[data_filter[i].fares[j].service_charge_summary[k].service_charges[l].charge_type] += data_filter[i].fares[j].service_charge_summary[k].service_charges[l].total;
+                            }
+                            if(currency_breakdown == '')
+                                currency_breakdown = data_filter[i].fares[j].service_charge_summary[k].service_charges[l].currency;
+                        }
+                    }
+                }
+                // upsell
+                if(typeof upsell_price_dict !== 'undefined'){
+                    for(i in upsell_price_dict){
+                        if(!price_breakdown.hasOwnProperty('ROC'))
+                            price_breakdown['ROC'] = 0;
+                        price_breakdown['ROC'] += upsell_price_dict[i];
+                    }
+                }
+                var breakdown_text = '';
+                for(j in price_breakdown){
+                    if(breakdown_text)
+                        breakdown_text += '<br/>';
+                    if(j != 'ROC')
+                        breakdown_text += '<b>'+j+'</b> ';
+                    else
+                        breakdown_text += '<b>CONVENIENCE FEE</b> ';
+                    breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
+                }
+                new jBox('Tooltip', {
+                    attach: '#train_price_'+ i,
+                    target: '#train_price_'+ i,
+                    theme: 'TooltipBorder',
+                    trigger: 'click',
+                    adjustTracker: true,
+                    closeOnClick: 'body',
+                    closeButton: 'box',
+                    animation: 'move',
+                    position: {
+                      x: 'left',
+                      y: 'top'
+                    },
+                    outside: 'y',
+                    pointer: 'left:20',
+                    offset: {
+                      x: 25
+                    },
+                    content: breakdown_text
+                });
+            }
+        }
         if(data_filter[i].hasOwnProperty('search_banner')){
            for(banner_counter in data_filter[i].search_banner){
                var max_banner_date = moment().subtract(parseInt(-1*data_filter[i].search_banner[banner_counter].minimum_days), 'days').format('YYYY-MM-DD');
@@ -2404,7 +2585,12 @@ function train_ticket_pick(){
                         response += `<span class="basic_fare_field cross_price" style="font-size:14px; color:#929292;">IDR `+getrupiah(journeys[i].without_discount_price)+`</span><br/>`
                     }
                     response+=`
-                        <span style="font-size:16px; margin-bottom:10px; font-weight: bold; color:`+color+`;">IDR `+getrupiah(journeys[i].price)+`</span>`;
+                        <span id="train_pick_price_`+i+`" style="font-size:16px; margin-bottom:10px; font-weight: bold; color:`+color+`;`;
+                    if(is_show_breakdown_price)
+                        response+='cursor:pointer;';
+                    response+=`">IDR `+getrupiah(journeys[i].price)+`</span>`;
+                    if(is_show_breakdown_price)
+                        response+=`<i class="fas fa-caret-down price_template"></i>`;
                     if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && journeys[i].price){
                 //        if(currency_rate_data.result.response.agent.hasOwnProperty(user_login.agent_name)){ // buat o3
                         for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
@@ -2441,6 +2627,61 @@ function train_ticket_pick(){
     document.getElementById('train_pick_ticket').innerHTML = response;
 
     for(i in journeys){
+        if(is_show_breakdown_price){
+            var price_breakdown = {};
+            var currency_breakdown = '';
+            for(j in journeys[i].fares){
+                for(k in journeys[i].fares[j].service_charge_summary){
+                    for(l in journeys[i].fares[j].service_charge_summary[k].service_charges){
+                        if(journeys[i].fares[j].service_charge_summary[k].service_charges[l].charge_type != 'RAC'){
+                            if(!price_breakdown.hasOwnProperty(journeys[i].fares[j].service_charge_summary[k].service_charges[l].charge_type))
+                                price_breakdown[journeys[i].fares[j].service_charge_summary[k].service_charges[l].charge_type] = 0;
+                            price_breakdown[journeys[i].fares[j].service_charge_summary[k].service_charges[l].charge_type] += journeys[i].fares[j].service_charge_summary[k].service_charges[l].total;
+                        }
+                        if(currency_breakdown == '')
+                            currency_breakdown = journeys[i].fares[j].service_charge_summary[k].service_charges[l].currency;
+                    }
+                }
+            }
+            // upsell
+            if(typeof upsell_price_dict !== 'undefined'){
+                for(i in upsell_price_dict){
+                    if(!price_breakdown.hasOwnProperty('ROC'))
+                        price_breakdown['ROC'] = 0;
+                    price_breakdown['ROC'] += upsell_price_dict[i];
+                }
+            }
+            var breakdown_text = '';
+            for(j in price_breakdown){
+                if(breakdown_text)
+                    breakdown_text += '<br/>';
+                if(j != 'ROC')
+                    breakdown_text += '<b>'+j+'</b> ';
+                else
+                    breakdown_text += '<b>CONVENIENCE FEE</b> ';
+                breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
+            }
+            new jBox('Tooltip', {
+                attach: '#train_pick_price_'+ i,
+                target: '#train_pick_price_'+ i,
+                theme: 'TooltipBorder',
+                trigger: 'click',
+                adjustTracker: true,
+                closeOnClick: 'body',
+                closeButton: 'box',
+                animation: 'move',
+                position: {
+                  x: 'left',
+                  y: 'top'
+                },
+                outside: 'y',
+                pointer: 'left:20',
+                offset: {
+                  x: 25
+                },
+                content: breakdown_text
+            });
+        }
         if(journeys[i].hasOwnProperty('search_banner')){
            for(banner_counter in journeys[i].search_banner){
                var max_banner_date = moment().subtract(parseInt(-1*journeys[i].search_banner[banner_counter].minimum_days), 'days').format('YYYY-MM-DD');

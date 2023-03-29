@@ -66,6 +66,8 @@ def api_models(request):
             res = get_current_search(request)
         elif req_data['action'] == 'detail':
             res = detail(request)
+        elif req_data['action'] == 'get_current_search_detail':
+            res = get_current_search_detail(request)
         elif req_data['action'] == 'get_cancellation_policy':
             res = get_cancellation_policy(request)
         elif req_data['action'] == 'provision':
@@ -617,7 +619,7 @@ def get_current_search(request):
             _logger.error('ERROR current search use cache')
 
     url_request = url + 'booking/hotel'
-    res = send_request_api(request, url_request, headers, data, 'POST', 300)
+    res = send_request_api(request, url_request, headers, data, 'POST', 30)
     if request.session.get('hotel_set_signature', False):
         set_session(request, 'hotel_signature', request.POST['signature'])
     return res
@@ -737,6 +739,39 @@ def detail(request):
             _logger.error("get_details_hotel ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def get_current_search_detail(request):
+    try:
+        data = json.loads(request.POST['data'])
+        data.update({
+            'hotel_id': request.session['hotel_detail']['id'],
+            'checkin_date': request.POST['checkin_date'] and str(datetime.strptime(request.POST['checkin_date'], '%d %b %Y'))[:10] or data['checkin_date'],
+            'checkout_date': request.POST['checkout_date'] and str(datetime.strptime(request.POST['checkout_date'], '%d %b %Y'))[:10] or data['checkout_date'],
+            'pax_country': False
+        })
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "get_current_search_detail",
+            "signature": request.session['hotel_signature'],
+        }
+        set_session(request, 'hotel_detail_request', data)
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+        if request.POST.get('use_cache'):
+            data = request.session['hotel_detail_request']
+            headers = {
+                "Accept": "application/json,text/html,application/xml",
+                "Content-Type": "application/json",
+                "action": "get_current_search_detail",
+                "signature": request.POST['signature']
+            }
+            _logger.info('hotel get detail use cache')
+        else:
+            _logger.error('error hotel get detail')
+    url_request = url + 'booking/hotel'
+    res = send_request_api(request, url_request, headers, data, 'POST', timeout=30)
     return res
 
 def get_cancellation_policy(request):

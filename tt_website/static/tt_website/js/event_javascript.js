@@ -1205,7 +1205,7 @@ function hotel_room_pick_button(total_commission){
     text +=`</div>`;
     if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
         text+=`<div class="col-lg-12">`
-        text+= print_commission(total_commission,'show_commission_event','IDR', 'commission_val')
+        text+= print_commission(total_commission*-1,'show_commission_event','IDR', 'commission_val')
         text+=`</div>`
         text+=`
         <div class="col-lg-12">

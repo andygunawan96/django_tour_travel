@@ -350,7 +350,6 @@ function hotel_get_current_search(){
                     'signature': signature
                },
                success: function(msg) {
-                    console.log(msg);
                     if(msg.result.error_code == 0){
                         vendor = [];
                         if(msg.result.response.hasOwnProperty('hotel_ids') && msg.result.response.hotel_ids.length > 0){
@@ -1192,6 +1191,8 @@ function hotel_detail_request(checkin_date, checkout_date){
     is_first_render_room_hotel = true;
     hotel_room_detail_pick = null;
     document.getElementById("badge-hotel-notif").innerHTML = "0";
+    is_hotel_search_done = false;
+    hotel_get_current_search_detail(checkin_date, checkout_date);
     myVar = setTimeout(function() {
         $.ajax({
            type: "POST",
@@ -1206,6 +1207,7 @@ function hotel_detail_request(checkin_date, checkout_date){
                 'data': hotel_search_data
            },
            success: function(msg) {
+            is_hotel_search_done = true;
             // Remove Copy dan Next button waktu ganti tanggal START
             document.getElementById("hotel_detail_button").innerHTML = '';
             // Remove Copy dan Next button waktu ganti tanggal END
@@ -1334,23 +1336,25 @@ function hotel_detail_request(checkin_date, checkout_date){
                             </div>
                         </div>`;
                     }
-
-                    text2+=`
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <span style="font-size:14px; font-weight:bold;" id="total_room_hotel"></span>
-                        </div>
-                        <div class="col-lg-6">
-                            <label class="check_box_custom" style="float:right; margin-bottom:unset;">
-                                <span class="span-search-ticket" style="color:black;">Select All to Copy</span>
-                                <input type="checkbox" id="check_all_copy" onchange="check_all_result_room();"/>
-                                <span class="check_box_span_custom"></span>
-                            </label>
-                        </div>
-                    </div>`;
-                    node2.className = 'sorting-box';
-                    node2.innerHTML = text2;
-                    document.getElementById("select_copy_all").appendChild(node2);
+                    if(document.getElementById("select_copy_div") == null){
+                        text2+=`
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <span style="font-size:14px; font-weight:bold;" id="total_room_hotel"></span>
+                            </div>
+                            <div class="col-lg-6">
+                                <label class="check_box_custom" style="float:right; margin-bottom:unset;">
+                                    <span class="span-search-ticket" style="color:black;">Select All to Copy</span>
+                                    <input type="checkbox" id="check_all_copy" onchange="check_all_result_room();"/>
+                                    <span class="check_box_span_custom"></span>
+                                </label>
+                            </div>
+                        </div>`;
+                        node2.className = 'sorting-box';
+                        node2.id = 'select_copy_div';
+                        node2.innerHTML = text2;
+                        document.getElementById("select_copy_all").appendChild(node2);
+                    }
                     node2 = document.createElement("div");
 
                     document.getElementById("filterRoom_generalShow").innerHTML = text_filter;
@@ -1446,6 +1450,175 @@ function hotel_detail_request(checkin_date, checkout_date){
            },timeout: 180000
         });
     },500);
+}
+
+function hotel_get_current_search_detail(checkin_date, checkout_date){
+    if(!is_hotel_search_done){
+        setTimeout(function() {
+            $.ajax({
+               type: "POST",
+               url: "/webservice/hotel",
+               headers:{
+                    'action': 'get_current_search_detail',
+               },
+               data: {
+                    'checkin_date': checkin_date,
+                    'checkout_date': checkout_date,
+                    'signature': signature,
+                    'data': hotel_search_data
+               },
+               success: function(msg) {
+                    try{
+                        if(msg.result.error_code == 0){
+                            var result = msg.result.response;
+                            text='';
+                            text2='';
+                            text_filter = '';
+                            var node2 = document.createElement("div");
+                            if(result.prices.length > 0){
+                                provider_list = [];
+                                for(i in result.prices){
+                                    if(provider_list.includes(result.prices[i].provider) == false)
+                                        provider_list.push(result.prices[i].provider);
+                                }
+                                text_filter+=`
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <h6 class="mb-2">Show All</h6>
+                                        <div class="checkbox-inline1">
+                                           <label class="check_box_custom">
+                                                <span class="span-search-ticket" style="color:black;">Select All to Copy</span>
+                                                <input type="checkbox" id="checkbox_room_all" onclick="filter_room_hotel('','');">
+                                                <span class="check_box_span_custom"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>`;
+
+                                text_filter+=`
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <hr/>
+                                        <h6 class="mb-2">Meal Type</h6>
+                                        <div class="checkbox-inline1">
+                                           <label class="check_box_custom">
+                                                <span class="span-search-ticket" style="color:black;">Room Only</span>
+                                                <input type="checkbox" id="checkbox_room_only" onclick="filter_room_hotel('meal',false);">
+                                                <span class="check_box_span_custom"></span>
+                                            </label><br>
+                                        </div>
+                                        <div class="checkbox-inline1">
+                                           <label class="check_box_custom">
+                                                <span class="span-search-ticket" style="color:black;">Breakfast</span>
+                                                <input type="checkbox" id="checkbox_breakfast" onclick="filter_room_hotel('meal',true);">
+                                                <span class="check_box_span_custom"></span>
+                                            </label><br>
+                                        </div>
+                                        <hr/>
+                                    </div>
+                                </div>`;
+
+                                text_filter+=`
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <h6 class="mb-2">Room Type</h6>
+                                        <div class="checkbox-inline1">
+                                           <label class="check_box_custom">
+                                                <span class="span-search-ticket" style="color:black;">Single</span>
+                                                <input type="checkbox" id="checkbox_single" onclick="filter_room_hotel('room','single');">
+                                                <span class="check_box_span_custom"></span>
+                                            </label><br>
+                                        </div>
+                                        <div class="checkbox-inline1">
+                                           <label class="check_box_custom">
+                                                <span class="span-search-ticket" style="color:black;">Twin</span>
+                                                <input type="checkbox" id="checkbox_twin" onclick="filter_room_hotel('room','twin');">
+                                                <span class="check_box_span_custom"></span>
+                                            </label><br>
+                                        </div>
+                                        <div class="checkbox-inline1">
+                                           <label class="check_box_custom">
+                                                <span class="span-search-ticket" style="color:black;">Double</span>
+                                                <input type="checkbox" id="checkbox_double" onclick="filter_room_hotel('room','double');">
+                                                <span class="check_box_span_custom"></span>
+                                            </label><br>
+                                        </div>
+                                        <div class="checkbox-inline1">
+                                           <label class="check_box_custom">
+                                                <span class="span-search-ticket" style="color:black;">Queen</span>
+                                                <input type="checkbox" id="checkbox_queen" onclick="filter_room_hotel('room','queen');">
+                                                <span class="check_box_span_custom"></span>
+                                            </label><br>
+                                        </div>
+                                        <div class="checkbox-inline1">
+                                           <label class="check_box_custom">
+                                                <span class="span-search-ticket" style="color:black;">King</span>
+                                                <input type="checkbox" id="checkbox_king" onclick="filter_room_hotel('room','king');">
+                                                <span class="check_box_span_custom"></span>
+                                            </label><br>
+                                        </div>
+                                        <hr/>
+                                    </div>
+                                </div>`;
+                                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
+                                    text_filter+=`
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <h6 class="mb-2">Provider</h6>`;
+                                        for(i in provider_list){
+                                            text_filter+=`
+                                            <div class="checkbox-inline1">
+                                               <label class="check_box_custom">
+                                                    <span class="span-search-ticket" style="color:black;">`+provider_list[i]+`</span>
+                                                    <input type="checkbox" id="checkbox_provider`+i+`" onclick="filter_room_hotel('provider','`+provider_list[i]+`');">
+                                                    <span class="check_box_span_custom"></span>
+                                                </label><br>
+                                            </div>`;
+                                        }
+                                        text_filter+=`
+                                        </div>
+                                    </div>`;
+                                }
+
+                                if(document.getElementById("select_copy_div") == null){
+                                    text2+=`
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <span style="font-size:14px; font-weight:bold;" id="total_room_hotel"></span>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <label class="check_box_custom" style="float:right; margin-bottom:unset;">
+                                                <span class="span-search-ticket" style="color:black;">Select All to Copy</span>
+                                                <input type="checkbox" id="check_all_copy" onchange="check_all_result_room();"/>
+                                                <span class="check_box_span_custom"></span>
+                                            </label>
+                                        </div>
+                                    </div>`;
+                                    node2.className = 'sorting-box';
+                                    node2.id = 'select_copy_div';
+                                    node2.innerHTML = text2;
+
+                                    document.getElementById("select_copy_all").appendChild(node2);
+
+                                    document.getElementById("filterRoom_generalShow").innerHTML = text_filter;
+                                }
+
+                                result_room_detail = result;
+                                hotel_price = result.prices;
+                                filter_type = ''
+                                filter_room_hotel('');
+                            }
+
+                        }
+                    }catch(err){console.log(err);}
+                    hotel_get_current_search_detail(checkin_date, checkout_date);
+               },
+               error: function(XMLHttpRequest, textStatus, errorThrown) {
+                   error_ajax(XMLHttpRequest, textStatus, errorThrown, '');
+               }
+            });
+        }, 3000);
+    }
 }
 
 function sortFunction(a, b) {
@@ -1660,7 +1833,12 @@ function hotel_get_cancellation_policy(price_code, provider, view_type){
                     }
                     text += '</ul>';
                     document.getElementById('cancellation_policy_choose').innerHTML = text;
-                    hotel_room_pick_button();
+                    document.getElementById('hotel_detail_button_loading').innerHTML = '';
+                    $('.hold-seat-booking-train').prop('disabled', false);
+                    $('.hold-seat-booking-train').removeClass("running");
+
+                    document.getElementById("badge-hotel-notif").innerHTML = "1";
+//                    hotel_room_pick_button();
                 } else if (view_type == '1'){
                     // Passenger Page
                     var text = '';
@@ -3456,13 +3634,21 @@ function hotel_get_booking(data){
                                 <span style="font-size:13px; font-weight: bold;">Grand Total</span>
                             </div>
                             <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                                <span style="font-size:13px; font-weight: bold;">`;
+                                <span id="total_price" style="font-size:13px; font-weight: bold;`;
+                        if(is_show_breakdown_price){
+                            text_detail+=`cursor:pointer;`;
+                        }
+                        text_detail+=`">`;
                                 try{
                                     text_detail+= currency+` `+getrupiah(total_price);
                                 }catch(err){
 
                                 }
-                                text_detail+= `</span>
+                                text_detail+= `</span>`;
+                        if(is_show_breakdown_price){
+                             text_detail+=`<i class="fas fa-caret-down"></i>`;
+                        }
+                        text_detail+=`
                             </div>
                         </div>`;
                         if(['booked'].includes(msg.result.response.state)){
@@ -3593,6 +3779,54 @@ function hotel_get_booking(data){
                     </div>`;
                 }catch(err){console.log(err)}
                 document.getElementById('hotel_detail').innerHTML = text_detail;
+                if(is_show_breakdown_price){
+                    var price_breakdown = {};
+                    var currency_breakdown = '';
+                    for(i in hotel_get_detail.result.response.passengers){
+                        for(j in hotel_get_detail.result.response.passengers[i].sale_service_charges){
+                            for(k in hotel_get_detail.result.response.passengers[i].sale_service_charges[j]){
+                                if(k != 'RAC'){
+                                    if(!price_breakdown.hasOwnProperty(k))
+                                        price_breakdown[k.toUpperCase()] = 0;
+                                    price_breakdown[k.toUpperCase()] += hotel_get_detail.result.response.passengers[i].sale_service_charges[j][k].amount;
+                                    if(currency_breakdown == '')
+                                        currency_breakdown = hotel_get_detail.result.response.passengers[i].sale_service_charges[j][k].currency;
+                                }
+                            }
+                        }
+
+                        var breakdown_text = '';
+                        for(j in price_breakdown){
+                            if(breakdown_text)
+                                breakdown_text += '<br/>';
+                            if(j != 'ROC')
+                                breakdown_text += '<b>'+j+'</b> ';
+                            else
+                                breakdown_text += '<b>CONVENIENCE FEE</b> ';
+                            breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
+                        }
+                        new jBox('Tooltip', {
+                            attach: '#total_price',
+                            target: '#total_price',
+                            theme: 'TooltipBorder',
+                            trigger: 'click',
+                            adjustTracker: true,
+                            closeOnClick: 'body',
+                            closeButton: 'box',
+                            animation: 'move',
+                            position: {
+                              x: 'left',
+                              y: 'top'
+                            },
+                            outside: 'y',
+                            pointer: 'left:20',
+                            offset: {
+                              x: 25
+                            },
+                            content: breakdown_text
+                        });
+                    }
+                }
                 text_cancellation_policy = `
                     <div style="background-color:white; padding:15px; border: 1px solid #cdcdcd; margin-bottom:15px;">
                         <div class="row">
