@@ -8113,6 +8113,7 @@ function deactivate_corporate_mode(){
 function delete_phone_passenger_cache(val){
     try{
         document.getElementById(`phone`+val+`_id`).remove();
+        passenger_data_phone = passenger_data_phone - 1;
     }catch(err){
         console.log(err); //error tidak ada element phone passenger
         try{
@@ -8299,6 +8300,7 @@ function add_frequent_flyer_cache(){
 function delete_frequent_flyer_cache(val){
     try{
         document.getElementById(`ff`+val+`_id`).remove();
+        passenger_ff_data = passenger_ff_data - 1;
     }catch(err){
         console.log(err); //error tidak ada element ff passenger
         try{
@@ -9328,6 +9330,59 @@ function fill_paxdata_from_idcard(idcard_type){
 
 function change_upload_idcard_type(sel_idcard){
     document.getElementById('upload_idcard_btn').dataset.target = sel_idcard.value;
+}
+
+function toggle_auto_fill_attributes(auto_fill_display='block'){
+    var temp_atts = document.getElementsByClassName("hide_with_btn2");
+    for(var i=0, n=temp_atts.length;i<n;i++) {
+        temp_atts[i].style.display = auto_fill_display;
+    }
+}
+
+function clear_create_search_passenger_db(){
+    $("#train_passenger_search").val('');
+    $("#passenger_title").val('MR').trigger('change');
+    $('#passenger_title').niceSelect('update');
+    $("#passenger_first_name").val('');
+    $("#passenger_last_name").val('');
+    $("#passenger_birth_date").val('');
+    $("#passenger_nationality_id").val('ID').trigger('change');
+    $("#passenger_nationality_id").niceSelect('update');
+    $("#passenger_email").val('');
+    for(var i=1; i<=4; i++)
+    {
+        $("#passenger_identity_number"+i.toString()).val('');
+        $("#passenger_identity_expired_date"+i.toString()).val('');
+        $("#passenger_identity_country_of_issued"+i.toString()+"_id").val('').trigger('change');
+        document.getElementById('selectedFiles_attachment'+i.toString()).innerHTML = '';
+        document.getElementById('files_attachment'+i.toString()).value = '';
+    }
+    for(var i=passenger_data_phone; i>0; i--)
+    {
+        delete_phone_passenger_cache(i);
+    }
+    for(var i=passenger_ff_data; i>0; i--)
+    {
+        delete_frequent_flyer_cache(i);
+    }
+}
+
+function pax_db_overlay_bar_confirmation(){
+    Swal.fire({
+      title: 'Close Passenger Database?',
+      html: '<h4 style="color:red;">All data that you have filled in will be deleted.<h4/>',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+        if (result.value) {
+            on_off_overlay_bar('box-passenger-db', 'overlay_box_passenger_db');
+            clear_search_pax('passenger','');
+            clear_create_search_passenger_db();
+        }
+    })
 }
 
 function update_passenger_backend(){

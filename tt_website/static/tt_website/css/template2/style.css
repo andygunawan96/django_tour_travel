@@ -471,7 +471,7 @@ input:focus {
 /* :: 7.0 Header Area CSS */
 .header-area {
   position: relative;
-  z-index: 1000;
+  z-index: 999;
   width: 100%;
   -webkit-transition-duration: 500ms;
   -o-transition-duration: 500ms;

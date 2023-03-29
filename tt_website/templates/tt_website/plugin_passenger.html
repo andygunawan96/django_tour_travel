@@ -74,14 +74,14 @@
 </script>
 
 <div class="box-passenger-db">
-    <div id="overlay_box_pdb" class="overlay_box_passenger_db" style="display:none;" onclick="on_off_overlay_bar('box-passenger-db', 'overlay_box_passenger_db'); clear_search_pax('passenger','');"></div>
+    <div id="overlay_box_pdb" class="overlay_box_passenger_db" style="display:none;" onclick="pax_db_overlay_bar_confirmation();"></div>
     <div class="box-passenger-db-inner">
         <div class="row" style="background:white; position:sticky; padding-top:25px; z-index:1000; top:0px; border-bottom:1px solid #cdcdcd;">
             <div class="col-xs-7">
                 <h5 style="color:black; font-size:16px;"><i class="fas fa-address-card"></i> PASSENGER DATABASE</h5>
             </div>
             <div class="col-xs-5" style="text-align:right;">
-                <i class="fas fa-times text_btn_custom" id="close_pdb" style="font-size:24px; font-weight:bold;" onclick="on_off_overlay_bar('box-passenger-db', 'overlay_box_passenger_db'); clear_search_pax('passenger','');"></i>
+                <i class="fas fa-times text_btn_custom" id="close_pdb" style="font-size:24px; font-weight:bold;" onclick="on_off_overlay_bar('box-passenger-db', 'overlay_box_passenger_db'); clear_search_pax('passenger',''); clear_create_search_passenger_db();"></i>
             </div>
             <div class="col-xs-12">
                 <hr/>
@@ -322,9 +322,9 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-5 mb-3" style="text-align:right;">
-                                        <button id="upload_idcard_btn" style="width:100%;" type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment1">{% trans 'Upload ID Card' %} <i class="fas fa-id-card"></i></button>
+                                        <button id="upload_idcard_btn" style="width:100%;" type="button" class="primary-btn" onclick="toggle_auto_fill_attributes('block')" data-toggle="modal" data-target="#myModal_attachment1">{% trans 'Upload ID Card' %} <i class="fas fa-id-card"></i></button>
                                     </div>
-                                    <div class="col-lg-12 mb-3">
+                                    <div class="col-lg-12 mb-3 hide_with_btn2">
                                         <i class="fas fa-exclamation-triangle" style="font-size:18px; color:#ffcc00;"></i> Warning: Automatically inputted data might not be 100% accurate, please re-check and correct them manually
                                     </div>
                                 </div>
@@ -344,7 +344,7 @@
                                         <div class="modal-body">
 
                                             Files: <input type="file" id="files_attachment2" name="files_attachment_2" multiple="" accept="image/*"><br>
-                                            <input type="button" id="button_webcam2" value="Open Webcam" class="primary-btn" onclick="open_webcam();" />
+                                            <input type="button" id="button_webcam2" value="Open Webcam" class="primary-btn hide_with_btn2" onclick="open_webcam();" />
                                             <video autoplay="true" id="video-webcam2" style="display:none">
                                             </video>
                                             <button type="button" onclick="takeSnapshot()" style="display:none;" class="primary-btn" id="capture_img2">Capture</button>
@@ -352,12 +352,12 @@
                                             <div class="mt-3 input-container-search-ticket">
                                                 <input type="text" class="form-control o_website_form_input" id="description_attachment_2" name="description_attachment_2" placeholder="Description" />
                                             </div>
-                                            <div>
+                                            <div class="hide_with_btn2">
                                                 <i class="fas fa-exclamation-triangle" style="font-size:18px; color:#ffcc00;"></i> Warning: Automatically inputted data might not be 100% accurate, please re-check and correct them manually
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-                                            <button id="fill_data_idcard2" type="button" class="primary-btn next-loading ld-ext-right" onclick="fill_paxdata_from_idcard('ktp');">Fill In Data</button>
+                                            <button id="fill_data_idcard2" type="button" class="primary-btn hide_with_btn2 next-loading ld-ext-right" onclick="fill_paxdata_from_idcard('ktp');">Fill In Data</button>
                                             <button type="button" class="btn btn-default" onclick="close_upload_attachment(2,'');">{% trans 'Close' %}</button>
                                         </div>
                                     </div>
@@ -376,7 +376,7 @@
                                         <div class="modal-body">
 
                                             Files: <input type="file" id="files_attachment1" name="files_attachment_1" multiple="" accept="image/*"><br><br/>
-                                            <input type="button" id="button_webcam1" value="Open Webcam" class="primary-btn" onclick="open_webcam();" />
+                                            <input type="button" id="button_webcam1" value="Open Webcam" class="primary-btn hide_with_btn2" onclick="open_webcam();" />
                                             <video autoplay="true" id="video-webcam1" style="display:none">
                                             </video>
                                             <button type="button" onclick="takeSnapshot()" style="display:none;" class="primary-btn" id="capture_img1">Capture</button>
@@ -387,7 +387,7 @@
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-                                            <button id="fill_data_idcard1" type="button" class="primary-btn-custom next-loading ld-ext-right" onclick="fill_paxdata_from_idcard('passport');">Fill In Data</button>
+                                            <button id="fill_data_idcard1" type="button" class="primary-btn-custom hide_with_btn2 next-loading ld-ext-right" onclick="fill_paxdata_from_idcard('passport');">Fill In Data</button>
                                             <button type="button" class="btn btn-default" onclick="close_upload_attachment(1,'');">{% trans 'Close' %}</button>
                                         </div>
                                     </div>
@@ -617,7 +617,7 @@
                                             </div>
                                             <div class="col-lg-12" style="margin-bottom:15px;">
                                                 <span>{% trans 'Attachment' %}</span><br/>
-                                                <button type="button" class="primary-btn-white" data-toggle="modal" data-target="#myModal_attachment1">{% trans 'Upload Image' %} <i class="fas fa-images"></i></button>
+                                                <button type="button" class="primary-btn-white" onclick="toggle_auto_fill_attributes('none')" data-toggle="modal" data-target="#myModal_attachment1">{% trans 'Upload Image' %} <i class="fas fa-images"></i></button>
                                             </div>
                                         </div>
                                     </div>
@@ -658,7 +658,7 @@
                                             </div>
                                             <div class="col-lg-12" style="margin-bottom:15px;">
                                                 <span>{% trans 'Attachment' %}</span><br/>
-                                                <button type="button" class="primary-btn-white" data-toggle="modal" data-target="#myModal_attachment2">{% trans 'Upload Image' %} <i class="fas fa-images"></i></button>
+                                                <button type="button" class="primary-btn-white" onclick="toggle_auto_fill_attributes('none')" data-toggle="modal" data-target="#myModal_attachment2">{% trans 'Upload Image' %} <i class="fas fa-images"></i></button>
                                             </div>
                                         </div>
                                     </div>
@@ -792,9 +792,9 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-5 mb-3" style="text-align:right;">
-                                        <button id="upload_idcard_btn" style="width:100%;" type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment1">{% trans 'Upload ID Card' %} <i class="fas fa-id-card"></i></button>
+                                        <button id="upload_idcard_btn" style="width:100%;" type="button" class="primary-btn" onclick="toggle_auto_fill_attributes('block')" data-toggle="modal" data-target="#myModal_attachment1">{% trans 'Upload ID Card' %} <i class="fas fa-id-card"></i></button>
                                     </div>
-                                    <div class="col-lg-12 mb-3">
+                                    <div class="col-lg-12 mb-3 hide_with_btn2">
                                         <i class="fas fa-exclamation-triangle" style="font-size:18px; color:#ffcc00;"></i> Warning: Automatically inputted data might not be 100% accurate, please re-check and correct them manually
                                     </div>
                                 </div>
@@ -814,7 +814,7 @@
                                         <div class="modal-body">
 
                                             Files: <input type="file" id="files_attachment2" name="files_attachment_2" multiple="" accept="image/*"><br>
-                                            <input type="button" id="button_webcam2" value="Open Webcam" class="primary-btn" onclick="open_webcam();" />
+                                            <input type="button" id="button_webcam2" value="Open Webcam" class="primary-btn hide_with_btn2" onclick="open_webcam();" />
                                             <video autoplay="true" id="video-webcam2" style="display:none">
                                             </video>
                                             <button type="button" onclick="takeSnapshot()" style="display:none;" class="primary-btn" id="capture_img2">Capture</button>
@@ -823,12 +823,12 @@
                                             <div class="mt-3 input-container-search-ticket">
                                                 <input type="text" class="form-control o_website_form_input" id="description_attachment_2" name="description_attachment_2" placeholder="Description" />
                                             </div>
-                                            <div>
+                                            <div class="hide_with_btn2">
                                                 <i class="fas fa-exclamation-triangle" style="font-size:18px; color:#ffcc00;"></i> Warning: Automatically inputted data might not be 100% accurate, please re-check and correct them manually
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-                                            <button id="fill_data_idcard2" type="button" class="primary-btn next-loading ld-ext-right" onclick="fill_paxdata_from_idcard('ktp');">Fill In Data</button>
+                                            <button id="fill_data_idcard2" type="button" class="primary-btn hide_with_btn2 next-loading ld-ext-right" onclick="fill_paxdata_from_idcard('ktp');">Fill In Data</button>
                                             <button type="button" class="btn btn-default" onclick="close_upload_attachment(2,'');">{% trans 'Close' %}</button>
                                         </div>
                                     </div>
@@ -847,7 +847,7 @@
                                         <div class="modal-body">
 
                                             Files: <input type="file" id="files_attachment1" name="files_attachment_1" multiple="" accept="image/*"><br><br/>
-                                            <input type="button" id="button_webcam1" value="Open Webcam" class="primary-btn" onclick="open_webcam();" />
+                                            <input type="button" id="button_webcam1" value="Open Webcam" class="primary-btn hide_with_btn2" onclick="open_webcam();" />
                                             <video autoplay="true" id="video-webcam1" style="display:none">
                                             </video>
                                             <button type="button" onclick="takeSnapshot()" style="display:none;" class="primary-btn" id="capture_img1">Capture</button>
@@ -858,7 +858,7 @@
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-                                            <button id="fill_data_idcard1" type="button" class="primary-btn-custom next-loading ld-ext-right" onclick="fill_paxdata_from_idcard('passport');">Fill In Data</button>
+                                            <button id="fill_data_idcard1" type="button" class="primary-btn-custom hide_with_btn2 next-loading ld-ext-right" onclick="fill_paxdata_from_idcard('passport');">Fill In Data</button>
                                             <button type="button" class="btn btn-default" onclick="close_upload_attachment(1,'');">{% trans 'Close' %}</button>
                                         </div>
                                     </div>
@@ -1079,7 +1079,7 @@
                                         </div>
                                         <div class="col-sm-12">
                                             <span>{% trans 'Attachment' %}</span><br/>
-                                            <button type="button" class="primary-btn-white" data-toggle="modal" data-target="#myModal_attachment1">{% trans 'Upload Image' %} <i class="fas fa-images"></i></button>
+                                            <button type="button" class="primary-btn-white" onclick="toggle_auto_fill_attributes('none')" data-toggle="modal" data-target="#myModal_attachment1">{% trans 'Upload Image' %} <i class="fas fa-images"></i></button>
                                         </div>
                                     </div>
                                 </div>
@@ -1118,7 +1118,7 @@
                                         </div>
                                         <div class="col-sm-12">
                                             <span>{% trans 'Attachment' %}</span><br/>
-                                            <button type="button" class="primary-btn-white" data-toggle="modal" data-target="#myModal_attachment2">{% trans 'Upload Image' %} <i class="fas fa-images"></i></button>
+                                            <button type="button" class="primary-btn-white" onclick="toggle_auto_fill_attributes('none')" data-toggle="modal" data-target="#myModal_attachment2">{% trans 'Upload Image' %} <i class="fas fa-images"></i></button>
                                         </div>
                                     </div>
                                 </div>
@@ -1236,9 +1236,9 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-5 mb-3" style="text-align:right;">
-                                        <button id="upload_idcard_btn" style="width:100%;" type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment1">{% trans 'Upload ID Card' %} <i class="fas fa-id-card"></i></button>
+                                        <button id="upload_idcard_btn" style="width:100%;" type="button" class="primary-btn" onclick="toggle_auto_fill_attributes('block')" data-toggle="modal" data-target="#myModal_attachment1">{% trans 'Upload ID Card' %} <i class="fas fa-id-card"></i></button>
                                     </div>
-                                    <div class="col-lg-12 mb-3">
+                                    <div class="col-lg-12 mb-3 hide_with_btn2">
                                         <i class="fas fa-exclamation-triangle" style="font-size:18px; color:#ffcc00;"></i> Warning: Automatically inputted data might not be 100% accurate, please re-check and correct them manually
                                     </div>
                                 </div>
@@ -1258,7 +1258,7 @@
                                         <div class="modal-body">
 
                                             Files: <input type="file" id="files_attachment2" name="files_attachment_2" multiple="" accept="image/*"><br>
-                                            <input type="button" id="button_webcam2" value="Open Webcam" class="primary-btn" onclick="open_webcam();" />
+                                            <input type="button" id="button_webcam2" value="Open Webcam" class="primary-btn hide_with_btn2" onclick="open_webcam();" />
                                             <video autoplay="true" id="video-webcam2" style="display:none">
                                             </video>
                                             <button type="button" onclick="takeSnapshot()" style="display:none;" class="primary-btn" id="capture_img2">Capture</button>
@@ -1267,12 +1267,12 @@
                                             <div class="mt-3 input-container-search-ticket">
                                                 <input type="text" class="form-control o_website_form_input" id="description_attachment_2" name="description_attachment_2" placeholder="Description" />
                                             </div>
-                                            <div>
+                                            <div class="hide_with_btn2">
                                                 <i class="fas fa-exclamation-triangle" style="font-size:18px; color:#ffcc00;"></i> Warning: Automatically inputted data might not be 100% accurate, please re-check and correct them manually
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-                                            <button id="fill_data_idcard2" type="button" class="primary-btn next-loading ld-ext-right" onclick="fill_paxdata_from_idcard('ktp');">Fill In Data</button>
+                                            <button id="fill_data_idcard2" type="button" class="primary-btn hide_with_btn2 next-loading ld-ext-right" onclick="fill_paxdata_from_idcard('ktp');">Fill In Data</button>
                                             <button type="button" class="btn btn-default" onclick="close_upload_attachment(2,'');">{% trans 'Close' %}</button>
                                         </div>
                                     </div>
@@ -1291,7 +1291,7 @@
                                         <div class="modal-body">
 
                                             Files: <input type="file" id="files_attachment1" name="files_attachment_1" multiple="" accept="image/*"><br><br/>
-                                            <input type="button" id="button_webcam1" value="Open Webcam" class="primary-btn" onclick="open_webcam();" />
+                                            <input type="button" id="button_webcam1" value="Open Webcam" class="primary-btn hide_with_btn2" onclick="open_webcam();" />
                                             <video autoplay="true" id="video-webcam1" style="display:none">
                                             </video>
                                             <button type="button" onclick="takeSnapshot()" style="display:none;" class="primary-btn" id="capture_img1">Capture</button>
@@ -1302,7 +1302,7 @@
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-                                            <button id="fill_data_idcard1" type="button" class="primary-btn-custom next-loading ld-ext-right" onclick="fill_paxdata_from_idcard('passport');">Fill In Data</button>
+                                            <button id="fill_data_idcard1" type="button" class="primary-btn-custom hide_with_btn2 next-loading ld-ext-right" onclick="fill_paxdata_from_idcard('passport');">Fill In Data</button>
                                             <button type="button" class="btn btn-default" onclick="close_upload_attachment(1,'');">{% trans 'Close' %}</button>
                                         </div>
                                     </div>
@@ -1525,7 +1525,7 @@
                                                         </div>
                                                         <div class="col-sm-12">
                                                             <span>{% trans 'Attachment' %}</span><br/>
-                                                            <button type="button" class="primary-btn-white" data-toggle="modal" data-target="#myModal_attachment1">{% trans 'Upload Image' %} <i class="fas fa-images"></i></button>
+                                                            <button type="button" class="primary-btn-white" onclick="toggle_auto_fill_attributes('none')" data-toggle="modal" data-target="#myModal_attachment1">{% trans 'Upload Image' %} <i class="fas fa-images"></i></button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1564,7 +1564,7 @@
                                                         </div>
                                                         <div class="col-sm-12">
                                                             <span>{% trans 'Attachment' %}</span><br/>
-                                                            <button type="button" class="primary-btn-white" data-toggle="modal" data-target="#myModal_attachment2">{% trans 'Upload Image' %} <i class="fas fa-images"></i></button>
+                                                            <button type="button" class="primary-btn-white" onclick="toggle_auto_fill_attributes('none')" data-toggle="modal" data-target="#myModal_attachment2">{% trans 'Upload Image' %} <i class="fas fa-images"></i></button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1685,9 +1685,9 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-5 mb-3" style="text-align:right;">
-                                        <button id="upload_idcard_btn" style="width:100%;" type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment1">{% trans 'Upload ID Card' %} <i class="fas fa-id-card"></i></button>
+                                        <button id="upload_idcard_btn" style="width:100%;" type="button" class="primary-btn" onclick="toggle_auto_fill_attributes('block')" data-toggle="modal" data-target="#myModal_attachment1">{% trans 'Upload ID Card' %} <i class="fas fa-id-card"></i></button>
                                     </div>
-                                    <div class="col-lg-12 mb-3">
+                                    <div class="col-lg-12 mb-3 hide_with_btn2">
                                         <i class="fas fa-exclamation-triangle" style="font-size:18px; color:#ffcc00;"></i> Warning: Automatically inputted data might not be 100% accurate, please re-check and correct them manually
                                     </div>
                                 </div>
@@ -1707,7 +1707,7 @@
                                         <div class="modal-body">
 
                                             Files: <input type="file" id="files_attachment2" name="files_attachment_2" multiple="" accept="image/*"><br>
-                                            <input type="button" id="button_webcam2" value="Open Webcam" class="primary-btn" onclick="open_webcam();" />
+                                            <input type="button" id="button_webcam2" value="Open Webcam" class="primary-btn hide_with_btn2" onclick="open_webcam();" />
                                             <video autoplay="true" id="video-webcam2" style="display:none">
                                             </video>
                                             <button type="button" onclick="takeSnapshot()" style="display:none;" class="primary-btn" id="capture_img2">Capture</button>
@@ -1716,12 +1716,12 @@
                                             <div class="mt-3 input-container-search-ticket">
                                                 <input type="text" class="form-control o_website_form_input" id="description_attachment_2" name="description_attachment_2" placeholder="Description" />
                                             </div>
-                                            <div>
+                                            <div class="hide_with_btn2">
                                                 <i class="fas fa-exclamation-triangle" style="font-size:18px; color:#ffcc00;"></i> Warning: Automatically inputted data might not be 100% accurate, please re-check and correct them manually
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-                                            <button id="fill_data_idcard2" type="button" class="primary-btn next-loading ld-ext-right" onclick="fill_paxdata_from_idcard('ktp');">Fill In Data</button>
+                                            <button id="fill_data_idcard2" type="button" class="primary-btn hide_with_btn2 next-loading ld-ext-right" onclick="fill_paxdata_from_idcard('ktp');">Fill In Data</button>
                                             <button type="button" class="btn btn-default" onclick="close_upload_attachment(2,'');">{% trans 'Close' %}</button>
                                         </div>
                                     </div>
@@ -1740,7 +1740,7 @@
                                         <div class="modal-body">
 
                                             Files: <input type="file" id="files_attachment1" name="files_attachment_1" multiple="" accept="image/*"><br><br/>
-                                            <input type="button" id="button_webcam1" value="Open Webcam" class="primary-btn" onclick="open_webcam();" />
+                                            <input type="button" id="button_webcam1" value="Open Webcam" class="primary-btn hide_with_btn2" onclick="open_webcam();" />
                                             <video autoplay="true" id="video-webcam1" style="display:none">
                                             </video>
                                             <button type="button" onclick="takeSnapshot()" style="display:none;" class="primary-btn" id="capture_img1">Capture</button>
@@ -1751,7 +1751,7 @@
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-                                            <button id="fill_data_idcard1" type="button" class="primary-btn-custom next-loading ld-ext-right" onclick="fill_paxdata_from_idcard('passport');">Fill In Data</button>
+                                            <button id="fill_data_idcard1" type="button" class="primary-btn-custom hide_with_btn2 next-loading ld-ext-right" onclick="fill_paxdata_from_idcard('passport');">Fill In Data</button>
                                             <button type="button" class="btn btn-default" onclick="close_upload_attachment(1,'');">{% trans 'Close' %}</button>
                                         </div>
                                     </div>
@@ -1975,7 +1975,7 @@
                                                 </div>
                                                 <div class="col-sm-12">
                                                     <span>{% trans 'Attachment' %}</span><br/>
-                                                    <button type="button" class="primary-btn-white" data-toggle="modal" data-target="#myModal_attachment1">{% trans 'Upload Image' %} <i class="fas fa-images"></i></button>
+                                                    <button type="button" class="primary-btn-white" onclick="toggle_auto_fill_attributes('none')" data-toggle="modal" data-target="#myModal_attachment1">{% trans 'Upload Image' %} <i class="fas fa-images"></i></button>
                                                 </div>
                                             </div>
                                         </div>
@@ -2014,7 +2014,7 @@
                                                 </div>
                                                 <div class="col-sm-12">
                                                     <span>{% trans 'Attachment' %}</span><br/>
-                                                    <button type="button" class="primary-btn-white" data-toggle="modal" data-target="#myModal_attachment2">{% trans 'Upload Image' %} <i class="fas fa-images"></i></button>
+                                                    <button type="button" class="primary-btn-white" onclick="toggle_auto_fill_attributes('none')" data-toggle="modal" data-target="#myModal_attachment2">{% trans 'Upload Image' %} <i class="fas fa-images"></i></button>
                                                 </div>
                                             </div>
                                         </div>
@@ -2133,9 +2133,9 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-5 mb-3" style="text-align:right;">
-                                        <button id="upload_idcard_btn" style="width:100%;" type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment1">{% trans 'Upload ID Card' %} <i class="fas fa-id-card"></i></button>
+                                        <button id="upload_idcard_btn" style="width:100%;" type="button" class="primary-btn" onclick="toggle_auto_fill_attributes('block')" data-toggle="modal" data-target="#myModal_attachment1">{% trans 'Upload ID Card' %} <i class="fas fa-id-card"></i></button>
                                     </div>
-                                    <div class="col-lg-12 mb-3">
+                                    <div class="col-lg-12 mb-3 hide_with_btn2">
                                         <i class="fas fa-exclamation-triangle" style="font-size:18px; color:#ffcc00;"></i> Warning: Automatically inputted data might not be 100% accurate, please re-check and correct them manually
                                     </div>
                                 </div>
@@ -2155,7 +2155,7 @@
                                         <div class="modal-body">
 
                                             Files: <input type="file" id="files_attachment2" name="files_attachment_2" multiple="" accept="image/*"><br>
-                                            <input type="button" id="button_webcam2" value="Open Webcam" class="primary-btn" onclick="open_webcam();" />
+                                            <input type="button" id="button_webcam2" value="Open Webcam" class="primary-btn hide_with_btn2" onclick="open_webcam();" />
                                             <video autoplay="true" id="video-webcam2" style="display:none">
                                             </video>
                                             <button type="button" onclick="takeSnapshot()" style="display:none;" class="primary-btn" id="capture_img2">Capture</button>
@@ -2164,12 +2164,12 @@
                                             <div class="mt-3 input-container-search-ticket">
                                                 <input type="text" class="form-control o_website_form_input" id="description_attachment_2" name="description_attachment_2" placeholder="Description" />
                                             </div>
-                                            <div>
+                                            <div class="hide_with_btn2">
                                                 <i class="fas fa-exclamation-triangle" style="font-size:18px; color:#ffcc00;"></i> Warning: Automatically inputted data might not be 100% accurate, please re-check and correct them manually
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-                                            <button id="fill_data_idcard2" type="button" class="primary-btn next-loading ld-ext-right" onclick="fill_paxdata_from_idcard('ktp');">Fill In Data</button>
+                                            <button id="fill_data_idcard2" type="button" class="primary-btn hide_with_btn2 next-loading ld-ext-right" onclick="fill_paxdata_from_idcard('ktp');">Fill In Data</button>
                                             <button type="button" class="btn btn-default" onclick="close_upload_attachment(2,'');">{% trans 'Close' %}</button>
                                         </div>
                                     </div>
@@ -2188,7 +2188,7 @@
                                         <div class="modal-body">
 
                                             Files: <input type="file" id="files_attachment1" name="files_attachment_1" multiple="" accept="image/*"><br><br/>
-                                            <input type="button" id="button_webcam1" value="Open Webcam" class="primary-btn" onclick="open_webcam();" />
+                                            <input type="button" id="button_webcam1" value="Open Webcam" class="primary-btn hide_with_btn2" onclick="open_webcam();" />
                                             <video autoplay="true" id="video-webcam1" style="display:none">
                                             </video>
                                             <button type="button" onclick="takeSnapshot()" style="display:none;" class="primary-btn" id="capture_img1">Capture</button>
@@ -2199,7 +2199,7 @@
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-                                            <button id="fill_data_idcard1" type="button" class="primary-btn-custom next-loading ld-ext-right" onclick="fill_paxdata_from_idcard('passport');">Fill In Data</button>
+                                            <button id="fill_data_idcard1" type="button" class="primary-btn-custom hide_with_btn2 next-loading ld-ext-right" onclick="fill_paxdata_from_idcard('passport');">Fill In Data</button>
                                             <button type="button" class="btn btn-default" onclick="close_upload_attachment(1,'');">{% trans 'Close' %}</button>
                                         </div>
                                     </div>
@@ -2425,7 +2425,7 @@
                                                 </div>
                                                 <div class="col-sm-12">
                                                     <span>{% trans 'Attachment' %}</span><br/>
-                                                    <button type="button" class="primary-btn-white" data-toggle="modal" data-target="#myModal_attachment1">{% trans 'Upload Image' %} <i class="fas fa-images"></i></button>
+                                                    <button type="button" class="primary-btn-white" onclick="toggle_auto_fill_attributes('none')" data-toggle="modal" data-target="#myModal_attachment1">{% trans 'Upload Image' %} <i class="fas fa-images"></i></button>
                                                 </div>
                                             </div>
                                         </div>
@@ -2466,7 +2466,7 @@
                                                 </div>
                                                 <div class="col-sm-12">
                                                     <span>{% trans 'Attachment' %}</span><br/>
-                                                    <button type="button" class="primary-btn-white" data-toggle="modal" data-target="#myModal_attachment2">{% trans 'Upload Image' %} <i class="fas fa-images"></i></button>
+                                                    <button type="button" class="primary-btn-white" onclick="toggle_auto_fill_attributes('none')" data-toggle="modal" data-target="#myModal_attachment2">{% trans 'Upload Image' %} <i class="fas fa-images"></i></button>
                                                 </div>
                                             </div>
                                         </div>
@@ -2590,9 +2590,9 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-5 mb-3" style="text-align:right;">
-                                        <button id="upload_idcard_btn" style="width:100%;" type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment1">{% trans 'Upload ID Card' %} <i class="fas fa-id-card"></i></button>
+                                        <button id="upload_idcard_btn" style="width:100%;" type="button" class="primary-btn" onclick="toggle_auto_fill_attributes('block')" data-toggle="modal" data-target="#myModal_attachment1">{% trans 'Upload ID Card' %} <i class="fas fa-id-card"></i></button>
                                     </div>
-                                    <div class="col-lg-12 mb-3">
+                                    <div class="col-lg-12 mb-3 hide_with_btn2">
                                         <i class="fas fa-exclamation-triangle" style="font-size:18px; color:#ffcc00;"></i> Warning: Automatically inputted data might not be 100% accurate, please re-check and correct them manually
                                     </div>
                                 </div>
@@ -2612,7 +2612,7 @@
                                         <div class="modal-body">
 
                                             Files: <input type="file" id="files_attachment2" name="files_attachment_2" multiple="" accept="image/*"><br>
-                                            <input type="button" id="button_webcam2" value="Open Webcam" class="primary-btn" onclick="open_webcam();" />
+                                            <input type="button" id="button_webcam2" value="Open Webcam" class="primary-btn hide_with_btn2" onclick="open_webcam();" />
                                             <video autoplay="true" id="video-webcam2" style="display:none">
                                             </video>
                                             <button type="button" onclick="takeSnapshot()" style="display:none;" class="primary-btn" id="capture_img2">Capture</button>
@@ -2621,12 +2621,12 @@
                                             <div class="mt-3 input-container-search-ticket">
                                                 <input type="text" class="form-control o_website_form_input" id="description_attachment_2" name="description_attachment_2" placeholder="Description" />
                                             </div>
-                                            <div>
+                                            <div class="hide_with_btn2">
                                                 <i class="fas fa-exclamation-triangle" style="font-size:18px; color:#ffcc00;"></i> Warning: Automatically inputted data might not be 100% accurate, please re-check and correct them manually
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-                                            <button id="fill_data_idcard2" type="button" class="primary-btn next-loading ld-ext-right" onclick="fill_paxdata_from_idcard('ktp');">Fill In Data</button>
+                                            <button id="fill_data_idcard2" type="button" class="primary-btn hide_with_btn2 next-loading ld-ext-right" onclick="fill_paxdata_from_idcard('ktp');">Fill In Data</button>
                                             <button type="button" class="btn btn-default" onclick="close_upload_attachment(2,'');">{% trans 'Close' %}</button>
                                         </div>
                                     </div>
@@ -2645,7 +2645,7 @@
                                         <div class="modal-body">
 
                                             Files: <input type="file" id="files_attachment1" name="files_attachment_1" multiple="" accept="image/*"><br><br/>
-                                            <input type="button" id="button_webcam1" value="Open Webcam" class="primary-btn" onclick="open_webcam();" />
+                                            <input type="button" id="button_webcam1" value="Open Webcam" class="primary-btn hide_with_btn2" onclick="open_webcam();" />
                                             <video autoplay="true" id="video-webcam1" style="display:none">
                                             </video>
                                             <button type="button" onclick="takeSnapshot()" style="display:none;" class="primary-btn" id="capture_img1">Capture</button>
@@ -2656,7 +2656,7 @@
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-                                            <button id="fill_data_idcard1" type="button" class="primary-btn-custom next-loading ld-ext-right" onclick="fill_paxdata_from_idcard('passport');">Fill In Data</button>
+                                            <button id="fill_data_idcard1" type="button" class="primary-btn-custom hide_with_btn2 next-loading ld-ext-right" onclick="fill_paxdata_from_idcard('passport');">Fill In Data</button>
                                             <button type="button" class="btn btn-default" onclick="close_upload_attachment(1,'');">{% trans 'Close' %}</button>
                                         </div>
                                     </div>
@@ -2881,7 +2881,7 @@
                                                 </div>
                                                 <div class="col-sm-12">
                                                     <span>{% trans 'Attachment' %}</span><br/>
-                                                    <button type="button" class="primary-btn-white" data-toggle="modal" data-target="#myModal_attachment1">{% trans 'Upload Image' %} <i class="fas fa-images"></i></button>
+                                                    <button type="button" class="primary-btn-white" onclick="toggle_auto_fill_attributes('none')" data-toggle="modal" data-target="#myModal_attachment1">{% trans 'Upload Image' %} <i class="fas fa-images"></i></button>
                                                 </div>
                                             </div>
                                         </div>
@@ -2922,7 +2922,7 @@
                                                 </div>
                                                 <div class="col-sm-12">
                                                     <span>{% trans 'Attachment' %}</span><br/>
-                                                    <button type="button" class="primary-btn-white" data-toggle="modal" data-target="#myModal_attachment2">{% trans 'Upload Image' %} <i class="fas fa-images"></i></button>
+                                                    <button type="button" class="primary-btn-white" onclick="toggle_auto_fill_attributes('none')" data-toggle="modal" data-target="#myModal_attachment2">{% trans 'Upload Image' %} <i class="fas fa-images"></i></button>
                                                 </div>
                                             </div>
                                         </div>

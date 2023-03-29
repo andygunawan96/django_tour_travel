@@ -2291,7 +2291,7 @@ def read_idcard_img_to_text(request):
 
             for word in extracted_text.split("\n"):
                 res.update({
-                    'nationality': 'Indonesia'
+                    'nationality': 'ID'
                 })
                 if "NIK" in word:
                     word = word.split(':')
