@@ -917,10 +917,11 @@ def admin(request):
                     if text != {}:
                         write_cache(text, "font", request, 'cache_web')
 
-                    write_cache({
-                        "username": request.POST['b2c_username_credential'],
-                        "password": request.POST['b2c_password_credential']
-                    }, 'credential_user_default', request)
+                    if request.POST.get('b2c_password_credential'):
+                        write_cache({
+                            "username": request.POST['b2c_username_credential'],
+                            "password": request.POST['b2c_password_credential']
+                        }, 'credential_user_default', request)
                     text = {}
                     provider = copy.deepcopy(request.session.get('provider'))
                     if 'health_care' not in provider:
