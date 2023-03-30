@@ -350,7 +350,7 @@ function hotel_get_current_search(){
                     'signature': signature
                },
                success: function(msg) {
-                    if(msg.result.error_code == 0){
+                    if(msg.result.error_code == 0 && !is_hotel_search_done){
                         vendor = [];
                         if(msg.result.response.hasOwnProperty('hotel_ids') && msg.result.response.hotel_ids.length > 0){
                             hotel_data = msg.result.response;
@@ -1469,7 +1469,7 @@ function hotel_get_current_search_detail(checkin_date, checkout_date){
                },
                success: function(msg) {
                     try{
-                        if(msg.result.error_code == 0){
+                        if(msg.result.error_code == 0 && !is_hotel_search_done){
                             var result = msg.result.response;
                             text='';
                             text2='';
