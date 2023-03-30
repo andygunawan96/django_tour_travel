@@ -123,7 +123,7 @@ def read_cache(file_name, folder, request, time=300, cache_global=False):
             write_cache(data, "popular_destination_airline_cache", request, 'cache_web')
             is_read_file = True
         elif file_name == 'javascript_version':## AUTO CREATE FILE
-            write_cache('1', "javascript_version", request, 'cache_web')
+            write_cache('1', "javascript_version", request, 'cache_web', True)
             is_read_file = True
         elif file_name == 'cache_version':## AUTO CREATE FILE
             write_cache('1', "cache_version", request, 'cache_web')
