@@ -306,7 +306,8 @@ def search(request):
             except: ## FIRST TIME
                 signature = request.POST['signature']
         else:
-            del request.session['hotel_error']
+            if request.session.get('hotel_error'):
+                del request.session['hotel_error']
             signature = request.POST['signature']
         headers = {
             "Accept": "application/json,text/html,application/xml",
