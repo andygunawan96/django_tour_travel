@@ -1096,7 +1096,7 @@ def set_payment_partner(request):
                     if counter != 1:
                         title += str(counter)
                     break
-            text = request.POST['state'] + '\n' + sequence + '\n' + title + '\n' + fs.base_url + "image_payment_partner/" + filename
+            text = request.POST['state'] + '\n' + sequence + '\n' + title + '\n' + fs.base_url + request.META['HTTP_HOST'].split(':')[0] + "/image_payment_partner/" + filename
             write_cache(text, "".join(title.split(' ')), request, "payment_partner")
         #replace
         else:
@@ -1121,7 +1121,7 @@ def set_payment_partner(request):
                     if counter != 1:
                         title += str(counter)
                     break
-            text = request.POST['state'] + '\n' + sequence + '\n' + title + '\n' + fs.base_url + "image_payment_partner/" + filename
+            text = request.POST['state'] + '\n' + sequence + '\n' + title + '\n' + fs.base_url + request.META['HTTP_HOST'].split(':')[0] + "/image_payment_partner/" + filename
             write_cache(text, "".join(title.split(' ')), request, "payment_partner")
         #check image
         data = os.listdir(path)
@@ -1295,7 +1295,7 @@ def set_about_us(request):
                     if counter != 1:
                         sequence += str(counter)
                     break
-            text = request.POST['state'] + '\n' + sequence + '\n' + title + '\n' + body + '\n' + fs.base_url + "image_about_us/" + filename
+            text = request.POST['state'] + '\n' + sequence + '\n' + title + '\n' + body + '\n' + fs.base_url + request.META['HTTP_HOST'].split(':')[0] + "/image_about_us/" + filename
             write_cache(text, "".join(sequence.split(' ')), request, "about_us")
         #replace
         else:
@@ -1324,7 +1324,7 @@ def set_about_us(request):
                     if counter != 1:
                         sequence += str(counter)
                     break
-            text = request.POST['state'] + '\n' + sequence + '\n' + title + '\n' + body + '\n' + fs.base_url + "image_about_us/" + filename
+            text = request.POST['state'] + '\n' + sequence + '\n' + title + '\n' + body + '\n' + fs.base_url + request.META['HTTP_HOST'].split(':')[0] + "/image_about_us/" + filename
             write_cache(text, "".join(sequence.split(' ')), request, "about_us")
         #check image
         data = os.listdir(path)

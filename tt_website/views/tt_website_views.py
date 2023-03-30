@@ -823,7 +823,7 @@ def admin(request):
                                 if request.FILES['live_chat_image'+str(i)].content_type in ['image/jpeg', 'image/png']:
                                     file = request.FILES['live_chat_image'+str(i)]
                                     filename = fs_live_chat.save(file.name, file)
-                                    filename = fs_live_chat.base_url + "live_chat/" + filename
+                                    filename = fs_live_chat.base_url + request.META['HTTP_HOST'].split(':')[0] + "/live_chat/" + filename
                             except Exception as e:
                                 _logger.error('no image dynamic page')
 
