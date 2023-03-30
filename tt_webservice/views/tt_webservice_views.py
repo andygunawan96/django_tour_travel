@@ -31,6 +31,17 @@ def var_log_path(request, folder_name):
     _check_folder_exists(folder_path)
     return folder_path
 
+def var_log_path_global(folder_name):
+    folder_path = "/var/log/django"
+    _check_folder_exists(folder_path)
+    folder_path += '/global'
+    _check_folder_exists(folder_path)
+    folder_path += '/file_cache'
+    _check_folder_exists(folder_path)
+    folder_path += '/%s' % folder_name
+    _check_folder_exists(folder_path)
+    return folder_path
+
 def media_path(request, base_path, folder_name):
     folder_path = "%s/%s" % (base_path, request.META['HTTP_HOST'].split(':')[0])
     _check_folder_exists(folder_path)
@@ -46,7 +57,7 @@ def _check_folder_exists(folder_path):
             _logger.error("Can't create folder %s, %s" % (str(e), traceback.format_exc()))
             raise e
 
-def write_cache(data, file_name, request, folder='cache_web'):
+def write_cache(data, file_name, request, folder='cache_web', cache_global=False):
     try:
         ## ISI DATA file_name HANYA NAMA FILE TANPA EXTENSION
         save_res = {}
@@ -54,7 +65,10 @@ def write_cache(data, file_name, request, folder='cache_web'):
         save_res['datetime'] = date_time
         save_res['data'] = data
         rand_id = str(random.randint(0, 1000))
-        folder_path = var_log_path(request, folder)
+        if not cache_global:
+            folder_path = var_log_path(request, folder)
+        else:
+            folder_path = var_log_path_global(folder)
         _check_folder_exists(folder_path)
         temp_name = '%s/%s.%s.txt' % (folder_path, file_name, rand_id)
         file_name = '%s/%s.txt' % (folder_path, file_name)
@@ -67,10 +81,13 @@ def write_cache(data, file_name, request, folder='cache_web'):
     except Exception as e:
         return False
 
-def read_cache(file_name, folder, request, time=300):
+def read_cache(file_name, folder, request, time=300, cache_global=False):
     try:
         date_time = datetime.now()
-        file = open("%s/%s.txt" % (var_log_path(request, folder), file_name), "r")
+        if not cache_global:
+            file = open("%s/%s.txt" % (var_log_path(request, folder), file_name), "r")
+        else:
+            file = open("%s/%s.txt" % (var_log_path_global(folder), file_name), "r")
         data = file.read()
         file.close()
         if data:

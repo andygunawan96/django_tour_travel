@@ -579,56 +579,28 @@ def login(request):
                     del request.session[key]
             request.session.modified = True
             request.session.save()
-        try:
-            values.update({
-                'static_path': path_util.get_static_path(MODEL_NAME),
-                'javascript_version': javascript_version,
-                'static_path_url_server': get_url_static_path(),
-                'big_banner_value': check_banner('home', 'big_banner', request),
-                'small_banner_value': check_banner('home', 'small_banner', request),
-                'dynamic_page_value': check_banner('', 'dynamic_page', request),
-                'username': {'co_user_login': ''}
-            })
-        except Exception as e:
-            _logger.error(str(e) + '\n' + traceback.format_exc())
-            raise Exception('Make response code 500!')
-        # return goto_dashboard()
-        if values['website_mode'] == 'btb' or values['website_mode'] == 'btb_with_signup_b2c':
-            return render(request, MODEL_NAME+'/login_templates.html', values)
-        else:
-            try:
-                language = request.session['_language']
-            except:
-                language = ''
-            return redirect(language + '/')
+    try:
+        values.update({
+            'static_path': path_util.get_static_path(MODEL_NAME),
+            'javascript_version': javascript_version,
+            'static_path_url_server': get_url_static_path(),
+            'big_banner_value': check_banner('home', 'big_banner', request),
+            'small_banner_value': check_banner('home', 'small_banner', request),
+            'dynamic_page_value': check_banner('', 'dynamic_page', request),
+            'username': {'co_user_login': ''}
+        })
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+        raise Exception('Make response code 500!')
+    # return goto_dashboard()
+    if values['website_mode'] == 'btb' or values['website_mode'] == 'btb_with_signup_b2c':
+        return render(request, MODEL_NAME + '/login_templates.html', values)
     else:
-        # if 'session' in request:
-        if request.session.get('user_account') and 'login' in request.session['user_account'].get('co_agent_frontend_security', []):
-            try:
-                language = request.session['_language']
-            except:
-                language = ''
-            return redirect(language + '/')
-        elif values['website_mode'] == 'btc' or values['website_mode'] == 'btc_btb':
-            try:
-                language = request.session['_language']
-            except:
-                language = ''
-            return redirect(language + '/')
-        else:
-            request.session.delete()
-            try:
-                values.update({
-                    'static_path': path_util.get_static_path(MODEL_NAME),
-                    'javascript_version': javascript_version,
-                    'static_path_url_server': get_url_static_path(),
-                    'username': {'co_user_login': ''}
-                })
-            except Exception as e:
-                _logger.error(str(e) + '\n' + traceback.format_exc())
-                raise Exception('Make response code 500!')
-            # return goto_dashboard()
-            return render(request, MODEL_NAME + '/login_templates.html', values)
+        try:
+            language = request.session['_language']
+        except:
+            language = ''
+        return redirect(language + '/')
 
 def admin(request):
     if 'user_account' in request.session._session:
@@ -1424,7 +1396,7 @@ def top_up_history(request):
 def get_javascript_version(request):
     javascript_version = 0
     try:
-        file = read_cache("javascript_version", 'cache_web', request, 90911)
+        file = read_cache("javascript_version", 'cache_web', request, 90911, True)
         if file:
             javascript_version = int(file)
         else:
