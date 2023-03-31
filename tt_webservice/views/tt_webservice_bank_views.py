@@ -92,7 +92,7 @@ def get_balance(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    url_request = url + 'bank'
+    url_request = get_url_gateway('bank')
     res = send_request_api(request, url_request, headers, data, 'POST')
 
     return res
@@ -113,7 +113,7 @@ def get_transaction(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    url_request = url + 'bank'
+    url_request = get_url_gateway('bank')
     res = send_request_api(request, url_request, headers, data, 'POST')
 
     return res

@@ -84,6 +84,7 @@ def signin(request):
             "signature": '',
         }
         user_global, password_global, api_key = get_credential(request)
+        user_default, password_default = get_credential_user_default(request)
         data = {
             "user": user_global,
             "password": password_global,
@@ -96,7 +97,7 @@ def signin(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    url_request = url + 'session'
+    url_request = get_url_gateway('session')
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
@@ -240,7 +241,7 @@ def set_data_issued_offline(request):
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'booking/issued_offline'
+    url_request = get_url_gateway('booking/issued_offline')
     res = send_request_api(request, url_request, headers, data, 'POST')
 
     try:
@@ -322,7 +323,7 @@ def update_contact(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    url_request = url + 'booking/issued_offline'
+    url_request = get_url_gateway('booking/issued_offline')
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
@@ -432,7 +433,7 @@ def update_passenger(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    url_request = url + 'booking/issued_offline'
+    url_request = get_url_gateway('booking/issued_offline')
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
@@ -474,7 +475,7 @@ def commit_booking(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    url_request = url + 'booking/issued_offline'
+    url_request = get_url_gateway('booking/issued_offline')
     res = send_request_api(request, url_request, headers, data, 'POST', 180)
     try:
         if res['result']['error_code'] == 0:
@@ -501,7 +502,7 @@ def get_booking(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'booking/issued_offline'
+    url_request = get_url_gateway('booking/issued_offline')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
@@ -559,7 +560,7 @@ def validate(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'booking/issued_offline'
+    url_request = get_url_gateway('booking/issued_offline')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
@@ -586,7 +587,7 @@ def update_service_charge(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'booking/issued_offline'
+    url_request = get_url_gateway('booking/issued_offline')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
@@ -613,7 +614,7 @@ def booker_insentif_booking(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'booking/issued_offline'
+    url_request = get_url_gateway('booking/issued_offline')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:

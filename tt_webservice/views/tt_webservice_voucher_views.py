@@ -75,7 +75,7 @@ def get_voucher(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    url_request = url + 'account'
+    url_request = get_url_gateway('account')
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code']:
@@ -104,7 +104,7 @@ def set_voucher(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    url_request = url + 'account'
+    url_request = get_url_gateway('account')
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         _logger.info("SET VOUCHER")
@@ -133,7 +133,7 @@ def check_voucher(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    url_request = url + 'account'
+    url_request = get_url_gateway('account')
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:

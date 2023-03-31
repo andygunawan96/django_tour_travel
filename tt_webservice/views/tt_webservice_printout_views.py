@@ -118,7 +118,7 @@ def get_printout(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    url_request = url + 'printout'
+    url_request = get_url_gateway('printout')
     res = send_request_api(request, url_request, headers, data, 'POST', int(request.POST.get('timeout')) or 60)
     try:
         if res['result']['error_code'] == 0:
@@ -143,7 +143,7 @@ def get_list_report_footer(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    url_request = url + 'printout'
+    url_request = get_url_gateway('printout')
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
@@ -168,7 +168,7 @@ def set_color_printout(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    url_request = url + 'printout'
+    url_request = get_url_gateway('printout')
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
@@ -198,7 +198,7 @@ def update_list_report_footer(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    url_request = url + 'printout'
+    url_request = get_url_gateway('printout')
     res = send_request_api(request, url_request, headers, data, 'POST')
 
     return res

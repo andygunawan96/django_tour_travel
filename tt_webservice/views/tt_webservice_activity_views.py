@@ -98,6 +98,7 @@ def api_models(request):
 
 def login(request):
     user_global, password_global, api_key = get_credential(request)
+    user_default, password_default = get_credential_user_default(request)
     data = {
         "user": user_global,
         "password": password_global,
@@ -113,7 +114,7 @@ def login(request):
         "Content-Type": "application/json",
         "action": 'signin'
     }
-    url_request = url + 'session'
+    url_request = get_url_gateway('session')
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
@@ -143,7 +144,7 @@ def get_carriers(request):
         _logger.error(str(e) + '\n' + traceback.format_exc())
     file = read_cache("get_activity_carriers", 'cache_web', request)
     if not file:
-        url_request = url + 'content'
+        url_request = get_url_gateway('content')
         res = send_request_api(request, url_request, headers, data, 'POST')
         try:
             if res['result']['error_code'] == 0:
@@ -225,7 +226,7 @@ def search(request):
         else:
             logging.error(msg=str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'booking/activity'
+    url_request = get_url_gateway('booking/activity')
     res = send_request_api(request, url_request, headers, data, 'POST', 120)
     try:
         counter = 0
@@ -265,7 +266,7 @@ def get_details(request):
             logging.info(msg='use cache login change b2c to login')
         else:
             logging.error(msg=str(e) + '\n' + traceback.format_exc())
-    url_request = url + 'booking/activity'
+    url_request = get_url_gateway('booking/activity')
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
@@ -317,7 +318,7 @@ def get_pricing(request):
         else:
             logging.error(msg=str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'booking/activity'
+    url_request = get_url_gateway('booking/activity')
     res = send_request_api(request, url_request, headers, data, 'POST')
     set_session(request, 'activity_price', res)
     _logger.info(json.dumps(request.session['activity_price']))
@@ -358,7 +359,7 @@ def sell_activity(request):
     except Exception as e:
         logging.error(msg=str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'booking/activity'
+    url_request = get_url_gateway('booking/activity')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     return res
 
@@ -378,7 +379,7 @@ def update_contact(request):
         "signature": request.POST['signature']
     }
 
-    url_request = url + 'booking/activity'
+    url_request = get_url_gateway('booking/activity')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     return res
 
@@ -500,7 +501,7 @@ def update_passengers(request):
         "signature": request.POST['signature']
     }
 
-    url_request = url + 'booking/activity'
+    url_request = get_url_gateway('booking/activity')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     return res
 
@@ -554,7 +555,7 @@ def update_options(request):
         "signature": request.POST['signature']
     }
 
-    url_request = url + 'booking/activity'
+    url_request = get_url_gateway('booking/activity')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     return res
 
@@ -614,7 +615,7 @@ def commit_booking(request):
         "signature": request.POST['signature']
     }
 
-    url_request = url + 'booking/activity'
+    url_request = get_url_gateway('booking/activity')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     if res['result']['error_code'] == 0:
         set_session(request, 'activity_order_number', res['result']['response']['order_number'])
@@ -631,7 +632,7 @@ def get_booking(request):
         "signature": request.POST['signature']
     }
 
-    url_request = url + 'booking/activity'
+    url_request = get_url_gateway('booking/activity')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         try:
@@ -710,7 +711,7 @@ def issued_booking(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'booking/activity'
+    url_request = get_url_gateway('booking/activity')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
@@ -738,7 +739,7 @@ def update_service_charge(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'booking/activity'
+    url_request = get_url_gateway('booking/activity')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
@@ -775,7 +776,7 @@ def booker_insentif_booking(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'booking/activity'
+    url_request = get_url_gateway('booking/activity')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
@@ -803,7 +804,7 @@ def get_voucher(request):
         "signature": request.POST['signature']
     }
 
-    url_request = url + 'booking/activity'
+    url_request = get_url_gateway('booking/activity')
     res = send_request_api(request, url_request, headers, data, 'POST')
     return res
 
@@ -843,7 +844,7 @@ def get_auto_complete(request):
                 "name": '',
                 "limit": 9999
             }
-            url_request = url + 'booking/activity'
+            url_request = get_url_gateway('booking/activity')
             res_cache_activity = send_request_api({}, url_request, headers, data, 'POST', 120)
             try:
                 if res_cache_activity['result']['error_code'] == 0:

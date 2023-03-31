@@ -105,6 +105,7 @@ def login(request):
             "signature": '',
         }
         user_global, password_global, api_key = get_credential(request)
+        user_default, password_default = get_credential_user_default(request)
         data = {
             "user": user_global,
             "password": password_global,
@@ -117,7 +118,7 @@ def login(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    url_request = url + 'session'
+    url_request = get_url_gateway('session')
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
@@ -147,7 +148,7 @@ def get_carriers(request):
         _logger.error(str(e) + '\n' + traceback.format_exc())
     file = read_cache("get_ppob_carriers", 'cache_web', request)
     if not file:
-        url_request = url + 'content'
+        url_request = get_url_gateway('content')
         res = send_request_api(request, url_request, headers, data, 'POST')
         try:
             if res['result']['error_code'] == 0:
@@ -183,7 +184,7 @@ def get_carrier_providers(request):
         _logger.error(str(e) + '\n' + traceback.format_exc())
     file = read_cache("get_ppob_carriers_provider", 'cache_web', request)
     if not file:
-        url_request = url + 'content'
+        url_request = get_url_gateway('content')
         res = send_request_api(request, url_request, headers, data, 'POST')
         try:
             if res['result']['error_code'] == 0:
@@ -220,7 +221,7 @@ def get_provider_list(request):
 
     file = read_cache("get_list_provider_data_ppob", 'cache_web', request)
     if not file:
-        url_request = url + 'content'
+        url_request = get_url_gateway('content')
         res = send_request_api(request, url_request, headers, data, 'POST')
         try:
             if res['result']['error_code'] == 0:
@@ -281,7 +282,7 @@ def get_provider_list_backend(request, signature=''):
         _logger.error(str(e) + '\n' + traceback.format_exc())
     file = read_cache("get_list_provider_ppob", 'cache_web', request)
     if not file:
-        url_request = url + 'content'
+        url_request = get_url_gateway('content')
         res = send_request_api(request, url_request, headers, data, 'POST')
         try:
             if res['result']['error_code'] == 0:
@@ -351,7 +352,7 @@ def search(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    url_request = url + 'booking/ppob'
+    url_request = get_url_gateway('booking/ppob')
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
@@ -419,7 +420,7 @@ def commit_booking(request):
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'booking/ppob'
+    url_request = get_url_gateway('booking/ppob')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
@@ -446,7 +447,7 @@ def get_booking(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    url_request = url + 'booking/ppob'
+    url_request = get_url_gateway('booking/ppob')
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
@@ -484,7 +485,7 @@ def cancel(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'booking/ppob'
+    url_request = get_url_gateway('booking/ppob')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
@@ -552,7 +553,7 @@ def issued(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'booking/ppob'
+    url_request = get_url_gateway('booking/ppob')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
@@ -578,7 +579,7 @@ def resync_status(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'booking/ppob'
+    url_request = get_url_gateway('booking/ppob')
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
@@ -605,7 +606,7 @@ def update_service_charge(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'booking/ppob'
+    url_request = get_url_gateway('booking/ppob')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
@@ -638,7 +639,7 @@ def booker_insentif_booking(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'booking/ppob'
+    url_request = get_url_gateway('booking/ppob')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:

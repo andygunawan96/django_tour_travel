@@ -242,6 +242,7 @@ def login(request):
             "signature": ''
         }
         user_global, password_global, api_key = get_credential(request)
+        user_default, password_default = get_credential_user_default(request)
         data = {
             "user": user_global,
             "password": password_global,
@@ -255,7 +256,7 @@ def login(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'session'
+    url_request = get_url_gateway('session')
     res = send_request_api({}, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
@@ -580,7 +581,7 @@ def get_carrier_code_list(request):
 
     file = read_cache("get_airline_active_carriers", 'cache_web', request)
     if not file:
-        url_request = url + 'content'
+        url_request = get_url_gateway('content')
         res = send_request_api(request, url_request, headers, data, 'POST')
         try:
             if res['result']['error_code'] == 0:
@@ -688,7 +689,7 @@ def get_carrier_providers(request):
         _logger.error(str(e) + '\n' + traceback.format_exc())
     file = read_cache("get_list_provider", 'cache_web', request)
     if not file:
-        url_request = url + 'content'
+        url_request = get_url_gateway('content')
         res = send_request_api(request, url_request, headers, data, 'POST')
         try:
             if res['result']['error_code'] == 0:
@@ -731,7 +732,7 @@ def get_carriers(request, signature=''):
         _logger.error(str(e) + '\n' + traceback.format_exc())
     file = read_cache("get_airline_carriers", 'cache_web', request)
     if not file:
-        url_request = url + 'content'
+        url_request = get_url_gateway('content')
         res = send_request_api(request, url_request, headers, data, 'POST')
         try:
             if res['result']['error_code'] == 0:
@@ -775,7 +776,7 @@ def get_carriers_search(request, signature=''):
         _logger.error(str(e) + '\n' + traceback.format_exc())
     file = read_cache("get_airline_active_carriers", 'cache_web', request)
     if not file:
-        url_request = url + 'content'
+        url_request = get_url_gateway('content')
         res = send_request_api(request, url_request, headers, data, 'POST')
         try:
             if res['result']['error_code'] == 0:
@@ -807,9 +808,29 @@ def get_carriers_search(request, signature=''):
         res = new_res
     return res
 
+def get_airline_advance_pax_type(request):
+    file = read_cache('airline_advance_pax_type', 'cache_web', request, 90911)
+    if file:
+        return file
+    else:
+        return {
+            'airline_advance_pax_type': 'false',
+            'airline_pax_type_student': 'false',
+            'airline_pax_type_labour': 'false',
+            'airline_pax_type_seaman': 'false'
+        }
+
 def save_allowed_config_search(request):
     data = json.loads(request.POST['airline_carriers'])
     write_cache(data, 'allowed_airline_carriers', request)
+    data = {
+        'airline_advance_pax_type': request.POST['advance_pax_type'],
+        'airline_pax_type_student': request.POST['airline_pax_type_student'],
+        'airline_pax_type_labour': request.POST['airline_pax_type_labour'],
+        'airline_pax_type_seaman': request.POST['airline_pax_type_seaman']
+    }
+
+    write_cache(data, 'airline_advance_pax_type', request)
 
     return {
         "result": {
@@ -864,7 +885,7 @@ def get_provider_list_backend(request, signature=''):
         _logger.error(str(e) + '\n' + traceback.format_exc())
     file = read_cache("get_list_provider_airline", 'cache_web', request)
     if not file:
-        url_request = url + 'content'
+        url_request = get_url_gateway('content')
         res = send_request_api(request, url_request, headers, data, 'POST')
         try:
             if res['result']['error_code'] == 0:
@@ -916,7 +937,7 @@ def get_provider_description(request):
         _logger.error(str(e) + '\n' + traceback.format_exc())
     file = read_cache("get_list_provider_data", 'cache_web', request)
     if not file:
-        url_request = url + 'content'
+        url_request = get_url_gateway('content')
         res = send_request_api(request, url_request, headers, data, 'POST')
         try:
             if res['result']['error_code'] == 0:
@@ -1047,7 +1068,7 @@ def search2(request):
                 set_session(request, 'airline_search_%s' % request.POST['new_signature'], data)
         else:
             _logger.error(str(e) + '\n' + traceback.format_exc())
-    url_request = url + 'booking/airline'
+    url_request = get_url_gateway('booking/airline')
     res = send_request_api(request, url_request, headers, data, 'POST', 120)
     try:
         if res['result']['error_code'] == 0:
@@ -1239,7 +1260,7 @@ def get_price_itinerary(request, boolean, counter):
             "signature": request.POST['signature']
         }
 
-    url_request = url + 'booking/airline'
+    url_request = get_url_gateway('booking/airline')
     res = send_request_api(request, url_request, headers, data, 'POST', 120)
 
     try:
@@ -1383,7 +1404,7 @@ def get_fare_rules(request):
             "signature": request.POST['signature'],
         }
         _logger.error(str(e) + '\n' + traceback.format_exc())
-    url_request = url + 'booking/airline'
+    url_request = get_url_gateway('booking/airline')
     res = send_request_api(request, url_request, headers, data, 'POST')
 
     try:
@@ -1428,7 +1449,7 @@ def sell_journeys(request):
         else:
             _logger.error(str(e) + '\n' + traceback.format_exc())
     if 'sell_journey' + request.POST['signature'] not in request.session or request.session.get('sell_journey_data' + request.POST['signature']) != data:
-        url_request = url + 'booking/airline'
+        url_request = get_url_gateway('booking/airline')
         res = send_request_api(request, url_request, headers, data, 'POST', 300)
     else:
         res = request.session['sell_journey'+request.POST['signature']]
@@ -1526,7 +1547,7 @@ def get_ssr_availability(request):
         "action": "get_ssr_availability",
         "signature": request.POST['signature'],
     }
-    url_request = url + 'booking/airline'
+    url_request = get_url_gateway('booking/airline')
     res = send_request_api(request, url_request, headers, data, 'POST',timeout=300)
     try:
         if res['result']['error_code'] == 0:
@@ -1570,7 +1591,7 @@ def get_seat_availability(request):
         "action": "get_seat_availability",
         "signature": request.POST['signature'],
     }
-    url_request = url + 'booking/airline'
+    url_request = get_url_gateway('booking/airline')
     res = send_request_api(request, url_request, headers, data, 'POST',timeout=300)
     set_session(request, 'airline_get_seat_availability_%s' % request.POST['signature'], res)
     _logger.info(json.dumps(request.session['airline_get_seat_availability_%s' % request.POST['signature']]))
@@ -1591,7 +1612,7 @@ def get_ff_availability(request):
         "action": "get_ff_availability",
         "signature": request.POST['signature'],
     }
-    url_request = url + 'booking/airline'
+    url_request = get_url_gateway('booking/airline')
     res = send_request_api(request, url_request, headers, data, 'POST',timeout=300)
     set_session(request, 'airline_get_ff_availability_%s' % request.POST['signature'], res)
     _logger.info(json.dumps(request.session['airline_get_ff_availability_%s' % request.POST['signature']]))
@@ -1627,7 +1648,7 @@ def update_contacts(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     if 'airline_update_contact' + request.POST['signature'] not in request.session or request.session.get('airline_update_contact_data' + request.POST['signature']) != data:
-        url_request = url + 'booking/airline'
+        url_request = get_url_gateway('booking/airline')
         res = send_request_api(request, url_request, headers, data, 'POST', 300)
     else:
         res = request.session['airline_update_contact'+request.POST['signature']]
@@ -1727,7 +1748,7 @@ def update_passengers(request):
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
     if 'airline_update_passengers' + request.POST['signature'] not in request.session or request.session.get('airline_update_passengers_data' + request.POST['signature']) != data:
-        url_request = url + 'booking/airline'
+        url_request = get_url_gateway('booking/airline')
         res = send_request_api(request, url_request, headers, data, 'POST', 300)
     else:
         res = request.session['airline_update_passengers' + request.POST['signature']]
@@ -1812,7 +1833,7 @@ def sell_ssrs(request):
     if 'airline_sell_ssrs' + request.POST['signature'] in request.session:
         res = request.session['airline_sell_ssrs' + request.POST['signature']]
     elif ssr_requests != {}:
-        url_request = url + 'booking/airline'
+        url_request = get_url_gateway('booking/airline')
         res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
@@ -1857,7 +1878,7 @@ def assign_seats(request):
     if 'airline_seat_request' + request.POST['signature'] in request.session:
         res = request.POST['airline_seat_request' + request.POST['signature']]
     elif len(request.session['airline_seat_request_%s' % request.POST['signature']]) != 0:
-        url_request = url + 'booking/airline'
+        url_request = get_url_gateway('booking/airline')
         res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
@@ -1947,7 +1968,7 @@ def commit_booking(request):
         }
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
-    url_request = url + 'booking/airline'
+    url_request = get_url_gateway('booking/airline')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
@@ -1974,7 +1995,7 @@ def commit_booking_vendor(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'booking/airline'
+    url_request = get_url_gateway('booking/airline')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
@@ -2006,7 +2027,7 @@ def get_booking(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'booking/airline'
+    url_request = get_url_gateway('booking/airline')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         response = get_cache_data(request)
@@ -2301,7 +2322,7 @@ def get_booking(request):
     return res
 
 def get_airline_reprice(request):
-    url_request = url + 'booking/airline'
+    url_request = get_url_gateway('booking/airline')
 
     booking_data = json.loads(request.POST['booking_data'])
     try:
@@ -2341,7 +2362,7 @@ def update_service_charge(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'booking/airline'
+    url_request = get_url_gateway('booking/airline')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
@@ -2381,7 +2402,7 @@ def booker_insentif_booking(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'booking/airline'
+    url_request = get_url_gateway('booking/airline')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
@@ -2454,7 +2475,7 @@ def update_refund_booking(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'booking/airline'
+    url_request = get_url_gateway('booking/airline')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
@@ -2488,7 +2509,7 @@ def cancel(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'booking/airline'
+    url_request = get_url_gateway('booking/airline')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
@@ -2557,7 +2578,7 @@ def issued(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'booking/airline'
+    url_request = get_url_gateway('booking/airline')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
@@ -2593,7 +2614,7 @@ def reissue(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'booking/airline'
+    url_request = get_url_gateway('booking/airline')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
@@ -2760,7 +2781,7 @@ def get_price_reissue_construct(request,boolean, counter):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'booking/airline'
+    url_request = get_url_gateway('booking/airline')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
 
     if res['result']['error_code'] == 0:
@@ -2925,7 +2946,7 @@ def sell_journey_reissue_construct(request,boolean, counter):
         }
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
-    url_request = url + 'booking/airline'
+    url_request = get_url_gateway('booking/airline')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
 
     if res['result']['error_code'] == 0:
@@ -3035,7 +3056,7 @@ def command_cryptic(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'booking/airline'
+    url_request = get_url_gateway('booking/airline')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     return res
 
@@ -3189,7 +3210,7 @@ def pre_refund_login(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'booking/airline'
+    url_request = get_url_gateway('booking/airline')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
@@ -3213,7 +3234,7 @@ def get_provider_booking_from_vendor(request):
         _logger.error(str(e) + '\n' + traceback.format_exc())
     file = read_cache("get_provider_booking_from_vendor_airline", 'cache_web', request, 86400)
     if not file:
-        url_request = url + 'booking/airline'
+        url_request = get_url_gateway('booking/airline')
         res = send_request_api(request, url_request, headers, data, 'POST', 300)
         try:
             if res['result']['error_code'] == 0:
@@ -3249,7 +3270,7 @@ def get_retrieve_booking_from_vendor(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'booking/airline'
+    url_request = get_url_gateway('booking/airline')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
@@ -3369,7 +3390,7 @@ def save_retrieve_booking_from_vendor(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'booking/airline'
+    url_request = get_url_gateway('booking/airline')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
@@ -3401,7 +3422,7 @@ def get_refund_booking(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'booking/airline'
+    url_request = get_url_gateway('booking/airline')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
@@ -3429,7 +3450,7 @@ def get_post_ssr_availability(request):
         "action": "get_post_ssr_availability",
         "signature": request.POST['signature'],
     }
-    url_request = url + 'booking/airline'
+    url_request = get_url_gateway('booking/airline')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
@@ -3480,7 +3501,7 @@ def get_post_seat_availability(request):
         "action": "get_post_seat_availability",
         "signature": request.POST['signature'],
     }
-    url_request = url + 'booking/airline'
+    url_request = get_url_gateway('booking/airline')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     set_session(request, 'airline_get_seat_availability_%s' % request.POST['signature'], res)
     _logger.info(json.dumps(request.session['airline_get_seat_availability_%s' % request.POST['signature']]))
@@ -3513,7 +3534,7 @@ def sell_post_ssrs(request):
     if 'airline_sell_ssrs' + request.POST['signature'] in request.session:
         res = request.session['airline_sell_ssrs' + request.POST['signature']]
     elif request.session['airline_ssr_request_%s' % request.POST['signature']] != {}:
-        url_request = url + 'booking/airline'
+        url_request = get_url_gateway('booking/airline')
         res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
@@ -3560,7 +3581,7 @@ def assign_post_seats(request):
     if 'airline_seat_request' + request.POST['signature'] in request.session:
         res = request.POST['airline_seat_request' + request.POST['signature']]
     elif len(request.session['airline_seat_request_%s' % request.POST['signature']]) != 0:
-        url_request = url + 'booking/airline'
+        url_request = get_url_gateway('booking/airline')
         res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
@@ -3646,7 +3667,7 @@ def update_booking(request):
         }
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
-    url_request = url + 'booking/airline'
+    url_request = get_url_gateway('booking/airline')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
@@ -3691,7 +3712,7 @@ def get_reschedule_availability_v2(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'booking/airline'
+    url_request = get_url_gateway('booking/airline')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
@@ -3857,7 +3878,7 @@ def get_reschedule_itinerary_v2(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'booking/airline'
+    url_request = get_url_gateway('booking/airline')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
 
     if res['result']['error_code'] == 0:
@@ -4011,7 +4032,7 @@ def sell_reschedule_v2(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'booking/airline'
+    url_request = get_url_gateway('booking/airline')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
 
     if res['result']['error_code'] == 0:
@@ -4126,7 +4147,7 @@ def split_booking_v2(request):
         }
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
-    url_request = url + 'booking/airline'
+    url_request = get_url_gateway('booking/airline')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
@@ -4154,7 +4175,7 @@ def get_post_ssr_availability_v2(request):
         "action": "get_post_ssr_availability_v2",
         "signature": request.POST['signature'],
     }
-    url_request = url + 'booking/airline'
+    url_request = get_url_gateway('booking/airline')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
@@ -4209,7 +4230,7 @@ def sell_post_ssrs_v2(request):
     if 'airline_sell_ssrs' + request.POST['signature'] in request.session:
         res = request.session['airline_sell_ssrs' + request.POST['signature']]
     elif request.session['airline_ssr_request_%s' % request.POST['signature']] != {}:
-        url_request = url + 'booking/airline'
+        url_request = get_url_gateway('booking/airline')
         res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
@@ -4252,7 +4273,7 @@ def get_post_seat_availability_v2(request):
         "action": "get_post_seat_availability_v2",
         "signature": request.POST['signature'],
     }
-    url_request = url + 'booking/airline'
+    url_request = get_url_gateway('booking/airline')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     set_session(request, 'airline_get_seat_availability_%s' % request.POST['signature'], res)
     _logger.info(json.dumps(request.session['airline_get_seat_availability_%s' % request.POST['signature']]))
@@ -4286,7 +4307,7 @@ def assign_post_seats_v2(request):
     if 'airline_seat_request' + request.POST['signature'] in request.session:
         res = request.POST['airline_seat_request' + request.POST['signature']]
     elif len(request.session['airline_seat_request_%s' % request.POST['signature']]) != 0:
-        url_request = url + 'booking/airline'
+        url_request = get_url_gateway('booking/airline')
         res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
@@ -4372,7 +4393,7 @@ def update_booking_v2(request):
         }
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
-    url_request = url + 'booking/airline'
+    url_request = get_url_gateway('booking/airline')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
@@ -4403,7 +4424,7 @@ def pre_refund_login_v2(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'booking/airline'
+    url_request = get_url_gateway('booking/airline')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
@@ -4439,7 +4460,7 @@ def get_cancel_booking(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'booking/airline'
+    url_request = get_url_gateway('booking/airline')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
@@ -4517,7 +4538,7 @@ def update_refund_booking_v2(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'booking/airline'
+    url_request = get_url_gateway('booking/airline')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
@@ -4549,7 +4570,7 @@ def cancel_v2(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'booking/airline'
+    url_request = get_url_gateway('booking/airline')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
@@ -4607,7 +4628,7 @@ def update_post_pax_name(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'booking/airline'
+    url_request = get_url_gateway('booking/airline')
     if len(passenger) > 0:
         res = send_request_api(request, url_request, headers, data, 'POST', 300)
     else:
@@ -4679,7 +4700,7 @@ def update_post_pax_identity(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'booking/airline'
+    url_request = get_url_gateway('booking/airline')
     if len(passenger):
         res = send_request_api(request, url_request, headers, data, 'POST', 300)
     else:
@@ -4703,7 +4724,7 @@ def get_frequent_flyer_all_data(request, signature):
     if not data_file:
         res = {}
         try:
-            url_request = url + 'booking/airline'
+            url_request = get_url_gateway('booking/airline')
             headers = {
                 "Accept": "application/json,text/html,application/xml",
                 "Content-Type": "application/json",
@@ -4806,7 +4827,7 @@ def search_mobile(request):
         }
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
-    url_request = url + 'booking/airline'
+    url_request = get_url_gateway('booking/airline')
     res = send_request_api(request, url_request, headers, data, 'POST', 120)
     try:
         if res['result']['error_code'] == 0:
