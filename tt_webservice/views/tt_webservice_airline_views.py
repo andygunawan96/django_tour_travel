@@ -1707,7 +1707,6 @@ def update_passengers(request):
                         }
 
                     else:
-                        pax.pop('identity_country_of_issued_name')
                         pax.pop('identity_expdate')
                         pax.pop('identity_number')
                         pax.pop('identity_type')
@@ -4581,7 +4580,6 @@ def update_post_pax_name(request):
                         break
             if pax['identity_type'] != '':
                 pax['identity'] = {
-                    "identity_country_of_issued_name": pax.pop('identity_country_of_issued_name'),
                     "identity_country_of_issued_code": pax.get('identity_country_of_issued_code') or '',
                     "identity_expdate": pax.pop('identity_expdate'),
                     "identity_number": pax.pop('identity_number'),
@@ -4589,7 +4587,6 @@ def update_post_pax_name(request):
                 }
 
             else:
-                pax.pop('identity_country_of_issued_name')
                 pax.pop('identity_expdate')
                 pax.pop('identity_number')
                 pax.pop('identity_type')
@@ -4649,7 +4646,6 @@ def update_post_pax_identity(request):
                         break
             if pax['identity_type'] != '':
                 pax['identity'] = {
-                    "identity_country_of_issued_name": pax.pop('identity_country_of_issued_name'),
                     "identity_country_of_issued_code": pax.get('identity_country_of_issued_code') or '',
                     "identity_expdate": pax.pop('identity_expdate'),
                     "identity_number": pax.pop('identity_number'),
@@ -4657,7 +4653,6 @@ def update_post_pax_identity(request):
                 }
 
             else:
-                pax.pop('identity_country_of_issued_name')
                 pax.pop('identity_expdate')
                 pax.pop('identity_number')
                 pax.pop('identity_type')
