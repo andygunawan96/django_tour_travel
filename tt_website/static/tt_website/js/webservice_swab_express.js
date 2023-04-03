@@ -1674,7 +1674,7 @@ function swab_express_get_booking(order_number, sync=false){
                                               <!-- Modal content-->
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h4 class="modal-title" style="color:`+text_color+`">Invoice</h4>
+                                                        <h4 class="modal-title">Invoice</h4>
                                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                     </div>
                                                     <div class="modal-body">
@@ -1739,7 +1739,7 @@ function swab_express_get_booking(order_number, sync=false){
                                               <!-- Modal content-->
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h4 class="modal-title" style="color:`+text_color+`">Kwitansi</h4>
+                                                        <h4 class="modal-title">Kwitansi</h4>
                                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                     </div>
                                                     <div class="modal-body">

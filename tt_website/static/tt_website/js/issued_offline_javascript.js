@@ -347,7 +347,7 @@ function add_table_of_passenger(type){
 //                                                                <!-- Modal content-->
 //                                                                <div class="modal-content">
 //                                                                    <div class="modal-header">
-//                                                                        <h4 class="modal-title" style="color:white;">Identity Photo</h4>
+//                                                                        <h4 class="modal-title">Identity Photo</h4>
 //                                                                        <button type="button" class="close" onclick="$('#myModal_attachment_identity_adult`+parseInt(counter_passenger+1)+`').modal('hide');">×</button>
 //                                                                    </div>
 //                                                                    <div class="modal-body">

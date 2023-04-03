@@ -1876,7 +1876,7 @@ function change_top_up_method(){
                         <!-- Modal content-->
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h4 class="modal-title" style="color:`+text_color+`;">Term & Condition </h4>
+                                <h4 class="modal-title">Term & Condition </h4>
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                             </div>
                             <div class="modal-body">

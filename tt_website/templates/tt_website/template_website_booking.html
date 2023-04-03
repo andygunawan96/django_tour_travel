@@ -406,9 +406,9 @@ Licence URI: http://www.os-templates.com/template-terms
     <link href="//fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900" rel="stylesheet">
 	<link href="//fonts.googleapis.com/css?family=Source+Sans+Pro:200,200i,300,300i,400,400i,600,600i,700,700i,900,900i" rel="stylesheet">
 	<!-- //google fonts -->
-
-
     {%endif%}
+    <link rel="stylesheet" href="{{ static_path }}css/all-custom.css" type="text/css">
+
     <!--jbox-->
     <link rel="stylesheet" href="{{ static_path }}css/jbox/jBox.all.css?version={{javascript_version}}">
 <!--    <link rel="stylesheet" href="{{ static_path }}css/jbox/normalize.css?version={{javascript_version}}">-->
@@ -541,9 +541,6 @@ Licence URI: http://www.os-templates.com/template-terms
         }
         .style-scrollbar::-webkit-scrollbar-thumb{
 	        background-color: {{tab_color}};
-	    }
-	    .modal-title{
-            color: {{text_color}};
 	    }
 	    ul.btn_tabs li:hover{
            color: {{color}};
@@ -1371,6 +1368,14 @@ Licence URI: http://www.os-templates.com/template-terms
             background: {{color}} !important;
         }
 
+        .text_link_cst{
+            color: {{color}};
+        }
+
+        .text_link_cst a{
+            color: {{color}};
+        }
+
         {% if template == 1%}
         {% if username.co_user_login == default_user %}
             #mobile-nav-toggle{
@@ -1457,16 +1462,6 @@ Licence URI: http://www.os-templates.com/template-terms
             box-shadow: none;
             border: 1px solid {{color}};
             outline:unset;
-        }
-        .modal-header {
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            padding: 1rem;
-            border-bottom: 1px solid #e9ecef;
-            border-top-left-radius: 0.3rem;
-            border-top-right-radius: 0.3rem;
-            background-color: {{color}};
         }
         .single-footer-widget ul li a:hover {
             color: {{color}};
@@ -1588,9 +1583,6 @@ Licence URI: http://www.os-templates.com/template-terms
             background-color: {{color}};
             opacity:0.8;
             color: white !important;
-        }
-        .modal-header {
-            background: {{color}};
         }
         ul.create_tabs li.current{
             border-bottom: 5px solid {{color}};
@@ -1734,9 +1726,6 @@ Licence URI: http://www.os-templates.com/template-terms
         .default-select .nice-select .list .option:hover{
             color: {{color}};
         }
-        .modal-header{
-            background: {{color}};
-        }
         .owl-theme .owl-nav [class*=owl-]{
             background: {{color}};
         }
@@ -1773,9 +1762,6 @@ Licence URI: http://www.os-templates.com/template-terms
         }
         .owl-theme .owl-dots .owl-dot.active span, .owl-theme .owl-dots .owl-dot:hover span{
             background: {{color}} !important;
-        }
-        .modal-header{
-            background-color: {{color}};
         }
         .border-primary{
             border-color: {{color}} !important;
@@ -1887,9 +1873,6 @@ Licence URI: http://www.os-templates.com/template-terms
             color: {{color}} !important;
         }
 
-        .modal-header{
-            background: {{color}};
-        }
         .search-field{
             background: {{tab_color}};
         }
@@ -1935,10 +1918,17 @@ Licence URI: http://www.os-templates.com/template-terms
         }
 
         {% elif template == 6 %}
+        .modal-backdrop{
+            z-index: 999;
+        }
+
         a {
             color: black;
         }
         a:hover{
+            color: {{color}};
+        }
+        .a_black:hover{
             color: {{color}};
         }
         .footer_a{
@@ -1960,9 +1950,6 @@ Licence URI: http://www.os-templates.com/template-terms
         }
         .copy-right p{
             color: {{text_color}};
-        }
-        .modal-header {
-            background: {{color}};
         }
         .image-change-route-vertical{
             color: {{text_color}};
@@ -2331,6 +2318,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <script src="{{ static_path }}js/cart.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/jquery.simplePagination.js?version={{javascript_version}}"></script>
 <!--other-->
+<script src="{{ static_path }}js/cookie_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/style.js?version={{javascript_version}}"></script>
 <script src="https://d.line-scdn.net/r/web/social-plugin/js/thirdparty/loader.min.js" async="async" defer="defer"></script>
 <!--<script src="{{ static_path }}js/maps.js?version={{javascript_version}}"></script>-->

@@ -102,6 +102,14 @@ def api_models(request):
             res = testing_espay_close(request)
         elif req_data['action'] == 'get_top_up_term':
             res = get_top_up_term(request)
+        elif req_data['action'] == 'get_privacy_policy':
+            res = get_privacy_policy(request)
+        elif req_data['action'] == 'set_privacy_policy':
+            res = set_privacy_policy(request)
+        elif req_data['action'] == 'get_term_and_condition':
+            res = get_term_and_condition(request)
+        elif req_data['action'] == 'set_term_and_condition':
+            res = set_term_and_condition(request)
         elif req_data['action'] == 'get_booking':
             res = get_booking(request)
         elif req_data['action'] == 'youtube_api':
@@ -759,6 +767,150 @@ def get_top_up_term(request):
     if file:
         text = file
     return text
+
+def get_privacy_policy(request):
+    try:
+        response = []
+        file = read_cache("privacy_policy", 'cache_web', request, 90911)
+        if file:
+            title = ''
+            body = ''
+            active = ''
+            version = 0
+            for idx, line in enumerate(file.split('\n')):
+                if idx == 0:
+                    title = line.split('\n')[0]
+                elif idx == 1:
+                    body = json.loads(line.split('\n')[0])
+                elif idx == 2:
+                    active = line.split('\n')[0]
+                elif idx == 2:
+                    active = line.split('\n')[0]
+            response.append({
+                "title": title,
+                "body": body,
+                "active": active,
+                "version": version,
+            })
+
+        res = {
+            'result': {
+                'error_code': 0,
+                'error_msg': '',
+                'response': response
+            }
+        }
+    except Exception as e:
+        res = {
+            'result': {
+                'error_code': 500,
+                'error_msg': 'not found',
+                'response': []
+            }
+        }
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    return res
+
+def set_privacy_policy(request):
+    try:
+        title = request.POST['title']
+        body = request.POST['body']
+        active = request.POST['active']
+        version = request.POST['version']
+
+        text = title + '\n' + body + '\n' + active + '\n' + version
+        write_cache(text, "privacy_policy", request, 'cache_web')
+
+        res = {
+            'result': {
+                'error_code': 0,
+                'error_msg': 'Success',
+                'response': ''
+            }
+        }
+    except Exception as e:
+        error = "Can't update"
+        res = {
+            'result': {
+                'error_code': 500,
+                'error_msg': error,
+                'response': ''
+            }
+        }
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    return res
+
+def get_term_and_condition(request):
+    try:
+        response = []
+        file = read_cache("term_and_condition", 'cache_web', request, 90911)
+        if file:
+            title = ''
+            body = ''
+            active = ''
+            version = 0
+            for idx, line in enumerate(file.split('\n')):
+                if idx == 0:
+                    title = line.split('\n')[0]
+                elif idx == 1:
+                    body = json.loads(line.split('\n')[0])
+                elif idx == 2:
+                    active = line.split('\n')[0]
+                elif idx == 3:
+                    version = line.split('\n')[0]
+            response.append({
+                "title": title,
+                "body": body,
+                "active": active,
+                "version": version,
+            })
+
+        res = {
+            'result': {
+                'error_code': 0,
+                'error_msg': '',
+                'response': response
+            }
+        }
+    except Exception as e:
+        res = {
+            'result': {
+                'error_code': 500,
+                'error_msg': 'not found',
+                'response': []
+            }
+        }
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    return res
+
+def set_term_and_condition(request):
+    try:
+        title = request.POST['title']
+        body = request.POST['body']
+        active = request.POST['active']
+        version = request.POST['version']
+
+        text = title + '\n' + body + '\n' + active + '\n' + version
+        write_cache(text, "term_and_condition", request, 'cache_web')
+
+        res = {
+            'result': {
+                'error_code': 0,
+                'error_msg': 'Success',
+                'response': ''
+            }
+        }
+    except Exception as e:
+        error = "Can't update"
+        res = {
+            'result': {
+                'error_code': 500,
+                'error_msg': error,
+                'response': ''
+            }
+        }
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    return res
 
 def testing_espay_close(request):
     try:

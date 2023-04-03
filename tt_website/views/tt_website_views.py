@@ -55,6 +55,8 @@ def check_banner(page, banner_type, request):
             file = get_banner_data(request, 'big_banner')
         elif banner_type == 'small_banner':
             file = get_banner_data(request, 'small_banner')
+        elif banner_type == 'promotion':
+            file = get_banner_data(request, 'promotion')
         elif banner_type == 'dynamic_page':
             file = get_dynamic_page(request)
             if len(file['result']['response']) != 0:
@@ -74,6 +76,22 @@ def check_banner(page, banner_type, request):
     except Exception as e:
         _logger.error(str(e) + traceback.format_exc())
     return check_banner
+
+def check_terms_condition(request):
+    check_terms = 0
+    read_cache("term_and_condition", 'cache_web', request, 90911)
+    try:
+        file = read_cache("term_and_condition", 'cache_web', request, 90911)
+        if file:
+            for idx, line in enumerate(file.split('\n')):
+                if idx == 2:
+                    active = line.split('\n')[0]
+
+            if active == 'active':
+                check_terms = 1
+    except Exception as e:
+        _logger.error(str(e) + traceback.format_exc())
+    return check_terms
 
 def check_captcha(request):
     try:
@@ -304,7 +322,9 @@ def index(request):
                                 'signature': request.session['signature'],
                                 'big_banner_value': check_banner('home', 'big_banner', request),
                                 'small_banner_value': check_banner('home', 'small_banner', request),
+                                'promotion_banner_value': check_banner('home', 'promotion', request),
                                 'dynamic_page_value': check_banner('', 'dynamic_page', request),
+                                'terms_value': check_terms_condition(request),
                             })
                         except Exception as e:
                             _logger.error(str(e) + '\n' + traceback.format_exc())
@@ -2095,6 +2115,28 @@ def about_us(request):
         return render(request, MODEL_NAME+'/about_us.html', values)
     else:
         return no_session_logout(request)
+
+def terms_and_condition(request):
+    javascript_version = get_javascript_version(request)
+    values = get_data_template(request, 'login')
+    values.update({
+        'static_path': path_util.get_static_path(MODEL_NAME),
+        'javascript_version': javascript_version,
+        'static_path_url_server': get_url_static_path(),
+        'username': request.session.get('user_account') or {'co_user_login': ''},
+    })
+    return render(request, MODEL_NAME + '/terms.html', values)
+
+def privacy_policy(request):
+    javascript_version = get_javascript_version(request)
+    values = get_data_template(request, 'login')
+    values.update({
+        'static_path': path_util.get_static_path(MODEL_NAME),
+        'javascript_version': javascript_version,
+        'static_path_url_server': get_url_static_path(),
+        'username': request.session.get('user_account') or {'co_user_login': ''},
+    })
+    return render(request, MODEL_NAME + '/policy.html', values)
 
 
 # @api_view(['GET'])

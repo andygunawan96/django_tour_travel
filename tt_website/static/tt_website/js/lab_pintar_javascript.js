@@ -400,7 +400,7 @@ function add_table_of_passenger_verify(type){
         <div class="modal-dialog modal_custom_fixed">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" style="color:white;">Customer #`+(counter_passenger+1)+`</h4>
+                    <h4 class="modal-title">Customer #`+(counter_passenger+1)+`</h4>
                     <button type="button" class="close" data-dismiss="modal" onclick="update_contact('passenger',`+parseInt(counter_passenger+1)+`);">&times;</button>
                 </div>
                 <div class="modal-body">
@@ -2457,7 +2457,7 @@ function add_table_passenger_phc(type){
                   <!-- Modal content-->
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title" style="color:white;">Passenger `+(counter_passenger+1)+`</h4>
+                            <h4 class="modal-title">Passenger `+(counter_passenger+1)+`</h4>
                             <button type="button" class="close" data-dismiss="modal" onclick="update_contact('passenger',`+parseInt(counter_passenger+1)+`);">&times;</button>
                         </div>
                         <div class="modal-body">

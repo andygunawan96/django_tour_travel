@@ -408,9 +408,6 @@ function check_registration(){
             break;
         }
     }
-    if(company == ''){
-        error_log+= 'Please choose your business type (individual or company)!\n<br/>';
-    }
 //    if(company == 'individual'){
 //
 //    }else if(company == 'company'){
@@ -426,21 +423,39 @@ function check_registration(){
 //            document.getElementById('npwp').style['border-color'] = '#EFEFEF';
 //        }
 //    }
-    if(document.getElementById('agent_type').value == ''){
+    if(document.getElementById('agent_type_id').value == ''){
         error_log+= 'Please choose agent type!\n<br/>';
-        document.getElementById('agent_type').style['border-color'] = 'red';
+        $("#agent_type_id").each(function() {
+          $(this).siblings(".select2-container").css('border', '1px solid red');
+        });
     }else{
-        document.getElementById('agent_type').style['border-color'] = '#EFEFEF';
-    }if(document.getElementById('street').value == ''){
+        $("#agent_type_id").each(function() {
+          $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+        });
+
+        if(company == ''){
+            error_log+= 'Please choose your business type (individual or company)!\n<br/>';
+            document.getElementById('company_type').style = 'border:2px solid red';
+        }else{
+            document.getElementById('company_type').style = 'border:unset';
+        }
+    }
+    if(document.getElementById('street').value == ''){
         error_log+= 'Please fill street!\n<br/>';
         document.getElementById('street').style['border-color'] = 'red';
     }else{
         document.getElementById('street').style['border-color'] = '#EFEFEF';
-    }if(document.getElementById('country').value == ''){
+    }
+
+    if(document.getElementById('country_id').value == ''){
         error_log+= 'Please fill country!\n<br/>';
-        document.getElementById('country').style['border-color'] = 'red';
+        $("#country_id").each(function() {
+          $(this).siblings(".select2-container").css('border', '1px solid red');
+        });
     }else{
-        document.getElementById('country').style['border-color'] = '#EFEFEF';
+        $("#country_id").each(function() {
+          $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+        });
 //    }if(document.getElementById('city').value == ''){
 //        error_log+= 'Please fill city!\n';
 //        document.getElementById('city').style['border-color'] = 'red';
@@ -499,10 +514,30 @@ function check_registration(){
         }
     }
     if(document.getElementById('tacagree').checked == false){
-        error_log+= 'You must agree to our terms and condition to continue!\n<br/>';
-        document.getElementById('tacagree').style['border-color'] = 'red';
+        error_log+= 'You must agree to our Terms and Condition of Agent Registration to continue!\n<br/>';
+        document.getElementById('tacagree_span').style = 'border:2px solid red';
     }else{
-        document.getElementById('tacagree').style['border-color'] = '#EFEFEF';
+        document.getElementById('tacagree_span').style = 'border:unset';
+    }
+
+    if(document.getElementById('div_policy_active').value == "active"){
+        if(document.getElementById('agree_policy_check').checked == false){
+            get_agree_span = document.getElementById("agree_policy").innerText;
+            error_log+= 'You must agree to our '+get_agree_span+' to continue!\n<br/>';
+            document.getElementById('agree_policy_span').style = 'border:2px solid red';
+        }else{
+            document.getElementById('agree_policy_span').style = 'border:unset';
+        }
+    }
+
+    if(document.getElementById('div_terms_active').value == "active"){
+        if(document.getElementById('agree_terms_check').checked == false){
+            get_agree_span = document.getElementById("agree_terms").innerText;
+            error_log+= 'You must agree to our '+get_agree_span+' to continue!\n<br/>';
+            document.getElementById('agree_terms_span').style = 'border:2px solid red';
+        }else{
+            document.getElementById('agree_terms_span').style = 'border:unset';
+        }
     }
 
     if(error_log == ''){
@@ -545,7 +580,7 @@ function add_table_of_passenger(){
                   <!-- Modal content-->
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title" style="color:`+text_color+`">Person In Charge `+(counter_passenger+1)+`</h4>
+                            <h4 class="modal-title">Person In Charge `+(counter_passenger+1)+`</h4>
                             <button type="button" class="close" data-dismiss="modal" onclick="update_contact('pic',`+parseInt(counter_passenger+1)+`);">&times;</button>
                         </div>
                         <div class="modal-body">
