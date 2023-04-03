@@ -40,8 +40,6 @@
 <script src="{{ static_path }}js/sentra_medika_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/lab_pintar_javascript.js?version={{javascript_version}}"></script>
 <!--<script src="{{ static_path }}js/webservice_bank.js?version={{javascript_version}}"></script>-->
-<script src="{{ static_path }}js/terms_javascript.js?version={{javascript_version}}"></script>
-<script src="{{ static_path }}js/policy_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/moment.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/daterangepicker.js?version={{javascript_version}}"></script>
 <link rel="stylesheet" type="text/css" href="{{ static_path }}login/css/owl.carousel.css?version={{javascript_version}}">
@@ -53,6 +51,10 @@
 {% endif %}
 <script>
     signature = `{{signature}}`;
+
+    terms_value = {{terms_value}};
+    promotion_banner_value = {{promotion_banner_value}};
+
     static_path_url_server = '{{static_path_url_server}}'
     name = '';
     cabin_class = [];
@@ -10566,14 +10568,6 @@
     })
 
     $( document ).ready(function() {
-
-        {% if terms_value == 1 and promotion_banner_value == 1%}
-            get_term_and_condition('home');
-        {% else %}
-            get_banner('promotion','home');
-        {% endif %}
-
-
         var set_active = true;
         {% if template == 1 %}
         var class_tab = 'active';
@@ -10720,6 +10714,13 @@
           {% if dynamic_page_value == 1 %}
           get_dynamic_page('home');
           {% endif %}
+
+          {% if terms_value == 1 and promotion_banner_value == 1%}
+          get_term_and_condition('home');
+          {% else %}
+          get_banner('promotion','home');
+          {% endif %}
+
           var now = moment().format('DD MMM YYYY');
             {% if "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security %}
                 try{

@@ -999,10 +999,6 @@ for better animation effect */
     color:red;
 }
 
-.modal-backdrop{
-    z-index: -1;
-}
-
 @media (min-width:576px) {
     .modal-dialog {
         max-width: 750px;
