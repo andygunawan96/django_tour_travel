@@ -105,6 +105,11 @@ function checkCookie(type, check, page, version) {
                     }
                 }else{
                     modal_promo = 'show';
+                    if(template != 2){
+                        $("#myModalPromotion").modal('show');
+                    }else{
+                        $("#myModalPromotion").modal();
+                    }
                 }
             }
             else if(check == 'update'){
