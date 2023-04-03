@@ -176,6 +176,7 @@ def signin(request):
         "signature": ''
     }
     user_global, password_global, api_key = get_credential(request)
+    user_default, password_default = get_credential_user_default(request)
     data = {
         "user": user_global,
         "password": password_global,
@@ -185,7 +186,7 @@ def signin(request):
         "co_password": request.session.get('password') or password_default,
         "co_uid": ""
     }
-    url_request = url + 'session'
+    url_request = get_url_gateway('session')
     res = send_request_api(request, url_request, headers, data, 'POST', 10)
     try:
         if res['result']['error_code'] == 0:
@@ -211,7 +212,8 @@ def check_session(request):
         data = {}
     except Exception as e:
         _logger.error('ERROR check session\n' + str(e) + '\n' + traceback.format_exc())
-    url_request = url + 'session'
+
+    url_request = get_url_gateway('session')
     res = send_request_api(request, url_request, headers, data, 'POST', 30)
     return res
 
@@ -226,7 +228,7 @@ def update_session(request):
         data = {}
     except Exception as e:
         _logger.error('ERROR update session\n' + str(e) + '\n' + traceback.format_exc())
-    url_request = url + 'session'
+    url_request = get_url_gateway('session')
     res = send_request_api(request, url_request, headers, data, 'POST', 30)
     return res
 
@@ -247,7 +249,7 @@ def signup_user(request):
         "title": request.POST['title'],
         "password": '',
     }
-    url_request = url + 'account'
+    url_request = get_url_gateway('account')
     res = send_request_api(request, url_request, headers, data, 'POST', 30)
     try:
         if res['result']['error_code'] == 0:
@@ -281,7 +283,7 @@ def auto_signin(request):
         # "co_password": password_default, #request.POST['password'],
         "co_uid": ""
     }
-    url_request = url + 'session'
+    url_request = get_url_gateway('session')
     res = send_request_api(request, url_request, headers, data, 'POST', 10)
     try:
         if res['result']['error_code'] == 0:
@@ -311,7 +313,7 @@ def reset_password(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'account'
+    url_request = get_url_gateway('account')
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
@@ -334,7 +336,7 @@ def get_account(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'account'
+    url_request = get_url_gateway('account')
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         set_session(request, 'user_account', res['result']['response'])
@@ -387,7 +389,7 @@ def get_balance_request(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     try:
-        url_request = url + 'account'
+        url_request = get_url_gateway('account')
         res = send_request_api(request, url_request, headers, data, 'POST', 60)
         set_session(request, 'get_balance_session', res)
         _logger.info(json.dumps(request.session['get_balance_session']))
@@ -420,7 +422,7 @@ def get_corpor_list(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'account'
+    url_request = get_url_gateway('account')
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
@@ -477,7 +479,7 @@ def get_transactions(request):
         except Exception as e:
             _logger.error(str(e) + '\n' + traceback.format_exc())
 
-        url_request = url + 'account'
+        url_request = get_url_gateway('account')
         res = send_request_api(request, url_request, headers, data, 'POST')
         if int(request.POST['offset']) == 0:
             set_session(request, 'get_transactions_session', res)
@@ -518,7 +520,7 @@ def get_transactions(request):
                     "action": "get_transactions",
                     "signature": request.POST['signature'],
                 }
-                url_request = url + 'account'
+                url_request = get_url_gateway('account')
                 res = send_request_api(request, url_request, headers, data, 'POST')
                 if int(request.POST['offset']) == 300:
                     set_session(request, 'get_transactions_session', res)
@@ -553,7 +555,7 @@ def set_read_transactions_notif_api(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'account'
+    url_request = get_url_gateway('account')
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
@@ -579,7 +581,7 @@ def set_snooze_notif_api(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'account'
+    url_request = get_url_gateway('account')
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
@@ -604,7 +606,7 @@ def get_transactions_notif_api(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'account'
+    url_request = get_url_gateway('account')
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
@@ -633,7 +635,7 @@ def get_history_transaction_ledger(request):
         except Exception as e:
             _logger.error(str(e) + '\n' + traceback.format_exc())
 
-        url_request = url + 'account'
+        url_request = get_url_gateway('account')
         res = send_request_api(request, url_request, headers, data, 'POST')
         if int(request.POST['page']) == 1:
             set_session(request, 'get_transactions_history_ledger_session', res)
@@ -656,7 +658,7 @@ def get_history_transaction_ledger(request):
                     "action": "history_transaction_ledger_api",
                     "signature": request.POST['signature'],
                 }
-                url_request = url + 'account'
+                url_request = get_url_gateway('account')
                 res = send_request_api(request, url_request, headers, data, 'POST')
                 if int(request.POST['page']) == 1:
                     set_session(request, 'get_transactions_history_ledger_session', res)
@@ -690,7 +692,7 @@ def buy_quota_btbo2(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'account'
+    url_request = get_url_gateway('account')
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
@@ -715,7 +717,7 @@ def get_top_up_quota(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'account'
+    url_request = get_url_gateway('account')
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         set_session(request, 'top_up_amount', res['result']['response'])
@@ -740,7 +742,7 @@ def get_top_up_amount(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'account'
+    url_request = get_url_gateway('account')
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         set_session(request, 'top_up_amount', res['result']['response'])
@@ -776,7 +778,7 @@ def get_top_up(request):
         }
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
-    url_request = url + 'account'
+    url_request = get_url_gateway('account')
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
@@ -801,7 +803,7 @@ def submit_top_up(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'account'
+    url_request = get_url_gateway('account')
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
@@ -833,7 +835,7 @@ def commit_top_up(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'account'
+    url_request = get_url_gateway('account')
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
@@ -858,7 +860,7 @@ def cancel_top_up(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'account'
+    url_request = get_url_gateway('account')
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
@@ -883,7 +885,7 @@ def confirm_top_up(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'account'
+    url_request = get_url_gateway('account')
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
@@ -1540,7 +1542,7 @@ def get_va_number(request):
         }
         data = {}
 
-        url_request = url + 'account'
+        url_request = get_url_gateway('account')
         res = send_request_api(request, url_request, headers, data, 'POST')
         if res['result']['error_code'] == 0:
             res['result']['response'].update({
@@ -1623,7 +1625,7 @@ def get_va_bank(request):
             "signature": request.POST['signature'],
         }
         data = {}
-        url_request = url + 'account'
+        url_request = get_url_gateway('account')
         res = send_request_api(request, url_request, headers, data, 'POST')
         if res['result']['error_code'] == 0:
             res['result']['response'].append({
@@ -1693,7 +1695,7 @@ def send_url_booking(request):
             "order_number": request.POST['order_number'],
             "type": request.POST['type']
         }
-        url_request = url + 'account'
+        url_request = get_url_gateway('account')
         res = send_request_api(request, url_request, headers, data, 'POST')
     except Exception as e:
         res = {
@@ -1743,7 +1745,7 @@ def get_vendor_balance_request(request):
         }
         data = {}
 
-        url_request = url + 'account'
+        url_request = get_url_gateway('account')
         res = send_request_api(request, url_request, headers, data, 'POST')
         if res['result']['error_code'] == 0:
             data_vendor = res['result']['response']
@@ -1778,7 +1780,7 @@ def request_top_up(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'account'
+        url_request = get_url_gateway('account')
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:

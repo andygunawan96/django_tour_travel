@@ -5,6 +5,7 @@ from datetime import datetime, timedelta
 import traceback
 import logging
 import json
+from ..static.tt_webservice.url import url
 _logger = logging.getLogger("website_logger")
 
 def set_session(request, session_key, data, depth = 1):
@@ -70,3 +71,12 @@ def get_timelimit_product(request, product):
         else:
             return 1 # agar langsung ke home kalau 0 di product ada pengecheckan kalau dari path 0
     return 0
+
+def get_url_gateway(path):
+    data_path = url
+    if data_path[len(data_path)-1] == '/' and path[0] == '/':
+        return "%s%s" % (data_path[:-1], path)
+    elif data_path[len(data_path)-1] != '/' and path[0] != '/':
+        return "%s/%s" % (data_path, path)
+    else:
+        return "%s%s" % (data_path, path)

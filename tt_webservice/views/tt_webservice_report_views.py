@@ -68,7 +68,7 @@ def get_report(request):
         'agent_type_seq_id': '',
     }
 
-    url_request = url + 'account'
+    url_request = get_url_gateway('account')
     res = send_request_api(request, url_request, headers, data, 'POST', 1000)
 
     to_return = {
@@ -108,7 +108,7 @@ def update_report(request):
         'agent_type_seq_id': request.POST['agent_type'],
     }
 
-    url_request = url + 'account'
+    url_request = get_url_gateway('account')
     res = send_request_api(request, url_request, headers, data, 'POST', 1000)
     to_return = {
         'raw_data': res,
@@ -133,7 +133,7 @@ def get_total_rupiah(request):
         'agent_type_seq_id': 'Budi'
     }
 
-    url_request = url + 'account'
+    url_request = get_url_gateway('account')
     res = send_request_api(request, url_request, headers, data, 'POST', 1000)
     return res
 
@@ -153,7 +153,7 @@ def get_top_up_rupiah(request):
         'agent_type_seq_id': 'Budi'
     }
 
-    url_request = url + 'account'
+    url_request = get_url_gateway('account')
     res = send_request_api(request, url_request, headers, data, 'POST', 1000)
     return res
 
@@ -172,6 +172,6 @@ def get_average_rupiah(request):
         'agent_type_seq_id': 'Budi'
     }
 
-    url_request = url + 'account'
+    url_request = get_url_gateway('account')
     res = send_request_api(request, url_request, headers, data, 'POST', 1000)
     return res

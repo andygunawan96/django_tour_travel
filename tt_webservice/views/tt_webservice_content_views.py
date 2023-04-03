@@ -165,7 +165,7 @@ def upload_file(request):
     list_img = []
     for img in imgData:
         data = img
-        url_request = url + 'content'
+        url_request = get_url_gateway('content')
         res = send_request_api(request, url_request, headers, data, 'POST')
         list_img.append([res['result']['response']['seq_id'], 4])
     try:
@@ -218,7 +218,7 @@ def update_image_passenger(request):
     list_img = []
     for img in imgData:
         data = img
-        url_request = url + 'content'
+        url_request = get_url_gateway('content')
         res = send_request_api(request, url_request, headers, data, 'POST')
         list_img.append([res['result']['response']['seq_id'], 4, img['type']])
     try:
@@ -288,7 +288,7 @@ def get_booking(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    url_request = url + 'content'
+    url_request = get_url_gateway('content')
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
@@ -319,7 +319,7 @@ def cancel_payment_method_api(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    url_request = url + 'payment'
+    url_request = get_url_gateway('payment')
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
@@ -559,7 +559,7 @@ def add_banner(request):
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     for img in imgData:
         data = img
-        url_request = url + 'content'
+        url_request = get_url_gateway('content')
         res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if len(imgData) == 0:
@@ -598,7 +598,7 @@ def get_banner(request):
     elif request.POST['type'] == 'promotion':
         file = get_banner_data(request, 'promotion')
     if not file:
-        url_request = url + 'content'
+        url_request = get_url_gateway('content')
         res = send_request_api(request, url_request, headers, data, 'POST')
         try:
             if res['result']['error_code'] == 0:
@@ -697,7 +697,7 @@ def set_inactive_delete_banner(request):
     imgs = json.loads(request.POST['img'])
     for img in imgs:
         data = img
-        url_request = url + 'content'
+        url_request = get_url_gateway('content')
         res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if len(imgs) == 0:
@@ -728,7 +728,7 @@ def create_legder(request):
             'value': int(request.POST['value'])
         }
 
-        url_request = url + 'content'
+        url_request = get_url_gateway('content')
         res = send_request_api(request, url_request, headers, data, 'POST')
     except Exception as e:
         res = {
@@ -766,7 +766,7 @@ def testing_espay_close(request):
             "Content-Type": "application/x-www-form-urlencoded",
         }
         data = "rq_uuid=b9e04730-19c0-436b-bd72-1c2781fbcce8&rq_datetime=2020-03-27 14:50:25&sender_id=SGOPLUS&receiver_id=SGWRODEXDY&password=SZUWPWRT&comm_code=SGWRODEXDY&member_code=1234521260592585&member_cust_id=SYSTEM&member_cust_name=SYSTEM&ccy=IDR&amount=1887300&debit_from=1234521260592585&debit_from_name=1234521260592585&debit_from_bank=014&credit_to=22222222&credit_to_name=ESPAY&credit_to_bank=014&payment_datetime=2020-03-27 14:50:25&payment_ref=ESP15852925062WFVU&payment_remark=2020-03-27 14:44:17&order_id=AL.20033043065&product_code=BCAATM&product_value=1234521260592585&status=0&total_amount=1887300&tx_key=ESP1585295062WFVU&fee_type=S&tx_fee=0.00&member_id=1234521260592585&approval_code_full_bca=1234521260592585&signature=21e4ad5962820cd5551e861b61ed06d27afa350158dac6fd0e8a7cb348e34056"
-        url_request = url + 'webhook/payment/espay/notification'
+        url_request = get_url_gateway('webhook/payment/espay/notification')
         res = send_request_api(request, url_request, headers, data, 'POST')
     except Exception as e:
         res = {
@@ -794,7 +794,7 @@ def get_public_holiday(request):
         }
         file = read_cache("get_holiday_cache", 'cache_web', request, 86400)
         if not file:
-            url_request = url + 'content'
+            url_request = get_url_gateway('content')
             res = send_request_api(request, url_request, headers, data, 'POST')
             try:
                 #tambah datetime
@@ -1126,7 +1126,7 @@ def create_reservation_issued_request(request):
         "signature": request.POST['signature'],
     }
 
-    url_request = url + 'content'
+    url_request = get_url_gateway('content')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
@@ -1148,7 +1148,7 @@ def get_reservation_issued_request(request):
         "signature": request.POST['signature'],
     }
 
-    url_request = url + 'content'
+    url_request = get_url_gateway('content')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
@@ -1180,7 +1180,7 @@ def get_issued_request_list(request):
         "signature": request.POST['signature'],
     }
 
-    url_request = url + 'content'
+    url_request = get_url_gateway('content')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
@@ -1207,7 +1207,7 @@ def approve_reservation_issued_request(request):
         "signature": request.POST['signature'],
     }
 
-    url_request = url + 'content'
+    url_request = get_url_gateway('content')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
@@ -1239,7 +1239,7 @@ def reject_reservation_issued_request(request):
         "signature": request.POST['signature'],
     }
 
-    url_request = url + 'content'
+    url_request = get_url_gateway('content')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
@@ -1271,7 +1271,7 @@ def cancel_reservation_issued_request(request):
         "signature": request.POST['signature'],
     }
 
-    url_request = url + 'content'
+    url_request = get_url_gateway('content')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
@@ -1343,7 +1343,7 @@ def get_agent_currency_rate(request):
             "signature": request.POST['signature'],
         }
 
-        url_request = url + 'content'
+        url_request = get_url_gateway('content')
     except Exception as e:
         _logger.error("%s, %s" % (str(e), traceback.format_exc()))
 
