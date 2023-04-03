@@ -5131,7 +5131,7 @@ button.close {
   border-bottom: 1px solid #e9ecef;
   border-top-left-radius: 0.3rem;
   border-top-right-radius: 0.3rem;
-  background-color: #f15a22;
+  background-color: white;
 }
 
 .modal-header .close {

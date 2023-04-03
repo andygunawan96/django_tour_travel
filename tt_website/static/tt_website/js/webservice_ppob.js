@@ -1611,7 +1611,7 @@ function ppob_get_booking(data){
                                           <!-- Modal content-->
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h4 class="modal-title" style="color:`+text_color+`">Invoice</h4>
+                                                    <h4 class="modal-title">Invoice</h4>
                                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                 </div>
                                                 <div class="modal-body">
@@ -2166,7 +2166,7 @@ function ppob_get_booking(data){
                         <!-- Modal content-->
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h4 class="modal-title" style="color:`+text_color+`;">Price Change <i class="fas fa-money"></i></h4>
+                                <h4 class="modal-title">Price Change <i class="fas fa-money"></i></h4>
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                             </div>
                             <div class="modal-body">
@@ -2198,7 +2198,7 @@ function ppob_get_booking(data){
                         <!-- Modal content-->
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h4 class="modal-title" style="color:`+text_color+`;">Ticket <i class="fas fa-money"></i></h4>
+                                <h4 class="modal-title">Ticket <i class="fas fa-money"></i></h4>
                                 <button type="button" class="close" onclick="dismiss_reissue();">&times;</button>
                             </div>
                             <div class="modal-body">
@@ -2225,7 +2225,7 @@ function ppob_get_booking(data){
                         <!-- Modal content-->
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h4 class="modal-title" style="color:`+text_color+`;">Price Change <i class="fas fa-money"></i></h4>
+                                <h4 class="modal-title">Price Change <i class="fas fa-money"></i></h4>
                                 <button type="button" class="close" onclick="dismiss_reissue_get_price();">&times;</button>
                             </div>
                             <div class="modal-body">

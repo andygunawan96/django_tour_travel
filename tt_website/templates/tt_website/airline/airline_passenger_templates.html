@@ -258,7 +258,7 @@
                                                         <!-- Modal content-->
                                                         <div class="modal-content">
                                                             <div class="modal-header">
-                                                                <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Help' %} <i class="fas fa-address-card"></i></h4>
+                                                                <h4 class="modal-title">{% trans 'Help' %} <i class="fas fa-address-card"></i></h4>
                                                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                             </div>
                                                             <div class="modal-body">
@@ -520,7 +520,7 @@
                                                     <!-- Modal content-->
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Help' %} <i class="fas fa-address-card"></i></h4>
+                                                            <h4 class="modal-title">{% trans 'Help' %} <i class="fas fa-address-card"></i></h4>
                                                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                         </div>
                                                         <div class="modal-body">
@@ -612,7 +612,7 @@
                                                             <!-- Modal content-->
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
-                                                                    <h4 class="modal-title" style="color:white;">Identity Photo</h4>
+                                                                    <h4 class="modal-title">Identity Photo</h4>
                                                                     <button type="button" class="close" onclick="$('#myModal_attachment_identity_adult{{forloop.counter}}').modal('hide');">×</button>
                                                                 </div>
                                                                 <div class="modal-body">
@@ -697,14 +697,13 @@
                                             <label>{% trans 'Frequent Flyer Program Journey' %} {{forloop.counter}}</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
-                                                    <select class="form-control js-example-basic-single" name="adult_ff_request{{counter}}_{{forloop.counter}}_id" style="width:100%;" id="adult_ff_request{{counter}}_{{forloop.counter}}_id" onchange="auto_complete('adult_ff_request{{counter}}_{{forloop.counter}}')">
+                                                    <select class="form-control js-example-basic-single" name="adult_ff_request{{counter}}_{{forloop.counter}}_id" style="width:100%;" id="adult_ff_request{{counter}}_{{forloop.counter}}_id">
                                                         <option value="">{% trans 'Frequent Flyer Program' %}</option>
                                                         {% for ff_program in ff.ff_availability %}
                                                         <option value="{{ff_program.ff_code}}">{{ff_program.name}}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div>
-                                                <input type="hidden" name="adult_ff_request{{counter}}_{{forloop.counter}}" id="adult_ff_request{{counter}}_{{forloop.counter}}" />
                                             </div>
                                         </div>
                                         <div class="col-lg-6" id="adult_ff_value_{{counter}}_{{forloop.counter}}">
@@ -890,7 +889,7 @@
                                                     <!-- Modal content-->
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Help' %} <i class="fas fa-address-card"></i></h4>
+                                                            <h4 class="modal-title">{% trans 'Help' %} <i class="fas fa-address-card"></i></h4>
                                                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                         </div>
                                                         <div class="modal-body">
@@ -978,7 +977,7 @@
                                                             <!-- Modal content-->
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
-                                                                    <h4 class="modal-title" style="color:white;">Identity Photo</h4>
+                                                                    <h4 class="modal-title">Identity Photo</h4>
                                                                     <button type="button" class="close" onclick="$('#myModal_attachment_identity_child{{forloop.counter}}').modal('hide');">×</button>
                                                                 </div>
                                                                 <div class="modal-body">
@@ -1062,14 +1061,13 @@
                                             <label>{% trans 'Frequent Flyer Program Journey' %} {{forloop.counter}}</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
-                                                    <select class="form-control js-example-basic-single" name="child_ff_request{{counter}}_{{forloop.counter}}_id" style="width:100%;" id="child_ff_request{{counter}}_{{forloop.counter}}_id" onchange="auto_complete('child_ff_request{{counter}}_{{forloop.counter}}')" class="nice-select-default">
+                                                    <select class="form-control js-example-basic-single" name="child_ff_request{{counter}}_{{forloop.counter}}_id" style="width:100%;" id="child_ff_request{{counter}}_{{forloop.counter}}_id" class="nice-select-default">
                                                         <option value="">{% trans 'Frequent Flyer Program' %}</option>
                                                         {% for ff_program in ff.ff_availability %}
                                                         <option value="{{ff_program.ff_code}}">{{ff_program.name}}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div>
-                                                <input type="hidden" name="child_ff_request{{counter}}_{{forloop.counter}}" id="child_ff_request{{counter}}_{{forloop.counter}}" />
                                             </div>
                                         </div>
                                         <div class="col-lg-6" id="child_ff_value_{{counter}}_{{forloop.counter}}">
@@ -1223,7 +1221,7 @@
                                                     <!-- Modal content-->
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Help' %} <i class="fas fa-address-card"></i></h4>
+                                                            <h4 class="modal-title">{% trans 'Help' %} <i class="fas fa-address-card"></i></h4>
                                                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                         </div>
                                                         <div class="modal-body">
@@ -1311,7 +1309,7 @@
                                                             <!-- Modal content-->
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
-                                                                    <h4 class="modal-title" style="color:white;">Identity Photo</h4>
+                                                                    <h4 class="modal-title">Identity Photo</h4>
                                                                     <button type="button" class="close" onclick="$('#myModal_attachment_identity_infant{{forloop.counter}}').modal('hide');">×</button>
                                                                 </div>
                                                                 <div class="modal-body">
@@ -1425,7 +1423,7 @@
                                     <!-- Modal content-->
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h4 class="modal-title" style="color:{{text_color}};"><i class="fas fa-search-minus"></i> {% trans 'Oops! Please check your details' %} </i></h4>
+                                            <h4 class="modal-title"><i class="fas fa-search-minus"></i> {% trans 'Oops! Please check your details' %} </i></h4>
                                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                                         </div>
                                         <div class="modal-body">
@@ -1631,7 +1629,7 @@
                                                                 <!-- Modal content-->
                                                                 <div class="modal-content">
                                                                     <div class="modal-header">
-                                                                        <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Help' %} <i class="fas fa-address-card"></i></h4>
+                                                                        <h4 class="modal-title">{% trans 'Help' %} <i class="fas fa-address-card"></i></h4>
                                                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                                     </div>
                                                                     <div class="modal-body">
@@ -1884,7 +1882,7 @@
                                                             <!-- Modal content-->
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
-                                                                    <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Help' %} <i class="fas fa-address-card"></i></h4>
+                                                                    <h4 class="modal-title">{% trans 'Help' %} <i class="fas fa-address-card"></i></h4>
                                                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                                 </div>
                                                                 <div class="modal-body">
@@ -1974,7 +1972,7 @@
                                                                     <!-- Modal content-->
                                                                     <div class="modal-content">
                                                                         <div class="modal-header">
-                                                                            <h4 class="modal-title" style="color:white;">Identity Photo</h4>
+                                                                            <h4 class="modal-title">Identity Photo</h4>
                                                                             <button type="button" class="close" onclick="$('#myModal_attachment_identity_adult{{forloop.counter}}').modal('hide');">×</button>
                                                                         </div>
                                                                         <div class="modal-body">
@@ -2056,13 +2054,12 @@
                                                     <label style="color:white">*</label>
                                                     <label>{% trans 'Frequent Flyer Program Journey' %} {{forloop.counter}}</label>
                                                     <div class="input-container-search-ticket">
-                                                        <select class="form-control js-example-basic-single" name="adult_ff_request{{counter}}_{{forloop.counter}}_id" style="width:100%;" id="adult_ff_request{{counter}}_{{forloop.counter}}_id" onchange="auto_complete('adult_ff_request{{counter}}_{{forloop.counter}}')" class="nice-select-default">
+                                                        <select class="form-control js-example-basic-single" name="adult_ff_request{{counter}}_{{forloop.counter}}_id" style="width:100%;" id="adult_ff_request{{counter}}_{{forloop.counter}}_id" class="nice-select-default">
                                                             <option value="">{% trans 'Frequent Flyer Program' %}</option>
                                                             {% for ff_program in ff.ff_availability %}
                                                             <option value="{{ff_program.ff_code}}">{{ff_program.name}}</option>
                                                             {% endfor %}
                                                         </select>
-                                                        <input type="hidden" name="adult_ff_request{{counter}}_{{forloop.counter}}" id="adult_ff_request{{counter}}_{{forloop.counter}}" />
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 mb-3" id="adult_ff_value_{{counter}}_{{forloop.counter}}">
@@ -2244,7 +2241,7 @@
                                                             <!-- Modal content-->
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
-                                                                    <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Help' %} <i class="fas fa-address-card"></i></h4>
+                                                                    <h4 class="modal-title">{% trans 'Help' %} <i class="fas fa-address-card"></i></h4>
                                                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                                 </div>
                                                                 <div class="modal-body">
@@ -2332,7 +2329,7 @@
                                                                     <!-- Modal content-->
                                                                     <div class="modal-content">
                                                                         <div class="modal-header">
-                                                                            <h4 class="modal-title" style="color:white;">Identity Photo</h4>
+                                                                            <h4 class="modal-title">Identity Photo</h4>
                                                                             <button type="button" class="close" onclick="$('#myModal_attachment_identity_child{{forloop.counter}}').modal('hide');">×</button>
                                                                         </div>
                                                                         <div class="modal-body">
@@ -2412,13 +2409,12 @@
                                                     <label style="color:white">*</label>
                                                     <label>{% trans 'Frequent Flyer Program Journey' %} {{forloop.counter}}</label>
                                                     <div class="input-container-search-ticket">
-                                                        <select class="form-control js-example-basic-single" name="child_ff_request{{counter}}_{{forloop.counter}}_id" style="width:100%;" id="child_ff_request{{counter}}_{{forloop.counter}}_id" onchange="auto_complete('child_ff_request{{counter}}_{{forloop.counter}}')" class="nice-select-default">
+                                                        <select class="form-control js-example-basic-single" name="child_ff_request{{counter}}_{{forloop.counter}}_id" style="width:100%;" id="child_ff_request{{counter}}_{{forloop.counter}}_id" class="nice-select-default">
                                                             <option value="">{% trans 'Frequent Flyer Program' %}</option>
                                                             {% for ff_program in ff.ff_availability %}
                                                             <option value="{{ff_program.ff_code}}">{{ff_program.name}}</option>
                                                             {% endfor %}
                                                         </select>
-                                                        <input type="hidden" name="child_ff_request{{counter}}_{{forloop.counter}}" id="child_ff_request{{counter}}_{{forloop.counter}}" />
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6" id="child_ff_value_{{counter}}_{{forloop.counter}}">
@@ -2567,7 +2563,7 @@
                                                             <!-- Modal content-->
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
-                                                                    <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Help' %} <i class="fas fa-address-card"></i></h4>
+                                                                    <h4 class="modal-title">{% trans 'Help' %} <i class="fas fa-address-card"></i></h4>
                                                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                                 </div>
                                                                 <div class="modal-body">
@@ -2653,7 +2649,7 @@
                                                                     <!-- Modal content-->
                                                                     <div class="modal-content">
                                                                         <div class="modal-header">
-                                                                            <h4 class="modal-title" style="color:white;">Identity Photo</h4>
+                                                                            <h4 class="modal-title">Identity Photo</h4>
                                                                             <button type="button" class="close" onclick="$('#myModal_attachment_identity_infant{{forloop.counter}}').modal('hide');">×</button>
                                                                         </div>
                                                                         <div class="modal-body">
@@ -2766,7 +2762,7 @@
                                             <!-- Modal content-->
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h4 class="modal-title" style="color:{{text_color}};"><i class="fas fa-search-minus"></i> {% trans 'Oops! Please check your details' %} </i></h4>
+                                                    <h4 class="modal-title"><i class="fas fa-search-minus"></i> {% trans 'Oops! Please check your details' %} </i></h4>
                                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                 </div>
                                                 <div class="modal-body">
@@ -2978,7 +2974,7 @@
                                                     <!-- Modal content-->
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Help' %}  <i class="fas fa-address-card"></i></h4>
+                                                            <h4 class="modal-title">{% trans 'Help' %}  <i class="fas fa-address-card"></i></h4>
                                                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                         </div>
                                                         <div class="modal-body">
@@ -3240,7 +3236,7 @@
                                                     <!-- Modal content-->
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Help' %} <i class="fas fa-address-card"></i></h4>
+                                                            <h4 class="modal-title">{% trans 'Help' %} <i class="fas fa-address-card"></i></h4>
                                                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                         </div>
                                                         <div class="modal-body">
@@ -3332,7 +3328,7 @@
                                                             <!-- Modal content-->
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
-                                                                    <h4 class="modal-title" style="color:white;">Identity Photo</h4>
+                                                                    <h4 class="modal-title">Identity Photo</h4>
                                                                     <button type="button" class="close" onclick="$('#myModal_attachment_identity_adult{{forloop.counter}}').modal('hide');">×</button>
                                                                 </div>
                                                                 <div class="modal-body">
@@ -3417,14 +3413,13 @@
                                             <label>{% trans 'Frequent Flyer Program Journey' %} {{forloop.counter}}</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
-                                                    <select class="form-control js-example-basic-single" name="adult_ff_request{{counter}}_{{forloop.counter}}_id" style="width:100%;" id="adult_ff_request{{counter}}_{{forloop.counter}}_id" onchange="auto_complete('adult_ff_request{{counter}}_{{forloop.counter}}')" class="nice-select-default">
+                                                    <select class="form-control js-example-basic-single" name="adult_ff_request{{counter}}_{{forloop.counter}}_id" style="width:100%;" id="adult_ff_request{{counter}}_{{forloop.counter}}_id" class="nice-select-default">
                                                         <option value="">{% trans 'Frequent Flyer Program' %}</option>
                                                         {% for ff_program in ff.ff_availability %}
                                                         <option value="{{ff_program.ff_code}}">{{ff_program.name}}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div>
-                                                <input type="hidden" name="adult_ff_request{{counter}}_{{forloop.counter}}" id="adult_ff_request{{counter}}_{{forloop.counter}}" />
                                             </div>
                                         </div>
                                         <div class="col-lg-6" id="adult_ff_value_{{counter}}_{{forloop.counter}}">
@@ -3612,7 +3607,7 @@
                                                     <!-- Modal content-->
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Help' %} <i class="fas fa-address-card"></i></h4>
+                                                            <h4 class="modal-title">{% trans 'Help' %} <i class="fas fa-address-card"></i></h4>
                                                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                         </div>
                                                         <div class="modal-body">
@@ -3701,7 +3696,7 @@
                                                             <!-- Modal content-->
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
-                                                                    <h4 class="modal-title" style="color:white;">Identity Photo</h4>
+                                                                    <h4 class="modal-title">Identity Photo</h4>
                                                                     <button type="button" class="close" onclick="$('#myModal_attachment_identity_child{{forloop.counter}}').modal('hide');">×</button>
                                                                 </div>
                                                                 <div class="modal-body">
@@ -3785,14 +3780,13 @@
                                             <label>{% trans 'Frequent Flyer Program Journey' %} {{forloop.counter}}</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
-                                                    <select class="form-control js-example-basic-single" name="child_ff_request{{counter}}_{{forloop.counter}}_id" style="width:100%;" id="child_ff_request{{counter}}_{{forloop.counter}}_id" onchange="auto_complete('child_ff_request{{counter}}_{{forloop.counter}}')" class="nice-select-default">
+                                                    <select class="form-control js-example-basic-single" name="child_ff_request{{counter}}_{{forloop.counter}}_id" style="width:100%;" id="child_ff_request{{counter}}_{{forloop.counter}}_id" class="nice-select-default">
                                                         <option value="">{% trans 'Frequent Flyer Program' %}</option>
                                                         {% for ff_program in ff.ff_availability %}
                                                         <option value="{{ff_program.ff_code}}">{{ff_program.name}}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div>
-                                                <input type="hidden" name="child_ff_request{{counter}}_{{forloop.counter}}" id="child_ff_request{{counter}}_{{forloop.counter}}" />
                                             </div>
                                         </div>
                                         <div class="col-lg-6" id="child_ff_value_{{counter}}_{{forloop.counter}}">
@@ -3950,7 +3944,7 @@
                                                     <!-- Modal content-->
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Help' %} <i class="fas fa-address-card"></i></h4>
+                                                            <h4 class="modal-title">{% trans 'Help' %} <i class="fas fa-address-card"></i></h4>
                                                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                         </div>
                                                         <div class="modal-body">
@@ -4038,7 +4032,7 @@
                                                             <!-- Modal content-->
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
-                                                                    <h4 class="modal-title" style="color:white;">Identity Photo</h4>
+                                                                    <h4 class="modal-title">Identity Photo</h4>
                                                                     <button type="button" class="close" onclick="$('#myModal_attachment_identity_infant{{forloop.counter}}').modal('hide');">×</button>
                                                                 </div>
                                                                 <div class="modal-body">
@@ -4152,7 +4146,7 @@
                                     <!-- Modal content-->
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h4 class="modal-title" style="color:{{text_color}};"><i class="fas fa-search-minus"></i> {% trans 'Oops! Please check your details' %} </i></h4>
+                                            <h4 class="modal-title"><i class="fas fa-search-minus"></i> {% trans 'Oops! Please check your details' %} </i></h4>
                                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                                         </div>
                                         <div class="modal-body">
@@ -4366,7 +4360,7 @@
                                                     <!-- Modal content-->
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Help' %} <i class="fas fa-address-card"></i></h4>
+                                                            <h4 class="modal-title">{% trans 'Help' %} <i class="fas fa-address-card"></i></h4>
                                                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                         </div>
                                                         <div class="modal-body">
@@ -4628,7 +4622,7 @@
                                                 <!-- Modal content-->
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Help' %} <i class="fas fa-address-card"></i></h4>
+                                                        <h4 class="modal-title">{% trans 'Help' %} <i class="fas fa-address-card"></i></h4>
                                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                     </div>
                                                     <div class="modal-body">
@@ -4720,7 +4714,7 @@
                                                         <!-- Modal content-->
                                                         <div class="modal-content">
                                                             <div class="modal-header">
-                                                                <h4 class="modal-title" style="color:white;">Identity Photo</h4>
+                                                                <h4 class="modal-title">Identity Photo</h4>
                                                                 <button type="button" class="close" onclick="$('#myModal_attachment_identity_adult{{forloop.counter}}').modal('hide');">×</button>
                                                             </div>
                                                             <div class="modal-body">
@@ -4804,14 +4798,13 @@
                                         <label>{% trans 'Frequent Flyer Program Journey' %} {{forloop.counter}}</label>
                                         <div class="input-container-search-ticket">
                                             <div class="form-select">
-                                                <select class="form-control js-example-basic-single" name="adult_ff_request{{counter}}_{{forloop.counter}}_id" style="width:100%;" id="adult_ff_request{{counter}}_{{forloop.counter}}_id" onchange="auto_complete('adult_ff_request{{counter}}_{{forloop.counter}}')" class="nice-select-default">
+                                                <select class="form-control js-example-basic-single" name="adult_ff_request{{counter}}_{{forloop.counter}}_id" style="width:100%;" id="adult_ff_request{{counter}}_{{forloop.counter}}_id" class="nice-select-default">
                                                     <option value="">{% trans 'Frequent Flyer Program' %}</option>
                                                     {% for ff_program in ff.ff_availability %}
                                                     <option value="{{ff_program.ff_code}}">{{ff_program.name}}</option>
                                                     {% endfor %}
                                                 </select>
                                             </div>
-                                            <input type="hidden" name="adult_ff_request{{counter}}_{{forloop.counter}}" id="adult_ff_request{{counter}}_{{forloop.counter}}" />
                                         </div>
                                     </div>
                                     <div class="col-lg-6" id="adult_ff_value_{{counter}}_{{forloop.counter}}">
@@ -4997,7 +4990,7 @@
                                                 <!-- Modal content-->
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Help' %} <i class="fas fa-address-card"></i></h4>
+                                                        <h4 class="modal-title">{% trans 'Help' %} <i class="fas fa-address-card"></i></h4>
                                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                     </div>
                                                     <div class="modal-body">
@@ -5085,7 +5078,7 @@
                                                         <!-- Modal content-->
                                                         <div class="modal-content">
                                                             <div class="modal-header">
-                                                                <h4 class="modal-title" style="color:white;">Identity Photo</h4>
+                                                                <h4 class="modal-title">Identity Photo</h4>
                                                                 <button type="button" class="close" onclick="$('#myModal_attachment_identity_child{{forloop.counter}}').modal('hide');">×</button>
                                                             </div>
                                                             <div class="modal-body">
@@ -5169,14 +5162,13 @@
                                         <label>{% trans 'Frequent Flyer Program Journey' %} {{forloop.counter}}</label>
                                         <div class="input-container-search-ticket">
                                             <div class="form-select">
-                                                <select class="form-control js-example-basic-single" name="child_ff_request{{counter}}_{{forloop.counter}}_id" style="width:100%;" id="child_ff_request{{counter}}_{{forloop.counter}}_id" onchange="auto_complete('child_ff_request{{counter}}_{{forloop.counter}}')" class="nice-select-default">
+                                                <select class="form-control js-example-basic-single" name="child_ff_request{{counter}}_{{forloop.counter}}_id" style="width:100%;" id="child_ff_request{{counter}}_{{forloop.counter}}_id" class="nice-select-default">
                                                     <option value="">{% trans 'Frequent Flyer Program' %}</option>
                                                     {% for ff_program in ff.ff_availability %}
                                                     <option value="{{ff_program.ff_code}}">{{ff_program.name}}</option>
                                                     {% endfor %}
                                                 </select>
                                             </div>
-                                            <input type="hidden" name="child_ff_request{{counter}}_{{forloop.counter}}" id="child_ff_request{{counter}}_{{forloop.counter}}" />
                                         </div>
                                     </div>
                                     <div class="col-lg-6" id="child_ff_value_{{counter}}_{{forloop.counter}}">
@@ -5330,7 +5322,7 @@
                                                 <!-- Modal content-->
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Help' %} <i class="fas fa-address-card"></i></h4>
+                                                        <h4 class="modal-title">{% trans 'Help' %} <i class="fas fa-address-card"></i></h4>
                                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                     </div>
                                                     <div class="modal-body">
@@ -5419,7 +5411,7 @@
                                                         <!-- Modal content-->
                                                         <div class="modal-content">
                                                             <div class="modal-header">
-                                                                <h4 class="modal-title" style="color:white;">Identity Photo</h4>
+                                                                <h4 class="modal-title">Identity Photo</h4>
                                                                 <button type="button" class="close" onclick="$('#myModal_attachment_identity_infant{{forloop.counter}}').modal('hide');">×</button>
                                                             </div>
                                                             <div class="modal-body">
@@ -5533,7 +5525,7 @@
                                 <!-- Modal content-->
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h4 class="modal-title" style="color:{{text_color}};"><i class="fas fa-search-minus"></i> {% trans 'Oops! Please check your details' %} </i></h4>
+                                        <h4 class="modal-title"><i class="fas fa-search-minus"></i> {% trans 'Oops! Please check your details' %} </i></h4>
                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                     </div>
                                     <div class="modal-body">
@@ -5733,7 +5725,7 @@
                                                     <!-- Modal content-->
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Help' %} <i class="fas fa-address-card"></i></h4>
+                                                            <h4 class="modal-title">{% trans 'Help' %} <i class="fas fa-address-card"></i></h4>
                                                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                         </div>
                                                         <div class="modal-body">
@@ -5994,7 +5986,7 @@
                                                     <!-- Modal content-->
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Help' %} <i class="fas fa-address-card"></i></h4>
+                                                            <h4 class="modal-title">{% trans 'Help' %} <i class="fas fa-address-card"></i></h4>
                                                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                         </div>
                                                         <div class="modal-body">
@@ -6086,7 +6078,7 @@
                                                             <!-- Modal content-->
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
-                                                                    <h4 class="modal-title" style="color:white;">Identity Photo</h4>
+                                                                    <h4 class="modal-title">Identity Photo</h4>
                                                                     <button type="button" class="close" onclick="$('#myModal_attachment_identity_adult{{forloop.counter}}').modal('hide');">×</button>
                                                                 </div>
                                                                 <div class="modal-body">
@@ -6170,14 +6162,13 @@
                                             <label>{% trans 'Frequent Flyer Program Journey' %} {{forloop.counter}}</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
-                                                    <select class="form-control js-example-basic-single" name="adult_ff_request{{counter}}_{{forloop.counter}}_id" style="width:100%;" id="adult_ff_request{{counter}}_{{forloop.counter}}_id" onchange="auto_complete('adult_ff_request{{counter}}_{{forloop.counter}}')" class="nice-select-default">
+                                                    <select class="form-control js-example-basic-single" name="adult_ff_request{{counter}}_{{forloop.counter}}_id" style="width:100%;" id="adult_ff_request{{counter}}_{{forloop.counter}}_id" class="nice-select-default">
                                                         <option value="">{% trans 'Frequent Flyer Program' %}</option>
                                                         {% for ff_program in ff.ff_availability %}
                                                         <option value="{{ff_program.ff_code}}">{{ff_program.name}}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div>
-                                                <input type="hidden" name="adult_ff_request{{counter}}_{{forloop.counter}}" id="adult_ff_request{{counter}}_{{forloop.counter}}" />
                                             </div>
                                         </div>
                                         <div class="col-lg-6" id="adult_ff_value_{{counter}}_{{forloop.counter}}">
@@ -6363,7 +6354,7 @@
                                                     <!-- Modal content-->
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Help' %} <i class="fas fa-address-card"></i></h4>
+                                                            <h4 class="modal-title">{% trans 'Help' %} <i class="fas fa-address-card"></i></h4>
                                                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                         </div>
                                                         <div class="modal-body">
@@ -6452,7 +6443,7 @@
                                                             <!-- Modal content-->
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
-                                                                    <h4 class="modal-title" style="color:white;">Identity Photo</h4>
+                                                                    <h4 class="modal-title">Identity Photo</h4>
                                                                     <button type="button" class="close" onclick="$('#myModal_attachment_identity_child{{forloop.counter}}').modal('hide');">×</button>
                                                                 </div>
                                                                 <div class="modal-body">
@@ -6536,14 +6527,13 @@
                                             <label>{% trans 'Frequent Flyer Program Journey' %} {{forloop.counter}}</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
-                                                    <select class="form-control js-example-basic-single" name="child_ff_request{{counter}}_{{forloop.counter}}_id" style="width:100%;" id="child_ff_request{{counter}}_{{forloop.counter}}_id" onchange="auto_complete('child_ff_request{{counter}}_{{forloop.counter}}')" class="nice-select-default">
+                                                    <select class="form-control js-example-basic-single" name="child_ff_request{{counter}}_{{forloop.counter}}_id" style="width:100%;" id="child_ff_request{{counter}}_{{forloop.counter}}_id" class="nice-select-default">
                                                         <option value="">{% trans 'Frequent Flyer Program' %}</option>
                                                         {% for ff_program in ff.ff_availability %}
                                                         <option value="{{ff_program.ff_code}}">{{ff_program.name}}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div>
-                                                <input type="hidden" name="child_ff_request{{counter}}_{{forloop.counter}}" id="child_ff_request{{counter}}_{{forloop.counter}}" />
                                             </div>
                                         </div>
                                         <div class="col-lg-6" id="child_ff_value_{{counter}}_{{forloop.counter}}">
@@ -6695,7 +6685,7 @@
                                                     <!-- Modal content-->
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Help' %} <i class="fas fa-address-card"></i></h4>
+                                                            <h4 class="modal-title">{% trans 'Help' %} <i class="fas fa-address-card"></i></h4>
                                                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                         </div>
                                                         <div class="modal-body">
@@ -6783,7 +6773,7 @@
                                                             <!-- Modal content-->
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
-                                                                    <h4 class="modal-title" style="color:white;">Identity Photo</h4>
+                                                                    <h4 class="modal-title">Identity Photo</h4>
                                                                     <button type="button" class="close" onclick="$('#myModal_attachment_identity_infant{{forloop.counter}}').modal('hide');">×</button>
                                                                 </div>
                                                                 <div class="modal-body">
@@ -6898,7 +6888,7 @@
                                     <!-- Modal content-->
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h4 class="modal-title" style="color:{{text_color}};"><i class="fas fa-search-minus"></i> {% trans 'Oops! Please check your details' %} </i></h4>
+                                            <h4 class="modal-title"><i class="fas fa-search-minus"></i> {% trans 'Oops! Please check your details' %} </i></h4>
                                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                                         </div>
                                         <div class="modal-body">
@@ -7101,7 +7091,7 @@
                                                     <!-- Modal content-->
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Help' %} <i class="fas fa-address-card"></i></h4>
+                                                            <h4 class="modal-title">{% trans 'Help' %} <i class="fas fa-address-card"></i></h4>
                                                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                         </div>
                                                         <div class="modal-body">
@@ -7362,7 +7352,7 @@
                                                     <!-- Modal content-->
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Help' %} <i class="fas fa-address-card"></i></h4>
+                                                            <h4 class="modal-title">{% trans 'Help' %} <i class="fas fa-address-card"></i></h4>
                                                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                         </div>
                                                         <div class="modal-body">
@@ -7454,7 +7444,7 @@
                                                             <!-- Modal content-->
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
-                                                                    <h4 class="modal-title" style="color:white;">Identity Photo</h4>
+                                                                    <h4 class="modal-title">Identity Photo</h4>
                                                                     <button type="button" class="close" onclick="$('#myModal_attachment_identity_adult{{forloop.counter}}').modal('hide');">×</button>
                                                                 </div>
                                                                 <div class="modal-body">
@@ -7538,14 +7528,13 @@
                                             <label>{% trans 'Frequent Flyer Program Journey' %} {{forloop.counter}}</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
-                                                    <select class="form-control js-example-basic-single" name="adult_ff_request{{counter}}_{{forloop.counter}}_id" style="width:100%;" id="adult_ff_request{{counter}}_{{forloop.counter}}_id" onchange="auto_complete('adult_ff_request{{counter}}_{{forloop.counter}}')" class="nice-select-default">
+                                                    <select class="form-control js-example-basic-single" name="adult_ff_request{{counter}}_{{forloop.counter}}_id" style="width:100%;" id="adult_ff_request{{counter}}_{{forloop.counter}}_id" class="nice-select-default">
                                                         <option value="">{% trans 'Frequent Flyer Program' %}</option>
                                                         {% for ff_program in ff.ff_availability %}
                                                         <option value="{{ff_program.ff_code}}">{{ff_program.name}}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div>
-                                                <input type="hidden" name="adult_ff_request{{counter}}_{{forloop.counter}}" id="adult_ff_request{{counter}}_{{forloop.counter}}" />
                                             </div>
                                         </div>
                                         <div class="col-lg-6" id="adult_ff_value_{{counter}}_{{forloop.counter}}">
@@ -7730,7 +7719,7 @@
                                                     <!-- Modal content-->
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Help' %} <i class="fas fa-address-card"></i></h4>
+                                                            <h4 class="modal-title">{% trans 'Help' %} <i class="fas fa-address-card"></i></h4>
                                                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                         </div>
                                                         <div class="modal-body">
@@ -7818,7 +7807,7 @@
                                                             <!-- Modal content-->
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
-                                                                    <h4 class="modal-title" style="color:white;">Identity Photo</h4>
+                                                                    <h4 class="modal-title">Identity Photo</h4>
                                                                     <button type="button" class="close" onclick="$('#myModal_attachment_identity_child{{forloop.counter}}').modal('hide');">×</button>
                                                                 </div>
                                                                 <div class="modal-body">
@@ -7903,14 +7892,13 @@
                                             <label>{% trans 'Frequent Flyer Program Journey' %} {{forloop.counter}}</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
-                                                    <select class="form-control js-example-basic-single" name="child_ff_request{{counter}}_{{forloop.counter}}_id" style="width:100%;" id="child_ff_request{{counter}}_{{forloop.counter}}_id" onchange="auto_complete('child_ff_request{{counter}}_{{forloop.counter}}')" class="nice-select-default">
+                                                    <select class="form-control js-example-basic-single" name="child_ff_request{{counter}}_{{forloop.counter}}_id" style="width:100%;" id="child_ff_request{{counter}}_{{forloop.counter}}_id" class="nice-select-default">
                                                         <option value="">{% trans 'Frequent Flyer Program' %}</option>
                                                         {% for ff_program in ff.ff_availability %}
                                                         <option value="{{ff_program.ff_code}}">{{ff_program.name}}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div>
-                                                <input type="hidden" name="child_ff_request{{counter}}_{{forloop.counter}}" id="child_ff_request{{counter}}_{{forloop.counter}}" />
                                             </div>
                                         </div>
                                         <div class="col-lg-6" id="child_ff_value_{{counter}}_{{forloop.counter}}">
@@ -8062,7 +8050,7 @@
                                                     <!-- Modal content-->
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Help' %} <i class="fas fa-address-card"></i></h4>
+                                                            <h4 class="modal-title">{% trans 'Help' %} <i class="fas fa-address-card"></i></h4>
                                                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                         </div>
                                                         <div class="modal-body">
@@ -8150,7 +8138,7 @@
                                                             <!-- Modal content-->
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
-                                                                    <h4 class="modal-title" style="color:white;">Identity Photo</h4>
+                                                                    <h4 class="modal-title">Identity Photo</h4>
                                                                     <button type="button" class="close" onclick="$('#myModal_attachment_identity_infant{{forloop.counter}}').modal('hide');">×</button>
                                                                 </div>
                                                                 <div class="modal-body">
@@ -8264,7 +8252,7 @@
                                     <!-- Modal content-->
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h4 class="modal-title" style="color:{{text_color}};"><i class="fas fa-search-minus"></i> {% trans 'Oops! Please check your details' %} </i></h4>
+                                            <h4 class="modal-title"><i class="fas fa-search-minus"></i> {% trans 'Oops! Please check your details' %} </i></h4>
                                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                                         </div>
                                         <div class="modal-body">

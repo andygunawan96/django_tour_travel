@@ -24,6 +24,8 @@
 
 <title id="title_search">{{name}} - {% trans 'Registration Agent' %}</title>
 
+<input type="hidden" id="div_policy_active" value=""/>
+<input type="hidden" id="div_terms_active" value=""/>
 {% if template == 1 %}
 <div class="destinations-area" style="padding-top:30px; padding-bottom:20px; background: #f7f7f7;">
     <div class="container">
@@ -205,7 +207,7 @@
                                 <div class="col-lg-6" style="text-align:left; margin-top:20px; margin-bottom:15px;">
                                     <h4>{% trans 'Promotion' %}</h4><hr/>
                                     <div class="input-container-search-ticket btn-group">
-                                        <div class="form-select">
+                                        <div class="form-select" id="default-select">
                                             <select id="promotion" name="promotion" onchange="change_promotion();">
 
                                             </select>
@@ -239,12 +241,21 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-top:20px !important; margin-bottom:20px;">
-                                    <label class="check_box_custom">
-                                        <span class="span-search-ticket" style="color:black;">{% trans 'I agree to the' %} <a href="#" data-toggle="modal" data-target="#termModal">{% trans 'Terms and Conditions' %}</a> {% trans 'of Agent Registration' %}</span>
+                                <div class="col-lg-12 mb-1" id="div_tacagree">
+                                    <label class="check_box_custom" style="margin-bottom:0px;">
+                                        <span class="span-search-ticket" style="color:black; padding-right:5px;">{% trans 'I agree with the' %}</span>
                                         <input type="checkbox" value="" name="tacagree" id="tacagree" required="1" style="margin-right: 5px;"/>
-                                        <span class="check_box_span_custom"></span>
+                                        <span class="check_box_span_custom" id="tacagree_span"></span>
                                     </label>
+                                    <span class="fw600">
+                                        <span class="text_link_cst" data-toggle="modal" data-target="#termModal">{% trans 'Terms and Conditions' %}</span> {% trans 'of Agent Registration' %}
+                                    </span>
+                                </div>
+                                <div class="col-lg-12 mb-1" id="div_policy">
+
+                                </div>
+                                <div class="col-lg-12 mb-1" id="div_terms">
+
                                 </div>
                             </div>
                             <div class="row">
@@ -480,12 +491,21 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-top:20px !important; margin-bottom:20px;">
-                                            <label class="check_box_custom">
-                                                <span class="span-search-ticket" style="color:black;">{% trans 'I agree to the' %} <a href="#" data-toggle="modal" data-target="#termModal">{% trans 'Terms and Conditions' %}</a> {% trans 'of Agent Registration' %}</span>
+                                        <div class="col-lg-12 mb-1" id="div_tacagree">
+                                            <label class="check_box_custom" style="margin-bottom:0px;">
+                                                <span class="span-search-ticket" style="color:black; padding-right:5px;">{% trans 'I agree with the' %}</span>
                                                 <input type="checkbox" value="" name="tacagree" id="tacagree" required="1" style="margin-right: 5px;"/>
-                                                <span class="check_box_span_custom"></span>
+                                                <span class="check_box_span_custom" id="tacagree_span"></span>
                                             </label>
+                                            <span class="fw600">
+                                                <span class="text_link_cst" data-toggle="modal" data-target="#termModal">{% trans 'Terms and Conditions' %}</span> {% trans 'of Agent Registration' %}
+                                            </span>
+                                        </div>
+                                        <div class="col-lg-12 mb-1" id="div_policy">
+
+                                        </div>
+                                        <div class="col-lg-12 mb-1" id="div_terms">
+
                                         </div>
                                     </div>
                                     <div class="row">
@@ -723,12 +743,21 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-top:20px !important; margin-bottom:20px;">
-                                            <label class="check_box_custom">
-                                                <span class="span-search-ticket" style="color:black;">{% trans 'I agree to the' %} <a href="#" data-toggle="modal" data-target="#termModal">{% trans 'Terms and Conditions' %}</a> {% trans 'of Agent Registration' %}</span>
+                                        <div class="col-lg-12 mb-1" id="div_tacagree">
+                                            <label class="check_box_custom" style="margin-bottom:0px;">
+                                                <span class="span-search-ticket" style="color:black; padding-right:5px;">{% trans 'I agree with the' %}</span>
                                                 <input type="checkbox" value="" name="tacagree" id="tacagree" required="1" style="margin-right: 5px;"/>
-                                                <span class="check_box_span_custom"></span>
+                                                <span class="check_box_span_custom" id="tacagree_span"></span>
                                             </label>
+                                            <span class="fw600">
+                                                <span class="text_link_cst" data-toggle="modal" data-target="#termModal">{% trans 'Terms and Conditions' %}</span> {% trans 'of Agent Registration' %}
+                                            </span>
+                                        </div>
+                                        <div class="col-lg-12 mb-1" id="div_policy">
+
+                                        </div>
+                                        <div class="col-lg-12 mb-1" id="div_terms">
+
                                         </div>
                                     </div>
                                     <div class="row">
@@ -968,12 +997,21 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-top:20px !important; margin-bottom:20px;">
-                                            <label class="check_box_custom">
-                                                <span class="span-search-ticket" style="color:black;">{% trans 'I agree to the' %} <a href="#" data-toggle="modal" data-target="#termModal">{% trans 'Terms and Conditions' %}</a> {% trans 'of Agent Registration' %}</span>
+                                        <div class="col-lg-12 mb-1" id="div_tacagree">
+                                            <label class="check_box_custom" style="margin-bottom:0px;">
+                                                <span class="span-search-ticket" style="color:black; padding-right:5px;">{% trans 'I agree with the' %}</span>
                                                 <input type="checkbox" value="" name="tacagree" id="tacagree" required="1" style="margin-right: 5px;"/>
-                                                <span class="check_box_span_custom"></span>
+                                                <span class="check_box_span_custom" id="tacagree_span"></span>
                                             </label>
+                                            <span class="fw600">
+                                                <span class="text_link_cst" data-toggle="modal" data-target="#termModal">{% trans 'Terms and Conditions' %}</span> {% trans 'of Agent Registration' %}
+                                            </span>
+                                        </div>
+                                        <div class="col-lg-12 mb-1" id="div_policy">
+
+                                        </div>
+                                        <div class="col-lg-12 mb-1" id="div_terms">
+
                                         </div>
                                     </div>
                                     <div class="row">
@@ -1219,12 +1257,21 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-top:20px !important; margin-bottom:20px;">
-                                    <label class="check_box_custom">
-                                        <span class="span-search-ticket" style="color:black;">{% trans 'I agree to the' %} <a href="#" data-toggle="modal" data-target="#termModal">{% trans 'Terms and Conditions' %}</a> {% trans 'of Agent Registration' %}</span>
+                                <div class="col-lg-12 mb-1" id="div_tacagree">
+                                    <label class="check_box_custom" style="margin-bottom:0px;">
+                                        <span class="span-search-ticket" style="color:black; padding-right:5px;">{% trans 'I agree with the' %}</span>
                                         <input type="checkbox" value="" name="tacagree" id="tacagree" required="1" style="margin-right: 5px;"/>
-                                        <span class="check_box_span_custom"></span>
+                                        <span class="check_box_span_custom" id="tacagree_span"></span>
                                     </label>
+                                    <span class="fw600">
+                                        <span class="text_link_cst" data-toggle="modal" data-target="#termModal">{% trans 'Terms and Conditions' %}</span> {% trans 'of Agent Registration' %}
+                                    </span>
+                                </div>
+                                <div class="col-lg-12 mb-1" id="div_policy">
+
+                                </div>
+                                <div class="col-lg-12 mb-1" id="div_terms">
+
                                 </div>
                             </div>
                             <div class="row">
@@ -1480,12 +1527,21 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-top:20px !important; margin-bottom:20px;">
-                                    <label class="check_box_custom">
-                                        <span class="span-search-ticket" style="color:black;">{% trans 'I agree to the' %} <a href="#" data-toggle="modal" data-target="#termModal">{% trans 'Terms and Conditions' %}</a> {% trans 'of Agent Registration' %}</span>
+                                <div class="col-lg-12 mb-1" id="div_tacagree">
+                                    <label class="check_box_custom" style="margin-bottom:0px;">
+                                        <span class="span-search-ticket" style="color:black; padding-right:5px;">{% trans 'I agree with the' %}</span>
                                         <input type="checkbox" value="" name="tacagree" id="tacagree" required="1" style="margin-right: 5px;"/>
-                                        <span class="check_box_span_custom"></span>
+                                        <span class="check_box_span_custom" id="tacagree_span"></span>
                                     </label>
+                                    <span class="fw600">
+                                        <span class="text_link_cst" data-toggle="modal" data-target="#termModal">{% trans 'Terms and Conditions' %}</span> {% trans 'of Agent Registration' %}
+                                    </span>
+                                </div>
+                                <div class="col-lg-12 mb-1" id="div_policy">
+
+                                </div>
+                                <div class="col-lg-12 mb-1" id="div_terms">
+
                                 </div>
                             </div>
                             <div class="row">
@@ -1527,12 +1583,62 @@
     </div>
 </div>
 {% endif %}
+
+<div class="modal fade" id="myModalTerms" role="dialog" data-keyboard="false">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="terms_title">Terms</h4>
+                <button type="button" class="close modal_custom_close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12" id="terms_body" style="height:350px; overflow:auto;">
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="padding:15px 0px;">
+                <div class="col-lg-12" style="text-align:right;">
+                    <button type="button" class="primary-btn" data-dismiss="modal">I Agree</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myModalPolicy" role="dialog" data-keyboard="false">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="privacy_title">Policy</h4>
+                <button type="button" class="close modal_custom_close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12" id="privacy_body" style="height:350px; overflow:auto;">
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="padding:15px 0px;">
+                <div class="col-lg-12" style="text-align:right;">
+                    <button type="button" class="primary-btn" data-dismiss="modal">I Agree</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- start footer Area -->
 {% include 'tt_website/footer.html' %}
 <script>
     $( document ).ready(function() {
         $('.js-example-basic-single').select2();
         signin_rodextrip('registration');
+        get_privacy_policy('registration');
+        get_term_and_condition('registration');
     });
     $( document ).on( "click", "ul.create_tabs li", function() {
         var tab_id = $(this).attr('data-tab');
