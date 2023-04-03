@@ -362,7 +362,7 @@ option::after{
 /* Navbar */
 .site-navbar {
   margin-bottom: 0px;
-  z-index: 1040;
+  z-index: 999;
   position: relative;
   background:white;
   /*top: 15px;

@@ -606,7 +606,9 @@ def login(request):
             'static_path_url_server': get_url_static_path(),
             'big_banner_value': check_banner('home', 'big_banner', request),
             'small_banner_value': check_banner('home', 'small_banner', request),
+            'promotion_banner_value': check_banner('home', 'promotion', request),
             'dynamic_page_value': check_banner('', 'dynamic_page', request),
+            'terms_value': check_terms_condition(request),
             'username': {'co_user_login': ''}
         })
     except Exception as e:

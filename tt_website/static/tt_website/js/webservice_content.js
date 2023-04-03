@@ -738,7 +738,9 @@ function get_banner(type,page){
                                 navText: ['<i class="fa fa-chevron-left owl-wh"/>', '<i class="fa fa-chevron-right owl-wh"/>'],
                             });
 
-                            checkCookie('promotion', 'load', 'home', '');
+                            if(terms_value == 0){
+                                checkCookie('promotion', 'load', 'home', '');
+                            }
                             $('#myModalPromotion').on('hidden.bs.modal', function (e) {
                                 checkCookie('promotion', 'update', 'home', '');
                             })
