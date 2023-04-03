@@ -1481,15 +1481,10 @@ def review(request, signature):
                     for j in ff_request:
                         try:
                             if request.POST['adult_ff_number' + str(i + 1)+'_' + str(counter + 1)] != '':
-                                code = ''
-                                for k in j['ff_availability']:
-                                    if request.POST['adult_ff_request' + str(i + 1)+'_' + str(counter + 1)] == k['name']:
-                                        code = k['ff_code']
-                                        break
                                 ff_number.append({
                                     "schedule_id": j['schedule_id'],
                                     "ff_number": request.POST['adult_ff_number' + str(i + 1)+'_' + str(counter + 1)],
-                                    "ff_code": code
+                                    "ff_code": request.POST['adult_ff_request' + str(i + 1)+'_' + str(counter + 1)+'_id']
                                 })
                         except Exception as e:
                             _logger.error('FF not found in  POST' + str(e) + '\n' + traceback.format_exc())
@@ -1614,15 +1609,10 @@ def review(request, signature):
                     for j in ff_request:
                         try:
                             if request.POST['child_ff_number' + str(i + 1) + '_' + str(counter + 1)] != '':
-                                code = ''
-                                for k in j['ff_availability']:
-                                    if request.POST['child_ff_request' + str(i + 1) + '_' + str(counter + 1)] == k['name']:
-                                        code = k['ff_code']
-                                        break
                                 ff_number.append({
                                     "schedule_id": j['schedule_id'],
                                     "ff_number": request.POST['child_ff_number' + str(i + 1) + '_' + str(counter + 1)],
-                                    "ff_code": code
+                                    "ff_code": request.POST['child_ff_request' + str(i + 1)+'_' + str(counter + 1)+'_id']
                                 })
                         except Exception as e:
                             _logger.error('FF not found in  POST' + str(e) + '\n' + traceback.format_exc())
