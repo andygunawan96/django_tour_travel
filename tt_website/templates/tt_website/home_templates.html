@@ -40,6 +40,8 @@
 <script src="{{ static_path }}js/sentra_medika_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/lab_pintar_javascript.js?version={{javascript_version}}"></script>
 <!--<script src="{{ static_path }}js/webservice_bank.js?version={{javascript_version}}"></script>-->
+<script src="{{ static_path }}js/terms_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/policy_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/moment.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/daterangepicker.js?version={{javascript_version}}"></script>
 <link rel="stylesheet" type="text/css" href="{{ static_path }}login/css/owl.carousel.css?version={{javascript_version}}">
@@ -2029,7 +2031,7 @@
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Description' %}</h4>
+                <h4 class="modal-title">{% trans 'Description' %}</h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
@@ -3536,7 +3538,7 @@
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Description' %}</h4>
+                <h4 class="modal-title">{% trans 'Description' %}</h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
@@ -5058,7 +5060,7 @@
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Description' %}</h4>
+                <h4 class="modal-title">{% trans 'Description' %}</h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
@@ -6628,7 +6630,7 @@
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Description' %}</h4>
+                <h4 class="modal-title">{% trans 'Description' %}</h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
@@ -8174,7 +8176,7 @@
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Description' %}</h4>
+                <h4 class="modal-title">{% trans 'Description' %}</h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
@@ -10043,7 +10045,7 @@
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Description' %}</h4>
+                <h4 class="modal-title">{% trans 'Description' %}</h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
@@ -10069,6 +10071,35 @@
 </div>
 
 {%endif%}
+<div class="modal fade" id="myModalTac" role="dialog" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="terms_title">Terms</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12" id="terms_body" style="height:350px; overflow:auto;">
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="padding:15px 0px;">
+                <div class="col-lg-12">
+                    <div class="mb-3">
+                        <label class="check_box_custom" id="terms_checkbox">
+                            <span id="tac_text"></span>
+                            <input type="checkbox" id="agree_tac" name="agree_tac"/>
+                            <span class="check_box_span_custom" id="tac_span"></span>
+                        </label>
+                    </div>
+                    <button type="button" class="primary-btn" onclick="checkCookie('tac', 'update', 'home', '');">I Agree</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div id="promotion">
 
@@ -10076,7 +10107,6 @@
 {% include 'tt_website/footer.html' %}
 {% include 'tt_website/plugin_live_youtube.html' %}
 <script>
-
     get_carriers();
     {% for rec in provider_types_sequence %}
         if('{{rec.code}}' == "health_care"){
@@ -10536,6 +10566,14 @@
     })
 
     $( document ).ready(function() {
+
+        {% if terms_value == 1 and promotion_banner_value == 1%}
+            get_term_and_condition('home');
+        {% else %}
+            get_banner('promotion','home');
+        {% endif %}
+
+
         var set_active = true;
         {% if template == 1 %}
         var class_tab = 'active';
@@ -10682,7 +10720,6 @@
           {% if dynamic_page_value == 1 %}
           get_dynamic_page('home');
           {% endif %}
-          get_banner('promotion','home');
           var now = moment().format('DD MMM YYYY');
             {% if "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security %}
                 try{

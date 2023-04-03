@@ -888,16 +888,69 @@ function get_path_url_server(){ //DEPRECATED
 
 function signup_b2c(){
     error_log = '';
-    if(document.getElementById('b2c_title').value == '')
+    if(document.getElementById('b2c_title').value == ''){
         error_log += 'Please fill title<br/>';
-    if(document.getElementById('b2c_first_name').value == '')
+        $("#b2c_title").each(function() {
+            $(this).parent().find('.nice-select').css('border', '1px solid red');
+        });
+    }else{
+        $("#b2c_title").each(function() {
+            $(this).parent().find('.nice-select').css('border', '1px solid #EFEFEF');
+        });
+    }
+
+    if(document.getElementById('b2c_first_name').value == ''){
         error_log += 'Please fill first name<br/>';
-    if(document.getElementById('b2c_nationality').value == '')
+        document.getElementById('b2c_first_name').style['border-color'] = 'red';
+    }else{
+        document.getElementById('b2c_first_name').style['border-color'] = '#EFEFEF';
+    }
+
+    if(document.getElementById('b2c_nationality_id').value == ''){
         error_log += 'Please fill nationality<br/>';
-    if(check_phone_number(document.getElementById('b2c_phone').value) == false)
+        $("#b2c_nationality_id").each(function() {
+          $(this).siblings(".select2-container").css('border', '1px solid red');
+        });
+    }else{
+        $("#b2c_nationality_id").each(function() {
+          $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+        });
+    }
+
+    if(check_phone_number(document.getElementById('b2c_phone').value) == false){
         error_log+= 'Phone number only contain number 8 - 12 digits!<br/>';
-    if(check_email(document.getElementById('b2c_email').value)==false)
+        document.getElementById('b2c_phone').style['border-color'] = 'red';
+    }else{
+        document.getElementById('b2c_phone').style['border-color'] = '#EFEFEF';
+    }
+
+    if(check_email(document.getElementById('b2c_email').value)==false){
         error_log += 'Please fill email<br/>';
+        document.getElementById('b2c_email').style['border-color'] = 'red';
+    }else{
+        document.getElementById('b2c_email').style['border-color'] = '#EFEFEF';
+    }
+
+    if(document.getElementById('b2c_policy_active').value == "active"){
+        if(document.getElementById('b2c_policy_check').checked == false){
+            get_agree_span = document.getElementById("b2c_agree_policy").innerText;
+            error_log+= 'You must agree to our '+get_agree_span+' to continue!\n<br/>';
+            document.getElementById('b2c_policy_span').style = 'border:2px solid red';
+        }else{
+            document.getElementById('b2c_policy_span').style = 'border:unset';
+        }
+    }
+
+    if(document.getElementById('b2c_terms_active').value == "active"){
+        if(document.getElementById('b2c_terms_check').checked == false){
+            get_agree_span = document.getElementById("b2c_agree_terms").innerText;
+            error_log+= 'You must agree to our '+get_agree_span+' to continue!\n<br/>';
+            document.getElementById('b2c_terms_span').style = 'border:2px solid red';
+        }else{
+            document.getElementById('b2c_terms_span').style = 'border:unset';
+        }
+    }
+
     if(error_log == ''){
         $('#b2c_signup_btn').addClass("running");
         $('#b2c_signup_btn').attr("disabled", true);
@@ -947,7 +1000,6 @@ function signup_b2c(){
            },timeout: 60000
         });
     }else{
-        console.log(error_log);
         Swal.fire({
           type: 'error',
           title: 'Oops!',

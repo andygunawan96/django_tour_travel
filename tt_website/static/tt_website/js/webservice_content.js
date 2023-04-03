@@ -380,7 +380,7 @@ function get_banner(type,page){
                                         <div class="col-lg-12">
                                             <div class="row">
                                                 <div class="col-lg-12">
-                                                    <div style="background:#f7f7f7; padding:5px; cursor:pointer;" onclick="checkCookie();">
+                                                    <div style="background:#f7f7f7; padding:5px; cursor:pointer;" onclick="checkCookie('promotion', 'update', 'home', '');">
                                                         <center>
                                                             <span data-dismiss="modal" style="font-weight:bold; color:`+color+`;">Close X</span>
                                                         </center>
@@ -664,7 +664,6 @@ function get_banner(type,page){
 
                 if(msg.result.response.length > 0){
                     if(page == 'home'){
-                        checkCookie();
                         if(type == 'big_banner'){
                             $('.owl-carousel-banner').owlCarousel({
                                 loop:false,
@@ -739,16 +738,9 @@ function get_banner(type,page){
                                 navText: ['<i class="fa fa-chevron-left owl-wh"/>', '<i class="fa fa-chevron-right owl-wh"/>'],
                             });
 
-                            if(check_modal == "false"){
-                                if(template != 2){
-                                    $("#myModalPromotion").modal('show');
-                                }else{
-                                    $("#myModalPromotion").modal();
-                                }
-                            }
-
+                            checkCookie('promotion', 'load', 'home', '');
                             $('#myModalPromotion').on('hidden.bs.modal', function (e) {
-                                checkCookie();
+                                checkCookie('promotion', 'update', 'home', '');
                             })
                         }
                     }

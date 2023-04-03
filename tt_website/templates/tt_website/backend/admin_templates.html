@@ -650,7 +650,7 @@
                                                                         <!-- Modal content-->
                                                                         <div class="modal-content">
                                                                             <div class="modal-header">
-                                                                                <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Big Banner' %}</h4>
+                                                                                <h4 class="modal-title">{% trans 'Big Banner' %}</h4>
                                                                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                                             </div>
                                                                             <div class="modal-body">
@@ -697,7 +697,7 @@
                                                                         <!-- Modal content-->
                                                                         <div class="modal-content">
                                                                             <div class="modal-header">
-                                                                                <h4 class="modal-title" style="">{% trans 'Small Banner' %}</h4>
+                                                                                <h4 class="modal-title">{% trans 'Small Banner' %}</h4>
                                                                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                                             </div>
                                                                             <div class="modal-body">
@@ -744,7 +744,7 @@
                                                                         <!-- Modal content-->
                                                                         <div class="modal-content">
                                                                             <div class="modal-header">
-                                                                                <h4 class="modal-title" style="">{% trans 'Promotion Banner' %}</h4>
+                                                                                <h4 class="modal-title">{% trans 'Promotion Banner' %}</h4>
                                                                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                                             </div>
                                                                             <div class="modal-body">
@@ -795,7 +795,7 @@
                                                                     <!-- Modal content-->
                                                                     <div class="modal-content">
                                                                         <div class="modal-header">
-                                                                            <h6 class="modal-title" style="color:{{text_color}}"><i class="fas fa-user-plus"></i> {% trans 'Sign Up' %}</h6>
+                                                                            <h6 class="modal-title"><i class="fas fa-user-plus"></i> {% trans 'Sign Up' %}</h6>
                                                                             <button type="button" class="close" data-dismiss="modal" onclick="$('#example_modal').modal('hide');">&times;</button>
                                                                         </div>
                                                                         <div class="modal-body">
@@ -837,6 +837,8 @@
                                                 <li class="edit_tab-link " data-tab="faq-tab_edit"><label>{% trans 'FAQ' %}</label></li>
                                                 <li class="edit_tab-link " data-tab="product-tab_edit"><label>{% trans 'Product & Route' %}</label></li>
                                                 <li class="edit_tab-link " data-tab="top_up-tab_edit"><label>{% trans 'Top up term' %}</label></li>
+                                                <li class="edit_tab-link " data-tab="privacy_policy-tab_edit"><label>{% trans 'Privacy Policy' %}</label></li>
+                                                <li class="edit_tab-link " data-tab="term_and_condition-tab_edit"><label>{% trans 'Term and Condition' %}</label></li>
                                                 <li class="edit_tab-link " data-tab="payment-tab_edit"><label>{% trans 'Payment Information' %}</label></li>
                                                 <li class="edit_tab-link " data-tab="printout-tab_edit"><label>{% trans 'Printout Footer Setting Page' %}</label></li>
                                                 <li class="edit_tab-link " data-tab="printout_color-tab_edit"><label>{% trans 'Printout Setting Color' %}</label></li>
@@ -1179,6 +1181,64 @@
                                                         </div>
                                                         <div class="col-lg-12 mt-3" style="text-align:center;">
                                                             <button type="button" class="primary-btn update_banner_btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div id="privacy_policy-tab_edit" class="edit_tab-content" style="padding:15px;">
+                                                    <div class="row" style="text-align:left;">
+                                                        <div class="col-lg-12 mb-3" style="background:white; border:1px solid #cdcdcd; padding:15px;">
+                                                            <div class="row">
+                                                                <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                                                                    <h6 class="single_border_custom_left mb-3" style="padding-left:10px;">{% trans 'Privacy Policy' %}</h6>
+                                                                    <label class="check_box_custom">
+                                                                        <span>{% trans 'Active' %}</span>
+                                                                        <input type="checkbox" id="privacy_policy_active" />
+                                                                        <span class="check_box_span_custom"></span>
+                                                                    </label>
+                                                                </div>
+                                                                <div class="col-lg-12">
+                                                                    <div class="form-select">
+                                                                        <input type="text" class="form-control" name="privacy_policy_title" id="privacy_policy_title" placeholder="{% trans 'Title' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Title '" value="Privacy Policy">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-12">
+                                                                    <textarea class="ckeditor" name="privacy_policy_body" id="privacy_policy_body">
+                                                                    </textarea>
+                                                                </div>
+                                                                <input type="hidden" name="privacy_policy_version" id="privacy_policy_version" value="1">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-12 mt-3" style="text-align:center;">
+                                                            <button type="button" class="primary-btn update_banner_btn" onclick="update_privacy_policy();">{% trans 'Save Change' %}</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div id="term_and_condition-tab_edit" class="edit_tab-content" style="padding:15px;">
+                                                    <div class="row" style="text-align:left;">
+                                                        <div class="col-lg-12 mb-3" style="background:white; border:1px solid #cdcdcd; padding:15px;">
+                                                            <div class="row">
+                                                                <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                                                                    <h6 class="single_border_custom_left mb-3" style="padding-left:10px;">{% trans 'Term and Condition' %}</h6>
+                                                                    <label class="check_box_custom">
+                                                                        <span>{% trans 'Active' %}</span>
+                                                                        <input type="checkbox" id="term_and_condition_active" />
+                                                                        <span class="check_box_span_custom"></span>
+                                                                    </label>
+                                                                </div>
+                                                                <div class="col-lg-12">
+                                                                    <div class="form-select">
+                                                                        <input type="text" class="form-control" name="term_and_condition_title" id="term_and_condition_title" placeholder="{% trans 'Title' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Title '" value="Term and Condition">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-12">
+                                                                    <textarea class="ckeditor" name="term_and_condition_body" id="term_and_condition_body">
+                                                                    </textarea>
+                                                                </div>
+                                                                <input type="hidden" name="term_and_condition_version" id="term_and_condition_version" value="1">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-12 mt-3" style="text-align:center;">
+                                                            <button type="button" class="primary-btn update_banner_btn" onclick="update_term_and_condition();">{% trans 'Save Change' %}</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -2381,7 +2441,7 @@
                                                                     <!-- Modal content-->
                                                                     <div class="modal-content">
                                                                         <div class="modal-header">
-                                                                            <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Big Banner' %}</h4>
+                                                                            <h4 class="modal-title">{% trans 'Big Banner' %}</h4>
                                                                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                                         </div>
                                                                         <div class="modal-body">
@@ -2428,7 +2488,7 @@
                                                                     <!-- Modal content-->
                                                                     <div class="modal-content">
                                                                         <div class="modal-header">
-                                                                            <h4 class="modal-title" style="">{% trans 'Small Banner' %}</h4>
+                                                                            <h4 class="modal-title">{% trans 'Small Banner' %}</h4>
                                                                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                                         </div>
                                                                         <div class="modal-body">
@@ -2475,7 +2535,7 @@
                                                                     <!-- Modal content-->
                                                                     <div class="modal-content">
                                                                         <div class="modal-header">
-                                                                            <h4 class="modal-title" style="">{% trans 'Promotion Banner' %}</h4>
+                                                                            <h4 class="modal-title">{% trans 'Promotion Banner' %}</h4>
                                                                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                                         </div>
                                                                         <div class="modal-body">
@@ -2525,7 +2585,7 @@
                                                                 <!-- Modal content-->
                                                                 <div class="modal-content">
                                                                     <div class="modal-header">
-                                                                        <h6 class="modal-title" style="color:{{text_color}}"><i class="fas fa-user-plus"></i> {% trans 'Sign Up' %}</h6>
+                                                                        <h6 class="modal-title"><i class="fas fa-user-plus"></i> {% trans 'Sign Up' %}</h6>
                                                                         <button type="button" class="close" data-dismiss="modal" onclick="$('#example_modal').modal('hide');">&times;</button>
                                                                     </div>
                                                                     <div class="modal-body">
@@ -2568,6 +2628,8 @@
                                             <li class="edit_tab-link " data-tab="faq-tab_edit"><label>{% trans 'FAQ' %}</label></li>
                                             <li class="edit_tab-link " data-tab="product-tab_edit"><label>{% trans 'Product & Route' %}</label></li>
                                             <li class="edit_tab-link " data-tab="top_up-tab_edit"><label>{% trans 'Top up term' %}</label></li>
+                                            <li class="edit_tab-link " data-tab="privacy_policy-tab_edit"><label>{% trans 'Privacy Policy' %}</label></li>
+                                            <li class="edit_tab-link " data-tab="term_and_condition-tab_edit"><label>{% trans 'Term and Condition' %}</label></li>
                                             <li class="edit_tab-link " data-tab="payment-tab_edit"><label>{% trans 'Payment Information' %}</label></li>
                                             <li class="edit_tab-link " data-tab="printout-tab_edit"><label>{% trans 'Printout Footer Setting Page' %}</label></li>
                                             <li class="edit_tab-link " data-tab="printout_color-tab_edit"><label>{% trans 'Printout Setting Color' %}</label></li>
@@ -2906,6 +2968,64 @@
                                                     </div>
                                                     <div class="col-lg-12 mt-3" style="text-align:center;">
                                                         <button type="button" class="primary-btn update_banner_btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="privacy_policy-tab_edit" class="edit_tab-content" style="padding:15px;">
+                                                <div class="row" style="text-align:left;">
+                                                    <div class="col-lg-12 mb-3" style="background:white; border:1px solid #cdcdcd; padding:15px;">
+                                                        <div class="row">
+                                                            <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                                                                <h6 class="single_border_custom_left mb-3" style="padding-left:10px;">{% trans 'Privacy Policy' %}</h6>
+                                                                <label class="check_box_custom">
+                                                                    <span>{% trans 'Active' %}</span>
+                                                                    <input type="checkbox" id="privacy_policy_active" />
+                                                                    <span class="check_box_span_custom"></span>
+                                                                </label>
+                                                            </div>
+                                                            <div class="col-lg-12">
+                                                                <div class="form-select">
+                                                                    <input type="text" class="form-control" name="privacy_policy_title" id="privacy_policy_title" placeholder="{% trans 'Title' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Title '" value="Privacy Policy">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-12">
+                                                                    <textarea class="ckeditor" name="privacy_policy_body" id="privacy_policy_body">
+                                                                    </textarea>
+                                                            </div>
+                                                            <input type="hidden" name="privacy_policy_version" id="privacy_policy_version" value="1">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12 mt-3" style="text-align:center;">
+                                                        <button type="button" class="primary-btn update_banner_btn" onclick="update_privacy_policy();">{% trans 'Save Change' %}</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="term_and_condition-tab_edit" class="edit_tab-content" style="padding:15px;">
+                                                <div class="row" style="text-align:left;">
+                                                    <div class="col-lg-12 mb-3" style="background:white; border:1px solid #cdcdcd; padding:15px;">
+                                                        <div class="row">
+                                                            <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                                                                <h6 class="single_border_custom_left mb-3" style="padding-left:10px;">{% trans 'Term and Condition' %}</h6>
+                                                                <label class="check_box_custom">
+                                                                    <span>{% trans 'Active' %}</span>
+                                                                    <input type="checkbox" id="term_and_condition_active" />
+                                                                    <span class="check_box_span_custom"></span>
+                                                                </label>
+                                                            </div>
+                                                            <div class="col-lg-12">
+                                                                <div class="form-select">
+                                                                    <input type="text" class="form-control" name="term_and_condition_title" id="term_and_condition_title" placeholder="{% trans 'Title' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Title '" value="Term and Condition">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-12">
+                                                                    <textarea class="ckeditor" name="term_and_condition_body" id="term_and_condition_body">
+                                                                    </textarea>
+                                                            </div>
+                                                            <input type="hidden" name="term_and_condition_version" id="term_and_condition_version" value="1">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12 mt-3" style="text-align:center;">
+                                                        <button type="button" class="primary-btn update_banner_btn" onclick="update_term_and_condition();">{% trans 'Save Change' %}</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -4113,7 +4233,7 @@
                                                                 <!-- Modal content-->
                                                                 <div class="modal-content">
                                                                     <div class="modal-header">
-                                                                        <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Big Banner' %}</h4>
+                                                                        <h4 class="modal-title">{% trans 'Big Banner' %}</h4>
                                                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                                     </div>
                                                                     <div class="modal-body">
@@ -4160,7 +4280,7 @@
                                                                 <!-- Modal content-->
                                                                 <div class="modal-content">
                                                                     <div class="modal-header">
-                                                                        <h4 class="modal-title" style="">{% trans 'Small Banner' %}</h4>
+                                                                        <h4 class="modal-title">{% trans 'Small Banner' %}</h4>
                                                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                                     </div>
                                                                     <div class="modal-body">
@@ -4207,7 +4327,7 @@
                                                                 <!-- Modal content-->
                                                                 <div class="modal-content">
                                                                     <div class="modal-header">
-                                                                        <h4 class="modal-title" style="">{% trans 'Promotion Banner' %}</h4>
+                                                                        <h4 class="modal-title">{% trans 'Promotion Banner' %}</h4>
                                                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                                     </div>
                                                                     <div class="modal-body">
@@ -4257,7 +4377,7 @@
                                                             <!-- Modal content-->
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
-                                                                    <h6 class="modal-title" style="color:{{text_color}}"><i class="fas fa-user-plus"></i> {% trans 'Sign Up' %}</h6>
+                                                                    <h6 class="modal-title"><i class="fas fa-user-plus"></i> {% trans 'Sign Up' %}</h6>
                                                                     <button type="button" class="close" data-dismiss="modal" onclick="$('#example_modal').modal('hide');">&times;</button>
                                                                 </div>
                                                                 <div class="modal-body">
@@ -4300,6 +4420,8 @@
                                         <li class="edit_tab-link " data-tab="faq-tab_edit"><label>{% trans 'FAQ' %}</label></li>
                                         <li class="edit_tab-link " data-tab="product-tab_edit"><label>{% trans 'Product & Route' %}</label></li>
                                         <li class="edit_tab-link " data-tab="top_up-tab_edit"><label>{% trans 'Top up term' %}</label></li>
+                                        <li class="edit_tab-link " data-tab="privacy_policy-tab_edit"><label>{% trans 'Privacy Policy' %}</label></li>
+                                        <li class="edit_tab-link " data-tab="term_and_condition-tab_edit"><label>{% trans 'Term and Condition' %}</label></li>
                                         <li class="edit_tab-link " data-tab="payment-tab_edit"><label>{% trans 'Payment Information' %}</label></li>
                                         <li class="edit_tab-link " data-tab="printout-tab_edit"><label>{% trans 'Printout Footer Setting Page' %}</label></li>
                                         <li class="edit_tab-link " data-tab="printout_color-tab_edit"><label>{% trans 'Printout Setting Color' %}</label></li>
@@ -4631,6 +4753,64 @@
                                                 </div>
                                                 <div class="col-lg-12 mt-3" style="text-align:center;">
                                                     <button type="button" class="primary-btn update_banner_btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="privacy_policy-tab_edit" class="edit_tab-content" style="padding:15px;">
+                                            <div class="row" style="text-align:left;">
+                                                <div class="col-lg-12 mb-3" style="background:white; border:1px solid #cdcdcd; padding:15px;">
+                                                    <div class="row">
+                                                        <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                                                            <h6 class="single_border_custom_left mb-3" style="padding-left:10px;">{% trans 'Privacy Policy' %}</h6>
+                                                            <label class="check_box_custom">
+                                                                <span>{% trans 'Active' %}</span>
+                                                                <input type="checkbox" id="privacy_policy_active" />
+                                                                <span class="check_box_span_custom"></span>
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-lg-12">
+                                                            <div class="form-select">
+                                                                <input type="text" class="form-control" name="privacy_policy_title" id="privacy_policy_title" placeholder="{% trans 'Title' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Title '" value="Privacy Policy">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-12">
+                                                                    <textarea class="ckeditor" name="privacy_policy_body" id="privacy_policy_body">
+                                                                    </textarea>
+                                                        </div>
+                                                        <input type="hidden" name="privacy_policy_version" id="privacy_policy_version" value="1">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12 mt-3" style="text-align:center;">
+                                                    <button type="button" class="primary-btn update_banner_btn" onclick="update_privacy_policy();">{% trans 'Save Change' %}</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="term_and_condition-tab_edit" class="edit_tab-content" style="padding:15px;">
+                                            <div class="row" style="text-align:left;">
+                                                <div class="col-lg-12 mb-3" style="background:white; border:1px solid #cdcdcd; padding:15px;">
+                                                    <div class="row">
+                                                        <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                                                            <h6 class="single_border_custom_left mb-3" style="padding-left:10px;">{% trans 'Term and Condition' %}</h6>
+                                                            <label class="check_box_custom">
+                                                                <span>{% trans 'Active' %}</span>
+                                                                <input type="checkbox" id="term_and_condition_active" />
+                                                                <span class="check_box_span_custom"></span>
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-lg-12">
+                                                            <div class="form-select">
+                                                                <input type="text" class="form-control" name="term_and_condition_title" id="term_and_condition_title" placeholder="{% trans 'Title' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Title '" value="Term and Condition">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-12">
+                                                                    <textarea class="ckeditor" name="term_and_condition_body" id="term_and_condition_body">
+                                                                    </textarea>
+                                                        </div>
+                                                        <input type="hidden" name="term_and_condition_version" id="term_and_condition_version" value="1">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12 mt-3" style="text-align:center;">
+                                                    <button type="button" class="primary-btn update_banner_btn" onclick="update_term_and_condition();">{% trans 'Save Change' %}</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -5827,7 +6007,7 @@
                                                             <!-- Modal content-->
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
-                                                                    <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Big Banner' %}</h4>
+                                                                    <h4 class="modal-title">{% trans 'Big Banner' %}</h4>
                                                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                                 </div>
                                                                 <div class="modal-body">
@@ -5874,7 +6054,7 @@
                                                             <!-- Modal content-->
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
-                                                                    <h4 class="modal-title" style="">{% trans 'Small Banner' %}</h4>
+                                                                    <h4 class="modal-title">{% trans 'Small Banner' %}</h4>
                                                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                                 </div>
                                                                 <div class="modal-body">
@@ -5921,7 +6101,7 @@
                                                             <!-- Modal content-->
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
-                                                                    <h4 class="modal-title" style="">{% trans 'Promotion Banner' %}</h4>
+                                                                    <h4 class="modal-title">{% trans 'Promotion Banner' %}</h4>
                                                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                                 </div>
                                                                 <div class="modal-body">
@@ -5971,7 +6151,7 @@
                                                         <!-- Modal content-->
                                                         <div class="modal-content">
                                                             <div class="modal-header">
-                                                                <h6 class="modal-title" style="color:{{text_color}}"><i class="fas fa-user-plus"></i> {% trans 'Sign Up' %}</h6>
+                                                                <h6 class="modal-title"><i class="fas fa-user-plus"></i> {% trans 'Sign Up' %}</h6>
                                                                 <button type="button" class="close" data-dismiss="modal" onclick="$('#example_modal').modal('hide');">&times;</button>
                                                             </div>
                                                             <div class="modal-body">
@@ -6014,6 +6194,8 @@
                                     <li class="edit_tab-link " data-tab="faq-tab_edit"><label>{% trans 'FAQ' %}</label></li>
                                     <li class="edit_tab-link " data-tab="product-tab_edit"><label>{% trans 'Product & Route' %}</label></li>
                                     <li class="edit_tab-link " data-tab="top_up-tab_edit"><label>{% trans 'Top up term' %}</label></li>
+                                    <li class="edit_tab-link " data-tab="privacy_policy-tab_edit"><label>{% trans 'Privacy Policy' %}</label></li>
+                                    <li class="edit_tab-link " data-tab="term_and_condition-tab_edit"><label>{% trans 'Term and Condition' %}</label></li>
                                     <li class="edit_tab-link " data-tab="payment-tab_edit"><label>{% trans 'Payment Information' %}</label></li>
                                     <li class="edit_tab-link " data-tab="printout-tab_edit"><label>{% trans 'Printout Footer Setting Page' %}</label></li>
                                     <li class="edit_tab-link " data-tab="printout_color-tab_edit"><label>{% trans 'Printout Setting Color' %}</label></li>
@@ -6351,6 +6533,64 @@
                                             </div>
                                             <div class="col-lg-12 mt-3" style="text-align:center;">
                                                 <button type="button" class="primary-btn update_banner_btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="privacy_policy-tab_edit" class="edit_tab-content" style="padding:15px;">
+                                        <div class="row" style="text-align:left;">
+                                            <div class="col-lg-12 mb-3" style="background:white; border:1px solid #cdcdcd; padding:15px;">
+                                                <div class="row">
+                                                    <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                                                        <h6 class="single_border_custom_left mb-3" style="padding-left:10px;">{% trans 'Privacy Policy' %}</h6>
+                                                        <label class="check_box_custom">
+                                                            <span>{% trans 'Active' %}</span>
+                                                            <input type="checkbox" id="privacy_policy_active" />
+                                                            <span class="check_box_span_custom"></span>
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-lg-12">
+                                                        <div class="form-select">
+                                                            <input type="text" class="form-control" name="privacy_policy_title" id="privacy_policy_title" placeholder="{% trans 'Title' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Title '" value="Privacy Policy">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12">
+                                                                    <textarea class="ckeditor" name="privacy_policy_body" id="privacy_policy_body">
+                                                                    </textarea>
+                                                    </div>
+                                                    <input type="hidden" name="privacy_policy_version" id="privacy_policy_version" value="1">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12 mt-3" style="text-align:center;">
+                                                <button type="button" class="primary-btn update_banner_btn" onclick="update_privacy_policy();">{% trans 'Save Change' %}</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="term_and_condition-tab_edit" class="edit_tab-content" style="padding:15px;">
+                                        <div class="row" style="text-align:left;">
+                                            <div class="col-lg-12 mb-3" style="background:white; border:1px solid #cdcdcd; padding:15px;">
+                                                <div class="row">
+                                                    <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                                                        <h6 class="single_border_custom_left mb-3" style="padding-left:10px;">{% trans 'Term and Condition' %}</h6>
+                                                        <label class="check_box_custom">
+                                                            <span>{% trans 'Active' %}</span>
+                                                            <input type="checkbox" id="term_and_condition_active" />
+                                                            <span class="check_box_span_custom"></span>
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-lg-12">
+                                                        <div class="form-select">
+                                                            <input type="text" class="form-control" name="term_and_condition_title" id="term_and_condition_title" placeholder="{% trans 'Title' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Title '" value="Term and Condition">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12">
+                                                                    <textarea class="ckeditor" name="term_and_condition_body" id="term_and_condition_body">
+                                                                    </textarea>
+                                                    </div>
+                                                    <input type="hidden" name="term_and_condition_version" id="term_and_condition_version" value="1">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12 mt-3" style="text-align:center;">
+                                                <button type="button" class="primary-btn update_banner_btn" onclick="update_term_and_condition();">{% trans 'Save Change' %}</button>
                                             </div>
                                         </div>
                                     </div>
@@ -7555,7 +7795,7 @@
                                                                 <!-- Modal content-->
                                                                 <div class="modal-content">
                                                                     <div class="modal-header">
-                                                                        <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Big Banner' %}</h4>
+                                                                        <h4 class="modal-title">{% trans 'Big Banner' %}</h4>
                                                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                                     </div>
                                                                     <div class="modal-body">
@@ -7602,7 +7842,7 @@
                                                                 <!-- Modal content-->
                                                                 <div class="modal-content">
                                                                     <div class="modal-header">
-                                                                        <h4 class="modal-title" style="">{% trans 'Small Banner' %}</h4>
+                                                                        <h4 class="modal-title">{% trans 'Small Banner' %}</h4>
                                                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                                     </div>
                                                                     <div class="modal-body">
@@ -7649,7 +7889,7 @@
                                                                 <!-- Modal content-->
                                                                 <div class="modal-content">
                                                                     <div class="modal-header">
-                                                                        <h4 class="modal-title" style="">{% trans 'Promotion Banner' %}</h4>
+                                                                        <h4 class="modal-title">{% trans 'Promotion Banner' %}</h4>
                                                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                                     </div>
                                                                     <div class="modal-body">
@@ -7699,7 +7939,7 @@
                                                             <!-- Modal content-->
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
-                                                                    <h6 class="modal-title" style="color:{{text_color}}"><i class="fas fa-user-plus"></i> {% trans 'Sign Up' %}</h6>
+                                                                    <h6 class="modal-title"><i class="fas fa-user-plus"></i> {% trans 'Sign Up' %}</h6>
                                                                     <button type="button" class="close" data-dismiss="modal" onclick="$('#example_modal').modal('hide');">&times;</button>
                                                                 </div>
                                                                 <div class="modal-body">
@@ -7742,6 +7982,8 @@
                                         <li class="edit_tab-link " data-tab="faq-tab_edit"><label>{% trans 'FAQ' %}</label></li>
                                         <li class="edit_tab-link " data-tab="product-tab_edit"><label>{% trans 'Product & Route' %}</label></li>
                                         <li class="edit_tab-link " data-tab="top_up-tab_edit"><label>{% trans 'Top up term' %}</label></li>
+                                        <li class="edit_tab-link " data-tab="privacy_policy-tab_edit"><label>{% trans 'Privacy Policy' %}</label></li>
+                                        <li class="edit_tab-link " data-tab="term_and_condition-tab_edit"><label>{% trans 'Term and Condition' %}</label></li>
                                         <li class="edit_tab-link " data-tab="payment-tab_edit"><label>{% trans 'Payment Information' %}</label></li>
                                         <li class="edit_tab-link " data-tab="printout-tab_edit"><label>{% trans 'Printout Footer Setting Page' %}</label></li>
                                         <li class="edit_tab-link " data-tab="printout_color-tab_edit"><label>{% trans 'Printout Setting Color' %}</label></li>
@@ -8083,6 +8325,64 @@
                                                 </div>
                                                 <div class="col-lg-12 mt-3" style="text-align:center;">
                                                     <button type="button" class="primary-btn update_banner_btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="privacy_policy-tab_edit" class="edit_tab-content" style="padding:15px;">
+                                            <div class="row" style="text-align:left;">
+                                                <div class="col-lg-12 mb-3" style="background:white; border:1px solid #cdcdcd; padding:15px;">
+                                                    <div class="row">
+                                                        <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                                                            <h6 class="single_border_custom_left mb-3" style="padding-left:10px;">{% trans 'Privacy Policy' %}</h6>
+                                                            <label class="check_box_custom">
+                                                                <span>{% trans 'Active' %}</span>
+                                                                <input type="checkbox" id="privacy_policy_active" />
+                                                                <span class="check_box_span_custom"></span>
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-lg-12">
+                                                            <div class="form-select">
+                                                                <input type="text" class="form-control" name="privacy_policy_title" id="privacy_policy_title" placeholder="{% trans 'Title' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Title '" value="Privacy Policy">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-12">
+                                                                    <textarea class="ckeditor" name="privacy_policy_body" id="privacy_policy_body">
+                                                                    </textarea>
+                                                        </div>
+                                                        <input type="hidden" name="privacy_policy_version" id="privacy_policy_version" value="1">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12 mt-3" style="text-align:center;">
+                                                    <button type="button" class="primary-btn update_banner_btn" onclick="update_privacy_policy();">{% trans 'Save Change' %}</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="term_and_condition-tab_edit" class="edit_tab-content" style="padding:15px;">
+                                            <div class="row" style="text-align:left;">
+                                                <div class="col-lg-12 mb-3" style="background:white; border:1px solid #cdcdcd; padding:15px;">
+                                                    <div class="row">
+                                                        <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                                                            <h6 class="single_border_custom_left mb-3" style="padding-left:10px;">{% trans 'Term and Condition' %}</h6>
+                                                            <label class="check_box_custom">
+                                                                <span>{% trans 'Active' %}</span>
+                                                                <input type="checkbox" id="term_and_condition_active" />
+                                                                <span class="check_box_span_custom"></span>
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-lg-12">
+                                                            <div class="form-select">
+                                                                <input type="text" class="form-control" name="term_and_condition_title" id="term_and_condition_title" placeholder="{% trans 'Title' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Title '" value="Term and Condition">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-12">
+                                                                    <textarea class="ckeditor" name="term_and_condition_body" id="term_and_condition_body">
+                                                                    </textarea>
+                                                        </div>
+                                                        <input type="hidden" name="term_and_condition_version" id="term_and_condition_version" value="1">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12 mt-3" style="text-align:center;">
+                                                    <button type="button" class="primary-btn update_banner_btn" onclick="update_term_and_condition();">{% trans 'Save Change' %}</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -8806,7 +9106,7 @@
                     <!--&lt;!&ndash; Modal content&ndash;&gt;-->
                     <!--<div class="modal-content">-->
                     <!--<div class="modal-header">-->
-                    <!--<h4 class="modal-title" style="color:{{text_color}};">Big Banner</h4>-->
+                    <!--<h4 class="modal-title">Big Banner</h4>-->
                     <!--<button type="button" class="close" data-dismiss="modal">&times;</button>-->
                     <!--</div>-->
                     <!--<div class="modal-body">-->
@@ -8840,7 +9140,7 @@
                     <!--&lt;!&ndash; Modal content&ndash;&gt;-->
                     <!--<div class="modal-content">-->
                     <!--<div class="modal-header">-->
-                    <!--<h4 class="modal-title" style="color:{{text_color}};">Small Banner</h4>-->
+                    <!--<h4 class="modal-title">Small Banner</h4>-->
                     <!--<button type="button" class="close" data-dismiss="modal">&times;</button>-->
                     <!--</div>-->
                     <!--<div class="modal-body">-->
@@ -8874,7 +9174,7 @@
                     <!--&lt;!&ndash; Modal content&ndash;&gt;-->
                     <!--<div class="modal-content">-->
                     <!--<div class="modal-header">-->
-                    <!--<h4 class="modal-title" style="color:{{text_color}};">Promotion Banner</h4>-->
+                    <!--<h4 class="modal-title">Promotion Banner</h4>-->
                     <!--<button type="button" class="close" data-dismiss="modal">&times;</button>-->
                     <!--</div>-->
                     <!--<div class="modal-body">-->
@@ -9484,7 +9784,7 @@
                                                             <!-- Modal content-->
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
-                                                                    <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Big Banner' %}</h4>
+                                                                    <h4 class="modal-title">{% trans 'Big Banner' %}</h4>
                                                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                                 </div>
                                                                 <div class="modal-body">
@@ -9531,7 +9831,7 @@
                                                             <!-- Modal content-->
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
-                                                                    <h4 class="modal-title" style="">{% trans 'Small Banner' %}</h4>
+                                                                    <h4 class="modal-title"style="">{% trans 'Small Banner' %}</h4>
                                                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                                 </div>
                                                                 <div class="modal-body">
@@ -9578,7 +9878,7 @@
                                                             <!-- Modal content-->
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
-                                                                    <h4 class="modal-title" style="">{% trans 'Promotion Banner' %}</h4>
+                                                                    <h4 class="modal-title">{% trans 'Promotion Banner' %}</h4>
                                                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                                 </div>
                                                                 <div class="modal-body">
@@ -9628,7 +9928,7 @@
                                                         <!-- Modal content-->
                                                         <div class="modal-content">
                                                             <div class="modal-header">
-                                                                <h6 class="modal-title" style="color:{{text_color}}"><i class="fas fa-user-plus"></i> {% trans 'Sign Up' %}</h6>
+                                                                <h6 class="modal-title"><i class="fas fa-user-plus"></i> {% trans 'Sign Up' %}</h6>
                                                                 <button type="button" class="close" data-dismiss="modal" onclick="$('#example_modal').modal('hide');">&times;</button>
                                                             </div>
                                                             <div class="modal-body">
@@ -9670,6 +9970,8 @@
                                     <li class="edit_tab-link " data-tab="faq-tab_edit"><label>{% trans 'FAQ' %}</label></li>
                                     <li class="edit_tab-link " data-tab="product-tab_edit"><label>{% trans 'Product & Route' %}</label></li>
                                     <li class="edit_tab-link " data-tab="top_up-tab_edit"><label>{% trans 'Top up term' %}</label></li>
+                                    <li class="edit_tab-link " data-tab="privacy_policy-tab_edit"><label>{% trans 'Privacy Policy' %}</label></li>
+                                    <li class="edit_tab-link " data-tab="term_and_condition-tab_edit"><label>{% trans 'Term and Condition' %}</label></li>
                                     <li class="edit_tab-link " data-tab="payment-tab_edit"><label>{% trans 'Payment Information' %}</label></li>
                                     <li class="edit_tab-link " data-tab="printout-tab_edit"><label>{% trans 'Printout Footer Setting Page' %}</label></li>
                                     <li class="edit_tab-link " data-tab="printout_color-tab_edit"><label>{% trans 'Printout Setting Color' %}</label></li>
@@ -10014,6 +10316,64 @@
                                             </div>
                                             <div class="col-lg-12 mt-3" style="text-align:center;">
                                                 <button type="button" class="primary-btn update_banner_btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="privacy_policy-tab_edit" class="edit_tab-content" style="padding:15px;">
+                                        <div class="row" style="text-align:left;">
+                                            <div class="col-lg-12 mb-3" style="background:white; border:1px solid #cdcdcd; padding:15px;">
+                                                <div class="row">
+                                                    <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                                                        <h6 class="single_border_custom_left mb-3" style="padding-left:10px;">{% trans 'Privacy Policy' %}</h6>
+                                                        <label class="check_box_custom">
+                                                            <span>{% trans 'Active' %}</span>
+                                                            <input type="checkbox" id="privacy_policy_active" />
+                                                            <span class="check_box_span_custom"></span>
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-lg-12">
+                                                        <div class="form-select">
+                                                            <input type="text" class="form-control" name="privacy_policy_title" id="privacy_policy_title" placeholder="{% trans 'Title' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Title '" value="Privacy Policy">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12">
+                                                                    <textarea class="ckeditor" name="privacy_policy_body" id="privacy_policy_body">
+                                                                    </textarea>
+                                                    </div>
+                                                    <input type="hidden" name="privacy_policy_version" id="privacy_policy_version" value="1">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12 mt-3" style="text-align:center;">
+                                                <button type="button" class="primary-btn update_banner_btn" onclick="update_privacy_policy();">{% trans 'Save Change' %}</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="term_and_condition-tab_edit" class="edit_tab-content" style="padding:15px;">
+                                        <div class="row" style="text-align:left;">
+                                            <div class="col-lg-12 mb-3" style="background:white; border:1px solid #cdcdcd; padding:15px;">
+                                                <div class="row">
+                                                    <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                                                        <h6 class="single_border_custom_left mb-3" style="padding-left:10px;">{% trans 'Term and Condition' %}</h6>
+                                                        <label class="check_box_custom">
+                                                            <span>{% trans 'Active' %}</span>
+                                                            <input type="checkbox" id="term_and_condition_active" />
+                                                            <span class="check_box_span_custom"></span>
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-lg-12">
+                                                        <div class="form-select">
+                                                            <input type="text" class="form-control" name="term_and_condition_title" id="term_and_condition_title" placeholder="{% trans 'Title' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Title '" value="Term and Condition">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12">
+                                                                    <textarea class="ckeditor" name="term_and_condition_body" id="term_and_condition_body">
+                                                                    </textarea>
+                                                    </div>
+                                                    <input type="hidden" name="term_and_condition_version" id="term_and_condition_version" value="1">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12 mt-3" style="text-align:center;">
+                                                <button type="button" class="primary-btn update_banner_btn" onclick="update_term_and_condition();">{% trans 'Save Change' %}</button>
                                             </div>
                                         </div>
                                     </div>
@@ -10961,6 +11321,8 @@
         get_payment_partner('admin');
         get_about_us('admin');
         get_faq('admin');
+        get_privacy_policy('admin');
+        get_term_and_condition('admin');
 
         get_all_carrier_airline('admin');
 
