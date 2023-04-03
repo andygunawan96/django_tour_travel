@@ -256,7 +256,29 @@ function get_carriers_hotel(){
             'signature': signature
        },
        success: function(msg) {
-           hotel_carriers = msg;
+            hotel_carriers = msg;
+            if(document.URL.split('/')[document.URL.split('/').length-1] == 'page_admin'){
+                text = `<table>
+                            <tr>
+                                <th>Code</th>
+                                <th style="width:10%"></th>
+                                <th>Alias</th>
+                            </tr>`;
+                for(i in hotel_carriers){
+                    text +=`<tr>
+                                <td style="padding-top:10px;">`+i+`</td>
+                                <td></td>
+                                <td>
+                                    <div class="form-select">
+                                        <input type="text" class="form-control" id="hotel_carrier_`+i+`" placeholder="Alias Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Alias Name '" value="`+hotel_carriers[i].name+`">
+                                    </div>
+                                </td>
+                            </tr>`;
+                }
+                text += `</table>`;
+                document.getElementById('hotel_masking_div').innerHTML = text;
+                hotel_get_carrier_alias_name();
+            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
 
@@ -1617,7 +1639,7 @@ function hotel_get_current_search_detail(checkin_date, checkout_date){
                    error_ajax(XMLHttpRequest, textStatus, errorThrown, '');
                }
             });
-        }, 3000);
+        }, 5000);
     }
 }
 
