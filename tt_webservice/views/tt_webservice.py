@@ -79,4 +79,4 @@ def get_url_gateway(path):
     elif data_path[len(data_path)-1] != '/' and path[0] != '/':
         return "%s/%s" % (data_path, path)
     else:
-        return "%s%s" % data_path, path
+        return "%s%s" % (data_path, path)
