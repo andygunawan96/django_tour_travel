@@ -7,6 +7,7 @@
 <script src="{{ static_path }}js/webservice_token.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_airline.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_hotel.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_train.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_account.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
@@ -845,7 +846,8 @@
                                                 <li class="edit_tab-link " data-tab="notification_train-tab_edit"><label>{% trans 'Notification Train' %}</label></li>
                                                 <li class="edit_tab-link " data-tab="notification_airline-tab_edit"><label>{% trans 'Notification Airline' %}</label></li>
                                                 <li class="edit_tab-link " data-tab="currency-tab_edit"><label>{% trans 'Currency' %}</label></li>
-                                                <li class="edit_tab-link " data-tab="airline_carrier-tab_edit"><label>{% trans 'Allowed Airline Carriers' %}</label></li>
+                                                <li class="edit_tab-link " data-tab="airline_carrier-tab_edit"><label>{% trans 'Airline' %}</label></li>
+                                                <li class="edit_tab-link " data-tab="hotel_carrier-tab_edit"><label>{% trans 'Hotel' %}</label></li>
                                             </ul>
                                             <div class="banner-right">
                                                 <div id="about-tab_edit" class="edit_tab-content current" style="padding:15px;">
@@ -1502,6 +1504,23 @@
                                                         </div>
                                                         <div class="col-lg-12" style="text-align:center;">
                                                             <button type="button" class="primary-btn update_banner_btn" onclick="update_estimate_price();">{% trans 'Save Change' %}</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div id="hotel_carrier-tab_edit" class="edit_tab-content" style="padding:15px;">
+                                                    <div class="row" style="text-align:left;">
+                                                        <div class="col-lg-12 mb-3" style="background:white; border:1px solid #cdcdcd; padding:15px;">
+                                                            <div class="row">
+                                                                <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                                                                    <h6 class="single_border_custom_left mb-3" style="padding-left:10px;">{% trans 'Hotel Masking Carriers' %}</h6>
+                                                                </div>
+                                                                <div class="col-lg-12" style="margin-bottom:15px;" id="hotel_masking_div">
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-12" style="text-align:center;">
+                                                            <button type="button" class="primary-btn update_banner_btn" id="update_masking_hotel_btn" onclick="update_masking_hotel();">{% trans 'Save Change' %}</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -2636,7 +2655,8 @@
                                             <li class="edit_tab-link " data-tab="notification_train-tab_edit"><label>{% trans 'Notification Train' %}</label></li>
                                             <li class="edit_tab-link " data-tab="notification_airline-tab_edit"><label>{% trans 'Notification Airline' %}</label></li>
                                             <li class="edit_tab-link " data-tab="currency-tab_edit"><label>{% trans 'Currency' %}</label></li>
-                                            <li class="edit_tab-link " data-tab="airline_carrier-tab_edit"><label>{% trans 'Allowed Airline Carriers' %}</label></li>
+                                            <li class="edit_tab-link " data-tab="airline_carrier-tab_edit"><label>{% trans 'Airline' %}</label></li>
+                                            <li class="edit_tab-link " data-tab="hotel_carrier-tab_edit"><label>{% trans 'Hotel' %}</label></li>
                                         </ul>
                                         <div class="banner-right">
                                             <div id="about-tab_edit" class="edit_tab-content current" style="padding:15px;">
@@ -3303,6 +3323,23 @@
                                                         <div class="row" style="text-align:left;" id="airline_carrier_div">
 
                                                         </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="hotel_carrier-tab_edit" class="edit_tab-content" style="padding:15px;">
+                                                <div class="row" style="text-align:left;">
+                                                    <div class="col-lg-12 mb-3" style="background:white; border:1px solid #cdcdcd; padding:15px;">
+                                                        <div class="row">
+                                                            <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                                                                <h6 class="single_border_custom_left mb-3" style="padding-left:10px;">{% trans 'Hotel Masking Carriers' %}</h6>
+                                                            </div>
+                                                            <div class="col-lg-12" style="margin-bottom:15px;" id="hotel_masking_div">
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12" style="text-align:center;">
+                                                        <button type="button" class="primary-btn update_banner_btn" id="update_masking_hotel_btn" onclick="update_masking_hotel();">{% trans 'Save Change' %}</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -4428,7 +4465,8 @@
                                         <li class="edit_tab-link " data-tab="notification_train-tab_edit"><label>{% trans 'Notification Train' %}</label></li>
                                         <li class="edit_tab-link " data-tab="notification_airline-tab_edit"><label>{% trans 'Notification Airline' %}</label></li>
                                         <li class="edit_tab-link " data-tab="currency-tab_edit"><label>{% trans 'Currency' %}</label></li>
-                                        <li class="edit_tab-link " data-tab="airline_carrier-tab_edit"><label>{% trans 'Allowed Airline Carriers' %}</label></li>
+                                        <li class="edit_tab-link " data-tab="airline_carrier-tab_edit"><label>{% trans 'Airline' %}</label></li>
+                                        <li class="edit_tab-link " data-tab="hotel_carrier-tab_edit"><label>{% trans 'Hotel' %}</label></li>
                                     </ul>
                                     <div class="banner-right">
                                         <div id="about-tab_edit" class="edit_tab-content current" style="padding:15px;">
@@ -5088,6 +5126,23 @@
                                                     <div class="row" style="text-align:left;" id="airline_carrier_div">
 
                                                     </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="hotel_carrier-tab_edit" class="edit_tab-content" style="padding:15px;">
+                                            <div class="row" style="text-align:left;">
+                                                <div class="col-lg-12 mb-3" style="background:white; border:1px solid #cdcdcd; padding:15px;">
+                                                    <div class="row">
+                                                        <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                                                            <h6 class="single_border_custom_left mb-3" style="padding-left:10px;">{% trans 'Hotel Masking Carriers' %}</h6>
+                                                        </div>
+                                                        <div class="col-lg-12" style="margin-bottom:15px;" id="hotel_masking_div">
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12" style="text-align:center;">
+                                                    <button type="button" class="primary-btn update_banner_btn" id="update_masking_hotel_btn" onclick="update_masking_hotel();">{% trans 'Save Change' %}</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -6202,7 +6257,8 @@
                                     <li class="edit_tab-link " data-tab="notification_train-tab_edit"><label>{% trans 'Notification Train' %}</label></li>
                                     <li class="edit_tab-link " data-tab="notification_airline-tab_edit"><label>{% trans 'Notification Airline' %}</label></li>
                                     <li class="edit_tab-link " data-tab="currency-tab_edit"><label>{% trans 'Currency' %}</label></li>
-                                    <li class="edit_tab-link " data-tab="airline_carrier-tab_edit"><label>{% trans 'Allowed Airline Carriers' %}</label></li>
+                                    <li class="edit_tab-link " data-tab="airline_carrier-tab_edit"><label>{% trans 'Airline' %}</label></li>
+                                    <li class="edit_tab-link " data-tab="hotel_carrier-tab_edit"><label>{% trans 'Hotel' %}</label></li>
                                 </ul>
                                 <div class="banner-right">
                                     <div id="about-tab_edit" class="edit_tab-content current" style="padding:15px;">
@@ -6868,6 +6924,23 @@
                                                 <div class="row" style="text-align:left;" id="airline_carrier_div">
 
                                                 </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="hotel_carrier-tab_edit" class="edit_tab-content" style="padding:15px;">
+                                        <div class="row" style="text-align:left;">
+                                            <div class="col-lg-12 mb-3" style="background:white; border:1px solid #cdcdcd; padding:15px;">
+                                                <div class="row">
+                                                    <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                                                        <h6 class="single_border_custom_left mb-3" style="padding-left:10px;">{% trans 'Hotel Masking Carriers' %}</h6>
+                                                    </div>
+                                                    <div class="col-lg-12" style="margin-bottom:15px;" id="hotel_masking_div">
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12" style="text-align:center;">
+                                                <button type="button" class="primary-btn update_banner_btn" id="update_masking_hotel_btn" onclick="update_masking_hotel();">{% trans 'Save Change' %}</button>
                                             </div>
                                         </div>
                                     </div>
@@ -7990,7 +8063,8 @@
                                         <li class="edit_tab-link " data-tab="notification_train-tab_edit"><label>{% trans 'Notification Train' %}</label></li>
                                         <li class="edit_tab-link " data-tab="notification_airline-tab_edit"><label>{% trans 'Notification Airline' %}</label></li>
                                         <li class="edit_tab-link " data-tab="currency-tab_edit"><label>{% trans 'Currency' %}</label></li>
-                                        <li class="edit_tab-link " data-tab="airline_carrier-tab_edit"><label>{% trans 'Allowed Airline Carriers' %}</label></li>
+                                        <li class="edit_tab-link " data-tab="airline_carrier-tab_edit"><label>{% trans 'Airline' %}</label></li>
+                                        <li class="edit_tab-link " data-tab="hotel_carrier-tab_edit"><label>{% trans 'Hotel' %}</label></li>
                                     </ul>
                                     <div class="banner-right">
                                         <div id="about-tab_edit" class="edit_tab-content current" style="padding:15px;">
@@ -8660,6 +8734,23 @@
                                                     <div class="row" style="text-align:left;" id="airline_carrier_div">
 
                                                     </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="hotel_carrier-tab_edit" class="edit_tab-content" style="padding:15px;">
+                                            <div class="row" style="text-align:left;">
+                                                <div class="col-lg-12 mb-3" style="background:white; border:1px solid #cdcdcd; padding:15px;">
+                                                    <div class="row">
+                                                        <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                                                            <h6 class="single_border_custom_left mb-3" style="padding-left:10px;">{% trans 'Hotel Masking Carriers' %}</h6>
+                                                        </div>
+                                                        <div class="col-lg-12" style="margin-bottom:15px;" id="hotel_masking_div">
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12" style="text-align:center;">
+                                                    <button type="button" class="primary-btn update_banner_btn" id="update_masking_hotel_btn" onclick="update_masking_hotel();">{% trans 'Save Change' %}</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -9978,7 +10069,8 @@
                                     <li class="edit_tab-link " data-tab="notification_train-tab_edit"><label>{% trans 'Notification Train' %}</label></li>
                                     <li class="edit_tab-link " data-tab="notification_airline-tab_edit"><label>{% trans 'Notification Airline' %}</label></li>
                                     <li class="edit_tab-link " data-tab="currency-tab_edit"><label>{% trans 'Currency' %}</label></li>
-                                    <li class="edit_tab-link " data-tab="airline_carrier-tab_edit"><label>{% trans 'Allowed Airline Carriers' %}</label></li>
+                                    <li class="edit_tab-link " data-tab="airline_carrier-tab_edit"><label>{% trans 'Airline' %}</label></li>
+                                    <li class="edit_tab-link " data-tab="hotel_carrier-tab_edit"><label>{% trans 'Hotel' %}</label></li>
                                 </ul>
                                 <div class="banner-right">
                                     <div id="about-tab_edit" class="edit_tab-content current" style="padding:15px;">
@@ -10654,6 +10746,23 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div id="hotel_carrier-tab_edit" class="edit_tab-content" style="padding:15px;">
+                                        <div class="row" style="text-align:left;">
+                                            <div class="col-lg-12 mb-3" style="background:white; border:1px solid #cdcdcd; padding:15px;">
+                                                <div class="row">
+                                                    <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                                                        <h6 class="single_border_custom_left mb-3" style="padding-left:10px;">{% trans 'Hotel Masking Carriers' %}</h6>
+                                                    </div>
+                                                    <div class="col-lg-12" style="margin-bottom:15px;" id="hotel_masking_div">
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12" style="text-align:center;">
+                                                <button type="button" class="primary-btn update_banner_btn" id="update_masking_hotel_btn" onclick="update_masking_hotel();">{% trans 'Save Change' %}</button>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <!--<div class="col-lg-6">-->
@@ -11301,6 +11410,62 @@
         }
     }
 
+    function hotel_get_carrier_alias_name(){
+        $.ajax({
+           type: "POST",
+           url: "/webservice/hotel",
+           headers:{
+                'action': 'hotel_get_carrier_alias_name',
+           },
+           data: {
+                'signature': signature
+           },
+           success: function(msg) {
+                for(i in msg){
+                    try{
+                        if(document.getElementById('hotel_carrier_'+i)){
+                            document.getElementById('hotel_carrier_'+i).value = msg[i];
+                        }
+                    }catch(err){}
+                }
+           },
+           error: function(XMLHttpRequest, textStatus, errorThrown) {
+
+           },timeout: 60000
+        });
+    }
+
+    function update_masking_hotel(){
+        var data_masking = {};
+        for(i in hotel_carriers){
+            if(document.getElementById('hotel_carrier_'+i).value){
+                data_masking[i] = document.getElementById('hotel_carrier_'+i).value;
+                data_masking[document.getElementById('hotel_carrier_'+i).value] = i;
+            }
+        }
+        document.getElementById('update_masking_hotel_btn').disabled = true;
+        $.ajax({
+           type: "POST",
+           url: "/webservice/hotel",
+           headers:{
+                'action': 'update_masking',
+           },
+           data: {
+                'signature': signature,
+                'data_masking': JSON.stringify(data_masking)
+           },
+           success: function(msg) {
+                if(msg.result.error_code == 0){
+                    window.location.reload();
+                }
+           },
+           error: function(XMLHttpRequest, textStatus, errorThrown) {
+
+           },timeout: 60000
+        });
+
+    }
+
     onchange_website_mode();
 
     $( document ).ready(function() {
@@ -11310,6 +11475,7 @@
         get_notif_train('admin');
         get_notif_airline('admin');
         get_airline_config('home');
+        get_carriers_hotel();
         get_list_report_footer();
         get_va_bank();
 
