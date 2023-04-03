@@ -129,16 +129,18 @@ function get_term_and_condition(type){
                         document.getElementById('terms_body').innerHTML = msg.result.response[0].body;
                     }else if(type == 'b2c_signup'){
                         if(msg.result.response[0].active == 'active'){
-                            document.getElementById('b2c_terms_active').value = 'active';
-                            document.getElementById('b2c_terms').innerHTML = `
-                            <label class="check_box_custom" style="margin-bottom:0px;">
-                                <span class="span-search-ticket" style="color:black; padding-right:5px;">I agree with the</span>
-                                <input type="checkbox" value="" name="b2c_terms_check" id="b2c_terms_check" required="1" style="margin-right: 5px;"/>
-                                <span class="check_box_span_custom" id="b2c_terms_span"></span>
-                            </label>
-                            <span class="fw600">
-                                <a href="/terms" target="_blank"><span class="text_link_cst" id="b2c_agree_terms">`+msg.result.response[0].title+`</span></a>
-                            </span>`;
+                            if(document.getElementById('b2c_terms_active') && document.getElementById('b2c_terms')){
+                                document.getElementById('b2c_terms_active').value = 'active';
+                                document.getElementById('b2c_terms').innerHTML = `
+                                <label class="check_box_custom" style="margin-bottom:0px;">
+                                    <span class="span-search-ticket" style="color:black; padding-right:5px;">I agree with the</span>
+                                    <input type="checkbox" value="" name="b2c_terms_check" id="b2c_terms_check" required="1" style="margin-right: 5px;"/>
+                                    <span class="check_box_span_custom" id="b2c_terms_span"></span>
+                                </label>
+                                <span class="fw600">
+                                    <a href="/terms" target="_blank"><span class="text_link_cst" id="b2c_agree_terms">`+msg.result.response[0].title+`</span></a>
+                                </span>`;
+                            }
                         }
                     }
                 }
