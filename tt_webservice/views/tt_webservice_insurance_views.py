@@ -101,6 +101,7 @@ def login(request):
             "signature": ''
         }
         user_global, password_global, api_key = get_credential(request)
+        user_default, password_default = get_credential_user_default(request)
         data = {
             "user": user_global,
             "password": password_global,
@@ -114,7 +115,7 @@ def login(request):
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'session'
+    url_request = get_url_gateway('session')
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
@@ -143,7 +144,7 @@ def get_carriers(request):
         _logger.error(str(e) + '\n' + traceback.format_exc())
     file = read_cache("get_insurance_carriers", 'cache_web', request)
     if not file:
-        url_request = url + 'content'
+        url_request = get_url_gateway('content')
         res = send_request_api(request, url_request, headers, data, 'POST')
         try:
             if res['result']['error_code'] == 0:
@@ -197,7 +198,7 @@ def get_availability(request):
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'booking/insurance'
+    url_request = get_url_gateway('booking/insurance')
     res = send_request_api(request, url_request, headers, data, 'POST', timeout=180)
 
     set_session(request, "insurance_get_availability_%s" % request.POST['signature'], res)
@@ -218,7 +219,7 @@ def get_token(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    url_request = url + 'booking/insurance'
+    url_request = get_url_gateway('booking/insurance')
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
@@ -242,7 +243,7 @@ def get_kurs(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    url_request = url + 'booking/insurance'
+    url_request = get_url_gateway('booking/insurance')
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
@@ -266,7 +267,7 @@ def get_premi(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    url_request = url + 'booking/insurance'
+    url_request = get_url_gateway('booking/insurance')
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
@@ -290,7 +291,7 @@ def updata(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    url_request = url + 'booking/insurance'
+    url_request = get_url_gateway('booking/insurance')
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
@@ -312,7 +313,7 @@ def get_config(request):
         data = {}
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    url_request = url + 'booking/insurance'
+    url_request = get_url_gateway('booking/insurance')
     file = read_cache("insurance_cache_data", 'cache_web', request, 86400)
     # TODO VIN: Some Update Mekanisme ontime misal ada perubahan data dkk
     if not file:
@@ -372,7 +373,7 @@ def check_benefit_data(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    url_request = url + 'booking/insurance'
+    url_request = get_url_gateway('booking/insurance')
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
@@ -403,7 +404,7 @@ def sell_insurance(request):
 
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    url_request = url + 'booking/insurance'
+    url_request = get_url_gateway('booking/insurance')
     res = send_request_api(request, url_request, headers, data, 'POST',timeout=300)
     try:
         if res['result']['error_code'] == 0:
@@ -496,7 +497,7 @@ def commit_booking(request):
 
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    url_request = url + 'booking/insurance'
+    url_request = get_url_gateway('booking/insurance')
     res = send_request_api(request, url_request, headers, data, 'POST',timeout=300)
     try:
         if res['result']['error_code'] == 0:
@@ -527,7 +528,7 @@ def get_booking(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'booking/insurance'
+    url_request = get_url_gateway('booking/insurance')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
 
     try:
@@ -603,7 +604,7 @@ def issued(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'booking/insurance'
+    url_request = get_url_gateway('booking/insurance')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
@@ -628,7 +629,7 @@ def cancel(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'booking/insurance'
+    url_request = get_url_gateway('booking/insurance')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
@@ -655,7 +656,7 @@ def update_service_charge(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'booking/insurance'
+    url_request = get_url_gateway('booking/insurance')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
@@ -687,7 +688,7 @@ def booker_insentif_booking(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'booking/insurance'
+    url_request = get_url_gateway('booking/insurance')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:

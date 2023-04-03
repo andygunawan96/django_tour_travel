@@ -92,6 +92,7 @@ def signin(request):
             "signature": '',
         }
         user_global, password_global, api_key = get_credential(request)
+        user_default, password_default = get_credential_user_default(request)
         data = {
             "user": user_global,
             "password": password_global,
@@ -104,7 +105,7 @@ def signin(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    url_request = url + 'session'
+    url_request = get_url_gateway('session')
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
@@ -131,7 +132,7 @@ def get_config(request):
         data = {}
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    url_request = url + 'booking/group_booking'
+    url_request = get_url_gateway('booking/group_booking')
     file = read_cache("group_booking_cache_data", 'cache_web', request, 86400)
     # TODO VIN: Some Update Mekanisme ontime misal ada perubahan data dkk
     if not file:
@@ -177,7 +178,7 @@ def create_booking(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'booking/group_booking'
+    url_request = get_url_gateway('booking/group_booking')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
@@ -216,7 +217,7 @@ def get_booking(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'booking/group_booking'
+    url_request = get_url_gateway('booking/group_booking')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
@@ -371,7 +372,7 @@ def get_all_booking_state_booked(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'booking/group_booking'
+    url_request = get_url_gateway('booking/group_booking')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
@@ -401,7 +402,7 @@ def update_passenger(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'booking/group_booking'
+    url_request = get_url_gateway('booking/group_booking')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
@@ -436,7 +437,7 @@ def update_booker(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'booking/group_booking'
+    url_request = get_url_gateway('booking/group_booking')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
@@ -474,7 +475,7 @@ def update_contact(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'booking/group_booking'
+    url_request = get_url_gateway('booking/group_booking')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
@@ -500,7 +501,7 @@ def pick_ticket(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'booking/group_booking'
+    url_request = get_url_gateway('booking/group_booking')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
@@ -525,7 +526,7 @@ def check_data_can_sent(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'booking/group_booking'
+    url_request = get_url_gateway('booking/group_booking')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
@@ -550,7 +551,7 @@ def change_state_back_to_confirm(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'booking/group_booking'
+    url_request = get_url_gateway('booking/group_booking')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
@@ -575,7 +576,7 @@ def change_state_to_booked(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'booking/group_booking'
+    url_request = get_url_gateway('booking/group_booking')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
@@ -600,7 +601,7 @@ def update_service_charge(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'booking/group_booking'
+    url_request = get_url_gateway('booking/group_booking')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
@@ -627,7 +628,7 @@ def booker_insentif_booking(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'booking/group_booking'
+    url_request = get_url_gateway('booking/group_booking')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
@@ -680,7 +681,7 @@ def issued_booking(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'booking/group_booking'
+    url_request = get_url_gateway('booking/group_booking')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:

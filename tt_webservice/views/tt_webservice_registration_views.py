@@ -42,6 +42,7 @@ def login(request,func):
             "signature": '',
         }
         user_global, password_global, api_key = get_credential(request)
+        user_default, password_default = get_credential_user_default(request)
         data = {
             "user": user_global,
             "password": password_global,
@@ -52,7 +53,7 @@ def login(request,func):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    url_request = url + 'session'
+    url_request = get_url_gateway('session')
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         set_session(request, 'signature', res['result']['response']['signature'])
@@ -82,7 +83,7 @@ def get_requirement_list_doc(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    url_request = url + 'session/agent_registration'
+    url_request = get_url_gateway('session/agent_registration')
     res = send_request_api(request, url_request, headers, data, 'POST')
     if res['result']['error_code'] != 0:
         res = login(request, 'get_requirement')
@@ -108,7 +109,7 @@ def get_config(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    url_request = url + 'session/agent_registration'
+    url_request = get_url_gateway('session/agent_registration')
     res = send_request_api(request, url_request, headers, data, 'POST')
 
     if res['result']['error_code'] != 0:
@@ -135,7 +136,7 @@ def get_promotions(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    url_request = url + 'session/agent_registration'
+    url_request = get_url_gateway('session/agent_registration')
     res = send_request_api(request, url_request, headers, data, 'POST')
 
     if res['result']['error_code'] != 0:
@@ -166,7 +167,7 @@ def register(request):
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     if check == 0:
-        url_request = url + 'session/agent_registration'
+        url_request = get_url_gateway('session/agent_registration')
         res = send_request_api(request, url_request, headers, data, 'POST')
     else:
         res = request.session['register_result_done']
@@ -212,7 +213,7 @@ def upload_image_agent_regis(data, name, signature):
     list_img = []
     for img in imgData:
         data = img
-        url_request = url + 'content'
+        url_request = get_url_gateway('content')
         res = send_request_api({}, url_request, headers, data, 'POST')
         list_img.append([res['result']['response']['seq_id'], 4, img['agent_type']])
     return list_img

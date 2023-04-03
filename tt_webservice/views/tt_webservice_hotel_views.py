@@ -56,6 +56,10 @@ def api_models(request):
             res = get_carriers(request)
         elif req_data['action'] == 'get_hotel_data_detail_page':
             res = get_hotel_data_detail_page(request)
+        elif req_data['action'] == 'hotel_get_carrier_alias_name':
+            res = hotel_get_carrier_alias_name(request)
+        elif req_data['action'] == 'update_masking':
+            res = update_masking(request)
         elif req_data['action'] == 'get_auto_complete':
             res = get_auto_complete(request)
         elif req_data['action'] == 'get_top_facility':
@@ -111,6 +115,7 @@ def login(request):
             "signature": ''
         }
         user_global, password_global, api_key = get_credential(request)
+        user_default, password_default = get_credential_user_default(request)
         data = {
             "user": user_global,
             "password": password_global,
@@ -124,7 +129,7 @@ def login(request):
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'session'
+    url_request = get_url_gateway('session')
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
@@ -162,7 +167,7 @@ def set_signature(request):
         _logger.error('ERROR set signature file\n' + str(e) + '\n' + traceback.format_exc())
 
     return {
-        "result":{
+        "result": {
             "response": "",
             "error_code": 0,
             "error_msg": ""
@@ -184,7 +189,7 @@ def get_carriers(request):
         _logger.error(str(e) + '\n' + traceback.format_exc())
     file = read_cache("get_hotel_carriers", 'cache_web', request)
     if not file:
-        url_request = url + 'content'
+        url_request = get_url_gateway('content')
         res = send_request_api(request, url_request, headers, data, 'POST')
         try:
             if res['result']['error_code'] == 0:
@@ -209,6 +214,33 @@ def get_carriers(request):
             _logger.error('ERROR get_carriers hotel file\n' + str(e) + '\n' + traceback.format_exc())
 
     return res
+
+def hotel_get_carrier_alias_name(request):
+    file = read_cache("hotel_masking", 'cache_web', request, 90911)
+    if file:
+        return file
+    else:
+        return {}
+
+def update_masking(request):
+    ## read file masking
+    file = read_cache("hotel_masking", 'cache_web', request, 90911)
+    if not file:
+        data = {}
+    else:
+        data = file
+    ## update
+    data_masking = json.loads(request.POST['data_masking'])
+    data.update(data_masking)
+    write_cache(data, "hotel_masking", request)
+    ## save
+    return {
+        "result": {
+            "response": '',
+            "error_msg": '',
+            "error_code": 0,
+        }
+    }
 
 def get_auto_complete(request):
     def find_hotel_ilike(search_str, record_cache, limit=10, search_type=[]):
@@ -330,11 +362,17 @@ def search(request):
         else:
             _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'booking/hotel'
+    url_request = get_url_gateway('booking/hotel')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         counter = 0
         sequence = 0
+
+        file = read_cache("hotel_masking", 'cache_web', request, 90911)
+        if file:
+            data_masking = file
+        else:
+            data_masking = {}
         res['result']['signature'] = signature
         if res['result']['error_code'] == 0:
             set_session(request, 'hotel_signature', signature)
@@ -369,6 +407,12 @@ def search(request):
                     'sequence': sequence,
                     'counter': counter
                 })
+                prices = {}
+                for provider in hotel['prices']:
+                    if data_masking.get(provider):
+                        prices[data_masking[provider]] = copy.deepcopy(hotel['prices'][provider])
+                if prices:
+                    hotel['prices'] = prices
                 counter += 1
                 sequence += 1
 
@@ -486,7 +530,7 @@ def search_2(request):
             "signature": request.POST['signature']
         }
         signature = request.POST['signature']
-        url_request = url + 'booking/hotel'
+        url_request = get_url_gateway('booking/hotel')
         res = send_request_api(request, url_request, headers, data, 'POST', 300)
         set_session(request, 'hotel_response_search_%s' % signature, res)
     else:
@@ -620,10 +664,32 @@ def get_current_search(request):
         else:
             _logger.error('ERROR current search use cache')
 
-    url_request = url + 'booking/hotel'
+    url_request = get_url_gateway('booking/hotel')
     res = send_request_api(request, url_request, headers, data, 'POST', 30)
     if request.session.get('hotel_set_signature', False):
         set_session(request, 'hotel_signature', request.POST['signature'])
+
+    sequence = 0
+    counter = 0
+    file = read_cache("hotel_masking", 'cache_web', request, 90911)
+    if file:
+        data_masking = file
+    else:
+        data_masking = {}
+    for hotel in res['result']['response']['hotel_ids']:
+        hotel.update({
+            'sequence': sequence,
+            'counter': counter
+        })
+        prices = {}
+        for provider in hotel['prices']:
+            if data_masking.get(provider):
+                prices[data_masking[provider]] = copy.deepcopy(hotel['prices'][provider])
+        if prices:
+            hotel['prices'] = prices
+        counter += 1
+        sequence += 1
+
     return res
 
 def get_current_search_2(request):
@@ -691,7 +757,7 @@ def get_current_search_2(request):
         else:
             _logger.error('ERROR current search use cache')
 
-    url_request = url + 'booking/hotel'
+    url_request = get_url_gateway('booking/hotel')
     res = send_request_api(request, url_request, headers, data, 'POST', 10)
     if request.session.get('hotel_set_signature', False):
         set_session(request, 'hotel_signature', request.POST['signature'])
@@ -726,7 +792,7 @@ def detail(request):
             _logger.info('hotel get detail use cache')
         else:
             _logger.error('error hotel get detail')
-    url_request = url + 'booking/hotel'
+    url_request = get_url_gateway('booking/hotel')
     res = send_request_api(request, url_request, headers, data, 'POST', timeout=180)
     try:
         signature = copy.deepcopy(request.session['hotel_signature'])
@@ -736,6 +802,14 @@ def detail(request):
         })
         _logger.info(json.dumps(request.session['hotel_error']))
         if res['result']['error_code'] == 0:
+            file = read_cache("hotel_masking", 'cache_web', request, 90911)
+            if file:
+                data_masking = file
+            else:
+                data_masking = {}
+            for price_room in res['result']['response']['prices']:
+                if data_masking.get(price_room['provider']):
+                    price_room['provider'] = data_masking[price_room['provider']]
             _logger.info("get_details_hotel SUCCESS SIGNATURE " + signature)
         else:
             _logger.error("get_details_hotel ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
@@ -772,17 +846,39 @@ def get_current_search_detail(request):
             _logger.info('hotel get detail use cache')
         else:
             _logger.error('error hotel get detail')
-    url_request = url + 'booking/hotel'
+    url_request = get_url_gateway('booking/hotel')
     res = send_request_api(request, url_request, headers, data, 'POST', timeout=30)
+    if res['result']['error_code'] == 0:
+        file = read_cache("hotel_masking", 'cache_web', request, 90911)
+        if file:
+            data_masking = file
+        else:
+            data_masking = {}
+        file = read_cache("hotel_masking", 'cache_web', request, 90911)
+        if file:
+            data_masking = file
+        else:
+            data_masking = {}
+        for price_room in res['result']['response']['prices']:
+            if data_masking.get(price_room['provider']):
+                price_room['provider'] = data_masking[price_room['provider']]
     return res
 
 def get_cancellation_policy(request):
     try:
+        file = read_cache("hotel_masking", 'cache_web', request, 90911)
+        if file:
+            data_masking = file
+        else:
+            data_masking = {}
+        provider = request.POST['provider']
+        if data_masking.get(provider):
+            provider = data_masking[provider]
         data = {
             # "hotel_code": request.session['hotel_detail']['external_code'][request.POST['provider']],
             "hotel_code": request.session['hotel_detail']['id'],
             "price_code": request.POST['price_code'],
-            "provider": request.POST['provider']
+            "provider": provider
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",
@@ -804,7 +900,7 @@ def get_cancellation_policy(request):
             _logger.info('get_cancellation_policy use cache')
         else:
             _logger.error('ERROR get_cancellation_policy use cache')
-    url_request = url + 'booking/hotel'
+    url_request = get_url_gateway('booking/hotel')
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
@@ -837,7 +933,7 @@ def get_top_facility(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    url_request = url + 'booking/hotel'
+    url_request = get_url_gateway('booking/hotel')
     file = read_cache("get_hotel_top_facility_data", 'cache_web', request, 86400)
     if not file:
         res = send_request_api(request, url_request, headers, data, 'POST')
@@ -868,7 +964,7 @@ def get_facility_img(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    url_request = url + 'booking/hotel'
+    url_request = get_url_gateway('booking/hotel')
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         signature = copy.deepcopy(request.session['hotel_signature'])
@@ -886,9 +982,17 @@ def get_facility_img(request):
 
 def provision(request):
     try:
+        file = read_cache("hotel_masking", 'cache_web', request, 90911)
+        if file:
+            data_masking = file
+        else:
+            data_masking = {}
+        provider = request.POST['provider']
+        if data_masking.get(provider):
+            provider = data_masking[provider]
         data = {
             'price_code': request.POST['price_code'],
-            'provider': request.POST['provider']
+            'provider': provider
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",
@@ -898,7 +1002,7 @@ def provision(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    url_request = url + 'booking/hotel'
+    url_request = get_url_gateway('booking/hotel')
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         set_session(request, 'hotel_provision', res)
@@ -1011,7 +1115,7 @@ def create_booking(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    url_request = url + 'booking/hotel'
+    url_request = get_url_gateway('booking/hotel')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
 
     try:
@@ -1044,7 +1148,7 @@ def get_booking(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    url_request = url + 'booking/hotel'
+    url_request = get_url_gateway('booking/hotel')
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         set_session(request, 'hotel_get_booking_%s' % request.POST['signature'], res)
@@ -1117,7 +1221,7 @@ def issued_b2c(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'booking/hotel'
+    url_request = get_url_gateway('booking/hotel')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
@@ -1144,7 +1248,7 @@ def update_service_charge(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'booking/hotel'
+    url_request = get_url_gateway('booking/hotel')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
@@ -1176,7 +1280,7 @@ def booker_insentif_booking(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'booking/hotel'
+    url_request = get_url_gateway('booking/hotel')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
@@ -1253,7 +1357,7 @@ def hotel_check_refund_amount(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'booking/hotel'
+    url_request = get_url_gateway('booking/hotel')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
@@ -1287,7 +1391,7 @@ def hotel_refund(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'booking/hotel'
+    url_request = get_url_gateway('booking/hotel')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:

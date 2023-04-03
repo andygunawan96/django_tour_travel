@@ -128,7 +128,7 @@ def get_payment_acquirer(request):
         url_post = 'booking/insurance'
     elif request.POST['type'] == 'groupbooking':
         url_post = 'booking/group_booking'
-    url_request = url + url_post
+    url_request = get_url_gateway(url_post)
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
@@ -147,7 +147,7 @@ def testing_payment_webhook(request):
             "Content-Type": "application/json",
             "action": "",
         }
-        url_request = url + 'webhook/payment/espay'
+        url_request = get_url_gateway('webhook/payment/espay')
         res = send_request_api(request, url_request, headers, data, 'POST')
     except:
         res = 0
@@ -173,7 +173,7 @@ def get_order_number(request):
             "action": "get_payment_acquirer_payment_gateway",
             "signature": request.POST['signature']
         }
-        url_request = url + 'payment'
+        url_request = get_url_gateway('payment')
         res = send_request_api(request, url_request, headers, data, 'POST')
     except:
         res = 0
@@ -190,7 +190,7 @@ def get_merchant_info(request):
             "action": "merchant_info",
             "signature": request.POST['signature']
         }
-        url_request = url + 'payment'
+        url_request = get_url_gateway('payment')
         res = send_request_api(request, url_request, headers, data, 'POST')
     except Exception as e:
         res = 0
@@ -215,7 +215,7 @@ def set_payment_method(request):
             "action": "set_invoice",
             "signature": request.POST['signature']
         }
-        url_request = url + 'payment'
+        url_request = get_url_gateway('payment')
         res = send_request_api(request, url_request, headers, data, 'POST', 120)
         if res['result']['error_code'] == 0 and request.POST['phone_number'] == '':
             res['result']['response']['expired'] = convert_string_to_date_to_string_front_end_with_time(res['result']['response']['expired'])
@@ -236,7 +236,7 @@ def check_payment_payment_method(request):
             "action": "get_payment_acquirer_payment_gateway_frontend",
             "signature": request.POST['signature']
         }
-        url_request = url + 'payment'
+        url_request = get_url_gateway('payment')
         res = send_request_api(request, url_request, headers, data, 'POST')
     except:
         res = 0
@@ -253,7 +253,7 @@ def get_order_number_frontend(req):
             "action": "get_payment_acquirer_payment_gateway_frontend",
             "signature": req['signature']
         }
-        url_request = url + 'payment'
+        url_request = get_url_gateway('payment')
         res = send_request_api(req, url_request, headers, data, 'POST')
     except:
         res = 0
@@ -270,7 +270,7 @@ def get_order_number_frontend_webservice(request):
             "action": "get_payment_acquirer_payment_gateway_frontend",
             "signature": request.POST['signature']
         }
-        url_request = url + 'payment'
+        url_request = get_url_gateway('payment')
         res = send_request_api(request, url_request, headers, data, 'POST')
     except:
         res = 0
