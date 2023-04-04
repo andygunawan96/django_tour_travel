@@ -1678,7 +1678,7 @@ def get_new_cache(request, signature, type='all'):
         else:
             javascript_version = 1
         javascript_version += 1
-        write_cache(javascript_version, 'javascript_version', request, True)
+        write_cache(javascript_version, 'javascript_version', request, 'cache_web', True)
         logging.getLogger("info_logger").error("DONE GENERATE NEW CACHE!")
         return True
     except Exception as e:
