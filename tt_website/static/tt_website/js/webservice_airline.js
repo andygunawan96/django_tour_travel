@@ -3748,12 +3748,12 @@ function get_price_itinerary_request(){
                         is_roundtrip_combo = true;
                 }
                 for(i in resJson.result.response.price_itinerary_provider){
+                    airline_price.push({});
                     for(j in resJson.result.response.price_itinerary_provider[i].journeys){
                         for(k in resJson.result.response.price_itinerary_provider[i].journeys[j].segments){
                             for(l in resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares){
                                 if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary.length != 0){
                                     if(check_journey != j || check_provider != i){
-                                        airline_price.push({});
                                         check_journey = j;
                                         check_provider = i;
                                     }
