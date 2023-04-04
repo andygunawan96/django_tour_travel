@@ -3070,7 +3070,7 @@ function change_image_hotel_detail(numb){
            if(i >= min_img)
                is_start_add = true;
            if(hotel_price[i].show){
-               if(is_start_add && hotel_price[i].show && counter_hotel < 8){
+               if(is_start_add && hotel_price[i].show && counter_hotel < max_img){
                     var node = document.createElement("div");
                     node.id = 'hotel'+i+'_div';
                     node.text = render_hotel_search_detail(hotel_price[i], i)
@@ -3361,6 +3361,8 @@ function filter_room_hotel(type, value){
         }
 
     }
+    if(value != '' && type != '')
+        hotel_pagination_number = 1;
     render_room_hotel(hotel_price);
 }
 
@@ -3370,13 +3372,15 @@ function render_room_hotel(data_room_hotel_list){
     document.getElementById('detail_room_pick').innerHTML = '';
     var min_hotel = parseInt((hotel_pagination_number*8)-8);
     var max_hotel = parseInt((hotel_pagination_number*8)-1);
-    $pagination_type = "hotel_detail"
+    $pagination_type = "hotel_detail";
+    var counter_hotel = 0;
     for(i in data_room_hotel_list){
         if(data_room_hotel_list[i].show){
             text = '';
-            if(i >= min_hotel && i <= max_hotel){
+            if(data_room_hotel_list[i].show && counter_hotel < 8){
                 text += render_hotel_search_detail(data_room_hotel_list[i], i)
             }
+            counter_hotel++;
             node.id = 'hotel'+i+'_div';
             node.className = 'detail-hotel-box';
             node.innerHTML = text;
@@ -3482,7 +3486,8 @@ function render_room_hotel(data_room_hotel_list){
         </div>`;
 
         try{
-            document.getElementById("filterRoom_generalShow").innerHTML = 'Room not found';
+            if(data_room_hotel_list.length == 0)
+                document.getElementById("filterRoom_generalShow").innerHTML = 'Room not found';
         }catch(err){
             console.log(err); // error kalau ada element yg tidak ada
         }
