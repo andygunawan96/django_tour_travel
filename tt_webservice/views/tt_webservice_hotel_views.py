@@ -100,6 +100,10 @@ def api_models(request):
             res = hotel_check_refund_amount(request)
         elif req_data['action'] == 'hotel_refund':
             res = hotel_refund(request)
+        elif req_data['action'] == 'search_mobile':
+            res = search_mobile(request)
+        elif req_data['action'] == 'detail_mobile':
+            res = detail_mobile(request)
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:
@@ -1402,3 +1406,131 @@ def hotel_refund(request):
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
 
+
+def search_mobile(request):
+    data = {
+        'child': int(request.data['child']),
+        'hotel_id': request.data.get('hotel_id') or '',
+        'search_name': request.data.get('search_name'),
+        'room': int(request.data['room']),
+        'checkout_date': request.data['checkout_date'],
+        'checkin_date': request.data['checkin_date'],
+        'adult': int(request.data['adult']),
+        'destination_id': request.data['destination_id'],
+        'child_ages': request.data['child_ages'],
+        'nationality': request.data['nationality'],
+    }
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
+        "action": "search",
+        "signature": request.data['signature']
+    }
+    url_request = get_url_gateway('booking/hotel')
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
+    try:
+        counter = 0
+        sequence = 0
+
+        file = read_cache("hotel_masking", 'cache_web', request, 90911)
+        if file:
+            data_masking = file
+        else:
+            data_masking = {}
+        if res['result']['error_code'] == 0:
+
+            hotel_data = []
+            for hotel in res['result']['response']['city_ids']:
+                hotel.update({
+                    'sequence': sequence,
+                    'counter': counter
+                })
+                counter += 1
+                sequence += 1
+
+            counter = 0
+
+            for hotel in res['result']['response']['country_ids']:
+                hotel.update({
+                    'sequence': sequence,
+                    'counter': counter
+                })
+                counter += 1
+                sequence += 1
+
+            counter = 0
+
+            for hotel in res['result']['response']['hotel_ids']:
+                hotel.update({
+                    'sequence': sequence,
+                    'counter': counter
+                })
+                prices = {}
+                for provider in hotel['prices']:
+                    if data_masking.get(provider):
+                        prices[data_masking[provider]] = copy.deepcopy(hotel['prices'][provider])
+                if prices:
+                    hotel['prices'] = prices
+                counter += 1
+                sequence += 1
+
+            counter = 0
+
+            for hotel in res['result']['response']['landmark_ids']:
+                hotel.update({
+                    'sequence': sequence,
+                    'counter': counter
+                })
+                counter += 1
+                sequence += 1
+        else:
+            _logger.error("ERROR search_hotel SIGNATURE " + request.session['hotel_signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    return res
+
+
+def detail_mobile(request):
+    data = {
+        'child': int(request.data['child']),
+        'search_name': request.data.get('search_name'),
+        'room': int(request.data['room']),
+        'checkout_date': request.data['checkout_date'],
+        'checkin_date': request.data['checkin_date'],
+        'adult': int(request.data['adult']),
+        'child_ages': request.data['child_ages'],
+        'hotel_id': request.data.get('hotel_id') or '',
+        'destination': request.data['destination'],
+        'nationality': request.data['nationality'],
+        'pax_country': False
+    }
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
+        "action": "get_details",
+        "signature": request.data['signature']
+    }
+    url_request = get_url_gateway('booking/hotel')
+    res = send_request_api(request, url_request, headers, data, 'POST', timeout=180)
+    try:
+        signature = copy.deepcopy(request.session['hotel_signature'])
+        set_session(request, 'hotel_error', {
+            'error_code': res['result']['error_code'],
+            'signature': signature
+        })
+        _logger.info(json.dumps(request.session['hotel_error']))
+        if res['result']['error_code'] == 0:
+            file = read_cache("hotel_masking", 'cache_web', request, 90911)
+            if file:
+                data_masking = file
+            else:
+                data_masking = {}
+            for price_room in res['result']['response']['prices']:
+                if data_masking.get(price_room['provider']):
+                    price_room['provider'] = data_masking[price_room['provider']]
+            _logger.info("get_details_hotel SUCCESS SIGNATURE " + signature)
+        else:
+            _logger.error("get_details_hotel ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
