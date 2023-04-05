@@ -1765,6 +1765,20 @@ def get_vendor_balance_request(request):
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
 
+def get_version(request):
+    javascript_version = 0
+    try:
+        file = read_cache("javascript_version", 'cache_web', request, 90911, True)
+        if file:
+            javascript_version = int(file)
+        else:
+            javascript_version = 1
+            write_cache(javascript_version, 'javascript_version', request, True)
+    except Exception as e:
+        _logger.error('ERROR javascript_version file\n' + str(e) + '\n' + traceback.format_exc())
+    return javascript_version
+
+
 #DEPRECATED
 def request_top_up(request):
     try:
