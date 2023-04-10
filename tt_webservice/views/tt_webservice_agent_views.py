@@ -2081,22 +2081,25 @@ def create_customer(request):
             'files_attachment_3': 'sim',
             'files_attachment_4': 'other',
         }
-        image_list = json.loads(request.POST['image_list'])
         pax.update({
             'birth_date': '%s-%s-%s' % (
                 pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
                 pax['birth_date'].split(' ')[0]),
         })
-        for img in image_list:
-            if img[2] == 'files_attachment':
-                pax.update({
-                    'face_image': [img[0], img[1]]
-                })
+        if request.POST.get('image_list'):
+            image_list = json.loads(request.POST['image_list'])
+            for img in image_list:
+                if img[2] == 'files_attachment':
+                    pax.update({
+                        'face_image': [img[0], img[1]]
+                    })
         for identity in pax['identity']:
             image_selected = []
-            for img in image_list:
-                if image[img[2]] == identity:
-                    image_selected.append([img[0], img[1]])
+            if request.POST.get('image_list'):
+                image_list = json.loads(request.POST['image_list'])
+                for img in image_list:
+                    if image[img[2]] == identity:
+                        image_selected.append([img[0], img[1]])
             pax['identity'][identity].update({
                 'identity_image': image_selected
             })
