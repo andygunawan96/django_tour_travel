@@ -6486,8 +6486,7 @@ function update_identity(type, val){
             document.getElementById(type+'_id_type'+val).value = '';
         }catch(err){}
         document.getElementById(type+'_passport_expired_date'+val).value = '';
-        document.getElementById('select2-'+type+'_country_of_issued'+val+'_id-container').innerHTML = 'Country of Issued';
-        document.getElementById(type+'_country_of_issued'+val).value = '';
+        $('#'+type+'_country_of_issued'+val+'_id').val('').trigger('change');
         $('#'+type+'_identity_div'+val).niceSelect('update');
     }
 }
