@@ -2081,27 +2081,25 @@ def create_customer(request):
             'files_attachment_3': 'sim',
             'files_attachment_4': 'other',
         }
-        image_list = json.loads(request.POST['image_list'])
-        if pax['nationality_name'] != '':
-            for country in response['result']['response']['airline']['country']:
-                if pax['nationality_name'] == country['name']:
-                    pax['nationality_code'] = country['code']
-                    break
         pax.update({
             'birth_date': '%s-%s-%s' % (
                 pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
                 pax['birth_date'].split(' ')[0]),
         })
-        for img in image_list:
-            if img[2] == 'files_attachment':
-                pax.update({
-                    'face_image': [img[0], img[1]]
-                })
+        if request.POST.get('image_list'):
+            image_list = json.loads(request.POST['image_list'])
+            for img in image_list:
+                if img[2] == 'files_attachment':
+                    pax.update({
+                        'face_image': [img[0], img[1]]
+                    })
         for identity in pax['identity']:
             image_selected = []
-            for img in image_list:
-                if image[img[2]] == identity:
-                    image_selected.append([img[0], img[1]])
+            if request.POST.get('image_list'):
+                image_list = json.loads(request.POST['image_list'])
+                for img in image_list:
+                    if image[img[2]] == identity:
+                        image_selected.append([img[0], img[1]])
             pax['identity'][identity].update({
                 'identity_image': image_selected
             })
@@ -2113,13 +2111,6 @@ def create_customer(request):
                 })
             except Exception as e:
                 _logger.error(str(e) + traceback.format_exc())
-            try:
-                for country in response['result']['response']['airline']['country']:
-                    if pax['identity'][identity]['identity_country_of_issued_name'] == country['name']:
-                        pax['identity'][identity]['identity_country_of_issued_code'] = country['code']
-                        break
-            except:
-                pax['identity'][identity]['identity_country_of_issued_code'] = ''
         data = {
             'passengers': pax
         }

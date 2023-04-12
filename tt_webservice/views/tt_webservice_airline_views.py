@@ -4732,7 +4732,7 @@ def get_frequent_flyer_all_data(request, signature):
                 "signature": signature,
             }
             data = {}
-            res = send_request_api(request, url_request, headers, data, 'POST', 300)
+            res = send_request_api(request, url_request, headers, data, 'POST', 15)
         except Exception as e:
             _logger.error(str(e) + '\n' + traceback.format_exc())
         if res['result']['error_code'] == 0:
