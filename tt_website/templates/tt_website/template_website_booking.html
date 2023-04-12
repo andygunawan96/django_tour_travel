@@ -167,12 +167,9 @@ Licence URI: http://www.os-templates.com/template-terms
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="author" content="Rodextrip" />
-
-    <!--<link href="{{ static_path }}layout/styles/layout.css" rel="stylesheet" type="text/css" media="all">-->
+	<meta name="author" content="Orbis" />
 
     <link rel="icon" href="{{ logo_icon }}" sizes="16x16" type="image/png">
-    <!--<link href="https://fonts.googleapis.com/css?family=Poppins:100,200,400,300,500,600,700" rel="stylesheet">-->
 
     <script>
         login_color_base = '{{login_background_color}}';
@@ -211,27 +208,18 @@ Licence URI: http://www.os-templates.com/template-terms
             text-decoration-color: {{color}} !important;
         }
 
-        .height40 {
-            height:40px;
-        }
-
-        .height60 {
-            height:60px;
-        }
-
         {% if username.co_user_login == default_user %}
-
             .tab_custom_login {
                 background-color: {{login_background_color}} !important;
             }
             {% if template == 1 or template == 3 or template == 5%}
-                .lnr_color {
-                    color: {{text_color_login}} !important;
-                }
+            .lnr_color {
+                color: {{text_color_login}} !important;
+            }
             {% else %}
-                .site-navbar {
-                    border-bottom: unset !important;
-                }
+            .site-navbar {
+                border-bottom: unset !important;
+            }
             {% endif %}
         {% endif %}
 
@@ -488,6 +476,8 @@ Licence URI: http://www.os-templates.com/template-terms
             border-radius: unset !important;
         }
     </style>
+
+    <!--All Template-->
     <style>
         .radio-label > input:checked + .div_radio_bg{
             background: {{color}};
@@ -495,37 +485,19 @@ Licence URI: http://www.os-templates.com/template-terms
         .radio-label .div_radio_bg:hover{
             background: {{color}};
         }
-
-        .sticky-event-active{
-            background: {{color}};
-        }
-        .forgot-pass-login{
-            color:{{color}};
-            font-size:15px;
-            font-weight:700;
-        }
-
         .radio-label > input:checked + .div_label{
             border:2px solid {{color}} !important;
             background: {{color}};
-            color:white;
         }
 
-        tbody {
-            vertical-align: top;
+        .forgot-pass-login{
+            color:{{color}};
         }
 
-        .nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
-            background-color: {{tab_color}} !important;
-        }
-        .banner-right .tab-content {
-            border-bottom-left-radius: 7px;
-            border-bottom-right-radius: 7px;
-        }
         ::selection {
           background-color: {{color}} !important;
-          color: #fff;
         }
+
         .jBox-Modal .jBox-title{
             background: {{color}};
             color: {{text_color}};
@@ -544,9 +516,6 @@ Licence URI: http://www.os-templates.com/template-terms
 	    }
 	    ul.btn_tabs li:hover{
            color: {{color}};
-        }
-        .faq-que{
-            cursor:pointer;
         }
         .faq-que b:hover{
             color: {{color}} !important;
@@ -586,22 +555,16 @@ Licence URI: http://www.os-templates.com/template-terms
 
         .notif-hover:hover{
             color: {{color}} !important;
-            opacity:0.7;
-        }
-
-        @keyframes dash {
-          to {
-            stroke-dashoffset: 0;
-          }
         }
 
         @keyframes filling {
-           0%, 90% { fill: {{color}};
-            fill-opacity: 0; }
-          100% { fill: {{color}};
-            fill-opacity: 1; }
+            0%, 90% {
+                fill: {{color}};
+            }
+            100% {
+                fill: {{color}};
+            }
         }
-
 
         .lamp{
             text-shadow: 0 0 5px {{color}}, 0 0 15px {{color}}, 0 0 20px {{color}}, 0 0 40px {{color}}, 0 0 60px transparent, 0 0 10px #ff8d00, 0 0 98px transparent
@@ -659,16 +622,13 @@ Licence URI: http://www.os-templates.com/template-terms
         }
         .br-done:hover {
             color: {{color}};
-            cursor: pointer;
-            opacity:0.9;
         }
         .br-icon-done {
             background-color: {{color}};
+            color: {{text_color}};
         }
         .br-icon-done:hover {
             background-color: {{color}};
-            opacity:0.9;
-            cursor: pointer;
         }
 
         .br-icon-active {
@@ -678,295 +638,127 @@ Licence URI: http://www.os-templates.com/template-terms
             color: {{color}};
         }
         .count_time{
-            font-size:14px; font-weight:700; color:{{color}};
+            color:{{color}};
         }
 
-        .primary-btn-white{
-            border: 1px solid #cacaca;
-        }
-
-        .primary-btn-white:hover{
-            background: {{color}};
-        }
-
-        .primary-btn-custom {
-            background: {{color}};
-            line-height: 35px;
-            padding-left: 15px;
-            padding-right: 15px;
-            border: none;
-            border-radius: 3px;
-            color: {{text_color}};
-            display: inline-block;
-            font-size: 14px;
-            font-weight: 500;
-            position: relative;
-            -webkit-transition: all 0.3s ease 0s;
-            -moz-transition: all 0.3s ease 0s;
-            -o-transition: all 0.3s ease 0s;
-            transition: all 0.3s ease 0s;
-            cursor: pointer;
-            position: relative;
-            border-radius: 3px;
-        }
         .primary-btn {
             background: {{color}};
-            line-height: 42px;
-            border: none;
             color: {{text_color}};
-            display: inline-block;
-            font-size: 14px;
-            font-weight: 500;
-            position: relative;
-            border-radius: 3px;
-            -webkit-transition: all 0.3s ease 0s;
-            -moz-transition: all 0.3s ease 0s;
-            -o-transition: all 0.3s ease 0s;
-            transition: all 0.3s ease 0s;
-            cursor: pointer;
-            position: relative;
+        }
+        .primary-btn:hover {
+            background: {{color}};
+        }
+        .primary-btn-white:hover{
+            background: {{color}};
+            color: {{text_color}};
+        }
+        .primary-btn-custom {
+            background: {{color}};
+            color: {{text_color}};
+        }
+        .primary-btn-custom:hover {
+            background: {{color}};
+        }
+        .primary-btn-logout {
+            background: {{color}};
+        }
+        .primary-btn-logout:hover {
+            background: {{color}};
+        }
+        .primary-btn-standard {
+            border: 1px solid {{color}} !important;
+        }
+        .primary-btn-standard:hover {
+            background: {{color}} !important;
+        }
+        .primary-btn-ad {
+            background: {{color}};
+        }
+        .primary-btn-ad:hover {
+            background: {{color}};
+        }
+        .primary-btn-ticket {
+            background: {{color}};
+            color: {{text_color}};
+        }
+        .primary-btn-ticket:hover {
+            background: {{color}};
+        }
+        .primary-btn-all-sticky{
+            background: {{color}};
+        }
+        .primary-btn-all-sticky:hover{
+            background: {{color}};
         }
 
         .center-div div {
             background-color: {{color}};
-            display: inline-block;
-            color: rgb(174, 215, 241);
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            -webkit-animation-name: inner-center-div;
-            -webkit-animation-duration: 4s;
-            -webkit-animation-iteration-count: infinite;
-            animation-name: inner-center-div;
-            animation-duration: 4s;
-            animation-iteration-count: infinite;
         }
-        .primary-btn-logout {
-            background: {{color}};
-            line-height: 30px;
-            padding-left: 20px;
-            padding-right: 20px;
-            border: none;
-            border-radius: 3px;
-            color: black;
-            display: inline-block;
-            font-size: 14px;
-            font-weight: 500;
-            position: relative;
-            -webkit-transition: all 0.3s ease 0s;
-            -moz-transition: all 0.3s ease 0s;
-            -o-transition: all 0.3s ease 0s;
-            transition: all 0.3s ease 0s;
-            cursor: pointer;
-            position: relative;
-            width: 100%;
-        }
-
         .btn-custom-circle {
-            text-align: center;
             background-color: {{color}};
-            text-align: center;
-            white-space: nowrap;
-            user-select: none;
-            border: 1px solid transparent;
-            cursor: pointer;
-            color: #000;
-            height: 30px;
         }
         .btn-custom-circle:hover {
             background-color: {{color}};
-            opacity:0.9;
-        }
-        .btn-custom-circle:disabled {
-            border: 1px solid #999999;
-            background-color: #E1E1E1 !important;
-            color: #A5A5A5;
-            cursor:not-allowed;
         }
         .detail-link{
-            text-decoration: unset;
             color: {{color}};
         }
         .detail-link:hover{
             color: {{color}};
-            opacity:0.8;
         }
         .activity_btn_advance{
             background: {{color}};
-            color: rgb(255, 255, 255);
-            cursor: pointer;
-            display: block;
         }
         .select2-container--default .select2-results__option--highlighted[aria-selected] {
             background-color: {{color}} !important;
-            color: white;
         }
         .autocomplete-suggestion.selected {
             background: #cdcdcd;
-        }
-        .primary-btn:hover {
-            background: {{color}};
-            opacity: 0.9;
-        }
-        .primary-btn-ad {
-            background: {{color}};
-            line-height: 42px;
-            padding-left: 15px;
-            padding-right: 15px;
-            margin-right: 5px;
-            border: none;
-            color: #fff;
-            display: inline-block;
-            font-size: 14px;
-            font-weight: 500;
-            position: relative;
-            -webkit-transition: all 0.3s ease 0s;
-            -moz-transition: all 0.3s ease 0s;
-            -o-transition: all 0.3s ease 0s;
-            transition: all 0.3s ease 0s;
-            cursor: pointer;
-            position: relative;
-        }
-        .primary-btn-ad:hover {
-            background: {{color}};
-            opacity: 0.9;
-        }
-        .primary-btn-custom:hover {
-            background: {{color}};
-            opacity: 0.9;
         }
         .search-box-result:hover {
             border: 1px solid {{color}} !important;
         }
         .price_template{
-            font-size: 15px;
-            font-weight: bold;
             color: {{color}};
         }
         .carrier_code_template{
             color: {{color}};
-            font-weight: 500;
         }
         .flight_type_template{
-            font-weight: bold;
-            font-size: 14px;
             color: {{color}};
         }
         .StepProgress-item.is-done::before {
             border-left: 2px solid {{color}};
         }
         .StepProgress-item.is-done::after {
-            /* content: "?"; */
-            font-size: 10px;
-            color: #FFF;
-            text-align: center;
             border: 2px solid {{color}};
-            background-color: white;
         }
         .StepProgress-item.is-end::after {
-            font-size: 10px;
-            color: #FFF;
-            text-align: center;
             border: 2px solid {{color}};
-            background-color: white;
         }
         .filter_general:hover {
             color: {{color}};
         }
-        .primary-btn-ticket {
-            background: {{color}};
-            line-height: 40px;
-            padding-left: 20px;
-            padding-right: 20px;
-            border: none;
-            border-radius: 3px;
-            color: {{text_color}};
-            display: inline-block;
-            font-size: 14px;
-            font-weight: 500;
-            position: relative;
-            -webkit-transition: all 0.3s ease 0s;
-            -moz-transition: all 0.3s ease 0s;
-            -o-transition: all 0.3s ease 0s;
-            transition: all 0.3s ease 0s;
-            cursor: pointer;
-            position: relative;
-        }
-        .primary-btn-ticket:hover {
-            background: {{color}};
-            opacity: 0.9;
-        }
         .mystickycopybot {
-            position: fixed;
-            bottom: 180px;
-            right: 0px;
-            z-index: 99;
-            border: 1px solid gray;
-            outline: none;
             background-color: {{color}};
-            color: white;
-            cursor: pointer;
-            height: 55px;
-            width: 55px;
-            border-radius: 0px;
-            padding-left: 0px !important;
-            padding-right: 0px !important;
         }
         .mystickycopybot:hover {
             background-color: {{color}};
-            opacity:0.9;
         }
         .myticket {
-            position: fixed;
-            top: 75px;
-            right: 0px;
-            z-index: 1049;
             background-color: {{color}};
-            color: white;
-            font-size:16px;
-            height: 55px;
-            width: 55px;
-            border: 1px solid transparent;
-            border-radius: 0px;
-            cursor: pointer;
-            outline: none;
-            cursor: pointer;
         }
         .myticket:hover {
             background-color: {{color}};
         }
         .mytickethotel {
-            position: fixed;
-            top: 75px;
-            right: 0px;
             background-color: {{color}};
-            color: white;
-            font-size:16px;
-            height: 55px;
-            width: 55px;
-            border: 1px solid transparent;
-            border-radius: 0px;
-            cursor: pointer;
-            outline: none;
-            cursor: pointer;
         }
         .mytickethotel:hover {
             background-color: {{color}};
         }
-        .passenger_div {
-            background-color: white;
-            padding: 15px;
-            cursor: pointer;
-            border: 1px solid #cdcdcd;
-        }
         .voucher_div {
-            background-color: white;
-            text-align:left;
-            padding: 10px;
             border: 1px solid {{color}};
-            margin-top: 15px;
-            position: relative;
-            z-index: 5;
         }
         .br-book {
             color: {{color}};
@@ -975,67 +767,36 @@ Licence URI: http://www.os-templates.com/template-terms
             background-color: {{color}};
         }
         .form-login-control:focus {
-            color: black;
             border-bottom: 1px solid {{color}} !important;
         }
-        .primary-btn-logout:hover {
-            background: {{color}};
-            opacity: 0.9;
-        }
         .irs-from, .irs-to, .irs-single {
-            color: #fff;
-            font-size: 14px;
-            line-height: 1.333;
-            text-shadow: none;
-            padding: 1px 5px;
             background: {{color}};
-            border-radius: 3px;
-            -moz-border-radius: 3px;
         }
         .btn-primary {
             color: #fff;
             background-color: {{color}};
-            border-color: {{color}};
         }
         .btn-primary:hover{
             background-color: {{color}};
-            border-color: {{color}};
-            opacity:0.8;
-        }
-        .sticky-tour-active {
-            background: {{color}};
-            color: white;
         }
         .primary-btn-sticky-hotel:hover {
             background: {{color}};
-            color: white;
+            color: {{text_color}};
         }
         .nav-tabs-activity {
             background-color: {{color}};
-            height: 41px !important;
         }
         .tab-menu-activity:hover {
-            color: white;
+            color: {{text_color}};
             background-color: {{color}};
-            opacity:0.9;
-            text-decoration: unset;
         }
         .tab-menu-activity.active {
-            color: white;
+            color: {{text_color}};
             background-color: {{color}};
-            opacity:0.9;
         }
-
         .tab-menu-activity {
-            color: white;
+            color: {{text_color}};
             background-color: {{color}};
-            display: block;
-            width: 100%;
-            height: 100%;
-            padding-top: 10px;
-        }
-        .li-activity:hover {
-            background-color: white;
         }
         .icon-search-ticket{
             background: {{color}};
@@ -1043,117 +804,69 @@ Licence URI: http://www.os-templates.com/template-terms
         }
         .myticket_static {
             background-color: {{color}};
-            color: white;
-            height: 32px;
-            width: 180px;
-            border: 1px solid transparent;
-            border-radius: 3px;
-            cursor: pointer;
-            outline: none;
-            float: right;
+            color: {{text_color}};
         }
         .irs-bar {
-            height: 10px;
-            top: 33px;
             border-top: 1px solid {{color}};
             border-bottom: 1px solid {{color}};
             background: {{color}};
             background: linear-gradient(to top, {{color}} 0%, {{color}} 100%);
         }
         .facility_hotel {
-            margin-right:5px; color:{{color}}; font-size:11px; word-break: break-all;
+            color:{{color}};
         }
         .myticket_static_detail {
             background-color: {{color}};
-            color: white;
-            height: 32px;
-            width: 180px;
-            border: 1px solid transparent;
-            border-radius: 3px;
-            cursor: pointer;
-            outline: none;
-            float: right;
-            margin: 8px;
+            color: {{text_color}};
         }
-        .sticky-hotel-active {
+        .sticky-activity-active{
             background: {{color}};
-            opacity: 0.9;
-            color: white;
+            color: {{text_color}};
         }
-        .sticky-hotel-event {
+        .sticky-hotel-active{
             background: {{color}};
-            opacity: 0.9;
-            color: white;
+            color: {{text_color}};
+        }
+        .sticky-hotel-event{
+            background: {{color}};
+            color: {{text_color}};
+        }
+        .sticky-tour-active{
+            background: {{color}};
+            color: {{text_color}};
+        }
+        .sticky-event-active{
+            background: {{color}};
+            color: {{text_color}};
         }
         .light-theme .current {
             background: {{color}};
             border: 2px solid {{color}};
             color: {{color}};
-            opacity: 0.9;
             box-shadow: 0 1px 0 rgba(255,255,255,1), 0 0 2px rgba(0, 0, 0, 0.3) inset;
-            cursor: default;
         }
-        .light-theme a:hover, .light-theme li:not(.disabled):not(.active) span:hover{
+        .light-theme a:hover, .light-theme li:not(.disabled):not(.active) span:hover {
             color: {{color}};
-        }
-        .sticky-activity-active {
-            background: {{color}};
-            color: white;
         }
         .btn-activity.active {
             background-color: {{color}};
-            opacity: 0.9;
-            color: white;
+            color: {{text_color}};
         }
         .btn-activity:hover {
             background-color: {{color}};
-            color: white;
+            color: {{text_color}};
         }
         .btn-activity {
-            background: white;
             border: 2px solid {{color}};
-            color: black;
         }
-        .primary-btn-standard {
-            background: #f7f7f7;
-            line-height: 42px;
-            padding-left: 30px;
-            padding-right: 30px;
-            border: 1px solid {{color}} !important;
-            color: #000;
-            display: inline-block;
-            font-size: 14px;
-            font-weight: 500;
-            position: relative;
-            border-radius: 3px;
-            -webkit-transition: all 0.3s ease 0s;
-            -moz-transition: all 0.3s ease 0s;
-            -o-transition: all 0.3s ease 0s;
-            transition: all 0.3s ease 0s;
-            cursor: pointer;
-            position: relative;
-        }
-        .primary-btn-standard:hover {
-            background: {{color}} !important;
-            opacity: 0.9;
-            color: white;
-            border: 1px solid #C04B21;
-        }
-        .detail-hotel-box:hover {
+        .detail-hotel-box:hover{
             border: 1px solid {{color}} !important;
         }
-        .detail-event-box:hover {
+        .detail-event-box:hover{
             border: 1px solid {{color}} !important;
         }
         .border-event{
             border-right:2px solid {{color}};
-        }
-        @media (max-width: 767px) {
-            .border-event{
-                border-bottom:2px solid {{color}};
-                border-right:unset;
-                margin-bottom:15px;
-            }
         }
         .form-select-2 .nice-select .list{
             border: 1px solid {{color}};
@@ -1162,33 +875,11 @@ Licence URI: http://www.os-templates.com/template-terms
             color: {{color}};
         }
         .primary-btn-custom-un {
-            background: #fff;
-            opacity: 0.9;
-            line-height: 35px;
-            padding-left: 20px;
-            padding-right: 20px;
-            border: 1px solid {{color}};
-            cursor: not-allowed;
-            color: {{color}};
-            display: inline-block;
-            font-size: 14px;
-            font-weight: 500;
-            position: relative;
-            -webkit-transition: all 0.3s ease 0s;
-            -moz-transition: all 0.3s ease 0s;
-            -o-transition: all 0.3s ease 0s;
-            transition: all 0.3s ease 0s;
-            cursor: pointer;
-            position: relative;
-            border-radius: 3px;
-        }
-        .image-rounded-icon2:hover {
-            border: 1px solid {{color}};
             color: {{color}};
         }
-        .notif-hover:hover {
+        .image-rounded-icon2:hover{
+            border: 1px solid {{color}};
             color: {{color}};
-            opacity: 0.9;
         }
         .form-control:focus {
             border: 1px solid {{color}} !important;
@@ -1196,13 +887,11 @@ Licence URI: http://www.os-templates.com/template-terms
         .hover_name:hover {
             color: {{color}} !important;
         }
-        .sorting-box-b:hover {
+        .sorting-box-b:hover{
             border: 1px solid {{color}};
-            z-index: 9;
         }
         .badge-notif {
             border: 1px solid {{color}};
-            opacity: 0.9;
         }
         .img_hotel_smallbot:hover{
             border: 1px solid {{color}};
@@ -1210,59 +899,33 @@ Licence URI: http://www.os-templates.com/template-terms
         .select2-container--default .select2-search--dropdown .select2-search__field{
             border: 1px solid {{color}};
         }
-        .button-seat-pass-cancel{
-            background: #ff3030 !important;
-        }
-
-        .button-seat-pass-cancel:hover{
-            background: #e04022 !important;
-        }
-
         .primary-btn-sorting:focus{
             color: {{color}};
         }
-
-        .primary-btn-all-sticky{
-            background: {{color}};
-        }
-
-        .primary-btn-all-sticky:hover{
-            background: {{color}};
-            opacity: 0.8;
-        }
-
         .span-search-ticket{
             color: {{text_color}};
         }
-
         .center-div-t div{
             background-color: {{color}};
         }
-
         .radio-img  > input:checked + img{
           border:3px solid {{color}};
         }
-
         .tags_btn{
             color: {{color}};
         }
-
         .tags_btn:hover{
             background: {{color}} !important;
             color:{{text_color}} !important;
-            text-decoration: unset;
         }
-
         .tags_btn_rsv{
             color: {{text_color}};
             background:{{color}};
         }
-
         .tags_btn_rsv:hover{
             background: {{text_color}};
             color: {{color}};
         }
-
         .color-custom{
             color: {{text_color}};
         }
@@ -1272,56 +935,37 @@ Licence URI: http://www.os-templates.com/template-terms
         .button-custom{
             background-color: {{color}};
         }
-
         .jBox-NoticeFancy.jBox-Notice-color .jBox-container {
           color: {{text_color}} !important;
           background: {{color}} !important;
         }
-
-        .ticket-layout:before{
+        .ticket-layout:before {
             border: 5px solid {{color}};
-            border-top-color: transparent;
-            border-left-color: transparent;
         }
-        .ticket-layout:after{
+        .ticket-layout:after {
             border: 5px solid {{color}};
-            border-top-color: transparent;
-            border-left-color: transparent;
         }
-        .ticket-layout{
+        .ticket-layout {
             background: linear-gradient(to right, {{color}}, {{color}}, {{color}}, {{color}})
         }
-
         .progress_icon-active {
             background-color: {{color}};
         }
-
         .form-select-2 .nice-select .list .option:hover{
             color: {{color}} !important;
-            background:#f7f7f7;
-            font-weight:600;
         }
-
-        .form-select-2 .nice-select .list .option.selected{
-            font-weight:600;
-        }
-
         .owl-bg-border{
             border-bottom: 5px solid {{color}} !important;
         }
-
         .span_link:hover{
             color:{{color}};
         }
-
         .span_link_white:hover{
             color:{{color}};
         }
-
         .picture_identity_customer:hover{
             border:1px solid {{color}} !important;
         }
-
         .single_border_custom_top{
             border-top:5px solid {{color}};
         }
@@ -1334,7 +978,6 @@ Licence URI: http://www.os-templates.com/template-terms
         .single_border_custom_left{
             border-left:5px solid {{color}};
         }
-
         .border_custom_top{
             border-top:10px solid {{color}};
         }
@@ -1347,7 +990,6 @@ Licence URI: http://www.os-templates.com/template-terms
         .border_custom_left{
             border-left:10px solid {{color}};
         }
-
         .text_btn_custom:hover{
             color: {{color}};
         }
@@ -1363,32 +1005,14 @@ Licence URI: http://www.os-templates.com/template-terms
         ul.create_tabs li label:hover{
             color: {{color}} !important;
         }
-
         .place_div_dynamic{
             background: {{color}} !important;
         }
-
         .text_link_cst{
             color: {{color}};
         }
-
         .text_link_cst a{
             color: {{color}};
-        }
-
-        {% if template == 1%}
-        {% if username.co_user_login == default_user %}
-            #mobile-nav-toggle{
-                margin-top:15px;
-            }
-        {% endif %}
-
-        #mobile-nav ul li span:hover{
-            color:{{color}};
-        }
-
-        .btn-txt-color{
-            color:{{text_color}};
         }
         ul.create_tabs li.current{
             border-bottom: 5px solid {{color}};
@@ -1402,25 +1026,44 @@ Licence URI: http://www.os-templates.com/template-terms
             border-bottom: 5px solid {{color}};
             color: {{color}};
         }
-        ul.template_tabs li.current{
-            border-bottom: 5px solid {{color}};
+
+        .btn-txt-color{
+            color:{{text_color}};
+        }
+        #myBtnBTP {
+            background-color: {{color}};
+        }
+        #myBtnBTP:hover {
+            background-color: {{color}};
+        }
+
+        .nice-select:active, .nice-select.open, .nice-select:focus {
+            border-color: {{color}};
+        }
+    </style>
+
+    <!--Template 1-->
+    {% if template == 1%}
+    <style>
+        {% if username.co_user_login == default_user %}
+        #mobile-nav-toggle{
+            margin-top:15px;
+        }
+        {% endif %}
+        #mobile-nav ul li span:hover{
+            color:{{color}};
+        }
+        #mobile-nav ul .menu-item-active{
             color: {{color}};
         }
-        .guide_h1:hover{
+        #mobile-nav ul li a:hover {
             color: {{color}};
-        }
-        a {
-            color: black;
         }
         a:hover {
             color: {{color}};
         }
-
         .nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
-            background-color: rgba(30, 30, 30, 0.9);
-            color: {{text_color}};
-        }
-        .nav-tabs .nav-link.active .btn-txt-color{
+            background-color: {{tab_color}};
             color: {{text_color}};
         }
         .nav-tabs .nav-link:hover .image-rounded-icon {
@@ -1429,68 +1072,23 @@ Licence URI: http://www.os-templates.com/template-terms
         .nav-link.active .image-rounded-icon {
             background: {{color}};
         }
-        #mobile-nav ul .menu-item-active{
-            color: {{color}};
-        }
-        #myBtnBTP {
-            background-color: {{color}};
-        }
-        #myBtnBTP:hover {
-            background-color: {{color}};
-            opacity: 0.9;
-        }
-        .nav-link.active .image-rounded-icon {
-            background: {{color}};
-        }
-        .form-select .nice-select .list .option.selected {
-            color: {{color}};
-            background: transparent;
-        }
         .nav-menu li:hover > a {
             color: {{color}};
         }
         .nav-menu ul li:hover > a {
             color: {{color}};
         }
-        #mobile-nav ul li a:hover {
-            color: {{color}};
-        }
-        #mobile-nav ul li a:hover {
-            color: {{color}};
-        }
         .banner-right .form-wrap .form-control:focus {
-            box-shadow: none;
             border: 1px solid {{color}};
-            outline:unset;
         }
         .single-footer-widget ul li a:hover {
             color: {{color}};
-            text-decoration: unset;
         }
-        .nice-select:active, .nice-select.open, .nice-select:focus {
-            border-color: {{color}};
+        .form-select .nice-select .list .option.selected {
+            color: {{color}};
         }
         .form-select .nice-select .list {
-            margin-top: 0;
             border: 1px solid {{color}};
-            border-radius: 0px;
-            box-shadow: none;
-            width: 100%;
-            padding: 10px 0px 0px 0px;
-            min-height: 30px;
-            max-height: 150px;
-            overflow-y: scroll;
-        }
-        .owl-theme .owl-nav [class*=owl-] {
-            color: {{color}} !important;
-            font-size: 20px;
-            margin: 5px;
-            padding: 7px;
-            background: rgba(50,50,50,0.8);
-            text-shadow: 2px 2px black;
-            display: inline-block;
-            cursor: pointer;
-            border-radius: 2px;
         }
         .owl-theme .owl-dots .owl-dot.active span, .owl-theme .owl-dots .owl-dot:hover span{
             color: {{color}} !important;
@@ -1508,9 +1106,9 @@ Licence URI: http://www.os-templates.com/template-terms
         .horizontal-arrow:hover{
             color: {{color}} !important;
         }
-
-        {% elif template == 2%}
-
+    </style>
+    {% elif template == 2%}
+    <style>
         .form-control{
             height: 43px;
         }
@@ -1531,14 +1129,6 @@ Licence URI: http://www.os-templates.com/template-terms
             background:{{tab_color}};
             border-bottom: 5px solid {{tab_color}};
             color: {{text_color}};
-        }
-        ul.template_tabs li.current{
-            border-bottom: 5px solid {{color}};
-            color: {{color}};
-        }
-        ul.template_tabs li.current{
-            border-bottom: 5px solid {{color}};
-            color: {{color}};
         }
         .btn-txt-color{
             color:{{text_color}};
@@ -1584,18 +1174,7 @@ Licence URI: http://www.os-templates.com/template-terms
             opacity:0.8;
             color: white !important;
         }
-        ul.create_tabs li.current{
-            border-bottom: 5px solid {{color}};
-            color: {{color}};
-        }
         ul.create_tabs li:hover{
-            color: {{color}};
-        }
-        ul.edit_tabs li.current{
-            border-bottom: 5px solid {{color}};
-            color: {{color}};
-        }
-        ul.edit_tabs li:hover{
             color: {{color}};
         }
         .owl-theme .owl-nav [class*=owl-]{
@@ -1649,7 +1228,9 @@ Licence URI: http://www.os-templates.com/template-terms
                 height:70vh;
             }
         }
-        {% elif template == 3 %}
+    </style>
+    {% elif template == 3%}
+    <style>
         .switch_a{
             color:{{text_color}};
         }
@@ -1679,30 +1260,9 @@ Licence URI: http://www.os-templates.com/template-terms
         .btn-txt-color:hover{
             color: {{color}} !important;
         }
-        ul.create_tabs li.current{
-            border-bottom: 5px solid {{color}};
-            color: {{color}};
-        }
         ul.create_tabs li:hover{
            color: {{color}};
         }
-
-        ul.edit_tabs li.current{
-            border-bottom: 5px solid {{color}};
-            color: {{color}};
-        }
-        ul.edit_tabs li:hover{
-           color: {{color}};
-        }
-        ul.template_tabs li.current{
-            border-bottom: 5px solid {{color}};
-            color: {{color}};
-        }
-        ul.template_tabs li.current{
-            border-bottom: 5px solid {{color}};
-            color: {{color}};
-        }
-
         .single-footer-widget ul li a:hover {
             color: {{color}};
             text-decoration: unset;
@@ -1745,7 +1305,9 @@ Licence URI: http://www.os-templates.com/template-terms
             background: {{color}};
             opacity: 0.8;
         }
-        {% elif template == 4 %}
+    </style>
+    {% elif template == 4%}
+    <style>
         .image-change-route-vertical a{
             color: {{text_color}};
         }
@@ -1786,14 +1348,6 @@ Licence URI: http://www.os-templates.com/template-terms
         ul.tabs li.current label{
             font-size:14px;
         }
-        ul.template_tabs li.current{
-            border-bottom: 5px solid {{color}};
-            color: {{color}};
-        }
-        ul.template_tabs li.current{
-            border-bottom: 5px solid {{color}};
-            color: {{color}};
-        }
         .site-navbar .site-navigation .site-menu .has-children:hover > a, .site-navbar .site-navigation .site-menu .has-children:focus > a, .site-navbar .site-navigation .site-menu .has-children:active > a {
             color: {{color}};
         }
@@ -1803,15 +1357,7 @@ Licence URI: http://www.os-templates.com/template-terms
         a:hover{
             color: {{color}} !important;
         }
-        ul.create_tabs li.current{
-            border-bottom: 5px solid {{color}};
-            color: {{color}};
-        }
         ul.create_tabs li:hover{
-            color: {{color}};
-        }
-        ul.edit_tabs li.current{
-            border-bottom: 5px solid {{color}};
             color: {{color}};
         }
         .nice-select:active, .nice-select.open, .nice-select:focus{
@@ -1830,7 +1376,9 @@ Licence URI: http://www.os-templates.com/template-terms
             background-color: {{color}};
             opacity:0.8;
         }
-        {% elif template == 5 %}
+    </style>
+    {% elif template == 5%}
+    <style>
         .owl-theme .owl-nav [class*=owl-]{
             color: {{color}} !important;
         }
@@ -1891,33 +1439,15 @@ Licence URI: http://www.os-templates.com/template-terms
         ul.tabs li.current {
             border-bottom: 5px solid {{color}};
         }
-        ul.create_tabs li.current{
-            border-bottom: 5px solid {{color}};
-            color: {{color}};
-        }
         ul.create_tabs li:hover{
-            color: {{color}};
-        }
-        ul.edit_tabs li.current{
-            border-bottom: 5px solid {{color}};
-            color: {{color}};
-        }
-        ul.edit_tabs li:hover{
             color: {{color}};
         }
         ul.tabs li.current .image-rounded-icon{
             background: {{color}} !important;
         }
-        ul.template_tabs li.current{
-            border-bottom: 5px solid {{color}};
-            color: {{color}};
-        }
-        ul.template_tabs li.current{
-            border-bottom: 5px solid {{color}};
-            color: {{color}};
-        }
-
-        {% elif template == 6 %}
+    </style>
+    {% elif template == 6%}
+    <style>
         .modal-backdrop{
             z-index: 999;
         }
@@ -1967,32 +1497,9 @@ Licence URI: http://www.os-templates.com/template-terms
         .div_cst:hover .image-rounded-icon{
             border: 5px solid {{color}} !important;
         }
-
-        ul.create_tabs li.current{
-            border-bottom: 5px solid {{color}};
-            color: {{color}};
-        }
-        ul.edit_tabs li.current{
-            border-bottom: 5px solid {{color}};
-            color: {{color}};
-        }
-        ul.template_tabs li.current{
-            border-bottom: 5px solid {{color}};
-            color: {{color}};
-        }
-        ul.template_tabs li.current{
-            border-bottom: 5px solid {{color}};
-            color: {{color}};
-        }
-
         nav a:hover{
             color:{{color}};
         }
-
-        .nice-select:active, .nice-select.open, .nice-select:focus {
-            border-color: {{color}};
-        }
-
         .owl-theme .owl-nav [class*=owl-] {
             color: {{color}};
             font-size: 20px;
@@ -2007,10 +1514,8 @@ Licence URI: http://www.os-templates.com/template-terms
         .owl-theme .owl-dots .owl-dot.active span, .owl-theme .owl-dots .owl-dot:hover span{
             background: {{color}};
         }
-
-        {% endif %}
-
     </style>
+    {% endif %}
 
     <script type="text/javascript" >
     template = {{template}};

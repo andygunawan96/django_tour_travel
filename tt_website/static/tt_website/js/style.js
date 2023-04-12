@@ -197,19 +197,18 @@ $(document).ready(function(){
 
     $('#div-search-overlay').click(function() {      // When arrow is clicked
         div_overlay_checked += 1;
-        if(template != 6){
-            document.getElementById("overlay-search-box").style.display = "block";
-            document.getElementById("div-search-overlay").style.zIndex = "3";
-            try{
-                document.getElementById("change_search_box").style.zIndex = "100";
-            }catch(err){
-                console.log('err');
-            }
-            if(div_overlay_checked == 1){
-                $('html, body').animate({
-                    scrollTop: $("#div-search-overlay").offset().top - 110
-                }, 500);
-            }
+
+        document.getElementById("overlay-search-box").style.display = "block";
+        document.getElementById("div-search-overlay").style.zIndex = "3";
+        try{
+            document.getElementById("change_search_box").style.zIndex = "100";
+        }catch(err){
+            console.log('err');
+        }
+        if(div_overlay_checked == 1){
+            $('html, body').animate({
+                scrollTop: $("#div-search-overlay").offset().top - 110
+            }, 500);
         }
     });
 

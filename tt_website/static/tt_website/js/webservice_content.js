@@ -679,7 +679,7 @@ function get_banner(type,page){
                                 center: true,
                                 autoHeight: false,
                                 autoWidth: false,
-                                autoplay: true,
+                                autoplay: false,
                                 autoplayTimeout:10000,
                                 autoplayHoverPause:false,
                                 items:1,

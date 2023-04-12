@@ -264,7 +264,7 @@
     left: -20px;
     display: flex;
     background-color:white;
-    top: 30%;
+    top: 0%;
     border:1px solid #000;
     border-radius: 50%;
     cursor: pointer;
@@ -286,7 +286,7 @@
     right: -20px;
     display: flex;
     background-color:white;
-    top: 30%;
+    top: 0%;
     border:1px solid #000;
     border-radius: 50%;
     cursor: pointer;
@@ -2570,7 +2570,7 @@
 
 
   .owl-carousel-banner .owl-nav .owl-prev {
-    top: 35%;
+    top: 0%;
     margin: 0;
     position: absolute;
     left: 0px;
@@ -2593,7 +2593,7 @@
     font: inherit; }
 
   .owl-carousel-banner .owl-nav .owl-next {
-    top: 35%;
+    top: 0%;
     margin: 0;
     position: absolute;
     right: 0px;
@@ -2747,11 +2747,16 @@
 
 @media (max-width: 991px) {
   .owl-carousel-banner .owl-nav .owl-prev {
-    top: 30%;
+    top: 0%;
+  }
+  .owl-carousel-banner .owl-nav button.owl-prev{
+    height: 230px !important
   }
   .owl-carousel-banner .owl-nav .owl-next {
-    top: 30%;
+    top: 0%;
   }
+
+
   .owl-carousel-activity .owl-nav .owl-prev {
     top: 30%;
   }
@@ -2765,11 +2770,12 @@
 
 @media (max-width: 767px) {
   .owl-carousel-banner .owl-nav .owl-prev {
-    top: 25%;
+    top: 0%;
   }
   .owl-carousel-banner .owl-nav .owl-next {
-    top: 25%;
+    top: 0%;
   }
+
   .owl-carousel-activity .owl-nav .owl-prev {
     top: 25%;
   }
@@ -2782,10 +2788,10 @@
 }
 @media (max-width: 425px) {
   .owl-carousel-banner .owl-nav .owl-prev {
-    top: 20%;
+    top: 0%;
   }
   .owl-carousel-banner .owl-nav .owl-next {
-    top: 20%;
+    top: 0%;
   }
   .owl-carousel-activity .owl-nav .owl-prev {
     top: 20%;

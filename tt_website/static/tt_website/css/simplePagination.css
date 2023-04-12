@@ -130,8 +130,8 @@ span.ellipse.clickable {
 
 .light-theme a:hover, .light-theme li:not(.disabled):not(.active) span:hover {
 	text-decoration: none;
-	background: #C04B21;
-	color:#f15a22;
+	background: #205B95;
+	color:#205B95;
 }
 
 .light-theme .disabled{
@@ -139,10 +139,11 @@ span.ellipse.clickable {
 }
 
 .light-theme .current {
-	background: #f15a22;
-	border: 2px solid #f15a22;
-	color: #f15a22;
+	background: #205B95;
+	border: 2px solid #205B95;
+	color: #205B95;
 	box-shadow: 0 1px 0 rgba(255,255,255,1), 0 0 2px rgba(0, 0, 0, 0.3) inset;
+	opacity: 0.9;
 	cursor: default;
 }
 

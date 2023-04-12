@@ -6,4 +6,4 @@
 }
 .autocomplete-suggestion { position: relative; padding: 0 .6em; line-height: 30px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 14px; font-weight:400; color: #000; }
 .autocomplete-suggestion b { font-weight: normal; color: blue; }
-.autocomplete-suggestion.selected { background: #f15a22; }
+.autocomplete-suggestion.selected { background: #205B95; }

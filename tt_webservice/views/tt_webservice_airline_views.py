@@ -4861,7 +4861,7 @@ def search_mobile(request):
                     # if journey.hasOwnProperty('is_vtl_flight') and journey.is_vtl_flight:
                     #     journey.search_banner_show.append({
                     #         "active": True,
-                    #         "banner_color": "#f15a22",
+                    #         "banner_color": "#205B95",
                     #         "description": '',
                     #         "name": "VTL Flight",
                     #         "text_color": "#ffffff"

@@ -8,6 +8,7 @@
     agent_security = JSON.parse(agent_security.replace(/&#39;/g, '"'));
     url = '{{backend_url}}';
 </script>
+
 <div id="status" class="status on" style="display:none; top:0px; z-index:1000;"></div>
 
 <div class="box-notification">
@@ -345,7 +346,11 @@
     {% endif %}
 
     <div class="main-header-area tab_custom_login">
+        {% if username.co_user_login == default_user %}
+        <div class="classy-nav-container breakpoint-off" style="padding:20px;">
+        {% else %}
         <div class="classy-nav-container breakpoint-off">
+        {% endif %}
             <div class="container">
                 <nav class="classy-navbar justify-content-between" id="robertoNav">
                     <a class="nav-brand" href="{% url 'tt_website:index'%}"><img src="{{logo}}" style="{% if username.co_user_login != default_user %} max-height:40px;max-width:250px;{%else%} max-height:60px;max-width:225px; {%endif%}" alt="Logo {{name}}" title="{{name}}" /></a>
@@ -371,210 +376,210 @@
                         <div class="classycloseIcon">
                             <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
                         </div>
-
                         <div class="classynav" id="nav-menu-container_no_login" id="nav-menu-container_no_login" {% if username.co_user_login == default_user %} style="display:none;" {% endif %}>
-                        <ul id="nav">
-                            <li class="active"><a href="{% url 'tt_website:index'%}">{% trans 'Home' %}</a></li>
-                            {% if username.co_user_login != '' %}
-                            <li><a href="{% url 'tt_website:reservation'%}">{% trans 'My Reservation' %}</a></li>
-                            {% if "corp_limitation" in username.co_agent_frontend_security or 'co_customer_parent_type_name' in username %}
-                            <li><a href="{% url 'tt_website:reservation_request'%}">{% trans 'Reservation Request' %}</a></li>
-                            {% endif%}
-                            {% if "top_up" in username.co_agent_frontend_security %}
-                            <li><a href="#">{% trans 'Top Up' %}</a>
-                                <ul class="dropdown">
-                                    <li><a href="{% url 'tt_website:top_up'%}">{% trans 'Request' %}</a></li>
-                                    <li><a href="{% url 'tt_website:top_up_history'%}">{% trans 'History' %}</a></li>
-                                </ul>
-                            </li>
-                            {% endif%}
-                            {% endif %}
-                            <li><a href="#">{% trans 'Highlight' %}</a>
-                                <ul id="highlight_header_div" class="dropdown">
-                                </ul>
-                            </li>
-                            <li><a href="#">{% trans 'Balance & Credit' %}</a>
-                                <ul class="dropdown" id="balance_ul">
-                                    <li class="balance_mobile"><a id="balance"></a></li>
-                                    <li class="credit_mobile"><a id="credit_limit"></a></li>
-                                    <li class="customer_parent_balance_mobile"><a id="customer_parent_balance"></a></li>
-                                </ul>
-                            </li>
+                            <ul id="nav">
+                                <li class="active"><a href="{% url 'tt_website:index'%}">{% trans 'Home' %}</a></li>
+                                {% if username.co_user_login != '' %}
+                                <li><a href="{% url 'tt_website:reservation'%}">{% trans 'My Reservation' %}</a></li>
+                                {% if "corp_limitation" in username.co_agent_frontend_security or 'co_customer_parent_type_name' in username %}
+                                <li><a href="{% url 'tt_website:reservation_request'%}">{% trans 'Reservation Request' %}</a></li>
+                                {% endif%}
+                                {% if "top_up" in username.co_agent_frontend_security %}
+                                <li><a href="#">{% trans 'Top Up' %}</a>
+                                    <ul class="dropdown">
+                                        <li><a href="{% url 'tt_website:top_up'%}">{% trans 'Request' %}</a></li>
+                                        <li><a href="{% url 'tt_website:top_up_history'%}">{% trans 'History' %}</a></li>
+                                    </ul>
+                                </li>
+                                {% endif%}
+                                {% endif %}
+                                <li><a href="#">{% trans 'Highlight' %}</a>
+                                    <ul id="highlight_header_div" class="dropdown">
+                                    </ul>
+                                </li>
+                                <li><a href="#">{% trans 'Balance & Credit' %}</a>
+                                    <ul class="dropdown" id="balance_ul">
+                                        <li class="balance_mobile"><a id="balance"></a></li>
+                                        <li class="credit_mobile"><a id="credit_limit"></a></li>
+                                        <li class="customer_parent_balance_mobile"><a id="customer_parent_balance"></a></li>
+                                    </ul>
+                                </li>
 
-                            <li class="menu-has-children"><a href="#">{% trans 'Setting' %}</a>
-                                <ul class="dropdown">
-                                    <li class="menu-has-children"><a href="#">{% trans 'Language' %}</a>
-                                        <ul class="dropdown">
-                                            <form action="{% url 'set_language' %}" method="post" id="form_language">
-                                                {% csrf_token %}
-                                                <input name="next" type="hidden" value="" >
-                                                <input type="hidden" id="selection_language" name="language"/>
-                                                {% get_current_language as LANGUAGE_CODE %}
-                                                {% get_available_languages as LANGUAGES %}
-                                                {% get_language_info_list for LANGUAGES as languages %}
-                                                {% for language in languages %}
-                                                <li><a href="javascript:change_language('{{language.code}}');"><img src="{% if language.code == 'en' %}{{static_path}}images/lang-global.png{% elif language.code == 'id' %}{{static_path}}images/lang-indonesia.png{% endif %}" style="height:21px; width:21px;" alt="{{language.name}}"/> {{language.name}}</a></li>
-                                                {% endfor %}
-                                            </form>
-                                        </ul>
-                                    </li>
-                                    {% if "agent_setting_printout" in username.co_agent_frontend_security %}
-                                    <li><a href="{% url 'tt_website:setting_footer_printout'%}">{% trans 'Setting Footer Printout' %}</a></li>
-                                    {% endif %}
-                                    <!--                                <li class="menu-has-children pt5"><a href="#">Currency</a>-->
-                                    <!--                                    <ul>-->
-                                    <!--                                        <li><a href="#">IDR</a></li>-->
-                                    <!--                                        <li><a href="#">USD</a></li>-->
-                                    <!--                                    </ul>-->
-                                    <!--                                </li>-->
-                                </ul>
-                            </li>
-
-                            {% if username.co_user_login != '' %}
-                            <li class="notification-pc"><a href="#" title="{{username.co_user_login}}" style="font-weight:700; top:10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:150px;">{{username.co_user_login}}</a>
-                                <ul class="dropdown" style="margin-top:10px;">
-<!--                                    <li><a href="#">{% trans 'Partnership' %}</a>-->
-<!--                                        <ul class="dropdown">-->
-<!--                                            <li><a href="/registration">{% trans 'Register Agent' %}</a></li>-->
-<!--                                        </ul>-->
-<!--                                    </li>-->
-                                    {% if "admin" in username.co_agent_frontend_security %}
-                                    <li><a href="{% url 'tt_website:admin'%}">Admin</a></li>
-                                    {% endif %}
-                                    {% if "analyst_periksain" in username.co_agent_frontend_security or "assign_analyst_periksain" in username.co_agent_frontend_security %}
-                                    <li><a href="/assign_analyst/periksain">Analyst Periksain Schedule</a></li>
-                                    {% endif %}
-                                    {% if "confirm_order_medical" in username.co_agent_frontend_security %}
-                                    <li><a href="{% url 'tt_website:medical_global_confirm_order_page'%}">Confirm Order Medical</a></li>
-                                    {% endif %}
-                                    {% if "confirm_order_mitra_keluarga" in username.co_agent_frontend_security %}
-                                    <li><a href="{% url 'tt_website:mitra_keluarga_confirm_order_page'%}">Confirm Order Mitra Keluarga</a></li>
-                                    {% endif %}
-                                    {% if "analyst_phc" in username.co_agent_frontend_security or "assign_analyst_phc" in username.co_agent_frontend_security %}
-                                    <li><a href="/assign_analyst/phc">Analyst Phc Schedule</a></li>
-                                    {% endif %}
-                                    {% if "report" in username.co_agent_frontend_security %}
-                                    <li><a href="{% url 'tt_website:report'%}">Report</a></li>
-                                    {% endif %}
-                                    {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
-                                        {% if backend_url != ''%}
-                                    <li><a href="" id="backend_btn">Backend</a></li>
+                                <li class="menu-has-children"><a href="#">{% trans 'Setting' %}</a>
+                                    <ul class="dropdown">
+                                        <li class="menu-has-children"><a href="#">{% trans 'Language' %}</a>
+                                            <ul class="dropdown">
+                                                <form action="{% url 'set_language' %}" method="post" id="form_language">
+                                                    {% csrf_token %}
+                                                    <input name="next" type="hidden" value="" >
+                                                    <input type="hidden" id="selection_language" name="language"/>
+                                                    {% get_current_language as LANGUAGE_CODE %}
+                                                    {% get_available_languages as LANGUAGES %}
+                                                    {% get_language_info_list for LANGUAGES as languages %}
+                                                    {% for language in languages %}
+                                                    <li><a href="javascript:change_language('{{language.code}}');"><img src="{% if language.code == 'en' %}{{static_path}}images/lang-global.png{% elif language.code == 'id' %}{{static_path}}images/lang-indonesia.png{% endif %}" style="height:21px; width:21px;" alt="{{language.name}}"/> {{language.name}}</a></li>
+                                                    {% endfor %}
+                                                </form>
+                                            </ul>
+                                        </li>
+                                        {% if "agent_setting_printout" in username.co_agent_frontend_security %}
+                                        <li><a href="{% url 'tt_website:setting_footer_printout'%}">{% trans 'Setting Footer Printout' %}</a></li>
                                         {% endif %}
-                                    {% endif %}
-                                    {% if username.co_user_login != default_user %}
-                                    <li><a href="{% url 'tt_website:history_transaction'%}">History Transaction</a></li>
-                                    {% endif %}
-                                    <li style="z-index:5;">
-                                        <a>
-                                            <button type="button" onclick="logout();" class="primary-btn-logout" style="color:{{text_color}};">{% trans 'Logout' %}</button>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
+                                        <!--                                <li class="menu-has-children pt5"><a href="#">Currency</a>-->
+                                        <!--                                    <ul>-->
+                                        <!--                                        <li><a href="#">IDR</a></li>-->
+                                        <!--                                        <li><a href="#">USD</a></li>-->
+                                        <!--                                    </ul>-->
+                                        <!--                                </li>-->
+                                    </ul>
+                                </li>
 
-                            <li class="notification-mobile" style="display:none;"><a href="#"><img src="{{static_path}}images/noprofile.png" alt="Photo Profile" class="image-rounded-profile"/> {{username.co_user_login}}</a>
-                                <ul class="dropdown">
+                                {% if username.co_user_login != '' %}
+                                <li class="notification-pc"><a href="#" title="{{username.co_user_login}}" style="font-weight:700; top:10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:150px;">{{username.co_user_login}}</a>
+                                    <ul class="dropdown" style="margin-top:10px;">
+                                        <!--                                    <li><a href="#">{% trans 'Partnership' %}</a>-->
+                                        <!--                                        <ul class="dropdown">-->
+                                        <!--                                            <li><a href="/registration">{% trans 'Register Agent' %}</a></li>-->
+                                        <!--                                        </ul>-->
+                                        <!--                                    </li>-->
+                                        {% if "admin" in username.co_agent_frontend_security %}
+                                        <li><a href="{% url 'tt_website:admin'%}">Admin</a></li>
+                                        {% endif %}
+                                        {% if "analyst_periksain" in username.co_agent_frontend_security or "assign_analyst_periksain" in username.co_agent_frontend_security %}
+                                        <li><a href="/assign_analyst/periksain">Analyst Periksain Schedule</a></li>
+                                        {% endif %}
+                                        {% if "confirm_order_medical" in username.co_agent_frontend_security %}
+                                        <li><a href="{% url 'tt_website:medical_global_confirm_order_page'%}">Confirm Order Medical</a></li>
+                                        {% endif %}
+                                        {% if "confirm_order_mitra_keluarga" in username.co_agent_frontend_security %}
+                                        <li><a href="{% url 'tt_website:mitra_keluarga_confirm_order_page'%}">Confirm Order Mitra Keluarga</a></li>
+                                        {% endif %}
+                                        {% if "analyst_phc" in username.co_agent_frontend_security or "assign_analyst_phc" in username.co_agent_frontend_security %}
+                                        <li><a href="/assign_analyst/phc">Analyst Phc Schedule</a></li>
+                                        {% endif %}
+                                        {% if "report" in username.co_agent_frontend_security %}
+                                        <li><a href="{% url 'tt_website:report'%}">Report</a></li>
+                                        {% endif %}
+                                        {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
+                                        {% if backend_url != ''%}
+                                        <li><a href="" id="backend_btn">Backend</a></li>
+                                        {% endif %}
+                                        {% endif %}
+                                        {% if username.co_user_login != default_user %}
+                                        <li><a href="{% url 'tt_website:history_transaction'%}">History Transaction</a></li>
+                                        {% endif %}
+                                        <li style="z-index:5;">
+                                            <a>
+                                                <button type="button" onclick="logout();" class="primary-btn-logout" style="color:{{text_color}};">{% trans 'Logout' %}</button>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
 
-                                    {% if "admin" in username.co_agent_frontend_security %}
-                                    <li><a href="{% url 'tt_website:admin'%}">Admin</a></li>
-                                    {% endif %}
-                                    {% if "analyst_periksain" in username.co_agent_frontend_security or "assign_analyst_periksain" in username.co_agent_frontend_security %}
-                                    <li><a href="/assign_analyst/periksain">Analyst Periksain Schedule</a></li>
-                                    {% endif %}
-                                    {% if "confirm_order_medical" in username.co_agent_frontend_security %}
-                                    <li><a href="{% url 'tt_website:medical_global_confirm_order_page'%}">Confirm Order Medical</a></li>
-                                    {% endif %}
-                                    {% if "confirm_order_mitra_keluarga" in username.co_agent_frontend_security %}
-                                    <li><a href="{% url 'tt_website:mitra_keluarga_confirm_order_page'%}">Confirm Order Mitra Keluarga</a></li>
-                                    {% endif %}
-                                    {% if "analyst_phc" in username.co_agent_frontend_security or "assign_analyst_phc" in username.co_agent_frontend_security %}
-                                    <li><a href="/assign_analyst/phc">Analyst Phc Schedule</a></li>
-                                    {% endif %}
-                                    {% if "report" in username.co_agent_frontend_security %}
-                                    <li><a href="{% url 'tt_website:report'%}">Report</a></li>
-                                    {% endif %}
-                                    {% if 'b2c_limitation' not in username.co_agent_frontend_security and backend_url != '' %}
-                                    <li class="pt5"><a href="" id="backend_btn2">Backend</a></li>
-                                    {% endif %}
-                                    {% if username.co_user_login != default_user %}
-                                    <li class="pt5"><a href="{% url 'tt_website:history_transaction'%}">History Transaction</a></li>
-                                    {% endif %}
-                                    <li style="z-index:5;">
-                                        <a>
-                                            <button type="button" onclick="logout();" class="primary-btn-logout" style="color:{{text_color}};">{% trans 'Logout' %}</button>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li title="Click to show your notification" class="notification-pc" style="position:relative; bottom:5px; padding-right:15px; cursor:pointer;"><i class="fas fa-bell notif-hover bell_notif animated swing notification-slide-toggle" onclick="on_off_overlay_bar('box-notification', 'overlay_box_menu');" style="font-size:20px;"></i></li>
+                                <li class="notification-mobile" style="display:none;"><a href="#"><img src="{{static_path}}images/noprofile.png" alt="Photo Profile" class="image-rounded-profile"/> {{username.co_user_login}}</a>
+                                    <ul class="dropdown">
+
+                                        {% if "admin" in username.co_agent_frontend_security %}
+                                        <li><a href="{% url 'tt_website:admin'%}">Admin</a></li>
+                                        {% endif %}
+                                        {% if "analyst_periksain" in username.co_agent_frontend_security or "assign_analyst_periksain" in username.co_agent_frontend_security %}
+                                        <li><a href="/assign_analyst/periksain">Analyst Periksain Schedule</a></li>
+                                        {% endif %}
+                                        {% if "confirm_order_medical" in username.co_agent_frontend_security %}
+                                        <li><a href="{% url 'tt_website:medical_global_confirm_order_page'%}">Confirm Order Medical</a></li>
+                                        {% endif %}
+                                        {% if "confirm_order_mitra_keluarga" in username.co_agent_frontend_security %}
+                                        <li><a href="{% url 'tt_website:mitra_keluarga_confirm_order_page'%}">Confirm Order Mitra Keluarga</a></li>
+                                        {% endif %}
+                                        {% if "analyst_phc" in username.co_agent_frontend_security or "assign_analyst_phc" in username.co_agent_frontend_security %}
+                                        <li><a href="/assign_analyst/phc">Analyst Phc Schedule</a></li>
+                                        {% endif %}
+                                        {% if "report" in username.co_agent_frontend_security %}
+                                        <li><a href="{% url 'tt_website:report'%}">Report</a></li>
+                                        {% endif %}
+                                        {% if 'b2c_limitation' not in username.co_agent_frontend_security and backend_url != '' %}
+                                        <li class="pt5"><a href="" id="backend_btn2">Backend</a></li>
+                                        {% endif %}
+                                        {% if username.co_user_login != default_user %}
+                                        <li class="pt5"><a href="{% url 'tt_website:history_transaction'%}">History Transaction</a></li>
+                                        {% endif %}
+                                        <li style="z-index:5;">
+                                            <a>
+                                                <button type="button" onclick="logout();" class="primary-btn-logout" style="color:{{text_color}};">{% trans 'Logout' %}</button>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li title="Click to show your notification" class="notification-pc" style="position:relative; bottom:5px; padding-right:15px; cursor:pointer;"><i class="fas fa-bell notif-hover bell_notif animated swing notification-slide-toggle" onclick="on_off_overlay_bar('box-notification', 'overlay_box_menu');" style="font-size:20px;"></i></li>
+                                {% endif %}
+                            </ul>
+                            <!-- Search -->
+                            <!--                            <div class="search-btn ml-4">-->
+                            <!--                                <i class="fa fa-search" aria-hidden="true"></i>-->
+                            <!--                            </div>-->
+
+                            {% if username.co_user_login == '' %}
+                            <div class="book-now-btn ml-3 ml-lg-5">
+                                <a href="{% url 'tt_website:login'%}">{% trans 'Sign In' %} <i class="fas fa-sign-in-alt" aria-hidden="true"></i></a>
+                            </div>
                             {% endif %}
-                        </ul>
-                        <!-- Search -->
-                        <!--                            <div class="search-btn ml-4">-->
-                        <!--                                <i class="fa fa-search" aria-hidden="true"></i>-->
-                        <!--                            </div>-->
-
-                        {% if username.co_user_login == '' %}
-                        <div class="book-now-btn ml-3 ml-lg-5">
-                            <a href="{% url 'tt_website:login'%}">{% trans 'Sign In' %} <i class="fas fa-sign-in-alt" aria-hidden="true"></i></a>
                         </div>
-                        {% endif %}
-                    </div>
-                    <div class="classynav" id="nav-menu-container_no_login" {% if username.co_user_login != default_user %} style="display:none;" {% endif %}>
-                        <ul class="nav" style="display:inherit; margin-top:15px;">
-                            <li id="username_pc" style="padding-right:5px; display:block;">
-                                <div class="input-container-search-ticket">
-                                    <i class="fa fa-user" style="font-size: 20px;padding-top: 12px; color:{{text_color_login}};"></i>
-                                    <input type="text" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="username" placeholder="Username"/>
-                                </div>
-                            </li>
-                            <li id="password_pc" style="padding-right:5px; display:block;">
-                                <div class="input-container-search-ticket">
-                                    <i class="fa fa-lock" style="font-size: 20px;padding-top: 12px; color:{{text_color_login}};"></i>
-                                    <input type="password" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="password" placeholder="Password"/>
-                                    <div style="margin-top:10px;width:50px;" onclick="change_password_type();">
-                                        <i id="password_style" class="fas fa-eye-slash" style="padding-left:5px;cursor:pointer;font-size:18px;color:{{text_color_login}};"></i>
+                        <div class="classynav" id="nav-menu-container_no_login" {% if username.co_user_login != default_user %} style="display:none;" {% endif %}>
+                            <ul class="nav" style="display:inherit; margin-top:15px;">
+                                <li id="username_pc" style="padding-right:5px; display:block;">
+                                    <div class="input-container-search-ticket">
+                                        <i class="fa fa-user" style="font-size: 20px;padding-top: 12px; color:{{text_color_login}};"></i>
+                                        <input type="text" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="username" placeholder="Username"/>
                                     </div>
-                                </div>
-                                <div class="input-container-search-ticket">
-                                    <label class="check_box_custom" style="margin-right:10px;">
+                                </li>
+                                <li id="password_pc" style="padding-right:5px; display:block;">
+                                    <div class="input-container-search-ticket">
+                                        <i class="fa fa-lock" style="font-size: 20px;padding-top: 12px; color:{{text_color_login}};"></i>
+                                        <input type="password" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="password" placeholder="Password"/>
+                                        <div style="margin-top:10px;width:50px;" onclick="change_password_type();">
+                                            <i id="password_style" class="fas fa-eye-slash" style="padding-left:5px;cursor:pointer;font-size:18px;color:{{text_color_login}};"></i>
+                                        </div>
+                                    </div>
+                                    <div class="input-container-search-ticket">
+                                        <label class="check_box_custom" style="margin-right:10px;">
+                                            <input type="hidden" id="g-recaptcha-response" />
+                                            <span style="font-size:13px; color:{{text_color_login}};">{% trans 'Keep Me Signin' %}</span>
+                                            <input type="checkbox" value="" id="keep_me_signin" name="keep_me_signin" checked="checked">
+                                            <span class="check_box_span_custom"></span>
+                                        </label>
+                                        <label id="forget_pc" style="cursor:pointer; background-color:unset; color:{{text_color_login}};" onclick="$('#myModalResetPassword').modal('show');"><i class="fa fa-lock" style="font-size: 15px;"></i> Forget Password</label>
+                                    </div>
+                                </li>
+                                <li id="username_mb" style="padding-right:5px; display:none;">
+                                    <div class="input-container-search-ticket">
+                                        <input type="text" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="username2" placeholder="Username"/>
+                                    </div>
+                                </li>
+                                <li id="password_mb" style="padding-right:5px; display:none;">
+                                    <div class="input-container-search-ticket">
+                                        <input type="password" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="password2" placeholder="Password"/>
+                                        <div style="margin-top:10px;width:50px;" onclick="change_password_type();"><i id="password_style2" class="fas fa-eye-slash" style="font-size:18px;"></i></div>
+                                    </div>
+                                    <label class="check_box_custom" style="margin-left:5px; margin-top:10px;">
                                         <input type="hidden" id="g-recaptcha-response" />
-                                        <span style="font-size:13px; color:{{text_color_login}};">{% trans 'Keep Me Signin' %}</span>
-                                        <input type="checkbox" value="" id="keep_me_signin" name="keep_me_signin" checked="checked">
+                                        <span style="font-size:13px;">{% trans 'Keep Me Signin' %}</span>
+                                        <input type="checkbox" value="" id="keep_me_signin2" name="keep_me_signin" checked="checked">
                                         <span class="check_box_span_custom"></span>
                                     </label>
-                                    <label id="forget_pc" style="cursor:pointer; background-color:unset; color:{{text_color_login}};" onclick="$('#myModalResetPassword').modal('show');"><i class="fa fa-lock" style="font-size: 15px;"></i> Forget Password</label>
-                                </div>
-                            </li>
-                            <li id="username_mb" style="padding-right:5px; display:none;">
-                                <div class="input-container-search-ticket">
-                                    <input type="text" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="username2" placeholder="Username"/>
-                                </div>
-                            </li>
-                            <li id="password_mb" style="padding-right:5px; display:none;">
-                                <div class="input-container-search-ticket">
-                                    <input type="password" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="password2" placeholder="Password"/>
-                                    <div style="margin-top:10px;width:50px;" onclick="change_password_type();"><i id="password_style2" class="fas fa-eye-slash" style="font-size:18px;"></i></div>
-                                </div>
-                                <label class="check_box_custom" style="margin-left:5px; margin-top:10px;">
-                                    <input type="hidden" id="g-recaptcha-response" />
-                                    <span style="font-size:13px;">{% trans 'Keep Me Signin' %}</span>
-                                    <input type="checkbox" value="" id="keep_me_signin2" name="keep_me_signin" checked="checked">
-                                    <span class="check_box_span_custom"></span>
-                                </label>
-                            </li>
-                            <li id="forget_mb" style="font-size:12px;color:black;display:none;">
-                                <a style="cursor:pointer; background-color:unset; padding:5px;" onclick="$('#myModalResetPassword').modal('show');"><i class="fa fa-lock" style="font-size: 20px;padding-top: 8px;"></i> Forget Password</a>
-                            </li>
-                            <!--<li class="pt5"><input type="text" placeholder="Username"/><input type="text" placeholder="Password"/></li>-->
-                            <li style="font-size:12px;color:black; margin:5px;">
-                                <button onclick="get_captcha('g-recaptcha-response','signin_btc');" class="loading-button primary-btn-custom ld-ext-right" style="width:100%;">
-                                    Sign in <i class="fas fa-sign-in-alt"></i>
-                                    <div class="ld ld-ring ld-cycle"></div>
-                                </button>
-                                <a class="signup_pc_mb" style="font-size:13px; color:{{text_color}}; background-color:unset; font-weight:500; cursor:pointer; text-transform: unset; padding:0px 2px;" data-toggle="modal" data-target="#myModalb2c"><i class="fas fa-user-plus"></i> {% trans 'Sign Up' %}</a>
-                            </li>
-                        </ul>
+                                </li>
+                                <li id="forget_mb" style="font-size:12px;color:black;display:none;">
+                                    <a style="cursor:pointer; background-color:unset; padding:5px;" onclick="$('#myModalResetPassword').modal('show');"><i class="fa fa-lock" style="font-size: 20px;padding-top: 8px;"></i> Forget Password</a>
+                                </li>
+                                <!--<li class="pt5"><input type="text" placeholder="Username"/><input type="text" placeholder="Password"/></li>-->
+                                <li style="font-size:12px;color:black; margin:5px;">
+                                    <button onclick="get_captcha('g-recaptcha-response','signin_btc');" class="loading-button primary-btn-custom ld-ext-right" style="width:100%;">
+                                        Sign in <i class="fas fa-sign-in-alt"></i>
+                                        <div class="ld ld-ring ld-cycle"></div>
+                                    </button>
+                                    <a class="signup_pc_mb" style="font-size:13px; color:{{text_color}}; background-color:unset; font-weight:500; cursor:pointer; text-transform: unset; padding:0px 2px;" data-toggle="modal" data-target="#myModalb2c"><i class="fas fa-user-plus"></i> {% trans 'Sign Up' %}</a>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </nav>
             </div>
@@ -1067,7 +1072,7 @@
                     </li>
                     {% endif%}
                     {% endif %}
-                    <li class="menu-has-children" style="margin-top:8px;"><a href="#">{% trans 'Highlight' %}</a>
+                    <li class="menu-has-children" style="margin-top:8px;"><a href="#">{% trans 'Highlight' %} <i class="fas fa-chevron-down fat-dh" style="display:inline-block;"></i></a>
                         <ul id="highlight_header_div" style="top:65%;">
                         </ul>
                     </li>
