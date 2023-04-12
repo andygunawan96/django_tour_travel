@@ -976,12 +976,11 @@ function search_ppob(){
                     document.getElementById('bills_response').innerHTML += text_ppob
 
                     if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && total_price){
-                //    if(currency_rate_data.result.response.agent.hasOwnProperty(user_login.agent_name)){ // buat o3
-                        for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
-                            for(k in currency_rate_data.result.response.agent[j]){
+                        if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
+                            for(k in currency_rate_data.result.response.agent[user_login.co_ho_seq_id]){
                                 if(currency_rate_data.result.is_show_provider.includes(k)){
                                     try{
-                                        price_convert = (Math.ceil(total_price)/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
+                                        price_convert = (Math.ceil(total_price)/currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].rate).toFixed(2);
                                         if(price_convert%1 == 0)
                                             price_convert = parseInt(price_convert);
                                         document.getElementById('bills_response').innerHTML +=`
@@ -995,9 +994,28 @@ function search_ppob(){
                                     }
                                 }
                             }
-                            break;
+                        }else{
+                            for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
+                                for(k in currency_rate_data.result.response.agent[j]){
+                                    if(currency_rate_data.result.is_show_provider.includes(k)){
+                                        try{
+                                            price_convert = (Math.ceil(total_price)/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
+                                            if(price_convert%1 == 0)
+                                                price_convert = parseInt(price_convert);
+                                            document.getElementById('bills_response').innerHTML +=`
+                                            <div class="col-lg-3 col-md-4 col-sm-6 col-xs-6">
+                                            </div>
+                                            <div class="col-lg-9 col-md-8 col-sm-6 col-xs-6">
+                                                <div style="padding-bottom:15px;"><span style="font-size:15px;">Estimated `+k+` `+getrupiah(price_convert)+`</span></div>
+                                            </div>`;
+                                        }catch(err){
+                                            console.log(err);
+                                        }
+                                    }
+                                }
+                                break;
+                            }
                         }
-                    //    }
                     }
                     if(is_show_breakdown_price){
                         var price_breakdown = {};
@@ -1966,12 +1984,11 @@ function ppob_get_booking(data){
                     </div>`;
                     if(['booked', 'partial_booked', 'partial_issued', 'halt_booked'].includes(msg.result.response.state)){
                         if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && total_price){
-                    //        if(currency_rate_data.result.response.agent.hasOwnProperty(user_login.agent_name)){ // buat o3
-                            for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
-                                for(k in currency_rate_data.result.response.agent[j]){
+                            if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
+                                for(k in currency_rate_data.result.response.agent[user_login.co_ho_seq_id]){
                                     if(currency_rate_data.result.is_show_provider.includes(k)){
                                         try{
-                                            price_convert = (parseFloat(total_price)/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
+                                            price_convert = (parseFloat(total_price)/currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].rate).toFixed(2);
                                             if(price_convert%1 == 0)
                                                 price_convert = parseInt(price_convert);
                                             text_detail+=`
@@ -1985,9 +2002,28 @@ function ppob_get_booking(data){
                                         }
                                     }
                                 }
-                                break;
+                            }else{
+                                for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
+                                    for(k in currency_rate_data.result.response.agent[j]){
+                                        if(currency_rate_data.result.is_show_provider.includes(k)){
+                                            try{
+                                                price_convert = (parseFloat(total_price)/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
+                                                if(price_convert%1 == 0)
+                                                    price_convert = parseInt(price_convert);
+                                                text_detail+=`
+                                                    <div class="row" style="margin-bottom:10px;">
+                                                        <div class="col-lg-12" style="text-align:right;">
+                                                            <span style="font-size:13px; font-weight:bold;" id="total_price_`+k+`"> Estimated `+k+` `+price_convert+`</span><br/>
+                                                        </div>
+                                                    </div>`;
+                                            }catch(err){
+                                                console.log(err);
+                                            }
+                                        }
+                                    }
+                                    break;
+                                }
                             }
-                    //        }
                         }
                     }
                     if(msg.result.response.state == 'booked' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
