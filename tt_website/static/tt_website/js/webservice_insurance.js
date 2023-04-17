@@ -106,41 +106,33 @@ function insurance_get_config(page=false){
        try{
            if(msg.result.error_code == 0){
                 insurance_config = msg.result.response;
-                var radios = document.getElementsByName('insurance_provider');
-                var insurance_provider = '';
-                for (var j = 0, length = radios.length; j < length; j++) {
-                    if (radios[j].checked) {
-                        // do whatever you want with the checked radio
-                        insurance_provider = radios[j].value;
-                        // only one radio can be logically checked, don't check the rest
-                        break;
-                    }
-                }
+                if(['home'].includes(page))
+                    print_insurance();
+                insurance_print_provider();
                 var choice = '';
-                origin_insurance_destination = [];
-                destination_insurance_destination = [];
-                for(i in insurance_config){
-                    if(i == 'bcainsurance' && insurance_provider == 'bcainsurance'){
-                        for(j in insurance_config[i].City)
-                            for(k in insurance_config[i].City[j]){
-                                if(j == 'Domestic')
-                                    origin_insurance_destination.push(insurance_config[i].City[j][k] + ' - ' + j);
-                                destination_insurance_destination.push(insurance_config[i].City[j][k] + ' - ' + j);
-                            }
-                        break;
-                    }
-                }
-                if(page == 'home'){
+                if(page == 'search'){
                     for(i in insurance_config){
-                        if(i == 'bcainsurance' && insurance_provider == 'bcainsurance'){
-                            for(j in insurance_config[i]['Plan Trip']){
+                        for(j in insurance_config[i]['Plan Trip']){
+                            if(insurance_request.plan_trip == insurance_config[i]['Plan Trip'][j])
+                                choice += '<option value="'+insurance_config[i]['Plan Trip'][j]+'" selected>'+insurance_config[i]['Plan Trip'][j]+'</option>';
+                            else
                                 choice += '<option value="'+insurance_config[i]['Plan Trip'][j]+'">'+insurance_config[i]['Plan Trip'][j]+'</option>';
-                            }
                         }
                     }
-                    if(insurance_provider == 'bcainsurance'){
-                        document.getElementById('insurance_trip').innerHTML += choice;
-                        $('#insurance_trip').niceSelect('update');
+                    document.getElementById('insurance_trip').innerHTML += choice;
+                    $('#insurance_trip').niceSelect('update');
+                    choice = '';
+                    if(insurance_request.provider == 'zurich'){
+                        for(i in insurance_config['zurich']['region']){
+                            if(insurance_request.destination_area == i){
+                                choice +=`<option value="`+i+`" selected>`+i.substr(0,1).toUpperCase()+i.substr(1,i.length).toLowerCase()+`</option>`;
+                            }else{
+                                choice +=`<option value="`+i+`">`+i.substr(0,1).toUpperCase()+i.substr(1,i.length).toLowerCase()+`</option>`;
+                            }
+                        }
+                        document.getElementById('insurance_destination_area').innerHTML = choice;
+                        $('#insurance_destination_area').niceSelect('update');
+                    }else if(insurance_request.provider == 'bcainsurance'){
                         setTimeout(function(){
                             try{
                                 new jBox('Tooltip', {
@@ -170,60 +162,6 @@ function insurance_get_config(page=false){
                             }
                         }, 1000);
                     }
-                }
-                if(page == 'search'){
-                    for(i in insurance_config){
-                        for(j in insurance_config[i]['Plan Trip']){
-                            if(insurance_request.plan_trip == insurance_config[i]['Plan Trip'][j])
-                                choice += '<option value="'+insurance_config[i]['Plan Trip'][j]+'" selected>'+insurance_config[i]['Plan Trip'][j]+'</option>';
-                            else
-                                choice += '<option value="'+insurance_config[i]['Plan Trip'][j]+'">'+insurance_config[i]['Plan Trip'][j]+'</option>';
-                        }
-                    }
-                    document.getElementById('insurance_trip').innerHTML += choice;
-                    $('#insurance_trip').niceSelect('update');
-                    choice = '';
-                    if(insurance_request.provider == 'zurich'){
-                        for(i in insurance_config['zurich']['region']){
-                            if(insurance_request.destination_area == i){
-                                choice +=`<option value="`+i+`" selected>`+i.substr(0,1).toUpperCase()+i.substr(1,i.length).toLowerCase()+`</option>`;
-                            }else{
-                                choice +=`<option value="`+i+`">`+i.substr(0,1).toUpperCase()+i.substr(1,i.length).toLowerCase()+`</option>`;
-                            }
-                        }
-                        document.getElementById('insurance_destination_area').innerHTML = choice;
-                        $('#insurance_destination_area').niceSelect('update');
-                    }
-
-
-                    setTimeout(function(){
-                        try{
-                            new jBox('Tooltip', {
-                                attach: '#insurance_info',
-                                target: '#insurance_info',
-                                theme: 'TooltipBorder',
-                                trigger: 'click',
-                                adjustTracker: true,
-                                closeOnClick: 'body',
-                                closeButton: 'box',
-                                animation: 'move',
-                                width: 280,
-                                position: {
-                                  x: 'left',
-                                  y: 'top'
-                                },
-                                outside: 'y',
-                                pointer: 'left:20',
-                                offset: {
-                                  x: 25
-                                },
-                                content: msg.result.response['bcainsurance']['Info Trip'],
-                            });
-                        }catch(err){
-                            console.log(err);
-
-                        }
-                    }, 1000);
                 }
 
                 if(page == 'passenger'){
@@ -335,6 +273,72 @@ function insurance_get_config(page=false){
           }
        },timeout: 60000
     });
+}
+
+function insurance_print_provider(){
+    var radios = document.getElementsByName('insurance_provider');
+    var insurance_provider = '';
+    for (var j = 0, length = radios.length; j < length; j++) {
+        if (radios[j].checked) {
+            // do whatever you want with the checked radio
+            insurance_provider = radios[j].value;
+            // only one radio can be logically checked, don't check the rest
+            break;
+        }
+    }
+    var choice = '';
+    origin_insurance_destination = [];
+    destination_insurance_destination = [];
+    for(i in insurance_config){
+        if(i == 'bcainsurance' && insurance_provider == 'bcainsurance'){
+            for(j in insurance_config[i].City)
+                for(k in insurance_config[i].City[j]){
+                    if(j == 'Domestic')
+                        origin_insurance_destination.push(insurance_config[i].City[j][k] + ' - ' + j);
+                    destination_insurance_destination.push(insurance_config[i].City[j][k] + ' - ' + j);
+                }
+            break;
+        }
+    }
+    for(i in insurance_config){
+        if(i == 'bcainsurance' && insurance_provider == 'bcainsurance'){
+            for(j in insurance_config[i]['Plan Trip']){
+                choice += '<option value="'+insurance_config[i]['Plan Trip'][j]+'">'+insurance_config[i]['Plan Trip'][j]+'</option>';
+            }
+        }
+    }
+    if(insurance_provider == 'bcainsurance'){
+        document.getElementById('insurance_trip').innerHTML += choice;
+        $('#insurance_trip').niceSelect('update');
+        setTimeout(function(){
+            try{
+                new jBox('Tooltip', {
+                    attach: '#insurance_info',
+                    target: '#insurance_info',
+                    theme: 'TooltipBorder',
+                    trigger: 'click',
+                    adjustTracker: true,
+                    closeOnClick: 'body',
+                    closeButton: 'box',
+                    animation: 'move',
+                    width: 280,
+                    position: {
+                      x: 'left',
+                      y: 'top'
+                    },
+                    outside: 'y',
+                    pointer: 'left:20',
+                    offset: {
+                      x: 25
+                    },
+                    content: msg.result.response['bcainsurance']['Info Trip'],
+                });
+            }catch(err){
+                console.log(err);
+
+            }
+        }, 1000);
+    }
 }
 
 function insurance_check_search_values(){
@@ -993,6 +997,10 @@ function insurance_sell(provider, sequence){
        try{
             console.log(msg);
            if(msg.result.error_code == 0){
+                msg.result.response['minAdult'] = minAdult;
+                msg.result.response['maxAdult'] = maxAdult;
+                msg.result.response['minChild'] = minChild;
+                msg.result.response['maxChild'] = maxChild;
                 go_to_detail(msg.result.response)
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 auto_logout();
@@ -5355,8 +5363,8 @@ function onchange_provider_insurance(){
             document.getElementById("right-plus-adult-insurance").disabled = false;
         }
     });
-
-    insurance_get_config('home');
+    insurance_print_provider();
+//    insurance_get_config('home');
 }
 
 function auto_complete_zurich(){

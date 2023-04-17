@@ -14,6 +14,7 @@ import base64
 from datetime import *
 from tt_webservice.views.tt_webservice_agent_views import *
 from tt_webservice.views.tt_webservice import *
+from tt_webservice.views.tt_webservice_insurance_views import *
 from .tt_website_views import *
 from tools.parser import *
 _logger = logging.getLogger("website_logger")
@@ -137,6 +138,8 @@ def search(request):
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
 
+            provider_insurance_data = get_config(request, request.session['insurance_signature'])
+            provider_insurance = [rec for rec in provider_insurance_data['result']['response']]
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
@@ -148,6 +151,7 @@ def search(request):
                 'static_path_url_server': get_url_static_path(),
                 'username': request.session['user_account'],
                 'javascript_version': javascript_version,
+                'provider_list': provider_insurance
             })
         except Exception as e:
             _logger.error(str(e) + '\n' + traceback.format_exc())
@@ -289,7 +293,7 @@ def review(request):
                         "identity_type": request.POST['Adult_relation%s_identity_type%s' % (str(i + 1),counter)],
                         "identity_number": request.POST['Adult_relation%s_passport_number%s' % (str(i + 1),counter)],
                         "identity_expdate": request.POST['Adult_relation%s_passport_expired_date%s' % (str(i + 1),counter)],
-                        "identity_country_of_issued_code": request.POST['Adult_relation%s_passport_country_of_issued%s' % (str(i + 1),counter) + '_id'],
+                        "identity_country_of_issued_code": request.POST['Adult_relation%s_country_of_issued%s' % (str(i + 1),counter) + '_id'],
                         "relation": request.POST.get('Adult_relation%s_relation%s' % (str(i + 1),counter), ''),
                         "place_of_birth": request.POST.get('Adult_relation%s_place_of_birth%s' % (str(i + 1), counter),''),
                     })
@@ -304,7 +308,7 @@ def review(request):
                         "identity_type": request.POST['Child_relation%s_identity_type%s' % (str(i + 1), counter)],
                         "identity_number": request.POST['Child_relation%s_passport_number%s' % (str(i + 1), counter)],
                         "identity_expdate": request.POST['Child_relation%s_passport_expired_date%s' % (str(i + 1), counter)],
-                        "identity_country_of_issued_code": request.POST['Child_relation%s_passport_country_of_issued%s' % (str(i + 1), counter) + '_id'],
+                        "identity_country_of_issued_code": request.POST['Child_relation%s_country_of_issued%s' % (str(i + 1), counter) + '_id'],
                         "relation": request.POST.get('Child_relation%s_relation%s' % (str(i + 1), counter), ''),
                         "place_of_birth": request.POST.get('Child_relation%s_place_of_birth%s' % (str(i + 1), counter), ''),
 
@@ -321,7 +325,7 @@ def review(request):
                             "identity_type": request.POST['Adult_relation_beneficiary_identity_type' + str(i + 1)],
                             "identity_number": request.POST['Adult_relation_beneficiary_passport_number' + str(i + 1)],
                             "identity_expdate": request.POST['Adult_relation_beneficiary_passport_expired_date' + str(i + 1)],
-                            "identity_country_of_issued_code": request.POST['Adult_relation_beneficiary_passport_country_of_issued' + str(i + 1) + '_id'],
+                            "identity_country_of_issued_code": request.POST['Adult_relation_passport_country_of_issued' + str(i + 1) + '_id'],
                             "relation": request.POST['Adult_relation_beneficiary_relation' + str(i + 1)],
                         })
 
