@@ -310,7 +310,6 @@ def get_provider_list_backend(request, signature=''):
 def get_config(request):
     try:
         response = get_cache_data(request)
-
         res = response['result']['response']['ppob']
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
