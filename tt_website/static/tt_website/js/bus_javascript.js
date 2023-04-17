@@ -603,12 +603,11 @@ function sort(value){
                                 response+=`<i class="fas fa-caret-down price_template"></i>`;
                             response+=`</span><br/>`;
                             if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && data_filter[i].price){
-                        //        if(currency_rate_data.result.response.agent.hasOwnProperty(user_login.agent_name)){ // buat o3
-                                for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
-                                    for(k in currency_rate_data.result.response.agent[j]){
+                                if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
+                                    for(k in currency_rate_data.result.response.agent[user_login.co_ho_seq_id]){
                                         if(currency_rate_data.result.is_show_provider.includes(k)){
                                             try{
-                                                price_convert = (parseFloat(data_filter[i].price)/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
+                                                price_convert = (parseFloat(data_filter[i].price)/currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].rate).toFixed(2);
                                                 if(price_convert%1 == 0)
                                                     price_convert = parseInt(price_convert);
                                                 response+=`
@@ -618,9 +617,24 @@ function sort(value){
                                             }
                                         }
                                     }
-                                    break;
+                                }else{
+                                    for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
+                                        for(k in currency_rate_data.result.response.agent[j]){
+                                            if(currency_rate_data.result.is_show_provider.includes(k)){
+                                                try{
+                                                    price_convert = (parseFloat(data_filter[i].price)/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
+                                                    if(price_convert%1 == 0)
+                                                        price_convert = parseInt(price_convert);
+                                                    response+=`
+                                                        <span class="copy_price" style="font-size:16px; font-weight: bold; color:`+color+`;" id="total_price_`+k+`"> Estimated `+k+` `+price_convert+`</span>`;
+                                                }catch(err){
+                                                    console.log(err);
+                                                }
+                                            }
+                                        }
+                                        break;
+                                    }
                                 }
-                        //        }
                             }
                             if(data_filter[i].available_count >= parseInt(passengers.adult) && data_filter[i].can_book_three_hours == true && data_filter[i].can_book_check_arrival_on_next_departure == true)
                                 response+=`
@@ -854,12 +868,11 @@ function bus_ticket_pick(){
                         if(is_show_breakdown_price)
                             response+=`<i class="fas fa-caret-down price_template"></i>`;
                         if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && journeys[i].price){
-                    //        if(currency_rate_data.result.response.agent.hasOwnProperty(user_login.agent_name)){ // buat o3
-                            for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
-                                for(k in currency_rate_data.result.response.agent[j]){
+                            if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
+                                for(k in currency_rate_data.result.response.agent[user_login.co_ho_seq_id]){
                                     if(currency_rate_data.result.is_show_provider.includes(k)){
                                         try{
-                                            price_convert = (parseFloat(journeys[i].price)/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
+                                            price_convert = (parseFloat(journeys[i].price)/currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].rate).toFixed(2);
                                             if(price_convert%1 == 0)
                                                 price_convert = parseInt(price_convert);
                                             response+=`
@@ -870,9 +883,25 @@ function bus_ticket_pick(){
                                         }
                                     }
                                 }
-                                break;
+                            }else{
+                                for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
+                                    for(k in currency_rate_data.result.response.agent[j]){
+                                        if(currency_rate_data.result.is_show_provider.includes(k)){
+                                            try{
+                                                price_convert = (parseFloat(journeys[i].price)/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
+                                                if(price_convert%1 == 0)
+                                                    price_convert = parseInt(price_convert);
+                                                response+=`
+                                                    <br/>
+                                                    <span style="font-size:16px; font-weight:bold;"> Estimated `+k+` `+price_convert+`</span>`;
+                                            }catch(err){
+                                                console.log(err);
+                                            }
+                                        }
+                                    }
+                                    break;
+                                }
                             }
-                    //        }
                         }
                         response+=`
                         <input class="primary-btn-custom" type="button" onclick="change_bus(`+i+`)"  id="bus_choose`+i+`" value="Change">`;
@@ -1609,12 +1638,11 @@ function bus_detail(){
     </div>`;
 
     if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && grand_total_price){
-//        if(currency_rate_data.result.response.agent.hasOwnProperty(user_login.agent_name)){ // buat o3
-        for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
+        if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
             for(k in currency_rate_data.result.response.agent[j]){
-                if(currency_rate_data.result.is_show_provider.includes(k)){
+                if(currency_rate_data.result.is_show_provider.includes(user_login.co_ho_seq_id)){
                     try{
-                        price_convert = (grand_total_price/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
+                        price_convert = (grand_total_price/currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].rate).toFixed(2);
                         if(price_convert%1 == 0)
                             price_convert = parseInt(price_convert);
                         text+=`
@@ -1628,9 +1656,28 @@ function bus_detail(){
                     }
                 }
             }
-            break;
+        }else{
+            for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
+                for(k in currency_rate_data.result.response.agent[j]){
+                    if(currency_rate_data.result.is_show_provider.includes(k)){
+                        try{
+                            price_convert = (grand_total_price/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
+                            if(price_convert%1 == 0)
+                                price_convert = parseInt(price_convert);
+                            text+=`
+                                <div class="row" style="margin-bottom:5px;">
+                                    <div class="col-lg-12 col-xs-12" style="text-align:right;">
+                                        <span style="font-size:13px;"><b> Estimated `+k+` `+price_convert+`</b></span>
+                                    </div>
+                                </div>`;
+                        }catch(err){
+                            console.log(err);
+                        }
+                    }
+                }
+                break;
+            }
         }
-//        }
     }
 
     if(document.URL.split('/')[document.URL.split('/').length-1] == 'review' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){

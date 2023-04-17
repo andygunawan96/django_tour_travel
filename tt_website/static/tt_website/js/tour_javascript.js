@@ -1801,12 +1801,11 @@ function sort(tour_dat, exist_check){
                                                             <span style="font-size:14px;font-weight:bold; float:right; margin-top:10px;">IDR `+getrupiah(tour_dat[i].est_starting_price)+`</span><br/>
                                                         </div>`;
                                                         if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && tour_dat[i].est_starting_price){
-                                                    //        if(currency_rate_data.result.response.agent.hasOwnProperty(user_login.agent_name)){ // buat o3
-                                                            for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
-                                                                for(k in currency_rate_data.result.response.agent[j]){
+                                                            if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
+                                                                for(k in currency_rate_data.result.response.agent[user_login.co_ho_seq_id]){
                                                                     if(currency_rate_data.result.is_show_provider.includes(k)){
                                                                         try{
-                                                                            price_convert = (parseFloat(tour_dat[i].est_starting_price)/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
+                                                                            price_convert = (parseFloat(tour_dat[i].est_starting_price)/currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].rate).toFixed(2);
                                                                             if(price_convert%1 == 0)
                                                                                 price_convert = parseInt(price_convert);
                                                                             text+=`
@@ -1818,9 +1817,26 @@ function sort(tour_dat, exist_check){
                                                                         }
                                                                     }
                                                                 }
-                                                                break;
+                                                            }else{
+                                                                for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
+                                                                    for(k in currency_rate_data.result.response.agent[j]){
+                                                                        if(currency_rate_data.result.is_show_provider.includes(k)){
+                                                                            try{
+                                                                                price_convert = (parseFloat(tour_dat[i].est_starting_price)/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
+                                                                                if(price_convert%1 == 0)
+                                                                                    price_convert = parseInt(price_convert);
+                                                                                text+=`
+                                                                                    <div class="col-lg-12">
+                                                                                        <span style="font-size:14px;font-weight:bold; float:right; margin-top:10px;" id="total_price_`+k+`"> Estimated `+k+` `+price_convert+`</span><br/>
+                                                                                    </div>`;
+                                                                            }catch(err){
+                                                                                console.log(err);
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                    break;
+                                                                }
                                                             }
-                                                    //        }
                                                         }
                                                         text+=`
                                                         <div class="col-lg-12">

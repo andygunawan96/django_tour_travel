@@ -11421,10 +11421,10 @@
                 'signature': signature
            },
            success: function(msg) {
-                for(i in msg){
+                for(i in msg.result.response){
                     try{
                         if(document.getElementById('hotel_carrier_'+i)){
-                            document.getElementById('hotel_carrier_'+i).value = msg[i];
+                            document.getElementById('hotel_carrier_'+i).value = msg.result.response[i];
                         }
                     }catch(err){}
                 }
@@ -11440,7 +11440,6 @@
         for(i in hotel_carriers){
             if(document.getElementById('hotel_carrier_'+i).value){
                 data_masking[i] = document.getElementById('hotel_carrier_'+i).value;
-                data_masking[document.getElementById('hotel_carrier_'+i).value] = i;
             }
         }
         document.getElementById('update_masking_hotel_btn').disabled = true;
@@ -11448,7 +11447,7 @@
            type: "POST",
            url: "/webservice/hotel",
            headers:{
-                'action': 'update_masking',
+                'action': 'hotel_update_carrier_alias_name',
            },
            data: {
                 'signature': signature,

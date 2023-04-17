@@ -701,7 +701,7 @@
                                                                 {% endfor %}
                                                             </select>
                                                         </div>
-                                                        <button type="button" class="primary-delete-date" onclick="default_data_select2_html('select2-adult_country_of_issued{{forloop.counter}}_id-container', 'Country of Issued');default_data_select2('adult_country_of_issued{{forloop.counter}}','');default_data_select2('adult_country_of_issued{{forloop.counter}}_id','');"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                        <button type="button" class="primary-delete-date" onclick="$('#adult_country_of_issued{{forloop.counter}}_id').val('').trigger('change');"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                 </div>
                                                 {% if response.provider == 'bcainsurance' %}
@@ -746,15 +746,14 @@
                                                             <label>{% trans 'Country of Issued' %}</label>
                                                             <div class="input-container-search-ticket">
                                                                 <div class="form-select">
-                                                                    <select class="form-control js-example-basic-single" name="adult_passport_passport_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="adult_passport_passport_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('adult_passport_passport_country_of_issued{{forloop.counter}}')" class="nice-select-default">
+                                                                    <select class="form-control js-example-basic-single" name="adult_passport_passport_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="adult_passport_passport_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" class="nice-select-default">
                                                                         <option value="">{% trans 'Country of Issued' %}</option>
                                                                         {% for country in countries %}
                                                                         <option value="{{country.code}}">{{country.name}}</option>
                                                                         {% endfor %}
                                                                     </select>
                                                                 </div>
-                                                                <button type="button" class="primary-delete-date" onclick="default_data_select2_html('select2-adult_passport_passport_country_of_issued{{forloop.counter}}_id-container', 'Country of Issued');default_data_select2('adult_passport_passport_country_of_issued{{forloop.counter}}','');default_data_select2('adult_passport_passport_country_of_issued{{forloop.counter}}_id','');"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                                                <input type="hidden" name="adult_passport_passport_country_of_issued{{forloop.counter}}" id="adult_passport_passport_country_of_issued{{forloop.counter}}" />
+                                                                <button type="button" class="primary-delete-date" onclick="$('#adult_passport_passport_country_of_issued{{forloop.counter}}_id').val('').trigger('change');"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1053,15 +1052,14 @@
                                                 <label>{% trans 'Country of Issued' %}</label>
                                                 <div class="input-container-search-ticket">
                                                     <div class="form-select">
-                                                        <select class="form-control js-example-basic-single" name="{{rec.pax_type}}_relation{{counter}}_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="{{rec.pax_type}}_relation{{counter}}_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('{{rec.pax_type}}_relation{{counter}}_country_of_issued{{forloop.counter}}')">
+                                                        <select class="form-control js-example-basic-single" name="{{rec.pax_type}}_relation{{counter}}_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="{{rec.pax_type}}_relation{{counter}}_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}">
                                                             <option value="">{% trans 'Country of Issued' %}</option>
                                                             {% for country in countries %}
                                                             <option value="{{country.code}}">{{country.name}}</option>
                                                             {% endfor %}
                                                         </select>
                                                     </div>
-                                                    <button type="button" class="primary-delete-date" onclick="default_data_select2_html('select2-{{rec.pax_type}}_relation{{counter}}_country_of_issued{{forloop.counter}}_id-container', 'Country of Issued');default_data_select2('{{rec.pax_type}}_relation{{counter}}_country_of_issued{{forloop.counter}}','');default_data_select2('{{rec.pax_type}}_relation{{counter}}_country_of_issued{{forloop.counter}}_id','');"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                                    <input type="hidden" name="{{rec.pax_type}}_relation{{counter}}_passport_country_of_issued{{forloop.counter}}" id="{{rec.pax_type}}_relation{{counter}}_country_of_issued{{forloop.counter}}" />
+                                                    <button type="button" class="primary-delete-date" onclick="$('#{{rec.pax_type}}_relation{{counter}}_country_of_issued{{forloop.counter}}_id').val('').trigger('change');"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                 </div>
                                             </div>
                                         </div>
@@ -1271,15 +1269,14 @@
                                             <label>{% trans 'Country of Issued' %}</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
-                                                    <select class="form-control js-example-basic-single" name="Adult_relation_beneficiary_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="Adult_relation_beneficiary_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('Adult_relation_beneficiary_country_of_issued{{forloop.counter}}')">
+                                                    <select class="form-control js-example-basic-single" name="Adult_relation_beneficiary_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="Adult_relation_beneficiary_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}">
                                                         <option value="">{% trans 'Country of Issued' %}</option>
                                                         {% for country in countries %}
                                                         <option value="{{country.code}}">{{country.name}}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div>
-                                                <button type="button" class="primary-delete-date" onclick="default_data_select2_html('select2-Adult_relation_beneficiary_country_of_issued{{forloop.counter}}_id-container', 'Country of Issued');default_data_select2('Adult_relation_beneficiary_country_of_issued{{forloop.counter}}','');default_data_select2('Adult_relation_beneficiary_country_of_issued{{forloop.counter}}_id','');"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                                <input type="hidden" name="Adult_relation_beneficiary_passport_country_of_issued{{forloop.counter}}" id="Adult_relation_beneficiary_country_of_issued{{forloop.counter}}" />
+                                                <button type="button" class="primary-delete-date" onclick="$('#Adult_relation_beneficiary_country_of_issued{{forloop.counter}}_id').val('').trigger('change');"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                             </div>
                                         </div>
                                     </div>
@@ -2033,7 +2030,7 @@
                                                                     {% endfor %}
                                                                 </select>
                                                             </div>
-                                                            <button type="button" class="primary-delete-date" onclick="default_data_select2_html('select2-adult_country_of_issued{{forloop.counter}}_id-container', 'Country of Issued');default_data_select2('adult_country_of_issued{{forloop.counter}}','');default_data_select2('adult_country_of_issued{{forloop.counter}}_id','');"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                            <button type="button" class="primary-delete-date" onclick="$('#adult_country_of_issued{{forloop.counter}}_id').val('').trigger('change');"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                         </div>
                                                     </div>
                                                     {% if response.provider == 'bcainsurance' %}
@@ -2078,15 +2075,14 @@
                                                                 <label>{% trans 'Country of Issued' %}</label>
                                                                 <div class="input-container-search-ticket">
                                                                     <div class="form-select">
-                                                                        <select class="form-control js-example-basic-single" name="adult_passport_passport_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="adult_passport_passport_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('adult_passport_passport_country_of_issued{{forloop.counter}}')" class="nice-select-default">
+                                                                        <select class="form-control js-example-basic-single" name="adult_passport_passport_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="adult_passport_passport_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" class="nice-select-default">
                                                                             <option value="">{% trans 'Country of Issued' %}</option>
                                                                             {% for country in countries %}
                                                                             <option value="{{country.code}}">{{country.name}}</option>
                                                                             {% endfor %}
                                                                         </select>
                                                                     </div>
-                                                                    <button type="button" class="primary-delete-date" onclick="default_data_select2_html('select2-adult_passport_passport_country_of_issued{{forloop.counter}}_id-container', 'Country of Issued');default_data_select2('adult_passport_passport_country_of_issued{{forloop.counter}}','');default_data_select2('adult_passport_passport_country_of_issued{{forloop.counter}}_id','');"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                                                    <input type="hidden" name="adult_passport_passport_country_of_issued{{forloop.counter}}" id="adult_passport_passport_country_of_issued{{forloop.counter}}" />
+                                                                    <button type="button" class="primary-delete-date" onclick="$('#adult_passport_passport_country_of_issued{{forloop.counter}}_id').val('').trigger('change');"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -2377,15 +2373,14 @@
                                                     <label>{% trans 'Country of Issued' %}</label>
                                                     <div class="input-container-search-ticket">
                                                         <div class="form-select">
-                                                            <select class="form-control js-example-basic-single" name="adult_relation{{counter}}_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="adult_relation{{counter}}_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('adult_relation{{counter}}_country_of_issued{{forloop.counter}}')" class="nice-select-default">
+                                                            <select class="form-control js-example-basic-single" name="adult_relation{{counter}}_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="adult_relation{{counter}}_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" class="nice-select-default">
                                                                 <option value="">{% trans 'Country of Issued' %}</option>
                                                                 {% for country in countries %}
                                                                 <option value="{{country.code}}">{{country.name}}</option>
                                                                 {% endfor %}
                                                             </select>
                                                         </div>
-                                                        <button type="button" class="primary-delete-date" onclick="default_data_select2_html('select2-adult_relation{{counter}}_country_of_issued{{forloop.counter}}_id-container', 'Country of Issued');default_data_select2('adult_relation{{counter}}_country_of_issued{{forloop.counter}}','');default_data_select2('adult_relation{{counter}}_country_of_issued{{forloop.counter}}_id','');"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                                        <input type="hidden" name="adult_relation{{counter}}_passport_country_of_issued{{forloop.counter}}" id="adult_relation{{counter}}_country_of_issued{{forloop.counter}}" />
+                                                        <button type="button" class="primary-delete-date" onclick="$('#adult_relation{{counter}}_country_of_issued{{forloop.counter}}_id').val('').trigger('change');"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -2596,15 +2591,14 @@
                                                     <label>{% trans 'Country of Issued' %}</label>
                                                     <div class="input-container-search-ticket">
                                                         <div class="form-select">
-                                                            <select class="form-control js-example-basic-single" name="adult_relation_beneficiary_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="adult_relation_beneficiary_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('adult_relation_beneficiary_country_of_issued{{forloop.counter}}')" class="nice-select-default">
+                                                            <select class="form-control js-example-basic-single" name="adult_relation_beneficiary_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="adult_relation_beneficiary_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" class="nice-select-default">
                                                                 <option value="">{% trans 'Country of Issued' %}</option>
                                                                 {% for country in countries %}
                                                                 <option value="{{country.code}}">{{country.name}}</option>
                                                                 {% endfor %}
                                                             </select>
                                                         </div>
-                                                        <button type="button" class="primary-delete-date" onclick="default_data_select2_html('select2-adult_relation_beneficiary_country_of_issued{{forloop.counter}}_id-container', 'Country of Issued');default_data_select2('adult_relation_beneficiary_country_of_issued{{forloop.counter}}','');default_data_select2('adult_relation_beneficiary_country_of_issued{{forloop.counter}}_id','');"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                                        <input type="hidden" name="adult_relation_beneficiary_passport_country_of_issued{{forloop.counter}}" id="adult_relation_beneficiary_country_of_issued{{forloop.counter}}" />
+                                                        <button type="button" class="primary-delete-date" onclick="$('#adult_relation_beneficiary_country_of_issued{{forloop.counter}}_id').val('').trigger('change');"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -3360,7 +3354,7 @@
                                                                 {% endfor %}
                                                             </select>
                                                         </div>
-                                                        <button type="button" class="primary-delete-date" onclick="default_data_select2_html('select2-adult_country_of_issued{{forloop.counter}}_id-container', 'Country of Issued');default_data_select2('adult_country_of_issued{{forloop.counter}}','');default_data_select2('adult_country_of_issued{{forloop.counter}}_id','');"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                        <button type="button" class="primary-delete-date" onclick="$('#adult_country_of_issued{{forloop.counter}}_id').val('').trigger('change');"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                 </div>
                                                 {% if response.provider == 'bcainsurance' %}
@@ -3407,15 +3401,14 @@
                                                             <label>{% trans 'Country of Issued' %}</label>
                                                             <div class="input-container-search-ticket">
                                                                 <div class="form-select">
-                                                                    <select class="form-control js-example-basic-single" name="adult_passport_passport_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="adult_passport_passport_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('adult_passport_passport_country_of_issued{{forloop.counter}}')" class="nice-select-default">
+                                                                    <select class="form-control js-example-basic-single" name="adult_passport_passport_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="adult_passport_passport_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" class="nice-select-default">
                                                                         <option value="">{% trans 'Country of Issued' %}</option>
                                                                         {% for country in countries %}
                                                                         <option value="{{country.code}}">{{country.name}}</option>
                                                                         {% endfor %}
                                                                     </select>
                                                                 </div>
-                                                                <button type="button" class="primary-delete-date" onclick="default_data_select2_html('select2-adult_passport_passport_country_of_issued{{forloop.counter}}_id-container', 'Country of Issued');default_data_select2('adult_passport_passport_country_of_issued{{forloop.counter}}','');default_data_select2('adult_passport_passport_country_of_issued{{forloop.counter}}_id','');"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                                                <input type="hidden" name="adult_passport_passport_country_of_issued{{forloop.counter}}" id="adult_passport_passport_country_of_issued{{forloop.counter}}" />
+                                                                <button type="button" class="primary-delete-date" onclick="$('#adult_passport_passport_country_of_issued{{forloop.counter}}_id').val('').trigger('change');"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -3706,15 +3699,14 @@
                                                 <label>{% trans 'Country of Issued' %}</label>
                                                 <div class="input-container-search-ticket">
                                                     <div class="form-select">
-                                                        <select class="form-control js-example-basic-single" name="adult_relation{{counter}}_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="adult_relation{{counter}}_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('adult_relation{{counter}}_country_of_issued{{forloop.counter}}')" class="nice-select-default">
+                                                        <select class="form-control js-example-basic-single" name="adult_relation{{counter}}_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="adult_relation{{counter}}_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" class="nice-select-default">
                                                             <option value="">{% trans 'Country of Issued' %}</option>
                                                             {% for country in countries %}
                                                             <option value="{{country.code}}">{{country.name}}</option>
                                                             {% endfor %}
                                                         </select>
                                                     </div>
-                                                    <button type="button" class="primary-delete-date" onclick="default_data_select2_html('select2-adult_relation{{counter}}_country_of_issued{{forloop.counter}}_id-container', 'Country of Issued');default_data_select2('adult_relation{{counter}}_country_of_issued{{forloop.counter}}','');default_data_select2('adult_relation{{counter}}_country_of_issued{{forloop.counter}}_id','');"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                                    <input type="hidden" name="adult_relation{{counter}}_passport_country_of_issued{{forloop.counter}}" id="adult_relation{{counter}}_country_of_issued{{forloop.counter}}" />
+                                                    <button type="button" class="primary-delete-date" onclick="$('#adult_relation{{counter}}_country_of_issued{{forloop.counter}}_id').val('').trigger('change');"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                 </div>
                                             </div>
                                         </div>
@@ -3924,15 +3916,14 @@
                                                 <label>{% trans 'Country of Issued' %}</label>
                                                 <div class="input-container-search-ticket">
                                                     <div class="form-select">
-                                                        <select class="form-control js-example-basic-single" name="adult_relation_beneficiary_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="adult_relation_beneficiary_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('adult_relation_beneficiary_country_of_issued{{forloop.counter}}')" class="nice-select-default">
+                                                        <select class="form-control js-example-basic-single" name="adult_relation_beneficiary_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="adult_relation_beneficiary_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" class="nice-select-default">
                                                             <option value="">{% trans 'Country of Issued' %}</option>
                                                             {% for country in countries %}
                                                             <option value="{{country.code}}">{{country.name}}</option>
                                                             {% endfor %}
                                                         </select>
                                                     </div>
-                                                    <button type="button" class="primary-delete-date" onclick="default_data_select2_html('select2-adult_relation_beneficiary_country_of_issued{{forloop.counter}}_id-container', 'Country of Issued');default_data_select2('adult_relation_beneficiary_country_of_issued{{forloop.counter}}','');default_data_select2('adult_relation_beneficiary_country_of_issued{{forloop.counter}}_id','');"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                                    <input type="hidden" name="adult_relation_beneficiary_passport_country_of_issued{{forloop.counter}}" id="adult_relation_beneficiary_country_of_issued{{forloop.counter}}" />
+                                                    <button type="button" class="primary-delete-date" onclick="$('#adult_relation_beneficiary_country_of_issued{{forloop.counter}}_id').val('').trigger('change');"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                 </div>
                                             </div>
                                         </div>
@@ -4686,7 +4677,7 @@
                                                             {% endfor %}
                                                         </select>
                                                     </div>
-                                                    <button type="button" class="primary-delete-date" onclick="default_data_select2_html('select2-adult_country_of_issued{{forloop.counter}}_id-container', 'Country of Issued');default_data_select2('adult_country_of_issued{{forloop.counter}}','');default_data_select2('adult_country_of_issued{{forloop.counter}}_id','');"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                    <button type="button" class="primary-delete-date" onclick="$('#adult_country_of_issued{{forloop.counter}}_id').val('').trigger('change');"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                 </div>
                                             </div>
                                             {% if response.provider == 'bcainsurance' %}
@@ -4731,15 +4722,14 @@
                                                         <label>{% trans 'Country of Issued' %}</label>
                                                         <div class="input-container-search-ticket">
                                                             <div class="form-select">
-                                                                <select class="form-control js-example-basic-single" name="adult_passport_passport_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="adult_passport_passport_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('adult_passport_passport_country_of_issued{{forloop.counter}}')" class="nice-select-default">
+                                                                <select class="form-control js-example-basic-single" name="adult_passport_passport_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="adult_passport_passport_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" class="nice-select-default">
                                                                     <option value="">{% trans 'Country of Issued' %}</option>
                                                                     {% for country in countries %}
                                                                     <option value="{{country.code}}">{{country.name}}</option>
                                                                     {% endfor %}
                                                                 </select>
                                                             </div>
-                                                            <button type="button" class="primary-delete-date" onclick="default_data_select2_html('select2-adult_passport_passport_country_of_issued{{forloop.counter}}_id-container', 'Country of Issued');default_data_select2('adult_passport_passport_country_of_issued{{forloop.counter}}','');default_data_select2('adult_passport_passport_country_of_issued{{forloop.counter}}_id','');"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                                            <input type="hidden" name="adult_passport_passport_country_of_issued{{forloop.counter}}" id="adult_passport_passport_country_of_issued{{forloop.counter}}" />
+                                                            <button type="button" class="primary-delete-date" onclick="$('#adult_passport_passport_country_of_issued{{forloop.counter}}_id').val('').trigger('change');"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -5030,15 +5020,14 @@
                                             <label>{% trans 'Country of Issued' %}</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
-                                                    <select class="form-control js-example-basic-single" name="adult_relation{{counter}}_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="adult_relation{{counter}}_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('adult_relation{{counter}}_country_of_issued{{forloop.counter}}')" class="nice-select-default">
+                                                    <select class="form-control js-example-basic-single" name="adult_relation{{counter}}_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="adult_relation{{counter}}_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" class="nice-select-default">
                                                         <option value="">{% trans 'Country of Issued' %}</option>
                                                         {% for country in countries %}
                                                         <option value="{{country.code}}">{{country.name}}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div>
-                                                <button type="button" class="primary-delete-date" onclick="default_data_select2_html('select2-adult_relation{{counter}}_country_of_issued{{forloop.counter}}_id-container', 'Country of Issued');default_data_select2('adult_relation{{counter}}_country_of_issued{{forloop.counter}}','');default_data_select2('adult_relation{{counter}}_country_of_issued{{forloop.counter}}_id','');"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                                <input type="hidden" name="adult_relation{{counter}}_passport_country_of_issued{{forloop.counter}}" id="adult_relation{{counter}}_country_of_issued{{forloop.counter}}" />
+                                                <button type="button" class="primary-delete-date" onclick="$('#adult_relation{{counter}}_country_of_issued{{forloop.counter}}_id').val('').trigger('change');"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                             </div>
                                         </div>
                                     </div>
@@ -5248,15 +5237,14 @@
                                             <label>{% trans 'Country of Issued' %}</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
-                                                    <select class="form-control js-example-basic-single" name="adult_relation_beneficiary_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="adult_relation_beneficiary_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('adult_relation_beneficiary_country_of_issued{{forloop.counter}}')" class="nice-select-default">
+                                                    <select class="form-control js-example-basic-single" name="adult_relation_beneficiary_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="adult_relation_beneficiary_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" class="nice-select-default">
                                                         <option value="">{% trans 'Country of Issued' %}</option>
                                                         {% for country in countries %}
                                                         <option value="{{country.code}}">{{country.name}}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div>
-                                                <button type="button" class="primary-delete-date" onclick="default_data_select2_html('select2-adult_relation_beneficiary_country_of_issued{{forloop.counter}}_id-container', 'Country of Issued');default_data_select2('adult_relation_beneficiary_country_of_issued{{forloop.counter}}','');default_data_select2('adult_relation_beneficiary_country_of_issued{{forloop.counter}}_id','');"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                                <input type="hidden" name="adult_relation_beneficiary_passport_country_of_issued{{forloop.counter}}" id="adult_relation_beneficiary_country_of_issued{{forloop.counter}}" />
+                                                <button type="button" class="primary-delete-date" onclick="$('#adult_relation_beneficiary_country_of_issued{{forloop.counter}}_id').val('').trigger('change');"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                             </div>
                                         </div>
                                     </div>
@@ -6006,7 +5994,7 @@
                                                                 {% endfor %}
                                                             </select>
                                                         </div>
-                                                        <button type="button" class="primary-delete-date" onclick="default_data_select2_html('select2-adult_country_of_issued{{forloop.counter}}_id-container', 'Country of Issued');default_data_select2('adult_country_of_issued{{forloop.counter}}','');default_data_select2('adult_country_of_issued{{forloop.counter}}_id','');"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                        <button type="button" class="primary-delete-date" onclick="$('#adult_country_of_issued{{forloop.counter}}_id').val('').trigger('change');"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                 </div>
                                                 {% if response.provider == 'bcainsurance' %}
@@ -6051,15 +6039,14 @@
                                                             <label>{% trans 'Country of Issued' %}</label>
                                                             <div class="input-container-search-ticket">
                                                                 <div class="form-select">
-                                                                    <select class="form-control js-example-basic-single" name="adult_passport_passport_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="adult_passport_passport_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('adult_passport_passport_country_of_issued{{forloop.counter}}')" class="nice-select-default">
+                                                                    <select class="form-control js-example-basic-single" name="adult_passport_passport_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="adult_passport_passport_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" class="nice-select-default">
                                                                         <option value="">{% trans 'Country of Issued' %}</option>
                                                                         {% for country in countries %}
                                                                         <option value="{{country.code}}">{{country.name}}</option>
                                                                         {% endfor %}
                                                                     </select>
                                                                 </div>
-                                                                <button type="button" class="primary-delete-date" onclick="default_data_select2_html('select2-adult_passport_passport_country_of_issued{{forloop.counter}}_id-container', 'Country of Issued');default_data_select2('adult_passport_passport_country_of_issued{{forloop.counter}}','');default_data_select2('adult_passport_passport_country_of_issued{{forloop.counter}}_id','');"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                                                <input type="hidden" name="adult_passport_passport_country_of_issued{{forloop.counter}}" id="adult_passport_passport_country_of_issued{{forloop.counter}}" />
+                                                                <button type="button" class="primary-delete-date" onclick="$('#adult_passport_passport_country_of_issued{{forloop.counter}}_id').val('').trigger('change');"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -6350,15 +6337,14 @@
                                                 <label>{% trans 'Country of Issued' %}</label>
                                                 <div class="input-container-search-ticket">
                                                     <div class="form-select">
-                                                        <select class="form-control js-example-basic-single" name="adult_relation{{counter}}_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="adult_relation{{counter}}_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('adult_relation{{counter}}_country_of_issued{{forloop.counter}}')" class="nice-select-default">
+                                                        <select class="form-control js-example-basic-single" name="adult_relation{{counter}}_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="adult_relation{{counter}}_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" class="nice-select-default">
                                                             <option value="">{% trans 'Country of Issued' %}</option>
                                                             {% for country in countries %}
                                                             <option value="{{country.code}}">{{country.name}}</option>
                                                             {% endfor %}
                                                         </select>
                                                     </div>
-                                                    <button type="button" class="primary-delete-date" onclick="default_data_select2_html('select2-adult_relation{{counter}}_country_of_issued{{forloop.counter}}_id-container', 'Country of Issued');default_data_select2('adult_relation{{counter}}_country_of_issued{{forloop.counter}}','');default_data_select2('adult_relation{{counter}}_country_of_issued{{forloop.counter}}_id','');"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                                    <input type="hidden" name="adult_relation{{counter}}_passport_country_of_issued{{forloop.counter}}" id="adult_relation{{counter}}_country_of_issued{{forloop.counter}}" />
+                                                    <button type="button" class="primary-delete-date" onclick="$('#adult_relation{{counter}}_country_of_issued{{forloop.counter}}_id').val('').trigger('change');"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                 </div>
                                             </div>
                                         </div>
@@ -6568,15 +6554,14 @@
                                                 <label>{% trans 'Country of Issued' %}</label>
                                                 <div class="input-container-search-ticket">
                                                     <div class="form-select">
-                                                        <select class="form-control js-example-basic-single" name="adult_relation_beneficiary_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="adult_relation_beneficiary_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('adult_relation_beneficiary_country_of_issued{{forloop.counter}}')" class="nice-select-default">
+                                                        <select class="form-control js-example-basic-single" name="adult_relation_beneficiary_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="adult_relation_beneficiary_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" class="nice-select-default">
                                                             <option value="">{% trans 'Country of Issued' %}</option>
                                                             {% for country in countries %}
                                                             <option value="{{country.code}}">{{country.name}}</option>
                                                             {% endfor %}
                                                         </select>
                                                     </div>
-                                                    <button type="button" class="primary-delete-date" onclick="default_data_select2_html('select2-adult_relation_beneficiary_country_of_issued{{forloop.counter}}_id-container', 'Country of Issued');default_data_select2('adult_relation_beneficiary_country_of_issued{{forloop.counter}}','');default_data_select2('adult_relation_beneficiary_country_of_issued{{forloop.counter}}_id','');"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                                    <input type="hidden" name="adult_relation_beneficiary_passport_country_of_issued{{forloop.counter}}" id="adult_relation_beneficiary_country_of_issued{{forloop.counter}}" />
+                                                    <button type="button" class="primary-delete-date" onclick="$('#adult_relation_beneficiary_country_of_issued{{forloop.counter}}_id').val('').trigger('change');"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                 </div>
                                             </div>
                                         </div>
@@ -7329,7 +7314,7 @@
                                                                 {% endfor %}
                                                             </select>
                                                         </div>
-                                                        <button type="button" class="primary-delete-date" onclick="default_data_select2_html('select2-adult_country_of_issued{{forloop.counter}}_id-container', 'Country of Issued');default_data_select2('adult_country_of_issued{{forloop.counter}}','');default_data_select2('adult_country_of_issued{{forloop.counter}}_id','');"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                        <button type="button" class="primary-delete-date" onclick="$('#adult_country_of_issued{{forloop.counter}}_id').val('').trigger('change');"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                 </div>
                                                 {% if response.provider == 'bcainsurance' %}
@@ -7374,15 +7359,14 @@
                                                             <label>{% trans 'Country of Issued' %}</label>
                                                             <div class="input-container-search-ticket">
                                                                 <div class="form-select">
-                                                                    <select class="form-control js-example-basic-single" name="adult_passport_passport_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="adult_passport_passport_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('adult_passport_passport_country_of_issued{{forloop.counter}}')" class="nice-select-default">
+                                                                    <select class="form-control js-example-basic-single" name="adult_passport_passport_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="adult_passport_passport_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" class="nice-select-default">
                                                                         <option value="">{% trans 'Country of Issued' %}</option>
                                                                         {% for country in countries %}
                                                                         <option value="{{country.code}}">{{country.name}}</option>
                                                                         {% endfor %}
                                                                     </select>
                                                                 </div>
-                                                                <button type="button" class="primary-delete-date" onclick="default_data_select2_html('select2-adult_passport_passport_country_of_issued{{forloop.counter}}_id-container', 'Country of Issued');default_data_select2('adult_passport_passport_country_of_issued{{forloop.counter}}','');default_data_select2('adult_passport_passport_country_of_issued{{forloop.counter}}_id','');"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                                                <input type="hidden" name="adult_passport_passport_country_of_issued{{forloop.counter}}" id="adult_passport_passport_country_of_issued{{forloop.counter}}" />
+                                                                <button type="button" class="primary-delete-date" onclick="$('#adult_passport_passport_country_of_issued{{forloop.counter}}_id').val('').trigger('change');"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -7673,15 +7657,14 @@
                                                 <label>{% trans 'Country of Issued' %}</label>
                                                 <div class="input-container-search-ticket">
                                                     <div class="form-select">
-                                                        <select class="form-control js-example-basic-single" name="adult_relation{{counter}}_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="adult_relation{{counter}}_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('adult_relation{{counter}}_country_of_issued{{forloop.counter}}')" class="nice-select-default">
+                                                        <select class="form-control js-example-basic-single" name="adult_relation{{counter}}_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="adult_relation{{counter}}_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" class="nice-select-default">
                                                             <option value="">{% trans 'Country of Issued' %}</option>
                                                             {% for country in countries %}
                                                             <option value="{{country.code}}">{{country.name}}</option>
                                                             {% endfor %}
                                                         </select>
                                                     </div>
-                                                    <button type="button" class="primary-delete-date" onclick="default_data_select2_html('select2-adult_relation{{counter}}_country_of_issued{{forloop.counter}}_id-container', 'Country of Issued');default_data_select2('adult_relation{{counter}}_country_of_issued{{forloop.counter}}','');default_data_select2('adult_relation{{counter}}_country_of_issued{{forloop.counter}}_id','');"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                                    <input type="hidden" name="adult_relation{{counter}}_passport_country_of_issued{{forloop.counter}}" id="adult_relation{{counter}}_country_of_issued{{forloop.counter}}" />
+                                                    <button type="button" class="primary-delete-date" onclick="$('#adult_relation{{counter}}_country_of_issued{{forloop.counter}}_id').val('').trigger('change');"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                 </div>
                                             </div>
                                         </div>
@@ -7892,15 +7875,14 @@
                                                 <label>{% trans 'Country of Issued' %}</label>
                                                 <div class="input-container-search-ticket">
                                                     <div class="form-select">
-                                                        <select class="form-control js-example-basic-single" name="adult_relation_beneficiary_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="adult_relation_beneficiary_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('adult_relation_beneficiary_country_of_issued{{forloop.counter}}')" class="nice-select-default">
+                                                        <select class="form-control js-example-basic-single" name="adult_relation_beneficiary_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="adult_relation_beneficiary_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" class="nice-select-default">
                                                             <option value="">{% trans 'Country of Issued' %}</option>
                                                             {% for country in countries %}
                                                             <option value="{{country.code}}">{{country.name}}</option>
                                                             {% endfor %}
                                                         </select>
                                                     </div>
-                                                    <button type="button" class="primary-delete-date" onclick="default_data_select2_html('select2-adult_relation_beneficiary_country_of_issued{{forloop.counter}}_id-container', 'Country of Issued');default_data_select2('adult_relation_beneficiary_country_of_issued{{forloop.counter}}','');default_data_select2('adult_relation_beneficiary_country_of_issued{{forloop.counter}}_id','');"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                                    <input type="hidden" name="adult_relation_beneficiary_passport_country_of_issued{{forloop.counter}}" id="adult_relation_beneficiary_country_of_issued{{forloop.counter}}" />
+                                                    <button type="button" class="primary-delete-date" onclick="$('#adult_relation_beneficiary_country_of_issued{{forloop.counter}}_id').val('').trigger('change');"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                 </div>
                                             </div>
                                         </div>
@@ -8018,7 +8000,7 @@
             document.addEventListener("DOMContentLoaded", init_upload('adult','{{forloop.counter}}'), false);
 
             //auto_complete('adult_country_of_issued{{forloop.counter}}');
-            auto_complete('adult_phone_code{{forloop.counter}}');
+            //auto_complete('adult_phone_code{{forloop.counter}}');
         {% endfor %}
     });
 
@@ -8106,8 +8088,7 @@
                     singleDatePicker: true,
                     autoUpdateInput: true,
                     startDate: moment().subtract(18, 'years'),
-                    minDate: moment().subtract(59, 'years').subtract(365, 'days'),
-                    maxDate: moment().subtract(12, 'years'),
+                    maxDate: moment(),
                     showDropdowns: true,
                     opens: 'center',
                     locale: {
@@ -8134,8 +8115,7 @@
                 singleDatePicker: true,
                 autoUpdateInput: true,
                 startDate: moment().subtract(18, 'years'),
-                minDate: moment().subtract(59, 'years').subtract(365, 'days'),
-                maxDate: moment().subtract(12, 'years'),
+                maxDate: moment(),
                 showDropdowns: true,
                 opens: 'center',
                 locale: {

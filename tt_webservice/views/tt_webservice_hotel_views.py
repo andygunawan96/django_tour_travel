@@ -57,8 +57,8 @@ def api_models(request):
         elif req_data['action'] == 'get_hotel_data_detail_page':
             res = get_hotel_data_detail_page(request)
         elif req_data['action'] == 'hotel_get_carrier_alias_name':
-            res = hotel_get_carrier_alias_name(request)
-        elif req_data['action'] == 'update_masking':
+            res = get_masking(request)
+        elif req_data['action'] == 'hotel_update_carrier_alias_name':
             res = update_masking(request)
         elif req_data['action'] == 'get_auto_complete':
             res = get_auto_complete(request)
@@ -219,32 +219,45 @@ def get_carriers(request):
 
     return res
 
-def hotel_get_carrier_alias_name(request):
-    file = read_cache("hotel_masking", 'cache_web', request, 90911)
-    if file:
-        return file
+def get_masking(request, is_need_update_masking=False):
+    try:
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "get_provider_code_alias_api",
+            "signature": request.POST['signature']
+        }
+        data = {}
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    file = read_cache('hotel_masking', 'cache_web', request)
+    if not file or is_need_update_masking:
+        url_request = get_url_gateway('booking/hotel')
+        res = send_request_api(request, url_request, headers, data, 'POST')
+        if res['result']['error_code'] == 0:
+            write_cache(res, 'hotel_masking', request)
     else:
-        return {}
+        res = file
+        return res
 
 def update_masking(request):
-    ## read file masking
-    file = read_cache("hotel_masking", 'cache_web', request, 90911)
-    if not file:
-        data = {}
-    else:
-        data = file
-    ## update
-    data_masking = json.loads(request.POST['data_masking'])
-    data.update(data_masking)
-    write_cache(data, "hotel_masking", request)
-    ## save
-    return {
-        "result": {
-            "response": '',
-            "error_msg": '',
-            "error_code": 0,
+    try:
+        data_masking = json.loads(request.POST['data_masking'])
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "set_provider_code_alias_api",
+            "signature": request.POST['signature']
         }
-    }
+        data = {
+            "data_masking": data_masking
+        }
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    url_request = get_url_gateway('booking/hotel')
+    res = send_request_api(request, url_request, headers, data, 'POST')
+    get_masking(request, True)
+    return res
 
 def get_auto_complete(request):
     def find_hotel_ilike(search_str, record_cache, limit=10, search_type=[]):
