@@ -301,13 +301,13 @@ def updata(request):
 
     return res
 
-def get_config(request):
+def get_config(request, signature=''):
     try:
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
             "action": "get_config",
-            "signature": request.POST['signature'],
+            "signature": request.POST.get('signature') or signature,
         }
 
         data = {}
