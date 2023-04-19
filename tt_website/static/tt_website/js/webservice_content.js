@@ -373,43 +373,37 @@ function get_banner(type,page){
                     else if(type == 'promotion'){
                         banner_list['promotion'] = msg.result.response;
                         text+=`
-                        <div class="modal fade" id="myModalPromotion" role="dialog">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <div class="row">
-                                                <div class="col-lg-12">
-                                                    <div style="background:#f7f7f7; padding:5px; cursor:pointer;" onclick="checkCookie('promotion', 'update', 'home', '');">
-                                                        <center>
-                                                            <span data-dismiss="modal" style="font-weight:bold; color:`+color+`;">Close X</span>
-                                                        </center>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-12">`;
-                                                    text+=`<div class="owl-carousel-promotion owl-theme">`;
-                                                    for(i in msg.result.response){
-                                                        if(msg.result.response[i].active == true){
-                                                            text+=`
-                                                            <div class="item">
-                                                                <center>
-                                                                    <img class="owl-lazy" data-src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" style="max-width:500px; max-height:500px; cursor:pointer;" onclick="banner_click('promotion','`+msg.result.response[i].seq_id+`')"/>
-                                                                </center>
-                                                            </div>`;
-                                                        }
-                                                    }
-                                                    text+=`</div>`;
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div style="background:#f7f7f7; padding:5px; cursor:pointer;" onclick="checkCookie('promotion', 'update', 'home', '');">
+                                            <center>
+                                                <span data-dismiss="modal" style="font-weight:bold; color:`+color+`;">Close X</span>
+                                            </center>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">`;
+                                        text+=`<div class="owl-carousel-promotion owl-theme">`;
+                                        for(i in msg.result.response){
+                                            if(msg.result.response[i].active == true){
                                                 text+=`
-                                                <div class="col-lg-12" style="background:#f7f7f7;">
-                                                    <div style="text-align:right; padding:10px 0px 30px 0px;">
-                                                        <label class="check_box_custom" style="float:right;">
-                                                            <span>Don't Show Again Today</span>
-                                                            <input type="checkbox" id="dont_show_again" name="dont_show_again" value="true"/>
-                                                            <span class="check_box_span_custom"></span>
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                                <div class="item">
+                                                    <center>
+                                                        <img class="owl-lazy" data-src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" style="max-width:500px; max-height:500px; cursor:pointer;" onclick="banner_click('promotion','`+msg.result.response[i].seq_id+`')"/>
+                                                    </center>
+                                                </div>`;
+                                            }
+                                        }
+                                        text+=`</div>`;
+                                    text+=`
+                                    <div class="col-lg-12" style="background:#f7f7f7;">
+                                        <div style="text-align:right; padding:10px 0px 30px 0px;">
+                                            <label class="check_box_custom" style="float:right;">
+                                                <span>Don't Show Again Today</span>
+                                                <input type="checkbox" id="dont_show_again" name="dont_show_again" value="true"/>
+                                                <span class="check_box_span_custom"></span>
+                                            </label>
                                         </div>
                                     </div>
                                 </div>
@@ -665,30 +659,53 @@ function get_banner(type,page){
                 if(msg.result.response.length > 0){
                     if(page == 'home'){
                         if(type == 'big_banner'){
-                            $('.owl-carousel-banner').owlCarousel({
-                                loop:false,
-                                nav: true,
-                                rewind: false,
-                                margin: 20,
-                                responsiveClass:true,
-                                dots: false,
-                                lazyLoad:true,
-                                lazyLoadEager:true,
-                                merge: true,
-                                smartSpeed:500,
-                                center: true,
-                                autoHeight: false,
-                                autoWidth: false,
-                                autoplay: true,
-                                autoplayTimeout:10000,
-                                autoplayHoverPause:false,
-                                items:1,
-                                navText: ['<i class="fas fa-chevron-left owl-wh"/>', '<i class="fas fa-chevron-right owl-wh"/>'],
-                            });
+                            if(template == 6){
+                                $('.owl-carousel-banner').owlCarousel({
+                                    loop:false,
+                                    nav: true,
+                                    rewind: false,
+                                    margin: 20,
+                                    responsiveClass:true,
+                                    dots: false,
+                                    lazyLoad:true,
+                                    lazyLoadEager:true,
+                                    merge: true,
+                                    smartSpeed:500,
+                                    center: true,
+                                    autoHeight: false,
+                                    autoWidth: false,
+                                    autoplay: false,
+                                    autoplayTimeout:10000,
+                                    autoplayHoverPause:false,
+                                    items:1,
+                                    navText: ['<i class="fas fa-chevron-left owl-wh"/>', '<i class="fas fa-chevron-right owl-wh"/>'],
+                                });
+                            }else{
+                                $('.owl-carousel-banner').owlCarousel({
+                                    loop:false,
+                                    nav: true,
+                                    rewind: false,
+                                    margin: 20,
+                                    responsiveClass:true,
+                                    dots: true,
+                                    lazyLoad:true,
+                                    lazyLoadEager:true,
+                                    merge: true,
+                                    smartSpeed:500,
+                                    center: true,
+                                    autoHeight: false,
+                                    autoWidth: false,
+                                    autoplay: false,
+                                    autoplayTimeout:10000,
+                                    autoplayHoverPause:false,
+                                    items:1,
+                                    navText: ['<i class="fas fa-chevron-left owl-wh"/>', '<i class="fas fa-chevron-right owl-wh"/>'],
+                                });
+                            }
                         }
                         else if(type == 'small_banner'){
                             $('.owl-carousel-suggest').owlCarousel({
-                                loop:false,
+                                loop:true,
                                 nav: true,
                                 navRewind:true,
                                 rewind: true,
@@ -1072,7 +1089,7 @@ function get_dynamic_page(type){
                     }
 
                     $('.owl-carousel-login').owlCarousel({
-                        loop:false,
+                        loop:true,
                         nav: true,
                         navRewind:true,
                         rewind: true,
@@ -1084,7 +1101,7 @@ function get_dynamic_page(type){
                         lazyLoad:true,
                         lazyLoadEager:true,
                         smartSpeed:500,
-                        autoplay: true,
+                        autoplay: false,
                         autoplayTimeout:10000,
                         autoplayHoverPause:false,
                         navText: ['<i class="fa fa-chevron-left owl-wh"/>', '<i class="fa fa-chevron-right owl-wh"/>'],

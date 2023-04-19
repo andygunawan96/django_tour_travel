@@ -34,6 +34,10 @@
     ul li{
         list-style-type: disc;
     }
+
+    .owl-theme .owl-nav{
+        margin-top: 0px;
+    }
 </style>
 {% include 'tt_website/header.html' %}
 {% include 'tt_website/logout.html' %}
@@ -227,7 +231,7 @@
     </div>
 </section>
 {% elif template == 2 %}
-<section class="destinations-area change_search_area" style="padding:14px 0px 14px 0px; background:white; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; position:relative; z-index:90;">
+<section class="destinations-area change_search_area">
     <div id="hotel_search_params" class="container">
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
@@ -413,7 +417,7 @@
     </div>
 </section>
 {% elif template == 3 %}
-<section class="destinations-area change_search_area" style="padding:14px 0px 14px 0px; background:white; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; position:relative; z-index:90;">
+<section class="destinations-area change_search_area">
     <div id="hotel_search_params" class="container">
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
@@ -598,7 +602,7 @@
     </div>
 </section>
 {% elif template == 4 %}
-<section class="destinations-area change_search_area" style="padding:14px 0px 14px 0px; background:white; border-bottom:1px solid #cdcdcd; position:relative; z-index:90;">
+<section class="destinations-area change_search_area">
     <div id="hotel_search_params" class="container">
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
@@ -786,7 +790,7 @@
     </div>
 </section>
 {% elif template == 5 %}
-<section class="destinations-area change_search_area" style="padding:14px 0px 14px 0px; background:white; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; position:relative; z-index:90;">
+<section class="destinations-area change_search_area">
     <div id="hotel_search_params" class="container">
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
@@ -1300,7 +1304,7 @@
             <div class="row">
                 <div class="col-lg-12 div-photo-hotel" style="background:white; margin-bottom:30px; padding-top:15px; border:1px solid #cdcdcd; border-radius:3px;">
                     <div class="row">
-                        <div class="modal fade modal-rdx" id="openImage" role="dialog" style="background:rgba(250,250,250,1);">
+                        <div class="modal fade modal-obs" id="openImage" role="dialog" style="background:rgba(250,250,250,1);">
                             <div class="modal-dialog">
                                 <!-- Modal content-->
                                 <div class="modal-content" style="background-color:transparent; border:unset;">
@@ -1319,10 +1323,10 @@
                                                         {% endfor %}
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-12" style="margin-bottom:15px; text-align:right;">
+                                                <div class="col-lg-12 mt-3 mb-4" style="text-align:right;">
                                                     <h5 style="color:black;" id="total_image_hotel-modal"></h5>
                                                 </div>
-                                                <div class="col-lg-12">
+                                                <div class="col-lg-12" style="overflow:auto;">
                                                     <div class="owl-carousel-hotel-modal owl-theme">
                                                         {% for i in response.images %}
                                                         <div class="item" style="cursor:pointer;">
@@ -1386,7 +1390,7 @@
                         </div>
                         <!-- Prepare untuk TripAdvisor Cenius Start-->
                         <!--<div class="col-lg-12" style="padding-bottom:5px;">
-                            <h4 style="color:#f15a22;">4.5 Excellent</h4>
+                            <h4 style="color:#205B95;">4.5 Excellent</h4>
                         </div>
                         <div class="col-lg-3">
                             <span style="font-weight:500;"><i class="fa fa-map-marker-alt"></i> Location</span>
@@ -2570,7 +2574,7 @@
 {% endblock %}
 
 
-<!--<div style="background-color:#f15a22;">-->
+<!--<div style="background-color:#205B95;">-->
 <!--    <ul class="nav nav-tabs" id="myTab" role="tablist">-->
 <!--        <li class="nav-item">-->
 <!--            <a class="nav-link active" id="facilities-tab" data-toggle="tab" href="#facilities" role="tab" aria-controls="facilities" aria-selected="true">-->

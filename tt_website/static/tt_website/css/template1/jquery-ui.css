@@ -909,7 +909,7 @@ body .ui-tooltip {
 }
 .ui-widget-header {
 	border: 1px solid #dddddd;
-	background: #f15a22;
+	background: #205B95;
 	color: #333333;
 	font-weight: bold;
 }
@@ -979,8 +979,8 @@ a.ui-button:focus {
 a.ui-button:active,
 .ui-button:active,
 .ui-button.ui-state-active:hover {
-	border: 1px solid #f15a22;
-	background: #f15a22;
+	border: 1px solid #205B95;
+	background: #205B95;
 	font-weight: normal;
 	color: #ffffff;
 }

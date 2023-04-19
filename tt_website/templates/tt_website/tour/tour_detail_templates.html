@@ -49,6 +49,10 @@
         color:unset;
     }
     {% endif %}
+
+    .owl-theme .owl-nav{
+        margin-top: 0px;
+    }
 </style>
 {% include 'tt_website/logout.html' %}
 {% include 'tt_website/plugin_passenger.html' %}
@@ -207,7 +211,7 @@
     </div>
 </section>
 {% elif template == 2 %}
-<section class="change_search_area" style="padding:14px 0px 14px 0px; background:white; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; position:relative; z-index:90;">
+<section class="change_search_area">
     <div class="container">
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
@@ -349,7 +353,7 @@
     </div>
 </section>
 {% elif template == 3 %}
-<section class="change_search_area" style="padding:14px 0px 14px 0px; position:relative; background:white; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; top:0px; z-index:100;">
+<section class="change_search_area">
     <div class="container">
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
@@ -938,7 +942,7 @@
                 <div class="row" id="div-description-tour" style="padding:15px;">
                     <div class="col-lg-12" style="width:100%; background-color:white; padding:20px 20px {% if template == 1 %}0px{% else %} 20px{% endif %} 20px; border: 1px solid #ddd;">
                         <div class="row">
-                            <div class="col-lg-4 col-md-4">
+                            <div class="col-lg-4 col-md-4 mb-3">
                                 <div id="tour_carousel">
 
                                 </div>
@@ -962,7 +966,7 @@
 
                     <div class="col-lg-12" style="padding:0px;">
                         {%if template == 1%}
-                        <div class="style-scrollbar" style="overflow:auto; white-space:nowrap; background: white; border:1px solid #cdcdcd;">
+                        <div class="style-scrollbar" style="overflow:auto; white-space:nowrap; background: white;">
                             <ul class="create_tabs" id="tour_detail_tabs">
                                 <li class="create_tab-link current" data-tab="tab-itinerary"><label>{% trans 'Itinerary' %}</label></li>
                                 <li class="create_tab-link" data-tab="tab-flight"><label>{% trans 'Flight Details' %}</label></li>
@@ -970,7 +974,7 @@
                             </ul>
                         </div>
                         <div style="border:1px solid #cdcdcd; background:white; padding:15px;">
-                            <div id="tab-itinerary" class="create_tab-content current" style="padding:20px 0px 10px 0px;">
+                            <div id="tab-itinerary" class="create_tab-content current" style="padding:0px 0px 10px 0px;">
                                 <div id="itinerary">
 
                                 </div>

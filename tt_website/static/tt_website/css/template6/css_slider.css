@@ -208,7 +208,7 @@
     position: absolute;
     top: -50%;
     padding: 9px;
-    box-shadow: inset 5px -5px 0 2px #f15a22;
+    box-shadow: inset 5px -5px 0 2px #205B95;
     cursor: pointer;
     -moz-transition: box-shadow 0.15s, margin 0.15s;
     -o-transition: box-shadow 0.15s, margin 0.15s;
