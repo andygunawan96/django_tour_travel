@@ -41,7 +41,7 @@ function set_voucher(type){
 
 function render_voucher(currency, discount,state='booked'){
     text_voucher = `
-    <div style="background-color: white; padding: 10px; border: 1px solid rgb(241, 90, 34); margin-top: 15px; position: relative; z-index: 5;"><h4 style="color:#f15a22;">Voucher</h4><hr>
+    <div style="background-color: white; padding: 10px; border: 1px solid rgb(241, 90, 34); margin-top: 15px; position: relative; z-index: 5;"><h4 style="color:#205B95;">Voucher</h4><hr>
         <div class="alert alert-success" role="alert">
             <h6>Discount `;
             if(state == 'booked')
@@ -396,7 +396,7 @@ function check_voucher(){
                         discount_voucher['discount'] = msg.result.response.voucher_cap
 
                     document.getElementById('voucher_discount').innerHTML = `
-                    <div style="background-color: white; padding: 10px; border: 1px solid rgb(241, 90, 34); margin-top: 15px; position: relative; z-index: 5;"><h4 style="color:#f15a22;">Voucher</h4><hr>
+                    <div style="background-color: white; padding: 10px; border: 1px solid rgb(241, 90, 34); margin-top: 15px; position: relative; z-index: 5;"><h4 style="color:#205B95;">Voucher</h4><hr>
                         <div class="alert alert-success" role="alert">
                             <h6>Discount up to `+msg.result.response.voucher_currency+` `+getrupiah(discount_voucher['discount'])+`</h6>
                         </div>
@@ -463,7 +463,7 @@ function check_voucher(){
                 }else{
                     discount_voucher = {};
                     document.getElementById('voucher_discount').innerHTML = `
-                    <div style="background-color: white; padding: 10px; border: 1px solid rgb(241, 90, 34); margin-top: 15px; position: relative; z-index: 5;"><h4 style="color:#f15a22;">Voucher</h4><hr>
+                    <div style="background-color: white; padding: 10px; border: 1px solid rgb(241, 90, 34); margin-top: 15px; position: relative; z-index: 5;"><h4 style="color:#205B95;">Voucher</h4><hr>
                         <div class="alert alert-danger" role="alert">
                             <h6>Sorry, Voucher can't be used</h6>
                         </div>

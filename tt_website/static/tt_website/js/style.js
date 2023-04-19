@@ -197,19 +197,18 @@ $(document).ready(function(){
 
     $('#div-search-overlay').click(function() {      // When arrow is clicked
         div_overlay_checked += 1;
-        if(template != 6){
-            document.getElementById("overlay-search-box").style.display = "block";
-            document.getElementById("div-search-overlay").style.zIndex = "3";
-            try{
-                document.getElementById("change_search_box").style.zIndex = "100";
-            }catch(err){
-                console.log('err');
-            }
-            if(div_overlay_checked == 1){
-                $('html, body').animate({
-                    scrollTop: $("#div-search-overlay").offset().top - 110
-                }, 500);
-            }
+
+        document.getElementById("overlay-search-box").style.display = "block";
+        document.getElementById("div-search-overlay").style.zIndex = "3";
+        try{
+            document.getElementById("change_search_box").style.zIndex = "100";
+        }catch(err){
+            console.log('err');
+        }
+        if(div_overlay_checked == 1){
+            $('html, body').animate({
+                scrollTop: $("#div-search-overlay").offset().top - 110
+            }, 500);
         }
     });
 
@@ -3864,62 +3863,6 @@ function next_focus_element(product, from){
                 $('#insurance_date').focus();
             }, 200);
         }
-    }
-}
-
-
-function setCookie(cname, cvalue, cdate) {
-  if (cdate == 'true'){
-    var date_tomorrow = moment().subtract(-1, 'days').format('ddd, DD MMM YYYY');
-  }else{
-    var date_tomorrow = '';
-  }
-  var expires = "expires=" + date_tomorrow;
-  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-
-  console.log(document.cookie);
-}
-
-function getCookie(variable) {
-    var name = variable + "=";
-    var decodedCookie = decodeURIComponent(document.cookie);
-    var ca = decodedCookie.split(';');
-    for(var i = 0; i < ca.length; i++) {
-        var c = ca[i];
-        while (c.charAt(0) == ' ') {
-            c = c.substring(1);
-        }
-
-        if (c.indexOf(name) == 0) {
-            return c.substring(name.length, c.length);
-        }
-    }
-    return "";
-}
-
-
-function checkCookie() {
-    check_exp = getCookie("expires");
-    check_today = moment().format('ddd, DD MMM YYYY');
-
-    if(check_today == check_exp){
-        check_modal = false;
-    }else{
-        check_modal = getCookie("modal");
-    }
-
-    if (check_modal != "" && check_modal == "true") {
-        $("#myModalPromotion").modal('hide');
-    }else {
-        var modal_value = "";
-        if ($('#dont_show_again').is(':checked')) {
-            modal_value = 'true';
-            date_value = 'true';
-        }else{
-            modal_value = 'false';
-            date_value = 'false';
-        }
-        setCookie("modal", modal_value, date_value);
     }
 }
 
