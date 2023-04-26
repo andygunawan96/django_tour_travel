@@ -10955,13 +10955,12 @@ function reroute_btn(){
                         </div>
                     </div>`;
                 }
-
+                flight++;
                 document.getElementById('reissue_'+i+'_journey'+j).innerHTML = text;
                 text = '';
             }
 
         }
-        flight++;
     }
 //    document.getElementById('reissue_div').innerHTML = text;
     $('.reissued-class-airline').niceSelect();
@@ -11046,10 +11045,9 @@ function reroute_btn(){
                     }
                 });
                 document.getElementById('destination_id_flight'+counter_airline).value = airline_get_detail.result.response.provider_bookings[i].journeys[j].destination+` - `+airline_get_detail.result.response.provider_bookings[i].journeys[j].destination_city+` - `+airline_get_detail.result.response.provider_bookings[i].journeys[j].destination_country+` - `+airline_get_detail.result.response.provider_bookings[i].journeys[j].destination_name;
-
+                counter_airline++;
             }
         }
-        counter_airline++;
     }
 }
 

@@ -167,7 +167,7 @@ Licence URI: http://www.os-templates.com/template-terms
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="author" content="Orbis" />
+	<meta name="author" content="{{name}}" />
 
     <link rel="icon" href="{{ logo_icon }}" sizes="16x16" type="image/png">
 
@@ -1215,6 +1215,11 @@ Licence URI: http://www.os-templates.com/template-terms
             color: {{color}};
         }
 
+        .owl-theme .owl-dots .owl-dot.active span, .owl-theme .owl-dots .owl-dot:hover span{
+            color: {{color}} !important;
+            background: {{color}} !important;
+        }
+
         .breakpoint-on .classynav ul li.has-down.active > .dd-trigger, .breakpoint-on .classynav ul li.megamenu-item.active > .dd-trigger{
             background-color:{{color}};
         }
@@ -1225,6 +1230,27 @@ Licence URI: http://www.os-templates.com/template-terms
             background-color: {{color}};
             opacity:0.8;
             color: white !important;
+        }
+        ul.create_tabs li.current{
+            border-bottom: 5px solid {{color}};
+            color: {{color}};
+        }
+        ul.create_tabs li:hover{
+            color: {{color}};
+        }
+        ul.edit_tabs li.current{
+            border-bottom: 5px solid {{color}};
+            color: {{color}};
+        }
+        ul.edit_tabs li:hover{
+            color: {{color}};
+        }
+        .owl-theme .owl-nav [class*=owl-]{
+            background: {{color}};
+        }
+        .owl-theme .owl-nav [class*=owl-]:hover{
+            background: {{color}};
+            opacity: 1;
         }
         .nice-select:active, .nice-select.open, .nice-select:focus{
             border-color: {{color}};
@@ -1247,9 +1273,30 @@ Licence URI: http://www.os-templates.com/template-terms
         .single-footer-widget .footer-nav li a:focus, .single-footer-widget .footer-nav li a:hover{
             color: {{color}};
         }
-    </style>
-    {% elif template == 3%}
-    <style>
+        .banner-area-div{
+            height:60vh;
+        }
+        @media only screen and (max-width: 575px) {
+            .banner-area-div{
+                height:48vh !important;
+            }
+        }
+        @media only screen and (min-width: 576px) and (max-width: 767px) {
+            .banner-area-div{
+                height:57vh;
+            }
+        }
+        @media only screen and (min-width: 768px) and (max-width: 991px) {
+            .banner-area-div{
+                height:60vh;
+            }
+        }
+        @media only screen and (min-width: 992px) and (max-width: 1079px) {
+            .banner-area-div{
+                height:70vh;
+            }
+        }
+        {% elif template == 3 %}
         .switch_a{
             color:{{text_color}};
         }
@@ -1258,6 +1305,9 @@ Licence URI: http://www.os-templates.com/template-terms
         }
         .header-right{
             background-color: {{tab_color}};
+        }
+        .nav-menu a:hover{
+            color:{{color}} !important;
         }
         #mobile-nav ul li a:hover{
             color:{{color}} !important;
@@ -1270,6 +1320,41 @@ Licence URI: http://www.os-templates.com/template-terms
         .image-rounded-icon{
             background: {{color}};
         }
+        .btn-txt-color{
+            color: {{text_color}};
+        }
+        .btn-txt-color:hover{
+            color: {{color}} !important;
+        }
+        ul.create_tabs li.current{
+            border-bottom: 5px solid {{color}};
+            color: {{color}};
+        }
+        ul.create_tabs li:hover{
+           color: {{color}};
+        }
+
+        ul.edit_tabs li.current{
+            border-bottom: 5px solid {{color}};
+            color: {{color}};
+        }
+        ul.edit_tabs li:hover{
+           color: {{color}};
+        }
+        ul.template_tabs li.current{
+            border-bottom: 5px solid {{color}};
+            color: {{color}};
+        }
+        ul.template_tabs li.current{
+            border-bottom: 5px solid {{color}};
+            color: {{color}};
+        }
+
+        .single-footer-widget ul li a:hover {
+            color: {{color}};
+            text-decoration: unset;
+        }
+
         a:focus, a:hover{
             color: {{color}};
         }
@@ -1288,20 +1373,42 @@ Licence URI: http://www.os-templates.com/template-terms
         .default-select .nice-select .list .option:hover{
             color: {{color}};
         }
+        .owl-theme .owl-nav [class*=owl-]{
+            background: {{color}};
+        }
+        .owl-theme .owl-dots .owl-dot.active span, .owl-theme .owl-dots .owl-dot:hover span{
+            color: {{color}} !important;
+            background: {{color}} !important;
+        }
+
+        .owl-theme .owl-nav [class*=owl-]:hover{
+            background: {{color}};
+        }
+
         #myBtnBTP{
             background: {{color}};
         }
         #myBtnBTP:hover{
             background: {{color}};
+            opacity: 0.8;
         }
-    </style>
-    {% elif template == 4%}
-    <style>
+        {% elif template == 4 %}
         .image-change-route-vertical a{
             color: {{text_color}};
         }
         .image-change-route-vertical a:hover{
             color: {{color}};
+        }
+        .owl-theme .owl-nav [class*=owl-]{
+            background: {{color}};
+            color: {{text_color}} !important;
+        }
+        .owl-theme .owl-nav [class*=owl-]:hover{
+            background: {{color}} !important;
+            opacity: 1;
+        }
+        .owl-theme .owl-dots .owl-dot.active span, .owl-theme .owl-dots .owl-dot:hover span{
+            background: {{color}} !important;
         }
         .border-primary{
             border-color: {{color}} !important;
@@ -1326,6 +1433,14 @@ Licence URI: http://www.os-templates.com/template-terms
         ul.tabs li.current label{
             font-size:14px;
         }
+        ul.template_tabs li.current{
+            border-bottom: 5px solid {{color}};
+            color: {{color}};
+        }
+        ul.template_tabs li.current{
+            border-bottom: 5px solid {{color}};
+            color: {{color}};
+        }
         .site-navbar .site-navigation .site-menu .has-children:hover > a, .site-navbar .site-navigation .site-menu .has-children:focus > a, .site-navbar .site-navigation .site-menu .has-children:active > a {
             color: {{color}};
         }
@@ -1334,6 +1449,17 @@ Licence URI: http://www.os-templates.com/template-terms
         }
         a:hover{
             color: {{color}} !important;
+        }
+        ul.create_tabs li.current{
+            border-bottom: 5px solid {{color}};
+            color: {{color}};
+        }
+        ul.create_tabs li:hover{
+            color: {{color}};
+        }
+        ul.edit_tabs li.current{
+            border-bottom: 5px solid {{color}};
+            color: {{color}};
         }
         .nice-select:active, .nice-select.open, .nice-select:focus{
             border-color: {{color}};
@@ -1349,15 +1475,32 @@ Licence URI: http://www.os-templates.com/template-terms
         }
         #myBtnBTP:hover{
             background-color: {{color}};
+            opacity:0.8;
         }
-    </style>
-    {% elif template == 5%}
-    <style>
+        {% elif template == 5 %}
+        .owl-theme .owl-nav [class*=owl-]{
+            color: {{color}} !important;
+        }
+        .owl-theme .owl-nav [class*=owl-]:hover{
+            background: {{color}} !important;
+            color: white !important;
+            opacity: 1;
+        }
+        .owl-theme .owl-dots .owl-dot.active span, .owl-theme .owl-dots .owl-dot:hover span{
+            background: {{color}} !important;
+        }
+
         #mobile-nav .sign_up_login{
-            color: {{text_color_login}};
+            color:white;
         }
         #mobile-nav .sign_up_login:hover{
             color: {{color}};
+        }
+        .sign_up_login:hover{
+            color: {{color}};
+        }
+        .btn-txt-color{
+            color: {{text_color}};
         }
         #myBtnBTP {
             background-color: {{color}};
@@ -1395,12 +1538,33 @@ Licence URI: http://www.os-templates.com/template-terms
         ul.tabs li.current {
             border-bottom: 5px solid {{color}};
         }
+        ul.create_tabs li.current{
+            border-bottom: 5px solid {{color}};
+            color: {{color}};
+        }
+        ul.create_tabs li:hover{
+            color: {{color}};
+        }
+        ul.edit_tabs li.current{
+            border-bottom: 5px solid {{color}};
+            color: {{color}};
+        }
+        ul.edit_tabs li:hover{
+            color: {{color}};
+        }
         ul.tabs li.current .image-rounded-icon{
             background: {{color}} !important;
         }
-    </style>
-    {% elif template == 6%}
-    <style>
+        ul.template_tabs li.current{
+            border-bottom: 5px solid {{color}};
+            color: {{color}};
+        }
+        ul.template_tabs li.current{
+            border-bottom: 5px solid {{color}};
+            color: {{color}};
+        }
+
+        {% elif template == 6 %}
         .modal-backdrop{
             z-index: 999;
         }
@@ -1422,6 +1586,9 @@ Licence URI: http://www.os-templates.com/template-terms
             color:{{color}} !important;
         }
 
+        ul.create_tabs li:hover{
+            color: {{color}} !important;
+        }
         nav a{
             color:{{text_color}};
         }
@@ -1447,11 +1614,50 @@ Licence URI: http://www.os-templates.com/template-terms
         .div_cst:hover .image-rounded-icon{
             border: 5px solid {{color}} !important;
         }
+
+        ul.create_tabs li.current{
+            border-bottom: 5px solid {{color}};
+            color: {{color}};
+        }
+        ul.edit_tabs li.current{
+            border-bottom: 5px solid {{color}};
+            color: {{color}};
+        }
+        ul.template_tabs li.current{
+            border-bottom: 5px solid {{color}};
+            color: {{color}};
+        }
+        ul.template_tabs li.current{
+            border-bottom: 5px solid {{color}};
+            color: {{color}};
+        }
+
         nav a:hover{
             color:{{color}};
         }
+
+        .nice-select:active, .nice-select.open, .nice-select:focus {
+            border-color: {{color}};
+        }
+
+        .owl-theme .owl-nav [class*=owl-] {
+            color: {{color}};
+            font-size: 20px;
+            margin: 5px;
+            padding: 7px;
+            background: rgba(50,50,50,0.8);
+            text-shadow: 2px 2px black;
+            display: inline-block;
+            cursor: pointer;
+            border-radius: 2px;
+        }
+        .owl-theme .owl-dots .owl-dot.active span, .owl-theme .owl-dots .owl-dot:hover span{
+            background: {{color}};
+        }
+
+        {% endif %}
+
     </style>
-    {% endif %}
 
     <script type="text/javascript" >
     template = {{template}};
