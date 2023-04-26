@@ -135,37 +135,37 @@ $(document).ready(function () {
     $(document).ready(function () {
         $('#mc_embed_signup').find('form').ajaxChimp();
 
-        if( $(window).width() > 992){
-            try{
-                document.getElementsByClassName("signup_pc_mb")[0].style.color = text_color_login;
-            }catch(err){
-                console.log('err');
-            }
-        }
-        else {
-            try{
-                document.getElementsByClassName("signup_pc_mb")[0].style.color = "#212529";
-            }catch(err){
-                console.log('err');
-            }
-        }
-
-        $(window).resize(function() {
-            if ($(window).width() >= 992) {
-                try{
-                    document.getElementsByClassName("signup_pc_mb")[0].style.color = text_color_login;
-                }catch(err){
-                    console.log('err');
-                }
-            }
-            else {
-                try{
-                    document.getElementsByClassName("signup_pc_mb")[0].style.color = "#212529";
-                }catch(err){
-                    console.log('err');
-                }
-            }
-        });
+//        if( $(window).width() >= 992){
+//            try{
+//                document.getElementsByClassName("signup_pc_mb")[0].style.color = text_color_login;
+//            }catch(err){
+//                console.log('err');
+//            }
+//        }
+//        else {
+//            try{
+//                document.getElementsByClassName("signup_pc_mb")[0].style.color = text_color_login;
+//            }catch(err){
+//                console.log('err');
+//            }
+//        }
+//
+//        $(window).resize(function() {
+//            if ($(window).width() >= 992) {
+//                try{
+//                    document.getElementsByClassName("signup_pc_mb")[0].style.color = text_color_login;
+//                }catch(err){
+//                    console.log('err');
+//                }
+//            }
+//            else {
+//                try{
+//                    document.getElementsByClassName("signup_pc_mb")[0].style.color = text_color_login;
+//                }catch(err){
+//                    console.log('err');
+//                }
+//            }
+//        });
 
     });
 

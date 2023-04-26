@@ -1455,7 +1455,7 @@ def get_data_template(request, type='home', provider_type = []):
         background = '/static/tt_website/images/bg_7.jpg'
     else:
         background = '/static/tt_website/images/bg_7.jpg'
-    color = '#f15a22'
+    color = '#205B95'
     airline_country = []
     phone_code = []
     website_name = 'Orbis'
@@ -1844,7 +1844,7 @@ def get_data_template(request, type='home', provider_type = []):
                     if line != '':
                         tour_search_template = line.split('\n')[0]
             if color == '':
-                color = '#f15a22'
+                color = '#205B95'
             if len(background.split('\n')) > 1:
                 background = background.split('\n')[0]
     except Exception as e:

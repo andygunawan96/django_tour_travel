@@ -2799,7 +2799,7 @@ function datasearch2(airline){
         //         //flight VTL hardcode dari frontend
         //         airline.schedules[i].journeys[j].search_banner.push({
         //             "active": true,
-        //             "banner_color": "#f15a22",
+        //             "banner_color": "#205B95",
         //             "description": '',
         //             "name": "VTL Flight",
         //             "text_color": "#ffffff"
@@ -11464,7 +11464,7 @@ function datareissue2(airline){
                 //         //flight VTL hardcode dari frontend
                 //         airline[i].schedules[j].journeys[k].search_banner.push({
                 //             "active": true,
-                //             "banner_color": "#f15a22",
+                //             "banner_color": "#205B95",
                 //             "description": '',
                 //             "name": "VTL Flight",
                 //             "text_color": "#ffffff"

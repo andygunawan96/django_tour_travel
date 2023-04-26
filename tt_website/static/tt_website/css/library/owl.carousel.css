@@ -48,9 +48,7 @@
     -webkit-touch-callout: none; }
   .owl-carousel .owl-item img {
     display: block;
-    width:auto;
-    height:auto;
-    max-width:100%; }
+    width: 100%; }
   .owl-carousel .owl-nav.disabled,
   .owl-carousel .owl-dots.disabled {
     display: none; }
@@ -261,12 +259,13 @@
     margin:0px;
     font: inherit; }
 
+  /*
   .owl-carousel-suggest .owl-nav .owl-prev {
     position: absolute;
-    left: -20px;
+    left: 0px;
     display: flex;
     background-color:white;
-    top: 30%;
+    bottom: 0px;
     border:1px solid #000;
     border-radius: 50%;
     cursor: pointer;
@@ -275,6 +274,10 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none; }
+  */
+  .owl-carousel-suggest .owl-nav .owl-prev {
+    margin-right: 5px !important;
+  }
 
   .owl-carousel-suggest .owl-nav button.owl-prev {
     background: none;
@@ -283,12 +286,13 @@
     padding: 0 !important;
     font: inherit; }
 
+  /*
   .owl-carousel-suggest .owl-nav .owl-next {
     position: absolute;
     right: -20px;
     display: flex;
     background-color:white;
-    top: 30%;
+    top: 0%;
     border:1px solid #000;
     border-radius: 50%;
     cursor: pointer;
@@ -297,6 +301,10 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none; }
+  */
+  .owl-carousel-suggest .owl-nav .owl-next {
+    margin-left: 5px !important;
+  }
 
   .owl-carousel-suggest .owl-nav button.owl-next {
     background: none;
@@ -966,10 +974,10 @@
 
   .owl-carousel-hotel-img .owl-nav .owl-prev {
     position: absolute;
-    left: -20px;
+    left: 0px;
     display: flex;
     background-color:white;
-    top: 40%;
+    bottom: 0px;
     border:1px solid #000;
     border-radius: 50%;
     cursor: pointer;
@@ -988,10 +996,10 @@
 
   .owl-carousel-hotel-img .owl-nav .owl-next {
     position: absolute;
-    right: -20px;
+    right: 0px;
     display: flex;
     background-color:white;
-    top: 40%;
+    bottom: 0px;
     border:1px solid #000;
     border-radius: 50%;
     cursor: pointer;
@@ -1196,7 +1204,7 @@
 
   .owl-carousel-hotel-img-modal .owl-nav .owl-prev {
     position: absolute;
-    left: -20px;
+    left: -5px;
     display: flex;
     background-color:white;
     top: 40%;
@@ -1218,7 +1226,7 @@
 
   .owl-carousel-hotel-img-modal .owl-nav .owl-next {
     position: absolute;
-    right: -20px;
+    right: -4px;
     display: flex;
     background-color:white;
     top: 40%;
@@ -1425,6 +1433,7 @@
     margin:0px;
     font: inherit; }
 
+  /*
   .owl-carousel-tour-img .owl-nav .owl-prev {
     position: absolute;
     left: -20px;
@@ -1439,6 +1448,10 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none; }
+  */
+  .owl-carousel-tour-img .owl-nav button.owl-prev {
+    margin-right:5px;
+  }
 
   .owl-carousel-tour-img .owl-nav button.owl-prev {
     background: none;
@@ -1447,6 +1460,7 @@
     padding: 0 !important;
     font: inherit; }
 
+  /*
   .owl-carousel-tour-img .owl-nav .owl-next {
     position: absolute;
     right: -20px;
@@ -1461,6 +1475,10 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none; }
+  */
+  .owl-carousel-tour-img .owl-nav button.owl-next {
+    margin-left:5px;
+  }
 
   .owl-carousel-tour-img .owl-nav button.owl-next {
     background: none;
@@ -1654,7 +1672,7 @@
 
   .owl-carousel-activity-img .owl-nav .owl-prev {
     position: absolute;
-    left: -20px;
+    left: 0px;
     display: flex;
     background-color:white;
     top: 40%;
@@ -1667,6 +1685,7 @@
     -ms-user-select: none;
     user-select: none; }
 
+
   .owl-carousel-activity-img .owl-nav button.owl-prev {
     background: none;
     color: inherit;
@@ -1676,7 +1695,7 @@
 
   .owl-carousel-activity-img .owl-nav .owl-next {
     position: absolute;
-    right: -20px;
+    right: 0px;
     display: flex;
     background-color:white;
     top: 40%;
@@ -2340,10 +2359,10 @@
 
   .owl-carousel-hotel-img .owl-nav .owl-prev {
     position: absolute;
-    left: -20px;
+    left: 0px;
     display: flex;
     background-color:white;
-    top: 40%;
+    top: 35%;
     border:1px solid #000;
     border-radius: 50%;
     cursor: pointer;
@@ -2362,10 +2381,10 @@
 
   .owl-carousel-hotel-img .owl-nav .owl-next {
     position: absolute;
-    right: -20px;
+    right: 0px;
     display: flex;
     background-color:white;
-    top: 40%;
+    top: 35%;
     border:1px solid #000;
     border-radius: 50%;
     cursor: pointer;
@@ -2507,7 +2526,7 @@
   -webkit-tap-highlight-color: transparent;
   /* position relative and z-index fix webkit rendering fonts issue */
   position: relative;
-  z-index: 1; }
+  z-index: 100; }
 
   .owl-carousel-banner .owl-stage {
     position: relative;
@@ -2538,7 +2557,7 @@
   .owl-carousel-banner .owl-item {
     position: relative;
     min-height: 1px;
-    transform: scale(0.8);
+    /*transform: scale(0.8);*/
     float: left;
     text-align:center;
     -webkit-backface-visibility: hidden;
@@ -2572,10 +2591,10 @@
 
 
   .owl-carousel-banner .owl-nav .owl-prev {
-    top: 0%;
+    bottom: 50%;
     margin: 0;
     position: absolute;
-    left: 0px;
+    left: -20px;
     display: flex;
     background-color:white;
     border:1px solid #000;
@@ -2595,12 +2614,11 @@
     font: inherit; }
 
   .owl-carousel-banner .owl-nav .owl-next {
-    top: 0%;
+    bottom: 50%;
     margin: 0;
     position: absolute;
-    right: 0px;
+    right: -20px;
     display: flex;
-    height: 100%;
     background-color:white;
     border:1px solid #000;
     border-radius: 50%;
@@ -2749,12 +2767,15 @@
 }
 
 @media (max-width: 991px) {
+  /*
   .owl-carousel-banner .owl-nav .owl-prev {
-    top: 30%;
+    top: 0%;
   }
   .owl-carousel-banner .owl-nav .owl-next {
-    top: 30%;
+    top: 0%;
   }
+  */
+
   .owl-carousel-activity .owl-nav .owl-prev {
     top: 30%;
   }
@@ -2767,12 +2788,15 @@
 }
 
 @media (max-width: 767px) {
+  /*
   .owl-carousel-banner .owl-nav .owl-prev {
-    top: 25%;
+    top: 0%;
   }
   .owl-carousel-banner .owl-nav .owl-next {
-    top: 25%;
+    top: 0%;
   }
+  */
+
   .owl-carousel-activity .owl-nav .owl-prev {
     top: 25%;
   }
@@ -2784,12 +2808,14 @@
   }
 }
 @media (max-width: 425px) {
+  /*
   .owl-carousel-banner .owl-nav .owl-prev {
-    top: 20%;
+    top: 0%;
   }
   .owl-carousel-banner .owl-nav .owl-next {
-    top: 20%;
+    top: 0%;
   }
+  */
   .owl-carousel-activity .owl-nav .owl-prev {
     top: 20%;
   }
@@ -3033,6 +3059,234 @@
   width: 100%; }
 
 
+.owl-carousel-room-img {
+  display: none;
+  width: 100%;
+  -webkit-tap-highlight-color: transparent;
+  /* position relative and z-index fix webkit rendering fonts issue */
+  position: relative;
+  z-index: 1; }
+  .owl-carousel-room-img .owl-stage {
+    position: relative;
+    -ms-touch-action: pan-Y;
+    touch-action: manipulation;
+    -moz-backface-visibility: hidden;
+    /* fix firefox animation glitch */ }
+  .owl-carousel-room-img .owl-stage:after {
+    content: ".";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0; }
+  .owl-carousel-room-img .owl-stage-outer {
+    position: relative;
+    overflow: hidden;
+    /* fix for flashing background */
+    -webkit-transform: translate3d(0px, 0px, 0px); }
+  .owl-carousel-room-img .owl-wrapper,
+  .owl-carousel-room-img .owl-item {
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    -ms-backface-visibility: hidden;
+    -webkit-transform: translate3d(0, 0, 0);
+    -moz-transform: translate3d(0, 0, 0);
+    -ms-transform: translate3d(0, 0, 0); }
+  .owl-carousel-room-img .owl-item {
+    position: relative;
+    min-height: 1px;
+    float: left;
+    text-align:center;
+    -webkit-backface-visibility: hidden;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none; }
+  .owl-carousel-room-img .owl-item img {
+    display: block;
+    width:auto;
+    height:auto;
+    max-width:100%; }
+  .owl-carousel-room-img .owl-nav.disabled,
+  .owl-carousel-room-img .owl-dots.disabled {
+    display: none; }
+
+
+  .owl-carousel-room-img .owl-dot {
+    cursor: pointer;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none; }
+
+  .owl-carousel-room-img button.owl-dot {
+    background: none;
+    color: inherit;
+    border: none;
+    padding: 0 !important;
+    margin:0px;
+    font: inherit; }
+
+  .owl-carousel-room-img .owl-nav .owl-prev {
+    position: absolute;
+    left: -20px;
+    display: flex;
+    background-color:white;
+    top: 40%;
+    border:1px solid #000;
+    border-radius: 50%;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none; }
+
+  .owl-carousel-room-img .owl-nav button.owl-prev {
+    background: none;
+    color: inherit;
+    border: none;
+    padding: 0 !important;
+    font: inherit; }
+
+  .owl-carousel-room-img .owl-nav .owl-next {
+    position: absolute;
+    right: -20px;
+    display: flex;
+    background-color:white;
+    top: 40%;
+    border:1px solid #000;
+    border-radius: 50%;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none; }
+
+  .owl-carousel-room-img .owl-nav button.owl-next {
+    background: none;
+    color: inherit;
+    border: none;
+    padding: 0 !important;
+    font: inherit; }
+
+
+  .owl-carousel-room-img.owl-loaded {
+    display: block; }
+  .owl-carousel-room-img.owl-loading {
+    opacity: 0;
+    display: block; }
+  .owl-carousel-room-img.owl-hidden {
+    opacity: 0; }
+  .owl-carousel-room-img.owl-refresh .owl-item {
+    visibility: hidden; }
+  .owl-carousel-room-img.owl-drag .owl-item {
+    -ms-touch-action: pan-y;
+        touch-action: pan-y;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none; }
+  .owl-carousel-room-img.owl-grab {
+    cursor: move;
+    cursor: grab; }
+  .owl-carousel-room-img.owl-rtl {
+    direction: rtl; }
+  .owl-carousel-room-img.owl-rtl .owl-item {
+    float: right; }
+
+/* No Js */
+.no-js .owl-carousel-room-img {
+  display: block; }
+
+/*
+ *  Owl Carousel - Animate Plugin
+ */
+.owl-carousel-room-img .animated {
+  animation-duration: 1000ms;
+  animation-fill-mode: both; }
+
+.owl-carousel-room-img .owl-animated-in {
+  z-index: 0; }
+
+.owl-carousel-room-img .owl-animated-out {
+  z-index: 1; }
+
+.owl-carousel-room-img .fadeOut {
+  animation-name: fadeOut; }
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1; }
+  100% {
+    opacity: 0; } }
+
+/*
+ * 	Owl Carousel - Auto Height Plugin
+ */
+.owl-height {
+  transition: height 500ms ease-in-out; }
+
+/*
+ * 	Owl Carousel - Lazy Load Plugin
+ */
+.owl-carousel-room-img .owl-item {
+  /**
+			This is introduced due to a bug in IE11 where lazy loading combined with autoheight plugin causes a wrong
+			calculation of the height of the owl-item that breaks page layouts
+		 */ }
+  .owl-carousel-room-img .owl-item .owl-lazy {
+    opacity: 0;
+    transition: opacity 400ms ease; }
+  .owl-carousel-room-img .owl-item .owl-lazy[src^=""], .owl-carousel-room-img .owl-item .owl-lazy:not([src]) {
+    max-height: 0; }
+  .owl-carousel-room-img .owl-item img.owl-lazy {
+    transform-style: preserve-3d; }
+
+/*
+ * 	Owl Carousel - Video Plugin
+ */
+.owl-carousel-room-img .owl-video-wrapper {
+  position: relative;
+  height: 100%;
+  background: #000; }
+
+.owl-carousel-room-img .owl-video-play-icon {
+  position: absolute;
+  height: 80px;
+  width: 80px;
+  left: 50%;
+  top: 50%;
+  margin-left: -40px;
+  margin-top: -40px;
+  background: url("owl.video.play.png") no-repeat;
+  cursor: pointer;
+  z-index: 1;
+  -webkit-backface-visibility: hidden;
+  transition: transform 100ms ease; }
+
+.owl-carousel-room-img .owl-video-play-icon:hover {
+  -ms-transform: scale(1.3, 1.3);
+      transform: scale(1.3, 1.3); }
+
+.owl-carousel-room-img .owl-video-playing .owl-video-tn,
+.owl-carousel-room-img .owl-video-playing .owl-video-play-icon {
+  display: none; }
+
+.owl-carousel-room-img .owl-video-tn {
+  opacity: 0;
+  height: 100%;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  transition: opacity 400ms ease; }
+
+.owl-carousel-room-img .owl-video-frame {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  width: 100%; }
+
 
 
 
@@ -3104,12 +3358,13 @@
     margin:0px;
     font: inherit; }
 
+  /*
   .owl-carousel-login .owl-nav .owl-prev {
     position: absolute;
-    left: -20px;
+    left: 0px;
     display: flex;
     background-color:white;
-    top: 30%;
+    bottom: 0px;
     border:1px solid #000;
     border-radius: 50%;
     cursor: pointer;
@@ -3118,6 +3373,11 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none; }
+  */
+  .owl-carousel-login .owl-nav .owl-prev {
+    margin-right: 5px !important;
+  }
+
 
   .owl-carousel-login .owl-nav button.owl-prev {
     background: none;
@@ -3127,12 +3387,13 @@
     padding: 0 !important;
     font: inherit; }
 
+  /*
   .owl-carousel-login .owl-nav .owl-next {
     position: absolute;
-    right: -20px;
+    right: 0px;
     display: flex;
     background-color:white;
-    top: 30%;
+    bottom: 0px;
     border:1px solid #000;
     border-radius: 50%;
     cursor: pointer;
@@ -3141,6 +3402,11 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none; }
+  */
+  .owl-carousel-login .owl-nav .owl-next {
+    margin-right: 5px !important;
+  }
+
 
   .owl-carousel-login .owl-nav button.owl-next {
     background: none;
