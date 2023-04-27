@@ -942,16 +942,19 @@ def get_provider_description(request):
         try:
             if res['result']['error_code'] == 0:
                 temp = {}
-                for i in res['result']['response']['providers']:
-                    temp[i['provider']] = i
-                res = temp
+                for ho_seq_id in res['result']['response']:
+                    temp[ho_seq_id] = {}
+                    for provider in res['result']['response'][ho_seq_id]:
+                        temp[ho_seq_id][provider['provider']] = provider
                 write_cache(temp, "get_list_provider_data", request, 'cache_web')
                 _logger.info("get_provider_description AIRLINE RENEW SUCCESS SIGNATURE " + request.POST['signature'])
+                if request.session['user_account']['co_ho_seq_id'] in temp:
+                    res = temp[request.session['user_account']['co_ho_seq_id']]
             else:
                 try:
                     file = read_cache("get_list_provider_data", 'cache_web', request)
-                    if file:
-                        res = file
+                    if file and request.session['user_account']['co_ho_seq_id'] in file:
+                        res = file[request.session['user_account']['co_ho_seq_id']]
                     _logger.info("read file get_list_provider_data SIGNATURE " + request.POST['signature'])
                 except Exception as e:
                     _logger.error('ERROR read file get_list_provider_data\n' + str(e) + '\n' + traceback.format_exc())
@@ -960,7 +963,8 @@ def get_provider_description(request):
     else:
         try:
             file = read_cache("get_list_provider_data", 'cache_web', request, 90911)
-            res = file
+            if file and request.session['user_account']['co_ho_seq_id'] in file:
+                res = file[request.session['user_account']['co_ho_seq_id']]
         except Exception as e:
             _logger.error('ERROR read file get_list_provider_data\n' + str(e) + '\n' + traceback.format_exc())
     return res
