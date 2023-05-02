@@ -5186,7 +5186,7 @@ function show_seat_map(val, checked){
                                                                            '`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].seat_code+`',
                                                                            '`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].seat_name+`',
                                                                            '`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].service_charges[0].currency+`',
-                                                                           '`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].service_charges[0].amount+`',
+                                                                           '`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].base_price+`',
                                                                            '`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].description+`')"
                                             value='`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].row_number+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].column+`'/>`;
                                         }else if(seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].availability == -1){
@@ -11045,7 +11045,7 @@ function reroute_btn(){
                     }
                 });
                 document.getElementById('destination_id_flight'+counter_airline).value = airline_get_detail.result.response.provider_bookings[i].journeys[j].destination+` - `+airline_get_detail.result.response.provider_bookings[i].journeys[j].destination_city+` - `+airline_get_detail.result.response.provider_bookings[i].journeys[j].destination_country+` - `+airline_get_detail.result.response.provider_bookings[i].journeys[j].destination_name;
-            counter_airline++;
+                counter_airline++;
             }
         }
     }
