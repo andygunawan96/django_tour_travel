@@ -405,7 +405,7 @@ option::after{
       .site-navbar .site-navigation .site-menu > li > a {
         color: #000;
         text-decoration: none !important;
-        padding: 20px 6px;
+        padding: 4px 6px;
         display: inline-block;
         font-size: 14px; }
         .site-navbar .site-navigation .site-menu > li > a:hover {
@@ -483,7 +483,7 @@ option::after{
             padding: 9px 20px;
             display: block; }
             .site-navbar .site-navigation .site-menu .has-children .dropdown > li > a:hover {
-              background: #f4f5f9;
+              /*background: #f4f5f9;*/
               color: #25262a; }
           .site-navbar .site-navigation .site-menu .has-children .dropdown > li.has-children > a:before {
             content: "\e315";

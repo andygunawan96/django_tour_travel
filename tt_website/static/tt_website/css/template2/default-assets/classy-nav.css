@@ -233,7 +233,7 @@
     border-bottom: 1px solid #f2f4f8;
     padding: 8px 12px; }
 .classynav ul li .dropdown li a {
-  border-bottom: 1px solid rgba(242, 244, 248, 0.7); }
+  /*border-bottom: 1px solid rgba(242, 244, 248, 0.7);*/ }
 .classynav ul li .dropdown li:last-child a {
   border-bottom: none; }
 .classynav ul li .dropdown li .dropdown li a {
@@ -288,7 +288,7 @@
   padding: 10px 0; }
   .breakpoint-off .classynav ul li .dropdown li .dropdown {
     top: 10px;
-    left: 180px;
+    right: 100%;
     z-index: 200;
     opacity: 0;
     visibility: hidden; }

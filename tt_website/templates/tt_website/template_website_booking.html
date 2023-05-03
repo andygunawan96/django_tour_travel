@@ -178,10 +178,10 @@ Licence URI: http://www.os-templates.com/template-terms
     </script>
 
     <!--template1-->
-    <link rel="stylesheet" type="text/css" href="{{ static_path }}css/lightpick.css">
-    <script src="{{ static_path }}js/moment.js?version={{javascript_version}}"></script>
+    <link rel="stylesheet" type="text/css" href="{{ static_path }}css/library/lightpick.css">
+    <script src="{{ static_path }}js/library/moment.js?version={{javascript_version}}"></script>
 <!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>-->
-    <script src="{{ static_path }}js/lightpick.js"></script>
+    <script src="{{ static_path }}js/library/lightpick.js"></script>
 
     <style>
         .login-header{
@@ -281,29 +281,25 @@ Licence URI: http://www.os-templates.com/template-terms
         {% endif %}
 
     </style>
-    <link rel="stylesheet" href="{{ static_path }}css/jquery.dataTables.min.css?version={{javascript_version}}">
-    <link rel="stylesheet" href="{{ static_path }}css/auto-complete.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/library/jquery.dataTables.min.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/library/auto-complete.css?version={{javascript_version}}">
     {%if template == 1%}
-    <link rel="stylesheet" href="{{ static_path }}css/template1/animate.min.css?version={{javascript_version}}">
-    <link rel="stylesheet" href="{{ static_path }}css/bootstrap.css?version={{javascript_version}}">
-    <link rel="stylesheet" href="{{ static_path }}css/font-awesome.min.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/library/animate.min.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/template1/bootstrap.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/template1/font-awesome.min.css?version={{javascript_version}}">
     <link rel="stylesheet" href="{{ static_path }}css/template1/jquery-ui.css?version={{javascript_version}}">
-    <link rel="stylesheet" href="{{ static_path }}css/linearicons.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/template1/linearicons.css?version={{javascript_version}}">
     <link rel="stylesheet" href="{{ static_path }}css/template1/magnific-popup.css?version={{javascript_version}}">
-    <link rel="stylesheet" href="{{ static_path }}css/main.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/template1/main.css?version={{javascript_version}}">
     <link rel="stylesheet" href="{{ static_path }}css/template1/nice-select.css?version={{javascript_version}}">
-<!--    <link rel="stylesheet" href="{{ static_path }}css/template1/owl.carousel.css?version={{javascript_version}}">-->
-<!--    <link rel="stylesheet" href="{{ static_path }}css/template1/owl.theme.default.min.css?version={{javascript_version}}">-->
-<!--    <link rel="stylesheet" href="{{ static_path }}css/template1/owl.theme.green.min.css?version={{javascript_version}}">-->
     <link rel="stylesheet" href="{{ static_path }}css/template1/font.css?version={{javascript_version}}">
-    <!--select2-->
-    <link rel="stylesheet" href="{{ static_path }}css/select2.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/template1/select2.css?version={{javascript_version}}">
 
     <!--template2-->
     {% elif template == 2 %}
     <link rel="stylesheet" href="{{ static_path }}css/template2/default-assets/classy-nav.css?version={{javascript_version}}">
     <link rel="stylesheet" href="{{ static_path }}css/template2/animate.css?version={{javascript_version}}">
-    <link rel="stylesheet" href="{{ static_path }}css/template2/animate.min.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/library/animate.min.css?version={{javascript_version}}">
     <link rel="stylesheet" href="{{ static_path }}css/template2/bootstrap.min.css?version={{javascript_version}}">
     <link rel="stylesheet" href="{{ static_path }}css/template2/bootstrap-datepicker.min.css?version={{javascript_version}}">
     <link rel="stylesheet" href="{{ static_path }}css/template2/font-awesome.min.css?version={{javascript_version}}">
@@ -313,7 +309,7 @@ Licence URI: http://www.os-templates.com/template-terms
 <!--    <link rel="stylesheet" href="{{ static_path }}css/template2/owl.carousel.css?version={{javascript_version}}">-->
 <!--    <link rel="stylesheet" href="{{ static_path }}css/template2/owl.theme.default.min.css?version={{javascript_version}}">-->
 <!--    <link rel="stylesheet" href="{{ static_path }}css/template2/owl.theme.green.min.css?version={{javascript_version}}">-->
-    <link rel="stylesheet" href="{{ static_path }}css/linearicons.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/template2/linearicons.css?version={{javascript_version}}">
     <link rel="stylesheet" href="{{ static_path }}css/template2/style.css?version={{javascript_version}}">
     <link rel="stylesheet" href="{{ static_path }}css/template2/select2.css?version={{javascript_version}}">
 
@@ -323,7 +319,7 @@ Licence URI: http://www.os-templates.com/template-terms
     <link rel="stylesheet" href="{{ static_path }}css/template3/bootstrap.css?version={{javascript_version}}">
     <link rel="stylesheet" href="{{ static_path }}css/template3/magnific-popup.css?version={{javascript_version}}">
     <link rel="stylesheet" href="{{ static_path }}css/template3/nice-select.css?version={{javascript_version}}">
-    <link rel="stylesheet" href="{{ static_path }}css/template3/animate.min.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/library/animate.min.css?version={{javascript_version}}">
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css?version={{javascript_version}}">
 <!--    <link rel="stylesheet" href="{{ static_path }}css/template3/owl.carousel.css?version={{javascript_version}}">-->
 <!--    <link rel="stylesheet" href="{{ static_path }}css/template3/owl.theme.default.min.css?version={{javascript_version}}">-->
@@ -334,7 +330,7 @@ Licence URI: http://www.os-templates.com/template-terms
     {% elif template == 4 %}
     <link rel="stylesheet" href="{{ static_path }}fonts/template4/fonts/icomoon/style.css?version={{javascript_version}}">
     <link rel="stylesheet" href="{{ static_path }}css/template4/bootstrap.min.css?version={{javascript_version}}">
-    <link rel="stylesheet" href="{{ static_path }}css/template4/animate.min.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/library/animate.min.css?version={{javascript_version}}">
     <link rel="stylesheet" href="{{ static_path }}css/template4/nice-select.css?version={{javascript_version}}">
     <link rel="stylesheet" href="{{ static_path }}css/template4/magnific-popup.css?version={{javascript_version}}">
     <link rel="stylesheet" href="{{ static_path }}css/template4/jquery-ui.css?version={{javascript_version}}">
@@ -350,7 +346,7 @@ Licence URI: http://www.os-templates.com/template-terms
     <link rel="stylesheet" href="{{ static_path }}css/template5/linearicons.css?version={{javascript_version}}">
     <link rel="stylesheet" href="{{ static_path }}css/template5/font-awesome.min.css?version={{javascript_version}}">
     <link rel="stylesheet" href="{{ static_path }}css/template5/nice-select.css?version={{javascript_version}}">
-    <link rel="stylesheet" href="{{ static_path }}css/template5/animate.min.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/library/animate.min.css?version={{javascript_version}}">
     <link rel="stylesheet" href="{{ static_path }}css/template5/ion.rangeSlider.css?version={{javascript_version}}"/>
     <link rel="stylesheet" href="{{ static_path }}css/template5/ion.rangeSlider.skinFlat.css?version={{javascript_version}}"/>
     <link rel="stylesheet" href="{{ static_path }}css/template5/bootstrap.css?version={{javascript_version}}">
@@ -374,12 +370,12 @@ Licence URI: http://www.os-templates.com/template-terms
 <!--    $(".form-group .col-xs-12").addClass("row");-->
 <!--    $(".form-group .row").removeClass("removeClass");-->
 	<!-- css files -->
-    <link rel="stylesheet" href="{{ static_path }}css/template1/animate.min.css?version={{javascript_version}}">
-    <link href="{{ static_path }}css/template6/bootstrap.css" rel='stylesheet' type='text/css' /><!-- bootstrap css -->
-    <link href="{{ static_path }}css/template6/style.css" rel='stylesheet' type='text/css' /><!-- custom css -->
-    <link href="{{ static_path }}css/template6/font-awesome.min.css" rel="stylesheet"><!-- fontawesome css -->
-    <link href="{{ static_path }}css/template6/nice-select.css" rel="stylesheet"><!-- fontawesome css -->
-    <link rel="stylesheet" href="{{ static_path }}css/template1/magnific-popup.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/library/animate.min.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/template6/bootstrap.css" rel='stylesheet' type='text/css' /><!-- bootstrap css -->
+    <link rel="stylesheet" href="{{ static_path }}css/template6/style.css" rel='stylesheet' type='text/css' /><!-- custom css -->
+    <link rel="stylesheet" href="{{ static_path }}css/template6/font-awesome.min.css" rel="stylesheet"><!-- fontawesome css -->
+    <link rel="stylesheet" href="{{ static_path }}css/template6/nice-select.css" rel="stylesheet"><!-- fontawesome css -->
+    <link rel="stylesheet" href="{{ static_path }}css/template6/magnific-popup.css?version={{javascript_version}}">
     <link rel="stylesheet" href="{{ static_path }}css/template6/select2.css?version={{javascript_version}}">
 	<!-- //css files -->
 <!--    <link rel="stylesheet" href="{{ static_path }}css/template6/owl.carousel.css?version={{javascript_version}}">-->
@@ -402,24 +398,24 @@ Licence URI: http://www.os-templates.com/template-terms
     <link rel="stylesheet" href="{{ static_path }}css/all-custom.css" type="text/css">
 
     <!--jbox-->
-    <link rel="stylesheet" href="{{ static_path }}css/jbox/jBox.all.css?version={{javascript_version}}">
-<!--    <link rel="stylesheet" href="{{ static_path }}css/jbox/normalize.css?version={{javascript_version}}">-->
-    <link rel="stylesheet" href="{{ static_path }}css/jbox/playground-avatars.css?version={{javascript_version}}">
-    <link rel="stylesheet" href="{{ static_path }}css/jbox/playground-inception.css?version={{javascript_version}}">
-    <link rel="stylesheet" href="{{ static_path }}css/jbox/playground-login.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/library/jbox/jBox.all.css?version={{javascript_version}}">
+<!--    <link rel="stylesheet" href="{{ static_path }}css/library/jbox/normalize.css?version={{javascript_version}}">-->
+    <link rel="stylesheet" href="{{ static_path }}css/library/jbox/playground-avatars.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/library/jbox/playground-inception.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/library/jbox/playground-login.css?version={{javascript_version}}">
 
     <!--font-->
-    <link rel="stylesheet" href="{{ static_path }}css/all.min.css?version={{javascript_version}}">
-    <link rel="stylesheet" href="{{ static_path }}css/sweetalert2.min.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/library/all.min.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/library/sweetalert2.min.css?version={{javascript_version}}">
     <!--cart-->
-    <link rel="stylesheet" href="{{ static_path }}css/cart.css?version={{javascript_version}}">
-    <link rel="stylesheet" href="{{ static_path }}css/simplePagination.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/library/cart.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/library/simplePagination.css?version={{javascript_version}}">
     <!--daterangepicker-->
-    <link rel="stylesheet" href="{{ static_path }}css/daterangepicker.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/library/daterangepicker.css?version={{javascript_version}}">
     <!--loadingbar-->
-    <link rel="stylesheet" href="{{ static_path }}css/loading.css?version={{javascript_version}}">
-    <link rel="stylesheet" href="{{ static_path }}css/loading-btn.css?version={{javascript_version}}">
-    <link rel="stylesheet" href="{{ static_path }}css/loading-bar.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/library/loading.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/library/loading-btn.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/library/loading-bar.css?version={{javascript_version}}">
     <!--select2-->
     <!--other-->
     <script src="{{ static_path }}js/vendor/jquery-2.2.4.min.js?version={{javascript_version}}"></script>
@@ -943,15 +939,6 @@ Licence URI: http://www.os-templates.com/template-terms
           color: {{text_color}} !important;
           background: {{color}} !important;
         }
-        .ticket-layout:before {
-            border: 5px solid {{color}};
-        }
-        .ticket-layout:after {
-            border: 5px solid {{color}};
-        }
-        .ticket-layout {
-            background: linear-gradient(to right, {{color}}, {{color}}, {{color}}, {{color}})
-        }
         .progress_icon-active {
             background-color: {{color}};
         }
@@ -1182,6 +1169,11 @@ Licence URI: http://www.os-templates.com/template-terms
             background-color: {{text_color_login}};
         }
         {% endif %}
+
+        .image-rounded-icon2{
+            color: {{text_color}};
+        }
+
         .hotel-search-form-area .hotel-search-form{
             background: #f7f7f7;
         }
@@ -1215,11 +1207,6 @@ Licence URI: http://www.os-templates.com/template-terms
             color: {{color}};
         }
 
-        .owl-theme .owl-dots .owl-dot.active span, .owl-theme .owl-dots .owl-dot:hover span{
-            color: {{color}} !important;
-            background: {{color}} !important;
-        }
-
         .breakpoint-on .classynav ul li.has-down.active > .dd-trigger, .breakpoint-on .classynav ul li.megamenu-item.active > .dd-trigger{
             background-color:{{color}};
         }
@@ -1230,27 +1217,6 @@ Licence URI: http://www.os-templates.com/template-terms
             background-color: {{color}};
             opacity:0.8;
             color: white !important;
-        }
-        ul.create_tabs li.current{
-            border-bottom: 5px solid {{color}};
-            color: {{color}};
-        }
-        ul.create_tabs li:hover{
-            color: {{color}};
-        }
-        ul.edit_tabs li.current{
-            border-bottom: 5px solid {{color}};
-            color: {{color}};
-        }
-        ul.edit_tabs li:hover{
-            color: {{color}};
-        }
-        .owl-theme .owl-nav [class*=owl-]{
-            background: {{color}};
-        }
-        .owl-theme .owl-nav [class*=owl-]:hover{
-            background: {{color}};
-            opacity: 1;
         }
         .nice-select:active, .nice-select.open, .nice-select:focus{
             border-color: {{color}};
@@ -1273,41 +1239,20 @@ Licence URI: http://www.os-templates.com/template-terms
         .single-footer-widget .footer-nav li a:focus, .single-footer-widget .footer-nav li a:hover{
             color: {{color}};
         }
-        .banner-area-div{
-            height:60vh;
-        }
-        @media only screen and (max-width: 575px) {
-            .banner-area-div{
-                height:48vh !important;
-            }
-        }
-        @media only screen and (min-width: 576px) and (max-width: 767px) {
-            .banner-area-div{
-                height:57vh;
-            }
-        }
-        @media only screen and (min-width: 768px) and (max-width: 991px) {
-            .banner-area-div{
-                height:60vh;
-            }
-        }
-        @media only screen and (min-width: 992px) and (max-width: 1079px) {
-            .banner-area-div{
-                height:70vh;
-            }
-        }
-        {% elif template == 3 %}
+    </style>
+    {% elif template == 3%}
+    <style>
         .switch_a{
             color:{{text_color}};
         }
         .switch_a:hover{
             color:{{color}};
         }
+        #mobile-nav ul .menu-item-active{
+            color: {{color}};
+        }
         .header-right{
             background-color: {{tab_color}};
-        }
-        .nav-menu a:hover{
-            color:{{color}} !important;
         }
         #mobile-nav ul li a:hover{
             color:{{color}} !important;
@@ -1320,41 +1265,6 @@ Licence URI: http://www.os-templates.com/template-terms
         .image-rounded-icon{
             background: {{color}};
         }
-        .btn-txt-color{
-            color: {{text_color}};
-        }
-        .btn-txt-color:hover{
-            color: {{color}} !important;
-        }
-        ul.create_tabs li.current{
-            border-bottom: 5px solid {{color}};
-            color: {{color}};
-        }
-        ul.create_tabs li:hover{
-           color: {{color}};
-        }
-
-        ul.edit_tabs li.current{
-            border-bottom: 5px solid {{color}};
-            color: {{color}};
-        }
-        ul.edit_tabs li:hover{
-           color: {{color}};
-        }
-        ul.template_tabs li.current{
-            border-bottom: 5px solid {{color}};
-            color: {{color}};
-        }
-        ul.template_tabs li.current{
-            border-bottom: 5px solid {{color}};
-            color: {{color}};
-        }
-
-        .single-footer-widget ul li a:hover {
-            color: {{color}};
-            text-decoration: unset;
-        }
-
         a:focus, a:hover{
             color: {{color}};
         }
@@ -1373,42 +1283,20 @@ Licence URI: http://www.os-templates.com/template-terms
         .default-select .nice-select .list .option:hover{
             color: {{color}};
         }
-        .owl-theme .owl-nav [class*=owl-]{
-            background: {{color}};
-        }
-        .owl-theme .owl-dots .owl-dot.active span, .owl-theme .owl-dots .owl-dot:hover span{
-            color: {{color}} !important;
-            background: {{color}} !important;
-        }
-
-        .owl-theme .owl-nav [class*=owl-]:hover{
-            background: {{color}};
-        }
-
         #myBtnBTP{
             background: {{color}};
         }
         #myBtnBTP:hover{
             background: {{color}};
-            opacity: 0.8;
         }
-        {% elif template == 4 %}
+    </style>
+    {% elif template == 4%}
+    <style>
         .image-change-route-vertical a{
             color: {{text_color}};
         }
         .image-change-route-vertical a:hover{
             color: {{color}};
-        }
-        .owl-theme .owl-nav [class*=owl-]{
-            background: {{color}};
-            color: {{text_color}} !important;
-        }
-        .owl-theme .owl-nav [class*=owl-]:hover{
-            background: {{color}} !important;
-            opacity: 1;
-        }
-        .owl-theme .owl-dots .owl-dot.active span, .owl-theme .owl-dots .owl-dot:hover span{
-            background: {{color}} !important;
         }
         .border-primary{
             border-color: {{color}} !important;
@@ -1433,14 +1321,6 @@ Licence URI: http://www.os-templates.com/template-terms
         ul.tabs li.current label{
             font-size:14px;
         }
-        ul.template_tabs li.current{
-            border-bottom: 5px solid {{color}};
-            color: {{color}};
-        }
-        ul.template_tabs li.current{
-            border-bottom: 5px solid {{color}};
-            color: {{color}};
-        }
         .site-navbar .site-navigation .site-menu .has-children:hover > a, .site-navbar .site-navigation .site-menu .has-children:focus > a, .site-navbar .site-navigation .site-menu .has-children:active > a {
             color: {{color}};
         }
@@ -1449,17 +1329,6 @@ Licence URI: http://www.os-templates.com/template-terms
         }
         a:hover{
             color: {{color}} !important;
-        }
-        ul.create_tabs li.current{
-            border-bottom: 5px solid {{color}};
-            color: {{color}};
-        }
-        ul.create_tabs li:hover{
-            color: {{color}};
-        }
-        ul.edit_tabs li.current{
-            border-bottom: 5px solid {{color}};
-            color: {{color}};
         }
         .nice-select:active, .nice-select.open, .nice-select:focus{
             border-color: {{color}};
@@ -1475,32 +1344,15 @@ Licence URI: http://www.os-templates.com/template-terms
         }
         #myBtnBTP:hover{
             background-color: {{color}};
-            opacity:0.8;
         }
-        {% elif template == 5 %}
-        .owl-theme .owl-nav [class*=owl-]{
-            color: {{color}} !important;
-        }
-        .owl-theme .owl-nav [class*=owl-]:hover{
-            background: {{color}} !important;
-            color: white !important;
-            opacity: 1;
-        }
-        .owl-theme .owl-dots .owl-dot.active span, .owl-theme .owl-dots .owl-dot:hover span{
-            background: {{color}} !important;
-        }
-
+    </style>
+    {% elif template == 5%}
+    <style>
         #mobile-nav .sign_up_login{
-            color:white;
+            color: {{text_color_login}};
         }
         #mobile-nav .sign_up_login:hover{
             color: {{color}};
-        }
-        .sign_up_login:hover{
-            color: {{color}};
-        }
-        .btn-txt-color{
-            color: {{text_color}};
         }
         #myBtnBTP {
             background-color: {{color}};
@@ -1538,33 +1390,15 @@ Licence URI: http://www.os-templates.com/template-terms
         ul.tabs li.current {
             border-bottom: 5px solid {{color}};
         }
-        ul.create_tabs li.current{
-            border-bottom: 5px solid {{color}};
-            color: {{color}};
-        }
-        ul.create_tabs li:hover{
-            color: {{color}};
-        }
-        ul.edit_tabs li.current{
-            border-bottom: 5px solid {{color}};
-            color: {{color}};
-        }
-        ul.edit_tabs li:hover{
-            color: {{color}};
-        }
         ul.tabs li.current .image-rounded-icon{
             background: {{color}} !important;
         }
-        ul.template_tabs li.current{
-            border-bottom: 5px solid {{color}};
-            color: {{color}};
+    </style>
+    {% elif template == 6%}
+    <style>
+        header{
+            z-index: 999 !important;
         }
-        ul.template_tabs li.current{
-            border-bottom: 5px solid {{color}};
-            color: {{color}};
-        }
-
-        {% elif template == 6 %}
         .modal-backdrop{
             z-index: 999;
         }
@@ -1586,9 +1420,6 @@ Licence URI: http://www.os-templates.com/template-terms
             color:{{color}} !important;
         }
 
-        ul.create_tabs li:hover{
-            color: {{color}} !important;
-        }
         nav a{
             color:{{text_color}};
         }
@@ -1614,55 +1445,16 @@ Licence URI: http://www.os-templates.com/template-terms
         .div_cst:hover .image-rounded-icon{
             border: 5px solid {{color}} !important;
         }
-
-        ul.create_tabs li.current{
-            border-bottom: 5px solid {{color}};
-            color: {{color}};
-        }
-        ul.edit_tabs li.current{
-            border-bottom: 5px solid {{color}};
-            color: {{color}};
-        }
-        ul.template_tabs li.current{
-            border-bottom: 5px solid {{color}};
-            color: {{color}};
-        }
-        ul.template_tabs li.current{
-            border-bottom: 5px solid {{color}};
-            color: {{color}};
-        }
-
         nav a:hover{
             color:{{color}};
         }
-
-        .nice-select:active, .nice-select.open, .nice-select:focus {
-            border-color: {{color}};
-        }
-
-        .owl-theme .owl-nav [class*=owl-] {
-            color: {{color}};
-            font-size: 20px;
-            margin: 5px;
-            padding: 7px;
-            background: rgba(50,50,50,0.8);
-            text-shadow: 2px 2px black;
-            display: inline-block;
-            cursor: pointer;
-            border-radius: 2px;
-        }
-        .owl-theme .owl-dots .owl-dot.active span, .owl-theme .owl-dots .owl-dot:hover span{
-            background: {{color}};
-        }
-
-        {% endif %}
-
     </style>
+    {% endif %}
 
     <script type="text/javascript" >
     template = {{template}};
     </script>
-    <script src="{{ static_path }}js/auto-complete.js?version={{javascript_version}}"></script>
+    <script src="{{ static_path }}js/library/auto-complete.js?version={{javascript_version}}"></script>
 <!--    <script>-->
 <!--        window.onbeforeunload = function () {-->
 <!--            window.scrollTo(0, 0);-->
@@ -1781,10 +1573,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <script src="{{ static_path }}js/template1/jquery-ui.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/template1/mail-script.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/template1/main2.js?version={{javascript_version}}"></script>
-<script src="{{ static_path }}js/template1/owl.carousel.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/library/owl.carousel.min.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/template1/popper.min.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/template1/superfish.min.js?version={{javascript_version}}"></script>
-<script src="{{ static_path }}js/aos.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template1/aos.js?version={{javascript_version}}"></script>
 
 <!--template2-->
 {% elif template == 2%}
@@ -1794,10 +1586,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <script src="{{ static_path }}js/template2/roberto.bundle.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/template2/default-assets/active.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/template2/main.js?version={{javascript_version}}"></script>
-<script src="{{ static_path }}js/template1/owl.carousel.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/library/owl.carousel.min.js?version={{javascript_version}}"></script>
 {% elif template == 3%}
 <script src="{{ static_path }}js/template3/vendor/jquery-2.2.4.min.js?version={{javascript_version}}"></script>
-<script src="{{ static_path }}js/template1/owl.carousel.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/library/owl.carousel.min.js?version={{javascript_version}}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <!--<script src="{{ static_path }}js/template3/vendor/bootstrap.min.js"></script>-->
 <!--<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhOdIF3Y9382fqJYt5I_sswSrEw5eihAA"></script>-->
@@ -1821,7 +1613,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <script src="{{ static_path }}js/template4/popper.min.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/template4/jquery.nice-select.min.js?version={{javascript_version}}"></script>
 <!--<script src="{{ static_path }}js/template4/bootstrap.min.js"></script>-->
-<script src="{{ static_path }}js/template4/owl.carousel.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/library/owl.carousel.min.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/template4/jquery.stellar.min.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/template4/jquery.countdown.min.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/template4/jquery.magnific-popup.min.js?version={{javascript_version}}"></script>
@@ -1841,7 +1633,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <script src="{{ static_path }}js/template5/ion.rangeSlider.js"></script>
 <!--<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>-->
 <script src="{{ static_path }}js/template5/jquery.magnific-popup.min.js"></script>
-<script src="{{ static_path }}js/template5/owl.carousel.min.js"></script>
+<script src="{{ static_path }}js/library/owl.carousel.min.js"></script>
 <script src="{{ static_path }}js/template5/main.js"></script>
 
 {% elif template == 6%}
@@ -1849,7 +1641,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <script src="{{ static_path }}js/template2/popper.min.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/template1/jquery.magnific-popup.min.js?version={{javascript_version}}"></script>
 <!-- disable body scroll which navbar is in active -->
-<script src="{{ static_path }}js/template6/owl.carousel.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/library/owl.carousel.min.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/template6/jquery.nice-select.min.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/template6/custom.js?version={{javascript_version}}"></script>
 <!--//-->
@@ -1944,33 +1736,33 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 {% endif %}
 <!--jbox-->
-<script src="{{ static_path }}js/jbox/jBox.all.js"></script>
-<script src="{{ static_path }}js/jbox/playground-avatars.js"></script>
-<script src="{{ static_path }}js/jbox/playground-inception.js"></script>
-<script src="{{ static_path }}js/jbox/playground-login.js"></script>
+<script src="{{ static_path }}js/library/jbox/jBox.all.js"></script>
+<script src="{{ static_path }}js/library/jbox/playground-avatars.js"></script>
+<script src="{{ static_path }}js/library/jbox/playground-inception.js"></script>
+<script src="{{ static_path }}js/library/jbox/playground-login.js"></script>
 
 <!--zoom-->
-<script src="{{ static_path }}js/jquery.zoom.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/library/jquery.zoom.min.js?version={{javascript_version}}"></script>
 <!--select2-->
-<script src="{{ static_path }}js/select2.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/library/select2.js?version={{javascript_version}}"></script>
 <!--price slider-->
-<script src="{{ static_path }}js/price-slider.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/library/price-slider.js?version={{javascript_version}}"></script>
 <!--loading-bar-->
-<script src="{{ static_path }}js/loading-bar.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/library/loading-bar.js?version={{javascript_version}}"></script>
 <!--datetimepicker-->
-<script src="{{ static_path }}js/daterangepicker.js?version={{javascript_version}}"></script>
-<script src="{{ static_path }}js/moment.min.js?version={{javascript_version}}"></script>
-<script src="{{ static_path }}js/sweetalert2.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/library/daterangepicker.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/library/moment.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/library/sweetalert2.min.js?version={{javascript_version}}"></script>
 <!--cart-->
-<script src="{{ static_path }}js/cart.js?version={{javascript_version}}"></script>
-<script src="{{ static_path }}js/jquery.simplePagination.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/library/cart.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/library/jquery.simplePagination.js?version={{javascript_version}}"></script>
 <!--other-->
 <script src="{{ static_path }}js/cookie_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/style.js?version={{javascript_version}}"></script>
 <script src="https://d.line-scdn.net/r/web/social-plugin/js/thirdparty/loader.min.js" async="async" defer="defer"></script>
-<!--<script src="{{ static_path }}js/maps.js?version={{javascript_version}}"></script>-->
+<!--<script src="{{ static_path }}js/library/maps.js?version={{javascript_version}}"></script>-->
 
-<script src="{{ static_path }}js/jquery.dataTables.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/library/jquery.dataTables.min.js?version={{javascript_version}}"></script>
 
 <script src="{{ static_path }}js/vendor/bootstrap.min.js?version={{javascript_version}}"></script>
 <!--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhOdIF3Y9382fqJYt5I_sswSrEw5eihAA"></script>-->
@@ -1979,7 +1771,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <!--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>-->
 <!--<script src="{{ static_path }}js/google-map.js' %}"></script>-->
-<!--<script src="{{ static_path }}js/main.js?version={{javascript_version}}"></script>-->
-<script src="{{ static_path }}js/language.js?version={{javascript_version}}"></script>
+<!--<script src="{{ static_path }}js/library/main.js?version={{javascript_version}}"></script>-->
+<script src="{{ static_path }}js/library/language.js?version={{javascript_version}}"></script>
 
 </html>

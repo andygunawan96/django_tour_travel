@@ -75,11 +75,18 @@ function get_balance(val){
 //                            document.getElementById("balance_search").style.color = "black";
 //                        }catch(err){}
                         text = '';
-                        if(msg.result.response.is_show_point_reward == true){
-                            text = `Point: `+msg.result.response.currency_code + ' ' + getrupiah(msg.result.response.point_reward)+`<br/>`;
+                        if(template == 3 || template == 5){
+                            text = `<div style="margin-bottom:10px; padding-right:15px;"><span class="fas fa-wallet" style="color:`+color+`; padding-right:5px; font-size:16px;"></span>Balance: `+msg.result.response.currency_code + ' ' + getrupiah(balance)+`</div>`;
+                        }else{
+                            text = `<div style="margin-bottom:10px; padding-right:15px; color:black;"><span class="fas fa-wallet" style="color:`+color+`; padding-right:5px; font-size:16px;"></span>Balance: `+msg.result.response.currency_code + ' ' + getrupiah(balance)+`</div>`;
                         }
-                        text += `Balance: `+msg.result.response.currency_code + ' ' + getrupiah(balance)+``;
-
+                        if(msg.result.response.is_show_point_reward == true){
+                            if(template == 3 || template == 5){
+                                text += `<div><span class="fas fa-coins" style="color:`+color+`; padding-right:5px; font-size:16px;"></span>Point: `+msg.result.response.currency_code + ' ' + getrupiah(msg.result.response.point_reward)+`</div>`;
+                            }else{
+                                text += `<div style="color:black;"><span class="fas fa-coins" style="color:`+color+`; padding-right:5px; font-size:16px;"></span>Point: `+msg.result.response.currency_code + ' ' + getrupiah(msg.result.response.point_reward)+`</div>`;
+                            }
+                        }
                     }else{
                         //BALANCE VENDOR
                         text = `Balance Vendor`;
@@ -115,7 +122,11 @@ function get_balance(val){
                             document.getElementsByClassName("balance_mobile")[0].style.display = 'none';
                     }
                     if(msg.result.response.is_show_credit_limit){
-                        text = `Credit Limit: `+msg.result.response.currency_code+ ' ' + getrupiah(credit_limit);
+                        if(template == 3 || template == 5){
+                            text = `<div><span class="fas fa-credit-card" style="color:`+color+`; padding-right:5px; font-size:16px;"></span>Credit Limit: `+msg.result.response.currency_code+ ' ' + getrupiah(credit_limit)+`</div>`;
+                        }else{
+                            text = `<div style="color:black;"><span class="fas fa-credit-card" style="color:`+color+`; padding-right:5px; font-size:16px;"></span>Credit Limit: `+msg.result.response.currency_code+ ' ' + getrupiah(credit_limit)+`</div>`;
+                        }
                         //CREDIT LIMIT
                         if(document.getElementById("credit_limit"))
                             document.getElementById("credit_limit").innerHTML = text;

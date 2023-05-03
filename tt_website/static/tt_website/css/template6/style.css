@@ -137,7 +137,7 @@ nav ul {
 	margin:0;
 	list-style: none;
 	position: relative;
-	}
+}
 	
 /* Positioning the navigation items inline */
 nav ul li {
@@ -158,7 +158,7 @@ nav a {
     font-size: 13px;
 }
 
-nav ul li ul li:hover { background: #f8f9fa; }
+/*nav ul li ul li:hover { background: #f8f9fa; }*/
 
 /* Background color change on Hover */
 nav a:hover { 
@@ -174,7 +174,7 @@ nav ul ul {
 	display: none;
 	position: absolute; 
 	/* has to be the same number as the "line-height" of "nav a" */
-	top: 30px; 
+	top: 30px;
     background: #fff;
     padding: 10px;
 }
@@ -191,6 +191,7 @@ nav ul li > ul {
 @media (min-width: 992px) {
     nav ul li:hover > ul {
         display:block !important;
+        margin-inline-start: -60px;
     }
 }
 	

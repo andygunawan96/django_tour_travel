@@ -4711,7 +4711,7 @@ function onchange_provider_insurance(){
                     <span class="checkmark-radio crspan"></span>
                 </label>
             </div>
-            <div class="col-lg-12 mb-2" style="padding:0px;">
+            <div class="col-lg-12 mb-2" style="text-align:left; padding:0px;">
                 <label class="check_box_custom">
                     <span class="span-search-ticket" style="color:`+text_color+`;">Is Senior (for Age 70+)</span>
                     <input type="checkbox" id="insurance_is_senior" name="insurance_is_senior" />
@@ -4814,7 +4814,7 @@ function onchange_provider_insurance(){
                     <span class="checkmark-radio crspan"></span>
                 </label>
             </div>
-            <div class="col-lg-12 mb-2">
+            <div class="col-lg-12 mb-2" style="text-align:left;">
                 <label class="check_box_custom">
                     <span class="span-search-ticket" style="color:`+text_color+`;">Is Senior (for Age 70+)</span>
                     <input type="checkbox" id="insurance_is_senior" name="insurance_is_senior" />
@@ -4902,7 +4902,7 @@ function onchange_provider_insurance(){
                     <span class="checkmark-radio crspan"></span>
                 </label>
             </div>
-            <div class="col-lg-12 mb-2">
+            <div class="col-lg-12 mb-2" style="text-align:left;">
                 <label class="check_box_custom">
                     <span class="span-search-ticket" style="color:`+text_color+`;">Is Senior (for Age 70+)</span>
                     <input type="checkbox" id="insurance_is_senior" name="insurance_is_senior" />
@@ -4995,7 +4995,7 @@ function onchange_provider_insurance(){
                 </label>
             </div>
             <div class="col-lg-12 mb-2">
-                <label class="check_box_custom">
+                <label class="check_box_custom" style="text-align:left;">
                     <span class="span-search-ticket" style="color:`+text_color+`;">Is Senior (for Age 70+)</span>
                     <input type="checkbox" id="insurance_is_senior" name="insurance_is_senior" />
                     <span class="check_box_span_custom"></span>
@@ -5091,7 +5091,7 @@ function onchange_provider_insurance(){
                 </label>
             </div>
             <div class="col-lg-12 mb-2">
-                <label class="check_box_custom">
+                <label class="check_box_custom" style="text-align:left;">
                     <span class="span-search-ticket" style="color:`+text_color+`;">Is Senior (for Age 70+)</span>
                     <input type="checkbox" id="insurance_is_senior" name="insurance_is_senior" />
                     <span class="check_box_span_custom"></span>
@@ -5183,7 +5183,7 @@ function onchange_provider_insurance(){
                 </label>
             </div>
             <div class="col-lg-12 mb-2">
-                <label class="check_box_custom">
+                <label class="check_box_custom" style="text-align:left;">
                     <span class="span-search-ticket" style="color:`+text_color+`;">Is Senior (for Age 70+)</span>
                     <input type="checkbox" id="insurance_is_senior" name="insurance_is_senior" />
                     <span class="check_box_span_custom"></span>
