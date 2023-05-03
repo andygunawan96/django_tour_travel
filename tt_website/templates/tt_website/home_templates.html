@@ -10743,7 +10743,7 @@
             </label>`;
             is_checked = true;
         }
-        if(insurance_config.hasOwnProperty('zurich'))
+        if(insurance_config.hasOwnProperty('zurich')){
             text+=`
             <label class="radio-img">
                 <input type="radio" name="insurance_provider" value="zurich"`;
@@ -10753,6 +10753,7 @@
                 <img src="/static/tt_website/images/icon/zurich.png" alt="Zurich" style="width:70px; height:70px; padding:0px;"><br/>
                 <div style="text-align:center;"><span style="font-size:13px; color:{{text_color}};">Zurich<br/></span><span style="font-size:9px; color:{{text_color}};">(Cover Covid-19)</span></div>
             </label>`;
+        }
         text+=`
         </div>
         <form action="{% url 'tt_website:insurance_search'%}" method="POST" class="form-wrap" id="insurance_searchForm">
