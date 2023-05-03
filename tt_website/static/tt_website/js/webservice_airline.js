@@ -2399,19 +2399,19 @@ function carrier_to_provider(){
                     if(airline[i].hasOwnProperty(airline_carriers_data_awal[i][j].code) == false)
                         for(k in airline_carriers_data_awal[i][j].provider){
                             if(provider_list[airline_carriers_data_awal[i][j].code].includes(airline_carriers_data_awal[i][j].provider[k]) == true){
-                                if(airline[i].hasOwnProperty(airline_carriers_data_awal[i][j].code) == true)
-                                    airline[i][airline_carriers_data_awal[i][j].code].push(airline_carriers_data_awal[i][j].provider[k]);
+                                if(airline[i].hasOwnProperty(j) == true)
+                                    airline[i][j].push(airline_carriers_data_awal[i][j].provider[k]);
                                 else
-                                    airline[i][airline_carriers_data_awal[i][j].code] = [airline_carriers_data_awal[i][j].provider[k]];
+                                    airline[i][j] = [airline_carriers_data_awal[i][j].provider[k]];
                             }
                         }
                     else{
                         for(k in airline_carriers_data_awal[i][j].provider){
                             if(airline[i][airline_carriers_data_awal[i][j].code].includes(airline_carriers_data_awal[i][j].provider[k]) == false && provider_list[airline_carriers_data_awal[i][j].code].includes(airline_carriers_data_awal[i][j].provider[k]))
-                                if(airline[i].hasOwnProperty(airline_carriers_data_awal[i][j].code) == true)
-                                    airline[i][airline_carriers_data_awal[i][j].code].push(airline_carriers_data_awal[i][j].provider[k]);
+                                if(airline[i].hasOwnProperty(j) == true)
+                                    airline[i][j].push(airline_carriers_data_awal[i][j].provider[k]);
                                 else
-                                    airline[i][airline_carriers_data_awal[i][j].code] = [airline_carriers_data_awal[i][j].provider[k]];
+                                    airline[i][j] = [airline_carriers_data_awal[i][j].provider[k]];
                         }
                     }
 
