@@ -3244,7 +3244,7 @@ for better animation effect */
     border-bottom: 1px solid #cdcdcd;
     position: sticky;
     top: 0px;
-    z-index: 999;
+    z-index: 998;
 }
 
 .box-notification{
