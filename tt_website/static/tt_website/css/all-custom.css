@@ -1064,7 +1064,7 @@ ul.popular2_tabs li.current .image-rounded-icon{
     position: sticky;
     top: 51px;
     display:none;
-    z-index: 999;
+    z-index: 2;
 }
 
 #slider {
@@ -1218,7 +1218,7 @@ ul.popular2_tabs li.current .image-rounded-icon{
 .sorting-search-flight{
     position:sticky;
     top: 66px;
-    z-index: 814;
+    z-index: 2;
 }
 
 .sorting-search-train{
@@ -2391,7 +2391,7 @@ th input {
 }
 
 .span_link{
-    font-weight:500;
+    font-weight:700;
     cursor:pointer;
     font-size:14px;
 }
@@ -2967,7 +2967,7 @@ th input {
     background: #f0e68c;
     display:none;
     position:relative;
-    z-index:1001;
+    z-index:1002;
 }
 
 /* Add padding and border to inner content
@@ -2979,7 +2979,7 @@ for better animation effect */
     background: rgba(255, 255, 255, 1);
     border:1px solid #cdcdcd;
     color: black;
-    z-index:1001;
+    z-index:1002;
     position: fixed;
     top:0px;
     bottom:0px;
@@ -3009,7 +3009,7 @@ for better animation effect */
     background: #f0e68c;
     display:none;
     position:relative;
-    z-index:1000;
+    z-index:1002;
 }
 
 /* Add padding and border to inner content
@@ -3021,7 +3021,7 @@ for better animation effect */
     background: rgba(255, 255, 255, 1);
     border:1px solid #cdcdcd;
     color: black;
-    z-index:1001;
+    z-index:1002;
     position: fixed;
     top:0px;
     bottom:0px;
@@ -3244,7 +3244,7 @@ for better animation effect */
     border-bottom: 1px solid #cdcdcd;
     position: sticky;
     top: 0px;
-    z-index: 1000;
+    z-index: 999;
 }
 
 .box-notification{
