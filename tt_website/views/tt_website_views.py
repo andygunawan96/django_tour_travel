@@ -322,7 +322,7 @@ def index(request):
                                 'signature': request.session['signature'],
                                 'terms_value': check_terms_condition(request),
                             })
-                            values.update(get_airline_advance_pax_type(request))
+                            # values.update(get_airline_advance_pax_type(request))
                         except Exception as e:
                             _logger.error(str(e) + '\n' + traceback.format_exc())
                             raise Exception('Make response code 500!')
