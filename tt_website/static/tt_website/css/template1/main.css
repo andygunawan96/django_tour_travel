@@ -1740,7 +1740,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .primary-checkbox input:checked + label {
-  background: url(../img/elements/primary-check.png) no-repeat center center/cover;
+  background: url(../../img/elements/primary-check.png) no-repeat center center/cover;
   border: none;
 }
 
@@ -1778,7 +1778,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .confirm-checkbox input:checked + label {
-  background: url(../img/elements/success-check.png) no-repeat center center/cover;
+  background: url(../../img/elements/success-check.png) no-repeat center center/cover;
   border: none;
 }
 
@@ -1821,7 +1821,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .disabled-checkbox input:checked + label {
-  background: url(../img/elements/disabled-check.png) no-repeat center center/cover;
+  background: url(../../img/elements/disabled-check.png) no-repeat center center/cover;
   border: none;
 }
 
@@ -1859,7 +1859,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .primary-radio input:checked + label {
-  background: url(../img/elements/primary-radio.png) no-repeat center center/cover;
+  background: url(../../img/elements/primary-radio.png) no-repeat center center/cover;
   border: none;
 }
 
@@ -1897,7 +1897,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .confirm-radio input:checked + label {
-  background: url(../img/elements/success-radio.png) no-repeat center center/cover;
+  background: url(../../img/elements/success-radio.png) no-repeat center center/cover;
   border: none;
 }
 
@@ -1940,7 +1940,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .disabled-radio input:checked + label {
-  background: url(../img/elements/disabled-radio.png) no-repeat center center/cover;
+  background: url(../../img/elements/disabled-radio.png) no-repeat center center/cover;
   border: none;
 }
 
@@ -2198,7 +2198,6 @@ h1, h2, h3, h4, h5, h6 {
   background: rgba(255, 255, 255, 1);
   padding-left: 15px;
   padding-right: 15px;
-  border-bottom: 1px solid #cdcdcd;
 }
 
 .main-menu-2 {
@@ -2564,7 +2563,7 @@ body.mobile-nav-active #mobile-nav-toggle {
 
 /*-------- Start Banner Area ------------*/
 .banner-area {
-  background: url(../img/hero-bg.jpg) center;
+  background: url(../../img/hero-bg.jpg) center;
   background-size: cover;
 }
 
@@ -2786,8 +2785,8 @@ body.mobile-nav-active #mobile-nav-toggle {
 
 /*-------- end Popular-destination Area ------------*/
 /*-------- start price Area ------------*/
-/*background: url(../img/price-bg.png) no-repeat center center;*/
-/*background: linear-gradient(0deg,rgba(0, 0, 0, 0.4),rgba(0, 0, 0, 0.4)),url(../images/new-year2.jpg);*/
+/*background: url(../../img/price-bg.png) no-repeat center center;*/
+/*background: linear-gradient(0deg,rgba(0, 0, 0, 0.4),rgba(0, 0, 0, 0.4)),url(../../images/new-year2.jpg);*/
 .price-area {
   background-attachment: fixed;
   background-position: center;
@@ -2872,7 +2871,7 @@ body.mobile-nav-active #mobile-nav-toggle {
 
 /*-------- end other-issue Area ------------*/
 /*--------- start testimonial area  -------------*/
-/*background: linear-gradient(0deg,rgba(0, 0, 0, 0.4),rgba(0, 0, 0, 0.4)),url("../images/new-year1.jpg");*/
+/*background: linear-gradient(0deg,rgba(0, 0, 0, 0.4),rgba(0, 0, 0, 0.4)),url("../../images/new-year1.jpg");*/
 .testimonial-area {
     background-position: center;
     background-repeat: no-repeat;
@@ -2886,7 +2885,7 @@ body.mobile-nav-active #mobile-nav-toggle {
 }
 
 .apps-area {
-    /*background: linear-gradient(0deg,rgba(0, 0, 0, 0.4),rgba(0, 0, 0, 0.4)),url("../images/bg_8.jpg");*/
+    /*background: linear-gradient(0deg,rgba(0, 0, 0, 0.4),rgba(0, 0, 0, 0.4)),url("../../images/bg_8.jpg");*/
     background-attachment: fixed;
     background-position: center;
     background-repeat: no-repeat;
@@ -3150,7 +3149,7 @@ body.mobile-nav-active #mobile-nav-toggle {
 }
 
 .about-banner {
-  background: url(../img/top-banner.jpg) center;
+  background: url(../../img/top-banner.jpg) center;
   background-size: cover;
 }
 
@@ -3388,7 +3387,7 @@ body.mobile-nav-active #mobile-nav-toggle {
 }
 
 .list-wrap ul {
-  list-style-image: url("../img/insurence/bullet.png");
+  list-style-image: url("../../img/insurence/bullet.png");
 }
 
 .list-wrap li {
@@ -3404,7 +3403,7 @@ body.mobile-nav-active #mobile-nav-toggle {
 /* =================================== */
 /*============ Start Blog Home Styles  =============*/
 .blog-home-banner {
-  background: url(../img/blog/blog-home-banner.jpg) bottom;
+  background: url(../../img/blog/blog-home-banner.jpg) bottom;
   background-size: cover;
   padding: 130px 0px;
 }

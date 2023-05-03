@@ -1524,7 +1524,8 @@ h1, h2, h3, h4, h5, h6 {
 .main-menu {
   background: #fff;
   position: relative;
-  z-index: 1000; }
+  border-bottom: 1px solid #cdcdcd;
+  z-index: 1001; }
   @media (max-width: 991px) {
     .main-menu {
       height: 80px;

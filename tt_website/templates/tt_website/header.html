@@ -128,9 +128,9 @@
                     {% if username.co_user_login != '' %}
                     <li class="menu-has-children pt5"><a href="#">{% trans 'Balance & Credit' %}</a>
                         <ul id="balance_ul">
-                            <li class="balance_mobile pt5"><a id="balance"></a></li>
-                            <li class="credit_mobile" style="border-top:1px solid #cdcdcd;"><a id="credit_limit"></a></li>
-                            <li class="customer_parent_balance_mobile" style="border-top:1px solid #cdcdcd;"><a id="customer_parent_balance"></a></li>
+                            <li class="balance_mobile" style="margin-bottom:10px;"><a id="balance" style="padding:0px;"></a></li>
+                            <li class="credit_mobile" style="margin-bottom:10px;"><a id="credit_limit" style="padding:0px;"></a></li>
+                            <li class="customer_parent_balance_mobile"><a id="customer_parent_balance" style="padding:0px;"></a></li>
                         </ul>
                     </li>
 
@@ -629,8 +629,8 @@
                         <li class="menu-has-children"><a href="#">{% trans 'Balance & Credit' %}</a>
                             <ul id="balance_ul">
                                 <li class="balance_mobile"><a id="balance"></a></li>
-                                <li class="credit_mobile" style="border-top:1px solid #cdcdcd;"><a id="credit_limit"></a></li>
-                                <li class="customer_parent_balance_mobile" style="border-top:1px solid #cdcdcd;"><a id="customer_parent_balance"></a></li>
+                                <li class="credit_mobile" style="padding-top:0px;"><a id="credit_limit" style="padding-top:0px !important;"></a></li>
+                                <li class="customer_parent_balance_mobile" style="padding-top:0px;"><a id="customer_parent_balance"></a></li>
                             </ul>
                         </li>
 
@@ -889,7 +889,7 @@
                             </ul>
                         </li>
                         {% if username.co_user_login != '' %}
-                        <li class="has-children notification-pc" style="display:inline-flex;"><a href="#" title="{{username.co_user_login}}" style="font-weight:700; display:inline-block; overflow: hidden; overflow: -moz-hidden-unscrollable; text-overflow: ellipsis; white-space: nowrap; max-width:100px;">{{username.co_user_login}}</a>
+                        <li class="has-children notification-pc" style="display:inline-flex;"><a href="#" title="{{username.co_user_login}}" style="font-weight:700; top:10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:150px;">{{username.co_user_login}}</a>
                             <ul class="dropdown">
                                 {% if "admin" in username.co_agent_frontend_security %}
                                 <li><a href="{% url 'tt_website:admin'%}">Admin</a></li>
@@ -1081,8 +1081,8 @@
                     <li class="menu-has-children" style="margin-top:8px;"><a href="#">{% trans 'Balance & Credit' %} <i class="fas fa-chevron-down fat-dh" style="display:inline-block;"></i></a>
                         <ul style="top:65%;" id="balance_ul">
                             <li class="balance_mobile" style="margin-top:8px;"><a id="balance"></a></li>
-                            <li class="credit_mobile pt5" style="border-top:1px solid #cdcdcd; margin-top:8px;"><a id="credit_limit"></a></li>
-                            <li class="customer_parent_balance_mobile pt5" style="border-top:1px solid #cdcdcd; margin-top:8px;"><a id="customer_parent_balance"></a></li>
+                            <li class="credit_mobile pt5"><a id="credit_limit"></a></li>
+                            <li class="customer_parent_balance_mobile"><a id="customer_parent_balance"></a></li>
                         </ul>
                     </li>
 
@@ -1250,7 +1250,7 @@
 			<label for="drop" class="toggle" onclick="open_signin_modal();"><span class="fa fa-bars"></span></label>
             {% else %}
 			<label for="drop" class="toggle" id="bars_toggle_drop"><span class="fa fa-bars"></span></label>
-            <li title="Click to show your notification" class="notification-mobile pt5" style="float:right; margin-right:15px; margin-top:10px; cursor:pointer;"><i class="fas fa-bell notif-hover bell_notif animated swing notification-slide-toggle" onclick="on_off_overlay_bar('box-notification', 'overlay_box_menu');" style="font-size:24px;"></i>
+            <li title="Click to show your notification" class="notification-mobile" style="float:right; margin-right:15px; margin-top:5px; cursor:pointer;"><i class="fas fa-bell notif-hover bell_notif animated swing notification-slide-toggle" onclick="on_off_overlay_bar('box-notification', 'overlay_box_menu');" style="font-size:24px;"></i>
 
             </li>
             {% endif %}
@@ -1280,8 +1280,8 @@
                 <li class="menu-has-children"><a href="#">{% trans 'Balance & Credit' %} <i class="fas fa-chevron-down"></i></a>
                     <ul id="balance_ul">
                         <li class="balance_mobile pt5"><a id="balance"></a></li>
-                        <li class="credit_mobile pt5" style="border-top:1px solid #cdcdcd;"><a id="credit_limit"></a></li>
-                        <li class="customer_parent_balance_mobile pt5" style="border-top:1px solid #cdcdcd;"><a id="customer_parent_balance"></a></li>
+                        <li class="credit_mobile pt5"><a id="credit_limit"></a></li>
+                        <li class="customer_parent_balance_mobile pt5"><a id="customer_parent_balance"></a></li>
                     </ul>
                 </li>
 
