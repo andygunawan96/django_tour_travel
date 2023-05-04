@@ -5441,6 +5441,15 @@ function airline_detail(type){
                                             $text += '• Meal ' + price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details[m].amount + ' ' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].unit + '\n';
                                             text += `<br/><i class="fas fa-suitcase"></i><span style="font-weight:800;"> Meal - `+price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details[m].amount + ' ' + price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details[m].unit+` </span>`;
                                         }
+
+                                        if(price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details[m].hasOwnProperty('detail_name')){
+                                            if(price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details[m].detail_name){
+                                                text+=`
+                                                <span id="fare_detail_name`+i+``+j+``+k+``+l+``+m+`">
+                                                    <i class="fas fa-info-circle" onclick="print_fare_detail_name('fare_detail_name`+i+``+j+``+k+``+l+``+m+`', '`+price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details[m].detail_name+`');" style="padding-left:5px; color:`+color+`; cursor:pointer; font-size:16px;"></i>
+                                                </span>`;
+                                            }
+                                        }
                                     }
                                     if(price_itinerary_temp[i].journeys[j].segments[k].carrier_type_name){
                                         $text += '• Aircraft: ' + price_itinerary_temp[i].journeys[j].segments[k].carrier_type_name + '\n';
@@ -11154,4 +11163,17 @@ function onchange_mc_date(val){
             });
         }
     }
+}
+
+function print_fare_detail_name(id, val){
+    document.getElementById(id).innerHTML = `
+    <i class="fas fa-eye-slash" onclick="delete_fare_detail_name('`+id+`', '`+val+`');" style="padding-left:5px; color:`+color+`; cursor:pointer; font-size:16px;"></i>
+    <br/>
+    <span style="padding-bottom:5px;">
+        `+val+`
+    </span>`;
+}
+function delete_fare_detail_name(id, val){
+    document.getElementById(id).innerHTML = `
+    <i class="fas fa-info-circle" onclick="print_fare_detail_name('`+id+`', '`+val+`');" style="padding-left:5px; color:`+color+`; cursor:pointer; font-size:16px;"></i>`;
 }
