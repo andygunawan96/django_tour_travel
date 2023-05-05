@@ -2430,16 +2430,16 @@ function carrier_to_provider(){
                     try{
                         for(k in provider_airline){
                             if(airline_carriers_data_awal[0][i].is_favorite == true){
-                                provider_airline.push([airline[0][i][j],[i], airline_carriers_data_awal[0][i].is_favorite])
+                                provider_airline.push([airline[0][i][j],[i.split('~')[0]], airline_carriers_data_awal[0][i].is_favorite])
                                 check = 1;
                                 break;
                             }else if(provider_airline[k][0] == airline[0][i][j] && provider_airline[k][2] == false){
-                                provider_airline[k][1].push(i);
+                                provider_airline[k][1].push(i.split('~')[0]);
                                 check = 1;
                                 break;
                             }
                         }if(check == 0){
-                            provider_airline.push([airline[0][i][j],[i], airline_carriers_data_awal[0][i].is_favorite])
+                            provider_airline.push([airline[0][i][j],[i.split('~')[0]], airline_carriers_data_awal[0][i].is_favorite])
                         }
                     }catch(err){
                         console.log(err); // error kalau ada element yg tidak ada
