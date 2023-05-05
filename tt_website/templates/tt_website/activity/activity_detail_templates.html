@@ -10,8 +10,8 @@
 <script src="{{ static_path }}js/webservice_activity.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_content.js?version={{javascript_version}}"></script>
-<script src="{{ static_path }}js/moment.js?version={{javascript_version}}"></script>
-<script src="{{ static_path }}js/daterangepicker.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/library/moment.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/library/daterangepicker.js?version={{javascript_version}}"></script>
 <script>
     static_path_url_server = '{{static_path_url_server}}'
     locations = [];
@@ -51,18 +51,8 @@
 <title id="title_search">{{name}} {% trans 'Activity' %} {% trans 'Detail' %} - </title>
 <div id="overlay-search-box" onclick="off_overlay()" style="z-index:90;"></div>
 
-{% if username.co_user_login != default_user %}
-<section id="info_user_search" style="position: fixed; z-index:1050; width: 320px; top:0px; right:15px;" hidden>
-    <div style="padding:12px; background:white; border:1px solid {{color}};">
-        <i class="fas fa-user" style="padding-right:5px; color:{{color}}; font-size:16px;"></i><span title="{{username.co_user_login}}" style="font-size:13px; font-weight:600; padding-right:10px; cursor:text; color:black; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{username.co_user_login}}</span>
-        <a id="balance_search" style="font-size:13px; font-weight:500; border-bottom:2px solid {{color}};"></a>
-        <span id="credit_search" style="font-size:13px; font-weight:500;"></span>
-    </div>
-</section>
-{% endif %}
-
 {%if template == 1%}
-<section class="destinations-area change_search_area">
+<section class="destinations-area change_search_bg">
     <div class="container">
         <div class="row">
             <div class="col-lg-8" style="text-align:left;">
@@ -189,7 +179,7 @@
     </div>
 </section>
 {% elif template == 2 %}
-<section class="destinations-area change_search_area">
+<section class="destinations-area change_search_bg">
     <div class="container">
         <div class="row">
             <div class="col-lg-8" style="text-align:left;">
@@ -318,7 +308,7 @@
     </div>
 </section>
 {%elif template == 3%}
-<section class="change_search_area">
+<section class="change_search_bg">
     <div class="container">
         <div class="row">
             <div class="col-lg-8" style="text-align:left;">
@@ -439,7 +429,7 @@
     </div>
 </section>
 {%elif template == 4%}
-<section class="destinations-area change_search_area">
+<section class="destinations-area change_search_bg">
     <div class="container">
         <div class="row">
             <div class="col-lg-8" style="text-align:left;">
@@ -567,7 +557,7 @@
     </div>
 </section>
 {%elif template == 5%}
-<section class="destinations-area change_search_area">
+<section class="destinations-area change_search_bg">
     <div class="container">
         <div class="row">
             <div class="col-lg-8" style="text-align:left;">
@@ -694,7 +684,7 @@
     </div>
 </section>
 {%elif template == 6%}
-<section class="destinations-area change_search_area">
+<section class="destinations-area change_search_bg">
     <div class="container">
         <div class="row">
             <div class="col-lg-8" style="text-align:left;">
@@ -840,9 +830,16 @@
             <div class="col-lg-12">
                 <form method='POST' action="{% url 'tt_website:activity_passenger'%}" id="go_to_pax" enctype="multipart/form-data">
                     {% csrf_token %}
-                    <div class="row" style="position:sticky;top: 0px;z-index: 89;">
+                    <div class="row" style="position:sticky;top: -1px;z-index: 89;">
                         <div class="col-lg-12">
                             <div class="box-sticky-hotel">
+                                {% if username.co_user_login != default_user %}
+                                <div id="info_user_search" style="padding: 15px 15px 0px 15px; top:0px; display:flex; border-bottom:1px solid #cdcdcd; background:white;" hidden>
+                                    <i class="fas fa-user" style="padding-right:5px; color:{{color}}; font-size:16px;"></i><span title="{{username.co_user_login}}" style="font-size:13px; font-weight:600; padding-right:15px; cursor:text; color:black; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{username.co_user_login}}</span><br/>
+                                    <a id="balance_search" style="display:flex; font-size:13px; font-weight:500;"></a><br/>
+                                    <span id="credit_search" style="font-size:13px; font-weight:500; padding-left:15px;"></span>
+                                </div>
+                                {% endif %}
                                 <button class="content-activity primary-btn-sticky-hotel" type="button" id="description-activity">Description</button>
                                 <button class="content-activity primary-btn-sticky-hotel" type="button" id="product-activity">Choose Product</button>
                             </div>
@@ -1524,19 +1521,15 @@
             document.getElementById("credit_search").innerHTML = document.getElementById("credit_limit").innerHTML;
         $(window).scroll(function() {
             if ($(this).scrollTop() >= 66) {
+               {% if username.co_user_login != default_user %}
+               document.getElementById("info_user_search").hidden = false;
+               {% endif %}
                 if ($(window).width() >= 768){
-                   {% if username.co_user_login != default_user %}
-                   document.getElementById("info_user_search").hidden = false;
-                   {% endif %}
                    if(document.getElementById("balance_search") && document.getElementById("balance"))
                        document.getElementById("balance_search").innerHTML = document.getElementById("balance").innerHTML;
 
                    if(document.getElementById("credit_search") && document.getElementById("credit_limit"))
                        document.getElementById("credit_search").innerHTML = document.getElementById("credit_limit").innerHTML;
-                }else{
-                   {% if username.co_user_login != default_user %}
-                   document.getElementById("info_user_search").hidden = true;
-                   {% endif %}
                 }
             }else{
                 {% if username.co_user_login != default_user %}
