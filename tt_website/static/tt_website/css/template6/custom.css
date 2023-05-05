@@ -499,7 +499,7 @@ ul.tabs li.current .image-rounded-icon{
 
 .menu li{
     list-style-type:unset;
-    color: black;
+    color: white;
 }
 
 small {
@@ -576,4 +576,8 @@ nav ul ul li{
 
 b, strong{
     font-weight: bold;
+}
+
+.bell_notif{
+    color: white;
 }
