@@ -4073,6 +4073,14 @@ function get_price_itinerary_request(){
                                                                         $text += '• Meal ' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].amount + ' ' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].unit + '\n';
                                                                         text += `<br/><i class="fas fa-suitcase"></i><span style="font-weight:800;"> Meal - `+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].amount + ' ' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].unit+` </span>`;
                                                                     }
+                                                                    if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].hasOwnProperty('detail_name')){
+                                                                        if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].detail_name){
+                                                                            text+=`
+                                                                            <span id="fare_detail_name`+i+``+j+``+k+``+l+``+m+`">
+                                                                                <i class="fas fa-info-circle" onclick="print_fare_detail_name('fare_detail_name`+i+``+j+``+k+``+l+``+m+`', '`+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].detail_name+`');" style="padding-left:5px; color:`+color+`; cursor:pointer; font-size:16px;"></i>
+                                                                            </span>`;
+                                                                        }
+                                                                    }
                                                                 }
                                                                 if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].carrier_type_name){
                                                                     $text += '• Aircraft: ' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].carrier_type_name + '\n';
