@@ -1025,7 +1025,16 @@ def search2(request):
             })
             cabin_class = data_search['cabin_class']
             is_combo_price = False
-
+        promo_codes = []
+        carrier_code_list = json.loads(request.POST['carrier_codes'])
+        if request.session.get('user_account'):
+            if request.session['user_account'].get('co_customer_parent_osi_codes'):
+                for carrier_code in request.session['user_account']['co_customer_parent_osi_codes']:
+                    if carrier_code in carrier_code_list:
+                        promo_codes.append({
+                            'carrier_code': carrier_code,
+                            'promo_code': request.session['user_account']['co_customer_parent_osi_codes'][carrier_code]
+                        })
         data = {
             "journey_list": journey_list,
             "direction": direction,
@@ -1036,7 +1045,8 @@ def search2(request):
             "cabin_class": cabin_class,
             "provider": request.POST['provider'],
             # "provider": 'amadeus',
-            "carrier_codes": json.loads(request.POST['carrier_codes']),
+            "carrier_codes": carrier_code_list,
+            "promo_codes": promo_codes
         }
 
         if request.POST['last_send'] == 'true': ##SIMPEN CACHE REQUEST DENGAN SIGNATURE HANYA SEKALI SETIAP SEARCH
