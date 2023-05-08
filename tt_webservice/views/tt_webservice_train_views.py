@@ -162,9 +162,7 @@ def get_config_provider(request):
                         "result": {
                             "error_code": 0,
                             "error_msg": '',
-                            "response": {
-                                temp[request.session['user_account']['co_ho_seq_id']]
-                            }
+                            "response": temp[request.session['user_account']['co_ho_seq_id']]
                         }
                     }
             else:
@@ -175,9 +173,7 @@ def get_config_provider(request):
                             "result": {
                                 "error_code": 0,
                                 "error_msg": '',
-                                "response": {
-                                    file[request.session['user_account']['co_ho_seq_id']]
-                                }
+                                "response": file[request.session['user_account']['co_ho_seq_id']]
                             }
                         }
                     _logger.info("get_provider_list ERROR USE CACHE SUCCESS SIGNATURE " + request.POST['signature'])
@@ -190,12 +186,10 @@ def get_config_provider(request):
             file = read_cache("train_provider", 'cache_web', request, 90911)
             if file and request.session['user_account']['co_ho_seq_id'] in file:
                 res = {
-                    "result":{
+                    "result": {
                         "error_code": 0,
                         "error_msg": '',
-                        "response": {
-                            file[request.session['user_account']['co_ho_seq_id']]
-                        }
+                        "response": file[request.session['user_account']['co_ho_seq_id']]
                     }
                 }
         except Exception as e:
