@@ -157,11 +157,29 @@ def get_config_provider(request):
                         temp[ho_seq_id][provider['provider']] = provider
                 write_cache(temp, "train_provider", request, 'cache_web')
                 _logger.info("get_providers_list TRAIN RENEW SUCCESS SIGNATURE " + request.POST['signature'])
+                if request.session['user_account']['co_ho_seq_id'] in temp:
+                    res = {
+                        "result": {
+                            "error_code": 0,
+                            "error_msg": '',
+                            "response": {
+                                temp[request.session['user_account']['co_ho_seq_id']]
+                            }
+                        }
+                    }
             else:
                 try:
                     file = read_cache("train_provider", 'cache_web', request, 90911)
                     if file and request.session['user_account']['co_ho_seq_id'] in file:
-                        res = file[request.session['user_account']['co_ho_seq_id']]
+                        res = {
+                            "result": {
+                                "error_code": 0,
+                                "error_msg": '',
+                                "response": {
+                                    file[request.session['user_account']['co_ho_seq_id']]
+                                }
+                            }
+                        }
                     _logger.info("get_provider_list ERROR USE CACHE SUCCESS SIGNATURE " + request.POST['signature'])
                 except Exception as e:
                     _logger.info("get_provider_list TRAIN ERROR SIGNATURE " + request.POST['signature'])
@@ -171,7 +189,15 @@ def get_config_provider(request):
         try:
             file = read_cache("train_provider", 'cache_web', request, 90911)
             if file and request.session['user_account']['co_ho_seq_id'] in file:
-                res = file[request.session['user_account']['co_ho_seq_id']]
+                res = {
+                    "result":{
+                        "error_code": 0,
+                        "error_msg": '',
+                        "response": {
+                            file[request.session['user_account']['co_ho_seq_id']]
+                        }
+                    }
+                }
         except Exception as e:
             _logger.error('ERROR get_provider_list train file\n' + str(e) + '\n' + traceback.format_exc())
     return res
