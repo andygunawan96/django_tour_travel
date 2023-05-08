@@ -150,13 +150,18 @@ def get_config_provider(request):
         try:
             if res['result']['error_code'] == 0:
                 #datetime
-                write_cache(res, "train_provider", request, 'cache_web')
+                temp = {}
+                for ho_seq_id in res['result']['response']:
+                    temp[ho_seq_id] = {}
+                    for provider in res['result']['response'][ho_seq_id]:
+                        temp[ho_seq_id][provider['provider']] = provider
+                write_cache(temp, "train_provider", request, 'cache_web')
                 _logger.info("get_providers_list TRAIN RENEW SUCCESS SIGNATURE " + request.POST['signature'])
             else:
                 try:
                     file = read_cache("train_provider", 'cache_web', request, 90911)
-                    if file:
-                        res = file
+                    if file and request.session['user_account']['co_ho_seq_id'] in file:
+                        res = file[request.session['user_account']['co_ho_seq_id']]
                     _logger.info("get_provider_list ERROR USE CACHE SUCCESS SIGNATURE " + request.POST['signature'])
                 except Exception as e:
                     _logger.info("get_provider_list TRAIN ERROR SIGNATURE " + request.POST['signature'])
@@ -165,7 +170,8 @@ def get_config_provider(request):
     else:
         try:
             file = read_cache("train_provider", 'cache_web', request, 90911)
-            res = file
+            if file and request.session['user_account']['co_ho_seq_id'] in file:
+                res = file[request.session['user_account']['co_ho_seq_id']]
         except Exception as e:
             _logger.error('ERROR get_provider_list train file\n' + str(e) + '\n' + traceback.format_exc())
     return res
