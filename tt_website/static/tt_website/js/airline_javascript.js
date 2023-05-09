@@ -6215,57 +6215,59 @@ function airline_detail(type){
     if(is_show_breakdown_price){
         var price_breakdown = {};
         var currency_breakdown = '';
-        for(i in airline_price){
-            for(j in airline_price[i]){
-                for(k in airline_price[i][j]){
-                    if(!['currency', 'disc', 'rac'].includes(k)){
-                        if(!price_breakdown.hasOwnProperty(k))
-                            price_breakdown[k.toUpperCase()] = 0;
-                        price_breakdown[k.toUpperCase()] += airline_price[i][j][k];
+        if(typeof(airline_price) !== 'undefined'){
+            for(i in airline_price){
+                for(j in airline_price[i]){
+                    for(k in airline_price[i][j]){
+                        if(!['currency', 'disc', 'rac'].includes(k)){
+                            if(!price_breakdown.hasOwnProperty(k.toUpperCase()))
+                                price_breakdown[k.toUpperCase()] = 0;
+                            price_breakdown[k.toUpperCase()] += airline_price[i][j][k];
 
+                        }
+                        if(k == 'currency' && currency_breakdown == '')
+                            currency_breakdown = airline_price[i][j][k];
                     }
-                    if(k == 'currency' && currency_breakdown == '')
-                        currency_breakdown = airline_price[i][j][k];
                 }
-            }
-            // upsell
-            if(typeof upsell_price_dict !== 'undefined'){
-                for(i in upsell_price_dict){
-                    if(!price_breakdown.hasOwnProperty('ROC'))
-                        price_breakdown['ROC'] = 0;
-                    price_breakdown['ROC'] += upsell_price_dict[i];
+                // upsell
+                if(typeof upsell_price_dict !== 'undefined'){
+                    for(i in upsell_price_dict){
+                        if(!price_breakdown.hasOwnProperty('ROC'))
+                            price_breakdown['ROC'] = 0;
+                        price_breakdown['ROC'] += upsell_price_dict[i];
+                    }
                 }
+                var breakdown_text = '';
+                for(j in price_breakdown){
+                    if(breakdown_text)
+                        breakdown_text += '<br/>';
+                    if(j != 'ROC')
+                        breakdown_text += '<b>'+j+'</b> ';
+                    else
+                        breakdown_text += '<b>CONVENIENCE FEE</b> ';
+                    breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
+                }
+                new jBox('Tooltip', {
+                    attach: '#total_price',
+                    target: '#total_price',
+                    theme: 'TooltipBorder',
+                    trigger: 'click',
+                    adjustTracker: true,
+                    closeOnClick: 'body',
+                    closeButton: 'box',
+                    animation: 'move',
+                    position: {
+                      x: 'left',
+                      y: 'top'
+                    },
+                    outside: 'y',
+                    pointer: 'left:20',
+                    offset: {
+                      x: 25
+                    },
+                    content: breakdown_text
+                });
             }
-            var breakdown_text = '';
-            for(j in price_breakdown){
-                if(breakdown_text)
-                    breakdown_text += '<br/>';
-                if(j != 'ROC')
-                    breakdown_text += '<b>'+j+'</b> ';
-                else
-                    breakdown_text += '<b>CONVENIENCE FEE</b> ';
-                breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
-            }
-            new jBox('Tooltip', {
-                attach: '#total_price',
-                target: '#total_price',
-                theme: 'TooltipBorder',
-                trigger: 'click',
-                adjustTracker: true,
-                closeOnClick: 'body',
-                closeButton: 'box',
-                animation: 'move',
-                position: {
-                  x: 'left',
-                  y: 'top'
-                },
-                outside: 'y',
-                pointer: 'left:20',
-                offset: {
-                  x: 25
-                },
-                content: breakdown_text
-            });
         }
     }
 
