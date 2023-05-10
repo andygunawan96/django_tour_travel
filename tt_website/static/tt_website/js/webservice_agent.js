@@ -1067,7 +1067,7 @@ function create_new_passenger(){
            document.getElementById('passenger_first_name').style['border-color'] = 'red';
        }else{
            document.getElementById('passenger_first_name').style['border-color'] = '#EFEFEF';
-       }if(check_word(document.getElementById('passenger_last_name').value) != true){
+       }if(check_word(document.getElementById('passenger_last_name').value) != true && document.getElementById('passenger_last_name').value){
            if(check_word(document.getElementById('passenger_last_name').value) == false){
                error_log+= 'Please use alpha characters last name of passenger!</br>\n';
                document.getElementById('passenger_last_name').style['border-color'] = 'red';
