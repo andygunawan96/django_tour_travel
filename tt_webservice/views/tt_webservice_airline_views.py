@@ -4833,6 +4833,19 @@ def search_mobile(request):
             "carrier_codes": request.data['carrier_codes'],
         }
 
+        if request.data.get('student'):
+            data.update({
+                "student": request.data['student']
+            })
+        if request.data.get('labour'):
+            data.update({
+                "labour": request.data['labour']
+            })
+        if request.data.get('seaman'):
+            data.update({
+                "seaman": request.data['seaman']
+            })
+
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
