@@ -3392,7 +3392,7 @@ function filter_agent(result, agent_type_label, head_office_label){
     document.getElementById('agent').innerHTML = '';
     var agent_datalist = ``;
     agent_datalist += `<option value="" selected>All Agent</option>`;
-    var head_office = parseInt(head_office_label);
+    var head_office = head_office_label;
     var agent_type = parseInt(agent_type_label);
     result.raw_data.result.response.dependencies.agent_list.forEach(function(item){
         if(item['ho_seq_id'] == head_office && item['agent_type_id'] == agent_type){
