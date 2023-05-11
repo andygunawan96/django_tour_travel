@@ -47,7 +47,7 @@ $(document).ready(function(){
     });
 
     $('#head_office').change(function(e){
-        var value_head_office = $( "#head_office option:selected" ).attr('label');
+        var value_head_office = $( "#head_office" ).val();
         var value_agent_type = $( "#agent_type option:selected" ).attr('label');
         filter_agent(result_data, value_agent_type, value_head_office);
     });
