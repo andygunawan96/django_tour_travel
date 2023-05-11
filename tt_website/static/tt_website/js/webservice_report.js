@@ -41,7 +41,7 @@ $(document).ready(function(){
     });
 
     $('#agent_type').change(function(e){
-        var value_head_office = $( "#head_office option:selected" ).attr('label');
+        var value_head_office = $( "#head_office").val();
         var value_agent_type = $( "#agent_type option:selected" ).attr('label');
         filter_agent(result_data, value_agent_type, value_head_office);
     });
@@ -3392,15 +3392,22 @@ function filter_agent(result, agent_type_label, head_office_label){
     document.getElementById('agent').innerHTML = '';
     var agent_datalist = ``;
     agent_datalist += `<option value="" selected>All Agent</option>`;
-    var head_office = head_office_label;
     var agent_type = parseInt(agent_type_label);
+    console.log(agent_type);
+    console.log(head_office_label);
     result.raw_data.result.response.dependencies.agent_list.forEach(function(item){
-        if(item['ho_seq_id'] == head_office && item['agent_type_id'] == agent_type){
+        if(head_office_label == '' && isNaN(agent_type)){
             agent_datalist += `<option value="`+ item['seq_id'] +`">`+ item['name'] +`</option>`;
-        }else if(isNaN(head_office)==true){
-            if(item['agent_type_id'] == agent_type){
+        }else if(head_office_label && agent_type){
+            if(item['ho_seq_id'] == head_office_label && item['agent_type_id'] == agent_type){
                 agent_datalist += `<option value="`+ item['seq_id'] +`">`+ item['name'] +`</option>`;
-            }else if(isNaN(agent_type)==true){
+            }
+        }else if(head_office_label){
+            if(item['ho_seq_id'] == head_office_label){
+                agent_datalist += `<option value="`+ item['seq_id'] +`">`+ item['name'] +`</option>`;
+            }
+        }else if(!isNaN(agent_type)){
+            if(item['agent_type_id'] == agent_type){
                 agent_datalist += `<option value="`+ item['seq_id'] +`">`+ item['name'] +`</option>`;
             }
         }
