@@ -619,40 +619,8 @@ $(document).ready(function(){
         if(quantity < 9){
             $('#adult_flight').val(quantity + 1);
             quantity_adult_flight = quantity + 1;
-
-            $('#show_total_pax_flight').text(quantity_adult_flight + " Adult, " +quantity_child_flight + " Child, " +quantity_infant_flight + " Infant");
         }
-
-        if (quantity_adult_flight+quantity_child_flight == 9){
-            document.getElementById("left-minus-adult-flight").disabled = false;
-            document.getElementById("right-plus-adult-flight").disabled = true;
-            document.getElementById("right-plus-child-flight").disabled = true;
-            if (quantity_child_flight > 0){
-                document.getElementById("left-minus-child-flight").disabled = false;
-            }
-            else{
-                document.getElementById("left-minus-child-flight").disabled = true;
-            }
-        }
-        else{
-            document.getElementById("left-minus-adult-flight").disabled = false;
-            document.getElementById("right-plus-child-flight").disabled = false;
-            if (quantity_child_flight > 0){
-                document.getElementById("left-minus-child-flight").disabled = false;
-            }
-            else{
-                document.getElementById("left-minus-child-flight").disabled = true;
-            }
-        }
-        // Increment
-
-        if (quantity_adult_flight > quantity_infant_flight){
-            document.getElementById("right-plus-infant-flight").disabled = false;
-        }
-        if (quantity_adult_flight == quantity_infant_flight){
-            document.getElementById("right-plus-infant-flight").disabled = true;
-        }
-
+        plus_min_passenger_airline_btn();
     });
     $('.left-minus-adult-flight').click(function(e){
         // Stop acting like a button
@@ -662,45 +630,20 @@ $(document).ready(function(){
 
         // If is not undefined
         // Increment
-        if(quantity > 1){
+        var minimum_quantity = 1;
+        if(airline_advance_pax_type == 'true')
+            minimum_quantity = 0;
+        if(quantity > minimum_quantity){
             $('#adult_flight').val(quantity - 1);
+            $('#adult_flight1').val(quantity - 1);
             quantity_adult_flight = quantity - 1;
-
             if(quantity_adult_flight < quantity_infant_flight){
                quantity_infant_flight = quantity_adult_flight;
                $('#infant_flight').val(quantity - 1);
-            }
-
-            $('#show_total_pax_flight').text(quantity_adult_flight + " Adult, " + quantity_child_flight + " Child, " +quantity_infant_flight + " Infant");
-        }
-
-        if (quantity_adult_flight+quantity_child_flight == 9){
-            document.getElementById("left-minus-adult-flight").disabled = false;
-            document.getElementById("right-plus-adult-flight").disabled = true;
-            document.getElementById("right-plus-child-flight").disabled = true;
-            if (quantity_child_flight > 0){
-                document.getElementById("left-minus-child-flight").disabled = false;
+               $('#infant_flight1').val(quantity - 1);
             }
         }
-        else{
-            document.getElementById("right-plus-child-flight").disabled = false;
-            if (quantity_child_flight > 0){
-                document.getElementById("left-minus-child-flight").disabled = false;
-            }
-
-            if (quantity_adult_flight == 1){
-                document.getElementById("left-minus-adult-flight").disabled = true;
-                document.getElementById("right-plus-adult-flight").disabled = false;
-            }
-            else{
-                document.getElementById("right-plus-adult-flight").disabled = false;
-            }
-        }
-
-        if (quantity_adult_flight == quantity_infant_flight){
-            document.getElementById("right-plus-infant-flight").disabled = true;
-        }
-
+        plus_min_passenger_airline_btn();
     });
     $('.right-plus-child-flight').click(function(e){
         // Stop acting like a button
@@ -711,36 +654,10 @@ $(document).ready(function(){
         // If is not undefined
         if(quantity < 8){
             $('#child_flight').val(quantity + 1);
+            $('#child_flight1').val(quantity + 1);
             quantity_child_flight = quantity + 1;
-
-            $('#show_total_pax_flight').text(quantity_adult_flight + " Adult, " +quantity_child_flight + " Child, " +quantity_infant_flight + " Infant");
         }
-
-        if (quantity_adult_flight+quantity_child_flight == 9){
-            document.getElementById("right-plus-adult-flight").disabled = true;
-            document.getElementById("right-plus-child-flight").disabled = true;
-            document.getElementById("left-minus-child-flight").disabled = false;
-            if (quantity_adult_flight == 1){
-                document.getElementById("left-minus-adult-flight").disabled = true;
-            }
-            if (quantity_child_flight > 0){
-                document.getElementById("left-minus-child-flight").disabled = false;
-            }
-            else{
-                document.getElementById("left-minus-child-flight").disabled = true;
-            }
-        }
-        else{
-            document.getElementById("right-plus-child-flight").disabled = false;
-            document.getElementById("left-minus-child-flight").disabled = false;
-
-            if (quantity_child_flight > 0){
-                document.getElementById("left-minus-child-flight").disabled = false;
-            }
-            else{
-                document.getElementById("left-minus-child-flight").disabled = true;
-            }
-        }
+        plus_min_passenger_airline_btn();
     });
     $('.left-minus-child-flight').click(function(e){
         // Stop acting like a button
@@ -752,24 +669,10 @@ $(document).ready(function(){
         // Increment
         if(quantity > 0){
             $('#child_flight').val(quantity - 1);
+            $('#child_flight1').val(quantity - 1);
             quantity_child_flight = quantity - 1;
-
-            $('#show_total_pax_flight').text(quantity_adult_flight + " Adult, " + quantity_child_flight + " Child, " +quantity_infant_flight + " Infant");
         }
-
-        if (quantity_adult_flight+quantity_child_flight != 9){
-            document.getElementById("right-plus-adult-flight").disabled = false;
-            document.getElementById("right-plus-child-flight").disabled = false;
-            if (quantity_adult_flight == 1){
-                document.getElementById("left-minus-adult-flight").disabled = true;
-            }
-            if (quantity_child_flight > 0){
-                document.getElementById("left-minus-child-flight").disabled = false;
-            }
-            else{
-                document.getElementById("left-minus-child-flight").disabled = true;
-            }
-        }
+        plus_min_passenger_airline_btn();
     });
     $('.right-plus-infant-flight').click(function(e){
         // Stop acting like a button
@@ -780,26 +683,10 @@ $(document).ready(function(){
         // If is not undefined
         if (quantity < quantity_adult_flight){
             $('#infant_flight').val(quantity + 1);
+            $('#infant_flight1').val(quantity + 1);
             quantity_infant_flight = quantity + 1;
-
-            $('#show_total_pax_flight').text(quantity_adult_flight + " Adult, " + quantity_child_flight + " Child, " +quantity_infant_flight + " Infant");
         }
-        // Increment
-
-//        alert(quantity_infant_train);
-//        alert(quantity_adult_train);
-        if (quantity_infant_flight < quantity_adult_flight){
-            document.getElementById("left-minus-infant-flight").disabled = false;
-            document.getElementById("right-plus-infant-flight").disabled = false;
-        }
-        else if(quantity_infant_flight == quantity_adult_flight){
-            document.getElementById("left-minus-infant-flight").disabled = false;
-            document.getElementById("right-plus-infant-flight").disabled = true;
-        }
-        else{
-            document.getElementById("right-plus-infant-flight").disabled = true;
-            document.getElementById("left-minus-infant-flight").disabled = false;
-        }
+        plus_min_passenger_airline_btn();
     });
     $('.left-minus-infant-flight').click(function(e){
         // Stop acting like a button
@@ -811,20 +698,105 @@ $(document).ready(function(){
         // Increment
         if(quantity > 0){
             $('#infant_flight').val(quantity - 1);
+            $('#infant_flight1').val(quantity - 1);
             quantity_infant_flight = quantity - 1;
-
-            $('#show_total_pax_flight').text(quantity_adult_flight + " Adult, " + quantity_child_flight + " Child, " +quantity_infant_flight + " Infant");
         }
-
-        if (quantity_infant_flight == 0){
-            document.getElementById("left-minus-infant-flight").disabled = true;
-            document.getElementById("right-plus-infant-flight").disabled = false;
-        }
-        else{
-            document.getElementById("right-plus-infant-flight").disabled = false;
-        }
+        plus_min_passenger_airline_btn();
     });
 
+    // airline advance pax type
+    // student
+    $('.right-plus-student-flight').click(function(e){
+        // Stop acting like a button
+        e.preventDefault();
+        // Get the field name
+        var quantity = parseInt($('#student_flight').val());
+
+        // If is not undefined
+        if(quantity < 8){
+            $('#student_flight').val(quantity + 1);
+            $('#student_flight1').val(quantity + 1);
+            quantity_student_flight = quantity + 1;
+        }
+        plus_min_passenger_airline_btn();
+    });
+    $('.left-minus-student-flight').click(function(e){
+        // Stop acting like a button
+        e.preventDefault();
+        // Get the field name
+        var quantity = parseInt($('#student_flight').val());
+
+        // If is not undefined
+        // Increment
+        if(quantity > 0){
+            $('#student_flight').val(quantity - 1);
+            $('#student_flight1').val(quantity - 1);
+            quantity_student_flight = quantity - 1;
+        }
+        plus_min_passenger_airline_btn();
+    });
+
+    // labour
+    $('.right-plus-labour-flight').click(function(e){
+        // Stop acting like a button
+        e.preventDefault();
+        // Get the field name
+        var quantity = parseInt($('#labour_flight').val());
+
+        // If is not undefined
+        if(quantity < 8){
+            $('#labour_flight').val(quantity + 1);
+            $('#labour_flight1').val(quantity + 1);
+            quantity_labour_flight = quantity + 1;
+        }
+        plus_min_passenger_airline_btn();
+    });
+    $('.left-minus-labour-flight').click(function(e){
+        // Stop acting like a button
+        e.preventDefault();
+        // Get the field name
+        var quantity = parseInt($('#labour_flight').val());
+
+        // If is not undefined
+        // Increment
+        if(quantity > 0){
+            $('#labour_flight').val(quantity - 1);
+            $('#labour_flight1').val(quantity - 1);
+            quantity_labour_flight = quantity - 1;
+        }
+        plus_min_passenger_airline_btn();
+    });
+
+    // seaman
+    $('.right-plus-seaman-flight').click(function(e){
+        // Stop acting like a button
+        e.preventDefault();
+        // Get the field name
+        var quantity = parseInt($('#seaman_flight').val());
+
+        // If is not undefined
+        if(quantity < 8){
+            $('#seaman_flight').val(quantity + 1);
+            $('#seaman_flight1').val(quantity + 1);
+            quantity_seaman_flight = quantity + 1;
+        }
+        plus_min_passenger_airline_btn();
+    });
+    $('.left-minus-seaman-flight').click(function(e){
+        // Stop acting like a button
+        e.preventDefault();
+        // Get the field name
+        var quantity = parseInt($('#seaman_flight').val());
+
+        // If is not undefined
+        // Increment
+        if(quantity > 0){
+            $('#seaman_flight').val(quantity - 1);
+            $('#seaman_flight1').val(quantity - 1);
+            quantity_seaman_flight = quantity - 1;
+        }
+        plus_min_passenger_airline_btn();
+    });
 
     //groupbooking
     var quantity_adult_flight_gb = parseInt($('#adult_flight_gb').val());
@@ -1860,14 +1832,8 @@ $(document).ready(function(){
 //                }, 200);
 //            });
 
-            quantity_adult_flight = parseInt(document.getElementById('adult_flight').value);
-            quantity_child_flight = parseInt(document.getElementById('child_flight').value);
-            quantity_infant_flight = parseInt(document.getElementById('infant_flight').value);
-
-            $('#show_total_pax_flight').text(quantity_adult_flight + " Adult, " + quantity_child_flight + " Child, " +quantity_infant_flight + " Infant");
-            $('#show_total_pax_flight1').text(quantity_adult_flight + " Adult, " + quantity_child_flight + " Child, " +quantity_infant_flight + " Infant");
-        }
-        else if(selected_value == "roundtrip"){
+            plus_min_passenger_airline_btn();
+        }else if(selected_value == "roundtrip"){
             if(template == 1 || template == 2 || template == 3 || template == 6){
                 document.getElementById("airline_date_search").innerHTML = '';
                 text='';
@@ -1993,15 +1959,8 @@ $(document).ready(function(){
 //                }, 200);
 //            });
 
-
-            quantity_adult_flight = parseInt(document.getElementById('adult_flight').value);
-            quantity_child_flight = parseInt(document.getElementById('child_flight').value);
-            quantity_infant_flight = parseInt(document.getElementById('infant_flight').value);
-
-            $('#show_total_pax_flight').text(quantity_adult_flight + " Adult, " + quantity_child_flight + " Child, " +quantity_infant_flight + " Infant");
-            $('#show_total_pax_flight1').text(quantity_adult_flight + " Adult, " + quantity_child_flight + " Child, " +quantity_infant_flight + " Infant");
-        }
-        else if (selected_value == "multicity"){
+            plus_min_passenger_airline_btn();
+        }else if (selected_value == "multicity"){
             airline_counter_config = 0;
             counter_airline_search = 0;
             text_mc='';
@@ -2095,12 +2054,7 @@ $(document).ready(function(){
             add_multi_city('home');
             add_multi_city('home');
 
-            quantity_adult_flight = parseInt(document.getElementById('adult_flight').value);
-            quantity_child_flight = parseInt(document.getElementById('child_flight').value);
-            quantity_infant_flight = parseInt(document.getElementById('infant_flight').value);
-
-            $('#show_total_pax_flight').text(quantity_adult_flight + " Adult, " + quantity_child_flight + " Child, " +quantity_infant_flight + " Infant");
-            $('#show_total_pax_flight1').text(quantity_adult_flight + " Adult, " + quantity_child_flight + " Child, " +quantity_infant_flight + " Infant");
+            plus_min_passenger_airline_btn();
         }
     });
 

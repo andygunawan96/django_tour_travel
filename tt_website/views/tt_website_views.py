@@ -322,6 +322,7 @@ def index(request):
                                 'signature': request.session['signature'],
                                 'terms_value': check_terms_condition(request),
                             })
+                            values.update(get_airline_advance_pax_type(request))
                         except Exception as e:
                             _logger.error(str(e) + '\n' + traceback.format_exc())
                             raise Exception('Make response code 500!')
@@ -361,7 +362,7 @@ def index(request):
                         'javascript_version': javascript_version,
                         'static_path_url_server': get_url_static_path(),
                     })
-        # values.update(get_airline_advance_pax_type(request))
+        values.update(get_airline_advance_pax_type(request))
         values.update({
             'big_banner_value': check_banner('home', 'big_banner', request),
             'small_banner_value': check_banner('home', 'small_banner', request),
@@ -980,6 +981,7 @@ def admin(request):
                     'signature': request.session['signature'],
                     'data_font': data_font
                 })
+                values.update(get_airline_advance_pax_type(request))
             except Exception as e:
                 _logger.error(str(e) + '\n' + traceback.format_exc())
                 raise Exception('Make response code 500!')

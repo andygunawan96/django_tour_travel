@@ -56,6 +56,10 @@
     promotion_banner_value = '{{promotion_banner_value}}';
 
     static_path_url_server = '{{static_path_url_server}}'
+    airline_advance_pax_type = '{{airline_advance_pax_type}}';
+    airline_pax_type_student = '{{airline_pax_type_student}}';
+    airline_pax_type_labour = '{{airline_pax_type_labour}}';
+    airline_pax_type_seaman = '{{airline_pax_type_seaman}}';
     name = '';
     cabin_class = [];
     {% for airline_cabin_class in airline_cabin_class_list %}
@@ -581,7 +585,7 @@
                                                             </div>
                                                             <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
                                                                 <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                                    <button type="button" class="left-minus-adult-flight btn-custom-circle" id="left-minus-adult-flight" data-type="minus" data-field="" disabled>
+                                                                    <button type="button" class="left-minus-adult-flight btn-custom-circle" id="left-minus-adult-flight" data-type="minus" data-field="" {% if airline_advance_pax_type == 'false' %} disabled {% endif %}>
                                                                         <i class="fas fa-minus"></i>
                                                                     </button>
                                                                     <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="adult_flight" name="adult_flight" value="1" min="1" readonly>
@@ -630,6 +634,71 @@
                                                                     </button>
                                                                 </div>
                                                             </div>
+
+                                                            {% if airline_pax_type_student == 'true' and airline_advance_pax_type == 'true' %}
+                                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                                <div style="float:left;">
+                                                                    <label>
+                                                                        <span style="color:black; font-size:13px;">{% trans 'Student' %}</span><br/>
+                                                                        <span style="color:gray; font-size:11px;">({% trans 'Age' %} 11+)</span>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                                <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                                    <button type="button" class="left-minus-student-flight btn-custom-circle" id="left-minus-student-flight" data-type="minus" data-field="" disabled>
+                                                                        <i class="fas fa-minus"></i>
+                                                                    </button>
+                                                                    <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="student_flight" name="student_flight" value="0" min="0" readonly>
+                                                                    <button type="button" class="right-plus-student-flight btn-custom-circle" id="right-plus-student-flight" data-type="plus" data-field="">
+                                                                        <i class="fas fa-plus"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                            {% endif %}
+                                                            {% if airline_pax_type_labour == 'true' and airline_advance_pax_type == 'true' %}
+                                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                                <div style="float:left;">
+                                                                    <label>
+                                                                        <span style="color:black; font-size:13px;">{% trans 'Labour' %}</span><br/>
+                                                                        <span style="color:gray; font-size:11px;">({% trans 'Age' %} 11+)</span>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                                <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                                    <button type="button" class="left-minus-labour-flight btn-custom-circle" id="left-minus-labour-flight" data-type="minus" data-field="" disabled>
+                                                                        <i class="fas fa-minus"></i>
+                                                                    </button>
+                                                                    <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="labour_flight" name="labour_flight" value="0" min="0" readonly>
+                                                                    <button type="button" class="right-plus-labour-flight btn-custom-circle" id="right-plus-labour-flight" data-type="plus" data-field="">
+                                                                        <i class="fas fa-plus"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                            {% endif %}
+                                                            {% if airline_pax_type_seaman == 'true' and airline_advance_pax_type == 'true' %}
+                                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                                <div style="float:left;">
+                                                                    <label>
+                                                                        <span style="color:black; font-size:13px;">{% trans 'Seaman' %}</span><br/>
+                                                                        <span style="color:gray; font-size:11px;">({% trans 'Age' %} 11+)</span>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                                <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                                    <button type="button" class="left-minus-seaman-flight btn-custom-circle" id="left-minus-seaman-flight" data-type="minus" data-field="" disabled>
+                                                                        <i class="fas fa-minus"></i>
+                                                                    </button>
+                                                                    <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="seaman_flight" name="seaman_flight" value="0" min="0" readonly>
+                                                                    <button type="button" class="right-plus-seaman-flight btn-custom-circle" id="right-plus-seaman-flight" data-type="plus" data-field="">
+                                                                        <i class="fas fa-plus"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                            {% endif %}
+
                                                             <div class="col-lg-12" style="text-align:right;">
                                                                 <hr/>
                                                                 <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('airline','passenger');">Done</button>
@@ -2158,6 +2227,70 @@
                                                             </button>
                                                         </div>
                                                     </div>
+
+                                                    {% if airline_pax_type_student == 'true' and airline_advance_pax_type == 'true' %}
+                                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                        <div style="float:left;">
+                                                            <label>
+                                                                <span style="color:black; font-size:13px;">{% trans 'Student' %}</span><br/>
+                                                                <span style="color:gray; font-size:11px;">({% trans 'Age' %} 11+)</span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                        <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                            <button type="button" class="left-minus-student-flight btn-custom-circle" id="left-minus-student-flight" data-type="minus" data-field="" disabled>
+                                                                <i class="fas fa-minus"></i>
+                                                            </button>
+                                                            <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="student_flight" name="student_flight" value="0" min="0" readonly>
+                                                            <button type="button" class="right-plus-student-flight btn-custom-circle" id="right-plus-student-flight" data-type="plus" data-field="">
+                                                                <i class="fas fa-plus"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    {% endif %}
+                                                    {% if airline_pax_type_labour == 'true' and airline_advance_pax_type == 'true' %}
+                                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                        <div style="float:left;">
+                                                            <label>
+                                                                <span style="color:black; font-size:13px;">{% trans 'Labour' %}</span><br/>
+                                                                <span style="color:gray; font-size:11px;">({% trans 'Age' %} 11+)</span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                        <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                            <button type="button" class="left-minus-labour-flight btn-custom-circle" id="left-minus-labour-flight" data-type="minus" data-field="" disabled>
+                                                                <i class="fas fa-minus"></i>
+                                                            </button>
+                                                            <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="labour_flight" name="labour_flight" value="0" min="0" readonly>
+                                                            <button type="button" class="right-plus-labour-flight btn-custom-circle" id="right-plus-labour-flight" data-type="plus" data-field="">
+                                                                <i class="fas fa-plus"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    {% endif %}
+                                                    {% if airline_pax_type_seaman == 'true' and airline_advance_pax_type == 'true' %}
+                                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                        <div style="float:left;">
+                                                            <label>
+                                                                <span style="color:black; font-size:13px;">{% trans 'Seaman' %}</span><br/>
+                                                                <span style="color:gray; font-size:11px;">({% trans 'Age' %} 11+)</span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                        <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                            <button type="button" class="left-minus-seaman-flight btn-custom-circle" id="left-minus-seaman-flight" data-type="minus" data-field="" disabled>
+                                                                <i class="fas fa-minus"></i>
+                                                            </button>
+                                                            <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="seaman_flight" name="seaman_flight" value="0" min="0" readonly>
+                                                            <button type="button" class="right-plus-seaman-flight btn-custom-circle" id="right-plus-seaman-flight" data-type="plus" data-field="">
+                                                                <i class="fas fa-plus"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    {% endif %}
                                                     <div class="col-lg-12" style="text-align:right;">
                                                         <hr/>
                                                         <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('airline','passenger');">Done</button>
@@ -3575,6 +3708,70 @@
                                                                     </button>
                                                                 </div>
                                                             </div>
+
+                                                            {% if airline_pax_type_student == 'true' and airline_advance_pax_type == 'true' %}
+                                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                                <div style="float:left;">
+                                                                    <label>
+                                                                        <span style="color:black; font-size:13px;">{% trans 'Student' %}</span><br/>
+                                                                        <span style="color:gray; font-size:11px;">({% trans 'Age' %} 11+)</span>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                                <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                                    <button type="button" class="left-minus-student-flight btn-custom-circle" id="left-minus-student-flight" data-type="minus" data-field="" disabled>
+                                                                        <i class="fas fa-minus"></i>
+                                                                    </button>
+                                                                    <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="student_flight" name="student_flight" value="0" min="0" readonly>
+                                                                    <button type="button" class="right-plus-student-flight btn-custom-circle" id="right-plus-student-flight" data-type="plus" data-field="">
+                                                                        <i class="fas fa-plus"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                            {% endif %}
+                                                            {% if airline_pax_type_labour == 'true' and airline_advance_pax_type == 'true' %}
+                                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                                <div style="float:left;">
+                                                                    <label>
+                                                                        <span style="color:black; font-size:13px;">{% trans 'Labour' %}</span><br/>
+                                                                        <span style="color:gray; font-size:11px;">({% trans 'Age' %} 11+)</span>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                                <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                                    <button type="button" class="left-minus-labour-flight btn-custom-circle" id="left-minus-labour-flight" data-type="minus" data-field="" disabled>
+                                                                        <i class="fas fa-minus"></i>
+                                                                    </button>
+                                                                    <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="labour_flight" name="labour_flight" value="0" min="0" readonly>
+                                                                    <button type="button" class="right-plus-labour-flight btn-custom-circle" id="right-plus-labour-flight" data-type="plus" data-field="">
+                                                                        <i class="fas fa-plus"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                            {% endif %}
+                                                            {% if airline_pax_type_seaman == 'true' and airline_advance_pax_type == 'true' %}
+                                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                                <div style="float:left;">
+                                                                    <label>
+                                                                        <span style="color:black; font-size:13px;">{% trans 'Seaman' %}</span><br/>
+                                                                        <span style="color:gray; font-size:11px;">({% trans 'Age' %} 11+)</span>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                                <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                                    <button type="button" class="left-minus-seaman-flight btn-custom-circle" id="left-minus-seaman-flight" data-type="minus" data-field="" disabled>
+                                                                        <i class="fas fa-minus"></i>
+                                                                    </button>
+                                                                    <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="seaman_flight" name="seaman_flight" value="0" min="0" readonly>
+                                                                    <button type="button" class="right-plus-seaman-flight btn-custom-circle" id="right-plus-seaman-flight" data-type="plus" data-field="">
+                                                                        <i class="fas fa-plus"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                            {% endif %}
                                                             <div class="col-lg-12" style="text-align:right;">
                                                                 <hr/>
                                                                 <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('airline','passenger');">Done</button>
@@ -5045,6 +5242,70 @@
                                                                             </button>
                                                                         </div>
                                                                     </div>
+
+                                                                    {% if airline_pax_type_student == 'true' and airline_advance_pax_type == 'true' %}
+                                                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                                        <div style="float:left;">
+                                                                            <label>
+                                                                                <span style="color:black; font-size:13px;">{% trans 'Student' %}</span><br/>
+                                                                                <span style="color:gray; font-size:11px;">({% trans 'Age' %} 11+)</span>
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                                        <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                                            <button type="button" class="left-minus-student-flight btn-custom-circle" id="left-minus-student-flight" data-type="minus" data-field="" disabled>
+                                                                                <i class="fas fa-minus"></i>
+                                                                            </button>
+                                                                            <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="student_flight" name="student_flight" value="0" min="0" readonly>
+                                                                            <button type="button" class="right-plus-student-flight btn-custom-circle" id="right-plus-student-flight" data-type="plus" data-field="">
+                                                                                <i class="fas fa-plus"></i>
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                    {% endif %}
+                                                                    {% if airline_pax_type_labour == 'true' and airline_advance_pax_type == 'true' %}
+                                                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                                        <div style="float:left;">
+                                                                            <label>
+                                                                                <span style="color:black; font-size:13px;">{% trans 'Labour' %}</span><br/>
+                                                                                <span style="color:gray; font-size:11px;">({% trans 'Age' %} 11+)</span>
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                                        <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                                            <button type="button" class="left-minus-labour-flight btn-custom-circle" id="left-minus-labour-flight" data-type="minus" data-field="" disabled>
+                                                                                <i class="fas fa-minus"></i>
+                                                                            </button>
+                                                                            <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="labour_flight" name="labour_flight" value="0" min="0" readonly>
+                                                                            <button type="button" class="right-plus-labour-flight btn-custom-circle" id="right-plus-labour-flight" data-type="plus" data-field="">
+                                                                                <i class="fas fa-plus"></i>
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                    {% endif %}
+                                                                    {% if airline_pax_type_seaman == 'true' and airline_advance_pax_type == 'true' %}
+                                                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                                        <div style="float:left;">
+                                                                            <label>
+                                                                                <span style="color:black; font-size:13px;">{% trans 'Seaman' %}</span><br/>
+                                                                                <span style="color:gray; font-size:11px;">({% trans 'Age' %} 11+)</span>
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                                        <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                                            <button type="button" class="left-minus-seaman-flight btn-custom-circle" id="left-minus-seaman-flight" data-type="minus" data-field="" disabled>
+                                                                                <i class="fas fa-minus"></i>
+                                                                            </button>
+                                                                            <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="seaman_flight" name="seaman_flight" value="0" min="0" readonly>
+                                                                            <button type="button" class="right-plus-seaman-flight btn-custom-circle" id="right-plus-seaman-flight" data-type="plus" data-field="">
+                                                                                <i class="fas fa-plus"></i>
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                    {% endif %}
                                                                     <div class="col-lg-12" style="text-align:right;">
                                                                         <hr/>
                                                                         <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('airline','passenger');">Done</button>
@@ -6531,6 +6792,70 @@
                                                                                 </button>
                                                                             </div>
                                                                         </div>
+
+                                                                        {% if airline_pax_type_student == 'true' and airline_advance_pax_type == 'true' %}
+                                                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                                            <div style="float:left;">
+                                                                                <label>
+                                                                                    <span style="color:black; font-size:13px;">{% trans 'Student' %}</span><br/>
+                                                                                    <span style="color:gray; font-size:11px;">({% trans 'Age' %} 11+)</span>
+                                                                                </label>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                                            <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                                                <button type="button" class="left-minus-student-flight btn-custom-circle" id="left-minus-student-flight" data-type="minus" data-field="" disabled>
+                                                                                    <i class="fas fa-minus"></i>
+                                                                                </button>
+                                                                                <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="student_flight" name="student_flight" value="0" min="0" readonly>
+                                                                                <button type="button" class="right-plus-student-flight btn-custom-circle" id="right-plus-student-flight" data-type="plus" data-field="">
+                                                                                    <i class="fas fa-plus"></i>
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+                                                                        {% endif %}
+                                                                        {% if airline_pax_type_labour == 'true' and airline_advance_pax_type == 'true' %}
+                                                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                                            <div style="float:left;">
+                                                                                <label>
+                                                                                    <span style="color:black; font-size:13px;">{% trans 'Labour' %}</span><br/>
+                                                                                    <span style="color:gray; font-size:11px;">({% trans 'Age' %} 11+)</span>
+                                                                                </label>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                                            <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                                                <button type="button" class="left-minus-labour-flight btn-custom-circle" id="left-minus-labour-flight" data-type="minus" data-field="" disabled>
+                                                                                    <i class="fas fa-minus"></i>
+                                                                                </button>
+                                                                                <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="labour_flight" name="labour_flight" value="0" min="0" readonly>
+                                                                                <button type="button" class="right-plus-labour-flight btn-custom-circle" id="right-plus-labour-flight" data-type="plus" data-field="">
+                                                                                    <i class="fas fa-plus"></i>
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+                                                                        {% endif %}
+                                                                        {% if airline_pax_type_seaman == 'true' and airline_advance_pax_type == 'true' %}
+                                                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                                            <div style="float:left;">
+                                                                                <label>
+                                                                                    <span style="color:black; font-size:13px;">{% trans 'Seaman' %}</span><br/>
+                                                                                    <span style="color:gray; font-size:11px;">({% trans 'Age' %} 11+)</span>
+                                                                                </label>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                                            <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                                                <button type="button" class="left-minus-seaman-flight btn-custom-circle" id="left-minus-seaman-flight" data-type="minus" data-field="" disabled>
+                                                                                    <i class="fas fa-minus"></i>
+                                                                                </button>
+                                                                                <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="seaman_flight" name="seaman_flight" value="0" min="0" readonly>
+                                                                                <button type="button" class="right-plus-seaman-flight btn-custom-circle" id="right-plus-seaman-flight" data-type="plus" data-field="">
+                                                                                    <i class="fas fa-plus"></i>
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+                                                                        {% endif %}
                                                                         <div class="col-lg-12" style="text-align:right;">
                                                                             <hr/>
                                                                             <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('airline','passenger');">Done</button>
@@ -8102,6 +8427,70 @@
                                                                 </button>
                                                             </div>
                                                         </div>
+
+                                                        {% if airline_pax_type_student == 'true' and airline_advance_pax_type == 'true' %}
+                                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                            <div style="float:left;">
+                                                                <label>
+                                                                    <span style="color:black; font-size:13px;">{% trans 'Student' %}</span><br/>
+                                                                    <span style="color:gray; font-size:11px;">({% trans 'Age' %} 11+)</span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                            <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                                <button type="button" class="left-minus-student-flight btn-custom-circle" id="left-minus-student-flight" data-type="minus" data-field="" disabled>
+                                                                    <i class="fas fa-minus"></i>
+                                                                </button>
+                                                                <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="student_flight" name="student_flight" value="0" min="0" readonly>
+                                                                <button type="button" class="right-plus-student-flight btn-custom-circle" id="right-plus-student-flight" data-type="plus" data-field="">
+                                                                    <i class="fas fa-plus"></i>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                        {% endif %}
+                                                        {% if airline_pax_type_labour == 'true' and airline_advance_pax_type == 'true' %}
+                                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                            <div style="float:left;">
+                                                                <label>
+                                                                    <span style="color:black; font-size:13px;">{% trans 'Labour' %}</span><br/>
+                                                                    <span style="color:gray; font-size:11px;">({% trans 'Age' %} 11+)</span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                            <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                                <button type="button" class="left-minus-labour-flight btn-custom-circle" id="left-minus-labour-flight" data-type="minus" data-field="" disabled>
+                                                                    <i class="fas fa-minus"></i>
+                                                                </button>
+                                                                <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="labour_flight" name="labour_flight" value="0" min="0" readonly>
+                                                                <button type="button" class="right-plus-labour-flight btn-custom-circle" id="right-plus-labour-flight" data-type="plus" data-field="">
+                                                                    <i class="fas fa-plus"></i>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                        {% endif %}
+                                                        {% if airline_pax_type_seaman == 'true' and airline_advance_pax_type == 'true' %}
+                                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                            <div style="float:left;">
+                                                                <label>
+                                                                    <span style="color:black; font-size:13px;">{% trans 'Seaman' %}</span><br/>
+                                                                    <span style="color:gray; font-size:11px;">({% trans 'Age' %} 11+)</span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                            <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                                <button type="button" class="left-minus-seaman-flight btn-custom-circle" id="left-minus-seaman-flight" data-type="minus" data-field="" disabled>
+                                                                    <i class="fas fa-minus"></i>
+                                                                </button>
+                                                                <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="seaman_flight" name="seaman_flight" value="0" min="0" readonly>
+                                                                <button type="button" class="right-plus-seaman-flight btn-custom-circle" id="right-plus-seaman-flight" data-type="plus" data-field="">
+                                                                    <i class="fas fa-plus"></i>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                        {% endif %}
                                                         <div class="col-lg-12" style="text-align:right;">
                                                             <hr/>
                                                             <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('airline','passenger');">Done</button>

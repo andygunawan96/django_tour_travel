@@ -1905,18 +1905,24 @@ def get_customer_list(request):
                     if pax['gender'] == 'female' and pax['marital_status'] == 'married':
                         if 'Adult' in request.POST['passenger_type'] or request.POST['passenger_type'] == 'adult' or request.POST['passenger_type'] == 'senior' or request.POST['passenger_type'] == 'booker' or request.POST['passenger_type'] == 'contact' or request.POST['passenger_type'] == 'passenger': #buat insurance pakai keyword adult<something> jadi pakai in
                             title = 'MRS'
-                        else:
+                        elif request.POST['passenger_type'] == 'child' or request.POST['passenger_type'] == 'child':
                             title = 'MISS'
+                        else:
+                            title = 'MRS'
                     elif pax['gender'] == 'female':
                         if 'Adult' in request.POST['passenger_type'] or request.POST['passenger_type'] == 'adult' or request.POST['passenger_type'] == 'senior' or request.POST['passenger_type'] == 'booker' or request.POST['passenger_type'] == 'contact' or request.POST['passenger_type'] == 'passenger': #buat insurance pakai keyword adult<something> jadi pakai in
                             title = 'MS'
-                        else:
+                        elif request.POST['passenger_type'] == 'child' or request.POST['passenger_type'] == 'child':
                             title = 'MISS'
+                        else:
+                            title = 'MS'
                     else:
                         if 'Adult' in request.POST['passenger_type'] or request.POST['passenger_type'] == 'adult' or request.POST['passenger_type'] == 'senior' or request.POST['passenger_type'] == 'booker' or request.POST['passenger_type'] == 'contact' or request.POST['passenger_type'] == 'passenger': #buat insurance pakai keyword adult<something> jadi pakai in
                             title = 'MR'
-                        else:
+                        elif request.POST['passenger_type'] == 'child' or request.POST['passenger_type'] == 'child':
                             title = 'MSTR'
+                        else:
+                            title = 'MR'
                     pax.update({
                         'sequence': counter,
                         'title': title

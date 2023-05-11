@@ -1529,12 +1529,57 @@
                                                         <div class="col-lg-12 mb-3" style="background:white; border:1px solid #cdcdcd; padding:15px;">
                                                             <div class="row">
                                                                 <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                                                                    <h6 class="single_border_custom_left mb-3" style="padding-left:10px;">{% trans 'Advance Pax Type' %}</h6>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row" style="text-align:left;">
+                                                                <div class="col-lg-12 mb-3">
+                                                                    <label class="check_box_custom">
+                                                                        <span class="span-search-ticket" style="color:black;">Open Advance Pax Type</span>
+                                                                            <input type="checkbox" id="airline_advance_pax_type" name="airline_advance_pax_type" onclick="onchange_advance_pax_type();" {% if airline_advance_pax_type == 'true' %} checked {% endif %}>
+                                                                        <span class="check_box_span_custom"></span>
+                                                                    </label>
+                                                                </div>
+                                                                <div class="col-lg-12 mb-3" id="airline_advance_pax_type_div" {% if airline_advance_pax_type == 'false' %} hidden {% endif %}>
+                                                                    <div class="row" style="text-align:left;">
+                                                                        <div class="col-lg-12 mb-3">
+                                                                            <label class="check_box_custom">
+                                                                                <span class="span-search-ticket" style="color:black;">Student</span>
+                                                                                    <input type="checkbox" id="airline_pax_type_student" {% if airline_pax_type_student == 'true' %} checked {% endif %}>
+                                                                                <span class="check_box_span_custom"></span>
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="col-lg-12 mb-3">
+                                                                            <label class="check_box_custom">
+                                                                                <span class="span-search-ticket" style="color:black;">Labour</span>
+                                                                                    <input type="checkbox" id="airline_pax_type_labour" {% if airline_pax_type_labour == 'true' %} checked {% endif %}>
+                                                                                <span class="check_box_span_custom"></span>
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="col-lg-12 mb-3">
+                                                                            <label class="check_box_custom">
+                                                                                <span class="span-search-ticket" style="color:black;">Seaman</span>
+                                                                                    <input type="checkbox" id="airline_pax_type_seaman" {% if airline_pax_type_seaman == 'true' %} checked {% endif %}>
+                                                                                <span class="check_box_span_custom"></span>
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-lg-12 mb-3" style="background:white; border:1px solid #cdcdcd; padding:15px;">
+                                                            <div class="row">
+                                                                <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
                                                                     <h6 class="single_border_custom_left mb-3" style="padding-left:10px;">{% trans 'Allowed Search Airline' %}</h6>
                                                                 </div>
                                                             </div>
                                                             <div class="row" style="text-align:left;" id="airline_carrier_div">
 
                                                             </div>
+                                                        </div>
+                                                        <div class="col-lg-12" style="text-align:center;">
+                                                            <button class="primary-btn" type="button" style="line-height:34px;" id="save_allowed_carrier_btn" onclick="save_allowed_airline_carriers();">Save</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -3312,8 +3357,67 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div id="hotel_carrier-tab_edit" class="edit_tab-content" style="padding:15px;">
+                                                    <div class="row" style="text-align:left;">
+                                                        <div class="col-lg-12 mb-3" style="background:white; border:1px solid #cdcdcd; padding:15px;">
+                                                            <div class="row">
+                                                                <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                                                                    <h6 class="single_border_custom_left mb-3" style="padding-left:10px;">{% trans 'Hotel Masking Carriers' %}</h6>
+                                                                </div>
+                                                                <div class="col-lg-12" style="margin-bottom:15px;" id="hotel_masking_div">
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-12" style="text-align:center;">
+                                                            <button type="button" class="primary-btn update_banner_btn" id="update_masking_hotel_btn" onclick="update_masking_hotel();">{% trans 'Save Change' %}</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             <div id="airline_carrier-tab_edit" class="edit_tab-content" style="padding:15px;">
                                                 <div class="row" style="text-align:left;">
+                                                    <div class="col-lg-12 mb-3" style="background:white; border:1px solid #cdcdcd; padding:15px;">
+                                                        <div class="row">
+                                                            <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                                                                <h6 class="single_border_custom_left mb-3" style="padding-left:10px;">{% trans 'Advance Pax Type' %}</h6>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row" style="text-align:left;">
+                                                            <div class="col-lg-12 mb-3">
+                                                                <label class="check_box_custom">
+                                                                    <span class="span-search-ticket" style="color:black;">Open Advance Pax Type</span>
+                                                                        <input type="checkbox" id="airline_advance_pax_type" name="airline_advance_pax_type" onclick="onchange_advance_pax_type();" {% if airline_advance_pax_type == 'true' %} checked {% endif %}>
+                                                                    <span class="check_box_span_custom"></span>
+                                                                </label>
+                                                            </div>
+                                                            <div class="col-lg-12 mb-3" id="airline_advance_pax_type_div" {% if airline_advance_pax_type == 'false' %} hidden {% endif %}>
+                                                                <div class="row" style="text-align:left;">
+                                                                    <div class="col-lg-12 mb-3">
+                                                                        <label class="check_box_custom">
+                                                                            <span class="span-search-ticket" style="color:black;">Student</span>
+                                                                                <input type="checkbox" id="airline_pax_type_student" {% if airline_pax_type_student == 'true' %} checked {% endif %}>
+                                                                            <span class="check_box_span_custom"></span>
+                                                                        </label>
+                                                                    </div>
+                                                                    <div class="col-lg-12 mb-3">
+                                                                        <label class="check_box_custom">
+                                                                            <span class="span-search-ticket" style="color:black;">Labour</span>
+                                                                                <input type="checkbox" id="airline_pax_type_labour" {% if airline_pax_type_labour == 'true' %} checked {% endif %}>
+                                                                            <span class="check_box_span_custom"></span>
+                                                                        </label>
+                                                                    </div>
+                                                                    <div class="col-lg-12 mb-3">
+                                                                        <label class="check_box_custom">
+                                                                            <span class="span-search-ticket" style="color:black;">Seaman</span>
+                                                                                <input type="checkbox" id="airline_pax_type_seaman" {% if airline_pax_type_seaman == 'true' %} checked {% endif %}>
+                                                                            <span class="check_box_span_custom"></span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
                                                     <div class="col-lg-12 mb-3" style="background:white; border:1px solid #cdcdcd; padding:15px;">
                                                         <div class="row">
                                                             <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
@@ -3324,22 +3428,8 @@
 
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </div>
-                                            <div id="hotel_carrier-tab_edit" class="edit_tab-content" style="padding:15px;">
-                                                <div class="row" style="text-align:left;">
-                                                    <div class="col-lg-12 mb-3" style="background:white; border:1px solid #cdcdcd; padding:15px;">
-                                                        <div class="row">
-                                                            <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
-                                                                <h6 class="single_border_custom_left mb-3" style="padding-left:10px;">{% trans 'Hotel Masking Carriers' %}</h6>
-                                                            </div>
-                                                            <div class="col-lg-12" style="margin-bottom:15px;" id="hotel_masking_div">
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
                                                     <div class="col-lg-12" style="text-align:center;">
-                                                        <button type="button" class="primary-btn update_banner_btn" id="update_masking_hotel_btn" onclick="update_masking_hotel();">{% trans 'Save Change' %}</button>
+                                                        <button class="primary-btn" type="button" style="line-height:34px;" id="save_allowed_carrier_btn" onclick="save_allowed_airline_carriers();">Save</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -5115,8 +5205,67 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div id="hotel_carrier-tab_edit" class="edit_tab-content" style="padding:15px;">
+                                                    <div class="row" style="text-align:left;">
+                                                        <div class="col-lg-12 mb-3" style="background:white; border:1px solid #cdcdcd; padding:15px;">
+                                                            <div class="row">
+                                                                <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                                                                    <h6 class="single_border_custom_left mb-3" style="padding-left:10px;">{% trans 'Hotel Masking Carriers' %}</h6>
+                                                                </div>
+                                                                <div class="col-lg-12" style="margin-bottom:15px;" id="hotel_masking_div">
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-12" style="text-align:center;">
+                                                            <button type="button" class="primary-btn update_banner_btn" id="update_masking_hotel_btn" onclick="update_masking_hotel();">{% trans 'Save Change' %}</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                         <div id="airline_carrier-tab_edit" class="edit_tab-content" style="padding:15px;">
                                             <div class="row" style="text-align:left;">
+                                                <div class="col-lg-12 mb-3" style="background:white; border:1px solid #cdcdcd; padding:15px;">
+                                                    <div class="row">
+                                                        <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                                                            <h6 class="single_border_custom_left mb-3" style="padding-left:10px;">{% trans 'Advance Pax Type' %}</h6>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row" style="text-align:left;">
+                                                        <div class="col-lg-12 mb-3">
+                                                            <label class="check_box_custom">
+                                                                <span class="span-search-ticket" style="color:black;">Open Advance Pax Type</span>
+                                                                    <input type="checkbox" id="airline_advance_pax_type" name="airline_advance_pax_type" onclick="onchange_advance_pax_type();" {% if airline_advance_pax_type == 'true' %} checked {% endif %}>
+                                                                <span class="check_box_span_custom"></span>
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-lg-12 mb-3" id="airline_advance_pax_type_div" {% if airline_advance_pax_type == 'false' %} hidden {% endif %}>
+                                                            <div class="row" style="text-align:left;">
+                                                                <div class="col-lg-12 mb-3">
+                                                                    <label class="check_box_custom">
+                                                                        <span class="span-search-ticket" style="color:black;">Student</span>
+                                                                            <input type="checkbox" id="airline_pax_type_student" {% if airline_pax_type_student == 'true' %} checked {% endif %}>
+                                                                        <span class="check_box_span_custom"></span>
+                                                                    </label>
+                                                                </div>
+                                                                <div class="col-lg-12 mb-3">
+                                                                    <label class="check_box_custom">
+                                                                        <span class="span-search-ticket" style="color:black;">Labour</span>
+                                                                            <input type="checkbox" id="airline_pax_type_labour" {% if airline_pax_type_labour == 'true' %} checked {% endif %}>
+                                                                        <span class="check_box_span_custom"></span>
+                                                                    </label>
+                                                                </div>
+                                                                <div class="col-lg-12 mb-3">
+                                                                    <label class="check_box_custom">
+                                                                        <span class="span-search-ticket" style="color:black;">Seaman</span>
+                                                                            <input type="checkbox" id="airline_pax_type_seaman" {% if airline_pax_type_seaman == 'true' %} checked {% endif %}>
+                                                                        <span class="check_box_span_custom"></span>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
                                                 <div class="col-lg-12 mb-3" style="background:white; border:1px solid #cdcdcd; padding:15px;">
                                                     <div class="row">
                                                         <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
@@ -5127,22 +5276,8 @@
 
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <div id="hotel_carrier-tab_edit" class="edit_tab-content" style="padding:15px;">
-                                            <div class="row" style="text-align:left;">
-                                                <div class="col-lg-12 mb-3" style="background:white; border:1px solid #cdcdcd; padding:15px;">
-                                                    <div class="row">
-                                                        <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
-                                                            <h6 class="single_border_custom_left mb-3" style="padding-left:10px;">{% trans 'Hotel Masking Carriers' %}</h6>
-                                                        </div>
-                                                        <div class="col-lg-12" style="margin-bottom:15px;" id="hotel_masking_div">
-
-                                                        </div>
-                                                    </div>
-                                                </div>
                                                 <div class="col-lg-12" style="text-align:center;">
-                                                    <button type="button" class="primary-btn update_banner_btn" id="update_masking_hotel_btn" onclick="update_masking_hotel();">{% trans 'Save Change' %}</button>
+                                                    <button class="primary-btn" type="button" style="line-height:34px;" id="save_allowed_carrier_btn" onclick="save_allowed_airline_carriers();">Save</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -6913,8 +7048,67 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div id="hotel_carrier-tab_edit" class="edit_tab-content" style="padding:15px;">
+                                                    <div class="row" style="text-align:left;">
+                                                        <div class="col-lg-12 mb-3" style="background:white; border:1px solid #cdcdcd; padding:15px;">
+                                                            <div class="row">
+                                                                <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                                                                    <h6 class="single_border_custom_left mb-3" style="padding-left:10px;">{% trans 'Hotel Masking Carriers' %}</h6>
+                                                                </div>
+                                                                <div class="col-lg-12" style="margin-bottom:15px;" id="hotel_masking_div">
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-12" style="text-align:center;">
+                                                            <button type="button" class="primary-btn update_banner_btn" id="update_masking_hotel_btn" onclick="update_masking_hotel();">{% trans 'Save Change' %}</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                     <div id="airline_carrier-tab_edit" class="edit_tab-content" style="padding:15px;">
                                         <div class="row" style="text-align:left;">
+                                            <div class="col-lg-12 mb-3" style="background:white; border:1px solid #cdcdcd; padding:15px;">
+                                                <div class="row">
+                                                    <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                                                        <h6 class="single_border_custom_left mb-3" style="padding-left:10px;">{% trans 'Advance Pax Type' %}</h6>
+                                                    </div>
+                                                </div>
+                                                <div class="row" style="text-align:left;">
+                                                    <div class="col-lg-12 mb-3">
+                                                        <label class="check_box_custom">
+                                                            <span class="span-search-ticket" style="color:black;">Open Advance Pax Type</span>
+                                                                <input type="checkbox" id="airline_advance_pax_type" name="airline_advance_pax_type" onclick="onchange_advance_pax_type();" {% if airline_advance_pax_type == 'true' %} checked {% endif %}>
+                                                            <span class="check_box_span_custom"></span>
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-lg-12 mb-3" id="airline_advance_pax_type_div" {% if airline_advance_pax_type == 'false' %} hidden {% endif %}>
+                                                        <div class="row" style="text-align:left;">
+                                                            <div class="col-lg-12 mb-3">
+                                                                <label class="check_box_custom">
+                                                                    <span class="span-search-ticket" style="color:black;">Student</span>
+                                                                        <input type="checkbox" id="airline_pax_type_student" {% if airline_pax_type_student == 'true' %} checked {% endif %}>
+                                                                    <span class="check_box_span_custom"></span>
+                                                                </label>
+                                                            </div>
+                                                            <div class="col-lg-12 mb-3">
+                                                                <label class="check_box_custom">
+                                                                    <span class="span-search-ticket" style="color:black;">Labour</span>
+                                                                        <input type="checkbox" id="airline_pax_type_labour" {% if airline_pax_type_labour == 'true' %} checked {% endif %}>
+                                                                    <span class="check_box_span_custom"></span>
+                                                                </label>
+                                                            </div>
+                                                            <div class="col-lg-12 mb-3">
+                                                                <label class="check_box_custom">
+                                                                    <span class="span-search-ticket" style="color:black;">Seaman</span>
+                                                                        <input type="checkbox" id="airline_pax_type_seaman" {% if airline_pax_type_seaman == 'true' %} checked {% endif %}>
+                                                                    <span class="check_box_span_custom"></span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                             <div class="col-lg-12 mb-3" style="background:white; border:1px solid #cdcdcd; padding:15px;">
                                                 <div class="row">
                                                     <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
@@ -6925,22 +7119,8 @@
 
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div id="hotel_carrier-tab_edit" class="edit_tab-content" style="padding:15px;">
-                                        <div class="row" style="text-align:left;">
-                                            <div class="col-lg-12 mb-3" style="background:white; border:1px solid #cdcdcd; padding:15px;">
-                                                <div class="row">
-                                                    <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
-                                                        <h6 class="single_border_custom_left mb-3" style="padding-left:10px;">{% trans 'Hotel Masking Carriers' %}</h6>
-                                                    </div>
-                                                    <div class="col-lg-12" style="margin-bottom:15px;" id="hotel_masking_div">
-
-                                                    </div>
-                                                </div>
-                                            </div>
                                             <div class="col-lg-12" style="text-align:center;">
-                                                <button type="button" class="primary-btn update_banner_btn" id="update_masking_hotel_btn" onclick="update_masking_hotel();">{% trans 'Save Change' %}</button>
+                                                <button class="primary-btn" type="button" style="line-height:34px;" id="save_allowed_carrier_btn" onclick="save_allowed_airline_carriers();">Save</button>
                                             </div>
                                         </div>
                                     </div>
@@ -8723,8 +8903,67 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div id="hotel_carrier-tab_edit" class="edit_tab-content" style="padding:15px;">
+                                                    <div class="row" style="text-align:left;">
+                                                        <div class="col-lg-12 mb-3" style="background:white; border:1px solid #cdcdcd; padding:15px;">
+                                                            <div class="row">
+                                                                <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                                                                    <h6 class="single_border_custom_left mb-3" style="padding-left:10px;">{% trans 'Hotel Masking Carriers' %}</h6>
+                                                                </div>
+                                                                <div class="col-lg-12" style="margin-bottom:15px;" id="hotel_masking_div">
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-12" style="text-align:center;">
+                                                            <button type="button" class="primary-btn update_banner_btn" id="update_masking_hotel_btn" onclick="update_masking_hotel();">{% trans 'Save Change' %}</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                         <div id="airline_carrier-tab_edit" class="edit_tab-content" style="padding:15px;">
                                             <div class="row" style="text-align:left;">
+                                                <div class="col-lg-12 mb-3" style="background:white; border:1px solid #cdcdcd; padding:15px;">
+                                                    <div class="row">
+                                                        <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                                                            <h6 class="single_border_custom_left mb-3" style="padding-left:10px;">{% trans 'Advance Pax Type' %}</h6>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row" style="text-align:left;">
+                                                        <div class="col-lg-12 mb-3">
+                                                            <label class="check_box_custom">
+                                                                <span class="span-search-ticket" style="color:black;">Open Advance Pax Type</span>
+                                                                    <input type="checkbox" id="airline_advance_pax_type" name="airline_advance_pax_type" onclick="onchange_advance_pax_type();" {% if airline_advance_pax_type == 'true' %} checked {% endif %}>
+                                                                <span class="check_box_span_custom"></span>
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-lg-12 mb-3" id="airline_advance_pax_type_div" {% if airline_advance_pax_type == 'false' %} hidden {% endif %}>
+                                                            <div class="row" style="text-align:left;">
+                                                                <div class="col-lg-12 mb-3">
+                                                                    <label class="check_box_custom">
+                                                                        <span class="span-search-ticket" style="color:black;">Student</span>
+                                                                            <input type="checkbox" id="airline_pax_type_student" {% if airline_pax_type_student == 'true' %} checked {% endif %}>
+                                                                        <span class="check_box_span_custom"></span>
+                                                                    </label>
+                                                                </div>
+                                                                <div class="col-lg-12 mb-3">
+                                                                    <label class="check_box_custom">
+                                                                        <span class="span-search-ticket" style="color:black;">Labour</span>
+                                                                            <input type="checkbox" id="airline_pax_type_labour" {% if airline_pax_type_labour == 'true' %} checked {% endif %}>
+                                                                        <span class="check_box_span_custom"></span>
+                                                                    </label>
+                                                                </div>
+                                                                <div class="col-lg-12 mb-3">
+                                                                    <label class="check_box_custom">
+                                                                        <span class="span-search-ticket" style="color:black;">Seaman</span>
+                                                                            <input type="checkbox" id="airline_pax_type_seaman" {% if airline_pax_type_seaman == 'true' %} checked {% endif %}>
+                                                                        <span class="check_box_span_custom"></span>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
                                                 <div class="col-lg-12 mb-3" style="background:white; border:1px solid #cdcdcd; padding:15px;">
                                                     <div class="row">
                                                         <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
@@ -8735,22 +8974,8 @@
 
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <div id="hotel_carrier-tab_edit" class="edit_tab-content" style="padding:15px;">
-                                            <div class="row" style="text-align:left;">
-                                                <div class="col-lg-12 mb-3" style="background:white; border:1px solid #cdcdcd; padding:15px;">
-                                                    <div class="row">
-                                                        <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
-                                                            <h6 class="single_border_custom_left mb-3" style="padding-left:10px;">{% trans 'Hotel Masking Carriers' %}</h6>
-                                                        </div>
-                                                        <div class="col-lg-12" style="margin-bottom:15px;" id="hotel_masking_div">
-
-                                                        </div>
-                                                    </div>
-                                                </div>
                                                 <div class="col-lg-12" style="text-align:center;">
-                                                    <button type="button" class="primary-btn update_banner_btn" id="update_masking_hotel_btn" onclick="update_masking_hotel();">{% trans 'Save Change' %}</button>
+                                                    <button class="primary-btn" type="button" style="line-height:34px;" id="save_allowed_carrier_btn" onclick="save_allowed_airline_carriers();">Save</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -10732,8 +10957,67 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div id="hotel_carrier-tab_edit" class="edit_tab-content" style="padding:15px;">
+                                                    <div class="row" style="text-align:left;">
+                                                        <div class="col-lg-12 mb-3" style="background:white; border:1px solid #cdcdcd; padding:15px;">
+                                                            <div class="row">
+                                                                <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                                                                    <h6 class="single_border_custom_left mb-3" style="padding-left:10px;">{% trans 'Hotel Masking Carriers' %}</h6>
+                                                                </div>
+                                                                <div class="col-lg-12" style="margin-bottom:15px;" id="hotel_masking_div">
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-12" style="text-align:center;">
+                                                            <button type="button" class="primary-btn update_banner_btn" id="update_masking_hotel_btn" onclick="update_masking_hotel();">{% trans 'Save Change' %}</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                     <div id="airline_carrier-tab_edit" class="edit_tab-content" style="padding:15px;">
                                         <div class="row" style="text-align:left;">
+                                            <div class="col-lg-12 mb-3" style="background:white; border:1px solid #cdcdcd; padding:15px;">
+                                                <div class="row">
+                                                    <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                                                        <h6 class="single_border_custom_left mb-3" style="padding-left:10px;">{% trans 'Advance Pax Type' %}</h6>
+                                                    </div>
+                                                </div>
+                                                <div class="row" style="text-align:left;">
+                                                    <div class="col-lg-12 mb-3">
+                                                        <label class="check_box_custom">
+                                                            <span class="span-search-ticket" style="color:black;">Open Advance Pax Type</span>
+                                                                <input type="checkbox" id="airline_advance_pax_type" name="airline_advance_pax_type" onclick="onchange_advance_pax_type();" {% if airline_advance_pax_type == 'true' %} checked {% endif %}>
+                                                            <span class="check_box_span_custom"></span>
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-lg-12 mb-3" id="airline_advance_pax_type_div" {% if airline_advance_pax_type == 'false' %} hidden {% endif %}>
+                                                        <div class="row" style="text-align:left;">
+                                                            <div class="col-lg-12 mb-3">
+                                                                <label class="check_box_custom">
+                                                                    <span class="span-search-ticket" style="color:black;">Student</span>
+                                                                        <input type="checkbox" id="airline_pax_type_student" {% if airline_pax_type_student == 'true' %} checked {% endif %}>
+                                                                    <span class="check_box_span_custom"></span>
+                                                                </label>
+                                                            </div>
+                                                            <div class="col-lg-12 mb-3">
+                                                                <label class="check_box_custom">
+                                                                    <span class="span-search-ticket" style="color:black;">Labour</span>
+                                                                        <input type="checkbox" id="airline_pax_type_labour" {% if airline_pax_type_labour == 'true' %} checked {% endif %}>
+                                                                    <span class="check_box_span_custom"></span>
+                                                                </label>
+                                                            </div>
+                                                            <div class="col-lg-12 mb-3">
+                                                                <label class="check_box_custom">
+                                                                    <span class="span-search-ticket" style="color:black;">Seaman</span>
+                                                                        <input type="checkbox" id="airline_pax_type_seaman" {% if airline_pax_type_seaman == 'true' %} checked {% endif %}>
+                                                                    <span class="check_box_span_custom"></span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                             <div class="col-lg-12 mb-3" style="background:white; border:1px solid #cdcdcd; padding:15px;">
                                                 <div class="row">
                                                     <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
@@ -10744,22 +11028,8 @@
 
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div id="hotel_carrier-tab_edit" class="edit_tab-content" style="padding:15px;">
-                                        <div class="row" style="text-align:left;">
-                                            <div class="col-lg-12 mb-3" style="background:white; border:1px solid #cdcdcd; padding:15px;">
-                                                <div class="row">
-                                                    <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
-                                                        <h6 class="single_border_custom_left mb-3" style="padding-left:10px;">{% trans 'Hotel Masking Carriers' %}</h6>
-                                                    </div>
-                                                    <div class="col-lg-12" style="margin-bottom:15px;" id="hotel_masking_div">
-
-                                                    </div>
-                                                </div>
-                                            </div>
                                             <div class="col-lg-12" style="text-align:center;">
-                                                <button type="button" class="primary-btn update_banner_btn" id="update_masking_hotel_btn" onclick="update_masking_hotel();">{% trans 'Save Change' %}</button>
+                                                <button class="primary-btn" type="button" style="line-height:34px;" id="save_allowed_carrier_btn" onclick="save_allowed_airline_carriers();">Save</button>
                                             </div>
                                         </div>
                                     </div>
@@ -11409,6 +11679,16 @@
             document.getElementById('b2c_credential_div').style.display = 'none';
         }
     }
+
+    function onchange_advance_pax_type(){
+        if(document.getElementById('airline_advance_pax_type').checked){
+            document.getElementById('airline_advance_pax_type_div').hidden = false;
+        }else{
+            document.getElementById('airline_advance_pax_type_div').hidden = true;
+        }
+    }
+
+    onchange_advance_pax_type();
 
     function hotel_get_carrier_alias_name(){
         $.ajax({

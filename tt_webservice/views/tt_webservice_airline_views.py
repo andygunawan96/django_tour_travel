@@ -451,7 +451,13 @@ def get_data_review_page(request):
         if file:
             res['airline_carriers'] = file
         res['passengers'] = request.session['airline_create_passengers_%s' % request.POST['signature']]
-        res['passengers_ssr'] = request.session['airline_create_passengers_%s' % request.POST['signature']]['adult'] + request.session['airline_create_passengers_%s' % request.POST['signature']]['child']
+
+        passenger = []
+        for pax_type in request.session['airline_create_passengers_%s' % request.POST['signature']]:
+            if pax_type not in ['infant', 'booker', 'contact']:
+                for pax in request.session['airline_create_passengers_%s' % request.POST['signature']][pax_type]:
+                    passenger.append(pax)
+        res['passengers_ssr'] = passenger
         res['airline_request'] = request.session['airline_request_%s' % request.POST['signature']]
         res['airline_ssr_request'] = request.session['airline_ssr_request_%s' % request.POST['signature']] if request.session.get('airline_ssr_request_%s' % request.POST['signature']) else {}
         res['airline_seat_request'] = request.session['airline_seat_request_%s' % request.POST['signature']] if request.session.get('airline_seat_request_%s' % request.POST['signature']) else {}
@@ -1052,6 +1058,20 @@ def search2(request):
             "carrier_codes": carrier_code_list,
             "promo_codes": promo_codes
         }
+        advance_search = get_airline_advance_pax_type(request)
+        if advance_search['airline_advance_pax_type'] == 'true':
+            if advance_search['airline_pax_type_student'] == 'true' and int(data_search['student']):
+                data.update({
+                    "student": int(data_search['student'])
+                })
+            if advance_search['airline_pax_type_seaman'] == 'true' and int(data_search['seaman']):
+                data.update({
+                    "seaman": int(data_search['seaman'])
+                })
+            if advance_search['airline_pax_type_labour'] == 'true' and int(data_search['labour']):
+                data.update({
+                    "labour": int(data_search['labour'])
+                })
 
         if request.POST['last_send'] == 'true': ##SIMPEN CACHE REQUEST DENGAN SIGNATURE HANYA SEKALI SETIAP SEARCH
             set_session(request, 'airline_request_%s' % request.POST['signature'], request.session['airline_request'])
@@ -1083,6 +1103,22 @@ def search2(request):
         else:
             _logger.error(str(e) + '\n' + traceback.format_exc())
     url_request = get_url_gateway('booking/airline')
+    provider_data_ho = read_cache("get_list_provider_data", 'cache_web', request, 90911)
+    if provider_data_ho.get(request.session['user_account']['co_ho_seq_id']) and provider_data_ho[request.session['user_account']['co_ho_seq_id']].get(request.POST['provider']):
+        provider_data = provider_data_ho[request.session['user_account']['co_ho_seq_id']][request.POST['provider']]
+        error_response = {
+            "result": {
+                "error_code": 500,
+                "error_msg": "No Schedule",
+                "response": ""
+            }
+        }
+        if data.get('student') and not provider_data['is_student']:
+            return error_response
+        elif data.get('seaman') and not provider_data['is_seaman']:
+            return error_response
+        elif data.get('labour') and not provider_data['is_labour']:
+            return error_response
     res = send_request_api(request, url_request, headers, data, 'POST', 120)
     try:
         if res['result']['error_code'] == 0:
@@ -1255,6 +1291,20 @@ def get_price_itinerary(request, boolean, counter):
             "infant": int(airline_request['infant']),
             "schedules": schedules,
         }
+        advance_search = get_airline_advance_pax_type(request)
+        if advance_search['airline_advance_pax_type'] == 'true':
+            if advance_search['airline_pax_type_student'] == 'true' and airline_request.get('student'):
+                data.update({
+                    "student": int(airline_request['student'])
+                })
+            if advance_search['airline_pax_type_seaman'] == 'true' and airline_request.get('seaman'):
+                data.update({
+                    "seaman": int(airline_request['seaman'])
+                })
+            if advance_search['airline_pax_type_labour'] == 'true' and airline_request.get('labour'):
+                data.update({
+                    "labour": int(airline_request['labour'])
+                })
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",

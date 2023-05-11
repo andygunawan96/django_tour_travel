@@ -234,6 +234,15 @@ function airline_goto_search(){
     }catch(err){
         console.log('no corpor mode checkbox on airline search UI');
     }
+    var quantity_total_pax = parseInt(document.getElementById('adult_flight').value)+parseInt(document.getElementById('child_flight').value);
+    if(document.getElementById('student_flight'))
+        quantity_total_pax += parseInt(document.getElementById('student_flight').value);
+    if(document.getElementById('labour_flight'))
+        quantity_total_pax += parseInt(document.getElementById('labour_flight').value);
+    if(document.getElementById('seaman_flight'))
+        quantity_total_pax += parseInt(document.getElementById('seaman_flight').value);
+    if(quantity_total_pax == 0)
+        error_log += 'Please input passenger\n';
 
 //    error_log = ''; //DEV GARUDA
     if(error_log == ''){
@@ -269,9 +278,18 @@ function add_multi_city(type){
     if(counter_airline_search != 4){
         counter_airline_search++;
         if(counter_airline_search == 1){
+            var min_pax = 1;
+            if(airline_advance_pax_type == 'true')
+                min_pax = 0;
             quantity_adult_flight = parseInt(document.getElementById('adult_flight').value);
             quantity_child_flight = parseInt(document.getElementById('child_flight').value);
             quantity_infant_flight = parseInt(document.getElementById('infant_flight').value);
+            if(airline_pax_type_student == 'true' && document.getElementById('student_flight'))
+                quantity_student_flight = parseInt(document.getElementById('student_flight').value);
+            if(airline_pax_type_labour == 'true' && document.getElementById('labour_flight'))
+                quantity_labour_flight = parseInt(document.getElementById('labour_flight').value);
+            if(airline_pax_type_seaman == 'true' && document.getElementById('seaman_flight'))
+                quantity_seaman_flight = parseInt(document.getElementById('seaman_flight').value);
             var node_paxs = document.createElement("div");
             text_paxs = `
             <div class="row">
@@ -359,24 +377,115 @@ function add_multi_city(type){
                                 <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
                                     <div style="float:right; display:flex; padding:5px 0px 5px 5px;">`;
                                         if(quantity_infant_flight == 0)
-                                        text_paxs+=`<button type="button" class="left-minus-infant-flight btn-custom-circle" id="left-minus-infant-flight`+counter_airline_search+`" data-type="minus" data-field="" disabled onclick="airline_set_passenger_minus('infant',`+counter_airline_search+`);">`;
+                                            text_paxs+=`<button type="button" class="left-minus-infant-flight btn-custom-circle" id="left-minus-infant-flight`+counter_airline_search+`" data-type="minus" data-field="" disabled onclick="airline_set_passenger_minus('infant',`+counter_airline_search+`);">`;
                                         else
-                                        text_paxs+=`<button type="button" class="left-minus-infant-flight btn-custom-circle" id="left-minus-infant-flight`+counter_airline_search+`" data-type="minus" data-field="" onclick="airline_set_passenger_minus('infant',`+counter_airline_search+`);">`;
+                                            text_paxs+=`<button type="button" class="left-minus-infant-flight btn-custom-circle" id="left-minus-infant-flight`+counter_airline_search+`" data-type="minus" data-field="" onclick="airline_set_passenger_minus('infant',`+counter_airline_search+`);">`;
                                         text_paxs+=`
                                             <i class="fas fa-minus"></i>
                                         </button>
                                         <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="infant_flight`+counter_airline_search+`" name="infant_flight`+counter_airline_search+`" value="`+quantity_infant_flight+`" readonly>`;
                                         if(quantity_infant_flight == quantity_adult_flight)
-                                        text_paxs+=`
+                                            text_paxs+=`
                                         <button type="button" class="right-plus-infant-flight btn-custom-circle" id="right-plus-infant-flight`+counter_airline_search+`" data-type="plus" data-field="" disabled onclick="airline_set_passenger_plus('infant',`+counter_airline_search+`);">`;
                                         else
-                                        text_paxs+=`
+                                            text_paxs+=`
                                         <button type="button" class="right-plus-infant-flight btn-custom-circle" id="right-plus-infant-flight`+counter_airline_search+`" data-type="plus" data-field="" onclick="airline_set_passenger_plus('infant',`+counter_airline_search+`);">`;
                                         text_paxs+=`
                                             <i class="fas fa-plus"></i>
                                         </button>
                                     </div>
+                                </div>`;
+                                if(airline_pax_type_student == 'true' && document.getElementById('student_flight')){
+                text_paxs += `  <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                    <div style="float:left;">
+                                        <label>
+                                            <span style="color:black; font-size:13px;">Student</span><br/>
+                                            <span style="color:gray; font-size:11px;">(Age 11+)</span>
+                                        </label>
+                                    </div>
                                 </div>
+                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                    <div style="float:right; display:flex; padding:5px 0px 5px 5px;">`;
+                                        if(quantity_student_flight == 1)
+                                        text_paxs +=`
+                                        <button type="button" class="left-minus-student-flight btn-custom-circle" id="left-minus-student-flight`+counter_airline_search+`" onclick="airline_set_passenger_minus('student',`+counter_airline_search+`);" data-type="minus" data-field="" disabled>`;
+                                        else
+                                        text_paxs+=`<button type="button" class="left-minus-student-flight btn-custom-circle" id="left-minus-student-flight`+counter_airline_search+`" onclick="airline_set_passenger_minus('student',`+counter_airline_search+`);" data-type="minus" data-field="" >`;
+                                        text_paxs +=`
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                        <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="student_flight`+counter_airline_search+`" name="student_flight`+counter_airline_search+`" value="`+quantity_student_flight+`" min="`+min_pax+`" readonly>`;
+                                        if(quantity_adult_flight + quantity_child_flight == 9)
+                                        text_paxs +=`<button type="button" class="right-plus-student-flight btn-custom-circle" id="right-plus-student-flight`+counter_airline_search+`" data-type="plus" data-field="" onclick="airline_set_passenger_plus('student',`+counter_airline_search+`);" disabled>`;
+                                        else
+                                        text_paxs +=`<button type="button" class="right-plus-student-flight btn-custom-circle" id="right-plus-student-flight`+counter_airline_search+`" data-type="plus" data-field="" onclick="airline_set_passenger_plus('student',`+counter_airline_search+`);">`;
+                                        text_paxs +=`
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>`;
+                                }
+                                if(airline_pax_type_labour == 'true' && document.getElementById('labour_flight')){
+                text_paxs += `  <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                    <div style="float:left;">
+                                        <label>
+                                            <span style="color:black; font-size:13px;">Labour</span><br/>
+                                            <span style="color:gray; font-size:11px;">(Age 11+)</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                    <div style="float:right; display:flex; padding:5px 0px 5px 5px;">`;
+                                        if(quantity_labour_flight == 1)
+                                        text_paxs +=`
+                                        <button type="button" class="left-minus-labour-flight btn-custom-circle" id="left-minus-labour-flight`+counter_airline_search+`" onclick="airline_set_passenger_minus('labour',`+counter_airline_search+`);" data-type="minus" data-field="" disabled>`;
+                                        else
+                                        text_paxs+=`<button type="button" class="left-minus-labour-flight btn-custom-circle" id="left-minus-labour-flight`+counter_airline_search+`" onclick="airline_set_passenger_minus('labour',`+counter_airline_search+`);" data-type="minus" data-field="" >`;
+                                        text_paxs +=`
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                        <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="labour_flight`+counter_airline_search+`" name="labour_flight`+counter_airline_search+`" value="`+quantity_labour_flight+`" min="`+min_pax+`" readonly>`;
+                                        if(quantity_adult_flight + quantity_child_flight == 9)
+                                        text_paxs +=`<button type="button" class="right-plus-labour-flight btn-custom-circle" id="right-plus-labour-flight`+counter_airline_search+`" data-type="plus" data-field="" onclick="airline_set_passenger_plus('labour',`+counter_airline_search+`);" disabled>`;
+                                        else
+                                        text_paxs +=`<button type="button" class="right-plus-labour-flight btn-custom-circle" id="right-plus-labour-flight`+counter_airline_search+`" data-type="plus" data-field="" onclick="airline_set_passenger_plus('labour',`+counter_airline_search+`);">`;
+                                        text_paxs +=`
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>`;
+                                }
+                                if(airline_pax_type_seaman == 'true' && document.getElementById('seaman_flight')){
+                text_paxs += `  <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                    <div style="float:left;">
+                                        <label>
+                                            <span style="color:black; font-size:13px;">Seaman</span><br/>
+                                            <span style="color:gray; font-size:11px;">(Age 11+)</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                    <div style="float:right; display:flex; padding:5px 0px 5px 5px;">`;
+                                        if(quantity_seaman_flight == 1)
+                                        text_paxs +=`
+                                        <button type="button" class="left-minus-seaman-flight btn-custom-circle" id="left-minus-seaman-flight`+counter_airline_search+`" onclick="airline_set_passenger_minus('seaman',`+counter_airline_search+`);" data-type="minus" data-field="" disabled>`;
+                                        else
+                                        text_paxs+=`<button type="button" class="left-minus-seaman-flight btn-custom-circle" id="left-minus-seaman-flight`+counter_airline_search+`" onclick="airline_set_passenger_minus('seaman',`+counter_airline_search+`);" data-type="minus" data-field="" >`;
+                                        text_paxs +=`
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                        <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="seaman_flight`+counter_airline_search+`" name="seaman_flight`+counter_airline_search+`" value="`+quantity_seaman_flight+`" min="`+min_pax+`" readonly>`;
+                                        if(quantity_adult_flight + quantity_child_flight == 9)
+                                        text_paxs +=`<button type="button" class="right-plus-seaman-flight btn-custom-circle" id="right-plus-seaman-flight`+counter_airline_search+`" data-type="plus" data-field="" onclick="airline_set_passenger_plus('seaman',`+counter_airline_search+`);" disabled>`;
+                                        else
+                                        text_paxs +=`<button type="button" class="right-plus-seaman-flight btn-custom-circle" id="right-plus-seaman-flight`+counter_airline_search+`" data-type="plus" data-field="" onclick="airline_set_passenger_plus('seaman',`+counter_airline_search+`);">`;
+                                        text_paxs +=`
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>`;
+                                }
+                                text_paxs+=`
                                 <div class="col-lg-12" style="text-align:right;">
                                     <hr/>
                                     <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('airline','passenger1');">Done</button>
@@ -471,6 +580,7 @@ function add_multi_city(type){
             </div>`;
             node_paxs.innerHTML = text_paxs;
             document.getElementById("mc_airline_paxs").appendChild(node_paxs);
+            plus_min_passenger_airline_btn();
             get_carrier_code_list(type, counter_airline_search);
             airline_provider_list_mc.push(airline_provider_list);
             $('#cabin_class_flight_mc').niceSelect();
@@ -1561,6 +1671,154 @@ function add_multi_city(type){
     }
 }
 
+function plus_min_passenger_airline_btn(){
+    var max_pax = 9;
+    var min_pax = 1;
+    if(airline_advance_pax_type == 'true')
+        min_pax = 0;
+    var quantity_total_pax = parseInt(document.getElementById('adult_flight').value)+parseInt(document.getElementById('child_flight').value);
+    var quantity_adult_flight = parseInt(document.getElementById('adult_flight').value);
+    var quantity_child_flight = parseInt(document.getElementById('child_flight').value);
+    var quantity_infant_flight = parseInt(document.getElementById('infant_flight').value);
+    if(airline_advance_pax_type == 'true' && airline_pax_type_student == 'true')
+        var quantity_student_flight = parseInt(document.getElementById('student_flight').value);
+    if(airline_advance_pax_type == 'true' && airline_pax_type_labour == 'true')
+        var quantity_labour_flight = parseInt(document.getElementById('labour_flight').value);
+    if(airline_advance_pax_type == 'true' && airline_pax_type_seaman == 'true')
+        var quantity_seaman_flight = parseInt(document.getElementById('seaman_flight').value);
+
+    if(typeof(quantity_student_flight) !== 'undefined')
+        quantity_total_pax += parseInt(document.getElementById('student_flight').value);
+    if(typeof(quantity_labour_flight) !== 'undefined')
+        quantity_total_pax += parseInt(document.getElementById('labour_flight').value);
+    if(typeof(quantity_seaman_flight) !== 'undefined')
+        quantity_total_pax += parseInt(document.getElementById('seaman_flight').value);
+    // tombol add
+    if(quantity_total_pax == max_pax){
+        document.getElementById("right-plus-adult-flight").disabled = true;
+        if(document.getElementById("right-plus-adult-flight1"))
+            document.getElementById("right-plus-adult-flight1").disabled = true;
+        document.getElementById("right-plus-child-flight").disabled = true;
+        if(document.getElementById("right-plus-child-flight"))
+            if(document.getElementById("right-plus-child-flight1"))
+            document.getElementById("right-plus-child-flight1").disabled = true;
+        if(typeof(quantity_student_flight) !== 'undefined'){
+            document.getElementById("right-plus-student-flight").disabled = true;
+            if(document.getElementById("right-plus-student-flight1"))
+                document.getElementById("right-plus-student-flight1").disabled = true;
+        }
+        if(typeof(quantity_labour_flight) !== 'undefined'){
+            document.getElementById("right-plus-labour-flight").disabled = true;
+            if(document.getElementById("right-plus-labour-flight1"))
+                document.getElementById("right-plus-labour-flight1").disabled = true;
+        }if(typeof(quantity_seaman_flight) !== 'undefined'){
+            document.getElementById("right-plus-seaman-flight").disabled = true;
+            if(document.getElementById("right-plus-seaman-flight"))
+                document.getElementById("right-plus-seaman-flight1").disabled = true;
+        }
+    }else{
+        document.getElementById("right-plus-adult-flight").disabled = false;
+        if(document.getElementById("right-plus-adult-flight1"))
+            document.getElementById("right-plus-adult-flight1").disabled = false;
+        document.getElementById("right-plus-child-flight").disabled = false;
+        if(document.getElementById("right-plus-child-flight1"))
+            document.getElementById("right-plus-child-flight").disabled = false;
+        if(typeof(quantity_student_flight) !== 'undefined'){
+            document.getElementById("right-plus-student-flight").disabled = false;
+            if(document.getElementById("right-plus-student-flight1"))
+                document.getElementById("right-plus-student-flight1").disabled = false;
+        }if(typeof(quantity_labour_flight) !== 'undefined'){
+            document.getElementById("right-plus-labour-flight").disabled = false;
+            if(document.getElementById("right-plus-labour-flight1"))
+                document.getElementById("right-plus-labour-flight1").disabled = false;
+        }if(typeof(quantity_seaman_flight) !== 'undefined'){
+            document.getElementById("right-plus-seaman-flight").disabled = false;
+            if(document.getElementById("right-plus-seaman-flight1"))
+                document.getElementById("right-plus-seaman-flight1").disabled = false;
+        }
+    }
+    // tombol add infant
+    if(quantity_adult_flight == quantity_infant_flight){
+        document.getElementById("right-plus-infant-flight").disabled = true;
+        if(document.getElementById("right-plus-infant-flight1"))
+            document.getElementById("right-plus-infant-flight1").disabled = true;
+    }else{
+        document.getElementById("right-plus-infant-flight").disabled = false;
+        if(document.getElementById("right-plus-infant-flight1"))
+            document.getElementById("right-plus-infant-flight1").disabled = false;
+    }
+
+    // tombol min
+    if(quantity_adult_flight == min_pax){
+        document.getElementById("left-minus-adult-flight").disabled = true;
+        if(document.getElementById("left-minus-adult-flight1"))
+            document.getElementById("left-minus-adult-flight1").disabled = true;
+    }else{
+        document.getElementById("left-minus-adult-flight").disabled = false;
+        if(document.getElementById("left-minus-adult-flight1"))
+            document.getElementById("left-minus-adult-flight1").disabled = false;
+    }
+
+    if(quantity_child_flight == 0){
+        document.getElementById("left-minus-child-flight").disabled = true;
+        if(document.getElementById("left-minus-child-flight1"))
+            document.getElementById("left-minus-child-flight1").disabled = true;
+    }else{
+        document.getElementById("left-minus-child-flight").disabled = false;
+        if(document.getElementById("left-minus-child-flight1"))
+            document.getElementById("left-minus-child-flight1").disabled = false;
+    }
+
+    if(quantity_infant_flight == 0){
+        document.getElementById("left-minus-infant-flight").disabled = true;
+        if(document.getElementById("left-minus-infant-flight1"))
+            document.getElementById("left-minus-infant-flight1").disabled = true;
+    }else{
+        document.getElementById("left-minus-infant-flight").disabled = false;
+        if(document.getElementById("left-minus-infant-flight1"))
+            document.getElementById("left-minus-infant-flight1").disabled = false;
+    }
+
+    if(typeof(quantity_student_flight) !== 'undefined' && quantity_student_flight == min_pax){
+        document.getElementById("left-minus-student-flight").disabled = true;
+        if(document.getElementById("left-minus-student-flight1"))
+            document.getElementById("left-minus-student-flight1").disabled = true;
+    }else if(typeof(quantity_student_flight) !== 'undefined' && quantity_student_flight != min_pax){
+        document.getElementById("left-minus-student-flight").disabled = false;
+        if(document.getElementById("left-minus-student-flight1"))
+            document.getElementById("left-minus-student-flight1").disabled = false;
+    }
+    if(typeof(quantity_labour_flight) !== 'undefined' && quantity_labour_flight == min_pax){
+        document.getElementById("left-minus-labour-flight").disabled = true;
+        if(document.getElementById("left-minus-labour-flight1"))
+            document.getElementById("left-minus-labour-flight1").disabled = true;
+    }else if(typeof(quantity_labour_flight) !== 'undefined' && quantity_labour_flight != min_pax){
+        document.getElementById("left-minus-labour-flight").disabled = false;
+        if(document.getElementById("left-minus-labour-flight1"))
+            document.getElementById("left-minus-labour-flight1").disabled = false;
+    }
+    if(typeof(quantity_seaman_flight) !== 'undefined' && quantity_seaman_flight == min_pax){
+        document.getElementById("left-minus-seaman-flight").disabled = true;
+        if(document.getElementById("left-minus-seaman-flight1"))
+            document.getElementById("left-minus-seaman-flight1").disabled = true;
+    }else if(typeof(quantity_seaman_flight) !== 'undefined' && quantity_seaman_flight != min_pax){
+        document.getElementById("left-minus-seaman-flight").disabled = false;
+        if(document.getElementById("left-minus-seaman-flight1"))
+            document.getElementById("left-minus-seaman-flight1").disabled = false;
+    }
+
+    var show_total_pax = quantity_adult_flight + " Adult, " + quantity_child_flight + " Child, " +quantity_infant_flight + " Infant";
+    if(typeof(quantity_student_flight) !== 'undefined' && quantity_student_flight > 0)
+        show_total_pax += ", " + quantity_student_flight + " Student"
+    if(typeof(quantity_labour_flight) !== 'undefined' && quantity_labour_flight > 0)
+        show_total_pax += ", " + quantity_labour_flight + " Labour"
+    if(typeof(quantity_seaman_flight) !== 'undefined' && quantity_seaman_flight > 0)
+        show_total_pax += ", " + quantity_seaman_flight + " Seaman"
+    console.log(show_total_pax);
+    $('#show_total_pax_flight').text(show_total_pax);
+    $('#show_total_pax_flight1').text(show_total_pax);
+}
+
 function del_multi_city(){
     if(counter_airline_search!=1){
         //document.getElementById("mc_airline"+counter_airline_search).remove();
@@ -1949,152 +2207,68 @@ function airline_autocomplete(type,val){
 }
 
 function airline_set_passenger_plus(type, val){
-    pax = '';
+
     quantity_adult_flight = parseInt(document.getElementById('adult_flight').value);
     quantity_child_flight = parseInt(document.getElementById('child_flight').value);
     quantity_infant_flight = parseInt(document.getElementById('infant_flight').value);
+    quantity_total_pax = parseInt(document.getElementById('adult_flight').value) + parseInt(document.getElementById('child_flight').value);
+    if(document.getElementById('student_flight'))
+        quantity_total_pax += parseInt(document.getElementById('student_flight').value);
+    if(document.getElementById('labour_flight'))
+        quantity_total_pax += parseInt(document.getElementById('labour_flight').value);
+    if(document.getElementById('seaman_flight'))
+        quantity_total_pax += parseInt(document.getElementById('seaman_flight').value);
     if(type == 'adult'){
         var quantity = parseInt($('#adult_flight'+val).val());
-        if(quantity < 9){
+        if(quantity_total_pax < 9){
             $('#adult_flight').val(quantity + 1);
             $('#adult_flight1').val(quantity + 1);
-            quantity_adult_flight = quantity + 1;
         }
-
-        if (quantity_adult_flight+quantity_child_flight == 9){
-            document.getElementById("left-minus-adult-flight").disabled = false;
-            document.getElementById("right-plus-adult-flight").disabled = true;
-            document.getElementById("right-plus-child-flight").disabled = true;
-            document.getElementById("left-minus-adult-flight1").disabled = false;
-            document.getElementById("right-plus-adult-flight1").disabled = true;
-            document.getElementById("right-plus-child-flight1").disabled = true;
-            if (quantity_child_flight > 0){
-                document.getElementById("left-minus-child-flight").disabled = false;
-                if(val != 0){
-                    document.getElementById("left-minus-child-flight1").disabled = false;
-                }
-            }
-            else{
-                document.getElementById("left-minus-child-flight").disabled = true;
-                document.getElementById("left-minus-child-flight1").disabled = true;
-            }
-        }
-        else{
-            document.getElementById("left-minus-adult-flight").disabled = false;
-            document.getElementById("right-plus-child-flight").disabled = false;
-            document.getElementById("left-minus-adult-flight1").disabled = false;
-            document.getElementById("right-plus-child-flight1").disabled = false;
-            if (quantity_child_flight > 0){
-                document.getElementById("left-minus-child-flight").disabled = false;
-                document.getElementById("left-minus-child-flight1").disabled = false;
-            }
-            else{
-                document.getElementById("left-minus-child-flight").disabled = true;
-                document.getElementById("left-minus-child-flight1").disabled = true;
-            }
-        }
-        if (quantity_adult_flight > quantity_infant_flight){
-            document.getElementById("right-plus-infant-flight").disabled = false;
-            document.getElementById("right-plus-infant-flight").disabled = false;
-            document.getElementById("right-plus-infant-flight1").disabled = false;
-            document.getElementById("right-plus-infant-flight1").disabled = false;
-        }
-        if (quantity_adult_flight == quantity_infant_flight){
-            document.getElementById("right-plus-infant-flight").disabled = true;
-            document.getElementById("right-plus-infant-flight1").disabled = true;
-        }
-
     }else if(type == 'child'){
         var quantity = parseInt($('#child_flight').val());
-
-        if(quantity < 8){
+        if(quantity_total_pax < 9){
             $('#child_flight').val(quantity + 1);
             $('#child_flight1').val(quantity + 1);
-            quantity_child_flight = quantity + 1;
         }
-
-        if (quantity_adult_flight+quantity_child_flight == 9){
-            document.getElementById("right-plus-adult-flight").disabled = true;
-            document.getElementById("right-plus-child-flight").disabled = true;
-            document.getElementById("left-minus-child-flight").disabled = false;
-            document.getElementById("right-plus-adult-flight1").disabled = true;
-            document.getElementById("right-plus-child-flight1").disabled = true;
-            document.getElementById("left-minus-child-flight1").disabled = false;
-
-            if (quantity_adult_flight == 1){
-                document.getElementById("left-minus-adult-flight").disabled = true;
-                document.getElementById("left-minus-adult-flight1").disabled = true;
-            }
-            if (quantity_child_flight > 0){
-                document.getElementById("left-minus-child-flight").disabled = false;
-                document.getElementById("left-minus-child-flight1").disabled = false;
-            }
-            else{
-                document.getElementById("left-minus-child-flight").disabled = true;
-                document.getElementById("left-minus-child-flight1").disabled = true;
-            }
-        }
-        else{
-            document.getElementById("right-plus-child-flight").disabled = false;
-            document.getElementById("left-minus-child-flight").disabled = false;
-            document.getElementById("right-plus-child-flight1").disabled = false;
-            document.getElementById("left-minus-child-flight1").disabled = false;
-
-            if (quantity_child_flight > 0){
-                document.getElementById("left-minus-child-flight").disabled = false;
-                document.getElementById("left-minus-child-flight1").disabled = false;
-            }
-            else{
-                document.getElementById("left-minus-child-flight").disabled = true;
-                document.getElementById("left-minus-child-flight1").disabled = true;
-            }
-        }
-
     }else if(type == 'infant'){
         var quantity = parseInt($('#infant_flight').val());
-
         if (quantity < quantity_adult_flight){
             $('#infant_flight').val(quantity + 1);
             $('#infant_flight1').val(quantity + 1);
-            quantity_infant_flight = quantity + 1;
         }
-
-        if (quantity_infant_flight < quantity_adult_flight){
-            document.getElementById("left-minus-infant-flight").disabled = false;
-            document.getElementById("right-plus-infant-flight").disabled = false;
-            document.getElementById("left-minus-infant-flight1").disabled = false;
-            document.getElementById("right-plus-infant-flight1").disabled = false;
+    }else if(type == 'student'){
+        var quantity = parseInt($('#student_flight').val());
+        if(quantity_total_pax < 9){
+            $('#student_flight').val(quantity + 1);
+            $('#student_flight1').val(quantity + 1);
         }
-        else if(quantity_infant_flight == quantity_adult_flight){
-            document.getElementById("left-minus-infant-flight").disabled = false;
-            document.getElementById("right-plus-infant-flight").disabled = true;
-            document.getElementById("left-minus-infant-flight1").disabled = false;
-            document.getElementById("right-plus-infant-flight1").disabled = true;
+    }else if(type == 'labour'){
+        var quantity = parseInt($('#child_flight').val());
+        if(quantity_total_pax < 9){
+            $('#labour_flight').val(quantity + 1);
+            $('#labour_flight1').val(quantity + 1);
         }
-        else{
-            document.getElementById("right-plus-infant-flight").disabled = true;
-            document.getElementById("left-minus-infant-flight").disabled = false;
-            document.getElementById("right-plus-infant-flight1").disabled = true;
-            document.getElementById("left-minus-infant-flight1").disabled = false;
+    }else if(type == 'seaman'){
+        var quantity = parseInt($('#seaman_flight').val());
+        if(quantity_total_pax < 9){
+            $('#seaman_flight').val(quantity + 1);
+            $('#seaman_flight1').val(quantity + 1);
+            quantity_child_flight = quantity + 1;
         }
     }
-
-    $('#show_total_pax_flight').text(quantity_adult_flight + " Adult, " + quantity_child_flight + " Child, " +quantity_infant_flight + " Infant");
-    $('#show_total_pax_flight1').text(quantity_adult_flight + " Adult, " + quantity_child_flight + " Child, " +quantity_infant_flight + " Infant");
-
+    plus_min_passenger_airline_btn();
 }
 
 function airline_set_passenger_minus(type, val){
-    error_log = '';
-    pax = '';
     quantity_adult_flight = parseInt(document.getElementById('adult_flight').value);
     quantity_child_flight = parseInt(document.getElementById('child_flight').value);
     quantity_infant_flight = parseInt(document.getElementById('infant_flight').value);
-
+    var minimum_quantity = 1;
+    if(airline_advance_pax_type == 'true')
+        minimum_quantity = 0;
     if(type == 'adult'){
         var quantity = parseInt($('#adult_flight').val());
-
-        if(quantity > 1){
+        if(quantity > minimum_quantity){
             $('#adult_flight').val(quantity - 1);
             $('#adult_flight1').val(quantity - 1);
             quantity_adult_flight = quantity - 1;
@@ -2105,73 +2279,13 @@ function airline_set_passenger_minus(type, val){
                $('#infant_flight1').val(quantity - 1);
             }
         }
-
-        if (quantity_adult_flight+quantity_child_flight == 9){
-            document.getElementById("left-minus-adult-flight").disabled = false;
-            document.getElementById("right-plus-adult-flight").disabled = true;
-            document.getElementById("right-plus-child-flight").disabled = true;
-            document.getElementById("left-minus-adult-flight1").disabled = false;
-            document.getElementById("right-plus-adult-flight1").disabled = true;
-            document.getElementById("right-plus-child-flight1").disabled = true;
-            if (quantity_child_flight > 0){
-                document.getElementById("left-minus-child-flight").disabled = false;
-                document.getElementById("left-minus-child-flight1").disabled = false;
-            }
-        }
-        else{
-            document.getElementById("right-plus-child-flight").disabled = false;
-            document.getElementById("right-plus-child-flight1").disabled = false;
-            if (quantity_child_flight > 0){
-                document.getElementById("left-minus-child-flight").disabled = false;
-                document.getElementById("left-minus-child-flight1").disabled = false;
-            }
-
-            if (quantity_adult_flight == 1){
-                document.getElementById("left-minus-adult-flight").disabled = true;
-                document.getElementById("right-plus-adult-flight").disabled = false;
-                document.getElementById("left-minus-adult-flight1").disabled = true;
-                document.getElementById("right-plus-adult-flight1").disabled = false;
-            }
-            else{
-                document.getElementById("right-plus-adult-flight").disabled = false;
-                document.getElementById("right-plus-adult-flight1").disabled = false;
-            }
-        }
-
-        if (quantity_adult_flight == quantity_infant_flight){
-            document.getElementById("right-plus-infant-flight").disabled = true;
-            document.getElementById("right-plus-infant-flight1").disabled = true;
-        }
-
     }else if(type == 'child'){
         var quantity = parseInt($('#child_flight').val());
-
         if(quantity > 0){
             $('#child_flight').val(quantity - 1);
             $('#child_flight1').val(quantity - 1);
             quantity_child_flight = quantity - 1;
         }
-
-        if (quantity_adult_flight+quantity_child_flight != 9){
-            document.getElementById("right-plus-adult-flight").disabled = false;
-            document.getElementById("right-plus-child-flight").disabled = false;
-            document.getElementById("right-plus-adult-flight1").disabled = false;
-            document.getElementById("right-plus-child-flight1").disabled = false;
-
-            if (quantity_adult_flight == 1){
-                document.getElementById("left-minus-adult-flight").disabled = true;
-                document.getElementById("left-minus-adult-flight1").disabled = true;
-            }
-            if (quantity_child_flight > 0){
-                document.getElementById("left-minus-child-flight").disabled = false;
-                document.getElementById("left-minus-child-flight1").disabled = false;
-            }
-            else{
-                document.getElementById("left-minus-child-flight").disabled = true;
-                document.getElementById("left-minus-child-flight1").disabled = true;
-            }
-        }
-
     }else if(type == 'infant'){
         var quantity = parseInt($('#infant_flight').val());
 
@@ -2180,22 +2294,29 @@ function airline_set_passenger_minus(type, val){
             $('#infant_flight1').val(quantity - 1);
             quantity_infant_flight = quantity - 1;
         }
-
-        if (quantity_infant_flight == 0){
-            document.getElementById("left-minus-infant-flight").disabled = true;
-            document.getElementById("right-plus-infant-flight").disabled = false;
-            document.getElementById("left-minus-infant-flight1").disabled = true;
-            document.getElementById("right-plus-infant-flight1").disabled = false;
+    }else if(type == 'student'){
+        var quantity = parseInt($('#student_flight').val());
+        if(quantity > 0){
+            $('#student_flight').val(quantity - 1);
+            $('#student_flight1').val(quantity - 1);
+            quantity_student_flight = quantity - 1;
         }
-        else{
-            document.getElementById("right-plus-infant-flight").disabled = false;
-            document.getElementById("right-plus-infant-flight1").disabled = false;
+    }else if(type == 'labour'){
+        var quantity = parseInt($('#labour_flight').val());
+        if(quantity > 0){
+            $('#labour_flight').val(quantity - 1);
+            $('#labour_flight1').val(quantity - 1);
+            quantity_labour_flight = quantity - 1;
+        }
+    }else if(type == 'seaman'){
+        var quantity = parseInt($('#seaman_flight').val());
+        if(quantity > 0){
+            $('#seaman_flight').val(quantity - 1);
+            $('#seaman_flight1').val(quantity - 1);
+            quantity_seaman_flight = quantity - 1;
         }
     }
-
-    $('#show_total_pax_flight').text(quantity_adult_flight + " Adult, " + quantity_child_flight + " Child, " +quantity_infant_flight + " Infant");
-    $('#show_total_pax_flight1').text(quantity_adult_flight + " Adult, " + quantity_child_flight + " Child, " +quantity_infant_flight + " Infant");
-
+    plus_min_passenger_airline_btn();
 }
 
 function airline_switch(val){
@@ -3848,12 +3969,15 @@ function sort(){
                                         var price_breakdown = {};
                                         for(j in airline[i].segments){
                                             for(k in airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary){
-                                                for(l in airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].service_charges){
-                                                    if(airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].service_charges[l].charge_type != 'RAC'){
-                                                        if(!price_breakdown.hasOwnProperty(airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].service_charges[l].charge_type))
-                                                            price_breakdown[airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].service_charges[l].charge_type] = 0;
-                                                        price_breakdown[airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].service_charges[l].charge_type] += airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].service_charges[l].total;
+                                                if(!['CHD', 'INF'].includes(airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].pax_type)){
+                                                    for(l in airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].service_charges){
+                                                        if(airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].service_charges[l].charge_type != 'RAC'){
+                                                            if(!price_breakdown.hasOwnProperty(airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].service_charges[l].charge_type))
+                                                                price_breakdown[airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].service_charges[l].charge_type] = 0;
+                                                            price_breakdown[airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].service_charges[l].charge_type] += airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].service_charges[l].total;
+                                                        }
                                                     }
+                                                    break;
                                                 }
                                             }
                                         }
@@ -5493,182 +5617,92 @@ function airline_detail(type){
                             if(price_itinerary_temp[i].journeys[j].segments[k].fares.length > 0 ){
                                 for(l in price_itinerary_temp[i].journeys[j].segments[k].fares){
                                     if(price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary.length > 0){
-
-                                    //price
-                                    price = 0;
-                                    //adult
-                                    $text+= 'Price\n';
-                                        try{//adult
-                                            if(airline_request.adult != 0){
+                                        //price
+                                        price = 0;
+                                        //adult
+                                        $text+= 'Price\n';
+                                        for(pax_type in airline_price[price_counter]){
+                                            pax_count = 0;
+                                            pax_type_name = '';
+                                            upsell_type_code = '';
+                                            if(pax_type == 'ADT'){
+                                                pax_count = airline_request.adult;
+                                                pax_type_name = 'Adult';
+                                                upsell_type_code = 'adult';
+                                            }else if(pax_type == 'CHD'){
+                                                pax_count = airline_request.child;
+                                                pax_type_name = 'Child';
+                                                upsell_type_code = 'child';
+                                            }else if(pax_type == 'INF'){
+                                                pax_count = airline_request.infant;
+                                                pax_type_name = 'Infant';
+                                                upsell_type_code = 'infant';
+                                            }else if(pax_type == 'STU'){
+                                                pax_count = airline_request.student;
+                                                pax_type_name = 'Student';
+                                                upsell_type_code = 'student';
+                                            }else if(pax_type == 'LBR'){
+                                                pax_count = airline_request.labour;
+                                                pax_type_name = 'Labour';
+                                                upsell_type_code = 'labour';
+                                            }else if(pax_type == 'SEA'){
+                                                pax_count = airline_request.seaman;
+                                                pax_type_name = 'Seaman';
+                                                upsell_type_code = 'seaman';
+                                            }
+                                            try{// PRINT PRICE
                                                 try{
-                                                    if(airline_price[price_counter].ADT['roc'] != null)
-                                                        price = airline_price[price_counter].ADT['roc'];
-                                                    if(airline_price[price_counter].ADT.tax != null)
-                                                        price += airline_price[price_counter].ADT.tax;
-                                                    if(upsell_price_dict.hasOwnProperty('adult') && i == 0){ //upsell hanya di gunakan di provider pertama
-                                                        price += upsell_price_dict['adult'];
-                                                        commission_price -= upsell_price_dict['adult'];
+                                                    if(airline_price[price_counter][pax_type]['roc'] != null)
+                                                        price = airline_price[price_counter][pax_type]['roc'];
+                                                    if(airline_price[price_counter][pax_type].tax != null)
+                                                        price += airline_price[price_counter][pax_type].tax;
+                                                    if(upsell_price_dict.hasOwnProperty(upsell_type_code) && i == 0){ //upsell hanya di gunakan di provider pertama
+                                                        price += upsell_price_dict[upsell_type_code];
+                                                        commission_price -= upsell_price_dict[upsell_type_code];
                                                     }
-                                                    if(upsell_price_dict_ssr.hasOwnProperty('adult') && i == 0){ //upsell hanya di gunakan di provider pertama
-                                                        price += upsell_price_dict_ssr['adult'];
-                                                        commission_price -= upsell_price_dict['adult'];
+                                                    if(upsell_price_dict_ssr.hasOwnProperty(upsell_type_code) && i == 0){ //upsell hanya di gunakan di provider pertama
+                                                        price += upsell_price_dict_ssr[upsell_type_code];
+                                                        commission_price -= upsell_price_dict[upsell_type_code];
                                                     }
                                                 }catch(err){
 
                                                 }
                                                 commission = 0;
-                                                if(airline_price[price_counter].ADT['rac'] != null)
-                                                    commission = airline_price[price_counter].ADT['rac']
+                                                if(airline_price[price_counter][pax_type]['rac'] != null)
+                                                    commission = airline_price[price_counter][pax_type]['rac']
                                                 commission_price += commission;
-                                                total_price += (airline_request.adult * airline_price[price_counter].ADT['fare']) + price;
+                                                total_price += (pax_count * airline_price[price_counter][pax_type]['fare']) + price;
                                                 text+=`
                                                 <div class="row mt-2">
                                                     <div class="col-lg-12">
-                                                        <h6>Adult</h6>
+                                                        <h6>`+pax_type_name+`</h6>
                                                         <div class="row">
                                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                                                <span style="font-size:13px; font-weight:500;"><b>`+airline_request.adult+`x</b> Fare @ `+airline_price[price_counter].ADT.currency +' '+getrupiah(Math.ceil(airline_price[price_counter].ADT.fare))+`</span><br/>
+                                                                <span style="font-size:13px; font-weight:500;"><b>`+pax_count+`x</b> Fare @ `+airline_price[price_counter][pax_type].currency +' '+getrupiah(Math.ceil(airline_price[price_counter][pax_type].fare))+`</span><br/>
                                                             </div>
                                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                                                                <span style="font-size:13px; font-weight:500;">`+airline_price[price_counter].ADT.currency+` `+getrupiah(Math.ceil(airline_price[price_counter].ADT.fare * airline_request.adult))+`</span>
+                                                                <span style="font-size:13px; font-weight:500;">`+airline_price[price_counter][pax_type].currency+` `+getrupiah(Math.ceil(airline_price[price_counter][pax_type].fare * pax_count))+`</span>
                                                             </div>
                                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
                                                                 <span style="font-size:13px; font-weight:500;">Tax & Charges</span>
                                                             </div>
                                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                                                                <span style="font-size:13px; font-weight:500;">`+airline_price[price_counter].ADT.currency+` `+getrupiah(Math.ceil(price))+`</span>
+                                                                <span style="font-size:13px; font-weight:500;">`+airline_price[price_counter][pax_type].currency+` `+getrupiah(Math.ceil(price))+`</span>
                                                             </div>
                                                         </div>
                                                     </div>
                                                </div>`;
-                                                $text += airline_request.adult + ' Adult @'+ airline_price[price_counter].ADT.currency +' '+getrupiah(Math.ceil(airline_price[price_counter].ADT.fare) + Math.ceil(price/airline_request.adult))+'\n';
-//                                                $text += 'Adult Tax '+ airline_price[price_counter].ADT.currency +' '+getrupiah(Math.ceil(price))+'\n';
-                                                sub_total_count+=Math.ceil((airline_price[price_counter].ADT.fare * airline_request.adult) +price);
+                                                $text += pax_count + ' '+pax_type_name+' @'+ airline_price[price_counter][pax_type].currency +' '+getrupiah(Math.ceil(airline_price[price_counter][pax_type].fare) + Math.ceil(price/pax_count))+'\n';
+    //                                                $text += 'Adult Tax '+ airline_price[price_counter].ADT.currency +' '+getrupiah(Math.ceil(price))+'\n';
+                                                sub_total_count+=Math.ceil((airline_price[price_counter][pax_type].fare * pax_count) +price);
                                                 price = 0;
                                                 total_price_provider.push({
                                                     'provider': price_itinerary_temp[i].provider,
-                                                    'price': airline_price[price_counter].ADT
+                                                    'price': airline_price[price_counter][pax_type]
                                                 });
+                                            }catch(err){
+
                                             }
-                                        }catch(err){
-
-                                        }
-
-                                        try{//child
-                                            if(airline_request.child != 0){
-                                                try{
-                                                    if(airline_price[price_counter].CHD['roc'] != null)
-                                                        price = airline_price[price_counter].CHD['roc'];
-                                                    if(airline_price[price_counter].CHD.tax != null)
-                                                        price += airline_price[price_counter].CHD.tax;
-                                                    if(upsell_price_dict.hasOwnProperty('child') && i == 0){ //upsell hanya di gunakan di provider pertama
-                                                        price += upsell_price_dict['child'];
-                                                        commission_price -= upsell_price_dict['child'];
-                                                    }
-                                                    if(upsell_price_dict_ssr.hasOwnProperty('child') && i == 0){ //upsell hanya di gunakan di provider pertama
-                                                        price += upsell_price_dict_ssr['child'];
-                                                        commission_price -= upsell_price_dict['child'];
-                                                    }
-                                                }catch(err){
-
-                                                }
-                                                commission = 0;
-                                                if(airline_price[price_counter].CHD['rac'] != null)
-                                                    commission = airline_price[price_counter].CHD['rac'];
-                                                commission_price += commission;
-                                                total_price += (airline_request.child * airline_price[price_counter].CHD['fare']) + price;
-                                                text+=`
-                                                    <div class="row mt-2">
-                                                        <div class="col-lg-12">
-                                                            <h6>Child</h6>
-                                                            <div class="row">
-                                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                                                    <span style="font-size:13px; font-weight:500;"><b>`+airline_request.child+`x</b> Fare @ `+airline_price[price_counter].CHD.currency +' '+getrupiah(Math.ceil(airline_price[price_counter].CHD.fare))+`</span><br/>
-                                                                </div>
-                                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                                                                    <span style="font-size:13px; font-weight:500;">`+airline_price[price_counter].CHD.currency+` `+getrupiah(Math.ceil(airline_price[price_counter].CHD.fare * airline_request.child))+`</span>
-                                                                </div>
-                                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                                                    <span style="font-size:13px; font-weight:500;">Tax & Charges</span>
-                                                                </div>
-                                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                                                                    <span style="font-size:13px; font-weight:500;">`+airline_price[price_counter].CHD.currency+` `+getrupiah(Math.ceil(price))+`</span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>`;
-                                                $text += airline_request.child + ' Child @'+ airline_price[price_counter].CHD.currency +' '+getrupiah(Math.ceil(airline_price[price_counter].CHD.fare) + Math.ceil(price/airline_request.child))+'\n';
-//                                                $text += 'Child Tax '+ airline_price[price_counter].CHD.currency +' '+getrupiah(Math.ceil(price))+'\n';
-                                                sub_total_count+=Math.ceil((airline_price[price_counter].CHD.fare * airline_request.child)+price);
-                                                price = 0;
-                                                total_price_provider.push({
-                                                    'provider': price_itinerary_temp[i].provider,
-                                                    'price': airline_price[price_counter].CHD
-                                                });
-                                            }
-                                        }catch(err){
-
-                                        }
-
-                                        try{//infant
-                                            if(airline_request.infant != 0){
-                                                price = 0;
-                                                try{
-                                                    if(airline_price[price_counter].INF['roc'] != null)
-                                                        price = airline_price[price_counter].INF['roc'];
-                                                    if(airline_price[price_counter].INF.tax != null)
-                                                        price += airline_price[price_counter].INF.tax;
-                                                    if(upsell_price_dict.hasOwnProperty('infant') && i == 0){ //upsell hanya di gunakan di provider pertama
-                                                        price += upsell_price_dict['infant'];
-                                                        commission_price -= upsell_price_dict['infant'];
-                                                    }
-                                                    if(upsell_price_dict_ssr.hasOwnProperty('infant') && i == 0){ //upsell hanya di gunakan di provider pertama
-                                                        price += upsell_price_dict_ssr['infant'];
-                                                        commission_price -= upsell_price_dict['infant'];
-                                                    }
-                                                }catch(err){
-
-                                                }
-                                                commission = 0;
-                                                try{
-                                                    if(airline_price[price_counter].INF['rac'] != null)
-                                                        commission = airline_price[price_counter].INF['rac'];
-                                                }catch(err){
-
-                                                }
-                                                commission_price += commission;
-                                                total_price += (airline_request.infant * airline_price[price_counter].INF['fare']) + price;
-                                                text+=`
-                                                <div class="row mt-2">
-                                                    <div class="col-lg-12">
-                                                        <h6>Infant</h6>
-                                                        <div class="row">
-                                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                                                <span style="font-size:13px; font-weight:500;"><b>`+airline_request.infant+`x</b> Fare @ `+airline_price[price_counter].INF.currency +' '+getrupiah(Math.ceil(airline_price[price_counter].INF.fare))+`</span><br/>
-                                                            </div>
-                                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                                                                <span style="font-size:13px; font-weight:500;">`+airline_price[price_counter].INF.currency+` `+getrupiah(Math.ceil(airline_price[price_counter].INF.fare * airline_request.infant))+`</span>
-                                                            </div>
-                                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                                                <span style="font-size:13px; font-weight:500;">Tax & Charges</span>
-                                                            </div>
-                                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                                                                <span style="font-size:13px; font-weight:500;">`+airline_price[price_counter].INF.currency+` `+getrupiah(Math.ceil(price))+`</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>`;
-                                                $text += airline_request.infant + ' Infant @'+ airline_price[price_counter].INF.currency +' '+getrupiah(Math.ceil(airline_price[price_counter].INF.fare) + Math.ceil(price/airline_request.infant))+'\n';
-//                                                $text += 'Infant Tax '+ airline_price[price_counter].INF.currency +' '+getrupiah(Math.ceil(price))+'\n';
-                                                sub_total_count+=Math.ceil((airline_price[price_counter].INF.fare * airline_request.infant)+price);
-                                                price = 0;
-                                                total_price_provider.push({
-                                                    'provider': price_itinerary_temp[i].provider,
-                                                    'price': airline_price[price_counter].INF
-                                                });
-                                            }
-                                        }catch(err){
-
                                         }
                                         text+=`
                                         <div class="row mt-2 mb-2">
@@ -5710,7 +5744,17 @@ function airline_detail(type){
                 <label>Additional Price</label><br/>
             </div>
             <div class="col-lg-5" style="text-align:right;">`;
-            if(airline_price[0].ADT.currency == 'IDR')
+            currency = '';
+            for(x in airline_price){
+                for(y in airline_price[x]){
+                    currency = airline_price[x][y].currency;
+                    if(currency)
+                        break;
+                }
+                if(currency)
+                    break;
+            }
+            if(currency == 'IDR')
                 text+=`
                 <label id="additional_price">`+getrupiah(additional_price)+`</label><br/>`;
             else
@@ -5730,21 +5774,21 @@ function airline_detail(type){
 //                console.log(err); // error kalau ada element yg tidak ada
 //            }
             if(additional_price != 0)
-                $text += '‣ Additional Price: ' + airline_price[0].ADT.currency + ' ' +getrupiah(additional_price) + '\n';
+                $text += '‣ Additional Price: ' + currency + ' ' +getrupiah(additional_price) + '\n';
             try{
                 if(total_discount != 0){
                     text+=`<div class="col-lg-7" style="text-align:left;">
                         <label>Discount</label><br/>
                     </div>
                     <div class="col-lg-5" style="text-align:right;">`;
-                    if(airline_price[0].ADT.currency == 'IDR')
+                    if(currency == 'IDR')
                     text+=`
-                        <label>`+airline_price[0].ADT.currency+` `+getrupiah(total_discount)+`</label><br/>`;
+                        <label>`+currency+` `+getrupiah(total_discount)+`</label><br/>`;
                     else
                     text+=`
-                        <label>`+airline_price[0].ADT.currency+` `+total_discount+`</label><br/>`;
+                        <label>`+currency+` `+total_discount+`</label><br/>`;
                     text+=`</div>`;
-                    $text += '‣ Discount: ' + airline_price[0].ADT.currency + ' ' +getrupiah(total_discount*-1) + '\n';
+                    $text += '‣ Discount: ' + currency + ' ' +getrupiah(total_discount*-1) + '\n';
                 }
             }catch(err){
                 console.log(err); // error kalau ada element yg tidak ada
@@ -5761,12 +5805,12 @@ function airline_detail(type){
             }catch(err){
                 console.log(err); // error kalau ada element yg tidak ada
             }
-            if(airline_price[0].ADT.currency == 'IDR'){
+            if(currency == 'IDR'){
                 text+=`
                     <span style="font-size:14px; font-weight:bold;`;
                 if(is_show_breakdown_price)
                     text+='cursor:pointer;';
-                text+=`" id="total_price";><b> `+airline_price[i].ADT.currency+` `+getrupiah(grand_total_price+total_discount)+`</b>`;
+                text+=`" id="total_price";><b> `+currency+` `+getrupiah(grand_total_price+total_discount)+`</b>`;
                 if(is_show_breakdown_price)
                     text+=`<i class="fas fa-caret-down"></i>`;
                 text+=`</span><br/>`;
@@ -5775,7 +5819,7 @@ function airline_detail(type){
                     <span style="font-size:14px; font-weight:bold;`;
                 if(is_show_breakdown_price)
                     text+='cursor:pointer;';
-                text+=`" id="total_price"><b> `+airline_price[i].ADT.currency+` `+parseFloat(grand_total_price+total_discount)+`</b>`;
+                text+=`" id="total_price"><b> `+currency+` `+parseFloat(grand_total_price+total_discount)+`</b>`;
                 if(is_show_breakdown_price)
                     text+=`<i class="fas fa-caret-down"></i>`;
                 text+=`</span><br/>`;
@@ -5896,7 +5940,7 @@ function airline_detail(type){
                 <hr/>
                 <span style="font-size:14px; font-weight:bold;"><i class="fas fa-share-alt"></i> Share This on:</span><br/>`;
 
-                $text += '‣ Grand Total: '+airline_price[0].ADT.currency+' '+ getrupiah(grand_total_price + total_discount) + '\nPrices and availability may change at any time';
+                $text += '‣ Grand Total: '+currency+' '+ getrupiah(grand_total_price + total_discount) + '\nPrices and availability may change at any time';
 
                 share_data();
                 var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
@@ -6679,41 +6723,40 @@ function check_passenger(adult, child, infant, type=''){
                 last_departure_date = airline_pick[i].journeys[j].departure_date.split(' - ')[0];
             }
        }
-   }
-   // is lion air di hapus 1 sept 2022
-   var list_identity_need_update = [];
-   //adult
-   for(i=1;i<=adult;i++){
-
-       if(check_name(document.getElementById('adult_title'+i).value,
+    }
+    // is lion air di hapus 1 sept 2022
+    var list_identity_need_update = [];
+    //adult
+    for(i=1;i<=adult;i++){
+        if(check_name(document.getElementById('adult_title'+i).value,
             document.getElementById('adult_first_name'+i).value,
             document.getElementById('adult_last_name'+i).value,
             length_name) == false){
            error_log+= 'Total of adult '+i+' name maximum '+length_name+' characters!</br>\n';
            document.getElementById('adult_first_name'+i).style['border-color'] = 'red';
            document.getElementById('adult_last_name'+i).style['border-color'] = 'red';
-       }else{
+        }else{
            document.getElementById('adult_first_name'+i).style['border-color'] = '#EFEFEF';
            document.getElementById('adult_last_name'+i).style['border-color'] = '#EFEFEF';
-       }if(document.getElementById('adult_title'+i).value == ''){
+        }if(document.getElementById('adult_title'+i).value == ''){
             error_log+= 'Please choose title of adult passenger '+i+'!</br>\n';
-           $("#adult_title"+i).each(function() {
+            $("#adult_title"+i).each(function() {
                 $(this).parent().find('.nice-select').css('border', '1px solid red');
             });
-       }else{
+        }else{
            $("#adult_title"+i).each(function() {
                 $(this).parent().find('.nice-select').css('border', '1px solid #EFEFEF');
             });
-       }
-       if(document.getElementById('adult_first_name'+i).value == '' || check_word(document.getElementById('adult_first_name'+i).value) == false){
+        }
+        if(document.getElementById('adult_first_name'+i).value == '' || check_word(document.getElementById('adult_first_name'+i).value) == false){
            if(document.getElementById('adult_first_name'+i).value == '')
                error_log+= 'Please input first name of adult passenger '+i+'!</br>\n';
            else if(check_word(document.getElementById('adult_first_name'+i).value) == false)
                error_log+= 'Please use alpha characters first name of adult passenger '+i+'!</br>\n';
            document.getElementById('adult_first_name'+i).style['border-color'] = 'red';
-       }else{
+        }else{
            document.getElementById('adult_first_name'+i).style['border-color'] = '#EFEFEF';
-       }
+        }
        //check lastname
        // no check update 10 jan 2023 IVAN case A JAN
 //       if(check_name_airline(document.getElementById('adult_first_name'+i).value, document.getElementById('adult_last_name'+i).value) != ''){
@@ -6722,7 +6765,7 @@ function check_passenger(adult, child, infant, type=''){
 //       }else{
 //           document.getElementById('adult_last_name'+i).style['border-color'] = '#EFEFEF';
 //       }
-       if(birth_date_required == true || document.getElementById('adult_id_type'+i).value == 'passport'){
+        if(birth_date_required == true || document.getElementById('adult_id_type'+i).value == 'passport'){
            if(check_date(document.getElementById('adult_birth_date'+i).value)==false){
                error_log+= 'Birth date wrong for passenger adult '+i+'!</br>\n';
                document.getElementById('adult_birth_date'+i).style['border-color'] = 'red';
@@ -6735,18 +6778,18 @@ function check_passenger(adult, child, infant, type=''){
                     document.getElementById('adult_birth_date'+i).style['border-color'] = '#EFEFEF';
                }
            }
-       }if(document.getElementById('adult_nationality'+i+'_id').value == ''){
+        }if(document.getElementById('adult_nationality'+i+'_id').value == ''){
            error_log+= 'Please fill nationality for passenger adult '+i+'!</br>\n';
            document.getElementById('adult_nationality'+i+'_id').style['border-color'] = 'red';
-       }else{
+        }else{
            if(is_identity_required == 'true')
                if(document.getElementById('adult_id_type'+i).value == '' && document.getElementById('adult_identity_div'+i).style.display == 'block'){
                     error_log+= 'Please fill id type for passenger adult '+i+'!</br>\n';
                     document.getElementById('adult_id_type'+i).style['border-color'] = 'red';
                }
            document.getElementById('adult_nationality'+i+'_id').style['border-color'] = '#EFEFEF';
-       }
-       if(document.getElementById('adult_identity_div'+i).style.display == 'block'){
+        }
+        if(document.getElementById('adult_identity_div'+i).style.display == 'block'){
            if(document.getElementById('adult_id_type'+i).value != ''){
                 $("#adult_id_type"+i).each(function() {
                     $(this).parent().find('.nice-select').css('border', '1px solid #EFEFEF');
@@ -6984,19 +7027,19 @@ function check_passenger(adult, child, infant, type=''){
                }
            }
        }
-   }
-   //child
-   length_name = 100;
-   for(j in airline_pick){
+    }
+    //child
+    length_name = 100;
+    for(j in airline_pick){
        for(k in airline_pick[j].journeys){
             for(l in airline_pick[j].journeys[k].carrier_code_list){
                 if(length_name > airline_carriers[airline_pick[j].journeys[k].carrier_code_list[l]].child_length_name)
                     length_name = airline_carriers[airline_pick[j].journeys[k].carrier_code_list[l]].child_length_name;
             }
        }
-   }
+    }
 
-   for(i=1;i<=child;i++){
+    for(i=1;i<=child;i++){
        if(check_name(document.getElementById('child_title'+i).value,
        document.getElementById('child_first_name'+i).value,
        document.getElementById('child_last_name'+i).value,
@@ -7278,20 +7321,20 @@ function check_passenger(adult, child, infant, type=''){
                }
            }
        }
-   }
+    }
 
-   //infant
-   length_name = 100;
-   for(j in airline_pick){
+    //infant
+    length_name = 100;
+    for(j in airline_pick){
        for(k in airline_pick[j].journeys){
             for(l in airline_pick[j].journeys[k].carrier_code_list){
                 if(length_name > airline_carriers[airline_pick[j].journeys[k].carrier_code_list[l]].infant_length_name)
                     length_name = airline_carriers[airline_pick[j].journeys[k].carrier_code_list[l]].infant_length_name;
             }
        }
-   }
+    }
 
-   for(i=1;i<=infant;i++){
+    for(i=1;i<=infant;i++){
        name = document.getElementById('adult_title'+i).value+document.getElementById('adult_first_name'+i).value+' '+document.getElementById('adult_last_name'+i).value;
        name += document.getElementById('infant_title'+i).value+document.getElementById('infant_first_name'+i).value+' '+document.getElementById('infant_last_name'+i).value;
        if(check_name_adult_infant(name, length_name) == false){
@@ -7546,16 +7589,907 @@ function check_passenger(adult, child, infant, type=''){
 //            document.getElementById(passenger_id[0]+'_passport_expired_date'+passenger_id[1]).style['border-color'] = 'red';
 //       }
 //   }
-   // check don't valid identity
-   for(i in list_identity_need_update){
+    //student
+    if(airline_request.hasOwnProperty('student')){
+        length_name = 100;
+        for(j in airline_pick){
+           for(k in airline_pick[j].journeys){
+                for(l in airline_pick[j].journeys[k].carrier_code_list){
+                    if(length_name > airline_carriers[airline_pick[j].journeys[k].carrier_code_list[l]].adult_length_name)
+                        length_name = airline_carriers[airline_pick[j].journeys[k].carrier_code_list[l]].adult_length_name;
+                }
+           }
+       }
+
+        for(i=1;i<=airline_request.student;i++){
+           if(check_name(document.getElementById('student_title'+i).value,
+           document.getElementById('student_first_name'+i).value,
+           document.getElementById('student_last_name'+i).value,
+           length_name) == false){
+               error_log+= 'Total of student '+i+' name maximum '+length_name+' characters!</br>\n';
+               document.getElementById('student_first_name'+i).style['border-color'] = 'red';
+               document.getElementById('student_last_name'+i).style['border-color'] = 'red';
+           }else{
+               document.getElementById('student_first_name'+i).style['border-color'] = '#EFEFEF';
+               document.getElementById('student_last_name'+i).style['border-color'] = '#EFEFEF';
+           }if(document.getElementById('student_title'+i).value == ''){
+                error_log+= 'Please choose title of student passenger '+i+'!</br>\n';
+                $("#student_title"+i).each(function() {
+                    $(this).parent().find('.nice-select').css('border', '0px solid red');
+                });
+           }else{
+               $("#student_title"+i).each(function() {
+                    $(this).parent().find('.nice-select').css('border', '1px solid #EFEFEF');
+                });
+           }
+           if(document.getElementById('student_first_name'+i).value == '' || check_word(document.getElementById('student_first_name'+i).value) == false){
+               if(document.getElementById('student_first_name'+i).value == '')
+                   error_log+= 'Please input first name of student passenger '+i+'!</br>\n';
+               else if(check_word(document.getElementById('student_first_name'+i).value) == false){
+                   error_log+= 'Please use alpha characters first name of student passenger '+i+'!</br>\n';
+                   document.getElementById('student_first_name'+i).style['border-color'] = 'red';
+               }
+           }else{
+               document.getElementById('student_first_name'+i).style['border-color'] = '#EFEFEF';
+           }
+           //check lastname
+           // no check update 10 jan 2023 IVAN case A JAN
+    //       if(check_name_airline(document.getElementById('student_first_name'+i).value, document.getElementById('student_last_name'+i).value) != ''){
+    //           error_log+= 'Please '+check_name_airline(document.getElementById('student_first_name'+i).value, document.getElementById('student_last_name'+i).value)+' student passenger '+i+'!</br>\n';
+    //           document.getElementById('student_last_name'+i).style['border-color'] = 'red';
+    //       }else{
+    //           document.getElementById('student_last_name'+i).style['border-color'] = '#EFEFEF';
+    //       }
+           if(check_date(document.getElementById('student_birth_date'+i).value)==false){
+               error_log+= 'Birth date wrong for passenger student '+i+'!</br>\n';
+               document.getElementById('student_birth_date'+i).style['border-color'] = 'red';
+           }else{
+               duration = moment.duration(moment(document.getElementById('student_birth_date'+i).value).diff(last_departure_date));
+               if(duration._data.years <= -12 == false){ //check age
+                    error_log+= 'Age wrong for passenger student '+i+', minimum 2 years old and maximum 11 years old!</br>\n';
+                    document.getElementById('student_birth_date'+i).style['border-color'] = 'red';
+               }else{
+                    document.getElementById('student_birth_date'+i).style['border-color'] = '#EFEFEF';
+               }
+           }if(document.getElementById('student_nationality'+i+'_id').value == ''){
+               error_log+= 'Please fill nationality for passenger student '+i+'!</br>\n';
+               document.getElementById('student_nationality'+i+'_id').style['border-color'] = 'red';
+           }else{
+               if(is_identity_required == 'true' && document.getElementById('student_identity_div'+i).style.display == 'block')
+                   if(document.getElementById('student_id_type'+i).value == ''){
+                        error_log+= 'Please fill id type for passenger student '+i+'!</br>\n';
+                        document.getElementById('student_id_type'+i).style['border-color'] = 'red';
+                   }
+               document.getElementById('student_nationality'+i+'_id').style['border-color'] = '#EFEFEF';
+           }
+
+           if(document.getElementById('student_identity_div'+i).style.display == 'block'){
+               if(document.getElementById('student_id_type'+i).value != ''){
+                   document.getElementById('student_id_type'+i).style['border-color'] = '#EFEFEF';
+    //               if(document.getElementById('student_nationality'+i).value == 'Indonesia'){
+    //                   //indonesia
+    //                   if(document.getElementById('student_id_type'+i).value == 'ktp' && is_international == 'false'){
+    //                        document.getElementById('student_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
+    //                        $("#student_id_type"+i).each(function() {
+    //                            $(this).parent().find('.nice-select').css('border', '1px solid red');
+    //                        });
+    //                        if(check_ktp(document.getElementById('student_passport_number'+i).value) == false){
+    //                           error_log+= 'Please fill id number, nik only contain 16 digits for passenger student '+i+'!</br>\n';
+    //                           document.getElementById('student_passport_number'+i).style['border-color'] = 'red';
+    //                        }else{
+    //                           document.getElementById('student_passport_number'+i).style['border-color'] = '#EFEFEF';
+    //                        }if(document.getElementById('student_country_of_issued'+i).value == '' || document.getElementById('student_country_of_issued'+i).value == 'Country of Issued'){
+    //                           error_log+= 'Please fill country of issued for passenger student '+i+'!</br>\n';
+    //                           $("#student_country_of_issued"+i+"_id").each(function() {
+    //                             $(this).siblings(".select2-container").css('border', '1px solid red');
+    //                           });
+    //                        }else{
+    //                           $("#student_country_of_issued"+i+"_id").each(function() {
+    //                             $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+    //                           });
+    //                        }
+    //                   }
+    //                   else if(document.getElementById('student_id_type'+i).value == 'passport' && is_international == 'true'){
+    //                       $("#student_id_type"+i).each(function() {
+    //                           $(this).parent().find('.nice-select').css('border', '0px solid red');
+    //                       });
+    //                       if(document.getElementById('student_id_type'+i).value == 'passport' && check_passport(document.getElementById('student_passport_number'+i).value) == false){
+    //                           error_log+= 'Please fill id number, passport only contain more than 6 digits  for passenger student '+i+'!</br>\n';
+    //                           document.getElementById('student_passport_number'+i).style['border-color'] = 'red';
+    //                       }else{
+    //                           document.getElementById('student_passport_number'+i).style['border-color'] = '#EFEFEF';
+    //                       }
+    //                       if(document.getElementById('student_passport_expired_date'+i).value == ''){
+    //                           error_log+= 'Please fill passport expired date for passenger student '+i+'!</br>\n';
+    //                           document.getElementById('student_passport_expired_date'+i).style['border-color'] = 'red';
+    //                       }else{
+    //                           duration = moment.duration(moment(document.getElementById('student_passport_expired_date'+i).value).diff(last_departure_date));
+    //                           //CHECK EXPIRED
+    //                           if(duration._milliseconds < 0 ){
+    //                                list_identity_need_update.push('student_'+i);
+    ////                                error_log+= 'Please update passport expired date for passenger student '+i+'!</br>\n';
+    ////                                document.getElementById('student_passport_expired_date'+i).style['border-color'] = 'red';
+    //                           }else
+    //                                document.getElementById('student_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
+    //                       }if(document.getElementById('student_country_of_issued'+i).value == '' || document.getElementById('student_country_of_issued'+i).value == 'Country of Issued'){
+    //                           error_log+= 'Please fill country of issued for passenger student '+i+'!</br>\n';
+    //                           $("#student_country_of_issued"+i+"_id").each(function() {
+    //                             $(this).siblings(".select2-container").css('border', '1px solid red');
+    //                           });
+    //
+    //                       }else{
+    //                           $("#student_country_of_issued"+i+"_id").each(function() {
+    //                             $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+    //                           });
+    //
+    //                       }
+    //                   }
+    //                   else if(is_international == 'false'){
+    //                        error_log += 'Please change identity to NIK for passenger student '+i+'!</br>\n';
+    //                        $("#student_id_type"+i).each(function() {
+    //                            $(this).parent().find('.nice-select').css('border', '1px solid red');
+    //                        });
+    //                   }else if(is_international == 'true'){
+    //                        error_log += 'Please change identity to Passport for passenger student '+i+'!</br>\n';
+    //                        $("#student_id_type"+i).each(function() {
+    //                            $(this).parent().find('.nice-select').css('border', '1px solid red');
+    //                        });
+    //                   }
+    //               }
+    //               else{
+    //                   //foreign
+    //                   if(document.getElementById('student_id_type'+i).value == 'passport'){
+    //                       $("#student_id_type"+i).each(function() {
+    //                           $(this).parent().find('.nice-select').css('border', '1px solid #EFEFEF');
+    //                       });
+    //                       if(document.getElementById('student_id_type'+i).value == 'passport' && check_passport(document.getElementById('student_passport_number'+i).value) == false){
+    //                           error_log+= 'Please fill id number, passport only contain more than 6 digits  for passenger student '+i+'!</br>\n';
+    //                           document.getElementById('student_passport_number'+i).style['border-color'] = 'red';
+    //                       }else{
+    //                           document.getElementById('student_passport_number'+i).style['border-color'] = '#EFEFEF';
+    //                       }
+    //                       if(document.getElementById('student_passport_expired_date'+i).value == ''){
+    //                           error_log+= 'Please fill passport expired date for passenger student '+i+'!</br>\n';
+    //                           document.getElementById('student_passport_expired_date'+i).style['border-color'] = 'red';
+    //                       }else{
+    //                           duration = moment.duration(moment(document.getElementById('student_passport_expired_date'+i).value).diff(last_departure_date));
+    //                           //CHECK EXPIRED
+    //                           if(duration._milliseconds < 0 ){
+    //                                list_identity_need_update.push('student_'+i);
+    ////                                error_log+= 'Please update passport expired date for passenger student '+i+'!</br>\n';
+    ////                                document.getElementById('student_passport_expired_date'+i).style['border-color'] = 'red';
+    //                           }else
+    //                                document.getElementById('student_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
+    //                       }if(document.getElementById('student_country_of_issued'+i).value == ''){
+    //                           error_log+= 'Please fill country of issued for passenger student '+i+'!</br>\n';
+    //                           $("#student_country_of_issued"+i+"_id").each(function() {
+    //                             $(this).siblings(".select2-container").css('border', '1px solid red');
+    //                           });
+    //
+    //                       }else{
+    //                           $("#student_country_of_issued"+i+"_id").each(function() {
+    //                             $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+    //                           });
+    //
+    //                       }
+    //                   }else{
+    //                       error_log+= 'Please change identity type to Passport for passenger student '+i+'!</br>\n';
+    //                   }
+    //               }
+                   // IVAN 17 okt 2022 open all passenger nationality, kalau inter harus passport
+                   if(document.getElementById('student_id_type'+i).value == 'ktp' && is_international == 'false'){
+                        document.getElementById('student_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
+                        $("#student_id_type"+i).each(function() {
+                            $(this).parent().find('.nice-select').css('border', '1px solid red');
+                        });
+                        if(check_ktp(document.getElementById('student_passport_number'+i).value) == false){
+                           error_log+= 'Please fill id number, nik only contain 16 digits for passenger student '+i+'!</br>\n';
+                           document.getElementById('student_passport_number'+i).style['border-color'] = 'red';
+                        }else{
+                           document.getElementById('student_passport_number'+i).style['border-color'] = '#EFEFEF';
+                        }if(document.getElementById('student_country_of_issued'+i+'_id').value == ''){
+                           error_log+= 'Please fill country of issued for passenger student '+i+'!</br>\n';
+                           $("#student_country_of_issued"+i+"_id").each(function() {
+                             $(this).siblings(".select2-container").css('border', '1px solid red');
+                           });
+                        }else{
+                           $("#student_country_of_issued"+i+"_id").each(function() {
+                             $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+                           });
+                        }
+                   }
+                   else if(document.getElementById('student_id_type'+i).value == 'passport'){
+                       $("#student_id_type"+i).each(function() {
+                           $(this).parent().find('.nice-select').css('border', '0px solid red');
+                       });
+                       if(document.getElementById('student_id_type'+i).value == 'passport' && check_passport(document.getElementById('student_passport_number'+i).value) == false){
+                           error_log+= 'Please fill id number, passport only contain more than 6 digits  for passenger student '+i+'!</br>\n';
+                           document.getElementById('student_passport_number'+i).style['border-color'] = 'red';
+                       }else{
+                           document.getElementById('student_passport_number'+i).style['border-color'] = '#EFEFEF';
+                       }
+                       if(document.getElementById('student_passport_expired_date'+i).value == ''){
+                           error_log+= 'Please fill passport expired date for passenger student '+i+'!</br>\n';
+                           document.getElementById('student_passport_expired_date'+i).style['border-color'] = 'red';
+                       }else{
+                           duration = moment.duration(moment(document.getElementById('student_passport_expired_date'+i).value).diff(last_departure_date));
+                           //CHECK EXPIRED
+                           if(duration._milliseconds < 0 ){
+                                list_identity_need_update.push('student_'+i);
+    //                                error_log+= 'Please update passport expired date for passenger student '+i+'!</br>\n';
+    //                                document.getElementById('student_passport_expired_date'+i).style['border-color'] = 'red';
+                           }else
+                                document.getElementById('student_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
+                       }if(document.getElementById('student_country_of_issued'+i+'_id').value == ''){
+                           error_log+= 'Please fill country of issued for passenger student '+i+'!</br>\n';
+                           $("#student_country_of_issued"+i+"_id").each(function() {
+                             $(this).siblings(".select2-container").css('border', '1px solid red');
+                           });
+
+                       }else{
+                           $("#student_country_of_issued"+i+"_id").each(function() {
+                             $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+                           });
+
+                       }
+                   }
+                   else if(is_international == 'true'){
+                        error_log += 'Please change identity to Passport for passenger student '+i+'!</br>\n';
+                        $("#student_id_type"+i).each(function() {
+                            $(this).parent().find('.nice-select').css('border', '1px solid red');
+                        });
+                   }
+               }else{
+                   error_log+= 'Please choose identity type for passenger student '+i+'!</br>\n';
+
+                   document.getElementById('student_passport_number'+i).style['border-color'] = 'red';
+                   document.getElementById('student_passport_expired_date'+i).style['border-color'] = 'red';
+                   $("#student_id_type"+i).each(function() {
+                        $(this).parent().find('.nice-select').css('border', '1px solid red');
+                   });
+
+                   $("#student_country_of_issued"+i+"_id").each(function() {
+                      $(this).siblings(".select2-container").css('border', '1px solid red');
+                   });
+               }
+           }else{
+               if(document.getElementById('student_valid_passport'+i))
+                   if(document.getElementById('student_valid_passport'+i).checked)
+                       list_identity_need_update.push('student_'+i)
+           }
+           if(typeof ff_request !== 'undefined'){
+               if(ff_request.length != 0 && check_ff == 1){
+                   for(j=1;j<=ff_request.length;j++){
+                        index_ff = j-1;
+                        if(ff_request[index_ff].hasOwnProperty('error_code') == false){
+                            error_ff = true
+                            if(document.getElementById('student_ff_request'+i+'_'+j + '_id').value != '' && document.getElementById('student_ff_number'+i+'_'+j).value != '')
+                                error_ff = false
+                            else if(document.getElementById('student_ff_request'+i+'_'+j + '_id').value == '' && document.getElementById('student_ff_number'+i+'_'+j).value != ''){
+                                error_log+= 'Please choose Frequent Flyer Program Journey '+j+' for passenger student '+i+'!</br>\n';
+                                document.getElementById('student_ff_number'+i+'_'+j).style['border-color'] = 'red';
+                            }else if(document.getElementById('student_ff_request'+i+'_'+j + '_id').value != '' && document.getElementById('student_ff_number'+i+'_'+j).value == '' &&
+                                document.getElementById('student_ff_request'+i+'_'+j + '_id').value != '' && document.getElementById('student_ff_number'+i+'_'+j).value == ''){
+                                error_log+= 'Please fill Frequent Flyer Number '+j+' for passenger student '+i+'!</br>\n';
+                                document.getElementById('student_ff_number'+i+'_'+j).style['border-color'] = 'red';
+                            }else{
+                                error_ff = false
+                            }
+                            if(error_ff == false){
+                                document.getElementById('student_ff_number'+i+'_'+j).style['border-color'] = '#EFEFEF';
+                                document.getElementById('student_ff_request'+i+'_'+j + '_id').style['border-color'] = '#EFEFEF';
+                            }
+                        }
+                   }
+               }
+           }
+       }
+    }
+
+    //seaman
+    if(airline_request.hasOwnProperty('seaman')){
+        length_name = 100;
+        for(j in airline_pick){
+           for(k in airline_pick[j].journeys){
+                for(l in airline_pick[j].journeys[k].carrier_code_list){
+                    if(length_name > airline_carriers[airline_pick[j].journeys[k].carrier_code_list[l]].adult_length_name)
+                        length_name = airline_carriers[airline_pick[j].journeys[k].carrier_code_list[l]].adult_length_name;
+                }
+           }
+       }
+
+        for(i=1;i<=airline_request.seaman;i++){
+           if(check_name(document.getElementById('seaman_title'+i).value,
+           document.getElementById('seaman_first_name'+i).value,
+           document.getElementById('seaman_last_name'+i).value,
+           length_name) == false){
+               error_log+= 'Total of seaman '+i+' name maximum '+length_name+' characters!</br>\n';
+               document.getElementById('seaman_first_name'+i).style['border-color'] = 'red';
+               document.getElementById('seaman_last_name'+i).style['border-color'] = 'red';
+           }else{
+               document.getElementById('seaman_first_name'+i).style['border-color'] = '#EFEFEF';
+               document.getElementById('seaman_last_name'+i).style['border-color'] = '#EFEFEF';
+           }if(document.getElementById('seaman_title'+i).value == ''){
+                error_log+= 'Please choose title of seaman passenger '+i+'!</br>\n';
+                $("#seaman_title"+i).each(function() {
+                    $(this).parent().find('.nice-select').css('border', '0px solid red');
+                });
+           }else{
+               $("#seaman_title"+i).each(function() {
+                    $(this).parent().find('.nice-select').css('border', '1px solid #EFEFEF');
+                });
+           }
+           if(document.getElementById('seaman_first_name'+i).value == '' || check_word(document.getElementById('seaman_first_name'+i).value) == false){
+               if(document.getElementById('seaman_first_name'+i).value == '')
+                   error_log+= 'Please input first name of seaman passenger '+i+'!</br>\n';
+               else if(check_word(document.getElementById('seaman_first_name'+i).value) == false){
+                   error_log+= 'Please use alpha characters first name of seaman passenger '+i+'!</br>\n';
+                   document.getElementById('seaman_first_name'+i).style['border-color'] = 'red';
+               }
+           }else{
+               document.getElementById('seaman_first_name'+i).style['border-color'] = '#EFEFEF';
+           }
+           //check lastname
+           // no check update 10 jan 2023 IVAN case A JAN
+    //       if(check_name_airline(document.getElementById('seaman_first_name'+i).value, document.getElementById('seaman_last_name'+i).value) != ''){
+    //           error_log+= 'Please '+check_name_airline(document.getElementById('seaman_first_name'+i).value, document.getElementById('seaman_last_name'+i).value)+' seaman passenger '+i+'!</br>\n';
+    //           document.getElementById('seaman_last_name'+i).style['border-color'] = 'red';
+    //       }else{
+    //           document.getElementById('seaman_last_name'+i).style['border-color'] = '#EFEFEF';
+    //       }
+           if(check_date(document.getElementById('seaman_birth_date'+i).value)==false){
+               error_log+= 'Birth date wrong for passenger seaman '+i+'!</br>\n';
+               document.getElementById('seaman_birth_date'+i).style['border-color'] = 'red';
+           }else{
+               duration = moment.duration(moment(document.getElementById('seaman_birth_date'+i).value).diff(last_departure_date));
+               if(duration._data.years <= -12 == false){ //check age
+                    error_log+= 'Age wrong for passenger seaman '+i+', minimum 2 years old and maximum 11 years old!</br>\n';
+                    document.getElementById('seaman_birth_date'+i).style['border-color'] = 'red';
+               }else{
+                    document.getElementById('seaman_birth_date'+i).style['border-color'] = '#EFEFEF';
+               }
+           }if(document.getElementById('seaman_nationality'+i+'_id').value == ''){
+               error_log+= 'Please fill nationality for passenger seaman '+i+'!</br>\n';
+               document.getElementById('seaman_nationality'+i+'_id').style['border-color'] = 'red';
+           }else{
+               if(is_identity_required == 'true' && document.getElementById('seaman_identity_div'+i).style.display == 'block')
+                   if(document.getElementById('seaman_id_type'+i).value == ''){
+                        error_log+= 'Please fill id type for passenger seaman '+i+'!</br>\n';
+                        document.getElementById('seaman_id_type'+i).style['border-color'] = 'red';
+                   }
+               document.getElementById('seaman_nationality'+i+'_id').style['border-color'] = '#EFEFEF';
+           }
+
+           if(document.getElementById('seaman_identity_div'+i).style.display == 'block'){
+               if(document.getElementById('seaman_id_type'+i).value != ''){
+                   document.getElementById('seaman_id_type'+i).style['border-color'] = '#EFEFEF';
+    //               if(document.getElementById('seaman_nationality'+i).value == 'Indonesia'){
+    //                   //indonesia
+    //                   if(document.getElementById('seaman_id_type'+i).value == 'ktp' && is_international == 'false'){
+    //                        document.getElementById('seaman_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
+    //                        $("#seaman_id_type"+i).each(function() {
+    //                            $(this).parent().find('.nice-select').css('border', '1px solid red');
+    //                        });
+    //                        if(check_ktp(document.getElementById('seaman_passport_number'+i).value) == false){
+    //                           error_log+= 'Please fill id number, nik only contain 16 digits for passenger seaman '+i+'!</br>\n';
+    //                           document.getElementById('seaman_passport_number'+i).style['border-color'] = 'red';
+    //                        }else{
+    //                           document.getElementById('seaman_passport_number'+i).style['border-color'] = '#EFEFEF';
+    //                        }if(document.getElementById('seaman_country_of_issued'+i).value == '' || document.getElementById('seaman_country_of_issued'+i).value == 'Country of Issued'){
+    //                           error_log+= 'Please fill country of issued for passenger seaman '+i+'!</br>\n';
+    //                           $("#seaman_country_of_issued"+i+"_id").each(function() {
+    //                             $(this).siblings(".select2-container").css('border', '1px solid red');
+    //                           });
+    //                        }else{
+    //                           $("#seaman_country_of_issued"+i+"_id").each(function() {
+    //                             $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+    //                           });
+    //                        }
+    //                   }
+    //                   else if(document.getElementById('seaman_id_type'+i).value == 'passport' && is_international == 'true'){
+    //                       $("#seaman_id_type"+i).each(function() {
+    //                           $(this).parent().find('.nice-select').css('border', '0px solid red');
+    //                       });
+    //                       if(document.getElementById('seaman_id_type'+i).value == 'passport' && check_passport(document.getElementById('seaman_passport_number'+i).value) == false){
+    //                           error_log+= 'Please fill id number, passport only contain more than 6 digits  for passenger seaman '+i+'!</br>\n';
+    //                           document.getElementById('seaman_passport_number'+i).style['border-color'] = 'red';
+    //                       }else{
+    //                           document.getElementById('seaman_passport_number'+i).style['border-color'] = '#EFEFEF';
+    //                       }
+    //                       if(document.getElementById('seaman_passport_expired_date'+i).value == ''){
+    //                           error_log+= 'Please fill passport expired date for passenger seaman '+i+'!</br>\n';
+    //                           document.getElementById('seaman_passport_expired_date'+i).style['border-color'] = 'red';
+    //                       }else{
+    //                           duration = moment.duration(moment(document.getElementById('seaman_passport_expired_date'+i).value).diff(last_departure_date));
+    //                           //CHECK EXPIRED
+    //                           if(duration._milliseconds < 0 ){
+    //                                list_identity_need_update.push('seaman_'+i);
+    ////                                error_log+= 'Please update passport expired date for passenger seaman '+i+'!</br>\n';
+    ////                                document.getElementById('seaman_passport_expired_date'+i).style['border-color'] = 'red';
+    //                           }else
+    //                                document.getElementById('seaman_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
+    //                       }if(document.getElementById('seaman_country_of_issued'+i).value == '' || document.getElementById('seaman_country_of_issued'+i).value == 'Country of Issued'){
+    //                           error_log+= 'Please fill country of issued for passenger seaman '+i+'!</br>\n';
+    //                           $("#seaman_country_of_issued"+i+"_id").each(function() {
+    //                             $(this).siblings(".select2-container").css('border', '1px solid red');
+    //                           });
+    //
+    //                       }else{
+    //                           $("#seaman_country_of_issued"+i+"_id").each(function() {
+    //                             $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+    //                           });
+    //
+    //                       }
+    //                   }
+    //                   else if(is_international == 'false'){
+    //                        error_log += 'Please change identity to NIK for passenger seaman '+i+'!</br>\n';
+    //                        $("#seaman_id_type"+i).each(function() {
+    //                            $(this).parent().find('.nice-select').css('border', '1px solid red');
+    //                        });
+    //                   }else if(is_international == 'true'){
+    //                        error_log += 'Please change identity to Passport for passenger seaman '+i+'!</br>\n';
+    //                        $("#seaman_id_type"+i).each(function() {
+    //                            $(this).parent().find('.nice-select').css('border', '1px solid red');
+    //                        });
+    //                   }
+    //               }
+    //               else{
+    //                   //foreign
+    //                   if(document.getElementById('seaman_id_type'+i).value == 'passport'){
+    //                       $("#seaman_id_type"+i).each(function() {
+    //                           $(this).parent().find('.nice-select').css('border', '1px solid #EFEFEF');
+    //                       });
+    //                       if(document.getElementById('seaman_id_type'+i).value == 'passport' && check_passport(document.getElementById('seaman_passport_number'+i).value) == false){
+    //                           error_log+= 'Please fill id number, passport only contain more than 6 digits  for passenger seaman '+i+'!</br>\n';
+    //                           document.getElementById('seaman_passport_number'+i).style['border-color'] = 'red';
+    //                       }else{
+    //                           document.getElementById('seaman_passport_number'+i).style['border-color'] = '#EFEFEF';
+    //                       }
+    //                       if(document.getElementById('seaman_passport_expired_date'+i).value == ''){
+    //                           error_log+= 'Please fill passport expired date for passenger seaman '+i+'!</br>\n';
+    //                           document.getElementById('seaman_passport_expired_date'+i).style['border-color'] = 'red';
+    //                       }else{
+    //                           duration = moment.duration(moment(document.getElementById('seaman_passport_expired_date'+i).value).diff(last_departure_date));
+    //                           //CHECK EXPIRED
+    //                           if(duration._milliseconds < 0 ){
+    //                                list_identity_need_update.push('seaman_'+i);
+    ////                                error_log+= 'Please update passport expired date for passenger seaman '+i+'!</br>\n';
+    ////                                document.getElementById('seaman_passport_expired_date'+i).style['border-color'] = 'red';
+    //                           }else
+    //                                document.getElementById('seaman_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
+    //                       }if(document.getElementById('seaman_country_of_issued'+i).value == ''){
+    //                           error_log+= 'Please fill country of issued for passenger seaman '+i+'!</br>\n';
+    //                           $("#seaman_country_of_issued"+i+"_id").each(function() {
+    //                             $(this).siblings(".select2-container").css('border', '1px solid red');
+    //                           });
+    //
+    //                       }else{
+    //                           $("#seaman_country_of_issued"+i+"_id").each(function() {
+    //                             $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+    //                           });
+    //
+    //                       }
+    //                   }else{
+    //                       error_log+= 'Please change identity type to Passport for passenger seaman '+i+'!</br>\n';
+    //                   }
+    //               }
+                   // IVAN 17 okt 2022 open all passenger nationality, kalau inter harus passport
+                   if(document.getElementById('seaman_id_type'+i).value == 'ktp' && is_international == 'false'){
+                        document.getElementById('seaman_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
+                        $("#seaman_id_type"+i).each(function() {
+                            $(this).parent().find('.nice-select').css('border', '1px solid red');
+                        });
+                        if(check_ktp(document.getElementById('seaman_passport_number'+i).value) == false){
+                           error_log+= 'Please fill id number, nik only contain 16 digits for passenger seaman '+i+'!</br>\n';
+                           document.getElementById('seaman_passport_number'+i).style['border-color'] = 'red';
+                        }else{
+                           document.getElementById('seaman_passport_number'+i).style['border-color'] = '#EFEFEF';
+                        }if(document.getElementById('seaman_country_of_issued'+i+'_id').value == ''){
+                           error_log+= 'Please fill country of issued for passenger seaman '+i+'!</br>\n';
+                           $("#seaman_country_of_issued"+i+"_id").each(function() {
+                             $(this).siblings(".select2-container").css('border', '1px solid red');
+                           });
+                        }else{
+                           $("#seaman_country_of_issued"+i+"_id").each(function() {
+                             $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+                           });
+                        }
+                   }
+                   else if(document.getElementById('seaman_id_type'+i).value == 'passport'){
+                       $("#seaman_id_type"+i).each(function() {
+                           $(this).parent().find('.nice-select').css('border', '0px solid red');
+                       });
+                       if(document.getElementById('seaman_id_type'+i).value == 'passport' && check_passport(document.getElementById('seaman_passport_number'+i).value) == false){
+                           error_log+= 'Please fill id number, passport only contain more than 6 digits  for passenger seaman '+i+'!</br>\n';
+                           document.getElementById('seaman_passport_number'+i).style['border-color'] = 'red';
+                       }else{
+                           document.getElementById('seaman_passport_number'+i).style['border-color'] = '#EFEFEF';
+                       }
+                       if(document.getElementById('seaman_passport_expired_date'+i).value == ''){
+                           error_log+= 'Please fill passport expired date for passenger seaman '+i+'!</br>\n';
+                           document.getElementById('seaman_passport_expired_date'+i).style['border-color'] = 'red';
+                       }else{
+                           duration = moment.duration(moment(document.getElementById('seaman_passport_expired_date'+i).value).diff(last_departure_date));
+                           //CHECK EXPIRED
+                           if(duration._milliseconds < 0 ){
+                                list_identity_need_update.push('seaman_'+i);
+    //                                error_log+= 'Please update passport expired date for passenger seaman '+i+'!</br>\n';
+    //                                document.getElementById('seaman_passport_expired_date'+i).style['border-color'] = 'red';
+                           }else
+                                document.getElementById('seaman_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
+                       }if(document.getElementById('seaman_country_of_issued'+i+'_id').value == ''){
+                           error_log+= 'Please fill country of issued for passenger seaman '+i+'!</br>\n';
+                           $("#seaman_country_of_issued"+i+"_id").each(function() {
+                             $(this).siblings(".select2-container").css('border', '1px solid red');
+                           });
+
+                       }else{
+                           $("#seaman_country_of_issued"+i+"_id").each(function() {
+                             $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+                           });
+
+                       }
+                   }
+                   else if(is_international == 'true'){
+                        error_log += 'Please change identity to Passport for passenger seaman '+i+'!</br>\n';
+                        $("#seaman_id_type"+i).each(function() {
+                            $(this).parent().find('.nice-select').css('border', '1px solid red');
+                        });
+                   }
+               }else{
+                   error_log+= 'Please choose identity type for passenger seaman '+i+'!</br>\n';
+
+                   document.getElementById('seaman_passport_number'+i).style['border-color'] = 'red';
+                   document.getElementById('seaman_passport_expired_date'+i).style['border-color'] = 'red';
+                   $("#seaman_id_type"+i).each(function() {
+                        $(this).parent().find('.nice-select').css('border', '1px solid red');
+                   });
+
+                   $("#seaman_country_of_issued"+i+"_id").each(function() {
+                      $(this).siblings(".select2-container").css('border', '1px solid red');
+                   });
+               }
+           }else{
+               if(document.getElementById('seaman_valid_passport'+i))
+                   if(document.getElementById('seaman_valid_passport'+i).checked)
+                       list_identity_need_update.push('seaman_'+i)
+           }
+           if(typeof ff_request !== 'undefined'){
+               if(ff_request.length != 0 && check_ff == 1){
+                   for(j=1;j<=ff_request.length;j++){
+                        index_ff = j-1;
+                        if(ff_request[index_ff].hasOwnProperty('error_code') == false){
+                            error_ff = true
+                            if(document.getElementById('seaman_ff_request'+i+'_'+j + '_id').value != '' && document.getElementById('seaman_ff_number'+i+'_'+j).value != '')
+                                error_ff = false
+                            else if(document.getElementById('seaman_ff_request'+i+'_'+j + '_id').value == '' && document.getElementById('seaman_ff_number'+i+'_'+j).value != ''){
+                                error_log+= 'Please choose Frequent Flyer Program Journey '+j+' for passenger seaman '+i+'!</br>\n';
+                                document.getElementById('seaman_ff_number'+i+'_'+j).style['border-color'] = 'red';
+                            }else if(document.getElementById('seaman_ff_request'+i+'_'+j + '_id').value != '' && document.getElementById('seaman_ff_number'+i+'_'+j).value == '' &&
+                                document.getElementById('seaman_ff_request'+i+'_'+j + '_id').value != '' && document.getElementById('seaman_ff_number'+i+'_'+j).value == ''){
+                                error_log+= 'Please fill Frequent Flyer Number '+j+' for passenger seaman '+i+'!</br>\n';
+                                document.getElementById('seaman_ff_number'+i+'_'+j).style['border-color'] = 'red';
+                            }else{
+                                error_ff = false
+                            }
+                            if(error_ff == false){
+                                document.getElementById('seaman_ff_number'+i+'_'+j).style['border-color'] = '#EFEFEF';
+                                document.getElementById('seaman_ff_request'+i+'_'+j + '_id').style['border-color'] = '#EFEFEF';
+                            }
+                        }
+                   }
+               }
+           }
+       }
+    }
+
+    //labour
+    if(airline_request.hasOwnProperty('labour')){
+        length_name = 100;
+        for(j in airline_pick){
+           for(k in airline_pick[j].journeys){
+                for(l in airline_pick[j].journeys[k].carrier_code_list){
+                    if(length_name > airline_carriers[airline_pick[j].journeys[k].carrier_code_list[l]].adult_length_name)
+                        length_name = airline_carriers[airline_pick[j].journeys[k].carrier_code_list[l]].adult_length_name;
+                }
+           }
+        }
+
+        for(i=1;i<=airline_request.labour;i++){
+           if(check_name(document.getElementById('labour_title'+i).value,
+           document.getElementById('labour_first_name'+i).value,
+           document.getElementById('labour_last_name'+i).value,
+           length_name) == false){
+               error_log+= 'Total of labour '+i+' name maximum '+length_name+' characters!</br>\n';
+               document.getElementById('labour_first_name'+i).style['border-color'] = 'red';
+               document.getElementById('labour_last_name'+i).style['border-color'] = 'red';
+           }else{
+               document.getElementById('labour_first_name'+i).style['border-color'] = '#EFEFEF';
+               document.getElementById('labour_last_name'+i).style['border-color'] = '#EFEFEF';
+           }if(document.getElementById('labour_title'+i).value == ''){
+                error_log+= 'Please choose title of labour passenger '+i+'!</br>\n';
+                $("#labour_title"+i).each(function() {
+                    $(this).parent().find('.nice-select').css('border', '0px solid red');
+                });
+           }else{
+               $("#labour_title"+i).each(function() {
+                    $(this).parent().find('.nice-select').css('border', '1px solid #EFEFEF');
+                });
+           }
+           if(document.getElementById('labour_first_name'+i).value == '' || check_word(document.getElementById('labour_first_name'+i).value) == false){
+               if(document.getElementById('labour_first_name'+i).value == '')
+                   error_log+= 'Please input first name of labour passenger '+i+'!</br>\n';
+               else if(check_word(document.getElementById('labour_first_name'+i).value) == false){
+                   error_log+= 'Please use alpha characters first name of labour passenger '+i+'!</br>\n';
+                   document.getElementById('labour_first_name'+i).style['border-color'] = 'red';
+               }
+           }else{
+               document.getElementById('labour_first_name'+i).style['border-color'] = '#EFEFEF';
+           }
+           //check lastname
+           // no check update 10 jan 2023 IVAN case A JAN
+    //       if(check_name_airline(document.getElementById('labour_first_name'+i).value, document.getElementById('labour_last_name'+i).value) != ''){
+    //           error_log+= 'Please '+check_name_airline(document.getElementById('labour_first_name'+i).value, document.getElementById('labour_last_name'+i).value)+' labour passenger '+i+'!</br>\n';
+    //           document.getElementById('labour_last_name'+i).style['border-color'] = 'red';
+    //       }else{
+    //           document.getElementById('labour_last_name'+i).style['border-color'] = '#EFEFEF';
+    //       }
+           if(check_date(document.getElementById('labour_birth_date'+i).value)==false){
+               error_log+= 'Birth date wrong for passenger labour '+i+'!</br>\n';
+               document.getElementById('labour_birth_date'+i).style['border-color'] = 'red';
+           }else{
+               duration = moment.duration(moment(document.getElementById('labour_birth_date'+i).value).diff(last_departure_date));
+               if(duration._data.years <= -12 == false){ //check age
+                    error_log+= 'Age wrong for passenger labour '+i+', minimum 2 years old and maximum 11 years old!</br>\n';
+                    document.getElementById('labour_birth_date'+i).style['border-color'] = 'red';
+               }else{
+                    document.getElementById('labour_birth_date'+i).style['border-color'] = '#EFEFEF';
+               }
+           }if(document.getElementById('labour_nationality'+i+'_id').value == ''){
+               error_log+= 'Please fill nationality for passenger labour '+i+'!</br>\n';
+               document.getElementById('labour_nationality'+i+'_id').style['border-color'] = 'red';
+           }else{
+               if(is_identity_required == 'true' && document.getElementById('labour_identity_div'+i).style.display == 'block')
+                   if(document.getElementById('labour_id_type'+i).value == ''){
+                        error_log+= 'Please fill id type for passenger labour '+i+'!</br>\n';
+                        document.getElementById('labour_id_type'+i).style['border-color'] = 'red';
+                   }
+               document.getElementById('labour_nationality'+i+'_id').style['border-color'] = '#EFEFEF';
+           }
+
+           if(document.getElementById('labour_identity_div'+i).style.display == 'block'){
+               if(document.getElementById('labour_id_type'+i).value != ''){
+                   document.getElementById('labour_id_type'+i).style['border-color'] = '#EFEFEF';
+    //               if(document.getElementById('labour_nationality'+i).value == 'Indonesia'){
+    //                   //indonesia
+    //                   if(document.getElementById('labour_id_type'+i).value == 'ktp' && is_international == 'false'){
+    //                        document.getElementById('labour_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
+    //                        $("#labour_id_type"+i).each(function() {
+    //                            $(this).parent().find('.nice-select').css('border', '1px solid red');
+    //                        });
+    //                        if(check_ktp(document.getElementById('labour_passport_number'+i).value) == false){
+    //                           error_log+= 'Please fill id number, nik only contain 16 digits for passenger labour '+i+'!</br>\n';
+    //                           document.getElementById('labour_passport_number'+i).style['border-color'] = 'red';
+    //                        }else{
+    //                           document.getElementById('labour_passport_number'+i).style['border-color'] = '#EFEFEF';
+    //                        }if(document.getElementById('labour_country_of_issued'+i).value == '' || document.getElementById('labour_country_of_issued'+i).value == 'Country of Issued'){
+    //                           error_log+= 'Please fill country of issued for passenger labour '+i+'!</br>\n';
+    //                           $("#labour_country_of_issued"+i+"_id").each(function() {
+    //                             $(this).siblings(".select2-container").css('border', '1px solid red');
+    //                           });
+    //                        }else{
+    //                           $("#labour_country_of_issued"+i+"_id").each(function() {
+    //                             $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+    //                           });
+    //                        }
+    //                   }
+    //                   else if(document.getElementById('labour_id_type'+i).value == 'passport' && is_international == 'true'){
+    //                       $("#labour_id_type"+i).each(function() {
+    //                           $(this).parent().find('.nice-select').css('border', '0px solid red');
+    //                       });
+    //                       if(document.getElementById('labour_id_type'+i).value == 'passport' && check_passport(document.getElementById('labour_passport_number'+i).value) == false){
+    //                           error_log+= 'Please fill id number, passport only contain more than 6 digits  for passenger labour '+i+'!</br>\n';
+    //                           document.getElementById('labour_passport_number'+i).style['border-color'] = 'red';
+    //                       }else{
+    //                           document.getElementById('labour_passport_number'+i).style['border-color'] = '#EFEFEF';
+    //                       }
+    //                       if(document.getElementById('labour_passport_expired_date'+i).value == ''){
+    //                           error_log+= 'Please fill passport expired date for passenger labour '+i+'!</br>\n';
+    //                           document.getElementById('labour_passport_expired_date'+i).style['border-color'] = 'red';
+    //                       }else{
+    //                           duration = moment.duration(moment(document.getElementById('labour_passport_expired_date'+i).value).diff(last_departure_date));
+    //                           //CHECK EXPIRED
+    //                           if(duration._milliseconds < 0 ){
+    //                                list_identity_need_update.push('labour_'+i);
+    ////                                error_log+= 'Please update passport expired date for passenger labour '+i+'!</br>\n';
+    ////                                document.getElementById('labour_passport_expired_date'+i).style['border-color'] = 'red';
+    //                           }else
+    //                                document.getElementById('labour_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
+    //                       }if(document.getElementById('labour_country_of_issued'+i).value == '' || document.getElementById('labour_country_of_issued'+i).value == 'Country of Issued'){
+    //                           error_log+= 'Please fill country of issued for passenger labour '+i+'!</br>\n';
+    //                           $("#labour_country_of_issued"+i+"_id").each(function() {
+    //                             $(this).siblings(".select2-container").css('border', '1px solid red');
+    //                           });
+    //
+    //                       }else{
+    //                           $("#labour_country_of_issued"+i+"_id").each(function() {
+    //                             $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+    //                           });
+    //
+    //                       }
+    //                   }
+    //                   else if(is_international == 'false'){
+    //                        error_log += 'Please change identity to NIK for passenger labour '+i+'!</br>\n';
+    //                        $("#labour_id_type"+i).each(function() {
+    //                            $(this).parent().find('.nice-select').css('border', '1px solid red');
+    //                        });
+    //                   }else if(is_international == 'true'){
+    //                        error_log += 'Please change identity to Passport for passenger labour '+i+'!</br>\n';
+    //                        $("#labour_id_type"+i).each(function() {
+    //                            $(this).parent().find('.nice-select').css('border', '1px solid red');
+    //                        });
+    //                   }
+    //               }
+    //               else{
+    //                   //foreign
+    //                   if(document.getElementById('labour_id_type'+i).value == 'passport'){
+    //                       $("#labour_id_type"+i).each(function() {
+    //                           $(this).parent().find('.nice-select').css('border', '1px solid #EFEFEF');
+    //                       });
+    //                       if(document.getElementById('labour_id_type'+i).value == 'passport' && check_passport(document.getElementById('labour_passport_number'+i).value) == false){
+    //                           error_log+= 'Please fill id number, passport only contain more than 6 digits  for passenger labour '+i+'!</br>\n';
+    //                           document.getElementById('labour_passport_number'+i).style['border-color'] = 'red';
+    //                       }else{
+    //                           document.getElementById('labour_passport_number'+i).style['border-color'] = '#EFEFEF';
+    //                       }
+    //                       if(document.getElementById('labour_passport_expired_date'+i).value == ''){
+    //                           error_log+= 'Please fill passport expired date for passenger labour '+i+'!</br>\n';
+    //                           document.getElementById('labour_passport_expired_date'+i).style['border-color'] = 'red';
+    //                       }else{
+    //                           duration = moment.duration(moment(document.getElementById('labour_passport_expired_date'+i).value).diff(last_departure_date));
+    //                           //CHECK EXPIRED
+    //                           if(duration._milliseconds < 0 ){
+    //                                list_identity_need_update.push('labour_'+i);
+    ////                                error_log+= 'Please update passport expired date for passenger labour '+i+'!</br>\n';
+    ////                                document.getElementById('labour_passport_expired_date'+i).style['border-color'] = 'red';
+    //                           }else
+    //                                document.getElementById('labour_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
+    //                       }if(document.getElementById('labour_country_of_issued'+i).value == ''){
+    //                           error_log+= 'Please fill country of issued for passenger labour '+i+'!</br>\n';
+    //                           $("#labour_country_of_issued"+i+"_id").each(function() {
+    //                             $(this).siblings(".select2-container").css('border', '1px solid red');
+    //                           });
+    //
+    //                       }else{
+    //                           $("#labour_country_of_issued"+i+"_id").each(function() {
+    //                             $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+    //                           });
+    //
+    //                       }
+    //                   }else{
+    //                       error_log+= 'Please change identity type to Passport for passenger labour '+i+'!</br>\n';
+    //                   }
+    //               }
+                   // IVAN 17 okt 2022 open all passenger nationality, kalau inter harus passport
+                   if(document.getElementById('labour_id_type'+i).value == 'ktp' && is_international == 'false'){
+                        document.getElementById('labour_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
+                        $("#labour_id_type"+i).each(function() {
+                            $(this).parent().find('.nice-select').css('border', '1px solid red');
+                        });
+                        if(check_ktp(document.getElementById('labour_passport_number'+i).value) == false){
+                           error_log+= 'Please fill id number, nik only contain 16 digits for passenger labour '+i+'!</br>\n';
+                           document.getElementById('labour_passport_number'+i).style['border-color'] = 'red';
+                        }else{
+                           document.getElementById('labour_passport_number'+i).style['border-color'] = '#EFEFEF';
+                        }if(document.getElementById('labour_country_of_issued'+i+'_id').value == ''){
+                           error_log+= 'Please fill country of issued for passenger labour '+i+'!</br>\n';
+                           $("#labour_country_of_issued"+i+"_id").each(function() {
+                             $(this).siblings(".select2-container").css('border', '1px solid red');
+                           });
+                        }else{
+                           $("#labour_country_of_issued"+i+"_id").each(function() {
+                             $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+                           });
+                        }
+                   }
+                   else if(document.getElementById('labour_id_type'+i).value == 'passport'){
+                       $("#labour_id_type"+i).each(function() {
+                           $(this).parent().find('.nice-select').css('border', '0px solid red');
+                       });
+                       if(document.getElementById('labour_id_type'+i).value == 'passport' && check_passport(document.getElementById('labour_passport_number'+i).value) == false){
+                           error_log+= 'Please fill id number, passport only contain more than 6 digits  for passenger labour '+i+'!</br>\n';
+                           document.getElementById('labour_passport_number'+i).style['border-color'] = 'red';
+                       }else{
+                           document.getElementById('labour_passport_number'+i).style['border-color'] = '#EFEFEF';
+                       }
+                       if(document.getElementById('labour_passport_expired_date'+i).value == ''){
+                           error_log+= 'Please fill passport expired date for passenger labour '+i+'!</br>\n';
+                           document.getElementById('labour_passport_expired_date'+i).style['border-color'] = 'red';
+                       }else{
+                           duration = moment.duration(moment(document.getElementById('labour_passport_expired_date'+i).value).diff(last_departure_date));
+                           //CHECK EXPIRED
+                           if(duration._milliseconds < 0 ){
+                                list_identity_need_update.push('labour_'+i);
+    //                                error_log+= 'Please update passport expired date for passenger labour '+i+'!</br>\n';
+    //                                document.getElementById('labour_passport_expired_date'+i).style['border-color'] = 'red';
+                           }else
+                                document.getElementById('labour_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
+                       }if(document.getElementById('labour_country_of_issued'+i+'_id').value == ''){
+                           error_log+= 'Please fill country of issued for passenger labour '+i+'!</br>\n';
+                           $("#labour_country_of_issued"+i+"_id").each(function() {
+                             $(this).siblings(".select2-container").css('border', '1px solid red');
+                           });
+
+                       }else{
+                           $("#labour_country_of_issued"+i+"_id").each(function() {
+                             $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+                           });
+
+                       }
+                   }
+                   else if(is_international == 'true'){
+                        error_log += 'Please change identity to Passport for passenger labour '+i+'!</br>\n';
+                        $("#labour_id_type"+i).each(function() {
+                            $(this).parent().find('.nice-select').css('border', '1px solid red');
+                        });
+                   }
+               }else{
+                   error_log+= 'Please choose identity type for passenger labour '+i+'!</br>\n';
+
+                   document.getElementById('labour_passport_number'+i).style['border-color'] = 'red';
+                   document.getElementById('labour_passport_expired_date'+i).style['border-color'] = 'red';
+                   $("#labour_id_type"+i).each(function() {
+                        $(this).parent().find('.nice-select').css('border', '1px solid red');
+                   });
+
+                   $("#labour_country_of_issued"+i+"_id").each(function() {
+                      $(this).siblings(".select2-container").css('border', '1px solid red');
+                   });
+               }
+           }else{
+               if(document.getElementById('labour_valid_passport'+i))
+                   if(document.getElementById('labour_valid_passport'+i).checked)
+                       list_identity_need_update.push('labour_'+i)
+           }
+           if(typeof ff_request !== 'undefined'){
+               if(ff_request.length != 0 && check_ff == 1){
+                   for(j=1;j<=ff_request.length;j++){
+                        index_ff = j-1;
+                        if(ff_request[index_ff].hasOwnProperty('error_code') == false){
+                            error_ff = true
+                            if(document.getElementById('labour_ff_request'+i+'_'+j + '_id').value != '' && document.getElementById('labour_ff_number'+i+'_'+j).value != '')
+                                error_ff = false
+                            else if(document.getElementById('labour_ff_request'+i+'_'+j + '_id').value == '' && document.getElementById('labour_ff_number'+i+'_'+j).value != ''){
+                                error_log+= 'Please choose Frequent Flyer Program Journey '+j+' for passenger labour '+i+'!</br>\n';
+                                document.getElementById('labour_ff_number'+i+'_'+j).style['border-color'] = 'red';
+                            }else if(document.getElementById('labour_ff_request'+i+'_'+j + '_id').value != '' && document.getElementById('labour_ff_number'+i+'_'+j).value == '' &&
+                                document.getElementById('labour_ff_request'+i+'_'+j + '_id').value != '' && document.getElementById('labour_ff_number'+i+'_'+j).value == ''){
+                                error_log+= 'Please fill Frequent Flyer Number '+j+' for passenger labour '+i+'!</br>\n';
+                                document.getElementById('labour_ff_number'+i+'_'+j).style['border-color'] = 'red';
+                            }else{
+                                error_ff = false
+                            }
+                            if(error_ff == false){
+                                document.getElementById('labour_ff_number'+i+'_'+j).style['border-color'] = '#EFEFEF';
+                                document.getElementById('labour_ff_request'+i+'_'+j + '_id').style['border-color'] = '#EFEFEF';
+                            }
+                        }
+                   }
+               }
+           }
+       }
+    }
+
+    // check don't valid identity
+    for(i in list_identity_need_update){
         passenger_id = list_identity_need_update[i].split('_');
         //kalau domestic tapi nationality indonesia pakai dont have valid passport
         if(is_international == 'false' && is_identity_required == 'true' && document.getElementById(passenger_id[0]+'_nationality'+passenger_id[1]+'_id').value == 'ID'){
             error_log+= 'Please change identity type to KTP for passenger '+passenger_id[0]+' '+passenger_id[1]+'!</br>\n';
         }
-   }
+    }
 
-   if(error_log==''){
+    if(error_log==''){
         //KALAU DATE DISABLED DARI TEROPONG VALUE TIDAK BISA DI AMBIL EXPIRED DATE TIDAK DI DISABLED FALSE KARENA BISA DI EDIT
        document.getElementById('booker_nationality_id').disabled = false;
        for(i=1;i<=adult;i++){
@@ -7575,6 +8509,27 @@ function check_passenger(adult, child, infant, type=''){
             document.getElementById('infant_nationality'+i + '_id').disabled = false;
             document.getElementById('infant_country_of_issued'+i + '_id').disabled = false;
 //            document.getElementById('infant_passport_expired_date'+i).disabled = false;
+       }
+       if(airline_request.hasOwnProperty('student')){
+            for(i=1;i<=airline_request.student;i++){
+                document.getElementById('student_birth_date'+i).disabled = false;
+                document.getElementById('student_nationality'+i + '_id').disabled = false;
+                document.getElementById('student_country_of_issued'+i + '_id').disabled = false;
+            }
+       }
+       if(airline_request.hasOwnProperty('seaman')){
+            for(i=1;i<=airline_request.seaman;i++){
+                document.getElementById('seaman_birth_date'+i).disabled = false;
+                document.getElementById('seaman_nationality'+i + '_id').disabled = false;
+                document.getElementById('seaman_country_of_issued'+i + '_id').disabled = false;
+            }
+       }
+       if(airline_request.hasOwnProperty('labour')){
+            for(i=1;i<=airline_request.labour;i++){
+                document.getElementById('labour_birth_date'+i).disabled = false;
+                document.getElementById('labour_nationality'+i + '_id').disabled = false;
+                document.getElementById('labour_country_of_issued'+i + '_id').disabled = false;
+            }
        }
        // auto check invalid identity
        for(i in list_identity_need_update){
@@ -7596,14 +8551,13 @@ function check_passenger(adult, child, infant, type=''){
 //            update_post_pax_name('update_all');
 //       }
 
-   }
-   else{
+    }else{
        $('.loader-rodextrip').fadeOut();
        document.getElementById('show_error_log').innerHTML = error_log;
        $("#myModalErrorPassenger").modal('show');
        $('.btn-next').removeClass("running");
        $('.btn-next').prop('disabled', false);
-   }
+    }
 }
 
 function check_passenger_aftersales(adult, child, infant, type=''){
