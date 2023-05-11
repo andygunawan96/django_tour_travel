@@ -64,6 +64,7 @@ def get_report(request):
         "start_date": start_date,
         'report_type': request.POST['provider_type'],
         'provider': request.POST['provider'],
+        'ho_seq_id': '',
         'agent_seq_id': '',
         'agent_type_seq_id': '',
     }
