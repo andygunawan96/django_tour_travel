@@ -4075,7 +4075,7 @@ function activity_get_booking(data){
                             for(j in act_get_booking.result.response.passengers[i].sale_service_charges){
                                 for(k in act_get_booking.result.response.passengers[i].sale_service_charges[j]){
                                     if(k != 'RAC'){
-                                        if(!price_breakdown.hasOwnProperty(k))
+                                        if(!price_breakdown.hasOwnProperty(k.toUpperCase()))
                                             price_breakdown[k.toUpperCase()] = 0;
                                         price_breakdown[k.toUpperCase()] += act_get_booking.result.response.passengers[i].sale_service_charges[j][k].amount;
                                         if(currency_breakdown == '')

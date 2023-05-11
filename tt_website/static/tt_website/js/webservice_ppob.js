@@ -1024,7 +1024,7 @@ function search_ppob(){
                             for(j in bill_response.result.response.passengers[i].sale_service_charges){
                                 for(k in bill_response.result.response.passengers[i].sale_service_charges[j]){
                                     if(k != 'RAC'){
-                                        if(!price_breakdown.hasOwnProperty(k))
+                                        if(!price_breakdown.hasOwnProperty(k.toUpperCase()))
                                             price_breakdown[k.toUpperCase()] = 0;
                                         price_breakdown[k.toUpperCase()] += bill_response.result.response.passengers[i].sale_service_charges[j][k].amount;
                                         if(currency_breakdown == '')
@@ -2152,7 +2152,7 @@ function ppob_get_booking(data){
                         for(j in bills_get_detail.result.response.passengers[i].sale_service_charges){
                             for(k in bills_get_detail.result.response.passengers[i].sale_service_charges[j]){
                                 if(k != 'RAC'){
-                                    if(!price_breakdown.hasOwnProperty(k))
+                                    if(!price_breakdown.hasOwnProperty(k.toUpperCase()))
                                         price_breakdown[k.toUpperCase()] = 0;
                                     price_breakdown[k.toUpperCase()] += bills_get_detail.result.response.passengers[i].sale_service_charges[j][k].amount;
                                     if(currency_breakdown == '')

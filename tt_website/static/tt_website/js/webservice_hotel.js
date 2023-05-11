@@ -3846,7 +3846,7 @@ function hotel_get_booking(data){
                         for(j in hotel_get_detail.result.response.passengers[i].sale_service_charges){
                             for(k in hotel_get_detail.result.response.passengers[i].sale_service_charges[j]){
                                 if(k != 'RAC'){
-                                    if(!price_breakdown.hasOwnProperty(k))
+                                    if(!price_breakdown.hasOwnProperty(k.toUpperCase()))
                                         price_breakdown[k.toUpperCase()] = 0;
                                     price_breakdown[k.toUpperCase()] += hotel_get_detail.result.response.passengers[i].sale_service_charges[j][k].amount;
                                     if(currency_breakdown == '')
@@ -3913,12 +3913,14 @@ function hotel_get_booking(data){
                 if(msg.result.response.checkin_date){
                     checkin_date = moment(msg.result.response.checkin_date);
                     now = moment();
-                    if(checkin_date > now){
+                    if(checkin_date > now && msg.result.response.state == 'issued'){
                         document.getElementById('hotel_refund_div').innerHTML = `
                         <button type="button" id="button-choose-print" style="width:100%;" class="primary-btn ld-ext-right" onclick="hotel_check_refund_amount();">
                             Refund
                             <div class="ld ld-ring ld-cycle"></div>
                         </button>`;
+                    }else{
+                        document.getElementById('hotel_refund_div').innerHTML = ``;
                     }
                 }
                 //refund
