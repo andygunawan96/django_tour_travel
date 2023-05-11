@@ -667,6 +667,7 @@ function get_report_overall(){
                 //destroy niceselect
 
                 $('#provider').niceSelect('destroy');
+                $('#head_office').niceSelect('destroy');
                 $('#agent').niceSelect('destroy');
                 // populating provider type
                 $('#provider_type').append(provider_type_datalist);
@@ -3394,7 +3395,7 @@ function filter_agent(result, agent_type_label, head_office_label){
     var head_office = parseInt(head_office_label);
     var agent_type = parseInt(agent_type_label);
     result.raw_data.result.response.dependencies.agent_list.forEach(function(item){
-        if(item['ho_id'] == head_office && item['agent_type_id'] == agent_type){
+        if(item['ho_seq_id'] == head_office && item['agent_type_id'] == agent_type){
             agent_datalist += `<option value="`+ item['seq_id'] +`">`+ item['name'] +`</option>`;
         }else if(isNaN(head_office)==true){
             if(item['agent_type_id'] == agent_type){
