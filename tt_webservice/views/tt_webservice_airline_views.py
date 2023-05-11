@@ -5122,7 +5122,7 @@ def search_mobile(request):
                                         if (add_new_data):
                                             fare_details.append(fare_detail)
                                     for svc_summary in fare['service_charge_summary']:
-                                        if svc_summary['pax_type'] == 'ADT':
+                                        if not svc_summary['pax_type'] in ['CHD', 'INF']:
                                             for svc in svc_summary['service_charges']:
                                                 if svc['charge_type'] != 'RAC':
                                                     if svc['charge_type'] != 'DISC':
