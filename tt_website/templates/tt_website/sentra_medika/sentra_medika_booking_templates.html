@@ -17,81 +17,18 @@
     order_number = '{{order_number}}';
     id_types = [];
 </script>
+<title id="title_search">{{name}} Sentra Medika - {% trans 'Booking' %}</title>
+<div id="overlay-div-box" onclick="close_div('payment_acq');"></div>
 {% include 'tt_website/logout.html' %}
 {% include 'tt_website/loading_screen.html' %}
 {% include 'tt_website/check_connection.html' %}
 {% include 'tt_website/modal_balance_vendor.html' %}
-<div id="overlay-div-box" onclick="close_div('payment_acq');"></div>
-<title id="title_search">{{name}} Sentra Medika - {% trans 'Booking' %}</title>
-{%if template == 1%}
-<header id="header" class="header_breadcrumb">
-    {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-    {% include 'tt_website/header_corporate.html' %}
-    {% endif %}
-
-    <div class="main-menu">
-        <div class="container">
-            <div class="row align-items-center justify-content-between d-flex">
-                <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
-                    <a href="{% url 'tt_website:index'%}"><img src="{{logo}}" style="max-height:40px;max-width:150px;" alt="Logo {{name}}" title="{{name}}" /></a>
-                </div>
-                <div class="col-lg-10 col-md-10 col-sm-10" id="breadcrumbs_create">
-
-                </div>
-            </div>
-            <div class="row">
-                {% include 'tt_website/balance_credit.html' %}
-            </div>
-        </div>
-    </div>
-</header>
-{% elif template == 6 %}
-<header class="header_breadcrumb" style="padding:unset; z-index:100; border-bottom:1px solid #cdcdcd; background:white;">
-    {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-    {% include 'tt_website/header_corporate.html' %}
-    {% endif %}
-
-    <div class="main-menu" style="padding:10px 0px;">
-        <div class="container">
-            <div class="row align-items-center justify-content-between d-flex">
-                <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
-                    <a href="{% url 'tt_website:index'%}"><img src="{{logo}}" style="max-height:40px;max-width:150px;" alt="Logo {{name}}" title="{{name}}" /></a>
-                </div>
-                <div class="col-lg-10 col-md-10 col-sm-10" id="breadcrumbs_create">
-
-                </div>
-            </div>
-        </div>
-    </div>
-    {% if username.co_user_login == default_user %}
-    {% include 'tt_website/header_signin_signup.html' %}
-    {% endif %}
-</header>
-{% else %}
-<header class="header_breadcrumb" style="padding:unset; z-index:100; border-bottom:1px solid #cdcdcd;">
-    {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-    {% include 'tt_website/header_corporate.html' %}
-    {% endif %}
-
-    <div class="main-menu" style="padding:10px 0px;">
-        <div class="container">
-            <div class="row align-items-center justify-content-between d-flex">
-                <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
-                    <a href="{% url 'tt_website:index'%}"><img src="{{logo}}" style="max-height:40px;max-width:150px;" alt="Logo {{name}}" title="{{name}}" /></a>
-                </div>
-                <div class="col-lg-10 col-md-10 col-sm-10" id="breadcrumbs_create">
-
-                </div>
-            </div>
-            <div class="row">
-                {% include 'tt_website/balance_credit.html' %}
-            </div>
-        </div>
-    </div>
-</header>
-{% endif %}
-{% include 'tt_website/header_signin.html' %}
 {% include 'tt_website/waiting_transaction_modal.html' %}
+
+{% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+{% include 'tt_website/header_corporate.html' %}
+{% endif %}
+{% include 'tt_website/header_breadcrumb_change.html' %}
 
 <form id="sentra_medika_edit_passenger" class="form-wrap" action="" method="POST">
     {% csrf_token %}

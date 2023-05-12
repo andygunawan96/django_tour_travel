@@ -5057,3 +5057,15 @@ div.scrollmenu li {
         padding:15px !important;
     }
 }
+
+.dropdown-menu{
+    left: unset !important;
+    width: auto !important;
+    right: 0px;
+}
+@media (max-width: 991px) {
+    .dropdown-menu{
+        right: unset !important;
+    }
+}
+

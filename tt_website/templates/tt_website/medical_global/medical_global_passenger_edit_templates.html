@@ -32,11 +32,6 @@
     order_number = `{{order_number}}`;
     state = `{{state}}`;
 </script>
-{% include 'tt_website/logout.html' %}
-{% include 'tt_website/loading_screen.html' %}
-{% include 'tt_website/check_connection.html' %}
-{% include 'tt_website/modal_balance_vendor.html' %}
-<title id="title_search">{{name}} {% trans 'Medical' %} - {% trans 'Customer' %}</title>
 <style>
     label{
         color:black !important;
@@ -92,31 +87,19 @@
         height: unset !important;
     }
 </style>
+
+<title id="title_search">{{name}} {% trans 'Medical' %} - {% trans 'Customer' %}</title>
+{% include 'tt_website/logout.html' %}
+{% include 'tt_website/loading_screen.html' %}
+{% include 'tt_website/check_connection.html' %}
+{% include 'tt_website/modal_balance_vendor.html' %}
+
+{% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+{% include 'tt_website/header_corporate.html' %}
+{% endif %}
+{% include 'tt_website/header_breadcrumb.html' %}
+
 {%if template == 1%}
-<header id="header" class="header_breadcrumb">
-    {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-    {% include 'tt_website/header_corporate.html' %}
-    {% endif %}
-
-    <div class="main-menu">
-        <div class="container">
-            <div class="row align-items-center justify-content-between d-flex">
-                <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
-                    <a href="{% url 'tt_website:index'%}"><img src="{{logo}}" style="max-height:40px;max-width:150px;" alt="Logo {{name}}" title="{{name}}" /></a>
-                </div>
-                <div class="col-lg-10 col-md-10 col-sm-10" id="breadcrumbs_create">
-
-                </div>
-            </div>
-            <div class="row">
-                {% include 'tt_website/balance_credit.html' %}
-            </div>
-        </div>
-    </div>
-<!--    {% if username.co_user_login == default_user %}-->
-<!--    {% include 'tt_website/header_signin_signup.html' %}-->
-<!--    {% endif %}-->
-</header>
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
     <div class="container">
         <div class="banner-right">
@@ -249,30 +232,6 @@
     </div>
 </section>
 {%elif template == 2%}
-<header class="header_breadcrumb" style="padding:15px 0px; background:white;">
-    {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-    {% include 'tt_website/header_corporate.html' %}
-    {% endif %}
-
-    <div class="main-menu">
-        <div class="container">
-            <div class="row align-items-center justify-content-between d-flex">
-                <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
-                    <a href="{% url 'tt_website:index'%}"><img src="{{logo}}" style="max-height:40px;max-width:150px;" alt="Logo {{name}}" title="{{name}}" /></a>
-                </div>
-                <div class="col-lg-10 col-md-10 col-sm-10" id="breadcrumbs_create">
-
-                </div>
-            </div>
-            <div class="row">
-                {% include 'tt_website/balance_credit.html' %}
-            </div>
-        </div>
-    </div>
-<!--    {% if username.co_user_login == default_user %}-->
-<!--    {% include 'tt_website/header_signin_signup.html' %}-->
-<!--    {% endif %}-->
-</header>
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px; background:#f7f7f7; position:relative;">
     <div class="container">
         <div class="hotel-search-form-area" style="padding:unset; position:unset;">
@@ -407,30 +366,6 @@
     </div>
 </section>
 {%elif template == 3%}
-<header class="header_breadcrumb" style="padding:15px 0px; background:white;">
-    {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-    {% include 'tt_website/header_corporate.html' %}
-    {% endif %}
-
-    <div class="main-menu">
-        <div class="container">
-            <div class="row align-items-center justify-content-between d-flex">
-                <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
-                    <a href="{% url 'tt_website:index'%}"><img src="{{logo}}" style="max-height:40px;max-width:150px;" alt="Logo {{name}}" title="{{name}}" /></a>
-                </div>
-                <div class="col-lg-10 col-md-10 col-sm-10" id="breadcrumbs_create">
-
-                </div>
-            </div>
-            <div class="row">
-                {% include 'tt_website/balance_credit.html' %}
-            </div>
-        </div>
-    </div>
-<!--    {% if username.co_user_login == default_user %}-->
-<!--    {% include 'tt_website/header_signin_signup.html' %}-->
-<!--    {% endif %}-->
-</header>
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px; background:#f7f7f7; position:relative;">
     <div class="container">
         <div class="hotel-search-form-area" style="padding:unset; position:unset;">
@@ -565,30 +500,6 @@
     </div>
 </section>
 {%elif template == 4%}
-<header id="header" class="header_breadcrumb">
-    {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-    {% include 'tt_website/header_corporate.html' %}
-    {% endif %}
-
-    <div class="main-menu">
-        <div class="container">
-            <div class="row align-items-center justify-content-between d-flex">
-                <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
-                    <a href="{% url 'tt_website:index'%}"><img src="{{logo}}" style="max-height:40px;max-width:150px;" alt="Logo {{name}}" title="{{name}}" /></a>
-                </div>
-                <div class="col-lg-10 col-md-10 col-sm-10" id="breadcrumbs_create">
-
-                </div>
-            </div>
-            <div class="row">
-                {% include 'tt_website/balance_credit.html' %}
-            </div>
-        </div>
-    </div>
-<!--    {% if username.co_user_login == default_user %}-->
-<!--    {% include 'tt_website/header_signin_signup.html' %}-->
-<!--    {% endif %}-->
-</header>
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
     <div class="container">
         <div class="banner-right">
@@ -721,30 +632,6 @@
     </div>
 </section>
 {%elif template == 5%}
-<header id="header" class="header_breadcrumb">
-    {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-    {% include 'tt_website/header_corporate.html' %}
-    {% endif %}
-
-    <div class="main-menu">
-        <div class="container">
-            <div class="row align-items-center justify-content-between d-flex">
-                <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
-                    <a href="{% url 'tt_website:index'%}"><img src="{{logo}}" style="max-height:40px;max-width:150px;" alt="Logo {{name}}" title="{{name}}" /></a>
-                </div>
-                <div class="col-lg-10 col-md-10 col-sm-10" id="breadcrumbs_create">
-
-                </div>
-            </div>
-            <div class="row">
-                {% include 'tt_website/balance_credit.html' %}
-            </div>
-        </div>
-    </div>
-<!--    {% if username.co_user_login == default_user %}-->
-<!--    {% include 'tt_website/header_signin_signup.html' %}-->
-<!--    {% endif %}-->
-</header>
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
     <div class="container">
         <div class="banner-right">
@@ -877,30 +764,6 @@
     </div>
 </section>
 {%elif template == 6%}
-<header id="header" class="header_breadcrumb">
-    {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-    {% include 'tt_website/header_corporate.html' %}
-    {% endif %}
-
-    <div class="main-menu">
-        <div class="container">
-            <div class="row align-items-center justify-content-between d-flex">
-                <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
-                    <a href="{% url 'tt_website:index'%}"><img src="{{logo}}" style="max-height:40px;max-width:150px;" alt="Logo {{name}}" title="{{name}}" /></a>
-                </div>
-                <div class="col-lg-10 col-md-10 col-sm-10" id="breadcrumbs_create">
-
-                </div>
-            </div>
-            <div class="row">
-                {% include 'tt_website/balance_credit.html' %}
-            </div>
-        </div>
-    </div>
-<!--    {% if username.co_user_login == default_user %}-->
-<!--    {% include 'tt_website/header_signin_signup.html' %}-->
-<!--    {% endif %}-->
-</header>
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
     <div class="container">
         <div class="banner-right">
@@ -1039,10 +902,6 @@
 
 {% include 'tt_website/footer.html' %}
 
-
-{% if username.co_user_login == default_user %}
-{% include 'tt_website/modal_signin_signup.html' %}
-{% endif %}
 <script>
     $('.loader-rodextrip').fadeOut();
     $( document ).ready(function() {
