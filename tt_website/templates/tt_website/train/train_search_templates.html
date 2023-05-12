@@ -2,8 +2,6 @@
 {% load i18n %}
 {% load static from staticfiles %}
 {% block content %}
-<!--<script src="{{ static_path }}js/webservice_token.js"></script>-->
-<!--<script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js?version={{javascript_version}}"></script>-->
 <script src="{{ static_path }}js/webservice_token.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/train_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_train.js?version={{javascript_version}}"></script>
@@ -48,19 +46,18 @@
        margin-left: 15px;
     }
 </style>
+{%if train_request.direction == 'OW'%}
+<title id="title_search">{{name}} {% trans 'Train' %} - {% trans 'One Way' %} {% trans 'From' %} {{train_request.origin.0}} {% trans 'To' %} {{train_request.destination.0}}</title>
+{% endif %}
+{%if train_request.direction == 'RT'%}
+<title id="title_search">{{name}} {% trans 'Train' %} - {% trans 'Round Trip' %} {% trans 'From' %} {{train_request.origin.0}} {% trans 'To' %} {{train_request.destination.0}}</title>
+{% endif %}
+<div id="overlay-search-box" onclick="off_overlay()"></div>
 {% include 'tt_website/header.html' %}
 {% include 'tt_website/notification.html' %}
 {% include 'tt_website/plugin_passenger.html' %}
 {% include 'tt_website/logout.html' %}
 {% include 'tt_website/notification_box.html' %}
-<div id="overlay-search-box" onclick="off_overlay()"></div>
-{%if train_request.direction == 'OW'%}
-<title id="title_search">{{name}} {% trans 'Train' %} - {% trans 'One Way' %} {% trans 'From' %} {{train_request.origin.0}} {% trans 'To' %} {{train_request.destination.0}}</title>
-{% endif %}
-
-{%if train_request.direction == 'RT'%}
-<title id="title_search">{{name}} {% trans 'Train' %} - {% trans 'Round Trip' %} {% trans 'From' %} {{train_request.origin.0}} {% trans 'To' %} {{train_request.destination.0}}</title>
-{% endif %}
 
 {%if template == 1%}
 <section class="destinations-area change_search_area">

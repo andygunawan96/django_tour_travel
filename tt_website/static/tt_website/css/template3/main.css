@@ -3939,3 +3939,13 @@ ul.tabs li.current{
         margin:5px 0px;
     }
 }
+
+.dropdown-menu{
+    width: auto !important;
+}
+@media (max-width: 767px) {
+    .dropdown-menu{
+        left: -30px !important;
+    }
+}
+

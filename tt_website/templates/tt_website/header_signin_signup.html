@@ -1,6 +1,6 @@
 {% load i18n %}
-<div class="login-signup" style="z-index:1000; padding:15px 0px; background:white; border-bottom:1px solid #cdcdcd; {% if template != 3 or template != 4%}border-top:1px solid #cdcdcd;{% endif %}">
-    <div class="container" style="text-align:center;">
+<div class="col-lg-6 sign_in_up">
+    <div class="login-signup" style="z-index:1000; background:white;">
         <h6>
             <i class="fas fa-user-lock"></i>
             <a href="#" data-toggle="modal" data-target="#myModalSignin" style="color:{{color}};">{% trans 'Sign In' %}</a>
@@ -11,3 +11,6 @@
     </div>
 </div>
 
+{% if username.co_user_login == default_user %}
+{% include 'tt_website/modal_signin_signup.html' %}
+{% endif %}

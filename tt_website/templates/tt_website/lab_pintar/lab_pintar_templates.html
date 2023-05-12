@@ -9,7 +9,6 @@
 <script src="{{ static_path }}js/webservice_lab_pintar.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/lab_pintar_javascript.js?version={{javascript_version}}"></script>
-<!--<script src="{{ static_path }}js/webservice_bank.js?version={{javascript_version}}"></script>-->
 <script src="{{ static_path }}js/library/moment.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/library/daterangepicker.js?version={{javascript_version}}"></script>
 <link rel="stylesheet" type="text/css" href="{{ static_path }}login/css/owl.carousel.css?version={{javascript_version}}">
@@ -55,15 +54,10 @@
 {% if username.co_user_login != '' %}
 {% include 'tt_website/plugin_passenger.html' %}
 {% include 'tt_website/plugin_get_booking_b2c.html' %}
-<!--{% include 'tt_website/loading_screen.html' %}-->
 {% include 'tt_website/logout.html' %}
 {% endif %}
 {% include 'tt_website/header.html' %}
 {% include 'tt_website/notification_box.html' %}
-
-<meta name="twitter:card" content="Twitter" />
-<meta name="twitter:site" content="@rodextrip" />
-<meta name="twitter:creator" content="@rodextrip" />
 
 {%if template == 1%}
 <section class="testimonial-area section-gap overlay-bg" data-aos="fade-up" style="background-image:url('{{static_path}}images/bg_lab_pintar.jpg') !important; padding-top:40px; padding-bottom:40px; z-index:1; position:relative;">

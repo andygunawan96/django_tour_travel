@@ -2,10 +2,8 @@
 {% load i18n %}
 {% load static from staticfiles %}
 {% block content %}
-<!--<script src="{{ static_path }}js/webservice_token.js"></script>-->
 <script src="{{ static_path }}js/library/daterangepicker.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/library/moment.min.js?version={{javascript_version}}"></script>
-<!--<script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js?version={{javascript_version}}"></script>-->
 <script src="{{ static_path }}js/webservice_token.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/hotel_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_hotel.js?version={{javascript_version}}"></script>
@@ -26,9 +24,7 @@
     //});
     time_limit = {{time_limit}};
     session_time_limit();
-
     last_session = 'sell_journeys';
-
 </script>
 <style>
     ul li{
@@ -39,14 +35,15 @@
         margin-top: 0px;
     }
 </style>
+<title id="title_search">{{name}} Hotel - {{response.name}}</title>
+<div id="overlay-search-box" onclick="off_overlay()" style="z-index:90;"></div>
+
 {% include 'tt_website/header.html' %}
 {% include 'tt_website/logout.html' %}
 {% include 'tt_website/plugin_passenger.html' %}
 {% include 'tt_website/loading_screen.html' %}
 {% include 'tt_website/notification_box.html' %}
-<title id="title_search">{{name}} Hotel - {{response.name}}</title>
 
-<div id="overlay-search-box" onclick="off_overlay()" style="z-index:90;"></div>
 {%if template == 1%}
 <section class="destinations-area change_search_bg">
     <div id="hotel_search_params" class="container">

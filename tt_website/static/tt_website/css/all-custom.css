@@ -996,6 +996,7 @@ ul.popular2_tabs li.current .image-rounded-icon{
 
 .header_breadcrumb{
     background:white !important;
+    border-bottom: 1px solid #cdcdcd;
     padding-top:15px;
     padding-bottom:15px;
 }
@@ -1224,19 +1225,19 @@ ul.popular2_tabs li.current .image-rounded-icon{
 .sorting-search-train{
     position:sticky;
     top: 66px;
-    z-index: 814;
+    z-index: 2;
 }
 
 .sorting-search-bus{
     position:sticky;
     top: 66px;
-    z-index: 814;
+    z-index: 2;
 }
 
 .sorting-search-hotel{
     position:sticky;
     top: 66px;
-    z-index: 814;
+    z-index: 2;
 }
 
 .sticky-sort-filter {
@@ -1268,7 +1269,7 @@ ul.popular2_tabs li.current .image-rounded-icon{
     cursor: pointer;
     outline: none;
     cursor: pointer;
-    z-index: 99;
+    z-index: 1005;
 }
 .mytickethotel:hover {
     background-color: #205B95;
@@ -1303,7 +1304,7 @@ ul.popular2_tabs li.current .image-rounded-icon{
   top: 85px;
   right: 55px;
   z-index: 99;
-  height:55px;
+  height: 55px;
   cursor: pointer;
   outline: none;
   cursor: pointer;
@@ -1575,8 +1576,8 @@ ul.popular2_tabs li.current .image-rounded-icon{
 .primary-btn {
   background: #205B95;
   line-height: 42px;
-  padding-left: 30px;
-  padding-right: 30px;
+  padding-left: 25px;
+  padding-right: 25px;
   border: none;
   color: #fff;
   display: inline-block;
@@ -2515,7 +2516,7 @@ th input {
 }
 .breadcrumbs_flex{
     display:flex;
-    padding-top:5px;
+    padding-top:10px;
 }
 .br-active{
     color: #205B95;
@@ -5748,7 +5749,21 @@ ul.progress_tabs li.current .image-rounded-icon{
 .change_search_bg{
     padding:15px 0px 15px 0px;
     background:white;
+    border-top:1px solid #cdcdcd;
     border-bottom:1px solid #cdcdcd;
     z-index:90;
     position:relative;
+}
+
+.sign_in_up{
+    text-align:right;
+    padding-top:15px;
+    padding-bottom:15px;
+    padding-right:0px;
+}
+@media (max-width: 991px) {
+    .sign_in_up{
+        text-align:left;
+        border-top:1px solid #cdcdcd;
+    }
 }

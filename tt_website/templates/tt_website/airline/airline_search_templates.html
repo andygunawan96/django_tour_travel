@@ -11,7 +11,6 @@
     }
     {% endif %}
 </style>
-<!--<script src="{{ static_path }}js/webservice_token.js"></script>-->
 <script src="{{ static_path }}js/library/daterangepicker.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/library/moment.min.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_token.js?version={{javascript_version}}"></script>
@@ -99,13 +98,7 @@
         font-weight: 700;
     }
 </style>
-{% include 'tt_website/header.html' %}
-{% include 'tt_website/plugin_passenger.html' %}
-{% include 'tt_website/logout.html' %}
-{% include 'tt_website/notification.html' %}
-{% include 'tt_website/notification_box.html' %}
 
-<div id="overlay-search-box" onclick="off_overlay()"></div>
 {%if airline_request.direction == 'OW'%}
 <title id="title_search">{{name}} {% trans 'Airline' %} - {% trans 'One Way' %}</title>
 {% endif %}
@@ -121,6 +114,13 @@
 {%elif airline_request.direction == 'MC' and airline_request.is_combo_price == 'false' %}
 <title id="title_search">{{name}} {% trans 'Airline' %} - {% trans 'Multi City' %}</title>
 {% endif %}
+<div id="overlay-search-box" onclick="off_overlay()"></div>
+
+{% include 'tt_website/header.html' %}
+{% include 'tt_website/plugin_passenger.html' %}
+{% include 'tt_website/logout.html' %}
+{% include 'tt_website/notification.html' %}
+{% include 'tt_website/notification_box.html' %}
 
 {%if template == 1%}
 <section class="destinations-area change_search_area">

@@ -1,13 +1,11 @@
 {% load i18n %}
-<div class="login-signup" id="id_login_booking" style="z-index:1000; padding:15px 0px; background:white; border-bottom:1px solid #cdcdcd; {% if template != 3 or template != 4%}border-top:1px solid #cdcdcd;{% endif %} display:none;">
-    <div class="container" style="text-align:center;">
-        <h6>
-            <i class="fas fa-user-lock"></i>
-            <a href="#" data-toggle="modal" data-target="#myModalSignin" style="color:{{color}};">{% if '{{user_login.co_user_login}}' == default_user %} {% trans 'Sign In' %} {% else %} {% trans 'Change Login' %} {% endif %} </a>
-            to use the {{name}} feature
-            <input type="hidden" name="g-recaptcha-response" id='g-recaptcha-response'>
-        </h6>
-    </div>
+<div class="login-signup" id="id_login_booking" style="z-index:1000; padding-top:15px; padding-bottom:15px; background:white; display:none;">
+    <h6>
+        <i class="fas fa-user-lock"></i>
+        <a href="#" data-toggle="modal" data-target="#myModalSignin" style="color:{{color}};">{% if '{{user_login.co_user_login}}' == default_user %} {% trans 'Sign In' %} {% else %} {% trans 'Change Login' %} {% endif %} </a>
+        to use the {{name}} feature
+        <input type="hidden" name="g-recaptcha-response" id='g-recaptcha-response'>
+    </h6>
 </div>
 
 <div class="modal fade" id="myModalSignin" role="dialog">
