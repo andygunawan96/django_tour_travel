@@ -60,7 +60,10 @@ function get_payment_acq(val,booker_seq_id,order_number,transaction_type,signatu
                     total_commission_payment_acquirer = commission *-1;
                 else
                     total_commission_payment_acquirer = commission;
-            }catch(err){console.log(err)}
+            }catch(err){
+                console.log(err);
+                total_commission_payment_acquirer = 0;
+            }
             render_payment();
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {

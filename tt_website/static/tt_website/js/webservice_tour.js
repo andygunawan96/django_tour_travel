@@ -2587,7 +2587,7 @@ function tour_get_booking(order_number)
                             for(j in tr_get_booking.result.response.passengers[i].sale_service_charges){
                                 for(k in tr_get_booking.result.response.passengers[i].sale_service_charges[j]){
                                     if(k != 'RAC'){
-                                        if(!price_breakdown.hasOwnProperty(k))
+                                        if(!price_breakdown.hasOwnProperty(k.toUpperCase()))
                                             price_breakdown[k.toUpperCase()] = 0;
                                         price_breakdown[k.toUpperCase()] += tr_get_booking.result.response.passengers[i].sale_service_charges[j][k].amount;
                                         if(currency_breakdown == '')
