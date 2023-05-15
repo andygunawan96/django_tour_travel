@@ -552,6 +552,13 @@ function signin_btc(){
                     }else{
                         window.location.href = '/';
                     }
+                    if(template == 3 || template == 6){
+                        document.getElementsByClassName("tab_custom_login")[0].style = "background-color: #000000 !important;";
+                    }
+                    else{
+                        document.getElementsByClassName("tab_custom_login")[0].style = "background-color: #ffffff !important;";
+                    }
+                    document.getElementById("logo_header").style = "max-height:40px;max-width:250px;";
                     let timerInterval;
                     Swal.fire({
                       type: 'success',
