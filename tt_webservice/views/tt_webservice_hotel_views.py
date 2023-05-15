@@ -1353,7 +1353,7 @@ def passenger_page(request):
 
 def hotel_check_refund_amount(request):
     try:
-        get_booking_dict = request.session['hotel_get_booking_%s' % request.POST['signature']] or json.loads(request.POST['hotel_get_booking'])
+        get_booking_dict = request.session.get('hotel_get_booking_%s' % request.POST['signature']) or json.loads(request.POST['hotel_get_booking'])
         order_number = get_booking_dict['result']['response']['order_number']
         provider_bookings = []
         for provider_booking in get_booking_dict['result']['response']['provider_bookings']:
@@ -1387,7 +1387,7 @@ def hotel_check_refund_amount(request):
 
 def hotel_refund(request):
     try:
-        get_booking_dict = request.session['hotel_get_booking_%s' % request.POST['signature']] or json.loads(request.POST['hotel_get_booking'])
+        get_booking_dict = request.session.get('hotel_get_booking_%s' % request.POST['signature']) or json.loads(request.POST['hotel_get_booking'])
         order_number = get_booking_dict['result']['response']['order_number']
         provider_bookings = []
         for provider_booking in get_booking_dict['result']['response']['provider_bookings']:

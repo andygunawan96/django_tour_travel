@@ -443,11 +443,11 @@ def passenger(request, signature):
                 child.append('')
             for i in range(int(pax['infant'])):
                 infant.append('')
-            for i in range(int(pax.get('student'))):
+            for i in range(int(pax.get('student') or 0)):
                 student.append('')
-            for i in range(int(pax.get('seaman'))):
+            for i in range(int(pax.get('seaman') or 0)):
                 seaman.append('')
-            for i in range(int(pax.get('labour'))):
+            for i in range(int(pax.get('labour') or 0)):
                 labour.append('')
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -577,11 +577,11 @@ def passenger_aftersales(request, signature):
                 child.append('')
             for i in range(int(pax['infant'])):
                 infant.append('')
-            for i in range(int(pax.get('student'))):
+            for i in range(int(pax.get('student') or 0)):
                 student.append('')
-            for i in range(int(pax.get('seaman'))):
+            for i in range(int(pax.get('seaman') or 0)):
                 seaman.append('')
-            for i in range(int(pax.get('labour'))):
+            for i in range(int(pax.get('labour') or 0)):
                 labour.append('')
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY]  # get language from browser
@@ -1758,7 +1758,7 @@ def review(request, signature):
                         "is_request_wheelchair": is_wheelchair
                     })
 
-                for i in range(int(request.session['airline_request_%s' % signature].get('student'))):
+                for i in range(int(request.session['airline_request_%s' % signature].get('student') or 0)):
                     ff_number = []
                     try:
                         ff_request = request.session['airline_get_ff_availability_%s' % signature]['result']['response']['ff_availability_provider']
@@ -1821,7 +1821,7 @@ def review(request, signature):
                         "is_request_wheelchair": is_wheelchair
                     })
 
-                for i in range(int(request.session['airline_request_%s' % signature].get('labour'))):
+                for i in range(int(request.session['airline_request_%s' % signature].get('labour') or 0)):
                     ff_number = []
                     try:
                         ff_request = request.session['airline_get_ff_availability_%s' % signature]['result']['response']['ff_availability_provider']
@@ -1884,7 +1884,7 @@ def review(request, signature):
                         "is_request_wheelchair": is_wheelchair
                     })
 
-                for i in range(int(request.session['airline_request_%s' % signature]['seaman'])):
+                for i in range(int(request.session['airline_request_%s' % signature].get('seaman') or 0)):
                     ff_number = []
                     try:
                         ff_request = request.session['airline_get_ff_availability_%s' % signature]['result']['response']['ff_availability_provider']
