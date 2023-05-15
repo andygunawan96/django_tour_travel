@@ -261,6 +261,9 @@ function search_visa(){
                         <div style="background-color:white; border:1px solid #cdcdcd; margin-bottom:15px; padding:15px;" id="journey`+i+`">`;
                     text+=`
                             <div class="row">
+                                <div class="col-lg-12 mb-3">
+                                    <h4>`+msg.result.response.list_of_visa[i].name+`</h4>
+                                </div>
                                 <div class="col-lg-9 mb-3">
                                     <div class="row" style="padding-left:15px; padding-right:15px;">
                                         <div class="col-xs-5" style="padding-top:5px; padding-bottom:5px; border:1px solid #cdcdcd; font-weight:bold;">
@@ -268,14 +271,6 @@ function search_visa(){
                                         </div>
                                         <div class="col-xs-7" style="padding-top:5px; padding-bottom:5px; border:1px solid #cdcdcd; font-size:13px;">
                                             `+msg.result.response.list_of_visa[i].pax_type[1]+`
-                                        </div>
-                                    </div>
-                                    <div class="row" style="padding-left:15px; padding-right:15px;">
-                                        <div class="col-xs-5" style="padding-top:5px; padding-bottom:5px; border:1px solid #cdcdcd; font-weight:bold;">
-                                            Name
-                                        </div>
-                                        <div class="col-xs-7" style="padding-top:5px; padding-bottom:5px; border:1px solid #cdcdcd; font-size:13px;">
-                                            `+msg.result.response.list_of_visa[i].name+`
                                         </div>
                                     </div>
                                     <div class="row" style="padding-left:15px; padding-right:15px;">
@@ -388,9 +383,9 @@ function search_visa(){
                             <div id="detail_attachment`+counter_visa+`" style="margin-top:15px; display: none;">
                                 <hr/>
                                 <div id="attachment">
-                                    <h6>Attachment</h6>`;
+                                    <h6 class="mb-1">Attachment</h6>`;
                                     for(j in msg.result.response.list_of_visa[i].attachments){
-                                        text+=`<a href="`+msg.result.response.list_of_visa[i].attachments[j].url+`" target="_blank" style="padding-right:10px; color:`+color+`; font-size:14px; font-weight:500;" download><i class="fas fa-file-download"></i> `+msg.result.response.list_of_visa[i].attachments[j].name+`</a>`
+                                        text+=`<a href="`+msg.result.response.list_of_visa[i].attachments[j].url+`" target="_blank" style="padding-right:10px; color:`+color+`; font-size:14px; font-weight:500;" download><i class="fas fa-file-download"></i> `+msg.result.response.list_of_visa[i].attachments[j].name+`</a><br/>`;
                                     }
                                     text+=`
                                 </div>
