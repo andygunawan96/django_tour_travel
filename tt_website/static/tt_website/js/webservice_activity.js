@@ -1008,7 +1008,9 @@ function activity_search(){
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
           error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error activity search');
-          text += `
+          $('#loading-search-activity').hide();
+          text_error = '';
+          text_error += `
           <div class="col-lg-12">
               <div style="text-align:center">
                   <img src="/static/tt_website/images/nofound/no-activity.png" style="width:70px; height:70px;" alt="Not Found Activity" title="" />
@@ -1016,7 +1018,7 @@ function activity_search(){
               </div>
               <center><div class="alert alert-warning" role="alert" style="margin-top:15px; border:1px solid #cdcdcd;"><h6><i class="fas fa-search-minus"></i> Oops! Activity not found. Please try again or search another activity. </h6></div></center>
           </div>`;
-          document.getElementById('activity_ticket').innerHTML += text;
+          document.getElementById('activity_ticket').innerHTML += text_error;
        },timeout: 120000
     });
 }
