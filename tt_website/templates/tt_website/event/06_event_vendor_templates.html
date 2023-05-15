@@ -7,7 +7,7 @@
 <script src="{{ static_path }}js/webservice_event.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
-<script src="{{ static_path }}js/moment.js"></script>
+<script src="{{ static_path }}js/library/moment.js?version={{javascript_version}}"></script>
 <script>
     static_path_url_server = '{{static_path_url_server}}'
     signature = `{{signature}}`;
@@ -42,7 +42,7 @@
 {% include 'tt_website/modal_balance_vendor.html' %}
 
 {%if template == 1%}
-<section class="destinations-area change_search_area" style="padding:15px 0px 15px 0px; background:white; border-bottom:1px solid #cdcdcd; position:sticky; top:0px; z-index:10;">
+<section class="destinations-area change_search_area">
     <div class="container">
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
@@ -100,7 +100,7 @@
     </div>
 </section>
 {% elif template == 2 %}
-<section class="destinations-area change_search_area" style="padding:14px 0px 14px 0px; background:white; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; position:relative; z-index:90;">
+<section class="destinations-area change_search_area">
     <div id="hotel_search_params" class="container">
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
@@ -156,7 +156,7 @@
     </div>
 </section>
 {% elif template == 3 %}
-<section class="destinations-area change_search_area" style="padding:14px 0px 14px 0px; background:white; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; position:relative; z-index:90;">
+<section class="destinations-area change_search_area">
     <div id="hotel_search_params" class="container">
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
@@ -215,7 +215,7 @@
     </div>
 </section>
 {% elif template == 4 %}
-<section class="destinations-area change_search_area" style="padding:14px 0px 14px 0px; background:white; border-bottom:1px solid #cdcdcd; position:relative; z-index:90;">
+<section class="destinations-area change_search_area">
     <div id="hotel_search_params" class="container">
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
@@ -272,7 +272,7 @@
     </div>
 </section>
 {% elif template == 5 %}
-<section class="destinations-area change_search_area" style="padding:14px 0px 14px 0px; background:white; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; position:relative; z-index:90;">
+<section class="destinations-area change_search_area">
     <div id="hotel_search_params" class="container">
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">

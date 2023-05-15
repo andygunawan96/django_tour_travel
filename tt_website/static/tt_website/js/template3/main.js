@@ -648,8 +648,8 @@ $(document).ready(function(){
     }
 
     $('body .main-menu .container .mobile-menu .mobile-nav').append('<div id="mobile-body-overly"></div>');
-    $('#mobile-nav').find('.balance_mobile').replaceWith('<li><a style="color:white;"><span id="balance_mob"></span></a></li>');
-    $('#mobile-nav').find('.credit_mobile').replaceWith('<li><a style="color:white;"><span id="credit_mob"></span></a></li>');
+    $('#mobile-nav').find('.balance_mobile').replaceWith('<li><a style="color:white;padding-bottom:0px;"><span id="balance_mob"></span></a></li>');
+    $('#mobile-nav').find('.credit_mobile').replaceWith('<li style="padding-top:0px;"><a style="color:white;padding-bottom:0px;"><span id="credit_mob"></span></a></li>');
     $('#mobile-nav').find('.username_mobile').replaceWith('<li style="padding-right:5px; padding-top:0px;"><div class="input-container-search-ticket"><input type="text" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="username2" placeholder="Username"/></div></li>');
     $('#mobile-nav').find('.password_mobile').replaceWith('<li style="padding-right:5px; padding-top:0px;"><div class="input-container-search-ticket"><input type="password" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="password2" placeholder="Password"/><div style="margin-top:5px;width:50px;" onclick="change_password_type();"><i id="password_style2" class="fas fa-eye-slash" style="font-size:18px; padding-top:10px; color:white;"></i></div></li>');
     $('#mobile-nav').find('.keep_me_mobile').replaceWith('<li style="padding-right:5px; padding-top:0px;"><div class="input-container-search-ticket"><label class="check_box_custom" style="margin:5px; float:right;"><span style="font-size:13px; color:white;">Keep Me Signin</span><input type="checkbox" value="" id="keep_me_signin2" name="keep_me_signin" checked="checked"><span class="check_box_span_custom"></span></label></div></li>');

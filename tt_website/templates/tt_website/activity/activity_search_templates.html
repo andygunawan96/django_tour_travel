@@ -2,8 +2,6 @@
 {% load i18n %}
 {% load static from staticfiles %}
 {% block content %}
-<!--<script src="{{ static_path }}js/webservice_token.js"></script>-->
-<!--<script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js?version={{javascript_version}}"></script>-->
 <script src="{{ static_path }}js/webservice_token.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/activity_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
@@ -29,26 +27,20 @@
     session_time_limit();
 </script>
 
-{% include 'tt_website/header.html' %}
-{% include 'tt_website/logout.html' %}
-{% include 'tt_website/plugin_passenger.html' %}
-{% include 'tt_website/notification_box.html' %}
 {% if query %}
 <title id="title_search">{{name}} {% trans 'Activity' %} - {{query}}</title>
 {% else %}
 <title id="title_search">{{name}} {% trans 'Activity' %} - {% trans 'All Activities' %}</title>
 {% endif %}
-
-<button class="primary-btn-ticket btn_icon_fixed my_sticky_button" style="left:51%; width:20vw; height:50px; bottom:55px; position:fixed; z-index:99;" data-toggle="modal" data-target="#myModalSort">
-    <span style="color:{{text_color}}; font-size:12px;"> <i class="fas fa-sort" style="font-size:20px;"></i> <span class="span_icon_fixed">{% trans 'Sort' %}</span>  </span>
-</button>
-<button class="primary-btn-ticket btn_icon_fixed my_sticky_button" style="right:51%; width:20vw; height:50px; bottom:55px; position:fixed; z-index:99;" data-toggle="modal" data-target="#myModalFilter">
-    <span style="color:{{text_color}}; font-size:12px;"> <i class="fas fa-filter"></i> <span class="span_icon_fixed">{% trans 'Filter' %}</span>  </span>
-</button>
 <div id="overlay-search-box" onclick="off_overlay()"></div>
 
+{% include 'tt_website/header.html' %}
+{% include 'tt_website/logout.html' %}
+{% include 'tt_website/plugin_passenger.html' %}
+{% include 'tt_website/notification_box.html' %}
+
 {%if template == 1%}
-<section class="destinations-area" style="padding:15px 0px 15px 0px; background:white; border-bottom:2px solid #cdcdcd; position:sticky; top:0px; z-index:101;">
+<section class="destinations-area change_search_area">
     <div class="container">
         <div class="row">
             <div class="col-lg-8" style="text-align:left;">
@@ -87,7 +79,7 @@
     <div class="overlay overlay-bg"></div>
     <div class="container" id="div-search-overlay">
         <div class="row">
-            <div class="col-lg-12" style="padding:0;">
+            <div class="col-lg-12" style="padding:0px;">
                 <div class="banner-right">
                     <form action="{% url 'tt_website:activity_search'%}" id="activity_search_form" class="form-wrap" method="post">
                         {% csrf_token %}
@@ -175,7 +167,7 @@
     </div>
 </section>
 {%elif template == 2 %}
-<section class="destinations-area change_search_area" style="padding:14px 0px 14px 0px; background:white; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; position:sticky; top:0px; z-index:101;">
+<section class="destinations-area change_search_area">
     <div class="container">
         <div class="row">
             <div class="col-lg-8" style="text-align:left;">
@@ -202,7 +194,7 @@
                 <br/>
             </div>
             <div class="col-lg-4" style="text-align:right;">
-                <button class="primary-btn-custom" type="button" onclick="show_hide_change_search();">
+                <button class="primary-btn-custom" style="padding-top:3px;" type="button" onclick="show_hide_change_search();">
                     <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                     <span id="change_search_text">{% trans 'Change Search' %}</span>
                 </button>
@@ -308,7 +300,7 @@
     </div>
 </section>
 {%elif template == 3%}
-<section class="change_search_area" style="padding:14px 0px 14px 0px; background:white; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; position:sticky; top:0px; z-index:101;">
+<section class="change_search_area">
     <div class="container">
         <div class="row">
             <div class="col-lg-8" style="text-align:left;">
@@ -433,7 +425,7 @@
     </div>
 </section>
 {%elif template == 4%}
-<section class="destinations-area" style="padding:15px 0px 15px 0px; background:white; border-bottom:2px solid #cdcdcd; position:sticky; top:0px; z-index:101;">
+<section class="destinations-area change_search_area">
     <div class="container">
         <div class="row">
             <div class="col-lg-8" style="text-align:left;">
@@ -561,7 +553,7 @@
     </div>
 </section>
 {%elif template == 5%}
-<section class="destinations-area change_search_area" style="padding:14px 0px 14px 0px; background:white; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; position:sticky; top:0px; z-index:101;">
+<section class="destinations-area change_search_area">
     <div class="container">
         <div class="row">
             <div class="col-lg-8" style="text-align:left;">
@@ -686,7 +678,7 @@
     </div>
 </section>
 {%elif template == 6%}
-<section class="destinations-area" style="padding:15px 0px 5px 0px; background:white; border-bottom:2px solid #cdcdcd; position:sticky; top:0px; z-index:101;">
+<section class="destinations-area change_search_area">
     <div class="container">
         <div class="row">
             <div class="col-lg-8" style="text-align:left;">
@@ -813,9 +805,17 @@
 </section>
 {%endif%}
 
-<section class="destinations-area" style="padding-top:30px; padding-bottom:40px; background:#f7f7f7;">
+<section class="destinations-area" style="padding-top:30px; padding-bottom:40px; z-index:1; position:relative; background:#f7f7f7;">
     <div class="container">
         <div class="row" style="padding-bottom:10px;">
+            <div class="col-lg-12">
+                <button class="primary-btn-ticket btn_icon_fixed my_sticky_button" style="left:51%; width:20vw; height:50px; bottom:55px; position:fixed; z-index:99;" data-toggle="modal" data-target="#myModalSort">
+                    <span style="color:{{text_color}}; font-size:12px;"> <i class="fas fa-sort" style="font-size:20px;"></i> <span class="span_icon_fixed">{% trans 'Sort' %}</span>  </span>
+                </button>
+                <button class="primary-btn-ticket btn_icon_fixed my_sticky_button" style="right:51%; width:20vw; height:50px; bottom:55px; position:fixed; z-index:99;" data-toggle="modal" data-target="#myModalFilter">
+                    <span style="color:{{text_color}}; font-size:12px;"> <i class="fas fa-filter"></i> <span class="span_icon_fixed">{% trans 'Filter' %}</span>  </span>
+                </button>
+            </div>
             <div class="col-lg-12" id="breadcrumbs_create">
 
             </div>
@@ -824,19 +824,20 @@
         <div class="row">
             <div class="col-lg-3">
                 {% if username.co_user_login != default_user %}
-                <div class="row" id="info_user_search" style="padding-top:15px; padding-bottom:5px; position: sticky; top: 51px; z-index: 2; display:none;">
+                <div class="row" id="info_user_search">
                     <div class="col-lg-12">
                         <div style="padding:10px; background:white; border:1px solid #cdcdcd;">
-                            <span title="{{username.co_user_login}}" style="font-size:14px; font-weight:600; cursor:text; color:black; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:150px;"><img src="{{static_path}}images/noprofile.png" alt="Photo Profile" class="image-rounded-profile"/> {{username.co_user_login}}</span>
-                            <hr/>
-                            <a id="balance_search" style="font-size:13px; font-weight:500; border-bottom:2px solid {{color}};"></a><br/>
-                            <span id="credit_search" style="font-size:13px; font-weight:500; padding-right:10px;"></span>
+                            <span class="mb-2 mt-2" title="{{username.co_user_login}}" style="font-size:14px;font-weight:600; cursor:text; color:black; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:150px; display:inline-block; display:-webkit-inline-block;"><i class="fas fa-user" style="padding-right:5px; color:{{color}}; font-size:16px;"></i> {{username.co_user_login}}</span>
+                            <span id="balance_search" style="font-size:13px; font-weight:500;"></span>
+                            <div style="margin-top:10px;">
+                                <span id="credit_search" style="font-size:13px; font-weight:500; padding-right:10px;"></span>
+                            </div>
                         </div>
                     </div>
                 </div>
                 {% endif %}
 
-                <div style="background-color:white; padding:10px; margin-top:20px; border:1px solid #cdcdcd" id="session_timer">
+                <div style="background-color:white; padding:10px; margin-top:15px; border:1px solid #cdcdcd" id="session_timer">
 
                 </div>
 
@@ -887,16 +888,15 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-9" style="margin-top:10px;">
+            <div class="col-lg-9" style="z-index:1;">
                 <div class="row sorting-search-flight" id="sorting-search-flight">
                     <div class="col-lg-12">
-                        <div id="sorting-flight" style="margin-bottom:15px; margin-top:10px;">
+                        <div id="sorting-flight" style="margin-bottom:15px; margin-top:15px;">
 
                         </div>
                     </div>
                 </div>
                 <div class="row">
-
                     <div class="col-lg-12">
                         <div class="row" style="padding-top:10px;">
                             <div class="col-lg-12" id="activity_result"></div>

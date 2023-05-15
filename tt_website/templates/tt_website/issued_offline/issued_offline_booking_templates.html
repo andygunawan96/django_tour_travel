@@ -2,14 +2,12 @@
 {% load i18n %}
 {% load static from staticfiles %}
 {% block content %}
-<!--<script src="{{ static_path }}js/webservice_token.js"></script>-->
-<!--<script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js?version={{javascript_version}}"></script>-->
 <script src="{{ static_path }}js/webservice_token.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/issued_offline_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_issued_offline.js?version={{javascript_version}}"></script>
-<script src="{{ static_path }}js/moment.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/library/moment.min.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/pricing_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_printout.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_content.js?version={{javascript_version}}"></script>
@@ -18,201 +16,21 @@
     order_number = '{{order_number}}';
     signature = `{{signature}}`;
 </script>
+
+<title>{{name}} Offline - Booking</title>
+<div id="overlay-div-box" onclick="close_div('payment_acq');"></div>
+
 {% include 'tt_website/logout.html' %}
 {% include 'tt_website/loading_screen.html' %}
 {% include 'tt_website/check_connection.html' %}
 {% include 'tt_website/modal_balance_vendor.html' %}
-<title>{{name}} Offline - Booking</title>
 {% include 'tt_website/waiting_transaction_modal.html' %}
 
-{%if template == 1%}
-<header id="header" class="header_breadcrumb">
-    {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-    {% include 'tt_website/header_corporate.html' %}
-    {% endif %}
-
-    <div class="main-menu">
-        <div class="container">
-            <div class="row align-items-center justify-content-between d-flex">
-                <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
-                    <a href="{% url 'tt_website:index'%}"><img src="{{logo}}" style="max-height:40px;max-width:150px;" alt="Logo {{name}}" title="{{name}}" /></a>
-                </div>
-                <div class="col-lg-10 col-md-10 col-sm-10" id="breadcrumbs_create">
-                </div>
-            </div>
-            <div class="row">
-                {% include 'tt_website/balance_credit.html' %}
-            </div>
-        </div>
-    </div>
-</header>
-{% elif template == 2 %}
-<header class="header_breadcrumb" style="z-index:100; border-bottom:1px solid #cdcdcd;">
-    <div class="main-header-area">
-        <div class="classy-nav-container breakpoint-off">
-            <div class="container">
-                <nav class="classy-navbar justify-content-between" id="robertoNav">
-                    <div class="row">
-                        <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
-                            <a class="nav-brand" href="{% url 'tt_website:index'%}"><img src="{{logo}}" style="max-height:40px;max-width:150px;" alt="Logo {{name}}" title="{{name}}" /></a>
-                        </div>
-                        <div class="col-lg-10 col-md-10 col-sm-10" id="breadcrumbs_create">
-
-                        </div>
-                        {% include 'tt_website/balance_credit.html' %}
-                    </div>
-                </nav>
-            </div>
-        </div>
-    </div>
-</header>
-{% elif template == 3 %}
-<header>
-    <div class="container" style="padding-top:15px; padding-bottom:15px;">
-        <div class="row align-items-center justify-content-between d-flex mobile-menu">
-            <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
-                <a class="nav-brand" href="{% url 'tt_website:index'%}"><img src="{{logo}}" style="width:80px; height:35px;" alt="Logo {{name}}" title="{{name}}" /></a>
-            </div>
-            <div class="col-lg-10 col-md-10 col-sm-10" style="display:flex; padding-top:5px; padding-left:15px;">
-                <div class="breadcrumbs-rdx br-done" onclick="location.href='{% url 'tt_website:index'%}';">
-                    <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check"></i></span>
-                    <span style="padding-left:5px;">Home</span>
-                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
-                </div>
-                <div class="breadcrumbs-rdx br-book" onclick="location.href='{% url 'tt_website:airline_search'%}';">
-                    <span class="breadcrumb-rdx-icon br-icon-book"><i class="fas fa-check"></i></span>
-                    <span style="padding-left:5px;">Search</span>
-                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
-                </div>
-                <div class="breadcrumbs-rdx br-book">
-                    <span class="breadcrumb-rdx-icon br-icon-book"><i class="fas fa-check"></i></span>
-                    <span style="padding-left:5px;">Passenger</span>
-                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
-                </div>
-                <div class="breadcrumbs-rdx br-book">
-                    <span class="breadcrumb-rdx-icon br-icon-book"><i class="fas fa-check"></i></span>
-                    <span style="padding-left:5px;">Booking</span>
-                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
-                </div>
-                <div class="breadcrumbs-rdx br-active" id="issued-breadcrumb">
-                    <span class="breadcrumb-rdx-icon br-icon-active" id="issued-breadcrumb-icon">5</span>
-                    <span id="issued-breadcrumb-span" style="padding-left:5px;">Issued</span>
-                </div>
-            </div>
-        </div>
-    </div>
-</header>
-{% elif template == 4 %}
-<header>
-    <div class="container" style="padding-top:15px; padding-bottom:15px;">
-        <div class="row align-items-center justify-content-between d-flex mobile-menu">
-            <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
-                <a class="nav-brand" href="{% url 'tt_website:index'%}"><img src="{{logo}}" style="width:80px; height:35px;" alt="Logo {{name}}" title="{{name}}" /></a>
-            </div>
-            <div class="col-lg-10 col-md-10 col-sm-10" style="display:flex; padding-top:5px; padding-left:15px;">
-                <div class="breadcrumbs-rdx br-done" onclick="location.href='{% url 'tt_website:index'%}';">
-                    <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check"></i></span>
-                    <span style="padding-left:5px;">Home</span>
-                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
-                </div>
-                <div class="breadcrumbs-rdx br-book" onclick="location.href='{% url 'tt_website:airline_search'%}';">
-                    <span class="breadcrumb-rdx-icon br-icon-book"><i class="fas fa-check"></i></span>
-                    <span style="padding-left:5px;">Search</span>
-                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
-                </div>
-                <div class="breadcrumbs-rdx br-book">
-                    <span class="breadcrumb-rdx-icon br-icon-book"><i class="fas fa-check"></i></span>
-                    <span style="padding-left:5px;">Passenger</span>
-                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
-                </div>
-                <div class="breadcrumbs-rdx br-book">
-                    <span class="breadcrumb-rdx-icon br-icon-book"><i class="fas fa-check"></i></span>
-                    <span style="padding-left:5px;">Booking</span>
-                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
-                </div>
-                <div class="breadcrumbs-rdx br-active" id="issued-breadcrumb">
-                    <span class="breadcrumb-rdx-icon br-icon-active" id="issued-breadcrumb-icon">5</span>
-                    <span id="issued-breadcrumb-span" style="padding-left:5px;">Issued</span>
-                </div>
-            </div>
-        </div>
-    </div>
-</header>
-{% elif template == 5 %}
-<header>
-    <div class="container" style="padding-top:15px; padding-bottom:15px;">
-        <div class="row align-items-center justify-content-between d-flex mobile-menu">
-            <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
-                <a class="nav-brand" href="{% url 'tt_website:index'%}"><img src="{{logo}}" style="width:80px; height:35px;" alt="Logo {{name}}" title="{{name}}" /></a>
-            </div>
-            <div class="col-lg-10 col-md-10 col-sm-10" style="display:flex; padding-top:5px; padding-left:15px;">
-                <div class="breadcrumbs-rdx br-done" onclick="location.href='{% url 'tt_website:index'%}';">
-                    <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check"></i></span>
-                    <span style="padding-left:5px;">Home</span>
-                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
-                </div>
-                <div class="breadcrumbs-rdx br-book" onclick="location.href='{% url 'tt_website:airline_search'%}';">
-                    <span class="breadcrumb-rdx-icon br-icon-book"><i class="fas fa-check"></i></span>
-                    <span style="padding-left:5px;">Search</span>
-                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
-                </div>
-                <div class="breadcrumbs-rdx br-book">
-                    <span class="breadcrumb-rdx-icon br-icon-book"><i class="fas fa-check"></i></span>
-                    <span style="padding-left:5px;">Passenger</span>
-                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
-                </div>
-                <div class="breadcrumbs-rdx br-book">
-                    <span class="breadcrumb-rdx-icon br-icon-book"><i class="fas fa-check"></i></span>
-                    <span style="padding-left:5px;">Booking</span>
-                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
-                </div>
-                <div class="breadcrumbs-rdx br-active" id="issued-breadcrumb">
-                    <span class="breadcrumb-rdx-icon br-icon-active" id="issued-breadcrumb-icon">5</span>
-                    <span id="issued-breadcrumb-span" style="padding-left:5px;">Issued</span>
-                </div>
-            </div>
-        </div>
-    </div>
-</header>
-{% elif template == 6 %}
-<header>
-    <div class="container" style="padding-top:15px; padding-bottom:15px;">
-        <div class="row align-items-center justify-content-between d-flex mobile-menu">
-            <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
-                <a class="nav-brand" href="{% url 'tt_website:index'%}"><img src="{{logo}}" style="width:80px; height:35px;" alt="Logo {{name}}" title="{{name}}" /></a>
-            </div>
-            <div class="col-lg-10 col-md-10 col-sm-10" style="display:flex; padding-top:5px; padding-left:15px;">
-                <div class="breadcrumbs-rdx br-done" onclick="location.href='{% url 'tt_website:index'%}';">
-                    <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check"></i></span>
-                    <span style="padding-left:5px;">Home</span>
-                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
-                </div>
-                <div class="breadcrumbs-rdx br-book" onclick="location.href='{% url 'tt_website:airline_search'%}';">
-                    <span class="breadcrumb-rdx-icon br-icon-book"><i class="fas fa-check"></i></span>
-                    <span style="padding-left:5px;">Search</span>
-                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
-                </div>
-                <div class="breadcrumbs-rdx br-book">
-                    <span class="breadcrumb-rdx-icon br-icon-book"><i class="fas fa-check"></i></span>
-                    <span style="padding-left:5px;">Passenger</span>
-                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
-                </div>
-                <div class="breadcrumbs-rdx br-book">
-                    <span class="breadcrumb-rdx-icon br-icon-book"><i class="fas fa-check"></i></span>
-                    <span style="padding-left:5px;">Booking</span>
-                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
-                </div>
-                <div class="breadcrumbs-rdx br-active" id="issued-breadcrumb">
-                    <span class="breadcrumb-rdx-icon br-icon-active" id="issued-breadcrumb-icon">5</span>
-                    <span id="issued-breadcrumb-span" style="padding-left:5px;">Issued</span>
-                </div>
-            </div>
-        </div>
-    </div>
-</header>
+{% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+{% include 'tt_website/header_corporate.html' %}
 {% endif %}
-{% include 'tt_website/header_signin.html' %}
-<div id="overlay-div-box" onclick="close_div('payment_acq');"></div>
+{% include 'tt_website/header_breadcrumb_change.html' %}
+
 {%if template == 1%}
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
 {% elif template == 2 %}

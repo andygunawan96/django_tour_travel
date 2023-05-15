@@ -138,7 +138,7 @@ def search(request):
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
 
-            provider_insurance_data = get_config(request, request.session['insurance_signature'])
+            provider_insurance_data = get_config(request, request.session['signature'])
             provider_insurance = [rec for rec in provider_insurance_data['result']['response']]
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),

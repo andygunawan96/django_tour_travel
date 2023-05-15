@@ -40,11 +40,11 @@
 <script src="{{ static_path }}js/sentra_medika_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/lab_pintar_javascript.js?version={{javascript_version}}"></script>
 <!--<script src="{{ static_path }}js/webservice_bank.js?version={{javascript_version}}"></script>-->
-<script src="{{ static_path }}js/moment.js?version={{javascript_version}}"></script>
-<script src="{{ static_path }}js/daterangepicker.js?version={{javascript_version}}"></script>
-<link rel="stylesheet" type="text/css" href="{{ static_path }}login/css/owl.carousel.css?version={{javascript_version}}">
-<link rel="stylesheet" type="text/css" href="{{ static_path }}login/css/owl.theme.default.min.css?version={{javascript_version}}">
-<link rel="stylesheet" type="text/css" href="{{ static_path }}login/css/owl.theme.green.min.css?version={{javascript_version}}">
+<script src="{{ static_path }}js/library/moment.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/library/daterangepicker.js?version={{javascript_version}}"></script>
+<!--<link rel="stylesheet" type="text/css" href="{{ static_path }}login/css/owl.carousel.css?version={{javascript_version}}">-->
+<!--<link rel="stylesheet" type="text/css" href="{{ static_path }}login/css/owl.theme.default.min.css?version={{javascript_version}}">-->
+<!--<link rel="stylesheet" type="text/css" href="{{ static_path }}login/css/owl.theme.green.min.css?version={{javascript_version}}">-->
 <script src="{{ static_path }}js/vendor/owl.carousel.min.js?version={{javascript_version}}"></script>
 {%if app_id_one_signal != '' %}
 <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
@@ -53,7 +53,7 @@
     signature = `{{signature}}`;
 
     terms_value = {{terms_value}};
-    promotion_banner_value = {{promotion_banner_value}};
+    promotion_banner_value = '{{promotion_banner_value}}';
 
     static_path_url_server = '{{static_path_url_server}}'
     name = '';
@@ -1808,19 +1808,19 @@
 <!--        <div class="row">-->
 <!--            <div class="col-lg-4 col-md-4 col-sm-4">-->
 <!--                <div class="single-defination">-->
-<!--                    <h4 class="mb-20" style="color:#f15a22;"><i class="fas fa-medal"></i> Competitive Pricing</h4>-->
+<!--                    <h4 class="mb-20" style="color:#205B95;"><i class="fas fa-medal"></i> Competitive Pricing</h4>-->
 <!--                    <p>RODEXTRIP can save you more!.</p>-->
 <!--                </div>-->
 <!--            </div>-->
 <!--            <div class="col-lg-4 col-md-4 col-sm-4">-->
 <!--                <div class="single-defination">-->
-<!--                    <h4 class="mb-20" style="color:#f15a22;"><i class="fas fa-medal"></i> Trusted</h4>-->
+<!--                    <h4 class="mb-20" style="color:#205B95;"><i class="fas fa-medal"></i> Trusted</h4>-->
 <!--                    <p>RODEXTRIP have many customers and agents</p>-->
 <!--                </div>-->
 <!--            </div>-->
 <!--            <div class="col-lg-4 col-md-4 col-sm-4">-->
 <!--                <div class="single-defination">-->
-<!--                    <h4 class="mb-20" style="color:#f15a22;"><i class="fas fa-medal"></i> Easy and Safe</h4>-->
+<!--                    <h4 class="mb-20" style="color:#205B95;"><i class="fas fa-medal"></i> Easy and Safe</h4>-->
 <!--                    <p>RODEXTRIP is very easy to use and data remains safe.</p>-->
 <!--                </div>-->
 <!--            </div>-->
@@ -1829,7 +1829,7 @@
 <!--</section>-->
 
 {% if small_banner_value == 1 %}
-<section class="popular-destination-area section-gap" style="z-index:0; position:relative; padding-bottom:20px; background:white;">
+<section class="popular-destination-area section-gap" style="z-index:0; position:relative; padding-bottom:40px; background:white;">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
@@ -1968,11 +1968,10 @@
 
 <section class="welcome-area">
     <div class="overlay overlay-bg"></div>
-
     <div class="hotel-search-form-area" style="position:relative;">
         <div class="container-fluid">
             {% if username.co_user_name != '' %}
-            <h3 style="color:{{text_color}}; padding-bottom:20px;">
+            <h3 style="color:{{text_color}};">
                 {% if username.co_user_login != default_user %}
                 {% trans 'Hello' %}, {{username.co_user_name}}!
                 {% trans 'Grow your business with' %} <span class="lamp">{{name}}</span>
@@ -3483,12 +3482,10 @@
                                                     <div class="col-lg-6 col-md-6 col-sm-6 airline-from">
                                                         <span class="span-search-ticket"><i class="fas fa-plane-departure"></i> {% trans 'From' %}</span>
                                                         <div class="form-group">
-                                                            <div class="form-select">
-                                                                <input id="origin_id_flight" name="origin_id_flight" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('origin_id_flight').select();" onclick="set_airline_search_value_to_false();">
-                                                                <!--<select class="form-control js-example-basic-single" name="state" style="width:100%;" id="origin_id_flight" placeholder="City or Airport or IATA" onchange="airline_autocomplete('origin')">-->
+                                                            <input id="origin_id_flight" name="origin_id_flight" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('origin_id_flight').select();" onclick="set_airline_search_value_to_false();">
+                                                            <!--<select class="form-control js-example-basic-single" name="state" style="width:100%;" id="origin_id_flight" placeholder="City or Airport or IATA" onchange="airline_autocomplete('origin')">-->
 
-                                                                <!--</select>-->
-                                                            </div>
+                                                            <!--</select>-->
                                                             <!--<input type="hidden" name="origin_id_flight" id="airline_origin_flight" />-->
                                                         </div>
                                                     </div>
@@ -6351,7 +6348,7 @@
                                 </h2>
                             </div>
                             <div class="col-xl-8" style="text-align:left;">
-                                <div class="div-tabs style-scrollbar" id="div_scroll_menu">
+                                <div class="div-tabs style-scrollbar" id="div_scroll_menu" style="overflow:auto; white-space:nowrap;">
                                     <input type="hidden" id="country_id"/>
                                     <input type="hidden" id="start"/>
                                     <input type="hidden" id="end"/>
@@ -9621,8 +9618,11 @@
     </div>
 </div>
 
-<div id="promotion">
-
+<div class="modal fade" id="myModalPromotion" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content" id="promotion">
+        </div>
+    </div>
 </div>
 {% include 'tt_website/footer.html' %}
 {% include 'tt_website/plugin_live_youtube.html' %}
@@ -10743,7 +10743,7 @@
             </label>`;
             is_checked = true;
         }
-        if(insurance_config.hasOwnProperty('zurich'))
+        if(insurance_config.hasOwnProperty('zurich')){
             text+=`
             <label class="radio-img">
                 <input type="radio" name="insurance_provider" value="zurich"`;
@@ -10753,6 +10753,7 @@
                 <img src="/static/tt_website/images/icon/zurich.png" alt="Zurich" style="width:70px; height:70px; padding:0px;"><br/>
                 <div style="text-align:center;"><span style="font-size:13px; color:{{text_color}};">Zurich<br/></span><span style="font-size:9px; color:{{text_color}};">(Cover Covid-19)</span></div>
             </label>`;
+        }
         text+=`
         </div>
         <form action="{% url 'tt_website:insurance_search'%}" method="POST" class="form-wrap" id="insurance_searchForm">

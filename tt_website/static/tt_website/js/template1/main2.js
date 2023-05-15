@@ -221,7 +221,7 @@ $(document).ready(function() {
 
     $('.owl-carousel-hotel-modal').owlCarousel({
         loop:false,
-        nav: true,
+        nav: false,
         navRewind:true,
         rewind: true,
         margin: 20,
@@ -238,19 +238,15 @@ $(document).ready(function() {
         responsive:{
             0:{
                 items:2,
-                nav:true
             },
             480:{
                 items:3,
-                nav:true
             },
             768:{
                 items:5,
-                nav:true
             },
             961:{
                 items:5,
-                nav:true,
             }
         }
     });
@@ -445,8 +441,8 @@ $(document).ready(function() {
        $('.owl-carousel-hotel-img').data("owl.carousel").to(number, 500, true);
        $('.owl-carousel-hotel-img-modal').data("owl.carousel").to(number, 500, true);
        $(this).addClass("owl-bg-border");
-       document.getElementById("total_image_hotel").innerHTML = number+1 + " of " + $lengthimg;
-       document.getElementById("total_image_hotel-modal").innerHTML = number+1 + " of " + $lengthimg;
+       document.getElementById("total_image_hotel").innerHTML = number+1 + "/" + $lengthimg;
+       document.getElementById("total_image_hotel-modal").innerHTML = number+1 + "/" + $lengthimg;
      });
 
     $('.owl-carousel-hotel-img-modal').on('changed.owl.carousel',function(property){
@@ -468,8 +464,8 @@ $(document).ready(function() {
        });
        $('.owl-carousel-hotel-modal').find('.owl-item').eq(current).addClass('owl-bg-border');
        $('.owl-carousel-hotel-img').trigger('to.owl.carousel', current);
-       document.getElementById("total_image_hotel").innerHTML = current+1 + " of " + $lengthimg;
-       document.getElementById("total_image_hotel-modal").innerHTML = current+1 + " of " + $lengthimg;
+       document.getElementById("total_image_hotel").innerHTML = current+1 + "/" + $lengthimg;
+       document.getElementById("total_image_hotel-modal").innerHTML = current+1 + "/" + $lengthimg;
     });
 
     $('.owl-carousel-hotel-img').on('changed.owl.carousel',function(property){
@@ -491,8 +487,8 @@ $(document).ready(function() {
        });
        $('.owl-carousel-hotel-modal').find('.owl-item').eq(current).addClass('owl-bg-border');
        $('.owl-carousel-hotel-img-modal').trigger('to.owl.carousel', current);
-       document.getElementById("total_image_hotel").innerHTML = current+1 + " of " + $lengthimg;
-       document.getElementById("total_image_hotel-modal").innerHTML = current+1 + " of " + $lengthimg;
+       document.getElementById("total_image_hotel").innerHTML = current+1 + "/" + $lengthimg;
+       document.getElementById("total_image_hotel-modal").innerHTML = current+1 + "/" + $lengthimg;
     });
 
     //    $('.owl-carousel-hotel').find('.owl-item').eq(current).addClass('owl-bg-border');
@@ -526,8 +522,8 @@ $(document).ready(function() {
             $('body .main-menu .container').prepend('<button type="button" id="mobile-nav-toggle" style="font-size:18px; padding:10px 15px; background:'+color+'; color:'+text_color+'"><span style="font-size:14px;">SignIn</span> <i class="fas fa-sign-in-alt" style="color:'+text_color+';font-size:16px;"></i></button>');
         }
         $('body .main-menu .container').append('<div id="mobile-body-overly"></div>');
-        $('#mobile-nav').find('.balance_mobile').replaceWith('<li class="pt5"><a><span id="balance_mob"></span></a></li>');
-        $('#mobile-nav').find('.credit_mobile').replaceWith('<li class="pt5"><a><span id="credit_mob"></span></a></li>');
+        $('#mobile-nav').find('.balance_mobile').replaceWith('<li style="margin-bottom:0px;"><a style="padding-bottom:0px;"><span id="balance_mob"></span></a></li>');
+        $('#mobile-nav').find('.credit_mobile').replaceWith('<li style="margin-bottom:0px;"><a style="padding-bottom:0px;"><span id="credit_mob"></span></a></li>');
         $('#mobile-nav').find('.username_mobile').replaceWith('<li style="padding-right:5px;"><div class="input-container-search-ticket"><input type="text" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="username2" placeholder="Username"/></div></li>');
         $('#mobile-nav').find('.password_mobile').replaceWith('<li style="padding-right:5px;"><div class="input-container-search-ticket"><input type="password" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="password2" placeholder="Password"/><div style="margin-top:10px;width:50px;" onclick="change_password_type();"><i id="password_style2" class="fas fa-eye-slash" style="font-size:18px;color:black;"></i></div></li>');
         $('#mobile-nav').find('.keep_me_mobile').replaceWith('<li style="padding-right:5px;"><div class="input-container-search-ticket"><label class="check_box_custom" style="margin:5px; float:right;"><span style="font-size:13px; color:black;">Keep Me Signin</span><input type="checkbox" value="" id="keep_me_signin2" name="keep_me_signin" checked="checked"><span class="check_box_span_custom"></span></label></div></li>');
@@ -721,7 +717,7 @@ function go_to_owl_carousel(counter){
         }
     }
 
-    document.getElementById("total_image_hotel").innerHTML = counter + " of " + $lengthimg;
+    document.getElementById("total_image_hotel").innerHTML = counter + "/" + $lengthimg;
 }
 
 

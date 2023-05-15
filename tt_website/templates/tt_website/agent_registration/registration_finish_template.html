@@ -2,25 +2,26 @@
 {% load i18n %}
 {% load static from staticfiles %}
 {% block content %}
-<!--<script src="{{ static_path }}js/webservice_token.js"></script>-->
-<!--<script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js?version={{javascript_version}}"></script>-->
 <script src="{{ static_path }}js/webservice_registration.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_token.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
-<script src="{{ static_path }}js/moment.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/library/moment.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_payment_acq.js?version={{javascript_version}}"></script>
 <script>
     static_path_url_server = '{{static_path_url_server}}'
     username = '{{username.user_login}}';
     signature = `{{signature}}`;
 </script>
+
+<title id="title_search">{{name}} {% trans 'Registration Agent' %} {% trans 'Finish' %}</title>
+
 {% include 'tt_website/check_connection.html' %}
 {% if username.co_user_login != '' %}
 {% include 'tt_website/header.html' %}
 {% include 'tt_website/logout.html' %}
 {% endif %}
-<title id="title_search">{{name}} {% trans 'Registration Agent' %} {% trans 'Finish' %}</title>
+
 <div class="destinations-area" style="padding-top:30px; padding-bottom:40px; min-height: 40vh; background: #f7f7f7;">
     <div class="container">
         <div class="row">

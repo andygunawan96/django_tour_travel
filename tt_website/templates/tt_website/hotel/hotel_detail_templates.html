@@ -2,18 +2,16 @@
 {% load i18n %}
 {% load static from staticfiles %}
 {% block content %}
-<!--<script src="{{ static_path }}js/webservice_token.js"></script>-->
-<script src="{{ static_path }}js/daterangepicker.js?version={{javascript_version}}"></script>
-<script src="{{ static_path }}js/moment.min.js?version={{javascript_version}}"></script>
-<!--<script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js?version={{javascript_version}}"></script>-->
+<script src="{{ static_path }}js/library/daterangepicker.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/library/moment.min.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_token.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/hotel_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_hotel.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_content.js?version={{javascript_version}}"></script>
-<script src="{{ static_path }}js/moment.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/library/moment.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
-<script src="{{ static_path }}js/daterangepicker.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/library/daterangepicker.js?version={{javascript_version}}"></script>
 <script>
     static_path_url_server = '{{static_path_url_server}}'
     signature = `{{signature}}`;
@@ -26,25 +24,28 @@
     //});
     time_limit = {{time_limit}};
     session_time_limit();
-
     last_session = 'sell_journeys';
-
 </script>
 <style>
     ul li{
         list-style-type: disc;
     }
+
+    .owl-theme .owl-nav{
+        margin-top: 0px;
+    }
 </style>
+<title id="title_search">{{name}} Hotel - {{response.name}}</title>
+<div id="overlay-search-box" onclick="off_overlay()" style="z-index:90;"></div>
+
 {% include 'tt_website/header.html' %}
 {% include 'tt_website/logout.html' %}
 {% include 'tt_website/plugin_passenger.html' %}
 {% include 'tt_website/loading_screen.html' %}
 {% include 'tt_website/notification_box.html' %}
-<title id="title_search">{{name}} Hotel - {{response.name}}</title>
 
-<div id="overlay-search-box" onclick="off_overlay()" style="z-index:90;"></div>
 {%if template == 1%}
-<section class="destinations-area" style="padding:15px 0px 15px 0px; background:white; border-bottom:1px solid #cdcdcd; z-index:90; position:relative;">
+<section class="destinations-area change_search_bg">
     <div id="hotel_search_params" class="container">
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
@@ -227,7 +228,7 @@
     </div>
 </section>
 {% elif template == 2 %}
-<section class="destinations-area change_search_area" style="padding:14px 0px 14px 0px; background:white; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; position:relative; z-index:90;">
+<section class="destinations-area change_search_bg">
     <div id="hotel_search_params" class="container">
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
@@ -413,7 +414,7 @@
     </div>
 </section>
 {% elif template == 3 %}
-<section class="destinations-area change_search_area" style="padding:14px 0px 14px 0px; background:white; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; position:relative; z-index:90;">
+<section class="destinations-area change_search_bg">
     <div id="hotel_search_params" class="container">
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
@@ -598,7 +599,7 @@
     </div>
 </section>
 {% elif template == 4 %}
-<section class="destinations-area change_search_area" style="padding:14px 0px 14px 0px; background:white; border-bottom:1px solid #cdcdcd; position:relative; z-index:90;">
+<section class="destinations-area change_search_bg">
     <div id="hotel_search_params" class="container">
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
@@ -786,7 +787,7 @@
     </div>
 </section>
 {% elif template == 5 %}
-<section class="destinations-area change_search_area" style="padding:14px 0px 14px 0px; background:white; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; position:relative; z-index:90;">
+<section class="destinations-area change_search_bg">
     <div id="hotel_search_params" class="container">
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
@@ -970,7 +971,7 @@
     </div>
 </section>
 {% elif template == 6 %}
-<section class="destinations-area" style="padding:15px 0px 15px 0px; background:white; border-bottom:1px solid #cdcdcd; z-index:98; position:relative;">
+<section class="destinations-area change_search_bg">
     <div id="hotel_search_params" class="container">
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
@@ -1159,16 +1160,6 @@
 </section>
 {%endif%}
 
-{% if username.co_user_login != default_user %}
-<section id="info_user_search" style="position: fixed; z-index:999; width: 320px; top:0px; right:15px;" hidden>
-    <div style="padding:12px; background:white; border:1px solid {{color}};">
-        <i class="fas fa-user" style="padding-right:5px; color:{{color}}; font-size:16px;"></i><span title="{{username.co_user_login}}" style="font-size:13px; font-weight:600; padding-right:10px; cursor:text; color:black; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{username.co_user_login}}</span>
-        <a id="balance_search" style="font-size:13px; font-weight:500; border-bottom:2px solid {{color}};"></a>
-        <span id="credit_search" style="font-size:13px; font-weight:500;"></span>
-    </div>
-</section>
-{% endif %}
-
 <button class="mystickycopybot" style="display:none;" id="button_copy_hotel" data-toggle="modal" data-target="#myModalCopyHotel" onclick="get_checked_copy_result_room();">
     <span style="color:{{text_color}}; font-size:18px;"><i class="fas fa-copy"></i></span>
     <span class="badge-notif animated bounceIn" id="badge-copy-notif">0</span>
@@ -1284,9 +1275,16 @@
             </div>
         </div>
 
-        <div class="row nav-hotel" style="position:sticky;top: 0px;z-index: 24;">
+        <div class="row nav-hotel" style="position:sticky;top: -1px;z-index: 24;">
             <div class="col-lg-12">
                 <div class="box-sticky-hotel" style="padding-right:0px;">
+                    {% if username.co_user_login != default_user %}
+                    <div id="info_user_search" style="padding: 15px 15px 0px 15px; top:0px; display:flex; border-bottom:1px solid #cdcdcd; background:white;" hidden>
+                        <i class="fas fa-user" style="padding-right:5px; color:{{color}}; font-size:16px;"></i><span title="{{username.co_user_login}}" style="font-size:13px; font-weight:600; padding-right:15px; cursor:text; color:black; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{username.co_user_login}}</span><br/>
+                        <a id="balance_search" style="display:flex; font-size:13px; font-weight:500;"></a><br/>
+                        <span id="credit_search" style="font-size:13px; font-weight:500; padding-left:15px;"></span>
+                    </div>
+                    {% endif %}
                     <button class="content-hotel primary-btn-sticky-hotel" style="padding: 15px;" type="button" id="photo-hotel">Photo</button>
                     <button class="content-hotel primary-btn-sticky-hotel" style="padding: 15px;" type="button" id="facility-hotel">Facility</button>
                     <button class="content-hotel primary-btn-sticky-hotel" style="padding: 15px;" type="button" id="description-hotel">Description</button>
@@ -1300,7 +1298,7 @@
             <div class="row">
                 <div class="col-lg-12 div-photo-hotel" style="background:white; margin-bottom:30px; padding-top:15px; border:1px solid #cdcdcd; border-radius:3px;">
                     <div class="row">
-                        <div class="modal fade modal-rdx" id="openImage" role="dialog" style="background:rgba(250,250,250,1);">
+                        <div class="modal fade modal-obs" id="openImage" role="dialog" style="background:rgba(250,250,250,1);">
                             <div class="modal-dialog">
                                 <!-- Modal content-->
                                 <div class="modal-content" style="background-color:transparent; border:unset;">
@@ -1319,10 +1317,10 @@
                                                         {% endfor %}
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-12" style="margin-bottom:15px; text-align:right;">
+                                                <div class="col-lg-12 mt-3 mb-4" style="text-align:right;">
                                                     <h5 style="color:black;" id="total_image_hotel-modal"></h5>
                                                 </div>
-                                                <div class="col-lg-12">
+                                                <div class="col-lg-12" style="overflow:auto;">
                                                     <div class="owl-carousel-hotel-modal owl-theme">
                                                         {% for i in response.images %}
                                                         <div class="item" style="cursor:pointer;">
@@ -1386,7 +1384,7 @@
                         </div>
                         <!-- Prepare untuk TripAdvisor Cenius Start-->
                         <!--<div class="col-lg-12" style="padding-bottom:5px;">
-                            <h4 style="color:#f15a22;">4.5 Excellent</h4>
+                            <h4 style="color:#205B95;">4.5 Excellent</h4>
                         </div>
                         <div class="col-lg-3">
                             <span style="font-weight:500;"><i class="fa fa-map-marker-alt"></i> Location</span>
@@ -1475,13 +1473,11 @@
                                             </span>
                                         </div>
                                         <div class="place_div_grid">
-                                            <label>
-                                                <div class="stripe_div_small100">
-                                                    <div class="div_stripe">
-                                                        <div class="loading_stripe"></div>
-                                                    </div>
+                                            <div class="stripe_div_small100">
+                                                <div class="div_stripe">
+                                                    <div class="loading_stripe"></div>
                                                 </div>
-                                            </label>
+                                            </div>
                                         </div>
                                         <hr/>
                                         <div class="place_div_left_right">
@@ -2221,19 +2217,16 @@
 
         $(window).scroll(function() {
             if ($(this).scrollTop() >= 66) {
+                {% if username.co_user_login != default_user %}
+                document.getElementById("info_user_search").hidden = false;
+                {% endif %}
+
                 if ($(window).width() >= 768){
-                   {% if username.co_user_login != default_user %}
-                   document.getElementById("info_user_search").hidden = false;
-                   {% endif %}
                    if(document.getElementById("balance_search") && document.getElementById("balance"))
                        document.getElementById("balance_search").innerHTML = document.getElementById("balance").innerHTML;
 
                    if(document.getElementById("credit_search") && document.getElementById("credit_limit"))
                        document.getElementById("credit_search").innerHTML = document.getElementById("credit_limit").innerHTML;
-                }else{
-                   {% if username.co_user_login != default_user %}
-                   document.getElementById("info_user_search").hidden = true;
-                   {% endif %}
                 }
             }else{
                 {% if username.co_user_login != default_user %}
@@ -2570,7 +2563,7 @@
 {% endblock %}
 
 
-<!--<div style="background-color:#f15a22;">-->
+<!--<div style="background-color:#205B95;">-->
 <!--    <ul class="nav nav-tabs" id="myTab" role="tablist">-->
 <!--        <li class="nav-item">-->
 <!--            <a class="nav-link active" id="facilities-tab" data-toggle="tab" href="#facilities" role="tab" aria-controls="facilities" aria-selected="true">-->

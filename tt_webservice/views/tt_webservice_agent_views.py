@@ -2323,9 +2323,10 @@ def activate_corporate_mode(request, signature=False):
         if res['result']['error_code'] == 0:
             cur_session = request.session['user_account']
             cur_session.update(res['result']['response'])
-            cur_session.update({
-                "co_customer_parent_seq_id": request.POST['customer_parent_seq_id']
-            })
+            if not res['result']['response'].get('co_customer_parent_seq_id') and request.POST.get('customer_parent_seq_id'):
+                cur_session.update({
+                    "co_customer_parent_seq_id": request.POST['customer_parent_seq_id']
+                })
             set_session(request, 'user_account', cur_session)
             if signature == False:
                 _logger.info("SUCCESS activate_corporate_mode SIGNATURE " + request.POST['signature'])

@@ -8,8 +8,8 @@
 <script src="{{ static_path }}js/webservice_account.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/visa_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
-<script src="{{ static_path }}js/moment.js?version={{javascript_version}}"></script>
-<script src="{{ static_path }}js/daterangepicker.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/library/moment.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/library/daterangepicker.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_content.js?version={{javascript_version}}"></script>
 <script>
     static_path_url_server = '{{static_path_url_server}}'
@@ -30,15 +30,16 @@
     }
 </style>
 {% endif %}
+<title id="title_search">{{name}} Visa - {{visa_request.destination}}</title>
+<div id="overlay-search-box" onclick="off_overlay()"></div>
+
 {% include 'tt_website/header.html' %}
 {% include 'tt_website/plugin_passenger.html' %}
 {% include 'tt_website/logout.html' %}
 {% include 'tt_website/notification_box.html' %}
-<title id="title_search">{{name}} Visa - {{visa_request.destination}}</title>
-<div id="overlay-search-box" onclick="off_overlay()"></div>
 
 {%if template == 1%}
-<section class="destinations-area" style="padding:15px 0px 15px 0px; background:white; border-bottom:2px solid #cdcdcd; position:sticky; top:0px; z-index:99;">
+<section class="destinations-area change_search_area">
     <div id="hotel_search_params" class="container">
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
@@ -109,7 +110,7 @@
     </div>
 </section>
 {% elif template == 2 %}
-<section class="destinations-area change_search_area" style="padding:14px 0px 14px 0px; background:white; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; position:sticky; top:0px; z-index:99;">
+<section class="destinations-area change_search_area">
     <div id="hotel_search_params" class="container">
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
@@ -177,7 +178,7 @@
     </div>
 </section>
 {% elif template == 3 %}
-<section class="change_search_area" style="padding:10px 0px 10px 0px; background:white; border-bottom:2px solid #cdcdcd; position:sticky; top:0px; z-index:99;">
+<section class="change_search_area">
     <div id="hotel_search_params" class="container">
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
@@ -247,7 +248,7 @@
     </div>
 </section>
 {% elif template == 4 %}
-<section class="destinations-area" style="padding:15px 0px 15px 0px; background:white; border-bottom:2px solid #cdcdcd; position:sticky; top:0px; z-index:99;">
+<section class="destinations-area change_search_area">
     <div id="hotel_search_params" class="container">
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
@@ -319,7 +320,7 @@
     </div>
 </section>
 {% elif template == 5 %}
-<section class="destinations-area change_search_area" style="padding:14px 0px 14px 0px; background:white; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; position:sticky; top:0px; z-index:99;">
+<section class="destinations-area change_search_area">
     <div id="hotel_search_params" class="container">
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
@@ -391,7 +392,7 @@
     </div>
 </section>
 {% elif template == 6 %}
-<section class="destinations-area" style="padding:15px 0px 5px 0px; background:white; border-bottom:2px solid #cdcdcd; position:sticky; top:0px; z-index:99;">
+<section class="destinations-area change_search_area">
     <div id="hotel_search_params" class="container">
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
@@ -471,12 +472,12 @@
             </div>
         </div>
         {% if username.co_user_login != default_user %}
-        <div class="row" id="info_user_search" style="padding-bottom:5px; position: sticky; top: 67px; z-index: 2;">
+        <div class="row" id="info_user_search" style="padding-bottom:5px; position: sticky; top: 50px; z-index: 2;">
             <div class="col-lg-12">
-                <div style="padding:10px; background:white; border:1px solid #cdcdcd;">
-                    <i class="fas fa-user" style="padding-right:5px; color:{{color}}; font-size:16px;"></i><span title="{{username.co_user_login}}" style="font-size:13px; font-weight:600; padding-right:10px; cursor:text; color:black; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{username.co_user_login}}</span>
-                    <a id="balance_search" style="font-size:13px; font-weight:500; border-bottom:2px solid {{color}};"></a>
-                    <span id="credit_search" style="font-size:13px; font-weight:500;"></span>
+                <div style="padding: 15px 15px 0px 15px; top:0px; display:flex; border:1px solid #cdcdcd; background:white;">
+                    <i class="fas fa-user" style="padding-right:5px; color:{{color}}; font-size:16px;"></i><span title="{{username.co_user_login}}" style="font-size:13px; font-weight:600; padding-right:15px; cursor:text; color:black; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{username.co_user_login}}</span><br/>
+                    <a id="balance_search" style="display:flex; font-size:13px; font-weight:500;"></a><br/>
+                    <span id="credit_search" style="font-size:13px; font-weight:500; padding-left:15px;"></span>
                 </div>
             </div>
         </div>

@@ -320,12 +320,9 @@ def index(request):
                                 'update_data': 'false',
                                 'static_path_url_server': get_url_static_path(),
                                 'signature': request.session['signature'],
-                                'big_banner_value': check_banner('home', 'big_banner', request),
-                                'small_banner_value': check_banner('home', 'small_banner', request),
-                                'promotion_banner_value': check_banner('home', 'promotion', request),
-                                'dynamic_page_value': check_banner('', 'dynamic_page', request),
                                 'terms_value': check_terms_condition(request),
                             })
+                            # values.update(get_airline_advance_pax_type(request))
                         except Exception as e:
                             _logger.error(str(e) + '\n' + traceback.format_exc())
                             raise Exception('Make response code 500!')
@@ -365,6 +362,13 @@ def index(request):
                         'javascript_version': javascript_version,
                         'static_path_url_server': get_url_static_path(),
                     })
+        # values.update(get_airline_advance_pax_type(request))
+        values.update({
+            'big_banner_value': check_banner('home', 'big_banner', request),
+            'small_banner_value': check_banner('home', 'small_banner', request),
+            'promotion_banner_value': check_banner('home', 'promotion', request),
+            'dynamic_page_value': check_banner('', 'dynamic_page', request),
+        })
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     if translation.LANGUAGE_SESSION_KEY in request.session:
@@ -1451,7 +1455,7 @@ def get_data_template(request, type='home', provider_type = []):
         background = '/static/tt_website/images/bg_7.jpg'
     else:
         background = '/static/tt_website/images/bg_7.jpg'
-    color = '#f15a22'
+    color = '#205B95'
     airline_country = []
     phone_code = []
     website_name = 'Orbis'
@@ -1840,7 +1844,7 @@ def get_data_template(request, type='home', provider_type = []):
                     if line != '':
                         tour_search_template = line.split('\n')[0]
             if color == '':
-                color = '#f15a22'
+                color = '#205B95'
             if len(background.split('\n')) > 1:
                 background = background.split('\n')[0]
     except Exception as e:

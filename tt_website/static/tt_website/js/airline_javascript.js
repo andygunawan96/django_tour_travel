@@ -5441,6 +5441,15 @@ function airline_detail(type){
                                             $text += '• Meal ' + price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details[m].amount + ' ' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].unit + '\n';
                                             text += `<br/><i class="fas fa-suitcase"></i><span style="font-weight:800;"> Meal - `+price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details[m].amount + ' ' + price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details[m].unit+` </span>`;
                                         }
+
+                                        if(price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details[m].hasOwnProperty('detail_name')){
+                                            if(price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details[m].detail_name){
+                                                text+=`
+                                                <span id="fare_detail_name`+i+``+j+``+k+``+l+``+m+`">
+                                                    <i class="fas fa-info-circle" onclick="print_fare_detail_name('fare_detail_name`+i+``+j+``+k+``+l+``+m+`', '`+price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details[m].detail_name+`');" style="padding-left:5px; color:`+color+`; cursor:pointer; font-size:16px;"></i>
+                                                </span>`;
+                                            }
+                                        }
                                     }
                                     if(price_itinerary_temp[i].journeys[j].segments[k].carrier_type_name){
                                         $text += '• Aircraft: ' + price_itinerary_temp[i].journeys[j].segments[k].carrier_type_name + '\n';
@@ -6206,57 +6215,59 @@ function airline_detail(type){
     if(is_show_breakdown_price){
         var price_breakdown = {};
         var currency_breakdown = '';
-        for(i in airline_price){
-            for(j in airline_price[i]){
-                for(k in airline_price[i][j]){
-                    if(!['currency', 'disc', 'rac'].includes(k)){
-                        if(!price_breakdown.hasOwnProperty(k))
-                            price_breakdown[k.toUpperCase()] = 0;
-                        price_breakdown[k.toUpperCase()] += airline_price[i][j][k];
+        if(typeof(airline_price) !== 'undefined'){
+            for(i in airline_price){
+                for(j in airline_price[i]){
+                    for(k in airline_price[i][j]){
+                        if(!['currency', 'disc', 'rac'].includes(k)){
+                            if(!price_breakdown.hasOwnProperty(k))
+                                price_breakdown[k.toUpperCase()] = 0;
+                            price_breakdown[k.toUpperCase()] += airline_price[i][j][k];
 
+                        }
+                        if(k == 'currency' && currency_breakdown == '')
+                            currency_breakdown = airline_price[i][j][k];
                     }
-                    if(k == 'currency' && currency_breakdown == '')
-                        currency_breakdown = airline_price[i][j][k];
                 }
-            }
-            // upsell
-            if(typeof upsell_price_dict !== 'undefined'){
-                for(i in upsell_price_dict){
-                    if(!price_breakdown.hasOwnProperty('ROC'))
-                        price_breakdown['ROC'] = 0;
-                    price_breakdown['ROC'] += upsell_price_dict[i];
+                // upsell
+                if(typeof upsell_price_dict !== 'undefined'){
+                    for(i in upsell_price_dict){
+                        if(!price_breakdown.hasOwnProperty('ROC'))
+                            price_breakdown['ROC'] = 0;
+                        price_breakdown['ROC'] += upsell_price_dict[i];
+                    }
                 }
+                var breakdown_text = '';
+                for(j in price_breakdown){
+                    if(breakdown_text)
+                        breakdown_text += '<br/>';
+                    if(j != 'ROC')
+                        breakdown_text += '<b>'+j+'</b> ';
+                    else
+                        breakdown_text += '<b>CONVENIENCE FEE</b> ';
+                    breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
+                }
+                new jBox('Tooltip', {
+                    attach: '#total_price',
+                    target: '#total_price',
+                    theme: 'TooltipBorder',
+                    trigger: 'click',
+                    adjustTracker: true,
+                    closeOnClick: 'body',
+                    closeButton: 'box',
+                    animation: 'move',
+                    position: {
+                    x: 'left',
+                    y: 'top'
+                    },
+                    outside: 'y',
+                    pointer: 'left:20',
+                    offset: {
+                    x: 25
+                    },
+                    content: breakdown_text
+                });
             }
-            var breakdown_text = '';
-            for(j in price_breakdown){
-                if(breakdown_text)
-                    breakdown_text += '<br/>';
-                if(j != 'ROC')
-                    breakdown_text += '<b>'+j+'</b> ';
-                else
-                    breakdown_text += '<b>CONVENIENCE FEE</b> ';
-                breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
-            }
-            new jBox('Tooltip', {
-                attach: '#total_price',
-                target: '#total_price',
-                theme: 'TooltipBorder',
-                trigger: 'click',
-                adjustTracker: true,
-                closeOnClick: 'body',
-                closeButton: 'box',
-                animation: 'move',
-                position: {
-                  x: 'left',
-                  y: 'top'
-                },
-                outside: 'y',
-                pointer: 'left:20',
-                offset: {
-                  x: 25
-                },
-                content: breakdown_text
-            });
         }
     }
 
@@ -11057,7 +11068,7 @@ function get_default_ssr(pax, itinerary, page){
                 //id_i = parseInt(i)+1;
                 for(j in itinerary[i].journeys){
                     for(k in itinerary[i].journeys[j].segments){
-                        default_ssr_text+=`<b>• `+itinerary[i].journeys[j].segments[k].origin+` - `+itinerary[i].journeys[j].segments[k].destination+` ( `+itinerary[i].journeys[j].segments[k].arrival_date+` )</b><br/>`;
+                        default_ssr_text+=`<b>• `+itinerary[i].journeys[j].segments[k].origin+` - `+itinerary[i].journeys[j].segments[k].destination+` ( `+itinerary[i].journeys[j].segments[k].departure_date+` )</b><br/>`;
                         if(page == 'booking'){
                             if(itinerary[i].journeys[j].segments[k].fare_details.length != 0){
                                 for(m in itinerary[i].journeys[j].segments[k].fare_details){
@@ -11154,4 +11165,17 @@ function onchange_mc_date(val){
             });
         }
     }
+}
+
+function print_fare_detail_name(id, val){
+    document.getElementById(id).innerHTML = `
+    <i class="fas fa-eye-slash" onclick="delete_fare_detail_name('`+id+`', '`+val+`');" style="padding-left:5px; color:`+color+`; cursor:pointer; font-size:16px;"></i>
+    <br/>
+    <span style="padding-bottom:5px;">
+        `+val+`
+    </span>`;
+}
+function delete_fare_detail_name(id, val){
+    document.getElementById(id).innerHTML = `
+    <i class="fas fa-info-circle" onclick="print_fare_detail_name('`+id+`', '`+val+`');" style="padding-left:5px; color:`+color+`; cursor:pointer; font-size:16px;"></i>`;
 }
