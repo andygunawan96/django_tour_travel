@@ -2869,3 +2869,13 @@ ul.tabs{
         min-height:520px;
     }
 }
+
+.dropdown-menu{
+    width: auto !important;
+}
+@media (max-width: 767px) {
+    .dropdown-menu{
+        left: -30px !important;
+    }
+}
+

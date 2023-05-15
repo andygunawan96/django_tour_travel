@@ -2262,3 +2262,15 @@ ul .dropdown li{
   background-repeat: no-repeat;
   background-size: cover;
 }
+
+.dropdown-menu{
+    left: unset !important;
+    width: auto !important;
+    right: 0px !important;
+}
+@media (max-width: 991px) {
+    .dropdown-menu{
+        right: unset !important;
+    }
+}
+
