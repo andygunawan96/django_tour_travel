@@ -71,6 +71,12 @@ def login(request,func):
     return res
 
 def get_requirement_list_doc(request):
+    if request.POST.get('signature'):
+        signature = request.POST['signature']
+    elif request.session.get('signature'):
+        signature = request.session['signature']
+    else:
+        signature = ''
     try:
         data = {
             'provider': 'rodextrip_agent_registration'
@@ -79,7 +85,7 @@ def get_requirement_list_doc(request):
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
             "action": "get_requirement_list_doc",
-            'signature': request.session.get('signature') or ''
+            'signature': signature
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
@@ -97,6 +103,12 @@ def get_requirement_list_doc(request):
     return res
 
 def get_config(request):
+    if request.POST.get('signature'):
+        signature = request.POST['signature']
+    elif request.session.get('signature'):
+        signature = request.session['signature']
+    else:
+        signature = ''
     try:
         data = {
             'provider': 'rodextrip_agent_registration'
@@ -105,7 +117,7 @@ def get_config(request):
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
             "action": "get_config",
-            'signature': request.session.get('signature') or ''
+            'signature': signature
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
@@ -124,6 +136,12 @@ def get_config(request):
     return res
 
 def get_promotions(request):
+    if request.POST.get('signature'):
+        signature = request.POST['signature']
+    elif request.session.get('signature'):
+        signature = request.session['signature']
+    else:
+        signature = ''
     try:
         data = {
             'provider': 'rodextrip_agent_registration'
@@ -132,7 +150,7 @@ def get_promotions(request):
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
             "action": "get_promotions",
-            'signature': request.session.get('signature') or ''
+            'signature': signature
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
@@ -152,13 +170,19 @@ def get_promotions(request):
 
 def register(request):
     check = 0
+    if request.POST.get('signature'):
+        signature = request.POST['signature']
+    elif request.session.get('signature'):
+        signature = request.session['signature']
+    else:
+        signature = ''
     try:
         data = copy.deepcopy(request.session['registration_request'])
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
             "action": "create_agent",
-            "signature": request.session.get('signature') or ''
+            "signature": signature
         }
         if request.session.get('register_done_data') == data:
             check = 1

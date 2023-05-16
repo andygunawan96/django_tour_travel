@@ -84,7 +84,7 @@ function agent_register_get_config(){
             'action': 'get_config',
        },
        data: {
-
+            'signature': signature
        },
        success: function(msg) {
             agent_register_get_requirement_list_doc();
@@ -226,7 +226,7 @@ function get_promotions(){
             'action': 'get_promotions',
        },
        data: {
-            'signature': ''
+            'signature': signature
        },
        success: function(msg) {
 //            if(msg.result.error_code == 0)
@@ -327,7 +327,7 @@ function agent_register_get_requirement_list_doc(){
             'action': 'get_requirement_list_doc',
        },
        data: {
-
+            'signature': signature
        },
        success: function(msg) {
             if(msg.result.error_code == 0)
