@@ -252,7 +252,7 @@ Licence URI: http://www.os-templates.com/template-terms
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="author" content="Rodextrip" />
 
-    <!--<link href="{{ static_path }}layout/styles/layout.css" rel="stylesheet" type="text/css" media="all">-->
+    <!--<link href="{{ static_path }}layout/styles/layout.css?version={{javascript_version}}" rel="stylesheet" type="text/css" media="all">-->
 
     <link rel="icon" href="{{ logo_icon }}" sizes="16x16" type="image/png">
     <!--<link href="https://fonts.googleapis.com/css?family=Poppins:100,200,400,300,500,600,700" rel="stylesheet">-->
@@ -478,10 +478,10 @@ junction_font.load().then(function(loaded_face) {
     url_home = `{% url 'tt_website:index'%}`;
 </script>
 <!--jbox-->
-<script src="{{ static_path }}js/library/jbox/jBox.all.js"></script>
-<script src="{{ static_path }}js/library/jbox/playground-avatars.js"></script>
-<script src="{{ static_path }}js/library/jbox/playground-inception.js"></script>
-<script src="{{ static_path }}js/library/jbox/playground-login.js"></script>
+<script src="{{ static_path }}js/library/jbox/jBox.all.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/library/jbox/playground-avatars.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/library/jbox/playground-inception.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/library/jbox/playground-login.js?version={{javascript_version}}"></script>
 
 <!--zoom-->
 <script src="{{ static_path }}js/library/jquery.zoom.min.js?version={{javascript_version}}"></script>
