@@ -399,6 +399,7 @@ function sorting_button(value){
     }else{
         sorting_value = value;
     }
+    hotel_pagination_number = 1;
     filtering('filter');
 }
 
