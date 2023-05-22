@@ -974,7 +974,7 @@ function signup_b2c(){
                 "title": document.getElementById('b2c_title').value,
                 "first_name": document.getElementById('b2c_first_name').value,
                 "last_name": document.getElementById('b2c_last_name').value,
-                "nationality_code": document.getElementById('b2c_nationality').value,
+                "nationality_code": document.getElementById('b2c_nationality_id').value,
            },
            success: function(msg) {
                 if(msg.result.error_code == 0){

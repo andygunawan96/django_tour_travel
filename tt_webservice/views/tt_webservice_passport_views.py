@@ -209,7 +209,6 @@ def get_config_provider(request):
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
-            file = read_cache("passport_provider", 'cache_web', request, 90911)
             res = file
         except Exception as e:
             _logger.error('ERROR get_provider_list passport file\n' + str(e) + '\n' + traceback.format_exc())
