@@ -957,8 +957,9 @@ function signup_b2c(){
             document.getElementById('b2c_terms_span').style = 'border:unset';
         }
     }
-
-    if(error_log == ''){
+    if(typeof signature !== undefined){
+        signin_rodextrip('create_b2c_user');
+    }else if(error_log == ''){
         $('#b2c_signup_btn').addClass("running");
         $('#b2c_signup_btn').attr("disabled", true);
         $.ajax({
