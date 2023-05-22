@@ -2479,11 +2479,13 @@ th input {
     font-size:15px;
     font-weight:700;
 }
-
+/*
 .notif-hover:hover{
     color: #205B95;
     opacity:0.9;
 }
+*/
+
 .notification-hover:hover{
     color:#205B95;
 }
@@ -5344,6 +5346,12 @@ ul.progress_tabs li.current .image-rounded-icon{
 }
 
 @media (max-width: 991px) {
+  #notif_pc_badge{
+    display: none !important;
+  }
+  #notif_mb_badge{
+    display: block !important;
+  }
   .notification-mobile{
     display: block !important;
   }
@@ -5351,7 +5359,13 @@ ul.progress_tabs li.current .image-rounded-icon{
     display: none !important;
   }
 }
-@media (min-width: 991px) {
+@media (min-width: 992px) {
+  #notif_pc_badge{
+    display: block !important;
+  }
+  #notif_mb_badge{
+    display: none !important;
+  }
   .notification-mobile{
     display: none !important;
   }
@@ -5766,4 +5780,37 @@ ul.progress_tabs li.current .image-rounded-icon{
         text-align:left;
         border-top:1px solid #cdcdcd;
     }
+}
+
+
+.icon-button-notif {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 25px;
+  height: 25px;
+  color: #333333;
+  background: transparent;
+  border: none;
+  outline: none;
+  border-radius: 50%;
+}
+
+.icon-button-notif:hover {
+  cursor: pointer;
+}
+
+.icon-button__badge {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  width: 15px;
+  height: 15px;
+  background: red;
+  color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
 }

@@ -358,7 +358,9 @@ ul.footer-link li{
 
 .image-rounded-icon{
     border: 5px solid #cdcdcd;
-    border-radius: 100%;
+    border-radius: 14px;
+    width:100px;
+    height: 90px;
     padding:20px;
     background:white;
 }
@@ -581,3 +583,11 @@ b, strong{
 .bell_notif{
     color: white;
 }
+
+
+@media (max-width: 991px) {
+    nav ul ul{
+        border: unset;
+    }
+}
+

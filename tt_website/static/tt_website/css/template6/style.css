@@ -176,6 +176,7 @@ nav ul ul {
 	/* has to be the same number as the "line-height" of "nav a" */
 	top: 30px;
     background: #fff;
+    border: 1px solid #cdcdcd;
     padding: 10px;
 }
 
@@ -270,6 +271,7 @@ li > a:only-child:after { content: ''; }
 	.toggle {
 		display: block;
 		padding: 5px 15px;
+		margin-left:10px;
 		font-size: 20px;
 		text-decoration: none;
 		border: none;
@@ -372,7 +374,7 @@ li > a:only-child:after { content: ''; }
 	nav ul ul li:hover > ul,
 	nav ul li:hover > ul {
 		display: block;
-		border-bottom:1px solid #cdcdcd;
+		border-top:1px solid #cdcdcd;
 	}
 		
 	/* Fisrt Tier Dropdown */
