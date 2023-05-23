@@ -340,6 +340,7 @@
 .breakpoint-on .classycloseIcon {
   display: block; }
 .breakpoint-on .classy-navbar-toggler {
+  margin-left: 15px;
   display: block; }
 .breakpoint-on .classy-navbar .classy-menu {
   background-color: #ffffff;

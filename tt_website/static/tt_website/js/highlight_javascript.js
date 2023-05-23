@@ -76,7 +76,13 @@ function get_highlight(type){
                     text += `<li><a href="`+msg[i].url+`" target="_blank">`+msg[i].title+`</a></li>`;
                 }
                 if(msg.length == 0){
-                    text += `<li class="menu_header">No Highlight</li>`;
+                    if(template == 6){
+                        text += `<li class="menu_header" style="color:black;">No Highlight</li>`;
+                    }else if(template == 5){
+                        text += `<li class="menu_header" style="color:white;">No Highlight</li>`;
+                    }else{
+                        text += `<li class="menu_header">No Highlight</li>`;
+                    }
                 }
                 document.getElementById('highlight_header_div').innerHTML = text;
             }

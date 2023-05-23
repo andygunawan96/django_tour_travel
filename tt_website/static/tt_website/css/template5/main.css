@@ -1608,7 +1608,7 @@ h1, h2, h3, h4, h5, h6 {
   text-decoration: none;
   display: inline-block;
   color: #222222;
-  font-weight: 500;
+  font-weight: 700;
   font-size: 13px;
   outline: none; }
 .nav-menu:last-child a {
@@ -3837,3 +3837,8 @@ ul.tabs li.current .image-rounded-icon{
     }
 }
 
+@media (max-width: 991px) {
+    .icon-button__badge{
+        top:10px !important;
+    }
+}
