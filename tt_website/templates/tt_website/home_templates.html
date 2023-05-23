@@ -153,14 +153,14 @@
         <div class="row">
             <div class="col-lg-12 pt-2 pb-2">
                 {% if template == 3%}
-                <span class="span_link" style="border-right:2px solid #cdcdcd; padding-right:5px; color:white;" onclick="location='{% url 'tt_website:issued_offline'%}'"><i class="fas fa-book-open"></i> {% trans 'Issued Offline' %}</span>
+                <span class="span_link" style="border-right:2px solid #cdcdcd; padding-right:5px; color:black;" onclick="location='{% url 'tt_website:issued_offline'%}'"><i class="fas fa-book-open"></i> {% trans 'Issued Offline' %}</span>
                 {% else %}
                 <span class="span_link" style="border-right:2px solid #cdcdcd; padding-right:5px;" onclick="location='{% url 'tt_website:issued_offline'%}'"><i class="fas fa-book-open"></i> {% trans 'Issued Offline' %}</span>
                 {% endif %}
 
                 {% if "groupbooking" in provider and "ticketing_group_booking" in username.co_agent_frontend_security%}
                     {% if template == 3%}
-                <span class="span_link" style="padding-left:5px; color:white;" onclick="location='{% url 'tt_website:group_booking'%}'"><i class="fas fa-users"></i> {% trans 'Group Booking' %}</span>
+                <span class="span_link" style="padding-left:5px; color: black;" onclick="location='{% url 'tt_website:group_booking'%}'"><i class="fas fa-users"></i> {% trans 'Group Booking' %}</span>
                     {% else %}
                 <span class="span_link" style="padding-left:5px;" onclick="location='{% url 'tt_website:group_booking'%}'"><i class="fas fa-users"></i> {% trans 'Group Booking' %}</span>
                     {% endif %}
@@ -8183,7 +8183,7 @@
                         <i class="image-rounded-icon">
                             <img style="width:auto; height:40px" src="{{static_path}}images/icon/color-airline.png" alt="Airline Icon"/>
                         </i>
-                        <h6 class="hover_cst">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</h6>
+                        <h6 class="hover_cst" style="width:100px;">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</h6>
                     </div>
                     {% elif "hotel" in provider and "ticketing_hotel" in username.co_agent_frontend_security and rec.code == "hotel" %}
                     <div class="div_cst" onclick="product_change_box('hotel')">

@@ -1655,7 +1655,7 @@ def get_data_template(request, type='home', provider_type = []):
             for rec in provider_types_sequence:
                 try:
                     rec['sequence'] = provider_types_sequence_file.get(rec['code'], '')['sequence']
-                    rec['display'] = provider_types_sequence_file.get(rec['code'], '')['display'].upper()
+                    rec['display'] = provider_types_sequence_file.get(rec['code'], '')['display']
                 except:
                     try:
                         rec['sequence'] = provider_types_sequence_file.get(rec['code'], '')

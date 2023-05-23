@@ -538,9 +538,19 @@ Licence URI: http://www.os-templates.com/template-terms
             background-color: {{color}} !important;
         }
 
+        .bell_notif{
+            color: {{text_color_login}};
+        }
+
+        .icon-button__badge{
+            border: 2px solid {{text_colog_login}};
+        }
+
+        /*
         .notif-hover:hover{
             color: {{color}} !important;
         }
+        */
 
         @keyframes filling {
             0%, 90% {
@@ -629,6 +639,7 @@ Licence URI: http://www.os-templates.com/template-terms
         .primary-btn {
             background: {{color}};
             color: {{text_color}};
+            border: 2px solid {{text_color_login}};
         }
         .primary-btn:hover {
             background: {{color}};
@@ -640,6 +651,7 @@ Licence URI: http://www.os-templates.com/template-terms
         .primary-btn-custom {
             background: {{color}};
             color: {{text_color}};
+            border: 2px solid {{text_color_login}};
         }
         .primary-btn-custom:hover {
             background: {{color}};
@@ -1095,9 +1107,50 @@ Licence URI: http://www.os-templates.com/template-terms
     <!--Template 1-->
     {% if template == 1%}
     <style>
+        {% if login_background_color == 'transparent'%}
+        .main-menu{
+            background: white;
+        }
+        .nav-menu a{
+            color: black;
+        }
+        #mobile-nav-toggle i{
+            color: black;
+        }
+        {% else %}
+        .main-menu{
+            background: {{login_background_color}};
+        }
+        .nav-menu a{
+            color: {{text_color_login}};
+        }
+        #mobile-nav-toggle i{
+            color: {{text_color_login}};
+        }
+        {% endif %}
+        #balance{
+            color: black;
+        }
+        #balance:hover{
+            color: {{color}};
+        }
+        #credit_limit{
+            color: black;
+        }
+        #credit_limit:hover{
+            color: {{color}};
+        }
+        #customer_parent_balance{
+            color: black;
+        }
+        #customer_parent_balance:hover{
+            color: {{color}};
+        }
+
+
         {% if username.co_user_login == default_user %}
         #mobile-nav-toggle{
-            margin-top:15px;
+            margin-top:10px;
         }
         {% endif %}
         #mobile-nav ul li span:hover{
@@ -1145,7 +1198,10 @@ Licence URI: http://www.os-templates.com/template-terms
             background: transparent;
         }
         a:not([href]):not([tabindex]):hover, a:not([href]):not([tabindex]):focus {
-          color: {{color}};
+            color: {{text_color_login}};
+        }
+        .nav-menu li:hover > a{
+            color: {{text_color_login}};
         }
         .horizontal-arrow:hover{
             color: {{color}} !important;
@@ -1153,6 +1209,56 @@ Licence URI: http://www.os-templates.com/template-terms
     </style>
     {% elif template == 2%}
     <style>
+        .classynav ul li.has-down > a::after, .classynav ul li.has-down.active > a::after, .classynav ul li.megamenu-item > a::after{
+            color: {{text_color_login}};
+        }
+        .breakpoint-on .dd-trigger{
+            background-color: {{text_color_login}};
+        }
+        .breakpoint-on .dd-trigger::after{
+            color: {{login_background_color}};
+        }
+        .breakpoint-on .classynav ul li.has-down.active > .dd-trigger, .breakpoint-on .classynav ul li.megamenu-item.active > .dd-trigger{
+            background-color: {{text_color_login}};
+        }
+
+        {% if login_background_color == 'transparent'%}
+        .classy-nav-container{
+            background: white;
+        }
+        .classy-nav-container .classy-navbar .classynav ul li a{
+            color: black;
+        }
+        .classy-navbar-toggler .navbarToggler{
+            background: transparent;
+        }
+        .classy-navbar-toggler .navbarToggler span{
+            background-color: black;
+            color: black;
+        }
+        .classy-nav-container .classy-navbar .classynav ul li a{
+            color: black;
+        }
+        {% else %}
+        .classy-nav-container{
+            background: {{login_background_color}};
+        }
+        .breakpoint-on .classynav > ul > li > a{
+            background: {{login_background_color}};
+            opacity: 0.8;
+        }
+        .classy-nav-container .classy-navbar .classynav ul li a{
+            color: {{text_color_login}};
+        }
+        .classy-navbar-toggler .navbarToggler{
+            background: transparent;
+        }
+        .classy-navbar-toggler .navbarToggler span{
+            background-color: {{text_color_login}};
+            color: {{text_color_login}}
+        }
+        {% endif %}
+
         {% if username.co_user_login == default_user %}
         .classy-navbar-toggler .navbarToggler span{
             background-color: {{text_color_login}};
@@ -1196,9 +1302,6 @@ Licence URI: http://www.os-templates.com/template-terms
             color: {{color}};
         }
 
-        .breakpoint-on .classynav ul li.has-down.active > .dd-trigger, .breakpoint-on .classynav ul li.megamenu-item.active > .dd-trigger{
-            background-color:{{color}};
-        }
         #scrollUp{
             background-color: {{color}};
         }
@@ -1209,9 +1312,6 @@ Licence URI: http://www.os-templates.com/template-terms
         }
         .nice-select:active, .nice-select.open, .nice-select:focus{
             border-color: {{color}};
-        }
-        .classy-nav-container .classy-navbar .classynav ul li a:focus, .classy-nav-container .classy-navbar .classynav ul li a:hover{
-            color: {{color}};
         }
         .classy-nav-container .classy-navbar .classynav ul li.cn-dropdown-item ul li a:focus, .classy-nav-container .classy-navbar .classynav ul li.cn-dropdown-item ul li a:hover, .classy-nav-container .classy-navbar .classynav ul li.megamenu-item ul li a:focus, .classy-nav-container .classy-navbar .classynav ul li.megamenu-item ul li a:hover {
             color: {{color}};
@@ -1231,6 +1331,22 @@ Licence URI: http://www.os-templates.com/template-terms
     </style>
     {% elif template == 3%}
     <style>
+        {% if login_background_color == 'transparent'%}
+        .tab_custom_login{
+            background: white;
+        }
+        .nav-menu a:hover{
+            color: {{color}};
+        }
+        {% else %}
+        .tab_custom_login{
+            background: {{login_background_color}};
+        }
+        .nav-menu a:hover{
+            color: {{text_color_login}};
+        }
+        {% endif %}
+
         .switch_a{
             color:{{text_color}};
         }
@@ -1257,9 +1373,6 @@ Licence URI: http://www.os-templates.com/template-terms
         a:focus, a:hover{
             color: {{color}};
         }
-        .nav-menu a:hover{
-            color: {{color}} !important;
-        }
         .nav-menu ul li:hover > a{
             color: {{color}};
         }
@@ -1281,6 +1394,35 @@ Licence URI: http://www.os-templates.com/template-terms
     </style>
     {% elif template == 4%}
     <style>
+        {% if login_background_color == 'transparent'%}
+        .site-navbar{
+            background: white;
+        }
+        .site-navbar .site-navigation .site-menu > li > a{
+            color: black;
+        }
+        .site-navbar .site-navigation .site-menu > li > a:hover{
+            color: {{color}} !important;
+        }
+        .site-menu-toggle{
+            color: black;
+        }
+        {% else %}
+        .site-navbar{
+            background: {{login_background_color}};
+        }
+        .site-navbar .site-navigation .site-menu > li > a{
+            color: {{text_color_login}};
+        }
+        .site-navbar .site-navigation .site-menu > li > a:hover{
+            color: {{text_color_login}} !important;
+        }
+        .site-menu-toggle{
+            color: {{text_color_login}};
+        }
+        {% endif %}
+
+
         .image-change-route-vertical a{
             color: {{text_color}};
         }
@@ -1337,6 +1479,47 @@ Licence URI: http://www.os-templates.com/template-terms
     </style>
     {% elif template == 5%}
     <style>
+        {% if login_background_color == 'transparent'%}
+        .main-menu{
+            background: white;
+        }
+        .nav-menu a{
+            color: black;
+        }
+        .nav-menu a:hover{
+            color: {{color}};
+        }
+        .user_t5{
+            color: black !important;
+        }
+        .user_t5:hover{
+            color: {{color}} !important;
+        }
+        .nav-menu li:hover > a, .nav-menu > .menu-active > a{
+            color: {{color}} !important;
+        }
+        {% else %}
+        .main-menu{
+            background: {{login_background_color}};
+        }
+        .nav-menu a{
+            color: {{text_color_login}};
+        }
+        .nav-menu a:hover{
+            color: {{text_color_login}};
+        }
+        .user_t5{
+            color: {{text_color_login}} !important;
+        }
+        .user_t5:hover{
+            color: {{text_color_login}} !important;
+        }
+        #mobile-nav-toggle i{
+            margin-left:10px;
+            color: {{text_color_login}};
+        }
+        {% endif %}
+
         #mobile-nav .sign_up_login{
             color: {{text_color_login}};
         }
@@ -1353,12 +1536,6 @@ Licence URI: http://www.os-templates.com/template-terms
 
         .image-rounded-icon{
             background: {{color}};
-        }
-        a:focus, a:hover{
-            color: {{color}} !important;
-        }
-        .nav-menu li:hover > a, .nav-menu > .menu-active > a{
-            color: {{color}} !important;
         }
 
         .search-field{
@@ -1385,6 +1562,40 @@ Licence URI: http://www.os-templates.com/template-terms
     </style>
     {% elif template == 6%}
     <style>
+        {% if login_background_color == 'transparent'%}
+        header{
+            background: white !important;
+        }
+        nav a:hover{
+            color: {{color}} !important;
+        }
+        nav ul li a:hover{
+            color: {{color}} !important;
+        }
+        {% else %}
+        header{
+            background: {{login_background_color}} !important;
+        }
+        nav a:hover{
+            color: {{text_color_login}} !important;
+        }
+        @media (min-width: 992px) {
+            nav ul li a:hover{
+                color: {{text_color_login}} !important;
+            }
+        }
+        @media (max-width: 991px) {
+            nav ul li a:hover{
+                color: {{color}} !important;
+            }
+        }
+        {% endif %}
+
+        nav ul ul li a:hover{
+            color: {{color}} !important;
+        }
+
+
         header{
             z-index: 999 !important;
         }

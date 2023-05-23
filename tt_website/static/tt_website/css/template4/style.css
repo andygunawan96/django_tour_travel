@@ -388,7 +388,7 @@ option::after{
   .site-navbar .site-navigation.border-bottom {
     border-bottom: 1px solid #f3f3f4 !important; }
   .site-navbar .site-navigation .site-menu {
-    margin-bottom: 0; }
+    margin-bottom: 10px; }
     .site-navbar .site-navigation .site-menu .active > a {
       color: #205B95;
       border-radius: 30px;
@@ -406,6 +406,7 @@ option::after{
         color: #000;
         text-decoration: none !important;
         padding: 4px 6px;
+        font-weight: 700;
         display: inline-block;
         font-size: 14px; }
         .site-navbar .site-navigation .site-menu > li > a:hover {
@@ -2274,3 +2275,6 @@ ul .dropdown li{
     }
 }
 
+.site-menu-toggle{
+    margin-left:10px;
+}
