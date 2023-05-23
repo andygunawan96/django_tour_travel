@@ -1162,7 +1162,7 @@ def delete_dynamic_page(request):
                         image_list.append(line)
         for data in os.listdir(fs.location):
             if not data in image_list:
-                os.remove(fs.location + '/image_dynamic/' + data)
+                os.remove(fs.location + '/' + data)
         res = {
             'result': {
                 'error_code': 0,
