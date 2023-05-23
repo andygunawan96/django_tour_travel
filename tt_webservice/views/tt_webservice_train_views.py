@@ -164,7 +164,6 @@ def get_config_provider(request):
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
-            file = read_cache("train_provider", 'cache_web', request, 90911)
             res = file
         except Exception as e:
             _logger.error('ERROR get_provider_list train file\n' + str(e) + '\n' + traceback.format_exc())
@@ -204,7 +203,6 @@ def get_carriers(request):
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
-            file = read_cache("get_train_carriers", 'cache_web', request, 90911)
             res = file
         except Exception as e:
             _logger.error('ERROR get_train_carriers file\n' + str(e) + '\n' + traceback.format_exc())

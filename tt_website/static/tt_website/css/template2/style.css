@@ -597,25 +597,25 @@ input:focus {
       position:relative;
       bottom:5px;
       padding: 0px 8px; }
-      @media only screen and (min-width: 992px) and (max-width: 1199px) {
+      @media only screen and (min-width: 1006px) and (max-width: 1199px) {
         .classy-nav-container .classy-navbar .classynav ul li a {
           font-size: 13px;
           padding: 0 5px; } }
-      @media only screen and (min-width: 768px) and (max-width: 991px) {
+      @media only screen and (min-width: 768px) and (max-width: 1005px) {
         .classy-nav-container .classy-navbar .classynav ul li a {
           font-size: 13px;
-          color: #2a303b; }
+          color: #2a303b !important; }
           .classy-nav-container .classy-navbar .classynav ul li a:hover, .classy-nav-container .classy-navbar .classynav ul li a:focus {
             color: #1cc3b2; } }
       @media only screen and (max-width: 767px) {
         .classy-nav-container .classy-navbar .classynav ul li a {
           font-size: 13px;
-          color: #2a303b; }
+          color: #2a303b !important; }
           .classy-nav-container .classy-navbar .classynav ul li a:hover, .classy-nav-container .classy-navbar .classynav ul li a:focus {
             color: #1cc3b2; } }
       .classy-nav-container .classy-navbar .classynav ul li a:focus, .classy-nav-container .classy-navbar .classynav ul li a:hover {
         color: #afb4bf;
-        font-weight: 600; }
+        font-weight: 800; }
     .classy-nav-container .classy-navbar .classynav ul li.cn-dropdown-item ul li a, .classy-nav-container .classy-navbar .classynav ul li.megamenu-item ul li a {
       font-size: 13px;
       text-transform: capitalize;
@@ -637,6 +637,7 @@ input:focus {
     bottom: 0;
     left: 10%;
     z-index: 1;
+    display:none;
     content: ''; }
     @media only screen and (min-width: 768px) and (max-width: 991px) {
       .classynav ul li.active a::before {
