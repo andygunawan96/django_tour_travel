@@ -2224,7 +2224,14 @@ function render_notification(){
     }
     if(text){
         document.getElementById('notification_detail').innerHTML += text;
+        document.getElementById('notif_pc_badge').innerHTML += `<span class="icon-button__badge"></span>`;
+        document.getElementById('notif_mb_badge').innerHTML += `<span class="icon-button__badge"></span>`;
+
+        if(template == 4){
+            $(".bell_pc").html(`<span class="icon-button__badge"></span>`);
+        }
+
         $(".bell_notif").addClass("infinite");
-        $(".bell_notif").css("color", color);
+        //$(".bell_notif").css("color", color);
     }
 }

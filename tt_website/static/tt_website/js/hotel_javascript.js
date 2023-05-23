@@ -2733,6 +2733,8 @@ function get_checked_copy_result(){
                         <h6>Best Price: <b style="color:`+color+`;">`+price_hotel+`<br/>`+room_night+`</b></h6>
                     </div>
                 </div>`;
+
+                text+=`</div>`;
         });
     $text += '\n===Price may change at any time===';
     text+=`</div>`;
@@ -2783,7 +2785,7 @@ function get_checked_copy_result(){
         </div>
     </div>`;
 
-    node.innerHTML = text_footer;
+    node.innerHTML = text;
     node.className = "row";
     document.getElementById("show-list-copy-hotel").appendChild(node);
 
