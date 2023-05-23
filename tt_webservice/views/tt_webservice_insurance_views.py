@@ -163,7 +163,6 @@ def get_carriers(request):
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
-            file = read_cache("get_insurance_carriers", 'cache_web', request, 90911)
             res = file
         except Exception as e:
             _logger.error('ERROR get_insurance_carriers file\n' + str(e) + '\n' + traceback.format_exc())

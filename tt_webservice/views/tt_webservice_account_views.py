@@ -1046,7 +1046,7 @@ def delete_payment_partner(request):
                     image_list.append(line)
         for data in os.listdir(fs.location):
             if not data in image_list:
-                os.remove(fs.base_location + '/image_payment_partner/' + data)
+                os.remove(fs.location + '/' + data)
         res = {
             'result': {
                 'error_code': 0,
@@ -1227,7 +1227,7 @@ def delete_about_us(request):
         os.remove('%s/%s' % (path, data[int(request.POST['paragraph_number'])]))
         # check image
         fs = FileSystemStorage()
-        fs.location = media_path(request, 'image_about_us')
+        fs.location = media_path(request, fs.location, 'image_about_us')
         data = os.listdir(path)
         image_list = []
         for rec in data:
@@ -1244,7 +1244,7 @@ def delete_about_us(request):
                         image_list.append(line)
         for data in os.listdir(fs.location):
             if not data in image_list:
-                os.remove(fs.base_location + '/image_about_us/' + data)
+                os.remove(fs.location + '/' + data)
         res = {
             'result': {
                 'error_code': 0,
@@ -1267,7 +1267,7 @@ def delete_about_us(request):
 def set_about_us(request):
     try:
         fs = FileSystemStorage()
-        fs.location = media_path(request, 'image_about_us')
+        fs.location = media_path(request, fs.location, 'image_about_us')
         path = var_log_path(request, 'about_us')
         if not os.path.exists(path):
             os.mkdir(path)

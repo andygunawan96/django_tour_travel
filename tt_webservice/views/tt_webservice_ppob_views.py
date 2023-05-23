@@ -162,7 +162,6 @@ def get_carriers(request):
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
-            file = read_cache("get_ppob_carriers", 'cache_web', request, 90911)
             res = file
         except Exception as e:
             _logger.error('ERROR get_ppob_carriers file\n' + str(e) + '\n' + traceback.format_exc())
@@ -198,7 +197,6 @@ def get_carrier_providers(request):
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
-            file = read_cache("get_ppob_carriers_provider", 'cache_web', request, 90911)
             res = file
         except Exception as e:
             _logger.error('ERROR get_ppob_carriers file\n' + str(e) + '\n' + traceback.format_exc())
@@ -244,7 +242,6 @@ def get_provider_list(request):
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
-            file = read_cache("get_list_provider_data_ppob", 'cache_web', request, 90911)
             res = file
         except Exception as e:
             _logger.error('ERROR get_list_provider_data file\n' + str(e) + '\n' + traceback.format_exc())
@@ -300,7 +297,6 @@ def get_provider_list_backend(request, signature=''):
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
-            file = read_cache("get_list_provider_ppob", 'cache_web', request, 90911)
             res = file
         except Exception as e:
             _logger.error('ERROR read file get_list_provider_ppob\n' + str(e) + '\n' + traceback.format_exc())

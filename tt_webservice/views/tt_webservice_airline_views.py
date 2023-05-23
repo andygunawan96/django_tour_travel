@@ -903,7 +903,6 @@ def get_provider_list_backend(request, signature=''):
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
-            file = read_cache("get_list_provider_airline", 'cache_web', request, 90911)
             res = file
         except Exception as e:
             _logger.error('ERROR read file get_list_provider_airline\n' + str(e) + '\n' + traceback.format_exc())
@@ -959,7 +958,6 @@ def get_provider_description(request):
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
-            file = read_cache("get_list_provider_data", 'cache_web', request, 90911)
             res = file
         except Exception as e:
             _logger.error('ERROR read file get_list_provider_data\n' + str(e) + '\n' + traceback.format_exc())
