@@ -1,7 +1,7 @@
 offset_transaction = 0;
 page_transaction_history_ledger = 1
 temp_date_history = ''
-function signin_rodextrip(type){
+function signin_orbisway(type){
     $.ajax({
        type: "POST",
        url: "/webservice/issued_offline",

@@ -79,7 +79,6 @@ def get_requirement_list_doc(request):
         signature = ''
     try:
         data = {
-            'provider': 'rodextrip_agent_registration'
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",
@@ -111,7 +110,6 @@ def get_config(request):
         signature = ''
     try:
         data = {
-            'provider': 'rodextrip_agent_registration'
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",
@@ -144,7 +142,6 @@ def get_promotions(request):
         signature = ''
     try:
         data = {
-            'provider': 'rodextrip_agent_registration'
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",

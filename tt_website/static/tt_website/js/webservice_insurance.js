@@ -39,7 +39,6 @@ function insurance_signin(data){
        headers:{
             'action': 'signin',
        },
-//       url: "{% url 'tt_backend_rodextrip:social_media_tree_update' %}",
        data: {},
        success: function(msg) {
        try{
@@ -98,7 +97,6 @@ function insurance_get_config(page=false){
        headers:{
             'action': 'get_config',
        },
-//       url: "{% url 'tt_backend_rodextrip:social_media_tree_update' %}",
        data: {
             'signature': signature
        },
@@ -366,7 +364,6 @@ function insurance_get_availability(){
        headers:{
             'action': 'get_availability',
        },
-//       url: "{% url 'tt_backend_rodextrip:social_media_tree_update' %}",
        data: {
             'signature': signature
        },
@@ -1131,7 +1128,6 @@ function insurance_get_kurs(){
        headers:{
             'action': 'get_kurs',
        },
-//       url: "{% url 'tt_backend_rodextrip:social_media_tree_update' %}",
        data: {
             'signature': signature
        },
@@ -1185,7 +1181,6 @@ function insurance_get_premi(){
        headers:{
             'action': 'get_premi',
        },
-//       url: "{% url 'tt_backend_rodextrip:social_media_tree_update' %}",
        data: {
             'signature': signature
        },
@@ -1239,7 +1234,6 @@ function insurance_check_benefit_data(){
        headers:{
             'action': 'check_benefit_data',
        },
-//       url: "{% url 'tt_backend_rodextrip:social_media_tree_update' %}",
        data: {
             'signature': signature
        },
@@ -1293,7 +1287,6 @@ function insurance_updata(){
        headers:{
             'action': 'updata',
        },
-//       url: "{% url 'tt_backend_rodextrip:social_media_tree_update' %}",
        data: {
             'signature': signature
        },
@@ -1347,7 +1340,6 @@ function insurance_login(){
        headers:{
             'action': 'login',
        },
-//       url: "{% url 'tt_backend_rodextrip:social_media_tree_update' %}",
        data: {
             'signature': signature
        },

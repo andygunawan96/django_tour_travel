@@ -171,9 +171,9 @@
 </section>
 {% endif%}
 {% endif%}
-<meta name="twitter:card" content="Twitter" />
-<meta name="twitter:site" content="@rodextrip" />
-<meta name="twitter:creator" content="@rodextrip" />
+<!--<meta name="twitter:card" content="Twitter" />-->
+<!--<meta name="twitter:site" content="@{{name}}" />-->
+<!--<meta name="twitter:creator" content="@{{name}}" />-->
 
 <!--wizard hotel testing-->
 <div class="modal fade" id="myModalWizardHotel" role="dialog" data-keyboard="false">
@@ -466,14 +466,6 @@
                         </li>
                         {% endif %}
                         {% endfor %}
-                        {% if name == "Rodextrip" %}
-                        <!--<li class="nav-item" onclick="scroll_menu_horizontal('nav-item', 'deal');" id="nav_scroll_menu_deal">-->
-                        <!--<a class="nav-link" id="deal-tab" data-toggle="tab" href="#deal" role="tab" aria-controls="deal" aria-selected="false">-->
-                        <!--<i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/coupon.png" alt="Rodexshop Icon"/></i>-->
-                        <!--<span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> Rodexshop </span>-->
-                        <!--</a>-->
-                        <!--</li>-->
-                        {% endif %}
 
 
                         <!--<li class="nav-item">-->
@@ -1833,20 +1825,6 @@
                             </form>
                         </div>
                         {% endif %}
-                        {% if name == "Rodextrip" %}
-                        <!--<div class="tab-pane fade" id="deal" role="tabpanel" aria-labelledby="deal-tab">-->
-                        <!--<form method="POST" class="form-wrap">-->
-                        <!--<div class="row">-->
-                        <!--<div class="col-lg-12 col-sm-12 col-md-12">-->
-                        <!--<button class="button-search primary-btn ld-ext-right" onclick="openInNewTab('https://rodexshop.id');" type="button" value="Submit">-->
-                        <!--Go to Rodexshop-->
-                        <!--<div class="ld ld-ring ld-cycle"></div>-->
-                        <!--</button>-->
-                        <!--</div>-->
-                        <!--</div>-->
-                        <!--</form>-->
-                        <!--</div>-->
-                        {% endif %}
                         <!--<div class="tab-pane fade" id="groupbooking" role="tabpanel" aria-labelledby="groupbooking-tab">-->
                         <!--<center>-->
                         <!--<div style="padding:15px;">-->
@@ -1878,19 +1856,19 @@
 <!--            <div class="col-lg-4 col-md-4 col-sm-4">-->
 <!--                <div class="single-defination">-->
 <!--                    <h4 class="mb-20" style="color:#205B95;"><i class="fas fa-medal"></i> Competitive Pricing</h4>-->
-<!--                    <p>RODEXTRIP can save you more!.</p>-->
+<!--                    <p>{{name}} can save you more!.</p>-->
 <!--                </div>-->
 <!--            </div>-->
 <!--            <div class="col-lg-4 col-md-4 col-sm-4">-->
 <!--                <div class="single-defination">-->
 <!--                    <h4 class="mb-20" style="color:#205B95;"><i class="fas fa-medal"></i> Trusted</h4>-->
-<!--                    <p>RODEXTRIP have many customers and agents</p>-->
+<!--                    <p>{{name}} have many customers and agents</p>-->
 <!--                </div>-->
 <!--            </div>-->
 <!--            <div class="col-lg-4 col-md-4 col-sm-4">-->
 <!--                <div class="single-defination">-->
 <!--                    <h4 class="mb-20" style="color:#205B95;"><i class="fas fa-medal"></i> Easy and Safe</h4>-->
-<!--                    <p>RODEXTRIP is very easy to use and data remains safe.</p>-->
+<!--                    <p>{{name}} is very easy to use and data remains safe.</p>-->
 <!--                </div>-->
 <!--            </div>-->
 <!--        </div>-->
@@ -2085,9 +2063,6 @@
                         {% endif %}
                         {% endfor %}
 
-                        {% if name == "Rodextrip" %}
-                        <!--<li class="tab-link" data-tab="tab-deal" onclick="scroll_menu_horizontal('tab-link', 'deal');" id="nav_scroll_menu_deal"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/coupon.png" alt="Rodexshop Icon"/></i><label class="btn-txt-color">{% trans 'Rodexshop' %}</label></li>-->
-                        {% endif %}
                     </ul>
                 </div>
                 <div class="tab_body" style="border:unset; min-height:300px; background: {{tab_color}} !important;">
@@ -3383,7 +3358,7 @@
                 </div>
                 {% else %}
                 <div>
-                    <h4 style="padding-top:15px;">Already a RODEXTRIP member?</h4>
+                    <h4 style="padding-top:15px;">Already a {{name}} member?</h4>
                     <h5>Sign in to make booking easier!</h5>
                     <br/>
 
@@ -3568,9 +3543,6 @@
                                 <li class="tab-link" data-tab="tab-insurance" onclick="scroll_menu_horizontal('tab-link', 'insurance');" id="nav_scroll_menu_insurance"><i class="image-rounded-icon" style="background:unset;"><img style="width:18px;" src="{{static_path}}images/icon/home-insurance.png" alt="Insurance Icon"/></i><label class="btn-txt-color">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</label></li>
                                 {% endif %}
                                 {% endfor %}
-                                {% if name == 'Rodextrip' %}
-                                <!--<li class="tab-link" data-tab="tab-deal" onclick="scroll_menu_horizontal('tab-link', 'deal');" id="nav_scroll_menu_deal"><i class="image-rounded-icon" style="background:unset;"><img style="width:18px;" src="{{static_path}}images/icon/coupon.png" alt="Rodexshop Icon"/></i><label class="btn-txt-color">Rodexshop</label></li>-->
-                                {% endif %}
                             </ul>
                         </div>
                     </div>
@@ -4860,26 +4832,10 @@
                         </div>
                         {% endif %}
 
-                        {% if name == 'Rodextrip' %}
-                        <div id="tab-deal" class="tab-content">
-                            <form method="POST" class="form-wrap">
-                                <div class="row">
-                                    <div class="col-lg-12 col-sm-12 col-md-12">
-                                        <center>
-                                            <button class="button-search primary-btn ld-ext-right" onclick="openInNewTab('https://rodexshop.id');" type="button" value="Submit">
-                                                Go to Rodexshop
-                                                <div class="ld ld-ring ld-cycle"></div>
-                                            </button>
-                                        </center>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        {% endif %}
                     </div>
                     {% else %}
                     <div class="col-lg-12 header-right" style="padding:50px 0px 50px 20px;">
-                        <h4>Already a RODEXTRIP member?</h4>
+                        <h4>Already a {{name}} member?</h4>
                         <h5>Sign in to make booking easier!</h5>
 
                         <button class="primary-btn-ticket" type="button" style="margin-top:15px;" onclick="location.href='{% url 'tt_website:login'%}';">
@@ -5053,7 +5009,7 @@
                 Hello, Guest !
             </h3>
             <h4 style="padding-top:5px; padding-bottom:15px; color:{{text_color}};">
-                Enjoy your trip with RODEXTRIP
+                Enjoy your trip with {{name}}
             </h4>
         </div>
         {% endif %}
@@ -5098,9 +5054,6 @@
                                         <li class="tab-link" data-tab="tab-insurance" onclick="scroll_menu_horizontal('tab-link', 'insurance');" id="nav_scroll_menu_insurance"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-insurance.png" alt="Insurance Icon"/></i><label class="btn-txt-color">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</label></li>
                                         {% endif %}
                                         {% endfor %}
-                                        {% if name == 'Rodextrip' %}
-                                        <!--<li class="tab-link" data-tab="tab-deal" onclick="scroll_menu_horizontal('tab-link', 'deal');" id="nav_scroll_menu_deal"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/coupon.png" alt="Rodexshop Icon"/></i><label class="btn-txt-color">Rodexshop</label></li>-->
-                                        {% endif %}
                                     </ul>
                                 </div>
                             </div>
@@ -6427,26 +6380,10 @@
                                 </div>
                                 {% endif %}
 
-                                {% if name == 'Rodextrip' %}
-                                <div class="form-search-wrap tab-content" id="tab-deal" data-aos-delay="200">
-                                    <form method="POST" class="form-wrap">
-                                        <div class="row">
-                                            <div class="col-lg-12 col-sm-12 col-md-12">
-                                                <center>
-                                                    <button class="button-search primary-btn ld-ext-right" type="button" onclick="openInNewTab('https://rodexshop.id')" value="Submit">
-                                                        Go to Rodexshop
-                                                        <div class="ld ld-ring ld-cycle"></div>
-                                                    </button>
-                                                </center>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                                {% endif %}
                             </div>
                             {% else %}
                             <div class="col-xl-12" style="text-align:center; box-shadow:0 2px 15px 1px rgba(0, 0, 0, 0.35); padding: 15px 0px;">
-                                <h4>Already a RODEXTRIP member?</h4>
+                                <h4>Already a {{name}} member?</h4>
                                 <h5>Sign in to make booking easier!</h5>
 
                                 <button class="primary-btn-ticket" type="button" style="margin-top:15px;" onclick="location.href='{% url 'tt_website:login'%}';">
@@ -6641,9 +6578,6 @@
                                         <li class="tab-link" data-tab="tab-insurance" onclick="scroll_menu_horizontal('tab-link', 'insurance');" id="nav_scroll_menu_insurance"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-insurance.png" alt="Insurance Icon"/><label class="btn-txt-color" style="font-weight:bold; padding:5px;">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</label></li>
                                         {% endif%}
                                         {% endfor %}
-                                        {% if name == 'Rodextrip' %}
-                                        <!--<li class="tab-link" data-tab="tab-deal" onclick="scroll_menu_horizontal('tab-link', 'deal');" id="nav_scroll_menu_deal"><img style="width:20px; height:20px" src="{{static_path}}images/icon/coupon.png" alt="Rodexshop Icon"/></i><label class="btn-txt-color">Rodexshop</label></li>-->
-                                        {% endif %}
                                     </ul>
                                 </div>
                             </div>
@@ -7962,27 +7896,10 @@
                                         </form>
                                     </div>
                                     {% endif %}
-
-                                    {% if name == 'Rodextrip' %}
-                                    <div class="tab-content" id="tab-deal">
-                                        <form method="POST" class="form-wrap">
-                                            <div class="row">
-                                                <div class="col-lg-12 col-sm-12 col-md-12">
-                                                    <center>
-                                                        <button class="button-search primary-btn ld-ext-right" onclick="openInNewTab('https://rodexshop.id');" type="button" value="Submit">
-                                                            Go to Rodexshop
-                                                            <div class="ld ld-ring ld-cycle"></div>
-                                                        </button>
-                                                    </center>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                    {% endif %}
                                 </div>
                                 {% else %}
                                 <div class="col-xl-12" style="text-align:left;">
-                                    <h4>Already a RODEXTRIP member?</h4>
+                                    <h4>Already a {{name}} member?</h4>
                                     <h5>Sign in to make booking easier!</h5>
                                     <br/>
                                     <button class="primary-btn-ticket" type="button" style="margin-top:15px;" onclick="location.href='{% url 'tt_website:login'%}';">
@@ -8183,7 +8100,7 @@
                         <i class="image-rounded-icon">
                             <img style="width:auto; height:40px" src="{{static_path}}images/icon/color-airline.png" alt="Airline Icon"/>
                         </i>
-                        <h6 class="hover_cst" style="width:100px;">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</h6>
+                        <h6 class="hover_cst">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</h6>
                     </div>
                     {% elif "hotel" in provider and "ticketing_hotel" in username.co_agent_frontend_security and rec.code == "hotel" %}
                     <div class="div_cst" onclick="product_change_box('hotel')">

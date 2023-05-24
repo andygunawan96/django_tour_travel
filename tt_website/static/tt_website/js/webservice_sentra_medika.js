@@ -6,7 +6,6 @@ function sentra_medika_signin(data){
        headers:{
             'action': 'signin',
        },
-//       url: "{% url 'tt_backend_rodextrip:social_media_tree_update' %}",
        data: {},
        success: function(msg) {
        try{

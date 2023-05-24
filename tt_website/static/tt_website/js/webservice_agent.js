@@ -958,7 +958,7 @@ function signup_b2c(){
         }
     }
     if(typeof(signature) === 'undefined'){
-        signin_rodextrip('create_b2c_user');
+        signin_orbisway('create_b2c_user');
     }else if(error_log == ''){
         $('#b2c_signup_btn').addClass("running");
         $('#b2c_signup_btn').attr("disabled", true);

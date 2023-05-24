@@ -1079,7 +1079,6 @@ def get_new_cache(request, signature, type='all'):
 
             # issuedoffline
             data = {
-                'provider': 'rodextrip_issued_offline'
             }
             headers = {
                 "Accept": "application/json,text/html,application/xml",

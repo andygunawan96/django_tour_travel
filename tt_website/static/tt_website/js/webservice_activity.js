@@ -51,7 +51,6 @@ function activity_redirect_signup(type){
            headers:{
                 'action': 'login',
            },
-    //       url: "{% url 'tt_backend_rodextrip:social_media_tree_update' %}",
            data: {},
            success: function(msg) {
            try{

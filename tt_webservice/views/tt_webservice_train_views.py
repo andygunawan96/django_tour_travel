@@ -418,7 +418,6 @@ def search(request):
             "adult": int(request.session['train_request']['adult']),
             "infant": int(request.session['train_request']['infant']),
             "provider": request.POST['provider'],
-            # "provider": "rodextrip_train"
         }
         if 'train_search' not in request.session._session:
             set_session(request, 'train_search', data)

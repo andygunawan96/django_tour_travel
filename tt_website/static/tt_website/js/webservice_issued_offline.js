@@ -59,7 +59,7 @@ function issued_offline_page(){
        success: function(msg) {
             titles = msg.titles;
             countries = msg.countries;
-            signin_rodextrip('');
+            signin_orbisway('');
             get_data_issued_offline();
             try{
                 get_public_holiday(moment().format('YYYY-MM-DD'), moment().subtract(-1, 'years').format('YYYY-MM-DD'), 100 );

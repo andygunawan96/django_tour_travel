@@ -147,8 +147,6 @@ function get_printout(order_number,mode,provider_type,type='',reschedule_number=
                             });
                             break;
                         }
-    //                window.open(msg.result.response.url,'_blank');
-    //                window.open('https://static.rodextrip.com/ebe/6b5/74e/ig%20no%20socmed.jpg','_blank');
                 }else{
                     Swal.fire({
                       type: 'error',

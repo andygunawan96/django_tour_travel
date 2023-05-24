@@ -105,7 +105,6 @@ function airline_redirect_signin(type){
            headers:{
                 'action': 'signin',
            },
-    //       url: "{% url 'tt_backend_rodextrip:social_media_tree_update' %}",
            data: {},
            success: function(msg) {
            try{
@@ -1304,7 +1303,6 @@ function airline_signin(data,type=''){
        headers:{
             'action': 'signin',
        },
-//       url: "{% url 'tt_backend_rodextrip:social_media_tree_update' %}",
        data: {},
        success: function(msg) {
        try{
@@ -2466,7 +2464,6 @@ function airline_search(provider,carrier_codes,last_send=false,re_order=false){
        headers:{
             'action': 'search',
        },
-//       url: "{% url 'tt_backend_rodextrip:social_media_tree_update' %}",
        data: {
            'provider': provider,
            'carrier_codes': JSON.stringify(carrier_codes),
@@ -10725,8 +10722,8 @@ function reroute_btn(){
                                <div class="col-lg-12" style="text-align:right;">
                                     <label class="span_link" onclick="delete_reissue(`+i+`,`+j+`)">Close <i class="fas fa-times" style="font-size:18px; color:red;"></i></label>
                                </div>
-                           </div>`;
-                           for(k in airline_get_detail.result.response.provider_bookings[i].journeys[j].segments){
+                            </div>`;
+                            for(k in airline_get_detail.result.response.provider_bookings[i].journeys[j].segments){
                                 //kasih silang kasih reset
                                 text+=`
                                 <div class="row">
@@ -10742,7 +10739,7 @@ function reroute_btn(){
                                     text +=`
                                     </div>
                                 </div>`;
-                           }
+                            }
                             text+=`
                             <div class="row">
                                 <div class="col-lg-12 col-xs-12">
@@ -11208,7 +11205,6 @@ function airline_reissued(){
        headers:{
             'action': 'reissue',
        },
-//       url: "{% url 'tt_backend_rodextrip:social_media_tree_update' %}",
        data: {
             'data':JSON.stringify(provider_list),
             'signature': signature,
@@ -13398,7 +13394,6 @@ function get_price_reissue_construct(){
                    headers:{
                         'action': 'get_price_reissue_construct',
                    },
-            //       url: "{% url 'tt_backend_rodextrip:social_media_tree_update' %}",
                    data: {
                         "journeys_booking": JSON.stringify(journey),
                         "passengers":JSON.stringify({
@@ -13644,7 +13639,6 @@ function sell_journey_reissue_construct(){
                    headers:{
                         'action': 'sell_journey_reissue_construct',
                    },
-            //       url: "{% url 'tt_backend_rodextrip:social_media_tree_update' %}",
                    data: {
                         "journeys_booking": JSON.stringify(journey),
                         "passengers":JSON.stringify({
@@ -15071,7 +15065,6 @@ function airline_get_reschedule_availability_v2(){
            headers:{
                 'action': 'get_reschedule_availability_v2',
            },
-    //       url: "{% url 'tt_backend_rodextrip:social_media_tree_update' %}",
            data: {
                 'data':JSON.stringify(provider_list),
                 'signature': signature,
@@ -15158,7 +15151,6 @@ function airline_get_reschedule_itinerary_v2(){
        headers:{
             'action': 'get_reschedule_itinerary_v2',
        },
-//       url: "{% url 'tt_backend_rodextrip:social_media_tree_update' %}",
        data: {
             "journeys_booking": JSON.stringify(journey),
             "passengers":JSON.stringify({
@@ -15254,7 +15246,6 @@ function sell_reschedule_v2(){
                    headers:{
                         'action': 'sell_reschedule_v2',
                    },
-            //       url: "{% url 'tt_backend_rodextrip:social_media_tree_update' %}",
                    data: {
                         "journeys_booking": JSON.stringify(journey),
                         "passengers":JSON.stringify({
