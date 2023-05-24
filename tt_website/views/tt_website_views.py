@@ -322,6 +322,12 @@ def index(request):
                                 'signature': request.session['signature'],
                                 'terms_value': check_terms_condition(request),
                             })
+                            values.update({
+                                'big_banner_value': check_banner('home', 'big_banner', request),
+                                'small_banner_value': check_banner('home', 'small_banner', request),
+                                'promotion_banner_value': check_banner('home', 'promotion', request),
+                                'dynamic_page_value': check_banner('', 'dynamic_page', request),
+                            })
                             values.update(get_airline_advance_pax_type(request))
                         except Exception as e:
                             _logger.error(str(e) + '\n' + traceback.format_exc())
@@ -339,36 +345,8 @@ def index(request):
                             'javascript_version': javascript_version,
                             'static_path_url_server': get_url_static_path(),
                         })
-                else:
-                    values.update({
-                        'static_path': path_util.get_static_path(MODEL_NAME),
-                        'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
-                        'countries': airline_country,
-                        'phone_code': phone_code,
-                        'javascript_version': javascript_version,
-                        'static_path_url_server': get_url_static_path(),
-                    })
-            except:
-                if request.session.get('user_account'):
-                    values.update({
-                        'static_path': path_util.get_static_path(MODEL_NAME),
-                        'javascript_version': javascript_version,
-                        'static_path_url_server': get_url_static_path(),
-                        'username': request.session.get('user_account') or '',
-                    })
-                else:
-                    values.update({
-                        'static_path': path_util.get_static_path(MODEL_NAME),
-                        'javascript_version': javascript_version,
-                        'static_path_url_server': get_url_static_path(),
-                    })
-        values.update(get_airline_advance_pax_type(request))
-        values.update({
-            'big_banner_value': check_banner('home', 'big_banner', request),
-            'small_banner_value': check_banner('home', 'small_banner', request),
-            'promotion_banner_value': check_banner('home', 'promotion', request),
-            'dynamic_page_value': check_banner('', 'dynamic_page', request),
-        })
+            except Exception as e:
+                _logger.error("%s, %s" % (str(e), traceback.format_exc()))
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     if translation.LANGUAGE_SESSION_KEY in request.session:
