@@ -183,8 +183,7 @@ def get_config(request):
                     write_cache(res['result']['response'], "event_cache_data", request, 'cache_web')
             except Exception as e:
                 _logger.info(
-                    "ERROR GET CACHE FROM EVENT SEARCH AUTOCOMPLETE" + json.dumps(res) + '\n' + str(
-                        e) + '\n' + traceback.format_exc())
+                    "ERROR GET CACHE FROM EVENT SEARCH AUTOCOMPLETE" + json.dumps(res) + '\n' + str(e) + '\n' + traceback.format_exc())
                 file = read_cache("event_cache_data", 'cache_web', request, 86400)
                 if file:
                     response = file

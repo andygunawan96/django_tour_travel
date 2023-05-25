@@ -65,7 +65,7 @@ def check_banner(page, banner_type, request):
             file = False
         if file:
             for banner in file['result']['response']:
-                if banner['active']:
+                if banner.get('active'):
                     if page == 'home':
                         check_banner = 1
                         break

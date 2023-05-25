@@ -705,6 +705,12 @@ def signin(request):
 
     except Exception as e:
         _logger.error('ERROR SIGNIN\n' + str(e) + '\n' + traceback.format_exc())
+        return {
+            "result": {
+                "error_code": 500,
+                "error_msg": "Contact Admin"
+            }
+        }
         # pass
         # # logging.getLogger("error logger").error('testing')
         # _logger.error(msg=str(e) + '\n' + traceback.format_exc())
@@ -1548,7 +1554,6 @@ def get_new_cache(request, signature, type='all'):
             res = send_request_api({}, url_request, headers, data, 'POST', 120)
             try:
                 if res['result']['error_code'] == 0:
-                    res = res
                     write_cache(res, "insurance_cache_data", request, 'cache_web')
                     _logger.info("get_bus_config INSURANCE RENEW SUCCESS SIGNATURE " + headers['signature'])
                 else:

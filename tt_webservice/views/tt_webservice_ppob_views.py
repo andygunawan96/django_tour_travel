@@ -248,6 +248,8 @@ def get_provider_list(request):
         try:
             if file and request.session['user_account']['co_ho_seq_id'] in file:
                 res = file[request.session['user_account']['co_ho_seq_id']]
+            else:
+                res = {}
         except Exception as e:
             _logger.error('ERROR get_list_provider_data file\n' + str(e) + '\n' + traceback.format_exc())
     return res

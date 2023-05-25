@@ -360,7 +360,7 @@ function train_get_config_provider(signature,type=''){
             if(google_analytics != '')
                 gtag('event', 'train_search', {});
             if(msg.result.error_code == 0){
-                provider_length = msg.result.response.length;
+                provider_length = Object.keys(msg.result.response).length;
                 provider_train = msg.result.response;
                 if(type == ''){
                     send_request_search();
