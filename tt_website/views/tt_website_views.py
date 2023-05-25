@@ -2145,7 +2145,7 @@ def error_credential(request):
         'javascript_version': javascript_version,
         'static_path_url_server': get_url_static_path(),
     })
-    return render(request, MODEL_NAME + '/error/409.html', {})
+    return render(request, MODEL_NAME + '/error/409.html', values)
 
 # @api_view(['GET'])
 # def testing(request):
