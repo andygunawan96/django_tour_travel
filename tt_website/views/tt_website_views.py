@@ -1490,19 +1490,7 @@ def get_data_template(request, type='home', provider_type = []):
     is_show_breakdown_price = False
     ## live chat
 
-    top_up_term = '''
-<h6>BANK TRANSFER / CASH</h6>
-<li>1. Before you click SUBMIT, please make sure you have inputted the correct amount of TOP UP. If there is a mismatch data, such as the transferred amount/bank account is different from the requested amount/bank account, so the TOP UP will be approved by tomorrow (D+1).<br></li>
-<li>2. Bank Transfer / CASH TOP UP can be used on Monday-Sunday: 8 AM - 8 PM (GMT +7)<br></li>
-<li>3. Bank Transfer (BCA or Mandiri) auto validate in 15 minutes<br></li>
-<h6>National Holiday included</h6>
-<h6>For CASH you have to send money to Rodextrip (Jl. Raya Darmo 177 B Surabaya)</h6><br>
-<h6>VIRTUAL ACCOUNT</h6>
-
-<li>1. Top Up Transaction from ATM / LLG open for 24 hours. Balance will be added automatically (REAL TIME) after payment. Top up fee will be charged to user and if there's other charge for LLG it will be charged to user too. LLG will be added ± 2 hours from payment.<br><br></li>
-<h6>MANDIRI INTERNET BANKING</h6>
-<li>1. Transaction Top up from internet banking mandiri open for 24 hours. Balance will be added automatically (REAL TIME) after payment with additional admin Top Up.<br><br></li>
-    '''
+    top_up_term = ''
     file = read_cache("data_cache_product", 'cache_web', request, 90911)
     if file:
         for idx, line in enumerate(file.split('\n')):
@@ -1643,24 +1631,29 @@ def get_data_template(request, type='home', provider_type = []):
         #check sequence
         last_sequence = 0
         empty_sequence = False
-        for provider_obj in provider_types_sequence:
-            try:
-                if provider_obj['sequence'] == '':
-                    empty_sequence = True
-                elif isinstance(int(provider_obj['sequence']), int) and last_sequence < int(provider_obj['sequence']): #check isi int atau tidak
-                    last_sequence = int(provider_obj['sequence'])
-            except:
-                provider_obj['sequence'] = ''
-                empty_sequence = True
-        if empty_sequence:
+        try:
             for provider_obj in provider_types_sequence:
-                if provider_obj['sequence'] == '':
-                    last_sequence += 1
-                    provider_obj['sequence'] = str(last_sequence)
+                try:
+                    if provider_obj['sequence'] == '':
+                        empty_sequence = True
+                    elif isinstance(int(provider_obj['sequence']), int) and last_sequence < int(provider_obj['sequence']): #check isi int atau tidak
+                        last_sequence = int(provider_obj['sequence'])
+                except:
+                    provider_obj['sequence'] = ''
+                    empty_sequence = True
+            if empty_sequence:
+                for provider_obj in provider_types_sequence:
+                    if provider_obj['sequence'] == '':
+                        last_sequence += 1
+                        provider_obj['sequence'] = str(last_sequence)
 
-        provider_types_sequence = sorted(provider_types_sequence, key=lambda k: int(k['sequence']))
-
-        get_frequent_flyer = get_frequent_flyer_all_data({}, request.session.get('signature', ''))
+            provider_types_sequence = sorted(provider_types_sequence, key=lambda k: int(k['sequence']))
+        except Exception as e:
+            _logger.error("%s, %s" % (str(e), traceback.format_exc()))
+        try:
+            get_frequent_flyer = get_frequent_flyer_all_data({}, request.session.get('signature', ''))
+        except Exception as e:
+            _logger.error("%s, %s" % (str(e), traceback.format_exc()))
 
         path = var_log_path(request, 'live_chat')
         data = os.listdir(path)
@@ -1827,6 +1820,21 @@ def get_data_template(request, type='home', provider_type = []):
                 background = background.split('\n')[0]
     except Exception as e:
         _logger.error('ERROR GET CACHE TEMPLATE DJANGO RUN USING DEFAULT\n' + str(e) + '\n' + traceback.format_exc())
+    if not top_up_term:
+        top_up_term = '''
+        <h6>BANK TRANSFER / CASH</h6>
+        <li>1. Before you click SUBMIT, please make sure you have inputted the correct amount of TOP UP. If there is a mismatch data, such as the transferred amount/bank account is different from the requested amount/bank account, so the TOP UP will be approved by tomorrow (D+1).<br></li>
+        <li>2. Bank Transfer / CASH TOP UP can be used on Monday-Sunday: 8 AM - 8 PM (GMT +7)<br></li>
+        <li>3. Bank Transfer (BCA or Mandiri) auto validate in 15 minutes<br></li>
+        <h6>National Holiday included</h6>
+        <h6>For CASH you have to send money to %s</h6><br>
+        <h6>VIRTUAL ACCOUNT</h6>
+    
+        <li>1. Top Up Transaction from ATM / LLG open for 24 hours. Balance will be added automatically (REAL TIME) after payment. Top up fee will be charged to user and if there's other charge for LLG it will be charged to user too. LLG will be added ± 2 hours from payment.<br><br></li>
+        <h6>MANDIRI INTERNET BANKING</h6>
+        <li>1. Transaction Top up from internet banking mandiri open for 24 hours. Balance will be added automatically (REAL TIME) after payment with additional admin Top Up.<br><br></li>
+            ''' % website_name
+
     return {
         'logo': logo,
         'website_mode': website_mode,
