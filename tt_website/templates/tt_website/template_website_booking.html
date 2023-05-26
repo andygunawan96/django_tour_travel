@@ -186,7 +186,8 @@ Licence URI: http://www.os-templates.com/template-terms
 
     <style>
         .login-header{
-            background-image: url('{{background}}');
+            background-image: url('{{background}}'), linear-gradient(rgba(0,0,0,0.2),rgba(0,0,0,0.6));
+            background-blend-mode: overlay;
         }
         .jBox-TooltipBorder .jBox-container, .jBox-TooltipBorder .jBox-pointer:after{
             border:2px solid {{color}} !important;
@@ -477,7 +478,7 @@ Licence URI: http://www.os-templates.com/template-terms
         }
 
         .forgot-pass-login{
-            color:{{color}};
+            color:black;
         }
 
         ::selection {
@@ -640,7 +641,7 @@ Licence URI: http://www.os-templates.com/template-terms
         .primary-btn {
             background: {{color}};
             color: {{text_color}};
-            border: 2px solid {{text_color_login}};
+            border: 1px solid {{text_color_login}};
         }
         .primary-btn:hover {
             background: {{color}};

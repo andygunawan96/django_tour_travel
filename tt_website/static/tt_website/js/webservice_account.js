@@ -1838,8 +1838,11 @@ function get_vendor_balance(val){
                 </div>
             </div>
 
-            <div class="col-lg-12">
-            <h6>Balance Vendor</h6>
+            <div class="col-lg-12">`;
+            if(msg.result.response.data.length != 0){
+                text_balance+=`<h6>Balance Vendor</h6>`;
+            }
+            text_balance+=`
             <div class="row">`;
             for(blc in msg.result.response.data){
                 text_balance += `<div class="col-lg-6 col-md-6 mt-2 mb-2">

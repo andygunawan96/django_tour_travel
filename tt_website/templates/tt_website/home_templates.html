@@ -8100,7 +8100,7 @@
                         <i class="image-rounded-icon">
                             <img style="width:auto; height:40px" src="{{static_path}}images/icon/color-airline.png" alt="Airline Icon"/>
                         </i>
-                        <h6 class="hover_cst">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</h6>
+                        <h6 class="hover_cst" style="width:100px;">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</h6>
                     </div>
                     {% elif "hotel" in provider and "ticketing_hotel" in username.co_agent_frontend_security and rec.code == "hotel" %}
                     <div class="div_cst" onclick="product_change_box('hotel')">

@@ -986,7 +986,6 @@ ul.popular2_tabs li.current .image-rounded-icon{
     cursor: pointer;
     height: 50px;
     width: 50px;
-    border-radius: 28px;
 }
 
 #myBtnBTP:hover {
@@ -2476,7 +2475,7 @@ th input {
 }
 .forgot-pass-login{
     color: #205B95;
-    font-size:15px;
+    font-size:18px;
     font-weight:700;
 }
 /*
