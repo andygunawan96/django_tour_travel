@@ -417,6 +417,11 @@ ul.popular2_tabs li.current .image-rounded-icon{
   width: 100%;
 }
 
+.stripe_dynamic_page_login{
+    height:180px !important;
+    width:100%;
+}
+
 .stripe_dynamic_page{
     height:260px !important;
     width:100%;
