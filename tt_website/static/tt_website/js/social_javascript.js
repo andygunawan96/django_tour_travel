@@ -179,29 +179,30 @@ function get_social(type){
 
                 document.getElementById('social_page_div').innerHTML = text;
 
-            }else if(type == 'login'){
+            }
+            else if(type == 'login'){
                 text = '';
                 if(msg.length != 0){
                     if(check_available_dynamic == 0){
-                        text+=`<br/><h4 style="color:`+text_color+`; font-weight:bold;">Follow Us</h4>`;
+                        text+=`<br/><h5 style="color:`+text_color+`; font-weight:bold;">Follow us</h5>`;
                     }else{
-                        text+=`<hr/><h4 style="color:black;">Follow Us</h4>`;
+                        text+=`<h6 class="follow_us_color" style="margin-bottom:5px; font-weight:bold;">Follow us</h6>`;
                     }
                 }
                 for(i in msg){
                     text += `<a href="`+msg[i][1]+`" target="_blank">`;
                     if(msg[i][0] == "Facebook"){
-                        text+=`<img style="margin:0px 5px; height:30px; width:auto;" src="/static/tt_website/img/facebook.png" alt="Facebook"/>`;
+                        text+=`<img style="margin-right:5px; height:30px; width:auto;" src="/static/tt_website/img/facebook.png" alt="Facebook"/>`;
                     }else if(msg[i][0] == "Instagram"){
-                        text+=`<img style="margin:0px 5px; height:30px; width:auto;" src="/static/tt_website/img/instagram.png" alt="Facebook"/>`;
+                        text+=`<img style="margin-right:5px; height:30px; width:auto;" src="/static/tt_website/img/instagram.png" alt="Facebook"/>`;
                     }else if(msg[i][0] == "Twitter"){
-                        text+=`<img style="margin:0px 5px; height:25px; width:auto;" src="/static/tt_website/img/twitter.png" alt="Twitter"/>`;
+                        text+=`<img style="margin-right:5px; height:25px; width:auto;" src="/static/tt_website/img/twitter.png" alt="Twitter"/>`;
                     }else if(msg[i][0] == "Youtube"){
-                        text+=`<img style="margin:0px 5px; height:25px; width:auto;" src="/static/tt_website/img/youtube.png" alt="Youtube"/>`;
+                        text+=`<img style="margin-right:5px; height:25px; width:auto;" src="/static/tt_website/img/youtube.png" alt="Youtube"/>`;
                     }else if(msg[i][0] == "TikTok"){
-                        text+=`<img style="margin-bottom:10px; height:30px; width:auto; padding-right:10px;" src="/static/tt_website/img/tiktok.png" alt="TikTok"/>`;
+                        text+=`<img style="margin-right:5px; height:30px; width:auto; padding-right:10px;" src="/static/tt_website/img/tiktok.png" alt="TikTok"/>`;
                     }else if(msg[i][0] == "Other"){
-                        text+=`<img style="margin:0px 5px; height:30px; width:auto;" src="/static/tt_website/img/other.png" alt="Other"/>`;
+                        text+=`<img style="margin-right:5px; height:30px; width:auto;" src="/static/tt_website/img/other.png" alt="Other"/>`;
                     }
                     text+=`</a>`;
                     //if(msg[i][0] == 'Twitter'){
@@ -212,15 +213,13 @@ function get_social(type){
                 }
 
                 if(check_available_dynamic == 0){
-                    document.getElementById('social_login_div').innerHTML = text;
-                    document.getElementById('social_login_div2').innerHTML = text;
                     document.getElementById("scroll_dn_btn").style.display = "none";
                     document.getElementById("go_more").style.display = "none";
                 }else{
-                    document.getElementById('social_login_div3').innerHTML = text;
                     document.getElementById("scroll_up_btn").style.display = "block";
-
                 }
+                document.getElementById('social_login_div').innerHTML = text;
+                document.getElementById('social_login_div2').innerHTML = text;
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
