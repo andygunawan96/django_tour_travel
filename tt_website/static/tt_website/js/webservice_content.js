@@ -1038,7 +1038,7 @@ function get_dynamic_page(type){
                         text += `<option value=`+counter+` select>`+msg.result.response[i].sequence+`. `+msg.result.response[i].title+`</option>`;
                     }
                 }
-                else if(type == 'login' || type == 'home'){
+                else if(type == 'home'){
                     //buat owlcaoursel
                     text = `<div class="owl-carousel-login owl-theme" style="z-index:0;">`;
                     for(i in msg.result.response){
@@ -1076,17 +1076,7 @@ function get_dynamic_page(type){
                     //buat owlcaoursel
                     text+=`</div>`;
 
-                    if(type == 'login'){
-                        document.getElementById('owl-login').innerHTML = text;
-//                        document.getElementById('owl-login2').innerHTML = text;
-
-                        if(check_dynamic){
-                            check_available_dynamic = 1;
-                        }
-                        get_social('login');
-                    }else if(type == 'home'){
-                        document.getElementById('owl-login2').innerHTML = text;
-                    }
+                    document.getElementById('owl-login2').innerHTML = text;
 
                     $('.owl-carousel-login').owlCarousel({
                         loop:true,
@@ -1117,6 +1107,57 @@ function get_dynamic_page(type){
                             }
                         }
                     });
+                }
+
+                else if(type == 'login'){
+                    text = '<div class="row">';
+                    for(i in msg.result.response){
+                        if(msg.result.response[i].state == true){
+                            check_dynamic = true;
+                            text+=`
+                            <div class="col-lg-12">
+                                <div class="information_box">
+                                    <div class="single-destination relative" style="margin-bottom:unset;">
+                                        <div class="row">
+                                            <div class="col-lg-3 col-md-4">
+                                                <div class="thumb relative" alt="`+msg.result.response[i].title+`" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:170px; background: white url('`+msg.result.response[i].image_carousel+`'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="window.location.href='/page/`+msg.result.response[i].url+`'">
+
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-9 col-md-8">
+                                                <div class="card card-effect-promotion" style="border:unset;">
+                                                    <div class="card-body" style="padding:5px 10px 10px 10px; border:unset;">
+                                                        <div class="row details">
+                                                            <div class="col-lg-12" style="height:160px;">
+                                                                <h6 style="cursor:pointer; font-size:16px; width:fit-content; padding-top:10px; border-bottom:4px solid `+color+`; padding-right:5px; font-weight:bold; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;" onclick="window.location.href='/page/`+msg.result.response[i].url+`'">`+msg.result.response[i].title+`</h6>
+                                                                <div style="padding-top:10px; height:65px;display: block; text-overflow: ellipsis; word-wrap: break-word; overflow: hidden; max-height: 4.6em; line-height: 1.8em;">
+                                                                    `+msg.result.response[i].body+`
+                                                                </div>
+                                                                <div style="position:absolute; right:15px; bottom:0px;">
+                                                                    <button class="primary-btn" style="line-height:24px; padding-left:15px; padding-right:15px;" onclick="window.location.href='/page/`+msg.result.response[i].url+`'">Read More <i class="fas fa-chevron-right"></i></button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`;
+                        }
+                    }
+                    text+=`</div>`;
+
+                    if(type == 'login'){
+                        document.getElementById('owl-login').innerHTML = text;
+//                        document.getElementById('owl-login2').innerHTML = text;
+
+                        if(check_dynamic){
+                            check_available_dynamic = 1;
+                        }
+                        get_social('login');
+                    }
                 }
             }
             if(type == 'admin'){

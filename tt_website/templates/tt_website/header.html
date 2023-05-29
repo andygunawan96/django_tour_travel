@@ -166,7 +166,7 @@
                     <li class="menu-has-children notification-pc pt5" style="cursor:pointer;"><a style="font-weight:700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:150px;" title="{{username.co_user_login}}" id="user_login2">{{username.co_user_login}}</a>
                         <ul>
                             {% if "admin" in username.co_agent_frontend_security %}
-                            <li><a href="{% url 'tt_website:admin'%}">Admin</a></li>
+                            <li><a href="{% url 'tt_website:admin'%}">Admin Setting</a></li>
                             {% endif %}
                             {% if "analyst_periksain" in username.co_agent_frontend_security or "assign_analyst_periksain" in username.co_agent_frontend_security %}
                             <li><a href="/assign_analyst/periksain">Analyst Periksain Schedule</a></li>
@@ -202,7 +202,7 @@
                     <li class="menu-has-children notification-mobile pt5" style="padding-right:15px;cursor:pointer; display:none;"><a href="#"><img src="{{static_path}}images/noprofile.png" class="image-rounded-profile" alt="Photo Profile" style="margin-right:10px;" id="user_login"/> {{username.co_user_login}}</a>
                         <ul>
                             {% if "admin" in username.co_agent_frontend_security %}
-                            <li><a href="{% url 'tt_website:admin'%}">Admin</a></li>
+                            <li><a href="{% url 'tt_website:admin'%}">Admin Setting</a></li>
                             {% endif %}
                             {% if "analyst_periksain" in username.co_agent_frontend_security or "assign_analyst_periksain" in username.co_agent_frontend_security %}
                             <li><a href="/assign_analyst/periksain">Analyst Periksain Schedule</a></li>
@@ -307,46 +307,6 @@
 </header>
 {% elif template == 2 %}
 <header class="header-area">
-    <!-- Search Form -->
-    <!--    <div class="search-form d-flex align-items-center">-->
-    <!--        <div class="container">-->
-    <!--            <form action="index.html" method="get">-->
-    <!--                <input type="search" name="search-form-input" id="searchFormInput" placeholder="Type your keyword ...">-->
-    <!--                <button type="submit"><i class="icon_search"></i></button>-->
-    <!--            </form>-->
-    <!--        </div>-->
-    <!--    </div>-->
-
-    <!-- Top Header Area Start -->
-    <!--    <div class="top-header-area">-->
-    <!--        <div class="container">-->
-    <!--            <div class="row">-->
-    <!--                <div class="col-xs-4">-->
-    <!--                    <div class="top-header-content">-->
-    <!--                        <a href="tel:0315662000"><i class="fas fa-phone"></i> <span style="font-size:12px;">(031) 5662000</span></a>-->
-    <!--                        <a href="mailto:rodextravel@tours"><i class="fas fa-envelope"></i> <span style="font-size:12px;">rodextravel@tours</span></a>-->
-    <!--                    </div>-->
-    <!--                </div>-->
-    <!--                <div class="col-xs-8">-->
-    <!--                    <div class="top-header-content">-->
-    <!--                        &lt;!&ndash; Top Social Area &ndash;&gt;-->
-    <!--                        <div class="top-social-area ml-auto">-->
-    <!--                            <div class="dropdown-custom">-->
-    <!--                                <button class="dropbtn-custom">Language <i class="fas fa-chevron-down"></i></button>-->
-    <!--                                <div class="dropdown-content-custom">-->
-    <!--                                    <a href="javascript:change_template(1);" style="line-height:10px !important;">ID</a><br/>-->
-    <!--                                    <a href="javascript:change_template(2);" style="line-height:10px !important;">JP</a><br/>-->
-    <!--                                    <a href="javascript:change_template(3);" style="line-height:10px !important;">ENG</a><br/>-->
-    <!--                                </div>-->
-    <!--                            </div>-->
-    <!--                        </div>-->
-    <!--                    </div>-->
-    <!--                    &lt;!&ndash; Nav Start &ndash;&gt;-->
-    <!--                </div>-->
-    <!--            </div>-->
-    <!--        </div>-->
-    <!--    </div>-->
-    <!-- Top Header Area End -->
 
     <!-- Main Header Start -->
     {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
@@ -456,7 +416,7 @@
                                         <!--                                        </ul>-->
                                         <!--                                    </li>-->
                                         {% if "admin" in username.co_agent_frontend_security %}
-                                        <li><a href="{% url 'tt_website:admin'%}">Admin</a></li>
+                                        <li><a href="{% url 'tt_website:admin'%}">Admin Setting</a></li>
                                         {% endif %}
                                         {% if "analyst_periksain" in username.co_agent_frontend_security or "assign_analyst_periksain" in username.co_agent_frontend_security %}
                                         <li><a href="/assign_analyst/periksain">Analyst Periksain Schedule</a></li>
@@ -493,7 +453,7 @@
                                     <ul class="dropdown">
 
                                         {% if "admin" in username.co_agent_frontend_security %}
-                                        <li><a href="{% url 'tt_website:admin'%}">Admin</a></li>
+                                        <li><a href="{% url 'tt_website:admin'%}">Admin Setting</a></li>
                                         {% endif %}
                                         {% if "analyst_periksain" in username.co_agent_frontend_security or "assign_analyst_periksain" in username.co_agent_frontend_security %}
                                         <li><a href="/assign_analyst/periksain">Analyst Periksain Schedule</a></li>
@@ -687,7 +647,7 @@
                         <li class="menu-has-children notification-pc" style="cursor:pointer;"><a title="{{username.co_user_login}}" style="font-weight:700; color:white; top:10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:150px;">{{username.co_user_login}}</a>
                             <ul>
                                 {% if "admin" in username.co_agent_frontend_security %}
-                                <li><a href="{% url 'tt_website:admin'%}">Admin</a></li>
+                                <li><a href="{% url 'tt_website:admin'%}">Admin Setting</a></li>
                                 {% endif %}
                                 {% if "analyst_periksain" in username.co_agent_frontend_security or "assign_analyst_periksain" in username.co_agent_frontend_security %}
                                 <li><a href="/assign_analyst/periksain">Analyst Periksain Schedule</a></li>
@@ -724,7 +684,7 @@
                         <li class="menu-has-children notification-mobile" style="padding-right:15px;cursor:pointer; display:none"><a href="#"><img src="{{static_path}}images/noprofile.png" alt="Photo Profile" class="image-rounded-profile"/> {{username.co_user_login}}</a>
                             <ul>
                                 {% if "admin" in username.co_agent_frontend_security %}
-                                <li><a href="{% url 'tt_website:admin'%}">Admin</a></li>
+                                <li><a href="{% url 'tt_website:admin'%}">Admin Setting</a></li>
                                 {% endif %}
                                 {% if "analyst_periksain" in username.co_agent_frontend_security or "assign_analyst_periksain" in username.co_agent_frontend_security %}
                                 <li><a href="/assign_analyst/periksain">Analyst Periksain Schedule</a></li>
@@ -836,26 +796,6 @@
 
     <div class="main-menu tab_custom_login" style="padding:10px;">
         <div class="container">
-            <!--        <div class="row" style="border-radius: 4px;">-->
-            <!--            <div class="col-5" id="with-detail" style="text-align:left; padding:0px 0px 5px 0px;">-->
-            <!--                <a href="tel:0315662000" style="padding-right:15px; font-size:13px;"><i class="fas fa-phone"></i> <span>(031) 5662000</span></a>-->
-            <!--                <a href="mailto:rodextravel@tours" style="font-size:13px;"><i class="fas fa-envelope"></i> <span>rodextravel@tours</span></a>-->
-            <!--            </div>-->
-            <!--            <div class="col-5" id="no-detail" style="text-align:left; padding:0px 0px 5px 0px;">-->
-            <!--                <a href="tel:0315662000" style="padding-right:15px; font-size:13px;"><i class="fas fa-phone"></i></a>-->
-            <!--                <a href="mailto:rodextravel@tours" style="font-size:13px;"><i class="fas fa-envelope"></i></a>-->
-            <!--            </div>-->
-            <!--            <div class="col-7" style="text-align:right; padding:0px;">-->
-            <!--                <div class="dropdown-custom">-->
-            <!--                    <button class="dropbtn-custom">Language <i class="fas fa-chevron-down"></i></button>-->
-            <!--                    <div class="dropdown-content-custom">-->
-            <!--                        <a href="javascript:change_template(1);" style="line-height:10px !important; margin-top:20px;">ID</a><br/>-->
-            <!--                        <a href="javascript:change_template(2);" style="line-height:10px !important;">JP</a><br/>-->
-            <!--                        <a href="javascript:change_template(3);" style="line-height:10px !important;">ENG</a><br/>-->
-            <!--                    </div>-->
-            <!--                </div>-->
-            <!--            </div>-->
-            <!--        </div>-->
             <div class="row align-items-center">
                 <div class="col-lg-2 col-xs-4">
                     <h1 class="mb-0 site-logo"><a href="{% url 'tt_website:index'%}"><img id="logo_header" src="{{logo}}" style="{% if username.co_user_login != default_user %} max-height:40px;max-width:250px;{%else%} max-height:60px;max-width:225px; {%endif%}" alt="Logo {{name}}" title="{{name}}" /></a></h1>
@@ -923,7 +863,7 @@
                         <li class="has-children notification-pc" style="display:inline-flex;"><a href="#" title="{{username.co_user_login}}" style="font-weight:700; top:10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:150px;">{{username.co_user_login}}</a>
                             <ul class="dropdown">
                                 {% if "admin" in username.co_agent_frontend_security %}
-                                <li><a href="{% url 'tt_website:admin'%}">Admin</a></li>
+                                <li><a href="{% url 'tt_website:admin'%}">Admin Setting</a></li>
                                 {% endif %}
                                 {% if "analyst_periksain" in username.co_agent_frontend_security or "assign_analyst_periksain" in username.co_agent_frontend_security %}
                                 <li><a href="/assign_analyst/periksain">Analyst Periksain Schedule</a></li>
@@ -958,7 +898,7 @@
                         <li class="has-children notification-mobile" style="display:none;"><a href="#" title="{{username.co_user_login}}"><img src="{{static_path}}images/noprofile.png" alt="Photo Profile" class="image-rounded-profile"/> {{username.co_user_login}}</a>
                             <ul class="dropdown">
                                 {% if "admin" in username.co_agent_frontend_security %}
-                                <li><a href="{% url 'tt_website:admin'%}">Admin</a></li>
+                                <li><a href="{% url 'tt_website:admin'%}">Admin Setting</a></li>
                                 {% endif %}
                                 {% if "analyst_periksain" in username.co_agent_frontend_security or "assign_analyst_periksain" in username.co_agent_frontend_security %}
                                 <li><a href="/assign_analyst/periksain">Analyst Periksain Schedule</a></li>
@@ -1062,26 +1002,6 @@
 </header>
 {% elif template == 5%}
 <header>
-    <!--    <div class="menutop-wrap">-->
-    <!--        <div class="menu-top container">-->
-    <!--            <div class="d-flex justify-content-end align-items-center">-->
-    <!--                <div class="dropdown-custom">-->
-    <!--                    <button class="dropbtn-custom">Language <i class="fas fa-chevron-down"></i></button>-->
-    <!--                    <div class="dropdown-content-custom">-->
-    <!--                        <a href="javascript:change_template(1);" style="line-height:10px !important; margin-top:20px;">ID</a><br/>-->
-    <!--                        <a href="javascript:change_template(2);" style="line-height:10px !important;">JP</a><br/>-->
-    <!--                        <a href="javascript:change_template(3);" style="line-height:10px !important;">ENG</a><br/>-->
-    <!--                    </div>-->
-    <!--                </div>-->
-    <!--                <ul class="list">-->
-    <!--                    <li id="phone-detail" style="color:black; border-left:1px solid black;"><a href="tel:0315662000" style="font-size:12px;"><i class="fas fa-phone"></i> (031) 5662000</a></li>-->
-    <!--                    <li id="phone-detail-show" style="color:black; border-left:1px solid black;"><a href="tel:0315662000" style="font-size:12px;"><i class="fas fa-phone"></i></a></li>-->
-    <!--                    <li id="email-detail" style="color:black;"><a href="mailto:rodextravel@tours" style="font-size:12px;"> <i class="fas fa-envelope"></i> rodextravel@tours</a></li>-->
-    <!--                    <li id="email-detail-show" style="color:black;"><a href="mailto:rodextravel@tours" style="font-size:12px;"> <i class="fas fa-envelope"></i></a></li>-->
-    <!--                </ul>-->
-    <!--            </div>-->
-    <!--        </div>-->
-    <!--    </div>-->
     {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
     {% include 'tt_website/header_corporate.html' %}
     {% endif %}
@@ -1159,7 +1079,7 @@
                     <li class="menu-has-children notification-pc" style="cursor:pointer; margin-top:8px;"><a class="user_t5" style="font-weight:700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:150px;" title="{{username.co_user_login}}">{{username.co_user_login}} <i class="fas fa-chevron-down fat-dh" style="display:inline-block;"></i></a>
                         <ul style="top:65%;">
                             {% if "admin" in username.co_agent_frontend_security %}
-                            <li><a href="{% url 'tt_website:admin'%}">Admin</a></li>
+                            <li><a href="{% url 'tt_website:admin'%}">Admin Setting</a></li>
                             {% endif %}
                             {% if "analyst_periksain" in username.co_agent_frontend_security or "assign_analyst_periksain" in username.co_agent_frontend_security %}
                             <li><a href="/assign_analyst/periksain">Analyst Periksain Schedule</a></li>
@@ -1194,7 +1114,7 @@
                     <li class="menu-has-children notification-mobile" style="padding-right:15px;cursor:pointer; display:none;"><a href="#"><img src="{{static_path}}images/noprofile.png" class="image-rounded-profile" style="margin-right:10px;" alt="Photo Profile"/> {{username.co_user_login}}</a>
                         <ul>
                             {% if "admin" in username.co_agent_frontend_security %}
-                            <li><a href="{% url 'tt_website:admin'%}">Admin</a></li>
+                            <li><a href="{% url 'tt_website:admin'%}">Admin Setting</a></li>
                             {% endif %}
                             {% if "analyst_periksain" in username.co_agent_frontend_security or "assign_analyst_periksain" in username.co_agent_frontend_security %}
                             <li><a href="/assign_analyst/periksain">Analyst Periksain Schedule</a></li>
@@ -1367,7 +1287,7 @@
                     </a>
                     <ul>
                         {% if "admin" in username.co_agent_frontend_security %}
-                        <li><a href="{% url 'tt_website:admin'%}">Admin</a></li>
+                        <li><a href="{% url 'tt_website:admin'%}">Admin Setting</a></li>
                         {% endif %}
                         {% if "report" in username.co_agent_frontend_security %}
                         <li><a href="{% url 'tt_website:report'%}">Report</a></li>
@@ -1391,7 +1311,7 @@
                 <li style="padding-right:15px;cursor:pointer; display:none;"><a href="#"><img src="{{static_path}}images/noprofile.png" class="image-rounded-profile" alt="Photo Profile" style="margin-right:10px;" id="user_login"/> {{username.co_user_login}}</a>
                     <ul>
                         {% if "admin" in username.co_agent_frontend_security %}
-                        <li><a href="{% url 'tt_website:admin'%}">Admin</a></li>
+                        <li><a href="{% url 'tt_website:admin'%}">Admin Setting</a></li>
                         {% endif %}
                         {% if "report" in username.co_agent_frontend_security %}
                         <li><a href="{% url 'tt_website:report'%}">Report</a></li>
