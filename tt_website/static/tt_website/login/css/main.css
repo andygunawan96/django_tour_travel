@@ -143,7 +143,8 @@ iframe {
 [ login ]*/
 
 .login-header{
-    height:100%;
+    height: 100vh;
+    width: 100%;
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -187,7 +188,7 @@ iframe {
 
 .container-login100 {
   width: 100%;  
-  min-height: 88%;
+  height: 100%;
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-box;
@@ -231,8 +232,7 @@ iframe {
 
 .login100-form {
   width: 100%;
-  border-radius: 10px;
-  background-color: rgba(255,255,255,0.8);
+  border-radius: 7px;
 }
 
 .login100-form-logo {
@@ -257,11 +257,9 @@ iframe {
   font-family: Ubuntu-Bold;
   font-size: 28px;
   color: #fff;
-  padding-bottom:15px;
   line-height: 1.2;
   text-align: center;
   text-transform: uppercase;
-
   display: block;
 }
 
@@ -273,7 +271,7 @@ iframe {
   width: 100%;
   position: relative;
   border-bottom: 1px solid gray;
-  padding: 29px 0;
+  padding: 15px 0;
 }
 
 .input100 {
@@ -327,15 +325,15 @@ iframe {
 
 .focus-input100::after {
   font-family: Linearicons-Free;
-  font-size: 18px;
+  font-size: 20px;
   color: black;
 
   content: attr(data-placeholder);
   display: block;
   width: 100%;
   position: absolute;
-  top: 40px;
-  left: 35px;
+  top: 25px;
+  left: 20px;
  
 
   -webkit-transition: all 0.4s;
@@ -549,7 +547,6 @@ iframe {
 .input-container-login {
   display: -ms-flexbox; /* IE10 */
   display: flex;
-  float:right;
 }
 
 @media (max-width: 767px) {
@@ -573,11 +570,7 @@ iframe {
         font-size:16px;
     }
 
-    .form-box-login{
-        display:block !important;
-    }
-
-    .rodextrip-login{
+    .trip-login{
         display:none;
     }
 }
@@ -954,4 +947,57 @@ a.author{
   background-color: rgba(0,0,0,0.5); /* Black background with opacity */
   z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
   cursor: pointer; /* Add a pointer on hover */
+}
+
+.login_page_right{
+  margin: 0;
+  position: relative;
+  top: 30px;
+}
+
+.login_page_left{
+  margin: 0;
+  position: relative;
+  top: 45%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.info_page_right{
+  margin: 0;
+  position: relative;
+  top: 50%;
+  right: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.information_box{
+    background-color:white;
+    padding:10px;
+    margin-bottom:20px;
+    border: 1px solid #cdcdcd;
+}
+
+.follow_us_color{
+    color:black;
+}
+
+@media (max-width: 991px) {
+    .form-box-login{
+        display:block !important;
+    }
+    .form-box-login-mb{
+        display:none !important;
+    }
+
+    .follow_us_color{
+        color:white;
+    }
+}
+
+.modal-dialog {
+    max-width: 750px;
+    margin: 30px auto;
 }

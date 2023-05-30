@@ -417,6 +417,11 @@ ul.popular2_tabs li.current .image-rounded-icon{
   width: 100%;
 }
 
+.stripe_dynamic_page_login{
+    height:180px !important;
+    width:100%;
+}
+
 .stripe_dynamic_page{
     height:260px !important;
     width:100%;
@@ -986,7 +991,6 @@ ul.popular2_tabs li.current .image-rounded-icon{
     cursor: pointer;
     height: 50px;
     width: 50px;
-    border-radius: 28px;
 }
 
 #myBtnBTP:hover {
@@ -2047,8 +2051,8 @@ ul.popular2_tabs li.current .image-rounded-icon{
     border: 1px solid transparent;
     cursor: pointer;
     color: #000;
-    height: 40px;
-    width: 40px;
+    height: 30px;
+    width: 30px;
 }
 
 .btn-custom-circle:hover {
@@ -2476,7 +2480,7 @@ th input {
 }
 .forgot-pass-login{
     color: #205B95;
-    font-size:15px;
+    font-size:18px;
     font-weight:700;
 }
 /*
