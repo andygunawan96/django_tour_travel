@@ -979,50 +979,60 @@ def get_dynamic_page(request):
         empty_sequence = False
         last_sequence = 1
         for data in os.listdir('%s/' % path):
-            file = read_cache(data[:-4], "page_dynamic", request, 90911)
-            if file:
-                state = ''
-                title = ''
-                body = ''
-                image_carousel = ''
-                sequence = ''
-                for idx, line in enumerate(file.split('\n')):
-                    if idx == 0:
-                        if line.split('\n')[0] == 'false':
-                            state = False
-                        else:
-                            state = True
-                    elif idx == 1:
-                        title = line.split('\n')[0]
-                    elif idx == 2:
-                        #ketemu case jika hanya 1 line saja json dumps nya tidak ada waktu load error jadi sementara tambah try except
-                        try:
-                            body = json.loads(line.split('\n')[0])
-                        except:
-                            body = line.split('\n')[0]
-                    elif idx == 3:
-                        image_carousel = line.split('\n')[0]
-                    elif idx == 4:
-                        sequence = line.split('\n')[0]
-                response.append({
-                    "state": bool(state),
-                    "title": title,
-                    "body": body,
-                    "image_carousel": image_carousel,
-                    "sequence": sequence,
-                    "url": data.split('.')[0]
-                })
-                if sequence != '':
-                    if last_sequence < int(sequence):
-                        last_sequence = int(sequence)
-                if sequence == '':
-                    empty_sequence = True
+            try:
+                file = read_cache(data[:-4], "page_dynamic", request, 90911)
+                if file:
+                    state = ''
+                    title = ''
+                    body = ''
+                    image_carousel = ''
+                    sequence = ''
+                    for idx, line in enumerate(file.split('\n')):
+                        if idx == 0:
+                            if line.split('\n')[0] == 'false':
+                                state = False
+                            else:
+                                state = True
+                        elif idx == 1:
+                            title = line.split('\n')[0]
+                        elif idx == 2:
+                            #ketemu case jika hanya 1 line saja json dumps nya tidak ada waktu load error jadi sementara tambah try except
+                            try:
+                                body = json.loads(line.split('\n')[0])
+                            except:
+                                body = line.split('\n')[0]
+                        elif idx == 3:
+                            image_carousel = line.split('\n')[0]
+                        elif idx == 4:
+                            sequence = line.split('\n')[0]
+                    response.append({
+                        "state": bool(state),
+                        "title": title,
+                        "body": body,
+                        "image_carousel": image_carousel,
+                        "sequence": sequence,
+                        "url": data.split('.')[0]
+                    })
+                    try:
+                        if sequence != '':
+                            if last_sequence < int(sequence):
+                                last_sequence = int(sequence)
+                        if sequence == '':
+                            empty_sequence = True
+                    except Exception as e:
+                        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+                        empty_sequence = True
+            except Exception as e:
+                _logger.error(msg=str(e) + '\n' + traceback.format_exc())
         if empty_sequence:
             for page_dynamic_dict in response:
-                if page_dynamic_dict['sequence'] == '':
-                    last_sequence += 1
+                try:
+                    if int(page_dynamic_dict['sequence']):
+                        page_dynamic_dict['sequence'] = str(last_sequence)
+                except Exception as e:
                     page_dynamic_dict['sequence'] = str(last_sequence)
-
+                    _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+                last_sequence += 1
         response = sorted(response, key=lambda k: int(k['sequence']))
         res = {
             'result': {
