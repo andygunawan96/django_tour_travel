@@ -786,24 +786,33 @@ def get_carriers_search(request, signature=''):
         res = send_request_api(request, url_request, headers, data, 'POST')
         try:
             if res['result']['error_code'] == 0:
-                res = res['result']['response']
-                write_cache(res, "get_airline_active_carriers", request, 'cache_web')
+                temp = {}
+                for ho_seq_id in res['result']['response']:
+                    temp[ho_seq_id] = res['result']['response'][ho_seq_id]
+                write_cache(temp, "get_airline_active_carriers", request, 'cache_web')
                 _logger.info("get_carriers_search AIRLINE RENEW SUCCESS SIGNATURE " + headers['signature'])
+                if request.session['user_account']['co_ho_seq_id'] in temp:
+                    res = temp[request.session['user_account']['co_ho_seq_id']]
             else:
                 try:
                     file = read_cache("get_airline_active_carriers", 'cache_web', request)
                     if file:
                         res = file
+                        if request.session['user_account']['co_ho_seq_id'] in res:
+                            res = res[request.session['user_account']['co_ho_seq_id']]
                     _logger.info("read file get_airline_active_carriers SIGNATURE " + request.POST['signature'])
                 except Exception as e:
                     _logger.error('ERROR read file get_airline_active_carriers\n' + str(e) + '\n' + traceback.format_exc())
         except Exception as e:
+            res = {}
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
-            file = read_cache("get_airline_active_carriers", 'cache_web', request, 90911)
             res = file
+            if request.session['user_account']['co_ho_seq_id'] in res:
+                res = res[request.session['user_account']['co_ho_seq_id']]
         except Exception as e:
+            res = {}
             _logger.error('ERROR read file get_airline_active_carriers\n' + str(e) + '\n' + traceback.format_exc())
 
     allowed_carrier_search = get_allowed_config_search(request)
