@@ -924,13 +924,7 @@ def admin(request):
                     _logger.error(str(e) + '\n' + traceback.format_exc())
                     raise Exception('Make response code 500!')
                 javascript_version = get_javascript_version(request)
-                response = get_cache_data(request)
-                airline_country = response['result']['response']['airline']['country']
-                phone_code = []
-                for i in airline_country:
-                    if i['phone_code'] not in phone_code:
-                        phone_code.append(i['phone_code'])
-                phone_code = sorted(phone_code)
+
 
                 # get font
                 fs = FileSystemStorage()
@@ -938,12 +932,19 @@ def admin(request):
                 directory.pop()
                 directory = '/'.join(directory)
                 directory += '/tt_website/static/tt_website/custom_font/'
-                data_font = []
-                for font in os.listdir(directory):
-                    data_font.append({
-                        'name': font.split('.')[0],
-                        'font': font
-                    })
+            data_font = []
+            for font in os.listdir(directory):
+                data_font.append({
+                    'name': font.split('.')[0],
+                    'font': font
+                })
+            response = get_cache_data(request)
+            airline_country = response['result']['response']['airline']['country']
+            phone_code = []
+            for i in airline_country:
+                if i['phone_code'] not in phone_code:
+                    phone_code.append(i['phone_code'])
+            phone_code = sorted(phone_code)
             values = get_data_template(request,'admin')
             values.update(get_credential(request, 'dict'))
             if translation.LANGUAGE_SESSION_KEY in request.session:
