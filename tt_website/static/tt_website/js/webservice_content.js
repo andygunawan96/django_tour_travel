@@ -1211,7 +1211,7 @@ function run_payment_information_page(){
     heading = document.getElementById('payment_information_heading').value;
     document.getElementById('editor_payment_information_test').innerHTML = `
     <br/>
-    <div class="row">
+    <div class="row" style="padding:0px 15px;">
         <div class="col-lg-12" style="cursor:pointer; background:#FFFFFF; border:1px solid #cdcdcd; padding:15px; display:block;" id="up_payment_information" onclick="div_dropdown('payment_information');">
             <div class="row">
                 <div class="col-lg-12" style="display: flex;align-items: center;">
