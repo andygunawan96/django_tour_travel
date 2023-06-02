@@ -926,28 +926,25 @@ def admin(request):
                 javascript_version = get_javascript_version(request)
 
 
-                # get font
-                fs = FileSystemStorage()
-                directory = fs.location.split('/')
-                directory.pop()
-                directory = '/'.join(directory)
-                directory += '/tt_website/static/tt_website/custom_font/'
+            # get font
+            fs = FileSystemStorage()
+            directory = fs.location.split('/')
+            directory.pop()
+            directory = '/'.join(directory)
+            directory += '/tt_website/static/tt_website/custom_font/'
             data_font = []
             for font in os.listdir(directory):
                 data_font.append({
                     'name': font.split('.')[0],
                     'font': font
                 })
-            try:
-                response = get_cache_data(request)
-                airline_country = response['result']['response']['airline']['country']
-                phone_code = []
-                for i in airline_country:
-                    if i['phone_code'] not in phone_code:
-                        phone_code.append(i['phone_code'])
-                phone_code = sorted(phone_code)
-            except Exception as e:
-                _logger.error("%s, %s" % (str(e)), traceback.format_exc())
+            response = get_cache_data(request)
+            airline_country = response['result']['response']['airline']['country']
+            phone_code = []
+            for i in airline_country:
+                if i['phone_code'] not in phone_code:
+                    phone_code.append(i['phone_code'])
+            phone_code = sorted(phone_code)
             values = get_data_template(request,'admin')
             values.update(get_credential(request, 'dict'))
             if translation.LANGUAGE_SESSION_KEY in request.session:
