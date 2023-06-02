@@ -923,9 +923,8 @@ def admin(request):
                 except Exception as e:
                     _logger.error(str(e) + '\n' + traceback.format_exc())
                     raise Exception('Make response code 500!')
-                javascript_version = get_javascript_version(request)
 
-
+            javascript_version = get_javascript_version(request)
             # get font
             fs = FileSystemStorage()
             directory = fs.location.split('/')
