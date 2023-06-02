@@ -641,7 +641,7 @@ Licence URI: http://www.os-templates.com/template-terms
         .primary-btn {
             background: {{color}};
             color: {{text_color}};
-            border: 1px solid {{text_color_login}};
+            border: 1px solid {{text_color}};
         }
         .primary-btn:hover {
             background: {{color}};
@@ -649,6 +649,15 @@ Licence URI: http://www.os-templates.com/template-terms
         .primary-btn-white:hover{
             background: {{color}};
             color: {{text_color}};
+        }
+        .primary-btn-white-bd{
+            color: {{color}};
+            border: 1px solid {{color}};
+        }
+        .primary-btn-white-bd:hover{
+            background: {{color}};
+            color: {{text_color}};
+            border: 1px solid {{text_color}};
         }
         .primary-btn-custom {
             background: {{color}};
@@ -1568,6 +1577,9 @@ Licence URI: http://www.os-templates.com/template-terms
         header{
             background: white !important;
         }
+        nav a{
+            color: black !important;
+        }
         nav a:hover{
             color: {{color}} !important;
         }
@@ -1577,6 +1589,9 @@ Licence URI: http://www.os-templates.com/template-terms
         {% else %}
         header{
             background: {{login_background_color}} !important;
+        }
+        nav a{
+            color: {{text_color_login}} !important;
         }
         nav a:hover{
             color: {{text_color_login}} !important;
@@ -1593,6 +1608,9 @@ Licence URI: http://www.os-templates.com/template-terms
         }
         {% endif %}
 
+        nav ul ul li a{
+            color: black !important;
+        }
         nav ul ul li a:hover{
             color: {{color}} !important;
         }

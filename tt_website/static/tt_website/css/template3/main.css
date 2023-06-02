@@ -1829,8 +1829,10 @@ h1, h2, h3, h4, h5, h6 {
 .form-select {
   height: 40px;
   width: 100%;
+  margin-bottom:15px;
 }
 
+/*
 .form-select .nice-select {
   border: none;
   border-radius: 0px;
@@ -1880,6 +1882,7 @@ h1, h2, h3, h4, h5, h6 {
 .form-select .nice-select::after {
   right: 20px;
 }
+*/
 
 /*--------------------------------------------------------------
 # Header
