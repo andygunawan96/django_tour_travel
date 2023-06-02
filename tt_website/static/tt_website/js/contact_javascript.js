@@ -42,7 +42,7 @@ function add_table_of_contact(data){
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-4">
-                        <h6 style="margin-bottom:10px;"><label style="color:red">*</label>Contact</h6>
+                        <h6 style="margin-bottom:10px;"><span style="color:red">*</span>Contact</h6>
                         <div class="input-container-search-ticket">
                             <input type="text" class="form-control" name="contact_url`+counter_contact+`" id="contact_url`+counter_contact+`" placeholder="Contact" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Contact '" value="`+data[1]+`">
                         </div>

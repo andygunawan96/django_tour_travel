@@ -719,7 +719,7 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-12 mb-3">
-                                            <button type="button" class="primary-btn update_banner_btn" onclick="update_estimate_price();">{% trans 'Save changes' %} <i class="fas fa-save"></i></button>
+                                            <button type="button" class="primary-btn update_banner_btn" onclick="update_estimate_price();">{% trans 'Save Changes' %} <i class="fas fa-save"></i></button>
                                         </div>
                                     </div>
                                 </div>
@@ -760,7 +760,7 @@
                                                             <div class="col-lg-12">
                                                                 <div id="b2c_signup" style="background-color:white; padding:20px; border:2px solid #cdcdcd;">
                                                                     <h3 style="font-weight:bold; margin-bottom:15px;" id="signup_text_temp"></h3>
-                                                                    <button onclick="location.href='/registration'" type="button" class="primary-btn-ticket" style="color:{{text_color}}; font-size:15px; font-weight:700;" id="signup_btn_temp"></button>
+                                                                    <button onclick="location.href='/registration'" type="button" class="primary-btn" style="color:{{text_color}}; font-size:15px; font-weight:700;" id="signup_btn_temp"></button>
                                                                 </div>
                                                                 <!--href="{% url 'tt_website:registration' %}-->
                                                             </div>
@@ -1022,7 +1022,7 @@
 
                                                 </div>
                                                 <div class="col-lg-12">
-                                                    <button type="button" class="primary-btn update_banner_btn" onclick="update_dynamic_page();">{% trans 'Save change' %} <i class="fas fa-save"></i></button>
+                                                    <button type="button" class="primary-btn update_banner_btn" onclick="update_dynamic_page();">{% trans 'Save Changes' %} <i class="fas fa-save"></i></button>
                                                     <button type="button" class="primary-btn-white-bd" onclick="run_dynamic_page();">{% trans 'Test Run' %} <i class="fas fa-play"></i></button>
                                                     <button id="delete_page" type="button" class="primary-btn-cancel" onclick="delete_dynamic_page();" style="margin-left:10px;" hidden>{% trans 'Delete' %}</button>
                                                 </div>
@@ -1048,8 +1048,8 @@
 
                                                 </div>
                                                 <div class="col-lg-12" style="text-align:left; margin-top:20px; margin-bottom:15px;">
-                                                    <button class="primary-btn-ticket" type="button" onclick="add_table_of_highlight(['','']);"><i class="fas fa-plus"></i> {% trans 'Add' %}</button>
-                                                    <button class="primary-btn-ticket" type="button" onclick="save_highlight();"><i class="fas fa-save"></i> {% trans 'Save' %}</button>
+                                                    <button class="primary-btn type="button" onclick="add_table_of_highlight(['','']);"><i class="fas fa-plus"></i> {% trans 'Add' %}</button>
+                                                    <button class="primary-btn" type="button" onclick="save_highlight();"><i class="fas fa-save"></i> {% trans 'Save Changes' %} <i class="fas fa-save"></i> </button>
                                                 </div>
                                                 <input type="hidden" id="counter_highlight" value="0"/>
                                             </div>
@@ -1126,7 +1126,7 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-12 mb-3">
-                                            <button type="button" class="primary-btn update_banner_btn" onclick="update_about_us();">{% trans 'Save Change' %} <i class="fas fa-save"></i></button>
+                                            <button type="button" class="primary-btn update_banner_btn" onclick="update_about_us();">{% trans 'Save Changes' %} <i class="fas fa-save"></i></button>
                                         </div>
                                     </div>
                                 </div>
@@ -1146,7 +1146,7 @@
                                             <div class="row">
                                                 <div class="col-lg-12" style="padding-bottom:15px; border-bottom: 1px solid #cdcdcd;">
                                                     <h6>Note: </h6><br/>
-                                                    <div style="margin-bottom:10px;"><span style="font-size:15px; font-weight:bold; color:{{color}}">Just Title</span> <span style="font-size:14px; font-weight:500;"> Only used for titles such as company names or others (just fill in the input field <label style="color:red">*</label>Contact), example: ORBISWAY</span></div>
+                                                    <div style="margin-bottom:10px;"><span style="font-size:15px; font-weight:bold; color:{{color}}">Just Title</span> <span style="font-size:14px; font-weight:500;"> Only used for titles such as company names or others (just fill in the input field <span style="color:red">*</span>Contact), example: ORBISWAY</span></div>
                                                     <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website/img/phone.png" alt="Phone"><span style="font-size:14px; font-weight:500;"> Phone (don't use anything symbol), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">6231123456 or 031123456</span><br/>
                                                     <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website/img/whatsapp.png" alt="Whatsapp"><span style="font-size:14px; font-weight:500;">Whatsapp (use code country on first number), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">6231123456 </span><br/>
                                                     <img style="margin-bottom:10px; height:20px; width:auto; padding-right:10px;" src="/static/tt_website/img/line.png" alt="Line"><span style="font-size:14px; font-weight:500;">Line (use @), example: </span><span style="font-size:15px; font-weight:500; color:{{color}}">@youridline </span><br/>
@@ -1164,8 +1164,8 @@
 
                                                 </div>
                                                 <div class="col-xs-12" style="margin-top:20px; margin-bottom:15px;">
-                                                    <button class="primary-btn-ticket" style="width:100px;" type="button" onclick="add_table_of_contact(['','','']);"><i class="fas fa-plus"></i> {% trans 'Add' %}</button>
-                                                    <button class="primary-btn-ticket" style="width:100px;" type="button" onclick="save_contact();"><i class="fas fa-save"></i> {% trans 'Save' %}</button>
+                                                    <button class="primary-btn" type="button" onclick="add_table_of_contact(['','','']);"><i class="fas fa-plus"></i> {% trans 'Add' %}</button>
+                                                    <button class="primary-btn" type="button" onclick="save_contact();"><i class="fas fa-save"></i> {% trans 'Save Changes' %} <i class="fas fa-save"></i></button>
                                                 </div>
                                                 <input type="hidden" id="counter_contact" value="0"/>
                                             </div>
@@ -1204,8 +1204,8 @@
 
                                                 </div>
                                                 <div class="col-lg-12" style="margin-top:20px; margin-bottom:15px;">
-                                                    <button class="primary-btn-ticket" type="button" onclick="add_table_of_social(['','','']);"><i class="fas fa-plus"></i> {% trans 'Add' %}</button>
-                                                    <button class="primary-btn-ticket" type="button" onclick="save_social();"><i class="fas fa-save"></i> {% trans 'Save' %}</button>
+                                                    <button class="primary-btn" type="button" onclick="add_table_of_social(['','','']);"><i class="fas fa-plus"></i> {% trans 'Add' %}</button>
+                                                    <button class="primary-btn" type="button" onclick="save_social();"><i class="fas fa-save"></i> {% trans 'Save Changes' %} <i class="fas fa-save"></i></button>
                                                 </div>
                                                 <input type="hidden" id="counter_social" value="0"/>
                                             </div>
@@ -1247,7 +1247,7 @@
                                                     <textarea class="ckeditor" name="body_payment_information" id="body_payment_information"></textarea>
                                                 </div>
                                                 <div class="col-lg-12 mt-2">
-                                                    <button type="button" class="primary-btn" onclick="set_payment_information();">{% trans 'Save Change' %} <i class="fas fa-save"></i></button>
+                                                    <button type="button" class="primary-btn" onclick="set_payment_information();">{% trans 'Save Changes' %} <i class="fas fa-save"></i></button>
                                                     <button type="button" class="primary-btn-white-bd" onclick="run_payment_information_page();">Test Run <i class="fas fa-play"></i></button>
                                                 </div>
 
@@ -1324,7 +1324,7 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-12 mb-3">
-                                            <button type="button" class="primary-btn update_banner_btn" onclick="update_payment_partner();">{% trans 'Save Change' %} <i class="fas fa-save"></i></button>
+                                            <button type="button" class="primary-btn update_banner_btn" onclick="update_payment_partner();">{% trans 'Save Changes' %} <i class="fas fa-save"></i></button>
                                         </div>
                                     </div>
                                 </div>
@@ -1380,7 +1380,7 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-12 mb-3">
-                                            <button type="button" class="primary-btn update_banner_btn" onclick="update_faq();">{% trans 'Save Change' %} <i class="fas fa-save"></i></button>
+                                            <button type="button" class="primary-btn update_banner_btn" onclick="update_faq();">{% trans 'Save Changes' %} <i class="fas fa-save"></i></button>
                                         </div>
                                     </div>
                                 </div>
@@ -1423,7 +1423,7 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-12 mb-3">
-                                    <button type="button" class="primary-btn update_banner_btn" onclick="update_banner();">{% trans 'Save Change' %} <i class="fas fa-save"></i></button>
+                                    <button type="button" class="primary-btn update_banner_btn" onclick="update_banner();">{% trans 'Save Changes' %} <i class="fas fa-save"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -1456,7 +1456,7 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-12 mb-3">
-                                    <button type="button" class="primary-btn update_banner_btn" onclick="update_banner();">{% trans 'Save Change' %} <i class="fas fa-save"></i></button>
+                                    <button type="button" class="primary-btn update_banner_btn" onclick="update_banner();">{% trans 'Save Changes' %} <i class="fas fa-save"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -1598,7 +1598,7 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-12 mb-3">
-                                    <button type="button" class="primary-btn update_banner_btn" onclick="update_notification_airline();">{% trans 'Save Change' %} <i class="fas fa-save"></i></button>
+                                    <button type="button" class="primary-btn update_banner_btn" onclick="update_notification_airline();">{% trans 'Save Changes' %} <i class="fas fa-save"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -1631,7 +1631,7 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-12 mb-3">
-                                    <button type="button" class="primary-btn update_banner_btn" onclick="update_banner();">{% trans 'Save Change' %} <i class="fas fa-save"></i></button>
+                                    <button type="button" class="primary-btn update_banner_btn" onclick="update_banner();">{% trans 'Save Changes' %} <i class="fas fa-save"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -1705,7 +1705,7 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-12 mb-3">
-                                    <button type="button" class="primary-btn update_banner_btn" onclick="update_notification_train();">{% trans 'Save Change' %} <i class="fas fa-save"></i></button>
+                                    <button type="button" class="primary-btn update_banner_btn" onclick="update_notification_train();">{% trans 'Save Changes' %} <i class="fas fa-save"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -1729,7 +1729,7 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-12 mb-3">
-                                    <button type="button" class="primary-btn update_banner_btn" id="update_masking_hotel_btn" onclick="update_masking_hotel();">{% trans 'Save Change' %} <i class="fas fa-save"></i></button>
+                                    <button type="button" class="primary-btn update_banner_btn" id="update_masking_hotel_btn" onclick="update_masking_hotel();">{% trans 'Save Changes' %} <i class="fas fa-save"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -1795,7 +1795,7 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-12 mt-3 mb-3">
-                                    <button type="button" class="primary-btn update_banner_btn" onclick="update_privacy_policy();">{% trans 'Save Change' %} <i class="fas fa-save"></i></button>
+                                    <button type="button" class="primary-btn update_banner_btn" onclick="update_privacy_policy();">{% trans 'Save Changes' %} <i class="fas fa-save"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -1834,7 +1834,7 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-12 mt-3 mb-3">
-                                    <button type="button" class="primary-btn update_banner_btn" onclick="update_term_and_condition();">{% trans 'Save Change' %} <i class="fas fa-save"></i></button>
+                                    <button type="button" class="primary-btn update_banner_btn" onclick="update_term_and_condition();">{% trans 'Save Changes' %} <i class="fas fa-save"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -1859,7 +1859,7 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-12 mt-3 mb-3">
-                                    <button type="button" class="primary-btn update_banner_btn" onclick="update_banner();">{% trans 'Save Change' %} <i class="fas fa-save"></i></button>
+                                    <button type="button" class="primary-btn update_banner_btn" onclick="update_banner();">{% trans 'Save Changes' %} <i class="fas fa-save"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -1895,7 +1895,7 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-12 mb-3">
-                                    <button type="button" class="primary-btn update_banner_btn" onclick="update_list_report_footer();">{% trans 'Save Change' %} <i class="fas fa-save"></i></button>
+                                    <button type="button" class="primary-btn update_banner_btn" onclick="update_list_report_footer();">{% trans 'Save Changes' %} <i class="fas fa-save"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -1924,7 +1924,7 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-12 mb-3">
-                                    <button type="button" class="primary-btn update_banner_btn" onclick="update_printout_color();">{% trans 'Save Change' %} <i class="fas fa-save"></i></button>
+                                    <button type="button" class="primary-btn update_banner_btn" onclick="update_printout_color();">{% trans 'Save Changes' %} <i class="fas fa-save"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -2199,7 +2199,7 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-12 mb-3">
-                                    <button type="button" class="primary-btn update_banner_btn" onclick="check_credential('true');">{% trans 'Save Change' %} <i class="fas fa-save"></i></button>
+                                    <button type="button" class="primary-btn update_banner_btn" onclick="check_credential('true');">{% trans 'Save Changes' %} <i class="fas fa-save"></i></button>
                                     <button type="button" class="primary-btn-white-bd update_banner_btn" onclick="check_credential('false');">{% trans 'Test Credential' %} <i class="fas fa-play"></i></button>
                                 </div>
                             </div>
