@@ -615,334 +615,335 @@ def login(request):
 def admin(request):
     if 'user_account' in request.session._session:
         if 'admin' in request.session['user_account']['co_agent_frontend_security']:
-            #save
-            try:
-                if request.POST != {}:
-                    text = ''
-                    fs = FileSystemStorage()
-                    fs.location = media_path(request, fs.location, '')
-                    try:
-                        if request.POST.get('empty_logo'):
-                            text += '\n'
-                        elif request.FILES['fileToUpload'].content_type in ['image/jpeg', 'image/png', 'image/png']:
-                            file = request.FILES['fileToUpload']
-                            filename = fs.save(file.name, file)
-                            text += fs.base_url + request.META['HTTP_HOST'].split(':')[0] + '/' + filename + '\n'
-                        else:
-                            file = read_cache("data_cache_template", 'cache_web', request, 90911)
-                            if file:
-                                for idx, line in enumerate(file.split('\n')):
-                                    if idx == 0:
-                                        text = line + '\n'
-                    except:
+            if 'edit_appearance' in request.session['user_account']['co_agent_frontend_security']:
+                #save
+                try:
+                    if request.POST != {}:
+                        text = ''
+                        fs = FileSystemStorage()
+                        fs.location = media_path(request, fs.location, '')
                         try:
-                            file = read_cache("data_cache_template", 'cache_web', request, 90911)
-                            if file:
-                                for idx, line in enumerate(file.split('\n')):
-                                    if idx == 0:
-                                        text = line + '\n'
-                                        break
-                            else:
+                            if request.POST.get('empty_logo'):
                                 text += '\n'
-                        except:
-                            text += '\n'
-                            pass
-                    # logo template color name desc backgroundhome backgroundlogin
-                    text += request.POST['template'] + '\n'
-                    text += "#" + request.POST['color_pick'] + '\n'
-                    text += request.POST['website_name'] + '\n'
-                    try:
-                        if request.POST.get('empty_image_home'):
-                            text += '\n'
-                        elif request.FILES['fileBackgroundHome'].content_type.split('/')[0] in ['image', 'video']:
-                            file = request.FILES['fileBackgroundHome']
-                            filename = fs.save(file.name, file)
-                            text += fs.base_url + request.META['HTTP_HOST'].split(':')[0] + '/' + filename + '\n'
-
-                    except:
-                        try:
-                            file = read_cache("data_cache_template", 'cache_web', request, 90911)
-                            if file:
-                                for idx, line in enumerate(file.split('\n')):
-                                    if idx == 4:
-                                        text += line + '\n'
-                                        check = 1
-                                        break
+                            elif request.FILES['fileToUpload'].content_type in ['image/jpeg', 'image/png', 'image/png']:
+                                file = request.FILES['fileToUpload']
+                                filename = fs.save(file.name, file)
+                                text += fs.base_url + request.META['HTTP_HOST'].split(':')[0] + '/' + filename + '\n'
                             else:
-                                text += '\n'
+                                file = read_cache("data_cache_template", 'cache_web', request, 90911)
+                                if file:
+                                    for idx, line in enumerate(file.split('\n')):
+                                        if idx == 0:
+                                            text = line + '\n'
                         except:
-                            pass
-
-                    try:
-                        if request.POST.get('empty_image_login'):
-                            text += '\n'
-                        elif request.FILES['fileBackgroundLogin'].content_type.split('/')[0] in ['image', 'video']:
-                            file = request.FILES['fileBackgroundLogin']
-                            filename = fs.save(file.name, file)
-                            text += fs.base_url + request.META['HTTP_HOST'].split(':')[0] + '/' + filename + '\n'
-                    except:
-                        try:
-                            file = read_cache("data_cache_template", 'cache_web', request, 90911)
-                            if file:
-                                for idx, line in enumerate(file.split('\n')):
-                                    if idx == 5:
-                                        text += line + '\n'
-                                        check = 1
-                                        break
-                            else:
-                                text += '\n'
-                        except:
-                            pass
-
-                    try:
-                        if request.POST.get('empty_image_search'):
-                            text += '\n'
-                        elif request.FILES['fileBackgroundSearch'].content_type.split('/')[0] in ['image', 'video']:
-                            file = request.FILES['fileBackgroundSearch']
-                            filename = fs.save(file.name, file)
-                            text += fs.base_url + request.META['HTTP_HOST'].split(':')[0] + '/' + filename + '\n'
-                    except:
-                        try:
-                            file = read_cache("data_cache_template", 'cache_web', request, 90911)
-                            if file:
-                                for idx, line in enumerate(file.split('\n')):
-                                    if idx == 6:
-                                        text += line + '\n'
-                                        check = 1
-                                        break
-                            else:
-                                text += '\n'
-                        except:
-                            pass
-                    text += '\n' ## tawk to yg lama deprecated
-                    text += '\n' ## tawk to yg lama deprecated
-                    text += "#" + request.POST['text_pick'] + '\n'
-                    opacity = 'FF'
-                    if request.POST.get('bg_tab_pick_checkbox'):
-                        opacity = 'B3'
-                    if request.POST['bg_tab_pick'] == '':
-                        text += 'none'
-                    else:
-                        text += "#" + request.POST['bg_tab_pick'] + opacity
-                    text += '\n'
-                    try:
-                        if request.POST.get('empty_logo_icon'):
-                            text += '\n'
-                        elif request.FILES['filelogoicon'].content_type in ['image/jpeg', 'image/png', 'image/png']:
-                            file = request.FILES['filelogoicon']
-                            filename = fs.save(file.name, file)
-                            text += fs.base_url + request.META['HTTP_HOST'].split(':')[0] + '/' + filename + '\n'
-                    except:
-                        try:
-                            file = read_cache("data_cache_template", 'cache_web', request, 90911)
-                            if file:
-                                for idx, line in enumerate(file.split('\n')):
-                                    if idx == 11:
-                                        text += line + '\n'
-                                        check = 1
-                                        break
-                            else:
-                                text += '\n'
-                        except:
-                            pass
-                    try:
-                        if request.POST.get('empty_image_regis'):
-                            text += '\n'
-                        elif request.FILES['fileRegistrationBanner'].content_type.split('/')[0] in ['image', 'video']:
-                            file = request.FILES['fileRegistrationBanner']
-                            filename = fs.save(file.name, file)
-                            text += fs.base_url + request.META['HTTP_HOST'].split(':')[0] + '/' + filename + '\n'
-                    except:
-                        try:
-                            file = read_cache("data_cache_template", 'cache_web', request, 90911)
-                            if file:
-                                for idx, line in enumerate(file.split('\n')):
-                                    if idx == 12:
-                                        text += line + '\n'
-                                        check = 1
-                                        break
-                            else:
-                                text += '\n'
-                        except:
-                            pass
-                    text += '\n'
-                    text += '\n'
-                    text += request.POST['backend_url'] + '\n'
-                    text += request.POST['website_mode'] + '\n'
-                    text += '\n'
-                    text += request.POST['google_analytics'] + '\n'
-                    text += '<br>'.join(''.join(request.POST['contact_us'].split('\r')).split('\n')) + '\n'
-                    opacity = 'FF'
-                    if request.POST.get('tab_login_background_checkbox'):
-                        opacity = 'B3'
-                    text += "#" + request.POST['tab_login_background'] + opacity + '\n'
-                    text += "#" + request.POST['text_pick_login'] + '\n'
-                    text += '\n' ## wa chat yg lama deprecated
-                    text += '\n' ## wa chat yg lama deprecated
-                    text += request.POST['google_api_key'] + '\n'
-                    text += request.POST['setting_login_page'] + '\n'
-                    text += request.POST['tour_search_template'] + '\n'
-                    write_cache(text, "data_cache_template", request, 'cache_web')
-                    temp = text.split('\n')
-                    for idx, rec in enumerate(temp):
-                        try:
-                            temp[idx] = rec.split('/')[len(rec.split('/'))-1]
-                        except:
-                            pass
-                    #delete file ga pake
-                    for file in os.listdir(fs.location):
-                        if not file in temp and file not in ['image_dynamic', 'image_payment_partner', 'image_about_us', 'live_chat']:
-                            os.remove(fs.location+'/'+file)
-
-                    # file cache origin destination
-                    text = ''
-                    text += request.POST.get('airline_origin') + '\n' or '' + '\n'
-                    text += request.POST.get('airline_destination') + '\n' or '' + '\n'
-                    text += request.POST.get('train_origin') + '\n' or '' + '\n'
-                    text += request.POST.get('train_destination') or ''
-                    write_cache(text, "data_cache_product", request, 'cache_web')
-
-                    ## FITUR TIDAK DAPAT DI PAKAI KARENA PINDAH OAUTH2
-                    # text = ''
-                    # text += request.POST.get('api_key_youtube') + '\n' or '' + '\n'
-                    # text += request.POST.get('channel_id_youtube') or ''
-                    # write_cache_with_folder(text, "youtube")
-                    ##
-
-                    ## LIVE CHAT
-                    path = var_log_path(request, 'live_chat')
-                    if not os.path.exists(path):
-                        os.mkdir(path)
-                    fs_live_chat = FileSystemStorage()
-                    fs_live_chat.location += media_path(request, fs_live_chat.location, 'live_chat')
-
-                    live_chat_total_number = int(request.POST.get('number_of_live_chat', 0))
-                    if live_chat_total_number != 0:
-                        live_chat_total_number += 1
-                    data = os.listdir(path)
-
-                    ## hapus data yg sudah ada
-                    for rec in data:
-                        os.remove('%s/%s' % (path, rec))
-
-                    ## add data baru
-                    for i in range(1,live_chat_total_number):
-                        try:
-                            filename = ''
                             try:
-                                if request.FILES['live_chat_image'+str(i)].content_type in ['image/jpeg', 'image/png']:
-                                    file = request.FILES['live_chat_image'+str(i)]
-                                    filename = fs_live_chat.save(file.name, file)
-                                    filename = fs_live_chat.base_url + request.META['HTTP_HOST'].split(':')[0] + "/live_chat/" + filename
-                            except Exception as e:
-                                _logger.error('no image dynamic page')
-
-                            if filename == '':
-                                is_default_icon = request.POST.get('is_vendor_whatsapp_icon'+str(i), 'off')
-                                if is_default_icon == 'on' or request.POST.get('live_chat_image_str' + str(i)) == '':
-                                    filename = 'default'
+                                file = read_cache("data_cache_template", 'cache_web', request, 90911)
+                                if file:
+                                    for idx, line in enumerate(file.split('\n')):
+                                        if idx == 0:
+                                            text = line + '\n'
+                                            break
                                 else:
-                                    filename = request.POST.get('live_chat_image_str' + str(i))
-
-                            text = ''
-                            is_vendor_whatsapp = request.POST.get('is_vendor_whatsapp'+str(i), 'off')
-                            if is_vendor_whatsapp == 'off':
-                                text += request.POST.get('live_chat_vendor'+str(i)) + '\n' or '' + '\n'
-                            else:
-                                text += 'Whatsapp\n'
-                            text += request.POST.get('live_chat_visible'+str(i)) + '\n' or '' + '\n'
-                            if is_vendor_whatsapp == 'on':
-                                text += request.POST.get('live_chat_number'+str(i)) + '\n' or '' + '\n'
-                            else:
+                                    text += '\n'
+                            except:
                                 text += '\n'
-                            text += filename + '\n'
-                            if request.POST.get('live_chat_vendor'+str(i)) not in ['', 'Whatsapp']:
-                                text += request.POST.get('live_chat_embed_code'+str(i)).replace('\n', '####')
-                            else:
-                                text += '\n'
-                            write_cache(text, "live_chat_%s" % str(i), request, 'live_chat')
-                        except Exception as e:
-                            _logger.error('%s, %s' % (str(e), traceback.format_exc()))
-                    ## LIVE CHAT
-
-                    text = ''
-                    text += request.POST.get('app_id_one_signal') + '\n' or '' + '\n'
-                    text += request.POST.get('url_one_signal') + '\n' or '' + '\n'
-                    text += request.POST.get('authorization_one_signal') + '\n' or '' + '\n'
-                    write_cache(text, "one_signal", request, 'cache_web')
-
-                    text = ''
-                    text += request.POST.get('top_up_term')
-                    write_cache(text, "top_up_term", request, 'cache_web')
-
-                    text = ''
-                    text += request.POST['google_recaptcha'] + '\n'
-                    text += request.POST['site_key'] + '\n'
-                    text += request.POST['secret_key']
-                    write_cache(text, "google_recaptcha", request, 'cache_web')
-
-                    text = ''
-                    text += request.POST['google_tag_manager_key']
-                    write_cache(text, "google_tag_manager", request, 'cache_web')
-
-                    text = ''
-                    text += request.POST['signup_btb_text'] + '\n'
-                    text += request.POST['signup_btb_btn'] + '\n'
-                    write_cache(text, "signup_b2b", request, 'cache_web')
-
-
-                    text = {}
-                    text.update({
-                        'name': request.POST['font'].split('.')[0],
-                        'font': request.POST['font'],
-                    })
-                    if text != {}:
-                        write_cache(text, "font", request, 'cache_web')
-
-                    if request.POST.get('b2c_password_credential'):
-                        write_cache({
-                            "username": request.POST['b2c_username_credential'],
-                            "password": request.POST['b2c_password_credential']
-                        }, 'credential_user_default', request)
-                    text = {}
-                    provider = copy.deepcopy(request.session.get('provider'))
-                    if 'health_care' not in provider:
-                        provider.append('health_care')
-                    for idx, data in enumerate(request.session.get('provider'), start=1):
+                                pass
+                        # logo template color name desc backgroundhome backgroundlogin
+                        text += request.POST['template'] + '\n'
+                        text += "#" + request.POST['color_pick'] + '\n'
+                        text += request.POST['website_name'] + '\n'
                         try:
-                            text[request.POST['product_name'+str(idx)]] = {
-                                "sequence": request.POST['product_sequence'+str(idx)],
-                                "display": request.POST['product_display_name'+str(idx)],
-                            }
-                        except Exception as e:
-                            pass
-                    if len(text) > 0:
-                        write_cache(text, "provider_types_sequence", request, 'cache_web')
+                            if request.POST.get('empty_image_home'):
+                                text += '\n'
+                            elif request.FILES['fileBackgroundHome'].content_type.split('/')[0] in ['image', 'video']:
+                                file = request.FILES['fileBackgroundHome']
+                                filename = fs.save(file.name, file)
+                                text += fs.base_url + request.META['HTTP_HOST'].split(':')[0] + '/' + filename + '\n'
 
-            except Exception as e:
-                _logger.error(str(e) + '\n' + traceback.format_exc())
-                raise Exception('Make response code 500!')
-            javascript_version = get_javascript_version(request)
-            response = get_cache_data(request)
-            airline_country = response['result']['response']['airline']['country']
-            phone_code = []
-            for i in airline_country:
-                if i['phone_code'] not in phone_code:
-                    phone_code.append(i['phone_code'])
-            phone_code = sorted(phone_code)
+                        except:
+                            try:
+                                file = read_cache("data_cache_template", 'cache_web', request, 90911)
+                                if file:
+                                    for idx, line in enumerate(file.split('\n')):
+                                        if idx == 4:
+                                            text += line + '\n'
+                                            check = 1
+                                            break
+                                else:
+                                    text += '\n'
+                            except:
+                                pass
 
-            # get font
-            fs = FileSystemStorage()
-            directory = fs.location.split('/')
-            directory.pop()
-            directory = '/'.join(directory)
-            directory += '/tt_website/static/tt_website/custom_font/'
-            data_font = []
-            for font in os.listdir(directory):
-                data_font.append({
-                    'name': font.split('.')[0],
-                    'font': font
-                })
+                        try:
+                            if request.POST.get('empty_image_login'):
+                                text += '\n'
+                            elif request.FILES['fileBackgroundLogin'].content_type.split('/')[0] in ['image', 'video']:
+                                file = request.FILES['fileBackgroundLogin']
+                                filename = fs.save(file.name, file)
+                                text += fs.base_url + request.META['HTTP_HOST'].split(':')[0] + '/' + filename + '\n'
+                        except:
+                            try:
+                                file = read_cache("data_cache_template", 'cache_web', request, 90911)
+                                if file:
+                                    for idx, line in enumerate(file.split('\n')):
+                                        if idx == 5:
+                                            text += line + '\n'
+                                            check = 1
+                                            break
+                                else:
+                                    text += '\n'
+                            except:
+                                pass
+
+                        try:
+                            if request.POST.get('empty_image_search'):
+                                text += '\n'
+                            elif request.FILES['fileBackgroundSearch'].content_type.split('/')[0] in ['image', 'video']:
+                                file = request.FILES['fileBackgroundSearch']
+                                filename = fs.save(file.name, file)
+                                text += fs.base_url + request.META['HTTP_HOST'].split(':')[0] + '/' + filename + '\n'
+                        except:
+                            try:
+                                file = read_cache("data_cache_template", 'cache_web', request, 90911)
+                                if file:
+                                    for idx, line in enumerate(file.split('\n')):
+                                        if idx == 6:
+                                            text += line + '\n'
+                                            check = 1
+                                            break
+                                else:
+                                    text += '\n'
+                            except:
+                                pass
+                        text += '\n' ## tawk to yg lama deprecated
+                        text += '\n' ## tawk to yg lama deprecated
+                        text += "#" + request.POST['text_pick'] + '\n'
+                        opacity = 'FF'
+                        if request.POST.get('bg_tab_pick_checkbox'):
+                            opacity = 'B3'
+                        if request.POST['bg_tab_pick'] == '':
+                            text += 'none'
+                        else:
+                            text += "#" + request.POST['bg_tab_pick'] + opacity
+                        text += '\n'
+                        try:
+                            if request.POST.get('empty_logo_icon'):
+                                text += '\n'
+                            elif request.FILES['filelogoicon'].content_type in ['image/jpeg', 'image/png', 'image/png']:
+                                file = request.FILES['filelogoicon']
+                                filename = fs.save(file.name, file)
+                                text += fs.base_url + request.META['HTTP_HOST'].split(':')[0] + '/' + filename + '\n'
+                        except:
+                            try:
+                                file = read_cache("data_cache_template", 'cache_web', request, 90911)
+                                if file:
+                                    for idx, line in enumerate(file.split('\n')):
+                                        if idx == 11:
+                                            text += line + '\n'
+                                            check = 1
+                                            break
+                                else:
+                                    text += '\n'
+                            except:
+                                pass
+                        try:
+                            if request.POST.get('empty_image_regis'):
+                                text += '\n'
+                            elif request.FILES['fileRegistrationBanner'].content_type.split('/')[0] in ['image', 'video']:
+                                file = request.FILES['fileRegistrationBanner']
+                                filename = fs.save(file.name, file)
+                                text += fs.base_url + request.META['HTTP_HOST'].split(':')[0] + '/' + filename + '\n'
+                        except:
+                            try:
+                                file = read_cache("data_cache_template", 'cache_web', request, 90911)
+                                if file:
+                                    for idx, line in enumerate(file.split('\n')):
+                                        if idx == 12:
+                                            text += line + '\n'
+                                            check = 1
+                                            break
+                                else:
+                                    text += '\n'
+                            except:
+                                pass
+                        text += '\n'
+                        text += '\n'
+                        text += request.POST['backend_url'] + '\n'
+                        text += request.POST['website_mode'] + '\n'
+                        text += '\n'
+                        text += request.POST['google_analytics'] + '\n'
+                        text += '<br>'.join(''.join(request.POST['contact_us'].split('\r')).split('\n')) + '\n'
+                        opacity = 'FF'
+                        if request.POST.get('tab_login_background_checkbox'):
+                            opacity = 'B3'
+                        text += "#" + request.POST['tab_login_background'] + opacity + '\n'
+                        text += "#" + request.POST['text_pick_login'] + '\n'
+                        text += '\n' ## wa chat yg lama deprecated
+                        text += '\n' ## wa chat yg lama deprecated
+                        text += request.POST['google_api_key'] + '\n'
+                        text += request.POST['setting_login_page'] + '\n'
+                        text += request.POST['tour_search_template'] + '\n'
+                        write_cache(text, "data_cache_template", request, 'cache_web')
+                        temp = text.split('\n')
+                        for idx, rec in enumerate(temp):
+                            try:
+                                temp[idx] = rec.split('/')[len(rec.split('/'))-1]
+                            except:
+                                pass
+                        #delete file ga pake
+                        for file in os.listdir(fs.location):
+                            if not file in temp and file not in ['image_dynamic', 'image_payment_partner', 'image_about_us', 'live_chat']:
+                                os.remove(fs.location+'/'+file)
+
+                        # file cache origin destination
+                        text = ''
+                        text += request.POST.get('airline_origin') + '\n' or '' + '\n'
+                        text += request.POST.get('airline_destination') + '\n' or '' + '\n'
+                        text += request.POST.get('train_origin') + '\n' or '' + '\n'
+                        text += request.POST.get('train_destination') or ''
+                        write_cache(text, "data_cache_product", request, 'cache_web')
+
+                        ## FITUR TIDAK DAPAT DI PAKAI KARENA PINDAH OAUTH2
+                        # text = ''
+                        # text += request.POST.get('api_key_youtube') + '\n' or '' + '\n'
+                        # text += request.POST.get('channel_id_youtube') or ''
+                        # write_cache_with_folder(text, "youtube")
+                        ##
+
+                        ## LIVE CHAT
+                        path = var_log_path(request, 'live_chat')
+                        if not os.path.exists(path):
+                            os.mkdir(path)
+                        fs_live_chat = FileSystemStorage()
+                        fs_live_chat.location += media_path(request, fs_live_chat.location, 'live_chat')
+
+                        live_chat_total_number = int(request.POST.get('number_of_live_chat', 0))
+                        if live_chat_total_number != 0:
+                            live_chat_total_number += 1
+                        data = os.listdir(path)
+
+                        ## hapus data yg sudah ada
+                        for rec in data:
+                            os.remove('%s/%s' % (path, rec))
+
+                        ## add data baru
+                        for i in range(1,live_chat_total_number):
+                            try:
+                                filename = ''
+                                try:
+                                    if request.FILES['live_chat_image'+str(i)].content_type in ['image/jpeg', 'image/png']:
+                                        file = request.FILES['live_chat_image'+str(i)]
+                                        filename = fs_live_chat.save(file.name, file)
+                                        filename = fs_live_chat.base_url + request.META['HTTP_HOST'].split(':')[0] + "/live_chat/" + filename
+                                except Exception as e:
+                                    _logger.error('no image dynamic page')
+
+                                if filename == '':
+                                    is_default_icon = request.POST.get('is_vendor_whatsapp_icon'+str(i), 'off')
+                                    if is_default_icon == 'on' or request.POST.get('live_chat_image_str' + str(i)) == '':
+                                        filename = 'default'
+                                    else:
+                                        filename = request.POST.get('live_chat_image_str' + str(i))
+
+                                text = ''
+                                is_vendor_whatsapp = request.POST.get('is_vendor_whatsapp'+str(i), 'off')
+                                if is_vendor_whatsapp == 'off':
+                                    text += request.POST.get('live_chat_vendor'+str(i)) + '\n' or '' + '\n'
+                                else:
+                                    text += 'Whatsapp\n'
+                                text += request.POST.get('live_chat_visible'+str(i)) + '\n' or '' + '\n'
+                                if is_vendor_whatsapp == 'on':
+                                    text += request.POST.get('live_chat_number'+str(i)) + '\n' or '' + '\n'
+                                else:
+                                    text += '\n'
+                                text += filename + '\n'
+                                if request.POST.get('live_chat_vendor'+str(i)) not in ['', 'Whatsapp']:
+                                    text += request.POST.get('live_chat_embed_code'+str(i)).replace('\n', '####')
+                                else:
+                                    text += '\n'
+                                write_cache(text, "live_chat_%s" % str(i), request, 'live_chat')
+                            except Exception as e:
+                                _logger.error('%s, %s' % (str(e), traceback.format_exc()))
+                        ## LIVE CHAT
+
+                        text = ''
+                        text += request.POST.get('app_id_one_signal') + '\n' or '' + '\n'
+                        text += request.POST.get('url_one_signal') + '\n' or '' + '\n'
+                        text += request.POST.get('authorization_one_signal') + '\n' or '' + '\n'
+                        write_cache(text, "one_signal", request, 'cache_web')
+
+                        text = ''
+                        text += request.POST.get('top_up_term')
+                        write_cache(text, "top_up_term", request, 'cache_web')
+
+                        text = ''
+                        text += request.POST['google_recaptcha'] + '\n'
+                        text += request.POST['site_key'] + '\n'
+                        text += request.POST['secret_key']
+                        write_cache(text, "google_recaptcha", request, 'cache_web')
+
+                        text = ''
+                        text += request.POST['google_tag_manager_key']
+                        write_cache(text, "google_tag_manager", request, 'cache_web')
+
+                        text = ''
+                        text += request.POST['signup_btb_text'] + '\n'
+                        text += request.POST['signup_btb_btn'] + '\n'
+                        write_cache(text, "signup_b2b", request, 'cache_web')
+
+
+                        text = {}
+                        text.update({
+                            'name': request.POST['font'].split('.')[0],
+                            'font': request.POST['font'],
+                        })
+                        if text != {}:
+                            write_cache(text, "font", request, 'cache_web')
+
+                        if request.POST.get('b2c_password_credential'):
+                            write_cache({
+                                "username": request.POST['b2c_username_credential'],
+                                "password": request.POST['b2c_password_credential']
+                            }, 'credential_user_default', request)
+                        text = {}
+                        provider = copy.deepcopy(request.session.get('provider'))
+                        if 'health_care' not in provider:
+                            provider.append('health_care')
+                        for idx, data in enumerate(request.session.get('provider'), start=1):
+                            try:
+                                text[request.POST['product_name'+str(idx)]] = {
+                                    "sequence": request.POST['product_sequence'+str(idx)],
+                                    "display": request.POST['product_display_name'+str(idx)],
+                                }
+                            except Exception as e:
+                                pass
+                        if len(text) > 0:
+                            write_cache(text, "provider_types_sequence", request, 'cache_web')
+
+                except Exception as e:
+                    _logger.error(str(e) + '\n' + traceback.format_exc())
+                    raise Exception('Make response code 500!')
+                javascript_version = get_javascript_version(request)
+                response = get_cache_data(request)
+                airline_country = response['result']['response']['airline']['country']
+                phone_code = []
+                for i in airline_country:
+                    if i['phone_code'] not in phone_code:
+                        phone_code.append(i['phone_code'])
+                phone_code = sorted(phone_code)
+
+                # get font
+                fs = FileSystemStorage()
+                directory = fs.location.split('/')
+                directory.pop()
+                directory = '/'.join(directory)
+                directory += '/tt_website/static/tt_website/custom_font/'
+                data_font = []
+                for font in os.listdir(directory):
+                    data_font.append({
+                        'name': font.split('.')[0],
+                        'font': font
+                    })
             values = get_data_template(request,'admin')
             values.update(get_credential(request, 'dict'))
             if translation.LANGUAGE_SESSION_KEY in request.session:
