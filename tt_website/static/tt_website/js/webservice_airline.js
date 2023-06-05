@@ -1684,7 +1684,7 @@ function get_all_carrier_airline(){
        success: function(msg) {
             airline_provider_list = msg;
 
-            text = '<div class="col-lg-12" style="overflow-y:auto;overflow-x:hidden;height:235px;">';
+            text = '<div class="col-lg-12" style="overflow-y:auto;overflow-x:hidden;max-height:235px;">';
             text += `
                 <a class="small" data-value="option1" tabIndex="-1">
                     <label class="check_box_custom">
@@ -1709,10 +1709,8 @@ function get_all_carrier_airline(){
                 </a>
                 <br/>`;
             }
-            text += `
-            </div>
-            <div class="col-lg-12" style="text-align:center;"><hr/><button class="primary-btn" type="button" style="line-height:34px;" id="save_allowed_carrier_btn" onclick="save_allowed_airline_carriers();">Save</button></div>
-            `;
+            text += `</div>`;
+            //text += `<div class="col-lg-12" style="text-align:center;"><hr/><button class="primary-btn" type="button" style="line-height:34px;" id="save_allowed_carrier_btn" onclick="save_allowed_airline_carriers();">Save changes <i class="fas fa-save"></i></button></div>`;
             document.getElementById('airline_carrier_div').innerHTML = text;
             get_allowed_config_search();
        },

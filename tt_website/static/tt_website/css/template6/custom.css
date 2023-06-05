@@ -2,6 +2,14 @@ li {
     line-height: 30px;
 }
 
+button{
+    height: unset !important;
+}
+
+input{
+    margin-bottom: 15px !important;
+}
+
 .bg-overlay {
   position: relative;
   z-index: 1; }
@@ -357,6 +365,16 @@ ul.footer-link li{
 }
 
 .image-rounded-icon{
+    padding:5px;
+}
+
+.div_cst:hover .image-rounded-icon{
+    border: 5px solid #205B95;
+    transition:0.5s;
+    padding:20px;
+}
+
+.image-rounded-product{
     border: 5px solid #cdcdcd;
     border-radius: 14px;
     width:100px;
@@ -365,7 +383,7 @@ ul.footer-link li{
     background:white;
 }
 
-.div_cst:hover .image-rounded-icon{
+.div_cst:hover .image-rounded-product{
     border: 5px solid #205B95;
     transition:0.5s;
     padding:20px;
@@ -591,3 +609,6 @@ b, strong{
     }
 }
 
+nav a{
+    font-weight: 500;
+}

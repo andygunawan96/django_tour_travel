@@ -29,6 +29,31 @@ $(document).ready(function(){
     window.addEventListener('online', checking);
     window.addEventListener('offline', checking);
 
+    //accordion
+    const accordionBtns = document.querySelectorAll(".accordion");
+
+    accordionBtns.forEach((accordion) => {
+      accordion.onclick = function () {
+        this.classList.toggle("is-open");
+
+        let content = this.nextElementSibling;
+        console.log(content);
+
+        if (content.style.maxHeight) {
+          //this is if the accordion is open
+          content.style.display = "none";
+//          content.style.minHeight = null;
+          content.style.maxHeight = null;
+        } else {
+          //if the accordion is currently closed
+          content.style.display = "block";
+          content.style.maxHeight = "unset";
+//          content.style.minHeight = content.scrollHeight + "px";
+        }
+      };
+    });
+
+
     //untuk notifikasi
     $(".notification-slide-toggle").click(function(){
         $(".box-notification").animate({
@@ -282,9 +307,26 @@ $(document).ready(function(){
 		$("#"+tab_id).addClass('current');
 	})
 
-//    $('#myModalTicketFlight').click(function() {
-//
-//    });
+	//settings page
+    $('ul.main_menu_tabs li').click(function(){
+		var tab_id = $(this).attr('data-tab');
+
+		$('ul.main_menu_tabs li').removeClass('current');
+		$('.main_menu_content').removeClass('current');
+
+		$(this).addClass('current');
+		$("#"+tab_id).addClass('current');
+	})
+
+    $('ul.sub_menu_tabs li').click(function(){
+		var tab_id = $(this).attr('data-tab');
+
+		$('ul.sub_menu_tabs li').removeClass('current');
+		$('.sub_menu_content').removeClass('current');
+
+		$(this).addClass('current');
+		$("#"+tab_id).addClass('current');
+	})
 
 
     $('#sort_by_price').click(function() {

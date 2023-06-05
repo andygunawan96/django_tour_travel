@@ -1422,6 +1422,7 @@ h1, h2, h3, h4, h5, h6 {
 .form-select {
   height: 43px;
   color:black;
+  margin-bottom: 15px;
   width: 100%; }
   .form-select .nice-select {
     border: none;
