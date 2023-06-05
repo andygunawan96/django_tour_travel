@@ -1949,12 +1949,14 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .default-select .nice-select {
+  /*
   border: none;
   border-radius: 0px;
   height: 40px;
   background: #fff;
-  padding-left: 20px;
-  padding-right: 40px;
+  */
+  padding-left: 15px;
+  padding-right: 20px;
 }
 
 .default-select .nice-select .list {
