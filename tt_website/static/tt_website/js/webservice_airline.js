@@ -2963,35 +2963,33 @@ function change_fare(journey, segment, fares){
         }
     }
 
-    if(is_fare_change){
-        for(i in airline[journey].segments){
-            var radios = document.getElementsByName('journey'+journey+'segment'+i+'fare');
+    for(i in airline[journey].segments){
+        var radios = document.getElementsByName('journey'+journey+'segment'+i+'fare');
 
-            for (var j = 0, length = radios.length; j < length; j++) {
-                if (radios[j].checked) {
-                    // do whatever you want with the checked radio
-    //                temp = document.getElementById('journey'+journey+'segment'+i+'fare'+(radios[j].value)).innerHTML;
-    //                price += parseInt(temp.replace( /[^\d.]/g, '' ));
-                    airline[journey].segments[i].fare_pick = parseInt(j);
-                    break;
-                }
+        for (var j = 0, length = radios.length; j < length; j++) {
+            if (radios[j].checked) {
+                // do whatever you want with the checked radio
+//                temp = document.getElementById('journey'+journey+'segment'+i+'fare'+(radios[j].value)).innerHTML;
+//                price += parseInt(temp.replace( /[^\d.]/g, '' ));
+                airline[journey].segments[i].fare_pick = parseInt(j);
+                break;
             }
-            //hitung ulang price
+        }
+        //hitung ulang price
 
-            for(j in airline[journey].segments[i].fares[airline[journey].segments[i].fare_pick].service_charge_summary){
-                if(seat_left > airline[journey].segments[i].fares[airline[journey].segments[i].fare_pick].available_count)
-                    seat_left = airline[journey].segments[i].fares[airline[journey].segments[i].fare_pick].available_count;
-                if(airline[journey].segments[i].fares[airline[journey].segments[i].fare_pick].service_charge_summary[j].pax_type == 'ADT'){
-                    for(k in airline[journey].segments[i].fares[airline[journey].segments[i].fare_pick].service_charge_summary[j].service_charges){
-                        if(airline[journey].segments[i].fares[airline[journey].segments[i].fare_pick].service_charge_summary[j].service_charges[k].charge_type != 'RAC'){
-                            if(airline[journey].segments[i].fares[airline[journey].segments[i].fare_pick].service_charge_summary[j].service_charges[k].charge_type != 'DISC'){
-                                price += airline[journey].segments[i].fares[airline[journey].segments[i].fare_pick].service_charge_summary[j].service_charges[k].amount;
-                            }
-                            price_discount += airline[journey].segments[i].fares[airline[journey].segments[i].fare_pick].service_charge_summary[j].service_charges[k].amount;
+        for(j in airline[journey].segments[i].fares[airline[journey].segments[i].fare_pick].service_charge_summary){
+            if(seat_left > airline[journey].segments[i].fares[airline[journey].segments[i].fare_pick].available_count)
+                seat_left = airline[journey].segments[i].fares[airline[journey].segments[i].fare_pick].available_count;
+            if(airline[journey].segments[i].fares[airline[journey].segments[i].fare_pick].service_charge_summary[j].pax_type == 'ADT'){
+                for(k in airline[journey].segments[i].fares[airline[journey].segments[i].fare_pick].service_charge_summary[j].service_charges){
+                    if(airline[journey].segments[i].fares[airline[journey].segments[i].fare_pick].service_charge_summary[j].service_charges[k].charge_type != 'RAC'){
+                        if(airline[journey].segments[i].fares[airline[journey].segments[i].fare_pick].service_charge_summary[j].service_charges[k].charge_type != 'DISC'){
+                            price += airline[journey].segments[i].fares[airline[journey].segments[i].fare_pick].service_charge_summary[j].service_charges[k].amount;
                         }
+                        price_discount += airline[journey].segments[i].fares[airline[journey].segments[i].fare_pick].service_charge_summary[j].service_charges[k].amount;
                     }
-                    break
                 }
+                break
             }
         }
     }
