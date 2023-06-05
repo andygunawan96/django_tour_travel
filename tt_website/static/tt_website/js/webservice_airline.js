@@ -2830,13 +2830,11 @@ function change_fare(journey, segment, fares){
         }
     }
     is_recom = false;
-    is_fare_change = false;
     if(airline_recommendations_journey.length > 1){
         fare_pick_temp = airline[journey].segments[segment].fares[fares];
         for(i in airline_recommendations_journey){
             if(airline_recommendations_journey[i].journey_flight_refs[counter_search-1].fare_flight_refs[segment].fare_ref_id == fare_pick_temp.fare_ref_id){
                 is_recom = true;
-                is_fare_change = true;
                 for(j in airline_recommendations_journey[i].journey_flight_refs[counter_search-1].fare_flight_refs){
                     for(k in airline[journey].segments[j].fares){
                         if(airline[journey].segments[j].fares[k].fare_ref_id == airline_recommendations_journey[i].journey_flight_refs[counter_search-1].fare_flight_refs[j].fare_ref_id){
@@ -2888,7 +2886,6 @@ function change_fare(journey, segment, fares){
         group_fares = airline[journey].segments[segment].fares[fare_value].group_fare_id;
         for(i in airline[journey].segments){
             if(group_fares.length != 0){
-                is_fare_change = true;
                 for(j in airline[journey].segments[i].fares){
                     if(parseInt(i) == segment){
                         break;
@@ -8665,7 +8662,7 @@ function airline_get_booking(data, sync=false){
                     text_detail+=`
                         </div>
                     </div>`;
-                    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
+                    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false && user_login.co_agent_frontend_security.includes('see_commission')){
                         text_detail+=`
                         <div class="row" id="show_commission" style="display:block;">
                             <div class="col-lg-12 col-xs-12" style="text-align:center;">
@@ -13419,7 +13416,7 @@ function get_price_itinerary_reissue_request(airline_response, total_admin_fee, 
     text+=`
         </div>
     </div>`;
-    if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
+    if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false && user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
         text+=`
         <div class="row" id="show_commission" style="display:block;">
             <div class="col-lg-12 col-xs-12">
