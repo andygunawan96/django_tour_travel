@@ -59,20 +59,21 @@ def check_banner(page, banner_type, request):
             file = get_banner_data(request, 'promotion')
         elif banner_type == 'dynamic_page':
             file = get_dynamic_page(request)
-            if len(file['result']['response']) != 0:
-                check_banner = 1
         else:
             file = False
         if file:
             for banner in file['result']['response']:
-                if banner['active']:
+                if banner.get('active'):
                     if page == 'home':
                         check_banner = 1
                         break
                     else:
-                        if banner['provider_type'] == page:
+                        if banner.get('provider_type') and banner['provider_type'] == page:
                             check_banner = 1
                             break
+                        else:
+                            #### dynamic_page
+                            check_banner = 1
     except Exception as e:
         _logger.error(str(e) + traceback.format_exc())
     return check_banner
