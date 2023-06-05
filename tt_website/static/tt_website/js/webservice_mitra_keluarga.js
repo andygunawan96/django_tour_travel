@@ -1486,7 +1486,7 @@ function mitra_keluarga_get_booking(order_number, sync=false){
                             text_detail+=`
                                 </div>
                             </div>`;
-                            if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false && window.location.pathname.includes('confirm_order') == false){
+                            if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false && window.location.pathname.includes('confirm_order') == false && user_login.co_agent_frontend_security.includes('see_commission')){
                                 text_detail+=`
                                 <div class="row" id="show_commission" style="display:block;">
                                     <div class="col-lg-12 col-xs-12" style="text-align:center;">
