@@ -2360,7 +2360,7 @@ function carrier_to_provider(){
 function add_provider_airline(new_data_provider){
     add_data = true;
     for(x in provider_airline){
-        if(provider_airline[x][0] == new_data_provider[0] && provider_airline[x][1] == new_data_provider[1] && provider_airline[x][2] == new_data_provider[2]){
+        if(provider_airline[x][0] == new_data_provider[0] && JSON.stringify(provider_airline[x][1]) == JSON.stringify(new_data_provider[1]) && provider_airline[x][2] == new_data_provider[2]){
             add_data = false
         }
     }
