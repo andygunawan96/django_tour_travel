@@ -97,7 +97,7 @@ function agent_register_get_config(){
             text_partnership = ``;
             var partnership_idx = 0;
             for(i in msg.result.response.agent_type){
-                text+=`<option value="`+msg.result.response.agent_type[i].name+`">`+msg.result.response.agent_type[i].name+`</option>`;
+                text+=`<option value="`+msg.result.response.agent_type[i].id+`">`+msg.result.response.agent_type[i].name+`</option>`;
                 if (partnership_idx == 0)
                 {
                     text_partnership_tab += `
@@ -201,7 +201,7 @@ function onchange_agent_type(){
     }
     term_text = '';
     for(i in msg.result.response.agent_type){
-        if(document.getElementById('agent_type').value == msg.result.response.agent_type[i].name){
+        if(document.getElementById('agent_type').value == msg.result.response.agent_type[i].id){
             if(msg.result.response.agent_type[i].terms_and_condition)
             {
                 term_text += msg.result.response.agent_type[i].terms_and_condition;
