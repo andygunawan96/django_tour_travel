@@ -2521,7 +2521,7 @@ function tour_get_booking(order_number)
                         price_text+=`
                         </div>
                      </div>`;
-                     if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
+                     if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false && user_login.co_agent_frontend_security.includes('see_commission')){
                         price_text+=`
                          <div class="row" id="show_commission" style="display:block;">
                             <div class="col-lg-12 col-xs-12" style="text-align:center;">

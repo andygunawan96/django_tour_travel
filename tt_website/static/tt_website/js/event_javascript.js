@@ -203,8 +203,8 @@ function sort(response, check_filter){
     var node = document.createElement("div");
     document.getElementById("event_ticket_objs").innerHTML = '';
     text='';
+    count_available_event = 0;
     if(response.length != 0){
-        count_available_event = 0;
         for(i in response){
             available_prop = 0;
             content_category_pop = '';
