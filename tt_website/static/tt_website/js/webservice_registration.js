@@ -185,19 +185,11 @@ function onchange_agent_type(){
     text = '';
     msg = agent_regis_config;
     for(i in msg.result.response.company_type){
-        if(document.getElementById('agent_type').value == "Agent Citra" && i == 0){
-            text+= `<label class="radio-button-custom">
-                    <span style="font-size:14px;">`+msg.result.response.company_type[i][1]+`</span>
-                    <input disabled type="radio" name="radio_company_type" value="`+msg.result.response.company_type[i][0]+`" onclick="set_company_type();">
-                    <span class="checkmark-radio"></span>
-                </label>`;
-        }else{
-            text+= `<label class="radio-button-custom">
+        text+= `<label class="radio-button-custom">
                     <span style="font-size:14px;">`+msg.result.response.company_type[i][1]+`</span>
                     <input type="radio" name="radio_company_type" value="`+msg.result.response.company_type[i][0]+`" onclick="set_company_type();">
                     <span class="checkmark-radio"></span>
                 </label>`;
-        }
     }
     term_text = '';
     for(i in msg.result.response.agent_type){
@@ -712,7 +704,7 @@ function set_document_requirement(){
 //        delete_table_of_doc();
 //    }
     for(i in requirement_document){
-        if(document.getElementById('agent_type').value == requirement_document[i].name){
+        if(document.getElementById('agent_type').value == requirement_document[i].id){
             for(j in requirement_document[i].docs){
                 if(requirement_document[i].docs[j].document_type == 'registration')
                     add_table_of_doc(requirement_document[i].docs[j].display_name);
