@@ -90,7 +90,7 @@ def get_requirement_list_doc(request):
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     url_request = get_url_gateway('session/agent_registration')
     res = send_request_api(request, url_request, headers, data, 'POST')
-    if res['result']['error_code'] != 0:
+    if [4002, 4003] in res['result']['error_code']:
         res = login(request, 'get_requirement')
     try:
         if res['result']['error_code'] == 0:
@@ -122,7 +122,7 @@ def get_config(request):
     url_request = get_url_gateway('session/agent_registration')
     res = send_request_api(request, url_request, headers, data, 'POST')
 
-    if res['result']['error_code'] != 0:
+    if [4002, 4003] in res['result']['error_code']:
         res = login(request, 'get_config')
     try:
         if res['result']['error_code'] == 0:
@@ -154,7 +154,7 @@ def get_promotions(request):
     url_request = get_url_gateway('session/agent_registration')
     res = send_request_api(request, url_request, headers, data, 'POST')
 
-    if res['result']['error_code'] != 0:
+    if [4002, 4003] in res['result']['error_code']:
         res = login(request, 'get_promotions')
     try:
         if res['result']['error_code'] == 0:
@@ -193,11 +193,11 @@ def register(request):
     else:
         res = request.session['register_result_done']
     try:
-        if res['result']['error_code'] != 0:
+        if [4002, 4003] in res['result']['error_code']:  ### session habis request login ulang
             res = login(request, 'register')
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    if res['result']['error_code'] != 0:
+    if [4002, 4003] in res['result']['error_code']:
         res = login(request, 'register')
     try:
         if res['result']['error_code'] == 0:

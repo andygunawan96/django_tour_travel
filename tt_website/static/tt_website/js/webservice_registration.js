@@ -333,7 +333,8 @@ function agent_register_get_requirement_list_doc(){
 
 function auto_complete_registration(type){
     if(type == 'agent_type'){
-        document.getElementById('agent_type').value = document.getElementById('select2-'+type+'_id-container').innerHTML;
+        var agent_type_selection = document.getElementById('agent_type_id');
+        document.getElementById('agent_type').value = agent_type_selection.options[agent_type_selection.selectedIndex].value;
     }else if(type == 'country'){
         var text = `<option value="" selected="">Cities</option>`;
         var country = {};
