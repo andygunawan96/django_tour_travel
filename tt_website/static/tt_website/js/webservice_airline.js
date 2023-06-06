@@ -2326,7 +2326,9 @@ function carrier_to_provider(){
                     try{
                         for(k in provider_airline){
                             if(airline_carriers_data_awal[0][i].is_favorite == true){
-                                provider_airline.push([airline[0][i][j],[i.split('~')[0]], airline_carriers_data_awal[0][i].is_favorite])
+                                if(add_provider_airline([airline[0][i][j],[i.split('~')[0]], airline_carriers_data_awal[0][i].is_favorite])){
+                                    provider_airline.push([airline[0][i][j],[i.split('~')[0]], airline_carriers_data_awal[0][i].is_favorite])
+                                }
                                 check = 1;
                                 break;
                             }else if(provider_airline[k][0] == airline[0][i][j] && provider_airline[k][2] == false){
@@ -2335,7 +2337,8 @@ function carrier_to_provider(){
                                 break;
                             }
                         }if(check == 0){
-                            provider_airline.push([airline[0][i][j],[i.split('~')[0]], airline_carriers_data_awal[0][i].is_favorite])
+                            if(add_provider_airline([airline[0][i][j],[i.split('~')[0]], airline_carriers_data_awal[0][i].is_favorite]))
+                                provider_airline.push([airline[0][i][j],[i.split('~')[0]], airline_carriers_data_awal[0][i].is_favorite])
                         }
                     }catch(err){
                         console.log(err); // error kalau ada element yg tidak ada
@@ -2352,6 +2355,16 @@ function carrier_to_provider(){
         gtag('event', 'airline_search', {});
 //    document.getElementById('airline_list').innerHTML = '';
     document.getElementById('airline_list2').innerHTML = '';
+}
+
+function add_provider_airline(new_data_provider){
+    add_data = true;
+    for(x in provider_airline){
+        if(provider_airline[x][0] == new_data_provider[0] && provider_airline[x][1] == new_data_provider[1] && provider_airline[x][2] == new_data_provider[2]){
+            add_data = false
+        }
+    }
+    return add_data;
 }
 
 function send_search_to_api(val){
