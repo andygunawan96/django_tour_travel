@@ -25,39 +25,80 @@ function table_reservation(data, mode_view, restart=false){
             <tr>
                 <th><div style="width:30px;">No.</div></th>
                 <th><div style="width:150px;">PNR, Order Number</div></th>
+                <th><div style="width:100px;">Provider</div></th>
+                <th><div style="width:150px;">State</div></th>
                 <th><div style="width:170px;">Hold Date</div></th>
-                <th><div style="width:150px;">Booker Name</div></th>
-                <th><div style="width:200px;">Info</div></th>
-                <th><div style="width:150px;">Provider</div></th>`;
+                <th><div style="width:150px;">Booker Name</div></th>`;
                 if($("input[name='filter']:checked").val() == 'airline')
                     text+=`<th><div style="width:100px;">Flight Number</div></th>`;
+                text+=`<th><div style="width:200px;">Info</div></th>`;
                 if($("input[name='filter']:checked").val() == 'hotel'){
-                    text+=`<th><div style="width:80px;">Total R/N</div></th>`;
+                    text+=`<th><div style="width:80px;">R/N</div></th>`;
                 }else{
-                    text+=`<th><div style="width:80px;">Total Pax</div></th>`;
+                    text+=`<th><div style="width:80px;">Pax</div></th>`;
                 }
+
                 text+=`
-                <th><div style="width:150px;">State</div></th>
                 <th><div style="width:150px;">Agent Name</div></th>
                 <th><div style="width:170px;">Booked</div></th>
                 <th><div style="width:170px;">Issued</div></th>
-                <th><div style="width:150px;">Action</div></th>
             </tr>`;
         }
         for(i in data){
             text+=`
             <tr>
                 <form action="" method="POST" id="gotobooking`+data_counter+`">
-                    <td>`+(data_counter+1)+`</td>
-                    <td>`;
-                    if(data[i].pnr)
-                        text+= `<b>PNR</b><br/>`+data[i].pnr+`<br/>`;
-                    else
-                        text+= `<b>PNR</b><br/>-<br/>`;
+                    <td>
+                    <h6 class="mb-1">
+                        `+(data_counter+1)+`.`;
+                    text+=`
+                    </h6>`;
 
-                    text+=`<b>Order Number</b><br/><span name="order_number">`+data[i].order_number+`</span>`;
+                    text+=`<td>`;
+                    if(data[i].state != 'fail_booking')
+                        text+= `<b class="span_link" type="button" onclick="goto_detail_reservation(`+data_counter+`)">PNR <i class="fas fa-external-link-alt" style="color:`+color+`; padding-left:5px; font-size:18px;"><span style="font-size:13px;">open</span></i>`;
+                    else
+                        text+= `<b>PNR`;
+                    text+=`</b>`;
+
+                    if(data[i].pnr){
+                        text+=`<br/>`+data[i].pnr+`<br/>`;
+                    }
+                    else{
+                        text+= `<br/>-<br/>`;
+                    }
+
+                    text+=`<b>Order Number</b><br/><span name="order_number">`+data[i].order_number;
+                    text+=`</span>`;
                     text+=`</td>`;
 
+                    text+=`</td>`;
+
+                    try{
+                        if(data[i].carrier_names == '')
+                            text+=`<td><b>`+data[i].provider_type+`</b></td>`;
+                        else
+                            text+=`<td><b>`+data[i].carrier_names+`</b></td>`;
+                    }catch(err){
+
+                    }
+
+                    text+= `<td>`;
+
+                    if(data[i].state_description == 'Issued' || data[i].state_description == 'Done'){
+                        text+=`<b style="background:#30b330; font-size:13px; color:white; padding:5px 15px; display:unset;">`;
+                    }else if(data[i].state_description == 'Booked'){
+                        text+=`<b style="background:#3fa1e8; font-size:13px; color:white; padding:5px 15px; display:unset;">`;
+                    }else if(data[i].state_description == 'Refund' || data[i].state_description == 'Draft' || data[i].state_description == 'Pending' || data[i].state_description == 'New'){
+                        text+=`<b style="background:#8c8d8f; font-size:13px; color:white; padding:5px 15px; display:unset;">`;
+                    }else if(data[i].state_description == 'Booking Failed' || data[i].state_description == 'Expired'
+                            || data[i].state_description == 'Cancelled'){
+                        text+=`<b style="background:#DC143C; font-size:13px; color:white; padding:5px 15px; display:unset;">`;
+                    }else{
+                        text+=`<b>`;
+                    }
+
+                    text+=data[i].state_description+`</b></td>`;
 
                     if(data[i].hold_date == false){
                         text+= `<td>-</td>`;
@@ -66,18 +107,7 @@ function table_reservation(data, mode_view, restart=false){
                         text+= `<td>`+data[i].hold_date+`</td>`;
                     }
                     text+= `<td>`+data[i].booker.name+`</td>`;
-                    if(data[i].transaction_additional_info != '')
-                        text+= `<td>`+data[i].transaction_additional_info+`</td>`;
-                    else
-                        text+= `<td>-</td>`;
-                    try{
-                        if(data[i].carrier_names == '')
-                            text+=`<td>`+data[i].provider_type+`</td>`;
-                        else
-                            text+=`<td>`+data[i].carrier_names+`</td>`;
-                    }catch(err){
 
-                    }
                     if($("input[name='filter']:checked").val() == 'airline'){
                         var flightArr = data[i].flight_number.split(';');
                         text+=`<td>`;
@@ -86,23 +116,12 @@ function table_reservation(data, mode_view, restart=false){
                         }
                         text+=`</td>`;
                     }
+
+                    if(data[i].transaction_additional_info != '')
+                        text+= `<td>`+data[i].transaction_additional_info+`</td>`;
+                    else
+                        text+= `<td>-</td>`;
                     text+=`<td>`+data[i].total_pax+`</b></td>`;
-                    text+= `<td>`;
-
-                    if(data[i].state_description == 'Issued' || data[i].state_description == 'Done'){
-                        text+=`<b style="background:#30b330; font-size:13px; color:white; padding:5px 15px; display:unset; border-radius:7px;">`;
-                    }else if(data[i].state_description == 'Booked'){
-                        text+=`<b style="background:#3fa1e8; font-size:13px; color:white; padding:5px 15px; display:unset; border-radius:7px;">`;
-                    }else if(data[i].state_description == 'Refund' || data[i].state_description == 'Draft' || data[i].state_description == 'Pending' || data[i].state_description == 'New'){
-                        text+=`<b style="background:#8c8d8f; font-size:13px; color:white; padding:5px 15px; display:unset; border-radius:7px;">`;
-                    }else if(data[i].state_description == 'Booking Failed' || data[i].state_description == 'Expired'
-                            || data[i].state_description == 'Cancelled'){
-                        text+=`<b style="background:#DC143C; font-size:13px; color:white; padding:5px 15px; display:unset; border-radius:7px;">`;
-                    }else{
-                        text+=`<b>`;
-                    }
-
-                    text+=data[i].state_description+`</b></td>`;
                     text+= `<td>`+data[i].agent_name+`</td>`;
 
                     text+= `<td>`;
@@ -134,12 +153,6 @@ function table_reservation(data, mode_view, restart=false){
                         text+= `<b>by</b><br/>`+data[i].issued_uid;
                     }
                     text+= `</td>`;
-
-                    if(data[i].state != 'fail_booking')
-                        text+= `<td><button type='button' class="primary-btn-custom" onclick="goto_detail_reservation(`+data_counter+`)">Check <i class="fas fa-search"></button></td>`;
-                    else{
-                        text+= `<td> - </td>`;
-                    }
                     text+=`
                 </form>
             </tr>`;
@@ -219,14 +232,14 @@ function table_reservation(data, mode_view, restart=false){
                         <div class="col-lg-6 mb-3" style="text-align:right;">
                             <b style="padding-right:10px;"><i>State:</b></i>`;
                                 if(data[i].state_description == 'Issued' || data[i].state_description == 'Done'){
-                                    text+=`<b style="background:#30b330; font-size:13px; color:white; padding:5px 15px; display:unset; border-radius:7px;">`;
+                                    text+=`<b style="background:#30b330; font-size:13px; color:white; padding:5px 15px; display:unset;">`;
                                 }else if(data[i].state_description == 'Booked'){
-                                    text+=`<b style="background:#3fa1e8; font-size:13px; color:white; padding:5px 15px; display:unset; border-radius:7px;">`;
+                                    text+=`<b style="background:#3fa1e8; font-size:13px; color:white; padding:5px 15px; display:unset;">`;
                                 }else if(data[i].state_description == 'Refund' || data[i].state_description == 'Draft' || data[i].state_description == 'Pending' || data[i].state_description == 'New'){
-                                    text+=`<b style="background:#8c8d8f; font-size:13px; color:white; padding:5px 15px; display:unset; border-radius:7px;">`;
+                                    text+=`<b style="background:#8c8d8f; font-size:13px; color:white; padding:5px 15px; display:unset;">`;
                                 }else if(data[i].state_description == 'Booking Failed' || data[i].state_description == 'Expired'
                                         || data[i].state_description == 'Cancelled'){
-                                    text+=`<b style="background:#DC143C; font-size:13px; color:white; padding:5px 15px; display:unset; border-radius:7px;">`;
+                                    text+=`<b style="background:#DC143C; font-size:13px; color:white; padding:5px 15px; display:unset;">`;
                                 }else{
                                     text+=`<b>`;
                                 }
@@ -410,7 +423,7 @@ function table_reservation(data, mode_view, restart=false){
                         text+= `
                         <div class="col-lg-6 mb-2" style="text-align:right; padding: 15px;">
                             <button type='button' class="primary-btn-custom" onclick="goto_detail_reservation(`+data_counter+`)">
-                                Check <i class="fas fa-search"></i>
+                                Detail <i class="fas fa-external-link-alt"></i>
                             </button>
                         </div>`;
 

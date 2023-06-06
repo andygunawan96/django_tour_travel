@@ -37,7 +37,6 @@ $(document).ready(function(){
         this.classList.toggle("is-open");
 
         let content = this.nextElementSibling;
-        console.log(content);
 
         if (content.style.maxHeight) {
           //this is if the accordion is open
@@ -3993,3 +3992,58 @@ function search_modal_pe_unset(){
     $('.overlay_modal_custom').css('pointer-events','unset');
     $('.modal_custom_close').css('pointer-events','unset');
 }
+
+
+function onlyUnique(value, index, array) {
+  return array.indexOf(value) === index;
+}
+
+function search_setting_page(){
+	var tab_setting_arr = [];
+    var settingSearchField = $("#input_search_setting");
+	var settingBtn = $(".accordion")
+    var filter = settingSearchField.val();
+
+    settingBtn.each(function() {
+        let next_accordion = this.nextElementSibling;
+        if(filter != ''){
+            var tab_id_filter = $(this).attr('data-tab'); //tab tab
+            next_accordion.style.display = "none"; //close
+
+            if($(this).text().search(new RegExp(filter, 'i')) < 0) {
+                this.style.display = "none";
+                this.style.maxHeight = null;
+            }
+            else {
+                this.style.display = "block";
+                this.style.maxHeight = null;
+
+                tab_setting_arr.push(tab_id_filter);
+            }
+        }
+
+        else{
+            this.style.display = "block";
+            this.style.maxHeight = null;
+            next_accordion.style.display = "none"; //close
+
+            tab_setting_arr = [];
+        }
+    });
+
+    $('ul.main_menu_tabs li').removeClass('current');
+    $('.main_menu_content').removeClass('current');
+
+    console.log(tab_setting_arr);
+    if(tab_setting_arr.length != 0){
+        var unique_setting = tab_setting_arr.filter(onlyUnique);
+        for (var i=0;i<unique_setting.length; i++){
+            $("#"+unique_setting[i]+"-li").addClass('current');
+            $("#"+unique_setting[i]).addClass('current');
+        }
+    }else{
+        $("#tab-website-li").addClass('current');
+        $("#tab-website").addClass('current');
+    }
+}
+

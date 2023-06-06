@@ -62,13 +62,19 @@
 <section style="padding-top:30px; padding-bottom:50px; min-height:unset; background: #f7f7f7;">
     <div class="container" style="max-width:1200px; background: white; padding:15px; border:1px solid #cdcdcd;">
         <div class="row">
-            <div class="col-lg-12 mb-3">
+            <div class="col-sm-6 mb-3">
                 <h3>{% trans 'Admin Settings' %} <i class="fas fa-wrench"></i></h3>
+            </div>
+            <div class="col-sm-6 mb-3">
+                <div class="input-container-search-ticket" style="width:auto; float:right;">
+                    <i class="fas fa-search" style="font-size:20px; margin-top:10px; margin-right:10px;"></i>
+                    <input class="form-control" id="input_search_setting" onkeyup="search_setting_page();" placeholder="Search Setting"/>
+                </div>
             </div>
             <div class="col-lg-3 mb-3">
                 <ul class="main_menu_tabs" id="identity">
                     {% if "edit_appearance" in username.co_agent_frontend_security %}
-                    <li class="main_menu_link current" data-tab="tab-website">
+                    <li class="main_menu_link current" id="tab-website-li" data-tab="tab-website">
                         <h5>
                             <i class="fas fa-globe-asia"></i> Website
                         </h5>
@@ -76,7 +82,7 @@
                     {% endif %}
 
                     {% if "edit_appearance" in username.co_agent_frontend_security or "create_page" in username.co_agent_frontend_security%}
-                    <li class="main_menu_link" data-tab="tab-information">
+                    <li class="main_menu_link" id="tab-information-li" data-tab="tab-information">
                         <h5>
                             <i class="fas fa-info-circle"></i> Information
                         </h5>
@@ -84,17 +90,17 @@
                     {% endif %}
 
                     {% if "edit_appearance" in username.co_agent_frontend_security %}
-                    <li class="main_menu_link" data-tab="tab-product">
+                    <li class="main_menu_link" id="tab-product-li" data-tab="tab-product">
                         <h5>
                             <i class="fas fa-box"></i> Product
                         </h5>
                     </li>
-                    <li class="main_menu_link" data-tab="tab-terms-policy">
+                    <li class="main_menu_link" id="tab-terms-policy-li" data-tab="tab-terms-policy">
                         <h5>
                             <i class="fas fa-clipboard-check"></i> Terms & Policy
                         </h5>
                     </li>
-                    <li class="main_menu_link" data-tab="tab-printout">
+                    <li class="main_menu_link" id="tab-printout-li" data-tab="tab-printout">
                         <h5>
                             <i class="fas fa-print"></i> Printout
                         </h5>
@@ -102,7 +108,7 @@
                     {% endif %}
 
                     {% if "cache_version" in username.co_agent_frontend_security or "admin" in username.co_agent_frontend_security or "send_notification" in username.co_agent_frontend_security %}
-                    <li class="main_menu_link" data-tab="tab-system">
+                    <li class="main_menu_link" id="tab-system-li" data-tab="tab-system">
                         <h5>
                             <i class="fas fa-laptop"></i> System
                         </h5>
@@ -117,7 +123,7 @@
                     <div id="tab-website" class="main_menu_content current">
                         <div class="row">
                             <div class="col-lg-12">
-                                <button type="button" class="accordion">
+                                <button type="button" class="accordion" data-tab="tab-website">
                                     <div style="display:inline-flex">
                                         <i class="fas fa-globe-asia" style="padding-top:5px;font-size:18px;"></i>
                                         <h6 style="padding-left:10px;">
@@ -187,7 +193,7 @@
                                     </div>
                                 </div>
 
-                                <button type="button" class="accordion">
+                                <button type="button" class="accordion" data-tab="tab-website">
                                     <div style="display:inline-flex">
                                         <i class="fas fa-image" style="padding-top:5px;font-size:18px;"></i>
                                         <h6 style="padding-left:10px;">
@@ -414,7 +420,7 @@
                                     </div>
                                 </div>
 
-                                <button type="button" class="accordion">
+                                <button type="button" class="accordion" data-tab="tab-website">
                                     <div style="display:inline-flex">
                                         <i class="fas fa-palette" style="padding-top:5px;font-size:18px;"></i>
                                         <h6 style="padding-left:10px;">
@@ -530,7 +536,7 @@
                                     </div>
                                 </div>
 
-                                <button type="button" class="accordion no_edit_accordion">
+                                <button type="button" class="accordion no_edit_accordion" data-tab="tab-website">
                                     <div style="display:inline-flex">
                                         <i class="fas fa-eye" style="padding-top:5px;font-size:18px;"></i>
                                         <h6 style="padding-left:10px;">
@@ -559,14 +565,14 @@
                                                                 <div style="display:inline-flex;">
                                                                     <div class="input-container-search-ticket">
                                                                         <i class="fa fa-user" id="preview_text_iconuser" style="font-size: 20px;padding-top: 12px; color:{{text_color_login}};"></i>
-                                                                        <input type="text" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px; width:170px; background:white;" placeholder="Username" tabindex="1" disabled/><br/>
+                                                                        <input type="text" class="form-control" style="border-radius:unset; font-size:13px; padding:10px; margin:5px; width:170px; background:white;" placeholder="Username" tabindex="1" disabled/><br/>
                                                                     </div>
                                                                     <div class="input-container-search-ticket">
                                                                         <i class="fa fa-lock" id="preview_text_iconpass" style="font-size: 20px;padding-top: 12px; color:{{text_color_login}};"></i>
-                                                                        <input type="password" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px; width:170px; background:white;" placeholder="Password" tabindex="2" disabled/><br/>
+                                                                        <input type="password" class="form-control" style="border-radius:unset; font-size:13px; padding:10px; margin:5px; width:170px; background:white;" placeholder="Password" tabindex="2" disabled/><br/>
                                                                     </div>
                                                                     <div class="input-container-search-ticket">
-                                                                        <button class="primary-btn-custom" id="preview_button_btnlg" type="button" style="margin-bottom:5px; margin-top:5px;">Sign in <i class="fas fa-sign-in-alt"></i></button>
+                                                                        <button class="primary-btn-custom" id="preview_button_btnlg" type="button" style="margin-bottom:5px; height: 43px; margin-top:5px; border: 1px solid {{text_color}}">Sign in <i class="fas fa-sign-in-alt"></i></button>
                                                                     </div>
                                                                 </div><br/>
                                                                 <div style="display:inline-flex; width:430px;">
@@ -683,7 +689,7 @@
                                     </div>
                                 </div>
 
-                                <button type="button" class="accordion">
+                                <button type="button" class="accordion" data-tab="tab-website">
                                     <div style="display:inline-flex">
                                         <i class="fas fa-coins" style="padding-top:5px;font-size:18px;"></i>
                                         <h6 style="padding-left:10px;">
@@ -724,7 +730,7 @@
                                     </div>
                                 </div>
 
-                                <button type="button" class="accordion">
+                                <button type="button" class="accordion" data-tab="tab-website">
                                     <div style="display:inline-flex">
                                         <i class="fas fa-user-plus" style="padding-top:5px;font-size:18px;"></i>
                                         <h6 style="padding-left:10px;">
@@ -776,7 +782,7 @@
                                     </div>
                                 </div>
 
-                                <button type="button" class="accordion">
+                                <button type="button" class="accordion" data-tab="tab-website">
                                     <div style="display:inline-flex">
                                         <i class="fas fa-image" style="padding-top:5px;font-size:18px;"></i>
                                         <h6 style="padding-left:10px;">
@@ -830,7 +836,7 @@
                                     </div>
                                 </div>
 
-                                <button type="button" class="accordion">
+                                <button type="button" class="accordion" data-tab="tab-website">
                                     <div style="display:inline-flex">
                                         <i class="fas fa-image" style="padding-top:5px;font-size:18px;"></i>
                                         <h6 style="padding-left:10px;">
@@ -885,7 +891,7 @@
                                     </div>
                                 </div>
 
-                                <button type="button" class="accordion">
+                                <button type="button" class="accordion" data-tab="tab-website">
                                     <div style="display:inline-flex">
                                         <i class="fas fa-image" style="padding-top:5px;font-size:18px;"></i>
                                         <h6 style="padding-left:10px;">
@@ -948,7 +954,7 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 {% if "create_page" in username.co_agent_frontend_security %}
-                                <button type="button" class="accordion">
+                                <button type="button" class="accordion" data-tab="tab-information">
                                     <div style="display:inline-flex">
                                         <i class="fas fa-pager" style="padding-top:5px;font-size:18px;"></i>
                                         <h6 style="padding-left:10px;">
@@ -1031,7 +1037,7 @@
                                     </div>
                                 </div>
 
-                                <button type="button" class="accordion">
+                                <button type="button" class="accordion" data-tab="tab-information">
                                     <div style="display:inline-flex">
                                         <i class="fas fa-link" style="padding-top:5px;font-size:18px;"></i>
                                         <h6 style="padding-left:10px;">
@@ -1058,7 +1064,7 @@
                                 </div>
                                 {% endif %}
 
-                                <button type="button" class="accordion">
+                                <button type="button" class="accordion" data-tab="tab-information">
                                     <div style="display:inline-flex">
                                         <i class="fas fa-id-card" style="padding-top:5px;font-size:18px;"></i>
                                         <h6 style="padding-left:10px;">
@@ -1131,7 +1137,7 @@
                                     </div>
                                 </div>
 
-                                <button type="button" class="accordion">
+                                <button type="button" class="accordion" data-tab="tab-information">
                                     <div style="display:inline-flex">
                                         <i class="fas fa-phone" style="padding-top:5px;font-size:18px;"></i>
                                         <h6 style="padding-left:10px;">
@@ -1173,7 +1179,7 @@
                                     </div>
                                 </div>
 
-                                <button type="button" class="accordion">
+                                <button type="button" class="accordion" data-tab="tab-information">
                                     <div style="display:inline-flex">
                                         <i class="fas fa-user" style="padding-top:5px;font-size:18px;"></i>
                                         <h6 style="padding-left:10px;">
@@ -1213,7 +1219,7 @@
                                     </div>
                                 </div>
 
-                                <button type="button" class="accordion">
+                                <button type="button" class="accordion" data-tab="tab-information">
                                     <div style="display:inline-flex">
                                         <i class="fas fa-info-circle" style="padding-top:5px;font-size:18px;"></i>
                                         <h6 style="padding-left:10px;">
@@ -1259,7 +1265,7 @@
                                     </div>
                                 </div>
 
-                                <button type="button" class="accordion">
+                                <button type="button" class="accordion" data-tab="tab-information">
                                     <div style="display:inline-flex">
                                         <i class="fas fa-handshake" style="padding-top:5px;font-size:18px;"></i>
                                         <h6 style="padding-left:10px;">
@@ -1329,7 +1335,7 @@
                                     </div>
                                 </div>
 
-                                <button type="button" class="accordion">
+                                <button type="button" class="accordion" data-tab="tab-information">
                                     <div style="display:inline-flex">
                                         <i class="fas fa-question" style="padding-top:5px;font-size:18px;"></i>
                                         <h6 style="padding-left:10px;">
@@ -1391,7 +1397,7 @@
 
                     {% if "edit_appearance" in username.co_agent_frontend_security %}
                     <div id="tab-product" class="main_menu_content">
-                        <button type="button" class="accordion">
+                        <button type="button" class="accordion" data-tab="tab-product">
                             <div style="display:inline-flex">
                                 <i class="fas fa-id-card" style="padding-top:5px;font-size:18px;"></i>
                                 <h6 style="padding-left:10px;">
@@ -1428,7 +1434,7 @@
                             </div>
                         </div>
 
-                        <button type="button" class="accordion">
+                        <button type="button" class="accordion" data-tab="tab-product">
                             <div style="display:inline-flex">
                                 <i class="fas fa-plane" style="padding-top:5px;font-size:18px;"></i>
                                 <h6 style="padding-left:10px;">
@@ -1461,7 +1467,7 @@
                             </div>
                         </div>
 
-                        <button type="button" class="accordion">
+                        <button type="button" class="accordion" data-tab="tab-product">
                             <div style="display:inline-flex">
                                 <i class="fas fa-search" style="padding-top:5px;font-size:18px;"></i>
                                 <h6 style="padding-left:10px;">
@@ -1529,7 +1535,7 @@
                             </div>
                         </div>
 
-                        <button type="button" class="accordion">
+                        <button type="button" class="accordion" data-tab="tab-product">
                             <div style="display:inline-flex">
                                 <i class="fas fa-bell" style="padding-top:5px;font-size:18px;"></i>
                                 <h6 style="padding-left:10px;">
@@ -1603,7 +1609,7 @@
                             </div>
                         </div>
 
-                        <button type="button" class="accordion">
+                        <button type="button" class="accordion" data-tab="tab-product">
                             <div style="display:inline-flex">
                                 <i class="fas fa-train" style="padding-top:5px;font-size:18px;"></i>
                                 <h6 style="padding-left:10px;">
@@ -1636,7 +1642,7 @@
                             </div>
                         </div>
 
-                        <button type="button" class="accordion">
+                        <button type="button" class="accordion" data-tab="tab-product">
                             <div style="display:inline-flex">
                                 <i class="fas fa-bell" style="padding-top:5px;font-size:18px;"></i>
                                 <h6 style="padding-left:10px;">
@@ -1710,7 +1716,7 @@
                             </div>
                         </div>
 
-                        <button type="button" class="accordion">
+                        <button type="button" class="accordion" data-tab="tab-product">
                             <div style="display:inline-flex">
                                 <i class="fas fa-hotel" style="padding-top:5px;font-size:18px;"></i>
                                 <h6 style="padding-left:10px;">
@@ -1734,7 +1740,7 @@
                             </div>
                         </div>
 
-                        <button type="button" class="accordion">
+                        <button type="button" class="accordion" data-tab="tab-product">
                             <div style="display:inline-flex">
                                 <i class="fas fa-hiking" style="padding-top:5px;font-size:18px;"></i>
                                 <h6 style="padding-left:10px;">
@@ -1760,7 +1766,7 @@
                         </div>
                     </div>
                     <div id="tab-terms-policy" class="main_menu_content">
-                        <button type="button" class="accordion">
+                        <button type="button" class="accordion" data-tab="tab-terms-policy">
                             <div style="display:inline-flex">
                                 <i class="fas fa-shield-alt" style="padding-top:5px;font-size:18px;"></i>
                                 <h6 style="padding-left:10px;">
@@ -1800,7 +1806,7 @@
                             </div>
                         </div>
 
-                        <button type="button" class="accordion">
+                        <button type="button" class="accordion" data-tab="tab-terms-policy">
                             <div style="display:inline-flex">
                                 <i class="fas fa-clipboard-check" style="padding-top:5px;font-size:18px;"></i>
                                 <h6 style="padding-left:10px;">
@@ -1839,7 +1845,7 @@
                             </div>
                         </div>
 
-                        <button type="button" class="accordion">
+                        <button type="button" class="accordion" data-tab="tab-terms-policy">
                             <div style="display:inline-flex">
                                 <i class="fas fa-clipboard-check" style="padding-top:5px;font-size:18px;"></i>
                                 <h6 style="padding-left:10px;">
@@ -1865,7 +1871,7 @@
                         </div>
                     </div>
                     <div id="tab-printout" class="main_menu_content">
-                        <button type="button" class="accordion">
+                        <button type="button" class="accordion" data-tab="tab-printout">
                             <div style="display:inline-flex">
                                 <i class="fas fa-print" style="padding-top:5px;font-size:18px;"></i>
                                 <h6 style="padding-left:10px;">
@@ -1900,7 +1906,7 @@
                             </div>
                         </div>
 
-                        <button type="button" class="accordion">
+                        <button type="button" class="accordion" data-tab="tab-printout">
                             <div style="display:inline-flex">
                                 <i class="fas fa-palette" style="padding-top:5px;font-size:18px;"></i>
                                 <h6 style="padding-left:10px;">
@@ -1932,7 +1938,7 @@
                     {% endif %}
                     <div id="tab-system" class="main_menu_content">
                         {% if "cache_version" in username.co_agent_frontend_security %}
-                        <button type="button" class="accordion">
+                        <button type="button" class="accordion" data-tab="tab-system">
                             <div style="display:inline-flex">
                                 <i class="fas fa-file" style="padding-top:5px;font-size:18px;"></i>
                                 <h6 style="padding-left:10px;">
@@ -1949,7 +1955,7 @@
                             </div>
                         </div>
 
-                        <button type="button" class="accordion">
+                        <button type="button" class="accordion" data-tab="tab-system">
                             <div style="display:inline-flex">
                                 <i class="fas fa-image" style="padding-top:5px;font-size:18px;"></i>
                                 <h6 style="padding-left:10px;">
@@ -1966,7 +1972,7 @@
                             </div>
                         </div>
 
-                        <button type="button" class="accordion">
+                        <button type="button" class="accordion" data-tab="tab-system">
                             <div style="display:inline-flex">
                                 <i class="fas fa-comment" style="padding-top:5px;font-size:18px;"></i>
                                 <h6 style="padding-left:10px;">
@@ -2010,12 +2016,12 @@
                             </div>
                         </div>
 
-                        <button type="button" class="accordion">
+                        <button type="button" class="accordion" data-tab="tab-system">
                             <div style="display:inline-flex">
                                 <i class="fas fa-database" style="padding-top:5px;font-size:18px;"></i>
                                 <h6 style="padding-left:10px;">
                                     Backend<br/>
-                                    <span style="font-weight:500; font-size:12px;">Third party key database.</span>
+                                    <span style="font-weight:500; font-size:12px;">URL database.</span>
                                 </h6>
                             </div>
                         </button>
@@ -2059,7 +2065,7 @@
                             </div>
                         </div>
 
-                        <button type="button" class="accordion">
+                        <button type="button" class="accordion" data-tab="tab-system">
                             <div style="display:inline-flex">
                                 <i class="fab fa-google" style="padding-top:5px;font-size:18px;"></i>
                                 <h6 style="padding-left:10px;">
@@ -2092,7 +2098,7 @@
                             </div>
                         </div>
 
-                        <button type="button" class="accordion">
+                        <button type="button" class="accordion" data-tab="tab-system">
                             <div style="display:inline-flex">
                                 <i class="fab fa-google" style="padding-top:5px;font-size:18px;"></i>
                                 <h6 style="padding-left:10px;">
@@ -2130,7 +2136,7 @@
                             </div>
                         </div>
 
-                        <button type="button" class="accordion">
+                        <button type="button" class="accordion" data-tab="tab-system">
                             <div style="display:inline-flex">
                                 <i class="fas fa-bell" style="padding-top:5px;font-size:18px;"></i>
                                 <h6 style="padding-left:10px;">
@@ -2165,7 +2171,7 @@
                         {% endif %}
 
                         {% if "admin" in username.co_agent_frontend_security %}
-                        <button type="button" class="accordion">
+                        <button type="button" class="accordion" data-tab="tab-system">
                             <div style="display:inline-flex">
                                 <i class="fas fa-server" style="padding-top:5px;font-size:18px;"></i>
                                 <h6 style="padding-left:10px;">
@@ -2207,7 +2213,7 @@
                         {% endif %}
 
                         {% if "send_notification" in username.co_agent_frontend_security %}
-                        <button type="button" class="accordion">
+                        <button type="button" class="accordion" data-tab="tab-system">
                             <div style="display:inline-flex">
                                 <i class="fas fa-envelope" style="padding-top:5px;font-size:18px;"></i>
                                 <h6 style="padding-left:10px;">

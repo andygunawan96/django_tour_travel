@@ -789,10 +789,10 @@ ul.popular2_tabs li.current .image-rounded-icon{
 
 /* Style the indicator (dot/circle) */
 .radio-button-custom .checkmark-radio:after {
- 	top: 7px;
-	left: 7px;
-	width: 7px;
-	height: 7px;
+ 	top: 5px;
+	left: 5px;
+	width: 9px;
+	height: 9px;
 	border-radius: 50%;
 	background: white;
 }
@@ -857,9 +857,9 @@ ul.popular2_tabs li.current .image-rounded-icon{
 
 /* Style the checkmark/indicator */
 .check_box_custom .check_box_span_custom:after {
-  left: 8px;
-  top: 4px;
-  width: 5px;
+  left: 6px;
+  top: 3px;
+  width: 7px;
   height: 10px;
   border: solid white;
   border-width: 0 3px 3px 0;
@@ -1615,7 +1615,6 @@ ul.popular2_tabs li.current .image-rounded-icon{
   line-height: 42px;
   padding-left: 30px;
   padding-right: 30px;
-  border: 1px solid #205B95;
   color: #000;
   display: inline-block;
   font-size: 14px;
@@ -1744,7 +1743,7 @@ ul.popular2_tabs li.current .image-rounded-icon{
 }
 .primary-btn-white:disabled {
   cursor:not-allowed;
-  border: 2px solid #999999 !important;
+  border: 1px solid #999999 !important;
   background: #cccccc !important;
   color: #666666 !important;
 }
@@ -2264,7 +2263,8 @@ th input {
 
 .list-of-reservation td, .list-of-reservation th {
   border: 1px solid #ddd;
-  padding: 8px;
+  padding: 10px;
+  vertical-align: middle;
 }
 
 

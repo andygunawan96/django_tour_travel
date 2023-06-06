@@ -102,8 +102,8 @@
 			<div class="col-lg-12" style="height: 100vh;">
 				<div class="login_page_left">
 					<span class="login100-form-title">
-						{% if setting_login_page == 'website_name' %}
 						<h2 style="font-weight:bold;">Grow your business with</h2>
+						{% if setting_login_page == 'website_name' %}
 						<span class="lamp" style="font-size:36px;">{{name}}</span>
 						{% elif setting_login_page == 'website_logo' %}
 						<img src="{{logo}}" class="logo-login" alt="Logo {{name}}" title="{{name}}" style="max-width:20% !imporatant; max-height:20% !important;" />
@@ -168,13 +168,6 @@
 								<div id="social_login_div2" style="padding:30px 0px;">
 
 								</div>
-								<center>
-									<span style="font-size:12px;">
-										<b>
-											{% trans 'Copyright' %} &copy;<script>new Date().getFullYear();</script> All rights reserved by {{name}}.
-										</b>
-									</span>
-								</center>
 							</div>
 						</div>
 						<div class="col-lg-3"></div>

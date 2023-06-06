@@ -468,6 +468,7 @@ Licence URI: http://www.os-templates.com/template-terms
     <style>
         .radio-label > input:checked + .div_radio_bg{
             background: {{color}};
+            color: {{text_color}};
         }
         .radio-label .div_radio_bg:hover{
             background: {{color}};
@@ -527,9 +528,11 @@ Licence URI: http://www.os-templates.com/template-terms
         }
         .check_box_custom input:checked ~ .check_box_span_custom{
             background-color: {{color}} !important;
+            border: 1px solid {{text_color}} !important;
         }
         .radio-button-custom input:checked ~ .checkmark-radio{
             background-color: {{color}} !important;
+            border: 1px solid {{text_color}} !important;
         }
         .button_date_np:hover{
             background-color: {{color}} !important;
@@ -637,11 +640,12 @@ Licence URI: http://www.os-templates.com/template-terms
         .count_time{
             color:{{color}};
         }
-
+        .button-search{
+            border: 1px solid {{text_color}};
+        }
         .primary-btn {
             background: {{color}};
-            color: {{text_color}};
-            border: 1px solid {{text_color}};
+            color: {{text_color}} !important;
         }
         .primary-btn:hover {
             background: {{color}};
@@ -662,7 +666,6 @@ Licence URI: http://www.os-templates.com/template-terms
         .primary-btn-custom {
             background: {{color}};
             color: {{text_color}};
-            border: 2px solid {{text_color_login}};
         }
         .primary-btn-custom:hover {
             background: {{color}};
@@ -672,9 +675,6 @@ Licence URI: http://www.os-templates.com/template-terms
         }
         .primary-btn-logout:hover {
             background: {{color}};
-        }
-        .primary-btn-standard {
-            border: 1px solid {{color}} !important;
         }
         .primary-btn-standard:hover {
             background: {{color}} !important;

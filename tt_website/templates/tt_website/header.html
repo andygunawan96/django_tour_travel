@@ -278,7 +278,7 @@
 
                         <!--<li class="pt5"><input type="text" placeholder="Username"/><input type="text" placeholder="Password"/></li>-->
                         <li style="font-size:12px; color:{{text_color}}; padding:5px;">
-                            <button onclick="get_captcha('g-recaptcha-response','signin_btc');" class="loading-button primary-btn-custom ld-ext-right" style="margin-bottom:10px; width:100%;">
+                            <button onclick="get_captcha('g-recaptcha-response','signin_btc');" class="loading-button primary-btn-custom ld-ext-right" style="margin-bottom:10px; width:100%; border: 1px solid {{text_color_login}};">
                                 Sign in <i class="fas fa-sign-in-alt"></i>
                                 <div class="ld ld-ring ld-cycle"></div>
                             </button><br/>
@@ -551,7 +551,7 @@
                                 </li>
                                 <!--<li class="pt5"><input type="text" placeholder="Username"/><input type="text" placeholder="Password"/></li>-->
                                 <li style="font-size:12px;color:black; margin:5px;">
-                                    <button onclick="get_captcha('g-recaptcha-response','signin_btc');" class="loading-button primary-btn-custom ld-ext-right" style="width:100%;">
+                                    <button onclick="get_captcha('g-recaptcha-response','signin_btc');" class="loading-button primary-btn-custom ld-ext-right" style="width:100%; border: 1px solid {{text_color_login}};">
                                         Sign in <i class="fas fa-sign-in-alt"></i>
                                         <div class="ld ld-ring ld-cycle"></div>
                                     </button>
@@ -753,7 +753,7 @@
                             <li class="forget_password_mobile" style="font-size:12px;color:white;"></li>
                             <!--<li class="pt5"><input type="text" placeholder="Username"/><input type="text" placeholder="Password"/></li>-->
                             <li style="font-size:12px;color:{{text_color_login}};" class="li_menu">
-                                <button onclick="get_captcha('g-recaptcha-response','signin_btc');" class="loading-button primary-btn-custom ld-ext-right" style="width:100%;">
+                                <button onclick="get_captcha('g-recaptcha-response','signin_btc');" class="loading-button primary-btn-custom ld-ext-right" style="width:100%; border: 1px solid {{text_color_login}};">
                                     Sign in <i class="fas fa-sign-in-alt"></i>
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button><br/>
@@ -964,7 +964,7 @@
                             </li>
 
                             <li style="font-size:12px;color:black; display:inline-table; padding:5px;">
-                                <button onclick="get_captcha('g-recaptcha-response','signin_btc');" class="loading-button primary-btn-custom ld-ext-right" style="width:100%;">
+                                <button onclick="get_captcha('g-recaptcha-response','signin_btc');" class="loading-button primary-btn-custom ld-ext-right" style="width:100%; border: 1px solid {{text_color_login}};">
                                     Sign in <i class="fas fa-sign-in-alt"></i>
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button><br/>
@@ -1183,7 +1183,7 @@
                         <li class="forget_password_mobile" style="font-size:12px;color:black;"></li>
                         <!--<li class="pt5"><input type="text" placeholder="Username"/><input type="text" placeholder="Password"/></li>-->
                         <li style="font-size:12px;color:black; margin-top:15px; padding:5px 5px 15px 5px;">
-                            <button onclick="get_captcha('g-recaptcha-response','signin_btc');" class="loading-button primary-btn-custom ld-ext-right" style="width:100%;">
+                            <button onclick="get_captcha('g-recaptcha-response','signin_btc');" class="loading-button primary-btn-custom ld-ext-right" style="width:100%; border: 1px solid {{text_color_login}};">
                                 Sign in <i class="fas fa-sign-in-alt"></i>
                                 <div class="ld ld-ring ld-cycle"></div>
                             </button><br/>
@@ -1339,7 +1339,7 @@
                 </li>
                 {% else %}
                 <li style=" font-size:12px;color:black;">
-                    <button onclick="location.href='{% url 'tt_website:login'%}';" class="primary-btn-custom">{% trans 'Sign In' %} <i class="fas fa-sign-in-alt"></i></button>
+                    <button onclick="location.href='{% url 'tt_website:login'%}';" class="primary-btn-custom" style="border: 1px solid {{text_color_login}};">{% trans 'Sign In' %} <i class="fas fa-sign-in-alt"></i></button>
                 </li>
                 {% endif %}
 			</ul>
@@ -1374,7 +1374,7 @@
 
                 <!--<li class="pt5"><input type="text" placeholder="Username"/><input type="text" placeholder="Password"/></li>-->
                 <li style="font-size:12px;color:{{text_color}}; margin:5px;">
-                    <button onclick="get_captcha('g-recaptcha-response','signin_btc');" class="loading-button primary-btn-custom ld-ext-right" style="margin-bottom:10px;">
+                    <button onclick="get_captcha('g-recaptcha-response','signin_btc');" class="loading-button primary-btn-custom ld-ext-right" style="margin-bottom:10px; border: 1px solid {{text_color_login}};">
                         Sign in <i class="fas fa-sign-in-alt"></i>
                         <div class="ld ld-ring ld-cycle"></div>
                     </button><br/>
@@ -1422,7 +1422,7 @@
                         </a>
                     </div>
                     <div class="col-lg-12 mt-3">
-                        <button onclick="get_captcha('g-recaptcha-response','signin_btc');" class="loading-button primary-btn-custom ld-ext-right" style="margin-bottom:10px; width:100%;">
+                        <button onclick="get_captcha('g-recaptcha-response','signin_btc');" class="loading-button primary-btn-custom ld-ext-right" style="margin-bottom:10px; width:100%; border: 1px solid {{text_color_login}};">
                             Sign in <i class="fas fa-sign-in-alt"></i>
                             <div class="ld ld-ring ld-cycle"></div>
                         </button><br/>
