@@ -2575,13 +2575,15 @@
                 'signature': signature
            },
            success: function(msg) {
-                for(i in msg.result.response){
-                    try{
-                        if(document.getElementById('hotel_carrier_'+i)){
-                            document.getElementById('hotel_carrier_'+i).value = msg.result.response[i];
-                        }
-                    }catch(err){}
-                }
+                try{
+                    for(i in msg.result.response){
+                        try{
+                            if(document.getElementById('hotel_carrier_'+i)){
+                                document.getElementById('hotel_carrier_'+i).value = msg.result.response[i];
+                            }
+                        }catch(err){}
+                    }
+                }catch(err){}
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
 

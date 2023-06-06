@@ -863,11 +863,11 @@ def get_allowed_config_search(request):
     return data
 
 def get_all_carrier_airline(request):
-    data = []
     file = read_cache("get_airline_active_carriers", 'cache_web', request, 90911)
     if file:
-        data = file
-    return data
+        if request.session['user_account']['co_ho_seq_id'] in file:
+            file = file[request.session['user_account']['co_ho_seq_id']]
+    return file
 
 def get_provider_list_backend(request, signature=''):
     try:
