@@ -123,7 +123,14 @@ def read_cache(file_name, folder, request, time=300, cache_global=False):
             write_cache(data, "popular_destination_airline_cache", request, 'cache_web')
             is_read_file = True
         elif file_name == 'javascript_version':## AUTO CREATE FILE
-            write_cache('1', "javascript_version", request, 'cache_web', True)
+            javascript_version = ''
+            try:
+                file = open("%s/%s.txt" % (var_log_path(request, folder), file_name), "r")
+                if file:
+                    javascript_version += int(file) + 1
+            except Exception as e:
+                _logger.error("%s, %s" % (str(e), traceback.format_exc()))
+            write_cache(str(javascript_version) if javascript_version else "1", "javascript_version", request, 'cache_web', True)
             is_read_file = True
         elif file_name == 'cache_version':## AUTO CREATE FILE
             write_cache('1', "cache_version", request, 'cache_web')

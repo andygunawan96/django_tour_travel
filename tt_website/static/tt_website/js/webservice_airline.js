@@ -3003,7 +3003,6 @@ function change_fare(journey, segment, fares){
             }
         }
     }
-
     if(document.getElementById('airline_seat_left'+journey))
         if(seat_left > 9)
             document.getElementById('airline_seat_left'+journey).innerHTML = seat_left + ' seats available';
