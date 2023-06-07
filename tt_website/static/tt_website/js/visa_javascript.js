@@ -587,22 +587,22 @@ function update_table_new(type){
                 }
                 text+=`
                 <div class="row">`;
-                if(typeof upsell_price_dict !== 'undefined' && upsell_price_dict.hasOwnProperty(visa.list_of_visa[i].pax_type[0])){ //with upsell
+                if(typeof upsell_price_dict !== 'undefined' && upsell_price_dict.hasOwnProperty(sell_visa.search_data[i].pax_type)){ //with upsell
                     text+=`
                     <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                        <span style="font-size:13px;">`+visa.list_of_visa[i].pax_count+` `+visa.list_of_visa[i].pax_type[1]+` <br/> `+visa.list_of_visa[i].visa_type[1]+`, `+visa.list_of_visa[i].entry_type[1]+` <br/> `+currency+` `+getrupiah((price_perpax + upsell_price_dict[visa.list_of_visa[i].pax_type[0]]))+`</span>
+                        <span style="font-size:13px;">`+sell_visa.search_data[i].pax_count+` `+sell_visa.search_data[i].pax_type+` <br/> `+sell_visa.search_data[i].visa_type[1]+`, `+sell_visa.search_data[i].entry_type+` <br/> `+currency+` `+getrupiah((price_perpax + upsell_price_dict[sell_visa.search_data[i].pax_type]))+`</span>
                     </div>
                     <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                        <span style="font-size:13px;">`+currency+` `+getrupiah((price_perpax + upsell_price_dict[visa.list_of_visa[i].pax_type[0]])*sell_visa.search_data[i].pax)+`</span>
+                        <span style="font-size:13px;">`+currency+` `+getrupiah((price_perpax + upsell_price_dict[sell_visa.search_data[i].pax_type])*sell_visa.search_data[i].pax)+`</span>
                     </div>`;
-                    commission += upsell_price_dict[visa.list_of_visa[i].pax_type[0]]
+                    commission += upsell_price_dict[sell_visa.search_data[i].pax_type]
                 }else{
                     text+=`
                     <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                        <span style="font-size:13px;">`+visa.list_of_visa[i].pax_count+` `+visa.list_of_visa[i].pax_type[1]+` <br/> `+visa.list_of_visa[i].visa_type[1]+`, `+visa.list_of_visa[i].entry_type[1]+` <br/> `+currency+` `+getrupiah(price_perpax)+`</span>
+                        <span style="font-size:13px;">`+sell_visa.search_data[i].pax_count+` `+sell_visa.search_data[i].pax_type+` <br/> `+sell_visa.search_data[i].visa_type+`, `+sell_visa.search_data[i].entry_type+` <br/> `+currency+` `+getrupiah(price_perpax)+`</span>
                     </div>
                     <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                        <span style="font-size:13px;">`+currency+` `+getrupiah(price_perpax*visa.list_of_visa[i].pax_count)+`</span>
+                        <span style="font-size:13px;">`+currency+` `+getrupiah(price_perpax*sell_visa.search_data[i].pax_count)+`</span>
                     </div>`;
                 }
                 text+=`
