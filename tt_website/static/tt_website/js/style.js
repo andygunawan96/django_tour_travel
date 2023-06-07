@@ -4034,7 +4034,6 @@ function search_setting_page(){
     $('ul.main_menu_tabs li').removeClass('current');
     $('.main_menu_content').removeClass('current');
 
-    console.log(tab_setting_arr);
     if(tab_setting_arr.length != 0){
         var unique_setting = tab_setting_arr.filter(onlyUnique);
         for (var i=0;i<unique_setting.length; i++){
