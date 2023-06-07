@@ -1414,6 +1414,15 @@ def get_javascript_version(request):
             javascript_version = int(file)
         else:
             javascript_version = 1
+            try:
+                file = open("/var/log/django/global/file_cache/cache_web/javascript_version.txt", "r")
+                data = file.read()
+                file.close()
+                if data:
+                    javascript_version += int(data)
+            except Exception as e:
+                _logger.error("%s, %s" % (str(e), traceback.format_exc()))
+
             write_cache(javascript_version, 'javascript_version', request, True)
     except Exception as e:
         _logger.error('ERROR javascript_version file\n' + str(e) + '\n' + traceback.format_exc())
