@@ -1557,7 +1557,7 @@ function render_preview_color_tab(){
 
     //button
     document.getElementById("preview_button_btn").style = "background-color: #"+btn_color+ "!important; color:#"+txt_color+" !important;";
-    document.getElementById("preview_button_btnlg").style = "background-color: #"+btn_color+ "!important; color:#"+txt_color+" !important; margin-bottom:5px; margin-top:5px;";
+    document.getElementById("preview_button_btnlg").style = "background-color: #"+btn_color+ "!important; color:#"+txt_color+" !important; border:1px solid #"+txt_color+" !important; margin-bottom:5px; margin-top:5px; height: 43px;";
     document.getElementById("preview_button_search").style = "background-color: #"+btn_color+ "!important; color:#"+txt_color+" !important;";
 
     //button white
