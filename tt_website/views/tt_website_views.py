@@ -133,10 +133,14 @@ def index(request):
         user_default = get_credential_user_default(request, 'dict')
         if not request.session.get('user_account') and values['website_mode'] == 'btc' or not request.session.get('user_account') and values['website_mode'] == 'btc_btb':
             provider = signin_btc(request)
-            if provider['result']['response'].get('provider'):
-                values = get_data_template(request, 'home', provider['result']['response']['provider'])
-            else:
-                return no_credential_b2c(request)
+            try:
+                if provider['result']['response'].get('provider'):
+                    values = get_data_template(request, 'home', provider['result']['response']['provider'])
+                else:
+                    return no_credential_b2c(request)
+            except Exception as e:
+                _logger.error('Error user b2c auto sign in')
+                raise Exception('Make response code 409!')
         elif request.session.get('user_account') and values['website_mode'] == 'btb' or request.session.get('user_account') and values['website_mode'] == 'btb_with_signup_b2c':
             if request.session.get('user_account').get('co_user_login') == user_default.get('user_name', ''):
                 for key in reversed(list(request.session._session.keys())):
@@ -329,7 +333,7 @@ def index(request):
                                 'promotion_banner_value': check_banner('home', 'promotion', request),
                                 'dynamic_page_value': check_banner('', 'dynamic_page', request),
                             })
-                            # values.update(get_airline_advance_pax_type(request))
+                            values.update(get_airline_advance_pax_type(request))
                         except Exception as e:
                             _logger.error(str(e) + '\n' + traceback.format_exc())
                             raise Exception('Make response code 500!')
@@ -350,6 +354,8 @@ def index(request):
                 _logger.error("%s, %s" % (str(e), traceback.format_exc()))
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+        if str(e) == 'Make response code 409!':
+            return redirect('/error/credential')
     if translation.LANGUAGE_SESSION_KEY in request.session:
         del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
 
@@ -961,6 +967,7 @@ def admin(request):
                     'signature': request.session['signature'],
                     'data_font': data_font
                 })
+                values.update(get_airline_advance_pax_type(request))
             except Exception as e:
                 _logger.error(str(e) + '\n' + traceback.format_exc())
                 raise Exception('Make response code 500!')
@@ -2132,6 +2139,15 @@ def privacy_policy(request):
     })
     return render(request, MODEL_NAME + '/policy.html', values)
 
+def error_credential(request):
+    values = get_data_template(request, 'login')
+    javascript_version = get_javascript_version(request)
+    values.update({
+        'static_path': path_util.get_static_path(MODEL_NAME),
+        'javascript_version': javascript_version,
+        'static_path_url_server': get_url_static_path(),
+    })
+    return render(request, MODEL_NAME + '/error/409.html', values)
 
 # @api_view(['GET'])
 # def testing(request):

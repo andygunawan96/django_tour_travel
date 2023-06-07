@@ -1,7 +1,7 @@
 offset_transaction = 0;
 page_transaction_history_ledger = 1
 temp_date_history = ''
-function signin_rodextrip(type){
+function signin_orbisway(type){
     $.ajax({
        type: "POST",
        url: "/webservice/issued_offline",
@@ -15,6 +15,8 @@ function signin_rodextrip(type){
             }
             if(type == 'reservation'){
                 get_transactions('reset');
+            }else if(type == 'create_b2c_user'){
+                signup_b2c();
             }else if(type == 'top_up_history'){
                 get_top_up();
             }else if(type == 'history_transaction'){

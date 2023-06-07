@@ -198,24 +198,50 @@ def get_config_provider(request):
         try:
             if res['result']['error_code'] == 0:
                 #datetime
-                write_cache(res, "bus_provider", request, 'cache_web')
-                _logger.info("get_config_provider BUS RENEW SUCCESS SIGNATURE " + request.POST['signature'])
+                temp = {}
+                for ho_seq_id in res['result']['response']:
+                    temp[ho_seq_id] = {}
+                    for provider in res['result']['response'][ho_seq_id]:
+                        temp[ho_seq_id][provider['provider']] = provider
+                write_cache(temp, "bus_provider", request, 'cache_web')
+                _logger.info("get_providers_list BUS RENEW SUCCESS SIGNATURE " + request.POST['signature'])
+                if request.session['user_account']['co_ho_seq_id'] in temp:
+                    res = {
+                        "result": {
+                            "error_code": 0,
+                            "error_msg": '',
+                            "response": temp[request.session['user_account']['co_ho_seq_id']]
+                        }
+                    }
+
             else:
                 try:
                     file = read_cache("bus_provider", 'cache_web', request, 90911)
-                    if file:
-                        res = file
-                    _logger.info("read file bus_provider SUCCESS SIGNATURE " + request.POST['signature'])
+                    if file and request.session['user_account']['co_ho_seq_id'] in file:
+                        res = {
+                            "result": {
+                                "error_code": 0,
+                                "error_msg": '',
+                                "response": file[request.session['user_account']['co_ho_seq_id']]
+                            }
+                        }
+                    _logger.info("get_provider_list ERROR USE CACHE SUCCESS SIGNATURE " + request.POST['signature'])
                 except Exception as e:
                     _logger.info("ERROR read file bus_provider SIGNATURE " + request.POST['signature'])
         except Exception as e:
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
-            file = read_cache("bus_provider", 'cache_web', request, 90911)
-            res = file
+            if file and request.session['user_account']['co_ho_seq_id'] in file:
+                res = {
+                    "result": {
+                        "error_code": 0,
+                        "error_msg": '',
+                        "response": file[request.session['user_account']['co_ho_seq_id']]
+                    }
+                }
         except Exception as e:
-            _logger.error('ERROR get_config_provider bus file\n' + str(e) + '\n' + traceback.format_exc())
+            _logger.error('ERROR get_provider_list bus file\n' + str(e) + '\n' + traceback.format_exc())
     return res
 
 def get_carriers(request):

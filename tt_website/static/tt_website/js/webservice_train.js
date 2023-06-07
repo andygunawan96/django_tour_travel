@@ -58,7 +58,6 @@ function train_redirect_signin(type){
            headers:{
                 'action': 'signin',
            },
-    //       url: "{% url 'tt_backend_rodextrip:social_media_tree_update' %}",
            data: {},
            success: function(msg) {
            try{
@@ -361,8 +360,8 @@ function train_get_config_provider(signature,type=''){
             if(google_analytics != '')
                 gtag('event', 'train_search', {});
             if(msg.result.error_code == 0){
-                provider_length = msg.result.response.providers.length;
-                provider_train = msg.result.response.providers;
+                provider_length = Object.keys(msg.result.response).length;
+                provider_train = msg.result.response;
                 if(type == ''){
                     send_request_search();
                 }else if(type == 'reorder'){

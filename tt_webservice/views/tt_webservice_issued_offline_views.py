@@ -223,7 +223,6 @@ def set_data_issued_offline(request):
             "expired_date": exp_date[0]+' '+exp_date[1],
             "line_ids": line,
             "quick_validate": quick_validate,
-            "provider": "rodextrip_issued_offline"
         }
 
         if request.POST['type'] == 'airline':

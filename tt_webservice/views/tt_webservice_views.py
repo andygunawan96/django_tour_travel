@@ -95,7 +95,7 @@ def read_cache(file_name, folder, request, time=300, cache_global=False):
                 res = json.loads(data)
                 if res.get('data'):
                     delta_time = date_time - parse_load_cache(res['datetime'])
-                    if delta_time.total_seconds() <= time or time == 90911: #### TIME 90911 ULTAH RODEX, TIME TIDAK TERPAKAI, CACHE SELAMANYA
+                    if delta_time.total_seconds() <= time or time == 90911: #### TIME 90911 NOMOR SAKTI, TIME TIDAK TERPAKAI, CACHE SELAMANYA
                         return res['data']
                     else:
                         return False

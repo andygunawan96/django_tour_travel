@@ -705,6 +705,12 @@ def signin(request):
 
     except Exception as e:
         _logger.error('ERROR SIGNIN\n' + str(e) + '\n' + traceback.format_exc())
+        return {
+            "result": {
+                "error_code": 500,
+                "error_msg": "Contact Admin"
+            }
+        }
         # pass
         # # logging.getLogger("error logger").error('testing')
         # _logger.error(msg=str(e) + '\n' + traceback.format_exc())
@@ -1079,7 +1085,6 @@ def get_new_cache(request, signature, type='all'):
 
             # issuedoffline
             data = {
-                'provider': 'rodextrip_issued_offline'
             }
             headers = {
                 "Accept": "application/json,text/html,application/xml",
@@ -1549,7 +1554,6 @@ def get_new_cache(request, signature, type='all'):
             res = send_request_api({}, url_request, headers, data, 'POST', 120)
             try:
                 if res['result']['error_code'] == 0:
-                    res = res
                     write_cache(res, "insurance_cache_data", request, 'cache_web')
                     _logger.info("get_bus_config INSURANCE RENEW SUCCESS SIGNATURE " + headers['signature'])
                 else:
@@ -1905,18 +1909,24 @@ def get_customer_list(request):
                     if pax['gender'] == 'female' and pax['marital_status'] == 'married':
                         if 'Adult' in request.POST['passenger_type'] or request.POST['passenger_type'] == 'adult' or request.POST['passenger_type'] == 'senior' or request.POST['passenger_type'] == 'booker' or request.POST['passenger_type'] == 'contact' or request.POST['passenger_type'] == 'passenger': #buat insurance pakai keyword adult<something> jadi pakai in
                             title = 'MRS'
-                        else:
+                        elif request.POST['passenger_type'] == 'child' or request.POST['passenger_type'] == 'child':
                             title = 'MISS'
+                        else:
+                            title = 'MRS'
                     elif pax['gender'] == 'female':
                         if 'Adult' in request.POST['passenger_type'] or request.POST['passenger_type'] == 'adult' or request.POST['passenger_type'] == 'senior' or request.POST['passenger_type'] == 'booker' or request.POST['passenger_type'] == 'contact' or request.POST['passenger_type'] == 'passenger': #buat insurance pakai keyword adult<something> jadi pakai in
                             title = 'MS'
-                        else:
+                        elif request.POST['passenger_type'] == 'child' or request.POST['passenger_type'] == 'child':
                             title = 'MISS'
+                        else:
+                            title = 'MS'
                     else:
                         if 'Adult' in request.POST['passenger_type'] or request.POST['passenger_type'] == 'adult' or request.POST['passenger_type'] == 'senior' or request.POST['passenger_type'] == 'booker' or request.POST['passenger_type'] == 'contact' or request.POST['passenger_type'] == 'passenger': #buat insurance pakai keyword adult<something> jadi pakai in
                             title = 'MR'
-                        else:
+                        elif request.POST['passenger_type'] == 'child' or request.POST['passenger_type'] == 'child':
                             title = 'MSTR'
+                        else:
+                            title = 'MR'
                     pax.update({
                         'sequence': counter,
                         'title': title

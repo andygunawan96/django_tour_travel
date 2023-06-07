@@ -71,21 +71,26 @@ def login(request,func):
     return res
 
 def get_requirement_list_doc(request):
+    if request.POST.get('signature'):
+        signature = request.POST['signature']
+    elif request.session.get('signature'):
+        signature = request.session['signature']
+    else:
+        signature = ''
     try:
         data = {
-            'provider': 'rodextrip_agent_registration'
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
             "action": "get_requirement_list_doc",
-            'signature': request.session.get('signature') or ''
+            'signature': signature
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     url_request = get_url_gateway('session/agent_registration')
     res = send_request_api(request, url_request, headers, data, 'POST')
-    if res['result']['error_code'] != 0:
+    if res['result']['error_code'] in [4002, 4003]:
         res = login(request, 'get_requirement')
     try:
         if res['result']['error_code'] == 0:
@@ -97,22 +102,27 @@ def get_requirement_list_doc(request):
     return res
 
 def get_config(request):
+    if request.POST.get('signature'):
+        signature = request.POST['signature']
+    elif request.session.get('signature'):
+        signature = request.session['signature']
+    else:
+        signature = ''
     try:
         data = {
-            'provider': 'rodextrip_agent_registration'
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
             "action": "get_config",
-            'signature': request.session.get('signature') or ''
+            'signature': signature
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     url_request = get_url_gateway('session/agent_registration')
     res = send_request_api(request, url_request, headers, data, 'POST')
 
-    if res['result']['error_code'] != 0:
+    if res['result']['error_code'] in [4002, 4003]:
         res = login(request, 'get_config')
     try:
         if res['result']['error_code'] == 0:
@@ -124,22 +134,27 @@ def get_config(request):
     return res
 
 def get_promotions(request):
+    if request.POST.get('signature'):
+        signature = request.POST['signature']
+    elif request.session.get('signature'):
+        signature = request.session['signature']
+    else:
+        signature = ''
     try:
         data = {
-            'provider': 'rodextrip_agent_registration'
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
             "action": "get_promotions",
-            'signature': request.session.get('signature') or ''
+            'signature': signature
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     url_request = get_url_gateway('session/agent_registration')
     res = send_request_api(request, url_request, headers, data, 'POST')
 
-    if res['result']['error_code'] != 0:
+    if res['result']['error_code'] in [4002, 4003]:
         res = login(request, 'get_promotions')
     try:
         if res['result']['error_code'] == 0:
@@ -152,13 +167,19 @@ def get_promotions(request):
 
 def register(request):
     check = 0
+    if request.POST.get('signature'):
+        signature = request.POST['signature']
+    elif request.session.get('signature'):
+        signature = request.session['signature']
+    else:
+        signature = ''
     try:
         data = copy.deepcopy(request.session['registration_request'])
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
             "action": "create_agent",
-            "signature": request.session.get('signature') or ''
+            "signature": signature
         }
         if request.session.get('register_done_data') == data:
             check = 1
@@ -172,11 +193,11 @@ def register(request):
     else:
         res = request.session['register_result_done']
     try:
-        if res['result']['error_code'] != 0:
+        if res['result']['error_code'] in [4002, 4003]:  ### session habis request login ulang
             res = login(request, 'register')
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    if res['result']['error_code'] != 0:
+    if res['result']['error_code'] in [4002, 4003]:
         res = login(request, 'register')
     try:
         if res['result']['error_code'] == 0:

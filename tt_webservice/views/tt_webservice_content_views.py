@@ -13,6 +13,7 @@ import logging
 import traceback
 from .tt_webservice_views import *
 from .tt_webservice import *
+from tt_website.views import tt_website_views as tt_website
 _logger = logging.getLogger("website_logger")
 
 from django.core.files.storage import FileSystemStorage
@@ -98,8 +99,6 @@ def api_models(request):
             res = get_dynamic_page_detail(request)
         elif req_data['action'] == 'get_dynamic_page_mobile_detail':
             res = get_dynamic_page_mobile_detail(request)
-        elif req_data['action'] == 'testing_espay_close':
-            res = testing_espay_close(request)
         elif req_data['action'] == 'get_top_up_term':
             res = get_top_up_term(request)
         elif req_data['action'] == 'get_privacy_policy':
@@ -750,19 +749,8 @@ def create_legder(request):
     return res
 
 def get_top_up_term(request):
-    text = '''
-<h6>BANK TRANSFER / CASH</h6>
-<li>1. Before you click SUBMIT, please make sure you have inputted the correct amount of TOP UP. If there is a mismatch data, such as the transferred amount/bank account is different from the requested amount/bank account, so the TOP UP will be approved by tomorrow (D+1).<br></li>
-<li>2. Bank Transfer / CASH TOP UP can be used on Monday-Sunday: 8 AM - 8 PM (GMT +7)<br></li>
-<li>3. Bank Transfer (BCA or Mandiri) auto validate in 15 minutes<br></li>
-<h6>National Holiday included</h6>
-<h6>For CASH you have to send money to Rodextrip (Jl. Raya Darmo 177 B Surabaya)</h6><br>
-<h6>VIRTUAL ACCOUNT</h6>
-
-<li>1. Top Up Transaction from ATM / LLG open for 24 hours. Balance will be added automatically (REAL TIME) after payment. Top up fee will be charged to user and if there's other charge for LLG it will be charged to user too. LLG will be added ± 2 hours from payment.<br><br></li>
-<h6>MANDIRI INTERNET BANKING</h6>
-<li>1. Transaction Top up from internet banking mandiri open for 24 hours. Balance will be added automatically (REAL TIME) after payment with additional admin Top Up.<br><br></li>
-    '''
+    data_template = tt_website.get_data_template(request, 'home')
+    text = data_template['top_up_term']
     file = read_cache("top_up_term", 'cache_web', request, 90911)
     if file:
         text = file
@@ -912,24 +900,6 @@ def set_term_and_condition(request):
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
 
-def testing_espay_close(request):
-    try:
-        headers = {
-            "Content-Type": "application/x-www-form-urlencoded",
-        }
-        data = "rq_uuid=b9e04730-19c0-436b-bd72-1c2781fbcce8&rq_datetime=2020-03-27 14:50:25&sender_id=SGOPLUS&receiver_id=SGWRODEXDY&password=SZUWPWRT&comm_code=SGWRODEXDY&member_code=1234521260592585&member_cust_id=SYSTEM&member_cust_name=SYSTEM&ccy=IDR&amount=1887300&debit_from=1234521260592585&debit_from_name=1234521260592585&debit_from_bank=014&credit_to=22222222&credit_to_name=ESPAY&credit_to_bank=014&payment_datetime=2020-03-27 14:50:25&payment_ref=ESP15852925062WFVU&payment_remark=2020-03-27 14:44:17&order_id=AL.20033043065&product_code=BCAATM&product_value=1234521260592585&status=0&total_amount=1887300&tx_key=ESP1585295062WFVU&fee_type=S&tx_fee=0.00&member_id=1234521260592585&approval_code_full_bca=1234521260592585&signature=21e4ad5962820cd5551e861b61ed06d27afa350158dac6fd0e8a7cb348e34056"
-        url_request = get_url_gateway('webhook/payment/espay/notification')
-        res = send_request_api(request, url_request, headers, data, 'POST')
-    except Exception as e:
-        res = {
-            'result': {
-                'error_code': -1,
-                'error_msg': str(e),
-                'response': ''
-            }
-        }
-        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    return res
 
 def get_public_holiday(request):
     try:
