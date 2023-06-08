@@ -1042,7 +1042,7 @@ function get_dynamic_page(type){
                     //buat owlcaoursel
                     text = `<div class="owl-carousel-login owl-theme" style="z-index:0;">`;
                     for(i in msg.result.response){
-                        if(msg.result.response[i].state == true){
+                        if(msg.result.response[i].active == true){
                             check_dynamic = true;
                             text+=`
                             <div class="item" style="margin-top:0px; cursor:unset; margin-bottom:10px; border:1px solid #cdcdcd;">
@@ -1112,7 +1112,7 @@ function get_dynamic_page(type){
                 else if(type == 'login'){
                     text = '<div class="row">';
                     for(i in msg.result.response){
-                        if(msg.result.response[i].state == true){
+                        if(msg.result.response[i].active == true){
                             check_dynamic = true;
                             text+=`
                             <div class="col-lg-12">
@@ -1175,7 +1175,7 @@ function get_dynamic_page(type){
 function change_dynamic_page(){
     page_number = parseInt(document.getElementById('page_choose').value)-1;
     if(page_number != -1){
-        document.getElementById('page_active').checked = dynamic_page[page_number].state;
+        document.getElementById('page_active').checked = dynamic_page[page_number].active;
         document.getElementById('title_dynamic_page').value = dynamic_page[page_number].title;
         if(dynamic_page[page_number].hasOwnProperty('sequence'))
             document.getElementById('sequence_dynamic_page').value = dynamic_page[page_number].sequence;
@@ -1303,7 +1303,7 @@ function update_dynamic_page(){
     }
     if(error_log == ''){
         var formData = new FormData($('#form_admin').get(0));
-        formData.append('state', document.getElementById('page_active').checked);
+        formData.append('active', document.getElementById('page_active').checked);
         formData.append('title', document.getElementById('title_dynamic_page').value);
         formData.append('sequence', document.getElementById('sequence_dynamic_page').value);
         formData.append('page_number', parseInt(page_number));
