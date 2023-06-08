@@ -27,7 +27,7 @@ function table_reservation(data, mode_view, restart=false){
                 <th><div style="width:150px;">PNR, Order Number</div></th>
                 <th><div style="width:100px;">Provider</div></th>
                 <th><div style="width:150px;">State</div></th>
-                <th><div style="width:170px;">Hold Date</div></th>
+                <th><div style="width:90px;">Hold Date</div></th>
                 <th><div style="width:150px;">Booker Name</div></th>`;
                 if($("input[name='filter']:checked").val() == 'airline')
                     text+=`<th><div style="width:100px;">Flight Number</div></th>`;
@@ -104,7 +104,9 @@ function table_reservation(data, mode_view, restart=false){
                         text+= `<td>-</td>`;
                     }
                     else{
-                        text+= `<td>`+data[i].hold_date+`</td>`;
+                        let date_text = data[i].hold_date.slice(0, 12);
+                        let time_text = data[i].hold_date.slice(12);
+                        text+= `<td>`+date_text+`<br/>`+time_text+`</td>`;
                     }
                     text+= `<td>`+data[i].booker.name+`</td>`;
 
