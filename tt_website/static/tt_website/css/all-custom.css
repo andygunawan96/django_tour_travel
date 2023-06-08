@@ -2080,8 +2080,8 @@ ul.popular2_tabs li.current .image-rounded-icon{
     border: 1px solid transparent;
     cursor: pointer;
     color: #000;
-    height: 30px;
-    width: 30px;
+    height: 40px;
+    width: 40px;
 }
 
 .btn-custom-circle:hover {
@@ -5805,7 +5805,7 @@ ul.progress_tabs li.current .image-rounded-icon{
 }
 
 .sign_in_up{
-    text-align:right;
+    text-align:left;
     padding-top:15px;
     padding-bottom:15px;
     padding-right:0px;

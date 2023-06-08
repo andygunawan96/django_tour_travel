@@ -1549,7 +1549,6 @@ function get_carrier_code_list(type, val){
                                 <span class="check_box_span_custom"></span>
                             </label>
                         </a>
-                        <br/>
                     </li>`;
                for(i in msg){
                     if(msg[i].hasOwnProperty('is_excluded_from_b2c') && msg[i].is_excluded_from_b2c != true || user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
@@ -1573,7 +1572,6 @@ function get_carrier_code_list(type, val){
                                         <span class="check_box_span_custom"></span>
                                     </label>
                                 </a>
-                                <br/>
                             </li>`;
                     }
                }
@@ -1599,7 +1597,6 @@ function get_carrier_code_list(type, val){
                                 <span class="check_box_span_custom"></span>
                             </label>
                         </a>
-                        <br/>
                     </li>`;
                    for(i in airline_carriers_data_awal[0]){
                         if(airline_carriers_data_awal[0][i].is_excluded_from_b2c != true || user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
@@ -1633,7 +1630,6 @@ function get_carrier_code_list(type, val){
                                                 <span class="check_box_span_custom"></span>
                                             </label>
                                         </a>
-                                        <br/>
                                     </li>`;
                             }
                         }
@@ -1694,8 +1690,7 @@ function get_all_carrier_airline(){
                         text+=`
                         <span class="check_box_span_custom"></span>
                     </label>
-                </a>
-                <br/>`;
+                </a>`;
             for(i in msg){
                 text+=`
                 <a class="small" data-value="option1" tabIndex="-1">
@@ -1706,8 +1701,7 @@ function get_all_carrier_airline(){
                         text+=`
                         <span class="check_box_span_custom"></span>
                     </label>
-                </a>
-                <br/>`;
+                </a>`;
             }
             text += `</div>`;
             //text += `<div class="col-lg-12" style="text-align:center;"><hr/><button class="primary-btn" type="button" style="line-height:34px;" id="save_allowed_carrier_btn" onclick="save_allowed_airline_carriers();">Save changes <i class="fas fa-save"></i></button></div>`;
