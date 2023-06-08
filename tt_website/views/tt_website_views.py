@@ -67,13 +67,12 @@ def check_banner(page, banner_type, request):
                     if page == 'home':
                         check_banner = 1
                         break
+                    elif banner_type == 'dynamic_page' and not page:
+                        check_banner = 1
                     else:
                         if banner.get('provider_type') and banner['provider_type'] == page:
                             check_banner = 1
                             break
-                        else:
-                            #### dynamic_page
-                            check_banner = 1
     except Exception as e:
         _logger.error(str(e) + traceback.format_exc())
     return check_banner
