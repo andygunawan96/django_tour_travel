@@ -4,10 +4,10 @@
 {% block content %}
 
 <style>
-    {% if template == 2 or template == 3%}
+    {% if template == 2 or template == 3 or template == 4 or template == 5%}
     .dropdown-menu.show{
         transform:unset !important;
-        top:65px !important;
+        top:40px !important;
     }
     {% endif %}
 </style>
@@ -385,7 +385,7 @@
                                                                     <span class="span-search-ticket" style="color:black;">{{value.name}}</span>
                                                                     <input type="checkbox" id="provider_box_All" name="provider_box_All" value="{{value.code}}" onclick="func_check_provider('{{value.code}}')" {%if value.bool == True %} checked {% endif %}/>
                                                                     <span class="check_box_span_custom"></span>
-                                                                </label><br/>
+                                                                </label>
                                                             </a>
                                                         </li>
                                                         {% else %}
@@ -395,7 +395,7 @@
                                                                     <span class="span-search-ticket" style="color:black;">{{value.display_name}}</span>
                                                                     <input type="checkbox" id="provider_box_{{key}}" name="provider_box_{{key}}" value="{{key}}" onclick="func_check_provider('{{key}}')" {%if value.bool == True %} checked {% endif %}/>
                                                                     <span class="check_box_span_custom"></span>
-                                                                </label><br/>
+                                                                </label>
                                                             </a>
                                                         </li>
                                                         {% endif %}
@@ -694,7 +694,7 @@
                                                                         <span class="span-search-ticket" style="color:black;">{{value.name}}</span>
                                                                         <input type="checkbox" id="provider_box_All" name="provider_box_All" value="{{value.code}}" onclick="func_check_provider('{{value.code}}')" {%if value.bool == True %} checked {% endif %}/>
                                                                         <span class="check_box_span_custom"></span>
-                                                                    </label><br/>
+                                                                    </label>
                                                                 </a>
                                                             </li>
                                                             {% else %}
@@ -704,7 +704,7 @@
                                                                         <span class="span-search-ticket" style="color:black;">{{value.display_name}}</span>
                                                                         <input type="checkbox" id="provider_box_{{key}}" name="provider_box_{{key}}" value="{{key}}" onclick="func_check_provider('{{key}}')" {%if value.bool == True %} checked {% endif %}/>
                                                                         <span class="check_box_span_custom"></span>
-                                                                    </label><br/>
+                                                                    </label>
                                                                 </a>
                                                             </li>
                                                             {% endif %}
@@ -1004,7 +1004,7 @@
                                                                     <span class="span-search-ticket" style="color:black;">{{value.name}}</span>
                                                                     <input type="checkbox" id="provider_box_All" name="provider_box_All" value="{{value.code}}" onclick="func_check_provider('{{value.code}}')" {%if value.bool == True %} checked {% endif %}/>
                                                                     <span class="check_box_span_custom"></span>
-                                                                </label><br/>
+                                                                </label>
                                                             </a>
                                                         </li>
                                                         {% else %}
@@ -1014,7 +1014,7 @@
                                                                     <span class="span-search-ticket" style="color:black;">{{value.display_name}}</span>
                                                                     <input type="checkbox" id="provider_box_{{key}}" name="provider_box_{{key}}" value="{{key}}" onclick="func_check_provider('{{key}}')" {%if value.bool == True %} checked {% endif %}/>
                                                                     <span class="check_box_span_custom"></span>
-                                                                </label><br/>
+                                                                </label>
                                                             </a>
                                                         </li>
                                                         {% endif %}
@@ -1303,7 +1303,7 @@
                                                                 <span class="span-search-ticket" style="color:black;">{{value.name}}</span>
                                                                 <input type="checkbox" id="provider_box_All" name="provider_box_All" value="{{value.code}}" onclick="func_check_provider('{{value.code}}')" {%if value.bool == True %} checked {% endif %}/>
                                                                 <span class="check_box_span_custom"></span>
-                                                            </label><br/>
+                                                            </label>
                                                         </a>
                                                     </li>
                                                     {% else %}
@@ -1313,7 +1313,7 @@
                                                                 <span class="span-search-ticket" style="color:black;">{{value.name}}</span>
                                                                 <input type="checkbox" id="provider_box_{{key}}" name="provider_box_{{key}}" value="{{key}}" onclick="func_check_provider('{{key}}')" {%if value.bool == True %} checked {% endif %}/>
                                                                 <span class="check_box_span_custom"></span>
-                                                            </label><br/>
+                                                            </label>
                                                         </a>
                                                     </li>
                                                     {% endif %}
@@ -1615,7 +1615,7 @@
                                                                     <span class="span-search-ticket" style="color:black;">{{value.name}}</span>
                                                                     <input type="checkbox" id="provider_box_All" name="provider_box_All" value="{{value.code}}" onclick="func_check_provider('{{value.code}}')" {%if value.bool == True %} checked {% endif %}/>
                                                                     <span class="check_box_span_custom"></span>
-                                                                </label><br/>
+                                                                </label>
                                                             </a>
                                                         </li>
                                                         {% else %}
@@ -1625,7 +1625,7 @@
                                                                     <span class="span-search-ticket" style="color:black;">{{value.display_name}}</span>
                                                                     <input type="checkbox" id="provider_box_{{key}}" name="provider_box_{{key}}" value="{{key}}" onclick="func_check_provider('{{key}}')" {%if value.bool == True %} checked {% endif %}/>
                                                                     <span class="check_box_span_custom"></span>
-                                                                </label><br/>
+                                                                </label>
                                                             </a>
                                                         </li>
                                                         {% endif %}
@@ -1834,7 +1834,7 @@
                                                             <button type="button" class="left-minus-infant-flight btn-custom-circle" id="left-minus-infant-flight" data-type="minus" data-field="" disabled>
                                                                 <i class="fas fa-minus"></i>
                                                             </button>
-                                                            <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; text-align:center; width:25px;" value="{{airline_request.infant}}" id="infant_flight" name="infant_flight" readonly>
+                                                            <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; text-align:center; width:25px;" value="{{airline_request.infant}}" id="infant_flight" name="infant_flight" value="0" readonly>
                                                             <button type="button" class="right-plus-infant-flight btn-custom-circle" id="right-plus-infant-flight" data-type="plus" data-field="">
                                                                 <i class="fas fa-plus"></i>
                                                             </button>
@@ -1928,7 +1928,7 @@
                                                                     <span class="span-search-ticket" style="color:black;">{{value.name}}</span>
                                                                     <input type="checkbox" id="provider_box_All" name="provider_box_All" value="{{value.code}}" onclick="func_check_provider('{{value.code}}')" {%if value.bool == True %} checked {% endif %}/>
                                                                     <span class="check_box_span_custom"></span>
-                                                                </label><br/>
+                                                                </label>
                                                             </a>
                                                         </li>
                                                         {% else %}
@@ -1938,7 +1938,7 @@
                                                                     <span class="span-search-ticket" style="color:black;">{{value.display_name}}</span>
                                                                     <input type="checkbox" id="provider_box_{{key}}" name="provider_box_{{key}}" value="{{key}}" onclick="func_check_provider('{{key}}')" {%if value.bool == True %} checked {% endif %}/>
                                                                     <span class="check_box_span_custom"></span>
-                                                                </label><br/>
+                                                                </label>
                                                             </a>
                                                         </li>
                                                         {% endif %}

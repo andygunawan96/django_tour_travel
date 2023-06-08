@@ -2268,7 +2268,6 @@ ul .dropdown li{
 .dropdown-menu{
     left: unset !important;
     width: auto !important;
-    right: 0px !important;
 }
 @media (max-width: 991px) {
     .dropdown-menu{
