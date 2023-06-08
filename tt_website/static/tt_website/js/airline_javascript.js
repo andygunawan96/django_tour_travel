@@ -3270,7 +3270,7 @@ function sort(){
                                                             <div style="background:white; padding:15px; border:1px solid #cdcdcd; overflow-y:auto; max-height:200px;">
                                                                <div class="row">
                                                                    <div class="col-lg-12">
-                                                                        <h6>Class Of ServiceA</h6>
+                                                                        <h6>Class Of Service</h6>
                                                                         <hr/>
                                                                    </div>`;
 
@@ -4681,7 +4681,7 @@ function airline_pick_mc(type){
                                             <div style="background:white; padding:15px; border:1px solid #cdcdcd; overflow-y:auto; max-height:200px;">
                                                <div class="row">
                                                    <div class="col-lg-12">
-                                                        <h6>Class Of ServiceB</h6>
+                                                        <h6>Class Of Service</h6>
                                                         <hr/>
                                                    </div>`;
                                                    for(k in airline_pick_list[i].segments[j].fares){
