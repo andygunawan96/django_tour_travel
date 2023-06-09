@@ -1047,7 +1047,7 @@ def get_dynamic_page_detail(request):
                 elif idx == 3:
                     image_carousel = line.split('\n')[0]
             response = {
-                "state": bool(state),
+                "active": bool(state),
                 "title": title,
                 "body": body,
                 "image_carousel": image_carousel

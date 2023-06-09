@@ -1208,6 +1208,40 @@ def get_new_cache(request, signature, type='all'):
             headers = {
                 "Accept": "application/json,text/html,application/xml",
                 "Content-Type": "application/json",
+                "action": "get_provider_list",
+                "signature": request.POST['signature']
+            }
+            data = {
+                "provider_type": 'ppob'
+            }
+            url_request = get_url_gateway('content')
+            res = send_request_api(request, url_request, headers, data, 'POST')
+            try:
+                ## update
+                if res['result']['error_code'] == 0:
+                    temp = {}
+                    for ho_seq_id in res['result']['response']:
+                        temp[ho_seq_id] = {}
+                        for provider in res['result']['response'][ho_seq_id]:
+                            temp[ho_seq_id][provider['provider']] = provider
+                    # datetime
+                    write_cache(temp, "get_list_provider_data_ppob", request, 'cache_web')
+                    _logger.info("get_provider_list PPOB RENEW SUCCESS SIGNATURE " + request.POST['signature'])
+                    if request.session['user_account']['co_ho_seq_id'] in temp:
+                        res = temp[request.session['user_account']['co_ho_seq_id']]
+                else:
+                    try:
+                        file = read_cache("get_list_provider_data_ppob", 'cache_web', request, 90911)
+                        if file and request.session['user_account']['co_ho_seq_id'] in file:
+                            res = file[request.session['user_account']['co_ho_seq_id']]
+                        _logger.info("get_provider_list ERROR USE CACHE SUCCESS SIGNATURE " + request.POST['signature'])
+                    except Exception as e:
+                        _logger.error('ERROR get_list_provider_data file\n' + str(e) + '\n' + traceback.format_exc())
+            except Exception as e:
+                _logger.info("ERROR GET PROVIDER LIST PPOB" + json.dumps(res) + '\n' + str(e) + '\n' + traceback.format_exc())
+            headers = {
+                "Accept": "application/json,text/html,application/xml",
+                "Content-Type": "application/json",
                 "action": "get_config",
                 "signature": signature
             }
