@@ -1006,7 +1006,7 @@ def get_dynamic_page(request):
                         elif idx == 4:
                             sequence = line.split('\n')[0]
                     response.append({
-                        "state": bool(state),
+                        "active": bool(state),
                         "title": title,
                         "body": body,
                         "image_carousel": image_carousel,
@@ -1077,7 +1077,7 @@ def get_dynamic_page_detail(request):
                 elif idx == 3:
                     image_carousel = line.split('\n')[0]
             response = {
-                "state": bool(state),
+                "active": bool(state),
                 "title": title,
                 "body": body,
                 "image_carousel": image_carousel
@@ -1219,7 +1219,7 @@ def set_dynamic_page(request):
                 else:
                     title_duplicate_counter += 1
                     trimmed_title_name += str(title_duplicate_counter)
-            text = request.POST['state'] + '\n' + title + '\n' + request.POST['body'] + '\n' + fs.base_url + request.META['HTTP_HOST'].split(':')[0] + "/image_dynamic/" + filename + '\n' + sequence
+            text = request.POST['active'] + '\n' + title + '\n' + request.POST['body'] + '\n' + fs.base_url + request.META['HTTP_HOST'].split(':')[0] + "/image_dynamic/" + filename + '\n' + sequence
             write_cache(text, trimmed_title_name, request, 'page_dynamic')
         #replace page
         else:
@@ -1234,7 +1234,7 @@ def set_dynamic_page(request):
                             text.pop(0) ## image dynamic
                             text.pop(0) ## domain
                             filename = "/".join(text) ## image
-            text = request.POST['state'] + '\n' + title + '\n' + request.POST['body'] + '\n' + fs.base_url + request.META['HTTP_HOST'].split(':')[0] + "/image_dynamic/" + filename + '\n' + sequence
+            text = request.POST['active'] + '\n' + title + '\n' + request.POST['body'] + '\n' + fs.base_url + request.META['HTTP_HOST'].split(':')[0] + "/image_dynamic/" + filename + '\n' + sequence
             write_cache(text, "%s" % request.POST['page_url'], request, 'page_dynamic')
         #check image
         data = os.listdir(path)

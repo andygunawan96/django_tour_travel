@@ -1,9 +1,5 @@
-li {
-    line-height: 30px;
-}
-
-button{
-    height: unset !important;
+input, button, select, optgroup, textarea{
+    padding:0px 5px;
 }
 
 input{
@@ -520,6 +516,7 @@ ul.tabs li.current .image-rounded-icon{
 .menu li{
     list-style-type:unset;
     color: white;
+    line-height: 40px;
 }
 
 small {
