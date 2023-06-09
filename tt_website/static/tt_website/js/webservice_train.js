@@ -488,6 +488,8 @@ function train_search(provider, signature, type){
                   title: 'Oops!',
                   html: '<span style="color: #ff9900;">Error train search </span>' + msg.result.error_msg,
                 })
+                if(type == 'reorder')
+                    location.reload();
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -730,6 +732,8 @@ function train_create_booking(val, type=''){
             $('.hold-seat-booking-train').removeClass("running");
             $('.hold-seat-booking-train').attr("disabled", false);
             hide_modal_waiting_transaction();
+            if(type == 'reorder')
+                location.reload();
         }
        },
        contentType:false,
@@ -2068,7 +2072,7 @@ function create_new_reservation(){
 
     //button
     text += `
-    <button type="button" class="next-loading-reorder primary-btn mb-3 ld-ext-right" id="button-reorder" style="width:100%;margin-top:15px;" onclick="show_loading_reorder('train'); train_reorder();">
+    <button type="button" class="next-loading-reorder primary-btn mb-3 ld-ext-right" id="button-reorder" style="width:100%;margin-top:15px;" onclick="train_reorder();">
         Re Order
         <div class="ld ld-ring ld-cycle"></div>
     </button>`;
@@ -2100,6 +2104,7 @@ function train_reorder(){
         }
     }
     if(check_pax && check_journey){
+        show_loading_reorder('train');
         train_signin(train_get_detail.result.response.order_number, 'reorder');
     }else if(check_journey){
         Swal.fire({
@@ -2107,18 +2112,19 @@ function train_reorder(){
             title: 'Oops!',
             html: 'Minimal Re-Order with 1 pax!',
         })
-    }else if(check_pax)
+    }else if(check_pax){
         Swal.fire({
             type: 'error',
             title: 'Oops!',
             html: 'Minimal Re-Order with 1 journey!',
         })
-    else
+    }else{
         Swal.fire({
             type: 'error',
             title: 'Oops!',
             html: 'Minimal Re-Order with 1 journey and 1 pax!',
         })
+    }
 }
 
 function search_reorder(){
@@ -2188,7 +2194,7 @@ function re_order_set_passengers(){
 }
 
 function re_order_check_search(){
-    if(counter_train_provider == provider_train.length){
+    if(counter_train_provider == Object.keys(provider_train).length){
         setTimeout(function(){
             please_wait_custom('Search Schedule <i class="fas fa-check-circle" style="color:'+color+';"></i><br/>Select Data Journey, please wait <img src="/static/tt_website/img/loading-dot-white.gif" style="height:50px; width:50px;"/>');
             re_order_find_journey();
@@ -2220,7 +2226,8 @@ function re_order_find_journey(){
             type: 'warning',
             title: 'Oops!',
             html: error_log,
-       });
+        });
+        location.reload();
     }else{
         console.log('select data journey');
         setTimeout(function(){
