@@ -4957,7 +4957,7 @@ function copy_booker_to_passenger(val, type){
                     }
                 }
             }
-            if(['airline', 'train', ''].includes(product)){
+            if(['airline','train', ''].includes(window.location.href.split('/')[window.location.href.split('/').length-2])){
                 if(!found_selection.includes('passport'))
                     found_selection.push('passport')
                 if(!found_selection.includes('ktp'))

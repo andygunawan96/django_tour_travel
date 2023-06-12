@@ -475,6 +475,7 @@ def passenger(request, signature):
         is_identity_required = False
         is_birthdate_required = False
         airline_price_provider_temp = request.session['airline_sell_journey_%s' % signature]['sell_journey_provider']
+        ## KURANG AMBIL DEFAULT DOMESTIC ORIGIN SEMENTARA PAKAI INDONESIA
         for airline in airline_price_provider_temp:
             for journey in airline['journeys']:
                 for segment in journey['segments']:
