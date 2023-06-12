@@ -1488,7 +1488,7 @@ def get_data_template(request, type='home', provider_type = []):
     url_one_signal = ''
     authorization_one_signal = ''
     signup_btb_text = 'Want to join us as an agent?'
-    signup_btb_btn = 'Sign Up agent Here'
+    signup_btb_btn = 'Sign Up Agent Here'
     setting_login_page = 'website_name'
     google_tag_manager_key = ''
     get_frequent_flyer = []
