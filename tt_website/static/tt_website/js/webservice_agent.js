@@ -1695,6 +1695,12 @@ function filter_search_passenger(passenger_type='passenger', number='', product=
                 }
             }
         }
+        if(['airline', 'train', ''].includes(product)){
+            if(!found_selection.includes('passport'))
+                found_selection.push('passport')
+            if(!found_selection.includes('ktp'))
+                found_selection.push('ktp')
+        }
 
         //hasil search paxs
         var add = false;
@@ -2028,6 +2034,7 @@ function filter_search_passenger(passenger_type='passenger', number='', product=
                                         }
                                         else{
                                             //print sesuai yg ada pada pilihan
+                                            is_first_identity_found = false;
                                             if(found_selection.length > 0 || msg.result.response[i].identities.hasOwnProperty('passport')){
                                                 response+=`<select class="phone_chosen_cls_search nice-select-default mb-2" id="identity_chosen`+i+`" onchange="generate_image_identity(`+i+`, 'identity_chosen', 'div_identity_chosen', 'label_title_identity', 'pax')" style="width:100%;">`;
                                                 if(found_selection.length > 0){
@@ -2035,8 +2042,12 @@ function filter_search_passenger(passenger_type='passenger', number='', product=
                                                         identity_is_found = false;
                                                         for(j in msg.result.response[i].identities){
                                                             if(found_selection[x] == j){
-                                                                response += `<option value="`+j+` - `+msg.result.response[i].identities[j].identity_number+`" selected>`+j.charAt(0).toUpperCase()+j.slice(1)+` - `+msg.result.response[i].identities[j].identity_number+`</option>`;
+                                                                response += `<option value="`+j+` - `+msg.result.response[i].identities[j].identity_number+`" `;
+                                                                if(!is_first_identity_found)
+                                                                    response += 'selected';
+                                                                response += `>`+j.charAt(0).toUpperCase()+j.slice(1)+` - `+msg.result.response[i].identities[j].identity_number+`</option>`;
                                                                 identity_is_found = true;
+                                                                is_first_identity_found = true;
                                                             }
                                                         }
                                                         if(!identity_is_found){
@@ -4602,6 +4613,12 @@ function copy_booker_to_passenger(val, type){
                     }
                 }
             }
+            if(['airline','train', ''].includes(window.location.href.split('/')[window.location.href.split('/').length-2])){
+                if(!found_selection.includes('passport'))
+                    found_selection.push('passport')
+                if(!found_selection.includes('ktp'))
+                    found_selection.push('ktp')
+            }
             if(found_selection.length == 1 || need_identity == 'none'){
                 copy_booker(val,type, found_selection[0])
             }else{
@@ -6968,6 +6985,10 @@ function get_passenger_cache(type,update_cache=false){
                             }
                         }
                     }
+                    if(!found_selection.includes('passport'))
+                        found_selection.push('passport')
+                    if(!found_selection.includes('ktp'))
+                        found_selection.push('ktp')
 
                     //hasil chosen
                     for(i in msg.result.response){
