@@ -803,6 +803,52 @@ function sort_transaction(){
             }
         }
     }
+
+
+    hash_url = '';
+    if(document.getElementById('search').style.display == 'block'){
+        if(document.getElementById('state') && document.getElementById('state').value){
+            hash_url = 'state='+document.getElementById('state').value;
+        }if(document.getElementById('start_date') && document.getElementById('start_date').value){
+            if(hash_url)
+                hash_url += '&'
+            hash_url += 'start_date='+moment(document.getElementById('start_date').value).format('YYYY-MM-DD');
+        }if(document.getElementById('end_date') && document.getElementById('end_date').value){
+            if(hash_url)
+                hash_url += '&'
+            hash_url += 'end_date='+moment(document.getElementById('end_date').value).format('YYYY-MM-DD');
+        }if(document.getElementById('booker_name') && document.getElementById('booker_name').value){
+            if(hash_url)
+                hash_url += '&'
+            hash_url += 'booker_name='+document.getElementById('booker_name').value;
+        }if(document.getElementById('name') && document.getElementById('name').value){
+            if(hash_url)
+                hash_url += '&'
+            hash_url += 'name='+document.getElementById('name').value;
+        }if(document.getElementById('pnr') && document.getElementById('pnr').value){
+            if(hash_url)
+                hash_url += '&'
+            hash_url += 'pnr='+document.getElementById('pnr').value;
+        }if(document.getElementById('provider') && document.getElementById('provider').value){
+            if(hash_url)
+                hash_url += '&'
+            hash_url += 'provider='+document.getElementById('provider').value;
+        }if(document.getElementsByName('filter') && carrier_code){
+            if(hash_url)
+                hash_url += '&'
+            hash_url += 'provider_type='+carrier_code[0];
+        }if(document.getElementsByName('sort_reservation_id') && $("input[name='sort_reservation_id']:checked").val()){
+            if(hash_url)
+                hash_url += '&'
+            hash_url += 'sort='+$("input[name='sort_reservation_id']:checked").val();
+        }
+    }
+    if(hash_url){
+        hash_url = '/reservation?' + hash_url;
+        history.replaceState({}, "{{name}} - Reservation", hash_url)
+//        window.location.hash = hash_url;
+    }
+
     data_counter = 0;
     table_reservation(data_search, print_type);
 }
@@ -858,8 +904,6 @@ function get_transactions(type){
         start_date = moment(document.getElementById('start_date').value).format('YYYY-MM-DD');
     if(document.getElementById('end_date'))
         end_date = moment(document.getElementById('end_date').value).format('YYYY-MM-DD');
-    if(document.getElementById('name'))
-        passenger_name = document.getElementById('name').value;
     if(document.getElementById('booker_name'))
         booker_name = document.getElementById('booker_name').value;
     if(document.getElementById('passenger_name'))
@@ -877,11 +921,67 @@ function get_transactions(type){
     }else if(filter == 'state' && state == '')
         filter = '';
     limit_transaction = 20;
+    if(document.URL.includes('#') && document.getElementById('search').style.display == 'none'){
+        urlp=[];s=location.toString().split('#');s=s[1].split('&');for(i=0;i<s.length;i++){u=s[i].split('=');urlp[u[0]]=u[1];}
+        if(urlp.hasOwnProperty('provider_type')){
+            try{
+                var radios = document.getElementsByName('filter');
+                for (var j = 0, length = radios.length; j < length; j++) {
+                    if (radios[j].value == urlp['provider_type']) {
+                        radios[j].checked = true;
+                    }
+                }
+            }catch(err){
+
+            }
+            carrier_code = [urlp['provider_type']]
+        }if(urlp.hasOwnProperty('sort')){
+            try{
+                var radios = document.getElementsByName('sort_reservation_id');
+                for (var j = 0, length = radios.length; j < length; j++) {
+                    if (radios[j].value == urlp['sort']) {
+                        radios[j].checked = true;
+                    }
+                }
+            }catch(err){
+
+            }
+        }
+        if(urlp.hasOwnProperty('booker_name')){
+            document.getElementById('booker_name').value = urlp['booker_name'];
+            booker_name = urlp['booker_name'];
+        }
+        if(urlp.hasOwnProperty('name')){
+            document.getElementById('name').value = urlp['name'];
+            passenger_name = urlp['name'];
+        }
+        if(urlp.hasOwnProperty('start_date')){
+            document.getElementById('start_date').value = moment(urlp['start_date']).format('DD MMM YYYY');
+            start_date = urlp['start_date'];
+        }
+        if(urlp.hasOwnProperty('end_date')){
+            document.getElementById('end_date').value = moment(urlp['end_date']).format('DD MMM YYYY');
+            end_date = urlp['end_date'];
+        }
+        if(urlp.hasOwnProperty('pnr')){
+            document.getElementById('pnr').value = urlp['pnr'];
+            pnr = urlp['pnr'];
+        }
+        if(urlp.hasOwnProperty('state')){
+            document.getElementById('state').value = urlp['state'];
+            state = urlp['state'];
+            $('#state').niceSelect('update');
+        }
+        if(urlp.hasOwnProperty('provider')){
+            document.getElementById('provider').value = urlp['provider'];
+            provider = urlp['provider'];
+            $('#provider').niceSelect('update');
+        }
+    }
     if(carrier_code.includes('airline')){
         document.getElementById('provider_div').style.display = 'block';
         document.getElementById('empty_div').style.display = 'block';
         document.getElementById('sort_div').style.display = 'block';
-
     }else{
         document.getElementById('provider_div').style.display = 'none';
         document.getElementById('empty_div').style.display = 'none';
@@ -2235,4 +2335,11 @@ function render_notification(){
         $(".bell_notif").addClass("infinite");
         //$(".bell_notif").css("color", color);
     }
+}
+
+function go_back_to_reservation(){
+    if(document.referrer.includes('reservation'))
+        history.back();
+    else
+        window.location = '/reservation';
 }
