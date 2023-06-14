@@ -14520,7 +14520,7 @@ function airline_get_booking_refund(data){
                                         'pnr_checkbox': 'pnr_'+i+'_'+j
                                     };
                                 text+=`<h6>Flight `+flight_counter+`</h6>`;
-                                if(moment().format('YYYY-MM-DD HH:mm:ss') < msg.result.response.provider_bookings[i].departure_date)
+                                if(moment().format('YYYY-MM-DD HH:mm:ss') < moment(msg.result.response.provider_bookings[i].journeys[j].departure_date).format('YYYY-MM-DD HH:mm:ss'))
                                 {
                                     //text+=`<input type="checkbox" id="pnr_`+i+`_`+j+`" onclick="pnr_refund_onclick('pnr_`+i+`_`+j+`','pnr');"><label for="pnr_`+i+`_`+j+`">  Refund</label>`;
                                     text+=`
@@ -15127,13 +15127,13 @@ function pnr_refund_onclick(val, type){
     }
     btn_show = false;
     for(i in pnr_list_checkbox){
-        if(document.getElementById(pnr_list_checkbox[i].pnr_checkbox).checked == true)
+        if(document.getElementById(pnr_list_checkbox[i].pnr_checkbox) && document.getElementById(pnr_list_checkbox[i].pnr_checkbox).checked == true)
             btn_show = true;
         if(btn_show == true)
             break;
         for(j in pnr_list_checkbox[i]['checkbox']){
-            if(document.getElementById(pnr_list_checkbox[i]['checkbox'][j]).checked == true)
-            btn_show = true;
+            if(document.getElementById(pnr_list_checkbox[i]['checkbox'][j]) && document.getElementById(pnr_list_checkbox[i]['checkbox'][j]).checked == true)
+                btn_show = true;
         }
     }
     if(btn_show == true)
