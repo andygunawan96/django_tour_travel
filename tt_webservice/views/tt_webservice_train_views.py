@@ -82,6 +82,8 @@ def api_models(request):
             res = assign_seats(request)
         elif req_data['action'] == 'cancel':
             res = cancel(request)
+        elif req_data['action'] == 'checkin':
+            res = checkin(request)
         elif req_data['action'] == 'update_service_charge':
             res = update_service_charge(request)
         elif req_data['action'] == 'booker_insentif_booking':
@@ -852,6 +854,32 @@ def cancel(request):
             _logger.info("SUCCESS cancel TRAIN SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR cancel TRAIN SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    return res
+
+def checkin(request):
+    try:
+        data = {
+            "order_number": request.POST['order_number'],
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "checkin",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+
+    url_request = get_url_gateway('booking/train')
+    res = send_request_api(request, url_request, headers, data, 'POST', 480)
+    try:
+        if res['result']['error_code'] == 0:
+            _logger.info("SUCCESS web check-in TRAIN SIGNATURE " + request.POST['signature'])
+        else:
+            _logger.error("ERROR web check-in TRAIN SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
 
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
