@@ -1209,7 +1209,7 @@ def get_new_cache(request, signature, type='all'):
                 "Accept": "application/json,text/html,application/xml",
                 "Content-Type": "application/json",
                 "action": "get_provider_list",
-                "signature": request.POST['signature']
+                "signature": signature
             }
             data = {
                 "provider_type": 'ppob'

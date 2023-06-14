@@ -628,6 +628,9 @@ function get_airline_data_passenger_page(type='default'){
                adult = airline_request.adult;
                child = airline_request.child;
                infant = airline_request.infant;
+               student = airline_request.student;
+               seaman = airline_request.seaman;
+               labour = airline_request.labour;
                try{
                     data_ssrs = msg.ssr.result.response.ssr_availability_provider;
                     document.getElementById('next_to_review').disabled = false;
@@ -653,6 +656,9 @@ function get_airline_data_passenger_page(type='default'){
                adult = airline_request.adult;
                child = airline_request.child;
                infant = airline_request.infant;
+               student = airline_request.student;
+               seaman = airline_request.seaman;
+               labour = airline_request.labour;
                airline_pick = msg.airline_pick;
                if(msg.hasOwnProperty('pax_cache')){
                     pax_cache_reorder = msg.pax_cache;
@@ -999,6 +1005,135 @@ function airline_do_passenger_js_load(){
                 $('input[name="infant_passport_expired_date'+i+'"]').val("");
             }
           }
+
+        for (var i = 1; i <= student; i++){
+            try{
+                //HANYA UNTUK PRE BOOKING
+                document.getElementById("train_student"+i+"_search").addEventListener("keyup", function(event) {
+                    if (event.keyCode === 13) {
+                        event.preventDefault();
+                        var adult_enter = "search_student_"+event.target.id.toString().replace(/[^\d.]/g, '');
+                        document.getElementById(adult_enter).click();
+                    }
+                });
+
+                $('input[name="student_birth_date'+i+'"]').daterangepicker({
+                    singleDatePicker: true,
+                    autoUpdateInput: true,
+                    startDate: moment().subtract(18, 'years'),
+                    minDate: moment(airline_request.departure[airline_request.departure.length-1],'DD MMM YYYY').subtract(100, 'years'),
+                    maxDate: moment(airline_request.departure[airline_request.departure.length-1],'DD MMM YYYY').subtract(12, 'years'),
+                    showDropdowns: true,
+                    opens: 'center',
+                    locale: {
+                        format: 'DD MMM YYYY',
+                    }
+                });
+                $('input[name="adult_student_date'+i+'"]').val("");
+            }catch(err){
+                console.log(err);
+            }
+            if(typeof(is_change_identity) == 'undefined' || is_change_identity == 'True'){
+                $('input[name="student_passport_expired_date'+i+'"]').daterangepicker({
+                    singleDatePicker: true,
+                    autoUpdateInput: true,
+                    startDate: moment().subtract(-1,'years'),
+                    minDate: moment().subtract(-1, 'days'),
+                    showDropdowns: true,
+                    opens: 'center',
+                    locale: {
+                        format: 'DD MMM YYYY',
+                    }
+                });
+                $('input[name="student_passport_expired_date'+i+'"]').val("");
+            }
+        }
+
+        for (var i = 1; i <= seaman; i++){
+            try{
+                //HANYA UNTUK PRE BOOKING
+                document.getElementById("train_seaman"+i+"_search").addEventListener("keyup", function(event) {
+                    if (event.keyCode === 13) {
+                        event.preventDefault();
+                        var adult_enter = "search_seaman_"+event.target.id.toString().replace(/[^\d.]/g, '');
+                        document.getElementById(adult_enter).click();
+                    }
+                });
+
+                $('input[name="seaman_birth_date'+i+'"]').daterangepicker({
+                    singleDatePicker: true,
+                    autoUpdateInput: true,
+                    startDate: moment().subtract(18, 'years'),
+                    minDate: moment(airline_request.departure[airline_request.departure.length-1],'DD MMM YYYY').subtract(100, 'years'),
+                    maxDate: moment(airline_request.departure[airline_request.departure.length-1],'DD MMM YYYY').subtract(12, 'years'),
+                    showDropdowns: true,
+                    opens: 'center',
+                    locale: {
+                        format: 'DD MMM YYYY',
+                    }
+                });
+                $('input[name="seaman_birth_date'+i+'"]').val("");
+            }catch(err){
+                console.log(err);
+            }
+            if(typeof(is_change_identity) == 'undefined' || is_change_identity == 'True'){
+                $('input[name="seaman_passport_expired_date'+i+'"]').daterangepicker({
+                    singleDatePicker: true,
+                    autoUpdateInput: true,
+                    startDate: moment().subtract(-1,'years'),
+                    minDate: moment().subtract(-1, 'days'),
+                    showDropdowns: true,
+                    opens: 'center',
+                    locale: {
+                        format: 'DD MMM YYYY',
+                    }
+                });
+                $('input[name="seaman_passport_expired_date'+i+'"]').val("");
+            }
+        }
+
+        for (var i = 1; i <= labour; i++){
+            try{
+                //HANYA UNTUK PRE BOOKING
+                document.getElementById("train_labour"+i+"_search").addEventListener("keyup", function(event) {
+                    if (event.keyCode === 13) {
+                        event.preventDefault();
+                        var adult_enter = "search_labour_"+event.target.id.toString().replace(/[^\d.]/g, '');
+                        document.getElementById(adult_enter).click();
+                    }
+                });
+
+                $('input[name="labour_birth_date'+i+'"]').daterangepicker({
+                    singleDatePicker: true,
+                    autoUpdateInput: true,
+                    startDate: moment().subtract(18, 'years'),
+                    minDate: moment(airline_request.departure[airline_request.departure.length-1],'DD MMM YYYY').subtract(100, 'years'),
+                    maxDate: moment(airline_request.departure[airline_request.departure.length-1],'DD MMM YYYY').subtract(12, 'years'),
+                    showDropdowns: true,
+                    opens: 'center',
+                    locale: {
+                        format: 'DD MMM YYYY',
+                    }
+                });
+                $('input[name="labour_birth_date'+i+'"]').val("");
+            }catch(err){
+                console.log(err);
+            }
+            if(typeof(is_change_identity) == 'undefined' || is_change_identity == 'True'){
+                $('input[name="labour_passport_expired_date'+i+'"]').daterangepicker({
+                    singleDatePicker: true,
+                    autoUpdateInput: true,
+                    startDate: moment().subtract(-1,'years'),
+                    minDate: moment().subtract(-1, 'days'),
+                    showDropdowns: true,
+                    opens: 'center',
+                    locale: {
+                        format: 'DD MMM YYYY',
+                    }
+                });
+                $('input[name="labour_passport_expired_date'+i+'"]').val("");
+            }
+        }
         if (typeof pax_cache_reorder !== 'undefined'){
             auto_input_pax_cache_reorder();
         }
@@ -1123,6 +1258,155 @@ function auto_input_pax_cache_reorder(){
             $('#infant_id_type'+index).niceSelect('update');
         }
     }
+
+    if(pax_cache_reorder.hasOwnProperty('student')){
+        for(x in pax_cache_reorder.student){
+            if(x == 0 && document.getElementById('booker_id') != null){
+                if(pax_cache_reorder.student[x].passenger_seq_id == pax_cache_reorder.booker.booker_seq_id && pax_cache_reorder.student[x].passenger_seq_id != ''){
+                    document.getElementsByName('myRadios')[0].checked = true;
+                    copy_booker_to_passenger('copy','airline');
+                }
+            }
+            index = parseInt(parseInt(x)+1).toString();
+            document.getElementById('student_id'+index).value = pax_cache_reorder.student[x].passenger_seq_id;
+            document.getElementById('student_title'+index).value = pax_cache_reorder.student[x].title;
+            if(document.getElementById('student_id'+index).value != ''){
+                document.getElementById('student_title'+index).readOnly = true;
+                for(i in document.getElementById('student_title'+index).options){
+                    if(document.getElementById('student_title'+index).options[i].selected != true)
+                        document.getElementById('student_title'+index).options[i].disabled = true;
+                }
+            }
+            document.getElementById('student_behaviors'+index).value = JSON.stringify(pax_cache_reorder.student[x].behaviors);
+            document.getElementById('student_first_name'+index).value = pax_cache_reorder.student[x].first_name;
+            document.getElementById('student_last_name'+index).value = pax_cache_reorder.student[x].last_name;
+            document.getElementById('student_birth_date'+index).value = pax_cache_reorder.student[x].birth_date;
+            if(pax_cache_reorder.student[x].identity_type != ''){
+                document.getElementById('student_id_type'+index).value = pax_cache_reorder.student[x].identity_type;
+                document.getElementById('student_passport_number'+index).value = pax_cache_reorder.student[x].identity_number;
+                if(pax_cache_reorder.student[x].identity_expdate != '')
+                    document.getElementById('student_passport_expired_date'+index).value = pax_cache_reorder.student[x].identity_expdate;
+                $('#student_country_of_issued'+index+'_id').val(pax_cache_reorder.student[x].identity_country_of_issued_code).trigger('change');
+            }
+            $('#student_nationality'+index+'_id').val(pax_cache_reorder.student[x].nationality_code).trigger('change');
+            $('#student_title'+index).niceSelect('update');
+            $('#student_id_type'+index).niceSelect('update');
+            if(typeof ff_request !== 'undefined'){
+                // add ff_request
+                for(y in ff_request){
+                    try{
+                        if(pax_cache_reorder.student[x].hasOwnProperty('ff_numbers'))
+                            for(z in pax_cache_reorder.student[x].ff_numbers){
+                                if(x == pax_cache_reorder.student[x].ff_numbers[z].schedule_id){
+                                    $('#student_ff_request'+index+'_'+parseInt(y+1)+'_id').val(pax_cache_reorder.student[x].ff_numbers[z].ff_code).trigger('change');
+                                    document.getElementById('adult_ff_number'+index+'_'+parseInt(y+1)).value = pax_cache_reorder.student[x].ff_numbers[z].ff_number;
+                                    break;
+                                }
+                            }
+                    }catch(err){console.log(err)}
+                }
+            }
+        }
+    }
+    if(pax_cache_reorder.hasOwnProperty('seaman')){
+        for(x in pax_cache_reorder.seaman){
+            if(x == 0 && document.getElementById('booker_id') != null){
+                if(pax_cache_reorder.seaman[x].passenger_seq_id == pax_cache_reorder.booker.booker_seq_id && pax_cache_reorder.seaman[x].passenger_seq_id != ''){
+                    document.getElementsByName('myRadios')[0].checked = true;
+                    copy_booker_to_passenger('copy','airline');
+                }
+            }
+            index = parseInt(parseInt(x)+1).toString();
+            document.getElementById('seaman_id'+index).value = pax_cache_reorder.seaman[x].passenger_seq_id;
+            document.getElementById('seaman_title'+index).value = pax_cache_reorder.seaman[x].title;
+            if(document.getElementById('seaman_id'+index).value != ''){
+                document.getElementById('seaman_title'+index).readOnly = true;
+                for(i in document.getElementById('seaman_title'+index).options){
+                    if(document.getElementById('seaman_title'+index).options[i].selected != true)
+                        document.getElementById('seaman_title'+index).options[i].disabled = true;
+                }
+            }
+            document.getElementById('seaman_behaviors'+index).value = JSON.stringify(pax_cache_reorder.seaman[x].behaviors);
+            document.getElementById('seaman_first_name'+index).value = pax_cache_reorder.seaman[x].first_name;
+            document.getElementById('seaman_last_name'+index).value = pax_cache_reorder.seaman[x].last_name;
+            document.getElementById('seaman_birth_date'+index).value = pax_cache_reorder.seaman[x].birth_date;
+            if(pax_cache_reorder.seaman[x].identity_type != ''){
+                document.getElementById('seaman_id_type'+index).value = pax_cache_reorder.seaman[x].identity_type;
+                document.getElementById('seaman_passport_number'+index).value = pax_cache_reorder.seaman[x].identity_number;
+                if(pax_cache_reorder.seaman[x].identity_expdate != '')
+                    document.getElementById('seaman_passport_expired_date'+index).value = pax_cache_reorder.seaman[x].identity_expdate;
+                $('#seaman_country_of_issued'+index+'_id').val(pax_cache_reorder.seaman[x].identity_country_of_issued_code).trigger('change');
+            }
+            $('#seaman_nationality'+index+'_id').val(pax_cache_reorder.seaman[x].nationality_code).trigger('change');
+            $('#seaman_title'+index).niceSelect('update');
+            $('#seaman_id_type'+index).niceSelect('update');
+            if(typeof ff_request !== 'undefined'){
+                // add ff_request
+                for(y in ff_request){
+                    try{
+                        if(pax_cache_reorder.seaman[x].hasOwnProperty('ff_numbers'))
+                            for(z in pax_cache_reorder.seaman[x].ff_numbers){
+                                if(x == pax_cache_reorder.seaman[x].ff_numbers[z].schedule_id){
+                                    $('#seaman_ff_request'+index+'_'+parseInt(y+1)+'_id').val(pax_cache_reorder.seaman[x].ff_numbers[z].ff_code).trigger('change');
+                                    document.getElementById('seaman_ff_number'+index+'_'+parseInt(y+1)).value = pax_cache_reorder.seaman[x].ff_numbers[z].ff_number;
+                                    break;
+                                }
+                            }
+                    }catch(err){console.log(err)}
+                }
+            }
+        }
+    }
+    if(pax_cache_reorder.hasOwnProperty('labour')){
+        for(x in pax_cache_reorder.labour){
+            if(x == 0 && document.getElementById('booker_id') != null){
+                if(pax_cache_reorder.labour[x].passenger_seq_id == pax_cache_reorder.booker.booker_seq_id && pax_cache_reorder.labour[x].passenger_seq_id != ''){
+                    document.getElementsByName('myRadios')[0].checked = true;
+                    copy_booker_to_passenger('copy','airline');
+                }
+            }
+            index = parseInt(parseInt(x)+1).toString();
+            document.getElementById('labour_id'+index).value = pax_cache_reorder.labour[x].passenger_seq_id;
+            document.getElementById('labour_title'+index).value = pax_cache_reorder.labour[x].title;
+            if(document.getElementById('labour_id'+index).value != ''){
+                document.getElementById('labour_title'+index).readOnly = true;
+                for(i in document.getElementById('labour_title'+index).options){
+                    if(document.getElementById('labour_title'+index).options[i].selected != true)
+                        document.getElementById('labour_title'+index).options[i].disabled = true;
+                }
+            }
+            document.getElementById('labour_behaviors'+index).value = JSON.stringify(pax_cache_reorder.labour[x].behaviors);
+            document.getElementById('labour_first_name'+index).value = pax_cache_reorder.labour[x].first_name;
+            document.getElementById('labour_last_name'+index).value = pax_cache_reorder.labour[x].last_name;
+            document.getElementById('labour_birth_date'+index).value = pax_cache_reorder.labour[x].birth_date;
+            if(pax_cache_reorder.labour[x].identity_type != ''){
+                document.getElementById('labour_id_type'+index).value = pax_cache_reorder.labour[x].identity_type;
+                document.getElementById('labour_passport_number'+index).value = pax_cache_reorder.labour[x].identity_number;
+                if(pax_cache_reorder.labour[x].identity_expdate != '')
+                    document.getElementById('labour_passport_expired_date'+index).value = pax_cache_reorder.labour[x].identity_expdate;
+                $('#labour_country_of_issued'+index+'_id').val(pax_cache_reorder.labour[x].identity_country_of_issued_code).trigger('change');
+            }
+            $('#labour_nationality'+index+'_id').val(pax_cache_reorder.labour[x].nationality_code).trigger('change');
+            $('#labour_title'+index).niceSelect('update');
+            $('#labour_id_type'+index).niceSelect('update');
+            if(typeof ff_request !== 'undefined'){
+                // add ff_request
+                for(y in ff_request){
+                    try{
+                        if(pax_cache_reorder.labour[x].hasOwnProperty('ff_numbers'))
+                            for(z in pax_cache_reorder.labour[x].ff_numbers){
+                                if(x == pax_cache_reorder.labour[x].ff_numbers[z].schedule_id){
+                                    $('#labour_ff_request'+index+'_'+parseInt(y+1)+'_id').val(pax_cache_reorder.labour[x].ff_numbers[z].ff_code).trigger('change');
+                                    document.getElementById('labour_ff_number'+index+'_'+parseInt(y+1)).value = pax_cache_reorder.labour[x].ff_numbers[z].ff_number;
+                                    break;
+                                }
+                            }
+                    }catch(err){console.log(err)}
+                }
+            }
+        }
+    }
+
 }
 
 function get_airline_data_review_page(){
@@ -6298,6 +6582,9 @@ function search_reorder(){
         "adult":0,
         "child":0,
         "infant":0,
+        "student":0,
+        "seaman":0,
+        "labour":0,
         "cabin_class":"",
         "is_combo_price":"false",
         "carrier_codes":[],
@@ -6308,18 +6595,24 @@ function search_reorder(){
     adult = 0;
     child = 0;
     infant = 0;
+    student = 0;
+    labour = 0;
+    seaman = 0;
     for(i in passenger_list_copy){
-        if(passenger_list_copy[i].birth_date != '' && passenger_list_copy[i].birth_date != false){
-            old = parseInt(Math.abs(moment() - moment(passenger_list_copy[i].birth_date,'DD MMM YYYY'))/31536000000)
-            if(old > 12)
-                adult++;
-            else if(old>2)
-                child++;
-            else
-                infant++;
-        }else{
+        if(['ADT', 'YCD'].includes(passenger_list_copy[i].pax_type))
             adult++;
-        }
+        else if(passenger_list_copy[i].pax_type == 'CHD')
+            child++;
+        else if(passenger_list_copy[i].pax_type == 'INF')
+            infant++;
+        else if(passenger_list_copy[i].pax_type == 'SEA')
+            seaman++;
+        else if(passenger_list_copy[i].pax_type == 'LBR')
+            labour++;
+        else if(passenger_list_copy[i].pax_type == 'STU')
+            student++;
+
+
     }
     provider_list_reorder = {};
     for(i in journey_list_copy){
@@ -6342,6 +6635,9 @@ function search_reorder(){
     airline_request['adult'] = adult;
     airline_request['child'] = child;
     airline_request['infant'] = infant;
+    airline_request['student'] = student;
+    airline_request['labour'] = labour;
+    airline_request['seaman'] = seaman;
     airline_request['counter'] = airline_request['origin'].length.toString();
     if(airline_request['direction'] == 'OW')
         airline_request['is_combo_price'] = "false"
@@ -14444,7 +14740,7 @@ function airline_get_booking_refund(data){
                                         'pnr_checkbox': 'pnr_'+i+'_'+j
                                     };
                                 text+=`<h6>Flight `+flight_counter+`</h6>`;
-                                if(moment().format('YYYY-MM-DD HH:mm:ss') < msg.result.response.provider_bookings[i].departure_date)
+                                if(moment().format('YYYY-MM-DD HH:mm:ss') < moment(msg.result.response.provider_bookings[i].journeys[j].departure_date).format('YYYY-MM-DD HH:mm:ss'))
                                 {
                                     //text+=`<input type="checkbox" id="pnr_`+i+`_`+j+`" onclick="pnr_refund_onclick('pnr_`+i+`_`+j+`','pnr');"><label for="pnr_`+i+`_`+j+`">  Refund</label>`;
                                     text+=`
@@ -14564,7 +14860,7 @@ function airline_get_booking_refund(data){
                                                    msg.result.response.provider_bookings[i].journeys[j].destination == msg.result.response.provider_bookings[provider].journeys[journey].destination){
 
                                                     text+=`<tr>`;
-                                                    if(moment().format('YYYY-MM-DD HH:mm:ss') < msg.result.response.provider_bookings[i].departure_date){
+                                                    if(moment().format('YYYY-MM-DD HH:mm:ss') < moment(msg.result.response.provider_bookings[i].journeys[j].departure_date).format('YYYY-MM-DD HH:mm:ss')){
                                                         text+=`
                                                         <td class="list-of-passenger-left">
                                                             <label class="check_box_custom">
@@ -15051,13 +15347,13 @@ function pnr_refund_onclick(val, type){
     }
     btn_show = false;
     for(i in pnr_list_checkbox){
-        if(document.getElementById(pnr_list_checkbox[i].pnr_checkbox).checked == true)
+        if(document.getElementById(pnr_list_checkbox[i].pnr_checkbox) && document.getElementById(pnr_list_checkbox[i].pnr_checkbox).checked == true)
             btn_show = true;
         if(btn_show == true)
             break;
         for(j in pnr_list_checkbox[i]['checkbox']){
-            if(document.getElementById(pnr_list_checkbox[i]['checkbox'][j]).checked == true)
-            btn_show = true;
+            if(document.getElementById(pnr_list_checkbox[i]['checkbox'][j]) && document.getElementById(pnr_list_checkbox[i]['checkbox'][j]).checked == true)
+                btn_show = true;
         }
     }
     if(btn_show == true)

@@ -298,6 +298,9 @@ def re_order_set_passengers(request):
         adult = []
         child = []
         infant = []
+        seaman = []
+        labour = []
+        student = []
         contact = []
         data_booker = json.loads(request.POST['booker'])
         data_pax = json.loads(request.POST['pax'])
@@ -320,30 +323,19 @@ def re_order_set_passengers(request):
             "booker_seq_id": data_booker['seq_id']
         }
         for pax in data_pax:
-            if pax['birth_date'] == '' or pax['birth_date'] == False:
-                pax_type = 'ADT'
-            else:
-                birth_date = pax['birth_date'].split(' ')
-                old = get_age(date(int(birth_date[2]),int(month[birth_date[1]]),int(birth_date[0])))
-                if old > 11:
-                    pax_type = 'ADT'
-                elif old >= 2:
-                    pax_type = 'CHD'
-                else:
-                    pax_type = 'INF'
             if pax['gender'] == 'male':
-                if pax_type == 'ADT':
+                if pax['pax_type'] in ['ADT', 'YCD', 'LBR', 'STU', 'SEA']:
                     title = 'MR'
                 else:
                     title = 'MSTR'
-            elif pax['gender'] == 'female' and pax_type != 'ADT':
+            elif pax['gender'] == 'female' and pax['pax_type'] not in ['ADT', 'YCD', 'LBR', 'STU', 'SEA']:
                 title = 'MISS'
             elif pax['gender'] == 'female' and data_booker['marital_status'] == '':
                 title = 'MS'
             else:
                 title = 'MRS'
             data_pax_dict = {
-                "pax_type": pax_type,
+                "pax_type": pax['pax_type'],
                 "first_name": pax['first_name'],
                 "last_name": pax['last_name'],
                 "title": title,
@@ -361,18 +353,27 @@ def re_order_set_passengers(request):
                 "identity_image": [],
                 "passenger_number": pax['passenger_number']
             }
-            if pax_type == 'ADT':
+            if pax['pax_type'] in ['YCD', 'ADT']:
                 adult.append(data_pax_dict)
-            elif pax_type == 'CHD':
+            elif pax['pax_type'] == 'CHD':
                 child.append(data_pax_dict)
-            else:
+            elif pax['pax_type'] == 'INF':
                 infant.append(data_pax_dict)
+            elif pax['pax_type'] == 'LBR':
+                labour.append(data_pax_dict)
+            elif pax['pax_type'] == 'STU':
+                student.append(data_pax_dict)
+            elif pax['pax_type'] == 'SEA':
+                seaman.append(data_pax_dict)
         airline_create_passengers = {
             'booker': booker,
             'adult': adult,
             'child': child,
             'infant': infant,
-            'contact': contact
+            'contact': contact,
+            'seaman': seaman,
+            'labour': labour,
+            'student': student,
         }
         ## UNTUK REORDER SAMPAI PASSENGER
         set_session(request, 'airline_create_passengers_%s' % request.POST['signature'], airline_create_passengers)
@@ -592,53 +593,6 @@ def get_carrier_code_list(request):
         try:
             if res['result']['error_code'] == 0:
                 res = res['result']['response']
-                res.update({
-                    'GA1': {
-                        'name': 'Garuda Indonesia - AGS',
-                        'code': 'GA1',
-                        'icao': 'GIA',
-                        'call_sign': 'INDONESIA',
-                        'provider_type': 'airline',
-                        'active': True,
-                        'is_favorite': False
-                    },
-                    # 'GA2': {
-                    #     'name': 'Garuda Indonesia - Althea',
-                    #     'code': 'GA2',
-                    #     'icao': 'GIA',
-                    #     'call_sign': 'INDONESIA',
-                    #     'provider_type': 'airline',
-                    #     'active': True,
-                    #     'is_favorite': False
-                    # },
-                    'GA3': {
-                        'name': 'Garuda Indonesia - Amadeus (GDS)',
-                        'code': 'GA3',
-                        'icao': 'GIA',
-                        'call_sign': 'INDONESIA',
-                        'provider_type': 'airline',
-                        'active': True,
-                        'is_favorite': False
-                    },
-                    # 'SQ1': {
-                    #     'name': 'Singapore Airlines - NDC',
-                    #     'code': 'SQ1',
-                    #     'icao': 'SIA',
-                    #     'call_sign': 'SINGAPORE',
-                    #     'provider_type': 'airline',
-                    #     'active': True,
-                    #     'is_favorite': True
-                    # },
-                    'SQ2': {
-                        'name': 'Singapore Airlines - Amadeus (GDS)',
-                        'code': 'SQ2',
-                        'icao': 'SIA',
-                        'call_sign': 'SINGAPORE',
-                        'provider_type': 'airline',
-                        'active': True,
-                        'is_favorite': True
-                    }
-                })
                 fav = {}
                 carrier_code_list = {}
                 for key in res:
