@@ -14640,7 +14640,7 @@ function airline_get_booking_refund(data){
                                                    msg.result.response.provider_bookings[i].journeys[j].destination == msg.result.response.provider_bookings[provider].journeys[journey].destination){
 
                                                     text+=`<tr>`;
-                                                    if(moment().format('YYYY-MM-DD HH:mm:ss') < msg.result.response.provider_bookings[i].departure_date){
+                                                    if(moment().format('YYYY-MM-DD HH:mm:ss') < moment(msg.result.response.provider_bookings[i].journeys[j].departure_date).format('YYYY-MM-DD HH:mm:ss')){
                                                         text+=`
                                                         <td class="list-of-passenger-left">
                                                             <label class="check_box_custom">
