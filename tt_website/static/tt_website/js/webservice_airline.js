@@ -4882,7 +4882,7 @@ function render_price_in_get_price(text, $text, $text_share){
                     if(airline_price[price_counter][pax_type]['rac'] != null)
                         commission = airline_price[price_counter][pax_type]['rac']
                     commission_price += commission;
-                    total_price += (airline_request.adult * airline_price[price_counter][pax_type]['fare']) + price;
+                    total_price += (pax_count * airline_price[price_counter][pax_type]['fare']) + price;
                     if(airline_price[price_counter][pax_type].hasOwnProperty('disc')){
                         total_discount += airline_price[price_counter][pax_type]['disc'];
                         discount += airline_price[price_counter][pax_type]['disc'];
