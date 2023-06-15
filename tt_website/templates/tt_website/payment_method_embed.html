@@ -361,24 +361,6 @@ try{
     console.log(err); // error kalau ada element yg tidak ada
 }
 </script>
-<!--<iframe id="sgoplus-iframe" src="" scrolling="no" frameborder="0" width="100%" height="500"></iframe>-->
-<!--testing-->
-<!--<script type="text/javascript" src="https://sandbox-kit.espay.id/public/signature/js"></script>-->
-<!--<script type="text/javascript">-->
-    <!--window.onload = function() {-->
-        <!--var data = {-->
-            <!--key: "607f7f813a320e34946ebf52d4d39461",-->
-            <!--paymentId: '{{order_number}}',-->
-            <!--backUrl: "https://localhost:8000",-->
-            <!--commCode: "SGWKCBJRODEX",-->
-            <!--bankCode:"008",-->
-        <!--},-->
-        <!--sgoPlusIframe = document.getElementById("sgoplus-iframe");-->
-        <!--if (sgoPlusIframe !== null) sgoPlusIframe.src = SGOSignature.getIframeURL(data);-->
-        <!--SGOSignature.receiveForm();-->
-    <!--};-->
-<!--</script>-->
-<!--testing-->
 {% else %}
 <link href="{{ static_path }}css/espay/bootstrap.min.css?version={{javascript_version}}" media="screen" rel="stylesheet" type="text/css">
 <link href="{{ static_path }}css/espay/stylev3.min.css?version={{javascript_version}}" media="screen" rel="stylesheet" type="text/css">

@@ -64,12 +64,35 @@ def get_report(request):
         "start_date": start_date,
         'report_type': request.POST['provider_type'],
         'provider': request.POST['provider'],
+        'ho_seq_id': '',
         'agent_seq_id': '',
         'agent_type_seq_id': '',
     }
 
     url_request = get_url_gateway('account')
     res = send_request_api(request, url_request, headers, data, 'POST', 1000)
+    provider_allowed = []
+    carrier_allowed_list = []
+    file = read_cache("allowed_airline_carriers", 'cache_web', request, 90911)
+    if file:
+        carrier_allowed_list = file
+    file = read_cache("get_airline_active_carriers", 'cache_web', request, 90911)
+    if file:
+        if request.session['user_account']['co_ho_seq_id'] in file:
+            ho_carrier_airline = file[request.session['user_account']['co_ho_seq_id']]
+            for carrier_code in carrier_allowed_list:
+                for provider in ho_carrier_airline[carrier_code]['provider']:
+                    if provider not in provider_allowed:
+                        provider_allowed.append(provider)
+
+    new_provider = []
+    for provider in res['result']['response']['dependencies']['provider']:
+        if provider['provider_type'] == 'Airline':
+            if provider['code'] in provider_allowed:
+                new_provider.append(provider)
+        else:
+            new_provider.append(provider)
+    res['result']['response']['dependencies']['provider'] = new_provider
 
     to_return = {
         'raw_data': res,
@@ -104,6 +127,7 @@ def update_report(request):
         "end_date": end_date,
         'report_type': request.POST['provider_type'],
         'provider': request.POST['provider'],
+        'ho_seq_id': request.POST['head_office'],
         'agent_seq_id': request.POST['agent'],
         'agent_type_seq_id': request.POST['agent_type'],
     }

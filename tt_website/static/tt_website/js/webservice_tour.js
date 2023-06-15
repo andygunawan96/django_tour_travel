@@ -19,7 +19,6 @@ function tour_redirect_signup(type){
            headers:{
                 'action': 'signin',
            },
-    //       url: "{% url 'tt_backend_rodextrip:social_media_tree_update' %}",
            data: {},
            success: function(msg) {
            try{

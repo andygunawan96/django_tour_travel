@@ -296,7 +296,7 @@ Licence URI: http://www.os-templates.com/template-terms
     <script>
         bottom = 60;
     </script>
-    {% if username.co_user_login != ''  and name == ''%} <!--name di ganti == 'Rodextrip' untuk menyalakan bitrix-->
+    {% if username.co_user_login != ''  and name == ''%} <!-- bitrix-->
     <script>
     $(function() {
         new jBox('Tooltip', {
@@ -517,7 +517,7 @@ junction_font.load().then(function(loaded_face) {
 var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
 Tawk_API.visitor = {
     'name': '{{username.co_user_login}}',
-    'email': 'rodextrip@gmail.com'
+    'email': '{{username.co_user_login}}'
 };
 (function(){
 var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];

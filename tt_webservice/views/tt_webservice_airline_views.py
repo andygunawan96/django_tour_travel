@@ -298,6 +298,9 @@ def re_order_set_passengers(request):
         adult = []
         child = []
         infant = []
+        seaman = []
+        labour = []
+        student = []
         contact = []
         data_booker = json.loads(request.POST['booker'])
         data_pax = json.loads(request.POST['pax'])
@@ -320,30 +323,19 @@ def re_order_set_passengers(request):
             "booker_seq_id": data_booker['seq_id']
         }
         for pax in data_pax:
-            if pax['birth_date'] == '' or pax['birth_date'] == False:
-                pax_type = 'ADT'
-            else:
-                birth_date = pax['birth_date'].split(' ')
-                old = get_age(date(int(birth_date[2]),int(month[birth_date[1]]),int(birth_date[0])))
-                if old > 11:
-                    pax_type = 'ADT'
-                elif old >= 2:
-                    pax_type = 'CHD'
-                else:
-                    pax_type = 'INF'
             if pax['gender'] == 'male':
-                if pax_type == 'ADT':
+                if pax['pax_type'] in ['ADT', 'YCD', 'LBR', 'STU', 'SEA']:
                     title = 'MR'
                 else:
                     title = 'MSTR'
-            elif pax['gender'] == 'female' and pax_type != 'ADT':
+            elif pax['gender'] == 'female' and pax['pax_type'] not in ['ADT', 'YCD', 'LBR', 'STU', 'SEA']:
                 title = 'MISS'
             elif pax['gender'] == 'female' and data_booker['marital_status'] == '':
                 title = 'MS'
             else:
                 title = 'MRS'
             data_pax_dict = {
-                "pax_type": pax_type,
+                "pax_type": pax['pax_type'],
                 "first_name": pax['first_name'],
                 "last_name": pax['last_name'],
                 "title": title,
@@ -361,18 +353,27 @@ def re_order_set_passengers(request):
                 "identity_image": [],
                 "passenger_number": pax['passenger_number']
             }
-            if pax_type == 'ADT':
+            if pax['pax_type'] in ['YCD', 'ADT']:
                 adult.append(data_pax_dict)
-            elif pax_type == 'CHD':
+            elif pax['pax_type'] == 'CHD':
                 child.append(data_pax_dict)
-            else:
+            elif pax['pax_type'] == 'INF':
                 infant.append(data_pax_dict)
+            elif pax['pax_type'] == 'LBR':
+                labour.append(data_pax_dict)
+            elif pax['pax_type'] == 'STU':
+                student.append(data_pax_dict)
+            elif pax['pax_type'] == 'SEA':
+                seaman.append(data_pax_dict)
         airline_create_passengers = {
             'booker': booker,
             'adult': adult,
             'child': child,
             'infant': infant,
-            'contact': contact
+            'contact': contact,
+            'seaman': seaman,
+            'labour': labour,
+            'student': student,
         }
         ## UNTUK REORDER SAMPAI PASSENGER
         set_session(request, 'airline_create_passengers_%s' % request.POST['signature'], airline_create_passengers)
@@ -451,7 +452,13 @@ def get_data_review_page(request):
         if file:
             res['airline_carriers'] = file
         res['passengers'] = request.session['airline_create_passengers_%s' % request.POST['signature']]
-        res['passengers_ssr'] = request.session['airline_create_passengers_%s' % request.POST['signature']]['adult'] + request.session['airline_create_passengers_%s' % request.POST['signature']]['child']
+
+        passenger = []
+        for pax_type in request.session['airline_create_passengers_%s' % request.POST['signature']]:
+            if pax_type not in ['infant', 'booker', 'contact']:
+                for pax in request.session['airline_create_passengers_%s' % request.POST['signature']][pax_type]:
+                    passenger.append(pax)
+        res['passengers_ssr'] = passenger
         res['airline_request'] = request.session['airline_request_%s' % request.POST['signature']]
         res['airline_ssr_request'] = request.session['airline_ssr_request_%s' % request.POST['signature']] if request.session.get('airline_ssr_request_%s' % request.POST['signature']) else {}
         res['airline_seat_request'] = request.session['airline_seat_request_%s' % request.POST['signature']] if request.session.get('airline_seat_request_%s' % request.POST['signature']) else {}
@@ -586,53 +593,6 @@ def get_carrier_code_list(request):
         try:
             if res['result']['error_code'] == 0:
                 res = res['result']['response']
-                res.update({
-                    'GA1': {
-                        'name': 'Garuda Indonesia - AGS',
-                        'code': 'GA1',
-                        'icao': 'GIA',
-                        'call_sign': 'INDONESIA',
-                        'provider_type': 'airline',
-                        'active': True,
-                        'is_favorite': False
-                    },
-                    # 'GA2': {
-                    #     'name': 'Garuda Indonesia - Althea',
-                    #     'code': 'GA2',
-                    #     'icao': 'GIA',
-                    #     'call_sign': 'INDONESIA',
-                    #     'provider_type': 'airline',
-                    #     'active': True,
-                    #     'is_favorite': False
-                    # },
-                    'GA3': {
-                        'name': 'Garuda Indonesia - Amadeus (GDS)',
-                        'code': 'GA3',
-                        'icao': 'GIA',
-                        'call_sign': 'INDONESIA',
-                        'provider_type': 'airline',
-                        'active': True,
-                        'is_favorite': False
-                    },
-                    # 'SQ1': {
-                    #     'name': 'Singapore Airlines - NDC',
-                    #     'code': 'SQ1',
-                    #     'icao': 'SIA',
-                    #     'call_sign': 'SINGAPORE',
-                    #     'provider_type': 'airline',
-                    #     'active': True,
-                    #     'is_favorite': True
-                    # },
-                    'SQ2': {
-                        'name': 'Singapore Airlines - Amadeus (GDS)',
-                        'code': 'SQ2',
-                        'icao': 'SIA',
-                        'call_sign': 'SINGAPORE',
-                        'provider_type': 'airline',
-                        'active': True,
-                        'is_favorite': True
-                    }
-                })
                 fav = {}
                 carrier_code_list = {}
                 for key in res:
@@ -780,24 +740,33 @@ def get_carriers_search(request, signature=''):
         res = send_request_api(request, url_request, headers, data, 'POST')
         try:
             if res['result']['error_code'] == 0:
-                res = res['result']['response']
-                write_cache(res, "get_airline_active_carriers", request, 'cache_web')
+                temp = {}
+                for ho_seq_id in res['result']['response']:
+                    temp[ho_seq_id] = res['result']['response'][ho_seq_id]
+                write_cache(temp, "get_airline_active_carriers", request, 'cache_web')
                 _logger.info("get_carriers_search AIRLINE RENEW SUCCESS SIGNATURE " + headers['signature'])
+                if request.session['user_account']['co_ho_seq_id'] in temp:
+                    res = temp[request.session['user_account']['co_ho_seq_id']]
             else:
                 try:
                     file = read_cache("get_airline_active_carriers", 'cache_web', request)
                     if file:
                         res = file
+                        if request.session['user_account']['co_ho_seq_id'] in res:
+                            res = res[request.session['user_account']['co_ho_seq_id']]
                     _logger.info("read file get_airline_active_carriers SIGNATURE " + request.POST['signature'])
                 except Exception as e:
                     _logger.error('ERROR read file get_airline_active_carriers\n' + str(e) + '\n' + traceback.format_exc())
         except Exception as e:
+            res = {}
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
-            file = read_cache("get_airline_active_carriers", 'cache_web', request, 90911)
             res = file
+            if request.session['user_account']['co_ho_seq_id'] in res:
+                res = res[request.session['user_account']['co_ho_seq_id']]
         except Exception as e:
+            res = {}
             _logger.error('ERROR read file get_airline_active_carriers\n' + str(e) + '\n' + traceback.format_exc())
 
     allowed_carrier_search = get_allowed_config_search(request)
@@ -848,11 +817,11 @@ def get_allowed_config_search(request):
     return data
 
 def get_all_carrier_airline(request):
-    data = []
     file = read_cache("get_airline_active_carriers", 'cache_web', request, 90911)
     if file:
-        data = file
-    return data
+        if request.session['user_account']['co_ho_seq_id'] in file:
+            file = file[request.session['user_account']['co_ho_seq_id']]
+    return file
 
 def get_provider_list_backend(request, signature=''):
     try:
@@ -941,16 +910,19 @@ def get_provider_description(request):
         try:
             if res['result']['error_code'] == 0:
                 temp = {}
-                for i in res['result']['response']['providers']:
-                    temp[i['provider']] = i
-                res = temp
+                for ho_seq_id in res['result']['response']:
+                    temp[ho_seq_id] = {}
+                    for provider in res['result']['response'][ho_seq_id]:
+                        temp[ho_seq_id][provider['provider']] = provider
                 write_cache(temp, "get_list_provider_data", request, 'cache_web')
                 _logger.info("get_provider_description AIRLINE RENEW SUCCESS SIGNATURE " + request.POST['signature'])
+                if request.session['user_account']['co_ho_seq_id'] in temp:
+                    res = temp[request.session['user_account']['co_ho_seq_id']]
             else:
                 try:
                     file = read_cache("get_list_provider_data", 'cache_web', request)
-                    if file:
-                        res = file
+                    if file and request.session['user_account']['co_ho_seq_id'] in file:
+                        res = file[request.session['user_account']['co_ho_seq_id']]
                     _logger.info("read file get_list_provider_data SIGNATURE " + request.POST['signature'])
                 except Exception as e:
                     _logger.error('ERROR read file get_list_provider_data\n' + str(e) + '\n' + traceback.format_exc())
@@ -958,7 +930,8 @@ def get_provider_description(request):
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
-            res = file
+            if file and request.session['user_account']['co_ho_seq_id'] in file:
+                res = file[request.session['user_account']['co_ho_seq_id']]
         except Exception as e:
             _logger.error('ERROR read file get_list_provider_data\n' + str(e) + '\n' + traceback.format_exc())
     return res
@@ -1046,6 +1019,20 @@ def search2(request):
             "carrier_codes": carrier_code_list,
             "promo_codes": promo_codes
         }
+        advance_search = get_airline_advance_pax_type(request)
+        if advance_search['airline_advance_pax_type'] == 'true':
+            if advance_search['airline_pax_type_student'] == 'true' and int(data_search['student']):
+                data.update({
+                    "student": int(data_search['student'])
+                })
+            if advance_search['airline_pax_type_seaman'] == 'true' and int(data_search['seaman']):
+                data.update({
+                    "seaman": int(data_search['seaman'])
+                })
+            if advance_search['airline_pax_type_labour'] == 'true' and int(data_search['labour']):
+                data.update({
+                    "labour": int(data_search['labour'])
+                })
 
         if request.POST['last_send'] == 'true': ##SIMPEN CACHE REQUEST DENGAN SIGNATURE HANYA SEKALI SETIAP SEARCH
             set_session(request, 'airline_request_%s' % request.POST['signature'], request.session['airline_request'])
@@ -1077,6 +1064,22 @@ def search2(request):
         else:
             _logger.error(str(e) + '\n' + traceback.format_exc())
     url_request = get_url_gateway('booking/airline')
+    provider_data_ho = read_cache("get_list_provider_data", 'cache_web', request, 90911)
+    if provider_data_ho.get(request.session['user_account']['co_ho_seq_id']) and provider_data_ho[request.session['user_account']['co_ho_seq_id']].get(request.POST['provider']):
+        provider_data = provider_data_ho[request.session['user_account']['co_ho_seq_id']][request.POST['provider']]
+        error_response = {
+            "result": {
+                "error_code": 500,
+                "error_msg": "No Schedule",
+                "response": ""
+            }
+        }
+        if data.get('student') and not provider_data['is_student']:
+            return error_response
+        elif data.get('seaman') and not provider_data['is_seaman']:
+            return error_response
+        elif data.get('labour') and not provider_data['is_labour']:
+            return error_response
     res = send_request_api(request, url_request, headers, data, 'POST', 120)
     try:
         if res['result']['error_code'] == 0:
@@ -1249,6 +1252,20 @@ def get_price_itinerary(request, boolean, counter):
             "infant": int(airline_request['infant']),
             "schedules": schedules,
         }
+        advance_search = get_airline_advance_pax_type(request)
+        if advance_search['airline_advance_pax_type'] == 'true':
+            if advance_search['airline_pax_type_student'] == 'true' and airline_request.get('student'):
+                data.update({
+                    "student": int(airline_request['student'])
+                })
+            if advance_search['airline_pax_type_seaman'] == 'true' and airline_request.get('seaman'):
+                data.update({
+                    "seaman": int(airline_request['seaman'])
+                })
+            if advance_search['airline_pax_type_labour'] == 'true' and airline_request.get('labour'):
+                data.update({
+                    "labour": int(airline_request['labour'])
+                })
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
@@ -4827,6 +4844,19 @@ def search_mobile(request):
             "carrier_codes": request.data['carrier_codes'],
         }
 
+        if request.data.get('student'):
+            data.update({
+                "student": request.data['student']
+            })
+        if request.data.get('labour'):
+            data.update({
+                "labour": request.data['labour']
+            })
+        if request.data.get('seaman'):
+            data.update({
+                "seaman": request.data['seaman']
+            })
+
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
@@ -5053,7 +5083,7 @@ def search_mobile(request):
                                         if (add_new_data):
                                             fare_details.append(fare_detail)
                                     for svc_summary in fare['service_charge_summary']:
-                                        if svc_summary['pax_type'] == 'ADT':
+                                        if not svc_summary['pax_type'] in ['CHD', 'INF']:
                                             for svc in svc_summary['service_charges']:
                                                 if svc['charge_type'] != 'RAC':
                                                     if svc['charge_type'] != 'DISC':

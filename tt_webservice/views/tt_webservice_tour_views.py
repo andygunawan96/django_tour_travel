@@ -13,7 +13,7 @@ from .tt_webservice_views import *
 from .tt_webservice import *
 from .tt_webservice_voucher_views import *
 from ..views import tt_webservice_agent_views as webservice_agent
-from tt_website.views import tt_website_views as rodextrip_views
+from tt_website.views import tt_website_views as orbisway_views
 _logger = logging.getLogger("website_logger")
 
 month = {
@@ -220,7 +220,7 @@ def get_auto_complete_gateway(request):
 def get_data(request):
     try:
         temp_data = get_cache_data(request)
-        template_data = rodextrip_views.get_data_template(request)
+        template_data = orbisway_views.get_data_template(request)
 
         response = {
             'tour_countries': temp_data['result']['response']['tour']['countries'],

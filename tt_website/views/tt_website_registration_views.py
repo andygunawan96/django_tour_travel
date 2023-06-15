@@ -119,7 +119,7 @@ def register_agent(request):
             'regis_doc': regis_doc,
             'other': {
                 'social_media': request.POST['social_media'] and request.POST['social_media'] or '',
-                'agent_type': request.POST['agent_type'] and request.POST['agent_type'] or '',
+                'agent_type': request.POST['agent_type'] and request.POST['agent_type'] or 0,
             },
         })
 

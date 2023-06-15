@@ -152,13 +152,32 @@ def get_config_provider(request):
         try:
             if res['result']['error_code'] == 0:
                 #datetime
-                write_cache(res, "train_provider", request, 'cache_web')
+                temp = {}
+                for ho_seq_id in res['result']['response']:
+                    temp[ho_seq_id] = {}
+                    for provider in res['result']['response'][ho_seq_id]:
+                        temp[ho_seq_id][provider['provider']] = provider
+                write_cache(temp, "train_provider", request, 'cache_web')
                 _logger.info("get_providers_list TRAIN RENEW SUCCESS SIGNATURE " + request.POST['signature'])
+                if request.session['user_account']['co_ho_seq_id'] in temp:
+                    res = {
+                        "result": {
+                            "error_code": 0,
+                            "error_msg": '',
+                            "response": temp[request.session['user_account']['co_ho_seq_id']]
+                        }
+                    }
             else:
                 try:
                     file = read_cache("train_provider", 'cache_web', request, 90911)
-                    if file:
-                        res = file
+                    if file and request.session['user_account']['co_ho_seq_id'] in file:
+                        res = {
+                            "result": {
+                                "error_code": 0,
+                                "error_msg": '',
+                                "response": file[request.session['user_account']['co_ho_seq_id']]
+                            }
+                        }
                     _logger.info("get_provider_list ERROR USE CACHE SUCCESS SIGNATURE " + request.POST['signature'])
                 except Exception as e:
                     _logger.info("get_provider_list TRAIN ERROR SIGNATURE " + request.POST['signature'])
@@ -166,7 +185,14 @@ def get_config_provider(request):
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
-            res = file
+            if file and request.session['user_account']['co_ho_seq_id'] in file:
+                res = {
+                    "result": {
+                        "error_code": 0,
+                        "error_msg": '',
+                        "response": file[request.session['user_account']['co_ho_seq_id']]
+                    }
+                }
         except Exception as e:
             _logger.error('ERROR get_provider_list train file\n' + str(e) + '\n' + traceback.format_exc())
     return res
@@ -317,9 +343,9 @@ def re_order_set_passengers(request):
                 "last_name": pax['last_name'],
                 "title": title,
                 "birth_date": pax['birth_date'],
-                "nationality": pax['nationality_code'],
+                "nationality_code": pax['nationality_code'],
                 "nationality_name": pax['nationality_name'],
-                "identity_country_of_issued": pax['identity_country_of_issued_code'],
+                "identity_country_of_issued_code": pax['identity_country_of_issued_code'],
                 "identity_country_of_issued_name": pax['identity_country_of_issued_name'],
                 "identity_expdate": convert_string_to_date_to_string_front_end(pax['identity_expdate']) if pax['identity_expdate'] != '' and pax['identity_expdate'] != False else '',
                 "identity_number": pax['identity_number'],
@@ -394,7 +420,6 @@ def search(request):
             "adult": int(request.session['train_request']['adult']),
             "infant": int(request.session['train_request']['infant']),
             "provider": request.POST['provider'],
-            # "provider": "rodextrip_train"
         }
         if 'train_search' not in request.session._session:
             set_session(request, 'train_search', data)
