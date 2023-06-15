@@ -1955,19 +1955,35 @@ function train_get_booking(data){
                    <div class="alert alert-dark" role="alert">
                        <h5>Your booking has been Refunded!</h5>
                    </div>`;
-                }else{
+                }else if(msg.result.response.state == 'issued'){
                    //document.getElementById('issued-breadcrumb').classList.remove("current");
                    //document.getElementById('issued-breadcrumb').classList.add("active");
                     document.getElementById('cancel').hidden = true;
                     document.getElementById('cancel').innerHTML = '';
 
-                   document.getElementById('issued-breadcrumb').classList.add("br-active");
-                   document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
-                   document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
-                   document.getElementById('alert-state').innerHTML = `
-                   <div class="alert alert-success" role="alert">
+                    document.getElementById('issued-breadcrumb').classList.add("br-active");
+                    document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
+                    document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
+                    document.getElementById('alert-state').innerHTML = `
+                    <div class="alert alert-success" role="alert">
                        <h5>Your booking has been successfully Issued!</h5>
-                   </div>`;
+                    </div>`;
+                    is_show_web_check_in = false;
+                    for(i in msg.result.response.provider_bookings){
+                        if(moment().format('YYYY-MM-DD HH:mm:ss') < moment(msg.result.response.provider_bookings[i].departure_date).format('YYYY-MM-DD HH:mm:ss')){
+                            is_show_web_check_in = true;
+                        }
+                    }
+                    if(is_show_web_check_in){
+                        for(i in msg.result.response.passengers){
+                            if(msg.result.response.passengers[i].hasOwnProperty('temporary_field') && msg.result.response.passengers[i]['temporary_field'].hasOwnProperty('web_check_in') && is_show_web_check_in)
+                                is_show_web_check_in = false;
+                        }
+                    }
+                    if(is_show_web_check_in){
+                        document.getElementById('web_checkin_btn').hidden = false;
+                        document.getElementById('web_checkin_btn').innerHTML = `<button class="primary-btn-white" style="margin-bottom:0px; width:100%;" id="train_web_checkin_btn" type="button" onclick="train_checkin_booking();">Web Check-in </button>`;
+                    }
                 }
                 if(msg.result.response.hasOwnProperty('voucher_reference') && msg.result.response.voucher_reference != '' && msg.result.response.voucher_reference != false){
                     try{
@@ -2686,6 +2702,77 @@ function train_cancel_booking(){
         $('.submit-seat-train').addClass("running");
       }
     })
+}
+
+function train_checkin_booking(){
+    please_wait_transaction();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/train",
+       headers:{
+            'action': 'checkin',
+       },
+       data: {
+            'order_number': order_number,
+            'signature': signature
+       },
+       success: function(msg) {
+        if(msg.result.error_code == 0){
+           price_arr_repricing = {};
+           pax_type_repricing = [];
+           train_get_booking(order_number);
+           document.getElementById('show_loading_booking_train').hidden = true;
+           document.getElementById('train_booking').innerHTML = '';
+           document.getElementById('train_detail').innerHTML = '';
+           document.getElementById('payment_acq').innerHTML = '';
+           document.getElementById('show_loading_booking_train').style.display = 'block';
+           document.getElementById('show_loading_booking_train').hidden = false;
+           document.getElementById('payment_acq').hidden = true;
+           document.getElementById("overlay-div-box").style.display = "none";
+           try{
+                document.getElementById('voucher_discount').style.display = 'none';
+           }catch(err){
+                console.log(err); // error kalau ada element yg tidak ada
+           }
+           try{
+                document.getElementById("issued_btn_train").style.display = "none";
+           }catch(err){
+                console.log(err); // error kalau ada element yg tidak ada
+           }
+        }else{
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: #ff9900;">Error web check-in train </span>' + msg.result.error_msg,
+            }).then((result) => {
+              if (result.value) {
+                hide_modal_waiting_transaction();
+              }
+            })
+            price_arr_repricing = {};
+            pax_type_repricing = [];
+            document.getElementById('show_loading_booking_train').hidden = true;
+            document.getElementById('train_booking').innerHTML = '';
+            document.getElementById('train_detail').innerHTML = '';
+            document.getElementById('payment_acq').innerHTML = '';
+            document.getElementById('show_loading_booking_train').style.display = 'block';
+            document.getElementById('show_loading_booking_train').hidden = false;
+            document.getElementById('payment_acq').hidden = true;
+            document.getElementById("overlay-div-box").style.display = "none";
+            try{
+                document.getElementById('voucher_discount').style.display = 'none';
+            }catch(err){
+                console.log(err); // error kalau ada element yg tidak ada
+            }
+            train_get_booking(order_number);
+            hide_modal_waiting_transaction();
+        }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error web check-in train');
+            hide_modal_waiting_transaction();
+       },timeout: 480000
+    });
 }
 
 function train_manual_seat(){
