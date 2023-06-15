@@ -10376,11 +10376,15 @@ function auto_logout(msg){
       cancelButtonColor: '#d33',
       confirmButtonText: 'Yes'
     }).then((result) => {
-      if (result.value) {
-        logout();
-      }else{
-        logout();
-      }
+        if(keep_me_signin){
+            window.location = '/';
+        }else{
+            if (result.value) {
+                logout();
+            }else{
+                logout();
+            }
+        }
     })
 }
 

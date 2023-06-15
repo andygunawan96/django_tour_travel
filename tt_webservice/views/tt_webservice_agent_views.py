@@ -629,10 +629,11 @@ def signin(request):
                 if key != '_language':
                     del request.session[key]
             request.session.create()
-            request.session.set_expiry(3 * 60 * 60)  # jam detik menit
+            request.session.set_expiry(3 * 60 * 60)  # jam menit detik
             set_session(request, 'signature', res['result']['response']['signature'])
             set_session(request, 'username', request.POST.get('username') or user_default)
             set_session(request, 'password', request.POST.get('password') or password_default)
+            set_session(request, 'signin_date', datetime.now().timestamp())
 
             if request.POST.get('keep_me_signin') == 'true':
                 set_session(request, 'keep_me_signin', True)
@@ -743,13 +744,19 @@ def signin_btc(request):
     try:
         user_global, password_global, api_key = get_credential(request)
         user_default, password_default = get_credential_user_default(request)
+        if request.POST.get('username'):
+            user_default = request.POST.get('username')
+            password_default = request.POST.get('password')
+        elif request.session.get('username'):
+            user_default = request.session.get('username')
+            password_default = request.session.get('password')
         data = {
             "user": user_global,
             "password": password_global,
             "api_key":  api_key,
 
-            "co_user": request.POST.get('username') or user_default,
-            "co_password": request.POST.get('password') or password_default,
+            "co_user": user_default,
+            "co_password": password_default,
             # "co_user": user_default,  # request.POST['username'],
             # "co_password": password_default, #request.POST['password'],
             # "co_uid": ""
@@ -767,6 +774,7 @@ def signin_btc(request):
             set_session(request, 'signature', res['result']['response']['signature'])
             set_session(request, 'username', request.POST.get('username') or user_default)
             set_session(request, 'password', request.POST.get('password') or password_default)
+            set_session(request, 'signin_date', datetime.now().timestamp())
             if request.POST.get('keep_me_signin') == 'true':
                 set_session(request, 'keep_me_signin', True)
             elif request.POST.get('keep_me_signin') == 'false':

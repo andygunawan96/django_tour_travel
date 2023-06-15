@@ -1505,8 +1505,10 @@ def get_data_template(request, type='home', provider_type = []):
     default_user = ''
     default_password = ''
     is_show_breakdown_price = False
+    keep_me_signin = False
     ## live chat
-
+    if request.session.get('keep_me_signin'):
+        keep_me_signin = request.session['keep_me_signin']
     top_up_term = ''
     file = read_cache("data_cache_product", 'cache_web', request, 90911)
     if file:
@@ -1582,7 +1584,15 @@ def get_data_template(request, type='home', provider_type = []):
         top_up_term = file
     try:
         if type != 'login':
-            if request.session.get('keep_me_signin') == True:
+            is_session_expiry_need_to_update = False
+            if request.session.get('signin_date'):
+                if datetime.now().timestamp() > request.session['signin_date'] + 36000: ## sudah 1 jam update expiry
+                    is_session_expiry_need_to_update = True
+            else:
+                set_session(request, 'signin_date', datetime.now().timestamp())
+                is_session_expiry_need_to_update = True
+
+            if is_session_expiry_need_to_update:
                 request.session.set_expiry(3 * 60 * 60) # jam detik menit
                 request.session.modified = True
         response = get_cache_data(request)
@@ -1916,7 +1926,8 @@ def get_data_template(request, type='home', provider_type = []):
         'live_chat': live_chat,
         'default_user': default_user,
         'default_password': default_password,
-        'is_show_breakdown_price': is_show_breakdown_price
+        'is_show_breakdown_price': is_show_breakdown_price,
+        'keep_me_signin': keep_me_signin
     }
 
 

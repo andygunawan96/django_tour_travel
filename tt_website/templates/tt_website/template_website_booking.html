@@ -13,6 +13,11 @@ Licence URI: http://www.os-templates.com/template-terms
     <script>
         google_analytics = '{{google_analytics}}';
         google_tag_manager_key = '{{google_tag_manager_key}}';
+        {% if keep_me_signin == True %}
+        keep_me_signin = true;
+        {% else %}
+        keep_me_signin = false;
+        {% endif %}
     </script>
 
     {% if '{{google_tag_manager_key}}' != '' %}
