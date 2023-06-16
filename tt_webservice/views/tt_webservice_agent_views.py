@@ -629,10 +629,11 @@ def signin(request):
                 if key != '_language':
                     del request.session[key]
             request.session.create()
-            request.session.set_expiry(3 * 60 * 60)  # jam detik menit
+            request.session.set_expiry(3 * 60 * 60)  # jam menit detik
             set_session(request, 'signature', res['result']['response']['signature'])
             set_session(request, 'username', request.POST.get('username') or user_default)
             set_session(request, 'password', request.POST.get('password') or password_default)
+            set_session(request, 'signin_date', datetime.now().timestamp())
 
             if request.POST.get('keep_me_signin') == 'true':
                 set_session(request, 'keep_me_signin', True)
@@ -705,6 +706,12 @@ def signin(request):
 
     except Exception as e:
         _logger.error('ERROR SIGNIN\n' + str(e) + '\n' + traceback.format_exc())
+        return {
+            "result": {
+                "error_code": 500,
+                "error_msg": "Contact Admin"
+            }
+        }
         # pass
         # # logging.getLogger("error logger").error('testing')
         # _logger.error(msg=str(e) + '\n' + traceback.format_exc())
@@ -737,13 +744,19 @@ def signin_btc(request):
     try:
         user_global, password_global, api_key = get_credential(request)
         user_default, password_default = get_credential_user_default(request)
+        if request.POST.get('username'):
+            user_default = request.POST.get('username')
+            password_default = request.POST.get('password')
+        elif request.session.get('username'):
+            user_default = request.session.get('username')
+            password_default = request.session.get('password')
         data = {
             "user": user_global,
             "password": password_global,
             "api_key":  api_key,
 
-            "co_user": request.POST.get('username') or user_default,
-            "co_password": request.POST.get('password') or password_default,
+            "co_user": user_default,
+            "co_password": password_default,
             # "co_user": user_default,  # request.POST['username'],
             # "co_password": password_default, #request.POST['password'],
             # "co_uid": ""
@@ -761,6 +774,7 @@ def signin_btc(request):
             set_session(request, 'signature', res['result']['response']['signature'])
             set_session(request, 'username', request.POST.get('username') or user_default)
             set_session(request, 'password', request.POST.get('password') or password_default)
+            set_session(request, 'signin_date', datetime.now().timestamp())
             if request.POST.get('keep_me_signin') == 'true':
                 set_session(request, 'keep_me_signin', True)
             elif request.POST.get('keep_me_signin') == 'false':
@@ -1079,7 +1093,6 @@ def get_new_cache(request, signature, type='all'):
 
             # issuedoffline
             data = {
-                'provider': 'rodextrip_issued_offline'
             }
             headers = {
                 "Accept": "application/json,text/html,application/xml",
@@ -1200,6 +1213,40 @@ def get_new_cache(request, signature, type='all'):
                         e) + '\n' + traceback.format_exc())
 
             #ppob
+            headers = {
+                "Accept": "application/json,text/html,application/xml",
+                "Content-Type": "application/json",
+                "action": "get_provider_list",
+                "signature": signature
+            }
+            data = {
+                "provider_type": 'ppob'
+            }
+            url_request = get_url_gateway('content')
+            res = send_request_api(request, url_request, headers, data, 'POST')
+            try:
+                ## update
+                if res['result']['error_code'] == 0:
+                    temp = {}
+                    for ho_seq_id in res['result']['response']:
+                        temp[ho_seq_id] = {}
+                        for provider in res['result']['response'][ho_seq_id]:
+                            temp[ho_seq_id][provider['provider']] = provider
+                    # datetime
+                    write_cache(temp, "get_list_provider_data_ppob", request, 'cache_web')
+                    _logger.info("get_provider_list PPOB RENEW SUCCESS SIGNATURE " + request.POST['signature'])
+                    if request.session['user_account']['co_ho_seq_id'] in temp:
+                        res = temp[request.session['user_account']['co_ho_seq_id']]
+                else:
+                    try:
+                        file = read_cache("get_list_provider_data_ppob", 'cache_web', request, 90911)
+                        if file and request.session['user_account']['co_ho_seq_id'] in file:
+                            res = file[request.session['user_account']['co_ho_seq_id']]
+                        _logger.info("get_provider_list ERROR USE CACHE SUCCESS SIGNATURE " + request.POST['signature'])
+                    except Exception as e:
+                        _logger.error('ERROR get_list_provider_data file\n' + str(e) + '\n' + traceback.format_exc())
+            except Exception as e:
+                _logger.info("ERROR GET PROVIDER LIST PPOB" + json.dumps(res) + '\n' + str(e) + '\n' + traceback.format_exc())
             headers = {
                 "Accept": "application/json,text/html,application/xml",
                 "Content-Type": "application/json",
@@ -1549,7 +1596,6 @@ def get_new_cache(request, signature, type='all'):
             res = send_request_api({}, url_request, headers, data, 'POST', 120)
             try:
                 if res['result']['error_code'] == 0:
-                    res = res
                     write_cache(res, "insurance_cache_data", request, 'cache_web')
                     _logger.info("get_bus_config INSURANCE RENEW SUCCESS SIGNATURE " + headers['signature'])
                 else:
@@ -1905,18 +1951,24 @@ def get_customer_list(request):
                     if pax['gender'] == 'female' and pax['marital_status'] == 'married':
                         if 'Adult' in request.POST['passenger_type'] or request.POST['passenger_type'] == 'adult' or request.POST['passenger_type'] == 'senior' or request.POST['passenger_type'] == 'booker' or request.POST['passenger_type'] == 'contact' or request.POST['passenger_type'] == 'passenger': #buat insurance pakai keyword adult<something> jadi pakai in
                             title = 'MRS'
-                        else:
+                        elif request.POST['passenger_type'] == 'child' or request.POST['passenger_type'] == 'child':
                             title = 'MISS'
+                        else:
+                            title = 'MRS'
                     elif pax['gender'] == 'female':
                         if 'Adult' in request.POST['passenger_type'] or request.POST['passenger_type'] == 'adult' or request.POST['passenger_type'] == 'senior' or request.POST['passenger_type'] == 'booker' or request.POST['passenger_type'] == 'contact' or request.POST['passenger_type'] == 'passenger': #buat insurance pakai keyword adult<something> jadi pakai in
                             title = 'MS'
-                        else:
+                        elif request.POST['passenger_type'] == 'child' or request.POST['passenger_type'] == 'child':
                             title = 'MISS'
+                        else:
+                            title = 'MS'
                     else:
                         if 'Adult' in request.POST['passenger_type'] or request.POST['passenger_type'] == 'adult' or request.POST['passenger_type'] == 'senior' or request.POST['passenger_type'] == 'booker' or request.POST['passenger_type'] == 'contact' or request.POST['passenger_type'] == 'passenger': #buat insurance pakai keyword adult<something> jadi pakai in
                             title = 'MR'
-                        else:
+                        elif request.POST['passenger_type'] == 'child' or request.POST['passenger_type'] == 'child':
                             title = 'MSTR'
+                        else:
+                            title = 'MR'
                     pax.update({
                         'sequence': counter,
                         'title': title

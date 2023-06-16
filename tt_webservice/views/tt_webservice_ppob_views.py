@@ -222,19 +222,23 @@ def get_provider_list(request):
         url_request = get_url_gateway('content')
         res = send_request_api(request, url_request, headers, data, 'POST')
         try:
+            ## update
             if res['result']['error_code'] == 0:
                 temp = {}
-                for i in res['result']['response']['providers']:
-                    temp[i['provider']] = i
+                for ho_seq_id in res['result']['response']:
+                    temp[ho_seq_id] = {}
+                    for provider in res['result']['response'][ho_seq_id]:
+                        temp[ho_seq_id][provider['provider']] = provider
                 #datetime
-                res = temp
                 write_cache(temp, "get_list_provider_data_ppob", request, 'cache_web')
                 _logger.info("get_provider_list PPOB RENEW SUCCESS SIGNATURE " + request.POST['signature'])
+                if request.session['user_account']['co_ho_seq_id'] in temp:
+                    res = temp[request.session['user_account']['co_ho_seq_id']]
             else:
                 try:
                     file = read_cache("get_list_provider_data_ppob", 'cache_web', request, 90911)
-                    if file:
-                        res = file
+                    if file and request.session['user_account']['co_ho_seq_id'] in file:
+                        res = file[request.session['user_account']['co_ho_seq_id']]
                     _logger.info("get_provider_list ERROR USE CACHE SUCCESS SIGNATURE " + request.POST['signature'])
                 except Exception as e:
                     _logger.error('ERROR get_list_provider_data file\n' + str(e) + '\n' + traceback.format_exc())
@@ -242,7 +246,10 @@ def get_provider_list(request):
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
-            res = file
+            if file and request.session['user_account']['co_ho_seq_id'] in file:
+                res = file[request.session['user_account']['co_ho_seq_id']]
+            else:
+                res = {}
         except Exception as e:
             _logger.error('ERROR get_list_provider_data file\n' + str(e) + '\n' + traceback.format_exc())
     return res
@@ -268,7 +275,7 @@ def get_provider_list_backend(request, signature=''):
             headers = {
                 "Accept": "application/json,text/html,application/xml",
                 "Content-Type": "application/json",
-                "action": "get_providers_ppob",
+                "action": "get_providers_ppob", ## MOBILE JGN DI GANTI
                 "signature": request.data['signature']
             }
             data = {

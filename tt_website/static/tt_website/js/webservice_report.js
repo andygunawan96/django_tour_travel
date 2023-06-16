@@ -41,8 +41,15 @@ $(document).ready(function(){
     });
 
     $('#agent_type').change(function(e){
+        var value_head_office = $( "#head_office").val();
         var value_agent_type = $( "#agent_type option:selected" ).attr('label');
-        filter_agent(result_data, value_agent_type);
+        filter_agent(result_data, value_agent_type, value_head_office);
+    });
+
+    $('#head_office').change(function(e){
+        var value_head_office = $( "#head_office" ).val();
+        var value_agent_type = $( "#agent_type option:selected" ).attr('label');
+        filter_agent(result_data, value_agent_type, value_head_office);
     });
 });
 
@@ -115,7 +122,7 @@ function get_report_overall(){
         success: function(result){
             data_report = result
             document.getElementById('update_chart_button').disabled = false;
-            filter_agent(result, '');
+            filter_agent(result, '', '');
             $("#get_report_startdate").val(result.start_date);
             $("#get_report_enddate").val(result.end_date);
 
@@ -631,6 +638,14 @@ function get_report_overall(){
                 agent_type_datalist += `<option value="`+ item['code'] +`" label="`+ item['id'] +`">`+ item['name'] +`</option>`;
             });
 
+            // proceed with ho data
+            var ho_datalist = ``;
+            result.raw_data.result.response.dependencies.ho_list.forEach(function(item){
+                if(item['seq_id'] != ""){
+                    ho_datalist += `<option value="`+ item['seq_id'] +`">`+ item['name'] +`</option>`;
+                }
+            });
+
             // proceed with agent data
             var agent_datalist = ``;
             result.raw_data.result.response.dependencies.agent_list.forEach(function(item){
@@ -640,26 +655,27 @@ function get_report_overall(){
             });
 
             $('#loading-report').hide();
-
-            // for debugging purposes
-//            console.log(agent_datalist);
-//            console.log(agent_type_datalist);
-//            console.log(provider_datalist);
-//            console.log(agent_datalist);
-
             // after document ready then show the input field and all
             $(document).ready(function(){
                 //destroy niceselect
 
                 $('#provider').niceSelect('destroy');
+                $('#head_office').niceSelect('destroy');
                 $('#agent').niceSelect('destroy');
                 // populating provider type
                 $('#provider_type').append(provider_type_datalist);
 
                 // populating provider selector
                 $('#provider').append(provider_datalist);
+                // change provider selector to text and dropdown (user can type the name of provider)
                 $('#provider').select2();
-                // change agent selector to text and dropdown (user can type the name of provider)
+
+                // populating agent selector
+                // agent list will be empty list if agent is not HO
+                $('#head_office').append(ho_datalist);
+                // change agent selector to text and dropdown (user can type the name of the agent)
+                $('#head_office').select2();
+
                 // populating agent type selector
                 // agent list will be empty list if agent is not HO
                 $('#agent_type').append(agent_type_datalist);
@@ -672,6 +688,13 @@ function get_report_overall(){
 
                 $('#provider_type').niceSelect('update');
                 $('#agent_type').niceSelect('update');
+
+                // if user is admin then shows the ho selector
+                // if not then hide
+                if(result.raw_data.result.response.dependencies.is_admin == 1){
+                    $('#ho_selector').show();
+                }
+
                 // if agent is HO then shows the agent type and agent selector
                 // if not then hide
                 if(result.raw_data.result.response.dependencies.is_ho == 1){
@@ -3358,16 +3381,26 @@ function filter_provider(result, provider_type_text){
     $('#provider').select2();
 }
 
-function filter_agent(result, agent_type_label){
+function filter_agent(result, agent_type_label, head_office_label){
     document.getElementById('agent').innerHTML = '';
     var agent_datalist = ``;
     agent_datalist += `<option value="" selected>All Agent</option>`;
+    var agent_type = parseInt(agent_type_label);
     result.raw_data.result.response.dependencies.agent_list.forEach(function(item){
-        var agent_type = parseInt(agent_type_label);
-        if(item['agent_type_id'] == agent_type){
+        if(head_office_label == '' && isNaN(agent_type)){
             agent_datalist += `<option value="`+ item['seq_id'] +`">`+ item['name'] +`</option>`;
-        }else if(isNaN(agent_type)==true){
-            agent_datalist += `<option value="`+ item['seq_id'] +`">`+ item['name'] +`</option>`;
+        }else if(head_office_label && agent_type){
+            if(item['ho_seq_id'] == head_office_label && item['agent_type_id'] == agent_type){
+                agent_datalist += `<option value="`+ item['seq_id'] +`">`+ item['name'] +`</option>`;
+            }
+        }else if(head_office_label){
+            if(item['ho_seq_id'] == head_office_label){
+                agent_datalist += `<option value="`+ item['seq_id'] +`">`+ item['name'] +`</option>`;
+            }
+        }else if(!isNaN(agent_type)){
+            if(item['agent_type_id'] == agent_type){
+                agent_datalist += `<option value="`+ item['seq_id'] +`">`+ item['name'] +`</option>`;
+            }
         }
     });
     $('#agent').append(agent_datalist);

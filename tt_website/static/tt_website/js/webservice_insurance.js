@@ -39,7 +39,6 @@ function insurance_signin(data){
        headers:{
             'action': 'signin',
        },
-//       url: "{% url 'tt_backend_rodextrip:social_media_tree_update' %}",
        data: {},
        success: function(msg) {
        try{
@@ -90,7 +89,47 @@ function insurance_signin(data){
     });
 }
 
-function insurance_get_config(page=false){
+function insurance_get_config_provider(page=false){
+    getToken();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/insurance",
+       headers:{
+            'action': 'get_config_provider',
+       },
+       data: {
+            'signature': signature
+       },
+       success: function(msg) {
+       try{
+           if(msg.result.error_code == 0){
+                insurance_get_config(page, msg.result.response);
+           }
+       }catch(err){
+           console.log(err);
+           Swal.fire({
+               type: 'error',
+               title: 'Oops...',
+               text: 'Something went wrong, please try again or check your internet connection',
+           })
+           $('.loader-rodextrip').fadeOut();
+        }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+          error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error medical signin');
+          $("#barFlightSearch").hide();
+          $("#waitFlightSearch").hide();
+          $('.loader-rodextrip').fadeOut();
+          try{
+            $("#show_loading_booking_insurance").hide();
+          }catch(err){
+            console.log(err); // error kalau ada element yg tidak ada
+          }
+       },timeout: 60000
+    });
+}
+
+function insurance_get_config(page=false, provider_allowed=[]){
     getToken();
     $.ajax({
        type: "POST",
@@ -98,14 +137,17 @@ function insurance_get_config(page=false){
        headers:{
             'action': 'get_config',
        },
-//       url: "{% url 'tt_backend_rodextrip:social_media_tree_update' %}",
        data: {
             'signature': signature
        },
        success: function(msg) {
        try{
            if(msg.result.error_code == 0){
-                insurance_config = msg.result.response;
+                insurance_config = {};
+                for(i in msg.result.response){
+                    if(provider_allowed.hasOwnProperty(i))
+                        insurance_config[i] = msg.result.response[i];
+                }
                 if(['home'].includes(page))
                     print_insurance();
                 insurance_print_provider();
@@ -366,7 +408,6 @@ function insurance_get_availability(){
        headers:{
             'action': 'get_availability',
        },
-//       url: "{% url 'tt_backend_rodextrip:social_media_tree_update' %}",
        data: {
             'signature': signature
        },
@@ -1131,7 +1172,6 @@ function insurance_get_kurs(){
        headers:{
             'action': 'get_kurs',
        },
-//       url: "{% url 'tt_backend_rodextrip:social_media_tree_update' %}",
        data: {
             'signature': signature
        },
@@ -1185,7 +1225,6 @@ function insurance_get_premi(){
        headers:{
             'action': 'get_premi',
        },
-//       url: "{% url 'tt_backend_rodextrip:social_media_tree_update' %}",
        data: {
             'signature': signature
        },
@@ -1239,7 +1278,6 @@ function insurance_check_benefit_data(){
        headers:{
             'action': 'check_benefit_data',
        },
-//       url: "{% url 'tt_backend_rodextrip:social_media_tree_update' %}",
        data: {
             'signature': signature
        },
@@ -1293,7 +1331,6 @@ function insurance_updata(){
        headers:{
             'action': 'updata',
        },
-//       url: "{% url 'tt_backend_rodextrip:social_media_tree_update' %}",
        data: {
             'signature': signature
        },
@@ -1347,7 +1384,6 @@ function insurance_login(){
        headers:{
             'action': 'login',
        },
-//       url: "{% url 'tt_backend_rodextrip:social_media_tree_update' %}",
        data: {
             'signature': signature
        },
@@ -1405,7 +1441,7 @@ function get_insurance_data_search_page(){
        },
        success: function(msg) {
            insurance_request = msg.insurance_request;
-           insurance_get_config('search');
+           insurance_get_config_provider('search');
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
 
@@ -1433,7 +1469,7 @@ function get_insurance_data_passenger_page(){
             for(i=0;i<adult;i++){
                 document.getElementById('adult_additional_data_for_insurance'+parseInt(parseInt(i)+1)).style.display = 'block';
             }
-            insurance_get_config('passenger');
+            insurance_get_config_provider('passenger');
             //harga kanan
             price_detail();
             var counter_additional = 0;
@@ -4700,7 +4736,7 @@ function onchange_provider_insurance(){
 
         $('#insurance_trip').niceSelect();
     }
-    else{
+    else if(insurance_provider == 'zurich'){
         //zurich
         if(template == 1){
         text +=`
@@ -5364,12 +5400,10 @@ function onchange_provider_insurance(){
         }
     });
     insurance_print_provider();
-//    insurance_get_config('home');
+//    insurance_get_config_provider('home');
 }
 
 function auto_complete_zurich(){
-    console.log(document.getElementById('insurance_destination_area').value);
-
     if(document.getElementById('insurance_destination_area').value != ''){
         country_list = insurance_config['zurich']['region'][document.getElementById('insurance_destination_area').value]['Countries'].split(',');
         zurich_insurance_destination = [];

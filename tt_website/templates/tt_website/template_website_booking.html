@@ -13,6 +13,11 @@ Licence URI: http://www.os-templates.com/template-terms
     <script>
         google_analytics = '{{google_analytics}}';
         google_tag_manager_key = '{{google_tag_manager_key}}';
+        {% if keep_me_signin == True %}
+        keep_me_signin = true;
+        {% else %}
+        keep_me_signin = false;
+        {% endif %}
     </script>
 
     {% if '{{google_tag_manager_key}}' != '' %}
@@ -175,6 +180,7 @@ Licence URI: http://www.os-templates.com/template-terms
         login_color_base = '{{login_background_color}}';
         login_color_base = login_color_base.substr(0,7);
         text_color_login = `{{text_color_login}}`;
+        backend_url = `{{backend_url}}`;
     </script>
 
     <!--template1-->

@@ -132,10 +132,14 @@ def index(request):
         user_default = get_credential_user_default(request, 'dict')
         if not request.session.get('user_account') and values['website_mode'] == 'btc' or not request.session.get('user_account') and values['website_mode'] == 'btc_btb':
             provider = signin_btc(request)
-            if provider['result']['response'].get('provider'):
-                values = get_data_template(request, 'home', provider['result']['response']['provider'])
-            else:
-                return no_credential_b2c(request)
+            try:
+                if provider['result']['response'].get('provider'):
+                    values = get_data_template(request, 'home', provider['result']['response']['provider'])
+                else:
+                    return no_credential_b2c(request)
+            except Exception as e:
+                _logger.error('Error user b2c auto sign in')
+                raise Exception('Make response code 409!')
         elif request.session.get('user_account') and values['website_mode'] == 'btb' or request.session.get('user_account') and values['website_mode'] == 'btb_with_signup_b2c':
             if request.session.get('user_account').get('co_user_login') == user_default.get('user_name', ''):
                 for key in reversed(list(request.session._session.keys())):
@@ -328,7 +332,7 @@ def index(request):
                                 'promotion_banner_value': check_banner('home', 'promotion', request),
                                 'dynamic_page_value': check_banner('', 'dynamic_page', request),
                             })
-                            # values.update(get_airline_advance_pax_type(request))
+                            values.update(get_airline_advance_pax_type(request))
                         except Exception as e:
                             _logger.error(str(e) + '\n' + traceback.format_exc())
                             raise Exception('Make response code 500!')
@@ -349,6 +353,8 @@ def index(request):
                 _logger.error("%s, %s" % (str(e), traceback.format_exc()))
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+        if str(e) == 'Make response code 409!':
+            return redirect('/error/credential')
     if translation.LANGUAGE_SESSION_KEY in request.session:
         del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
 
@@ -960,6 +966,7 @@ def admin(request):
                     'signature': request.session['signature'],
                     'data_font': data_font
                 })
+                values.update(get_airline_advance_pax_type(request))
             except Exception as e:
                 _logger.error(str(e) + '\n' + traceback.format_exc())
                 raise Exception('Make response code 500!')
@@ -1406,6 +1413,15 @@ def get_javascript_version(request):
             javascript_version = int(file)
         else:
             javascript_version = 1
+            try:
+                file = open("/var/log/django/global/file_cache/cache_web/javascript_version.txt", "r")
+                data = file.read()
+                file.close()
+                if data:
+                    javascript_version += int(data)
+            except Exception as e:
+                _logger.error("%s, %s" % (str(e), traceback.format_exc()))
+
             write_cache(javascript_version, 'javascript_version', request, True)
     except Exception as e:
         _logger.error('ERROR javascript_version file\n' + str(e) + '\n' + traceback.format_exc())
@@ -1472,7 +1488,7 @@ def get_data_template(request, type='home', provider_type = []):
     url_one_signal = ''
     authorization_one_signal = ''
     signup_btb_text = 'Want to join us as an agent?'
-    signup_btb_btn = 'Sign Up agent Here'
+    signup_btb_btn = 'Sign Up Agent Here'
     setting_login_page = 'website_name'
     google_tag_manager_key = ''
     get_frequent_flyer = []
@@ -1489,8 +1505,10 @@ def get_data_template(request, type='home', provider_type = []):
     default_user = ''
     default_password = ''
     is_show_breakdown_price = False
+    keep_me_signin = False
     ## live chat
-
+    if request.session.get('keep_me_signin'):
+        keep_me_signin = request.session['keep_me_signin']
     top_up_term = ''
     file = read_cache("data_cache_product", 'cache_web', request, 90911)
     if file:
@@ -1566,7 +1584,15 @@ def get_data_template(request, type='home', provider_type = []):
         top_up_term = file
     try:
         if type != 'login':
-            if request.session.get('keep_me_signin') == True:
+            is_session_expiry_need_to_update = False
+            if request.session.get('signin_date'):
+                if datetime.now().timestamp() > request.session['signin_date'] + 36000: ## sudah 1 jam update expiry
+                    is_session_expiry_need_to_update = True
+            else:
+                set_session(request, 'signin_date', datetime.now().timestamp())
+                is_session_expiry_need_to_update = True
+
+            if is_session_expiry_need_to_update:
                 request.session.set_expiry(3 * 60 * 60) # jam detik menit
                 request.session.modified = True
         response = get_cache_data(request)
@@ -1900,7 +1926,8 @@ def get_data_template(request, type='home', provider_type = []):
         'live_chat': live_chat,
         'default_user': default_user,
         'default_password': default_password,
-        'is_show_breakdown_price': is_show_breakdown_price
+        'is_show_breakdown_price': is_show_breakdown_price,
+        'keep_me_signin': keep_me_signin
     }
 
 
@@ -2131,6 +2158,15 @@ def privacy_policy(request):
     })
     return render(request, MODEL_NAME + '/policy.html', values)
 
+def error_credential(request):
+    values = get_data_template(request, 'login')
+    javascript_version = get_javascript_version(request)
+    values.update({
+        'static_path': path_util.get_static_path(MODEL_NAME),
+        'javascript_version': javascript_version,
+        'static_path_url_server': get_url_static_path(),
+    })
+    return render(request, MODEL_NAME + '/error/409.html', values)
 
 # @api_view(['GET'])
 # def testing(request):
