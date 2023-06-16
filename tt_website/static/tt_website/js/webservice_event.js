@@ -949,7 +949,7 @@ function event_get_booking(data){
             // === Button 3 ===
             if (msg.result.response.state  == 'issued') {
                 print_text+=`
-                <button class="primary-btn hold-seat-booking-train ld-ext-right" type="button" onclick="window.location.href='https://backend.rodextrip.com/rodextrip/report/pdf/tt.agent.invoice/`+msg.result.response.name+`'" style="width:100%;" >
+                <button class="primary-btn hold-seat-booking-train ld-ext-right" type="button" onclick="window.location.href='`+backend_url+`/orbisway/report/pdf/tt.agent.invoice/`+msg.result.response.name+`'" style="width:100%;" >
                     Print Invoice
                     <div class="ld ld-ring ld-cycle"></div>
                 </button>`;

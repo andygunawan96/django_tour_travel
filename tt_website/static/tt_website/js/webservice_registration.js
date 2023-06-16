@@ -84,7 +84,7 @@ function agent_register_get_config(){
             'action': 'get_config',
        },
        data: {
-
+            'signature': signature
        },
        success: function(msg) {
             agent_register_get_requirement_list_doc();
@@ -97,7 +97,7 @@ function agent_register_get_config(){
             text_partnership = ``;
             var partnership_idx = 0;
             for(i in msg.result.response.agent_type){
-                text+=`<option value="`+msg.result.response.agent_type[i].name+`">`+msg.result.response.agent_type[i].name+`</option>`;
+                text+=`<option value="`+msg.result.response.agent_type[i].id+`">`+msg.result.response.agent_type[i].name+`</option>`;
                 if (partnership_idx == 0)
                 {
                     text_partnership_tab += `
@@ -185,23 +185,15 @@ function onchange_agent_type(){
     text = '';
     msg = agent_regis_config;
     for(i in msg.result.response.company_type){
-        if(document.getElementById('agent_type').value == "Agent Citra" && i == 0){
-            text+= `<label class="radio-button-custom">
-                    <span style="font-size:14px;">`+msg.result.response.company_type[i][1]+`</span>
-                    <input disabled type="radio" name="radio_company_type" value="`+msg.result.response.company_type[i][0]+`" onclick="set_company_type();">
-                    <span class="checkmark-radio"></span>
-                </label>`;
-        }else{
-            text+= `<label class="radio-button-custom">
+        text+= `<label class="radio-button-custom">
                     <span style="font-size:14px;">`+msg.result.response.company_type[i][1]+`</span>
                     <input type="radio" name="radio_company_type" value="`+msg.result.response.company_type[i][0]+`" onclick="set_company_type();">
                     <span class="checkmark-radio"></span>
                 </label>`;
-        }
     }
     term_text = '';
     for(i in msg.result.response.agent_type){
-        if(document.getElementById('agent_type').value == msg.result.response.agent_type[i].name){
+        if(document.getElementById('agent_type').value == msg.result.response.agent_type[i].id){
             if(msg.result.response.agent_type[i].terms_and_condition)
             {
                 term_text += msg.result.response.agent_type[i].terms_and_condition;
@@ -226,7 +218,7 @@ function get_promotions(){
             'action': 'get_promotions',
        },
        data: {
-            'signature': ''
+            'signature': signature
        },
        success: function(msg) {
 //            if(msg.result.error_code == 0)
@@ -327,7 +319,7 @@ function agent_register_get_requirement_list_doc(){
             'action': 'get_requirement_list_doc',
        },
        data: {
-
+            'signature': signature
        },
        success: function(msg) {
             if(msg.result.error_code == 0)
@@ -341,7 +333,8 @@ function agent_register_get_requirement_list_doc(){
 
 function auto_complete_registration(type){
     if(type == 'agent_type'){
-        document.getElementById('agent_type').value = document.getElementById('select2-'+type+'_id-container').innerHTML;
+        var agent_type_selection = document.getElementById('agent_type_id');
+        document.getElementById('agent_type').value = agent_type_selection.options[agent_type_selection.selectedIndex].value;
     }else if(type == 'country'){
         var text = `<option value="" selected="">Cities</option>`;
         var country = {};
@@ -712,7 +705,7 @@ function set_document_requirement(){
 //        delete_table_of_doc();
 //    }
     for(i in requirement_document){
-        if(document.getElementById('agent_type').value == requirement_document[i].name){
+        if(document.getElementById('agent_type').value == requirement_document[i].id){
             for(j in requirement_document[i].docs){
                 if(requirement_document[i].docs[j].document_type == 'registration')
                     add_table_of_doc(requirement_document[i].docs[j].display_name);

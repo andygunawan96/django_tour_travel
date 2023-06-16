@@ -70,6 +70,8 @@ def api_models(request):
             res = get_premi(request)
         elif req_data['action'] == 'get_config':
             res = get_config(request)
+        elif req_data['action'] == 'get_config_provider':
+            res = get_config_provider(request)
         elif req_data['action'] == 'check_benefit_data':
             res = check_benefit_data(request)
         elif req_data['action'] == 'sell_insurance':
@@ -327,6 +329,72 @@ def get_config(request, signature=''):
                 res = file
     else:
         res = file
+    return res
+
+def get_config_provider(request):
+    try:
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "get_provider_list",
+            "signature": request.POST['signature']
+        }
+        data = {
+            "provider_type": 'insurance'
+        }
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    file = read_cache("insurance_provider", 'cache_web', request)
+    if not file:
+        url_request = get_url_gateway('content')
+        res = send_request_api(request, url_request, headers, data, 'POST')
+        try:
+            if res['result']['error_code'] == 0:
+                #datetime
+                temp = {}
+                for ho_seq_id in res['result']['response']:
+                    temp[ho_seq_id] = {}
+                    for provider in res['result']['response'][ho_seq_id]:
+                        temp[ho_seq_id][provider['provider']] = provider
+                write_cache(temp, "insurance_provider", request, 'cache_web')
+                _logger.info("get_providers_list INSURANCE RENEW SUCCESS SIGNATURE " + request.POST['signature'])
+                if request.session['user_account']['co_ho_seq_id'] in temp:
+                    res = {
+                        "result": {
+                            "error_code": 0,
+                            "error_msg": '',
+                            "response": temp[request.session['user_account']['co_ho_seq_id']]
+                        }
+                    }
+
+            else:
+                try:
+                    file = read_cache("insurance_provider", 'cache_web', request, 90911)
+                    if file and request.session['user_account']['co_ho_seq_id'] in file:
+                        res = {
+                            "result": {
+                                "error_code": 0,
+                                "error_msg": '',
+                                "response": file[request.session['user_account']['co_ho_seq_id']]
+                            }
+                        }
+                    _logger.info("get_provider_list ERROR USE CACHE SUCCESS SIGNATURE " + request.POST['signature'])
+                except Exception as e:
+                    _logger.info("ERROR read file insurance_provider SIGNATURE " + request.POST['signature'])
+        except Exception as e:
+            _logger.error(str(e) + '\n' + traceback.format_exc())
+    else:
+        try:
+            if file and request.session['user_account']['co_ho_seq_id'] in file:
+                res = {
+                    "result": {
+                        "error_code": 0,
+                        "error_msg": '',
+                        "response": file[request.session['user_account']['co_ho_seq_id']]
+                    }
+                }
+        except Exception as e:
+            _logger.error('ERROR get_provider_list insurance file\n' + str(e) + '\n' + traceback.format_exc())
     return res
 
 def get_data_search_page(request):

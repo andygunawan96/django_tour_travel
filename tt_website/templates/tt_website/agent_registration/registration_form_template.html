@@ -91,7 +91,7 @@
                                     <span class="control-label" for="city_id">{% trans 'Agent Type' %}<span class="required-txt" style="color:red;">* </span></span>
                                     <div class="input-container-search-ticket">
                                         <div class="form-select">
-                                            <select class="form-control js-example-basic-single" style="width:100%;" id="agent_type_id" placeholder="{% trans 'Destination' %}" onchange="auto_complete('agent_type');set_document_requirement();onchange_agent_type();">
+                                            <select class="form-control js-example-basic-single" style="width:100%;" id="agent_type_id" placeholder="{% trans 'Destination' %}" onchange="auto_complete_registration('agent_type');set_document_requirement();onchange_agent_type();">
 
                                             </select>
                                         </div>
@@ -1635,7 +1635,7 @@
 <script>
     $( document ).ready(function() {
         $('.js-example-basic-single').select2();
-        signin_rodextrip('registration');
+        signin_orbisway('registration');
         get_privacy_policy('registration');
         get_term_and_condition('registration');
     });

@@ -37,7 +37,6 @@ function group_booking_signin(data){
        headers:{
             'action': 'signin',
        },
-//       url: "{% url 'tt_backend_rodextrip:social_media_tree_update' %}",
        data: {},
        success: function(msg) {
        try{
@@ -141,7 +140,6 @@ function group_booking_get_config(page=false){
        headers:{
             'action': 'get_config',
        },
-//       url: "{% url 'tt_backend_rodextrip:social_media_tree_update' %}",
        data: {
             'signature': signature
        },

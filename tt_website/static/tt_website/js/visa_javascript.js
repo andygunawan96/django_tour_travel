@@ -587,22 +587,22 @@ function update_table_new(type){
                 }
                 text+=`
                 <div class="row">`;
-                if(typeof upsell_price_dict !== 'undefined' && upsell_price_dict.hasOwnProperty(visa.list_of_visa[i].pax_type[0])){ //with upsell
+                if(typeof upsell_price_dict !== 'undefined' && upsell_price_dict.hasOwnProperty(sell_visa.search_data[i].pax_type)){ //with upsell
                     text+=`
                     <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                        <span style="font-size:13px;">`+visa.list_of_visa[i].pax_count+` `+visa.list_of_visa[i].pax_type[1]+` <br/> `+visa.list_of_visa[i].visa_type[1]+`, `+visa.list_of_visa[i].entry_type[1]+` <br/> `+currency+` `+getrupiah((price_perpax + upsell_price_dict[visa.list_of_visa[i].pax_type[0]]) / visa.list_of_visa[i].pax_count)+`</span>
+                        <span style="font-size:13px;">`+sell_visa.search_data[i].pax_count+` `+sell_visa.search_data[i].pax_type+` <br/> `+sell_visa.search_data[i].visa_type[1]+`, `+sell_visa.search_data[i].entry_type+` <br/> `+currency+` `+getrupiah((price_perpax + upsell_price_dict[sell_visa.search_data[i].pax_type]))+`</span>
                     </div>
                     <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                        <span style="font-size:13px;">`+currency+` `+getrupiah(price_perpax + upsell_price_dict[visa.list_of_visa[i].pax_type[0]])+`</span>
+                        <span style="font-size:13px;">`+currency+` `+getrupiah((price_perpax + upsell_price_dict[sell_visa.search_data[i].pax_type])*sell_visa.search_data[i].pax)+`</span>
                     </div>`;
-                    commission += upsell_price_dict[visa.list_of_visa[i].pax_type[0]]
+                    commission += upsell_price_dict[sell_visa.search_data[i].pax_type]
                 }else{
                     text+=`
                     <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                        <span style="font-size:13px;">`+visa.list_of_visa[i].pax_count+` `+visa.list_of_visa[i].pax_type[1]+` <br/> `+visa.list_of_visa[i].visa_type[1]+`, `+visa.list_of_visa[i].entry_type[1]+` <br/> `+currency+` `+getrupiah(price_perpax / visa.list_of_visa[i].pax_count)+`</span>
+                        <span style="font-size:13px;">`+sell_visa.search_data[i].pax_count+` `+sell_visa.search_data[i].pax_type+` <br/> `+sell_visa.search_data[i].visa_type+`, `+sell_visa.search_data[i].entry_type+` <br/> `+currency+` `+getrupiah(price_perpax)+`</span>
                     </div>
                     <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                        <span style="font-size:13px;">`+currency+` `+getrupiah(price_perpax)+`</span>
+                        <span style="font-size:13px;">`+currency+` `+getrupiah(price_perpax*sell_visa.search_data[i].pax_count)+`</span>
                     </div>`;
                 }
                 text+=`
@@ -643,7 +643,7 @@ function update_table_new(type){
 
             }
             try{
-                price += price_perpax;
+                price += price_perpax * sell_visa.search_data[i].pax_count;
                 for(j in sell_visa.search_data[i].service_charges)
                     if(sell_visa.search_data[i].service_charges[j].charge_type == 'RAC')
                         commission += (sell_visa.search_data[i].service_charges[j].total * -1);
@@ -1085,7 +1085,7 @@ function update_table_new(type){
             text_detail+=`
                 </div>
             </div>`;
-            if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
+            if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false && user_login.co_agent_frontend_security.includes('see_commission')){
                 text_detail+=`
                 <div class="row" id="show_commission" style="display:block;">
                     <div class="col-lg-12 col-xs-12" style="text-align:center;">
@@ -2191,7 +2191,7 @@ function update_table(type){
             text_detail+=`
                 </div>
             </div>`;
-            if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
+            if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false && user_login.co_agent_frontend_security.includes('see_commission')){
                 text_detail+=`
                 <div class="row" id="show_commission" style="display:block;">
                     <div class="col-lg-12 col-xs-12" style="text-align:center;">
