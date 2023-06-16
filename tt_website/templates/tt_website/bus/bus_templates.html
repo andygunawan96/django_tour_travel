@@ -711,7 +711,7 @@
                     {% endif %}
                     {% else %}
                     <div class="col-lg-12 header-right" style="padding:50px 0px 50px 20px;">
-                        <h4>Already a RODEXTRIP member?</h4>
+                        <h4>Already a {{name}} member?</h4>
                         <h5>Sign in to make booking easier!</h5>
 
                         <button class="primary-btn-ticket" type="button" style="margin-top:15px;" onclick="location.href='{% url 'tt_website:login'%}';">
@@ -845,7 +845,7 @@
                 Hello, Guest !
             </h3>
             <h4 style="padding-top:5px; padding-bottom:15px; color:{{text_color}};">
-                Enjoy your trip with RODEXTRIP
+                Enjoy your trip with {{name}}
             </h4>
         </div>
         {% endif %}
@@ -1000,7 +1000,7 @@
                             </div>
                             {% else %}
                             <div class="col-xl-12" style="text-align:center; box-shadow:0 2px 15px 1px rgba(0, 0, 0, 0.35); padding: 15px 0px;">
-                                <h4>Already a RODEXTRIP member?</h4>
+                                <h4>Already a {{name}} member?</h4>
                                 <h5>Sign in to make booking easier!</h5>
 
                                 <button class="primary-btn-ticket" type="button" style="margin-top:15px;" onclick="location.href='{% url 'tt_website:login'%}';">
@@ -1266,7 +1266,7 @@
                             </div>
                             {% else %}
                             <div class="col-xl-12" style="text-align:left;">
-                                <h4>Already a RODEXTRIP member?</h4>
+                                <h4>Already a {{name}} member?</h4>
                                 <h5>Sign in to make booking easier!</h5>
                                 <br/>
                                 <button class="primary-btn-ticket" type="button" style="margin-top:15px;" onclick="location.href='{% url 'tt_website:login'%}';">
