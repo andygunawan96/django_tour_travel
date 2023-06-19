@@ -90,7 +90,7 @@
 			<div class="col-lg-12" style="height: 100vh;">
 				<div class="login_page_left">
 					<span class="login100-form-title">
-						<h5 style="font-weight:bold;">Grow your business with <span style="color:{{color}};">{{name}}</span></h5>
+						<h3 style="font-weight:bold;">Grow your business with <span style="color:{{color}};">{{name}}</span></h3>
 						{% if setting_login_page == 'website_logo' %}
 						<img src="{{logo}}" class="logo-login" alt="Logo {{name}}" title="{{name}}" style="max-width:20% !imporatant; max-height:20% !important;" />
 						{% endif %}
@@ -107,13 +107,13 @@
 										<div class="col-lg-12 mb-4">
 											<div class="input-container-login">
 												<i class="fas fa-user icon-login"></i>
-												<input type="text" class="form-login-control" id="username2" name="username" placeholder="{% trans 'Username' %}"/>
+												<input type="text" class="form-login-control" id="username" name="username" placeholder="{% trans 'Username' %}"/>
 											</div>
 										</div>
 										<div class="col-lg-12 mb-3">
 											<div class="input-container-login">
 												<i class="fas fa-lock icon-login"></i>
-												<input type="password" class="form-login-control" id="password2" name="password" placeholder="{% trans 'Password' %}"/>
+												<input type="password" class="form-login-control" id="password" name="password" placeholder="{% trans 'Password' %}"/>
 												<div style="margin-top:10px; width:50px; margin-left:10px;" onclick="change_password_type();">
 													<i id="password_style" class="fas fa-eye-slash" style="font-size:18px; cursor:pointer;"></i>
 												</div>
@@ -123,14 +123,14 @@
 											<div class="input-container-login" style="margin-top:10px;">
 												<label class="check_box_custom" style="margin-bottom:0px; margin-right:15px;">
 													<span style="font-size:13px; font-weight:600;">{% trans 'Keep Me Signin' %}</span>
-													<input type="checkbox" value="" id="keep_me_signin2" name="keep_me_signin" checked="checked">
+													<input type="checkbox" value="" id="keep_me_signin" name="keep_me_signin" checked="checked">
 													<span class="check_box_span_custom"></span>
 												</label>
 											</div>
 										</div>
 										<div class="col-lg-12 mb-3" style="text-align:right;">
-											<input type="hidden" id="response2" name="response2">
-											<button id="login-form-home2" class="primary-btn button-login ld-ext-right" style="line-height:40px; width:100%;">
+											<input type="hidden" id="response" name="response">
+											<button id="login-form-home" class="primary-btn button-login ld-ext-right" style="line-height:40px; width:100%;">
 												{% trans 'Login' %}
 												<div class="ld ld-ring ld-cycle"></div>
 											</button>
