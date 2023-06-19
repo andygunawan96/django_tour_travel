@@ -2194,8 +2194,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .main-menu {
-  padding-bottom: 15px;
-  padding-top: 15px;
+  padding-bottom: 10px;
+  padding-top: 10px;
   margin-bottom:-1px;
   background: rgba(255, 255, 255, 1);
   padding-left: 15px;
@@ -2300,7 +2300,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Nav Meu Styling */
 .nav-menu a {
-  padding: 0 8px 0px 8px;
+  padding: 0 8px 5px 8px;
   text-decoration: none;
   display: inline-block;
   color: #000;
@@ -2315,8 +2315,19 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .nav-menu > li {
-  margin-left: 0px;
+  margin-left: 5px;
 }
+
+@media (max-width: 991px) {
+    #mobile-nav ul li{
+      margin-left: 10px;
+      margin-right: 10px;
+    }
+    #mobile-nav ul li button{
+        width: 100%;
+    }
+}
+
 
 .nav-menu ul {
   margin: 0px -20px 0px 0px;
@@ -2384,10 +2395,17 @@ h1, h2, h3, h4, h5, h6 {
   z-index: 998;
   background: rgba(255, 255, 255, 1);
   border-right:2px solid #cdcdcd;
-  left: -260px;
-  width: 260px;
+  left: -300px;
+  width: 300px;
   overflow-y: auto;
   transition: 0.4s;
+}
+
+@media (max-width: 575px) {
+    #mobile-nav {
+        width: 260px;
+        left: -260px;
+    }
 }
 
 #mobile-nav ul {
@@ -2489,6 +2507,7 @@ body.mobile-nav-active #mobile-nav-toggle {
 
 #nav-menu-container {
   padding-right: 0px;
+  margin-top: 10px;
 }
 
 .primary-btn span {
@@ -5068,6 +5087,12 @@ div.scrollmenu li {
 @media (max-width: 991px) {
     .dropdown-menu{
         right: unset !important;
+    }
+}
+
+@media only screen and (max-width: 991px) {
+    #mobile-nav ul li{
+        background: unset !important;
     }
 }
 

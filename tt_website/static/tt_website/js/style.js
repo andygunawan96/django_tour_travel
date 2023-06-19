@@ -3881,6 +3881,7 @@ function go_guide(id){
 
 function open_signin_modal(){
     $('#mylogintemplate6').modal('show');
+    $('#overlay_menu_mobile').show();
 }
 
 function open_signup_modal(){

@@ -95,7 +95,7 @@ function get_privacy_policy(type){
                         document.getElementById('privacy_title').innerHTML = msg.result.response[0].title;
                         document.getElementById('privacy_body').innerHTML = msg.result.response[0].body;
                     }else if(type == 'footer'){
-                        document.getElementById('about_ul').innerHTML += `<li><a href="/policy">`+msg.result.response[0].title+`</a></li>`;
+                        document.getElementById('about_ul').innerHTML += `<li style="margin-top:10px;"><a href="/policy">`+msg.result.response[0].title+`</a></li>`;
                     }else if(type == 'registration'){
                         if(msg.result.response[0].active == 'active'){
                             document.getElementById('div_policy_active').value = 'active';

@@ -393,6 +393,7 @@ input:focus {
 
 /* :: 5.0 Backtotop Area CSS */
 #scrollUp {
+  display: none !important;
   position: fixed;
   font-size: 24px;
   line-height: 45px;
@@ -595,13 +596,13 @@ input:focus {
       color: #2a303b;
       font-weight: 600;
       position:relative;
-      bottom:5px;
+      bottom:7px;
       padding: 0px 8px; }
       @media only screen and (min-width: 1006px) and (max-width: 1199px) {
         .classy-nav-container .classy-navbar .classynav ul li a {
           font-size: 13px;
           padding: 0 5px; } }
-      @media only screen and (min-width: 768px) and (max-width: 1005px) {
+      @media only screen and (min-width: 768px) and (max-width: 991px) {
         .classy-nav-container .classy-navbar .classynav ul li a {
           font-size: 13px;
           color: #2a303b !important; }
@@ -2883,3 +2884,15 @@ ul.tabs{
 .form-select{
     margin-bottom: 0px;
 }
+
+
+.breakpoint-on .classynav ul{
+    padding: 10px;
+}
+
+@media only screen and (max-width: 991px) {
+    .breakpoint-on .classynav > ul > li > a{
+        background: unset !important;
+    }
+}
+
