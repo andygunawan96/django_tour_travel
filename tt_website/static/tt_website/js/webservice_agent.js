@@ -96,41 +96,21 @@ function signin(){
     password = '';
     keep_me_signin = false;
     check = 0;
-    if( $(window).width() > 767){
-        if($('#username2').val() != '' && $('#password2').val() != ''){
-            username = $('#username2').val();
-            password = $('#password2').val();
-            keep_me_signin = $('#keep_me_signin2').is(':checked');
-            check = 1;
-            $('.button-login').addClass("running");
-            $('.button-login').prop('disabled', true);
-        }else{
-            $('.button-login').prop('disabled', false);
-            $('.button-login').removeClass("running");
-            Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              text: 'Please input username and password',
-            })
-        }
-    }
-    else{
-        if($('#username').val() != '' && $('#password').val() != ''){
-            username = $('#username').val();
-            password = $('#password').val();
-            keep_me_signin = $('#keep_me_signin').is(':checked');
-            check = 1;
-            $('.button-login').addClass("running");
-            $('.button-login').prop('disabled', true);
-        }else{
-            $('.button-login').prop('disabled', false);
-            $('.button-login').removeClass("running");
-            Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              text: 'Please input username and password',
-            })
-        }
+    if($('#username').val() != '' && $('#password').val() != ''){
+        username = $('#username').val();
+        password = $('#password').val();
+        keep_me_signin = $('#keep_me_signin').is(':checked');
+        check = 1;
+        $('.button-login').addClass("running");
+        $('.button-login').prop('disabled', true);
+    }else{
+        $('.button-login').prop('disabled', false);
+        $('.button-login').removeClass("running");
+        Swal.fire({
+          type: 'error',
+          title: 'Oops!',
+          text: 'Please input username and password',
+        })
     }
     if(check == 1){
         $.ajax({
@@ -2858,7 +2838,7 @@ function get_customer_list(passenger, number, product){
 
 function gotoForm(){
     document.getElementById('myForm').submit();
-    //document.getElementById('myForm2').submit();
+//    document.getElementById('myForm2').submit();
 }
 
 function change_booker_value(type){

@@ -86,6 +86,7 @@ a:hover{
 
 .our-services .single-services{
     border-radius: 14px;
+    border: 2px solid #205B95;
 }
 
 .our-services .single-services .services-cap h5{
