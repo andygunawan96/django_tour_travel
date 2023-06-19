@@ -6,15 +6,26 @@
 <script src="{{ static_path }}js/terms_javascript.js?version={{javascript_version}}"></script>
 
 {% if template == 1%}
-<button onclick="topFunction()" id="myBtnBTP" title="Go to top">
-    <span><i class="fas fa-chevron-up"></i></span>
-</button>
-
 <footer class="footer-area section-gap">
     <div class="container">
         <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 mb-3">
-                <h6 style="color:black;">{% trans 'About' %} {{name}}</h6>
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 mb-3">
+                <a href="{% url 'tt_website:index'%}"><img id="logo_header" src="{{logo}}" style="max-height:60px;max-width:225px;" alt="Logo {{name}}" title="{{name}}" /></a>
+                <br/>
+                <h6 class="mt-3" style="color:black;">{% trans 'Information' %}</h6>
+                <p>
+                    {% for description in contact_us%}
+                    {{description}}
+                    <br/>
+                    {% endfor %}
+                </p>
+                <div id="payment_partner_footer_div" class="mb-3">
+
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3">
+                <h6 style="color:black;">{% trans 'About' %}{{name}}</h6>
                 <div class="single-footer-widget">
                     <ul id="about_ul" style="padding-inline-start: 0px;">
                         <li><a href="/about_us">{% trans 'About Us' %}</a></li>
@@ -25,12 +36,8 @@
                         {% endif %}
                     </ul>
                 </div>
-                <div id="payment_partner_footer_div" class="mb-3">
-
-                </div>
             </div>
-
-            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3">
                 <h6 style="color:black;">{% trans 'Our Product' %}</h6>
                 <div class="single-footer-widget">
                     <div class="row">
@@ -62,14 +69,7 @@
                 </div>
             </div>
 
-            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
-                <h6 style="color:black;">{% trans 'Information' %}</h6>
-                <p>
-                    {% for description in contact_us%}
-                    {{description}}
-                    <br/>
-                    {% endfor %}
-                </p>
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3">
 
                 <div id="contact_footer_div">
 
@@ -94,9 +94,26 @@
     <div class="main-footer-area">
         <div class="container">
             <div class="row align-items-baseline justify-content-between">
-                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
-                    <div class="single-footer-widget mb-80">
-                        <h5 class="widget-title" style="color:black;">{% trans 'About' %} {{name}}</h5>
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3">
+                    <div class="single-footer-widget mb-30">
+                        <a href="{% url 'tt_website:index'%}"><img id="logo_header" src="{{logo}}" style="max-height:60px;max-width:225px;" alt="Logo {{name}}" title="{{name}}" /></a>
+
+                        <h5 class="mt-3 widget-title" style="color:black; font-size:22px; margin-bottom:25px;">{% trans 'Information' %}</h5>
+                        <span style="color:black;">
+                            {% for description in contact_us%}
+                            {{description}}
+                            <br/>
+                            {% endfor %}
+                        </span>
+                        <div id="payment_partner_footer_div" class="mb-3">
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3">
+                    <div class="single-footer-widget mb-30">
+                        <h5 class="widget-title" style="color:black;">{% trans 'About' %}{{name}}</h5>
                         <div class="single-footer-widget">
                             <ul class="footer-nav" id="about_ul">
                                 <li><a href="/about_us">{% trans 'About Us' %}</a></li>
@@ -107,19 +124,15 @@
                                 {% endif %}
                             </ul>
                         </div>
-                        <div id="payment_partner_footer_div" class="mb-3">
-
-                        </div>
                     </div>
                 </div>
-
-                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
-                    <div class="single-footer-widget mb-80">
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3">
+                    <div class="single-footer-widget mb-30">
                         <h5 class="widget-title" style="color:black;">{% trans 'Our Product' %}</h5>
                         <div class="row">
                             {% for provider_type in provider_types %}
                             {% if forloop.counter == 1 or forloop.counter == provider_divider_start %}
-                            <div class="col-xs-12 col-sm-6 col-lg-6">
+                            <div class="col-xs-6 col-sm-6 col-lg-6">
                                 <ul class="footer-nav">
                             {% endif %}
                             {% if provider_type != 'payment' and  provider_type != 'bank' and provider_type != 'health_care' %}
@@ -144,17 +157,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                <div class="col-xs-12 col-sm-4 col-md-6 col-lg-3">
                     <div class="mb-30">
                         <div class="row">
                             <div class="col-xs-12">
-                                <h5 class="widget-title" style="color:black; font-size:22px; margin-bottom:25px;">{% trans 'Information' %}</h5>
-                                <span>
-                                    {% for description in contact_us%}
-                                    {{description}}
-                                    <br/>
-                                    {% endfor %}
-                                </span>
 
                                 <div id="contact_footer_div">
 
@@ -189,9 +195,24 @@
 <footer class="footer-area section-gap">
     <div class="container">
         <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3">
                 <div class="single-footer-widget">
-                    <h6 style="color:black;">About {{name}}</h6>
+                    <a href="{% url 'tt_website:index'%}"><img id="logo_header" src="{{logo}}" style="max-height:60px;max-width:225px;" alt="Logo {{name}}" title="{{name}}" /></a>
+                    <h6 class="mt-3" style="color:black;">{% trans 'Information' %}</h6>
+                    <p>
+                        {% for description in contact_us%}
+                        {{description}}
+                        <br/>
+                        {% endfor %}
+                    </p>
+                    <div id="payment_partner_footer_div" class="mb-3">
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3">
+                <div class="single-footer-widget">
+                    <h6 style="color:black;">{% trans 'About' %}{{name}}</h6>
                     <div class="single-footer-widget">
                         <ul class="footer-nav" id="about_ul">
                             <li><a href="/about_us">{% trans 'About Us' %}</a></li>
@@ -202,18 +223,15 @@
                             {% endif %}
                         </ul>
                     </div>
-                    <div id="payment_partner_footer_div" class="mb-3">
-
-                    </div>
                 </div>
             </div>
-            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3">
                 <div class="single-footer-widget">
                     <h6 style="color:black;">{% trans 'Our Product' %}</h6>
                     <div class="row">
                         {% for provider_type in provider_types %}
                         {% if forloop.counter == 1 or forloop.counter == provider_divider_start %}
-                        <div class="col-xs-12 col-sm-6 col-lg-6">
+                        <div class="col-xs-6 col-sm-6 col-lg-6">
                             <ul class="footer-nav">
                         {% endif %}
                         {% if provider_type != 'payment' and  provider_type != 'bank' and provider_type != 'health_care' %}
@@ -238,15 +256,8 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3">
                 <div class="single-footer-widget">
-                    <h6 style="color:black;">{% trans 'Information' %}</h6>
-                    <p>
-                        {% for description in contact_us%}
-                        {{description}}
-                        <br/>
-                        {% endfor %}
-                    </p>
                     <div id="contact_footer_div">
 
                     </div>
@@ -264,17 +275,27 @@
         </div>
     </div>
 </footer>
-<button onclick="topFunction()" id="myBtnBTP" title="Go to top">
-    <span style="color:{{text_color}}; font-size:20px;"><i class="fas fa-chevron-up"></i></span>
-</button>
 {% elif template == 4%}
 <footer class="site-footer" style="padding:3em 0 !important;">
     <div class="container">
         <div class="row">
             <div class="col-md-12">
                 <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
-                        <h2 class="footer-heading mb-4" style="color:black;">About {{name}}</h2>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3">
+                        <a href="{% url 'tt_website:index'%}"><img id="logo_header" src="{{logo}}" style="max-height:60px;max-width:225px;" alt="Logo {{name}}" title="{{name}}" /></a>
+                        <h2 class="footer-heading mb-4 mt-3" style="color:black;">{% trans 'Information' %}</h2>
+                        <p>
+                            {% for description in contact_us%}
+                            {{description}}
+                            <br/>
+                            {% endfor %}
+                        </p>
+                        <div id="payment_partner_footer_div" class="mb-3">
+
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3">
+                        <h2 class="footer-heading mb-4" style="color:black;">{% trans 'About' %}{{name}}</h2>
                         <div class="single-footer-widget">
                             <ul class="footer-nav" id="about_ul">
                                 <li><a href="/about_us">{% trans 'About Us' %}</a></li>
@@ -285,11 +306,8 @@
                                 {% endif %}
                             </ul>
                         </div>
-                        <div id="payment_partner_footer_div" class="mb-3">
-
-                        </div>
                     </div>
-                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3">
                         <h2 class="footer-heading mb-4" style="color:black;">{% trans 'Our Product' %}</h2>
                         <div class="row">
                             {% for provider_type in provider_types %}
@@ -318,14 +336,7 @@
                             {% endfor %}
                         </div>
                     </div>
-                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
-                        <h2 class="footer-heading mb-4" style="color:black;">{% trans 'Information' %}</h2>
-                        <p>
-                            {% for description in contact_us%}
-                            {{description}}
-                            <br/>
-                            {% endfor %}
-                        </p>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3">
                         <div id="contact_footer_div">
 
                         </div>
@@ -349,16 +360,29 @@
         </div>
     </div>
 </footer>
-<button onclick="topFunction()" id="myBtnBTP" title="Go to top">
-    <span style="color:{{text_color}}; font-size:20px;"><i class="fas fa-chevron-up"></i></span>
-</button>
 {% elif template == 5%}
 <footer class="footer-area section-gap" style="border-top:1px solid #cdcdcd;">
     <div class="container">
         <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3">
                 <div class="single-footer-widget">
-                    <h4 style="color:black;">About {{name}}</h4><br/>
+                    <a href="{% url 'tt_website:index'%}"><img id="logo_header" src="{{logo}}" style="max-height:60px;max-width:225px;" alt="Logo {{name}}" title="{{name}}" /></a>
+                    <h4 class="mt-3" style="color:black;">{% trans 'Information' %}</h4><br/>
+                    <p>
+                        {% for description in contact_us%}
+                        {{description}}
+                        <br/>
+                        {% endfor %}
+                    </p>
+
+                    <div id="payment_partner_footer_div" class="mb-3">
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3">
+                <div class="single-footer-widget">
+                    <h4 style="color:black;">{% trans 'About' %}{{name}}</h4><br/>
                     <div class="footer-social d-flex align-items-center">
                         <ul class="footer-nav" id="about_ul">
                             <li><a href="/about_us">{% trans 'About Us' %}</a></li>
@@ -369,19 +393,16 @@
                             {% endif %}
                         </ul>
                     </div>
-                    <div id="payment_partner_footer_div" class="mb-3">
-
-                    </div>
                 </div>
             </div>
-            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3">
                 <div class="single-footer-widget">
                     <h4 style="color:black;">{% trans 'Our Product' %}s</h4><br/>
                     <div class="footer-social d-flex align-items-center">
                         <div class="row">
                             {% for provider_type in provider_types %}
                             {% if forloop.counter == 1 or forloop.counter == provider_divider_start %}
-                            <div class="col-xs-12 col-sm-6 col-lg-6">
+                            <div class="col-xs-6 col-sm-6 col-lg-6">
                                 <ul class="footer-nav">
                             {% endif %}
                             {% if provider_type != 'payment' and  provider_type != 'bank' and provider_type != 'health_care' %}
@@ -407,15 +428,8 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3">
                 <div class="single-footer-widget">
-                    <h4 style="color:black;">{% trans 'Information' %}</h4><br/>
-                    <p>
-                        {% for description in contact_us%}
-                        {{description}}
-                        <br/>
-                        {% endfor %}
-                    </p>
                     <div id="contact_footer_div">
 
                     </div>
@@ -434,25 +448,17 @@
         </div>
     </div>
 </footer>
-<button onclick="topFunction()" id="myBtnBTP" title="Go to top">
-    <span style="color:{{text_color}}; font-size:20px;"><i class="fas fa-chevron-up"></i></span>
-</button>
-
 {% elif template == 6%}
-<button onclick="topFunction()" id="myBtnBTP" title="Go to top">
-    <span><i class="fas fa-chevron-up"></i></span>
-</button>
-
-<!-- footer -->
 <footer class="footerv4-w3ls py-sm-5 py-4" style="border-top: 1px solid #cdcdcd;">
 	<div class="footerv4-top">
 		<div class="container">
 			<div class="row">
                 <div class="col-lg-12">
+                    <a href="{% url 'tt_website:index'%}"><img id="logo_header" src="{{logo}}" style="max-height:60px;max-width:225px;" alt="Logo {{name}}" title="{{name}}" /></a>
 					<h2 style="color:{{color}};">{{name}}</h2>
                     <hr/>
                 </div>
-                <div class="col-lg-4 mb-5">
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 mb-5">
                     <h4 style="color:black; margin-bottom:15px;">{% trans 'Information' %}</h4>
                     <p>
                         {% for description in contact_us%}
@@ -461,6 +467,13 @@
                         {% endfor %}
                     </p>
                     <hr/>
+                    <div id="payment_partner_footer_div" class="mb-3">
+
+                    </div>
+                </div>
+
+				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 mb-5">
+                    <h4 style="color:black; margin-bottom:15px;">{% trans 'About' %}{{name}}</h4>
                     <a class="footer_a" href="/about_us">{% trans 'About Us' %}</a><br/>
                     <a class="footer_a" href="/contact_us">{% trans 'Contact Us' %}</a><br/>
                     <a class="footer_a" href="/faq">FAQ</a><br/>
@@ -471,12 +484,8 @@
 
                     </div>
                     <hr/>
-                    <div id="payment_partner_footer_div" class="mb-3">
-
-                    </div>
                 </div>
-
-				<div class="col-lg-4 footer-left mb-5">
+				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 footer-left mb-5">
                     <h4 style="color:black; margin-bottom:15px;">{% trans 'Our Product' %}</h4>
                     <div class="row">
                     {% for provider_type in provider_types %}
@@ -506,32 +515,176 @@
                     </div>
 				</div>
 
-				<!-- footer nav links -->
-				<div class="col-lg-4 mb-5">
+				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 mb-5">
 					<ul id="contact_footer_div">
 
 					</ul>
-                    <hr/>
 					<ul class="social-icons list-unstyled" id="social_footer_div">
 
 					</ul>
 				</div>
-				<!-- //footer nav links -->
-
 			</div>
 		</div>
 	</div>
 </footer>
-<!-- //footer -->
-
-<!-- copyright -->
 <div class="copy-right text-center">
 	<p id="footer_copyright">
         {% trans 'Copyright' %} &copy;<script>document.getElementById('footer_copyright').innerHTML += new Date().getFullYear();</script> All rights reserved by {{name}}
 	</p>
 </div>
-<!-- //copyright -->
+{% elif template == 7%}
+<footer>
+    <div class="footer-area footer-padding footer-bg">
+        <div class="container">
+            <div class="row d-flex justify-content-between">
+                <div class="col-xl-3 col-lg-3 col-md-5 col-sm-6">
+                    <div class="single-footer-caption mb-50">
+                        <div class="single-footer-caption mb-30">
+                            <!-- logo -->
+                            <div class="footer-logo">
+                                <a href="{% url 'tt_website:index'%}"><img id="logo_header" src="{{logo}}" style="max-height:60px;max-width:225px;" alt="Logo {{name}}" title="{{name}}" /></a>
+                                <h4 class="mt-3">{{name}}</h4>
+                            </div>
+                            <div class="footer-tittle">
+                                <h4 class="mt-3">Information</h4>
+                                <div class="footer-pera">
+                                    <p>
+                                        {% for description in contact_us%}
+                                        {{description}}
+                                        <br/>
+                                        {% endfor %}
+                                    </p>
+                                </div>
+                            </div>
+                            <div id="payment_partner_footer_div" class="mb-3">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-2 col-lg-3 col-md-3 col-sm-5">
+                    <div class="single-footer-caption mb-50">
+                        <div class="footer-tittle">
+                            <h4>{% trans 'About' %}{{name}}</h4>
+                            <ul id="about_ul">
+                                <li><a href="/about_us">{% trans 'About Us' %}</a></li>
+                                <li><a href="/contact_us">{% trans 'Contact Us' %}</a></li>
+                                <li><a href="/faq">FAQ</a></li>
+                                {% if website_mode == 'btb_with_signup_b2c' or 'btb' in website_mode %}
+                                <li><a style="color:black;cursor:pointer;" onclick="window.location='{% url 'tt_website:registration' %}'"> {% trans 'Register As Agent' %}</a></li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-3 col-md-4 col-sm-7">
+                    <div class="single-footer-caption mb-50">
+                        <div class="footer-tittle">
+                            <h4>{% trans 'Our Product' %}</h4>
+                            <div class="row">
+                                {% for provider_type in provider_types %}
+                                {% if forloop.counter == 1 or forloop.counter == provider_divider_start %}
+                                <div class="col-xs-6 col-sm-6 col-lg-6">
+                                    <ul>
+                                {% endif %}
+                                {% if provider_type != 'payment' and  provider_type != 'bank' and provider_type != 'health_care' %}
+                                        <li>
+                                            <a id="footer_providertype_{{provider_type}}" href="/{% if provider_type == 'phc' or provider_type == 'periksain' %}medical/{% endif %}{% if provider_type == 'medical' %}medical_global{% elif provider_type == 'labpintar' %}lab_pintar{% elif provider_type == 'swabexpress' %}swab_express{% elif provider_type == 'mitrakeluarga' %}mitra_keluarga{% elif provider_type == 'sentramedika' %}sentra_medika{% else %}{{provider_type}}{% endif %}">
+                                        <script>
+                                            temp = `{{provider_type}}`;
+                                            temp = temp.split('_');
+                                            data = '';
+                                            for(i in temp)
+                                                data += temp[i].charAt(0).toUpperCase() + temp[i].slice(1).toLowerCase() + ' ';
+                                            document.getElementById('footer_providertype_{{provider_type}}').innerHTML = data;
+                                        </script>
+                                            </a>
+                                        </li>
+                                {% endif %}
+                                {% if forloop.counter == provider|length or forloop.counter == provider_divider_end %}
+                                    </ul>
+                                </div>
+                                {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-3 col-md-5 col-sm-7">
+                    <div class="single-footer-caption mb-50">
+                        <div class="footer-tittle">
+                            <ul id="contact_footer_div">
+
+                            </ul>
+                            <ul id="social_footer_div">
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Footer bottom -->
+            <div class="row pt-padding">
+                <div class="col-xl-12">
+                    <div class="footer-copy-right">
+                        <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                            <!--<i class="ti-heart" aria-hidden="true"></i> <a href="https://colorlib.com" target="_blank">-->
+                            Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved by {{name}}</a>
+                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+{% elif template == 8%}
+<section class="pb-0 pb-lg-4">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-7 col-12 mb-4 mb-md-6 mb-lg-0 order-0"> <img class="mb-4" src="assets/img/logo2.svg" width="150" alt="jadoo" />
+                <p class="fs--1 text-secondary mb-0 fw-medium">Book your trip in minute, get full Control for much longer.</p>
+            </div>
+            <div class="col-lg-2 col-md-4 mb-4 mb-lg-0 order-lg-1 order-md-2">
+                <h4 class="footer-heading-color fw-bold font-sans-serif mb-3 mb-lg-4">Company</h4>
+                <ul class="list-unstyled mb-0">
+                    <li class="mb-2"><a class="link-900 fs-1 fw-medium text-decoration-none" href="#!">About</a></li>
+                    <li class="mb-2"><a class="link-900 fs-1 fw-medium text-decoration-none" href="#!">Careers</a></li>
+                    <li class="mb-2"><a class="link-900 fs-1 fw-medium text-decoration-none" href="#!">Mobile</a></li>
+                </ul>
+            </div>
+            <div class="col-lg-2 col-md-4 mb-4 mb-lg-0 order-lg-2 order-md-3">
+                <h4 class="footer-heading-color fw-bold font-sans-serif mb-3 mb-lg-4">Contact</h4>
+                <ul class="list-unstyled mb-0">
+                    <li class="mb-2"><a class="link-900 fs-1 fw-medium text-decoration-none" href="#!">Help/FAQ</a></li>
+                    <li class="mb-2"><a class="link-900 fs-1 fw-medium text-decoration-none" href="#!">Press</a></li>
+                    <li class="mb-2"><a class="link-900 fs-1 fw-medium text-decoration-none" href="#!">Affiliate</a></li>
+                </ul>
+            </div>
+            <div class="col-lg-2 col-md-4 mb-4 mb-lg-0 order-lg-3 order-md-4">
+                <h4 class="footer-heading-color fw-bold font-sans-serif mb-3 mb-lg-4">More</h4>
+                <ul class="list-unstyled mb-0">
+                    <li class="mb-2"><a class="link-900 fs-1 fw-medium text-decoration-none" href="#!">Airlinefees</a></li>
+                    <li class="mb-2"><a class="link-900 fs-1 fw-medium text-decoration-none" href="#!">Airline</a></li>
+                    <li class="mb-2"><a class="link-900 fs-1 fw-medium text-decoration-none" href="#!">Low fare tips</a></li>
+                </ul>
+            </div>
+            <div class="col-lg-3 col-md-5 col-12 mb-4 mb-md-6 mb-lg-0 order-lg-4 order-md-1">
+                <div class="icon-group mb-4"> <a class="text-decoration-none icon-item shadow-social" id="facebook" href="#!"><i class="fab fa-facebook-f"> </i></a><a class="text-decoration-none icon-item shadow-social" id="instagram" href="#!"><i class="fab fa-instagram"> </i></a><a class="text-decoration-none icon-item shadow-social" id="twitter" href="#!"><i class="fab fa-twitter"> </i></a></div>
+                <h4 class="fw-medium font-sans-serif text-secondary mb-3">Discover our app</h4>
+                <div class="d-flex align-items-center"> <a href="#!"> <img class="me-2" src="assets/img/play-store.png" alt="play store" /></a><a href="#!"> <img src="assets/img/apple-store.png" alt="apple store" /></a></div>
+            </div>
+        </div>
+    </div><!-- end of .container-->
+
+</section>
+<div class="py-5 text-center">
+    <p class="mb-0 text-secondary fs--1 fw-medium">All rights reserved@jadoo.co </p>
+</div>
 {% endif %}
+
+<button onclick="topFunction()" id="myBtnBTP" title="Go to top">
+    <span><i class="fas fa-chevron-up"></i></span>
+</button>
 
 <script>
     get_contact('footer');

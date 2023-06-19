@@ -106,12 +106,13 @@ function get_social(type){
                             text+=`<hr/><h4 style="color:black;" class="mb-4">Follow Us</h4>`;
                         }else if(template == 6){
                             text+=`<h4 style="color:black;" class="mb-4">Follow Us</h4>`;
+                        }else if(template == 7){
+                            text+=`<hr/><h4 style="color:black;">Follow Us</h4>`;
+                        }else if(template == 8){
+                            text+=`<hr/><h4 style="color:black;">Follow Us</h4>`;
                         }
                     }
                     for(i in msg){
-                        if(template == 6){
-                            text += `<li>`;
-                        }
 
                         text += `<a href="`+msg[i][2]+`" title="`+msg[i][1]+`" target="_blank">`;
 
@@ -128,11 +129,7 @@ function get_social(type){
                         }else if(msg[i][0] == "Other"){
                             text+=`<img style="margin-bottom:10px; height:30px; width:auto; padding-right:10px;" src="/static/tt_website/img/other.png" alt="Other"/>`;
                         }
-                        text+=`</a>`;
 
-                        if(template == 6){
-                            text += `</li>`;
-                        }
                         //if(msg[i][0] == 'Twitter'){
                         //    $('head').append( '<meta name="twitter:card" content="'+msg[i][0]+'" />' );
                         //    $('head').append( '<meta name="twitter:site" content="'+msg[i][1]+'" />' );
@@ -186,7 +183,7 @@ function get_social(type){
                     if(check_available_dynamic == 0){
                         text+=`<br/><h5 style="color:`+text_color+`; font-weight:bold;">Follow us</h5>`;
                     }else{
-                        text+=`<h6 class="follow_us_color" style="margin-bottom:5px; font-weight:bold;">Follow us</h6>`;
+                        text+=`<h6 style="margin-bottom:5px; font-weight:bold;">Follow us</h6>`;
                     }
                 }
                 for(i in msg){
@@ -219,7 +216,6 @@ function get_social(type){
                     document.getElementById("scroll_up_btn").style.display = "block";
                 }
                 document.getElementById('social_login_div').innerHTML = text;
-                document.getElementById('social_login_div2').innerHTML = text;
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {

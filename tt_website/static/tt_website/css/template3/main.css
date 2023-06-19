@@ -2110,8 +2110,8 @@ h1, h2, h3, h4, h5, h6 {
   bottom: 0;
   z-index: 998;
   background: rgba(0, 0, 0, 0.8);
-  left: -260px;
-  width: 260px;
+  left: -300px;
+  width: 300px;
   overflow-y: auto;
   transition: 0.4s;
 }
@@ -3954,4 +3954,14 @@ ul.tabs li.current{
 
 #nav-menu-container_login{
     margin-top: 10px;
+}
+
+@media (max-width: 991px) {
+    #mobile-nav ul li{
+      margin-left: 10px;
+      margin-right: 10px;
+    }
+    #mobile-nav ul li button{
+        width: 100%;
+    }
 }

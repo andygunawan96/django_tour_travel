@@ -12023,7 +12023,7 @@ function get_default_ssr(pax, itinerary, page){
                 //id_i = parseInt(i)+1;
                 for(j in itinerary[i].journeys){
                     for(k in itinerary[i].journeys[j].segments){
-                        default_ssr_text+=`<b>• `+itinerary[i].journeys[j].segments[k].origin+` - `+itinerary[i].journeys[j].segments[k].destination+` ( `+itinerary[i].journeys[j].segments[k].arrival_date+` )</b><br/>`;
+                        default_ssr_text+=`<b>• `+itinerary[i].journeys[j].segments[k].origin+` - `+itinerary[i].journeys[j].segments[k].destination+` ( `+itinerary[i].journeys[j].segments[k].departure_date+` )</b><br/>`;
                         if(page == 'booking'){
                             if(itinerary[i].journeys[j].segments[k].fare_details.length != 0){
                                 for(m in itinerary[i].journeys[j].segments[k].fare_details){

@@ -2591,10 +2591,10 @@
 
 
   .owl-carousel-banner .owl-nav .owl-prev {
-    bottom: 50%;
+    bottom: 45%;
     margin: 0;
     position: absolute;
-    left: -20px;
+    left: 0px;
     display: flex;
     background-color:white;
     border:1px solid #000;
@@ -2614,10 +2614,10 @@
     font: inherit; }
 
   .owl-carousel-banner .owl-nav .owl-next {
-    bottom: 50%;
+    bottom: 45%;
     margin: 0;
     position: absolute;
-    right: -20px;
+    right: 0px;
     display: flex;
     background-color:white;
     border:1px solid #000;

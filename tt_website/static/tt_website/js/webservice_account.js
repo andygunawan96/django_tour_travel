@@ -2327,11 +2327,13 @@ function render_notification(){
     }
     if(text){
         document.getElementById('notification_detail').innerHTML += text;
-        document.getElementById('notif_pc_badge').innerHTML += `<span class="icon-button__badge"></span>`;
+        //document.getElementById('notif_pc_badge').innerHTML += `<span class="icon-button__badge"></span>`;
         document.getElementById('notif_mb_badge').innerHTML += `<span class="icon-button__badge"></span>`;
 
         if(template == 4){
-            $(".bell_pc").html(`<span class="icon-button__badge"></span>`);
+            $(".bell_pc").html(`<span class="material-icons"><i class="fas fa-bell notif-hover bell_notif animated swing" style="font-size:24px;"></i></span><span class="icon-button__badge"></span>`);
+        }else{
+            document.getElementById('notif_pc_badge').innerHTML += `<span class="icon-button__badge"></span>`;
         }
 
         $(".bell_notif").addClass("infinite");

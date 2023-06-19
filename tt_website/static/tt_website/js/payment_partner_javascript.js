@@ -42,7 +42,11 @@ function get_payment_partner(type){
                         }else if(template == 5){
                             text+=`<hr/><h4 class="mb-4" style="color:black;">Payment Partner</h4>`;
                         }else if(template == 6){
-                            text+=`<h4 style="color:black; margin-bottom:15px;">Payment Partner</h4>`;
+                            text+=`<hr/><h4 style="color:black; margin-bottom:15px;">Payment Partner</h4>`;
+                        }else if(template == 7){
+                            text+=`<hr/><h4 style="color:black;">Payment Partner</h4>`;
+                        }else if(template == 8){
+                            text+=`<hr/><h4 style="color:black;">Payment Partner</h4>`;
                         }
                     }
                     for(j in sortable){

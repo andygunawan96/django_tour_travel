@@ -369,6 +369,23 @@ function get_banner(type,page){
                             }
                             text+=`</div>`;
                         }
+                        else if(template == 7){
+                            text+=`
+                            <div class="owl-carousel-suggest owl-theme">`;
+                            for(i in msg.result.response){
+                                if(msg.result.response[i].active == true){
+                                    text+=`
+                                    <div class="item">
+                                        <div class="single-destination relative">
+                                            <div class="thumb relative">
+                                                <img class="owl-lazy" style="cursor:pointer;" data-src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" onclick="banner_click('small_banner','`+msg.result.response[i].seq_id+`')"/>
+                                            </div>
+                                        </div>
+                                    </div>`;
+                                }
+                            }
+                            text+=`</div>`;
+                        }
                     }
                     else if(type == 'promotion'){
                         banner_list['promotion'] = msg.result.response;
@@ -646,6 +663,25 @@ function get_banner(type,page){
                             }
                             text+=`</div>`;
                         }
+                        else if(template == 7){
+                            text+=`
+                            <div class="owl-carousel-suggest owl-theme">`;
+                            for(i in msg.result.response){
+                                if(msg.result.response[i].provider_type != false){
+                                    if(msg.result.response[i].provider_type == page && msg.result.response[i].active == true){
+                                        text+=`
+                                        <div class="item">
+                                            <div class="single-destination relative">
+                                                <div class="thumb relative">
+                                                    <img class="owl-lazy" style="cursor:pointer;" data-src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" onclick="banner_click('small_banner','`+msg.result.response[i].seq_id+`')"/>
+                                                </div>
+                                            </div>
+                                        </div>`;
+                                    }
+                                }
+                            }
+                            text+=`</div>`;
+                        }
                     }
                 }
                 document.getElementById(type).innerHTML = text;
@@ -659,49 +695,29 @@ function get_banner(type,page){
                 if(msg.result.response.length > 0){
                     if(page == 'home'){
                         if(type == 'big_banner'){
-                            if(template == 6){
-                                $('.owl-carousel-banner').owlCarousel({
-                                    loop:false,
-                                    nav: true,
-                                    rewind: false,
-                                    margin: 20,
-                                    responsiveClass:true,
-                                    dots: false,
-                                    lazyLoad:true,
-                                    lazyLoadEager:true,
-                                    merge: true,
-                                    smartSpeed:500,
-                                    center: true,
-                                    autoHeight: false,
-                                    autoWidth: false,
-                                    autoplay: false,
-                                    autoplayTimeout:10000,
-                                    autoplayHoverPause:false,
-                                    items:1,
-                                    navText: ['<i class="fas fa-chevron-left owl-wh"/>', '<i class="fas fa-chevron-right owl-wh"/>'],
-                                });
-                            }else{
-                                $('.owl-carousel-banner').owlCarousel({
-                                    loop:false,
-                                    nav: true,
-                                    rewind: false,
-                                    margin: 20,
-                                    responsiveClass:true,
-                                    dots: true,
-                                    lazyLoad:true,
-                                    lazyLoadEager:true,
-                                    merge: true,
-                                    smartSpeed:500,
-                                    center: true,
-                                    autoHeight: false,
-                                    autoWidth: false,
-                                    autoplay: false,
-                                    autoplayTimeout:10000,
-                                    autoplayHoverPause:false,
-                                    items:1,
-                                    navText: ['<i class="fas fa-chevron-left owl-wh"/>', '<i class="fas fa-chevron-right owl-wh"/>'],
-                                });
-                            }
+                            $('.owl-carousel-banner').owlCarousel({
+                                loop:false,
+                                nav: true,
+                                rewind: false,
+                                margin: 20,
+                                responsiveClass:true,
+                                dots: true,
+                                lazyLoad:true,
+                                lazyLoadEager:true,
+                                merge: true,
+                                smartSpeed:500,
+                                center: true,
+                                autoHeight: true,
+                                autoWidth: false,
+                                autoplay: false,
+                                autoplayTimeout:10000,
+                                autoplayHoverPause:false,
+                                items:1,
+                                navText: ['<i class="fas fa-chevron-left owl-wh"/>', '<i class="fas fa-chevron-right owl-wh"/>'],
+                            });
+
+                            var dots = $('.owl-carousel-banner').find('.owl-dots').css('position', 'absolute').css('bottom', '5px');
+                            dots.css('left', 'calc(50% - ' + dots.width()/2+'px)');
                         }
                         else if(type == 'small_banner'){
                             $('.owl-carousel-suggest').owlCarousel({
@@ -716,6 +732,8 @@ function get_banner(type,page){
                                 merge: false,
                                 lazyLoad:true,
                                 lazyLoadEager:true,
+                                autoHeight: false,
+                                autoWidth: false,
                                 smartSpeed:1000,
                                 autoplay: false,
                                 autoplayTimeout:10000,

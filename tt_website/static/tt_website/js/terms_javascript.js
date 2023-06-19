@@ -111,7 +111,7 @@ function get_term_and_condition(type){
                             get_banner('promotion','home');
                         }
                     }else if(type == 'footer'){
-                        document.getElementById('about_ul').innerHTML += `<li><a href="/terms">`+msg.result.response[0].title+`</a></li>`;
+                        document.getElementById('about_ul').innerHTML += `<li style="margin-top:10px;"><a href="/terms">`+msg.result.response[0].title+`</a></li>`;
                     }else if(type == 'registration'){
                         if(msg.result.response[0].active == 'active'){
                             document.getElementById('div_terms_active').value = 'active';
