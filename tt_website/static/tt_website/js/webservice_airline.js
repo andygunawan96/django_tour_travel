@@ -7051,6 +7051,12 @@ function airline_get_booking(data, sync=false){
            //get booking view edit here
            try{
                if(msg.result.error_code == 0){
+                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
+                    if(msg.result.response.state != 'issued' && msg.result.response.hasOwnProperty('expired_date') && msg.result.response.expired_date && time_now < msg.result.response.expired_date ||
+                       msg.result.response.state != 'issued' && msg.result.response.hasOwnProperty('hold_date') && msg.result.response.hold_date && time_now < msg.result.response.hold_date){
+                        document.getElementById('div_sync_reprice').hidden = false;
+                    }
+                }
                 if(['booked', 'partial_booked', 'partial_issued', 'fail_issued', 'halt_booked'].includes(msg.result.response.state)){
                     document.getElementById('div_sync_status').hidden = false;
                     if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
@@ -7105,6 +7111,11 @@ function airline_get_booking(data, sync=false){
                         tes = moment.utc(msg.result.response.issued_date).format('YYYY-MM-DD HH:mm:ss')
                         localTime  = moment.utc(tes).toDate();
                         msg.result.response.issued_date = moment(localTime).format('DD MMM YYYY HH:mm') + ' ' + gmt + timezone;
+                    }
+                    if(msg.result.response.hasOwnProperty('expired_date') && msg.result.response.expired_date != ''){
+                        tes = moment.utc(msg.result.response.expired_date).format('YYYY-MM-DD HH:mm:ss')
+                        localTime  = moment.utc(tes).toDate();
+                        msg.result.response.expired_date = moment(localTime).format('DD MMM YYYY HH:mm') + ' ' + gmt + timezone;
                     }
                 }
                 if(msg.result.response.state == 'cancel'){
@@ -7487,8 +7498,11 @@ function airline_get_booking(data, sync=false){
                     <table style="width:100%;">
                         <tr>
                             <th>PNR</th>`;
-                            if(['booked', 'halt_booked'].includes(msg.result.response.state))
-                                text+=`<th>Hold Date</th>`;
+                            if(!['issued'].includes(msg.result.response.state)){
+                                text+=`<th id="hold_date_field_show">Hold Date<span id="hold_date_field" style="color:`+color+`; cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;"></i></span></th>`;
+                                if(msg.result.response.hasOwnProperty('expired_date') && msg.result.response.expired_date != '' && msg.result.response.expired_date != msg.result.response.hold_date)
+                                    text += `<th id="expired_date_field_show">Expired Date<span id="expired_date_field" style="color:`+color+`; cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;"></i></span></th>`;
+                            }
                         text+=`
                             <th>Status</th>
                         </tr>`;
@@ -7530,9 +7544,14 @@ function airline_get_booking(data, sync=false){
                             else
                                 text += `<td> - </td>`;
 
-                            if(['booked', 'halt_booked'].includes(msg.result.response.state))
-                                text+=`<td>`+msg.result.response.hold_date+`</td>`;
-
+                            if(!['issued'].includes(msg.result.response.state)){
+                                if(!['issued'].includes(msg.result.response.provider_bookings[i].state))
+                                    text+=`<td>`+msg.result.response.hold_date+`</td>`;
+                                else
+                                    text += `<td></td>`;
+                                if(msg.result.response.hasOwnProperty('expired_date') && msg.result.response.expired_date != '' && msg.result.response.expired_date != msg.result.response.hold_date)
+                                    text+=`<td>`+msg.result.response.expired_date+`</td>`;
+                            }
                             text+=`
                                 <td>`;
                             if(msg.result.response.provider_bookings[i].state_description == 'Expired' ||
@@ -9287,6 +9306,53 @@ function airline_get_booking(data, sync=false){
                     }
                 }
 
+                // pop up hold date
+                if(!['issued'].includes(msg.result.response.state)){
+                    context_data = "Expired Price";
+                    if(msg.result.response.hasOwnProperty('expired_date') && msg.result.response.expired_date != '' && msg.result.response.expired_date != msg.result.response.hold_date)
+                        context_data = "Expired Ticketing Limit";
+                    new jBox('Tooltip', {
+                        attach: '#hold_date_field',
+                        target: '#hold_date_field_show',
+                        theme: 'TooltipBorder',
+                        trigger: 'click',
+                        adjustTracker: true,
+                        closeOnClick: 'body',
+                        closeButton: 'box',
+                        animation: 'move',
+                        position: {
+                          x: 'left',
+                          y: 'bottom'
+                        },
+                        outside: 'y',
+                        pointer: 'left:20',
+                        offset: {
+                          x: 25
+                        },
+                        content: context_data,
+                    });
+                    if(msg.result.response.hasOwnProperty('expired_date') && msg.result.response.expired_date != '' && msg.result.response.expired_date != msg.result.response.hold_date)
+                        new jBox('Tooltip', {
+                            attach: '#expired_date_field',
+                            target: '#expired_date_field_show',
+                            theme: 'TooltipBorder',
+                            trigger: 'click',
+                            adjustTracker: true,
+                            closeOnClick: 'body',
+                            closeButton: 'box',
+                            animation: 'move',
+                            position: {
+                              x: 'left',
+                              y: 'bottom'
+                            },
+                            outside: 'y',
+                            pointer: 'left:20',
+                            offset: {
+                              x: 25
+                            },
+                            content: "Expired Ticketing Limit",
+                        });
+                }
                }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                    auto_logout();
                }else if(msg.result.error_code == 1035){
