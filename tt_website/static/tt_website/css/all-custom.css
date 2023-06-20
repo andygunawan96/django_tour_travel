@@ -336,6 +336,7 @@ ul.popular2_tabs li.current .image-rounded-icon{
 .owl-carousel-banner.owl-drag .owl-item{
    background: url("https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/ajax-loader.gif") no-repeat center center;
 }
+
 .owl-carousel-banner .owl-item img{
     width: 100% !important;
 }
@@ -3988,8 +3989,29 @@ ul.progress_tabs li.current .image-rounded-icon{
     /*border: 1px solid #CCC;*/
 }
 
+.t7{
+    top: 7px;
+}
+.mr5{
+    margin-right:5px;
+}
+.mr10{
+    margin-right:10px;
+}
+.ml5{
+    margin-left:5px;
+}
+.ml10{
+    margin-left:10px;
+}
 .pt5{
     padding-top:5px;
+}
+.pt10{
+    padding-top:10px;
+}
+.pt12{
+    padding-top:12px;
 }
 
 @keyframes dash {
@@ -4597,8 +4619,16 @@ ul.progress_tabs li.current .image-rounded-icon{
 /*MEDIA*/
 /*MIN WIDTH*/
 @media (min-width: 1200px) {
+    .big_banner_home{
+        height:360px;
+    }
+    /*
     .owl-carousel-banner.owl-drag .owl-item{
         height:360px !important;
+    }*/
+
+    .owl-carousel-banner .owl-stage-outer{
+        min-height:310px !important;
     }
     .owl-carousel-banner .owl-item img{
         max-height:360px !important;
@@ -4619,7 +4649,7 @@ ul.progress_tabs li.current .image-rounded-icon{
 }
 @media (min-width: 1200px) {
     .stripe_big_banner{
-        height:380px !important;
+        height:360px !important;
         width:100%;
     }
 
@@ -4910,9 +4940,18 @@ ul.progress_tabs li.current .image-rounded-icon{
     }
 }
 @media (max-width: 425px) {
-    .owl-carousel-banner.owl-drag .owl-item{
+    .big_banner_home{
         height:130px !important;
     }
+
+    /*
+    .owl-carousel-banner.owl-drag .owl-item{
+        height:130px !important;
+    }*/
+    .owl-carousel-banner .owl-stage-outer{
+        min-height:80px !important;
+    }
+
     .owl-carousel-banner .owl-item img{
         max-height: 130px !important;
     }
@@ -4926,7 +4965,7 @@ ul.progress_tabs li.current .image-rounded-icon{
 }
 @media (max-width: 425px) {
     .stripe_big_banner{
-        height:140px !important;
+        height:130px !important;
         width:100%;
     }
     .stripe_small_banner{
@@ -4964,9 +5003,18 @@ ul.progress_tabs li.current .image-rounded-icon{
 
 /*MAX MIN WIDTH*/
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
-    .owl-carousel-banner.owl-drag .owl-item{
+    .big_banner_home{
         height:300px !important;
     }
+
+    /*
+    .owl-carousel-banner.owl-drag .owl-item{
+        height:300px !important;
+    }*/
+    .owl-carousel-banner .owl-stage-outer{
+        min-height:250px !important;
+    }
+
     .owl-carousel-banner .owl-item img{
         max-height:300px !important;
     }
@@ -4980,7 +5028,7 @@ ul.progress_tabs li.current .image-rounded-icon{
 }
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
     .stripe_big_banner{
-        height:320px !important;
+        height:300px !important;
         width:100%;
     }
 
@@ -5003,9 +5051,18 @@ ul.progress_tabs li.current .image-rounded-icon{
     }
 }
 @media (max-width: 991px) and (min-width: 768px) {
-    .owl-carousel-banner.owl-drag .owl-item{
+    .big_banner_home{
         height:230px !important;
     }
+
+    /*
+    .owl-carousel-banner.owl-drag .owl-item{
+        height:230px !important;
+    }*/
+    .owl-carousel-banner .owl-stage-outer{
+        min-height:180px !important;
+    }
+
     .owl-carousel-banner .owl-item img{
         max-height:230px !important;
     }
@@ -5026,7 +5083,7 @@ ul.progress_tabs li.current .image-rounded-icon{
 }
 @media (max-width: 991px) and (min-width: 768px) {
     .stripe_big_banner{
-        height:250px !important;
+        height:230px !important;
         width:100%;
     }
 
@@ -5049,9 +5106,18 @@ ul.progress_tabs li.current .image-rounded-icon{
     }
 }
 @media (max-width: 767px) and (min-width: 576px) {
-    .owl-carousel-banner.owl-drag .owl-item{
+    .big_banner_home{
         height:170px !important;
     }
+
+    /*
+    .owl-carousel-banner.owl-drag .owl-item{
+        height:170px !important;
+    }*/
+    .owl-carousel-banner .owl-stage-outer{
+        min-height:120px !important;
+    }
+
     .owl-carousel-banner .owl-item img{
         max-height:170px !important;
     }
@@ -5072,7 +5138,7 @@ ul.progress_tabs li.current .image-rounded-icon{
 }
 @media (max-width: 767px) and (min-width: 576px) {
     .stripe_big_banner{
-        height:190px !important;
+        height:170px !important;
         width:100%;
     }
 
@@ -5101,9 +5167,18 @@ ul.progress_tabs li.current .image-rounded-icon{
   }
 }
 @media (max-width: 575px) and (min-width: 426px) {
-    .owl-carousel-banner.owl-drag .owl-item{
+    .big_banner_home{
         height:170px !important;
     }
+
+    /*
+    .owl-carousel-banner.owl-drag .owl-item{
+        height:170px !important;
+    }*/
+    .owl-carousel-banner .owl-stage-outer{
+        min-height:120px !important;
+    }
+
     .owl-carousel-banner .owl-item img{
         max-height:170px !important;
     }
@@ -5124,7 +5199,7 @@ ul.progress_tabs li.current .image-rounded-icon{
 }
 @media (max-width: 575px) and (min-width: 426px) {
     .stripe_big_banner{
-        height:150px !important;
+        height:170px !important;
         width:100%;
     }
 
@@ -5494,7 +5569,7 @@ ul.progress_tabs li.current .image-rounded-icon{
     border-radius: 0px;
 }
 .owl-theme .owl-nav{
-    margin-top:20px;
+    margin-top:0px;
 }
 .owl-theme .owl-nav .disabled{
     background: rgba(200,200,200,1) !important;
@@ -5523,8 +5598,8 @@ ul.progress_tabs li.current .image-rounded-icon{
 .owl-carousel-banner .owl-nav button.owl-prev{
     background: rgba(30,30,30,0.5);
     color: black;
-    width: 35px;
-    height: 40px;
+    width: 45px;
+    height: 60px;
 }
 .owl-carousel-banner .owl-nav button.owl-prev i{
     color: white;
@@ -5542,8 +5617,8 @@ ul.progress_tabs li.current .image-rounded-icon{
 .owl-carousel-banner .owl-nav button.owl-next{
     background: rgba(30,30,30,0.5);
     color: black;
-    width: 35px;
-    height: 40px;
+    width: 45px;
+    height: 60px;
 }
 .owl-carousel-banner .owl-nav button.owl-next i{
     color: white;
@@ -5943,6 +6018,7 @@ ul.sub_menu_tabs li{
 
 button.accordion {
   width: 100%;
+  height: 80px;
   background-color: whitesmoke;
   border: 1px solid #cdcdcd;
   outline: none;
@@ -5993,4 +6069,8 @@ button.accordion.is-open {
 
 .form-control{
     margin-bottom:15px !important;
+}
+
+.big_banner_home{
+    margin-bottom:20px;
 }

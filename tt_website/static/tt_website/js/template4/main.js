@@ -33,38 +33,6 @@ jQuery(document).ready(function($) {
     var check_video_play = 0;
     var check_video_slider = 0;
 
-    if( $(window).width() >= 992){
-        $('#username_pc').show();
-        $('#password_pc').show();
-        $('#username_mb').hide();
-        $('#password_mb').hide();
-        document.getElementById('forget_password_mobile').hidden = true;
-    }
-    else {
-        $('#username_pc').hide();
-        $('#password_pc').hide();
-        $('#username_mb').show();
-        $('#password_mb').show();f
-        document.getElementById('forget_password_mobile').hidden = false;
-    }
-
-    $(window).resize(function() {
-        if ($(window).width() >= 992) {
-            $('#username_pc').show();
-            $('#password_pc').show();
-            $('#username_mb').hide();
-            $('#password_mb').hide();
-            document.getElementById('forget_password_mobile').hidden = true;
-        }
-        else {
-            $('#username_pc').hide();
-            $('#password_pc').hide();
-            $('#username_mb').show();
-            $('#password_mb').show();
-            document.getElementById('forget_password_mobile').hidden = false;
-        }
-    });
-
 	var siteMenuClone = function() {
 
 		$('.js-clone-nav').each(function() {
@@ -90,19 +58,6 @@ jQuery(document).ready(function($) {
             }
 		});
 
-		$('.js-clone-nav2').each(function() {
-			var $this = $(this);
-			$this.clone().attr('class', 'site-nav-wrap').appendTo('.site-mobile-menu-body');
-			try{
-                $this.find('.username_mobile').replaceWith('<li style="padding-right:5px; margin-bottom:15px;"><div class="input-container-search-ticket" style="margin-bottom:unset;"><i class="fa fa-user" style="font-size: 20px;padding-top: 15px; color:'+text_color_login+';"></i><input type="text" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="username" placeholder="Username"/></div></li>');
-                $this.find('.password_mobile').replaceWith(`<li style="padding-right:5px; margin-bottom:15px;"><div class="input-container-search-ticket" style="margin-bottom:unset;"><i class="fa fa-lock" style="font-size: 20px;padding-top: 15px; color:`+text_color_login+`;"></i><input type="password" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="password" placeholder="Password"/><div style="margin-top:15px;width:50px;" onclick="change_password_type();"><i id="password_style" class="fas fa-eye-slash" style="padding-left:5px;cursor:pointer;font-size:18px;color:#FFFFFF;"></i></div></div><div style="position:absolute; text-align:right;"><label class="check_box_custom" style="margin:5px;"><span style="font-size:13px; color:`+text_color_login+`;">Keep Me Signin</span><input type="checkbox" value="" id="keep_me_signin" name="keep_me_signin" checked="checked"><span class="check_box_span_custom"></span></label><span style="cursor:pointer; padding-left:7px; font-size:13px; color:`+text_color_login+`;" onclick="$('#myModalResetPassword').modal('show');"><i class="fa fa-lock" style="font-size: 13px;padding-top: 8px;"></i> Forget Password</span></div></li>`);
-                $this.find('.signup_pc_mb').replaceWith('<a style="margin-top:10px; font-size:13px; font-weight:600; cursor:pointer; color:'+text_color_login+';text-transform: unset; padding:0px 2px;" data-toggle="modal" data-target="#myModalb2c"><i class="fas fa-user-plus"></i> Sign Up </a>');
-            }catch(err){
-                console.log(err) //ada element yg tidak ada
-            }
-		});
-		//$this.find('.forget_password_mobile').replaceWith(`<li style="padding-right:5px;"><a style="cursor:pointer; text-transform: unset; padding:0px 5px; color:'+text_color+';" onclick="$('#myModalResetPassword').modal('show');"><i class="fa fa-lock" style="font-size: 20px;padding-top: 12px;"></i> Forgot Password</a></li>`);
-
         document.getElementById("password").addEventListener("keyup", function(event) {
           // Number 13 is the "Enter" key on the keyboard
           if (event.keyCode === 13) {
@@ -118,24 +73,24 @@ jQuery(document).ready(function($) {
           }
         });
 
-        try{
-            document.getElementById("password2").addEventListener("keyup", function(event) {
-              // Number 13 is the "Enter" key on the keyboard
-              if (event.keyCode === 13) {
-                    event.preventDefault();
-                    get_captcha('g-recaptcha-response','signin_btc');
-              }
-            });
-            document.getElementById("username2").addEventListener("keyup", function(event) {
-              // Number 13 is the "Enter" key on the keyboard
-              if (event.keyCode === 13) {
-                    event.preventDefault();
-                    get_captcha('g-recaptcha-response','signin_btc');
-              }
-            });
-        }catch(err){
-
-        }
+//        try{
+//            document.getElementById("password2").addEventListener("keyup", function(event) {
+//              // Number 13 is the "Enter" key on the keyboard
+//              if (event.keyCode === 13) {
+//                    event.preventDefault();
+//                    get_captcha('g-recaptcha-response','signin_btc');
+//              }
+//            });
+//            document.getElementById("username2").addEventListener("keyup", function(event) {
+//              // Number 13 is the "Enter" key on the keyboard
+//              if (event.keyCode === 13) {
+//                    event.preventDefault();
+//                    get_captcha('g-recaptcha-response','signin_btc');
+//              }
+//            });
+//        }catch(err){
+//
+//        }
 
 
 		setTimeout(function() {

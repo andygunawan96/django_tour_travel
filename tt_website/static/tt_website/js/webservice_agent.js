@@ -96,41 +96,21 @@ function signin(){
     password = '';
     keep_me_signin = false;
     check = 0;
-    if( $(window).width() > 767){
-        if($('#username2').val() != '' && $('#password2').val() != ''){
-            username = $('#username2').val();
-            password = $('#password2').val();
-            keep_me_signin = $('#keep_me_signin2').is(':checked');
-            check = 1;
-            $('.button-login').addClass("running");
-            $('.button-login').prop('disabled', true);
-        }else{
-            $('.button-login').prop('disabled', false);
-            $('.button-login').removeClass("running");
-            Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              text: 'Please input username and password',
-            })
-        }
-    }
-    else{
-        if($('#username').val() != '' && $('#password').val() != ''){
-            username = $('#username').val();
-            password = $('#password').val();
-            keep_me_signin = $('#keep_me_signin').is(':checked');
-            check = 1;
-            $('.button-login').addClass("running");
-            $('.button-login').prop('disabled', true);
-        }else{
-            $('.button-login').prop('disabled', false);
-            $('.button-login').removeClass("running");
-            Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              text: 'Please input username and password',
-            })
-        }
+    if($('#username').val() != '' && $('#password').val() != ''){
+        username = $('#username').val();
+        password = $('#password').val();
+        keep_me_signin = $('#keep_me_signin').is(':checked');
+        check = 1;
+        $('.button-login').addClass("running");
+        $('.button-login').prop('disabled', true);
+    }else{
+        $('.button-login').prop('disabled', false);
+        $('.button-login').removeClass("running");
+        Swal.fire({
+          type: 'error',
+          title: 'Oops!',
+          text: 'Please input username and password',
+        })
     }
     if(check == 1){
         $.ajax({
@@ -452,49 +432,48 @@ function signin_btc(){
     $('.loading-button').prop('disabled', true);
     $('.loading-button').addClass("running");
 
-    if( $(window).width() > 991){
-        if($('#username').val() != '' && $('#password').val() != ''){
-            username = $('#username').val();
-            password = $('#password').val();
-            keep_me_signin = $('#keep_me_signin').is(':checked');
-            check = 1;
-        }else{
-            error_log = '';
-            if($('#username').val() == '')
-                error_log += 'Please Fill Username';
-            if($('#password').val() == '')
-                if(error_log == '')
-                    error_log += 'Please Fill Password';
-                else
-                    error_log += ' and Fill Password\n';
-            if(error_log != '')
-                alert_message_swal(error_log);
-
-            $('.loading-button').prop('disabled', false);
-            $('.loading-button').removeClass("running");
-        }
+    if($('#username').val() != '' && $('#password').val() != ''){
+        username = $('#username').val();
+        password = $('#password').val();
+        keep_me_signin = $('#keep_me_signin').is(':checked');
+        check = 1;
     }else{
-        if($('#username2').val() != '' && $('#password2').val() != ''){
-            username = $('#username2').val();
-            password = $('#password2').val();
-            keep_me_signin = $('#keep_me_signin2').is(':checked');
-            check = 1;
-        }else{
-            error_log = '';
-            if($('#username2').val() == '')
-                error_log += 'Please Fill Username';
-            if($('#password2').val() == '')
-                if(error_log == '')
-                    error_log += 'Please Fill Password';
-                else
-                    error_log += ' and Fill Password\n';
-            if(error_log != '')
-                alert_message_swal(error_log);
+        error_log = '';
+        if($('#username').val() == '')
+            error_log += 'Please Fill Username';
+        if($('#password').val() == '')
+            if(error_log == '')
+                error_log += 'Please Fill Password';
+            else
+                error_log += ' and Fill Password\n';
+        if(error_log != '')
+            alert_message_swal(error_log);
 
-            $('.loading-button').prop('disabled', false);
-            $('.loading-button').removeClass("running");
-        }
+        $('.loading-button').prop('disabled', false);
+        $('.loading-button').removeClass("running");
     }
+//    else{
+//        if($('#username2').val() != '' && $('#password2').val() != ''){
+//            username = $('#username2').val();
+//            password = $('#password2').val();
+//            keep_me_signin = $('#keep_me_signin2').is(':checked');
+//            check = 1;
+//        }else{
+//            error_log = '';
+//            if($('#username2').val() == '')
+//                error_log += 'Please Fill Username';
+//            if($('#password2').val() == '')
+//                if(error_log == '')
+//                    error_log += 'Please Fill Password';
+//                else
+//                    error_log += ' and Fill Password\n';
+//            if(error_log != '')
+//                alert_message_swal(error_log);
+//
+//            $('.loading-button').prop('disabled', false);
+//            $('.loading-button').removeClass("running");
+//        }
+//    }
     if(check == 1){
         $.ajax({
            type: "POST",
@@ -522,8 +501,8 @@ function signin_btc(){
                         console.log(err); // error google analytics
                     }
                     try{
-                        document.getElementById('nav-menu-container_no_login').style.display = 'none';
-                        document.getElementById('nav-menu-container_login').style.display = 'block';
+//                        document.getElementById('nav-menu-container_no_login').style.display = 'none';
+//                        document.getElementById('nav-menu-container_login').style.display = 'block';
                         document.getElementById('user_login').innerHTML = $('#username').val();
                         document.getElementById('user_login2').innerHTML = $('#username').val();
                         user_login = msg.result.response;
@@ -715,83 +694,6 @@ function copy_create_passenger(url){
           type: 'danger',
           title: 'Generated Error'
         })
-    }
-}
-
-function reset_password_btc(){
-    if( $(window).width() > 991){
-        if($('#username').val() != ''){
-            $.ajax({
-               type: "POST",
-               url: "/webservice/account",
-               headers:{
-                    'action': 'reset_password',
-               },
-               data: {
-                    'email': $('#username').val(),
-               },
-               success: function(msg) {
-                    if(msg.result.error_code == 0){
-                        signature = msg.result.response.signature;
-                        Swal.fire({
-                          type: 'success',
-                          title: 'Yeah!',
-                          html: '<span>Reset Password Success, If Your Already Have an Account Please Check Your Email</span>'
-                        })
-                    }
-               },
-               error: function(XMLHttpRequest, textStatus, errorThrown) {
-                    Swal.fire({
-                      type: 'error',
-                      title: 'Oops!',
-                      html: '<span style="color: red;">Error reset password </span>' + errorThrown,
-                    })
-               },timeout: 60000
-            });
-        }else{
-            Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              html: '<span style="color: red;">Error please input email! </span>',
-            })
-        }
-    }
-    else{
-        if($('#username2').val() != ''){
-            $.ajax({
-               type: "POST",
-               url: "/webservice/account",
-               headers:{
-                    'action': 'reset_password',
-               },
-               data: {
-                    'email': $('#username2').val(),
-               },
-               success: function(msg) {
-                    if(msg.result.error_code == 0){
-                        signature = msg.result.response.signature;
-                        Swal.fire({
-                          type: 'success',
-                          title: 'Yeah!',
-                          html: '<span>Reset Password Success, If Your Already Have an Account Please Check Your Email</span>'
-                        })
-                    }
-               },
-               error: function(XMLHttpRequest, textStatus, errorThrown) {
-                    Swal.fire({
-                      type: 'error',
-                      title: 'Oops!',
-                      html: '<span style="color: red;">Error reset password </span>' + errorThrown,
-                    })
-               },timeout: 60000
-            });
-        }else{
-            Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              html: '<span style="color: red;">Error please input email! </span>',
-            })
-        }
     }
 }
 
@@ -2859,7 +2761,7 @@ function get_customer_list(passenger, number, product){
 
 function gotoForm(){
     document.getElementById('myForm').submit();
-    document.getElementById('myForm2').submit();
+//    document.getElementById('myForm2').submit();
 }
 
 function change_booker_value(type){

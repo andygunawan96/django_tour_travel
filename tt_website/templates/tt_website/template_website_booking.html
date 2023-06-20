@@ -125,7 +125,7 @@ Licence URI: http://www.os-templates.com/template-terms
                     $("#password_style2").removeClass("fa-eye-slash");
                     try{
                         //PAGE LOGIN
-                        document.getElementById('password2').type = 'text';
+                        document.getElementById('password').type = 'text';
                     }catch(err){
                         console.log(err) //ada element yg tidak ada
                     }
@@ -381,7 +381,25 @@ Licence URI: http://www.os-templates.com/template-terms
     <link href="//fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900" rel="stylesheet">
 	<link href="//fonts.googleapis.com/css?family=Source+Sans+Pro:200,200i,300,300i,400,400i,600,600i,700,700i,900,900i" rel="stylesheet">
 	<!-- //google fonts -->
+
+    {% elif template == 7 %}
+    <link rel="stylesheet" href="{{ static_path }}css/template7/bootstrap.min.css?version={{javascript_version}}">
+<!--    <link rel="stylesheet" href="{{ static_path }}css/template7/owl.carousel.min.css?version={{javascript_version}}">-->
+    <link rel="stylesheet" href="{{ static_path }}css/template7/flaticon.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/template7/slicknav.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/template7/animate.min.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/template7/magnific-popup.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/template7/fontawesome-all.min.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/template7/themify-icons.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/template7/slick.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/template7/nice-select.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/template7/style.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/template7/custom.css?version={{javascript_version}}">
+
+    {% elif template == 8 %}
+    <link rel="stylesheet" href="{{ static_path }}css/template8/theme.css?version={{javascript_version}}" type="text/css">
     {%endif%}
+
     <link rel="stylesheet" href="{{ static_path }}css/library/ion.rangeSlider.css?version={{javascript_version}}"/>
     <link rel="stylesheet" href="{{ static_path }}css/library/ion.rangeSlider.skinFlat.css?version={{javascript_version}}"/>
     <link rel="stylesheet" href="{{ static_path }}css/library/owl.carousel.css?version={{javascript_version}}">
@@ -1236,13 +1254,14 @@ Licence URI: http://www.os-templates.com/template-terms
             color: {{text_color_login}};
         }
         .breakpoint-on .dd-trigger{
-            background-color: {{text_color_login}};
+            background-color: {{color}};
+            color: {{text_color}};
         }
         .breakpoint-on .dd-trigger::after{
-            color: {{login_background_color}};
+            color: {{text_color}};
         }
         .breakpoint-on .classynav ul li.has-down.active > .dd-trigger, .breakpoint-on .classynav ul li.megamenu-item.active > .dd-trigger{
-            background-color: {{text_color_login}};
+            background-color: {{color}};
         }
 
         {% if login_background_color == 'transparent'%}
@@ -1278,7 +1297,10 @@ Licence URI: http://www.os-templates.com/template-terms
         }
         .classy-navbar-toggler .navbarToggler span{
             background-color: {{text_color_login}};
-            color: {{text_color_login}}
+            color: {{text_color_login}};
+        }
+        .classy-nav-container .classy-navbar .classynav ul li a:focus, .classy-nav-container .classy-navbar .classynav ul li a:hover{
+            color: {{text_color_login}};
         }
         {% endif %}
 
@@ -1502,6 +1524,7 @@ Licence URI: http://www.os-templates.com/template-terms
     </style>
     {% elif template == 5%}
     <style>
+
         {% if login_background_color == 'transparent'%}
         .main-menu{
             background: white;
@@ -1519,7 +1542,7 @@ Licence URI: http://www.os-templates.com/template-terms
             color: {{color}} !important;
         }
         .nav-menu li:hover > a, .nav-menu > .menu-active > a{
-            color: {{color}} !important;
+            color: {{text_color}} !important;
         }
         {% else %}
         .main-menu{
@@ -1530,6 +1553,9 @@ Licence URI: http://www.os-templates.com/template-terms
         }
         .nav-menu a:hover{
             color: {{text_color_login}};
+        }
+        .nav-menu li:hover > a, .nav-menu > .menu-active > a{
+            color: {{text_color_login}} !important;
         }
         .user_t5{
             color: {{text_color_login}} !important;
@@ -1542,6 +1568,9 @@ Licence URI: http://www.os-templates.com/template-terms
             color: {{text_color_login}};
         }
         {% endif %}
+        .nav-menu ul li:hover > a {
+            color: {{color}};
+        }
 
         #mobile-nav .sign_up_login{
             color: {{text_color_login}};
@@ -1614,7 +1643,10 @@ Licence URI: http://www.os-templates.com/template-terms
             }
         }
         @media (max-width: 991px) {
-            nav ul li a:hover{
+            nav a{
+                color: black !important;
+            }
+            nav a:hover{
                 color: {{color}} !important;
             }
         }
@@ -1683,6 +1715,82 @@ Licence URI: http://www.os-templates.com/template-terms
         }
         nav a:hover{
             color:{{color}};
+        }
+    </style>
+    {% elif template == 7%}
+    <style>
+        {% if login_background_color == 'transparent'%}
+
+        {% else %}
+        .header-area{
+            background: {{login_background_color}};
+        }
+        .main-header .main-menu ul li a{
+            color: {{text_color_login}};
+        }
+        .main-header .main-menu ul li:hover>a{
+            color: {{text_color_login}};
+        }
+        .slicknav_menu .slicknav_icon-bar{
+            background-color: {{text_color_login}} !important;
+        }
+        {% endif %}
+
+        {% if username.co_user_login != default_user %}
+        .main-header .main-menu ul li{
+            top: -8px;
+        }
+        .main-header .main-menu ul li a{
+            padding: 18px 8px;
+        }
+        {% endif %}
+
+        .main-header .main-menu ul.submenu li a:hover{
+            color: {{color}};
+        }
+
+        a:hover{
+            color: {{color}};
+        }
+
+        .footer-area .footer-tittle ul li a:hover{
+            color: {{color}};
+        }
+
+        .big_banner_home{
+            position:relative;
+            z-index: 1;
+        }
+
+        @media (max-width: 1853px) and (min-width: 1200px) {
+            .big_banner_home{
+                height: 548px;
+            }
+
+            .owl-carousel-banner.owl-drag .owl-item{
+                height:548px !important;
+            }
+            .owl-carousel-banner .owl-item img{
+                width: 100vw !important;
+                max-height: 548px !important;
+            }
+        }
+        @media (max-width: 1853px) and (min-width: 1200px) {
+            .owl-carousel-banner.owl-drag .owl-item{
+                height:auto !important;
+            }
+            .owl-carousel-banner .owl-item img{
+                width: 100vw !important;
+                max-height: 548px !important;
+            }
+        }
+        @media (min-width: 1854px) {
+            .owl-carousel-banner.owl-drag .owl-item{
+                height:auto !important;
+            }
+            .owl-carousel-banner .owl-item img{
+                width:auto !important;
+            }
         }
     </style>
     {% endif %}
@@ -1968,6 +2076,52 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 		})
 	})
 </script>
+
+{% elif template == 7%}
+<!-- All JS Custom Plugins Link Here here -->
+<script src="{{ static_path }}js/template7/vendor/modernizr-3.5.0.min.js?version={{javascript_version}}"></script>
+
+<!-- Jquery, Popper, Bootstrap -->
+<script src="{{ static_path }}js/template7/vendor/jquery-1.12.4.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template7/popper.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template7/bootstrap.min.js?version={{javascript_version}}"></script>
+<!-- Jquery Mobile Menu -->
+<script src="{{ static_path }}js/template7/jquery.slicknav.min.js?version={{javascript_version}}"></script>
+
+<!-- Jquery Slick , Owl-Carousel Plugins -->
+<script src="{{ static_path }}js/library/owl.carousel.min.js?version={{javascript_version}}"></script>
+<!--<script src="{{ static_path }}js/template7/owl.carousel.min.js?version={{javascript_version}}"></script>-->
+<script src="{{ static_path }}js/template7/slick.min.js?version={{javascript_version}}"></script>
+<!-- One Page, Animated-HeadLin -->
+<script src="{{ static_path }}js/template7/wow.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template7/animated.headline.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template7/jquery.magnific-popup.js?version={{javascript_version}}"></script>
+
+<!-- Scrollup, nice-select, sticky -->
+<script src="{{ static_path }}js/template7/jquery.scrollUp.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template7/jquery.nice-select.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template7/jquery.sticky.js?version={{javascript_version}}"></script>
+
+<!-- contact js -->
+<script src="{{ static_path }}js/template7/contact.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template7/jquery.form.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template7/jquery.validate.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template7/mail-script.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template7/jquery.ajaxchimp.min.js?version={{javascript_version}}"></script>
+
+<!-- Jquery Plugins, main Jquery -->
+<script src="{{ static_path }}js/template7/plugins.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template7/main.js?version={{javascript_version}}"></script>
+
+{% elif template == 8%}
+<script src="{{ static_path }}js/template8/@popperjs/popper.min.js"></script>
+<script src="{{ static_path }}js/template8/bootstrap/bootstrap.min.js"></script>
+<script src="{{ static_path }}js/template8/is/is.min.js"></script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script>
+<script src="{{ static_path }}js/template8/fontawesome/all.min.js"></script>
+<script src="{{ static_path }}js/template8/theme.js"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&amp;family=Volkhov:wght@700&amp;display=swap" rel="stylesheet">
 
 
 {% endif %}

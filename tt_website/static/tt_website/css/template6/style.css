@@ -374,7 +374,6 @@ li > a:only-child:after { content: ''; }
 	nav ul ul li:hover > ul,
 	nav ul li:hover > ul {
 		display: block;
-		border-top:1px solid #cdcdcd;
 	}
 		
 	/* Fisrt Tier Dropdown */

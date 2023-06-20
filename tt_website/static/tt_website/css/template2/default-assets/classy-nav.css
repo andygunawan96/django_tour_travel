@@ -285,7 +285,7 @@
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
   opacity: 0;
   visibility: hidden;
-  padding: 10px 0; }
+  padding: 15px 0; }
   .breakpoint-off .classynav ul li .dropdown li .dropdown {
     top: 10px;
     right: 100%;
@@ -387,7 +387,7 @@
   width: 31px;
   background-color: #2c3e50;
   top: 7px;
-  right: 15px;
+  right: 0px;
   left: auto;
   display: block;
   border-radius: 2px; }

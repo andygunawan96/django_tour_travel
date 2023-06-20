@@ -1422,7 +1422,7 @@ def get_javascript_version(request):
             except Exception as e:
                 _logger.error("%s, %s" % (str(e), traceback.format_exc()))
 
-            write_cache(javascript_version, 'javascript_version', request, True)
+            write_cache(javascript_version, 'javascript_version', request, 'cache_web', True)
     except Exception as e:
         _logger.error('ERROR javascript_version file\n' + str(e) + '\n' + traceback.format_exc())
     return javascript_version

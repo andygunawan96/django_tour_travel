@@ -1,0 +1,105 @@
+a, button{
+    color: unset;
+}
+a:hover{
+    color: #205B95;
+}
+
+.header-area{
+    position: relative;
+    z-index:999;
+}
+
+.main-header .main-menu ul ul.submenu{
+    width: 270px;
+    left: -100px;
+}
+
+.main-header .main-menu ul ul.submenu>li{
+    position: static;
+}
+
+
+.main-header .main-menu ul li{
+    top: -3px;
+}
+
+.main-header .main-menu ul li a{
+    font-size: 13px;
+    font-family: unset;
+    font-weight: 700;
+    padding: 25px 10px;
+}
+
+.main-header .main-menu ul.submenu li{
+    display: block;
+}
+
+.main-header .main-menu ul.submenu li a{
+    color:black;
+    font-size: 13px;
+    font-family: unset;
+    font-weight: 600;
+    padding: 15px 10px;
+}
+
+.header-area{
+    background: white;
+}
+
+.sticky-bar{
+    position: unset;
+}
+
+.footer-padding{
+    padding-top:50px;
+    padding-bottom: 50px;
+}
+.footer-area .footer-tittle h4{
+    color: black;
+}
+
+.footer-copy-right p{
+    color: black;
+}
+
+.footer-area .footer-pera p{
+    color: black;
+}
+
+
+.footer-area .footer-tittle ul li a{
+    color: black;
+}
+.footer-area .footer-tittle ul li{
+    color: black;
+}
+
+.footer-area .footer-pera p{
+    margin-bottom: 15px;
+}
+
+.section-tittle h2{
+    font-size: 24px;
+    margin-bottom: 30px;
+}
+
+.our-services .single-services{
+    border-radius: 14px;
+    border: 2px solid #205B95;
+}
+
+.our-services .single-services .services-cap h5{
+    color: white;
+    cursor: pointer;
+}
+
+.header-area{
+    border-bottom: 1px solid #cdcdcd;
+}
+
+@media only screen and (min-width: 768px) and (max-width: 991px){
+    .header-area{
+        box-shadow: unset !important;
+    }
+}

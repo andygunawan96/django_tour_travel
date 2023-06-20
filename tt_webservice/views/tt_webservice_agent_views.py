@@ -1360,8 +1360,8 @@ def get_new_cache(request, signature, type='all'):
                 os.remove(path)
             except:
                 _logger.info('Error delete file cache get_airline_active_carriers')
-            airline.get_carriers_search('', signature)
-            airline.get_provider_list_backend('', signature)
+            airline.get_carriers_search(request, signature)
+            airline.get_provider_list_backend(request, signature)
 
             try:
                 file = open("tt_webservice/static/tt_webservice/phc_city.json", "r")

@@ -27,63 +27,6 @@
 
 (function ($) {
 
-    if( $(window).width() >= 992){
-        $('#username_pc').show();
-        $('#password_pc').show();
-        $('#forget_pc').show();
-        $('#username_mb').hide();
-        $('#password_mb').hide();
-        $('#forget_mb').hide();
-        try{
-            document.getElementsByClassName("signup_pc_mb")[0].style.color = text_color_login;
-        }catch(err){
-            console.log('err');
-        }
-
-    }
-    else {
-        $('#username_pc').hide();
-        $('#password_pc').hide();
-        $('#forget_pc').hide();
-        $('#username_mb').show();
-        $('#password_mb').show();
-        $('#forget_mb').show();
-        try{
-            document.getElementsByClassName("signup_pc_mb")[0].style.color = "#2a303b";
-        }catch(err){
-            console.log('err');
-        }
-    }
-
-    $(window).resize(function() {
-        if ($(window).width() >= 992) {
-            $('#username_pc').show();
-            $('#password_pc').show();
-            $('#forget_pc').show();
-            $('#username_mb').hide();
-            $('#password_mb').hide();
-            $('#forget_mb').hide();
-            try{
-                document.getElementsByClassName("signup_pc_mb")[0].style.color = text_color_login;
-            }catch(err){
-                console.log('err');
-            }
-        }
-        else {
-            $('#username_pc').hide();
-            $('#password_pc').hide();
-            $('#forget_pc').hide();
-            $('#username_mb').show();
-            $('#password_mb').show();
-            $('#forget_mb').show();
-            try{
-                document.getElementsByClassName("signup_pc_mb")[0].style.color = "#2a303b";
-            }catch(err){
-                console.log('err');
-            }
-        }
-    });
-
     $.fn.classyNav = function (options) {
 
         // Variables
@@ -98,7 +41,7 @@
 
         // default options
         var defaultOpt = $.extend({
-            breakpoint: 1006,
+            breakpoint: 991,
             openCloseSpeed: 500,
             megaopenCloseSpeed: 800
         }, options);
@@ -109,6 +52,7 @@
             navbarToggler.on('click', function () {
                 navToggler.toggleClass('active');
                 classyMenu.toggleClass('menu-on');
+                $('#classynav_id').show();
             });
 
             // close icon
@@ -147,10 +91,15 @@
             // check browser width in real-time
             function breakpointCheck() {
                 var windoWidth = window.innerWidth;
-                if (windoWidth <= defaultOpt.breakpoint || windoWidth <= 991) {
+                if (windoWidth <= defaultOpt.breakpoint) {
                     navContainer.removeClass('breakpoint-off').addClass('breakpoint-on');
+                    classyMenu.removeClass('menu-on');
+                    navToggler.removeClass('active');
                 } else {
                     navContainer.removeClass('breakpoint-on').addClass('breakpoint-off');
+                    classyMenu.removeClass('menu-on');
+                    navToggler.removeClass('active');
+                    $('#classynav_id').show();
                 }
             }
 
