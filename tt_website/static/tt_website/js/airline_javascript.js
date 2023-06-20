@@ -6703,7 +6703,7 @@ function check_passenger(adult, child, infant, type=''){
         }else{
             document.getElementById('booker_email').style['border-color'] = '#EFEFEF';
         }
-
+        var booker_copy = 'no';
         var radios = document.getElementsByName('myRadios');
         for (var j = 0, length = radios.length; j < length; j++) {
             if (radios[j].checked) {
@@ -6714,9 +6714,9 @@ function check_passenger(adult, child, infant, type=''){
             }
         }
         if(booker_copy == 'yes')
-            if(document.getElementById('booker_title').value != document.getElementById('adult_title1').value ||
-               document.getElementById('booker_first_name').value != document.getElementById('adult_first_name1').value ||
-               document.getElementById('booker_last_name').value != document.getElementById('adult_last_name1').value)
+            if(document.getElementById('booker_title').value.toUpperCase() != document.getElementById('adult_title1').value.toUpperCase() ||
+               document.getElementById('booker_first_name').value.toUpperCase() != document.getElementById('adult_first_name1').value.toUpperCase() ||
+               document.getElementById('booker_last_name').value.toUpperCase() != document.getElementById('adult_last_name1').value.toUpperCase())
                     error_log += 'Copy booker to passenger true, value title, first name, and last name has to be same!</br>\n';
 
        for(i in airline_pick){
