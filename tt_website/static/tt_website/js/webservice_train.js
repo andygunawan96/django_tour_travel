@@ -1972,21 +1972,23 @@ function train_get_booking(data){
                        <h5>Your booking has been successfully Issued!</h5>
                     </div>`;
                     is_show_web_check_in = false;
-                    for(i in msg.result.response.provider_bookings){
-                        if(moment().format('YYYY-MM-DD HH:mm:ss') < moment(msg.result.response.provider_bookings[i].departure_date).format('YYYY-MM-DD HH:mm:ss')){
-                            is_show_web_check_in = true;
+                    try{
+                        for(i in msg.result.response.provider_bookings){
+                            if(moment().format('YYYY-MM-DD HH:mm:ss') < moment(msg.result.response.provider_bookings[i].departure_date).format('YYYY-MM-DD HH:mm:ss')){
+                                is_show_web_check_in = true;
+                            }
                         }
-                    }
-                    if(is_show_web_check_in){
-                        for(i in msg.result.response.passengers){
-                            if(msg.result.response.passengers[i].hasOwnProperty('temporary_field') && msg.result.response.passengers[i]['temporary_field'].hasOwnProperty('web_check_in') && is_show_web_check_in)
-                                is_show_web_check_in = false;
+                        if(is_show_web_check_in){
+                            for(i in msg.result.response.passengers){
+                                if(msg.result.response.passengers[i].hasOwnProperty('temporary_field') && msg.result.response.passengers[i]['temporary_field'][0].hasOwnProperty('web_check_in') && is_show_web_check_in)
+                                    is_show_web_check_in = false;
+                            }
                         }
-                    }
-                    if(is_show_web_check_in){
-                        document.getElementById('web_checkin_btn').hidden = false;
-                        document.getElementById('web_checkin_btn').innerHTML = `<button class="primary-btn-white" style="margin-bottom:0px; width:100%;" id="train_web_checkin_btn" type="button" onclick="train_checkin_booking();">Web Check-in </button>`;
-                    }
+                        if(is_show_web_check_in){
+                            document.getElementById('web_checkin_btn').hidden = false;
+                            document.getElementById('web_checkin_btn').innerHTML = `<button class="primary-btn-white" style="margin-bottom:0px; width:100%;" id="train_web_checkin_btn" type="button" onclick="train_checkin_booking();">Web Check-in </button>`;
+                        }
+                    }catch(err){}
                 }
                 if(msg.result.response.hasOwnProperty('voucher_reference') && msg.result.response.voucher_reference != '' && msg.result.response.voucher_reference != false){
                     try{
