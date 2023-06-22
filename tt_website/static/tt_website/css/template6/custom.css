@@ -350,8 +350,8 @@ ul.footer-link li{
     display:inline-grid;
 }
 
-.div_cst:hover{
-    cursor:pointer;
+.div_cst:hover .image-rounded-product img{
+    transform: scale(1.5);
 }
 
 .hover_cst{

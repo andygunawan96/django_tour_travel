@@ -271,121 +271,17 @@ function get_banner(type,page){
                     }
                     else if(type == 'small_banner'){
                         banner_list['small_banner'] = msg.result.response;
-                        if(template == 1){
-                            text+=`
-                            <div class="owl-carousel-suggest owl-theme">`;
-                            for(i in msg.result.response){
-                                if(msg.result.response[i].active == true){
-                                    text+=`
-                                    <div class="item">
-                                        <img class="owl-lazy" style="cursor:pointer;" data-src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" onclick="banner_click('small_banner','`+msg.result.response[i].seq_id+`')"/>
-                                    </div>`;
-                                }
+                        text+=`
+                        <div class="owl-carousel-suggest owl-theme">`;
+                        for(i in msg.result.response){
+                            if(msg.result.response[i].active == true){
+                                text+=`
+                                <div class="item">
+                                    <img class="owl-lazy" style="cursor:pointer;" data-src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" onclick="banner_click('small_banner','`+msg.result.response[i].seq_id+`')"/>
+                                </div>`;
                             }
-                            text+=`</div>`;
                         }
-                        else if(template == 2){
-                            text+=`
-                            <div class="owl-carousel-suggest owl-theme">`;
-                            for(i in msg.result.response){
-                                if(msg.result.response[i].active == true){
-                                    text+=`
-                                    <div class="item">
-                                        <div class="single-destination relative">
-                                            <div class="thumb relative">
-                                                <img class="owl-lazy" style="cursor:pointer;" data-src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" onclick="banner_click('small_banner','`+msg.result.response[i].seq_id+`')"/>
-                                            </div>
-                                        </div>
-                                    </div>`;
-                                }
-                            }
-                            text+=`</div>`;
-                        }
-                        else if(template == 3){
-                            text+=`
-                            <div class="owl-carousel-suggest owl-theme">`;
-                            for(i in msg.result.response){
-                                if(msg.result.response[i].active == true){
-                                    text+=`
-                                    <div class="item">
-                                        <div class="single-destination relative">
-                                            <div class="thumb relative">
-                                                <img class="owl-lazy" style="cursor:pointer;" data-src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" onclick="banner_click('small_banner','`+msg.result.response[i].seq_id+`')"/>
-                                            </div>
-                                        </div>
-                                    </div>`;
-                                }
-                            }
-                            text+=`</div>`;
-                        }
-                        else if(template == 4){
-                            text+=`
-                            <div class="owl-carousel-suggest owl-theme">`;
-                            for(i in msg.result.response){
-                                if(msg.result.response[i].active == true){
-                                    text+=`
-                                    <div class="item">
-                                        <div class="single-destination relative">
-                                            <div class="thumb relative">
-                                                <img class="owl-lazy" style="cursor:pointer;" data-src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" onclick="banner_click('small_banner','`+msg.result.response[i].seq_id+`')"/>
-                                            </div>
-                                        </div>
-                                    </div>`;
-                                }
-                            }
-                            text+=`</div>`;
-                        }
-                        else if(template == 5){
-                            text+=`
-                            <div class="owl-carousel-suggest owl-theme">`;
-                            for(i in msg.result.response){
-                                if(msg.result.response[i].active == true){
-                                    text+=`
-                                    <div class="item">
-                                        <div class="single-destination relative">
-                                            <div class="thumb relative">
-                                                <img class="owl-lazy" style="cursor:pointer;" data-src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" onclick="banner_click('small_banner','`+msg.result.response[i].seq_id+`')"/>
-                                            </div>
-                                        </div>
-                                    </div>`;
-                                }
-                            }
-                            text+=`</div>`;
-                        }
-                        else if(template == 6){
-                            text+=`
-                            <div class="owl-carousel-suggest owl-theme">`;
-                            for(i in msg.result.response){
-                                if(msg.result.response[i].active == true){
-                                    text+=`
-                                    <div class="item">
-                                        <div class="single-destination relative">
-                                            <div class="thumb relative">
-                                                <img class="owl-lazy" style="cursor:pointer;" data-src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" onclick="banner_click('small_banner','`+msg.result.response[i].seq_id+`')"/>
-                                            </div>
-                                        </div>
-                                    </div>`;
-                                }
-                            }
-                            text+=`</div>`;
-                        }
-                        else if(template == 7){
-                            text+=`
-                            <div class="owl-carousel-suggest owl-theme">`;
-                            for(i in msg.result.response){
-                                if(msg.result.response[i].active == true){
-                                    text+=`
-                                    <div class="item">
-                                        <div class="single-destination relative">
-                                            <div class="thumb relative">
-                                                <img class="owl-lazy" style="cursor:pointer;" data-src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" onclick="banner_click('small_banner','`+msg.result.response[i].seq_id+`')"/>
-                                            </div>
-                                        </div>
-                                    </div>`;
-                                }
-                            }
-                            text+=`</div>`;
-                        }
+                        text+=`</div>`;
                     }
                     else if(type == 'promotion'){
                         banner_list['promotion'] = msg.result.response;
@@ -549,139 +445,19 @@ function get_banner(type,page){
                     }
                     if(type == 'small_banner'){
                         banner_list['small_banner'] = msg.result.response;
-                        if(template == 1){
-                            text+=`
-                            <div class="owl-carousel-suggest owl-theme">`;
-                            for(i in msg.result.response){
-                                if(msg.result.response[i].provider_type != false){
-                                    if(msg.result.response[i].provider_type == page && msg.result.response[i].active == true){
-                                        text+=`
-                                        <div class="item">
-                                            <div class="single-destination relative">
-                                                <div class="thumb relative">
-                                                    <img class="owl-lazy" style="cursor:pointer;" data-src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" onclick="banner_click('small_banner','`+msg.result.response[i].seq_id+`')"/>
-                                                </div>
-                                            </div>
-                                        </div>`;
-                                    }
+                        text+=`
+                        <div class="owl-carousel-suggest owl-theme">`;
+                        for(i in msg.result.response){
+                            if(msg.result.response[i].provider_type != false){
+                                if(msg.result.response[i].provider_type == page && msg.result.response[i].active == true){
+                                    text+=`
+                                    <div class="item">
+                                        <img class="owl-lazy" style="cursor:pointer;" data-src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" onclick="banner_click('small_banner','`+msg.result.response[i].seq_id+`')"/>
+                                    </div>`;
                                 }
                             }
-                            text+=`</div>`;
                         }
-                        else if(template == 2){
-                            text+=`
-                            <div class="owl-carousel-suggest owl-theme">`;
-                            for(i in msg.result.response){
-                                if(msg.result.response[i].provider_type != false){
-                                    if(msg.result.response[i].provider_type == page && msg.result.response[i].active == true){
-                                        text+=`
-                                        <div class="item">
-                                            <div class="single-destination relative">
-                                                <div class="thumb relative">
-                                                    <img class="owl-lazy" style="cursor:pointer;" data-src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" onclick="banner_click('small_banner','`+msg.result.response[i].seq_id+`')"/>
-                                                </div>
-                                            </div>
-                                        </div>`;
-                                    }
-                                }
-                            }
-                            text+=`</div>`;
-                        }
-                        else if(template == 3){
-                            text+=`
-                            <div class="owl-carousel-suggest owl-theme">`;
-                            for(i in msg.result.response){
-                                if(msg.result.response[i].provider_type != false){
-                                    if(msg.result.response[i].provider_type == page && msg.result.response[i].active == true){
-                                        text+=`
-                                        <div class="item">
-                                            <div class="single-destination relative">
-                                                <div class="thumb relative">
-                                                    <img class="owl-lazy" style="cursor:pointer;" data-src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" onclick="banner_click('small_banner','`+msg.result.response[i].seq_id+`')"/>
-                                                </div>
-                                            </div>
-                                        </div>`;
-                                    }
-                                }
-                            }
-                            text+=`</div>`;
-                        }
-                        else if(template == 4){
-                            text+=`
-                            <div class="owl-carousel-suggest owl-theme">`;
-                            for(i in msg.result.response){
-                                if(msg.result.response[i].provider_type != false){
-                                    if(msg.result.response[i].provider_type == page && msg.result.response[i].active == true){
-                                        text+=`
-                                        <div class="item">
-                                            <div class="single-destination relative">
-                                                <div class="thumb relative">
-                                                    <img class="owl-lazy" style="cursor:pointer;" data-src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" onclick="banner_click('small_banner','`+msg.result.response[i].seq_id+`')"/>
-                                                </div>
-                                            </div>
-                                        </div>`;
-                                    }
-                                }
-                            }
-                            text+=`</div>`;
-                        }
-                        else if(template == 5){
-                            text+=`
-                            <div class="owl-carousel-suggest owl-theme">`;
-                            for(i in msg.result.response){
-                                if(msg.result.response[i].provider_type != false){
-                                    if(msg.result.response[i].provider_type == page && msg.result.response[i].active == true){
-                                        text+=`
-                                        <div class="item">
-                                            <div class="single-destination relative">
-                                                <div class="thumb relative">
-                                                    <img class="owl-lazy" style="cursor:pointer;" data-src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" onclick="banner_click('small_banner','`+msg.result.response[i].seq_id+`')"/>
-                                                </div>
-                                            </div>
-                                        </div>`;
-                                    }
-                                }
-                            }
-                            text+=`</div>`;
-                        }
-                        else if(template == 6){
-                            text+=`
-                            <div class="owl-carousel-suggest owl-theme">`;
-                            for(i in msg.result.response){
-                                if(msg.result.response[i].provider_type != false){
-                                    if(msg.result.response[i].provider_type == page && msg.result.response[i].active == true){
-                                        text+=`
-                                        <div class="item">
-                                            <div class="single-destination relative">
-                                                <div class="thumb relative">
-                                                    <img class="owl-lazy" style="cursor:pointer;" data-src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" onclick="banner_click('small_banner','`+msg.result.response[i].seq_id+`')"/>
-                                                </div>
-                                            </div>
-                                        </div>`;
-                                    }
-                                }
-                            }
-                            text+=`</div>`;
-                        }
-                        else if(template == 7){
-                            text+=`
-                            <div class="owl-carousel-suggest owl-theme">`;
-                            for(i in msg.result.response){
-                                if(msg.result.response[i].provider_type != false){
-                                    if(msg.result.response[i].provider_type == page && msg.result.response[i].active == true){
-                                        text+=`
-                                        <div class="item">
-                                            <div class="single-destination relative">
-                                                <div class="thumb relative">
-                                                    <img class="owl-lazy" style="cursor:pointer;" data-src="`+msg.result.response[i].url+`" alt="Banner" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" onclick="banner_click('small_banner','`+msg.result.response[i].seq_id+`')"/>
-                                                </div>
-                                            </div>
-                                        </div>`;
-                                    }
-                                }
-                            }
-                            text+=`</div>`;
-                        }
+                        text+=`</div>`;
                     }
                 }
                 document.getElementById(type).innerHTML = text;
@@ -718,10 +494,16 @@ function get_banner(type,page){
 
                             var dots = $('.owl-carousel-banner').find('.owl-dots').css('position', 'absolute').css('bottom', '5px');
                             dots.css('left', 'calc(50% - ' + dots.width()/2+'px)');
+
+
+                            //var dots_outer = $('.owl-carousel-banner').find('.owl-stage-outer').attr('style', 'min-height: 0px !important');
+                            if(template == 6){
+                                $('.big_banner_home').attr('style', 'height: 100% !important');
+                            }
                         }
                         else if(type == 'small_banner'){
                             $('.owl-carousel-suggest').owlCarousel({
-                                loop:true,
+                                loop:false,
                                 nav: true,
                                 navRewind:true,
                                 rewind: true,
@@ -1074,13 +856,13 @@ function get_dynamic_page(type){
                                     <div class="card card-effect-promotion" style="border:unset;">
                                         <div class="card-body" style="padding:5px 10px 10px 10px; border:unset;">
                                             <div class="row details">
-                                                <div class="col-lg-12" style="height:160px;">
-                                                    <h6 style="cursor:pointer; font-size:16px; width:fit-content; padding-top:10px; border-bottom:4px solid `+color+`; padding-right:5px; font-weight:bold; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;" onclick="window.location.href='/page/`+msg.result.response[i].url+`'">`+msg.result.response[i].title+`</h6>
-                                                    <div style="padding-top:10px; height:65px;display: block; text-overflow: ellipsis; word-wrap: break-word; overflow: hidden; max-height: 4.6em; line-height: 1.8em;">
+                                                <div class="col-lg-12" style="height:190px;">
+                                                    <h6 style="cursor:pointer; font-size:16px; width:fit-content; padding-top:10px; padding-right:5px; font-weight:bold; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;" onclick="window.location.href='/page/`+msg.result.response[i].url+`'">`+msg.result.response[i].title+`</h6>
+                                                    <div style="padding-top:10px; height:105px;display: block; text-overflow: ellipsis; word-wrap: break-word; overflow: hidden; line-height: 1.8em; font-size:13px;">
                                                         `+msg.result.response[i].body+`
                                                     </div>
                                                     <div style="position:absolute; right:15px; bottom:0px;">
-                                                        <button class="primary-btn" style="line-height:24px; padding-left:15px; padding-right:15px;" onclick="window.location.href='/page/`+msg.result.response[i].url+`'">Read More <i class="fas fa-chevron-right"></i></button>
+                                                        <button class="primary-btn" style="line-height:34px; padding-left:15px; padding-right:15px;" onclick="window.location.href='/page/`+msg.result.response[i].url+`'">Read More <i class="fas fa-chevron-right"></i></button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1097,12 +879,12 @@ function get_dynamic_page(type){
                     document.getElementById('owl-login2').innerHTML = text;
 
                     $('.owl-carousel-login').owlCarousel({
-                        loop:true,
+                        loop:false,
                         nav: true,
                         navRewind:true,
                         rewind: true,
                         margin: 20,
-                        items:3,
+                        items:4,
                         responsiveClass:true,
                         dots: false,
                         merge: false,
@@ -1121,7 +903,7 @@ function get_dynamic_page(type){
                                 items:2,
                             },
                             992:{
-                                items:3,
+                                items:4,
                             }
                         }
                     });

@@ -1148,6 +1148,9 @@ Licence URI: http://www.os-templates.com/template-terms
     <!--Template 1-->
     {% if template == 1%}
     <style>
+        .txt_clr{
+            color: white;
+        }
         {% if login_background_color == 'transparent'%}
         .main-menu{
             background: white;
@@ -1250,6 +1253,9 @@ Licence URI: http://www.os-templates.com/template-terms
     </style>
     {% elif template == 2%}
     <style>
+        .txt_clr{
+            color: black;
+        }
         .classynav ul li.has-down > a::after, .classynav ul li.has-down.active > a::after, .classynav ul li.megamenu-item > a::after{
             color: {{text_color_login}};
         }
@@ -1324,21 +1330,17 @@ Licence URI: http://www.os-templates.com/template-terms
             border:2px solid #cdcdcd;
             background:{{tab_color}};
         }
-        .image-rounded-icon3{
-            background: {{color}};
-        }
         ul.tabs li{
-            background:{{tab_color}};
-            border-bottom: 5px solid {{tab_color}};
+            border-bottom: 8px solid {{tab_color}};
             color: {{text_color}};
         }
         ul.tabs li.current {
-            border-bottom: 5px solid {{color}} !important;
+            border-bottom: 8px solid {{color}} !important;
             color: {{color}};
         }
         ul.tabs li:hover {
             color: {{color}};
-            border-bottom: 5px solid {{color}};
+            border-bottom: 8px solid {{color}};
         }
         .nice-select .option.selected{
             color: {{color}};
@@ -1380,12 +1382,18 @@ Licence URI: http://www.os-templates.com/template-terms
         .tab_custom_login{
             background: white;
         }
+        .nav-menu a{
+            color: black;
+        }
         .nav-menu a:hover{
             color: {{color}};
         }
         {% else %}
         .tab_custom_login{
             background: {{login_background_color}};
+        }
+        .nav-menu a{
+            color: {{text_color_login}};
         }
         .nav-menu a:hover{
             color: {{text_color_login}};
@@ -1483,13 +1491,15 @@ Licence URI: http://www.os-templates.com/template-terms
         .form-control:active, .form-control:focus {
             border-color: {{color}};
         }
+        /*
         ul.tabs li{
             color: {{text_color}};
             background: {{tab_color}};
         }
+        */
         ul.tabs li:hover{
             color: {{text_color}};
-            background: {{color}};
+            background: {{tab_color}};
         }
         ul.tabs li.current {
             background: {{color}};
@@ -1511,9 +1521,6 @@ Licence URI: http://www.os-templates.com/template-terms
         }
         .nice-select .option:hover, .nice-select .option.focus, .nice-select .option.selected.focus{
             color: {{color}};
-        }
-        .image-rounded-icon{
-            background: {{color}};
         }
         #myBtnBTP{
             background-color: {{color}}
@@ -1760,28 +1767,28 @@ Licence URI: http://www.os-templates.com/template-terms
         .big_banner_home{
             position:relative;
             z-index: 1;
+            height: 28vw !important;
+        }
+
+        .stripe_big_banner{
+            height: 28vw !important;
+        }
+
+        .owl-carousel-banner.owl-drag .owl-item{
+            max-height:29vw !important;
+        }
+        .owl-carousel-banner .owl-item img{
+            width: 100vw !important;
+            max-height: 29vw !important;
         }
 
         @media (max-width: 1853px) and (min-width: 1200px) {
-            .big_banner_home{
-                height: 548px;
-            }
-
             .owl-carousel-banner.owl-drag .owl-item{
-                height:548px !important;
+                max-height:29vw !important;
             }
             .owl-carousel-banner .owl-item img{
                 width: 100vw !important;
-                max-height: 548px !important;
-            }
-        }
-        @media (max-width: 1853px) and (min-width: 1200px) {
-            .owl-carousel-banner.owl-drag .owl-item{
-                height:auto !important;
-            }
-            .owl-carousel-banner .owl-item img{
-                width: 100vw !important;
-                max-height: 548px !important;
+                max-height: 29vw !important;
             }
         }
         @media (min-width: 1854px) {

@@ -1907,6 +1907,10 @@ h1, h2, h3, h4, h5, h6 {
   transition: all 0.5s;
 }
 
+#logo {
+  padding-left: 15px;
+}
+
 @media (max-width: 673px) {
   #logo {
     /*margin-left: 20px;*/
@@ -2008,7 +2012,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Nav Meu Container */
 #nav-menu-container {
-  margin: 0;
+  padding-right: 15px;
 }
 
 @media (max-width: 768px) {

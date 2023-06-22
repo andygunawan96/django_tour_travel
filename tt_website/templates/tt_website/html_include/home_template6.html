@@ -16,7 +16,6 @@
 {% endif%}
 
 {% if username.co_user_login != '' %}
-
     <section class="banner_w3lspvt div_search_area_home" id="home">
         <div class="container">
             {% if big_banner_value == 1 %}
@@ -30,7 +29,7 @@
             {% endif %}
         </div>
     </section>
-    <section class="about" style="margin-top:45px;">
+    <section class="about" style="border-top:1px solid #cdcdcd; padding-top:45px;">
         <div class="container">
             <div class="row fetured-sec">
                 <div class="col-lg-12 text-center mb-5">
@@ -52,7 +51,7 @@
             </div>
         </div>
     </section>
-    <section class="about text-center mb-5" id="box_choose" style="margin-bottom:30px;">
+    <section class="about text-center pt-5 pb-5" id="box_choose" style="background: #f7f7f7;">
         <div class="container">
             <!-- services -->
             <div class="row">
@@ -62,84 +61,84 @@
                         {% if "airline" in provider and "ticketing_airline" in username.co_agent_frontend_security and rec.code == "airline" %}
                         <div class="div_cst" onclick="product_change_box('airline')">
                             <i class="image-rounded-product">
-                                <img style="width:auto; height:40px" src="{{static_path}}images/icon/color-airline.png" alt="Airline Icon"/>
+                                <img style="width:auto; height:45px;" src="{{static_path}}images/icon/c-airline.png" alt="Airline Icon"/>
                             </i>
                             <h6 class="hover_cst" style="width:100px;">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</h6>
                         </div>
                         {% elif "hotel" in provider and "ticketing_hotel" in username.co_agent_frontend_security and rec.code == "hotel" %}
                         <div class="div_cst" onclick="product_change_box('hotel')">
                             <i class="image-rounded-product">
-                                <img style="width:auto; height:40px" src="{{static_path}}images/icon/color-hotel.png" alt="Hotel Icon"/>
+                                <img style="width:auto; height:45px;" src="{{static_path}}images/icon/c-hotel.png" alt="Hotel Icon"/>
                             </i>
                             <h6 class="hover_cst">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</h6>
                         </div>
                         {% elif "train" in provider and "ticketing_train" in username.co_agent_frontend_security and rec.code == "train" %}
                         <div class="div_cst" onclick="product_change_box('train')">
                             <i class="image-rounded-product">
-                                <img style="width:auto; height:40px" src="{{static_path}}images/icon/color-train.png" alt="Train Icon"/>
+                                <img style="width:auto; height:45px;" src="{{static_path}}images/icon/c-train.png" alt="Train Icon"/>
                             </i>
                             <h6 class="hover_cst">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</h6>
                         </div>
                         {% elif "ppob" in provider and "ticketing_ppob" in username.co_agent_frontend_security and rec.code == "ppob" %}
                         <div class="div_cst" onclick="product_change_box('ppob')">
                             <i class="image-rounded-product">
-                                <img style="width:auto; height:40px" src="{{static_path}}images/icon/color-ppob.png" alt="PPOB Icon"/>
+                                <img style="width:auto; height:45px;" src="{{static_path}}images/icon/c-ppob.png" alt="PPOB Icon"/>
                             </i>
                             <h6 class="hover_cst" style="font-size:14px;">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</h6>
                         </div>
                         {% elif "tour" in provider and "ticketing_tour" in username.co_agent_frontend_security and rec.code == "tour" %}
                         <div class="div_cst" onclick="product_change_box('tour')">
                             <i class="image-rounded-product">
-                                <img style="width:auto; height:40px" src="{{static_path}}images/icon/color-tour.png" alt="Tour Icon"/>
+                                <img style="width:auto; height:45px;" src="{{static_path}}images/icon/c-tour.png" alt="Tour Icon"/>
                             </i>
                             <h6 class="hover_cst">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</h6>
                         </div>
                         {% elif "event" in provider and "ticketing_event" in username.co_agent_frontend_security and rec.code == "event" %}
                         <div class="div_cst" onclick="product_change_box('event')">
                             <i class="image-rounded-product">
-                                <img style="width:auto; height:40px" src="{{static_path}}images/icon/color-event.png" alt="Event Icon"/>
+                                <img style="width:auto; height:45px;" src="{{static_path}}images/icon/c-event.png" alt="Event Icon"/>
                             </i>
                             <h6 class="hover_cst">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</h6>
                         </div>
                         {% elif "activity" in provider and "ticketing_activity" in username.co_agent_frontend_security and rec.code == "activity" %}
                         <div class="div_cst" onclick="product_change_box('activity')">
                             <i class="image-rounded-product">
-                                <img style="width:auto; height:40px" src="{{static_path}}images/icon/color-activity.png" alt="Event Icon"/>
+                                <img style="width:auto; height:45px;" src="{{static_path}}images/icon/c-activity.png" alt="Event Icon"/>
                             </i>
                             <h6 class="hover_cst">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</h6>
                         </div>
                         {% elif "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_visa" in username.co_agent_frontend_security and rec.code == "visa" %}
                         <div class="div_cst" onclick="product_change_box('visa')">
                             <i class="image-rounded-product">
-                                <img style="width:auto; height:40px" src="{{static_path}}images/icon/color-visa.png" alt="Event Icon"/>
+                                <img style="width:auto; height:45px;" src="{{static_path}}images/icon/c-visa.png" alt="Event Icon"/>
                             </i>
                             <h6 class="hover_cst">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</h6>
                         </div>
                         {% elif "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_passport" in username.co_agent_frontend_security and rec.code == "passport" %}
                         <div class="div_cst" onclick="product_change_box('passport')">
                             <i class="image-rounded-product">
-                                <img style="width:auto; height:40px" src="{{static_path}}images/icon/color-passport.png" alt="Event Icon"/>
+                                <img style="width:auto; height:45px;" src="{{static_path}}images/icon/c-passport.png" alt="Event Icon"/>
                             </i>
                             <h6 class="hover_cst">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</h6>
                         </div>
                         {% elif rec.code == "health_care" and "mitrakeluarga" in provider and "ticketing_mitrakeluarga" in username.co_agent_frontend_security or rec.code == "health_care" and "sentramedika" in provider and "ticketing_sentramedika" in username.co_agent_frontend_security or rec.code == "health_care" and "periksain" in provider and "ticketing_periksain" in username.co_agent_frontend_security or rec.code == "health_care" and "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security or rec.code == "health_care" and "labpintar" in provider and "ticketing_labpintar" in username.co_agent_frontend_security or rec.code == "health_care" and "swabexpress" in provider and "ticketing_swabexpress" in username.co_agent_frontend_security or rec.code == "health_care" and "phc" in provider and "ticketing_phc" in username.co_agent_frontend_security %}
                         <div class="div_cst" onclick="product_change_box('medical1')">
                             <i class="image-rounded-product">
-                                <img style="width:auto; height:40px" src="{{static_path}}images/icon/color-swab.png" alt="Health Care Icon"/>
+                                <img style="width:auto; height:45px;" src="{{static_path}}images/icon/c-health.png" alt="Health Care Icon"/>
                             </i>
                             <h6 class="hover_cst">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</h6>
                         </div>
                         {% elif "insurance" in provider and "ticketing_insurance" in username.co_agent_frontend_security and rec.code == "insurance" %}
                         <div class="div_cst" onclick="product_change_box('insurance')">
                             <i class="image-rounded-product">
-                                <img style="width:auto; height:40px" src="{{static_path}}images/icon/color-insurance.png" alt="INSURANCE Icon"/>
+                                <img style="width:auto; height:45px;" src="{{static_path}}images/icon/c-insurance.png" alt="INSURANCE Icon"/>
                             </i>
                             <h6 class="hover_cst">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</h6>
                         </div>
                         {% elif "bus" in provider and "ticketing_bus" in username.co_agent_frontend_security and rec.code == "bus" %}
                         <div class="div_cst" onclick="product_change_box('bus')">
                             <i class="image-rounded-product">
-                                <img style="width:auto; height:40px" src="{{static_path}}images/icon/color-bus.png" alt="Bus Icon"/>
+                                <img style="width:auto; height:45px;" src="{{static_path}}images/icon/c-bus.png" alt="Bus Icon"/>
                             </i>
                             <h6 class="hover_cst">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</h6>
                         </div>
@@ -152,7 +151,7 @@
     </section>
     {% for rec in provider_types_sequence %}
     {% if "airline" in provider and "ticketing_airline" in username.co_agent_frontend_security and rec.code == "airline" %}
-    <section class="about mb-5" style="display:none;" id="box_airline">
+    <section class="about pt-5 pb-5" style="display:none; background: #f7f7f7;" id="box_airline">
         <div class="container">
             <div class="row" style="padding:15px;">
                 <div class="col-lg-2"></div>
@@ -160,11 +159,11 @@
                 <div class="col-lg-8">
                     <div class="row">
                         <div class="col-lg-12" style="float:left; padding:15px 0px;">
-                            <button class="primary-btn-white" style="float:left; margin-bottom:0px;" onclick="product_change_box('choose')">
+                            <button class="primary-btn-white-bd" style="float:left; margin-bottom:0px;" onclick="product_change_box('choose')">
                                 <i class="fas fa-arrow-circle-left"></i> Back
                             </button>
                             <h4 class="heading" style="text-align:right;">
-                                <img style="width:auto; height:25px" src="{{static_path}}images/icon/color-airline.png" alt="Airline Icon"/>
+                                <img style="width:auto; height:40px;" src="{{static_path}}images/icon/c-airline.png" alt="Airline Icon"/>
                                 {% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}
                             </h4>
                         </div>
@@ -447,7 +446,7 @@
                                 </div>
                                 <br/>
                                 <div class="row">
-                                    <div class="col-lg-12" style="text-align:right;">
+                                    <div class="col-lg-12" style="text-align:center;">
                                         <button class="button-search primary-btn ld-ext-right" type="button" id="airline_button_search" onclick="get_captcha('recaptcha_airline','airline');" value="Submit">
                                             <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                                             {% trans 'Search' %}
@@ -465,7 +464,7 @@
         </div>
     </section>
     {% elif "hotel" in provider and "ticketing_hotel" in username.co_agent_frontend_security and rec.code == "hotel" %}
-    <section class="about mb-5" style="display:none;" id="box_hotel">
+    <section class="about pt-5 pb-5" style="display:none; background: #f7f7f7;" id="box_hotel">
         <div class="container">
             <div class="row" style="padding:15px;">
                 <div class="col-lg-2"></div>
@@ -473,11 +472,11 @@
                 <div class="col-lg-8">
                     <div class="row">
                         <div class="col-lg-12" style="float:left; padding:15px 0px;">
-                            <button class="primary-btn-white" style="float:left; margin-bottom:0px;" onclick="product_change_box('choose')">
+                            <button class="primary-btn-white-bd" style="float:left; margin-bottom:0px;" onclick="product_change_box('choose')">
                                 <i class="fas fa-arrow-circle-left"></i> Back
                             </button>
                             <h4 class="heading" style="text-align:right;">
-                                <img style="width:auto; height:25px" src="{{static_path}}images/icon/color-hotel.png" alt="Hotel Icon"/>
+                                <img style="width:auto; height:40px;" src="{{static_path}}images/icon/c-hotel.png" alt="Hotel Icon"/>
                                 {% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}
                             </h4>
                         </div>
@@ -604,12 +603,15 @@
                                     </div>
                                 </div>
                                 <br/>
-
-                                <button class="button-search primary-btn ld-ext-right" style="float:right;" id="btn-search-hotel" onclick="get_captcha('recaptcha_hotel','hotel');" type="button" value="Submit">
-                                    <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                                    {% trans 'Search' %}
-                                    <div class="ld ld-ring ld-cycle"></div>
-                                </button>
+                                <div class="row">
+                                    <div class="col-lg-12" style="text-align:center;">
+                                        <button class="button-search primary-btn ld-ext-right" id="btn-search-hotel" onclick="get_captcha('recaptcha_hotel','hotel');" type="button" value="Submit">
+                                            <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                            {% trans 'Search' %}
+                                            <div class="ld ld-ring ld-cycle"></div>
+                                        </button>
+                                    </div>
+                                </div>
                             </form>
                         </div>
                     </div>
@@ -620,7 +622,7 @@
         </div>
     </section>
     {% elif "train" in provider and "ticketing_train" in username.co_agent_frontend_security and rec.code == "train" %}
-    <section class="about mb-5" style="display:none;" id="box_train">
+    <section class="about pt-5 pb-5" style="display:none; background: #f7f7f7;" id="box_train">
         <div class="container">
             <div class="row" style="padding:15px;">
                 <div class="col-lg-2"></div>
@@ -628,11 +630,11 @@
                 <div class="col-lg-8">
                     <div class="row">
                         <div class="col-lg-12" style="float:left; padding:15px 0px;">
-                            <button class="primary-btn-white" style="float:left; margin-bottom:0px;" onclick="product_change_box('choose')">
+                            <button class="primary-btn-white-bd" style="float:left; margin-bottom:0px;" onclick="product_change_box('choose')">
                                 <i class="fas fa-arrow-circle-left"></i> Back
                             </button>
                             <h4 class="heading" style="text-align:right;">
-                                <img style="width:auto; height:25px" src="{{static_path}}images/icon/color-train.png" alt="Train Icon"/>
+                                <img style="width:auto; height:40px;" src="{{static_path}}images/icon/c-train.png" alt="Train Icon"/>
                                 {% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}
                             </h4>
                         </div>
@@ -737,13 +739,16 @@
                                     </div>
                                 </div>
                                 <br/>
-
-                                <input type="hidden" id="train_response" name="response"/>
-                                <button class="primary-btn ld-ext-right" id="btn-search-train" style="float:right;" type="button" onclick="get_captcha('recaptcha_train','train');" value="Submit">
-                                    <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                                    {% trans 'Search' %}
-                                    <div class="ld ld-ring ld-cycle"></div>
-                                </button>
+                                <div class="row">
+                                    <div class="col-lg-12" style="text-align:center;">
+                                        <input type="hidden" id="train_response" name="response"/>
+                                        <button class="primary-btn ld-ext-right" id="btn-search-train" type="button" onclick="get_captcha('recaptcha_train','train');" value="Submit">
+                                            <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                            {% trans 'Search' %}
+                                            <div class="ld ld-ring ld-cycle"></div>
+                                        </button>
+                                    </div>
+                                </div>
                             </form>
                         </div>
                     </div>
@@ -754,7 +759,7 @@
         </div>
     </section>
     {% elif "ppob" in provider and "ticketing_ppob" in username.co_agent_frontend_security and rec.code == "ppob" %}
-    <section class="about mb-5" style="display:none;" id="box_ppob">
+    <section class="about pt-5 pb-5" style="display:none; background: #f7f7f7;" id="box_ppob">
         <div class="container">
             <div class="row" style="padding:15px;">
                 <div class="col-lg-2"></div>
@@ -762,11 +767,11 @@
                 <div class="col-lg-8">
                     <div class="row">
                         <div class="col-lg-12" style="float:left; padding:15px 0px;">
-                            <button class="primary-btn-white" style="float:left; margin-bottom:0px;" onclick="product_change_box('choose')">
+                            <button class="primary-btn-white-bd" style="float:left; margin-bottom:0px;" onclick="product_change_box('choose')">
                                 <i class="fas fa-arrow-circle-left"></i> Back
                             </button>
                             <h4 class="heading" style="text-align:right;">
-                                <img style="width:auto; height:25px" src="{{static_path}}images/icon/color-ppob.png" alt="PPOB Icon"/>
+                                <img style="width:auto; height:40px;" src="{{static_path}}images/icon/c-ppob.png" alt="PPOB Icon"/>
                                 {% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}
                             </h4>
                         </div>
@@ -806,11 +811,15 @@
                                 </div>
 
                                 {% if 'book_reservation' in username.co_agent_frontend_security or 'issued_reservation' in username.co_agent_frontend_security %}
-                                <button class="button-search primary-btn ld-ext-right btn-next" style="float:right;" type="button" onclick="signin_ppob('');" value="Submit">
-                                    <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                                    {% trans 'Search' %}
-                                    <div class="ld ld-ring ld-cycle"></div>
-                                </button>
+                                <div class="row">
+                                    <div class="col-lg-12" style="text-align:center;">
+                                        <button class="button-search primary-btn ld-ext-right btn-next" type="button" onclick="signin_ppob('');" value="Submit">
+                                            <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                            {% trans 'Search' %}
+                                            <div class="ld ld-ring ld-cycle"></div>
+                                        </button>
+                                    </div>
+                                </div>
                                 {% endif %}
                             </form>
                             <form method="POST" id="ppob_issued" action="{% url 'tt_website:payment'%}">
@@ -833,7 +842,7 @@
         </div>
     </section>
     {% elif "activity" in provider and "ticketing_activity" in username.co_agent_frontend_security and rec.code == "activity" %}
-    <section class="about mb-5" style="display:none;" id="box_activity">
+    <section class="about pt-5 pb-5" style="display:none; background: #f7f7f7;" id="box_activity">
         <div class="container">
             <div class="row" style="padding:15px;">
                 <div class="col-lg-2"></div>
@@ -841,11 +850,11 @@
                 <div class="col-lg-8">
                     <div class="row">
                         <div class="col-lg-12" style="float:left; padding:15px 0px;">
-                            <button class="primary-btn-white" style="float:left; margin-bottom:0px;" onclick="product_change_box('choose')">
+                            <button class="primary-btn-white-bd" style="float:left; margin-bottom:0px;" onclick="product_change_box('choose')">
                                 <i class="fas fa-arrow-circle-left"></i> Back
                             </button>
                             <h4 class="heading" style="text-align:right;">
-                                <img style="width:auto; height:25px" src="{{static_path}}images/icon/color-activity.png" alt="Activity Icon"/>
+                                <img style="width:auto; height:40px;" src="{{static_path}}images/icon/c-activity.png" alt="Activity Icon"/>
                                 {% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}
                             </h4>
                         </div>
@@ -929,11 +938,15 @@
                                     </div>
                                 </div>
                                 <br/>
-                                <button class="button-search primary-btn ld-ext-right" style="float:right;" onclick="get_captcha('recaptcha_activity','activity');" type="submit" value="Submit">
-                                    <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                                    {% trans 'Search' %}
-                                    <div class="ld ld-ring ld-cycle"></div>
-                                </button>
+                                <div class="row">
+                                    <div class="col-lg-12" style="text-align:center;">
+                                        <button class="button-search primary-btn ld-ext-right" onclick="get_captcha('recaptcha_activity','activity');" type="submit" value="Submit">
+                                            <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                            {% trans 'Search' %}
+                                            <div class="ld ld-ring ld-cycle"></div>
+                                        </button>
+                                    </div>
+                                </div>
                             </form>
                         </div>
                     </div>
@@ -945,7 +958,7 @@
     </section>
     {% elif "tour" in provider and "ticketing_tour" in username.co_agent_frontend_security and rec.code == "tour" %}
     {% if tour_search_template == 'country_search' %}
-    <section class="about mb-5" style="display:none;" id="box_tour">
+    <section class="about pt-5 pb-5" style="display:none; background: #f7f7f7;" id="box_tour">
         <div class="container">
             <div class="row" style="padding:15px;">
                 <div class="col-lg-2"></div>
@@ -953,11 +966,11 @@
                 <div class="col-lg-8">
                     <div class="row">
                         <div class="col-lg-12" style="border:1px solid {{color}}; float:left; padding:15px;">
-                            <button class="primary-btn-white" style="float:left; margin-bottom:0px;" onclick="product_change_box('choose')">
+                            <button class="primary-btn-white-bd" style="float:left; margin-bottom:0px;" onclick="product_change_box('choose')">
                                 <i class="fas fa-arrow-circle-left"></i> Back
                             </button>
                             <h4 class="heading" style="text-align:right;">
-                                <img style="width:auto; height:25px" src="{{static_path}}images/icon/color-tour.png" alt="Tour Icon"/>
+                                <img style="width:auto; height:40px;" src="{{static_path}}images/icon/c-tour.png" alt="Tour Icon"/>
                                 {% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}
                             </h4>
                         </div>
@@ -993,7 +1006,7 @@
         </div>
     </section>
     {% else %}
-    <section class="about mb-5" style="display:none;" id="box_tour">
+    <section class="about pt-5 pb-5" style="display:none; background: #f7f7f7;" id="box_tour">
         <div class="container">
             <div class="row" style="padding:15px;">
                 <div class="col-lg-2"></div>
@@ -1001,11 +1014,11 @@
                 <div class="col-lg-8">
                     <div class="row">
                         <div class="col-lg-12" style="float:left; padding:15px 0px;">
-                            <button class="primary-btn-white" style="float:left; margin-bottom:0px;" onclick="product_change_box('choose')">
+                            <button class="primary-btn-white-bd" style="float:left; margin-bottom:0px;" onclick="product_change_box('choose')">
                                 <i class="fas fa-arrow-circle-left"></i> Back
                             </button>
                             <h4 class="heading" style="text-align:right;">
-                                <img style="width:auto; height:25px" src="{{static_path}}images/icon/color-tour.png" alt="Tour Icon"/>
+                                <img style="width:auto; height:40px;" src="{{static_path}}images/icon/c-tour.png" alt="Tour Icon"/>
                                 {% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}
                             </h4>
                         </div>
@@ -1095,11 +1108,15 @@
                                     </div>
                                 </div>
                                 <br/>
-                                <button class="button-search primary-btn ld-ext-right" style="float:right;" onclick="get_captcha('recaptcha_tour','tour');" type="button" value="Submit">
-                                    <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                                    {% trans 'Search' %}
-                                    <div class="ld ld-ring ld-cycle"></div>
-                                </button>
+                                <div class="row">
+                                    <div class="col-lg-12" style="text-align:center;">
+                                        <button class="button-search primary-btn ld-ext-right" onclick="get_captcha('recaptcha_tour','tour');" type="button" value="Submit">
+                                            <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                            {% trans 'Search' %}
+                                            <div class="ld ld-ring ld-cycle"></div>
+                                        </button>
+                                    </div>
+                                </div>
                             </form>
                         </div>
                     </div>
@@ -1111,7 +1128,7 @@
     </section>
     {% endif %}
     {% elif "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_visa" in username.co_agent_frontend_security and rec.code == "visa" %}
-    <section class="about mb-5" style="display:none;" id="box_visa">
+    <section class="about pt-5 pb-5" style="display:none; background: #f7f7f7;" id="box_visa">
         <div class="container">
             <div class="row" style="padding:15px;">
                 <div class="col-lg-2"></div>
@@ -1119,11 +1136,11 @@
                 <div class="col-lg-8">
                     <div class="row">
                         <div class="col-lg-12" style="float:left; padding:15px 0px;">
-                            <button class="primary-btn-white" style="float:left; margin-bottom:0px;" onclick="product_change_box('choose')">
+                            <button class="primary-btn-white-bd" style="float:left; margin-bottom:0px;" onclick="product_change_box('choose')">
                                 <i class="fas fa-arrow-circle-left"></i> Back
                             </button>
                             <h4 class="heading" style="text-align:right;">
-                                <img style="width:auto; height:25px" src="{{static_path}}images/icon/color-visa.png" alt="Visa Icon"/>
+                                <img style="width:auto; height:40px;" src="{{static_path}}images/icon/c-visa.png" alt="Visa Icon"/>
                                 {% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}
                             </h4>
                         </div>
@@ -1162,11 +1179,15 @@
                                     </div>
                                 </div>
                                 <br/>
-                                <button class="button-search primary-btn ld-ext-right" style="float:right;" type="button" onclick="get_captcha('recaptcha_visa','visa');" value="Submit">
-                                    <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                                    {% trans 'Search' %}
-                                    <div class="ld ld-ring ld-cycle"></div>
-                                </button>
+                                <div class="row">
+                                    <div class="col-lg-12" style="text-align:center;">
+                                        <button class="button-search primary-btn ld-ext-right" type="button" onclick="get_captcha('recaptcha_visa','visa');" value="Submit">
+                                            <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                            {% trans 'Search' %}
+                                            <div class="ld ld-ring ld-cycle"></div>
+                                        </button>
+                                    </div>
+                                </div>
                             </form>
                         </div>
                     </div>
@@ -1177,7 +1198,7 @@
         </div>
     </section>
     {% elif "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_passport" in username.co_agent_frontend_security and rec.code == "passport" %}
-    <section class="about mb-5" style="display:none;" id="box_passport">
+    <section class="about pt-5 pb-5" style="display:none; background: #f7f7f7;" id="box_passport">
         <div class="container">
             <div class="row" style="padding:15px;">
                 <div class="col-lg-2"></div>
@@ -1185,11 +1206,11 @@
                 <div class="col-lg-8">
                     <div class="row">
                         <div class="col-lg-12" style="float:left; padding:15px 0px;">
-                            <button class="primary-btn-white" style="float:left; margin-bottom:0px;" onclick="product_change_box('choose')">
+                            <button class="primary-btn-white-bd" style="float:left; margin-bottom:0px;" onclick="product_change_box('choose')">
                                 <i class="fas fa-arrow-circle-left"></i> Back
                             </button>
                             <h4 class="heading" style="text-align:right;">
-                                <img style="width:auto; height:25px" src="{{static_path}}images/icon/color-passport.png" alt="Passport Icon"/>
+                                <img style="width:auto; height:40px;" src="{{static_path}}images/icon/c-passport.png" alt="Passport Icon"/>
                                 {% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}
                             </h4>
                         </div>
@@ -1233,11 +1254,15 @@
                                     </div>
                                 </div>
                                 <br/>
-                                <button class="button-search primary-btn ld-ext-right" style="float:right;" type="button" onclick="get_captcha('recaptcha_passport','passport');" value="Submit">
-                                    <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                                    {% trans 'Search' %}
-                                    <div class="ld ld-ring ld-cycle"></div>
-                                </button>
+                                <div class="row">
+                                    <div class="col-lg-12" style="text-align:center;">
+                                        <button class="button-search primary-btn ld-ext-right" type="button" onclick="get_captcha('recaptcha_passport','passport');" value="Submit">
+                                            <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                            {% trans 'Search' %}
+                                            <div class="ld ld-ring ld-cycle"></div>
+                                        </button>
+                                    </div>
+                                </div>
                             </form>
                         </div>
                     </div>
@@ -1248,7 +1273,7 @@
         </div>
     </section>
     {% elif "event" in provider and "ticketing_event" in username.co_agent_frontend_security and rec.code == "event" %}
-    <section class="about mb-5" style="display:none;" id="box_event">
+    <section class="about pt-5 pb-5" style="display:none; background: #f7f7f7;" id="box_event">
         <div class="container">
             <div class="row" style="padding:15px;">
                 <div class="col-lg-2"></div>
@@ -1256,11 +1281,11 @@
                 <div class="col-lg-8">
                     <div class="row">
                         <div class="col-lg-12" style="float:left; padding:15px 0px;">
-                            <button class="primary-btn-white" style="float:left; margin-bottom:0px;" onclick="product_change_box('choose')">
+                            <button class="primary-btn-white-bd" style="float:left; margin-bottom:0px;" onclick="product_change_box('choose')">
                                 <i class="fas fa-arrow-circle-left"></i> Back
                             </button>
                             <h4 class="heading" style="text-align:right;">
-                                <img style="width:auto; height:25px" src="{{static_path}}images/icon/color-event.png" alt="Event Icon"/>
+                                <img style="width:auto; height:40px;" src="{{static_path}}images/icon/c-event.png" alt="Event Icon"/>
                                 {% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}
                             </h4>
                         </div>
@@ -1287,12 +1312,15 @@
                                     </div>
                                 </div>
                                 <br/>
-
-                                <button class="button-search primary-btn ld-ext-right" id="btn-search-event" style="float:right;" onclick="get_captcha('recaptcha_event','event');" type="button" value="Submit">
-                                    <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                                    {% trans 'Search' %}
-                                    <div class="ld ld-ring ld-cycle"></div>
-                                </button>
+                                <div class="row">
+                                    <div class="col-lg-12" style="text-align:center;">
+                                        <button class="button-search primary-btn ld-ext-right" id="btn-search-event" onclick="get_captcha('recaptcha_event','event');" type="button" value="Submit">
+                                            <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                            {% trans 'Search' %}
+                                            <div class="ld ld-ring ld-cycle"></div>
+                                        </button>
+                                    </div>
+                                </div>
                             </form>
                         </div>
                     </div>
@@ -1303,18 +1331,18 @@
         </div>
     </section>
     {% elif "bus" in provider and "ticketing_bus" in username.co_agent_frontend_security and rec.code == "bus" %}
-    <section class="about mb-5" style="display:none;" id="box_bus">
+    <section class="about pt-5 pb-5" style="display:none; background: #f7f7f7;" id="box_bus">
         <div class="container">
             <div class="row" style="padding:15px;">
                 <div class="col-lg-2"></div>
                 <div class="col-lg-8">
                     <div class="row">
                         <div class="col-lg-12" style="float:left; padding:15px 0px;">
-                            <button class="primary-btn-white" style="float:left; margin-bottom:0px;" onclick="product_change_box('choose')">
+                            <button class="primary-btn-white-bd" style="float:left; margin-bottom:0px;" onclick="product_change_box('choose')">
                                 <i class="fas fa-arrow-circle-left"></i> Back
                             </button>
                             <h4 class="heading" style="text-align:right;">
-                                <img style="width:auto; height:25px" src="{{static_path}}images/icon/color-bus.png" alt="Bus Icon"/>
+                                <img style="width:auto; height:40px;" src="{{static_path}}images/icon/c-bus.png" alt="Bus Icon"/>
                                 {% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}
                             </h4>
                         </div>
@@ -1400,14 +1428,16 @@
                                 </div>
                                 <br/>
 
-                                <input type="hidden" id="bus_response" name="response"/>
-                                <center>
-                                    <button class="primary-btn ld-ext-right" id="btn-search-train" type="button" onclick="get_captcha('recaptcha_bus','bus');" value="Submit">
-                                        <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                                        {% trans 'Search' %}
-                                        <div class="ld ld-ring ld-cycle"></div>
-                                    </button>
-                                </center>
+                                <div class="row">
+                                    <div class="col-lg-12" style="text-align:center;">
+                                        <input type="hidden" id="bus_response" name="response"/>
+                                        <button class="primary-btn ld-ext-right" id="btn-search-train" type="button" onclick="get_captcha('recaptcha_bus','bus');" value="Submit">
+                                            <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                            {% trans 'Search' %}
+                                            <div class="ld ld-ring ld-cycle"></div>
+                                        </button>
+                                    </div>
+                                </div>
                             </form>
                         </div>
                     </div>
@@ -1417,18 +1447,18 @@
         </div>
     </section>
     {% elif "insurance" in provider and "ticketing_insurance" in username.co_agent_frontend_security and rec.code == "insurance" %}
-    <section class="about mb-5" style="display:none;" id="box_insurance">
+    <section class="about pt-5 pb-5" style="display:none; background: #f7f7f7;" id="box_insurance">
         <div class="container">
             <div class="row" style="padding:15px;">
                 <div class="col-lg-2"></div>
                 <div class="col-lg-8">
                     <div class="row">
                         <div class="col-lg-12" style="float:left; padding:15px 0px;">
-                            <button class="primary-btn-white" style="float:left; margin-bottom:0px;" onclick="product_change_box('choose')">
+                            <button class="primary-btn-white-bd" style="float:left; margin-bottom:0px;" onclick="product_change_box('choose')">
                                 <i class="fas fa-arrow-circle-left"></i> Back
                             </button>
                             <h4 class="heading" style="text-align:right;">
-                                <img style="width:auto; height:25px" src="{{static_path}}images/icon/color-insurance.png" alt="Insurance Icon"/>
+                                <img style="width:auto; height:40px;" src="{{static_path}}images/icon/c-insurance.png" alt="Insurance Icon"/>
                                 {% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}
                             </h4>
                         </div>
@@ -1442,18 +1472,18 @@
         </div>
     </section>
     {% elif rec.code == "health_care" and "mitrakeluarga" in provider and "ticketing_mitrakeluarga" in username.co_agent_frontend_security or rec.code == "health_care" and "sentramedika" in provider and "ticketing_sentramedika" in username.co_agent_frontend_security or rec.code == "health_care" and "periksain" in provider and "ticketing_periksain" in username.co_agent_frontend_security or rec.code == "health_care" and "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security or rec.code == "health_care" and "labpintar" in provider and "ticketing_labpintar" in username.co_agent_frontend_security or rec.code == "health_care" and "swabexpress" in provider and "ticketing_swabexpress" in username.co_agent_frontend_security or rec.code == "health_care" and "phc" in provider and "ticketing_phc" in username.co_agent_frontend_security %}
-    <section class="about mb-5" style="display:none;" id="box_medical1">
+    <section class="about pt-5 pb-5" style="display:none; background: #f7f7f7;" id="box_medical1">
         <div class="container">
             <div class="row" style="padding:15px;">
                 <div class="col-lg-2"></div>
                 <div class="col-lg-8">
                     <div class="row">
                         <div class="col-lg-12" style="float:left; padding:15px 0px;">
-                            <button class="primary-btn-white" style="float:left; margin-bottom:0px;" onclick="product_change_box('choose')">
+                            <button class="primary-btn-white-bd" style="float:left; margin-bottom:0px;" onclick="product_change_box('choose')">
                                 <i class="fas fa-arrow-circle-left"></i> Back
                             </button>
                             <h4 class="heading" style="text-align:right;">
-                                <img style="width:auto; height:25px" src="{{static_path}}images/icon/color-swab.png" alt="Swab Icon"/>
+                                <img style="width:auto; height:40px;" src="{{static_path}}images/icon/c-health.png" alt="Swab Icon"/>
                                 {% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}
                             </h4>
                         </div>
@@ -1529,13 +1559,15 @@
                                         {% csrf_token %}
                                         <input type="hidden" name="g-recaptcha-response" id='recaptcha_medical1'>
                                         <br/>
-                                        <center>
-                                            <button class="button-search primary-btn ld-ext-right" type="button" onclick="get_captcha('recaptcha_medical1','medical1');" value="Submit">
-                                                <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                                                {% trans 'Search' %}
-                                                <div class="ld ld-ring ld-cycle"></div>
-                                            </button>
-                                        </center>
+                                        <div class="row">
+                                            <div class="col-lg-12" style="text-align:center;">
+                                                <button class="button-search primary-btn ld-ext-right" type="button" onclick="get_captcha('recaptcha_medical1','medical1');" value="Submit">
+                                                    <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                                    {% trans 'Search' %}
+                                                    <div class="ld ld-ring ld-cycle"></div>
+                                                </button>
+                                            </div>
+                                        </div>
                                     </form>
                                     {% endif %}
                                     <!--NATHOS-->
@@ -1558,13 +1590,15 @@
                                             </div>
                                         </div>
                                         <br/>
-                                        <center>
-                                            <button class="button-search primary-btn ld-ext-right" type="button" onclick="get_captcha('recaptcha_medical_global','medical_global');" value="Submit">
-                                                <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                                                {% trans 'Search' %}
-                                                <div class="ld ld-ring ld-cycle"></div>
-                                            </button>
-                                        </center>
+                                        <div class="row">
+                                            <div class="col-lg-12" style="text-align:center;">
+                                                <button class="button-search primary-btn ld-ext-right" type="button" onclick="get_captcha('recaptcha_medical_global','medical_global');" value="Submit">
+                                                    <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                                    {% trans 'Search' %}
+                                                    <div class="ld ld-ring ld-cycle"></div>
+                                                </button>
+                                            </div>
+                                        </div>
                                     </form>
                                     {% endif %}
                                     <!--SWABEXPRESS-->
@@ -1587,13 +1621,15 @@
                                             </div>
                                         </div>
                                         <br/>
-                                        <center>
-                                            <button class="button-search primary-btn ld-ext-right" type="button" onclick="get_captcha('recaptcha_swab_express','swab_express');" value="Submit">
-                                                <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                                                {% trans 'Search' %}
-                                                <div class="ld ld-ring ld-cycle"></div>
-                                            </button>
-                                        </center>
+                                        <div class="row">
+                                            <div class="col-lg-12" style="text-align:center;">
+                                                <button class="button-search primary-btn ld-ext-right" type="button" onclick="get_captcha('recaptcha_swab_express','swab_express');" value="Submit">
+                                                    <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                                    {% trans 'Search' %}
+                                                    <div class="ld ld-ring ld-cycle"></div>
+                                                </button>
+                                            </div>
+                                        </div>
                                     </form>
                                     {% endif %}
                                     <!--LABPINTAR-->
@@ -1616,13 +1652,15 @@
                                             </div>
                                         </div>
                                         <br/>
-                                        <center>
-                                            <button class="button-search primary-btn ld-ext-right" type="button" onclick="get_captcha('recaptcha_swab_express','lab_pintar');" value="Submit">
-                                                <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                                                {% trans 'Search' %}
-                                                <div class="ld ld-ring ld-cycle"></div>
-                                            </button>
-                                        </center>
+                                        <div class="row">
+                                            <div class="col-lg-12" style="text-align:center;">
+                                                <button class="button-search primary-btn ld-ext-right" type="button" onclick="get_captcha('recaptcha_swab_express','lab_pintar');" value="Submit">
+                                                    <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                                    {% trans 'Search' %}
+                                                    <div class="ld ld-ring ld-cycle"></div>
+                                                </button>
+                                            </div>
+                                        </div>
                                     </form>
                                     {% endif %}
                                     {% if "mitrakeluarga" in provider and "ticketing_mitrakeluarga" in username.co_agent_frontend_security %}
@@ -1644,13 +1682,15 @@
                                             </div>
                                         </div>
                                         <br/>
-                                        <center>
-                                            <button class="button-search primary-btn ld-ext-right" type="button" onclick="get_captcha('recaptcha_mitra_keluarga','mitra_keluarga');" value="Submit">
-                                                <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                                                {% trans 'Search' %}
-                                                <div class="ld ld-ring ld-cycle"></div>
-                                            </button>
-                                        </center>
+                                        <div class="row">
+                                            <div class="col-lg-12" style="text-align:center;">
+                                                <button class="button-search primary-btn ld-ext-right" type="button" onclick="get_captcha('recaptcha_mitra_keluarga','mitra_keluarga');" value="Submit">
+                                                    <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                                    {% trans 'Search' %}
+                                                    <div class="ld ld-ring ld-cycle"></div>
+                                                </button>
+                                            </div>
+                                        </div>
                                     </form>
                                     {% endif %}
                                     {% if "sentramedika" in provider and "ticketing_sentramedika" in username.co_agent_frontend_security %}
@@ -1674,13 +1714,15 @@
                                             </div>
                                         </div>
                                         <br/>
-                                        <center>
-                                            <button class="button-search primary-btn ld-ext-right" type="button" onclick="get_captcha('recaptcha_sentra_medika','sentra_medika');" value="Submit">
-                                                <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                                                {% trans 'Search' %}
-                                                <div class="ld ld-ring ld-cycle"></div>
-                                            </button>
-                                        </center>
+                                        <div class="row">
+                                            <div class="col-lg-12" style="text-align:center;">
+                                                <button class="button-search primary-btn ld-ext-right" type="button" onclick="get_captcha('recaptcha_sentra_medika','sentra_medika');" value="Submit">
+                                                    <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                                    {% trans 'Search' %}
+                                                    <div class="ld ld-ring ld-cycle"></div>
+                                                </button>
+                                            </div>
+                                        </div>
                                     </form>
                                     {% endif %}
                                     {% if "phc" in provider and "ticketing_phc" in username.co_agent_frontend_security %}
@@ -1738,12 +1780,12 @@
     {% endfor %}
 
     {% if small_banner_value == 1 %}
-    <section class="about pt-5 pb-5" style="background:#f7f7f7;">
+    <section class="about pt-5 pb-5">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
                     <div class="fetured-info py-lg-3 py-3 mb-3">
-                        <h3 class="text-center">
+                        <h3>
                             HOT DEALS
                         </h3>
                     </div>
@@ -1786,32 +1828,39 @@
     {%endif%}
 
     {% if dynamic_page_value == 1 %}
-    <section class="about pt-5 pb-5">
+    <section class="about pt-5 pb-5" style="background: #f7f7f7;">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 mb-3">
                     <div class="fetured-info py-lg-3 py-3 mb-3">
-                        <h3 class="text-center">
+                        <h3>
                             INFORMATION
                         </h3>
                     </div>
                     <div id="owl-login2">
                         <div class="row">
-                            <div class="col-lg-4 col-md-6">
+                            <div class="col-lg-3 col-md-6">
                                 <div class="stripe_dynamic_page">
                                     <div class="div_stripe">
                                         <div class="loading_stripe"></div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-4 col-md-6">
+                            <div class="col-lg-3 col-md-6">
                                 <div class="stripe_dynamic_page show_hide_mb">
                                     <div class="div_stripe">
                                         <div class="loading_stripe"></div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-4 col-md-6">
+                            <div class="col-lg-3 col-md-6">
+                                <div class="stripe_dynamic_page show_hide">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6">
                                 <div class="stripe_dynamic_page show_hide">
                                     <div class="div_stripe">
                                         <div class="loading_stripe"></div>

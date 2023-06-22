@@ -1,7 +1,7 @@
 {% load i18n %}
 
 <div id="overlay-search-box" onclick="off_overlay()"></div>
-<section class="bg-img" style="background-image: url('{{background}}'); background-color: rgba(0,0,0,0.5); z-index:3; position:relative;" data-aos="fade">
+<section class="bg-img" style="background: linear-gradient(0deg, rgba(63, 63, 63, 0.4), rgba(63, 63, 63, 0.4)), url('{{background}}'); background-size: cover; z-index:3; position:relative;" data-aos="fade">
     <div id="overlay-search-box2" onclick="off_overlay()">
         <div class="container">
             {% if big_banner_value == 1 %}
@@ -13,28 +13,28 @@
                 </div>
             </div>
             {% endif %}
+            {% if username.co_user_name != '' %}
+            <div style="margin-top:15px; text-align:left;">
+                <h2 style="color:{{text_color}}; padding-top:40px; padding-bottom:20px;">
+                    {% if username.co_user_login != default_user %}
+                    {% trans 'Hello' %}, {{username.co_user_name}}!<br/>
+                    {% trans 'Grow your business with' %} <span class="lamp">{{name}}</span>
+                    {% else %}
+                    {% trans 'Hello, dear customer, book your trip with us' %}
+                    {% endif %}
+                </h2>
+            </div>
+            {% else %}
+            <div style="text-align:center;">
+                <h3 style="color:{{text_color}};">
+                    Hello, Guest !
+                </h3>
+                <h4 style="padding-top:5px; padding-bottom:15px; color:{{text_color}};">
+                    Enjoy your trip with {{name}}
+                </h4>
+            </div>
+            {% endif %}
         </div>
-        {% if username.co_user_name != '' %}
-        <div style="text-align:center;">
-            <h2 style="padding-top:20px; padding-bottom:20px;">
-                {% if username.co_user_login != default_user %}
-                {% trans 'Hello' %}, {{username.co_user_name}}!<br/>
-                {% trans 'Grow your business with' %} <span class="lamp">{{name}}</span>
-                {% else %}
-                {% trans 'Hello, dear customer, book your trip with us' %}
-                {% endif %}
-            </h2>
-        </div>
-        {% else %}
-        <div style="text-align:center;">
-            <h3 style="color:{{text_color}};">
-                Hello, Guest !
-            </h3>
-            <h4 style="padding-top:5px; padding-bottom:15px; color:{{text_color}};">
-                Enjoy your trip with {{name}}
-            </h4>
-        </div>
-        {% endif %}
     </div>
     <div id="div-search-overlay" style="position:relative; ">
         <div style="position:relative; background:transparent; z-index:2;">
@@ -48,29 +48,29 @@
                                     <ul class="tabs">
                                         {% for rec in provider_types_sequence %}
                                         {% if "airline" in provider and "ticketing_airline" in username.co_agent_frontend_security and rec.code == 'airline' %}
-                                        <li class="tab-link" data-tab="tab-airline" onclick="scroll_menu_horizontal('tab-link', 'airline');" id="nav_scroll_menu_airline"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-airline.png" alt="Airline Icon"/></i><label class="btn-txt-color">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</label></li>
+                                        <li class="tab-link" data-tab="tab-airline" onclick="scroll_menu_horizontal('tab-link', 'airline');" id="nav_scroll_menu_airline"><i class="image-rounded-icon"><img style="width:30px; height:30px" src="{{static_path}}images/icon/c-airline.png" alt="Airline Icon"/></i><label class="txt_clr" style="padding-right:5px;" style="padding-right:10px;">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</label></li>
                                         {% elif "hotel" in provider and "ticketing_hotel" in username.co_agent_frontend_security and rec.code == 'hotel' %}
-                                        <li class="tab-link" data-tab="tab-hotel" onclick="scroll_menu_horizontal('tab-link', 'hotel');" id="nav_scroll_menu_hotel"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-hotel.png" alt="Hotel Icon"/></i> <label class="btn-txt-color">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</label></li>
+                                        <li class="tab-link" data-tab="tab-hotel" onclick="scroll_menu_horizontal('tab-link', 'hotel');" id="nav_scroll_menu_hotel"><i class="image-rounded-icon"><img style="width:30px; height:30px" src="{{static_path}}images/icon/c-hotel.png" alt="Hotel Icon"/></i> <label class="txt_clr" style="padding-right:5px;" style="padding-right:10px;">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</label></li>
                                         {% elif "train" in provider and "ticketing_train" in username.co_agent_frontend_security and rec.code == 'train' %}
-                                        <li class="tab-link" data-tab="tab-train" onclick="scroll_menu_horizontal('tab-link', 'train');" id="nav_scroll_menu_train"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-train.png" alt="Train Icon"/></i> <label class="btn-txt-color">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</label></li>
+                                        <li class="tab-link" data-tab="tab-train" onclick="scroll_menu_horizontal('tab-link', 'train');" id="nav_scroll_menu_train"><i class="image-rounded-icon"><img style="width:30px; height:30px" src="{{static_path}}images/icon/c-train.png" alt="Train Icon"/></i> <label class="txt_clr" style="padding-right:5px;" style="padding-right:10px;">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</label></li>
                                         {% elif "ppob" in provider and "ticketing_ppob" in username.co_agent_frontend_security and rec.code == 'ppob' %}
-                                        <li class="tab-link" data-tab="tab-bills" onclick="scroll_menu_horizontal('tab-link', 'ppob');" id="nav_scroll_menu_ppob"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/bill.png" alt="PPOB Icon"/></i> <label class="btn-txt-color">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</label></li>
+                                        <li class="tab-link" data-tab="tab-bills" onclick="scroll_menu_horizontal('tab-link', 'ppob');" id="nav_scroll_menu_ppob"><i class="image-rounded-icon"><img style="width:30px; height:30px" src="{{static_path}}images/icon/c-ppob.png" alt="PPOB Icon"/></i> <label class="txt_clr" style="padding-right:5px;" style="padding-right:10px;">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</label></li>
                                         {% elif "tour" in provider and "ticketing_tour" in username.co_agent_frontend_security and rec.code == 'tour' %}
-                                        <li class="tab-link" data-tab="tab-tour" onclick="scroll_menu_horizontal('tab-link', 'tour');" id="nav_scroll_menu_tour"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-tour.png" alt="Tour Icon"/></i> <label class="btn-txt-color">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</label></li>
+                                        <li class="tab-link" data-tab="tab-tour" onclick="scroll_menu_horizontal('tab-link', 'tour');" id="nav_scroll_menu_tour"><i class="image-rounded-icon"><img style="width:30px; height:30px" src="{{static_path}}images/icon/c-tour.png" alt="Tour Icon"/></i> <label class="txt_clr" style="padding-right:5px;" style="padding-right:10px;">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</label></li>
                                         {% elif "event" in provider and "ticketing_event" in username.co_agent_frontend_security and rec.code == 'event' %}
-                                        <li class="tab-link" data-tab="tab-event" onclick="scroll_menu_horizontal('tab-link', 'event');" id="nav_scroll_menu_event"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-event.png" alt="Event Icon"/></i><label class="btn-txt-color">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</label></li>
+                                        <li class="tab-link" data-tab="tab-event" onclick="scroll_menu_horizontal('tab-link', 'event');" id="nav_scroll_menu_event"><i class="image-rounded-icon"><img style="width:30px; height:30px" src="{{static_path}}images/icon/c-event.png" alt="Event Icon"/></i><label class="txt_clr" style="padding-right:5px;" style="padding-right:10px;">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</label></li>
                                         {% elif "activity" in provider and "ticketing_activity" in username.co_agent_frontend_security and rec.code == 'activity' %}
-                                        <li class="tab-link" data-tab="tab-activity" onclick="scroll_menu_horizontal('tab-link', 'activity');" id="nav_scroll_menu_activity"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-activity.png" alt="Activity Icon"/></i> <label class="btn-txt-color">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</label></li>
+                                        <li class="tab-link" data-tab="tab-activity" onclick="scroll_menu_horizontal('tab-link', 'activity');" id="nav_scroll_menu_activity"><i class="image-rounded-icon"><img style="width:30px; height:30px" src="{{static_path}}images/icon/c-activity.png" alt="Activity Icon"/></i> <label class="txt_clr" style="padding-right:5px;" style="padding-right:10px;">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</label></li>
                                         {% elif "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_visa" in username.co_agent_frontend_security and rec.code == 'visa' %}
-                                        <li class="tab-link" data-tab="tab-visa" onclick="scroll_menu_horizontal('tab-link', 'visa');" id="nav_scroll_menu_visa"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-visa.png" alt="Visa Icon"/></i> <label class="btn-txt-color">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</label></li>
+                                        <li class="tab-link" data-tab="tab-visa" onclick="scroll_menu_horizontal('tab-link', 'visa');" id="nav_scroll_menu_visa"><i class="image-rounded-icon"><img style="width:30px; height:30px" src="{{static_path}}images/icon/c-visa.png" alt="Visa Icon"/></i> <label class="txt_clr" style="padding-right:5px;" style="padding-right:10px;">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</label></li>
                                         {% elif "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_passport" in username.co_agent_frontend_security and rec.code == 'passport' %}
-                                        <li class="tab-link" data-tab="tab-passport" onclick="scroll_menu_horizontal('tab-link', 'passport');" id="nav_scroll_menu_passport"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/passport.png" alt="Passport Icon"/></i> <label class="btn-txt-color">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</label></li>
+                                        <li class="tab-link" data-tab="tab-passport" onclick="scroll_menu_horizontal('tab-link', 'passport');" id="nav_scroll_menu_passport"><i class="image-rounded-icon"><img style="width:30px; height:30px" src="{{static_path}}images/icon/c-passport.png" alt="Passport Icon"/></i> <label class="txt_clr" style="padding-right:5px;" style="padding-right:10px;">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</label></li>
                                         {% elif "bus" in provider and "ticketing_bus" in username.co_agent_frontend_security and rec.code == "bus" %}
-                                        <li class="tab-link" data-tab="tab-bus" onclick="scroll_menu_horizontal('tab-link', 'bus');" id="nav_scroll_menu_bus"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-bus.png" alt="Bus Icon"/></i><label class="btn-txt-color">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</label></li>
+                                        <li class="tab-link" data-tab="tab-bus" onclick="scroll_menu_horizontal('tab-link', 'bus');" id="nav_scroll_menu_bus"><i class="image-rounded-icon"><img style="width:30px; height:30px" src="{{static_path}}images/icon/c-bus.png" alt="Bus Icon"/></i><label class="txt_clr" style="padding-right:5px;" style="padding-right:10px;">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</label></li>
                                         {% elif rec.code == "health_care" and "mitrakeluarga" in provider and "ticketing_mitrakeluarga" in username.co_agent_frontend_security or rec.code == "health_care" and "sentramedika" in provider and "ticketing_sentramedika" in username.co_agent_frontend_security or rec.code == "health_care" and "periksain" in provider and "ticketing_periksain" in username.co_agent_frontend_security or rec.code == "health_care" and "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security or rec.code == "health_care" and "labpintar" in provider and "ticketing_labpintar" in username.co_agent_frontend_security or rec.code == "health_care" and "swabexpress" in provider and "ticketing_swabexpress" in username.co_agent_frontend_security or rec.code == "health_care" and "phc" in provider and "ticketing_phc" in username.co_agent_frontend_security %}
-                                        <li class="tab-link" data-tab="tab-medical1" onclick="scroll_menu_horizontal('tab-link', 'medical1');" id="nav_scroll_menu_medical1"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/swab.png" alt="Health Care Icon"/></i><label class="btn-txt-color">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</label></li>
+                                        <li class="tab-link" data-tab="tab-medical1" onclick="scroll_menu_horizontal('tab-link', 'medical1');" id="nav_scroll_menu_medical1"><i class="image-rounded-icon"><img style="width:30px; height:30px" src="{{static_path}}images/icon/c-health.png" alt="Health Care Icon"/></i><label class="txt_clr" style="padding-right:5px;" style="padding-right:10px;">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</label></li>
                                         {% elif "insurance" in provider and "ticketing_insurance" in username.co_agent_frontend_security and rec.code == "insurance" %}
-                                        <li class="tab-link" data-tab="tab-insurance" onclick="scroll_menu_horizontal('tab-link', 'insurance');" id="nav_scroll_menu_insurance"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-insurance.png" alt="Insurance Icon"/></i><label class="btn-txt-color">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</label></li>
+                                        <li class="tab-link" data-tab="tab-insurance" onclick="scroll_menu_horizontal('tab-link', 'insurance');" id="nav_scroll_menu_insurance"><i class="image-rounded-icon"><img style="width:30px; height:30px" src="{{static_path}}images/icon/c-insurance.png" alt="Insurance Icon"/></i><label class="txt_clr" style="padding-right:5px;" style="padding-right:10px;">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</label></li>
                                         {% endif %}
                                         {% endfor %}
                                     </ul>
@@ -1419,12 +1419,12 @@
 </section>
 
 {% if small_banner_value == 1 %}
-<div class="site-section" style="background: #f7f7f7; z-index:0; position:relative;">
+<div class="site-section" style="z-index:0; position:relative;">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
                 <div class="row justify-content-center mb-5">
-                    <div class="col-md-12 text-center border-primary">
+                    <div class="col-md-12 border-primary">
                         <h1 class="font-weight-light text-primary" style="color:black !important">HOT DEALS</h1>
                     </div>
                 </div>
@@ -1467,30 +1467,37 @@
 {% endif %}
 
 {% if dynamic_page_value == 1 %}
-<div class="site-section">
+<div class="site-section" style="background: #f7f7f7;">
     <div class="container">
         <div class="row">
             <div class="col-lg-12 mb-3" style="z-index:0; position:relative;">
-                <div class="text-center border-primary mb-5">
+                <div class="border-primary mb-5">
                     <h1 class="font-weight-light text-primary" style="color:black !important">INFORMATION</h1>
                 </div>
                 <div id="owl-login2">
                     <div class="row">
-                        <div class="col-lg-4 col-md-6">
+                        <div class="col-lg-3 col-md-6">
                             <div class="stripe_dynamic_page">
                                 <div class="div_stripe">
                                     <div class="loading_stripe"></div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-4 col-md-6">
+                        <div class="col-lg-3 col-md-6">
                             <div class="stripe_dynamic_page show_hide_mb">
                                 <div class="div_stripe">
                                     <div class="loading_stripe"></div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-4 col-md-6">
+                        <div class="col-lg-3 col-md-6">
+                            <div class="stripe_dynamic_page show_hide">
+                                <div class="div_stripe">
+                                    <div class="loading_stripe"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6">
                             <div class="stripe_dynamic_page show_hide">
                                 <div class="div_stripe">
                                     <div class="loading_stripe"></div>
