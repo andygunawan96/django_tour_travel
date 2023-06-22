@@ -139,6 +139,8 @@
 </div>
 
 <script>
+    {% if website_mode == 'btc' or website_mode == 'btc_btb' or website_mode == 'btb_with_signup_b2c' %}
     get_privacy_policy('b2c_signup');
     get_term_and_condition('b2c_signup');
+    {% endif %}
 </script>

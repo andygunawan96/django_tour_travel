@@ -173,7 +173,7 @@
       nice_Select.niceSelect();
     }
 
-/* 7.  Custom Sticky Menu  */
+/* 7.  Custom Sticky Menu
     $(window).on('scroll', function () {
       var scroll = $(window).scrollTop();
       if (scroll < 245) {
@@ -191,10 +191,10 @@
           $(".header-sticky").addClass("sticky");
       }
     });
+*/
 
 
-
-/* 8. sildeBar scroll */
+/* 8. sildeBar scroll
     $.scrollUp({
       scrollName: 'scrollUp', // Element ID
       topDistance: '300', // Distance from top before showing element (px)
@@ -205,6 +205,7 @@
       scrollText: '<i class="ti-arrow-up"></i>', // Text for element
       activeOverlay: false, // Set CSS color to display scrollUp active point, e.g '#00FFFF'
     });
+*/
 
 
 /* 9. data-background */
