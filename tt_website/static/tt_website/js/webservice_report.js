@@ -121,6 +121,12 @@ function get_report_overall(){
         },
         success: function(result){
             data_report = result
+            document.getElementById('currency_revenue').innerHTML = data_report['raw_data']['result']['response']['currency'];
+            document.getElementById('currency_average').innerHTML = data_report['raw_data']['result']['response']['currency'];
+            document.getElementById('currency_profit').innerHTML = data_report['raw_data']['result']['response']['currency'];
+            document.getElementById('currency_profit_agent').innerHTML = data_report['raw_data']['result']['response']['currency'];
+            document.getElementById('currency_profit_agent_parent').innerHTML = data_report['raw_data']['result']['response']['currency'];
+            document.getElementById('currency_profit_ho').innerHTML = data_report['raw_data']['result']['response']['currency'];
             document.getElementById('update_chart_button').disabled = false;
             filter_agent(result, '', '');
             $("#get_report_startdate").val(result.start_date);
