@@ -1859,6 +1859,10 @@ def sell_ssrs(request):
         data = {
             'sell_ssrs_request': ssr_requests
         }
+        if request.session.get('currency'):
+            data.update({
+                "currency_code": request.session.currency
+            })
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
@@ -1903,6 +1907,10 @@ def assign_seats(request):
         data = {
             'segment_seat_request': request.session['airline_seat_request_%s' % request.POST['signature']]
         }
+        if request.session.get('currency'):
+            data.update({
+                "currency_code": request.session.currency
+            })
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
@@ -4072,6 +4080,10 @@ def sell_reschedule_v2(request):
             "schedules": schedules,
             "order_number": order_number
         }
+        if request.session.get('currency'):
+            data.update({
+                "currency_code": request.session.currency
+            })
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
@@ -4218,6 +4230,10 @@ def get_post_ssr_availability_v2(request):
         "schedules": schedules,
         "order_number": order_number
     }
+    if request.session.get('currency'):
+        data.update({
+            "currency_code": request.session.currency
+        })
     headers = {
         "Accept": "application/json,text/html,application/xml",
         "Content-Type": "application/json",
@@ -4268,6 +4284,10 @@ def sell_post_ssrs_v2(request):
             'sell_ssrs_request': request.session['airline_ssr_request_%s' % request.POST['signature']],
             'order_number': order_number
         }
+        if request.session.get('currency'):
+            data.update({
+                "currency_code": request.session.currency
+            })
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
