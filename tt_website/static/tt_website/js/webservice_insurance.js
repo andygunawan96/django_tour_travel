@@ -618,6 +618,12 @@ function sort(data){
     var text = '';
     for(i in insurance_data_filter){
         for(j in insurance_data_filter[i]){
+            currency = '';
+            for(k in insurance_data_filter[i][j].service_charges){
+                if(currency)
+                    break;
+                currency = insurance_data_filter[i][j].service_charges[k].currency;
+            }
             text+=`
                <div class="col-lg-4 col-md-4 activity_box" style="min-height:unset;">`;
                     if(template == 3 || template == 4){
@@ -667,7 +673,7 @@ function sort(data){
                                         text+=`
                                         </div>
                                         <div class="col-lg-12 mt-2">
-                                            <span style="float:right; margin-right:5px; margin-bottom:5px;"><span style="font-size:16px;font-weight:bold; color:`+color+`;">IDR `+getrupiah(insurance_data_filter[i][j].total_price)+`</span>`;
+                                            <span style="float:right; margin-right:5px; margin-bottom:5px;"><span style="font-size:16px;font-weight:bold; color:`+color+`;">`+currency+` `+getrupiah(insurance_data_filter[i][j].total_price)+`</span>`;
                                         if(insurance_data_filter[i][j].type_trip_name != 'Family')
                                             text+=`
                                                 <span> / Pax</span>`;
@@ -680,8 +686,8 @@ function sort(data){
                                         if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && insurance_data_filter[i][j].total_price){
                                             if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
                                                 for(l in currency_rate_data.result.response.agent[user_login.co_ho_seq_id]){
-                                                    if(currency_rate_data.result.is_show_provider.includes(l)){
-                                                        try{
+                                                    try{
+                                                        if(currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].base_currency == currency){
                                                             price_convert = (insurance_data_filter[i][j].total_price/currency_rate_data.result.response.agent[user_login.co_ho_seq_id][l].rate).toFixed(2);
                                                             if(price_convert%1 == 0)
                                                                 price_convert = parseInt(price_convert);
@@ -693,33 +699,10 @@ function sort(data){
                                                                 text+=`
                                                                     <span> / Package</span>`;
                                                             text+=`<br/>`;
-                                                        }catch(err){
-                                                            console.log(err);
                                                         }
+                                                    }catch(err){
+                                                        console.log(err);
                                                     }
-                                                }
-                                            }else{
-                                                for(k in currency_rate_data.result.response.agent){ // asumsi hanya HO
-                                                    for(l in currency_rate_data.result.response.agent[k]){
-                                                        if(currency_rate_data.result.is_show_provider.includes(l)){
-                                                            try{
-                                                                price_convert = (insurance_data_filter[i][j].total_price/currency_rate_data.result.response.agent[k][l].rate).toFixed(2);
-                                                                if(price_convert%1 == 0)
-                                                                    price_convert = parseInt(price_convert);
-                                                                text+=`<span style="float:right; margin-right:5px; margin-bottom:5px;"><span style="font-size:16px;font-weight:bold; color:`+color+`;" id="total_price_`+l+`"> Estimated `+l+` `+price_convert+`</span>`;
-                                                                if(insurance_data_filter[i][j].type_trip_name != 'Family')
-                                                                    text+=`
-                                                                        <span> / Pax</span>`;
-                                                                else
-                                                                    text+=`
-                                                                        <span> / Package</span>`;
-                                                                text+=`<br/>`;
-                                                            }catch(err){
-                                                                console.log(err);
-                                                            }
-                                                        }
-                                                    }
-                                                    break;
                                                 }
                                             }
                                         }
@@ -1687,8 +1670,10 @@ function insurance_commit_booking(){
 }
 
 function price_detail(){
-    price = {'fare':0,'tax':0,'rac':0,'roc':0,'currency':'IDR','pax_count': parseInt(insurance_request['adult'])};
+    price = {'fare':0,'tax':0,'rac':0,'roc':0,'currency':'','pax_count': parseInt(insurance_request['adult'])};
     for(i in insurance_pick.service_charges){
+        if(!price.currency)
+            price.currency = insurance_pick.service_charges[i].currency;
         if(insurance_pick.service_charges[i].charge_type == 'FARE'){
             price['fare'] += insurance_pick.service_charges[i].amount;
         }else if(insurance_pick.service_charges[i].charge_type == 'TAX'){
@@ -1759,8 +1744,8 @@ function price_detail(){
     if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && grandtotal+additional_price){
         if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
             for(k in currency_rate_data.result.response.agent[user_login.co_ho_seq_id]){
-                if(currency_rate_data.result.is_show_provider.includes(k)){
-                    try{
+                try{
+                    if(currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].base_currency == price.currency){
                         price_convert = (parseFloat(grandtotal+additional_price)/currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].rate).toFixed(2);
                         if(price_convert%1 == 0)
                             price_convert = parseInt(price_convert);
@@ -1770,37 +1755,16 @@ function price_detail(){
                                     <span style="font-size:13px; font-weight:500;" id="total_price_`+k+`"> Estimated `+k+` `+price_convert+`</span><br/>
                                 </div>
                             </div>`;
-                    }catch(err){
-                        console.log(err);
                     }
+                }catch(err){
+                    console.log(err);
                 }
-            }
-        }else{
-            for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
-                for(k in currency_rate_data.result.response.agent[j]){
-                    if(currency_rate_data.result.is_show_provider.includes(k)){
-                        try{
-                            price_convert = (parseFloat(grandtotal+additional_price)/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
-                            if(price_convert%1 == 0)
-                                price_convert = parseInt(price_convert);
-                            text+=`
-                                <div class="row" style="padding:5px;">
-                                    <div class="col-lg-12" style="text-align:right;">
-                                        <span style="font-size:13px; font-weight:500;" id="total_price_`+k+`"> Estimated `+k+` `+price_convert+`</span><br/>
-                                    </div>
-                                </div>`;
-                        }catch(err){
-                            console.log(err);
-                        }
-                    }
-                }
-                break;
             }
         }
     }
 
     if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
-        text+=print_commission(price['rac']*-1,'show_commission')
+        text+=print_commission(price['rac']*-1,'show_commission', price.currency)
     }
     if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
         text+=`<center><div style="margin-bottom:5px;"><input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Hide YPM"/></div>`;
@@ -3188,7 +3152,7 @@ function insurance_get_booking(data, sync=false){
                                     coma = true
                                 }
                             }
-                            $text += `IDR `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.CSC + price.DISC))+'\n';
+                            $text += price.currency+` `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.CSC + price.DISC))+'\n';
                             if(counter_service_charge == 0){
                                 total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SEAT + price.CSC + price.SSR + price.DISC);
                             }else{
@@ -3258,8 +3222,8 @@ function insurance_get_booking(data, sync=false){
                             if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && total_price){
                                 if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
                                     for(k in currency_rate_data.result.response.agent[user_login.co_ho_seq_id]){
-                                        if(currency_rate_data.result.is_show_provider.includes(k)){
-                                            try{
+                                        try{
+                                            if(currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].base_currency == price.currency){
                                                 price_convert = (parseFloat(total_price)/currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].rate).toFixed(2);
                                                 if(price_convert%1 == 0)
                                                     price_convert = parseInt(price_convert);
@@ -3267,31 +3231,19 @@ function insurance_get_booking(data, sync=false){
                                                     <div class="col-lg-12" style="text-align:right;">
                                                         <span style="font-size:13px; font-weight:bold;" id="total_price_`+k+`"> Estimated `+k+` `+price_convert+`</span><br/>
                                                     </div>`;
-                                            }catch(err){
-                                                console.log(err);
                                             }
+                                        }catch(err){
+                                            console.log(err);
                                         }
-                                    }
-                                }else{
-                                    for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
-                                        for(k in currency_rate_data.result.response.agent[j]){
-                                            if(currency_rate_data.result.is_show_provider.includes(k)){
-                                                try{
-                                                    price_convert = (parseFloat(total_price)/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
-                                                    if(price_convert%1 == 0)
-                                                        price_convert = parseInt(price_convert);
-                                                    text_detail+=`
-                                                        <div class="col-lg-12" style="text-align:right;">
-                                                            <span style="font-size:13px; font-weight:bold;" id="total_price_`+k+`"> Estimated `+k+` `+price_convert+`</span><br/>
-                                                        </div>`;
-                                                }catch(err){
-                                                    console.log(err);
-                                                }
-                                            }
-                                        }
-                                        break;
                                     }
                                 }
+                            }
+                        }else if(msg.result.response.hasOwnProperty('estimated_currency') && msg.result.response.estimated_currency.hasOwnProperty('other_currency') && Object.keys(msg.result.response.estimated_currency.other_currency).length > 0){
+                            for(k in msg.result.response.estimated_currency.other_currency){
+                                text_detail+=`
+                                            <div class="col-lg-12" style="text-align:right;">
+                                                <span style="font-size:13px; font-weight:bold;" id="total_price_`+msg.result.response.estimated_currency.other_currency[k].currency+`"> Estimated `+msg.result.response.estimated_currency.other_currency[k].currency+` `+getrupiah(msg.result.response.estimated_currency.other_currency[k].amount)+`</span><br/>
+                                            </div>`;
                             }
                         }
                         text_detail+=`
@@ -3868,7 +3820,7 @@ function insurance_issued_booking(data){
                                     <span style="font-size:12px;">`+insurance_get_detail.result.response.passengers[j].name+` Tax
                                 </div>
                                 <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                    <span style="font-size:13px;">IDR `+getrupiah(parseInt(price.TAX + price.ROC + price.CSC))+`</span>
+                                    <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.TAX + price.ROC + price.CSC))+`</span>
                                 </div>
                             </div>`;
                             if(price.SSR != 0 || price.SEAT != 0)
@@ -3878,7 +3830,7 @@ function insurance_issued_booking(data){
                                         <span style="font-size:12px;">`+insurance_get_detail.result.response.passengers[j].name+` Additional
                                     </div>
                                     <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                        <span style="font-size:13px;">IDR `+getrupiah(parseInt(price.SSR + price.SEAT))+`</span>
+                                        <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.SSR + price.SEAT))+`</span>
                                     </div>
                                 </div>`;
                             if(price.DISC != 0)
@@ -3888,7 +3840,7 @@ function insurance_issued_booking(data){
                                         <span style="font-size:12px;">`+insurance_get_detail.result.response.passengers[j].name+` DISC
                                     </div>
                                     <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                        <span style="font-size:13px;">IDR -`+getrupiah(parseInt(price.DISC))+`</span>
+                                        <span style="font-size:13px;">`+price.currency+` -`+getrupiah(parseInt(price.DISC))+`</span>
                                     </div>
                                 </div>`;
 
@@ -3914,7 +3866,7 @@ function insurance_issued_booking(data){
                         </div>
                     </div>`;
                     if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-                        text+= print_commission(commission*-1,'show_commission_old')
+                        text+= print_commission(commission*-1,'show_commission_old', price.currency)
 
                     if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
                         text+=`<center><div style="margin-bottom:5px;"><input class="primary-btn-ticket" id="show_commission_button_old" style="width:100%;" type="button" onclick="show_commission('old');" value="Hide YPM"/></div>`;
@@ -3967,7 +3919,7 @@ function insurance_issued_booking(data){
                                     <span style="font-size:12px;">`+msg.result.response.passengers[j].name+` Tax
                                 </div>
                                 <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                    <span style="font-size:13px;">IDR `+getrupiah(parseInt(price.TAX + price.ROC + price.CSC))+`</span>
+                                    <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.TAX + price.ROC + price.CSC))+`</span>
                                 </div>
                             </div>`;
                             if(price.SSR != 0 || price.SEAT != 0)
@@ -3977,7 +3929,7 @@ function insurance_issued_booking(data){
                                         <span style="font-size:12px;">`+insurance_get_detail.result.response.passengers[j].name+` Additional
                                     </div>
                                     <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                        <span style="font-size:13px;">IDR `+getrupiah(parseInt(price.SSR + price.SEAT))+`</span>
+                                        <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.SSR + price.SEAT))+`</span>
                                     </div>
                                 </div>`;
                             if(price.DISC != 0)
@@ -3987,7 +3939,7 @@ function insurance_issued_booking(data){
                                         <span style="font-size:12px;">`+insurance_get_detail.result.response.passengers[j].name+` DISC
                                     </div>
                                     <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                        <span style="font-size:13px;">IDR -`+getrupiah(parseInt(price.DISC))+`</span>
+                                        <span style="font-size:13px;">`+price.currency+` -`+getrupiah(parseInt(price.DISC))+`</span>
                                     </div>
                                 </div>`;
 
@@ -4012,7 +3964,7 @@ function insurance_issued_booking(data){
                         </div>
                     </div>`;
                     if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-                        text+= print_commission(commission*-1,'show_commission_new')
+                        text+= print_commission(commission*-1,'show_commission_new', price.currency)
                     if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
                         text+=`<center><div style="margin-bottom:5px;"><input class="primary-btn-ticket" id="show_commission_button_new" style="width:100%;" type="button" onclick="show_commission('new');" value="Hide YPM"/></div>`;
                     text+=`</div>`;
@@ -5545,7 +5497,7 @@ function update_service_charge(type){
         upsell_price = 0;
         upsell = []
         counter_pax = 0;
-        currency = 'IDR';
+        currency = price.currency;
         for(i in adult){
             list_price = []
             if(document.getElementById(adult[i].first_name+adult[i].last_name+'_repricing').innerHTML != '-' && document.getElementById(adult[i].first_name+adult[i].last_name+'_repricing').innerHTML != '0'){

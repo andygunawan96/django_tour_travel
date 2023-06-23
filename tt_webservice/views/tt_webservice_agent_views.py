@@ -595,6 +595,8 @@ def api_models(request):
             res = deactivate_corporate_mode(request)
         elif req_data['action'] == 'read_idcard_img_to_text':
             res = read_idcard_img_to_text(request)
+        elif req_data['action'] == 'get_ho_currency_api':
+            res = get_ho_currency_api(request)
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:
@@ -1363,6 +1365,8 @@ def get_new_cache(request, signature, type='all'):
             airline.get_carriers_search(request, signature)
             airline.get_provider_list_backend(request, signature)
 
+            get_ho_currency_api(request, signature, True)
+
             try:
                 file = open("tt_webservice/static/tt_webservice/phc_city.json", "r")
                 data_kota = json.loads(file.read())
@@ -1733,6 +1737,51 @@ def get_new_cache(request, signature, type='all'):
         return False
 
     # cache airline popular
+
+def get_ho_currency_api(request, signature='', forceUpdate=False):
+    try:
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "get_ho_currency_api"
+        }
+        if signature:
+            headers.update({"signature": signature})
+        else:
+            headers.update({"signature": request.POST['signature']})
+        data = {}
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    file = read_cache("ho_currency", 'cache_web', request, 86400)
+    if not file or forceUpdate:
+        url_request = get_url_gateway('content')
+        res = send_request_api(request, url_request, headers, data, 'POST')
+        try:
+            if res['result']['error_code'] == 0:
+                res = res['result']['response']
+                write_cache(res, "ho_currency", request, 'cache_web')
+                _logger.info("get_ho_currency SIGNATURE " + headers['signature'])
+            else:
+                try:
+                    file = read_cache("ho_currency", 'cache_web', request,90911)
+                    if file:
+                        res = file
+                    _logger.info("get_ho_currency SIGNATURE " + headers['signature'])
+                except Exception as e:
+                    _logger.error('ERROR read file get_ho_currency\n' + str(e) + '\n' + traceback.format_exc())
+            if request.session['user_account']['co_ho_seq_id'] in res:
+                res = res[request.session['user_account']['co_ho_seq_id']]
+        except Exception as e:
+            _logger.error(str(e) + '\n' + traceback.format_exc())
+    else:
+        try:
+            res = file
+            if request.session['user_account']['co_ho_seq_id'] in res:
+                res = res[request.session['user_account']['co_ho_seq_id']]
+        except Exception as e:
+            _logger.error('ERROR read file get_ho_currency\n' + str(e) + '\n' + traceback.format_exc())
+
+    return res
 
 def update_cache_data(request):
     try:

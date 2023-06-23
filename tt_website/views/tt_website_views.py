@@ -360,6 +360,13 @@ def index(request):
 
     return no_session_logout(request)
 
+def set_currency(request, data):
+    set_session(request, 'currency', data)
+    next_url = "/".join(request.META.get('HTTP_REFERER').split('/')[3:])
+    if not next_url:
+        next_url = '/'
+    return redirect(next_url)
+
 def no_session_logout(request):
     try:
         language = request.session['_language']
@@ -520,6 +527,7 @@ def payment_method(request, provider, order_number):
     va_number = ''
     account_name = ''
     data_payment = []
+    currency = ''
     data = get_order_number_frontend(data)
     if data['result']['error_code'] == 0:
         time_limit = data['result']['response']['time_limit']
@@ -528,6 +536,7 @@ def payment_method(request, provider, order_number):
         va_number = data['result']['response']['va_number']
         bank_name = data['result']['response']['bank_name']
         account_name = data['result']['response']['account_name']
+        currency = data['result']['response']['currency']
         create_date = convert_string_to_date_to_string_front_end_with_time(to_date_now(data['result']['response']['create_date']))
         data_payment = []
         file = read_cache(data['result']['response']['acquirer_seq_id'], "payment_information", request, 90911)
@@ -571,7 +580,8 @@ def payment_method(request, provider, order_number):
         'bank_name': bank_name,
         'account_name': account_name,
         'signature': request.session['signature'],
-        'data_payments': data_payment
+        'data_payments': data_payment,
+        'currency': currency
     })
     return render(request, MODEL_NAME + '/payment_method_embed.html', values)
 
@@ -1506,6 +1516,10 @@ def get_data_template(request, type='home', provider_type = []):
     default_password = ''
     is_show_breakdown_price = False
     keep_me_signin = False
+    currency = []
+
+    if request.session.get('signature'):
+        currency = get_ho_currency_api(request, request.session['signature'])
     ## live chat
     if request.session.get('keep_me_signin'):
         keep_me_signin = request.session['keep_me_signin']
@@ -1927,7 +1941,9 @@ def get_data_template(request, type='home', provider_type = []):
         'default_user': default_user,
         'default_password': default_password,
         'is_show_breakdown_price': is_show_breakdown_price,
-        'keep_me_signin': keep_me_signin
+        'keep_me_signin': keep_me_signin,
+        'currency_list': currency,
+        'is_show_other_currency': True if len(currency) > 0 else False
     }
 
 

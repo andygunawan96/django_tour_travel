@@ -1314,7 +1314,7 @@ function change_top_up(){
 }
 
 function submit_top_up(){
-    currency_code = 'IDR';
+//    currency_code = 'IDR';
     getToken();
     $.ajax({
        type: "POST",
@@ -1839,7 +1839,7 @@ function total_price_top_up(evt){
     var amount = document.getElementById('amount').value.split(',');
     amount = amount.join('');
     document.getElementById('amount').value = getrupiah(amount);
-    document.getElementById('total_amount').value = "IDR "+document.getElementById('amount').value;
+    document.getElementById('total_amount').value = currency_code + " " + document.getElementById('amount').value;
     try{
         document.getElementById('payment_method_price').innerHTML = payment_acq2[payment_method][selected].currency+` `+getrupiah(document.getElementById('amount').value);
         document.getElementById('payment_method_grand_total').innerHTML = payment_acq2[payment_method][selected].currency+` `+getrupiah(document.getElementById('amount').value + payment_acq2[payment_method][selected].price_component.unique_amount);
@@ -1869,7 +1869,7 @@ function check_top_up(){
             error_text += 'Please input last 3 digits amount 000\n';
         }
         else if(parseInt(document.getElementById('amount').value.split(',').join('')) < 50000){
-            error_text += 'Amount (Min Top Up Amount IDR 50,000)\n';
+            error_text += 'Amount (Min Top Up Amount '+currency_code+' 50,000)\n';
         }
     }catch(err){
 

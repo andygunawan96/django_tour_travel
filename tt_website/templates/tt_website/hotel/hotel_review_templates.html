@@ -409,10 +409,10 @@
     document.getElementById('address_hotel').innerHTML = address;
     //document.getElementById('voucher_discount').style.display = 'none';
     get_agent_currency_rate();
-    hotel_review_page();
     //get_payment_acq('Issued','{{booker.booker_seq_id}}', '', 'billing',signature,'hotel_review');
     $( document ).ready(function() {
-      breadcrumb_create("hotel", 5, 0);
+        hotel_review_page();
+        breadcrumb_create("hotel", 5, 0);
     });
 </script>
 {% endblock %}

@@ -1914,7 +1914,7 @@ function get_reservation_issued_request(request_number)
                                     <tr>
                                         <td style="width:40%;">`+req_obj.reservation_data.order_number+` (<a href="/`+req_obj.provider_type_code+`/booking/`+btoa(req_obj.reservation_data.order_number)+`">Details</a>)</td>
                                         <td style="width:30%;">`+req_obj.provider_type+`</td>
-                                        <td style="width:30%;"> IDR `+getrupiah(req_obj.reservation_data.total_price)+`</td>
+                                        <td style="width:30%;"> `+req_obj.reservation_data.currency+` `+getrupiah(req_obj.reservation_data.total_price)+`</td>
                                     </tr>
                                 </table>
                             </div>
@@ -2174,7 +2174,6 @@ function get_agent_currency_rate(){
                                     <tr>
                                         <td style="width:10%">No</td>
                                         <td style="width:30%">Currency</td>
-                                        <td style="width:30%">Is Show</td>
                                     </tr>`;
                     counter_table = 1;
                     for(i in msg.result.response.currency_list){
@@ -2182,17 +2181,6 @@ function get_agent_currency_rate(){
                                     <tr>
                                         <td>`+counter_table+`</td>
                                         <td>`+msg.result.response.currency_list[i]+`</td>
-                                        <td>
-                                            <div class="input-container-search-ticket">
-                                                <label class="check_box_custom">
-                                                    <input type="checkbox" id="is_show_currency_`+counter_table+`" name="is_show_currency_`+counter_table+`" value="`+msg.result.response.currency_list[i]+`" `;
-                        if(msg.result.is_show_provider.includes(msg.result.response.currency_list[i]))
-                            text += `checked`;
-                        text +=`/>
-                                                    <span class="check_box_span_custom"></span>
-                                                </label>
-                                            </div>
-                                        </td>
                                     </tr>`;
                         counter_table++;
                     }
@@ -2222,13 +2210,6 @@ function show_currency(){
 }
 
 function update_estimate_price(){
-    request_data = [];
-    counter_table = 1;
-    for(i in currency_rate_data.result.response.currency_list){
-        if(document.getElementById('is_show_currency_'+counter_table).checked)
-            request_data.push(document.getElementById('is_show_currency_'+counter_table).value);
-        counter_table++;
-    }
     $.ajax({
        type: "POST",
        url: "/webservice/content",
@@ -2239,7 +2220,6 @@ function update_estimate_price(){
            'signature': signature,
            'is_show_estimate_price': document.getElementById('is_show_estimate_price').checked,
            'is_show_breakdown_price': document.getElementById('is_show_breakdown_price').checked,
-           'provider': JSON.stringify(request_data)
        },
        success: function(msg) {
            if(msg.error_code == 0){

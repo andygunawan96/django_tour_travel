@@ -67,6 +67,9 @@ function issued_offline_page(){
             }catch(err){
                 console.log(err);
             }
+            try{
+                get_currency();
+            }catch(err){}
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error data review hotel');
@@ -2130,7 +2133,7 @@ function update_service_charge(){
     document.getElementById('offline_booking').innerHTML = '';
     upsell = [];
     list_price = [];
-    currency = 'IDR';
+    currency = currency_code;
     if(document.getElementById('Reservation_repricing').innerHTML != '-' && document.getElementById('Reservation_repricing').innerHTML != '0'){
         list_price.push({
             'amount': parseInt(document.getElementById('Reservation_repricing').innerHTML.split(',').join('')),
