@@ -855,10 +855,13 @@ function render_show_more_price_hotel_search(hotel_data_print,i){
             content_price_pop = ``;
             price = 0;
             price_without_discount = 0;
+            currency = '';
             for(j in arr){
                 for(k in arr[j][1].prices.rooms){
                     for(l in arr[j][1].prices.rooms[k].nightly_prices){
                         for(m in arr[j][1].prices.rooms[k].nightly_prices[l].service_charges){
+                            if(!currency)
+                                currency = arr[j][1].prices.rooms[k].nightly_prices[l].service_charges[m].currency;
                             if(arr[j][1].prices.rooms[k].nightly_prices[l].service_charges[m].charge_type != 'RAC'){
                                 if(arr[j][1].prices.rooms[k].nightly_prices[l].service_charges[m].charge_type != 'DISC'){
                                     price_without_discount += arr[j][1].prices.rooms[k].nightly_prices[l].service_charges[m].total;
@@ -878,13 +881,13 @@ function render_show_more_price_hotel_search(hotel_data_print,i){
                 if(j == 0){
                     content_price_pop += `<i class="fas fa-thumbs-up" style="padding-left: 5px; color:`+color+`;"></i>`;
                     if(arr[j][1].price != arr[j][1].price_without_discount)
-                        text += `<span class="basic_fare_field cross_price" style="font-size:14px; color:#929292;" hidden>IDR ` + getrupiah(arr[j][1]['price_without_discount']) + `</span>`;
-                    text += `<span class="price_hotel" hidden>IDR ` + getrupiah(arr[j][1]['price']) + `</span>`;
+                        text += `<span class="basic_fare_field cross_price" style="font-size:14px; color:#929292;" hidden>`+currency+` ` + getrupiah(arr[j][1]['price_without_discount']) + `</span>`;
+                    text += `<span class="price_hotel" hidden>`+currency+` ` + getrupiah(arr[j][1]['price']) + `</span>`;
                 }
                 if(arr[j][1].price != arr[j][1].price_without_discount)
-                    content_price_pop += `<span class="basic_fare_field cross_price" style="font-size:14px; color:#929292;">IDR ` + getrupiah(arr[j][1]['price_without_discount']) + `</span>`;
+                    content_price_pop += `<span class="basic_fare_field cross_price" style="font-size:14px; color:#929292;">`+currency+` ` + getrupiah(arr[j][1]['price_without_discount']) + `</span>`;
                 content_price_pop +=`
-                    <span style="font-size:16px; font-weight: 700;">IDR ` + getrupiah(arr[j][1]['price']) + `</span>
+                    <span style="font-size:16px; font-weight: 700;">`+currency+` ` + getrupiah(arr[j][1]['price']) + `</span>
                     <span style="font-size:16px; font-weight: 700; color:`+color+`;">` + arr[j][0] +`</span><br/>`;
             }
         }
@@ -1060,6 +1063,7 @@ function render_hotel_search(hotel_data_print, i){
                 </div>
                 <div class="col-lg-5 col-md-5" style="padding-top:5px;">
                     <div class="row" style="padding:0px;">`;
+                        var currency = '';
                         if(Object.keys(hotel_data_print.prices).length > 0){
                             var arr = [];
                             for (var key in hotel_data_print.prices) {
@@ -1082,6 +1086,8 @@ function render_hotel_search(hotel_data_print, i){
                                     for(k in arr[j][1].prices.rooms){
                                         for(l in arr[j][1].prices.rooms[k].nightly_prices){
                                             for(m in arr[j][1].prices.rooms[k].nightly_prices[l].service_charges){
+                                                if(!currency)
+                                                    currency = arr[j][1].prices.rooms[k].nightly_prices[l].service_charges[m].currency;
                                                 if(arr[j][1].prices.rooms[k].nightly_prices[l].service_charges[m].charge_type != 'RAC'){
                                                     if(arr[j][1].prices.rooms[k].nightly_prices[l].service_charges[m].charge_type != 'DISC'){
                                                         price_without_discount += arr[j][1].prices.rooms[k].nightly_prices[l].service_charges[m].total;
@@ -1102,16 +1108,16 @@ function render_hotel_search(hotel_data_print, i){
                                     if(j == 0){
                                         content_price_pop += `<i class="fas fa-thumbs-up" style="padding-left: 5px; color:`+color+`;"></i>`;
                                         if(arr[j][1].price != arr[j][1].price_without_discount)
-                                            text += `<span class="basic_fare_field cross_price" style="font-size:14px; color:#929292;" hidden>IDR ` + getrupiah(arr[j][1]['price_without_discount']) + `</span>`;
-                                        text += `<span class="price_hotel" hidden>IDR ` + getrupiah(arr[j][1]['price']) + `</span>`;
+                                            text += `<span class="basic_fare_field cross_price" style="font-size:14px; color:#929292;" hidden>`+currency+` ` + getrupiah(arr[j][1]['price_without_discount']) + `</span>`;
+                                        text += `<span class="price_hotel" hidden>`+currency+` ` + getrupiah(arr[j][1]['price']) + `</span>`;
                                     }
                                     // else if(j > 2){
                                     //     text += `<i class="fas fa-thumbs-down" style="color:`+color+`;"></i>`;
                                     // }
                                     if(arr[j][1].price != arr[j][1].price_without_discount)
-                                        content_price_pop += `<span class="basic_fare_field cross_price" style="font-size:14px; color:#929292;">IDR ` + getrupiah(arr[j][1]['price_without_discount']) + `</span>`;
+                                        content_price_pop += `<span class="basic_fare_field cross_price" style="font-size:14px; color:#929292;">`+currency+` ` + getrupiah(arr[j][1]['price_without_discount']) + `</span>`;
                                     content_price_pop +=`
-                                        <span style="font-size:16px; font-weight: 700;">IDR ` + getrupiah(arr[j][1]['price']) + `</span>
+                                        <span style="font-size:16px; font-weight: 700;">`+currency+` ` + getrupiah(arr[j][1]['price']) + `</span>
                                         <span style="font-size:16px; font-weight: 700; color:`+color+`;">` + arr[j][0] +`</span><br/>`;
                                 }
                         } else {
@@ -1136,7 +1142,7 @@ function render_hotel_search(hotel_data_print, i){
                         <div class="col-lg-12 search_hotel_button" style="text-align:right; position:absolute; bottom:0px; right:0px;">`;
                         if(arr.length != 0){
                             if(arr[0][1].price != arr[0][1].price_without_discount)
-                                text += `<span class="basic_fare_field cross_price" style="font-size:14px; color:#929292;">IDR ` + getrupiah(arr[0][1]['price_without_discount']) + `</span>
+                                text += `<span class="basic_fare_field cross_price" style="font-size:14px; color:#929292;">`+currency+` ` + getrupiah(arr[0][1]['price_without_discount']) + `</span>
                                 <span style="font-size:16px; font-weight: 700; color:white;">` + arr[0][0] +`</span><br/>`;
                             text+=`
                             <span style="font-size:16px; font-weight: 700;">`+arr[0][1]['currency']+` ` + getrupiah(arr[0][1]['price']) + `</span>
@@ -1145,36 +1151,18 @@ function render_hotel_search(hotel_data_print, i){
                             if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && arr[0][1]['price']){
                                 if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
                                     for(k in currency_rate_data.result.response.agent[user_login.co_ho_seq_id]){
-                                        if(currency_rate_data.result.is_show_provider.includes(k)){
-                                            try{
+                                        try{
+                                            if(currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].base_currency == currency){
                                                 price_convert = parseFloat((arr[0][1]['price'])/currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].rate).toFixed(2);
                                                 if(price_convert%1 == 0)
                                                     price_convert = parseInt(price_convert);
                                                 text+=`
                                                     <br/><span style="font-size:14px; font-weight:bold;" id="total_price_`+k+`"><b> Estimated `+k+` `+price_convert+`</b></span><br/>
                                                     `;
-                                            }catch(err){
-                                                console.log(err);
                                             }
+                                        }catch(err){
+                                            console.log(err);
                                         }
-                                    }
-                                }else{
-                                    for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
-                                        for(k in currency_rate_data.result.response.agent[j]){
-                                            if(currency_rate_data.result.is_show_provider.includes(k)){
-                                                try{
-                                                    price_convert = parseFloat((arr[0][1]['price'])/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
-                                                    if(price_convert%1 == 0)
-                                                        price_convert = parseInt(price_convert);
-                                                    text+=`
-                                                        <br/><span style="font-size:14px; font-weight:bold;" id="total_price_`+k+`"><b> Estimated `+k+` `+price_convert+`</b></span><br/>
-                                                        `;
-                                                }catch(err){
-                                                    console.log(err);
-                                                }
-                                            }
-                                        }
-                                        break;
                                     }
                                 }
                             }
@@ -1596,7 +1584,7 @@ function hotel_room_pick(key, key2){
             <span style="font-weight:bold;">Total</span>
         </div>
         <div class="col-lg-6" style="text-align:right;">
-            <span style="font-weight:bold;">IDR `+ getrupiah(hotel_room.rooms[i].price_total) +`</span><br/>
+            <span style="font-weight:bold;">`+hotel_room.currency+` `+ getrupiah(hotel_room.rooms[i].price_total) +`</span><br/>
             <span style="font-weight:500;">(for 1 room, `+total_night+` night)</span>
         </div>`;
         text += `<div class="col-lg-12"><hr/></div></div>`;
@@ -1610,7 +1598,7 @@ function hotel_room_pick(key, key2){
         <center><h6 style="color:`+color+`; display:none; cursor:pointer;" id="price_detail_hotel_up" onclick="show_hide_div('price_detail_hotel');">Close Detail <i class="fas fa-chevron-up" style="font-size:14px;"></i></h6></center>
     </div>`;
 
-    $text2 += 'Grand Total: IDR '+getrupiah(total_price_hotel + discount_hotel)+'(for '+total_room+' room, ' +total_night+ 'night) \n\n';
+    $text2 += 'Grand Total: '+hotel_room.currency+' '+getrupiah(total_price_hotel + discount_hotel)+'(for '+total_room+' room, ' +total_night+ 'night) \n\n';
 //    text += `<hr/>`;
 
     if(discount_hotel != 0){
@@ -1620,7 +1608,7 @@ function hotel_room_pick(key, key2){
                 <span style="font-weight:bold;font-size:15px;color:#e04022;">Discount</span>
             </div>
             <div class="col-lg-6" style="text-align:right;">
-                <span style="font-weight:bold;font-size:15px;color:#e04022;">IDR `+ getrupiah(discount_hotel) +`</span>
+                <span style="font-weight:bold;font-size:15px;color:#e04022;">`+hotel_room.currency+` `+ getrupiah(discount_hotel) +`</span>
             </div>
         </div>`;
     }
@@ -1634,7 +1622,7 @@ function hotel_room_pick(key, key2){
                 <span style="font-weight:bold;font-size:15px;`;
                 if(is_show_breakdown_price)
                     text_pick_footer+='cursor:pointer;';
-                text_pick_footer += `" id="total_price">IDR `+ getrupiah(total_price_hotel+discount_hotel);
+                text_pick_footer += `" id="total_price">`+hotel_room.currency+` `+ getrupiah(total_price_hotel+discount_hotel);
                 if(is_show_breakdown_price)
                     text_pick_footer+=`<i class="fas fa-caret-down"></i>`;
                 text_pick_footer += `
@@ -1646,8 +1634,8 @@ function hotel_room_pick(key, key2){
     if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && total_price_hotel+discount_hotel){
         if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
             for(k in currency_rate_data.result.response.agent[user_login.co_ho_seq_id]){
-                if(currency_rate_data.result.is_show_provider.includes(k)){
-                    try{
+                try{
+                    if(currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].base_currency == hotel_room.currency){
                         price_convert = ((total_price_hotel+discount_hotel)/currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].rate).toFixed(2);
                         if(price_convert%1 == 0)
                             price_convert = parseInt(price_convert);
@@ -1657,31 +1645,10 @@ function hotel_room_pick(key, key2){
                                     <span style="font-weight:bold;font-size:15px;"> Estimated`+k+` `+ getrupiah(price_convert) +`</span><br/>
                                 </div>
                             </div>`;
-                    }catch(err){
-                        console.log(err);
                     }
+                }catch(err){
+                    console.log(err);
                 }
-            }
-        }else{
-            for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
-                for(k in currency_rate_data.result.response.agent[j]){
-                    if(currency_rate_data.result.is_show_provider.includes(k)){
-                        try{
-                            price_convert = ((total_price_hotel+discount_hotel)/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
-                            if(price_convert%1 == 0)
-                                price_convert = parseInt(price_convert);
-                            text_pick_footer += `
-                                <div class="row">
-                                    <div class="col-lg-12" style="text-align:right;">
-                                        <span style="font-weight:bold;font-size:15px;"> Estimated`+k+` `+ getrupiah(price_convert) +`</span><br/>
-                                    </div>
-                                </div>`;
-                        }catch(err){
-                            console.log(err);
-                        }
-                    }
-                }
-                break;
             }
         }
     }
@@ -1739,7 +1706,7 @@ function hotel_room_pick(key, key2){
     </div>`;
 
     if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
-        text_pick_footer += print_commission(hotel_room.rooms[i].commission*-1,'show_commission_hotel')
+        text_pick_footer += print_commission(hotel_room.rooms[i].commission*-1,'show_commission_hotel', hotel_room.currency)
     }
     document.getElementById('hotel_detail_button').innerHTML = text_pick_footer;
 
@@ -2355,18 +2322,18 @@ function hotel_detail(old_cancellation_policy){
         if(typeof upsell_price !== 'undefined' && upsell_price != 0)
             text+=`
         <div class="col-lg-6" style="text-align:right;">
-            <span style="font-weight:bold;">IDR `+ getrupiah(hotel_price.rooms[i].price_total + upsell_price ) +`</span>
+            <span style="font-weight:bold;">`+hotel_price.currency+` `+ getrupiah(hotel_price.rooms[i].price_total + upsell_price ) +`</span>
         </div>`;
         else
             text+=`
         <div class="col-lg-6" style="text-align:right;">
-            <span style="font-weight:bold;">IDR `+ getrupiah(hotel_price.rooms[i].price_total ) +`</span>
+            <span style="font-weight:bold;">`+hotel_price.currency+` `+ getrupiah(hotel_price.rooms[i].price_total ) +`</span>
         </div>`;
         text += `<div class="col-lg-12"><hr/></div>`;
         if(typeof upsell_price !== 'undefined' && upsell_price != 0)
-            $text2 += 'Total: IDR ' + getrupiah(hotel_price.rooms[i].price_total + upsell_price ) + '\n\n';
+            $text2 += 'Total: '+hotel_price.currency+' ' + getrupiah(hotel_price.rooms[i].price_total + upsell_price ) + '\n\n';
         else
-            $text2 += 'Total: IDR ' + getrupiah(hotel_price.rooms[i].price_total + discount_hotel) + '\n\n';
+            $text2 += 'Total: '+hotel_price.currency+' ' + getrupiah(hotel_price.rooms[i].price_total + discount_hotel) + '\n\n';
         text += `</div>`;
     }
 
@@ -2426,7 +2393,7 @@ function hotel_detail(old_cancellation_policy){
                 <span style="font-weight:bold;font-size:15px;color:#e04022;">Discount</span>
             </div>
             <div class="col-lg-6" style="text-align:right;">
-                <span style="font-weight:bold;font-size:15px;color:#e04022;">IDR `+ getrupiah(discount_hotel) +`</span>
+                <span style="font-weight:bold;font-size:15px;color:#e04022;">`+hotel_price.currency+` `+ getrupiah(discount_hotel) +`</span>
             </div>`;
     }
     try{
@@ -2437,13 +2404,13 @@ function hotel_detail(old_cancellation_policy){
                 <span style="font-weight:bold;font-size:15px;`;
             if(is_show_breakdown_price)
                 text+='cursor:pointer;';
-            text+=`" id="total_price">IDR `+ getrupiah(total_price_hotel + discount_hotel);
+            text+=`" id="total_price">`+hotel_price.currency+` `+ getrupiah(total_price_hotel + discount_hotel);
             if(is_show_breakdown_price)
                 text+=`<i class="fas fa-caret-down"></i>`;
             text+=`</span>
                 </div>
             </div>`;
-        $text2 += 'Grand Total: IDR ' + getrupiah(total_price_hotel) + '\n';
+        $text2 += 'Grand Total: '+hotel_price.currency+' ' + getrupiah(total_price_hotel) + '\n';
     }catch(err){
         console.log(err); // error kalau ada element yg tidak ada
     }
@@ -2451,8 +2418,8 @@ function hotel_detail(old_cancellation_policy){
     if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && total_price_hotel){
         if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
             for(k in currency_rate_data.result.response.agent[user_login.co_ho_seq_id]){
-                if(currency_rate_data.result.is_show_provider.includes(k)){
-                    try{
+                try{
+                    if(currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].base_currency == hotel_price.currency){
                         price_convert = (Math.ceil(total_price_hotel)/currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].rate).toFixed(2);
                         if(price_convert%1 == 0)
                             price_convert = parseInt(price_convert);
@@ -2462,31 +2429,10 @@ function hotel_detail(old_cancellation_policy){
                                 <span style="font-weight:bold;font-size:15px;">Estimated `+k+` `+getrupiah(price_convert)+`</span>
                             </div>
                         </div>`;
-                    }catch(err){
-                        console.log(err);
                     }
+                }catch(err){
+                    console.log(err);
                 }
-            }
-        }else{
-            for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
-                for(k in currency_rate_data.result.response.agent[j]){
-                    if(currency_rate_data.result.is_show_provider.includes(k)){
-                        try{
-                            price_convert = (Math.ceil(total_price_hotel)/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
-                            if(price_convert%1 == 0)
-                                price_convert = parseInt(price_convert);
-                            text+=`
-                            <div class="row">
-                                <div class="col-lg-12" style="text-align:right;">
-                                    <span style="font-weight:bold;font-size:15px;">Estimated `+k+` `+getrupiah(price_convert)+`</span>
-                                </div>
-                            </div>`;
-                        }catch(err){
-                            console.log(err);
-                        }
-                    }
-                }
-                break;
             }
         }
     }
@@ -2497,7 +2443,7 @@ function hotel_detail(old_cancellation_policy){
 
     if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
         text+=`<br/>`;
-        text+= print_commission(commission,'show_commission_hotel')
+        text+= print_commission(commission,'show_commission_hotel', hotel_price.currency)
     }
 
     text += `<div class="row"><div class="col-lg-12" style="padding-bottom:15px;">
@@ -2595,6 +2541,7 @@ function hotel_detail(old_cancellation_policy){
     }
 }
 
+// DEPRECATED
 function hotel_review_price_total(prices){
     prices = prices.replace(/&#39;/g, '"');
     prices = prices.replace(/&quot;/g, '"');
@@ -3756,11 +3703,13 @@ function render_hotel_search_detail(data_room_hotel_list, i){
                         for(l in currency_rate_data.result.response.agent[user_login.co_ho_seq_id]){
                             if(currency_rate_data.result.is_show_provider.includes(l)){
                                 try{
-                                    price_convert = (data_room_hotel_list.total/currency_rate_data.result.response.agent[user_login.co_ho_seq_id][l].rate).toFixed(2);
-                                    if(price_convert%1 == 0)
-                                        price_convert = parseInt(price_convert);
-                                    text+=`
-                                        <span class="price_room" style="font-weight: bold; font-size:14px;"> Estimated `+l+` `+getrupiah(price_convert)+` </span><br/>`;
+                                    if(currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].base_currency == data_room_hotel_list.currency){
+                                        price_convert = (data_room_hotel_list.total/currency_rate_data.result.response.agent[user_login.co_ho_seq_id][l].rate).toFixed(2);
+                                        if(price_convert%1 == 0)
+                                            price_convert = parseInt(price_convert);
+                                        text+=`
+                                            <span class="price_room" style="font-weight: bold; font-size:14px;"> Estimated `+l+` `+getrupiah(price_convert)+` </span><br/>`;
+                                    }
                                 }catch(err){
                                     console.log(err);
                                 }

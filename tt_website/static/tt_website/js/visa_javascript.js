@@ -55,10 +55,14 @@ function get_consulate(type){
 function set_price_visa(val){
     price = 0;
     qty = document.getElementById('qty_pax_'+val).value;
-    for(i in visa[val].service_charges)
+    currency = '';
+    for(i in visa[val].service_charges){
+        if(!currency)
+            price += visa[val].service_charges[i].currency
         if(visa[val].service_charges[i].charge_type != 'RAC')
             price += parseInt(qty) * visa[val].service_charges[i].amount;
-    document.getElementById('fare'+val).innerHTML = 'IDR '+ getrupiah(price.toString());
+    }
+    document.getElementById('fare'+val).innerHTML = currency + ' '+ getrupiah(price.toString());
 }
 
 function set_total_price_visa(){
@@ -224,8 +228,8 @@ function update_table_new(type){
             if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && price){
                 if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
                     for(k in currency_rate_data.result.response.agent[user_login.co_ho_seq_id]){
-                        if(currency_rate_data.result.is_show_provider.includes(k)){
-                            try{
+                        try{
+                            if(currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].base_currency == currency){
                                 price_convert = (price/currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].rate).toFixed(2);
                                 if(price_convert%1 == 0)
                                     price_convert = parseInt(price_convert);
@@ -235,31 +239,10 @@ function update_table_new(type){
                                             <h6> Estimated `+k+` `+price_convert+`</h6>
                                         </div>
                                     </div>`;
-                            }catch(err){
-                                console.log(err);
                             }
+                        }catch(err){
+                            console.log(err);
                         }
-                    }
-                }else{
-                    for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
-                        for(k in currency_rate_data.result.response.agent[j]){
-                            if(currency_rate_data.result.is_show_provider.includes(k)){
-                                try{
-                                    price_convert = (price/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
-                                    if(price_convert%1 == 0)
-                                        price_convert = parseInt(price_convert);
-                                    text+=`
-                                        <div class="row" style="margin-bottom:15px;">
-                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:right;">
-                                                <h6> Estimated `+k+` `+price_convert+`</h6>
-                                            </div>
-                                        </div>`;
-                                }catch(err){
-                                    console.log(err);
-                                }
-                            }
-                        }
-                        break;
                     }
                 }
             }
@@ -429,8 +412,8 @@ function update_table_new(type){
         if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && price){
             if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
                 for(k in currency_rate_data.result.response.agent[user_login.co_ho_seq_id]){
-                    if(currency_rate_data.result.is_show_provider.includes(k)){
-                        try{
+                    try{
+                        if(currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].base_currency == currency){
                             price_convert = (price/currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].rate).toFixed(2);
                             if(price_convert%1 == 0)
                                 price_convert = parseInt(price_convert);
@@ -440,31 +423,10 @@ function update_table_new(type){
                                         <h6> Estimated `+k+` `+price_convert+`</h6>
                                     </div>
                                 </div>`;
-                        }catch(err){
-                            console.log(err);
                         }
+                    }catch(err){
+                        console.log(err);
                     }
-                }
-            }else{
-                for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
-                    for(k in currency_rate_data.result.response.agent[j]){
-                        if(currency_rate_data.result.is_show_provider.includes(k)){
-                            try{
-                                price_convert = (price/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
-                                if(price_convert%1 == 0)
-                                    price_convert = parseInt(price_convert);
-                                text+=`
-                                    <div class="row" style="margin-bottom:15px;">
-                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:right;">
-                                            <h6> Estimated `+k+` `+price_convert+`</h6>
-                                        </div>
-                                    </div>`;
-                            }catch(err){
-                                console.log(err);
-                            }
-                        }
-                    }
-                    break;
                 }
             }
         }
@@ -737,8 +699,8 @@ function update_table_new(type){
         if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && grand_total_price){
             if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
                 for(k in currency_rate_data.result.response.agent[user_login.co_ho_seq_id]){
-                    if(currency_rate_data.result.is_show_provider.includes(k)){
-                        try{
+                    try{
+                        if(currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].base_currency == currency){
                             price_convert = (grand_total_price/currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].rate).toFixed(2);
                             if(price_convert%1 == 0)
                                 price_convert = parseInt(price_convert);
@@ -748,31 +710,10 @@ function update_table_new(type){
                                         <h6> Estimated `+k+` `+price_convert+`</h6>
                                     </div>
                                 </div>`;
-                        }catch(err){
-                            console.log(err);
                         }
+                    }catch(err){
+                        console.log(err);
                     }
-                }
-            }else{
-                for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
-                    for(k in currency_rate_data.result.response.agent[j]){
-                        if(currency_rate_data.result.is_show_provider.includes(k)){
-                            try{
-                                price_convert = (grand_total_price/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
-                                if(price_convert%1 == 0)
-                                    price_convert = parseInt(price_convert);
-                                text+=`
-                                    <div class="row" style="margin-bottom:15px;">
-                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:right;">
-                                            <h6> Estimated `+k+` `+price_convert+`</h6>
-                                        </div>
-                                    </div>`;
-                            }catch(err){
-                                console.log(err);
-                            }
-                        }
-                    }
-                    break;
                 }
             }
         }
@@ -1018,8 +959,8 @@ function update_table_new(type){
                 if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && total_price){
                     if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
                         for(k in currency_rate_data.result.response.agent[user_login.co_ho_seq_id]){
-                            if(currency_rate_data.result.is_show_provider.includes(k)){
-                                try{
+                            try{
+                                if(currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].base_currency == price.currency){
                                     price_convert = (total_price/currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].rate).toFixed(2);
                                     if(price_convert%1 == 0)
                                         price_convert = parseInt(price_convert);
@@ -1029,31 +970,10 @@ function update_table_new(type){
                                                 <h6> Estimated `+k+` `+price_convert+`</h6>
                                             </div>
                                         </div>`;
-                                }catch(err){
-                                    console.log(err);
                                 }
+                            }catch(err){
+                                console.log(err);
                             }
-                        }
-                    }else{
-                        for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
-                            for(k in currency_rate_data.result.response.agent[j]){
-                                if(currency_rate_data.result.is_show_provider.includes(k)){
-                                    try{
-                                        price_convert = (total_price/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
-                                        if(price_convert%1 == 0)
-                                            price_convert = parseInt(price_convert);
-                                        text_detail+=`
-                                            <div class="row" style="margin-bottom:10px;">
-                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:right;">
-                                                    <h6> Estimated `+k+` `+price_convert+`</h6>
-                                                </div>
-                                            </div>`;
-                                    }catch(err){
-                                        console.log(err);
-                                    }
-                                }
-                            }
-                            break;
                         }
                     }
                 }
@@ -1374,8 +1294,8 @@ function update_table(type){
             if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && price){
                 if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
                     for(k in currency_rate_data.result.response.agent[user_login.co_ho_seq_id]){
-                        if(currency_rate_data.result.is_show_provider.includes(k)){
-                            try{
+                        try{
+                            if(currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].base_currency == currency){
                                 price_convert = (price/currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].rate).toFixed(2);
                                 if(price_convert%1 == 0)
                                     price_convert = parseInt(price_convert);
@@ -1385,31 +1305,10 @@ function update_table(type){
                                             <h6> Estimated `+k+` `+price_convert+`</h6>
                                         </div>
                                     </div>`;
-                            }catch(err){
-                                console.log(err);
                             }
+                        }catch(err){
+                            console.log(err);
                         }
-                    }
-                }else{
-                    for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
-                        for(k in currency_rate_data.result.response.agent[j]){
-                            if(currency_rate_data.result.is_show_provider.includes(k)){
-                                try{
-                                    price_convert = (price/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
-                                    if(price_convert%1 == 0)
-                                        price_convert = parseInt(price_convert);
-                                    text+=`
-                                        <div class="row" style="margin-bottom:15px;">
-                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:right;">
-                                                <h6> Estimated `+k+` `+price_convert+`</h6>
-                                            </div>
-                                        </div>`;
-                                }catch(err){
-                                    console.log(err);
-                                }
-                            }
-                        }
-                        break;
                     }
                 }
             }
@@ -1562,8 +1461,8 @@ function update_table(type){
         if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && price){
             if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
                 for(k in currency_rate_data.result.response.agent[user_login.co_ho_seq_id]){
-                    if(currency_rate_data.result.is_show_provider.includes(k)){
-                        try{
+                    try{
+                        if(currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].base_currency == currency){
                             price_convert = (price/currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].rate).toFixed(2);
                             if(price_convert%1 == 0)
                                 price_convert = parseInt(price_convert);
@@ -1573,31 +1472,10 @@ function update_table(type){
                                         <h6> Estimated `+k+` `+price_convert+`</h6>
                                     </div>
                                 </div>`;
-                        }catch(err){
-                            console.log(err);
                         }
+                    }catch(err){
+                        console.log(err);
                     }
-                }
-            }else{
-                for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
-                    for(k in currency_rate_data.result.response.agent[j]){
-                        if(currency_rate_data.result.is_show_provider.includes(k)){
-                            try{
-                                price_convert = (price/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
-                                if(price_convert%1 == 0)
-                                    price_convert = parseInt(price_convert);
-                                text+=`
-                                    <div class="row" style="margin-bottom:15px;">
-                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:right;">
-                                            <h6> Estimated `+k+` `+price_convert+`</h6>
-                                        </div>
-                                    </div>`;
-                            }catch(err){
-                                console.log(err);
-                            }
-                        }
-                    }
-                    break;
                 }
             }
         }
@@ -1855,8 +1733,8 @@ function update_table(type){
         if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && grand_total_price){
             if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
                 for(k in currency_rate_data.result.response.agent[user_login.co_ho_seq_id]){
-                    if(currency_rate_data.result.is_show_provider.includes(k)){
-                        try{
+                    try{
+                        if(currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].base_currency == currency){
                             price_convert = (grand_total_price/currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].rate).toFixed(2);
                             if(price_convert%1 == 0)
                                 price_convert = parseInt(price_convert);
@@ -1866,31 +1744,10 @@ function update_table(type){
                                         <h6> Estimated `+k+` `+price_convert+`</h6>
                                     </div>
                                 </div>`;
-                        }catch(err){
-                            console.log(err);
                         }
+                    }catch(err){
+                        console.log(err);
                     }
-                }
-            }else{
-                for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
-                    for(k in currency_rate_data.result.response.agent[j]){
-                        if(currency_rate_data.result.is_show_provider.includes(k)){
-                            try{
-                                price_convert = (grand_total_price/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
-                                if(price_convert%1 == 0)
-                                    price_convert = parseInt(price_convert);
-                                text+=`
-                                    <div class="row" style="margin-bottom:15px;">
-                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:right;">
-                                            <h6> Estimated `+k+` `+price_convert+`</h6>
-                                        </div>
-                                    </div>`;
-                            }catch(err){
-                                console.log(err);
-                            }
-                        }
-                    }
-                    break;
                 }
             }
         }
@@ -2125,8 +1982,8 @@ function update_table(type){
             if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && total_price){
                 if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
                     for(k in currency_rate_data.result.response.agent[user_login.co_ho_seq_id]){
-                        if(currency_rate_data.result.is_show_provider.includes(k)){
-                            try{
+                        try{
+                            if(currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].base_currency == price.currency){
                                 price_convert = (total_price/currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].rate).toFixed(2);
                                 if(price_convert%1 == 0)
                                     price_convert = parseInt(price_convert);
@@ -2136,31 +1993,10 @@ function update_table(type){
                                             <h6> Estimated `+k+` `+price_convert+`</h6>
                                         </div>
                                     </div>`;
-                            }catch(err){
-                                console.log(err);
                             }
+                        }catch(err){
+                            console.log(err);
                         }
-                    }
-                }else{
-                    for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
-                        for(k in currency_rate_data.result.response.agent[j]){
-                            if(currency_rate_data.result.is_show_provider.includes(k)){
-                                try{
-                                    price_convert = (total_price/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
-                                    if(price_convert%1 == 0)
-                                        price_convert = parseInt(price_convert);
-                                    text_detail+=`
-                                        <div class="row" style="margin-bottom:10px;">
-                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:right;">
-                                                <h6> Estimated `+k+` `+price_convert+`</h6>
-                                            </div>
-                                        </div>`;
-                                }catch(err){
-                                    console.log(err);
-                                }
-                            }
-                        }
-                        break;
                     }
                 }
             }
@@ -3088,34 +2924,17 @@ function check_on_off_radio(pax_type,number,value){
                     if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && price_perpax){
                         if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
                             for(k in currency_rate_data.result.response.agent[user_login.co_ho_seq_id]){
-                                if(currency_rate_data.result.is_show_provider.includes(k)){
-                                    try{
+                                try{
+                                    if(currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].base_currency == currency){
                                         price_convert = (price_perpax/currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].rate).toFixed(2);
                                         if(price_convert%1 == 0)
                                             price_convert = parseInt(price_convert);
                                         text_currency+=`
                                             <h6> Estimated `+k+` `+price_convert+`</h6>`;
-                                    }catch(err){
-                                        console.log(err);
                                     }
+                                }catch(err){
+                                    console.log(err);
                                 }
-                            }
-                        }else{
-                            for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
-                                for(k in currency_rate_data.result.response.agent[j]){
-                                    if(currency_rate_data.result.is_show_provider.includes(k)){
-                                        try{
-                                            price_convert = (price_perpax/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
-                                            if(price_convert%1 == 0)
-                                                price_convert = parseInt(price_convert);
-                                            text_currency+=`
-                                                <h6> Estimated `+k+` `+price_convert+`</h6>`;
-                                        }catch(err){
-                                            console.log(err);
-                                        }
-                                    }
-                                }
-                                break;
                             }
                         }
                     }

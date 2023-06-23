@@ -3191,22 +3191,9 @@ function sort(){
                                        if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show){
                                             if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
                                                 for(k in currency_rate_data.result.response.agent[user_login.co_ho_seq_id]){
-                                                    if(currency_rate_data.result.is_show_provider.includes(k)){
-                                                        try{
-                                                            text+=`<span id="fare`+i+`_other_currency_`+k+`" class="basic_fare_field copy_price price_template"></span><br/>`;
-                                                        }catch(err){console.log(err);}
-                                                    }
-                                                }
-                                            }else{
-                                                for(j in currency_rate_data.result.response.agent){ //asumsi 1 agent hanya HO
-                                                    for(k in currency_rate_data.result.response.agent[j]){
-                                                        if(currency_rate_data.result.is_show_provider.includes(k)){
-                                                            try{
-                                                                text+=`<span id="fare`+i+`_other_currency_`+k+`" class="basic_fare_field copy_price price_template"></span><br/>`;
-                                                            }catch(err){console.log(err);}
-                                                        }
-                                                    }
-                                                    break;
+                                                    try{
+                                                        text+=`<span id="fare`+i+`_other_currency_`+k+`" class="basic_fare_field copy_price price_template"></span>`;
+                                                    }catch(err){console.log(err);}
                                                 }
                                             }
                                        }
@@ -4009,32 +3996,18 @@ function sort(){
                                     if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && airline[i].total_price){
                                         if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
                                             for(k in currency_rate_data.result.response.agent[user_login.co_ho_seq_id]){
-                                                if(currency_rate_data.result.is_show_provider.includes(k)){
-                                                    try{
+                                                try{
+                                                    if(currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].base_currency == airline[i].currency){
                                                         price_convert = (airline[i].total_price/currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].rate).toFixed(2);
                                                         if(price_convert%1 == 0)
                                                             price_convert = parseInt(price_convert);
-                                                        document.getElementById('fare'+i+'_other_currency_'+k).innerHTML = 'Estimated ' + k + ' ' + getrupiah(price_convert);
-                                                    }catch(err){
-                                                        console.log(err);
+                                                        document.getElementById('fare'+i+'_other_currency_'+k).innerHTML = 'Estimated ' + k + ' ' + getrupiah(price_convert) + '<br/>';
+                                                    }else{
+                                                        document.getElementById('fare'+i+'_other_currency_'+k).style.display = 'none';
                                                     }
+                                                }catch(err){
+                                                    console.log(err);
                                                 }
-                                            }
-                                        }else{
-                                            for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
-                                                for(k in currency_rate_data.result.response.agent[j]){
-                                                    if(currency_rate_data.result.is_show_provider.includes(k)){
-                                                        try{
-                                                            price_convert = (airline[i].total_price/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
-                                                            if(price_convert%1 == 0)
-                                                                price_convert = parseInt(price_convert);
-                                                            document.getElementById('fare'+i+'_other_currency_'+k).innerHTML = 'Estimated ' + k + ' ' + getrupiah(price_convert);
-                                                        }catch(err){
-                                                            console.log(err);
-                                                        }
-                                                    }
-                                                }
-                                                break;
                                             }
                                         }
                                     }
@@ -4564,32 +4537,16 @@ function airline_pick_mc(type){
                         if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && price){
                             if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
                                 for(k in currency_rate_data.result.response.agent[user_login.co_ho_seq_id]){
-                                    if(currency_rate_data.result.is_show_provider.includes(k)){
-                                        try{
+                                    try{
+                                        if(currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].base_currency == currency){
                                             price_convert = (Math.ceil(price-total_discount)/currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].rate).toFixed(2);
                                             if(price_convert%1 == 0)
                                                 price_convert = parseInt(price_convert);
                                             text+=`<br/><span class="basic_fare_field price_template" style="font-size:16px;font-weight: bold; color:`+color+`; padding:10px 0px;"> Estimated `+k+` `+getrupiah(price_convert)+`</span>`;
-                                        }catch(err){
-                                            console.log(err);
                                         }
+                                    }catch(err){
+                                        console.log(err);
                                     }
-                                }
-                            }else{
-                                for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
-                                    for(k in currency_rate_data.result.response.agent[j]){
-                                        if(currency_rate_data.result.is_show_provider.includes(k)){
-                                            try{
-                                                price_convert = (Math.ceil(price-total_discount)/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
-                                                if(price_convert%1 == 0)
-                                                    price_convert = parseInt(price_convert);
-                                                text+=`<br/><span class="basic_fare_field price_template" style="font-size:16px;font-weight: bold; color:`+color+`; padding:10px 0px;"> Estimated `+k+` `+getrupiah(price_convert)+`</span>`;
-                                            }catch(err){
-                                                console.log(err);
-                                            }
-                                        }
-                                    }
-                                    break;
                                 }
                             }
                         }
@@ -5783,10 +5740,10 @@ function airline_detail(type){
                     </div>
                     <div class="col-lg-5" style="text-align:right;">`;
                     if(currency == 'IDR')
-                    text+=`
+                        text+=`
                         <label>`+currency+` `+getrupiah(total_discount)+`</label><br/>`;
                     else
-                    text+=`
+                        text+=`
                         <label>`+currency+` `+total_discount+`</label><br/>`;
                     text+=`</div>`;
                     $text += '‣ Discount: ' + currency + ' ' +getrupiah(total_discount*-1) + '\n';
@@ -5820,7 +5777,7 @@ function airline_detail(type){
                     <span style="font-size:14px; font-weight:bold;`;
                 if(is_show_breakdown_price)
                     text+='cursor:pointer;';
-                text+=`" id="total_price"><b> `+currency+` `+parseFloat(grand_total_price+total_discount)+`</b>`;
+                text+=`" id="total_price"><b> `+currency+` `+getrupiah(parseFloat(grand_total_price+total_discount))+`</b>`;
                 if(is_show_breakdown_price)
                     text+=`<i class="fas fa-caret-down"></i>`;
                 text+=`</span><br/>`;
@@ -5830,8 +5787,8 @@ function airline_detail(type){
             if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && grand_total_price){
                 if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
                     for(k in currency_rate_data.result.response.agent[user_login.co_ho_seq_id]){
-                        if(currency_rate_data.result.is_show_provider.includes(k)){
-                            try{
+                        try{
+                            if(currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].base_currency == currency){
                                 price_convert = ((grand_total_price+total_discount)/currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].rate).toFixed(2);
                                 if(price_convert%1 == 0)
                                     price_convert = parseInt(price_convert);
@@ -5839,29 +5796,10 @@ function airline_detail(type){
                                     <div class="col-lg-12" style="text-align:right;">
                                         <span style="font-size:14px; font-weight:bold;" id="total_price_`+k+`"><b> Estimated `+k+` `+getrupiah(price_convert)+`</b></span><br/>
                                     </div>`;
-                            }catch(err){
-                                console.log(err);
                             }
+                        }catch(err){
+                            console.log(err);
                         }
-                    }
-                }else{
-                    for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
-                        for(k in currency_rate_data.result.response.agent[j]){
-                            if(currency_rate_data.result.is_show_provider.includes(k)){
-                                try{
-                                    price_convert = ((grand_total_price+total_discount)/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
-                                    if(price_convert%1 == 0)
-                                        price_convert = parseInt(price_convert);
-                                    text+=`
-                                        <div class="col-lg-12" style="text-align:right;">
-                                            <span style="font-size:14px; font-weight:bold;" id="total_price_`+k+`"><b> Estimated `+k+` `+getrupiah(price_convert)+`</b></span><br/>
-                                        </div>`;
-                                }catch(err){
-                                    console.log(err);
-                                }
-                            }
-                        }
-                        break;
                     }
                 }
             }
@@ -5961,13 +5899,14 @@ function airline_detail(type){
             text+=`
             </div>
         </div>`;
-        if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false && user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+        if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false && user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
+            // tidak ikut default karena ada notes untuk YPM lionair
             text+=`
             <div class="row" id="show_commission" style="display:block;">
                 <div class="col-lg-12 col-xs-12">
                     <div class="alert alert-success">
                         <div style="text-align:center;">
-                            <span style="font-size:13px; font-weight: bold;">YPM: IDR `+getrupiah(commission_price*-1)+`</span>
+                            <span style="font-size:13px; font-weight: bold;">YPM: `+currency+` `+getrupiah(commission_price*-1)+`</span>
                         </div>`;
             text_notes = '';
             for(x in airline_pick){
@@ -5998,6 +5937,7 @@ function airline_detail(type){
             text+=`</div>
                 </div>
             </div>`;
+        }
         text+=`
         <div style="padding-bottom:10px;">
             <center>
@@ -6134,10 +6074,10 @@ function airline_detail(type){
             </div>
             <div class="col-lg-5" style="text-align:right;">`;
             if(currency == 'IDR')
-            text+=`
+                text+=`
                 <label id="additional_price">`+currency+` `+getrupiah(additional_price)+`</label><br/>`;
             else
-            text+=`
+                text+=`
                 <label id="additional_price">`+additional_price+`</label><br/>`;
             text+=`
             </div>
@@ -6146,18 +6086,18 @@ function airline_detail(type){
             </div>
             <div class="col-lg-5" style="text-align:right; padding-bottom:10px;">`;
             if(airline_get_detail.passengers[j].sale_service_charges[k][l].currency == 'IDR')
-            text+=`
+                text+=`
                 <span style="font-size:14px; font-weight:bold;" id="total_price"><b>`+currency+` `+getrupiah(parseFloat(total_price+parseFloat(additional_price)))+`</b></span><br/>`;
             else
-            text+=`
-                <span style="font-size:14px; font-weight:bold;" id="total_price"><b>`+getrupiah(total_price+additional_price)+`</b></span><br/>`;
+                text+=`
+                <span style="font-size:14px; font-weight:bold;" id="total_price"><b>`+currency+` `+getrupiah(total_price+additional_price)+`</b></span><br/>`;
             text+=`
             </div>`;
             if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && total_price+additional_price){
                 if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
                     for(k in currency_rate_data.result.response.agent[user_login.co_ho_seq_id]){
-                        if(currency_rate_data.result.is_show_provider.includes(k)){
-                            try{
+                        try{
+                            if(currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].base_currency == currency){
                                 price_convert = ((total_price+additional_price)/currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].rate).toFixed(2);
                                 if(price_convert%1 == 0)
                                     price_convert = parseInt(price_convert);
@@ -6165,29 +6105,10 @@ function airline_detail(type){
                                     <div class="col-lg-12" style="text-align:right;">
                                         <span style="font-size:14px; font-weight:bold;" id="total_price_`+k+`"><b> Estimated `+k+` `+getrupiah(price_convert)+`</b></span><br/>
                                     </div>`;
-                            }catch(err){
-                                console.log(err);
                             }
+                        }catch(err){
+                            console.log(err);
                         }
-                    }
-                }else{
-                    for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
-                        for(k in currency_rate_data.result.response.agent[j]){
-                            if(currency_rate_data.result.is_show_provider.includes(k)){
-                                try{
-                                    price_convert = ((total_price+additional_price)/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
-                                    if(price_convert%1 == 0)
-                                        price_convert = parseInt(price_convert);
-                                    text+=`
-                                        <div class="col-lg-12" style="text-align:right;">
-                                            <span style="font-size:14px; font-weight:bold;" id="total_price_`+k+`"><b> Estimated `+k+` `+getrupiah(price_convert)+`</b></span><br/>
-                                        </div>`;
-                                }catch(err){
-                                    console.log(err);
-                                }
-                            }
-                        }
-                        break;
                     }
                 }
             }
@@ -6420,6 +6341,16 @@ function get_airline_channel_repricing_data(){
             if(isNaN(parseInt(passengers_ssr[j].ssr_list[i].total_price)) == false)
                 pax_price += parseInt(passengers_ssr[j].ssr_list[i].total_price);
         }
+        currency = '';
+        for(i in airline_price){
+            for(j in airline_price[i]){
+                if(!currency)
+                    break;
+                currency = airline_price[i][j].currency;
+            }
+            if(!currency)
+                break;
+        }
         price = {'FARE': pax_price, 'currency': currency, 'CSC': 0};
         if(price['currency'] == '')
             price['currency'] = 'IDR'
@@ -6500,7 +6431,7 @@ function get_airline_channel_repricing_data_reschedule(msg){
             }
         }
     }
-
+    currency = '';
     for(j in gen_passenger_data){
         pax_price = 0;
         for(k in gen_passenger_data[j].fees){
@@ -6513,6 +6444,8 @@ function get_airline_channel_repricing_data_reschedule(msg){
                     if(airline_response[k].segments[l].fares.length > 0){
                         for(m in airline_response[k].segments[l].fares){
                             for(n in airline_response[k].segments[l].fares[m].service_charge_summary){
+                                if(!currency)
+                                    currency = airline_response[k].segments[l].fares[m].service_charge_summary[n].currency;
                                 if(airline_response[k].segments[l].fares[m].service_charge_summary[n].pax_type == gen_passenger_data[j].pax_type)
                                 {
                                     pax_price += airline_response[k].segments[l].fares[m].service_charge_summary[n].total_price/airline_response[k].segments[l].fares[m].service_charge_summary[n].pax_count;
@@ -6527,8 +6460,7 @@ function get_airline_channel_repricing_data_reschedule(msg){
         }
 
         price = {'FARE': pax_price, 'currency': currency, 'CSC': 0};
-        if(price['currency'] == '')
-            price['currency'] = 'IDR'
+
 
 //        try{
 //            price['CSC'] = airline_get_detail.passengers[j].channel_service_charges.amount_addons;

@@ -835,7 +835,7 @@ function train_get_detail(){
                     <span style="font-size:13px; font-weight:bold; color:#e04022; font-weight:bold;"> -`+price['currency']+` `+getrupiah(total_discount*-1)+`</span><br>
                 </div>`;
 
-                $text += '‣ Discount: IDR ' +getrupiah(total_discount*-1) + '\n';
+                $text += '‣ Discount: '+price['currency']+' ' +getrupiah(total_discount*-1) + '\n';
             }
         }catch(err){console.log(err);}
 
@@ -858,8 +858,8 @@ function train_get_detail(){
         if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && total_price+total_tax+total_discount){
             if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
                 for(k in currency_rate_data.result.response.agent[user_login.co_ho_seq_id]){
-                    if(currency_rate_data.result.is_show_provider.includes(k)){
-                        try{
+                    try{
+                        if(currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].base_currency == price.currency){
                             price_convert = (Math.ceil(total_price+total_tax+total_discount)/currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].rate).toFixed(2);
                             if(price_convert%1 == 0)
                                 price_convert = parseInt(price_convert);
@@ -867,29 +867,10 @@ function train_get_detail(){
                                 <div class="col-lg-12" style="text-align:right;">
                                     <span style="font-weight:bold;font-size:13px;">Estimated `+k+` `+getrupiah(price_convert)+`</span>
                                 </div>`;
-                        }catch(err){
-                            console.log(err);
                         }
+                    }catch(err){
+                        console.log(err);
                     }
-                }
-            }else{
-                for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
-                    for(k in currency_rate_data.result.response.agent[j]){
-                        if(currency_rate_data.result.is_show_provider.includes(k)){
-                            try{
-                                price_convert = (Math.ceil(total_price+total_tax+total_discount)/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
-                                if(price_convert%1 == 0)
-                                    price_convert = parseInt(price_convert);
-                                train_detail_footer+=`
-                                    <div class="col-lg-12" style="text-align:right;">
-                                        <span style="font-weight:bold;font-size:13px;">Estimated `+k+` `+getrupiah(price_convert)+`</span>
-                                    </div>`;
-                            }catch(err){
-                                console.log(err);
-                            }
-                        }
-                    }
-                    break;
                 }
             }
         }
@@ -928,7 +909,7 @@ function train_get_detail(){
 
         if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
             train_detail_footer += `<div class="col-lg-12">`;
-            train_detail_footer+= print_commission(total_commission,'show_commission');
+            train_detail_footer+= print_commission(total_commission,'show_commission', price.currency);
             train_detail_footer += `</div>`;
         }
         train_detail_footer+=`
@@ -1337,8 +1318,8 @@ function train_detail(){
     if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && grand_total_price){
         if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
             for(k in currency_rate_data.result.response.agent[user_login.co_ho_seq_id]){
-                if(currency_rate_data.result.is_show_provider.includes(k)){
-                    try{
+                try{
+                    if(currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].base_currency == price.currency){
                         price_convert = (grand_total_price/currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].rate).toFixed(2);
                         if(price_convert%1 == 0)
                             price_convert = parseInt(price_convert);
@@ -1348,31 +1329,10 @@ function train_detail(){
                                     <span style="font-size:13px;"><b> Estimated `+k+` `+price_convert+`</b></span>
                                 </div>
                             </div>`;
-                    }catch(err){
-                        console.log(err);
                     }
+                }catch(err){
+                    console.log(err);
                 }
-            }
-        }else{
-            for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
-                for(k in currency_rate_data.result.response.agent[j]){
-                    if(currency_rate_data.result.is_show_provider.includes(k)){
-                        try{
-                            price_convert = (grand_total_price/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
-                            if(price_convert%1 == 0)
-                                price_convert = parseInt(price_convert);
-                            text+=`
-                                <div class="row" style="margin-bottom:5px;">
-                                    <div class="col-lg-12 col-xs-12" style="text-align:right;">
-                                        <span style="font-size:13px;"><b> Estimated `+k+` `+price_convert+`</b></span>
-                                    </div>
-                                </div>`;
-                        }catch(err){
-                            console.log(err);
-                        }
-                    }
-                }
-                break;
             }
         }
     }
@@ -1381,7 +1341,7 @@ function train_detail(){
         text+=`<div class="mb-3" style="text-align:right;"><img src="/static/tt_website/img/bank.png" alt="Bank" style="width:auto; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
     }
     if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-        text+= print_commission(total_commission,'show_commission')
+        text+= print_commission(total_commission,'show_commission', price.currency)
 //    $text += '1x Convenience fee '+price['currency']+' '+ getrupiah(total_tax) + '\n\n';
     try{
 
@@ -2366,55 +2326,38 @@ function sort(value){
                             for(j in journeys){
                                 if(journeys[j].sequence == data_filter[i].sequence){
                                     if(data_filter[i].price != data_filter[i].without_discount_price){
-                                        response += `<span class="basic_fare_field cross_price" style="font-size:14px; color:#929292;">IDR `+getrupiah(data_filter[i].without_discount_price)+`</span><br/>`
+                                        response += `<span class="basic_fare_field cross_price" style="font-size:14px; color:#929292;">`+data_filter[i].currency+` `+getrupiah(data_filter[i].without_discount_price)+`</span><br/>`
                                     }
                                     response+=`
-                                    <span class="copy_price" style="font-size:16px; margin-right:10px; font-weight: bold; color:`+color+`;">IDR `+getrupiah(data_filter[i].price)+`</span>
+                                    <span class="copy_price" style="font-size:16px; margin-right:10px; font-weight: bold; color:`+color+`;">`+data_filter[i].currency+` `+getrupiah(data_filter[i].price)+`</span>
                                     <input class="primary-btn-custom-un" style="margin-top:10px;" type="button" onclick="choose_train(`+i+`,`+data_filter[i].sequence+`);"  id="train_choose`+i+`" disabled value="Chosen">`;
                                     check = 1;
                                 }
                             }
                             if(check == 0){
                                 if(data_filter[i].price != data_filter[i].without_discount_price)
-                                    response += `<span class="basic_fare_field cross_price" style="font-size:14px; color:#929292;">IDR `+getrupiah(data_filter[i].without_discount_price)+`</span><br/>`;
+                                    response += `<span class="basic_fare_field cross_price" style="font-size:14px; color:#929292;">`+data_filter[i].currency+` `+getrupiah(data_filter[i].without_discount_price)+`</span><br/>`;
                                 response += `<span class="copy_price" id="train_price_`+i+`" style="font-size:16px; font-weight: bold; color:`+color+`;`;
                                 if(is_show_breakdown_price)
                                     response+='cursor:pointer;';
-                                response += `">IDR `+getrupiah(data_filter[i].price);
+                                response += `">`+data_filter[i].currency+` `+getrupiah(data_filter[i].price);
                                 if(is_show_breakdown_price)
                                     response+=`<i class="fas fa-caret-down price_template"></i>`;
                                 response+=`</span><br/>`;
                                 if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && data_filter[i].price){
                                     if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
                                         for(k in currency_rate_data.result.response.agent[user_login.co_ho_seq_id]){
-                                            if(currency_rate_data.result.is_show_provider.includes(k)){
-                                                try{
+                                            try{
+                                                if(currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].base_currency == data_filter[i].currency){
                                                     price_convert = (parseFloat(data_filter[i].price)/currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].rate).toFixed(2);
                                                     if(price_convert%1 == 0)
                                                         price_convert = parseInt(price_convert);
                                                     response+=`
                                                         <span class="copy_price" style="font-size:16px; font-weight: bold; color:`+color+`;" id="total_price_`+k+`"> Estimated `+k+` `+price_convert+`</span>`;
-                                                }catch(err){
-                                                    console.log(err);
                                                 }
+                                            }catch(err){
+                                                console.log(err);
                                             }
-                                        }
-                                    }else{
-                                        for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
-                                            for(k in currency_rate_data.result.response.agent[j]){
-                                                if(currency_rate_data.result.is_show_provider.includes(k)){
-                                                    try{
-                                                        price_convert = (parseFloat(data_filter[i].price)/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
-                                                        if(price_convert%1 == 0)
-                                                            price_convert = parseInt(price_convert);
-                                                        response+=`
-                                                            <span class="copy_price" style="font-size:16px; font-weight: bold; color:`+color+`;" id="total_price_`+k+`"> Estimated `+k+` `+price_convert+`</span>`;
-                                                    }catch(err){
-                                                        console.log(err);
-                                                    }
-                                                }
-                                            }
-                                            break;
                                         }
                                     }
                                 }
@@ -2630,48 +2573,30 @@ function train_ticket_pick(){
                     <div style="margin-top:15px; margin-bottom:10px; text-align:right;">`;
                     check = 0;
                     if(journeys[i].price != journeys[i].without_discount_price){
-                        response += `<span class="basic_fare_field cross_price" style="font-size:14px; color:#929292;">IDR `+getrupiah(journeys[i].without_discount_price)+`</span><br/>`
+                        response += `<span class="basic_fare_field cross_price" style="font-size:14px; color:#929292;">`+journeys[i].currency+` `+getrupiah(journeys[i].without_discount_price)+`</span><br/>`
                     }
                     response+=`
                         <span id="train_pick_price_`+i+`" style="font-size:16px; margin-bottom:10px; font-weight: bold; color:`+color+`;`;
                     if(is_show_breakdown_price)
                         response+='cursor:pointer;';
-                    response+=`">IDR `+getrupiah(journeys[i].price)+`</span>`;
+                    response+=`">`+journeys[i].currency+` `+getrupiah(journeys[i].price)+`</span>`;
                     if(is_show_breakdown_price)
                         response+=`<i class="fas fa-caret-down price_template"></i>`;
                     if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && journeys[i].price){
                         if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
                             for(k in currency_rate_data.result.response.agent[user_login.co_ho_seq_id]){
-                                if(currency_rate_data.result.is_show_provider.includes(k)){
-                                    try{
+                                try{
+                                    if(currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].base_currency == journeys[i].currency){
                                         price_convert = (parseFloat(journeys[i].price)/currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].rate).toFixed(2);
                                         if(price_convert%1 == 0)
                                             price_convert = parseInt(price_convert);
                                         response+=`
                                             <br/>
                                             <span style="font-size:16px; font-weight:bold;"> Estimated `+k+` `+price_convert+`</span>`;
-                                    }catch(err){
-                                        console.log(err);
                                     }
+                                }catch(err){
+                                    console.log(err);
                                 }
-                            }
-                        }else{
-                            for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
-                                for(k in currency_rate_data.result.response.agent[j]){
-                                    if(currency_rate_data.result.is_show_provider.includes(k)){
-                                        try{
-                                            price_convert = (parseFloat(journeys[i].price)/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
-                                            if(price_convert%1 == 0)
-                                                price_convert = parseInt(price_convert);
-                                            response+=`
-                                                <br/>
-                                                <span style="font-size:16px; font-weight:bold;"> Estimated `+k+` `+price_convert+`</span>`;
-                                        }catch(err){
-                                            console.log(err);
-                                        }
-                                    }
-                                }
-                                break;
                             }
                         }
                     }

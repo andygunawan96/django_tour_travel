@@ -1319,12 +1319,14 @@ function print_payment_rules(payment)
     for (i in payment)
     {
         var payment_price = (parseFloat(payment[i].payment_percentage) / 100) * grand_total;
+        if(typeof(currency) !== 'undefined')
+            currency = 'IDR';
         if (payment_price > 0)
         {
             pay_text += `
             <tr>
                  <td>` +payment[i].name+ `</td>
-                 <td id="payment_` + String(idx) + `" name="payment_` + String(idx) + `">IDR ` + getrupiah(Math.ceil(payment_price))+ `</td>
+                 <td id="payment_` + String(idx) + `" name="payment_` + String(idx) + `">`+currency+` ` + getrupiah(Math.ceil(payment_price))+ `</td>
                  <td id="payment_date_` + String(idx) + `" name="payment_date_` + String(idx) + `">` +payment[i].due_date+ `</td>
             </tr>
             `;
@@ -1798,13 +1800,13 @@ function sort(tour_dat, exist_check){
                                                         </div>
                                                         <div class="col-lg-12 mb-2">
                                                             <span style="font-size:13px; color:#616161; float:left; margin-top:10px;">Starting From</span>
-                                                            <span style="font-size:14px;font-weight:bold; float:right; margin-top:10px;">IDR `+getrupiah(tour_dat[i].est_starting_price)+`</span><br/>
+                                                            <span style="font-size:14px;font-weight:bold; float:right; margin-top:10px;">`+tour_dat[i].currency_code+` `+getrupiah(tour_dat[i].est_starting_price)+`</span><br/>
                                                         </div>`;
                                                         if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && tour_dat[i].est_starting_price){
                                                             if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
                                                                 for(k in currency_rate_data.result.response.agent[user_login.co_ho_seq_id]){
-                                                                    if(currency_rate_data.result.is_show_provider.includes(k)){
-                                                                        try{
+                                                                    try{
+                                                                        if(currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].base_currency == tour_dat[i].currency_code){
                                                                             price_convert = (parseFloat(tour_dat[i].est_starting_price)/currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].rate).toFixed(2);
                                                                             if(price_convert%1 == 0)
                                                                                 price_convert = parseInt(price_convert);
@@ -1812,29 +1814,10 @@ function sort(tour_dat, exist_check){
                                                                                 <div class="col-lg-12">
                                                                                     <span style="font-size:14px;font-weight:bold; float:right; margin-top:10px;" id="total_price_`+k+`"> Estimated `+k+` `+price_convert+`</span><br/>
                                                                                 </div>`;
-                                                                        }catch(err){
-                                                                            console.log(err);
                                                                         }
+                                                                    }catch(err){
+                                                                        console.log(err);
                                                                     }
-                                                                }
-                                                            }else{
-                                                                for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
-                                                                    for(k in currency_rate_data.result.response.agent[j]){
-                                                                        if(currency_rate_data.result.is_show_provider.includes(k)){
-                                                                            try{
-                                                                                price_convert = (parseFloat(tour_dat[i].est_starting_price)/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
-                                                                                if(price_convert%1 == 0)
-                                                                                    price_convert = parseInt(price_convert);
-                                                                                text+=`
-                                                                                    <div class="col-lg-12">
-                                                                                        <span style="font-size:14px;font-weight:bold; float:right; margin-top:10px;" id="total_price_`+k+`"> Estimated `+k+` `+price_convert+`</span><br/>
-                                                                                    </div>`;
-                                                                            }catch(err){
-                                                                                console.log(err);
-                                                                            }
-                                                                        }
-                                                                    }
-                                                                    break;
                                                                 }
                                                             }
                                                         }
@@ -1888,7 +1871,7 @@ function sort(tour_dat, exist_check){
                                                             <span id="pop_question`+i+`" style="cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;"></i></span>
                                                         </div>
                                                             <span style="font-size:13px; color:#616161; float:left; margin-top:10px;">Starting From</span>
-                                                            <span style="font-size:14px;font-weight:bold; float:right; margin-top:10px;">IDR `+getrupiah(tour_dat[i].est_starting_price)+`</span><br/>
+                                                            <span style="font-size:14px;font-weight:bold; float:right; margin-top:10px;">`+tour_dat[i].currency_code+` `+getrupiah(tour_dat[i].est_starting_price)+`</span><br/>
                                                         </div>
                                                         <div class="col-lg-12">
                                                             <button href="#" class="primary-btn-custom" type="button" onclick="go_to_detail('`+tour_dat[i].tour_code+`')" style="width:100%;">BOOK</button><br/>
@@ -1938,7 +1921,7 @@ function sort(tour_dat, exist_check){
                                                             <span id="pop_question`+i+`" style="cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;"></i></span>
                                                         </div>
                                                             <span style="font-size:13px; color:#616161; float:left; margin-top:10px;">Starting From</span>
-                                                            <span style="font-size:14px;font-weight:bold; float:right; margin-top:10px;">IDR `+getrupiah(tour_dat[i].est_starting_price)+`</span><br/>
+                                                            <span style="font-size:14px;font-weight:bold; float:right; margin-top:10px;">`+tour_dat[i].currency_code+` `+getrupiah(tour_dat[i].est_starting_price)+`</span><br/>
                                                         </div>
                                                         <div class="col-lg-12">
                                                             <button href="#" class="primary-btn-custom" type="button" onclick="go_to_detail('`+tour_dat[i].tour_code+`')" style="width:100%;">BOOK</button><br/>
@@ -1988,7 +1971,7 @@ function sort(tour_dat, exist_check){
                                                             <span id="pop_question`+i+`" style="cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;"></i></span>
                                                         </div>
                                                             <span style="font-size:13px; color:#616161; float:left; margin-top:10px;">Starting From</span>
-                                                            <span style="font-size:14px;font-weight:bold; float:right; margin-top:10px;">IDR `+getrupiah(tour_dat[i].est_starting_price)+`</span><br/>
+                                                            <span style="font-size:14px;font-weight:bold; float:right; margin-top:10px;">`+tour_dat[i].currency_code+` `+getrupiah(tour_dat[i].est_starting_price)+`</span><br/>
                                                         </div>
                                                         <div class="col-lg-12">
                                                             <button href="#" class="primary-btn-custom" type="button" onclick="go_to_detail('`+tour_dat[i].tour_code+`')" style="width:100%;">BOOK</button><br/>
@@ -2037,7 +2020,7 @@ function sort(tour_dat, exist_check){
                                                             <span id="pop_question`+i+`" style="cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;"></i></span>
                                                         </div>
                                                             <span style="font-size:13px; color:#616161; float:left; margin-top:10px;">Starting From</span>
-                                                            <span style="font-size:14px;font-weight:bold; float:right; margin-top:10px;">IDR `+getrupiah(tour_dat[i].est_starting_price)+`</span><br/>
+                                                            <span style="font-size:14px;font-weight:bold; float:right; margin-top:10px;">`+tour_dat[i].currency_code+` `+getrupiah(tour_dat[i].est_starting_price)+`</span><br/>
                                                         </div>
                                                         <div class="col-lg-12">
                                                             <button href="#" class="primary-btn-custom" type="button" onclick="go_to_detail('`+tour_data[i].tour_code+`')" style="width:100%;">BOOK</button><br/>
@@ -2087,7 +2070,7 @@ function sort(tour_dat, exist_check){
                                                             <span id="pop_question`+i+`" style="cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;"></i></span>
                                                         </div>
                                                             <span style="font-size:13px; color:#616161; float:left; margin-top:10px;">Starting From</span>
-                                                            <span style="font-size:14px;font-weight:bold; float:right; margin-top:10px;">IDR `+getrupiah(tour_dat[i].est_starting_price)+`</span><br/>
+                                                            <span style="font-size:14px;font-weight:bold; float:right; margin-top:10px;">`+tour_dat[i].currency_code+` `+getrupiah(tour_dat[i].est_starting_price)+`</span><br/>
                                                         </div>
                                                         <div class="col-lg-12">
                                                             <button href="#" class="primary-btn-custom" type="button" onclick="go_to_detail('`+tour_dat[i].tour_code+`')" style="width:100%;">BOOK</button><br/>

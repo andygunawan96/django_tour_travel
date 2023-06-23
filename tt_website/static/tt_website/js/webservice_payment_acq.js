@@ -1453,7 +1453,7 @@ function check_payment_payment_method(order_number,btn_name,booker,type,provider
                         <span style="font-size:13px;;"> Grand Total: </span>
                     </div>
                     <div class="col-sm-7" style='text-align:right;'>
-                        <span style="font-size:14px; font-weight:500;">IDR `+getrupiah(payment_acq_booking.amount)+`<br>
+                        <span style="font-size:14px; font-weight:500;">`+payment_acq_booking.currency+` `+getrupiah(payment_acq_booking.amount)+`<br>
                     </div>
                    </div>`;
             text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="window.location.href = '/payment/`+name+`/`+payment_acq_booking.order_number+`'" style="width:100%;">Pay Now <div class="ld ld-ring ld-cycle"></div></button>`;
@@ -1478,7 +1478,7 @@ function check_payment_payment_method(order_number,btn_name,booker,type,provider
                             <span style="font-size:13px;;"> Grand Total: </span>
                         </div>
                         <div class="col-sm-7" style='text-align:right;'>
-                            <span style="font-size:14px; font-weight:500;">IDR `+getrupiah(payment_acq_booking.amount)+`<br>
+                            <span style="font-size:14px; font-weight:500;">`+payment_acq_booking.currency+` `+getrupiah(payment_acq_booking.amount)+`<br>
                         </div>
                      </div>`;
             if(payment_acq_booking.url != ''){
@@ -1586,6 +1586,28 @@ function set_payment_information(){
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get va bank');
+       }
+    });
+}
+
+function get_currency(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/account",
+       headers:{
+            'action': 'get_currency',
+       },
+       data: {
+            'signature': signature
+       },
+       success: function(msg) {
+            if(msg.result.error_code == 0){
+                currency_code = msg.result.response;
+            }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get currency code');
+            currency_code = 'IDR'
        }
     });
 }
@@ -1832,7 +1854,7 @@ function change_top_up_method(){
                     <div class="input-container-search-ticket">
                         <input min="50000" step="50000" name="amount" id="amount" class="form-control" required="required" onkeyup="`;
                 text+=`total_price_top_up();`;
-                text+=`" placeholder="Min IDR 50,000">
+                text+=`" placeholder="Min `+currency_code+` 50,000">
                         </div>
                     </div>
 

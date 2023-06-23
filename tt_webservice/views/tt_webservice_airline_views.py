@@ -1019,6 +1019,10 @@ def search2(request):
             "carrier_codes": carrier_code_list,
             "promo_codes": promo_codes
         }
+        if request.session.get('currency'):
+            data.update({
+                "currency_code": request.session.currency
+            })
         advance_search = get_airline_advance_pax_type(request)
         if advance_search['airline_advance_pax_type'] == 'true':
             if advance_search['airline_pax_type_student'] == 'true' and int(data_search['student']):
@@ -1252,6 +1256,10 @@ def get_price_itinerary(request, boolean, counter):
             "infant": int(airline_request['infant']),
             "schedules": schedules,
         }
+        if request.session.get('currency'):
+            data.update({
+                "currency_code": request.session.currency
+            })
         advance_search = get_airline_advance_pax_type(request)
         if advance_search['airline_advance_pax_type'] == 'true':
             if advance_search['airline_pax_type_student'] == 'true' and airline_request.get('student'):
@@ -1456,6 +1464,10 @@ def sell_journeys(request):
                 'country': country['country'],
             })
         data = json.loads(request.POST['data'])
+        if request.session.get('currency'):
+            data.update({
+                "currency_code": request.session.currency
+            })
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
@@ -2043,6 +2055,10 @@ def get_booking(request):
             'order_number': request.POST['order_number'],
             'force_sync': sync
         }
+        if request.session.get('currency'):
+            data.update({
+                "currency_code": request.session.currency
+            })
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
@@ -2354,6 +2370,10 @@ def get_airline_reprice(request):
         data = {
             "order_number": booking_data['result']['response']['order_number']
         }
+        if request.session.get('currency'):
+            data.update({
+                "currency_code": request.session.currency
+            })
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
@@ -2560,6 +2580,10 @@ def issued(request):
             'agent_payment_method': request.POST.get('agent_payment') or False, ## kalau tidak kirim default balance normal
             'voucher': {}
         }
+        if request.session.get('currency'):
+            data.update({
+                "currency_code": request.session.currency
+            })
         provider = []
         try:
             if request.POST['use_point'] == 'false':

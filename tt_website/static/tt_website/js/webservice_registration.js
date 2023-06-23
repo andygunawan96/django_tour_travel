@@ -261,10 +261,13 @@ function get_promotions(){
 function change_promotion(){
     text = '';
     temp_grand_total = 0;
+    currency = '';
     for(i in promotion){
         if(document.getElementById('promotion').value == promotion[i].id){
             text += '<h4>Price Details</h4><hr/>';
             for(j in promotion[i].commission){
+                if(!currency)
+                    promotion[i].commission[j].currency
                 text += '<table style="width:100%; margin-bottom: 10px;">';
                 text += '<tr>';
                 text += '<td style="width:30%;"><strong>' + promotion[i].commission[j].recruited + ' Fee</strong></td>';
@@ -302,7 +305,7 @@ function change_promotion(){
             text += '<tr>';
             text += '<td style="width:30%;"><strong>Grand Total</strong></td>';
             text += '<td>: </td>';
-            text += '<td>IDR ' + getrupiah(temp_grand_total) +  '</td>';
+            text += '<td>'+currency+' ' + getrupiah(temp_grand_total) +  '</td>';
             text += '</tr>';
             text += '</table>';
         }

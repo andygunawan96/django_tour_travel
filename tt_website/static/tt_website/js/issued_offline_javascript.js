@@ -30,6 +30,7 @@ function search_carrier(){
     }, 500);
 }
 
+// DEPRECATED
 function issued_offline_price(){
     total_price = 0;
     insentif = 0;
