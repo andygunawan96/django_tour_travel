@@ -349,20 +349,20 @@ function swab_express_check_price(){
                     text+=`
                             <div class="row" style="margin-bottom:5px;">
                                 <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                    <span style="font-size:12px;">`+price_list['fare']['pax_count']+`x Fare @IDR `+getrupiah(price_list['fare']['amount'])+`</span>`;
+                                    <span style="font-size:12px;">`+price_list['fare']['pax_count']+`x Fare @`+price_list['fare']['currency']+` `+getrupiah(price_list['fare']['amount'])+`</span>`;
                         text+=`</div>
                                 <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                    <b><span style="font-size:13px;">IDR `+getrupiah(price_list['fare']['amount']*price_list['fare']['pax_count'])+`</span></b>
+                                    <b><span style="font-size:13px;">`+price_list['fare']['currency']+` `+getrupiah(price_list['fare']['amount']*price_list['fare']['pax_count'])+`</span></b>
                                 </div>
                             </div>`;
                     if(msg.result.response.address_surcharge){
                         text+=`
                                 <div class="row" style="margin-bottom:5px;">
                                     <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                        <span style="font-size:12px;">Address Surcharge IDR `+getrupiah(msg.result.response.address_surcharge)+`</span>`;
+                                        <span style="font-size:12px;">Address Surcharge `+price_list['fare']['currency']+` `+getrupiah(msg.result.response.address_surcharge)+`</span>`;
                             text+=`</div>
                                     <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                        <b><span style="font-size:13px;">IDR `+getrupiah(msg.result.response.address_surcharge)+`</span></b>
+                                        <b><span style="font-size:13px;">`+price_list['fare']['currency']+` `+getrupiah(msg.result.response.address_surcharge)+`</span></b>
                                     </div>
                                 </div>`;
                     }
@@ -372,11 +372,11 @@ function swab_express_check_price(){
                                     <span style="font-size:12px;">Grand Total</span>`;
                                 text+=`</div>
                                 <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                    <b><span style="font-size:13px;">IDR `+getrupiah(msg.result.response.total_price)+`</span></b>
+                                    <b><span style="font-size:13px;">`+price_list['fare']['currency']+` `+getrupiah(msg.result.response.total_price)+`</span></b>
                                 </div>
                             </div>`;
                     if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-                        text+=print_commission(msg.result.response.total_commission,'show_commission')
+                        text+=print_commission(msg.result.response.total_commission,'show_commission', price_list.fare.currency)
 
                     if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
                         text+=`
@@ -485,20 +485,20 @@ function swab_express_get_cache_price(){
                 text+=`
                         <div class="row" style="margin-bottom:5px;">
                             <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                <span style="font-size:12px;">`+price_list['fare']['pax_count']+`x Fare @IDR `+getrupiah(price_list['fare']['amount'])+`</span>`;
+                                <span style="font-size:12px;">`+price_list['fare']['pax_count']+`x Fare @`+price_list['fare']['currency']+` `+getrupiah(price_list['fare']['amount'])+`</span>`;
                     text+=`</div>
                             <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                <b><span style="font-size:13px;">IDR `+getrupiah(price_list['fare']['amount']*price_list['fare']['pax_count'])+`</span></b>
+                                <b><span style="font-size:13px;">`+price_list['fare']['currency']+` `+getrupiah(price_list['fare']['amount']*price_list['fare']['pax_count'])+`</span></b>
                             </div>
                         </div>`;
                 if(msg.result.response.address_surcharge == true){
                     text+=`
                         <div class="row" style="margin-bottom:5px;">
                             <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8" style="text-align:left;">
-                                <span style="font-size:12px;">Address Surcharge IDR `+getrupiah(msg.result.response.address_surcharge)+`</span>`;
+                                <span style="font-size:12px;">Address Surcharge `+price_list['fare']['currency']+` `+getrupiah(msg.result.response.address_surcharge)+`</span>`;
                     text+=`</div>
                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:right;">
-                                <b><span style="font-size:13px;">IDR `+getrupiah(msg.result.response.address_surcharge)+`</span></b>
+                                <b><span style="font-size:13px;">`+price_list['fare']['currency']+` `+getrupiah(msg.result.response.address_surcharge)+`</span></b>
                             </div>
                         </div>`;
                 }
@@ -508,11 +508,11 @@ function swab_express_get_cache_price(){
                                 <span style="font-size:12px;">Grand Total</span>`;
                             text+=`</div>
                             <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                <b><span style="font-size:13px;">IDR `+getrupiah(msg.result.response.total_price)+`</span></b>
+                                <b><span style="font-size:13px;">`+price_list['fare']['currency']+` `+getrupiah(msg.result.response.total_price)+`</span></b>
                             </div>
                         </div>`;
                 if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-                    text+= print_commission(msg.result.response.total_commission,'show_commission')
+                    text+= print_commission(msg.result.response.total_commission,'show_commission', price_list.fare.currency)
 
                 if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
                     text+=`
@@ -526,8 +526,8 @@ function swab_express_get_cache_price(){
                 document.getElementById('swab_express_detail').innerHTML = text;
                 document.getElementById('swab_express_detail').style.display = 'block';
                 $text += 'Price:\n';
-                $text += msg.result.response.service_charges[0].pax_count+`x Fare @IDR `+getrupiah(msg.result.response.service_charges[0].amount) + `\n`;
-                $text += 'Grand Total: IDR' + getrupiah(msg.result.response.total_price)
+                $text += msg.result.response.service_charges[0].pax_count+`x Fare @`+msg.result.response.service_charges[0].currency+` `+getrupiah(msg.result.response.service_charges[0].amount) + `\n`;
+                $text += 'Grand Total: ' + msg.result.response.service_charges[0].currency + ' ' + getrupiah(msg.result.response.total_price)
 
 
 //                if(document.URL.split('/')[document.URL.split('/').length-1] == 'review'){
@@ -1395,7 +1395,7 @@ function swab_express_get_booking(order_number, sync=false){
                                     ADMIN_FEE_MEDICAL += price['ADMIN_FEE_MEDICAL'];
                                     $text += msg.result.response.passengers[j].title +' '+ msg.result.response.passengers[j].name + ' ['+msg.result.response.provider_bookings[i].pnr+'] ';
 
-                                    $text += `IDR `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.CSC + price.DISC + price['ADMIN_FEE_MEDICAL']))+'\n';
+                                    $text += price.currency+` `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.CSC + price.DISC + price['ADMIN_FEE_MEDICAL']))+'\n';
                                     if(counter_service_charge == 0){
                                         total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SEAT + price.CSC + price.SSR + price.DISC + price['ADMIN_FEE_MEDICAL']);
                                     }else{
@@ -2091,7 +2091,7 @@ function swab_express_issued_booking(data){
                                     <span style="font-size:12px;">`+medical_get_detail.result.response.passengers[j].name+` Tax
                                 </div>
                                 <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                    <span style="font-size:13px;">IDR `+getrupiah(parseInt(price.TAX + price.ROC + price.CSC))+`</span>
+                                    <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.TAX + price.ROC + price.CSC))+`</span>
                                 </div>
                             </div>`;
                             if(price.SSR != 0 || price.SEAT != 0)
@@ -2101,7 +2101,7 @@ function swab_express_issued_booking(data){
                                         <span style="font-size:12px;">`+medical_get_detail.result.response.passengers[j].name+` Additional
                                     </div>
                                     <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                        <span style="font-size:13px;">IDR `+getrupiah(parseInt(price.SSR + price.SEAT))+`</span>
+                                        <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.SSR + price.SEAT))+`</span>
                                     </div>
                                 </div>`;
                             if(price.DISC != 0)
@@ -2111,7 +2111,7 @@ function swab_express_issued_booking(data){
                                         <span style="font-size:12px;">`+medical_get_detail.result.response.passengers[j].name+` DISC
                                     </div>
                                     <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                        <span style="font-size:13px;">IDR -`+getrupiah(parseInt(price.DISC))+`</span>
+                                        <span style="font-size:13px;">`+price.currency+` -`+getrupiah(parseInt(price.DISC))+`</span>
                                     </div>
                                 </div>`;
 
@@ -2137,7 +2137,7 @@ function swab_express_issued_booking(data){
                         </div>
                     </div>`;
                     if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-                        text+= print_commission(commission*-1,'show_commission_old')
+                        text+= print_commission(commission*-1,'show_commission_old', price.currency)
                     if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
                         text+=`<center><div style="margin-bottom:5px;"><input class="primary-btn-ticket" id="show_commission_button_old" style="width:100%;" type="button" onclick="show_commission('old');" value="Hide YPM"/></div>`;
                     text+=`</div>`;
@@ -2189,7 +2189,7 @@ function swab_express_issued_booking(data){
                                     <span style="font-size:12px;">`+msg.result.response.passengers[j].name+` Tax
                                 </div>
                                 <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                    <span style="font-size:13px;">IDR `+getrupiah(parseInt(price.TAX + price.ROC + price.CSC))+`</span>
+                                    <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.TAX + price.ROC + price.CSC))+`</span>
                                 </div>
                             </div>`;
                             if(price.SSR != 0 || price.SEAT != 0)
@@ -2199,7 +2199,7 @@ function swab_express_issued_booking(data){
                                         <span style="font-size:12px;">`+airline_get_detail.result.response.passengers[j].name+` Additional
                                     </div>
                                     <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                        <span style="font-size:13px;">IDR `+getrupiah(parseInt(price.SSR + price.SEAT))+`</span>
+                                        <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.SSR + price.SEAT))+`</span>
                                     </div>
                                 </div>`;
                             if(price.DISC != 0)
@@ -2209,7 +2209,7 @@ function swab_express_issued_booking(data){
                                         <span style="font-size:12px;">`+airline_get_detail.result.response.passengers[j].name+` DISC
                                     </div>
                                     <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                        <span style="font-size:13px;">IDR -`+getrupiah(parseInt(price.DISC))+`</span>
+                                        <span style="font-size:13px;">`+price.currency+` -`+getrupiah(parseInt(price.DISC))+`</span>
                                     </div>
                                 </div>`;
 
@@ -2234,7 +2234,7 @@ function swab_express_issued_booking(data){
                         </div>
                     </div>`;
                     if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-                        text+= print_commission(commission*-1,'show_commission_new')
+                        text+= print_commission(commission*-1,'show_commission_new', price.currency)
                     if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
                         text+=`<center><div style="margin-bottom:5px;"><input class="primary-btn-ticket" id="show_commission_button_new" style="width:100%;" type="button" onclick="show_commission('new');" value="Hide YPM"/></div>`;
                     text+=`</div>`;

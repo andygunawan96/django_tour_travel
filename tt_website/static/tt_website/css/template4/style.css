@@ -2114,9 +2114,7 @@ ul.tabs li.current{
 }
 
 .image-rounded-icon {
-  background: black;
-  border-radius: 20px;
-  font-size: 10px;
+  font-size: 15px;
   text-align: center;
   margin-right: 10px;
   border-radius:50%;

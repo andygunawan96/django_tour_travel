@@ -1500,7 +1500,7 @@ def get_agent_currency_rate(request):
         res['result'].update(file)
     else:
         res['result']['is_show'] = False
-        res['result']['is_show_provider'] = []
+        # res['result']['is_show_provider'] = []
     return res
 
 def update_estimate_price(request):
@@ -1509,8 +1509,7 @@ def update_estimate_price(request):
     else:
         is_show_estimate_price = False
     req = {
-        "is_show": is_show_estimate_price,
-        "is_show_provider": json.loads(request.POST['provider'])
+        "is_show": is_show_estimate_price
     }
     write_cache(req, 'currency_rate_show', request)
     if request.POST['is_show_breakdown_price'] == 'true':

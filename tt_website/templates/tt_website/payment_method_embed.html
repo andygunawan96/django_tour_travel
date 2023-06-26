@@ -161,7 +161,7 @@
                                         <div class="panel panel-n">
                                             <div class="panel-body-n" id="amount_div">
                                                 <script>
-                                                document.getElementById('amount_div').innerHTML += getrupiah(`{{amount}}`);
+                                                document.getElementById('amount_div').innerHTML += '{{currency}} ' + getrupiah(`{{amount}}`);
                                                 </script>
                                             </div>
                                         </div>

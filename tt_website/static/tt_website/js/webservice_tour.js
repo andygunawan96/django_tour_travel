@@ -1609,7 +1609,13 @@ function update_service_charge(type){
         upsell_price_dict = {};
         upsell = []
         counter_pax = 0;
-        currency = 'IDR';
+        currency = '';
+        for(i in tour_price.result.response.service_charges){
+            if(!currency)
+                currency = tour_price.result.response.service_charges[i].currency;
+            else
+                break;
+        }
         for(i in all_pax){
             if(all_pax[i].pax_type in upsell_price_dict == false)
                 upsell_price_dict[all_pax[i].pax_type] = 0;
@@ -2289,6 +2295,7 @@ function tour_get_booking(order_number)
 
                     counter_service_charge = 0;
                     $test += '\n‣ Price:\n';
+                    currency = '';
                     for(i in msg.result.response.provider_booking){
                         try{
                             if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false || msg.result.response.state == 'issued')
@@ -2301,8 +2308,10 @@ function tour_get_booking(order_number)
                                     csc = 0;
                                     for(k in msg.result.response.passengers[j].sale_service_charges[msg.result.response.provider_booking[i].pnr]){
                                         price[k] += msg.result.response.passengers[j].sale_service_charges[msg.result.response.provider_booking[i].pnr][k].amount;
-                                        if(price['currency'] == '')
+                                        if(price['currency'] == ''){
                                             price['currency'] = msg.result.response.passengers[j].sale_service_charges[msg.result.response.provider_booking[i].pnr][k].currency;
+                                            currency = msg.result.response.passengers[j].sale_service_charges[msg.result.response.provider_booking[i].pnr][k].currency;
+                                        }
                                     }
                                     disc -= price['DISC'];
                                     if(i ==0 ){
@@ -2441,7 +2450,7 @@ function tour_get_booking(order_number)
                                <span id="total_price" style="font-weight:bold;`;
                             if(is_show_breakdown_price)
                                 price_text+='cursor:pointer;';
-                            price_text +=`;">IDR `+getrupiah(Math.ceil(total_price));
+                            price_text +=`;">`+price.currency+` `+getrupiah(Math.ceil(total_price));
                             if(is_show_breakdown_price)
                                 price_text+=`<i class="fas fa-caret-down"></i>`;
                             price_text+=`
@@ -2452,8 +2461,8 @@ function tour_get_booking(order_number)
                         if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && total_price){
                             if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
                                 for(k in currency_rate_data.result.response.agent[user_login.co_ho_seq_id]){
-                                    if(currency_rate_data.result.is_show_provider.includes(k)){
-                                        try{
+                                    try{
+                                        if(currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].base_currency == price.currency){
                                             price_convert = (parseFloat(total_price)/currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].rate).toFixed(2);
                                             if(price_convert%1 == 0)
                                                 price_convert = parseInt(price_convert);
@@ -2461,31 +2470,19 @@ function tour_get_booking(order_number)
                                                 <div class="col-lg-12" style="text-align:right;">
                                                     <span style="font-size:13px; font-weight:bold;" id="total_price_`+k+`"> Estimated `+k+` `+price_convert+`</span><br/>
                                                 </div>`;
-                                        }catch(err){
-                                            console.log(err);
                                         }
+                                    }catch(err){
+                                        console.log(err);
                                     }
-                                }
-                            }else{
-                                for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
-                                    for(k in currency_rate_data.result.response.agent[j]){
-                                        if(currency_rate_data.result.is_show_provider.includes(k)){
-                                            try{
-                                                price_convert = (parseFloat(total_price)/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
-                                                if(price_convert%1 == 0)
-                                                    price_convert = parseInt(price_convert);
-                                                price_text+=`
-                                                    <div class="col-lg-12" style="text-align:right;">
-                                                        <span style="font-size:13px; font-weight:bold;" id="total_price_`+k+`"> Estimated `+k+` `+price_convert+`</span><br/>
-                                                    </div>`;
-                                            }catch(err){
-                                                console.log(err);
-                                            }
-                                        }
-                                    }
-                                    break;
                                 }
                             }
+                        }
+                    }else if(msg.result.response.hasOwnProperty('estimated_currency') && msg.result.response.estimated_currency.hasOwnProperty('other_currency') && Object.keys(msg.result.response.estimated_currency.other_currency).length > 0){
+                        for(k in msg.result.response.estimated_currency.other_currency){
+                            text_detail+=`
+                                        <div class="col-lg-12" style="text-align:right;">
+                                            <span style="font-size:13px; font-weight:bold;" id="total_price_`+msg.result.response.estimated_currency.other_currency[k].currency+`"> Estimated `+msg.result.response.estimated_currency.other_currency[k].currency+` `+getrupiah(msg.result.response.estimated_currency.other_currency[k].amount)+`</span><br/>
+                                        </div>`;
                         }
                     }
                     if(msg.result.response.state == 'booked' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
@@ -2576,7 +2573,7 @@ function tour_get_booking(order_number)
                                 <input type="button" class="primary-btn-white" id="show_commission_button" value="Hide YPM" style="width:100%;" onclick="show_commission();"/>
                            </div>
                          </div>`;
-                    $test+= '\n‣ Grand Total: IDR '+ getrupiah(Math.ceil(total_price))+'\nPrices and availability may change at any time';
+                    $test+= '\n‣ Grand Total: '+`+price.currency+`+' '+ getrupiah(Math.ceil(total_price))+'\nPrices and availability may change at any time';
                     document.getElementById('tour_detail_table').innerHTML = price_text;
 
                     if(is_show_breakdown_price){
@@ -2639,7 +2636,7 @@ function tour_get_booking(order_number)
                        full_pay_opt = document.getElementById('full_payment_amt');
                        if (full_pay_opt)
                        {
-                           full_pay_opt.innerHTML = 'IDR ' + getrupiah(grand_total);
+                           full_pay_opt.innerHTML = price.currency + ' ' + getrupiah(grand_total);
                        }
                        print_payment_rules(payment);
                        try{
@@ -2841,6 +2838,7 @@ function table_price_update(msg,type){
     inf_amt = 0;
     room_prices = [];
     total_charge = 0;
+    currency = '';
     for (i in price_data)
     {
         if(!price_data[i].charge_code.split('.').includes('room'))
@@ -2850,6 +2848,8 @@ function table_price_update(msg,type){
                 if(price_data[i].pax_type == 'ADT')
                 {
                     if(price_data[i].pax_count != 0){
+                        if(price_data[i].hasOwnProperty('currency') && !currency)
+                            currency = price_data[i].currency;
                         price_txt_adt += `
                         <div class="row">
                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
@@ -2857,13 +2857,13 @@ function table_price_update(msg,type){
                            </div>
                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: right;"></div>
                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mb-2" style="text-align:left;">
-                               @IDR `+getrupiah(price_data[i].amount)+`
+                               @`+currency+` `+getrupiah(price_data[i].amount)+`
                            </div>
                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mb-2" style="text-align: right;">
-                               <span style="font-size:13px; font-weight:500;">IDR `+getrupiah(price_data[i].total)+`</span>
+                               <span style="font-size:13px; font-weight:500;">`+currency+` `+getrupiah(price_data[i].total)+`</span>
                            </div>
                         </div>`;
-                        temp_copy_adt += String(price_data[i].pax_count) + ' ' + price_data[i].description + ' @IDR ' + getrupiah(price_data[i].amount) + '\n';
+                        temp_copy_adt += String(price_data[i].pax_count) + ' ' + price_data[i].description + ' @'+currency+' ' + getrupiah(price_data[i].amount) + '\n';
                         grand_total += price_data[i].total;
                         total_charge += price_data[i].total;
                     }
@@ -2871,6 +2871,8 @@ function table_price_update(msg,type){
                 else if(price_data[i].pax_type == 'CHD')
                 {
                     if(price_data[i].pax_count != 0){
+                        if(price_data[i].hasOwnProperty('currency') && !currency)
+                            currency = price_data[i].currency;
                         price_txt_chd += `
                         <div class="row">
                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
@@ -2878,13 +2880,13 @@ function table_price_update(msg,type){
                            </div>
                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: right;"></div>
                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mb-2" style="text-align: left;">
-                               @ IDR `+getrupiah(price_data[i].amount)+`
+                               @ `+currency+` `+getrupiah(price_data[i].amount)+`
                            </div>
                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mb-2" style="text-align: right;">
-                               <span style="font-size:13px; font-weight:500;">IDR `+getrupiah(price_data[i].total)+`</span>
+                               <span style="font-size:13px; font-weight:500;">`+currency+` `+getrupiah(price_data[i].total)+`</span>
                            </div>
                         </div>`;
-                        temp_copy_chd += String(price_data[i].pax_count) + ' ' + price_data[i].description + ' @IDR ' + getrupiah(price_data[i].amount) + '\n';
+                        temp_copy_chd += String(price_data[i].pax_count) + ' ' + price_data[i].description + ' @'+currency+' ' + getrupiah(price_data[i].amount) + '\n';
                         grand_total += price_data[i].total;
                         total_charge += price_data[i].total;
                     }
@@ -2892,6 +2894,8 @@ function table_price_update(msg,type){
                 else if(price_data[i].pax_type == 'INF')
                 {
                     if(price_data[i].pax_count != 0){
+                        if(price_data[i].hasOwnProperty('currency') && !currency)
+                            currency = price_data[i].currency;
                         price_txt_inf += `
                         <div class="row">
                              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
@@ -2899,13 +2903,13 @@ function table_price_update(msg,type){
                              </div>
                              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: right;"></div>
                              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mb-2" style="text-align:left;">
-                                 @ IDR `+getrupiah(price_data[i].amount)+`
+                                 @ `+currency+` `+getrupiah(price_data[i].amount)+`
                              </div>
                              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mb-2" style="text-align: right;">
-                                 <span style="font-size:13px; font-weight:500;">IDR `+getrupiah(price_data[i].total)+`</span>
+                                 <span style="font-size:13px; font-weight:500;">`+currency+` `+getrupiah(price_data[i].total)+`</span>
                              </div>
                         </div>`;
-                        temp_copy_inf += String(price_data[i].pax_count) + ' ' + price_data[i].description + ' @IDR ' + getrupiah(price_data[i].amount) + '\n';
+                        temp_copy_inf += String(price_data[i].pax_count) + ' ' + price_data[i].description + ' @'+currency+' ' + getrupiah(price_data[i].amount) + '\n';
                         grand_total += price_data[i].total;
                         total_charge += price_data[i].total;
                     }
@@ -2914,6 +2918,8 @@ function table_price_update(msg,type){
             else if(price_data[i].charge_type != 'RAC')
             {
                 if(price_data[i].pax_count != 0){
+                    if(price_data[i].hasOwnProperty('currency') && !currency)
+                        currency = price_data[i].currency;
                     price_txt2 += `<div class="row">`;
 
                     if(i == 0){
@@ -2931,10 +2937,10 @@ function table_price_update(msg,type){
                             <span style="font-size:13px; font-weight:500;">`+price_data[i].pax_count+`x `+price_data[i].description+` </span>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mb-2" style="text-align:left;">
-                            @ IDR `+getrupiah(price_data[i].amount + (upsell_price_dict[price_data[i].pax_type]/price_data[i].pax_count))+`
+                            @ `+currency+` `+getrupiah(price_data[i].amount + (upsell_price_dict[price_data[i].pax_type]/price_data[i].pax_count))+`
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mb-2" style="text-align: right;">
-                            <span style="font-size:13px; font-weight:500;">IDR `+getrupiah(price_data[i].total + upsell_price_dict[price_data[i].pax_type])+`</span>
+                            <span style="font-size:13px; font-weight:500;">`+currency+` `+getrupiah(price_data[i].total + upsell_price_dict[price_data[i].pax_type])+`</span>
                         </div>`;
                     else
                         price_txt2 += `
@@ -2942,14 +2948,14 @@ function table_price_update(msg,type){
                             <span style="font-size:13px; font-weight:500;">`+price_data[i].pax_count+`x `+price_data[i].description+`</span>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mb-2" style="text-align:left;">
-                            @ IDR `+getrupiah(price_data[i].amount)+`
+                            @ `+currency+` `+getrupiah(price_data[i].amount)+`
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mb-2" style="text-align: right;">
-                            <span style="font-size:13px; font-weight:500;">IDR `+getrupiah(price_data[i].total)+`</span>
+                            <span style="font-size:13px; font-weight:500;">`+currency+` `+getrupiah(price_data[i].total)+`</span>
                         </div>`;
                     price_txt2 += `
                     </div>`;
-                    temp_copy2 += String(price_data[i].pax_count) + ' ' + price_data[i].description + ' @IDR ' + getrupiah(price_data[i].amount) + '\n';
+                    temp_copy2 += String(price_data[i].pax_count) + ' ' + price_data[i].description + ' @'+currency+' ' + getrupiah(price_data[i].amount) + '\n';
                     grand_total += price_data[i].total;
                     total_charge += price_data[i].total;
                 }
@@ -3007,15 +3013,15 @@ function table_price_update(msg,type){
                         <span style="font-size:13px; font-weight:500;">`+room_prices[k].pax_count+`x `+room_prices[k].description+`</span>
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mb-2" style="text-align:left;">
-                        @ IDR `+getrupiah(room_prices[k].amount)+`
+                        @ `+currency+` `+getrupiah(room_prices[k].amount)+`
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mb-2" style="text-align: right;">
-                        <span style="font-size:13px; font-weight:500;">IDR `+getrupiah(room_prices[k].total)+`</span>
+                        <span style="font-size:13px; font-weight:500;">`+currency+` `+getrupiah(room_prices[k].total)+`</span>
                     </div>
                 </div>`;
                 sub_total_count += room_prices[k].total;
                 grand_total += room_prices[k].total;
-                temp_copy2 += String(room_prices[k].pax_count) + ' ' + room_prices[k].description + ' @IDR ' + getrupiah(room_prices[k].amount) + '\n';
+                temp_copy2 += String(room_prices[k].pax_count) + ' ' + room_prices[k].description + ' @'+currency+' ' + getrupiah(room_prices[k].amount) + '\n';
             }
         }
 
@@ -3025,7 +3031,7 @@ function table_price_update(msg,type){
                 <span style="font-size:13px; font-weight:bold;">Subtotal</span>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                <span style="font-size:13px; font-weight:bold;">IDR `+getrupiah(sub_total_count)+`</span>
+                <span style="font-size:13px; font-weight:bold;">`+currency+` `+getrupiah(sub_total_count)+`</span>
             </div>
         </div>`;
 
@@ -3057,7 +3063,7 @@ function table_price_update(msg,type){
     price_txt = price_txt_adt + price_txt_chd + price_txt_inf + price_txt2;
     $test += '‣ Price\n';
     $test += temp_copy_adt + temp_copy_chd + temp_copy_inf + temp_copy2;
-    $test += '\n‣ Grand Total : IDR '+ getrupiah(grand_total)+
+    $test += '\n‣ Grand Total : '+currency+' '+ getrupiah(grand_total)+
     '\nPrices and availability may change at any time';
     price_txt += `<hr style="padding:0px;">`;
     if(document.URL.split('/')[document.URL.split('/').length-1] == 'review' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
@@ -3086,7 +3092,7 @@ function table_price_update(msg,type){
                     if(is_show_breakdown_price){
                         price_txt+= "cursor:pointer;";
                     }
-                    price_txt += `">IDR `+getrupiah(grand_total);
+                    price_txt += `">`+currency+` `+getrupiah(grand_total);
                     if(is_show_breakdown_price)
                         price_txt+=`<i class="fas fa-caret-down"></i>`;
                     price_txt+=`</span>
@@ -3095,8 +3101,8 @@ function table_price_update(msg,type){
     if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && grand_total){
         if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
             for(k in currency_rate_data.result.response.agent[user_login.co_ho_seq_id]){
-                if(currency_rate_data.result.is_show_provider.includes(k)){
-                    try{
+                try{
+                    if(currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].base_currency == currency){
                         price_convert = (parseFloat(grand_total)/currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].rate).toFixed(2);
                         if(price_convert%1 == 0)
                             price_convert = parseInt(price_convert);
@@ -3106,31 +3112,10 @@ function table_price_update(msg,type){
                                     <span style="font-weight:bold" id="total_price_`+k+`"> Estimated `+k+` `+price_convert+`</span>
                                 </div>
                             </div>`;
-                    }catch(err){
-                        console.log(err);
                     }
+                }catch(err){
+                    console.log(err);
                 }
-            }
-        }else{
-            for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
-                for(k in currency_rate_data.result.response.agent[j]){
-                    if(currency_rate_data.result.is_show_provider.includes(k)){
-                        try{
-                            price_convert = (parseFloat(grand_total)/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
-                            if(price_convert%1 == 0)
-                                price_convert = parseInt(price_convert);
-                            price_txt+=`
-                                <div class="row">
-                                    <div class="col-xs-12" style="text-align: right;">
-                                        <span style="font-weight:bold" id="total_price_`+k+`"> Estimated `+k+` `+price_convert+`</span>
-                                    </div>
-                                </div>`;
-                        }catch(err){
-                            console.log(err);
-                        }
-                    }
-                }
-                break;
             }
         }
     }
@@ -3159,7 +3144,7 @@ function table_price_update(msg,type){
                         </div>
                    </div>`;
                    if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-                       price_txt+= print_commission(grand_commission,'show_commission')
+                       price_txt+= print_commission(grand_commission,'show_commission', currency)
                    price_txt+=`
                    <div class="row" style="margin-top:10px; text-align:center;">
                        <div class="col-lg-12">
@@ -3212,7 +3197,7 @@ function table_price_update(msg,type){
                 breakdown_text += '<b>'+j+'</b> ';
             else
                 breakdown_text += '<b>CONVENIENCE FEE</b> ';
-            breakdown_text += 'IDR ' + getrupiah(price_breakdown[j]);
+            breakdown_text += currency+' ' + getrupiah(price_breakdown[j]);
         }
         new jBox('Tooltip', {
             attach: '#total_price',
@@ -3236,7 +3221,7 @@ function table_price_update(msg,type){
         });
     }
 
-    document.getElementById('total_charge_pd').innerHTML = `<span>IDR `+getrupiah(total_charge)+`</span>`;
+    document.getElementById('total_charge_pd').innerHTML = `<span>`+currency+` `+getrupiah(total_charge)+`</span>`;
     if(type == 'detail'){
         if(agent_security.includes('book_reservation') == true)
         next_btn_txt = `<center>
@@ -3262,7 +3247,7 @@ function table_price_update(msg,type){
         full_pay_opt = document.getElementById('full_payment_amt');
         if (full_pay_opt)
         {
-            full_pay_opt.innerHTML = 'IDR ' + getrupiah(grand_total);
+            full_pay_opt.innerHTML = currency+' ' + getrupiah(grand_total);
         }
     }
 
@@ -3279,8 +3264,8 @@ function get_price_itinerary_cache(type) {
 
        },
        success: function(msg) {
+            tour_price = msg;
             table_price_update(msg,type);
-
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error tour price itinerary');

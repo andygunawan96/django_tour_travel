@@ -875,6 +875,7 @@ function render_object(val, new_int){
     var text='';
     var grand_total_option = 0;
     var total_commission = 0;
+    currency = '';
     for (i in option_pick){
         var option_name_pick = document.getElementById('option_name_'+option_pick[i]).innerHTML;
         var option_price_pick = document.getElementById('option_price_'+option_pick[i]).value;
@@ -883,7 +884,7 @@ function render_object(val, new_int){
         var option_commission_pick = document.getElementById('option_commission_'+option_pick[i]).value;
         var option_price = option_price_pick*parseInt(option_qty_pick); //total price option
         var option_commission_total = option_commission_pick*parseInt(option_qty_pick); //total commission
-
+        currency = document.getElementById('option_currency_'+option_pick[i]).value;
         grand_total_option = grand_total_option + option_price;
         total_commission = total_commission + option_commission_total;
 
@@ -922,8 +923,8 @@ function render_object(val, new_int){
     if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && grand_total_option){
         if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
             for(k in currency_rate_data.result.response.agent[user_login.co_ho_seq_id]){
-                if(currency_rate_data.result.is_show_provider.includes(k)){
-                    try{
+                try{
+                    if(currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].base_currency == option_currency_pick){
                         price_convert = (parseFloat(grand_total_option)/currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].rate).toFixed(2);
                         if(price_convert%1 == 0)
                             price_convert = parseInt(price_convert);
@@ -933,36 +934,15 @@ function render_object(val, new_int){
                                     <span style="font-size:15px; font-weight:bold;" id="total_price_`+k+`"> Estimated `+k+` `+price_convert+`</span><br/>
                                 </div>
                             </div>`;
-                    }catch(err){
-                        console.log(err);
                     }
+                }catch(err){
+                    console.log(err);
                 }
-            }
-        }else{
-            for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
-                for(k in currency_rate_data.result.response.agent[j]){
-                    if(currency_rate_data.result.is_show_provider.includes(k)){
-                        try{
-                            price_convert = (parseFloat(grand_total_option)/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
-                            if(price_convert%1 == 0)
-                                price_convert = parseInt(price_convert);
-                            text+=`
-                                <div class="row">
-                                    <div class="col-lg-12" style="text-align:right;">
-                                        <span style="font-size:15px; font-weight:bold;" id="total_price_`+k+`"> Estimated `+k+` `+price_convert+`</span><br/>
-                                    </div>
-                                </div>`;
-                        }catch(err){
-                            console.log(err);
-                        }
-                    }
-                }
-                break;
             }
         }
     }
 
-    hotel_room_pick_button(total_commission)
+    hotel_room_pick_button(total_commission, currency)
 
     if (option_pick === undefined || option_pick.length == 0){
         document.getElementById("event_detail_table").innerHTML = '';
@@ -1126,8 +1106,8 @@ function render_object_from_value(val){
     if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && grand_total_option){
         if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
             for(k in currency_rate_data.result.response.agent[user_login.co_ho_seq_id]){
-                if(currency_rate_data.result.is_show_provider.includes(k)){
-                    try{
+                try{
+                    if(currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].base_currency == val[0].currency){
                         price_convert = (parseFloat(grand_total_option)/currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].rate).toFixed(2);
                         if(price_convert%1 == 0)
                             price_convert = parseInt(price_convert);
@@ -1137,31 +1117,10 @@ function render_object_from_value(val){
                                     <span style="font-size:15px; font-weight:bold;" id="total_price_`+k+`"> Estimated `+k+` `+price_convert+`</span><br/>
                                 </div>
                             </div>`;
-                    }catch(err){
-                        console.log(err);
                     }
+                }catch(err){
+                    console.log(err);
                 }
-            }
-        }else{
-            for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
-                for(k in currency_rate_data.result.response.agent[j]){
-                    if(currency_rate_data.result.is_show_provider.includes(k)){
-                        try{
-                            price_convert = (parseFloat(grand_total_option)/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
-                            if(price_convert%1 == 0)
-                                price_convert = parseInt(price_convert);
-                            text+=`
-                                <div class="row">
-                                    <div class="col-lg-12" style="text-align:right;">
-                                        <span style="font-size:15px; font-weight:bold;" id="total_price_`+k+`"> Estimated `+k+` `+price_convert+`</span><br/>
-                                    </div>
-                                </div>`;
-                        }catch(err){
-                            console.log(err);
-                        }
-                    }
-                }
-                break;
             }
         }
     }
@@ -1217,7 +1176,7 @@ function share_data2(){
 //    document.body.removeChild(el);
     $text_share2 = window.encodeURIComponent('Hello');
 }
-function hotel_room_pick_button(total_commission){
+function hotel_room_pick_button(total_commission, currency){
     document.getElementById('event_detail_button').innerHTML = '';
     text = '';
     text += `<div class="row" style="padding-top:10px;">`;
@@ -1241,7 +1200,7 @@ function hotel_room_pick_button(total_commission){
     text +=`</div>`;
     if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
         text+=`<div class="col-lg-12">`
-        text+= print_commission(total_commission*-1,'show_commission_event','IDR', 'commission_val')
+        text+= print_commission(total_commission*-1,'show_commission_event',currency, 'commission_val')
         text+=`</div>`
         text+=`
         <div class="col-lg-12">
@@ -1473,6 +1432,7 @@ function check_passenger(adult, child){
 
 }
 
+// DEPRECATED
 function hotel_review_price_total(prices){
     prices = prices.replace(/&#39;/g, '"');
     prices = prices.replace(/&quot;/g, '"');

@@ -1594,8 +1594,8 @@ function train_get_booking(data){
                         if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && total_price){
                             if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
                                 for(k in currency_rate_data.result.response.agent[user_login.co_ho_seq_id]){
-                                    if(currency_rate_data.result.is_show_provider.includes(k)){
-                                        try{
+                                    try{
+                                        if(currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].base_currency == price.currency){
                                             price_convert = (parseFloat(total_price)/currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].rate).toFixed(2);
                                             if(price_convert%1 == 0)
                                                 price_convert = parseInt(price_convert);
@@ -1605,33 +1605,19 @@ function train_get_booking(data){
                                                         <span style="font-size:13px; font-weight:bold;" id="total_price_`+k+`"> Estimated `+k+` `+price_convert+`</span><br/>
                                                     </div>
                                                 </div>`;
-                                        }catch(err){
-                                            console.log(err);
                                         }
+                                    }catch(err){
+                                        console.log(err);
                                     }
-                                }
-                            }else{
-                                for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
-                                    for(k in currency_rate_data.result.response.agent[j]){
-                                        if(currency_rate_data.result.is_show_provider.includes(k)){
-                                            try{
-                                                price_convert = (parseFloat(total_price)/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
-                                                if(price_convert%1 == 0)
-                                                    price_convert = parseInt(price_convert);
-                                                text_detail+=`
-                                                    <div class="row">
-                                                        <div class="col-lg-12" style="text-align:right;">
-                                                            <span style="font-size:13px; font-weight:bold;" id="total_price_`+k+`"> Estimated `+k+` `+price_convert+`</span><br/>
-                                                        </div>
-                                                    </div>`;
-                                            }catch(err){
-                                                console.log(err);
-                                            }
-                                        }
-                                    }
-                                    break;
                                 }
                             }
+                        }
+                    }else if(msg.result.response.hasOwnProperty('estimated_currency') && msg.result.response.estimated_currency.hasOwnProperty('other_currency') && Object.keys(msg.result.response.estimated_currency.other_currency).length > 0){
+                        for(k in msg.result.response.estimated_currency.other_currency){
+                            text_detail+=`
+                                        <div class="col-lg-12" style="text-align:right;">
+                                            <span style="font-size:13px; font-weight:bold;" id="total_price_`+msg.result.response.estimated_currency.other_currency[k].currency+`"> Estimated `+msg.result.response.estimated_currency.other_currency[k].currency+` `+getrupiah(msg.result.response.estimated_currency.other_currency[k].amount)+`</span><br/>
+                                        </div>`;
                         }
                     }
 
@@ -1972,21 +1958,23 @@ function train_get_booking(data){
                        <h5>Your booking has been successfully Issued!</h5>
                     </div>`;
                     is_show_web_check_in = false;
-                    for(i in msg.result.response.provider_bookings){
-                        if(moment().format('YYYY-MM-DD HH:mm:ss') < moment(msg.result.response.provider_bookings[i].departure_date).format('YYYY-MM-DD HH:mm:ss')){
-                            is_show_web_check_in = true;
+                    try{
+                        for(i in msg.result.response.provider_bookings){
+                            if(moment().format('YYYY-MM-DD HH:mm:ss') < moment(msg.result.response.provider_bookings[i].departure_date).format('YYYY-MM-DD HH:mm:ss')){
+                                is_show_web_check_in = true;
+                            }
                         }
-                    }
-                    if(is_show_web_check_in){
-                        for(i in msg.result.response.passengers){
-                            if(msg.result.response.passengers[i].hasOwnProperty('temporary_field') && msg.result.response.passengers[i]['temporary_field'].hasOwnProperty('web_check_in') && is_show_web_check_in)
-                                is_show_web_check_in = false;
+                        if(is_show_web_check_in){
+                            for(i in msg.result.response.passengers){
+                                if(msg.result.response.passengers[i].hasOwnProperty('temporary_field') && msg.result.response.passengers[i]['temporary_field'][0].hasOwnProperty('web_check_in') && is_show_web_check_in)
+                                    is_show_web_check_in = false;
+                            }
                         }
-                    }
-                    if(is_show_web_check_in){
-                        document.getElementById('web_checkin_btn').hidden = false;
-                        document.getElementById('web_checkin_btn').innerHTML = `<button class="primary-btn-white" style="margin-bottom:0px; width:100%;" id="train_web_checkin_btn" type="button" onclick="train_checkin_booking();">Web Check-in </button>`;
-                    }
+                        if(is_show_web_check_in){
+                            document.getElementById('web_checkin_btn').hidden = false;
+                            document.getElementById('web_checkin_btn').innerHTML = `<button class="primary-btn-white" style="margin-bottom:0px; width:100%;" id="train_web_checkin_btn" type="button" onclick="train_checkin_booking();">Web Check-in </button>`;
+                        }
+                    }catch(err){}
                 }
                 if(msg.result.response.hasOwnProperty('voucher_reference') && msg.result.response.voucher_reference != '' && msg.result.response.voucher_reference != false){
                     try{

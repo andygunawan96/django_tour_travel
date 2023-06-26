@@ -161,6 +161,8 @@ def api_models(request):
             res = send_url_booking(request)
         elif req_data['action'] == 'get_vendor_balance':
             res = get_vendor_balance(request)
+        elif req_data['action'] == 'get_currency':
+            res = get_currency(request)
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:
@@ -1778,6 +1780,33 @@ def get_version(request):
     except Exception as e:
         _logger.error('ERROR javascript_version file\n' + str(e) + '\n' + traceback.format_exc())
     return javascript_version
+
+def get_currency(request):
+    try:
+        data = {}
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "get_currency",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    url_request = get_url_gateway('account')
+    file = read_cache("currency", 'cache_web', request, 300, True)
+    if not file:
+        res = send_request_api(request, url_request, headers, data, 'POST')
+        try:
+            if res['result']['error_code'] == 0:
+                write_cache(res, "currency", request, 'cache_web')
+                _logger.info("get_currency SUCCESS SIGNATURE " + request.POST['signature'])
+            else:
+                _logger.error("get_currency ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+        except Exception as e:
+            _logger.error(str(e) + '\n' + traceback.format_exc())
+    else:
+        res = file
+    return res
 
 
 #DEPRECATED

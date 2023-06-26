@@ -300,6 +300,7 @@ function activity_table_detail(){
 
    }
    document.getElementById('product_visit_date').innerHTML = visit_date_txt;
+   currency = '';
    $test += '‣ Price \n';
    try{
        for (price in activity_date.service_charge_summary)
@@ -318,12 +319,12 @@ function activity_table_detail(){
                 text+=`Child`;
             else if(activity_date.service_charge_summary[price].pax_type == "INF")
                 text+=`Infant`;
-
-            text+=` @ `+activity_date.service_charge_summary[price].service_charges[0].currency+``;
-            text+= getrupiah(activity_date.service_charge_summary[price].base_price)+`</span></div><div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: right;"><span style="font-size:13px; font-weight:500;">`+activity_date.service_charge_summary[price].service_charges[0].currency+` `;
+            currency = activity_date.service_charge_summary[price].service_charges[0].currency;
+            text+=` @ `+currency;
+            text+= getrupiah(activity_date.service_charge_summary[price].base_price)+`</span></div><div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: right;"><span style="font-size:13px; font-weight:500;">`+currency+` `;
             text+= getrupiah(activity_date.service_charge_summary[price].total_price)+`</span></div>`;
             text+= `</div>`;
-            $test += activity_date.service_charge_summary[price].pax_count + 'x ' + activity_date.service_charge_summary[price].pax_type + ' Price @IDR ' + getrupiah(activity_date.service_charge_summary[price].base_price)+'\n';
+            $test += activity_date.service_charge_summary[price].pax_count + 'x ' + activity_date.service_charge_summary[price].pax_type + ' Price @'+currency+' ' + getrupiah(activity_date.service_charge_summary[price].base_price)+'\n';
             grand_total += activity_date.service_charge_summary[price].total_price;
             grand_commission -= activity_date.service_charge_summary[price].total_commission;
        }
@@ -332,13 +333,13 @@ function activity_table_detail(){
             if(document.getElementById('infant_passenger').value != 0){
                text+= `<div class="row">
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                <span style="font-size:13px; font-weight:500;">`+document.getElementById('infant_passenger').value+`x Infant @IDR 0</span>
+                                <span style="font-size:13px; font-weight:500;">`+document.getElementById('infant_passenger').value+`x Infant @`+currency+` 0</span>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: right;">
-                                <span style="font-size:13px; font-weight:500;">IDR `;
+                                <span style="font-size:13px; font-weight:500;">`+currency+` `;
 
                text+= getrupiah(0);
-               $test += document.getElementById('infant_passenger').value.toString() + ' Infant Price @IDR ' + getrupiah(0)+'\n';
+               $test += document.getElementById('infant_passenger').value.toString() + ' Infant Price @'+currency+' ' + getrupiah(0)+'\n';
                text+= `</span></div>
                    <div class="col-lg-12">
                         <hr style="border:1px solid #e0e0e0; margin-top:5px; margin-bottom:5px;"/>
@@ -351,23 +352,23 @@ function activity_table_detail(){
    }
 
    if(additional_price != 0)
-       $test += '‣ Additional price @IDR '+getrupiah(additional_price)+'\n';
+       $test += '‣ Additional price @'+currency+' '+getrupiah(additional_price)+'\n';
 
    if(grand_total != 0)
-       $test+= '\n‣ Grand Total : IDR '+ getrupiah(grand_total)+
+       $test+= '\n‣ Grand Total : '+currency+' '+ getrupiah(grand_total)+
                '\nPrices and availability may change at any time';
    if (additional_price)
    {
         text+= `<div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;"><span style="font-size:13px; font-weight:500;">Additional Charge</span></div>
-                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: right;"><span style="font-size:13px; font-weight:500;">IDR </span><span id='additional_price' style="font-size:13px; font-weight:500;">`+additional_price+`</span></div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: right;"><span style="font-size:13px; font-weight:500;">`+currency+` </span><span id='additional_price' style="font-size:13px; font-weight:500;">`+additional_price+`</span></div>
            </div>`;
    }
    else
    {
         text+= `<div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;"><span style="font-size:13px; font-weight:500;">Additional Charge</span></div>
-                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: right;"><span style="font-size:13px; font-weight:500;">IDR </span><span id='additional_price' style="font-size:13px; font-weight:500;">0</span></div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: right;"><span style="font-size:13px; font-weight:500;">`+currency+` </span><span id='additional_price' style="font-size:13px; font-weight:500;">0</span></div>
            </div>`;
    }
    text+= `<hr style="padding:0px;">
@@ -376,7 +377,7 @@ function activity_table_detail(){
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: right;"><span id="total_price" style="font-weight:bold;`;
            if(is_show_breakdown_price)
                 text+='cursor:pointer;';
-           text+=`">IDR `+getrupiah(grand_total);
+           text+=`">`+currency+` `+getrupiah(grand_total);
            if(is_show_breakdown_price)
                 text+=`<i class="fas fa-caret-down"></i>`;
            text+=`</span>
@@ -385,9 +386,27 @@ function activity_table_detail(){
    if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && grand_total){
         if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
             for(k in currency_rate_data.result.response.agent[user_login.co_ho_seq_id]){
-                if(currency_rate_data.result.is_show_provider.includes(k)){
-                    try{
+                try{
+                    if(currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].base_currency == currency){
                         price_convert = (grand_total/currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].rate).toFixed(2);
+                        if(price_convert%1 == 0)
+                            price_convert = parseInt(price_convert);
+                        text+=`
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align: right;">
+                                    <span style="font-weight:bold;">Estimated `+k+` `+getrupiah(price_convert)+`</span>
+                                </div>
+                            </div>`;
+                    }
+                }catch(err){
+                    console.log(err);
+                }
+            }
+        }else{
+            for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
+                for(k in currency_rate_data.result.response.agent[j]){
+                    try{
+                        price_convert = (grand_total/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
                         if(price_convert%1 == 0)
                             price_convert = parseInt(price_convert);
                         text+=`
@@ -398,26 +417,6 @@ function activity_table_detail(){
                             </div>`;
                     }catch(err){
                         console.log(err);
-                    }
-                }
-            }
-        }else{
-            for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
-                for(k in currency_rate_data.result.response.agent[j]){
-                    if(currency_rate_data.result.is_show_provider.includes(k)){
-                        try{
-                            price_convert = (grand_total/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
-                            if(price_convert%1 == 0)
-                                price_convert = parseInt(price_convert);
-                            text+=`
-                                <div class="row">
-                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align: right;">
-                                        <span style="font-weight:bold;">Estimated `+k+` `+getrupiah(price_convert)+`</span>
-                                    </div>
-                                </div>`;
-                        }catch(err){
-                            console.log(err);
-                        }
                     }
                 }
                 break;
@@ -449,7 +448,7 @@ function activity_table_detail(){
                 </div>
            </div>`;
            if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-               text+= print_commission(grand_commission,'show_commission')
+               text+= print_commission(grand_commission,'show_commission', currency)
            text+=`
 
            <div class="row" style="margin-top:10px; text-align:center;">
@@ -666,7 +665,7 @@ function activity_table_detail2(pagetype){
                 'rac':  0,
                 'roc':  0,
                 'disc':  0,
-                'currency': 'IDR'
+                'currency': price.service_charge_summary[pri].service_charges[0].currency
             }
             for(x in price.service_charge_summary[pri].service_charges){
                 if(price.service_charge_summary[pri].service_charges[x].charge_code == 'fare'){
@@ -711,13 +710,13 @@ function activity_table_detail2(pagetype){
        {
            text+= `<div class="row">
                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                            <span style="font-size:13px; font-weight:500;">`+passenger['infant']+`x Infant @ IDR 0</span>
+                            <span style="font-size:13px; font-weight:500;">`+passenger['infant']+`x Infant @ `+price_type.currency+` 0</span>
                        </div>
                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: right;">
-                            <span style="font-size:13px; font-weight:500;">IDR `;
+                            <span style="font-size:13px; font-weight:500;">`+price_type.currency+` `;
 
            text+= getrupiah(0);
-           $test += passenger['infant'].toString() + ' Infant Price @IDR ' + getrupiah(0)+'\n';
+           $test += passenger['infant'].toString() + ' Infant Price @'+price_type.currency+' ' + getrupiah(0)+'\n';
            text+= `</span></div>
                <div class="col-lg-12">
                    <hr style="border:1px solid #e0e0e0; margin-top:5px; margin-bottom:5px;"/>
@@ -730,7 +729,7 @@ function activity_table_detail2(pagetype){
    }
 
    if(additional_price != 0)
-       $test += '‣ Additional price @IDR '+getrupiah(additional_price)+'\n';
+       $test += '‣ Additional price @'+price_type.currency+' '+getrupiah(additional_price)+'\n';
 
    try{
         for(i in upsell_price_dict)
@@ -738,20 +737,20 @@ function activity_table_detail2(pagetype){
    }catch(err){
    }
 
-   $test+= '\n‣ Grand Total : IDR '+ getrupiah(grand_total)+
+   $test+= '\n‣ Grand Total : '+price_type.currency+' '+ getrupiah(grand_total)+
            '\nPrices and availability may change at any time';
    if (additional_price)
    {
         text+= `<div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;"><span style="font-size:13px; font-weight:500;">Additional Charge</span></div>
-                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: right;"><span style="font-size:13px; font-weight:500;">IDR </span><span id='additional_price'>`+additional_price+`</span></div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: right;"><span style="font-size:13px; font-weight:500;">`+price_type.currency+` </span><span id='additional_price'>`+additional_price+`</span></div>
            </div>`;
    }
    else
    {
         text+= `<div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;"><span style="font-size:13px; font-weight:500;">Additional Charge</span></div>
-                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: right;"><span style="font-size:13px; font-weight:500;">IDR </span><span id='additional_price' style="font-size:13px; font-weight:500;">0</span></div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: right;"><span style="font-size:13px; font-weight:500;">`+price_type.currency+` </span><span id='additional_price' style="font-size:13px; font-weight:500;">0</span></div>
            </div>`;
    }
    text += `<hr style="padding:0px;">`;
@@ -780,7 +779,7 @@ function activity_table_detail2(pagetype){
                 if(is_show_breakdown_price){
                     text+= "cursor:pointer;";
                 }
-                text+= `">IDR `+getrupiah(grand_total);
+                text+= `">`+price_type.currency+` `+getrupiah(grand_total);
                 if(is_show_breakdown_price){
                     text+= ` <i class="fas fa-caret-down"></i>`;
                 }
@@ -789,8 +788,8 @@ function activity_table_detail2(pagetype){
                 if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && grand_total){
                     if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
                         for(k in currency_rate_data.result.response.agent[user_login.co_ho_seq_id]){
-                            if(currency_rate_data.result.is_show_provider.includes(k)){
-                                try{
+                            try{
+                                if(currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].base_currency == price_type.currency){
                                     price_convert = (Math.ceil(grand_total)/currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].rate).toFixed(2);
                                     if(price_convert%1 == 0)
                                         price_convert = parseInt(price_convert);
@@ -798,31 +797,10 @@ function activity_table_detail2(pagetype){
                                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align: right;">
                                             <span style="font-weight:bold;">Estimated `+k+` `+getrupiah(price_convert)+`</span>
                                         </div>`;
-
-                                }catch(err){
-                                    console.log(err);
                                 }
+                            }catch(err){
+                                console.log(err);
                             }
-                        }
-                    }else{
-                        for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
-                            for(k in currency_rate_data.result.response.agent[j]){
-                                if(currency_rate_data.result.is_show_provider.includes(k)){
-                                    try{
-                                        price_convert = (Math.ceil(grand_total)/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
-                                        if(price_convert%1 == 0)
-                                            price_convert = parseInt(price_convert);
-                                        text+=`
-                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align: right;">
-                                                <span style="font-weight:bold;">Estimated `+k+` `+getrupiah(price_convert)+`</span>
-                                            </div>`;
-
-                                    }catch(err){
-                                        console.log(err);
-                                    }
-                                }
-                            }
-                            break;
                         }
                     }
                }
@@ -856,7 +834,7 @@ function activity_table_detail2(pagetype){
                 </div>
            </div>`;
            if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-               text+= print_commission(grand_commission,'show_commission')
+               text+= print_commission(grand_commission,'show_commission', price_type.currency)
            text+=`
            <div class="row" style="margin-top:10px; text-align:center;">
                <div class="col-xs-12">
@@ -2561,36 +2539,20 @@ function sort(activity_dat, check){
                                                 </div>
                                             </div>
                                             <div class="col-lg-12" style="text-align:right;">
-                                                <span style="float:left; font-size:13px;font-weight:bold;">IDR `+getrupiah(activity_dat[i].activity_price)+`</span>`;
+                                                <span style="float:left; font-size:13px;font-weight:bold;">`+activity_dat[i].currency_code+` `+getrupiah(activity_dat[i].activity_price)+`</span>`;
                                             if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && activity_data[i].activity_price){
                                                 if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
                                                     for(k in currency_rate_data.result.response.agent[user_login.co_ho_seq_id]){
-                                                        if(currency_rate_data.result.is_show_provider.includes(k)){
-                                                            try{
+                                                        try{
+                                                            if(currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].base_currency == activity_dat[i].currency_code){
                                                                 price_convert = (Math.ceil(activity_data[i].activity_price)/currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].rate).toFixed(2);
                                                                 if(price_convert%1 == 0)
                                                                     price_convert = parseInt(price_convert);
                                                                 text+=`<br/><span style="float:left; font-size:16px;font-weight:bold;">Estimated `+k+` `+getrupiah(price_convert)+`</span>`;
-                                                            }catch(err){
-                                                                console.log(err);
                                                             }
+                                                        }catch(err){
+                                                            console.log(err);
                                                         }
-                                                    }
-                                                }else{
-                                                    for(j in currency_rate_data.result.response.agent){ // asumsi hanya HO
-                                                        for(k in currency_rate_data.result.response.agent[j]){
-                                                            if(currency_rate_data.result.is_show_provider.includes(k)){
-                                                                try{
-                                                                    price_convert = (Math.ceil(activity_data[i].activity_price)/currency_rate_data.result.response.agent[j][k].rate).toFixed(2);
-                                                                    if(price_convert%1 == 0)
-                                                                        price_convert = parseInt(price_convert);
-                                                                    text+=`<br/><span style="float:left; font-size:16px;font-weight:bold;">Estimated `+k+` `+getrupiah(price_convert)+`</span>`;
-                                                                }catch(err){
-                                                                    console.log(err);
-                                                                }
-                                                            }
-                                                        }
-                                                        break;
                                                     }
                                                 }
                                             }
@@ -2643,7 +2605,7 @@ function sort(activity_dat, check){
                                             text+=`
                                             </div>
                                             <div class="col-lg-12">
-                                                <span style="float:left; font-size:13px;font-weight:bold;">IDR `+getrupiah(activity_dat[i].activity_price)+`  </span>
+                                                <span style="float:left; font-size:13px;font-weight:bold;">`+activity_dat[i].currency_code+` `+getrupiah(activity_dat[i].activity_price)+`  </span>
                                                 <button style="float:right; line-height:32px;" type="button" class="primary-btn" onclick="go_to_detail('`+activity_dat[i].sequence+`')">BUY</button>
                                             </div>
                                         </div>

@@ -52,13 +52,6 @@ function get_consulate(type){
     }
 }
 
-function set_price_visa(val){
-    price = 0;
-    qty = document.getElementById('qty_pax_'+val).value;
-    price += parseInt(qty) * visa[val].sale_price.total_price;
-    document.getElementById('fare'+val).innerHTML = 'IDR '+ getrupiah(price.toString());
-}
-
 function set_total_price_visa(){
     price = 0;
     for(i in visa){
