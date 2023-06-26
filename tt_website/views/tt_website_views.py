@@ -1942,7 +1942,7 @@ def get_data_template(request, type='home', provider_type = []):
         'default_password': default_password,
         'is_show_breakdown_price': is_show_breakdown_price,
         'keep_me_signin': keep_me_signin,
-        'currency_list': currency,
+        'currency': currency,
         'is_show_other_currency': True if len(currency) > 0 else False
     }
 

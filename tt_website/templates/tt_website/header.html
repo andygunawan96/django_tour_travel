@@ -185,6 +185,15 @@
                                             </form>
                                         </ul>
                                     </li>
+                                    {% if is_show_other_currency == True %}
+                                    <li class="menu-has-children pt5"><a href="#">{% trans 'Currency' %}</a>
+                                        <ul>
+                                            {% for data_currency in currency.currency_list %}
+                                            <li><a onclick="window.location.href = '/currency/{{data_currency}}';">{{data_currency}}</a></li>
+                                            {% endfor %}
+                                        </ul>
+                                    </li>
+                                    {% endif %}
                                     {% if "agent_setting_printout" in username.co_agent_frontend_security %}
                                     <li><a href="{% url 'tt_website:setting_footer_printout'%}">{% trans 'Setting Footer Printout' %}</a></li>
                                     {% endif %}

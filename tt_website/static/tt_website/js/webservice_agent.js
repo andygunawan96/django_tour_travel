@@ -3592,7 +3592,7 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                 if(document.getElementById('adult_id'+passenger_number).value == ''){
                     check = 0;
                     for(i in passenger_data_pick){
-                        if(passenger_data_pick[i].seq_id == passenger_data[sequence].seq_id)
+                        if(passenger_data_pick[i].seq_id == passenger_data[sequence].seq_id && passenger_data_pick[i].sequence != 'booker')
                             check = 1;
                     }
                     if(check == 0){
@@ -3750,7 +3750,7 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                 if(document.getElementById('child_id'+passenger_number).value == ''){
                     check = 0;
                     for(i in passenger_data_pick){
-                        if(passenger_data_pick[i].seq_id == passenger_data[sequence].seq_id)
+                        if(passenger_data_pick[i].seq_id == passenger_data[sequence].seq_id && passenger_data_pick[i].sequence != 'booker')
                             check = 1;
                     }
                     if(check == 0){
@@ -3889,7 +3889,7 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                 if(document.getElementById('infant_id'+passenger_number).value == ''){
                     check = 0;
                     for(i in passenger_data_pick){
-                        if(passenger_data_pick[i].seq_id == passenger_data[sequence].seq_id)
+                        if(passenger_data_pick[i].seq_id == passenger_data[sequence].seq_id && passenger_data_pick[i].sequence != 'booker')
                             check = 1;
                     }
                     if(check == 0){
@@ -4005,7 +4005,7 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                 if(document.getElementById('senior_id'+passenger_number).value == ''){
                     check = 0;
                     for(i in passenger_data_pick){
-                        if(passenger_data_pick[i].seq_id == passenger_data[sequence].seq_id)
+                        if(passenger_data_pick[i].seq_id == passenger_data[sequence].seq_id && passenger_data_pick[i].sequence != 'booker')
                             check = 1;
                     }
                     if(check == 0){
@@ -4120,7 +4120,7 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                 if(document.getElementById('student_id'+passenger_number).value == ''){
                     check = 0;
                     for(i in passenger_data_pick){
-                        if(passenger_data_pick[i].seq_id == passenger_data[sequence].seq_id)
+                        if(passenger_data_pick[i].seq_id == passenger_data[sequence].seq_id && passenger_data_pick[i].sequence != 'booker')
                             check = 1;
                     }
                     if(check == 0){
@@ -4234,7 +4234,7 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                 if(document.getElementById('labour_id'+passenger_number).value == ''){
                     check = 0;
                     for(i in passenger_data_pick){
-                        if(passenger_data_pick[i].seq_id == passenger_data[sequence].seq_id)
+                        if(passenger_data_pick[i].seq_id == passenger_data[sequence].seq_id && passenger_data_pick[i].sequence != 'booker')
                             check = 1;
                     }
                     if(check == 0){
@@ -4348,7 +4348,7 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                 if(document.getElementById('seaman_id'+passenger_number).value == ''){
                     check = 0;
                     for(i in passenger_data_pick){
-                        if(passenger_data_pick[i].seq_id == passenger_data[sequence].seq_id)
+                        if(passenger_data_pick[i].seq_id == passenger_data[sequence].seq_id && passenger_data_pick[i].sequence != 'booker')
                             check = 1;
                     }
                     if(check == 0){
