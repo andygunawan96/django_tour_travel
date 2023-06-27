@@ -1021,7 +1021,7 @@ def search2(request):
         }
         if request.session.get('currency'):
             data.update({
-                "currency_code": request.session.currency
+                "currency_code": request.session['currency']
             })
         advance_search = get_airline_advance_pax_type(request)
         if advance_search['airline_advance_pax_type'] == 'true':
@@ -1258,7 +1258,7 @@ def get_price_itinerary(request, boolean, counter):
         }
         if request.session.get('currency'):
             data.update({
-                "currency_code": request.session.currency
+                "currency_code": request.session['currency']
             })
         advance_search = get_airline_advance_pax_type(request)
         if advance_search['airline_advance_pax_type'] == 'true':
@@ -1466,7 +1466,7 @@ def sell_journeys(request):
         data = json.loads(request.POST['data'])
         if request.session.get('currency'):
             data.update({
-                "currency_code": request.session.currency
+                "currency_code": request.session['currency']
             })
         headers = {
             "Accept": "application/json,text/html,application/xml",
@@ -1861,7 +1861,7 @@ def sell_ssrs(request):
         }
         if request.session.get('currency'):
             data.update({
-                "currency_code": request.session.currency
+                "currency_code": request.session['currency']
             })
         headers = {
             "Accept": "application/json,text/html,application/xml",
@@ -1909,7 +1909,7 @@ def assign_seats(request):
         }
         if request.session.get('currency'):
             data.update({
-                "currency_code": request.session.currency
+                "currency_code": request.session['currency']
             })
         headers = {
             "Accept": "application/json,text/html,application/xml",
@@ -2065,7 +2065,7 @@ def get_booking(request):
         }
         if request.session.get('currency'):
             data.update({
-                "currency_code": request.session.currency
+                "currency_code": request.session['currency']
             })
         headers = {
             "Accept": "application/json,text/html,application/xml",
@@ -2380,7 +2380,7 @@ def get_airline_reprice(request):
         }
         if request.session.get('currency'):
             data.update({
-                "currency_code": request.session.currency
+                "currency_code": request.session['currency']
             })
         headers = {
             "Accept": "application/json,text/html,application/xml",
@@ -2590,7 +2590,7 @@ def issued(request):
         }
         if request.session.get('currency'):
             data.update({
-                "currency_code": request.session.currency
+                "currency_code": request.session['currency']
             })
         provider = []
         try:
@@ -4082,7 +4082,7 @@ def sell_reschedule_v2(request):
         }
         if request.session.get('currency'):
             data.update({
-                "currency_code": request.session.currency
+                "currency_code": request.session['currency']
             })
         headers = {
             "Accept": "application/json,text/html,application/xml",
@@ -4232,7 +4232,7 @@ def get_post_ssr_availability_v2(request):
     }
     if request.session.get('currency'):
         data.update({
-            "currency_code": request.session.currency
+            "currency_code": request.session['currency']
         })
     headers = {
         "Accept": "application/json,text/html,application/xml",
@@ -4286,7 +4286,7 @@ def sell_post_ssrs_v2(request):
         }
         if request.session.get('currency'):
             data.update({
-                "currency_code": request.session.currency
+                "currency_code": request.session['currency']
             })
         headers = {
             "Accept": "application/json,text/html,application/xml",
