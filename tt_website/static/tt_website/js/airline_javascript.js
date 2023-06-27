@@ -5712,12 +5712,8 @@ function airline_detail(type){
                 if(currency)
                     break;
             }
-            if(currency == 'IDR')
-                text+=`
-                <label id="additional_price">`+getrupiah(additional_price)+`</label><br/>`;
-            else
-                text+=`
-                <label id="additional_price">`+additional_price+`</label><br/>`;
+            text+=`
+                <label id="additional_price">`+currency+` `+getrupiah(additional_price)+`</label><br/>`;
 
             text+=`
                 <input type="hidden" name="additional_price" id="additional_price_hidden"/>
@@ -5739,12 +5735,8 @@ function airline_detail(type){
                         <label>Discount</label><br/>
                     </div>
                     <div class="col-lg-5" style="text-align:right;">`;
-                    if(currency == 'IDR')
-                        text+=`
+                    text+=`
                         <label>`+currency+` `+getrupiah(total_discount)+`</label><br/>`;
-                    else
-                        text+=`
-                        <label>`+currency+` `+total_discount+`</label><br/>`;
                     text+=`</div>`;
                     $text += '‣ Discount: ' + currency + ' ' +getrupiah(total_discount*-1) + '\n';
                 }
@@ -5763,25 +5755,14 @@ function airline_detail(type){
             }catch(err){
                 console.log(err); // error kalau ada element yg tidak ada
             }
-            if(currency == 'IDR'){
-                text+=`
+            text+=`
                     <span style="font-size:14px; font-weight:bold;`;
-                if(is_show_breakdown_price)
-                    text+='cursor:pointer;';
-                text+=`" id="total_price";><b> `+currency+` `+getrupiah(grand_total_price+total_discount)+`</b>`;
-                if(is_show_breakdown_price)
-                    text+=`<i class="fas fa-caret-down"></i>`;
-                text+=`</span><br/>`;
-            }else{
-                text+=`
-                    <span style="font-size:14px; font-weight:bold;`;
-                if(is_show_breakdown_price)
-                    text+='cursor:pointer;';
-                text+=`" id="total_price"><b> `+currency+` `+getrupiah(parseFloat(grand_total_price+total_discount))+`</b>`;
-                if(is_show_breakdown_price)
-                    text+=`<i class="fas fa-caret-down"></i>`;
-                text+=`</span><br/>`;
-            }
+            if(is_show_breakdown_price)
+                text+='cursor:pointer;';
+            text+=`" id="total_price";><b> `+currency+` `+getrupiah(grand_total_price+total_discount)+`</b>`;
+            if(is_show_breakdown_price)
+                text+=`<i class="fas fa-caret-down"></i>`;
+            text+=`</span><br/>`;
             text+=`
             </div>`;
             if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && grand_total_price){
@@ -6053,17 +6034,46 @@ function airline_detail(type){
         //getprice
         $text+= 'Price\n';
         total_price = 0;
-        currency = ''
-        for(i in airline_get_detail.passengers[0].sale_service_charges){
-            for(j in airline_get_detail.passengers){
-                for(k in airline_get_detail.passengers[j].sale_service_charges){
-                    for(l in airline_get_detail.passengers[j].sale_service_charges[k]){
-                        currency = airline_get_detail.passengers[j].sale_service_charges[k][l].currency;
+        if(typeof(currency) === 'undefined'){
+            currency = ''
+            for(i in airline_get_detail.passengers[0].sale_service_charges){
+                for(j in airline_get_detail.passengers){
+                    for(k in airline_get_detail.passengers[j].sale_service_charges){
+                        for(l in airline_get_detail.passengers[j].sale_service_charges[k]){
+                            currency = airline_get_detail.passengers[j].sale_service_charges[k][l].currency;
+                            break;
+                        }
                         break;
                     }
                     break;
                 }
-                break;
+            }
+        }
+        if(!currency){
+            try{
+                for(i in passengers){
+                    if(passengers[i].hasOwnProperty('seat_list'))
+                        for(j in passengers[i].seat_list){
+                            if(!currency)
+                                currency = passengers[i].seat_list[j].currency;
+                        }
+                }
+                if(!currency){
+                    for(i in passengers_ssr){
+                        if(passengers_ssr[i].hasOwnProperty('seat_list')){
+                            for(j in passengers_ssr[i].seat_list){
+                                if(!currency)
+                                    currency = passengers_ssr[i].seat_list[j].currency;
+                            }
+                        }else if(passengers_ssr[i].hasOwnProperty('ssr_list')){
+                            for(j in passengers_ssr[i].ssr_list){
+                                if(!currency)
+                                    currency = passengers_ssr[i].ssr_list[j].currency;
+                            }
+                        }
+                    }
+                }
+            }catch(err){
 
             }
         }
@@ -6073,23 +6083,16 @@ function airline_detail(type){
                 <label>Additional Price</label><br/>
             </div>
             <div class="col-lg-5" style="text-align:right;">`;
-            if(currency == 'IDR')
-                text+=`
+            text+=`
                 <label id="additional_price">`+currency+` `+getrupiah(additional_price)+`</label><br/>`;
-            else
-                text+=`
-                <label id="additional_price">`+additional_price+`</label><br/>`;
+
             text+=`
             </div>
             <div class="col-lg-7" style="text-align:left;">
                 <span style="font-size:14px; font-weight:bold;"><b>Total</b></span><br/>
             </div>
             <div class="col-lg-5" style="text-align:right; padding-bottom:10px;">`;
-            if(airline_get_detail.passengers[j].sale_service_charges[k][l].currency == 'IDR')
-                text+=`
-                <span style="font-size:14px; font-weight:bold;" id="total_price"><b>`+currency+` `+getrupiah(parseFloat(total_price+parseFloat(additional_price)))+`</b></span><br/>`;
-            else
-                text+=`
+            text+=`
                 <span style="font-size:14px; font-weight:bold;" id="total_price"><b>`+currency+` `+getrupiah(total_price+additional_price)+`</b></span><br/>`;
             text+=`
             </div>`;
@@ -6308,7 +6311,8 @@ function on_change_ssr(){
         for(j in ssr_keys){
             for(k=1;k<=ssr_keys[j].len;k++){
                 if(document.getElementById(ssr_keys[j].key+'_'+ssr_keys[j].provider+'_'+i+'_'+k).value != ''){
-                    additional_price += parseInt(document.getElementById(ssr_keys[j].key+'_'+ssr_keys[j].provider+'_'+i+'_'+k).value.split('_')[1])
+                    additional_price += parseInt(document.getElementById(ssr_keys[j].key+'_'+ssr_keys[j].provider+'_'+i+'_'+k).value.split('_')[2])
+                    currency = document.getElementById(ssr_keys[j].key+'_'+ssr_keys[j].provider+'_'+i+'_'+k).value.split('_')[1];
                     if(document.URL.split('/')[document.URL.split('/').length-2] == 'ssr'){
                         index = i - 1;
                         try{
@@ -6341,15 +6345,20 @@ function get_airline_channel_repricing_data(){
             if(isNaN(parseInt(passengers_ssr[j].ssr_list[i].total_price)) == false)
                 pax_price += parseInt(passengers_ssr[j].ssr_list[i].total_price);
         }
-        currency = '';
-        for(i in airline_price){
-            for(j in airline_price[i]){
+        try{
+            // PRE BOOKED
+            for(i in airline_price){
+                for(j in airline_price[i]){
+                    if(!currency)
+                        break;
+                    currency = airline_price[i][j].currency;
+                }
                 if(!currency)
                     break;
-                currency = airline_price[i][j].currency;
             }
-            if(!currency)
-                break;
+        }catch(err){
+            // AFTER SALES
+
         }
         price = {'FARE': pax_price, 'currency': currency, 'CSC': 0};
         if(price['currency'] == '')
