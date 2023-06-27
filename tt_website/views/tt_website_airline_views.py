@@ -725,7 +725,7 @@ def ssr(request, signature):
                         for pax in request.session['airline_create_passengers_%s' % signature][pax_type]:
                             passenger.append(pax)
                 additional_price_input = ''
-                additional_price = request.POST['additional_price_input'].split(',')
+                additional_price = request.POST['additional_price_input'].split(' ')[-1].split(',')
                 for i in additional_price:
                     additional_price_input += i
                 # airline_ssr = request.session['airline_get_ssr']['result']['response']
@@ -1083,7 +1083,7 @@ def seat_map(request, signature):
                         pax['behaviors']['airline'] = pax['behaviors']['airline'].replace('<br/>', '\n')
 
                 additional_price_input = ''
-                additional_price = request.POST['additional_price_input'].split(',')
+                additional_price = request.POST['additional_price_input'].split(' ')[-1].split(',')
                 for i in additional_price:
                     additional_price_input += i
 
@@ -1992,7 +1992,7 @@ def review(request, signature):
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
             try:
-                additional_price_input = request.POST['additional_price_input'].replace(',', '')
+                additional_price_input = request.POST['additional_price_input'].split(' ')[-1].replace(',', '')
             except:
                 additional_price_input = '0'
 
@@ -2168,7 +2168,7 @@ def review_after_sales(request, signature):
 
             # get_balance(request)
             try:
-                additional_price_input = request.POST['additional_price_input'].replace(',', '')
+                additional_price_input = request.POST['additional_price_input'].split(' ')[-1].replace(',', '')
             except:
                 additional_price_input = '0'
 
