@@ -12604,16 +12604,9 @@ function render_ticket_reissue(){
                                document.getElementById('choose_seat_span'+i+j).innerHTML = temp_seat_choose;
                            }
                        }
-                       if(airline[i].currency == 'IDR'){
-                            document.getElementById('fare'+i).innerHTML = airline[i].currency+' '+getrupiah(total_price_airline);
-                            if(is_show_breakdown_price){
-                                document.getElementById('fare'+i).innerHTML+= ` <i class="fas fa-caret-down price_template"></i>`;
-                            }
-                       }else{
-                            document.getElementById('fare'+i).innerHTML = airline[i].currency+' '+total_price_airline;
-                            if(is_show_breakdown_price){
-                                document.getElementById('fare'+i).innerHTML+= ` <i class="fas fa-caret-down price_template"></i>`;
-                            }
+                       document.getElementById('fare'+i).innerHTML = airline[i].currency+' '+getrupiah(total_price_airline);
+                       if(is_show_breakdown_price){
+                           document.getElementById('fare'+i).innerHTML+= ` <i class="fas fa-caret-down price_template"></i>`;
                        }
 
                        if(is_show_breakdown_price){
