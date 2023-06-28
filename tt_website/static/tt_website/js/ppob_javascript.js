@@ -235,6 +235,7 @@ function set_container_bill(){
         }
     }
     if(typeof(bill_type) !== 'undefined'){
+        //add template
         if(template == 1){
             if(bill_type == 'bpjs'){
                 text = `
@@ -2109,6 +2110,380 @@ function set_container_bill(){
         }
 
         else if(template == 6){
+            if(bill_type == 'bpjs'){
+                text = `
+                    <div class="col-lg-12 mb-3" style="text-align:left;">
+                        <span class="span-search-ticket">Product Type</span>
+                        <div class="input-container-search-ticket">
+                            <div class="form-select" id="bpjs-select">
+                                <select id="bpjs_type" name="bpjs_type" class="form-control js-example-basic-single" style="width:100%;" onchange="set_bpjs_div('`+bill_prov+`');">`;
+                                car_counter = 0;
+                                for(i in ppob_prod_data[bill_type]){
+                                    if (carrier_provider_ppob.hasOwnProperty(ppob_prod_data[bill_type][i].code.split('~')[0]) && carrier_provider_ppob[ppob_prod_data[bill_type][i].code.split('~')[0]].includes(bill_prov))
+                                    {
+                                        text+=`
+                                        <option value="`+ppob_prod_data[bill_type][i].code+`">`+ppob_prod_data[bill_type][i].name+`</option>
+                                        `;
+                                        if(car_counter == 0){
+                                            $bpjs_type_name = ppob_prod_data[bill_type][i].name;
+                                        }
+                                        car_counter++;
+                                    }
+                                }
+                                text+=`
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 mt-3" style="text-align:left;">
+                        <div id="bpjs_div" class="row">
+                        </div>
+                    </div>
+                `;
+            }
+            else if(bill_type == 'pln'){
+                text = `
+                <div class="col-lg-12" style="text-align:left;">
+                    <span class="span-search-ticket">Product Type</span>
+                    <div class="input-container-search-ticket">
+                        <div class="form-select" id="pln-select">
+                            <select id="pln_type" name="pln_type" class="form-control js-example-basic-single" style="width:100%;" onchange="set_pln_div();">`;
+                            car_counter = 0;
+                            for(i in ppob_prod_data[bill_type]){
+                                if (carrier_provider_ppob.hasOwnProperty(ppob_prod_data[bill_type][i].code.split('~')[0]) && carrier_provider_ppob[ppob_prod_data[bill_type][i].code.split('~')[0]].includes(bill_prov))
+                                {
+                                    text+=`
+                                    <option value="`+ppob_prod_data[bill_type][i].code+`">`+ppob_prod_data[bill_type][i].name+`</option>
+                                    `;
+                                    if(car_counter == 0){
+                                        $pln_type_name = ppob_prod_data[bill_type][i].name;
+                                    }
+                                    car_counter++;
+                                }
+                            }
+                            text+=`
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12 mt-3" style="text-align:left;">
+                    <div id="pln_div" class="row">
+                    </div>
+                </div>`;
+            }
+            else if(bill_type == 'e-voucher'){
+                text = `
+                    <div class="col-lg-12" style="text-align:left;">
+                        <span class="span-search-ticket">Product Type</span>
+                        <div class="input-container-search-ticket">
+                            <div class="form-select" id="evoucher-select">
+                                <select id="evoucher_type" name="evoucher_type" class="form-control js-example-basic-single" style="width:100%;" onchange="set_evoucher_div();">`;
+                                car_counter = 0;
+                                for(i in ppob_prod_data[bill_type]){
+                                    if (carrier_provider_ppob.hasOwnProperty(ppob_prod_data[bill_type][i].code.split('~')[0]) && carrier_provider_ppob[ppob_prod_data[bill_type][i].code.split('~')[0]].includes(bill_prov))
+                                    {
+                                        text+=`
+                                        <option value="`+ppob_prod_data[bill_type][i].code+`">`+ppob_prod_data[bill_type][i].name+`</option>
+                                        `;
+                                        if(car_counter == 0){
+                                            $evoucher_type_name = ppob_prod_data[bill_type][i].name;
+                                        }
+                                        car_counter++;
+                                    }
+                                }
+                                text+=`
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 mt-3" style="text-align:left;">
+                        <div id="e-voucher_div" class="row">
+                        </div>
+                    </div>
+                `;
+            }
+            else if(bill_type == 'cable tv'){
+                text = `
+                    <div class="col-lg-12" style="text-align:left;">
+                        <span class="span-search-ticket">Product Type</span>
+                        <div class="input-container-search-ticket">
+                            <div class="form-select" id="cable_tv-select">
+                                <select id="cable_tv_type" name="cable_tv_type" class="form-control js-example-basic-single" style="width:100%;" onchange="set_cable_tv_div();">`;
+                                car_counter = 0;
+                                for(i in ppob_prod_data[bill_type]){
+                                    if (carrier_provider_ppob.hasOwnProperty(ppob_prod_data[bill_type][i].code.split('~')[0]) && carrier_provider_ppob[ppob_prod_data[bill_type][i].code.split('~')[0]].includes(bill_prov))
+                                    {
+                                        text+=`
+                                        <option value="`+ppob_prod_data[bill_type][i].code+`">`+ppob_prod_data[bill_type][i].name+`</option>
+                                        `;
+                                        if(car_counter == 0){
+                                            $cable_tv_type_name = ppob_prod_data[bill_type][i].name;
+                                        }
+                                        car_counter++;
+                                    }
+                                }
+                                text+=`
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 mt-3" style="text-align:left;">
+                        <div id="cable_tv_div" class="row" style="margin-left:0px;margin-right:0px;">
+                        </div>
+                    </div>
+                `;
+            }
+            else if(bill_type == 'internet'){
+                text = `
+                    <div class="col-lg-12" style="text-align:left;">
+                        <span class="span-search-ticket">Product Type</span>
+                        <div class="input-container-search-ticket">
+                            <div class="form-select" id="internet-select">
+                                <select id="internet_type" name="internet_type" class="form-control js-example-basic-single" style="width:100%;" onchange="set_internet_div();">`;
+                                car_counter = 0;
+                                for(i in ppob_prod_data[bill_type]){
+                                    if (carrier_provider_ppob.hasOwnProperty(ppob_prod_data[bill_type][i].code.split('~')[0]) && carrier_provider_ppob[ppob_prod_data[bill_type][i].code.split('~')[0]].includes(bill_prov))
+                                    {
+                                        text+=`
+                                        <option value="`+ppob_prod_data[bill_type][i].code+`">`+ppob_prod_data[bill_type][i].name+`</option>
+                                        `;
+                                        if(car_counter == 0){
+                                            $internet_type_name = ppob_prod_data[bill_type][i].name;
+                                        }
+                                        car_counter++;
+                                    }
+                                }
+                                text+=`
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 mt-3" style="text-align:left;">
+                        <div id="internet_div" class="row" style="margin-left:0px;margin-right:0px;">
+                        </div>
+                    </div>
+                `;
+            }
+            else if(bill_type == 'telephone'){
+                text = `
+                    <div class="col-lg-12" style="text-align:left;">
+                        <span class="span-search-ticket">Product Type</span>
+                        <div class="input-container-search-ticket">
+                            <div class="form-select" id="telephone-select">
+                                <select id="telephone_type" name="telephone_type" class="form-control js-example-basic-single" style="width:100%;" onchange="set_telephone_div();">`;
+                                car_counter = 0;
+                                for(i in ppob_prod_data[bill_type]){
+                                    if (carrier_provider_ppob.hasOwnProperty(ppob_prod_data[bill_type][i].code.split('~')[0]) && carrier_provider_ppob[ppob_prod_data[bill_type][i].code.split('~')[0]].includes(bill_prov))
+                                    {
+                                        text+=`
+                                        <option value="`+ppob_prod_data[bill_type][i].code+`">`+ppob_prod_data[bill_type][i].name+`</option>
+                                        `;
+                                        if(car_counter == 0){
+                                            $telephone_type_name = ppob_prod_data[bill_type][i].name;
+                                        }
+                                        car_counter++;
+                                    }
+                                }
+                                text+=`
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 mt-3" style="text-align:left;">
+                        <div id="telephone_div" class="row" style="margin-left:0px;margin-right:0px;">
+                        </div>
+                    </div>
+                `;
+            }
+            else if(bill_type == 'insurance'){
+                text = `
+                    <div class="col-lg-12" style="text-align:left;">
+                        <span class="span-search-ticket">Product Type</span>
+                        <div class="input-container-search-ticket">
+                            <div class="form-select" id="insurance-select">
+                                <select id="insurance_type" name="insurance_type" class="form-control js-example-basic-single" style="width:100%;" onchange="set_insurance_div();">`;
+                                car_counter = 0;
+                                for(i in ppob_prod_data[bill_type]){
+                                    if (carrier_provider_ppob.hasOwnProperty(ppob_prod_data[bill_type][i].code.split('~')[0]) && carrier_provider_ppob[ppob_prod_data[bill_type][i].code.split('~')[0]].includes(bill_prov))
+                                    {
+                                        text+=`
+                                        <option value="`+ppob_prod_data[bill_type][i].code+`">`+ppob_prod_data[bill_type][i].name+`</option>
+                                        `;
+                                        if(car_counter == 0){
+                                            $insurance_type_name = ppob_prod_data[bill_type][i].name;
+                                        }
+                                        car_counter++;
+                                    }
+                                }
+                                text+=`
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 mt-3" style="text-align:left;">
+                        <div id="ppob_insurance_div" class="row" style="margin-left:0px;margin-right:0px;">
+                        </div>
+                    </div>
+                `;
+            }
+            else if(bill_type == 'pdam'){
+                text = `
+                    <div class="col-lg-12" style="text-align:left;">
+                        <span class="span-search-ticket">Product Type</span>
+                        <div class="input-container-search-ticket">
+                            <div class="form-select" id="pdam-select">
+                                <select id="pdam_type" name="pdam_type" class="form-control js-example-basic-single" style="width:100%;" onchange="set_pdam_div();">`;
+                                car_counter = 0;
+                                for(i in ppob_prod_data[bill_type]){
+                                    if (carrier_provider_ppob.hasOwnProperty(ppob_prod_data[bill_type][i].code.split('~')[0]) && carrier_provider_ppob[ppob_prod_data[bill_type][i].code.split('~')[0]].includes(bill_prov))
+                                    {
+                                        text+=`
+                                        <option value="`+ppob_prod_data[bill_type][i].code+`">`+ppob_prod_data[bill_type][i].name+`</option>
+                                        `;
+                                        if(car_counter == 0){
+                                            $pdam_type_name = ppob_prod_data[bill_type][i].name;
+                                        }
+                                        car_counter++;
+                                    }
+                                }
+                                text+=`
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 mt-3" style="text-align:left;">
+                        <div id="pdam_div" class="row" style="margin-left:0px;margin-right:0px;">
+                        </div>
+                    </div>
+                `;
+            }
+            else if(bill_type == 'pbb'){
+                text = `
+                    <div class="col-lg-12" style="text-align:left;">
+                        <span class="span-search-ticket">Product Type</span>
+                        <div class="input-container-search-ticket">
+                            <div class="form-select" id="pbb-select">
+                                <select id="pbb_type" name="pbb_type" class="form-control js-example-basic-single" style="width:100%;" onchange="set_pbb_div();">`;
+                                car_counter = 0;
+                                for(i in ppob_prod_data[bill_type]){
+                                    if (carrier_provider_ppob.hasOwnProperty(ppob_prod_data[bill_type][i].code.split('~')[0]) && carrier_provider_ppob[ppob_prod_data[bill_type][i].code.split('~')[0]].includes(bill_prov))
+                                    {
+                                        text+=`
+                                        <option value="`+ppob_prod_data[bill_type][i].code+`">`+ppob_prod_data[bill_type][i].name+`</option>
+                                        `;
+                                        if(car_counter == 0){
+                                            $pbb_type_name = ppob_prod_data[bill_type][i].name;
+                                        }
+                                        car_counter++;
+                                    }
+                                }
+                                text+=`
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 mt-3" style="text-align:left;">
+                        <div id="pbb_div" class="row" style="margin-left:0px;margin-right:0px;">
+                        </div>
+                    </div>
+                `;
+            }
+            else if(bill_type == 'gas'){
+                text = `
+                    <div class="col-lg-12" style="text-align:left;">
+                        <span class="span-search-ticket">Product Type</span>
+                        <div class="input-container-search-ticket">
+                            <div class="form-select" id="gas-select">
+                                <select id="gas_type" name="gas_type" class="form-control js-example-basic-single" style="width:100%;" onchange="set_gas_div();">`;
+                                car_counter = 0;
+                                for(i in ppob_prod_data[bill_type]){
+                                    if (carrier_provider_ppob.hasOwnProperty(ppob_prod_data[bill_type][i].code.split('~')[0]) && carrier_provider_ppob[ppob_prod_data[bill_type][i].code.split('~')[0]].includes(bill_prov))
+                                    {
+                                        text+=`
+                                        <option value="`+ppob_prod_data[bill_type][i].code+`">`+ppob_prod_data[bill_type][i].name+`</option>
+                                        `;
+                                        if(car_counter == 0){
+                                            $gas_type_name = ppob_prod_data[bill_type][i].name;
+                                        }
+                                        car_counter++;
+                                    }
+                                }
+                                text+=`
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 mt-3" style="text-align:left;">
+                        <div id="gas_div" class="row" style="margin-left:0px;margin-right:0px;">
+                        </div>
+                    </div>
+                `;
+            }
+            else if(bill_type == 'credit installment'){
+                text = `
+                    <div class="col-lg-12" style="text-align:left;">
+                        <span class="span-search-ticket">Product Type</span>
+                        <div class="input-container-search-ticket">
+                            <div class="form-select" id="credit_installment-select">
+                                <select id="credit_installment_type" name="credit_installment_type" class="form-control js-example-basic-single" style="width:100%;" onchange="set_credit_installment_div();">`;
+                                car_counter = 0;
+                                for(i in ppob_prod_data[bill_type]){
+                                    if (carrier_provider_ppob.hasOwnProperty(ppob_prod_data[bill_type][i].code.split('~')[0]) && carrier_provider_ppob[ppob_prod_data[bill_type][i].code.split('~')[0]].includes(bill_prov))
+                                    {
+                                        text+=`
+                                        <option value="`+ppob_prod_data[bill_type][i].code+`">`+ppob_prod_data[bill_type][i].name+`</option>
+                                        `;
+                                        if(car_counter == 0){
+                                            $credit_installment_type_name = ppob_prod_data[bill_type][i].name;
+                                        }
+                                        car_counter++;
+                                    }
+                                }
+                                text+=`
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 mt-3" style="text-align:left;">
+                        <div id="credit_installment_div" class="row" style="margin-left:0px;margin-right:0px;">
+                        </div>
+                    </div>
+                `;
+            }
+            else if(bill_type == 'credit card'){
+                text = `
+                    <div class="col-lg-12" style="text-align:left;">
+                        <span class="span-search-ticket">Product Type</span>
+                        <div class="input-container-search-ticket">
+                            <div class="form-select" id="credit_card-select">
+                                <select id="credit_card_type" name="credit_card_type" class="form-control js-example-basic-single" style="width:100%;" onchange="set_credit_card_div();">`;
+                                car_counter = 0;
+                                for(i in ppob_prod_data[bill_type]){
+                                    if (carrier_provider_ppob.hasOwnProperty(ppob_prod_data[bill_type][i].code.split('~')[0]) && carrier_provider_ppob[ppob_prod_data[bill_type][i].code.split('~')[0]].includes(bill_prov))
+                                    {
+                                        text+=`
+                                        <option value="`+ppob_prod_data[bill_type][i].code+`">`+ppob_prod_data[bill_type][i].name+`</option>
+                                        `;
+                                        if(car_counter == 0){
+                                            $credit_card_type_name = ppob_prod_data[bill_type][i].name;
+                                        }
+                                        car_counter++;
+                                    }
+                                }
+                                text+=`
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 mt-3" style="text-align:left;">
+                        <div id="credit_card_div" class="row" style="margin-left:0px;margin-right:0px;">
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        else if(template == 7){
             if(bill_type == 'bpjs'){
                 text = `
                     <div class="col-lg-12 mb-3" style="text-align:left;">

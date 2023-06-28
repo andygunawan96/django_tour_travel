@@ -12279,7 +12279,7 @@ function render_ticket_reissue(){
                                        <div class="row">
                                            <div class="col-lg-12" style="padding-top:10px;">
                                                 <h6><img src="/static/tt_website/img/icon/seat.png" style="height:16px; width:auto;"> Choose Seat Class</h6>`;
-                                                if(template == 1){
+                                                if(template == 1 || template == 7){
                                                     text+=`<div class="input-container-search-ticket btn-group">`;
                                                 }
                                                 text+=`
@@ -12290,7 +12290,7 @@ function render_ticket_reissue(){
                                                       text+=`<span id="choose_seat_span`+i+``+j+`">SOLD OUT</span>`;
                                                  }
                                                 text+=`</button>`;
-                                                if(template == 1){
+                                                if(template == 1 || template == 7 ){
                                                     text+=`<ul id="provider_seat_content`+i+``+j+`" class="dropdown-menu" style="background:unset; z-index:5; border:unset;">`;
                                                 }else if(template == 6){
                                                     text+=`<ul id="provider_seat_content`+i+``+j+`" class="dropdown-menu" style="background:unset; z-index:5; border:unset; padding:0px;">`;
@@ -12488,7 +12488,7 @@ function render_ticket_reissue(){
                                                    text+=`
                                                    </div>
                                                </ul>`;
-                                                if(template == 1){
+                                                if(template == 1 || template == 7){
                                                     text+=`</div>`;
                                                 }
                                            text+=`
@@ -13175,7 +13175,7 @@ function get_chosen_ticket(type='all'){
                         text+=`</div>
                         <div class="col-lg-12" style="padding-top:10px;">
                             <h6><img src="/static/tt_website/img/icon/seat.png" style="height:16px; width:auto;"> Choose Seat Class</h6>`;
-                            if(template == 1){
+                            if(template == 1 || template == 7){
                                 text+=`<div class="input-container-search-ticket btn-group">`;
                             }
                             text+=`
@@ -13186,7 +13186,7 @@ function get_chosen_ticket(type='all'){
                                   text+=`<span id="choose_seat_span`+i+``+j+`">SOLD OUT</span>`;
                              }
                             text+=`</button>`;
-                            if(template == 1){
+                            if(template == 1 || template == 7){
                                 text+=`<ul id="provider_seat_content`+i+``+j+`" class="dropdown-menu" style="background:unset; z-index:5; border:unset;">`;
                             }else if(template == 6){
                                 text+=`<ul id="provider_seat_content`+i+``+j+`" class="dropdown-menu" style="background:unset; z-index:5; border:unset; padding:0px;">`;
@@ -13295,7 +13295,7 @@ function get_chosen_ticket(type='all'){
                                         text+=`
                                     </div>
                                 </ul>`;
-                                if(template == 1){
+                                if(template == 1 || template == 7){
                                     text+=`</div>`;
                                 }
                             text+=`

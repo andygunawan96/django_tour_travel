@@ -1148,6 +1148,10 @@ Licence URI: http://www.os-templates.com/template-terms
     <!--Template 1-->
     {% if template == 1%}
     <style>
+        .nav-menu ul li a:hover{
+            color: {{color}};
+        }
+
         .txt_clr{
             color: white;
         }
@@ -1621,6 +1625,10 @@ Licence URI: http://www.os-templates.com/template-terms
     </style>
     {% elif template == 6%}
     <style>
+        nav ul li span{
+            color: {{text_color_login}};
+        }
+
         {% if login_background_color == 'transparent'%}
         header{
             background: white !important;
@@ -1748,7 +1756,7 @@ Licence URI: http://www.os-templates.com/template-terms
             top: -8px;
         }
         .main-header .main-menu ul li a{
-            padding: 18px 8px;
+            padding: 18px 5px;
         }
         {% endif %}
 
@@ -2113,7 +2121,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <script src="{{ static_path }}js/template7/contact.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/template7/jquery.form.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/template7/jquery.validate.min.js?version={{javascript_version}}"></script>
-<script src="{{ static_path }}js/template7/mail-script.js?version={{javascript_version}}"></script>
+<!--<script src="{{ static_path }}js/template7/mail-script.js?version={{javascript_version}}"></script>-->
 <script src="{{ static_path }}js/template7/jquery.ajaxchimp.min.js?version={{javascript_version}}"></script>
 
 <!-- Jquery Plugins, main Jquery -->

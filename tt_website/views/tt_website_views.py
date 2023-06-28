@@ -365,6 +365,9 @@ def set_currency(request, data):
     next_url = "/".join(request.META.get('HTTP_REFERER').split('/')[3:])
     if not next_url:
         next_url = '/'
+    else:
+        next_url = '/'+next_url
+
     return redirect(next_url)
 
 def no_session_logout(request):
@@ -1517,13 +1520,18 @@ def get_data_template(request, type='home', provider_type = []):
     is_show_breakdown_price = False
     keep_me_signin = False
     currency = []
-
+    currency_pick = ''
     if request.session.get('signature'):
         currency = get_ho_currency_api(request, request.session['signature'])
+        currency_pick = currency['default_currency']
     ## live chat
     if request.session.get('keep_me_signin'):
         keep_me_signin = request.session['keep_me_signin']
     top_up_term = ''
+
+    if request.session.get('currency'):
+        currency_pick = request.session['currency']
+
     file = read_cache("data_cache_product", 'cache_web', request, 90911)
     if file:
         for idx, line in enumerate(file.split('\n')):
@@ -1943,6 +1951,7 @@ def get_data_template(request, type='home', provider_type = []):
         'is_show_breakdown_price': is_show_breakdown_price,
         'keep_me_signin': keep_me_signin,
         'currency': currency,
+        'currency_pick': currency_pick,
         'is_show_other_currency': True if len(currency) > 0 else False
     }
 

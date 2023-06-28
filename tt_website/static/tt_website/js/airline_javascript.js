@@ -522,7 +522,7 @@ function add_multi_city(type){
                 </div>
                 <div class="col-lg-4 col-md-4">
                     <span class="span-search-ticket">Prefered Class</span>`;
-                    if(template == 1){
+                    if(template == 1 || template == 7){
                         text_paxs += `
                         <div class="input-container-search-ticket btn-group">
                             <div class="form-select" id="default-select">
@@ -609,7 +609,7 @@ function add_multi_city(type){
 //        document.getElementById("mc_airline_add_tabs").appendChild(node_tabs);
 
         var node = document.createElement("div");
-        if(template == 1){
+        if(template == 1 || template == 7){
             text = `
             <div class="col-lg-12">
                 <div class="row">
@@ -693,7 +693,7 @@ function add_multi_city(type){
                             </div>
                             <div class="col-lg-6 col-md-6" style="padding:0px;">
                                 <span class="span-search-ticket">Class</span>`;
-                                if(template == 1){
+                                if(template == 1 || template == 7){
                                     text += `
                                     <div class="input-container-search-ticket btn-group">
                                         <div class="form-select" id="default-select`+counter_airline_search+`">
@@ -828,7 +828,7 @@ function add_multi_city(type){
                         </div>
                         <div class="col-lg-6 col-md-6">
                             <span class="span-search-ticket">Class</span>`;
-                            if(template == 1){
+                            if(template == 1 || template == 7){
                                 text += `
                                 <div class="input-container-search-ticket btn-group">
                                     <div class="form-select" id="default-select`+counter_airline_search+`">
@@ -958,7 +958,7 @@ function add_multi_city(type){
                         </div>
                         <div class="col-lg-6 col-md-6">
                             <span class="span-search-ticket">Class</span>`;
-                            if(template == 1){
+                            if(template == 1 || template == 7){
                                 text += `
                                 <div class="input-container-search-ticket btn-group">
                                     <div class="form-select" id="default-select`+counter_airline_search+`">
@@ -1091,7 +1091,7 @@ function add_multi_city(type){
                         </div>
                         <div class="col-lg-6 col-md-6">
                             <span class="span-search-ticket">Class</span>`;
-                            if(template == 1){
+                            if(template == 1 || template == 7){
                                 text += `
                                 <div class="input-container-search-ticket btn-group">
                                     <div class="form-select" id="default-select`+counter_airline_search+`">
@@ -1221,7 +1221,7 @@ function add_multi_city(type){
                         </div>
                         <div class="col-lg-6 col-md-6">
                             <span class="span-search-ticket">Class</span>`;
-                            if(template == 1){
+                            if(template == 1 || template == 7){
                                 text += `
                                 <div class="input-container-search-ticket btn-group">
                                     <div class="form-select" id="default-select`+counter_airline_search+`">
@@ -1364,7 +1364,7 @@ function add_multi_city(type){
                             </div>
                             <div class="col-lg-6 col-md-6">
                                 <span class="span-search-ticket">Class</span>`;
-                                if(template == 1){
+                                if(template == 1 || tempalte == 7){
                                     text += `
                                     <div class="input-container-search-ticket btn-group">
                                         <div class="form-select" id="default-select`+counter_airline_search+`">

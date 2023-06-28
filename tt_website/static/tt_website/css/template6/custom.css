@@ -222,7 +222,7 @@ div.scrollmenu li {
   height: 15px;
   width: 15px;
   position: absolute;
-  left: 48%;
+  left: 48.4%;
   top: 30px;
 }
 
@@ -611,4 +611,5 @@ b, strong{
 
 nav a{
     font-weight: 500;
+    padding: 10px 6px;
 }

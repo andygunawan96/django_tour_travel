@@ -76,8 +76,8 @@ function get_highlight(type){
                     text += `<li><a href="`+msg[i].url+`" target="_blank">`+msg[i].title+`</a></li>`;
                 }
                 if(msg.length == 0){
-                    if(template == 6){
-                        text += `<li class="menu_header" style="color:black; font-size:13px;">No Highlight</li>`;
+                    if(template == 6 || template == 7){
+                        text += `<li class="menu_header" style="margin-left:0px; color:black; font-size:13px;">No Highlight</li>`;
                     }else{
                         text += `<li class="menu_header">No Highlight</li>`;
                     }
