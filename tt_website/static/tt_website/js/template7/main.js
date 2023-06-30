@@ -21,7 +21,6 @@
       });
     };
 
-
 /* 3. MainSlider-1 */
     function mainSlider() {
       var BasicSlider = $('.slider-active');

@@ -7281,8 +7281,26 @@ function logout(){
 }
 
 function change_language(val){
-    document.getElementById('selection_language').value = val;
-    document.getElementById('form_language').submit();
+    try{
+        document.getElementById('selection_language').value = val;
+        document.getElementById('form_language').submit();
+    }catch(err){
+    }
+    try{
+        document.getElementById('selection_language2').value = val;
+        document.getElementById('form_language2').submit();
+    }catch(err){
+    }
+    try{
+        document.getElementById('selection_language3').value = val;
+        document.getElementById('form_language3').submit();
+    }catch(err){
+    }
+    try{
+        document.getElementById('selection_language4').value = val;
+        document.getElementById('form_language4').submit();
+    }catch(err){
+    }
 }
 
 //plugin passenger

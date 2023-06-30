@@ -14,11 +14,30 @@
 <div id="div_4">
     <div class="container">
         <div class="row">
+            <div class="col-lg-6 sign_in_up">
+                <div style="display:inline-block">
+                    <button type="button" id="more_balance" class="dropdown-toggle" data-toggle="dropdown" style="border:unset; background:unset; cursor:pointer; padding-left:5px; padding-right:5px; font-weight:500;">
+                        <i class="fas fa-money-bill" style="font-size:18px;"></i><span style="padding-left:5px; font-size:15px;">{{currency_pick}}</span>
+                    </button>
+                    <ul class="dropdown-menu" style="padding:10px 25px 10px 10px; z-index:9999; overflow-y:unset; overflow-x:unset;">
+                        {% for data_currency in currency.currency_list %}
+                        <li class="mb-1">
+                            <a href="/currency/{{data_currency}}">
+                                {% if currency_pick == data_currency %}
+                                <i class="fas fa-check-circle" style="color:{{color}}; font-size:18px; position:unset; padding:0px;"></i>
+                                {% endif %}
+                                {{data_currency}}
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div style="display:inline-block;" {% if 'b2c_limitation' in username.co_agent_frontend_security %} hidden {% endif %}>
+                {% include 'tt_website/balance_credit.html' %}
+                </div>
+            </div>
             <div class="col-lg-6">
                 {% include 'tt_website/header_signin.html' %}
-            </div>
-            <div class="col-lg-6 sign_in_up" {% if 'b2c_limitation' in username.co_agent_frontend_security %} hidden {% endif %}>
-                {% include 'tt_website/balance_credit.html' %}
             </div>
         </div>
     </div>

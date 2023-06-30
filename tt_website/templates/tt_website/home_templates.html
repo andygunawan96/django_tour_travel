@@ -140,39 +140,18 @@
 {% include 'tt_website/notification_box.html' %}
 
 {% if username.co_user_login != default_user %}
-{% if template != 6 %}
-{% if template == 1%}
 <section class="section_bg" style="z-index:998; position:relative; border-top:1px solid #cdcdcd;">
-{% elif template == 2%}
-<section class="section_bg" style="z-index:3; position:relative; border-top:1px solid #cdcdcd;">
-{% elif template == 3%}
-<section class="section_bg" style="z-index:4; position:relative; border-top:1px solid #cdcdcd;">
-{% elif template == 7%}
-<section class="section_bg" style="z-index:998; position:relative; border-top:1px solid #cdcdcd;">
-{% else %}
-<section class="section_bg" style="z-index:998; position:relative; border-top:1px solid #cdcdcd;">
-{% endif %}
     <div class="container">
         <div class="row">
             <div class="col-lg-12 pt-2 pb-2">
-                {% if template == 3%}
                 <span class="span_link" style="border-right:2px solid #cdcdcd; padding-right:5px; color:black;" onclick="location='{% url 'tt_website:issued_offline'%}'"><i class="fas fa-book-open"></i> {% trans 'Issued Offline' %}</span>
-                {% else %}
-                <span class="span_link" style="border-right:2px solid #cdcdcd; padding-right:5px;" onclick="location='{% url 'tt_website:issued_offline'%}'"><i class="fas fa-book-open"></i> {% trans 'Issued Offline' %}</span>
-                {% endif %}
-
                 {% if "groupbooking" in provider and "ticketing_group_booking" in username.co_agent_frontend_security%}
-                    {% if template == 3%}
                 <span class="span_link" style="padding-left:5px; color: black;" onclick="location='{% url 'tt_website:group_booking'%}'"><i class="fas fa-users"></i> {% trans 'Group Booking' %}</span>
-                    {% else %}
-                <span class="span_link" style="padding-left:5px;" onclick="location='{% url 'tt_website:group_booking'%}'"><i class="fas fa-users"></i> {% trans 'Group Booking' %}</span>
-                    {% endif %}
                 {% endif %}
             </div>
         </div>
     </div>
 </section>
-{% endif%}
 {% endif%}
 <!--<meta name="twitter:card" content="Twitter" />-->
 <!--<meta name="twitter:site" content="@{{name}}" />-->
@@ -334,6 +313,7 @@
 <input type="hidden" id="end"/>
 {% endif %}
 
+<!--add template-->
 {%if template == 1%}
 {% include 'tt_website/html_include/home_template1.html' %}
 
@@ -359,6 +339,175 @@
 {% include 'tt_website/html_include/home_template8.html' %}
 
 {%endif%}
+
+{% if small_banner_value == 1 %}
+<section class="pt-5 pb-5" style="z-index:0; position:relative; padding-bottom:40px; background:white;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <!--add template-->
+                {% if template == 1 %}
+                <div class="menu-content">
+                    <div class="title pb-20">
+                        <h1>HOT DEALS</h1>
+                    </div>
+                </div>
+                {% elif template == 2 %}
+                <div class="section-heading wow fadeInUp" data-wow-delay="100ms" style="margin-bottom:20px;">
+                    <h1>HOT DEALS</h1>
+                </div>
+                {% elif template == 3 %}
+                <div class="title pb-2">
+                    <div class="pb-20">
+                        <h1>HOT DEALS</h1>
+                    </div>
+                </div>
+                {% elif template == 4 %}
+                <div class="row justify-content-center mb-5">
+                    <div class="col-md-12 border-primary">
+                        <h1 class="font-weight-light text-primary" style="color:black !important">HOT DEALS</h1>
+                    </div>
+                </div>
+                {% elif template == 5 %}
+                <div class="menu-content">
+                    <div class="title mb-3">
+                        <h1>HOT DEALS</h1>
+                    </div>
+                </div>
+                {% elif template == 6 %}
+                <div class="fetured-info py-lg-3 py-3 mb-3">
+                    <h3>
+                        HOT DEALS
+                    </h3>
+                </div>
+                {% elif template == 7 %}
+                <div class="ten">
+                    <h1 class="style_h1">HOT DEALS</h1>
+                </div>
+                {%endif%}
+
+                <div id="small_banner">
+                    <div class="row">
+                        <div class="col-lg-3 col-sm-6">
+                            <div class="stripe_small_banner">
+                                <div class="div_stripe">
+                                    <div class="loading_stripe"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-sm-6">
+                            <div class="stripe_small_banner show_hide_mb">
+                                <div class="div_stripe">
+                                    <div class="loading_stripe"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-sm-6">
+                            <div class="stripe_small_banner show_hide">
+                                <div class="div_stripe">
+                                    <div class="loading_stripe"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-sm-6">
+                            <div class="stripe_small_banner show_hide">
+                                <div class="div_stripe">
+                                    <div class="loading_stripe"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+{% if dynamic_page_value == 1 %}
+<section class="pt-5 pb-5" style="z-index:0; position:relative; background: #f7f7f7;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 mb-3">
+                <!--add template-->
+                {% if template == 1%}
+                <div class="menu-content">
+                    <div class="title pb-20">
+                        <h1>INFORMATION</h1>
+                    </div>
+                </div>
+                {% elif template == 2 %}
+                <div class="section-heading wow fadeInUp" data-wow-delay="100ms" style="margin-bottom:20px;">
+                    <h1>INFORMATION</h1>
+                </div>
+                {% elif template == 3 %}
+                <div class="title pb-2">
+                    <div class="pb-20">
+                        <h1>INFORMATION</h1>
+                    </div>
+                </div>
+                {% elif template == 4 %}
+                <div class="row justify-content-center mb-5">
+                    <div class="col-md-12 border-primary">
+                        <h1 class="font-weight-light text-primary" style="color:black !important">HOT DEALS</h1>
+                    </div>
+                </div>
+                {% elif template == 5 %}
+                <div class="menu-content">
+                    <div class="title mb-3">
+                        <h1>INFORMATION</h1>
+                    </div>
+                </div>
+                {% elif template == 6 %}
+                <div class="fetured-info py-lg-3 py-3 mb-3">
+                    <h3>
+                        INFORMATION
+                    </h3>
+                </div>
+                {% elif template == 7 %}
+                <div class="ten">
+                    <h1 class="style_h1">INFORMATION</h1>
+                </div>
+                {%endif%}
+                <div class="row">
+                    <div class="col-lg-12" id="owl-login2">
+                        <div class="row">
+                            <div class="col-lg-3 col-md-6">
+                                <div class="stripe_dynamic_page">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6">
+                                <div class="stripe_dynamic_page show_hide_mb">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6">
+                                <div class="stripe_dynamic_page show_hide">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6">
+                                <div class="stripe_dynamic_page show_hide">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
 
 <div class="modal fade" id="myModalBills" role="dialog" data-keyboard="false">
     <div class="modal-dialog">
@@ -801,109 +950,66 @@
     //test
     //testing getbooker
     try{
-        if(template == 1 || template == 2){
-            document.getElementById("airline_date_search").innerHTML = '';
-            text='';
-            var node = document.createElement("div");
-            text+=`
-            <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>
-            <div class="input-container-search-ticket">
-                <input type="text" class="form-control" name="airline_departure" id="airline_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly style="background:white;">
-            </div>
-            <input type="hidden" class="form-control" name="airline_return" id="airline_return" placeholder="Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Return Date '" autocomplete="off">`;
-
-            node.innerHTML = text;
-            document.getElementById("airline_date_search").appendChild(node);
-            node = document.createElement("div");
-        }
-        else if(template == 3){
-            document.getElementById("airline_date_search").innerHTML = '';
-            text='';
-            var node = document.createElement("div");
-            text+=`
-            <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>
-            <div class="form-group">
-                <input type="text" class="form-control" name="airline_departure" id="airline_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly style="background:white;">
-            </div>
-            <input type="hidden" class="form-control" name="airline_return" id="airline_return" placeholder="Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Return Date '" autocomplete="off">`;
-
-            node.innerHTML = text;
-            document.getElementById("airline_date_search").appendChild(node);
-            node = document.createElement("div");
-        }
-        else if(template == 4){
-            document.getElementById("airline_date_search").innerHTML = '';
-            text='';
-            var node = document.createElement("div");
+        //add template
+        document.getElementById("airline_date_search").innerHTML = '';
+        text='';
+        var node = document.createElement("div");
+        if(template == 4){
             text+=`
             <span class="span-search-ticket">Departure</span>
             <div class="input-container-search-ticket">
                 <i class="fas fa-calendar-alt" style="padding:14px; height: 43px; width: 45px; background:`+color+`; color:`+text_color+`;"></i>
                 <input type="text" class="form-control" name="airline_departure" id="airline_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly style="background:white;">
-            </div>
-            <input type="hidden" class="form-control" name="airline_return" id="airline_return" placeholder="Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Return Date '" autocomplete="off">`;
-
-            node.innerHTML = text;
-            document.getElementById("airline_date_search").appendChild(node);
-            node = document.createElement("div");
+            </div>`;
         }
-        else if(template == 5){
-            document.getElementById("airline_date_search").innerHTML = '';
-            text='';
-            var node = document.createElement("div");
+        else{
             text+=`
             <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>
             <div class="input-container-search-ticket">
                 <input type="text" class="form-control" name="airline_departure" id="airline_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly style="background:white;">
-            </div>
-            <input type="hidden" class="form-control" name="airline_return" id="airline_return" placeholder="Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Return Date '" autocomplete="off">`;
-
-            node.innerHTML = text;
-            document.getElementById("airline_date_search").appendChild(node);
-            node = document.createElement("div");
+            </div>`;
         }
-        else if(template == 6){
-            document.getElementById("airline_date_search").innerHTML = '';
-            text='';
-            var node = document.createElement("div");
-            text+=`
-            <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>
-            <div class="input-container-search-ticket">
-                <input type="text" class="form-control" name="airline_departure" id="airline_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly style="background:white;">
-            </div>
-            <input type="hidden" class="form-control" name="airline_return" id="airline_return" placeholder="Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Return Date '" autocomplete="off">`;
 
-            node.innerHTML = text;
-            document.getElementById("airline_date_search").appendChild(node);
-            node = document.createElement("div");
-        }
+        text+=`<input type="hidden" class="form-control" name="airline_return" id="airline_return" placeholder="Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Return Date '" autocomplete="off">`;
+
+        node.innerHTML = text;
+        document.getElementById("airline_date_search").appendChild(node);
+        node = document.createElement("div");
     }catch(err){
 
     }
     $(window).on('load', function() {
         try{
             document.getElementsByName('radio_airline_type')[0].checked = true;
+        }catch(err){
+            console.log(err);
+        }
+        try{
             document.getElementsByName('radio_train_type')[0].checked = true;
         }catch(err){
-            console.log(err); // error kalau ada element yg tidak ada
+            console.log(err);
         }
     })
 
     $( document ).ready(function() {
         var set_active = true;
+        home_page = true;
+
+        //add template
         {% if template == 1 %}
         var class_tab = 'active';
         var class_product = 'show active';
         {% elif template == 2 or template == 3 or template == 4 or template == 5 %}
         var class_tab = 'current';
         var class_product = 'current';
-        {% elif template == 6 or template == 7 or template == 8 %}
+        {% else %}
         var class_tab = '';
         var class_product = '';
         {% endif %}
         var product = '';
         var tab = '';
-        {% if template != 6 %}
+
+        {% if template != 6 or template != 7 %}
             {% for rec in provider_types_sequence %}
                 {% if template == 1 %}
                 if('{{rec.code}}' == "health_care" || '{{rec.code}}' == "phc"){
@@ -917,7 +1023,7 @@
                     product = '{{rec.code}}';
                 }
 
-                {% elif template == 2 or template == 3 or template == 4 or template == 5 %}
+                {% else %}
                 if('{{rec.code}}' == "health_care"){
                     tab = 'nav_scroll_menu_medical1';
                     product = 'tab-medical1';
@@ -928,7 +1034,6 @@
                     tab = 'nav_scroll_menu_{{rec.code}}';
                     product = 'tab-{{rec.code}}';
                 }
-                {% elif template == 6 %}
                 {% endif %}
 
                 {% if "airline" in provider and "ticketing_airline" in username.co_agent_frontend_security and rec.code == "airline" %}
@@ -955,7 +1060,6 @@
                     $('#'+product).addClass(class_product);
                     set_active = false;
                 }
-
 
                 {% elif "tour" in provider and "ticketing_tour" in username.co_agent_frontend_security and rec.code == "tour" %}
                 if(set_active == true){
@@ -1003,7 +1107,6 @@
                     set_active = false;
                 }
 
-
                 {% elif "insurance" in provider and "ticketing_insurance" in username.co_agent_frontend_security and rec.code == "insurance" %}
                 if(set_active == true){
                     $('#'+tab).addClass(class_tab);
@@ -1021,6 +1124,7 @@
                 {% endif %}
             {% endfor %}
         {% endif %}
+
           $('.js-example-basic-single').select2();
           {% if "hotel" in provider and "ticketing_hotel" in username.co_agent_frontend_security %}
           $("#hotel_checkin").val(moment().subtract(-1, 'days').format('DD MMM YYYY'));
@@ -1038,7 +1142,6 @@
           {% if dynamic_page_value == 1 %}
           get_dynamic_page('home');
           {% endif %}
-
 
           {% if terms_value == 1 and promotion_banner_value == 1%}
           get_term_and_condition('home');

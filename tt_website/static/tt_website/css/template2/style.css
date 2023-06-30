@@ -2874,7 +2874,7 @@ ul.tabs{
 }
 @media (max-width: 767px) {
     .dropdown-menu{
-        left: -30px !important;
+        left: 0px !important;
     }
 }
 

@@ -2067,6 +2067,7 @@ h1, h2, h3, h4, h5, h6 {
   display: block;
   font-size: 12px;
   text-transform: none;
+  cursor:pointer;
 }
 
 .nav-menu ul li:hover > a {
@@ -3585,8 +3586,6 @@ ul.tabs li.current{
     }
 }
 
-
-
 .image-change-route-vertical {
   z-index: 10;
   height: 15px;
@@ -3952,7 +3951,7 @@ ul.tabs li.current{
 }
 @media (max-width: 767px) {
     .dropdown-menu{
-        left: -30px !important;
+        left: 0px !important;
     }
 }
 

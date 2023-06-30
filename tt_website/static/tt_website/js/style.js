@@ -53,7 +53,7 @@ $(document).ready(function(){
     });
 
 
-    //untuk notifikasi
+    //notifikasi
     $(".notification-slide-toggle").click(function(){
         $(".box-notification").animate({
             width: "toggle",
@@ -62,7 +62,7 @@ $(document).ready(function(){
         document.body.style.overflowY = "hidden";
     });
 
-    //untuk getbooking
+    //getbooking
     $(".getbooking-slide-toggle").click(function(){
         $(".box-getbooking").animate({
             width: "toggle",
@@ -71,7 +71,7 @@ $(document).ready(function(){
         document.body.style.overflowY = "hidden";
     });
 
-    //untuk getbooking fromvendor
+    //getbooking from vendor
     $(".getbooking-fv-slide-toggle").click(function(){
         $(".box-getbooking-fv").animate({
             width: "toggle",
@@ -80,7 +80,7 @@ $(document).ready(function(){
         document.body.style.overflowY = "hidden";
     });
 
-    //untuk getbooking fromvendor
+    //getbooking from vendor
     $(".passenger-db-slide-toggle").click(function(){
         $(".box-passenger-db").animate({
             width: "toggle",
@@ -110,7 +110,6 @@ $(document).ready(function(){
         }
     });
 
-
     $(window).click(function(e) {
         if ($(".ld-over-full-inverse").hasClass("running")) {
             $(".ld-over-full-inverse").removeClass("running");
@@ -137,21 +136,12 @@ $(document).ready(function(){
 //        }
 //    }
 
-
-//    $('#A').click(function (e) { //Default mouse Position
-//        alert(e.pageX + ' , ' + e.pageY);
-//    });
-
     $(window).scroll(function() {
         if ($(this).scrollTop() >= 50) {        // If page is scrolled more than 50px
             $('#myBtnBTP').fadeIn(200);    // Fade in the arrow
         } else {
             $('#myBtnBTP').fadeOut(200);   // Else fade out the arrow
         }
-
-//        if ($(this).scrollTop() >= $('#change_search_box').height()) {        // If page is scrolled more than 50px
-//            $('#change_search_box').hide();    // Fade in the arrow
-//        }
     });
 
     $(window).resize(function() {
@@ -1660,19 +1650,6 @@ $(document).ready(function(){
                 maxDate: moment().subtract(-2, 'months'),
                 nextFocus: '#show_total_pax_train'
             });
-
-//            $('input[name="train_departure"]').daterangepicker({
-//              singleDatePicker: true,
-//              autoUpdateInput: true,
-//              opens: 'center',
-//              startDate: moment(),
-//              minDate: moment(),
-//              maxDate: moment().subtract(-45, 'days'),
-//              showDropdowns: true,
-//              locale: {
-//                  format: 'DD MMM YYYY',
-//              }
-//            });
         }
         else if(selected_value == "roundtrip"){
             if(template == 1 || template == 2 || template == 3 || template == 6){
@@ -1749,46 +1726,23 @@ $(document).ready(function(){
                     $("#train_return").val(end.format('DD MMM YYYY'));
                 }
             });
-
-//            $('input[name="train_departure_return"]').daterangepicker({
-//              singleDatePicker: false,
-//              autoUpdateInput: true,
-//              opens: 'center',
-//              autoApply: true,
-//              startDate: moment(),
-//              endDate: moment().subtract(-1, 'days'),
-//              minDate: moment(),
-//              maxDate: moment().subtract(-90, 'days'),
-//              showDropdowns: true,
-//              locale: {
-//                  format: 'DD MMM YYYY',
-//              }
-//            });
-//
-//            $('input[name="train_departure_return"]').on('apply.daterangepicker', function(ev, picker) {
-//                $(this).val(picker.startDate.format('DD MMM YYYY') + ' - ' + picker.endDate.format('DD MMM YYYY'));
-//                $("#train_departure").val(picker.startDate.format('DD MMM YYYY'));
-//                $("#train_return").val(picker.endDate.format('DD MMM YYYY'));
-//                setTimeout(function(){
-//                    $("#show_total_pax_train").click();
-//                }, 200);
-//            });
         }
     });
 
     $('#radio_airline_search').click(function(){
         selected_value = $("input[name='radio_airline_type']:checked").val();
+
         if (selected_value == "oneway"){
-            if(template == 1 || template == 2 || template == 3 || template == 6){
+            if(template == 1 || template == 2 || template == 3 || template == 6 || template == 7){
                 document.getElementById("airline_date_search").innerHTML = '';
                 text='';
                 var node = document.createElement("div");
-                if(template == 1 || template == 3 || template == 6){
+                if(template == 1 || template == 3 || template == 6 || template == 7){
                     text+=`<span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>`;
                 }else if(template == 2){
                     text+=`<span style="color:`+text_color+`;"><i class="fas fa-calendar-alt"></i> Departure</span>`;
                 }
-                if(template == 1 || template == 2 || template == 6){
+                if(template == 1 || template == 2 || template == 6 || template == 7){
                     text+=`<div class="input-container-search-ticket">`;
                 }else if(template == 3){
                     text+=`<div class="form-group">`;
@@ -1854,28 +1808,10 @@ $(document).ready(function(){
                 nextFocus: '#show_total_pax_flight'
             });
 
-//            $('input[name="airline_departure"]').daterangepicker({
-//              singleDatePicker: true,
-//              autoUpdateInput: true,
-//              opens: 'center',
-//              startDate: moment(),
-//              minDate: moment(),
-//              maxDate: moment().subtract(-365, 'days'),
-//              showDropdowns: true,
-//              locale: {
-//                  format: 'DD MMM YYYY',
-//              }
-//            });
-//
-//            $('input[name="airline_departure"]').on('apply.daterangepicker', function(ev, picker) {
-//                setTimeout(function(){
-//                    $("#show_total_pax_flight").click();
-//                }, 200);
-//            });
-
             plus_min_passenger_airline_btn();
-        }else if(selected_value == "roundtrip"){
-            if(template == 1 || template == 2 || template == 3 || template == 6){
+        }
+        else if(selected_value == "roundtrip"){
+            if(template == 1 || template == 2 || template == 3 || template == 6 || template == 7){
                 document.getElementById("airline_date_search").innerHTML = '';
                 text='';
                 var node = document.createElement("div");
@@ -1886,13 +1822,13 @@ $(document).ready(function(){
                 document.getElementById('mc_airline_default').innerHTML = "";
                 airline_counter_config = 0;
                 counter_airline_search = 0;
-                if(template == 1 || template == 3 || template == 6){
+                if(template == 1 || template == 3 || template == 6 || template == 7){
                     text+=`<span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure - Return</span>`;
                 }else if(template == 2){
                     text+=`<span style="color:`+text_color+`;"><i class="fas fa-calendar-alt"></i> Departure - Return</span>`;
                 }
 
-                if(template == 1 || template == 2){
+                if(template == 1 || template == 2 || template == 7){
                     text+=`<div class="input-container-search-ticket">`;
                 }else if(template == 3){
                     text+=`<div class="form-group">`;
@@ -1975,30 +1911,6 @@ $(document).ready(function(){
                 }
             });
 
-//            $('input[name="airline_departure_return"]').daterangepicker({
-//              singleDatePicker: false,
-//              autoUpdateInput: true,
-//              opens: 'center',
-//              autoApply: true,
-//              startDate: moment(),
-//              endDate: moment().subtract(-1, 'days'),
-//              minDate: moment(),
-//              maxDate: moment().subtract(-365, 'days'),
-//              showDropdowns: true,
-//              locale: {
-//                  format: 'DD MMM YYYY',
-//              }
-//            });
-//
-//            $('input[name="airline_departure_return"]').on('apply.daterangepicker', function(ev, picker) {
-//              $(this).val(picker.startDate.format('DD MMM YYYY') + ' - ' + picker.endDate.format('DD MMM YYYY'));
-//                $("#airline_departure").val(picker.startDate.format('DD MMM YYYY'));
-//                $("#airline_return").val(picker.endDate.format('DD MMM YYYY'));
-//
-//                setTimeout(function(){
-//                    $("#show_total_pax_flight").click();
-//                }, 200);
-//            });
 
             plus_min_passenger_airline_btn();
         }else if (selected_value == "multicity"){
@@ -2006,7 +1918,7 @@ $(document).ready(function(){
             counter_airline_search = 0;
             text_mc='';
 
-            if(template == 1){
+            if(template == 1 || template == 7){
                 text_mc += `
                 <div class="row">
                     <div class="col-lg-12" style="padding:0px;">
@@ -2102,13 +2014,13 @@ $(document).ready(function(){
     $('#radio_bus_search').click(function(){
         selected_value = $("input[name='radio_bus_type']:checked").val();
         if (selected_value == "oneway"){
-            if(template == 1 || template == 2 || template == 3 || template == 6){
+            if(template == 1 || template == 2 || template == 3 || template == 6 || template == 7){
                 document.getElementById("bus_date_search").innerHTML = '';
                 text='';
                 var node = document.createElement("div");
                 text+=`
                 <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>`;
-                if(template == 1 || template == 2){
+                if(template == 1 || template == 2 || template == 7){
                     text+=`<div class="input-container-search-ticket">`;
                 }else if(template == 3){
                     text+=`<div class="form-group">`;
@@ -2165,27 +2077,15 @@ $(document).ready(function(){
                 nextFocus: '#show_total_pax_bus'
             });
 
-//            $('input[name="bus_departure"]').daterangepicker({
-//              singleDatePicker: true,
-//              autoUpdateInput: true,
-//              opens: 'center',
-//              startDate: moment(),
-//              minDate: moment(),
-//              maxDate: moment().subtract(-90, 'days'),
-//              showDropdowns: true,
-//              locale: {
-//                  format: 'DD MMM YYYY',
-//              }
-//            });
         }
         else if(selected_value == "roundtrip"){
-            if(template == 1 || template == 2 || template == 3 || template == 6){
+            if(template == 1 || template == 2 || template == 3 || template == 6 || template == 7){
                 document.getElementById("bus_date_search").innerHTML = '';
                 text='';
                 var node = document.createElement("div");
                 text+=`
                 <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure - Return</span>`;
-                if(template == 1 || template == 2){
+                if(template == 1 || template == 2 || template == 7){
                     text+=`<div class="input-container-search-ticket">`;
                 }else if(template == 3){
                     text+=`<div class="form-group">`;
@@ -2254,29 +2154,6 @@ $(document).ready(function(){
                 }
             });
 
-//            $('input[name="bus_departure_return"]').daterangepicker({
-//              singleDatePicker: false,
-//              autoUpdateInput: true,
-//              opens: 'center',
-//              autoApply: true,
-//              startDate: moment(),
-//              endDate: moment().subtract(-1, 'days'),
-//              minDate: moment(),
-//              maxDate: moment().subtract(-90, 'days'),
-//              showDropdowns: true,
-//              locale: {
-//                  format: 'DD MMM YYYY',
-//              }
-//            });
-//
-//            $('input[name="bus_departure_return"]').on('apply.daterangepicker', function(ev, picker) {
-//              $(this).val(picker.startDate.format('DD MMM YYYY') + ' - ' + picker.endDate.format('DD MMM YYYY'));
-//                $("#bus_departure").val(picker.startDate.format('DD MMM YYYY'));
-//                $("#bus_return").val(picker.endDate.format('DD MMM YYYY'));
-//                setTimeout(function(){
-//                    $("#show_total_pax_bus").click();
-//                }, 200);
-//            });
         }
     });
 
@@ -2286,7 +2163,7 @@ $(document).ready(function(){
             document.getElementById("airline_date_search").innerHTML = '';
             text='';
             var node = document.createElement("div");
-            if (template == 1){
+            if (template == 1 || template == 7){
             text+=`
                 <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>
                 <div class="input-container-search-ticket">
@@ -2358,25 +2235,6 @@ $(document).ready(function(){
                 nextFocus: '#show_total_pax_flight'
             });
 
-//            $('input[name="airline_departure"]').daterangepicker({
-//              singleDatePicker: true,
-//              autoUpdateInput: true,
-//              opens: 'center',
-//              startDate: ,
-//              minDate: moment(),
-//              maxDate: moment().subtract(-365, 'days'),
-//              showDropdowns: true,
-//              locale: {
-//                  format: 'DD MMM YYYY',
-//              }
-//            });
-
-//            $('input[name="airline_departure"]').on('apply.daterangepicker', function(ev, picker) {
-//                setTimeout(function(){
-//                    $("#show_total_pax_flight").click();
-//                }, 200);
-//           });
-
             quantity_adult_flight = parseInt(document.getElementById('adult_flight').value);
             quantity_child_flight = parseInt(document.getElementById('child_flight').value);
             quantity_infant_flight = parseInt(document.getElementById('infant_flight').value);
@@ -2399,7 +2257,7 @@ $(document).ready(function(){
             airline_counter_config = 0;
             counter_airline_search = 0;
 
-            if(template == 1){
+            if(template == 1 || template == 7){
             text+=`
                 <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure - Return</span>
                 <div class="input-container-search-ticket">
@@ -2490,32 +2348,6 @@ $(document).ready(function(){
                         $("#airline_return").val(end.format('DD MMM YYYY'));
                     }
                 });
-
-//                $('input[name="airline_departure_return"]').daterangepicker({
-//                  singleDatePicker: false,
-//                  autoUpdateInput: true,
-//                  opens: 'center',
-//                  autoApply: true,
-//                  startDate: $('#airline_departure').val(),
-//                  endDate: date_tomorrow,
-//                  minDate: moment(),
-//                  maxDate: moment().subtract(-365, 'days'),
-//                  showDropdowns: true,
-//                  locale: {
-//                      format: 'DD MMM YYYY',
-//                  }
-//                });
-//
-//                $('input[name="airline_departure_return"]').on('apply.daterangepicker', function(ev, picker) {
-//                  $(this).val(picker.startDate.format('DD MMM YYYY') + ' - ' + picker.endDate.format('DD MMM YYYY'));
-//                    $("#airline_departure").val(picker.startDate.format('DD MMM YYYY'));
-//                    $("#airline_return").val(picker.endDate.format('DD MMM YYYY'));
-//                    $("#airline_departure_return").val(picker.startDate.format('DD MMM YYYY') +' - '+picker.endDate.format('DD MMM YYYY'));
-//
-//                    setTimeout(function(){
-//                        $("#show_total_pax_flight").click();
-//                    }, 200);
-//                });
             }
             else{
                 document.getElementById("airline_departure").value = document.getElementById("airline_departure_temp").value;
@@ -2537,33 +2369,6 @@ $(document).ready(function(){
                     }
                 });
 
-//                $('input[name="airline_departure_return"]').daterangepicker({
-//                  singleDatePicker: false,
-//                  autoUpdateInput: true,
-//                  opens: 'center',
-//                  autoApply: true,
-//                  startDate: $('#airline_departure').val(),
-//                  endDate: $('#airline_return').val(),
-//                  minDate: moment(),
-//                  maxDate: moment().subtract(-365, 'days'),
-//                  showDropdowns: true,
-//                  locale: {
-//                      format: 'DD MMM YYYY',
-//                  }
-//                });
-//
-//                $('input[name="airline_departure_return"]').on('apply.daterangepicker', function(ev, picker) {
-//                  $(this).val(picker.startDate.format('DD MMM YYYY') + ' - ' + picker.endDate.format('DD MMM YYYY'));
-//                    $("#airline_departure").val(picker.startDate.format('DD MMM YYYY'));
-//                    $("#airline_return").val(picker.endDate.format('DD MMM YYYY'));
-//                    $("#airline_departure_return").val(picker.startDate.format('DD MMM YYYY') +' - '+picker.endDate.format('DD MMM YYYY'));
-//
-//                    setTimeout(function(){
-//                        $("#show_total_pax_flight").click();
-//                    }, 200);
-//
-//                });
-
             }
 
             quantity_adult_flight = parseInt(document.getElementById('adult_flight').value);
@@ -2577,26 +2382,9 @@ $(document).ready(function(){
             airline_counter_config = 0;
             counter_airline_search = 0;
             text_mc='';
-//            text_mc += `
-//            <div class="row">
-//                <div class="col-lg-12" style="padding:0px;">
-//                    <div id="mc_airline_paxs">
-//
-//                    </div>
-//                    <div class="banner-right" style="text-align:left;">
-//                        <ul class="nav nav-tabs" id="mc_airline_add_tabs" role="tablist" style="display:inline-block; margin-right:5px;">
-//
-//                        </ul>
-//                        <button type="button" id="add_mc_btn" class="primary-btn-ad" onclick="add_multi_city('home');"><i class="fas fa-plus"></i> Add</button>
-//                        <button type="button" id="del_mc_btn" class="primary-btn-ad" onclick="del_multi_city();"><i class="fas fa-trash-alt"></i> Delete</button>
-//                    </div>
-//                    <div class="banner-right">
-//                        <div class="tab-content" id="mc_airline_add" style="padding-top:15px; background:none !important;">
-//                        </div>
-//                    </div>
-//                </div>
-//            </div>`;
-            if (template == 1){
+
+            //add template
+            if (template == 1 || template == 7){
                 text_mc += `
                 <div class="row">
                     <div class="col-lg-12" style="padding:0px;">
@@ -2749,35 +2537,6 @@ $(document).ready(function(){
 
 
 });
-
-
-//function showReturnDateAirline() {
-//
-//    var airline_dept = new Date($("#airline_departure").val());
-//    airline_dept.setDate(airline_dept.getDate() + 1);
-//
-//    if ($('#directionflight').prop('checked')){
-//        $('#airline_return').prop('disabled', false);
-//        $('input[name="airline_return"]').daterangepicker({
-//              singleDatePicker: true,
-//              autoUpdateInput: true,
-//              startDate: airline_dept,
-//              opens: 'left',
-//              showDropdowns: true,
-//              minDate: $('#airline_departure').val(),
-//              maxDate: moment().subtract(-365, 'days'),
-//              locale: {
-//                  format: 'DD MMM YYYY',
-//              }
-//        });
-//    }
-//    else{
-//        $('#airline_return').prop('disabled', true);
-//        var airline_ret = new Date($("#airline_return").val(''));
-//        airline_ret.setDate(airline_ret.getDate());
-//    }
-//
-//}
 
 $('.dropdown-menu').on('click', function(event) {
 	event.stopPropagation();
