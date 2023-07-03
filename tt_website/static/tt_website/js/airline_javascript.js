@@ -1364,7 +1364,7 @@ function add_multi_city(type){
                             </div>
                             <div class="col-lg-6 col-md-6">
                                 <span class="span-search-ticket">Class</span>`;
-                                if(template == 1 || tempalte == 7){
+                                if(template == 1 || template == 7){
                                     text += `
                                     <div class="input-container-search-ticket btn-group">
                                         <div class="form-select" id="default-select`+counter_airline_search+`">
