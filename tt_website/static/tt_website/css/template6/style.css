@@ -178,6 +178,7 @@ nav ul ul {
     background: #fff;
     border: 1px solid #cdcdcd;
     padding: 10px;
+    z-index: 2;
 }
 
 nav ul li > ul {
@@ -251,7 +252,7 @@ li > a:only-child:after { content: ''; }
 		color: #da9d40;
 	}
 	nav ul li span {
-		color: #333;
+		color: #333 !important;
 	}
 	nav {
 		margin: 0;
@@ -346,7 +347,7 @@ li > a:only-child:after { content: ''; }
 	nav ul li ul li .toggle,
 	nav ul ul a,
 	nav ul ul ul a{
-		padding:14px 20px;	
+		padding:10px 20px;
 		color:#FFF;
 		font-size:17px; 
 	}

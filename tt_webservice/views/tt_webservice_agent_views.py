@@ -900,6 +900,9 @@ def back_to_btb_mode(request):
         file[16] = 'btb'
         file = "\n".join(file)
         write_cache(file, "data_cache_template", request)
+        path = "%s/%s" % (var_log_path(request, 'cache_web'), 'credential_user_default.txt')
+        os.remove(path)
+
     return {
         "result": {
             "response": "",

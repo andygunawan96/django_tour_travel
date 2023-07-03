@@ -14,7 +14,7 @@
 </section>
 {% endif %}
 
-<div class="our-services mt-5 mb-5">
+<div class="our-services pt-5 pb-5" style="background: #f7f7f7;">
     <div class="container">
         <div class="row d-flex">
 
@@ -214,98 +214,182 @@
     </div>
 </div>
 
-{% if small_banner_value == 1 %}
-<section class="about pt-5 pb-5" style="background:#f7f7f7;">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="section-tittle">
-                    <h2>
-                        HOT DEALS
-                    </h2>
-                </div>
-                <div id="small_banner">
-                    <div class="row">
-                        <div class="col-lg-3 col-sm-6">
-                            <div class="stripe_small_banner">
-                                <div class="div_stripe">
-                                    <div class="loading_stripe"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-sm-6">
-                            <div class="stripe_small_banner show_hide_mb">
-                                <div class="div_stripe">
-                                    <div class="loading_stripe"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-sm-6">
-                            <div class="stripe_small_banner show_hide">
-                                <div class="div_stripe">
-                                    <div class="loading_stripe"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-sm-6">
-                            <div class="stripe_small_banner show_hide">
-                                <div class="div_stripe">
-                                    <div class="loading_stripe"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-{%endif%}
 
-{% if dynamic_page_value == 1 %}
-<section class="about pt-5 pb-5">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12 mb-3">
-                <div class="section-tittle">
-                    <h2>
-                        INFORMATIONS
-                    </h2>
-                </div>
-                <div id="owl-login2">
-                    <div class="row">
-                        <div class="col-lg-3 col-md-6">
-                            <div class="stripe_dynamic_page">
-                                <div class="div_stripe">
-                                    <div class="loading_stripe"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6">
-                            <div class="stripe_dynamic_page show_hide_mb">
-                                <div class="div_stripe">
-                                    <div class="loading_stripe"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6">
-                            <div class="stripe_dynamic_page show_hide">
-                                <div class="div_stripe">
-                                    <div class="loading_stripe"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6">
-                            <div class="stripe_dynamic_page show_hide">
-                                <div class="div_stripe">
-                                    <div class="loading_stripe"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<div style="display:none;">
+    <input type="hidden" name="g-recaptcha-response" id='recaptcha_visa'>
+    <input type="hidden" name="g-recaptcha-response" id='recaptcha_passport'>
+    <input type="hidden" name="g-recaptcha-response" id='recaptcha_medical2'>
+    <input type="hidden" name="g-recaptcha-response" id='recaptcha_sentra_medika'>
+    <input type="hidden" name="g-recaptcha-response" id='recaptcha_mitra_keluarga'>
+    <input type="hidden" name="g-recaptcha-response" id='recaptcha_lab_pintar'>
+    <input type="hidden" name="g-recaptcha-response" id='recaptcha_event'>
+    <input type="hidden" name="g-recaptcha-response" id='recaptcha_swab_express'>
+    <input type="hidden" name="g-recaptcha-response" id='recaptcha_medical_global'>
+    <input type="hidden" name="g-recaptcha-response" id='recaptcha_medical1'>
+    <input type="hidden" name="g-recaptcha-response" id='recaptcha_airline'>
+    <input type="hidden" name="g-recaptcha-response" id='recaptcha_train'>
+    <input type="hidden" name="g-recaptcha-response" id='recaptcha_bus'>
+    <input type="hidden" name="g-recaptcha-response" id='recaptcha_hotel'>
+    <input type="hidden" name="g-recaptcha-response" id='recaptcha_activity'>
+
+    <input type="radio" name="radio_airline_type" id="provider_box_All_1">
+    <div id="ori_airline">
+        <div id="radio_airline_search">
+            <input type="radio" checked="checked" name="radio_airline_type" value="oneway">
+            <input type="radio" name="radio_airline_type" value="roundtrip">
+            <input type="radio" name="radio_airline_type" value="multicity">
+        </div>
+
+        <input id="origin_id_flight" name="origin_id_flight" type="text">
+        <input id="destination_id_flight" name="destination_id_flight">
+        <input type="text" name="airline_departure" id="airline_departure">
+        <button id="show_total_pax_flight" type="button"></button>
+        <input type="text" id="adult_flight" name="adult_flight" value="1" min="1">
+        <input type="text" id="child_flight" name="child_flight" value="0" min="0">
+        <input type="text" id="infant_flight" name="infant_flight" value="0">
+
+        {% if airline_pax_type_student == 'true' and airline_advance_pax_type == 'true' %}
+        <input type="text" id="student_flight" name="student_flight" value="0" min="0">
+        {% endif %}
+        {% if airline_pax_type_labour == 'true' and airline_advance_pax_type == 'true' %}
+        <input type="text" id="labour_flight" name="labour_flight" value="0" min="0" readonly>
+        {% endif %}
+        {% if airline_pax_type_seaman == 'true' and airline_advance_pax_type == 'true' %}
+        <input type="text" id="seaman_flight" name="seaman_flight" value="0" min="0" readonly>
+        {% endif %}
+        <button id="show_provider_airline" type="button">{% trans 'Choose Airline' %}</button>
+        <ul id="provider_flight_content" class="dropdown-menu"></ul>
+        <select id="cabin_class_flight" name="cabin_class_flight" >
+            {% for cabin_class in airline_cabin_class_list %}
+            <option value="{{cabin_class.value}}" {% if cabin_class.value == "Y" %} selected {% endif %}>{{cabin_class.name}}</option>
+            {% endfor %}
+        </select>
+        <div id="mc_airline_default"></div>
+        <input type="hidden" id="counter" name="counter"/>
+
+        {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
+        <input type="checkbox" id="checkbox_corpor_mode_airline" name="checkbox_corpor_mode_airline"/>
+        <span id="corpor_list_loading"></span>
+        <div id="div_corpor_mode_airline">
+            <select id="airline_corpor_select" name="airline_corpor_select" class="js-example-basic-single"></select>
+            <input type="hidden" id="airline_corpor_select_post" name="airline_corpor_select_post"/>
+            <select id="airline_corbooker_select" name="airline_corbooker_select" class="js-example-basic-single"></select>
+            <input type="hidden" id="airline_corbooker_select_post" name="airline_corbooker_select_post"/>
+        </div>
+        {% endif %}
+    </div>
+
+    <div id="radio_train_search">
+        <input type="radio" checked="checked" name="radio_train_type" value="oneway">
+        <input type="radio" name="radio_train_type" value="roundtrip">
+    </div>
+    <input id="train_origin" name="train_origin" type="text" value="BD - Bandung">
+    <input id="train_destination" name="train_destination" value="GMR - Gambir">
+    <input type="text" class="form-control" id="train_departure" name="train_departure" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly/>
+    <button id="show_total_pax_train" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
+    <input type="text" id="train_adult" name="train_adult" value="1" min="1" readonly>
+    <input type="text" id="train_infant" name="train_infant" value="0" readonly>
+    <input type="hidden" id="train_response" name="response"/>
+
+    <div id="radio_bus_search">
+        <input type="radio" checked="checked" name="radio_bus_type" value="oneway">
+        <input type="radio" name="radio_bus_type" value="roundtrip">
+    </div>
+    <input id="bus_origin" name="bus_origin">
+    <input id="bus_destination" name="bus_destination">
+    <input type="text" id="bus_departure" name="bus_departure"/>
+    <input type="text" id="bus_adult" name="bus_adult">
+
+    <div id="insurance_provider_div"></div>
+
+    <div class="row" id="guest_child_age"></div>
+    <span id="business_trip_help"></span>
+    <input type="text" name="hotel_checkin_checkout" id="hotel_checkin_checkout"/>
+    <input type="text" id="hotel_room" name="hotel_room">
+    <input type="text" id="hotel_adult" name="hotel_adult">
+    <input type="text" id="hotel_child" name="hotel_child">
+    <input id="hotel_id_destination" name="hotel_id_destination"/>
+    <i class="fas fa-moon icon-search-ticket" id="total_night_search" style="padding-right:40px;">1</i>
+    <input type="hidden" name="hotel_checkin" id="hotel_checkin"/>
+    <input type="hidden" name="hotel_checkout" id="hotel_checkout"/>
+    <input type="hidden" name="business_trip" id="business_trip" value="false"/>
+
+    <select class="js-example-basic-single" name="hotel_id_nationality_id" id="hotel_id_nationality_id"></select>
+    <input type="hidden" value="ID - Indonesia" id="hotel_id_nationality" class="form-control" name="hotel_id_nationality" />
+
+    <input type="text" name="activity_query" id="activity_query"/>
+    <button type="button" id="activity_advanced_down"></button>
+    <button type="button" id="activity_advanced_up"></button>
+    <div class="row" id="activity_advanced_search">
+        <select class="js-example-basic-single" id="activity_countries" name="activity_countries">
+            <option value="" selected="">{% trans 'All Countries' %}</option>
+        </select>
+        <div id="temp_activity_cities">
+            <select class="js-example-basic-single" id="activity_cities" name="activity_cities">
+                <option value="" selected="">{% trans 'All Cities' %}</option>
+            </select>
         </div>
     </div>
-</section>
-{% endif%}
+    <select class="js-example-basic-single" id="activity_type" name="activity_type">
+        <option value="0" selected=""></option>
+    </select>
+    <select class="js-example-basic-single" id="activity_category" name="activity_category" size="5">
+        <option value="0" selected=""></option>
+    </select>
+    <div id="temp_activity_sub_category">
+        <select class="js-example-basic-single" id="activity_sub_category" name="activity_sub_category" size="5">
+            <option value="0" selected=""></option>
+        </select>
+    </div>
+
+    {% if tour_search_template == 'country_search' %}
+    <input type="hidden" name="g-recaptcha-response" id='recaptcha_tour'>
+    <input type="hidden" name="tour_query" id="tour_query" value=""/>
+    <input type="hidden" name="tour_cities" id="tour_cities" value="0"/>
+    <input type="hidden" name="tour_dest_month" id="tour_dest_month" value="00"/>
+    <input type="hidden" name="tour_dest_year" id="tour_dest_year" value="0000"/>
+    <div id="tour_countries"></div>
+    {% else %}
+    <input type="hidden" name="g-recaptcha-response" id='recaptcha_tour'>
+    <input type="text" name="tour_query" id="tour_query"/>
+    <div id="tour_advanced_search">
+        <select class="js-example-basic-single" id="tour_countries" name="tour_countries">
+            <option value="0" selected="">{% trans 'All Countries' %}</option>
+        </select>
+    </div>
+    <div id="temp_tour_cities">
+        <select class="js-example-basic-single" id="tour_cities" name="tour_cities">
+            <option value="0" selected="">{% trans 'All Cities' %}</option>
+        </select>
+    </div>
+    <select class="js-example-basic-single" name="tour_dest_month" id="tour_dest_month">
+        <option value="00" selected="True">{% trans 'All Months' %}</option>
+    </select>
+    {% endif %}
+
+    <select class="form-control js-example-basic-single" id="visa_consulate_id"></select>
+    <input type="hidden" name="visa_destination_id" id="visa_destination_id_hidden" />
+    <input type="hidden" name="visa_consulate_id" id="visa_consulate_id_hidden" />
+    <input type="text" name="visa_departure" id="visa_departure" placeholder="{% trans 'Departure Date' %} ">
+    <input type="hidden" name="passport_type" id="passport_type" />
+    <div id="radio_medical_search" style="padding:15px 15px 0px 15px; text-align:left;"></div>
+    <select class="form-control js-example-basic-single" id="visa_destination_id"></select>
+    <select class="js-example-basic-single" id="passport_apply_type_id"></select>
+    <input type="hidden" name="passport_apply_type" id="passport_apply_type" />
+    <select class="js-example-basic-single" id="passport_type_id"></select>
+    <select class="js-example-basic-single" id="consulate_id"></select>
+    <input type="hidden" name="consulate" id="consulate" />
+    <select id="medical_type_medical" name="medical_type_medical"></select>
+    <select id="medical_type_periksain" name="medical_type_periksain"></select>
+    <select id="medical_type_phc" name="medical_type_phc"></select>
+    <select id="medical_type_sentra_medika" name="medical_type_sentra_medika"></select>
+    <select id="medical_type_mitra_keluarga" name="medical_type_mitra_keluarga"></select>
+    <select id="medical_type_lab_pintar" name="medical_type_lab_pintar"></select>
+    <select id="medical_type_swab_express" name="medical_type_swab_express"></select>
+    <div id="bill_div"></div>
+    <div id="radio_bill_search"></div>
+    <div id="radio_bill_search2"></div>
+    <select id="category_event" name="category_event" class="nice-select-default"></select>
+    <input id="event_name_id" name="event_name_id" class="form-control" type="text" placeholder="{% trans 'Event Name' %}" style="outline:0" autocomplete="off" value=""/>
+</div>
+

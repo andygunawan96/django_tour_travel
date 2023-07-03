@@ -57,6 +57,10 @@ function get_balance(val){
                     balance = 0;
                     credit_limit = 0;
                     customer_parent_balance = 0;
+                    text_blc = '';
+                    text_cre = '';
+                    text_cor = '';
+
                     if(msg.result.response.hasOwnProperty('balance'))
                         balance = parseInt(msg.result.response.balance);
                     if(msg.result.response.hasOwnProperty('credit_limit'))
@@ -86,7 +90,7 @@ function get_balance(val){
                             if(template == 3 || template == 5){
                                 text += `<div><span class="fas fa-coins" style="color:`+color+`; padding-right:5px; font-size:16px;"></span>Point: `+msg.result.response.currency_code + ' ' + getrupiah(msg.result.response.point_reward)+`</div>`;
                             }else{
-                                text += `<div style="color:black;"><span class="fas fa-coins" style="color:`+color+`; padding-right:5px; font-size:16px;"></span>Point: `+msg.result.response.currency_code + ' ' + getrupiah(msg.result.response.point_reward)+`</div>`;
+                                text += `<div style="color:black; margin-bottom:10px;"><span class="fas fa-coins" style="color:`+color+`; padding-right:5px; font-size:16px;"></span>Point: `+msg.result.response.currency_code + ' ' + getrupiah(msg.result.response.point_reward)+`</div>`;
                             }
                         }
                     }else{
@@ -109,6 +113,7 @@ function get_balance(val){
                             <img src="/static/tt_website/images/icon/wallet_black.png" alt="Balance Vendor" style="width:15px; height:15px;">
                             <span style="font-size:14px; font-weight:500;"><span style="color:`+color+`;">`+msg.result.response.currency_code+` `+getrupiah(balance)+`</span></span>`;
                     }
+
                     var show_ul_balance = 0;
                     if(msg.result.response.is_show_balance){
                         //BALANCE
@@ -118,6 +123,8 @@ function get_balance(val){
                             document.getElementById("balance_mob").innerHTML = text;
                         if(document.getElementById("balance_search"))
                             document.getElementById("balance_search").innerHTML = text;
+
+                        text_blc += text;
                         show_ul_balance++;
                     }else{
                         if(document.getElementsByClassName("balance_mobile").length > 0)
@@ -136,6 +143,8 @@ function get_balance(val){
                             document.getElementById("credit_mob").innerHTML = text;
                         if(document.getElementById("credit_search"))
                             document.getElementById("credit_search").innerHTML = text;
+
+                        text_cre += text;
                         show_ul_balance++;
                     }
                     if(msg.result.response.is_show_customer_parent_balance){
@@ -147,8 +156,19 @@ function get_balance(val){
                             document.getElementById("customer_parent_balance_mob").innerHTML = text;
                         if(document.getElementById("customer_parent_balance_search"))
                             document.getElementById("customer_parent_balance_search").innerHTML = text;
+
+                        text_cor += text;
                         show_ul_balance++;
                     }
+                    if(template == 7){
+                        if(vendor_balance_check == 0){
+                            $('.bl_ul_mb').find('.submenu').html('<li><a href="#">'+text_blc+text_cre+text_cor+'</a></li>');
+                        }else{
+                            $('.bl_ul_mb').find('.submenu').html('<li data-toggle="modal" data-target="#myModalBalanceVendor"><a href="#">'+text_blc+text_cre+text_cor+'</a></li>');
+
+                        }
+                    }
+
                     if(document.getElementById('balance_ul')){
 //                        if(show_ul_balance == 1){
 //                            document.getElementById('balance_ul').style.height = '100px';
@@ -316,27 +336,27 @@ function get_transactions_notification(){
                     var timeout_notif = 5000;
                     if(Object.keys(msg.result.response).length == 0){
                         document.getElementById('notification_detail').innerHTML = `
-                            <div class="col-lg-12 notification-hover" style="cursor:pointer;">
-                                <div class="row">
-                                    <div class="col-sm-12" style="text-align:center">
-                                        <span style="font-weight:500"> No Notification</span>
-                                    </div>
+                        <div class="col-lg-12 notification-hover" style="cursor:pointer;">
+                            <div class="row">
+                                <div class="col-sm-12" style="text-align:center">
+                                    <span style="font-weight:500"> No Notification</span>
                                 </div>
-                                <hr>
-                            </div>`;
-                        try{
-                            document.getElementById('notification_detail2').innerHTML = `
-                                <div class="col-lg-12 notification-hover" style="cursor:pointer;">
-                                    <div class="row">
-                                        <div class="col-sm-12" style="text-align:center">
-                                            <span style="font-weight:500"> No Notification</span>
-                                        </div>
-                                    </div>
-                                    <hr>
-                                </div>`;
-                        }catch(err){
-                            console.log(err); // error kalau ada element yg tidak ada
-                        }
+                            </div>
+                            <hr>
+                        </div>`;
+//                        try{
+//                            document.getElementById('notification_detail2').innerHTML = `
+//                                <div class="col-lg-12 notification-hover" style="cursor:pointer;">
+//                                    <div class="row">
+//                                        <div class="col-sm-12" style="text-align:center">
+//                                            <span style="font-weight:500"> No Notification</span>
+//                                        </div>
+//                                    </div>
+//                                    <hr>
+//                                </div>`;
+//                        }catch(err){
+//                            console.log(err); // error kalau ada element yg tidak ada
+//                        }
                         $(".bell_notif").removeClass("infinite");
                     }else{
                         notif_text = '';

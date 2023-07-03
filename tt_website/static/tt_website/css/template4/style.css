@@ -2276,3 +2276,12 @@ ul .dropdown li{
 .site-menu-toggle{
     margin-left:10px;
 }
+
+.site-mobile-menu .site-nav-wrap > li > ul > li > ul > li > form > a{
+    font-size: 16px;
+    padding-left: 60px !important;
+}
+
+.site-mobile-menu .site-nav-wrap > li > ul > .menu_header{
+    padding-left: 35px !important;
+}
