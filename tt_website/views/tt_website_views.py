@@ -781,7 +781,20 @@ def admin(request):
                                 pass
                         text += '\n'
                         text += '\n'
-                        text += request.POST['backend_url'] + '\n'
+                        if request.POST.get('backend_url'):
+                            text += request.POST['backend_url'] + '\n'
+                        else:
+                            try:
+                                file = read_cache("data_cache_template", 'cache_web', request, 90911)
+                                if file:
+                                    for idx, line in enumerate(file.split('\n')):
+                                        if idx == 15:
+                                            text += line + '\n'
+                                            break
+                                else:
+                                    text += '\n'
+                            except:
+                                text += '\n'
                         text += request.POST['website_mode'] + '\n'
                         text += '\n'
                         text += request.POST['google_analytics'] + '\n'
