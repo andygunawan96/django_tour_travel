@@ -928,8 +928,8 @@ function get_transactions(type){
         end_date = moment(document.getElementById('end_date').value).format('YYYY-MM-DD');
     if(document.getElementById('booker_name'))
         booker_name = document.getElementById('booker_name').value;
-    if(document.getElementById('passenger_name'))
-        passenger_name = document.getElementById('passenger_name').value;
+    if(document.getElementById('name'))
+        passenger_name = document.getElementById('name').value;
     if(document.getElementById('pnr'))
         pnr = document.getElementById('pnr').value;
     if(filter == 'booker' && booker_name == ''){
