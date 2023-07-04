@@ -11179,7 +11179,7 @@ function reroute_btn(){
                                     <span class="span-search-ticket"><i class="fas fa-plane-departure"></i> From</span>
                                     <div class="input-container-search-ticket">
                                         <div class="form-select">
-                                            <input id="origin_id_flight`+flight+`" name="origin_id_flight`+flight+`" class="form-control" type="text" placeholder="Origin" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('origin_id_flight`+flight+`').select();" onclick="set_airline_search_value_to_false();">
+                                            <input id="origin_id_flight`+flight+`" name="origin_id_flight`+flight+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="" onfocus="document.getElementById('origin_id_flight`+flight+`').select();" onclick="set_airline_search_value_to_false();">
                                         </div>
                                     </div>
                                 </div>
@@ -11188,7 +11188,7 @@ function reroute_btn(){
                                     <span class="span-search-ticket"><i class="fas fa-plane-departure"></i> Destination</span>
                                     <div class="input-container-search-ticket">
                                         <div class="form-select">
-                                            <input id="destination_id_flight`+flight+`" name="destination_id_flight`+flight+`" class="form-control" type="text" placeholder="Destination" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('destination_id_flight`+flight+`').select();" onclick="set_airline_search_value_to_false();">
+                                            <input id="destination_id_flight`+flight+`" name="destination_id_flight`+flight+`" class="form-control" type="text" placeholder="Destination" style="width:100%;outline:0" autocomplete="off" value="" onfocus="document.getElementById('destination_id_flight`+flight+`').select();" onclick="set_airline_search_value_to_false();">
                                         </div>
                                     </div>
                                 </div>

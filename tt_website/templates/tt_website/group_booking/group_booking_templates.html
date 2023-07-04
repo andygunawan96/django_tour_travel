@@ -109,29 +109,20 @@
 {% include 'tt_website/header.html' %}
 {% include 'tt_website/notification.html' %}
 {% include 'tt_website/notification_box.html' %}
+
 {% if username.co_user_login != default_user %}
-{% if template != 6 %}
-{% if template == 1%}
 <section class="section_bg" style="z-index:998; position:relative; border-top:1px solid #cdcdcd;">
-{% elif template == 2%}
-<section class="section_bg" style="z-index:3; position:relative; border-top:1px solid #cdcdcd;">
-{% elif template == 3%}
-<section class="section_bg" style="z-index:4; position:relative; border-top:1px solid #cdcdcd;">
-{% else %}
-<section class="section_bg" style="z-index:998; position:relative; border-top:1px solid #cdcdcd;">
-{% endif %}
     <div class="container">
         <div class="row">
             <div class="col-lg-12 pt-2 pb-2">
-                <span class="span_link" style="border-right:2px solid #cdcdcd; padding-right:5px;" onclick="location='{% url 'tt_website:issued_offline'%}'"><i class="fas fa-book-open"></i> {% trans 'Issued Offline' %}</span>
+                <span class="span_link" style="border-right:2px solid #cdcdcd; padding-right:5px; color:black;" onclick="location='{% url 'tt_website:issued_offline'%}'"><i class="fas fa-book-open"></i> {% trans 'Issued Offline' %}</span>
                 {% if "groupbooking" in provider and "ticketing_group_booking" in username.co_agent_frontend_security%}
-                <span class="span_link" style="padding-left:5px;" onclick="location='{% url 'tt_website:group_booking'%}'"><i class="fas fa-users"></i> {% trans 'Group Booking' %}</span>
+                <span class="span_link" style="padding-left:5px; color: black;" onclick="location='{% url 'tt_website:group_booking'%}'"><i class="fas fa-users"></i> {% trans 'Group Booking' %}</span>
                 {% endif %}
             </div>
         </div>
     </div>
 </section>
-{% endif%}
 {% endif%}
 
 {%if template == 1%}
@@ -218,11 +209,11 @@
                                     <div class="row">
                                         <div class="col-lg-8">
                                             <div class="row">
-                                                <div class="col-lg-6 col-md-6 col-sm-6 airline-from" style="padding-left:0px;">
+                                                <div class="col-lg-6 col-md-6 airline-from" style="padding-left:0px;">
                                                     <span class="span-search-ticket"><i class="fas fa-plane-departure"></i> {% trans 'From' %}</span>
                                                     <div class="input-container-search-ticket">
                                                         <div class="form-select">
-                                                            <input id="origin_id_flight" name="origin_id_flight" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('origin_id_flight').select();" onclick="set_airline_search_value_to_false();" autocomplete="off">
+                                                            <input id="origin_id_flight" name="origin_id_flight" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;outline:0" autocomplete="off" value="" onfocus="document.getElementById('origin_id_flight').select();" onclick="set_airline_search_value_to_false();" autocomplete="off">
                                                             <!--<select class="form-control js-example-basic-single" name="state" style="width:100%;" id="origin_id_flight" placeholder="City or Airport or IATA" onchange="airline_autocomplete('origin')">-->
 
                                                             <!--</select>-->
@@ -230,17 +221,17 @@
                                                         <!--<input type="hidden" name="origin_id_flight" id="airline_origin_flight" />-->
                                                     </div>
                                                 </div>
-                                                <div class="image-change-route-vertical">
-                                                    <span><a href="javascript:airline_switch();" tabindex="-1" style="z-index:5; color:black;" id="flight_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></span>
-                                                </div>
-                                                <div class="image-change-route-horizontal">
-                                                    <span><a class="horizontal-arrow" href="javascript:airline_switch();" tabindex="-1" style="z-index:5; color:{{text_color}};" id="flight_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt icon-change"></i></i></a></span>
-                                                </div>
-                                                <div class="col-lg-6 col-md-6 col-sm-6 airline-to" style="z-index:5; padding-right:0px;">
+                                                <div class="col-lg-6 col-md-6 airline-to" style="z-index:5; padding-right:0px;">
+                                                    <div class="image-change-route-vertical">
+                                                        <span><a href="javascript:airline_switch();" tabindex="-1" style="z-index:5; color:black;" id="flight_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></span>
+                                                    </div>
+                                                    <div class="image-change-route-horizontal">
+                                                        <span><a class="horizontal-arrow" href="javascript:airline_switch();" tabindex="-1" style="z-index:5; color:{{text_color}};" id="flight_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt icon-change"></i></i></a></span>
+                                                    </div>
                                                     <span class="span-search-ticket"><i class="fas fa-plane-arrival"></i> {% trans 'To' %}</span>
                                                     <div class="input-container-search-ticket">
                                                         <div class="form-select">
-                                                            <input id="destination_id_flight" name="destination_id_flight" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('destination_id_flight').select();" onclick="set_airline_search_value_to_false();">
+                                                            <input id="destination_id_flight" name="destination_id_flight" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;outline:0" autocomplete="off" value="" onfocus="document.getElementById('destination_id_flight').select();" onclick="set_airline_search_value_to_false();">
                                                             <!--<select class="form-control js-example-basic-single" name="state" style="width:100%;" id="destination_id_flight" name="destination_id_flight" placeholder="City or Airport or IATA" onchange="airline_autocomplete('destination')">-->
 
                                                             <!--</select>-->
@@ -517,7 +508,7 @@
                             {% csrf_token %}
                             <input type="hidden" name="g-recaptcha-response" id='recaptcha_airline'>
                             <div class="row">
-                                <div class="col-lg-12" id="radio_airline_search" style="text-align:left;margin-bottom:10px;">
+                                <div class="col-lg-12" id="radio_airline_search" style="text-align:left;margin-bottom:20px;">
                                     <label class="radio-button-custom crlabel">
                                         <span style="font-size:13px; color:{{text_color}};">{% trans 'One Way' %}</span>
                                         <input type="radio" checked="checked" name="radio_airline_type" value="oneway">
@@ -542,11 +533,11 @@
                                     <div class="row">
                                         <div class="col-lg-8">
                                             <div class="row">
-                                                <div class="col-lg-6 col-md-6 col-sm-6 airline-from">
+                                                <div class="col-lg-6 col-md-6 airline-from">
                                                     <span class="span-search-ticket"><i class="fas fa-plane-departure"></i> {% trans 'From' %}</span>
                                                     <div class="input-container-search-ticket">
                                                         <div class="form-select">
-                                                            <input id="origin_id_flight" name="origin_id_flight" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('origin_id_flight').select();" onclick="set_airline_search_value_to_false();" autocomplete="off">
+                                                            <input id="origin_id_flight" name="origin_id_flight" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;outline:0" autocomplete="off" value="" onfocus="document.getElementById('origin_id_flight').select();" onclick="set_airline_search_value_to_false();" autocomplete="off">
                                                             <!--<select class="form-control js-example-basic-single" name="state" style="width:100%;" id="origin_id_flight" placeholder="City or Airport or IATA" onchange="airline_autocomplete('origin')">-->
 
                                                             <!--</select>-->
@@ -554,17 +545,17 @@
                                                         <!--<input type="hidden" name="origin_id_flight" id="airline_origin_flight" />-->
                                                     </div>
                                                 </div>
-                                                <div class="image-change-route-vertical">
-                                                    <h4><a href="javascript:airline_switch();" tabindex="-1" style="z-index:5;" id="flight_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
-                                                </div>
-                                                <div class="image-change-route-horizontal">
-                                                    <h4><a class="horizontal-arrow" href="javascript:airline_switch();" tabindex="-1" style="z-index:5; color:{{text_color}};" id="flight_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt icon-change"></i></i></a></h4>
-                                                </div>
-                                                <div class="col-lg-6 col-md-6 col-sm-6 airline-to" style="z-index:5;">
+                                                <div class="col-lg-6 col-md-6 airline-to" style="z-index:5;">
+                                                    <div class="image-change-route-vertical">
+                                                        <h4><a href="javascript:airline_switch();" tabindex="-1" style="z-index:5;" id="flight_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                                                    </div>
+                                                    <div class="image-change-route-horizontal">
+                                                        <h4><a class="horizontal-arrow" href="javascript:airline_switch();" tabindex="-1" style="z-index:5; color:{{text_color}};" id="flight_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt icon-change"></i></i></a></h4>
+                                                    </div>
                                                     <span class="span-search-ticket"><i class="fas fa-plane-arrival"></i> {% trans 'To' %}</span>
                                                     <div class="input-container-search-ticket">
                                                         <div class="form-select">
-                                                            <input id="destination_id_flight" name="destination_id_flight" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('destination_id_flight').select();" onclick="set_airline_search_value_to_false();">
+                                                            <input id="destination_id_flight" name="destination_id_flight" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;outline:0" autocomplete="off" value="" onfocus="document.getElementById('destination_id_flight').select();" onclick="set_airline_search_value_to_false();">
                                                             <!--<select class="form-control js-example-basic-single" name="state" style="width:100%;" id="destination_id_flight" name="destination_id_flight" placeholder="City or Airport or IATA" onchange="airline_autocomplete('destination')">-->
 
                                                             <!--</select>-->
@@ -852,7 +843,7 @@
                             {% csrf_token %}
                             <input type="hidden" name="g-recaptcha-response" id='recaptcha_airline'>
                             <div class="row">
-                                <div class="col-lg-12" id="radio_airline_search" style="text-align:left;margin-bottom:10px;">
+                                <div class="col-lg-12" id="radio_airline_search" style="text-align:left;margin-bottom:20px;">
                                     <label class="radio-button-custom crlabel">
                                         <span style="font-size:13px; color:{{text_color}};">{% trans 'One Way' %}</span>
                                         <input type="radio" checked="checked" name="radio_airline_type" value="oneway">
@@ -877,11 +868,11 @@
                                     <div class="row">
                                         <div class="col-lg-12">
                                             <div class="row">
-                                                <div class="col-lg-6 col-md-6 col-sm-6 airline-from">
+                                                <div class="col-lg-6 col-md-6 airline-from">
                                                     <span class="span-search-ticket"><i class="fas fa-plane-departure"></i> {% trans 'From' %}</span>
                                                     <div class="form-group">
                                                         <div class="form-select">
-                                                            <input id="origin_id_flight" name="origin_id_flight" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('origin_id_flight').select();" onclick="set_airline_search_value_to_false();" autocomplete="off">
+                                                            <input id="origin_id_flight" name="origin_id_flight" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;outline:0" autocomplete="off" value="" onfocus="document.getElementById('origin_id_flight').select();" onclick="set_airline_search_value_to_false();" autocomplete="off">
                                                             <!--<select class="form-control js-example-basic-single" name="state" style="width:100%;" id="origin_id_flight" placeholder="City or Airport or IATA" onchange="airline_autocomplete('origin')">-->
 
                                                             <!--</select>-->
@@ -889,13 +880,13 @@
                                                         <!--<input type="hidden" name="origin_id_flight" id="airline_origin_flight" />-->
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-6 col-md-6 col-sm-6 airline-to" style="z-index:5;">
-                                                    <h3 class="image-change-route-vertical"><a class="switch_a" href="javascript:airline_switch();" tabindex="-1" style="z-index:5;" id="flight_switch"><i class="fas fa-exchange-alt icon-change"></i></a></h3>
-                                                    <h3 class="image-change-route-horizontal"><a class="switch_a" href="javascript:airline_switch();" tabindex="-1" style="z-index:5;" id="flight_switch"><i class="fas fa-exchange-alt icon-change"></i></a></h3>
+                                                <div class="col-lg-6 col-md-6 airline-to" style="z-index:5;">
+                                                    <h4 class="image-change-route-vertical"><a class="switch_a" href="javascript:airline_switch();" tabindex="-1" style="z-index:5;" id="flight_switch"><i class="fas fa-exchange-alt icon-change"></i></a></h4>
+                                                    <h4 class="image-change-route-horizontal"><a class="switch_a" href="javascript:airline_switch();" tabindex="-1" style="z-index:5;" id="flight_switch"><i class="fas fa-exchange-alt icon-change"></i></a></h4>
                                                     <span class="span-search-ticket"><i class="fas fa-plane-arrival"></i> {% trans 'To' %}</span>
                                                     <div class="form-group">
                                                         <div class="form-select">
-                                                            <input id="destination_id_flight" name="destination_id_flight" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('destination_id_flight').select();" onclick="set_airline_search_value_to_false();">
+                                                            <input id="destination_id_flight" name="destination_id_flight" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;outline:0" autocomplete="off" value="" onfocus="document.getElementById('destination_id_flight').select();" onclick="set_airline_search_value_to_false();">
                                                             <!--<select class="form-control js-example-basic-single" name="state" style="width:100%;" id="destination_id_flight" name="destination_id_flight" placeholder="City or Airport or IATA" onchange="airline_autocomplete('destination')">-->
 
                                                             <!--</select>-->
@@ -1213,7 +1204,7 @@
                                         {% csrf_token %}
                                         <input type="hidden" name="g-recaptcha-response" id='recaptcha_airline'>
                                         <div class="row">
-                                            <div class="col-lg-12" id="radio_airline_search" style="text-align:left;margin-bottom:10px;">
+                                            <div class="col-lg-12" id="radio_airline_search" style="text-align:left;margin-bottom:20px;">
                                                 <label class="radio-button-custom crlabel">
                                                     <span style="font-size:13px; color:{{text_color}};">{% trans 'One Way' %}</span>
                                                     <input type="radio" checked="checked" name="radio_airline_type" value="oneway">
@@ -1242,7 +1233,7 @@
                                                                 <span class="span-search-ticket">{% trans 'From' %}</span>
                                                                 <div class="input-container-search-ticket">
                                                                     <i class="fas fa-plane-departure" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
-                                                                        <input id="origin_id_flight" name="origin_id_flight" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('origin_id_flight').select();" onclick="set_airline_search_value_to_false();" autocomplete="off">
+                                                                        <input id="origin_id_flight" name="origin_id_flight" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;outline:0" autocomplete="off" value="" onfocus="document.getElementById('origin_id_flight').select();" onclick="set_airline_search_value_to_false();" autocomplete="off">
                                                                         <!--<select class="form-control js-example-basic-single" name="state" style="width:100%;" id="origin_id_flight" placeholder="City or Airport or IATA" onchange="airline_autocomplete('origin')">-->
 
                                                                         <!--</select>-->
@@ -1255,7 +1246,7 @@
                                                                 <span class="span-search-ticket">{% trans 'To' %}</span><br/>
                                                                 <div class="input-container-search-ticket">
                                                                     <i class="fas fa-plane-arrival" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
-                                                                    <input id="destination_id_flight" name="destination_id_flight" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('destination_id_flight').select();" onclick="set_airline_search_value_to_false();">
+                                                                    <input id="destination_id_flight" name="destination_id_flight" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;outline:0" autocomplete="off" value="" onfocus="document.getElementById('destination_id_flight').select();" onclick="set_airline_search_value_to_false();">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -1546,7 +1537,7 @@
                                         {% csrf_token %}
                                         <input type="hidden" name="g-recaptcha-response" id='recaptcha_airline'>
                                         <div class="row">
-                                            <div class="col-lg-12" id="radio_airline_search" style="text-align:left;margin-bottom:10px;">
+                                            <div class="col-lg-12" id="radio_airline_search" style="text-align:left;margin-bottom:20px;">
                                                 <label class="radio-button-custom crlabel">
                                                     <span style="font-size:13px; color:{{text_color}};">{% trans 'One Way' %}</span>
                                                     <input type="radio" checked="checked" name="radio_airline_type" value="oneway">
@@ -1571,11 +1562,11 @@
                                                 <div class="row">
                                                     <div class="col-lg-8">
                                                         <div class="row">
-                                                            <div class="col-lg-6 col-md-6 col-sm-6 airline-from">
+                                                            <div class="col-lg-6 col-md-6 airline-from">
                                                                 <span class="span-search-ticket"><i class="fas fa-plane-departure"></i> {% trans 'From' %}</span>
                                                                 <div class="input-container-search-ticket">
                                                                     <div class="form-select">
-                                                                        <input id="origin_id_flight" name="origin_id_flight" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('origin_id_flight').select();" onclick="set_airline_search_value_to_false();" autocomplete="off">
+                                                                        <input id="origin_id_flight" name="origin_id_flight" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;outline:0" autocomplete="off" value="" onfocus="document.getElementById('origin_id_flight').select();" onclick="set_airline_search_value_to_false();" autocomplete="off">
                                                                         <!--<select class="form-control js-example-basic-single" name="state" style="width:100%;" id="origin_id_flight" placeholder="City or Airport or IATA" onchange="airline_autocomplete('origin')">-->
 
                                                                         <!--</select>-->
@@ -1583,17 +1574,17 @@
                                                                     <!--<input type="hidden" name="origin_id_flight" id="airline_origin_flight" />-->
                                                                 </div>
                                                             </div>
-                                                            <div class="image-change-route-vertical">
-                                                                <h4><a href="javascript:airline_switch();" tabindex="-1" style="z-index:5;" id="flight_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
-                                                            </div>
-                                                            <div class="image-change-route-horizontal">
-                                                                <h4><a class="horizontal-arrow" href="javascript:airline_switch();" tabindex="-1" style="z-index:5; color:{{text_color}};" id="flight_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt icon-change"></i></i></a></h4>
-                                                            </div>
-                                                            <div class="col-lg-6 col-md-6 col-sm-6 airline-to" style="z-index:5;">
+                                                            <div class="col-lg-6 col-md-6 airline-to" style="z-index:5;">
+                                                                <div class="image-change-route-vertical">
+                                                                    <h4><a href="javascript:airline_switch();" tabindex="-1" style="z-index:5;" id="flight_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                                                                </div>
+                                                                <div class="image-change-route-horizontal">
+                                                                    <h4><a class="horizontal-arrow" href="javascript:airline_switch();" tabindex="-1" style="z-index:5; color:{{text_color}};" id="flight_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt icon-change"></i></i></a></h4>
+                                                                </div>
                                                                 <span class="span-search-ticket"><i class="fas fa-plane-arrival"></i> {% trans 'To' %}</span>
                                                                 <div class="input-container-search-ticket">
                                                                     <div class="form-select">
-                                                                        <input id="destination_id_flight" name="destination_id_flight" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('destination_id_flight').select();" onclick="set_airline_search_value_to_false();">
+                                                                        <input id="destination_id_flight" name="destination_id_flight" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;outline:0" autocomplete="off" value="" onfocus="document.getElementById('destination_id_flight').select();" onclick="set_airline_search_value_to_false();">
                                                                         <!--<select class="form-control js-example-basic-single" name="state" style="width:100%;" id="destination_id_flight" name="destination_id_flight" placeholder="City or Airport or IATA" onchange="airline_autocomplete('destination')">-->
 
                                                                         <!--</select>-->
@@ -1895,7 +1886,7 @@
                             {% csrf_token %}
                             <input type="hidden" name="g-recaptcha-response" id='recaptcha_airline'>
                             <div class="row">
-                                <div class="col-lg-12" id="radio_airline_search" style="text-align:left;margin-bottom:10px;">
+                                <div class="col-lg-12" id="radio_airline_search" style="text-align:left;margin-bottom:20px;">
                                     <label class="radio-button-custom crlabel">
                                         <span style="font-size:13px; color:{{text_color}};">{% trans 'One Way' %}</span>
                                         <input type="radio" checked="checked" name="radio_airline_type" value="oneway">
@@ -1924,7 +1915,7 @@
                                                     <span class="span-search-ticket"><i class="fas fa-plane-departure"></i> {% trans 'From' %}</span>
                                                     <div class="input-container-search-ticket">
                                                         <div class="form-select">
-                                                            <input id="origin_id_flight" name="origin_id_flight" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('origin_id_flight').select();" onclick="set_airline_search_value_to_false();" autocomplete="off">
+                                                            <input id="origin_id_flight" name="origin_id_flight" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;outline:0" autocomplete="off" value="" onfocus="document.getElementById('origin_id_flight').select();" onclick="set_airline_search_value_to_false();" autocomplete="off">
                                                             <!--<select class="form-control js-example-basic-single" name="state" style="width:100%;" id="origin_id_flight" placeholder="City or Airport or IATA" onchange="airline_autocomplete('origin')">-->
 
                                                             <!--</select>-->
@@ -1932,17 +1923,17 @@
                                                         <!--<input type="hidden" name="origin_id_flight" id="airline_origin_flight" />-->
                                                     </div>
                                                 </div>
-                                                <div class="image-change-route-vertical">
-                                                    <h4><a href="javascript:airline_switch();" tabindex="-1" style="z-index:5;" id="flight_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
-                                                </div>
-                                                <div class="image-change-route-horizontal">
-                                                    <h4><a class="horizontal-arrow" href="javascript:airline_switch();" tabindex="-1" style="z-index:5; color:{{text_color}};" id="flight_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt icon-change"></i></i></a></h4>
-                                                </div>
                                                 <div class="col-lg-6 col-md-6 airline-to" style="z-index:5;">
+                                                    <div class="image-change-route-vertical">
+                                                        <h4><a href="javascript:airline_switch();" tabindex="-1" style="z-index:5;" id="flight_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                                                    </div>
+                                                    <div class="image-change-route-horizontal">
+                                                        <h4><a class="horizontal-arrow" href="javascript:airline_switch();" tabindex="-1" style="z-index:5; color:{{text_color}};" id="flight_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt icon-change"></i></i></a></h4>
+                                                    </div>
                                                     <span class="span-search-ticket"><i class="fas fa-plane-arrival"></i> {% trans 'To' %}</span>
                                                     <div class="input-container-search-ticket">
                                                         <div class="form-select">
-                                                            <input id="destination_id_flight" name="destination_id_flight" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('destination_id_flight').select();" onclick="set_airline_search_value_to_false();">
+                                                            <input id="destination_id_flight" name="destination_id_flight" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;outline:0" autocomplete="off" value="" onfocus="document.getElementById('destination_id_flight').select();" onclick="set_airline_search_value_to_false();">
                                                             <!--<select class="form-control js-example-basic-single" name="state" style="width:100%;" id="destination_id_flight" name="destination_id_flight" placeholder="City or Airport or IATA" onchange="airline_autocomplete('destination')">-->
 
                                                             <!--</select>-->

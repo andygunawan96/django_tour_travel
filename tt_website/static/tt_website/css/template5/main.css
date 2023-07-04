@@ -3364,8 +3364,8 @@ ul.tabs li.current .image-rounded-icon{
   height: 15px;
   width: 15px;
   position: absolute;
-  left: 46.9%;
-  top: 22px;
+  left: -11px;
+  top: 34px;
 }
 
 .image-change-route-horizontal {
@@ -3381,8 +3381,8 @@ ul.tabs li.current .image-rounded-icon{
     transform-origin: left top;
 
     position: absolute;
-    top: 64px;
-    left: 52%;
+    top: -10px;
+    left: 50%;
     z-index: 10;
     height: 40px;
     width: 40px;
@@ -3393,8 +3393,8 @@ ul.tabs li.current .image-rounded-icon{
   height: 15px;
   width: 15px;
   position: absolute;
-  left: 45.9%;
-  top: 23px;
+  left: -11px;
+  top: 34px;
 }
 
 .image-change-route-horizontal2 {
@@ -3410,7 +3410,7 @@ ul.tabs li.current .image-rounded-icon{
     transform-origin: left top;
 
     position: absolute;
-    top: 66px;
+    top: -10px;
     left: 52%;
     z-index: 10;
     height: 40px;
@@ -3422,8 +3422,8 @@ ul.tabs li.current .image-rounded-icon{
   height: 15px;
   width: 15px;
   position: absolute;
-  left: -6%;
-  top: 23px;
+  left: -24px;
+  top: 25px;
 }
 
 .image-change-route-horizontal3 {
@@ -3446,7 +3446,7 @@ ul.tabs li.current .image-rounded-icon{
     width: 40px;
 }
 
-@media (max-width: 575px) {
+@media (max-width: 767px) {
     .image-change-route-vertical{
       display:none;
     }
@@ -3471,7 +3471,7 @@ ul.tabs li.current .image-rounded-icon{
     }
 }
 
-@media (min-width: 576px) {
+@media (min-width: 768px) {
     .image-change-route-vertical{
       display:block;
     }
@@ -3588,14 +3588,9 @@ ul.tabs li.current .image-rounded-icon{
 }
 
 .image-rounded-icon {
-  background: black;
-  border-radius: 20px;
-  font-size: 10px;
-  margin-right: 10px;
+  font-size: 22px;
   text-align: center;
-  border-radius:50%;
   display:inline-block;
-  padding:5px 7px 5px 7px;
 }
 
 @media (max-width: 991px) {
@@ -3722,53 +3717,11 @@ ul.tabs li.current .image-rounded-icon{
 
 
 .image-rounded-icon2 {
-  background: white;
-  font-size: 18px;
+  font-size: 22px;
   text-align: center;
   display:inline-block;
-  border-radius:50%;
-  border-radius: 20px;
-  border: 1px solid #cdcdcd;
-  padding:8px 11px 8px 11px;
-}
-.image-rounded-icon2:hover{
-    border: 1px solid #205B95;
 }
 
-@media only screen and (min-width: 1200px) and (max-width: 1460px) {
-    .image-change-route-vertical{
-        left: 47%;
-    }
-    .image-change-route-vertical2{
-        left: 45.4%;
-    }
-}
-@media only screen and (min-width: 992px) and (max-width: 1140px) {
-    .image-change-route-vertical{
-        left: 46.5%;
-    }
-    .image-change-route-vertical2{
-        left: 45%;
-    }
-}
-
-@media only screen and (min-width: 769px) and (max-width: 820px) {
-    .image-change-route-vertical{
-        left: 47%;
-    }
-}
-
-@media only screen and (min-width: 842px) and (max-width: 991px) {
-    .image-change-route-vertical2{
-        left: 46.8%;
-    }
-}
-
-@media only screen and (min-width: 576px) and (max-width: 767px){
-    .image-change-route-vertical {
-      left: 46%;
-    }
-}
 .single-post-area .overlay-bg-disabled {
   background: rgba(150, 150, 150, 1) !important;
   -webkit-transition: all 0.3s ease 0s;

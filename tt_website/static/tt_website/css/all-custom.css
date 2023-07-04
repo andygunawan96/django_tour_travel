@@ -674,7 +674,7 @@ ul.popular2_tabs li.current .image-rounded-icon{
 }
 
 .radio-img {
-    margin-right:15px;
+    margin-right:10px;
     margin-bottom:15px;
     cursor:pointer;
     text-align:center;
@@ -6463,3 +6463,20 @@ text-align: center;
 #radio_airline_search{
     margin-bottom: 10px;
 }
+
+#checkbox_combo_price{
+    margin-bottom:10px;
+}
+
+.switch_a{
+    font-size:22px;
+}
+
+
+@media (min-width: 576px) {
+    .modal-dialog.modal-sign{
+        max-width: 475px !important;
+    }
+}
+
+

@@ -660,7 +660,7 @@ function add_table_of_line(type){
                         }
                         text+=`<label style="color:red">*</label> Origin</span>
                         <div class="input-container-search-ticket">
-                            <input id="origin`+counter_line+`" name="origin`+counter_line+`" class="form-control" type="text" placeholder="Origin" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="">
+                            <input id="origin`+counter_line+`" name="origin`+counter_line+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="">
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-4">
@@ -674,7 +674,7 @@ function add_table_of_line(type){
                         text+=`<label style="color:red">*</label> Destination
                         </span>
                         <div class="input-container-search-ticket">
-                            <input id="destination`+counter_line+`" name="destination`+counter_line+`" class="form-control" type="text" placeholder="Destination" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="">
+                            <input id="destination`+counter_line+`" name="destination`+counter_line+`" class="form-control" type="text" placeholder="Destination" style="width:100%;outline:0" autocomplete="off" value="">
                         </div>
                     </div>
                     <div class="col-lg-4">
