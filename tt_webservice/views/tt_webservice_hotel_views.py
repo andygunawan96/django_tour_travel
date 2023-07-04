@@ -384,11 +384,6 @@ def search(request):
         counter = 0
         sequence = 0
 
-        file = read_cache("hotel_masking", 'cache_web', request, 90911)
-        if file:
-            data_masking = file
-        else:
-            data_masking = {}
         res['result']['signature'] = signature
         if res['result']['error_code'] == 0:
             set_session(request, 'hotel_signature', signature)
@@ -423,12 +418,6 @@ def search(request):
                     'sequence': sequence,
                     'counter': counter
                 })
-                prices = {}
-                for provider in hotel['prices']:
-                    if data_masking.get(provider):
-                        prices[data_masking[provider]] = copy.deepcopy(hotel['prices'][provider])
-                if prices:
-                    hotel['prices'] = prices
                 counter += 1
                 sequence += 1
 
@@ -687,22 +676,11 @@ def get_current_search(request):
 
     sequence = 0
     counter = 0
-    file = read_cache("hotel_masking", 'cache_web', request, 90911)
-    if file:
-        data_masking = file
-    else:
-        data_masking = {}
     for hotel in res['result']['response']['hotel_ids']:
         hotel.update({
             'sequence': sequence,
             'counter': counter
         })
-        prices = {}
-        for provider in hotel['prices']:
-            if data_masking.get(provider):
-                prices[data_masking[provider]] = copy.deepcopy(hotel['prices'][provider])
-        if prices:
-            hotel['prices'] = prices
         counter += 1
         sequence += 1
 
@@ -818,14 +796,6 @@ def detail(request):
         })
         _logger.info(json.dumps(request.session['hotel_error']))
         if res['result']['error_code'] == 0:
-            file = read_cache("hotel_masking", 'cache_web', request, 90911)
-            if file:
-                data_masking = file
-            else:
-                data_masking = {}
-            for price_room in res['result']['response']['prices']:
-                if data_masking.get(price_room['provider']):
-                    price_room['provider'] = data_masking[price_room['provider']]
             _logger.info("get_details_hotel SUCCESS SIGNATURE " + signature)
         else:
             _logger.error("get_details_hotel ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
@@ -864,37 +834,15 @@ def get_current_search_detail(request):
             _logger.error('error hotel get detail')
     url_request = get_url_gateway('booking/hotel')
     res = send_request_api(request, url_request, headers, data, 'POST', timeout=30)
-    if res['result']['error_code'] == 0:
-        file = read_cache("hotel_masking", 'cache_web', request, 90911)
-        if file:
-            data_masking = file
-        else:
-            data_masking = {}
-        file = read_cache("hotel_masking", 'cache_web', request, 90911)
-        if file:
-            data_masking = file
-        else:
-            data_masking = {}
-        for price_room in res['result']['response']['prices']:
-            if data_masking.get(price_room['provider']):
-                price_room['provider'] = data_masking[price_room['provider']]
     return res
 
 def get_cancellation_policy(request):
     try:
-        file = read_cache("hotel_masking", 'cache_web', request, 90911)
-        if file:
-            data_masking = file
-        else:
-            data_masking = {}
-        provider = request.POST['provider']
-        if data_masking.get(provider):
-            provider = data_masking[provider]
         data = {
             # "hotel_code": request.session['hotel_detail']['external_code'][request.POST['provider']],
             "hotel_code": request.session['hotel_detail']['id'],
             "price_code": request.POST['price_code'],
-            "provider": provider
+            "provider": request.POST['provider']
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",
@@ -998,17 +946,9 @@ def get_facility_img(request):
 
 def provision(request):
     try:
-        file = read_cache("hotel_masking", 'cache_web', request, 90911)
-        if file:
-            data_masking = file
-        else:
-            data_masking = {}
-        provider = request.POST['provider']
-        if data_masking.get(provider):
-            provider = data_masking[provider]
         data = {
             'price_code': request.POST['price_code'],
-            'provider': provider
+            'provider': request.POST['provider']
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",
@@ -1443,12 +1383,6 @@ def search_mobile(request):
     try:
         counter = 0
         sequence = 0
-
-        file = read_cache("hotel_masking", 'cache_web', request, 90911)
-        if file:
-            data_masking = file
-        else:
-            data_masking = {}
         if res['result']['error_code'] == 0:
 
             hotel_data = []
@@ -1477,12 +1411,6 @@ def search_mobile(request):
                     'sequence': sequence,
                     'counter': counter
                 })
-                prices = {}
-                for provider in hotel['prices']:
-                    if data_masking.get(provider):
-                        prices[data_masking[provider]] = copy.deepcopy(hotel['prices'][provider])
-                if prices:
-                    hotel['prices'] = prices
                 counter += 1
                 sequence += 1
 
@@ -1532,14 +1460,6 @@ def detail_mobile(request):
         })
         _logger.info(json.dumps(request.session['hotel_error']))
         if res['result']['error_code'] == 0:
-            file = read_cache("hotel_masking", 'cache_web', request, 90911)
-            if file:
-                data_masking = file
-            else:
-                data_masking = {}
-            for price_room in res['result']['response']['prices']:
-                if data_masking.get(price_room['provider']):
-                    price_room['provider'] = data_masking[price_room['provider']]
             _logger.info("get_details_hotel SUCCESS SIGNATURE " + signature)
         else:
             _logger.error("get_details_hotel ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
