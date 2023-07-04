@@ -21,7 +21,7 @@
                     <div class="banner-content col-xl-12 mt-5" style="margin-bottom:15px;">
                         <div class="row">
                             {% if username.co_user_name != '' %}
-                            <div class="col-xl-4" style="text-align:left; font-weight:bold;">
+                            <div class="col-xl-4 mb-3" style="text-align:left; font-weight:bold;">
                                 <h2 style="color:{{text_color}}; font-size:18px;">
                                     {% if username.co_user_login != default_user %}
                                     {% trans 'Hello' %}, {{username.co_user_name}}!
@@ -79,7 +79,7 @@
                                             {% csrf_token %}
                                             <input type="hidden" name="g-recaptcha-response" id='recaptcha_airline'>
                                             <div class="row">
-                                                <div class="col-lg-12" id="radio_airline_search" style="text-align:left;margin-bottom:10px;">
+                                                <div class="col-lg-12" id="radio_airline_search" style="text-align:left;margin-bottom:20px;">
                                                     <label class="radio-button-custom crlabel">
                                                         <span style="font-size:13px; color:{{text_color}};">{% trans 'One Way' %}</span>
                                                         <input type="radio" checked="checked" name="radio_airline_type" value="oneway">
@@ -109,26 +109,26 @@
                                                     <div class="row">
                                                         <div class="col-lg-8">
                                                             <div class="row">
-                                                                <div class="col-lg-6 col-md-6 col-sm-6 airline-from">
+                                                                <div class="col-lg-6 col-md-6 airline-from">
                                                                     <span class="span-search-ticket"><i class="fas fa-plane-departure"></i> {% trans 'From' %}</span>
                                                                     <div class="input-container-search-ticket">
-                                                                        <input id="origin_id_flight" name="origin_id_flight" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('origin_id_flight').select();" onclick="set_airline_search_value_to_false();">
+                                                                        <input id="origin_id_flight" name="origin_id_flight" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;outline:0" autocomplete="off" value="" onfocus="document.getElementById('origin_id_flight').select();" onclick="set_airline_search_value_to_false();">
                                                                         <!--<select class="form-control js-example-basic-single" name="state" style="width:100%;" id="origin_id_flight" placeholder="City or Airport or IATA" onchange="airline_autocomplete('origin')">-->
 
                                                                         <!--</select>-->
                                                                         <!--<input type="hidden" name="origin_id_flight" id="airline_origin_flight" />-->
                                                                     </div>
                                                                 </div>
-                                                                <div class="image-change-route-vertical">
-                                                                    <h4><a href="javascript:airline_switch();" tabindex="-1" style="z-index:5;" id="flight_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
-                                                                </div>
-                                                                <div class="image-change-route-horizontal">
-                                                                    <h4><a class="horizontal-arrow" href="javascript:airline_switch();" tabindex="-1" style="z-index:5;" id="flight_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt icon-change"></i></i></a></h4>
-                                                                </div>
-                                                                <div class="col-lg-6 col-md-6 col-sm-6 airline-to" style="z-index:5;">
+                                                                <div class="col-lg-6 col-md-6 airline-to" style="z-index:5;">
+                                                                    <div class="image-change-route-vertical">
+                                                                        <h4><a href="javascript:airline_switch();" tabindex="-1" style="z-index:5; color:{{text_color}};" id="flight_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                                                                    </div>
+                                                                    <div class="image-change-route-horizontal">
+                                                                        <h4><a class="horizontal-arrow" href="javascript:airline_switch();" tabindex="-1" style="z-index:5; color:{{text_color}};" id="flight_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt icon-change"></i></i></a></h4>
+                                                                    </div>
                                                                     <span class="span-search-ticket"><i class="fas fa-plane-arrival"></i> {% trans 'To' %}</span>
                                                                     <div class="input-container-search-ticket">
-                                                                        <input id="destination_id_flight" name="destination_id_flight" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('destination_id_flight').select();" onclick="set_airline_search_value_to_false();">
+                                                                        <input id="destination_id_flight" name="destination_id_flight" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;outline:0" autocomplete="off" value="" onfocus="document.getElementById('destination_id_flight').select();" onclick="set_airline_search_value_to_false();">
                                                                         <!--<select class="form-control js-example-basic-single" name="state" style="width:100%;" id="destination_id_flight" name="destination_id_flight" placeholder="City or Airport or IATA" onchange="airline_autocomplete('destination')">-->
 
                                                                         <!--</select>-->
@@ -137,13 +137,13 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-lg-4 col-md-6 col-sm-6" id="airline_date_search">
+                                                        <div class="col-lg-4 col-md-6" id="airline_date_search">
                                                             <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Departure' %}</span>
                                                             <div class="input-container-search-ticket">
                                                                 <input type="text" class="form-control" name="airline_departure" id="airline_departure" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
                                                             </div>
                                                         </div>
-                                                        <div class="col-lg-4 col-md-6 col-sm-6">
+                                                        <div class="col-lg-4 col-md-6">
                                                             <span class="span-search-ticket"><i class="fas fa-users"></i> {% trans 'Passenger' %}</span>
                                                             <div class="input-container-search-ticket btn-group">
                                                                 <button id="show_total_pax_flight" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align:left; cursor:pointer;">
@@ -282,7 +282,7 @@
                                                                 </ul>
                                                             </div>
                                                         </div>
-                                                        <div class="col-lg-4 col-md-6 col-sm-6">
+                                                        <div class="col-lg-4 col-md-6">
                                                             <span class="span-search-ticket"><i class="fas fa-plane"></i> {% trans 'Airline' %}</span>
                                                             <div class="input-container-search-ticket btn-group">
                                                                 <button id="show_provider_airline" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="text-align:left; cursor:pointer;">{% trans 'Choose Airline' %}</button>
@@ -292,7 +292,7 @@
                                                                 </ul>
                                                             </div>
                                                         </div>
-                                                        <div class="col-lg-4 col-md-6 col-sm-6">
+                                                        <div class="col-lg-4 col-md-6">
                                                             <span class="span-search-ticket">{% trans 'Class' %}</span>
                                                             <div class="input-container-search-ticket btn-group">
                                                                 <div class="form-select" id="default-select">
@@ -378,34 +378,33 @@
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <div class="row">
-                                                        <div class="col-lg-6 col-md-6 col-sm-6 train-from">
+                                                        <div class="col-lg-6 col-md-6 train-from">
                                                             <span class="span-search-ticket"><i class="fas fa-train"></i> {% trans 'From' %}</span>
                                                             <div class="input-container-search-ticket">
-                                                                <input id="train_origin" name="train_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('train_origin').select();" onclick="set_train_search_value_to_false();" value="BD - Bandung">
+                                                                <input id="train_origin" name="train_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;outline:0" autocomplete="off" value="" onfocus="document.getElementById('train_origin').select();" onclick="set_train_search_value_to_false();" value="BD - Bandung">
                                                             </div>
                                                         </div>
-                                                        <div class="image-change-route-vertical2">
-                                                            <h4><a href="javascript:train_switch();" style="z-index:5;" id="train_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
-                                                        </div>
-                                                        <div class="image-change-route-horizontal2">
-                                                            <h4><a class="horizontal-arrow" href="javascript:train_switch();" style="z-index:5;" id="train_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
-                                                        </div>
-
-                                                        <div class="col-lg-6 col-md-6 col-sm-6 train-to" style="z-index:5;">
+                                                        <div class="col-lg-6 col-md-6 train-to" style="z-index:5;">
+                                                            <div class="image-change-route-vertical">
+                                                                <h4><a href="javascript:train_switch();" style="z-index:5; color:{{text_color}}" id="train_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                                                            </div>
+                                                            <div class="image-change-route-horizontal">
+                                                                <h4><a class="horizontal-arrow" href="javascript:train_switch();" style="z-index:5; color:{{text_color}};" id="train_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                                                            </div>
                                                             <span class="span-search-ticket"><i class="fas fa-map-marked-alt"></i> {% trans 'To' %}</span>
                                                             <div class="input-container-search-ticket">
-                                                                <input id="train_destination" name="train_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('train_destination').select();" onclick="set_train_search_value_to_false();" value="GMR - Gambir">
+                                                                <input id="train_destination" name="train_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;outline:0" autocomplete="off" value="" onfocus="document.getElementById('train_destination').select();" onclick="set_train_search_value_to_false();" value="GMR - Gambir">
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-3 col-md-6 col-sm-6" id="train_date_search">
+                                                <div class="col-lg-3 col-md-6" id="train_date_search">
                                                     <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Departure' %}</span>
                                                     <div class="input-container-search-ticket">
                                                         <input type="text" class="form-control" style="background:white;" id="train_departure" name="train_departure" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly/>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-3 col-md-6 col-sm-6">
+                                                <div class="col-lg-3 col-md-6">
                                                     <span class="span-search-ticket"><i class="fas fa-users"></i> {% trans 'Passenger' %}</span>
                                                     <div class="input-container-search-ticket btn-group">
                                                         <button id="show_total_pax_train" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
@@ -482,7 +481,7 @@
                                                 <div class="col-lg-6 col-md-6">
                                                     <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Destination or Hotel' %}</span>
                                                     <div class="input-container-search-ticket">
-                                                        <input id="hotel_id_destination" name="hotel_id_destination" class="form-control" type="text" placeholder="{% trans 'Select Destination City or Hotel Name' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value=""/>
+                                                        <input id="hotel_id_destination" name="hotel_id_destination" class="form-control" type="text" placeholder="{% trans 'Select Destination City or Hotel Name' %}" style="width:100%;outline:0" autocomplete="off" value=""/>
                                                     </div>
                                                 </div>
 
@@ -573,7 +572,7 @@
                                                         </ul>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-6 col-md-6 mb-3">
+                                                <div class="col-lg-6 col-md-6">
                                                     <span class="span-search-ticket"><i class="fas fa-globe-asia"></i> {% trans 'Guest Nationality' %}</span>
                                                     <select class="js-example-basic-single" name="hotel_id_nationality_id" style="width:100%;" id="hotel_id_nationality_id" placeholder="{% trans 'Guest Nationality' %}" onchange="auto_complete('hotel_id_nationality')" class="nice-select-default">
                                                         {% for country in countries %}
@@ -586,7 +585,7 @@
                                                     </select>
                                                     <input type="hidden" value="ID - Indonesia" id="hotel_id_nationality" class="form-control" name="hotel_id_nationality" />
                                                 </div>
-                                                <div class="col-lg-12" style="margin-top:5px;float:left;">
+                                                <div class="col-lg-12" style="margin-top:5px;float:left; display:flex;">
                                                     <label class="check_box_custom cblabel">
                                                         <span class="span-search-ticket" id="business_trip_help_show" style="font-size:13px;">{% trans 'Business Trip' %}</span>
                                                         <input type="checkbox" value="true" onclick="business_trip_check();">
@@ -629,7 +628,11 @@
                                             </div>
                                             <div class="row" id="activity_advanced_search" style="display:none;">
                                                 <div class="col-lg-12">
-                                                    <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Location' %} </span>
+                                                    <div class="row">
+                                                        <div class="col-lg-12">
+                                                            <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Location' %} </span>
+                                                        </div>
+                                                    </div>
                                                     <div class="row">
                                                         <div class="col-lg-6 col-md-6">
                                                             <div class="form-select">
@@ -652,7 +655,7 @@
 
                                                 <div class="col-lg-12">
                                                     <div class="row">
-                                                        <div class="col-lg-12 mt-3">
+                                                        <div class="col-lg-12">
                                                             <span class="span-search-ticket"><i class="fa fa-folder-open"></i> {% trans 'Category / Type' %} </span>
                                                         </div>
                                                     </div>
@@ -742,7 +745,11 @@
                                             </div>
                                             <div class="row" id="tour_advanced_search" style="display:none;">
                                                 <div class="col-lg-6">
-                                                    <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Destination' %} </span>
+                                                    <div class="row">
+                                                        <div class="col-lg-12">
+                                                            <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Destination' %} </span>
+                                                        </div>
+                                                    </div>
                                                     <div class="row">
                                                         <div class="col-lg-6 col-md-6">
                                                             <div class="form-select">
@@ -765,7 +772,7 @@
 
                                                 <div class="col-lg-6">
                                                     <div class="row">
-                                                        <div class="col-lg-12 mt-3">
+                                                        <div class="col-lg-12">
                                                             <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Departure Time' %} </span>
                                                         </div>
                                                     </div>
@@ -820,7 +827,7 @@
                                             {% csrf_token %}
                                             <input type="hidden" name="g-recaptcha-response" id='recaptcha_visa'>
                                             <div class="row">
-                                                <div class="col-lg-4 col-md-4 col-sm-4 mb-2">
+                                                <div class="col-lg-4 col-md-4">
                                                     <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Destination' %}</span>
                                                     <div class="input-container-search-ticket">
                                                         <div class="form-select">
@@ -831,13 +838,13 @@
                                                     </div>
                                                     <input type="hidden" name="visa_destination_id" id="visa_destination_id_hidden" />
                                                 </div>
-                                                <div class="col-lg-4 col-md-4 col-sm-4 mb-1">
+                                                <div class="col-lg-4 col-md-4">
                                                     <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Departure' %}</span>
                                                     <div class="input-container-search-ticket">
                                                         <input type="text" class="form-control" style="cursor:pointer; background:white;" name="visa_departure" id="visa_departure" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-4 col-md-4 col-sm-4">
+                                                <div class="col-lg-4 col-md-4">
                                                     <span class="span-search-ticket"><i class="fas fa-city"></i> {% trans 'Consulate' %}</span>
                                                     <div class="input-container-search-ticket">
                                                         <div class="form-select">
@@ -866,7 +873,7 @@
                                             {% csrf_token %}
                                             <input type="hidden" name="g-recaptcha-response" id='recaptcha_passport'>
                                             <div class="row">
-                                                <div class="col-lg-4 col-md-4 col-sm-4 mb-2">
+                                                <div class="col-lg-4 col-md-4">
                                                     <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Passport Type' %}</span>
                                                     <div class="form-select">
                                                         <select class="form-control js-example-basic-single" style="width:100%;" id="passport_type_id" placeholder="{% trans 'Destination' %}" onchange="auto_complete('passport_type')">
@@ -875,7 +882,7 @@
                                                     </div>
                                                     <input type="hidden" name="passport_type" id="passport_type" />
                                                 </div>
-                                                <div class="col-lg-4 col-md-4 col-sm-4 mb-2">
+                                                <div class="col-lg-4 col-md-4">
                                                     <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Apply Type' %}</span>
                                                     <div class="form-select">
                                                         <select class="form-control js-example-basic-single" style="width:100%;" id="passport_apply_type_id" placeholder="{% trans 'Destination' %}" onchange="auto_complete('passport_apply_type')">
@@ -884,7 +891,7 @@
                                                     </div>
                                                     <input type="hidden" name="passport_apply_type" id="passport_apply_type" />
                                                 </div>
-                                                <div class="col-lg-4 col-md-4 col-sm-4 mb-2">
+                                                <div class="col-lg-4 col-md-4">
                                                     <span class="span-search-ticket"><i class="fas fa-city"></i> {% trans 'Consulate' %}</span>
                                                     <div class="form-select">
                                                         <select class="form-control js-example-basic-single" style="width:100%;" id="consulate_id" placeholder="{% trans 'Destination' %}" onchange="auto_complete('consulate')">
@@ -971,7 +978,7 @@
                                             {% csrf_token %}
                                             <input type="hidden" name="g-recaptcha-response" id='recaptcha_event'>
                                             <div class="row">
-                                                <div class="col-lg-3 mb-3">
+                                                <div class="col-lg-3">
                                                     <span class="span-search-ticket"><i class="fas fa-folder"></i> {% trans 'Category' %}</span>
                                                     <div class="input-container-search-ticket">
                                                         <div class="form-select">
@@ -1064,7 +1071,7 @@
                                                 {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                                                 <form action="" class="form-wrap" id="medical_searchForm1" style="display:none;" method="post">
                                                     <div class="row">
-                                                        <div class="col-lg-12 mb-3" style="text-align:left;">
+                                                        <div class="col-lg-12" style="text-align:left;">
                                                             <h4 style="color:{{text_color}};">Periksain</h4>
                                                         </div>
                                                         <div class="col-lg-12 col-md-12 col-sm-12">
@@ -1094,7 +1101,7 @@
                                                     {% csrf_token %}
                                                     <input type="hidden" name="g-recaptcha-response" id='recaptcha_medical_global'>
                                                     <div class="row">
-                                                        <div class="col-lg-12 mb-3" style="text-align:left;">
+                                                        <div class="col-lg-12" style="text-align:left;">
                                                             <h4 style="color:{{text_color}};">National Hospital</h4>
                                                         </div>
 
@@ -1123,7 +1130,7 @@
                                                     {% csrf_token %}
                                                     <input type="hidden" name="g-recaptcha-response" id='recaptcha_swab_express'>
                                                     <div class="row">
-                                                        <div class="col-lg-12 mb-3" style="text-align:left;">
+                                                        <div class="col-lg-12" style="text-align:left;">
                                                             <h4 style="color:{{text_color}};">Swab Express</h4>
                                                         </div>
 
@@ -1152,7 +1159,7 @@
                                                     {% csrf_token %}
                                                     <input type="hidden" name="g-recaptcha-response" id='recaptcha_lab_pintar'>
                                                     <div class="row">
-                                                        <div class="col-lg-12 mb-3" style="text-align:left;">
+                                                        <div class="col-lg-12" style="text-align:left;">
                                                             <h4 style="color:{{text_color}};">Lab Pintar</h4>
                                                         </div>
 
@@ -1180,7 +1187,7 @@
                                                     {% csrf_token %}
                                                     <input type="hidden" name="g-recaptcha-response" id='recaptcha_mitra_keluarga'>
                                                     <div class="row">
-                                                        <div class="col-lg-12 mb-3" style="text-align:left;">
+                                                        <div class="col-lg-12" style="text-align:left;">
                                                             <h4 style="color:{{text_color}};">Mitra Keluarga</h4>
                                                         </div>
 
@@ -1208,7 +1215,7 @@
                                                     {% csrf_token %}
                                                     <input type="hidden" name="g-recaptcha-response" id='recaptcha_sentra_medika'>
                                                     <div class="row">
-                                                        <div class="col-lg-12 mb-3" style="text-align:left;">
+                                                        <div class="col-lg-12" style="text-align:left;">
                                                             <h4 style="color:{{text_color}};">Sentra Medika</h4>
                                                         </div>
 
@@ -1238,7 +1245,7 @@
                                                     {% csrf_token %}
                                                     <input type="hidden" name="g-recaptcha-response" id='recaptcha_medical2'>
                                                     <div class="row">
-                                                        <div class="col-lg-12 mb-3" style="text-align:left;">
+                                                        <div class="col-lg-12" style="text-align:left;">
                                                             <h4 style="color:{{text_color}};">PHC</h4>
                                                         </div>
                                                         <div class="col-lg-12">
@@ -1251,7 +1258,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="row">
-                                                        <div class="col-lg-12 mt-3 mb-3" style="text-align:center">
+                                                        <div class="col-lg-12 mt-3" style="text-align:center">
                                                             <center>
                                                                 <button class="button-search primary-btn ld-ext-right" style="margin-bottom:15px;" type="button" onclick="get_captcha('recaptcha_medical2','medical2');" value="Submit">
                                                                     <i class="fas fa-file-medical" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
@@ -1306,34 +1313,33 @@
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <div class="row">
-                                                        <div class="col-lg-6 col-md-6 col-sm-6 train-from">
+                                                        <div class="col-lg-6 col-md-6 train-from">
                                                             <span class="span-search-ticket"><i class="fas fa-bus"></i> {% trans 'From' %}</span>
                                                             <div class="input-container-search-ticket">
-                                                                <input id="bus_origin" name="bus_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('bus_origin').select();" onclick="set_train_search_value_to_false();" value="">
+                                                                <input id="bus_origin" name="bus_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;outline:0" autocomplete="off" value="" onfocus="document.getElementById('bus_origin').select();" onclick="set_train_search_value_to_false();" value="">
                                                             </div>
                                                         </div>
-                                                        <div class="image-change-route-vertical2">
-                                                            <span><a href="javascript:bus_switch();" style="z-index:5; color:black;" id="bus_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></span>
-                                                        </div>
-                                                        <div class="image-change-route-horizontal2">
-                                                            <span><a class="horizontal-arrow" href="javascript:bus_switch();" style="z-index:5; color:{{text_color}} !important;" id="train_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt"></i></i></a></span>
-                                                        </div>
-
-                                                        <div class="col-lg-6 col-md-6 col-sm-6 train-to" style="z-index:5;">
+                                                        <div class="col-lg-6 col-md-6 train-to" style="z-index:5;">
+                                                            <div class="image-change-route-vertical">
+                                                                <span><a href="javascript:bus_switch();" style="z-index:5; color:{{text_color}};" id="bus_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></span>
+                                                            </div>
+                                                            <div class="image-change-route-horizontal">
+                                                                <span><a class="horizontal-arrow" href="javascript:bus_switch();" style="z-index:5; color:{{text_color}};" id="train_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt"></i></i></a></span>
+                                                            </div>
                                                             <span class="span-search-ticket"><i class="fas fa-map-marked-alt"></i> {% trans 'To' %}</span>
                                                             <div class="input-container-search-ticket">
-                                                                <input id="bus_destination" name="bus_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('bus_destination').select();" onclick="set_train_search_value_to_false();" value="">
+                                                                <input id="bus_destination" name="bus_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;outline:0" autocomplete="off" value="" onfocus="document.getElementById('bus_destination').select();" onclick="set_train_search_value_to_false();" value="">
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-3 col-md-6 col-sm-6" id="bus_date_search">
+                                                <div class="col-lg-3 col-md-6" id="bus_date_search">
                                                     <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Departure' %}</span>
                                                     <div class="input-container-search-ticket">
                                                         <input type="text" class="form-control" style="background:white;" id="bus_departure" name="bus_departure" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly/>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-3 col-md-6 col-sm-6">
+                                                <div class="col-lg-3 col-md-6">
                                                     <span class="span-search-ticket"><i class="fas fa-users"></i> {% trans 'Passenger' %}</span>
                                                     <div class="input-container-search-ticket btn-group">
                                                         <button id="show_total_pax_bus" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>

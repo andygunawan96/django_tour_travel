@@ -915,10 +915,6 @@ Licence URI: http://www.os-templates.com/template-terms
         .primary-btn-custom-un {
             color: {{color}};
         }
-        .image-rounded-icon2:hover{
-            border: 1px solid {{color}};
-            color: {{color}};
-        }
         .form-control:focus {
             border: 1px solid {{color}} !important;
         }
@@ -1148,6 +1144,10 @@ Licence URI: http://www.os-templates.com/template-terms
     <!--Template 1-->
     {% if template == 1%}
     <style>
+        .image-rounded-icon2:hover{
+            color: {{color}};
+        }
+
         .nav-menu ul li a:hover{
             color: {{color}};
         }
@@ -1257,6 +1257,19 @@ Licence URI: http://www.os-templates.com/template-terms
     </style>
     {% elif template == 2%}
     <style>
+        .image-change-route-vertical a{
+            color: {{text_color}} !important;
+        }
+        .image-change-route-vertical a:hover{
+            color: {{color}} !important;
+        }
+        .image-change-route-horizontal a{
+            color: {{text_color}} !important;
+        }
+        .image-change-route-horizontal a:hover{
+            color: {{color}} !important;
+        }
+
         .txt_clr{
             color: black;
         }
@@ -1320,10 +1333,6 @@ Licence URI: http://www.os-templates.com/template-terms
         }
         {% endif %}
 
-        .image-rounded-icon2{
-            color: {{text_color}};
-        }
-
         .hotel-search-form-area .hotel-search-form{
             background: #f7f7f7;
         }
@@ -1367,11 +1376,8 @@ Licence URI: http://www.os-templates.com/template-terms
         .classy-nav-container .classy-navbar .classynav ul li.cn-dropdown-item ul li a:focus, .classy-nav-container .classy-navbar .classynav ul li.cn-dropdown-item ul li a:hover, .classy-nav-container .classy-navbar .classynav ul li.megamenu-item ul li a:focus, .classy-nav-container .classy-navbar .classynav ul li.megamenu-item ul li a:hover {
             color: {{color}};
         }
-        .image-rounded-icon{
-            background: {{color}};
-        }
         .image-rounded-icon:hover{
-            border: 2px solid {{color}};
+            color: {{color}};
         }
         .horizontal-arrow:hover{
             color: {{color}} !important;
@@ -1382,6 +1388,10 @@ Licence URI: http://www.os-templates.com/template-terms
     </style>
     {% elif template == 3%}
     <style>
+        .image-rounded-icon2{
+            color: {{text_color}};
+        }
+
         {% if login_background_color == 'transparent'%}
         .tab_custom_login{
             background: white;
@@ -1424,9 +1434,6 @@ Licence URI: http://www.os-templates.com/template-terms
             font-weight: bold;
             font-size:15px;
         }
-        .image-rounded-icon{
-            background: {{color}};
-        }
         a:focus, a:hover{
             color: {{color}};
         }
@@ -1448,9 +1455,27 @@ Licence URI: http://www.os-templates.com/template-terms
         #myBtnBTP:hover{
             background: {{color}};
         }
+        .image-change-route-vertical a{
+            color: {{text_color}} !important;
+        }
+        .image-change-route-vertical a:hover{
+            color: {{color}} !important;
+        }
+        .image-change-route-horizontal a{
+            color: {{text_color}} !important;
+        }
+        .image-change-route-horizontal a:hover{
+            color: {{color}} !important;
+        }
     </style>
     {% elif template == 4%}
     <style>
+        .image-change-route-horizontal a{
+            color: {{text_color}};
+        }
+        .image-change-route-horizontal2 a{
+            color: {{text_color}};
+        }
         {% if login_background_color == 'transparent'%}
         .site-navbar{
             background: white;
@@ -1535,7 +1560,18 @@ Licence URI: http://www.os-templates.com/template-terms
     </style>
     {% elif template == 5%}
     <style>
-
+        .image-change-route-vertical a{
+            color: {{text_color}} !important;
+        }
+        .image-change-route-vertical a:hover{
+            color: {{color}} !important;
+        }
+        .image-change-route-horizontal a{
+            color: {{text_color}} !important;
+        }
+        .image-change-route-horizontal a:hover{
+            color: {{color}} !important;
+        }
         {% if login_background_color == 'transparent'%}
         .main-menu{
             background: white;
@@ -1595,10 +1631,6 @@ Licence URI: http://www.os-templates.com/template-terms
         #myBtnBTP:hover {
             background-color: {{color}};
             opacity: 0.9;
-        }
-
-        .image-rounded-icon{
-            background: {{color}};
         }
 
         .search-field{
@@ -1712,8 +1744,17 @@ Licence URI: http://www.os-templates.com/template-terms
         .copy-right p{
             color: {{text_color}};
         }
-        .image-change-route-vertical{
-            color: {{text_color}};
+        .image-change-route-vertical a{
+            color: {{text_color}} !important;
+        }
+        .image-change-route-vertical a:hover{
+            color: {{color}} !important;
+        }
+        .image-change-route-horizontal a{
+            color: {{text_color}} !important;
+        }
+        .image-change-route-horizontal a:hover{
+            color: {{color}} !important;
         }
         #myBtnBTP{
             background: {{color}};
@@ -1734,6 +1775,26 @@ Licence URI: http://www.os-templates.com/template-terms
     </style>
     {% elif template == 7%}
     <style>
+        .image-change-route-vertical a{
+            color: {{text_color}} !important;
+        }
+        .image-change-route-vertical a:hover{
+            color: {{color}} !important;
+        }
+        .image-change-route-horizontal a{
+            color: {{text_color}} !important;
+        }
+        .image-change-route-horizontal a:hover{
+            color: {{color}} !important;
+        }
+
+        .switch_a{
+            color:{{text_color}};
+        }
+        .switch_a:hover{
+            color:{{color}};
+        }
+
         {% if login_background_color == 'transparent'%}
 
         {% else %}

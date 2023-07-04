@@ -74,7 +74,7 @@
                             {% csrf_token %}
                             <input type="hidden" name="g-recaptcha-response" id='recaptcha_airline'>
                             <div class="row justify-content-between align-items-end">
-                                <div class="col-lg-12" id="radio_airline_search" style="text-align:left;margin-bottom:10px;">
+                                <div class="col-lg-12" id="radio_airline_search" style="text-align:left;margin-bottom:20px;">
                                     <label class="radio-button-custom crlabel">
                                         <span style="font-size:13px; color:{{text_color}};">{% trans 'One Way' %}</span>
                                         <input type="radio" checked="checked" name="radio_airline_type" value="oneway">
@@ -104,26 +104,26 @@
                                     <div class="row">
                                         <div class="col-lg-8">
                                             <div class="row">
-                                                <div class="col-lg-6 col-md-6 col-sm-6 airline-from">
+                                                <div class="col-lg-6 col-md-6 airline-from">
                                                     <span class="span-search-ticket"><i class="fas fa-plane-departure"></i> {% trans 'From' %}</span>
                                                     <div class="input-container-search-ticket">
-                                                        <input id="origin_id_flight" name="origin_id_flight" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('origin_id_flight').select();" onclick="set_airline_search_value_to_false();">
+                                                        <input id="origin_id_flight" name="origin_id_flight" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('origin_id_flight').select();" onclick="set_airline_search_value_to_false();">
                                                         <!--<select class="form-control js-example-basic-single" name="state" style="width:100%;" id="origin_id_flight" placeholder="City or Airport or IATA" onchange="airline_autocomplete('origin')">-->
 
                                                         <!--</select>-->
                                                     </div>
                                                     <!--<input type="hidden" name="origin_id_flight" id="airline_origin_flight" />-->
                                                 </div>
-                                                <div class="image-change-route-vertical">
-                                                    <h4><a href="javascript:airline_switch();" tabindex="-1" style="z-index:5;" id="flight_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
-                                                </div>
-                                                <div class="image-change-route-horizontal">
-                                                    <h4><a class="horizontal-arrow" href="javascript:airline_switch();" tabindex="-1" style="z-index:5; color:{{text_color}};" id="flight_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt icon-change"></i></i></a></h4>
-                                                </div>
-                                                <div class="col-lg-6 col-md-6 col-sm-6 airline-to" style="z-index:5;">
+                                                <div class="col-lg-6 col-md-6 airline-to" style="z-index:5;">
+                                                    <div class="image-change-route-vertical">
+                                                        <h4><a href="javascript:airline_switch();" tabindex="-1" style="z-index:5;" id="flight_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                                                    </div>
+                                                    <div class="image-change-route-horizontal">
+                                                        <h4><a class="horizontal-arrow" href="javascript:airline_switch();" tabindex="-1" style="z-index:5; color:{{text_color}};" id="flight_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt icon-change"></i></i></a></h4>
+                                                    </div>
                                                     <span class="span-search-ticket"><i class="fas fa-plane-arrival"></i> {% trans 'To' %}</span>
                                                     <div class="input-container-search-ticket">
-                                                        <input id="destination_id_flight" name="destination_id_flight" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('destination_id_flight').select();" onclick="set_airline_search_value_to_false();">
+                                                        <input id="destination_id_flight" name="destination_id_flight" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;outline:0" autocomplete="off" value="" onfocus="document.getElementById('destination_id_flight').select();" onclick="set_airline_search_value_to_false();">
                                                         <!--<select class="form-control js-example-basic-single" name="state" style="width:100%;" id="destination_id_flight" name="destination_id_flight" placeholder="City or Airport or IATA" onchange="airline_autocomplete('destination')">-->
 
                                                         <!--</select>-->
@@ -132,13 +132,13 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-4 col-md-6 col-sm-6" id="airline_date_search">
+                                        <div class="col-lg-4 col-md-6" id="airline_date_search">
                                             <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Departure' %}</span>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control" name="airline_departure" id="airline_departure" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
                                             </div>
                                         </div>
-                                        <div class="col-lg-4 col-md-6 col-sm-6">
+                                        <div class="col-lg-4 col-md-6">
                                             <span class="span-search-ticket"><i class="fas fa-users"></i> {% trans 'Passenger' %}</span>
                                             <button id="show_total_pax_flight" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="cursor:pointer; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align:left;">
                                                 1 {% trans 'Adult' %}, 0 {% trans 'Child' %}, 0 {% trans 'Infant' %}
@@ -275,7 +275,7 @@
                                                 </div>
                                             </ul>
                                         </div>
-                                        <div class="col-lg-4 col-md-6 col-sm-6">
+                                        <div class="col-lg-4 col-md-6">
                                             <span class="span-search-ticket"><i class="fas fa-plane"></i> {% trans 'Airline' %}</span>
                                             <button id="show_provider_airline" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="text-align:left; cursor:pointer;">{% trans 'Choose Airline' %}</button>
                                             <!--                                                <input id="provider_flight_btn" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"/>-->
@@ -283,7 +283,7 @@
 
                                             </ul>
                                         </div>
-                                        <div class="col-lg-4 col-md-6 col-sm-6">
+                                        <div class="col-lg-4 col-md-6">
                                             <span class="span-search-ticket">{% trans 'Class' %}</span>
                                             <select class="form-control" id="cabin_class_flight" name="cabin_class_flight" data-live-search="true" size="4">
                                                 {% for cabin_class in airline_cabin_class_list %}
@@ -306,7 +306,7 @@
                                     <span class="check_box_span_custom"></span>
                                     </label><span id="corpor_list_loading" style="font-size:13px; color:{{text_color}}; padding:5px; display:none;"> <div class="ld ld-ring ld-cycle"></div></span>
                                 </div>
-                                <div class="col-lg-12" id="div_corpor_mode_airline" style="display:none;">
+                                <div class="col-lg-12 mb-3" id="div_corpor_mode_airline" style="display:none;">
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-6">
                                             <span class="span-search-ticket">Corporate</span>
@@ -365,34 +365,33 @@
 
                                 <div class="col-lg-6">
                                     <div class="row">
-                                        <div class="col-lg-6 col-md-6 col-sm-6 train-from">
+                                        <div class="col-lg-6 col-md-6 train-from">
                                             <span class="span-search-ticket"><i class="fas fa-train"></i> {% trans 'From' %}</span>
                                             <div class="input-container-search-ticket">
-                                                <input id="train_origin" name="train_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('train_origin').select();" onclick="set_train_search_value_to_false();" value="BD - Bandung">
+                                                <input id="train_origin" name="train_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;outline:0" autocomplete="off" value="" onfocus="document.getElementById('train_origin').select();" onclick="set_train_search_value_to_false();" value="BD - Bandung">
                                             </div>
                                         </div>
-                                        <div class="image-change-route-vertical2">
-                                            <h4><a href="javascript:train_switch();" style="z-index:5;" id="train_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
-                                        </div>
-                                        <div class="image-change-route-horizontal2">
-                                            <h4><a class="horizontal-arrow" href="javascript:train_switch();" style="z-index:5; color:{{text_color}};" id="train_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt"></i></i></a></h4>
-                                        </div>
-
-                                        <div class="col-lg-6 col-md-6 col-sm-6 train-to" style="z-index:5;">
+                                        <div class="col-lg-6 col-md-6 train-to" style="z-index:5;">
+                                            <div class="image-change-route-vertical">
+                                                <h4><a href="javascript:train_switch();" style="z-index:5;" id="train_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                                            </div>
+                                            <div class="image-change-route-horizontal">
+                                                <h4><a class="horizontal-arrow" href="javascript:train_switch();" style="z-index:5; color:{{text_color}};" id="train_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                                            </div>
                                             <span class="span-search-ticket"><i class="fas fa-map-marked-alt"></i> {% trans 'To' %}</span>
                                             <div class="input-container-search-ticket">
-                                                <input id="train_destination" name="train_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('train_destination').select();" onclick="set_train_search_value_to_false();" value="GMR - Gambir">
+                                                <input id="train_destination" name="train_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;outline:0" autocomplete="off" value="" onfocus="document.getElementById('train_destination').select();" onclick="set_train_search_value_to_false();" value="GMR - Gambir">
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-3 col-md-6 col-sm-6" id="train_date_search">
+                                <div class="col-lg-3 col-md-6" id="train_date_search">
                                     <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Departure' %}</span>
                                     <div class="input-container-search-ticket">
                                         <input type="text" class="form-control" id="train_departure" name="train_departure" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = '{% trans 'Departure Date' %} '" autocomplete="off" readonly style="background:white !important;"/>
                                     </div>
                                 </div>
-                                <div class="col-lg-3 col-md-6 col-sm-6">
+                                <div class="col-lg-3 col-md-6">
                                     <span class="span-search-ticket"><i class="fas fa-users"></i> {% trans 'Passenger' %}</span>
                                     <button id="show_total_pax_train" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
                                     <ul class="dropdown-menu" style="overflow-y:unset;" role="menu">
@@ -464,7 +463,7 @@
                                 <div class="col-lg-3 col-md-6">
                                     <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Destination or Hotel' %}</span>
                                     <div class="input-container-search-ticket">
-                                        <input id="hotel_id_destination" name="hotel_id_destination" class="form-control" type="text" placeholder="{% trans 'Select Destination City or Hotel Name' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value=""/>
+                                        <input id="hotel_id_destination" name="hotel_id_destination" class="form-control" type="text" placeholder="{% trans 'Select Destination City or Hotel Name' %}" style="width:100%;outline:0" autocomplete="off" value=""/>
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-6">
@@ -565,7 +564,7 @@
                                     </select>
                                     <input type="hidden" value="ID - Indonesia" id="hotel_id_nationality" class="form-control" name="hotel_id_nationality" />
                                 </div>
-                                <div class="col-lg-12" style="margin-bottom:15px;">
+                                <div class="col-lg-12" style="margin-bottom:15px; display:flex;">
                                     <label class="check_box_custom cblabel">
                                         <span class="span-search-ticket" id="business_trip_help_show" style="font-size:13px;">{% trans 'Business Trip' %}</span>
                                         <input type="checkbox" value="true" onclick="business_trip_check();">
@@ -1283,33 +1282,33 @@
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="row">
-                                        <div class="col-lg-6 col-md-6 col-sm-6 train-from">
+                                        <div class="col-lg-6 col-md-6 train-from">
                                             <span class="span-search-ticket"><i class="fas fa-train"></i> {% trans 'From' %}</span>
                                             <div class="input-container-search-ticket">
-                                                <input id="bus_origin" name="bus_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('bus_origin').select();" onclick="set_train_search_value_to_false();" value="">
+                                                <input id="bus_origin" name="bus_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;outline:0" autocomplete="off" value="" onfocus="document.getElementById('bus_origin').select();" onclick="set_train_search_value_to_false();" value="">
                                             </div>
                                         </div>
-                                        <div class="image-change-route-vertical2">
-                                            <h4><a href="javascript:bus_switch();" style="z-index:5;" id="bus_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
-                                        </div>
-                                        <div class="image-change-route-horizontal2">
-                                            <h4><a class="horizontal-arrow" href="javascript:bus_switch();" style="z-index:5; color:{{text_color}};" id="bus_switch2"><i class="image-rounded-icon"><i class="fas fa-exchange-alt"></i></i></a></h4>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6 train-to" style="z-index:5;">
+                                        <div class="col-lg-6 col-md-6 train-to" style="z-index:5;">
+                                            <div class="image-change-route-vertical">
+                                                <h4><a href="javascript:bus_switch();" style="z-index:5;" id="bus_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                                            </div>
+                                            <div class="image-change-route-horizontal">
+                                                <h4><a class="horizontal-arrow" href="javascript:bus_switch();" style="z-index:5; color:{{text_color}};" id="bus_switch2"><i class="image-rounded-icon"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                                            </div>
                                             <span class="span-search-ticket"><i class="fas fa-map-marked-alt"></i> {% trans 'To' %}</span>
                                             <div class="input-container-search-ticket">
-                                                <input id="bus_destination" name="bus_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('bus_destination').select();" onclick="set_train_search_value_to_false();" value="">
+                                                <input id="bus_destination" name="bus_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;outline:0" autocomplete="off" value="" onfocus="document.getElementById('bus_destination').select();" onclick="set_train_search_value_to_false();" value="">
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-3 col-md-6 col-sm-6" id="bus_date_search">
+                                <div class="col-lg-3 col-md-6" id="bus_date_search">
                                     <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Departure' %}</span>
                                     <div class="input-container-search-ticket">
                                         <input type="text" class="form-control" style="background:white;" id="bus_departure" name="bus_departure" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly/>
                                     </div>
                                 </div>
-                                <div class="col-lg-3 col-md-6 col-sm-6">
+                                <div class="col-lg-3 col-md-6">
                                     <span class="span-search-ticket"><i class="fas fa-users"></i> {% trans 'Passenger' %}</span>
                                     <div class="input-container-search-ticket btn-group">
                                         <button id="show_total_pax_bus" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>

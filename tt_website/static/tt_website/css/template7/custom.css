@@ -112,7 +112,7 @@ a:hover{
   height: 15px;
   width: 15px;
   position: absolute;
-  left: -3%;
+  left: -12px;
   top: 30px;
   font-size:24px;
 }
@@ -130,62 +130,11 @@ a:hover{
     transform-origin: left top;
 
     position: absolute;
-    left: 53%;
+    left: 50%;
     z-index: 10;
     height: 40px;
     width: 40px;
     top: -8px;
-}
-
-@media (max-width: 575px) {
-    .image-change-route-vertical{
-      display:none;
-    }
-    .image-change-route-horizontal{
-      display:block;
-    }
-}
-
-@media (min-width: 576px) {
-    .image-change-route-vertical{
-      display:block;
-    }
-    .image-change-route-horizontal{
-      display:none;
-    }
-}
-
-@media only screen and (min-width: 992px) and (max-width: 1199px){
-    .image-change-route-vertical {
-      z-index: 10;
-      height: 15px;
-      width: 15px;
-      position: absolute;
-      left: -4%;
-      top: 30px;
-    }
-}
-
-@media only screen and (min-width: 768px) and (max-width: 991px){
-    .image-change-route-vertical {
-      z-index: 10;
-      height: 15px;
-      width: 15px;
-      position: absolute;
-      left: -6%;
-      top: 30px;
-    }
-}
-
-@media only screen and (min-width: 576px) and (max-width: 767px){
-    .image-change-route-vertical {
-      z-index: 10;
-      height: 15px;
-      width: 15px;
-      position: absolute;
-      left: -5%;
-      top: 30px;
-    }
 }
 
 
@@ -194,8 +143,8 @@ a:hover{
   height: 15px;
   width: 15px;
   position: absolute;
-  left: 46.7%;
-  top: 22px;
+  left: -12px;
+  top: 32px;
 }
 
 .image-change-route-horizontal2 {
@@ -218,7 +167,13 @@ a:hover{
     width: 40px;
 }
 
-@media (max-width: 575px) {
+@media (max-width: 767px) {
+    .image-change-route-vertical{
+      display:none;
+    }
+    .image-change-route-horizontal{
+      display:block;
+    }
     .image-change-route-vertical2{
       display:none;
     }
@@ -227,45 +182,18 @@ a:hover{
     }
 }
 
-@media (min-width: 576px) {
+@media (min-width: 768px) {
+    .image-change-route-vertical{
+      display:block;
+    }
+    .image-change-route-horizontal{
+      display:none;
+    }
     .image-change-route-vertical2{
       display:block;
     }
     .image-change-route-horizontal2{
       display:none;
-    }
-}
-
-@media only screen and (min-width: 992px) and (max-width: 1199px){
-    .image-change-route-vertical2 {
-      z-index: 10;
-      height: 15px;
-      width: 15px;
-      position: absolute;
-      left: 46.5%;
-      top: 22px;
-    }
-}
-
-@media only screen and (min-width: 768px) and (max-width: 991px){
-    .image-change-route-vertical2 {
-      z-index: 10;
-      height: 15px;
-      width: 15px;
-      position: absolute;
-      left: 47%;
-      top: 25px;
-    }
-}
-
-@media only screen and (min-width: 576px) and (max-width: 767px){
-    .image-change-route-vertical2 {
-      z-index: 10;
-      height: 15px;
-      width: 15px;
-      position: absolute;
-      left: 46.5%;
-      top: 25px;
     }
 }
 
@@ -274,3 +202,6 @@ a:hover{
 }
 
 
+.form-select{
+    margin-bottom:15px;
+}
