@@ -269,7 +269,8 @@ data_vendor = {
         'MKDTKPCR': 'mitrakeluarga_drivethru_pcr_information',
         'MKHCKPCR': 'mitrakeluarga_homecare_pcr_information',
         'MKDTPSRBD': 'mitrakeluarga_drivethru_srbd_information',
-        'MKHCPSRBD': 'mitrakeluarga_homecare_srbd_information'
+        'MKHCPSRBD': 'mitrakeluarga_homecare_srbd_information',
+        'MKHCKBT': 'mitrakeluarga_drivethru_blood_test_information'
     },"sentramedika":{
         'SMHCKATG': 'sentramedika_antigen_information',
         'SMHCKPCR': 'sentramedika_pcr_information',
