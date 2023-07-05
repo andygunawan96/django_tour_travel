@@ -2322,7 +2322,7 @@ function sort(){
                 for(k in airline_pick_list[i].segments[j].fares){
                     if(parseInt(k) == airline_pick_list[i].segments[j].fare_pick){
                         for(l in airline_pick_list[i].segments[j].fares[k].service_charge_summary)
-                            if(airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].pax_type == 'ADT'){
+                            if(!['CHD', 'INF'].includes(airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].pax_type)){
                                 total_price_pick += airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].total_price / airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].pax_count;
                                 break;
                             }
@@ -2857,7 +2857,7 @@ function sort(){
                                                                                    if(airline_request.origin.length == airline_pick_list.length + 1 && airline_recommendations_dict.hasOwnProperty(airline[i].journey_ref_id)){
                                                                                         //combo price
                                                                                         for(l in airline_recommendations_dict[airline[i].journey_ref_id][journey_recom_idx].service_charge_summary){
-                                                                                            if(airline_recommendations_dict[airline[i].journey_ref_id][journey_recom_idx].service_charge_summary[l].pax_type == 'ADT'){
+                                                                                            if(!['CHD', 'INF'].includes(airline_recommendations_dict[airline[i].journey_ref_id][journey_recom_idx].service_charge_summary[l].pax_type)){
                                                                                                 total_price = airline_recommendations_dict[airline[i].journey_ref_id][journey_recom_idx].service_charge_summary[l].total_price / airline_recommendations_dict[airline[i].journey_ref_id][journey_recom_idx].service_charge_summary[l].pax_count; // harga per orang
                                                                                             }
                                                                                         }
@@ -2866,7 +2866,7 @@ function sort(){
                                                                                    else{
                                                                                         //normal / first ticket
                                                                                         for(l in airline[i].segments[j].fares[k].service_charge_summary)
-                                                                                            if(airline[i].segments[j].fares[k].service_charge_summary[l].pax_type == 'ADT'){
+                                                                                            if(!['CHD', 'INF'].includes(airline[i].segments[j].fares[k].service_charge_summary[l].pax_type)){
                                                                                                 for(m in airline[i].segments[j].fares[k].service_charge_summary[l].service_charges)
                                                                                                     if(airline[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'tax' || airline[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'fare' || airline[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'roc')
                                                                                                         total_price+= airline[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].amount;
@@ -2877,7 +2877,7 @@ function sort(){
                                                                                 //normal ticket
                                                                                 else if(airline_pick_list.length != airline_request.origin.length-1 || airline_request.origin.length == 1){
                                                                                     for(l in airline[i].segments[j].fares[k].service_charge_summary)
-                                                                                        if(airline[i].segments[j].fares[k].service_charge_summary[l].pax_type == 'ADT'){
+                                                                                        if(!['CHD', 'INF'].includes(airline[i].segments[j].fares[k].service_charge_summary[l].pax_type)){
                                                                                             for(m in airline[i].segments[j].fares[k].service_charge_summary[l].service_charges)
                                                                                                 if(airline[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'tax' || airline[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'fare' || airline[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'roc')
                                                                                                     total_price+= airline[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].amount;
@@ -3281,13 +3281,13 @@ function sort(){
                                             }
                                             if(check == 1){
                                                 for(l in airline_recommendations_journey[airline_recommendations_list.indexOf(airline[i].journey_ref_id)].service_charge_summary){
-                                                    if(airline_recommendations_journey[airline_recommendations_list.indexOf(airline[i].journey_ref_id)].service_charge_summary[l].pax_type == 'ADT')
+                                                    if(!['CHD', 'INF'].includes(airline_recommendations_journey[airline_recommendations_list.indexOf(airline[i].journey_ref_id)].service_charge_summary[l].pax_type))
                                                         temp_total_price = airline_recommendations_journey[airline_recommendations_list.indexOf(airline[i].journey_ref_id)].service_charge_summary[l].total_price / airline_recommendations_journey[airline_recommendations_list.indexOf(airline[i].journey_ref_id)].service_charge_summary[l].pax_count;
                                                 }
                                                 temp_total_price -= total_price_pick;
                                             }else{
                                                 for(l in airline[i].segments[j].fares[k].service_charge_summary)
-                                                    if(airline[i].segments[j].fares[k].service_charge_summary[l].pax_type == 'ADT'){
+                                                    if(!['CHD', 'INF'].includes(airline[i].segments[j].fares[k].service_charge_summary[l].pax_type)){
                                                         for(m in airline[i].segments[j].fares[k].service_charge_summary[l].service_charges)
                                                             if(airline[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'tax' || airline[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'fare' || airline[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'roc')
                                                                 temp_total_price+= airline[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].amount;
@@ -3296,7 +3296,7 @@ function sort(){
                                             }
                                        }else{
                                             for(l in airline[i].segments[j].fares[k].service_charge_summary)
-                                                if(airline[i].segments[j].fares[k].service_charge_summary[l].pax_type == 'ADT'){
+                                                if(!['CHD', 'INF'].includes(airline[i].segments[j].fares[k].service_charge_summary[l].pax_type)){
                                                     for(m in airline[i].segments[j].fares[k].service_charge_summary[l].service_charges)
                                                         if(airline[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'tax' || airline[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'fare' || airline[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'roc')
                                                             temp_total_price+= airline[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].amount;
@@ -3305,7 +3305,7 @@ function sort(){
                                        }
                                    }else if(airline_pick_list.length != airline_request.origin.length-1 || airline_request.origin.length == 1){
                                         for(l in airline[i].segments[j].fares[k].service_charge_summary)
-                                            if(airline[i].segments[j].fares[k].service_charge_summary[l].pax_type == 'ADT'){
+                                            if(!['CHD', 'INF'].includes(airline[i].segments[j].fares[k].service_charge_summary[l].pax_type)){
                                                 for(m in airline[i].segments[j].fares[k].service_charge_summary[l].service_charges)
                                                     if(airline[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'tax' || airline[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'fare' || airline[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'roc')
                                                         temp_total_price+= airline[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].amount;
@@ -3378,7 +3378,7 @@ function sort(){
                             if(airline_request.origin.length == airline_pick_list.length + 1 && airline_recommendations_list.length != 0){
                                 total_price = 0;
                                 for(l in airline_recommendations_journey[airline_recommendations_list.indexOf(airline[i].journey_ref_id)].service_charge_summary){
-                                    if(airline_recommendations_journey[airline_recommendations_list.indexOf(airline[i].journey_ref_id)].service_charge_summary[l].pax_type == 'ADT')
+                                    if(!['CHD', 'INF'].includes(airline_recommendations_journey[airline_recommendations_list.indexOf(airline[i].journey_ref_id)].service_charge_summary[l].pax_type))
                                         total_price = airline_recommendations_journey[airline_recommendations_list.indexOf(airline[i].journey_ref_id)].service_charge_summary[l].total_price / airline_recommendations_journey[airline_recommendations_list.indexOf(airline[i].journey_ref_id)].service_charge_summary[l].pax_count;
                                 }
                                 total_price -= total_price_pick;
@@ -3903,7 +3903,7 @@ function airline_pick_mc(type){
                         }
                         if(airline_recommendations_dict.hasOwnProperty(airline_pick_list[airline_pick_list.length-1].journey_ref_id)){
                             for(l in airline_recommendations_dict[airline_pick_list[airline_pick_list.length-1].journey_ref_id][journey_recom_idx].service_charge_summary){
-                                if(airline_recommendations_dict[airline_pick_list[airline_pick_list.length-1].journey_ref_id][journey_recom_idx].service_charge_summary[l].pax_type == 'ADT'){
+                                if(!['CHD', 'INF'].includes(airline_recommendations_dict[airline_pick_list[airline_pick_list.length-1].journey_ref_id][journey_recom_idx].service_charge_summary[l].pax_type)){
                                     price = airline_recommendations_dict[airline_pick_list[airline_pick_list.length-1].journey_ref_id][journey_recom_idx].service_charge_summary[l].total_price / airline_recommendations_dict[airline_pick_list[airline_pick_list.length-1].journey_ref_id][journey_recom_idx].service_charge_summary[l].pax_count; // harga per orang
                                 }
                             }
@@ -3940,7 +3940,7 @@ function airline_pick_mc(type){
                             for(k in airline_pick_list[i].segments[j].fares){
                                 if(parseInt(airline_request.child)+parseInt(airline_request.adult) <= airline_pick_list[i].segments[j].fares[k].available_count && k==airline_pick_list[i].segments[j].fare_pick){
                                     for(l in airline_pick_list[i].segments[j].fares[k].service_charge_summary){
-                                        if(airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].pax_type == 'ADT')
+                                        if(!['CHD', 'INF'].includes(airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].pax_type))
                                             for(m in airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges)
                                                 if(airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'fare' || airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'tax' || airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'roc'){
                                                     currency = airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].currency;
@@ -4257,7 +4257,7 @@ function airline_pick_mc(type){
                                                                 if(check == 1){
                                                                     if(j == airline_pick_list[i].segments.length - 1){
                                                                         for(l in airline_recommendations_journey[airline_recommendations_list.indexOf(airline_pick_list[i].journey_ref_id)].service_charge_summary){
-                                                                            if(airline_recommendations_journey[airline_recommendations_list.indexOf(airline_pick_list[i].journey_ref_id)].service_charge_summary[l].pax_type == 'ADT')
+                                                                            if(!['CHD', 'INF'].includes(airline_recommendations_journey[airline_recommendations_list.indexOf(airline_pick_list[i].journey_ref_id)].service_charge_summary[l].pax_type))
                                                                                 total_price = airline_recommendations_journey[airline_recommendations_list.indexOf(airline_pick_list[i].journey_ref_id)].service_charge_summary[l].total_price / airline_recommendations_journey[airline_recommendations_list.indexOf(airline_pick_list[i].journey_ref_id)].service_charge_summary[l].pax_count;
                                                                         }
                                                                         total_price -= total_price_pick;
@@ -4265,7 +4265,7 @@ function airline_pick_mc(type){
                                                                 }
                                                                 else{
                                                                     for(l in airline_pick_list[i].segments[j].fares[k].service_charge_summary){
-                                                                        if(airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].pax_type == 'ADT'){
+                                                                        if(!['CHD', 'INF'].includes(airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].pax_type)){
                                                                             for(m in airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges)
                                                                                 if(airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'tax' || airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'fare' || airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'roc')
                                                                                     total_price+= airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].amount;
@@ -4276,7 +4276,7 @@ function airline_pick_mc(type){
                                                             }
                                                             else if(i != airline_request.origin.length-1 || airline_request.origin.length == 1){
                                                                 for(l in airline_pick_list[i].segments[j].fares[k].service_charge_summary){
-                                                                    if(airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].pax_type == 'ADT'){
+                                                                    if(!['CHD', 'INF'].includes(airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].pax_type)){
                                                                         for(m in airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges)
                                                                             if(airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'tax' || airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'fare' || airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'roc')
                                                                                 total_price+= airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].amount;
@@ -4413,14 +4413,14 @@ function airline_pick_mc(type){
                     if(check == 1){
                         if(j == airline_pick_list[i].segments.length - 1){
                             for(l in airline_recommendations_journey[airline_recommendations_list.indexOf(airline_pick_list[i].journey_ref_id)].service_charge_summary){
-                                if(airline_recommendations_journey[airline_recommendations_list.indexOf(airline_pick_list[i].journey_ref_id)].service_charge_summary[l].pax_type == 'ADT')
+                                if(!['CHD', 'INF'].includes(airline_recommendations_journey[airline_recommendations_list.indexOf(airline_pick_list[i].journey_ref_id)].service_charge_summary[l].pax_type))
                                     temp_total_price_pick = airline_recommendations_journey[airline_recommendations_list.indexOf(airline_pick_list[i].journey_ref_id)].service_charge_summary[l].total_price / airline_recommendations_journey[airline_recommendations_list.indexOf(airline_pick_list[i].journey_ref_id)].service_charge_summary[l].pax_count;
                             }
                             temp_total_price_pick -= total_price_pick;
                         }
                     }else{
                         for(l in airline_pick_list[i].segments[j].fares[k].service_charge_summary){
-                            if(airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].pax_type == 'ADT'){
+                            if(!['CHD', 'INF'].includes(airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].pax_type)){
                                 for(m in airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges)
                                     if(airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'tax' || airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'fare' || airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'roc')
                                         temp_total_price_pick+= airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].amount;
@@ -4431,7 +4431,7 @@ function airline_pick_mc(type){
                 }
                 else if(i != airline_request.origin.length-1 || airline_request.origin.length == 1){
                     for(l in airline_pick_list[i].segments[j].fares[k].service_charge_summary){
-                        if(airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].pax_type == 'ADT'){
+                        if(!['CHD', 'INF'].includes(airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].pax_type)){
                             for(m in airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges)
                                 if(airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'tax' || airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'fare' || airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'roc')
                                     temp_total_price_pick+= airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].amount;
@@ -8895,6 +8895,21 @@ function get_airline_review(){
                                 <b style="background:white; font-size:13px; color:black; padding:0px 15px; display:unset; border: 1px solid #cdcdcd; border-radius:7px;">
                                     <i class="fas fa-user"></i> Child
                                 </b>`;
+                            }else if(passengers_ssr[i].pax_type == 'LBR'){
+                                text+=`
+                                <b style="background:white; font-size:13px; color:black; padding:0px 15px; display:unset; border: 1px solid #cdcdcd; border-radius:7px;">
+                                    <i class="fas fa-user"></i> Labour
+                                </b>`;
+                            }else if(passengers_ssr[i].pax_type == 'SEA'){
+                                text+=`
+                                <b style="background:white; font-size:13px; color:black; padding:0px 15px; display:unset; border: 1px solid #cdcdcd; border-radius:7px;">
+                                    <i class="fas fa-user"></i> Seaman
+                                </b>`;
+                            }else if(passengers_ssr[i].pax_type == 'STU'){
+                                text+=`
+                                <b style="background:white; font-size:13px; color:black; padding:0px 15px; display:unset; border: 1px solid #cdcdcd; border-radius:7px;">
+                                    <i class="fas fa-user"></i> Student
+                                </b>`;
                             }
                             text+=`
                             </h5>`;
@@ -9327,6 +9342,24 @@ function get_airline_review_after_sales(){
                     text+=`
                     <b style="background:white; font-size:13px; color:black; padding:0px 15px; display:unset; border: 1px solid #cdcdcd; border-radius:7px;">
                         <i class="fas fa-user"></i> Child
+                    </b>`;
+                }
+                else if(passengers_ssr[i].pax_type == 'LBR'){
+                    text+=`
+                    <b style="background:white; font-size:13px; color:black; padding:0px 15px; display:unset; border: 1px solid #cdcdcd; border-radius:7px;">
+                        <i class="fas fa-user"></i> Labour
+                    </b>`;
+                }
+                else if(passengers_ssr[i].pax_type == 'SEA'){
+                    text+=`
+                    <b style="background:white; font-size:13px; color:black; padding:0px 15px; display:unset; border: 1px solid #cdcdcd; border-radius:7px;">
+                        <i class="fas fa-user"></i> Seaman
+                    </b>`;
+                }
+                else if(passengers_ssr[i].pax_type == 'STU'){
+                    text+=`
+                    <b style="background:white; font-size:13px; color:black; padding:0px 15px; display:unset; border: 1px solid #cdcdcd; border-radius:7px;">
+                        <i class="fas fa-user"></i> Student
                     </b>`;
                 }
             text+=`
