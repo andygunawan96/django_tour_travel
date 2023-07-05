@@ -2453,25 +2453,26 @@ function check_passenger(){
         }catch(err){
 
         }*/
+        if(test_type != 'MKHCKBT'){
+            if(document.getElementById('booker_address').value == ''){
+                error_log+= 'Please fill address!</br>\n';
+                document.getElementById('booker_address').style['border-color'] = 'red';
+                check_form_booker = 2;
+            }else{
+                document.getElementById('booker_address').style['border-color'] = '#EFEFEF';
+            }
 
-        if(document.getElementById('booker_address').value == ''){
-            error_log+= 'Please fill address!</br>\n';
-            document.getElementById('booker_address').style['border-color'] = 'red';
-            check_form_booker = 2;
-        }else{
-            document.getElementById('booker_address').style['border-color'] = '#EFEFEF';
-        }
-
-        if(document.getElementById('booker_area').value == ''){
-            error_log+= 'Please fill area test!</br>\n';
-            document.getElementById('booker_area').style['border-color'] = 'red';
-            check_form_booker = 2;
-        }else{
-            document.getElementById('booker_area').style['border-color'] = '#EFEFEF';
-        }
-        if(use_google_map == true){
-            if(web_url == '' && google_api_key != ''){
-                error_log+= 'Please choose your test place in google maps!</br>\n';
+            if(document.getElementById('booker_area').value == ''){
+                error_log+= 'Please fill area test!</br>\n';
+                document.getElementById('booker_area').style['border-color'] = 'red';
+                check_form_booker = 2;
+            }else{
+                document.getElementById('booker_area').style['border-color'] = '#EFEFEF';
+            }
+            if(use_google_map == true){
+                if(web_url == '' && google_api_key != ''){
+                    error_log+= 'Please choose your test place in google maps!</br>\n';
+                }
             }
         }
 

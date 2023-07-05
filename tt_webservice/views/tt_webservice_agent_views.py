@@ -1781,6 +1781,10 @@ def get_ho_currency_api(request, signature='', forceUpdate=False):
             res = file
             if request.session['user_account']['co_ho_seq_id'] in res:
                 res = res[request.session['user_account']['co_ho_seq_id']]
+            else:
+                path = var_log_path(request, 'cache_web')
+                os.remove('%s/%s' % (path, 'ho_currency.txt'))
+                res = get_ho_currency_api(request, signature)
         except Exception as e:
             _logger.error('ERROR read file get_ho_currency\n' + str(e) + '\n' + traceback.format_exc())
 
