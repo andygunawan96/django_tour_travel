@@ -2692,7 +2692,7 @@ body.mobile-nav-active #mobile-nav-toggle {
 }
 
 .banner-right .form-wrap {
-  padding: 40px;
+  padding: 30px;
   text-align: center;
 }
 
@@ -4785,7 +4785,7 @@ div.scrollmenu li {
   height: 15px;
   width: 15px;
   position: absolute;
-  left: 46.9%;
+  left: -22px;
   top: 25px;
 }
 
@@ -4802,8 +4802,8 @@ div.scrollmenu li {
     transform-origin: left top;
 
     position: absolute;
-    top: 64px;
-    left: 52%;
+    top: -20px;
+    left: 50%;
     z-index: 10;
     height: 40px;
     width: 40px;
@@ -4814,7 +4814,7 @@ div.scrollmenu li {
   height: 15px;
   width: 15px;
   position: absolute;
-  left: 45.9%;
+  left: -22px;
   top: 26px;
 }
 
@@ -4831,8 +4831,8 @@ div.scrollmenu li {
     transform-origin: left top;
 
     position: absolute;
-    top: 66px;
-    left: 52%;
+    top: -20px;
+    left: 50%;
     z-index: 10;
     height: 40px;
     width: 40px;
@@ -4842,13 +4842,8 @@ div.scrollmenu li {
     color:#205B95;
 }
 
-@media (max-width: 768px) {
-    .image-change-route-vertical{
-        left: 46%;
-    }
-}
 
-@media (max-width: 575px) {
+@media (max-width: 767px) {
     .image-change-route-vertical{
       display:none;
     }
@@ -4861,27 +4856,9 @@ div.scrollmenu li {
     .image-change-route-horizontal2{
       display:block;
     }
-    .airline-to{
-      padding-left:0px;
-    }
-    .airline-from{
-      padding-right:0px;
-    }
-    .train-to{
-      padding-left:0px;
-    }
-    .train-from{
-      padding-right:0px;
-    }
-    .bus-to{
-      padding-left:0px;
-    }
-    .bus-from{
-      padding-right:0px;
-    }
 }
 
-@media (min-width: 576px) {
+@media (min-width: 768px) {
     .image-change-route-vertical{
       display:block;
     }
@@ -5026,7 +5003,7 @@ div.scrollmenu li {
 
 .image-rounded-icon {
   border-radius: 7px;
-  font-size: 18px;
+  font-size: 22px;
   text-align: center;
   padding:8px 9px 10px 9px;
 }
@@ -5042,12 +5019,6 @@ div.scrollmenu li {
 
 .section_bg{
     background:white;
-}
-
-@media only screen and (min-width: 768px) and (max-width: 991px) {
-    .image-change-route-vertical2{
-        left: 46.9%;
-    }
 }
 
 @media (max-width: 575px) {

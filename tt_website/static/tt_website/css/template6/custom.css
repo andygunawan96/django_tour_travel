@@ -222,8 +222,8 @@ div.scrollmenu li {
   height: 15px;
   width: 15px;
   position: absolute;
-  left: 48.4%;
-  top: 30px;
+  left: -12px;
+  top: 28px;
 }
 
 .image-change-route-horizontal {
@@ -239,8 +239,8 @@ div.scrollmenu li {
     transform-origin: left top;
 
     position: absolute;
-    top: 68px;
-    left: 52%;
+    top: -15px;
+    left: 50%;
     z-index: 10;
     height: 40px;
     width: 40px;
@@ -279,7 +279,7 @@ div.scrollmenu li {
     color:#205B95;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
     .image-change-route-vertical{
         left: 47.3%;
     }
@@ -288,7 +288,7 @@ div.scrollmenu li {
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
     .image-change-route-vertical{
       display:none;
     }
@@ -301,15 +301,9 @@ div.scrollmenu li {
     .image-change-route-horizontal2{
       display:block;
     }
-    .train-to{
-      padding-left:0px;
-    }
-    .train-from{
-      padding-right:0px;
-    }
 }
 
-@media (min-width: 769px) {
+@media (min-width: 768px) {
     .image-change-route-vertical{
       display:block;
     }
@@ -538,12 +532,10 @@ small,
 
 .image-rounded-icon2{
     font-size:24px;
-    color:white;
 }
 
 .image-rounded-icon2:hover {
     border: unset !important;
-    color: {{color}};
 }
 
 .form-select-2{

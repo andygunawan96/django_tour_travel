@@ -3362,7 +3362,7 @@ function add_table_of_passenger(type, data){
                         </div>
 
                         <div class="row">
-                            <div class="col-lg-12" id="radio_airline_search" style="text-align:left;margin-bottom:10px;">
+                            <div class="col-lg-12" id="radio_airline_search" style="text-align:left;margin-bottom:20px;">
                                 <label class="radio-button-custom">
                                     <span style="font-size:14px;">Search</span>
                                     <input type="radio" checked="checked" id="radio_passenger_search`+parseInt(counter_passenger+1)+`" name="radio_passenger`+parseInt(counter_passenger+1)+`" value="search" onclick="radio_button('passenger_gb',`+(counter_passenger+1)+`);">

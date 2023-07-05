@@ -156,7 +156,7 @@ function get_carrier_setup(car_provider){
         if (check_provider_has_carrier(car_provider, ppob_prod_data[i]) == true)
         {
             text+=`
-            <label class="radio-img" style="vertical-align:top;">`;
+            <label class="radio-img" style="vertical-align:top; margin-right:0px;">`;
                 if(counter == 0){
                     text+=`<input type="radio" checked="checked" name="bills_type" value="`+i+`">`;
                 }else{
@@ -239,7 +239,7 @@ function set_container_bill(){
         if(template == 1){
             if(bill_type == 'bpjs'){
                 text = `
-                    <div class="col-lg-12" style="padding:0px; text-align:left;">
+                    <div class="col-lg-12" style="text-align:left;">
                         <span class="span-search-ticket">Product Type</span>
                         <div class="input-container-search-ticket">
                             <div class="form-select" id="bpjs-select">
@@ -262,15 +262,15 @@ function set_container_bill(){
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12 mt-3" style="padding:0px; text-align:left;">
-                        <div id="bpjs_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    <div class="col-lg-12 mt-3" style="text-align:left;">
+                        <div id="bpjs_div" class="row">
                         </div>
                     </div>
                 `;
             }
             else if(bill_type == 'pln'){
                 text = `
-                <div class="col-lg-12" style="padding:0px; text-align:left;">
+                <div class="col-lg-12" style="text-align:left;">
                     <span class="span-search-ticket">Product Type</span>
                     <div class="input-container-search-ticket">
                         <div class="form-select" id="pln-select">
@@ -293,14 +293,14 @@ function set_container_bill(){
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-12 mt-3" style="padding:0px; text-align:left;">
-                    <div id="pln_div" class="row" style="margin-left:0px;margin-right:0px;">
+                <div class="col-lg-12 mt-3" style="text-align:left;">
+                    <div id="pln_div" class="row">
                     </div>
                 </div>`;
             }
             else if(bill_type == 'e-voucher'){
                 text = `
-                    <div class="col-lg-12" style="padding:0px; text-align:left;">
+                    <div class="col-lg-12" style="text-align:left;">
                         <span class="span-search-ticket">Product Type</span>
                         <div class="input-container-search-ticket">
                             <div class="form-select" id="evoucher-select">
@@ -323,15 +323,15 @@ function set_container_bill(){
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12 mt-3" style="padding:0px; text-align:left;">
-                        <div id="e-voucher_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    <div class="col-lg-12 mt-3" style="text-align:left;">
+                        <div id="e-voucher_div" class="row">
                         </div>
                     </div>
                 `;
             }
             else if(bill_type == 'cable tv'){
                 text = `
-                    <div class="col-lg-12" style="padding:0px; text-align:left;">
+                    <div class="col-lg-12" style="text-align:left;">
                         <span class="span-search-ticket">Product Type</span>
                         <div class="input-container-search-ticket">
                             <div class="form-select" id="cable_tv-select">
@@ -354,15 +354,15 @@ function set_container_bill(){
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12 mt-3" style="padding:0px; text-align:left;">
-                        <div id="cable_tv_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    <div class="col-lg-12 mt-3" style="text-align:left;">
+                        <div id="cable_tv_div" class="row">
                         </div>
                     </div>
                 `;
             }
             else if(bill_type == 'internet'){
                 text = `
-                    <div class="col-lg-12" style="padding:0px; text-align:left;">
+                    <div class="col-lg-12" style="text-align:left;">
                         <span class="span-search-ticket">Product Type</span>
                         <div class="input-container-search-ticket">
                             <div class="form-select" id="internet-select">
@@ -385,15 +385,15 @@ function set_container_bill(){
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12 mt-3" style="padding:0px; text-align:left;">
-                        <div id="internet_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    <div class="col-lg-12 mt-3" style="text-align:left;">
+                        <div id="internet_div" class="row">
                         </div>
                     </div>
                 `;
             }
             else if(bill_type == 'telephone'){
                 text = `
-                    <div class="col-lg-12" style="padding:0px; text-align:left;">
+                    <div class="col-lg-12" style="text-align:left;">
                         <span class="span-search-ticket">Product Type</span>
                         <div class="input-container-search-ticket">
                             <div class="form-select" id="telephone-select">
@@ -416,15 +416,15 @@ function set_container_bill(){
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12 mt-3" style="padding:0px; text-align:left;">
-                        <div id="telephone_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    <div class="col-lg-12 mt-3" style="text-align:left;">
+                        <div id="telephone_div" class="row">
                         </div>
                     </div>
                 `;
             }
             else if(bill_type == 'insurance'){
                 text = `
-                    <div class="col-lg-12" style="padding:0px; text-align:left;">
+                    <div class="col-lg-12" style="text-align:left;">
                         <span class="span-search-ticket">Product Type</span>
                         <div class="input-container-search-ticket">
                             <div class="form-select" id="insurance-select">
@@ -447,15 +447,15 @@ function set_container_bill(){
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12 mt-3" style="padding:0px; text-align:left;">
-                        <div id="ppob_insurance_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    <div class="col-lg-12 mt-3" style="text-align:left;">
+                        <div id="ppob_insurance_div" class="row">
                         </div>
                     </div>
                 `;
             }
             else if(bill_type == 'pdam'){
                 text = `
-                    <div class="col-lg-12" style="padding:0px; text-align:left;">
+                    <div class="col-lg-12" style="text-align:left;">
                         <span class="span-search-ticket">Product Type</span>
                         <div class="input-container-search-ticket">
                             <div class="form-select" id="pdam-select">
@@ -478,15 +478,15 @@ function set_container_bill(){
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12 mt-3" style="padding:0px; text-align:left;">
-                        <div id="pdam_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    <div class="col-lg-12 mt-3" style="text-align:left;">
+                        <div id="pdam_div" class="row">
                         </div>
                     </div>
                 `;
             }
             else if(bill_type == 'pbb'){
                 text = `
-                    <div class="col-lg-12" style="padding:0px; text-align:left;">
+                    <div class="col-lg-12" style="text-align:left;">
                         <span class="span-search-ticket">Product Type</span>
                         <div class="input-container-search-ticket">
                             <div class="form-select" id="pbb-select">
@@ -509,15 +509,15 @@ function set_container_bill(){
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12 mt-3" style="padding:0px; text-align:left;">
-                        <div id="pbb_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    <div class="col-lg-12 mt-3" style="text-align:left;">
+                        <div id="pbb_div" class="row">
                         </div>
                     </div>
                 `;
             }
             else if(bill_type == 'gas'){
                 text = `
-                    <div class="col-lg-12" style="padding:0px; text-align:left;">
+                    <div class="col-lg-12" style="text-align:left;">
                         <span class="span-search-ticket">Product Type</span>
                         <div class="input-container-search-ticket">
                             <div class="form-select" id="gas-select">
@@ -540,15 +540,15 @@ function set_container_bill(){
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12 mt-3" style="padding:0px; text-align:left;">
-                        <div id="gas_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    <div class="col-lg-12 mt-3" style="text-align:left;">
+                        <div id="gas_div" class="row">
                         </div>
                     </div>
                 `;
             }
             else if(bill_type == 'credit installment'){
                 text = `
-                    <div class="col-lg-12" style="padding:0px; text-align:left;">
+                    <div class="col-lg-12" style="text-align:left;">
                         <span class="span-search-ticket">Product Type</span>
                         <div class="input-container-search-ticket">
                             <div class="form-select" id="credit_installment-select">
@@ -571,15 +571,15 @@ function set_container_bill(){
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12 mt-3" style="padding:0px; text-align:left;">
-                        <div id="credit_installment_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    <div class="col-lg-12 mt-3" style="text-align:left;">
+                        <div id="credit_installment_div" class="row">
                         </div>
                     </div>
                 `;
             }
             else if(bill_type == 'credit card'){
                 text = `
-                    <div class="col-lg-12" style="padding:0px; text-align:left;">
+                    <div class="col-lg-12" style="text-align:left;">
                         <span class="span-search-ticket">Product Type</span>
                         <div class="input-container-search-ticket">
                             <div class="form-select" id="credit_card-select">
@@ -602,8 +602,8 @@ function set_container_bill(){
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12 mt-3" style="padding:0px; text-align:left;">
-                        <div id="credit_card_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    <div class="col-lg-12 mt-3" style="text-align:left;">
+                        <div id="credit_card_div" class="row">
                         </div>
                     </div>
                 `;
@@ -636,8 +636,8 @@ function set_container_bill(){
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12" style="padding:0px; text-align:left;">
-                        <div id="bpjs_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    <div class="col-lg-12" style="text-align:left;">
+                        <div id="bpjs_div" class="row">
                         </div>
                     </div>
                 `;
@@ -667,8 +667,8 @@ function set_container_bill(){
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12" style="padding:0px; text-align:left;">
-                        <div id="pln_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    <div class="col-lg-12" style="text-align:left;">
+                        <div id="pln_div" class="row">
                         </div>
                     </div>
                 `;
@@ -698,8 +698,8 @@ function set_container_bill(){
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12" style="padding:0px; text-align:left;">
-                        <div id="e-voucher_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    <div class="col-lg-12" style="text-align:left;">
+                        <div id="e-voucher_div" class="row">
                         </div>
                     </div>
                 `;
@@ -729,8 +729,8 @@ function set_container_bill(){
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12" style="padding:0px; text-align:left;">
-                        <div id="cable_tv_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    <div class="col-lg-12" style="text-align:left;">
+                        <div id="cable_tv_div" class="row">
                         </div>
                     </div>
                 `;
@@ -760,8 +760,8 @@ function set_container_bill(){
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12" style="padding:0px; text-align:left;">
-                        <div id="internet_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    <div class="col-lg-12" style="text-align:left;">
+                        <div id="internet_div" class="row">
                         </div>
                     </div>
                 `;
@@ -791,8 +791,8 @@ function set_container_bill(){
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12" style="padding:0px; text-align:left;">
-                        <div id="telephone_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    <div class="col-lg-12" style="text-align:left;">
+                        <div id="telephone_div" class="row">
                         </div>
                     </div>
                 `;
@@ -822,8 +822,8 @@ function set_container_bill(){
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12" style="padding:0px; text-align:left;">
-                        <div id="ppob_insurance_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    <div class="col-lg-12" style="text-align:left;">
+                        <div id="ppob_insurance_div" class="row">
                         </div>
                     </div>
                 `;
@@ -853,8 +853,8 @@ function set_container_bill(){
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12" style="padding:0px; text-align:left;">
-                        <div id="pdam_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    <div class="col-lg-12" style="text-align:left;">
+                        <div id="pdam_div" class="row">
                         </div>
                     </div>
                 `;
@@ -884,8 +884,8 @@ function set_container_bill(){
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12" style="padding:0px; text-align:left;">
-                        <div id="pbb_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    <div class="col-lg-12" style="text-align:left;">
+                        <div id="pbb_div" class="row">
                         </div>
                     </div>
                 `;
@@ -915,8 +915,8 @@ function set_container_bill(){
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12" style="padding:0px; text-align:left;">
-                        <div id="gas_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    <div class="col-lg-12" style="text-align:left;">
+                        <div id="gas_div" class="row">
                         </div>
                     </div>
                 `;
@@ -946,8 +946,8 @@ function set_container_bill(){
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12" style="padding:0px; text-align:left;">
-                        <div id="credit_installment_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    <div class="col-lg-12" style="text-align:left;">
+                        <div id="credit_installment_div" class="row">
                         </div>
                     </div>
                 `;
@@ -977,8 +977,8 @@ function set_container_bill(){
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12" style="padding:0px; text-align:left;">
-                        <div id="credit_card_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    <div class="col-lg-12" style="text-align:left;">
+                        <div id="credit_card_div" class="row">
                         </div>
                     </div>
                 `;
@@ -1011,8 +1011,8 @@ function set_container_bill(){
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12" style="padding:0px; text-align:left;">
-                        <div id="bpjs_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    <div class="col-lg-12" style="text-align:left;">
+                        <div id="bpjs_div" class="row">
                         </div>
                     </div>
                 `;
@@ -1042,8 +1042,8 @@ function set_container_bill(){
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12" style="padding:0px; text-align:left;">
-                        <div id="pln_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    <div class="col-lg-12" style="text-align:left;">
+                        <div id="pln_div" class="row">
                         </div>
                     </div>
                 `;
@@ -1073,8 +1073,8 @@ function set_container_bill(){
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12" style="padding:0px; text-align:left;">
-                        <div id="e-voucher_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    <div class="col-lg-12" style="text-align:left;">
+                        <div id="e-voucher_div" class="row">
                         </div>
                     </div>
                 `;
@@ -1104,8 +1104,8 @@ function set_container_bill(){
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12" style="padding:0px; text-align:left;">
-                        <div id="cable_tv_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    <div class="col-lg-12" style="text-align:left;">
+                        <div id="cable_tv_div" class="row">
                         </div>
                     </div>
                 `;
@@ -1135,8 +1135,8 @@ function set_container_bill(){
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12" style="padding:0px; text-align:left;">
-                        <div id="internet_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    <div class="col-lg-12" style="text-align:left;">
+                        <div id="internet_div" class="row">
                         </div>
                     </div>
                 `;
@@ -1166,8 +1166,8 @@ function set_container_bill(){
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12" style="padding:0px; text-align:left;">
-                        <div id="telephone_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    <div class="col-lg-12" style="text-align:left;">
+                        <div id="telephone_div" class="row">
                         </div>
                     </div>
                 `;
@@ -1197,8 +1197,8 @@ function set_container_bill(){
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12" style="padding:0px; text-align:left;">
-                        <div id="ppob_insurance_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    <div class="col-lg-12" style="text-align:left;">
+                        <div id="ppob_insurance_div" class="row">
                         </div>
                     </div>
                 `;
@@ -1228,8 +1228,8 @@ function set_container_bill(){
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12" style="padding:0px; text-align:left;">
-                        <div id="pdam_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    <div class="col-lg-12" style="text-align:left;">
+                        <div id="pdam_div" class="row">
                         </div>
                     </div>
                 `;
@@ -1259,8 +1259,8 @@ function set_container_bill(){
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12" style="padding:0px; text-align:left;">
-                        <div id="pbb_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    <div class="col-lg-12" style="text-align:left;">
+                        <div id="pbb_div" class="row">
                         </div>
                     </div>
                 `;
@@ -1290,8 +1290,8 @@ function set_container_bill(){
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12" style="padding:0px; text-align:left;">
-                        <div id="gas_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    <div class="col-lg-12" style="text-align:left;">
+                        <div id="gas_div" class="row">
                         </div>
                     </div>
                 `;
@@ -1321,8 +1321,8 @@ function set_container_bill(){
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12" style="padding:0px; text-align:left;">
-                        <div id="credit_installment_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    <div class="col-lg-12" style="text-align:left;">
+                        <div id="credit_installment_div" class="row">
                         </div>
                     </div>
                 `;
@@ -1352,8 +1352,8 @@ function set_container_bill(){
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12" style="padding:0px; text-align:left;">
-                        <div id="credit_card_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    <div class="col-lg-12" style="text-align:left;">
+                        <div id="credit_card_div" class="row">
                         </div>
                     </div>
                 `;
@@ -1386,8 +1386,8 @@ function set_container_bill(){
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12" style="padding:0px; text-align:left;">
-                        <div id="bpjs_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    <div class="col-lg-12" style="text-align:left;">
+                        <div id="bpjs_div" class="row">
                         </div>
                     </div>
                 `;
@@ -1417,8 +1417,8 @@ function set_container_bill(){
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12" style="padding:0px; text-align:left;">
-                        <div id="pln_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    <div class="col-lg-12" style="text-align:left;">
+                        <div id="pln_div" class="row">
                         </div>
                     </div>
                 `;
@@ -1448,8 +1448,8 @@ function set_container_bill(){
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12" style="padding:0px; text-align:left;">
-                        <div id="e-voucher_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    <div class="col-lg-12" style="text-align:left;">
+                        <div id="e-voucher_div" class="row">
                         </div>
                     </div>
                 `;
@@ -1479,8 +1479,8 @@ function set_container_bill(){
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12" style="padding:0px; text-align:left;">
-                        <div id="cable_tv_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    <div class="col-lg-12" style="text-align:left;">
+                        <div id="cable_tv_div" class="row">
                         </div>
                     </div>
                 `;
@@ -1510,8 +1510,8 @@ function set_container_bill(){
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12" style="padding:0px; text-align:left;">
-                        <div id="internet_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    <div class="col-lg-12" style="text-align:left;">
+                        <div id="internet_div" class="row">
                         </div>
                     </div>
                 `;
@@ -1541,8 +1541,8 @@ function set_container_bill(){
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12" style="padding:0px; text-align:left;">
-                        <div id="telephone_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    <div class="col-lg-12" style="text-align:left;">
+                        <div id="telephone_div" class="row">
                         </div>
                     </div>
                 `;
@@ -1572,8 +1572,8 @@ function set_container_bill(){
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12" style="padding:0px; text-align:left;">
-                        <div id="ppob_insurance_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    <div class="col-lg-12" style="text-align:left;">
+                        <div id="ppob_insurance_div" class="row">
                         </div>
                     </div>
                 `;
@@ -1603,8 +1603,8 @@ function set_container_bill(){
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12" style="padding:0px; text-align:left;">
-                        <div id="pdam_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    <div class="col-lg-12" style="text-align:left;">
+                        <div id="pdam_div" class="row">
                         </div>
                     </div>
                 `;
@@ -1634,8 +1634,8 @@ function set_container_bill(){
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12" style="padding:0px; text-align:left;">
-                        <div id="pbb_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    <div class="col-lg-12" style="text-align:left;">
+                        <div id="pbb_div" class="row">
                         </div>
                     </div>
                 `;
@@ -1665,8 +1665,8 @@ function set_container_bill(){
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12" style="padding:0px; text-align:left;">
-                        <div id="gas_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    <div class="col-lg-12" style="text-align:left;">
+                        <div id="gas_div" class="row">
                         </div>
                     </div>
                 `;
@@ -1696,8 +1696,8 @@ function set_container_bill(){
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12" style="padding:0px; text-align:left;">
-                        <div id="credit_installment_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    <div class="col-lg-12" style="text-align:left;">
+                        <div id="credit_installment_div" class="row">
                         </div>
                     </div>
                 `;
@@ -1727,8 +1727,8 @@ function set_container_bill(){
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12" style="padding:0px; text-align:left;">
-                        <div id="credit_card_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    <div class="col-lg-12" style="text-align:left;">
+                        <div id="credit_card_div" class="row">
                         </div>
                     </div>
                 `;
@@ -1761,8 +1761,8 @@ function set_container_bill(){
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12" style="padding:0px; text-align:left;">
-                        <div id="bpjs_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    <div class="col-lg-12" style="text-align:left;">
+                        <div id="bpjs_div" class="row">
                         </div>
                     </div>
                 `;
@@ -1792,8 +1792,8 @@ function set_container_bill(){
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12" style="padding:0px; text-align:left;">
-                        <div id="pln_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    <div class="col-lg-12" style="text-align:left;">
+                        <div id="pln_div" class="row">
                         </div>
                     </div>
                 `;
@@ -1823,8 +1823,8 @@ function set_container_bill(){
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12" style="padding:0px; text-align:left;">
-                        <div id="e-voucher_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    <div class="col-lg-12" style="text-align:left;">
+                        <div id="e-voucher_div" class="row">
                         </div>
                     </div>`;
             }
@@ -1853,8 +1853,8 @@ function set_container_bill(){
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12" style="padding:0px; text-align:left;">
-                        <div id="cable_tv_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    <div class="col-lg-12" style="text-align:left;">
+                        <div id="cable_tv_div" class="row">
                         </div>
                     </div>
                 `;
@@ -1884,8 +1884,8 @@ function set_container_bill(){
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12" style="padding:0px; text-align:left;">
-                        <div id="internet_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    <div class="col-lg-12" style="text-align:left;">
+                        <div id="internet_div" class="row">
                         </div>
                     </div>
                 `;
@@ -1915,8 +1915,8 @@ function set_container_bill(){
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12" style="padding:0px; text-align:left;">
-                        <div id="telephone_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    <div class="col-lg-12" style="text-align:left;">
+                        <div id="telephone_div" class="row">
                         </div>
                     </div>
                 `;
@@ -1946,8 +1946,8 @@ function set_container_bill(){
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12" style="padding:0px; text-align:left;">
-                        <div id="ppob_insurance_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    <div class="col-lg-12" style="text-align:left;">
+                        <div id="ppob_insurance_div" class="row">
                         </div>
                     </div>
                 `;
@@ -1977,8 +1977,8 @@ function set_container_bill(){
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12" style="padding:0px; text-align:left;">
-                        <div id="pdam_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    <div class="col-lg-12" style="text-align:left;">
+                        <div id="pdam_div" class="row">
                         </div>
                     </div>
                 `;
@@ -2008,8 +2008,8 @@ function set_container_bill(){
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12" style="padding:0px; text-align:left;">
-                        <div id="pbb_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    <div class="col-lg-12" style="text-align:left;">
+                        <div id="pbb_div" class="row">
                         </div>
                     </div>
                 `;
@@ -2039,8 +2039,8 @@ function set_container_bill(){
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12" style="padding:0px; text-align:left;">
-                        <div id="gas_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    <div class="col-lg-12" style="text-align:left;">
+                        <div id="gas_div" class="row">
                         </div>
                     </div>
                 `;
@@ -2070,8 +2070,8 @@ function set_container_bill(){
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12" style="padding:0px; text-align:left;">
-                        <div id="credit_installment_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    <div class="col-lg-12" style="text-align:left;">
+                        <div id="credit_installment_div" class="row">
                         </div>
                     </div>
                 `;
@@ -2101,8 +2101,8 @@ function set_container_bill(){
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12" style="padding:0px; text-align:left;">
-                        <div id="credit_card_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    <div class="col-lg-12" style="text-align:left;">
+                        <div id="credit_card_div" class="row">
                         </div>
                     </div>
                 `;
@@ -2228,7 +2228,7 @@ function set_container_bill(){
                         </div>
                     </div>
                     <div class="col-lg-12 mt-3" style="text-align:left;">
-                        <div id="cable_tv_div" class="row" style="margin-left:0px;margin-right:0px;">
+                        <div id="cable_tv_div" class="row">
                         </div>
                     </div>
                 `;
@@ -2259,7 +2259,7 @@ function set_container_bill(){
                         </div>
                     </div>
                     <div class="col-lg-12 mt-3" style="text-align:left;">
-                        <div id="internet_div" class="row" style="margin-left:0px;margin-right:0px;">
+                        <div id="internet_div" class="row">
                         </div>
                     </div>
                 `;
@@ -2290,7 +2290,7 @@ function set_container_bill(){
                         </div>
                     </div>
                     <div class="col-lg-12 mt-3" style="text-align:left;">
-                        <div id="telephone_div" class="row" style="margin-left:0px;margin-right:0px;">
+                        <div id="telephone_div" class="row">
                         </div>
                     </div>
                 `;
@@ -2321,7 +2321,7 @@ function set_container_bill(){
                         </div>
                     </div>
                     <div class="col-lg-12 mt-3" style="text-align:left;">
-                        <div id="ppob_insurance_div" class="row" style="margin-left:0px;margin-right:0px;">
+                        <div id="ppob_insurance_div" class="row">
                         </div>
                     </div>
                 `;
@@ -2352,7 +2352,7 @@ function set_container_bill(){
                         </div>
                     </div>
                     <div class="col-lg-12 mt-3" style="text-align:left;">
-                        <div id="pdam_div" class="row" style="margin-left:0px;margin-right:0px;">
+                        <div id="pdam_div" class="row">
                         </div>
                     </div>
                 `;
@@ -2383,7 +2383,7 @@ function set_container_bill(){
                         </div>
                     </div>
                     <div class="col-lg-12 mt-3" style="text-align:left;">
-                        <div id="pbb_div" class="row" style="margin-left:0px;margin-right:0px;">
+                        <div id="pbb_div" class="row">
                         </div>
                     </div>
                 `;
@@ -2414,7 +2414,7 @@ function set_container_bill(){
                         </div>
                     </div>
                     <div class="col-lg-12 mt-3" style="text-align:left;">
-                        <div id="gas_div" class="row" style="margin-left:0px;margin-right:0px;">
+                        <div id="gas_div" class="row">
                         </div>
                     </div>
                 `;
@@ -2445,7 +2445,7 @@ function set_container_bill(){
                         </div>
                     </div>
                     <div class="col-lg-12 mt-3" style="text-align:left;">
-                        <div id="credit_installment_div" class="row" style="margin-left:0px;margin-right:0px;">
+                        <div id="credit_installment_div" class="row">
                         </div>
                     </div>
                 `;
@@ -2476,7 +2476,7 @@ function set_container_bill(){
                         </div>
                     </div>
                     <div class="col-lg-12 mt-3" style="text-align:left;">
-                        <div id="credit_card_div" class="row" style="margin-left:0px;margin-right:0px;">
+                        <div id="credit_card_div" class="row">
                         </div>
                     </div>
                 `;
@@ -2602,7 +2602,7 @@ function set_container_bill(){
                         </div>
                     </div>
                     <div class="col-lg-12 mt-3" style="text-align:left;">
-                        <div id="cable_tv_div" class="row" style="margin-left:0px;margin-right:0px;">
+                        <div id="cable_tv_div" class="row">
                         </div>
                     </div>
                 `;
@@ -2633,7 +2633,7 @@ function set_container_bill(){
                         </div>
                     </div>
                     <div class="col-lg-12 mt-3" style="text-align:left;">
-                        <div id="internet_div" class="row" style="margin-left:0px;margin-right:0px;">
+                        <div id="internet_div" class="row">
                         </div>
                     </div>
                 `;
@@ -2664,7 +2664,7 @@ function set_container_bill(){
                         </div>
                     </div>
                     <div class="col-lg-12 mt-3" style="text-align:left;">
-                        <div id="telephone_div" class="row" style="margin-left:0px;margin-right:0px;">
+                        <div id="telephone_div" class="row">
                         </div>
                     </div>
                 `;
@@ -2695,7 +2695,7 @@ function set_container_bill(){
                         </div>
                     </div>
                     <div class="col-lg-12 mt-3" style="text-align:left;">
-                        <div id="ppob_insurance_div" class="row" style="margin-left:0px;margin-right:0px;">
+                        <div id="ppob_insurance_div" class="row">
                         </div>
                     </div>
                 `;
@@ -2726,7 +2726,7 @@ function set_container_bill(){
                         </div>
                     </div>
                     <div class="col-lg-12 mt-3" style="text-align:left;">
-                        <div id="pdam_div" class="row" style="margin-left:0px;margin-right:0px;">
+                        <div id="pdam_div" class="row">
                         </div>
                     </div>
                 `;
@@ -2757,7 +2757,7 @@ function set_container_bill(){
                         </div>
                     </div>
                     <div class="col-lg-12 mt-3" style="text-align:left;">
-                        <div id="pbb_div" class="row" style="margin-left:0px;margin-right:0px;">
+                        <div id="pbb_div" class="row">
                         </div>
                     </div>
                 `;
@@ -2788,7 +2788,7 @@ function set_container_bill(){
                         </div>
                     </div>
                     <div class="col-lg-12 mt-3" style="text-align:left;">
-                        <div id="gas_div" class="row" style="margin-left:0px;margin-right:0px;">
+                        <div id="gas_div" class="row">
                         </div>
                     </div>
                 `;
@@ -2819,7 +2819,7 @@ function set_container_bill(){
                         </div>
                     </div>
                     <div class="col-lg-12 mt-3" style="text-align:left;">
-                        <div id="credit_installment_div" class="row" style="margin-left:0px;margin-right:0px;">
+                        <div id="credit_installment_div" class="row">
                         </div>
                     </div>
                 `;
@@ -2850,7 +2850,7 @@ function set_container_bill(){
                         </div>
                     </div>
                     <div class="col-lg-12 mt-3" style="text-align:left;">
-                        <div id="credit_card_div" class="row" style="margin-left:0px;margin-right:0px;">
+                        <div id="credit_card_div" class="row">
                         </div>
                     </div>
                 `;
@@ -2860,7 +2860,7 @@ function set_container_bill(){
 
 //    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
 //        text+=`
-//            <div class="col-lg-12 col-md-12 col-sm-12" style="padding:0px; text-align:left;margin-bottom:10px;">
+//            <div class="col-lg-12 col-md-12 col-sm-12" style="text-align:left;margin-bottom:10px;">
 //                <div class="checkbox" id="checkbox_auto_debet">
 //                    <label class="check_box_custom" style="margin-bottom:0px;">
 //                        <span style="font-size:13px; color:`+text_color+`;">Auto Debet</span>
@@ -2978,7 +2978,7 @@ function set_pln_div(){
     $pln_type_name = pln_selection.options[pln_selection.selectedIndex].text;
     if(template == 1){
         if($pln_type_name.includes('PLN Prepaid')){
-            text = `<div class="col-lg-6 col-md-6 col-sm-6" style="padding:0px; text-align:left;margin-bottom:10px;">
+            text = `<div class="col-lg-6 col-md-6 col-sm-6" style="text-align:left;margin-bottom:10px;">
                         <span class="span-search-ticket"><i class="fas fa-bolt"></i> Nomor Meter / ID Pelanggan</span>
                         <div class="input-container-search-ticket">
                             <input type="text" class="form-control pln_number" name="bpjs_number" id="bpjs_number" onkeyup="check_pln_number();" onpaste="setTimeout(check_pln_number.bind(null,this),100);" placeholder="Nomor Meter / ID Pelanggan" autocomplete="off"/>
@@ -2987,7 +2987,7 @@ function set_pln_div(){
                             <h6 style="color:`+color+`;" id="input_alert" style="display:none;"></h6>
                         </div>
                     </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6" style="padding:0px; text-align:left;margin-bottom:10px;">
+                    <div class="col-lg-6 col-md-6 col-sm-6" style="text-align:left;margin-bottom:10px;">
                         <span class="span-search-ticket">Nominal</span>
                         <div class="input-container-search-ticket btn-group">
                             <div class="form-select" id="default-select">
@@ -3005,7 +3005,7 @@ function set_pln_div(){
         }
         else if($pln_type_name.includes('PLN Postpaid') || $pln_type_name.includes('PLN Non Tagihan')){
             text = `
-            <div class="col-lg-12 col-md-12 col-sm-12" style="padding:0px; text-align:left;margin-bottom:10px;">
+            <div class="col-lg-12 col-md-12 col-sm-12" style="text-align:left;margin-bottom:10px;">
                 <span class="span-search-ticket"><i class="fas fa-bolt"></i> Nomor Meter / ID Pelanggan</span>
                 <div class="input-container-search-ticket">
                     <input type="text" class="form-control pln_number" name="bpjs_number" id="bpjs_number" onkeyup="check_pln_number();" onpaste="setTimeout(check_pln_number.bind(null,this),100);" placeholder="Nomor Meter / ID Pelanggan" autocomplete="off"/>
@@ -3228,7 +3228,7 @@ function set_bpjs_div(bill_prov){
     if(template == 1){
         if($bpjs_type_name.includes('BPJS Kesehatan')){
             text = `
-            <div class="col-lg-3 col-md-3 col-sm-12" style="padding:0px;" id="train_date_search">
+            <div class="col-lg-3 col-md-3 col-sm-12">
                 <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Pay Until</span>
                 <div class="input-container-search-ticket btn-group">
                     <div class="form-select" id="default-select">`;
@@ -3281,7 +3281,7 @@ function set_bpjs_div(bill_prov){
     else if (template == 2){
         if($bpjs_type_name.includes('BPJS Kesehatan')){
             text = `
-            <div class="col-lg-3 col-md-3 col-sm-12" id="train_date_search" style="margin-bottom:15px;">
+            <div class="col-lg-3 col-md-3 col-sm-12" style="margin-bottom:15px;">
                 <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Pay Until</span>
                     <div class="form-select" id="default-select">`;
                         if(bill_prov == 'ppob_espay' || $bpjs_type_value.includes('~ppob_espay'))
@@ -3320,7 +3320,7 @@ function set_bpjs_div(bill_prov){
     else if (template == 3){
         if($bpjs_type_name.includes('BPJS Kesehatan')){
             text = `
-            <div class="col-lg-12" id="train_date_search">
+            <div class="col-lg-12">
                 <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Pay Until</span>
                 <div class="form-group">
                     <div class="default-select">`;
@@ -3361,7 +3361,7 @@ function set_bpjs_div(bill_prov){
     else if(template == 4){
         if($bpjs_type_name.includes('BPJS Kesehatan')){
             text = `
-            <div class="col-lg-3 col-md-3 col-sm-12" id="train_date_search">
+            <div class="col-lg-3 col-md-3 col-sm-12">
                 <span class="span-search-ticket">Pay Until</span>
                 <div class="input-container-search-ticket">
                     <i class="fas fa-calendar-alt" style="padding:14px; height: 43px; width: 45px; background:`+color+`; color:`+text_color+`;"></i>
@@ -3404,7 +3404,7 @@ function set_bpjs_div(bill_prov){
     else if(template == 5){
         if($bpjs_type_name.includes('BPJS Kesehatan')){
             text = `
-            <div class="col-lg-3 col-md-3 col-sm-12" id="train_date_search">
+            <div class="col-lg-3 col-md-3 col-sm-12">
                 <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Pay Until</span>
                 <div class="input-container-search-ticket btn-group">
                     <div class="form-select" id="default-select">`;
@@ -3445,7 +3445,7 @@ function set_bpjs_div(bill_prov){
     else if(template == 6){
         if($bpjs_type_name.includes('BPJS Kesehatan')){
             text = `
-            <div class="col-lg-3 col-md-3 col-sm-12" id="train_date_search">
+            <div class="col-lg-3 col-md-3 col-sm-12">
                 <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Pay Until</span>
                 <div class="input-container-search-ticket btn-group">
                     <div class="form-select" id="default-select">`;
@@ -3505,7 +3505,7 @@ function set_evoucher_div(){
     if(template == 1){
         if($evoucher_type_name.includes('Prepaid Mobile')){
             text = `
-            <div class="col-lg-12" style="padding:0px; text-align:left;margin-bottom:10px;">
+            <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
                 <span class="span-search-ticket"><i class="fas fa-mobile"></i> Nomor Handphone Pelanggan</span>
                 <div class="input-container-search-ticket">
                     <input type="text" class="form-control hp_number" onkeyup="check_hp_number('`+$evoucher_type_value+`');" onpaste="setTimeout(check_hp_number.bind('`+$evoucher_type_value+`',this),100);" name="bpjs_number" id="bpjs_number" placeholder="Nomor Handphone Pelanggan" autocomplete="off"/>
@@ -3515,10 +3515,10 @@ function set_evoucher_div(){
                     <span style="color:`+text_color+`;">Contoh: 081234567890</span>
                 </div>
             </div>
-            <div class="col-lg-12 mb-3" id="img_operator" style="padding:0px;">
+            <div class="col-lg-12 mb-3" id="img_operator">
 
             </div>
-            <div class="col-lg-12" style="padding:0px; text-align:left;margin-bottom:10px;">
+            <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
                 <div class="row" id="e-voucher_nominal_div">
 
                 </div>
@@ -3526,7 +3526,7 @@ function set_evoucher_div(){
         }
         else if($evoucher_type_name.includes('Game Voucher')){
             text = `
-                <div class="col-lg-12" style="padding:0px; text-align:left;margin-bottom:10px;">
+                <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
                     <span class="span-search-ticket">Select Voucher</span>
                     <div class="input-container-search-ticket">
                         <div class="form-select">
@@ -3538,7 +3538,7 @@ function set_evoucher_div(){
                 </div>
             `;
             text += `
-            <div class="col-lg-6" style="padding:0px; text-align:left;margin-bottom:10px;">
+            <div class="col-lg-6" style="text-align:left;margin-bottom:10px;">
                 <span class="span-search-ticket"><i class="fas fa-user"></i> User ID / UUID</span>
                 <div class="input-container-search-ticket">
                     <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="User ID / UUID" autocomplete="off"/>
@@ -3548,7 +3548,7 @@ function set_evoucher_div(){
                     <span style="color:`+text_color+`;">*Beberapa voucher game akan diberikan dalam bentuk code setelah pembayaran berhasil.</span>
                 </div>
             </div>
-            <div class="col-lg-6" style="padding:0px; text-align:left;margin-bottom:10px;">
+            <div class="col-lg-6" style="text-align:left;margin-bottom:10px;">
                 <span class="span-search-ticket"><i class="fas fa-map-marker"></i> Server / Zone ID</span>
                 <div class="input-container-search-ticket">
                     <input type="text" class="form-control" name="game_zone_id" id="game_zone_id" placeholder="Server / Zone ID" autocomplete="off"/>
@@ -3562,7 +3562,7 @@ function set_evoucher_div(){
         }
         else if($evoucher_type_name.includes('Other Voucher')){
             text = `
-                <div class="col-lg-12" style="padding:0px; text-align:left;margin-bottom:10px;">
+                <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
                     <span class="span-search-ticket">Select Voucher</span>
                     <div class="input-container-search-ticket">
                         <div class="form-select">
@@ -3574,7 +3574,7 @@ function set_evoucher_div(){
                 </div>
             `;
             text += `
-            <div class="col-lg-12" style="padding:0px; text-align:left;margin-bottom:10px;">
+            <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
                 <span class="span-search-ticket"><i class="fas fa-mobile"></i> Nomor Handphone Pelanggan</span>
                 <div class="input-container-search-ticket">
                     <input type="text" class="form-control hp_number" name="bpjs_number" id="bpjs_number" placeholder="Nomor Handphone Pelanggan" autocomplete="off"/>
@@ -3588,7 +3588,7 @@ function set_evoucher_div(){
         }
         else {
             text = `
-            <div class="col-lg-12" style="padding:0px; text-align:left;margin-bottom:10px;">
+            <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
                 <span class="span-search-ticket"><i class="fas fa-mobile"></i> Nomor Handphone Pelanggan</span>
                 <div class="input-container-search-ticket">
                     <input type="text" class="form-control hp_number" name="bpjs_number" id="bpjs_number" placeholder="Nomor Handphone Pelanggan" autocomplete="off"/>
@@ -4112,7 +4112,7 @@ function set_cable_tv_div(){
     $cable_tv_type_name = cable_tv_selection.options[cable_tv_selection.selectedIndex].text;
     if(template == 1){
         text = `
-        <div class="col-lg-12" style="padding:0px; text-align:left;margin-bottom:10px;">
+        <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
             <span class="span-search-ticket"><i class="fas fa-television"></i> Nomor Pelanggan TV Kabel</span>
             <div class="input-container-search-ticket">
                 <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Pelanggan TV Kabel" autocomplete="off"/>
@@ -4122,7 +4122,7 @@ function set_cable_tv_div(){
         if($cable_tv_type_name.includes('Indovision') || $cable_tv_type_name.includes('Indovision Top TV') || $cable_tv_type_name.includes('Indovision Oke Vision') || $cable_tv_type_name.includes('First Media'))
         {
             text += `
-                <div class="col-lg-12" style="padding:0px; text-align:left;margin-bottom:10px;">
+                <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
                     <span class="span-search-ticket">Payment Amount</span>
                     <div class="input-container-search-ticket">
                         <input type="number" class="form-control" name="cable_tv_nominal" id="cable_tv_nominal" placeholder="Nominal" autocomplete="off"/>
@@ -4245,7 +4245,7 @@ function set_internet_div(){
     $internet_type_name = internet_selection.options[internet_selection.selectedIndex].text;
     if(template == 1){
         text = `
-        <div class="col-lg-12" style="padding:0px; text-align:left;margin-bottom:10px;">
+        <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
             <span class="span-search-ticket"><i class="fas fa-wifi"></i> Nomor Pelanggan Internet</span>
             <div class="input-container-search-ticket">
                 <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Pelanggan Internet" autocomplete="off"/>
@@ -4255,7 +4255,7 @@ function set_internet_div(){
         if($internet_type_name.includes('CBN') || $internet_type_name.includes('Indosatnet') || $internet_type_name.includes('Centrinnet'))
         {
             text += `
-                <div class="col-lg-12" style="padding:0px; text-align:left;margin-bottom:10px;">
+                <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
                     <span class="span-search-ticket">Payment Amount</span>
                     <div class="input-container-search-ticket">
                         <input type="number" class="form-control" name="internet_nominal" id="internet_nominal" placeholder="Nominal" autocomplete="off"/>
@@ -4378,7 +4378,7 @@ function set_telephone_div(){
     $telephone_type_name = telephone_selection.options[telephone_selection.selectedIndex].text;
     if(template == 1){
         text = `
-        <div class="col-lg-12" style="padding:0px; text-align:left;margin-bottom:10px;">
+        <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
             <span class="span-search-ticket"><i class="fas fa-phone"></i> Nomor Telepon</span>
             <div class="input-container-search-ticket">
                 <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Telepon" autocomplete="off"/>
@@ -4445,7 +4445,7 @@ function set_insurance_div(){
     $insurance_type_name = insurance_selection.options[insurance_selection.selectedIndex].text;
     if(template == 1){
         text = `
-        <div class="col-lg-12" style="padding:0px; text-align:left;margin-bottom:10px;">
+        <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
             <span class="span-search-ticket"><i class="fas fa-shield-alt"></i> Nomor Polis</span>
             <div class="input-container-search-ticket">
                 <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Polis" autocomplete="off"/>
@@ -4453,7 +4453,7 @@ function set_insurance_div(){
         </div>
         `;
         text += `
-            <div class="col-lg-12" style="padding:0px; text-align:left;margin-bottom:10px;">
+            <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
                 <span class="span-search-ticket">Payment Amount</span>
                 <div class="input-container-search-ticket">
                     <input type="number" class="form-control" name="insurance_nominal" id="insurance_nominal" placeholder="Nominal" autocomplete="off"/>
@@ -4561,7 +4561,7 @@ function set_pdam_div(){
     $pdam_type_value = pdam_selection.options[pdam_selection.selectedIndex].value;
     if(template == 1){
         text = `
-            <div class="col-lg-12" style="padding:0px; text-align:left;margin-bottom:10px;">
+            <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
                 <span class="span-search-ticket">Area</span>
                 <div class="input-container-search-ticket">
                     <div class="form-select">
@@ -4573,7 +4573,7 @@ function set_pdam_div(){
             </div>
         `;
         text += `
-        <div class="col-lg-12" style="padding:0px; text-align:left;margin-bottom:10px;">
+        <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
             <span class="span-search-ticket"><i class="fas fa-water"></i> Nomor Pelanggan</span>
             <div class="input-container-search-ticket">
                 <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Pelanggan" autocomplete="off"/>
@@ -4702,7 +4702,7 @@ function set_pbb_div(){
     $pbb_type_value = pbb_selection.options[pbb_selection.selectedIndex].value;
     if(template == 1){
         text = `
-            <div class="col-lg-12" style="padding:0px; text-align:left;margin-bottom:10px;">
+            <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
                 <span class="span-search-ticket">Area</span>
                 <div class="input-container-search-ticket">
                     <div class="form-select">
@@ -4714,7 +4714,7 @@ function set_pbb_div(){
             </div>
         `;
         text += `
-        <div class="col-lg-12" style="padding:0px; text-align:left;margin-bottom:10px;">
+        <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
             <span class="span-search-ticket"><i class="fas fa-percent"></i> Nomor Objek Pajak</span>
             <div class="input-container-search-ticket">
                 <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Pelanggan" autocomplete="off"/>
@@ -4842,7 +4842,7 @@ function set_gas_div(){
     $gas_type_name = gas_selection.options[gas_selection.selectedIndex].text;
     if(template == 1){
         text = `
-        <div class="col-lg-12" style="padding:0px; text-align:left;margin-bottom:10px;">
+        <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
             <span class="span-search-ticket"><i class="fas fa-fire"></i> Nomor Pelanggan</span>
             <div class="input-container-search-ticket">
                 <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Pelanggan" autocomplete="off"/>
@@ -4909,7 +4909,7 @@ function set_credit_installment_div(){
     $credit_installment_type_name = credit_installment_selection.options[credit_installment_selection.selectedIndex].text;
     if(template == 1){
         text = `
-        <div class="col-lg-12" style="padding:0px; text-align:left;margin-bottom:10px;">
+        <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
             <span class="span-search-ticket"><i class="fas fa-coins"></i> Nomor Kontrak</span>
             <div class="input-container-search-ticket">
                 <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Kontrak" autocomplete="off"/>
@@ -4917,7 +4917,7 @@ function set_credit_installment_div(){
         </div>
         `;
         text += `
-            <div class="col-lg-12" style="padding:0px; text-align:left;margin-bottom:10px;">
+            <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
                 <span class="span-search-ticket">Payment Amount</span>
                 <div class="input-container-search-ticket">
                     <input type="number" class="form-control" name="credit_installment_nominal" id="credit_installment_nominal" placeholder="Nominal" autocomplete="off"/>
@@ -5024,7 +5024,7 @@ function set_credit_card_div(){
     $credit_card_type_name = credit_card_selection.options[credit_card_selection.selectedIndex].text;
     if(template == 1){
         text = `
-        <div class="col-lg-12" style="padding:0px; text-align:left;margin-bottom:10px;">
+        <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
             <span class="span-search-ticket"><i class="fas fa-credit-card"></i> Nomor Kartu Kredit</span>
             <div class="input-container-search-ticket">
                 <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Kartu Kredit" autocomplete="off"/>
@@ -5032,7 +5032,7 @@ function set_credit_card_div(){
         </div>
         `;
         text += `
-            <div class="col-lg-12" style="padding:0px; text-align:left;margin-bottom:10px;">
+            <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
                 <span class="span-search-ticket">Payment Amount</span>
                 <div class="input-container-search-ticket">
                     <input type="number" class="form-control" name="credit_card_nominal" id="credit_card_nominal" placeholder="Nominal" autocomplete="off"/>

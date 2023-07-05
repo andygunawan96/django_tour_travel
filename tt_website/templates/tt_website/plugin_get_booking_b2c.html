@@ -484,13 +484,13 @@
                 <label style="color:red">*</label>
                 <label>{% trans 'Origin' %}</label>
                 <div class="input-container-search-ticket">
-                    <input id="origin_b2c" name="origin_b2c" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0; margin-bottom:0px;" autocomplete="off" value="" onfocus="document.getElementById('origin_b2c').select();" onclick="set_airline_search_value_to_false();" autocomplete="off">
+                    <input id="origin_b2c" name="origin_b2c" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;outline:0; margin-bottom:0px;" autocomplete="off" value="" onfocus="document.getElementById('origin_b2c').select();" onclick="set_airline_search_value_to_false();" autocomplete="off">
                 </div>`;
                 document.getElementById('booking_id_hidden').innerHTML = `
                 <label style="color:red">*</label>
                 <label>{% trans 'Destination' %}</label>
                 <div class="input-container-search-ticket">
-                    <input id="destination_b2c" name="destination_b2c" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0; margin-bottom:0px;" autocomplete="off" value="" onfocus="document.getElementById('destination_b2c').select();" onclick="set_airline_search_value_to_false();">
+                    <input id="destination_b2c" name="destination_b2c" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;outline:0; margin-bottom:0px;" autocomplete="off" value="" onfocus="document.getElementById('destination_b2c').select();" onclick="set_airline_search_value_to_false();">
                 </div>`;
                 document.getElementById('booking_id_hidden').style.display = "block";
                 if(product == 'airline'){
@@ -562,7 +562,7 @@
                 <label>{% trans 'City' %}</label>
                 <div class="input-container-search-ticket">
                     <div class="form-select">
-                        <input id="city_b2c" name="city_b2c" class="form-control" type="text" placeholder="{% trans 'City' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" >
+                        <input id="city_b2c" name="city_b2c" class="form-control" type="text" placeholder="{% trans 'City' %}" style="width:100%;outline:0" autocomplete="off" value="" >
                     </div>
                 </div>`;
             }
