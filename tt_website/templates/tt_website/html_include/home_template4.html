@@ -2,6 +2,7 @@
 
 <div id="overlay-search-box" onclick="off_overlay()"></div>
 <section class="bg-img" style="background: linear-gradient(0deg, rgba(63, 63, 63, 0.4), rgba(63, 63, 63, 0.4)), url('{{background}}'); background-size: cover; z-index:3; position:relative;" data-aos="fade">
+    {% if username.co_user_login != '' %}
     <div id="overlay-search-box2" onclick="off_overlay()">
         <div class="container">
             {% if big_banner_value == 1 %}
@@ -13,6 +14,7 @@
                 </div>
             </div>
             {% endif %}
+
             {% if username.co_user_name != '' %}
             <div style="text-align:left;">
                 <h2 style="color:{{text_color}}; padding-top:40px; padding-bottom:20px;">
@@ -24,15 +26,6 @@
                     {% endif %}
                 </h2>
             </div>
-            {% else %}
-            <div style="text-align:center;">
-                <h3 style="color:{{text_color}};">
-                    Hello, Guest !
-                </h3>
-                <h4 style="padding-top:5px; padding-bottom:15px; color:{{text_color}};">
-                    Enjoy your trip with {{name}}
-                </h4>
-            </div>
             {% endif %}
         </div>
     </div>
@@ -42,7 +35,6 @@
                 <div class="row justify-content-center">
                     <div class="col-xl-12">
                         <div class="row">
-                            {% if username.co_user_login != '' %}
                             <div class="col-xl-12" style="text-align:left;">
                                 <div class="div-tabs style-scrollbar" id="div_scroll_menu">
                                     <ul class="tabs">
@@ -76,7 +68,6 @@
                                     </ul>
                                 </div>
                             </div>
-                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -88,7 +79,6 @@
                 <div class="row justify-content-center">
                     <div class="col-xl-12">
                         <div class="row">
-                            {% if username.co_user_name != '' %}
                             <div class="col-xl-12" style="text-align:left;">
                                 {% if "airline" in provider and "ticketing_airline" in username.co_agent_frontend_security %}
                                 <div class="form-search-wrap tab-content" id="tab-airline" data-aos="fade-up" data-aos-delay="200">
@@ -330,7 +320,7 @@
                                                         <span class="span-search-ticket">Corporate</span>
                                                         <div class="input-container-search-ticket">
                                                             <div class="form-select">
-                                                                <select id="airline_corpor_select" name="airline_corpor_select" class="form-control js-example-basic-single" style="width:100%;" onchange="render_corbooker_list('airline');">
+                                                                <select id="airline_corpor_select" name="airline_corpor_select" class="form-control js-example-basic-single" style="width:100%;">
 
                                                                 </select>
                                                                 <input type="hidden" id="airline_corpor_select_post" name="airline_corpor_select_post"/>
@@ -1407,11 +1397,11 @@
                                 </div>
                                 {% endif %}
                             </div>
-                            {% endif %}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    {% endif %}
 </section>

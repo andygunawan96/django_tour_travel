@@ -3,6 +3,7 @@
 <div class="banner-area-div bg-img bg-overlay jarallax" style="background-image: url('{{background}}');">
     <div class="container h-100">
         <div class="row">
+            {% if username.co_user_login != '' %}
             {% if big_banner_value == 1 %}
             <div class="col-lg-12" id="big_banner" class="big_banner_home" style="padding-top:30px; padding-bottom:15px;">
                 <div class="stripe_big_banner">
@@ -11,6 +12,7 @@
                     </div>
                 </div>
             </div>
+            {% endif %}
             {% endif %}
             </div>
         </div>
@@ -22,6 +24,7 @@
     <div class="overlay overlay-bg"></div>
     <div class="hotel-search-form-area" style="position:relative;">
         <div class="container-fluid">
+            {% if username.co_user_login != '' %}
             {% if username.co_user_name != '' %}
             <h3 class="mb-3" style="color:{{text_color}};">
                 {% if username.co_user_login != default_user %}
@@ -34,7 +37,6 @@
             {% endif %}
             <div id="overlay-search-box" onclick="off_overlay()"></div>
             <div class="hotel-search-form" id="div-search-overlay" style="padding:25px;">
-                {% if username.co_user_login != '' %}
                 <div class="style-scrollbar" style="overflow:auto; white-space:nowrap;" id="div_scroll_menu">
                     <ul class="tabs" style="padding:unset;">
                         {% for rec in provider_types_sequence %}
@@ -589,13 +591,13 @@
                             {% csrf_token %}
                             <input type="hidden" name="g-recaptcha-response" id='recaptcha_activity'>
                             <div class="row">
-                                <div class="col-lg-10 col-md-9">
+                                <div class="col-lg-9 col-md-9">
                                     <span class="span-search-ticket"><i class="fas fa-umbrella-beach"></i> {% trans 'Activity' %}</span>
                                     <div class="input-container-search-ticket">
                                         <input type="text" class="form-control" style="margin-bottom:0px;" name="activity_query" id="activity_query" placeholder="{% trans 'Search for Activities, Theme Parks, etc' %}" autocomplete="off"/>
                                     </div>
                                 </div>
-                                <div class="col-lg-2 col-md-3">
+                                <div class="col-lg-3 col-md-3">
                                     <span class="span-search-ticket">&nbsp;</span>
                                     <div class="input-container-search-ticket">
                                         <button type="button" class="form-control activity_btn_advance" id="activity_advanced_down" onclick="show_hide_advanced('activity');" style="display:block;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-down"></i></button>
@@ -604,7 +606,7 @@
                                 </div>
                             </div>
                             <div class="row" id="activity_advanced_search" style="display:none;">
-                                <div class="col-lg-6 mb-3">
+                                <div class="col-lg-12 mb-3">
                                     <div class="row">
                                         <div class="col-lg-12">
                                             <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Location' %} </span>
@@ -630,7 +632,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-lg-6">
+                                <div class="col-lg-12">
                                     <div class="row">
                                         <div class="col-lg-12">
                                             <span class="span-search-ticket"><i class="fa fa-folder-open"></i> {% trans 'Category / Type' %} </span>
@@ -706,13 +708,13 @@
                             {% csrf_token %}
                             <input type="hidden" name="g-recaptcha-response" id='recaptcha_tour'>
                             <div class="row">
-                                <div class="col-lg-10 col-md-9">
+                                <div class="col-lg-9 col-md-9">
                                     <span class="span-search-ticket"><i class="fas fa-briefcase"></i> {% trans 'Tour' %}</span>
                                     <div class="input-container-search-ticket">
                                         <input type="text" style="margin-bottom:0px;" class="form-control" name="tour_query" id="tour_query" placeholder="{% trans 'Search for Tour' %}" autocomplete="off"/>
                                     </div>
                                 </div>
-                                <div class="col-lg-2 col-md-3">
+                                <div class="col-lg-3 col-md-3">
                                     <span class="span-search-ticket">&nbsp;</span>
                                     <div class="input-container-search-ticket">
                                         <button type="button" class="form-control" id="tour_advanced_down" onclick="show_hide_advanced('tour');" style="background:{{color}}; color:#ffffff; cursor:pointer;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-down"></i></button>
@@ -721,7 +723,7 @@
                                 </div>
                             </div>
                             <div class="row" id="tour_advanced_search" style="display:none;">
-                                <div class="col-lg-6">
+                                <div class="col-lg-12 mb-3">
                                     <div class="row">
                                         <div class="col-lg-12">
                                             <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Destination' %} </span>
@@ -747,7 +749,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-lg-6 mt-2">
+                                <div class="col-lg-12">
                                     <div class="row">
                                         <div class="col-lg-12">
                                             <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Departure Time' %} </span>
@@ -1355,20 +1357,9 @@
                         </form>
                     </div>
                     {% endif %}
-
                 </div>
-                {% else %}
-                <div>
-                    <h4 style="padding-top:15px;">Already a {{name}} member?</h4>
-                    <h5>Sign in to make booking easier!</h5>
-                    <br/>
-
-                    <button class="primary-btn" type="button" onclick="location.href='{% url 'tt_website:login'%}';">
-                        Sign in <i class="fas fa-sign-in-alt"></i>
-                    </button>
-                </div>
-                {% endif %}
             </div>
+            {% endif %}
         </div>
     </div>
 </section>

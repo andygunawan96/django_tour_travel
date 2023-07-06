@@ -2553,7 +2553,7 @@ ul.tabs li.current .image-rounded-icon{
 .tab-content{
     display: none;
     /*background: rgba(0,0,0,0.5);*/
-    padding: 20px;
+    padding: 30px;
 }
 
 .tab-content.current{
