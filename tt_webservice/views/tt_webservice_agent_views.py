@@ -1723,15 +1723,25 @@ def get_new_cache(request, signature, type='all'):
                 except Exception as e:
                     _logger.error(
                         'ERROR promotion banner file \n' + str(e) + '\n' + traceback.format_exc())
+        ###### 6 JUL 2023 IVAN JAVASCRIPT VERSION UPDATE MANUAL KARENA CLOUDFARE CACHE BIKIN ERROR SETELAH UPDATE CACHE ######
 
-        ## update javascript version agar cache mobile terupdate juga & bisa restart tanpa update javascript_version tetapi klik update di page_admin
-        file = read_cache("javascript_version", 'cache_web', request, 90911, True)
+        # file = read_cache("javascript_version", 'cache_web', request, 90911, True)
+        # if file:
+        #     javascript_version = int(file)
+        # else:
+        #     javascript_version = 1
+        # javascript_version += 1
+        # write_cache(javascript_version, 'javascript_version', request, 'cache_web', True)
+
+        ## update version agar cache mobile terupdate juga & bisa restart tanpa update version tetapi klik update di page_admin
+        file = read_cache("version_number", 'cache_web', request, 90911, True)
         if file:
-            javascript_version = int(file)
+            version_number = int(file)
         else:
-            javascript_version = 1
-        javascript_version += 1
-        write_cache(javascript_version, 'javascript_version', request, 'cache_web', True)
+            version_number = 1
+            version_number += 1
+        write_cache(version_number, 'version_number', request, 'cache_web', True)
+
         logging.getLogger("info_logger").error("DONE GENERATE NEW CACHE!")
         return True
     except Exception as e:

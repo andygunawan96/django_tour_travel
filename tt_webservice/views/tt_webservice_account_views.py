@@ -1769,17 +1769,17 @@ def get_vendor_balance_request(request):
 
 def get_version(request):
     ### MOBILE
-    javascript_version = 0
+    version_number = 0
     try:
-        file = read_cache("javascript_version", 'cache_web', request, 90911, True)
+        file = read_cache("version_number", 'cache_web', request, 90911, True)
         if file:
-            javascript_version = int(file)
+            version_number = int(file)
         else:
-            javascript_version = 1
-            write_cache(javascript_version, 'javascript_version', request, 'cache_web', True)
+            version_number = 1
+            write_cache(version_number, 'version_number', request, 'cache_web', True)
     except Exception as e:
         _logger.error('ERROR javascript_version file\n' + str(e) + '\n' + traceback.format_exc())
-    return javascript_version
+    return version_number
 
 def get_currency(request):
     try:
