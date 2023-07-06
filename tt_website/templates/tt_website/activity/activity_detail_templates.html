@@ -1515,7 +1515,9 @@
         if(document.getElementById("balance_search") && document.getElementById("balance"))
             document.getElementById("balance_search").innerHTML = document.getElementById("balance").innerHTML;
 
-        if(document.getElementById("credit_search") && document.getElementById("credit_limit"))
+        if(document.getElementById("credit_search") && document.getElementById("customer_parent_balance"))
+            document.getElementById("credit_search").innerHTML = document.getElementById("customer_parent_balance").innerHTML;
+        else if(document.getElementById("credit_search") && document.getElementById("credit_limit"))
             document.getElementById("credit_search").innerHTML = document.getElementById("credit_limit").innerHTML;
         $(window).scroll(function() {
             if ($(this).scrollTop() >= 66) {
@@ -1526,7 +1528,9 @@
                    if(document.getElementById("balance_search") && document.getElementById("balance"))
                        document.getElementById("balance_search").innerHTML = document.getElementById("balance").innerHTML;
 
-                   if(document.getElementById("credit_search") && document.getElementById("credit_limit"))
+                   if(document.getElementById("credit_search") && document.getElementById("customer_parent_balance"))
+                       document.getElementById("credit_search").innerHTML = document.getElementById("customer_parent_balance").innerHTML;
+                   else if(document.getElementById("credit_search") && document.getElementById("credit_limit"))
                        document.getElementById("credit_search").innerHTML = document.getElementById("credit_limit").innerHTML;
                 }
             }else{
