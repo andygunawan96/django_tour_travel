@@ -18,6 +18,7 @@
                 {% endif %}
             </div>
             <div class="col-lg-12 pt-4">
+                {% if username.co_user_name != '' %}
                 <h2 style="color:{{text_color}}; padding-bottom:20px; font-size:22px;">
                     {% if username.co_user_login != default_user %}
                     {% trans 'Hello' %}, {{username.co_user_name}}!
@@ -26,10 +27,8 @@
                     {% trans 'Hello, dear customer, book your trip with us' %}
                     {% endif %}
                 </h2>
+                {% endif %}
             </div>
-            {% endif %}
-
-            {% if username.co_user_login != '' %}
             <div class="col-lg-12" id="div-search-overlay">
                 <div class="banner-right scrollmenu style-scrollbar" id="div_scroll_menu">
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -800,13 +799,13 @@
                                 {% csrf_token %}
                                 <input type="hidden" name="g-recaptcha-response" id='recaptcha_activity'>
                                 <div class="row">
-                                    <div class="col-lg-10 col-md-9 col-sm-8">
+                                    <div class="col-lg-9 col-md-9">
                                         <span class="span-search-ticket"><i class="fas fa-umbrella-beach"></i> {% trans 'Activity' %}</span>
                                         <div class="input-container-search-ticket">
                                             <input type="text" class="form-control" name="activity_query" id="activity_query" placeholder="{% trans 'Search for Activities, Theme Parks, etc' %}" autocomplete="off" style="margin-bottom:0px;"/>
                                         </div>
                                     </div>
-                                    <div class="col-lg-2 col-md-3 col-sm-4">
+                                    <div class="col-lg-3 col-md-3">
                                         <span class="span-search-ticket">&nbsp;</span>
                                         <div class="input-container-search-ticket">
                                             <button type="button" class="form-control activity_btn_advance" id="activity_advanced_down" onclick="show_hide_advanced('activity');" style="display:block;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-down"></i></button>
@@ -815,7 +814,7 @@
                                     </div>
                                 </div>
                                 <div class="row" id="activity_advanced_search" style="display:none;">
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-12 mb-2">
                                         <div class="row">
                                             <div class="col-lg-12">
                                                 <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Location' %} </span>
@@ -841,7 +840,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-12">
                                         <div class="row">
                                             <div class="col-lg-12">
                                                 <span class="span-search-ticket"><i class="fa fa-folder-open"></i> {% trans 'Category / Type' %} </span>
@@ -917,13 +916,13 @@
                                 {% csrf_token %}
                                 <input type="hidden" name="g-recaptcha-response" id='recaptcha_tour'>
                                 <div class="row">
-                                    <div class="col-lg-10 col-md-9 col-sm-8">
+                                    <div class="col-lg-9 col-md-9">
                                         <span class="span-search-ticket"><i class="fas fa-briefcase"></i> {% trans 'Tour' %}</span>
                                         <div class="input-container-search-ticket">
                                             <input type="text" class="form-control" name="tour_query" id="tour_query" placeholder="{% trans 'Search for Tour' %}" autocomplete="off" style="margin-bottom:0px;"/>
                                         </div>
                                     </div>
-                                    <div class="col-lg-2 col-md-3 col-sm-4">
+                                    <div class="col-lg-3 col-md-3">
                                         <span class="span-search-ticket">&nbsp;</span>
                                         <div class="input-container-search-ticket">
                                             <button type="button" class="form-control" id="tour_advanced_down" onclick="show_hide_advanced('tour');" style="background:{{color}}; color:#ffffff; cursor:pointer;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-down"></i></button>
@@ -932,7 +931,7 @@
                                     </div>
                                 </div>
                                 <div class="row" id="tour_advanced_search" style="display:none;">
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-12 mb-2">
                                         <div class="row">
                                             <div class="col-lg-12">
                                                 <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Destination' %} </span>
@@ -958,7 +957,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-12">
                                         <div class="row">
                                             <div class="col-lg-12">
                                                 <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Departure Time' %} </span>

@@ -4,6 +4,7 @@
     <!--<div class="overlay overlay-bg" style="border-bottom-left-radius: 5%; border-bottom-right-radius: 5%;"></div>-->
     <div class="container">
         <div class="row fullscreen justify-content-center">
+            {% if username.co_user_login != '' %}
             <div id="overlay-search-box" onclick="off_overlay()"></div>
             {% if big_banner_value == 1 %}
             <div class="col-xl-12" style="z-index:0; position:relative;">
@@ -20,8 +21,8 @@
                 <div class="row">
                     <div class="banner-content col-xl-12 mt-5" style="margin-bottom:15px;">
                         <div class="row">
-                            {% if username.co_user_name != '' %}
                             <div class="col-xl-4 mb-3" style="text-align:left; font-weight:bold;">
+                                {% if username.co_user_name != '' %}
                                 <h2 style="color:{{text_color}}; font-size:18px;">
                                     {% if username.co_user_login != default_user %}
                                     {% trans 'Hello' %}, {{username.co_user_name}}!
@@ -31,6 +32,7 @@
                                     {% trans 'Hello, dear customer, book your trip with us' %}
                                     {% endif %}
                                 </h2>
+                                {% endif %}
                             </div>
                             <div class="col-xl-8" style="text-align:left;">
                                 <div class="div-tabs style-scrollbar" id="div_scroll_menu" style="overflow:auto; white-space:nowrap;">
@@ -65,13 +67,11 @@
                                     </ul>
                                 </div>
                             </div>
-                            {% endif %}
                         </div>
                     </div>
                     <div class="banner-content col-xl-12">
                         <div class="search-field" style="min-height:300px; padding:20px;">
                             <div class="row">
-                                {% if username.co_user_login != '' %}
                                 <div class="col-xl-12" style="text-align:left;">
                                     {% if "airline" in provider and "ticketing_airline" in username.co_agent_frontend_security %}
                                     <div id="tab-airline" class="tab-content">
@@ -612,13 +612,13 @@
                                             {% csrf_token %}
                                             <input type="hidden" name="g-recaptcha-response" id='recaptcha_activity'>
                                             <div class="row">
-                                                <div class="col-lg-10 col-md-9">
+                                                <div class="col-lg-9 col-md-9">
                                                     <span class="span-search-ticket"><i class="fas fa-umbrella-beach"></i> {% trans 'Activity' %}</span>
                                                     <div class="input-container-search-ticket">
                                                         <input type="text" style="margin-bottom:0px;" class="form-control" name="activity_query" id="activity_query" placeholder="{% trans 'Search for Activities, Theme Parks, etc' %}" autocomplete="off"/>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-2 col-md-3">
+                                                <div class="col-lg-3 col-md-3">
                                                     <span class="span-search-ticket">&nbsp;</span>
                                                     <div class="input-container-search-ticket">
                                                         <button type="button" class="form-control activity_btn_advance" id="activity_advanced_down" onclick="show_hide_advanced('activity');" style="display:block;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-down"></i></button>
@@ -729,13 +729,13 @@
                                             {% csrf_token %}
                                             <input type="hidden" name="g-recaptcha-response" id='recaptcha_tour'>
                                             <div class="row">
-                                                <div class="col-lg-10 col-md-9">
+                                                <div class="col-lg-9 col-md-9">
                                                     <span class="span-search-ticket"><i class="fas fa-briefcase"></i> {% trans 'Tour' %}</span>
                                                     <div class="input-container-search-ticket">
                                                         <input type="text" style="margin-bottom:0px;" class="form-control" name="tour_query" id="tour_query" placeholder="{% trans 'Search for Tour' %}" autocomplete="off"/>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-2 col-md-3">
+                                                <div class="col-lg-3 col-md-3">
                                                     <span class="span-search-ticket">&nbsp;</span>
                                                     <div class="input-container-search-ticket">
                                                         <button type="button" class="form-control" id="tour_advanced_down" onclick="show_hide_advanced('tour');" style="background:{{color}}; color:#ffffff; cursor:pointer;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-down"></i></button>
@@ -1387,22 +1387,12 @@
                                     </div>
                                     {% endif %}
                                 </div>
-                                {% else %}
-                                <div class="col-xl-12" style="text-align:left;">
-                                    <h4>Already a {{name}} member?</h4>
-                                    <h5>Sign in to make booking easier!</h5>
-                                    <br/>
-                                    <button class="primary-btn-ticket" type="button" style="margin-top:15px;" onclick="location.href='{% url 'tt_website:login'%}';">
-                                        Sign in <i class="fas fa-sign-in-alt"></i>
-                                    </button>
-                                </div>
-                                {% endif %}
-
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            {% endif %}
         </div>
     </div>
 </section>

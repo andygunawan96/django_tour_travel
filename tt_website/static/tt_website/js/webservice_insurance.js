@@ -4154,7 +4154,7 @@ function onchange_provider_insurance(){
                 <span id="insurance_info"><i class="fas fa-info-circle" style="font-size:20px; cursor:pointer; color:`+text_color+`"></i></span>
             </div>`;
 
-            if(template == 3 || template == 6){
+            if(template == 3 || template == 6 || template == 7){
                 text+=`<div class="col-lg-12">`;
             }else{
                 text+=`<div class="col-lg-6">`;
@@ -4184,7 +4184,7 @@ function onchange_provider_insurance(){
                 </div>
             </div>`;
 
-            if(template == 3 || template == 6){
+            if(template == 3 || template == 6 || template == 7){
                 text+=`<div class="col-lg-12">`;
             }else{
                 text+=`<div class="col-lg-6">`;
@@ -4192,9 +4192,18 @@ function onchange_provider_insurance(){
             text+=`
                 <div class="row">
                     <div class="col-lg-6 col-md-6">
-                        <span class="span-search-ticket"><i class="fas fa-suitcase"></i> Plan Trip</span>
-                        <div class="input-container-search-ticket btn-group">
-                            <div class="form-select default-select" id="default-select">
+                        <span class="span-search-ticket"><i class="fas fa-suitcase"></i> Plan Trip</span>`;
+
+                        if(template == 7){
+                            text+=`
+                            <div class="select-form mb-30">
+                                <div class="select-itms">`;
+                        }else{
+                            text+=`
+                            <div class="input-container-search-ticket btn-group">
+                                <div class="form-select default-select" id="default-select">`;
+                        }
+                        text+=`
                                 <select id="insurance_trip" name="insurance_trip" class="nice-select-default" onchange="next_focus_element('insurance','plantrip')">
 
                                 </select>
@@ -4213,6 +4222,7 @@ function onchange_provider_insurance(){
         }
 
         document.getElementById('insurance_div').innerHTML = text;
+
         //load js ulang
         var insurance_origin = new autoComplete({
             selector: '#insurance_origin',
@@ -4355,9 +4365,17 @@ function onchange_provider_insurance(){
                 </label>
             </div>
             <div class="col-lg-4">
-                <span class="span-search-ticket"><i class="fas fa-train"></i> Destination Area</span>
-                <div class="input-container-search-ticket btn-group">
-                    <div class="form-select default-select" id="default-select">
+                <span class="span-search-ticket"><i class="fas fa-train"></i> Destination Area</span>`;
+                    if(template == 7){
+                        text+=`
+                        <div class="select-form mb-30">
+                            <div class="select-itms">`;
+                    }else{
+                        text+=`
+                        <div class="input-container-search-ticket btn-group">
+                            <div class="form-select default-select" id="default-select">`;
+                    }
+                    text+=`
                         <select id="insurance_destination_area" name="insurance_destination_area" class="nice-select-default" onchange="auto_complete_zurich();next_focus_element('insurance','destination')">`;
                         for(i in insurance_config['zurich']['region']){
                             text +=`<option value="`+i+`">`+i.substr(0,1).toUpperCase()+i.substr(1,i.length).toLowerCase()+`</option>`;

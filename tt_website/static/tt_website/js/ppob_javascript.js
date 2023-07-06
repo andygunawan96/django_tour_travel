@@ -3266,7 +3266,7 @@ function set_bpjs_div(bill_prov){
                     </div>
                 </div>
             </div>
-            <div class="col-lg-9 col-md-9 col-sm-12" style="text-align:left; padding:0px;">
+            <div class="col-lg-9 col-md-9" style="text-align:left;">
                 <span class="span-search-ticket"><i class="fas fa-briefcase"></i> Nomor Virtual Account Keluarga / Perusahaan</span>
                 <div class="input-container-search-ticket">
                     <input type="text" class="form-control virtual_number" name="bpjs_number" id="bpjs_number" onkeyup="check_bpjs_number();" onpaste="setTimeout(check_bpjs_number.bind(null,this),100);" placeholder="Nomor Virtual Account Keluarga / Perusahaan" autocomplete="off"/>
