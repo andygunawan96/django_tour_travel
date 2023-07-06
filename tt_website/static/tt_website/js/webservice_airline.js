@@ -3266,7 +3266,7 @@ function change_fare(journey, segment, fares){
         for(j in airline[journey].segments[i].fares[airline[journey].segments[i].fare_pick].service_charge_summary){
             if(seat_left > airline[journey].segments[i].fares[airline[journey].segments[i].fare_pick].available_count)
                 seat_left = airline[journey].segments[i].fares[airline[journey].segments[i].fare_pick].available_count;
-            if(airline[journey].segments[i].fares[airline[journey].segments[i].fare_pick].service_charge_summary[j].pax_type == 'ADT'){
+            if(!['CHD', 'INF'].includes(airline[journey].segments[i].fares[airline[journey].segments[i].fare_pick].service_charge_summary[j].pax_type)){
                 for(k in airline[journey].segments[i].fares[airline[journey].segments[i].fare_pick].service_charge_summary[j].service_charges){
                     if(!currency)
                         currency = airline[journey].segments[i].fares[airline[journey].segments[i].fare_pick].service_charge_summary[j].service_charges[k].currency;
