@@ -394,6 +394,7 @@ Licence URI: http://www.os-templates.com/template-terms
     <link rel="stylesheet" href="{{ static_path }}css/template7/slick.css?version={{javascript_version}}">
     <link rel="stylesheet" href="{{ static_path }}css/template7/nice-select.css?version={{javascript_version}}">
     <link rel="stylesheet" href="{{ static_path }}css/template7/style.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/template7/select2.css?version={{javascript_version}}">
     <link rel="stylesheet" href="{{ static_path }}css/template7/custom.css?version={{javascript_version}}">
 
     {% elif template == 8 %}
@@ -426,7 +427,7 @@ Licence URI: http://www.os-templates.com/template-terms
     <link rel="stylesheet" href="{{ static_path }}css/library/loading.css?version={{javascript_version}}">
     <link rel="stylesheet" href="{{ static_path }}css/library/loading-btn.css?version={{javascript_version}}">
     <link rel="stylesheet" href="{{ static_path }}css/library/loading-bar.css?version={{javascript_version}}">
-    <!--select2-->
+
     <!--other-->
     <script src="{{ static_path }}js/vendor/jquery-2.2.4.min.js?version={{javascript_version}}"></script>
     <script>
@@ -1937,6 +1938,7 @@ Licence URI: http://www.os-templates.com/template-terms
     };
     window.addEventListener('storage', onLocalStorageEvent, false);
     $( document ).ready(function() {
+      $('.js-example-basic-single').niceSelect('destroy');
       $('.js-example-basic-single').select2();
     });
 </script>
@@ -2177,13 +2179,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <script src="{{ static_path }}js/template7/jquery.scrollUp.min.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/template7/jquery.nice-select.min.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/template7/jquery.sticky.js?version={{javascript_version}}"></script>
-
-<!-- contact js -->
-<script src="{{ static_path }}js/template7/contact.js?version={{javascript_version}}"></script>
-<script src="{{ static_path }}js/template7/jquery.form.js?version={{javascript_version}}"></script>
-<script src="{{ static_path }}js/template7/jquery.validate.min.js?version={{javascript_version}}"></script>
-<!--<script src="{{ static_path }}js/template7/mail-script.js?version={{javascript_version}}"></script>-->
-<script src="{{ static_path }}js/template7/jquery.ajaxchimp.min.js?version={{javascript_version}}"></script>
 
 <!-- Jquery Plugins, main Jquery -->
 <script src="{{ static_path }}js/template7/plugins.js?version={{javascript_version}}"></script>

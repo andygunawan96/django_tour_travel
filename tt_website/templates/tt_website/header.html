@@ -90,6 +90,8 @@
     </div>
 </div>
 
+<!--add template-->
+
 {%if template == 1%}
 <header id="header">
     {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
@@ -1806,7 +1808,6 @@
         </div>
     </div>
 </header>
-
 {% elif template == 8%}
 <header>
     {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
@@ -1837,8 +1838,8 @@
         </div>
     </nav>
 </header>
-
 {%endif%}
+
 <div class="modal fade" id="myModalResetPassword" role="dialog" data-keyboard="false">
     <div class="modal-dialog modal-sign">
         <!-- Modal content-->
@@ -1912,7 +1913,6 @@
         </div>
     </div>
 </div>
-
 
 {% include 'tt_website/modal_balance_vendor.html' %}
 

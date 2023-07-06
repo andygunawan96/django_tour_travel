@@ -4742,7 +4742,7 @@ b, sup, sub, u, del {
 }
 form.search-box {
     padding: 30px;
-    display: flex;
+    display: block;
     flex-wrap: wrap;
     justify-content: space-between;
 }
