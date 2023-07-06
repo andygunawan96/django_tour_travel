@@ -148,7 +148,7 @@ function get_balance(val){
                         show_ul_balance++;
                     }
                     if(msg.result.response.is_show_customer_parent_balance){
-                        text = `Corporate Balance: `+msg.result.response.currency_code+ ' ' + getrupiah(customer_parent_balance)+``;
+                        text = `<span class="fas fa-credit-card" style="color:`+color+`; padding-right:5px; font-size:16px;"></span> Corporate Balance: `+msg.result.response.currency_code+ ' ' + getrupiah(customer_parent_balance);
                         //PARENT AGENT BALANCE CORPORATE
                         if(document.getElementById("customer_parent_balance"))
                             document.getElementById("customer_parent_balance").innerHTML = text;
