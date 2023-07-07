@@ -9276,7 +9276,7 @@ function airline_get_booking(data, sync=false){
                 // pop up hold date
                 if(!['issued'].includes(msg.result.response.state)){
                     context_data = "Expired Price";
-                    if(msg.result.response.expired_date == '' || msg.result.response.expired_date != '' && msg.result.response.expired_date != msg.result.response.hold_date)
+                    if(msg.result.response.expired_date == '' || msg.result.response.expired_date != '' && msg.result.response.expired_date == msg.result.response.hold_date)
                         context_data = "Expired Ticketing Limit";
                     new jBox('Tooltip', {
                         attach: '#hold_date_field',
