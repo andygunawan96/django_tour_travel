@@ -101,17 +101,16 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <div class="three">
-                    <h1 class="style_h1">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</h1>
-                </div>
-                <h3 style="padding-top:10px; padding-bottom:10px;">
+                <h1 class="title_cst">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}
+                </h1>
+                <span class="title_cst_sub">
                     {% if username.co_user_login != default_user %}
                     {% trans 'Hello' %}, {{username.co_user_name}}!
                     {% trans 'Grow your business with' %} <span style="color:{{color}};">{{name}}</span>
                     {% else %}
                     {% trans 'Hello, dear customer, book your trip with us' %}
                     {% endif %}
-                </h3>
+                </span>
             </div>
         </div>
     </div>
@@ -123,7 +122,7 @@
             <div class="col-lg-12" id="div-search-overlay">
                 {% if template == 1 %}
                 <div class="banner-right">
-                    <div class="tab-content" id="myTabContent" style="min-height:300px; background: {{tab_color}} !important; border-bottom-left-radius: 0px; border-bottom-right-radius: 0px;">
+                    <div class="tab-content" id="myTabContent" style="border:1px solid #cdcdcd; min-height:300px; background: {{tab_color}} !important; border-bottom-left-radius: 0px; border-bottom-right-radius: 0px;">
                         <div class="tab-pane fade show active" id="insurance" role="tabpanel" aria-labelledby="insurance-tab">
                             <div id="insurance_provider_div">
 
@@ -146,7 +145,12 @@
                 {% elif template == 3 %}
                 <div class="row fullscreen d-flex" id="div-search-overlay" style="position:relative; padding:15px;">
                     <div class="banner-content col-xl-3 col-lg-3 col-md-3" style="background: {{tab_color}}; border: 1px solid #cdcdcd;">
-                        <h4 class="pt-30 pb-30" style="color:{{text_color}};">{% trans 'Book Your' %} {% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</h4>
+                        <div class="pt-30">
+                            <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-insurance.png" alt="Insurance Icon"/></i>
+                        </div>
+                        <h6 class="pt-30 pb-30" style="color:{{text_color}};">
+                            Book your {% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}
+                        </h6>
                     </div>
                     <div class="col-xl-9 col-lg-9 col-md-9 header-right" style="min-height:300px; padding-left:0px;">
                         <div id="tab-insurance" class="tab-content current">
@@ -157,7 +161,7 @@
                     </div>
                 </div>
                 {% elif template == 4 %}
-                <div style="min-height:300px; position:relative; background:{{tab_color}}; z-index:2;">
+                <div style="min-height:300px; position:relative; background:{{tab_color}}; border:1px solid #cdcdcd; z-index:2;">
                     <div class="container">
                         <div class="row justify-content-center">
                             <div class="col-xl-12">
@@ -177,7 +181,7 @@
                 {% elif template == 5 %}
                 <div class="row">
                     <div class="banner-content col-xl-12">
-                        <div class="search-field" style="min-height:300px; padding:20px;">
+                        <div class="search-field" style="min-height:300px; padding:20px; border:1px solid #cdcdcd">
                             <div class="row">
                                 <div class="col-xl-12" style="text-align:left;">
                                     <div id="tab-insurance" class="tab-content current">
@@ -224,7 +228,7 @@
                     </div>
                     <div class="col-lg-9">
                         <div class="row">
-                            <div class="col-lg-12" style="min-height:300px; background:{{tab_color}};">
+                            <div class="col-lg-12" style="border:1px solid #cdcdcd; min-height:300px; background:{{tab_color}};">
                                 <div id="insurance_provider_div">
 
                                 </div>
