@@ -174,7 +174,7 @@
                         </h4><hr/>
                         <div class="row">
                             <!--testaddress-->
-                            <div class="col-lg-6">
+                            <div class="col-lg-6" id="area_test_div" {% if test_type == 'MKHCKBT' %} hidden {% endif %}>
                                 <label style="color:red !important;">*</label>
                                 <label>{% trans "Area Test" %}</label>
                                 <div class="input-container-search-ticket">
@@ -629,7 +629,7 @@
                         <div class="col-lg-12" style="padding:15px; background:white; border:1px solid #cdcdcd;" id="mitra_keluarga_pax_div" hidden>
                             <h4>Form Customer</h4><hr/>
                             <div class="row">
-                                {% if test_type != 'PHCHCKATG' and test_type != 'PHCHCKPCR' %}
+                                {% if test_type != 'MKHCKBT' %}
                                 <div class="col-lg-12">
                                     <label style="color:red !important;">*</label>
                                     <label>{% trans 'Choose Map' %}</label>
@@ -638,14 +638,21 @@
                                 <div id="googleMap" style=""></div>
                                 {% endif %}
 
+
                                 <div class="col-lg-12 mt-4">
                                     <label style="color:red !important;">*</label>
                                     <label>{% trans 'Test Address' %}</label>
                                     <div class="input-container-search-ticket">
+                                        {% if test_type != 'MKHCKBT' %}
                                         <textarea type="text" class="form-control" style="height:120px; background:white !important;" name="booker_address" id="booker_address" placeholder="{% trans 'Address' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Address '" onchange="change_booker_value('train');"></textarea>
+                                        {% else %}
+                                        <textarea type="text" class="form-control" style="height:120px; background:white !important;" name="booker_address" id="booker_address" disabled="false" value="Suara Surabaya Centre, Jl. Raya Bukit Darmo No.22-24, Putat Gede, Kec. Sukomanunggal, Surabaya, Jawa Timur 60189">Suara Surabaya Centre, Jl. Raya Bukit Darmo No.22-24, Putat Gede, Kec. Sukomanunggal, Surabaya, Jawa Timur 60189</textarea>
+                                        {% endif %}
+
                                     </div>
                                     <label style="font-size:12px; padding:0;">{% trans 'Example' %}: Jl. Raya Darmo 177b</label>
                                 </div>
+
 
                                 <div class="col-lg-12" style="text-align:left; margin-top:20px; margin-bottom:15px;display:none;" id="table_passenger_list">
                                     <div class="row" id="loading-booker-train" style="display:none;">
@@ -781,7 +788,7 @@
                             </h4><hr/>
                             <div class="row">
                                 <!--testaddress-->
-                                <div class="col-lg-6">
+                                <div class="col-lg-6" id="area_test_div" {% if test_type == 'MKHCKBT' %} hidden {% endif %}>
                                     <label style="color:red !important;">*</label>
                                     <label>{% trans "Area Test" %}</label>
                                     <div class="input-container-search-ticket">
@@ -1201,7 +1208,11 @@
                                         <label style="color:red !important;">*</label>
                                         <label>{% trans 'Test Address' %}</label>
                                         <div class="input-container-search-ticket">
+                                            {% if test_type != 'MKHCKBT' %}
                                             <textarea type="text" class="form-control" style="height:120px; background:white !important;" name="booker_address" id="booker_address" placeholder="{% trans 'Address' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Address '" onchange="change_booker_value('train');"></textarea>
+                                            {% else %}
+                                            <textarea type="text" class="form-control" style="height:120px; background:white !important;" name="booker_address" id="booker_address" disabled="false" value="Suara Surabaya Centre, Jl. Raya Bukit Darmo No.22-24, Putat Gede, Kec. Sukomanunggal, Surabaya, Jawa Timur 60189">Suara Surabaya Centre, Jl. Raya Bukit Darmo No.22-24, Putat Gede, Kec. Sukomanunggal, Surabaya, Jawa Timur 60189</textarea>
+                                            {% endif %}
                                         </div>
                                         <label style="font-size:12px; padding:0;">{% trans 'Example' %}: Jl. Raya Darmo 177b</label>
                                     </div>
@@ -1340,7 +1351,7 @@
                         </h4><hr/>
                         <div class="row">
                             <!--testaddress-->
-                            <div class="col-lg-6">
+                            <div class="col-lg-6" id="area_test_div" {% if test_type == 'MKHCKBT' %} hidden {% endif %}>
                                 <label style="color:red !important;">*</label>
                                 <label>{% trans "Area Test" %}</label>
                                 <div class="form-group">
@@ -1783,7 +1794,11 @@
                                     <label style="color:red !important;">*</label>
                                     <label>{% trans 'Test Address' %}</label>
                                     <div class="input-container-search-ticket">
+                                        {% if test_type != 'MKHCKBT' %}
                                         <textarea type="text" class="form-control" style="height:120px; background:white !important;" name="booker_address" id="booker_address" placeholder="{% trans 'Address' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Address '" onchange="change_booker_value('train');"></textarea>
+                                        {% else %}
+                                        <textarea type="text" class="form-control" style="height:120px; background:white !important;" name="booker_address" id="booker_address" disabled="false" value="Suara Surabaya Centre, Jl. Raya Bukit Darmo No.22-24, Putat Gede, Kec. Sukomanunggal, Surabaya, Jawa Timur 60189">Suara Surabaya Centre, Jl. Raya Bukit Darmo No.22-24, Putat Gede, Kec. Sukomanunggal, Surabaya, Jawa Timur 60189</textarea>
+                                        {% endif %}
                                     </div>
                                     <label style="font-size:12px; padding:0;">{% trans 'Example' %}: Jl. Raya Darmo 177b</label>
                                 </div>
@@ -1920,7 +1935,7 @@
                     </h4><hr/>
                     <div class="row">
                         <!--testaddress-->
-                        <div class="col-lg-6">
+                        <div class="col-lg-6" id="area_test_div" {% if test_type == 'MKHCKBT' %} hidden {% endif %}>
                             <label style="color:red !important;">*</label>
                             <label>{% trans "Area Test" %}</label>
                             <div class="input-container-search-ticket">
@@ -2343,7 +2358,11 @@
                                 <label style="color:red !important;">*</label>
                                 <label>{% trans 'Test Address' %}</label>
                                 <div class="input-container-search-ticket">
+                                    {% if test_type != 'MKHCKBT' %}
                                     <textarea type="text" class="form-control" style="height:120px; background:white !important;" name="booker_address" id="booker_address" placeholder="{% trans 'Address' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Address '" onchange="change_booker_value('train');"></textarea>
+                                    {% else %}
+                                    <textarea type="text" class="form-control" style="height:120px; background:white !important;" name="booker_address" id="booker_address" disabled="false" value="Suara Surabaya Centre, Jl. Raya Bukit Darmo No.22-24, Putat Gede, Kec. Sukomanunggal, Surabaya, Jawa Timur 60189">Suara Surabaya Centre, Jl. Raya Bukit Darmo No.22-24, Putat Gede, Kec. Sukomanunggal, Surabaya, Jawa Timur 60189</textarea>
+                                    {% endif %}
                                 </div>
                                 <label style="font-size:12px; padding:0;">{% trans 'Example' %}: Jl. Raya Darmo 177b</label>
                             </div>
@@ -2480,7 +2499,7 @@
                         </h4><hr/>
                         <div class="row">
                             <!--testaddress-->
-                            <div class="col-lg-6">
+                            <div class="col-lg-6" id="area_test_div" {% if test_type == 'MKHCKBT' %} hidden {% endif %}>
                                 <label style="color:red !important;">*</label>
                                 <label>{% trans "Area Test" %}</label>
                                 <div class="input-container-search-ticket btn-group">
@@ -2901,7 +2920,11 @@
                                     <label style="color:red !important;">*</label>
                                     <label>{% trans 'Test Address' %}</label>
                                     <div class="input-container-search-ticket">
+                                        {% if test_type != 'MKHCKBT' %}
                                         <textarea type="text" class="form-control" style="height:120px; background:white !important;" name="booker_address" id="booker_address" placeholder="{% trans 'Address' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Address '" onchange="change_booker_value('train');"></textarea>
+                                        {% else %}
+                                        <textarea type="text" class="form-control" style="height:120px; background:white !important;" name="booker_address" id="booker_address" disabled="false" value="Suara Surabaya Centre, Jl. Raya Bukit Darmo No.22-24, Putat Gede, Kec. Sukomanunggal, Surabaya, Jawa Timur 60189">Suara Surabaya Centre, Jl. Raya Bukit Darmo No.22-24, Putat Gede, Kec. Sukomanunggal, Surabaya, Jawa Timur 60189</textarea>
+                                        {% endif %}
                                     </div>
                                     <label style="font-size:12px; padding:0;">{% trans 'Example' %}: Jl. Raya Darmo 177b</label>
                                 </div>
@@ -3039,7 +3062,7 @@
                         </h4><hr/>
                         <div class="row">
                             <!--testaddress-->
-                            <div class="col-lg-6">
+                            <div class="col-lg-6" id="area_test_div" {% if test_type == 'MKHCKBT' %} hidden {% endif %}>
                                 <label style="color:red !important;">*</label>
                                 <label>{% trans "Area Test" %}</label>
                                 <div class="input-container-search-ticket btn-group">
@@ -3459,7 +3482,11 @@
                                     <label style="color:red !important;">*</label>
                                     <label>{% trans 'Test Address' %}</label>
                                     <div class="input-container-search-ticket">
+                                        {% if test_type != 'MKHCKBT' %}
                                         <textarea type="text" class="form-control" style="height:120px; background:white !important;" name="booker_address" id="booker_address" placeholder="{% trans 'Address' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Address '" onchange="change_booker_value('train');"></textarea>
+                                        {% else %}
+                                        <textarea type="text" class="form-control" style="height:120px; background:white !important;" name="booker_address" id="booker_address" disabled="false" value="Suara Surabaya Centre, Jl. Raya Bukit Darmo No.22-24, Putat Gede, Kec. Sukomanunggal, Surabaya, Jawa Timur 60189">Suara Surabaya Centre, Jl. Raya Bukit Darmo No.22-24, Putat Gede, Kec. Sukomanunggal, Surabaya, Jawa Timur 60189</textarea>
+                                        {% endif %}
                                     </div>
                                     <label style="font-size:12px; padding:0;">{% trans 'Example' %}: Jl. Raya Darmo 177b</label>
                                 </div>
@@ -3584,7 +3611,7 @@
     use_google_map = false;
     last_counter = 0;
     vendor = `{{vendor}}`;
-    alamat_ss = 'RS Mitra Pondok Tjandra, Jl. Raya Taman Asri Kav. DD No. 1-8, Tambaksumur, Waru, Sidoarjo';
+    alamat_ss = 'Suara Surabaya Centre, Jl. Raya Bukit Darmo No.22-24, Putat Gede, Kec. Sukomanunggal, Surabaya, Jawa Timur 60189';
     test_type = `{{test_type}}`;
 
     document.getElementById('mitra_keluarga_timeslot').style.display = 'block';
