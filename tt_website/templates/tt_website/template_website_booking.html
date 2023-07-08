@@ -490,6 +490,9 @@ Licence URI: http://www.os-templates.com/template-terms
 
     <!--All Template-->
     <style>
+        .title_animate_cst{
+            color: {{text_color}};
+        }
         ul.main_menu_tabs li.current{
             background: {{color}}
         }
@@ -1389,6 +1392,9 @@ Licence URI: http://www.os-templates.com/template-terms
     </style>
     {% elif template == 3%}
     <style>
+        .image-rounded-icon{
+            background: {{color}};
+        }
         .image-rounded-icon2{
             color: {{text_color}};
         }
@@ -1529,7 +1535,7 @@ Licence URI: http://www.os-templates.com/template-terms
         */
         ul.tabs li:hover{
             color: {{text_color}};
-            background: {{tab_color}};
+            background: {{color}};
         }
         ul.tabs li.current {
             background: {{color}};
@@ -1561,6 +1567,21 @@ Licence URI: http://www.os-templates.com/template-terms
     </style>
     {% elif template == 5%}
     <style>
+        ul.tabs li .btn-txt-color{
+            color: white;
+        }
+        ul.tabs li:hover .btn-txt-color{
+            color: {{color}};
+        }
+        ul.tabs li:hover .image-rounded-icon{
+            background: {{color}};
+        }
+        ul.tabs li.current .image-rounded-icon{
+            background: {{color}};
+        }
+        .tab-link.current .btn-txt-color{
+            color: {{color}};
+        }
         .image-change-route-vertical a{
             color: {{text_color}} !important;
         }
@@ -1642,18 +1663,6 @@ Licence URI: http://www.os-templates.com/template-terms
         }
         .form-select .nice-select .list .option:hover{
             color: {{color}};
-        }
-        ul.tabs li{
-            color: {{text_color}};
-        }
-        ul.tabs li:hover{
-            border-bottom: 5px solid {{color}};
-        }
-        ul.tabs li.current {
-            border-bottom: 5px solid {{color}};
-        }
-        ul.tabs li.current .image-rounded-icon{
-            background: {{color}} !important;
         }
     </style>
     {% elif template == 6%}

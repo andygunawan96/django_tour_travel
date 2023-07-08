@@ -16,15 +16,15 @@
             {% endif %}
 
             {% if username.co_user_name != '' %}
-            <div style="text-align:left;">
-                <h2 style="color:{{text_color}}; padding-top:40px; padding-bottom:20px;">
+            <div style="padding-top:30px; text-align:left;">
+                <h3 style="color:white; padding-top:40px; padding-bottom:20px;">
                     {% if username.co_user_login != default_user %}
-                    {% trans 'Hello' %}, {{username.co_user_name}}!<br/>
+                    {% trans 'Hello' %}, {{username.co_user_name}}!
                     {% trans 'Grow your business with' %} <span class="lamp">{{name}}</span>
                     {% else %}
                     {% trans 'Hello, dear customer, book your trip with us' %}
                     {% endif %}
-                </h2>
+                </h3>
             </div>
             {% endif %}
         </div>
@@ -74,7 +74,7 @@
             </div>
         </div>
 
-        <div style="position:relative; background:{{tab_color}}; z-index:2;">
+        <div style="position:relative; background:{{tab_color}}; z-index:2; border-bottom:1px solid #cdcdcd;">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-xl-12">
