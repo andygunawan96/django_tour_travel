@@ -9425,6 +9425,8 @@ function get_new_ori_ticket_printout(order_number, timeout=30){
                       html: msg.result.error_msg,
                     })
                 }
+                $('#button-print-ori-request').prop('disabled', false);
+                $('#button-print-ori-request').removeClass("running");
                 printout_state = 0;
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
