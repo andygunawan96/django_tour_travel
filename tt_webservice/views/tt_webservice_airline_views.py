@@ -182,6 +182,8 @@ def api_models(request):
             res = get_retrieve_booking_from_vendor(request)
         elif req_data['action'] == 'save_retrieve_booking_from_vendor':
             res = save_retrieve_booking_from_vendor(request)
+        elif req_data['action'] == 'get_new_ori_ticket':
+            res = get_new_ori_ticket(request)
 
         ## change identity
         elif req_data['action'] == 'update_post_pax_identity':
@@ -3454,6 +3456,31 @@ def save_retrieve_booking_from_vendor(request):
             _logger.info("SUCCESS save_retrieve_booking_from_vendor AIRLINE SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR save_retrieve_booking_from_vendor AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def get_new_ori_ticket(request):
+    try:
+        data = {
+            'order_number': request.POST['order_number']
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "get_new_vendor_ticket_itinerary",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+
+    url_request = get_url_gateway('booking/airline')
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
+    try:
+        if res['result']['error_code'] == 0:
+            _logger.info("SUCCESS get_new_ori_ticket AIRLINE SIGNATURE " + request.POST['signature'])
+        else:
+            _logger.error("ERROR get_new_ori_ticket AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
