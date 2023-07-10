@@ -7553,6 +7553,8 @@ function airline_get_booking(data, sync=false){
                                 </td>
                             </tr>`;
                         }
+                        if(msg.result.response.hasOwnProperty('expired_date') && moment(msg.result.response.expired_date) > moment())
+                            check_provider_booking++;
                         if(check_provider_booking == 0 && msg.result.response.state != 'issued'){
                             check_provider_booking++;
                             $(".issued_booking_btn").remove();
@@ -8552,6 +8554,22 @@ function airline_get_booking(data, sync=false){
                                 <div class="ld ld-ring ld-cycle"></div>
                             </button>
                         </div>`;
+                        can_request_new_ori_ticket = false;
+                        for(i in msg.result.response.provider_bookings){
+                            if(msg.result.response.provider_bookings[i].provider == 'altea'){
+                                can_request_new_ori_ticket = true
+                                break
+                            }
+                        }
+                        if(can_request_new_ori_ticket)
+                            text+=`
+                            <div class="col-lg-6 col-md-6" style="padding-bottom:10px;">`;
+                                text+=`
+                                <button type="button" id="button-print-ori-request" class="primary-btn ld-ext-right" style="width:100%;" onclick="get_new_ori_ticket_printout('`+msg.result.response.order_number+`');">
+                                    <i class="fas fa-print"></i> Request New Ori Ticket
+                                    <div class="ld ld-ring ld-cycle"></div>
+                                </button>
+                            </div>`;
                     }
                     text+=`<div class="col-lg-6 col-md-6" style="padding-bottom:10px;">`;
                         if(msg.result.response.state != 'cancel' && msg.result.response.state != 'cancel2'){
@@ -9369,6 +9387,60 @@ function airline_get_booking(data, sync=false){
             $('.loader-rodextrip').fadeOut();
        },timeout: 300000
     });
+}
+
+function get_new_ori_ticket_printout(order_number, timeout=30){
+    //type ticket, ticket_price, invoice, itinerary, voucher, visa_handling,
+    if(printout_state == 0){
+        $('#button-print-ori-request').prop('disabled', true);
+        $('#button-print-ori-request').addClass("running");
+        printout_state = 1;
+        $.ajax({
+           type: "POST",
+           url: "/webservice/airline",
+           headers:{
+                'action': 'get_new_ori_ticket',
+           },
+           data: {
+                'order_number': order_number,
+                'signature': signature
+           },
+           success: function(msg) {
+                if(msg.result.error_code == 0){
+                    for(i in msg.result.response)
+                        if(msg.result.response[i].hasOwnProperty('url'))
+                            openInNewTab(msg.result.response[i].url);
+                        else{
+                            Swal.fire({
+                              type: 'error',
+                              title: 'Oops!',
+                              html: msg.result.response[i].error_msg,
+                            });
+                            break;
+                        }
+                }else{
+                    Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: msg.result.error_msg,
+                    })
+                }
+                $('#button-print-ori-request').prop('disabled', false);
+                $('#button-print-ori-request').removeClass("running");
+                printout_state = 0;
+           },
+           error: function(XMLHttpRequest, textStatus, errorThrown) {
+                error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error printout');
+                printout_state = 0;
+           },timeout: timeout * 1000
+        });
+    }else{
+        Swal.fire({
+          type: 'error',
+          title: 'Oops!',
+          html: '<span style="color: red;">Please wait to print next print out </span>',
+        })
+    }
 }
 
 function airline_get_reprice(data){
