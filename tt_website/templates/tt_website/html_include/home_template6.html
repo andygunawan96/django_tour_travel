@@ -601,6 +601,42 @@
                                                     </label>
                                                     <span id="business_trip_help" style="color:{{text_color}}; cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;"></i></span>
                                                 </div>
+                                                {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
+                                                <br/>
+                                                <div class="col-lg-12" style="text-align:left;">
+                                                    <label class="check_box_custom mt-2">
+                                                        <span style="font-size:13px; color:{{text_color}};">Activate Corporate Mode</span>
+                                                        <input type="checkbox" id="checkbox_corpor_mode_hotel" name="checkbox_corpor_mode_hotel" onclick="toggle_corpor_mode_div('hotel');"/>
+                                                        <span class="check_box_span_custom"></span>
+                                                    </label><span id="corpor_list_loading_hotel" style="font-size:13px; color:{{text_color}}; padding:5px; display:none;"> <div class="ld ld-ring ld-cycle"></div></span>
+                                                </div>
+                                                <div class="col-lg-12" id="div_corpor_mode_hotel" style="display:none;">
+                                                    <div class="row">
+                                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                                            <span class="span-search-ticket">Corporate</span>
+                                                            <div class="input-container-search-ticket">
+                                                                <div class="form-select">
+                                                                    <select id="hotel_corpor_select" name="hotel_corpor_select" class="form-control js-example-basic-single" style="width:100%;" onchange="render_corbooker_list('hotel');">
+
+                                                                    </select>
+                                                                    <input type="hidden" id="hotel_corpor_select_post" name="hotel_corpor_select_post"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                                            <span class="span-search-ticket">Booker</span>
+                                                            <div class="input-container-search-ticket">
+                                                                <div class="form-select">
+                                                                    <select id="hotel_corbooker_select" name="hotel_corbooker_select" class="form-control js-example-basic-single" style="width:100%;" onchange="set_corbooker_post_value('hotel');">
+
+                                                                    </select>
+                                                                    <input type="hidden" id="hotel_corbooker_select_post" name="hotel_corbooker_select_post"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                {% endif %}
                                             </div>
                                             <br/>
                                             <div class="row">
