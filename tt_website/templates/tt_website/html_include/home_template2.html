@@ -591,14 +591,15 @@
                             {% csrf_token %}
                             <input type="hidden" name="g-recaptcha-response" id='recaptcha_activity'>
                             <div class="row">
-                                <div class="col-lg-9 col-md-9">
+                                <div class="col-lg-12">
                                     <span class="span-search-ticket"><i class="fas fa-umbrella-beach"></i> {% trans 'Activity' %}</span>
+                                </div>
+                                <div class="col-lg-9 col-md-9">
                                     <div class="input-container-search-ticket">
                                         <input type="text" class="form-control" style="margin-bottom:0px;" name="activity_query" id="activity_query" placeholder="{% trans 'Search for Activities, Theme Parks, etc' %}" autocomplete="off"/>
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-3">
-                                    <span class="span-search-ticket">&nbsp;</span>
                                     <div class="input-container-search-ticket">
                                         <button type="button" class="form-control activity_btn_advance" id="activity_advanced_down" onclick="show_hide_advanced('activity');" style="display:block;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-down"></i></button>
                                         <button type="button" class="form-control activity_btn_advance" id="activity_advanced_up" onclick="show_hide_advanced('activity');" style="display:none;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-up"></i></button>
@@ -690,11 +691,11 @@
                                 <div class="col-lg-12">
                                     <div class="row">
                                         <div class="col-lg-12" style="text-align:center;">
-                                            <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Select Country' %} </span>
+                                            <span class="span-search-ticket"><i class="fas fa-globe-asia"></i> {% trans 'Select Country' %} </span>
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-lg-12" id="tour_countries" style="padding:0px; text-align:left;margin-bottom:10px; text-align:center;">
+                                        <div class="col-lg-12" id="tour_countries">
 
                                         </div>
                                     </div>
@@ -708,17 +709,18 @@
                             {% csrf_token %}
                             <input type="hidden" name="g-recaptcha-response" id='recaptcha_tour'>
                             <div class="row">
-                                <div class="col-lg-9 col-md-9">
+                                <div class="col-lg-12">
                                     <span class="span-search-ticket"><i class="fas fa-briefcase"></i> {% trans 'Tour' %}</span>
+                                </div>
+                                <div class="col-lg-9 col-md-9">
                                     <div class="input-container-search-ticket">
                                         <input type="text" style="margin-bottom:0px;" class="form-control" name="tour_query" id="tour_query" placeholder="{% trans 'Search for Tour' %}" autocomplete="off"/>
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-3">
-                                    <span class="span-search-ticket">&nbsp;</span>
                                     <div class="input-container-search-ticket">
-                                        <button type="button" class="form-control" id="tour_advanced_down" onclick="show_hide_advanced('tour');" style="background:{{color}}; color:#ffffff; cursor:pointer;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-down"></i></button>
-                                        <button type="button" class="form-control" id="tour_advanced_up" onclick="show_hide_advanced('tour');" style="background:{{color}}; color:#ffffff; cursor:pointer; display:none;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-up"></i></button>
+                                        <button type="button" class="form-control" id="tour_advanced_down" onclick="show_hide_advanced('tour');" style="background:{{color}}; color:{{text_color}}; cursor:pointer;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-down"></i></button>
+                                        <button type="button" class="form-control" id="tour_advanced_up" onclick="show_hide_advanced('tour');" style="background:{{color}}; color:{{text_color}}; cursor:pointer; display:none;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-up"></i></button>
                                     </div>
                                 </div>
                             </div>

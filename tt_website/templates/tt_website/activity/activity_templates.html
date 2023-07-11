@@ -122,14 +122,15 @@
                                 {% csrf_token %}
                                 <input type="hidden" name="g-recaptcha-response" id='recaptcha_activity'>
                                 <div class="row">
-                                    <div class="col-lg-9 col-md-9">
+                                    <div class="col-lg-12">
                                         <span class="span-search-ticket"><i class="fas fa-umbrella-beach"></i> {% trans 'Activity' %}</span>
+                                    </div>
+                                    <div class="col-lg-9 col-md-9">
                                         <div class="input-container-search-ticket">
                                             <input type="text" class="form-control" name="activity_query" id="activity_query" placeholder="{% trans 'Search for Activities, Theme Parks, etc' %}" autocomplete="off" style="margin-bottom:0px;"/>
                                         </div>
                                     </div>
                                     <div class="col-lg-3 col-md-3">
-                                        <span class="span-search-ticket">&nbsp;</span>
                                         <div class="input-container-search-ticket">
                                             <button type="button" class="form-control activity_btn_advance" id="activity_advanced_down" onclick="show_hide_advanced('activity');" style="display:block;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-down"></i></button>
                                             <button type="button" class="form-control activity_btn_advance" id="activity_advanced_up" onclick="show_hide_advanced('activity');" style="display:none;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-up"></i></button>
@@ -217,14 +218,15 @@
                             {% csrf_token %}
                             <input type="hidden" name="g-recaptcha-response" id='recaptcha_activity'>
                             <div class="row">
-                                <div class="col-lg-9 col-md-9">
+                                <div class="col-lg-12">
                                     <span class="span-search-ticket"><i class="fas fa-umbrella-beach"></i> {% trans 'Activity' %}</span>
+                                </div>
+                                <div class="col-lg-9 col-md-9">
                                     <div class="input-container-search-ticket">
                                         <input type="text" style="margin-bottom:0px;" class="form-control" name="activity_query" id="activity_query" placeholder="{% trans 'Search for Activities, Theme Parks, etc' %}" autocomplete="off"/>
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-3">
-                                    <span class="span-search-ticket">&nbsp;</span>
                                     <div class="input-container-search-ticket">
                                         <button type="button" class="form-control activity_btn_advance" id="activity_advanced_down" onclick="show_hide_advanced('activity');" style="display:block;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-down"></i></button>
                                         <button type="button" class="form-control activity_btn_advance" id="activity_advanced_up" onclick="show_hide_advanced('activity');" style="display:none;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-up"></i></button>
@@ -320,12 +322,13 @@
                                 {% csrf_token %}
                                 <input type="hidden" name="g-recaptcha-response" id='recaptcha_activity'>
                                 <div class="row">
-                                    <div class="col-lg-9 col-md-7">
+                                    <div class="col-lg-12">
                                         <span class="span-search-ticket"><i class="fas fa-umbrella-beach"></i> {% trans 'Activity' %}</span>
+                                    </div>
+                                    <div class="col-lg-8">
                                         <input type="text" style="margin-bottom:0px;" class="form-control" name="activity_query" id="activity_query" placeholder="{% trans 'Search for Activities, Theme Parks, etc' %}" autocomplete="off"/>
                                     </div>
-                                    <div class="col-lg-3 col-md-5">
-                                        <span class="span-search-ticket">&nbsp;</span>
+                                    <div class="col-lg-4">
                                         <div class="form-group">
                                             <button type="button" class="form-control activity_btn_advance" id="activity_advanced_down" onclick="show_hide_advanced('activity');" style="display:block;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-down"></i></button>
                                             <button type="button" class="form-control activity_btn_advance" id="activity_advanced_up" onclick="show_hide_advanced('activity');" style="display:none;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-up"></i></button>
@@ -340,14 +343,14 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-lg-6 col-md-6">
+                                            <div class="col-lg-6">
                                                 <div class="form-group">
                                                     <select class="js-example-basic-single" style="width:100%;" id="activity_countries" size="5" data-live-search="true" name="activity_countries">
                                                         <option value="" selected="">{% trans 'All Countries' %}</option>
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 col-md-6">
+                                            <div class="col-lg-6">
                                                 <div class="form-group">
                                                     <div id="temp_activity_cities">
                                                         <select class="js-example-basic-single" style="width:100%;" id="activity_cities" name="activity_cities" size="5">
@@ -366,21 +369,21 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-lg-4 col-md-4">
+                                            <div class="col-lg-4">
                                                 <div class="form-group">
                                                     <select class="js-example-basic-single" style="width:100%;" id="activity_type" name="activity_type" data-live-search="true" size="5">
                                                         <option value="0" selected="">{% trans 'All Types' %}</option>
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-4 col-md-4">
+                                            <div class="col-lg-4">
                                                 <div class="form-group">
                                                     <select class="js-example-basic-single" style="width:100%;" id="activity_category" name="activity_category" size="5">
                                                         <option value="0" selected="">{% trans 'All Categories' %}</option>
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-4 col-md-4">
+                                            <div class="col-lg-4">
                                                 <div class="form-group">
                                                     <div id="temp_activity_sub_category">
                                                         <select class="js-example-basic-single" style="width:100%;" id="activity_sub_category" name="activity_sub_category" size="5">
@@ -416,15 +419,16 @@
                                         {% csrf_token %}
                                         <input type="hidden" name="g-recaptcha-response" id='recaptcha_activity'>
                                         <div class="row justify-content-between align-items-end">
-                                            <div class="col-lg-9 col-md-9">
+                                            <div class="col-lg-12">
                                                 <span class="span-search-ticket">{% trans 'Activity' %}</span>
+                                            </div>
+                                            <div class="col-lg-9 col-md-9">
                                                 <div class="input-container-search-ticket">
                                                     <i class="fas fa-umbrella-beach" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
                                                     <input type="text" style="margin-bottom:0px;" class="form-control" name="activity_query" id="activity_query" placeholder="{% trans 'Search for Activities, Theme Parks, etc' %}" autocomplete="off"/>
                                                 </div>
                                             </div>
                                             <div class="col-lg-3 col-md-3">
-                                                <span class="span-search-ticket">&nbsp;</span>
                                                 <div class="input-container-search-ticket">
                                                     <button type="button" class="form-control activity_btn_advance" id="activity_advanced_down" onclick="show_hide_advanced('activity');" style="display:block;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-down"></i></button>
                                                     <button type="button" class="form-control activity_btn_advance" id="activity_advanced_up" onclick="show_hide_advanced('activity');" style="display:none;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-up"></i></button>
@@ -521,14 +525,15 @@
                                             {% csrf_token %}
                                             <input type="hidden" name="g-recaptcha-response" id='recaptcha_activity'>
                                             <div class="row">
-                                                <div class="col-lg-9 col-md-9">
+                                                <div class="col-lg-12">
                                                     <span class="span-search-ticket"><i class="fas fa-umbrella-beach"></i> {% trans 'Activity' %}</span>
+                                                </div>
+                                                <div class="col-lg-9 col-md-9">
                                                     <div class="input-container-search-ticket">
                                                         <input type="text" style="margin-bottom:0px;" class="form-control" name="activity_query" id="activity_query" placeholder="{% trans 'Search for Activities, Theme Parks, etc' %}" autocomplete="off"/>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-3 col-md-3">
-                                                    <span class="span-search-ticket">&nbsp;</span>
                                                     <div class="input-container-search-ticket">
                                                         <button type="button" class="form-control activity_btn_advance" id="activity_advanced_down" onclick="show_hide_advanced('activity');" style="display:block;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-down"></i></button>
                                                         <button type="button" class="form-control activity_btn_advance" id="activity_advanced_up" onclick="show_hide_advanced('activity');" style="display:none;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-up"></i></button>
@@ -628,14 +633,15 @@
                                             {% csrf_token %}
                                             <input type="hidden" name="g-recaptcha-response" id='recaptcha_activity'>
                                             <div class="row">
-                                                <div class="col-lg-8">
+                                                <div class="col-lg-12">
                                                     <span class="span-search-ticket"><i class="fas fa-umbrella-beach"></i> {% trans 'Activity' %}</span>
+                                                </div>
+                                                <div class="col-lg-8">
                                                     <div class="input-container-search-ticket">
                                                         <input type="text" class="form-control" name="activity_query" id="activity_query" placeholder="{% trans 'Search for Activities, Theme Parks, etc' %}" autocomplete="off" style="margin-bottom:0px;"/>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-4">
-                                                    <span class="span-search-ticket">&nbsp;</span>
                                                     <div class="input-container-search-ticket">
                                                         <button type="button" class="form-control activity_btn_advance" id="activity_advanced_down" onclick="show_hide_advanced('activity');" style="display:block;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-down"></i></button>
                                                         <button type="button" class="form-control activity_btn_advance" id="activity_advanced_up" onclick="show_hide_advanced('activity');" style="display:none;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-up"></i></button>
@@ -731,14 +737,15 @@
                                     {% csrf_token %}
                                     <input type="hidden" name="g-recaptcha-response" id='recaptcha_activity'>
                                     <div class="row">
-                                        <div class="col-lg-8">
+                                        <div class="col-lg-12">
                                             <span class="span-search-ticket"><i class="fas fa-umbrella-beach"></i> {% trans 'Activity' %}</span>
+                                        </div>
+                                        <div class="col-lg-8">
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control" name="activity_query" id="activity_query" placeholder="{% trans 'Search for Activities, Theme Parks, etc' %}" autocomplete="off" style="margin-bottom:0px;"/>
                                             </div>
                                         </div>
                                         <div class="col-lg-4">
-                                            <span class="span-search-ticket">&nbsp;</span>
                                             <div class="input-container-search-ticket">
                                                 <button type="button" class="form-control activity_btn_advance" id="activity_advanced_down" onclick="show_hide_advanced('activity');" style="display:block;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-down"></i></button>
                                                 <button type="button" class="form-control activity_btn_advance" id="activity_advanced_up" onclick="show_hide_advanced('activity');" style="display:none;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-up"></i></button>

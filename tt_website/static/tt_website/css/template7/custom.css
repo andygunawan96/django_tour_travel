@@ -9,10 +9,13 @@ a:hover{
     position: relative;
     z-index:999;
 }
+.mobile_menu{
+    top:5px;
+}
 
 .main-header .main-menu ul ul.submenu{
     width: 270px;
-    left: -100px;
+    left: -130px;
 }
 
 .main-header .main-menu ul ul.submenu>li{
@@ -204,4 +207,10 @@ a:hover{
 
 .form-select{
     margin-bottom:15px;
+}
+
+@media (max-width: 991px) {
+    .i_fast6{
+        display: none !important;
+    }
 }
