@@ -8443,17 +8443,12 @@ function airline_get_booking(data, sync=false){
                             ticket = '';
                             ff_request = '';
                             for(provider in msg.result.response.provider_bookings){
-                                try{
-                                    ticket += msg.result.response.provider_bookings[provider].tickets[pax].ticket_number;
-                                    if(provider != msg.result.response.provider_bookings.length - 1)
+                                for(ticket_idx in msg.result.response.provider_bookings[provider].tickets){
+                                    if(msg.result.response.passengers[pax].passenger_number.toString() == msg.result.response.provider_bookings[provider].tickets[ticket_idx].passenger_number.toString()){
                                         if(ticket != '')
                                             ticket += ', ';
-//                                    if(ff_request != '')
-//                                        ff_request += '<br/>';
-//                                    if(msg.result.response.provider_bookings[provider].tickets[pax].ff_name != '' && msg.result.response.provider_bookings[provider].tickets[pax].ff_number != '')
-//                                        ff_request += msg.result.response.provider_bookings[provider].tickets[pax].ff_name + ': '+ msg.result.response.provider_bookings[provider].tickets[pax].ff_number;
-                                }catch(err){
-
+                                        ticket += msg.result.response.provider_bookings[provider].tickets[ticket_idx].ticket_number;
+                                    }
                                 }
                             }
                             for(ff_counter in msg.result.response.passengers[pax].frequent_flyers){
