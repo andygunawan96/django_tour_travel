@@ -810,8 +810,10 @@ def ssr(request, signature):
                 adult = []
                 infant = []
                 child = []
+                last_departure_date = ''
                 airline_get_booking_resp = request.session.get('airline_get_booking_response') if request.session.get('airline_get_booking_response') else json.loads(request.POST['get_booking_data_json'])
                 for rec in airline_get_booking_resp['result']['response']['provider_bookings']:
+                    last_departure_date = rec['departure_date']
                     for ticket in rec['tickets']:
                         for fee in ticket['fees']:
                             if fee.get('description_text'):
@@ -849,7 +851,8 @@ def ssr(request, signature):
                 set_session(request, 'airline_get_booking_response', airline_get_booking_resp)
                 for pax in airline_get_booking_resp['result']['response']['passengers']:
                     if pax.get('birth_date'):
-                        if (datetime.now() - datetime.strptime(pax['birth_date'], '%d %b %Y')).days / 365 <= 2:
+                        pax_type = pax.get('pax_type', '')
+                        if (datetime.strptime(last_departure_date, '%Y-%m-%d %H:%M:%S') - datetime.strptime(pax['birth_date'], '%d %b %Y')).days / 365 <= 2 and pax_type == '' or pax_type == 'INF':
                             infant.append({
                                 "pax_type": 'INF',
                                 "first_name": pax['first_name'],
@@ -863,7 +866,7 @@ def ssr(request, signature):
                                 "identity_type": pax['identity_type'],
                                 "sequence": pax['sequence']
                             })
-                        elif (datetime.now() - datetime.strptime(pax['birth_date'], '%d %b %Y')).days / 365 < 12:
+                        elif (datetime.strptime(last_departure_date, '%Y-%m-%d %H:%M:%S') - datetime.strptime(pax['birth_date'], '%d %b %Y')).days / 365 < 12 and pax_type == '' or pax_type == 'CHD':
                             child.append({
                                 "pax_type": 'CHD',
                                 "first_name": pax['first_name'],
@@ -1122,7 +1125,9 @@ def seat_map(request, signature):
                     infant = []
                     child = []
                     airline_get_booking_resp = request.session.get('airline_get_booking_response') if request.session.get('airline_get_booking_response') else json.loads(request.POST['get_booking_data_json'])
+                    last_departure_date = ''
                     for rec in airline_get_booking_resp['result']['response']['provider_bookings']:
+                        last_departure_date = rec['departure_date']
                         for ticket in rec['tickets']:
                             for fee in ticket['fees']:
                                 if fee.get('description_text'):
@@ -1161,8 +1166,8 @@ def seat_map(request, signature):
                     set_session(request, 'airline_get_booking_response', airline_get_booking_resp)
                     for pax in airline_get_booking_resp['result']['response']['passengers']:
                         if pax.get('birth_date'):
-                            pax_type = ''
-                            if (datetime.now() - datetime.strptime(pax['birth_date'], '%d %b %Y')).days / 365 <= 2:
+                            pax_type = pax.get('pax_type', '')
+                            if (datetime.strptime(last_departure_date, '%Y-%m-%d %H:%M:%S') - datetime.strptime(pax['birth_date'], '%d %b %Y')).days / 365 <= 2 and pax_type == '' or pax_type == 'INF':
                                 infant.append({
                                     "pax_type": 'INF',
                                     "first_name": pax['first_name'],
@@ -1176,7 +1181,7 @@ def seat_map(request, signature):
                                     "identity_type": pax['identity_type'],
                                     "sequence": pax['sequence']
                                 })
-                            elif (datetime.now() - datetime.strptime(pax['birth_date'], '%d %b %Y')).days / 365 < 12:
+                            elif (datetime.strptime(last_departure_date, '%Y-%m-%d %H:%M:%S') - datetime.strptime(pax['birth_date'], '%d %b %Y')).days / 365 < 12 and pax_type == '' or pax_type == 'CHD':
                                 child.append({
                                     "pax_type": 'CHD',
                                     "first_name": pax['first_name'],
