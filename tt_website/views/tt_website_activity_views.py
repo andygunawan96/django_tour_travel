@@ -129,6 +129,19 @@ def search(request):
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
 
+            if request.POST.get('checkbox_corpor_mode_activity') and request.POST.get('activity_corpor_select_post') and request.POST.get('activity_corbooker_select_post'):
+                updated_request = request.POST.copy()
+                updated_request.update({
+                    'customer_parent_seq_id': request.POST['activity_corpor_select_post']
+                })
+                cur_session = request.session['user_account']
+                cur_session.update({
+                    "co_customer_parent_seq_id": request.POST['activity_corpor_select_post'],
+                    "co_customer_seq_id": request.POST['activity_corbooker_select_post']
+                })
+                set_session(request, 'user_account', cur_session)
+                activate_corporate_mode(request, request.session['signature'])
+
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
