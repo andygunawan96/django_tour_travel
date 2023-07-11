@@ -225,6 +225,8 @@ def api_models(request):
 
         elif req_data['action'] == 'cancel_v2':
             res = cancel_v2(request)
+        elif req_data['action'] == 'apply_pax_name_booking':
+            res = apply_pax_name_booking(request)
 
         elif req_data['action'] == 'search_for_mobile':
             res = search_mobile(request)
@@ -4673,6 +4675,33 @@ def cancel_v2(request):
             _logger.info("SUCCESS cancel_v2 AIRLINE SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR cancel_v2 AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def apply_pax_name_booking(request):
+    # nanti ganti ke get_ssr_availability
+    try:
+        data = {
+            'order_number': request.POST['order_number'],
+            'passengers': json.loads(request.POST['passengers'])
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "apply_pax_name_booking",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+
+    url_request = get_url_gateway('booking/airline')
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
+    try:
+        if res['result']['error_code'] == 0:
+            _logger.info("SUCCESS apply_pax_name_booking AIRLINE SIGNATURE " + request.POST['signature'])
+        else:
+            _logger.error("ERROR apply_pax_name_booking AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res

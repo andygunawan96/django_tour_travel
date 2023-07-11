@@ -7026,12 +7026,6 @@ function airline_get_booking(data, sync=false){
            //get booking view edit here
            try{
                if(msg.result.error_code == 0){
-                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
-                    if(msg.result.response.state != 'issued' && msg.result.response.hasOwnProperty('expired_date') && msg.result.response.expired_date && time_now < msg.result.response.expired_date ||
-                       msg.result.response.state != 'issued' && msg.result.response.hasOwnProperty('hold_date') && msg.result.response.hold_date && time_now < msg.result.response.hold_date){
-                        document.getElementById('div_sync_reprice').hidden = false;
-                    }
-                }
                 if(['booked', 'partial_booked', 'partial_issued', 'fail_issued', 'halt_booked'].includes(msg.result.response.state)){
                     document.getElementById('div_sync_status').hidden = false;
                     try{
@@ -7066,6 +7060,11 @@ function airline_get_booking(data, sync=false){
                 if(msg.result.response.hold_date != false && msg.result.response.hold_date != ''){
                     tes = moment.utc(msg.result.response.hold_date).format('YYYY-MM-DD HH:mm:ss')
                     localTime  = moment.utc(tes).toDate();
+                    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
+                        if(msg.result.response.state != 'issued' && time_now < moment(localTime).format('YYYY-MM-DD HH:mm:SS')){
+                            document.getElementById('div_sync_reprice').hidden = false;
+                        }
+                    }
                     msg.result.response.hold_date = moment(localTime).format('DD MMM YYYY HH:mm');
                     var now = moment();
                     var hold_date_time = moment(msg.result.response.hold_date, "DD MMM YYYY HH:mm");
@@ -7088,6 +7087,13 @@ function airline_get_booking(data, sync=false){
                     if(msg.result.response.hasOwnProperty('expired_date') && msg.result.response.expired_date != ''){
                         tes = moment.utc(msg.result.response.expired_date).format('YYYY-MM-DD HH:mm:ss')
                         localTime  = moment.utc(tes).toDate();
+                        if(document.getElementById('div_sync_reprice').hidden){
+                            if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
+                                if(msg.result.response.state != 'issued' && time_now < moment(localTime).format('YYYY-MM-DD HH:mm:SS')){
+                                    document.getElementById('div_sync_reprice').hidden = false;
+                                }
+                            }
+                        }
                         msg.result.response.expired_date = moment(localTime).format('DD MMM YYYY HH:mm') + ' ' + gmt + timezone;
                     }
                 }
@@ -8310,13 +8316,125 @@ function airline_get_booking(data, sync=false){
                 <div style="border:1px solid #cdcdcd; padding:15px; background-color:white; margin-top:20px;">
                     <div class="row">
                         <div class="col-lg-12 mb-3" style="border-bottom: 1px solid #cdcdcd;">
-                            <h4 class="mb-3"><i class="fas fa-users"></i> List of Passenger</h4>`;
+                            <h4 class="mb-3"><i class="fas fa-users"></i> List of Passenger</h4>
+                            <div class="row">
+                                <div class="col-lg-6 col-xs-6 col-md-6">`;
                             if(can_change_pax){
                                 text+=`
-                                <button type="button" class="primary-btn-white" id="button-sync-status" onclick="airline_after_sales_update_pax();">
-                                    Update Identity <i class="fas fa-wrench"></i>
-                                </button>`;
+                                    <button type="button" class="primary-btn-white" id="button-sync-status" onclick="airline_after_sales_update_pax();">
+                                        Update Identity <i class="fas fa-wrench"></i>
+                                    </button>`;
                             }
+                            text += `
+                                </div>`;
+                            is_different_name_in_vendor = false;
+                            for(provider in msg.result.response.provider_bookings){
+                                for(ticket in msg.result.response.provider_bookings[provider].tickets){
+                                    if(msg.result.response.provider_bookings[provider].tickets[ticket].passenger_number.toString() == ''){
+                                        is_different_name_in_vendor = true;
+                                        break;
+                                    }
+                                }
+                            }
+//                            if(is_different_name_in_vendor && ['booked', 'halt_booked', 'issued', 'halt_issued'].includes(msg.result.response.state)){
+                            if(is_different_name_in_vendor){
+                                text += `
+                                <div class="col-lg-6 col-xs-6 col-md-6" style="text-align:right;">
+                                    <button type="button" class="primary-btn-white" id="button-sync-status" data-toggle="modal" data-target="#myModal_sync_passenger">
+                                        Sync Passenger <i class="fas fa-wrench"></i>
+                                    </button>
+                                </div>`;
+                                //// BIKIN MODAL /////
+                                text += `
+                                <div class="modal fade" id="myModal_sync_passenger" role="dialog">
+                                    <div class="overlay_modal_custom" onclick="$('#myModal_sync_passenger').modal('hide');"></div>
+                                    <div class="modal-dialog modal_custom_fixed">
+                                        <!-- Modal content-->
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <div class="row">
+                                                    <div class="col-xs-6 pb-3">
+                                                        <h4 class="modal-title">Sync Passenger Data</h4>
+                                                    </div>
+                                                    <div class="col-xs-6">
+                                                        <button type="button" class="close modal_custom_close" data-dismiss="modal" onclick="$('#myModal_sync_passenger').modal('hide');">&times;</button>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-6" id="button_tl_sync_passenger">
+
+                                                    </div>
+                                                    <div class="col-xs-6" id="button_tr_sync_passenger">
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="row">
+                                                    <div class="col-lg-12">`;
+                                for(provider in msg.result.response.provider_bookings){
+                                    text += `<h5>` + msg.result.response.provider_bookings[provider].pnr + `</h5>`;
+                                    text += `           <div class="row">
+                                                            <div class="col-lg-6 col-md-6 col-xs-6">
+                                                                <h6>`+name+`<h6>
+                                                            </div>
+                                                            <div class="col-lg-6 col-md-6 col-xs-6">
+                                                                <h6>Vendor</h6>
+                                                            </div>
+                                                        </div>`;
+                                    for(pax in msg.result.response.passengers){
+                                        text += `
+                                                        <div class="row">
+                                                            <div class="col-lg-6 col-md-6 col-xs-6" style="margin-top:auto;margin-bottom:auto;">
+                                                                <span>` + msg.result.response.passengers[pax].title + ` ` + msg.result.response.passengers[pax].name +`<span>
+                                                            </div>
+                                                            <div class="col-lg-6 col-md-6 col-xs-6">
+                                                                <div class="input-container-search-ticket">
+                                                                    <div class="form-select-2" id="default-select">
+                                                                        <select id="passenger_`+pax+`_`+msg.result.response.provider_bookings[provider].pnr+`" name="passenger_`+pax+`_`+msg.result.response.provider_bookings[provider].pnr+`" class="nice-select-default" onchange="delete_passenger_draw();">`;
+                                        is_passenger_number_found = false;
+                                        for(ticket in msg.result.response.provider_bookings[provider].tickets){
+                                            if(msg.result.response.passengers[pax].passenger_number.toString() == msg.result.response.provider_bookings[provider].tickets[ticket].passenger_number.toString() && msg.result.response.provider_bookings[provider].tickets[ticket].passenger_number.toString() != ''){
+                                                text+=                      `<option>`+msg.result.response.provider_bookings[provider].tickets[ticket].title+` `+msg.result.response.provider_bookings[provider].tickets[ticket].first_name+` `+msg.result.response.provider_bookings[provider].tickets[ticket].last_name+`</option>`;
+                                                is_passenger_number_found = true;
+                                                break;
+                                            }
+                                        }
+                                        if(!is_passenger_number_found){
+                                            text+=`<option>Choose</option>`;
+                                            for(ticket in msg.result.response.provider_bookings[provider].tickets){
+                                                if(msg.result.response.provider_bookings[provider].tickets[ticket].passenger_number.toString() == ''){
+                                                    text +=                 `<option value="`+msg.result.response.provider_bookings[provider].tickets[ticket].ticket_id+`&&&`+msg.result.response.provider_bookings[provider].tickets[ticket].title+` `+msg.result.response.provider_bookings[provider].tickets[ticket].first_name+` `+msg.result.response.provider_bookings[provider].tickets[ticket].last_name+`">`+msg.result.response.provider_bookings[provider].tickets[ticket].title+` `+msg.result.response.provider_bookings[provider].tickets[ticket].first_name+` `+msg.result.response.provider_bookings[provider].tickets[ticket].last_name+`</option>`;
+                                                }
+                                            }
+                                        }
+                                        text += `
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>`;
+                                    }
+                                }
+                                            text+=`
+                                                    </div>
+                                                    <div class="col-lg-12" style="text-align:center;margin-top:5px;">
+                                                        <button type="button" class="primary-btn-white" id="button-sync-status" onclick="update_passenger_draw();">
+                                                            Continue
+                                                        </button>
+                                                    </div>
+                                                    <div class="col-lg-12" id="result_change_name">
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>`;
+                            }
+                            text += `
+                            </div>`;
                     text+=`
                         </div>
                     </div>
@@ -8561,7 +8679,7 @@ function airline_get_booking(data, sync=false){
                                 break
                             }
                         }
-                        if(can_request_new_ori_ticket)
+                        if(can_request_new_ori_ticket){
                             text+=`
                             <div class="col-lg-6 col-md-6" style="padding-bottom:10px;">`;
                                 text+=`
@@ -8570,6 +8688,7 @@ function airline_get_booking(data, sync=false){
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>
                             </div>`;
+                        }
                     }
                     text+=`<div class="col-lg-6 col-md-6" style="padding-bottom:10px;">`;
                         if(msg.result.response.state != 'cancel' && msg.result.response.state != 'cancel2'){
@@ -8662,6 +8781,12 @@ function airline_get_booking(data, sync=false){
                 text+=`
                 </div>`;
                 document.getElementById('airline_booking').innerHTML = text;
+
+                for(provider in msg.result.response.provider_bookings){
+                    for(pax in msg.result.response.passengers){
+                        $('#passenger_'+pax+'_'+msg.result.response.provider_bookings[provider].pnr).niceSelect();
+                    }
+                }
 
                 try{
                     get_default_ssr(msg.result.response.passengers, msg.result.response.provider_bookings, 'booking');
@@ -9361,6 +9486,7 @@ function airline_get_booking(data, sync=false){
                     $('.loader-rodextrip').fadeOut();
                }
            }catch(err){
+                console.log(err);
                 text = '';
                 text += `<div class="alert alert-danger">
                             <h5>
@@ -9387,6 +9513,138 @@ function airline_get_booking(data, sync=false){
             $('.loader-rodextrip').fadeOut();
        },timeout: 300000
     });
+}
+
+function update_passenger_draw(){
+    text = '';
+    for(provider in airline_get_detail.result.response.provider_bookings){
+        need_to_print_pnr = true;
+        for(pax in airline_get_detail.result.response.passengers){
+            if($('#passenger_'+pax+'_'+airline_get_detail.result.response.provider_bookings[provider].pnr).val().includes('&&&')){
+                if(need_to_print_pnr){
+                    text += `
+                <h5>`+airline_get_detail.result.response.provider_bookings[provider].pnr+`</h5>`;
+                    need_to_print_pnr = false;
+                }
+                text+=`
+                <div class="row">
+                    <div class="col-lg-5 col-md-5 col-xs-5">
+                        <span>`+airline_get_detail.result.response.passengers[pax].title+` `+airline_get_detail.result.response.passengers[pax].name+`</span>
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-xs-2">
+                        <span>➜</span>
+                    </div>
+                    <div class="col-lg-5 col-md-5 col-xs-5">
+                        <span>`+$('#passenger_'+pax+'_'+airline_get_detail.result.response.provider_bookings[provider].pnr).val().split('&&&')[1]+`</span>
+                    </div>
+                </div>`;
+            }
+        }
+    }
+    if(text){
+        text = `<h4>Passenger Change<h4>` + text + `
+                <div class="col-lg-12" style="text-align:center;margin-top:5px;">
+                    <button type="button" class="primary-btn-white" id="button-sync-status" onclick="apply_pax_to_backend();">
+                        Save
+                    </button>
+                </div>`;
+    }else{
+        text = `<h4>No Pax Selected<h4>`
+    }
+    document.getElementById('result_change_name').innerHTML = text;
+}
+
+function delete_passenger_draw(){
+    document.getElementById('result_change_name').innerHTML = '';
+}
+
+function apply_pax_to_backend(){
+    Swal.fire({
+      title: 'Are you sure want to update this booking?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+        if (result.value) {
+            show_loading();
+            please_wait_transaction();
+            $('#myModal_sync_passenger').modal('hide');
+            passengers_data = [];
+            for(provider in airline_get_detail.result.response.provider_bookings){
+                for(pax in airline_get_detail.result.response.passengers){
+                    if($('#passenger_'+pax+'_'+airline_get_detail.result.response.provider_bookings[provider].pnr).val().includes('&&&')){
+                        passengers_data.push({
+                            "passenger_number": airline_get_detail.result.response.passengers[pax].passenger_number,
+                            "pnr": airline_get_detail.result.response.provider_bookings[provider].pnr,
+                            "ticket_id": $('#passenger_'+pax+'_'+airline_get_detail.result.response.provider_bookings[provider].pnr).val().split('&&&')[0]
+                        })
+                    }
+                }
+            }
+            $.ajax({
+                type: "POST",
+                url: "/webservice/airline",
+                headers:{
+                    'action': 'apply_pax_name_booking',
+                },
+                data: {
+                    'order_number': airline_get_detail.result.response.order_number,
+                    'passengers': JSON.stringify(passengers_data),
+                    'signature': signature
+                },
+                success: function(msg) {
+
+                    if(msg.result.error_code != 0){
+                        Swal.fire({
+                            type: 'error',
+                            title: 'Oops!',
+                            html: msg.result.error_msg,
+                        })
+                    }
+                    //update ticket
+                    price_arr_repricing = {};
+                    pax_type_repricing = [];
+                    hide_modal_waiting_transaction();
+                    document.getElementById('show_loading_booking_airline').hidden = false;
+                    document.getElementById('airline_booking').innerHTML = '';
+                    document.getElementById('airline_detail').innerHTML = '';
+                    document.getElementById('payment_acq').innerHTML = '';
+                    //document.getElementById('ssr_request_after_sales').hidden = true;
+                    document.getElementById('show_loading_booking_airline').style.display = 'block';
+                    document.getElementById('show_loading_booking_airline').hidden = false;
+                    document.getElementById('reissued').hidden = true;
+                    document.getElementById('cancel').hidden = true;
+                    document.getElementById('payment_acq').hidden = true;
+                    document.getElementById("overlay-div-box").style.display = "none";
+                    $(".issued_booking_btn").hide(); //kalau error masih keluar button awal remove ivan
+                    airline_get_booking(airline_get_detail.result.response.order_number);
+
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error save name in backend');
+                    //update ticket
+                    price_arr_repricing = {};
+                    pax_type_repricing = [];
+                    hide_modal_waiting_transaction();
+                    document.getElementById('show_loading_booking_airline').hidden = false;
+                    document.getElementById('airline_booking').innerHTML = '';
+                    document.getElementById('airline_detail').innerHTML = '';
+                    document.getElementById('payment_acq').innerHTML = '';
+                    //document.getElementById('ssr_request_after_sales').hidden = true;
+                    document.getElementById('show_loading_booking_airline').style.display = 'block';
+                    document.getElementById('show_loading_booking_airline').hidden = false;
+                    document.getElementById('reissued').hidden = true;
+                    document.getElementById('cancel').hidden = true;
+                    document.getElementById('payment_acq').hidden = true;
+                    document.getElementById("overlay-div-box").style.display = "none";
+                    $(".issued_booking_btn").hide(); //kalau error masih keluar button awal remove ivan
+                    airline_get_booking(airline_get_detail.result.response.order_number);
+                },timeout: 60000
+            });
+        }
+    })
 }
 
 function get_new_ori_ticket_printout(order_number, timeout=30){
