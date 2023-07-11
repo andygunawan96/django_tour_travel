@@ -80,6 +80,7 @@ function get_balance(val){
 //                        try{
 //                            document.getElementById("balance_search").style.color = "black";
 //                        }catch(err){}
+                        //add template
                         text = '';
                         if(template == 3 || template == 5){
                             text = `<div style="margin-bottom:10px; padding-right:15px;"><span class="fas fa-wallet" style="color:`+color+`; padding-right:5px; font-size:16px;"></span>Balance: `+msg.result.response.currency_code + ' ' + getrupiah(balance)+`</div>`;

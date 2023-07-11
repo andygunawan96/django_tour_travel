@@ -91,7 +91,6 @@
 </div>
 
 <!--add template-->
-
 {%if template == 1%}
 <header id="header">
     {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
@@ -1137,13 +1136,13 @@
                                 <h5 class="mt-3" style="color:white;">{{name}}</h5>
                                 <hr style="border-top: 1px solid white;"/>
                             </li>
-                            <li class="mr5"><a href="{% url 'tt_website:index'%}">{% trans 'Home' %}</a></li>
-                            <li class="menu-has-children"><a href="#">{% trans 'Highlight' %} <i class="fas fa-chevron-down fat-dh" style="display:inline-block;"></i></a>
+                            <li class="mr5"><a href="{% url 'tt_website:index'%}" class="a_color5">{% trans 'Home' %}</a></li>
+                            <li class="menu-has-children"><a href="#" class="a_color5">{% trans 'Highlight' %} <i class="fas fa-chevron-down fat-dh" style="display:inline-block;"></i></a>
                                 <ul id="highlight_header_div">
                                 </ul>
                             </li>
                             <li class="menu-has-children">
-                                <a href="#"><i class="fas fa-language" style="font-size:18px; position:unset; padding:0px;"></i><span style="padding-left:5px; font-size:15px;">{{currency_pick}}</span> <i class="fas fa-chevron-down fat-dh" style="display:inline-block;"></i></a>
+                                <a href="#" class="a_color5"><i class="fas fa-language" style="font-size:18px; position:unset; padding:0px;"></i><span style="padding-left:5px; font-size:15px;">{{currency_pick}}</span> <i class="fas fa-chevron-down fat-dh" style="display:inline-block;"></i></a>
                                 <ul class="dropdown">
                                     <li class="menu-has-children"><a href="#">{% trans 'Language' %} <i class="fas fa-chevron-down fat-dh" style="display:inline-block;"></i></a>
                                         <ul class="dropdown">
@@ -1183,9 +1182,9 @@
                                 <button class="primary-btn" style="width:100%; margin-bottom:0px;" type="button" data-toggle="modal" data-target="#myModalSignIn" data-backdrop="static">{% trans 'Sign In' %} <i class="fas fa-sign-in-alt"></i></button>
                             </li>
                         {% else %}
-                            <li style="margin-top:8px;"><a href="{% url 'tt_website:index'%}">{% trans 'Home' %}</a></li>
+                            <li style="margin-top:8px;"><a href="{% url 'tt_website:index'%}" class="a_color5">{% trans 'Home' %}</a></li>
                             {% if username.co_user_login != '' %}
-                                <li style="margin-top:8px;"><a href="{% url 'tt_website:reservation'%}">{% trans 'My Reservation' %}</a></li>
+                                <li style="margin-top:8px;"><a href="{% url 'tt_website:reservation'%}" class="a_color5">{% trans 'My Reservation' %}</a></li>
                                 {% if "corp_limitation" in username.co_agent_frontend_security or 'co_customer_parent_type_name' in username %}
                                 <li style="margin-top:8px;"><a href="{% url 'tt_website:reservation_request'%}">{% trans 'Reservation Request' %}</a></li>
                                 {% endif%}
@@ -1198,20 +1197,20 @@
                                 </li>
                                 {% endif%}
                             {% endif %}
-                            <li class="menu-has-children" style="margin-top:8px;"><a href="#">{% trans 'Highlight' %} <i class="fas fa-chevron-down fat-dh" style="display:inline-block;"></i></a>
+                            <li class="menu-has-children" style="margin-top:8px;"><a href="#" class="a_color5">{% trans 'Highlight' %} <i class="fas fa-chevron-down fat-dh" style="display:inline-block;"></i></a>
                                 <ul id="highlight_header_div" style="top:65%;">
                                 </ul>
                             </li>
 
                             {% if username.co_user_login != '' %}
-                                <li class="menu-has-children" style="margin-top:8px;"><a href="#">{% trans 'Balance & Credit' %} <i class="fas fa-chevron-down fat-dh" style="display:inline-block;"></i></a>
+                                <li class="menu-has-children" style="margin-top:8px;"><a href="#" class="a_color5">{% trans 'Balance & Credit' %} <i class="fas fa-chevron-down fat-dh" style="display:inline-block;"></i></a>
                                     <ul style="top:65%;" id="balance_ul">
                                         <li class="balance_mobile" style="margin-top:8px;"><a id="balance"></a></li>
                                         <li class="credit_mobile pt5"><a id="credit_limit"></a></li>
                                         <li class="customer_parent_balance_mobile"><a id="customer_parent_balance"></a></li>
                                     </ul>
                                 </li>
-                                <li class="menu-has-children" style="margin-top:8px;"><a href="#"><i class="fas fa-language" style="font-size:18px; position:unset; padding:0px;"></i><span style="padding-left:5px; font-size:15px;">{{currency_pick}}</span> <i class="fas fa-chevron-down fat-dh" style="display:inline-block;"></i></a>
+                                <li class="menu-has-children" style="margin-top:8px;"><a href="#" class="a_color5"><i class="fas fa-language" style="font-size:18px; position:unset; padding:0px;"></i><span style="padding-left:5px; font-size:15px;">{{currency_pick}}</span> <i class="fas fa-chevron-down fat-dh" style="display:inline-block;"></i></a>
                                     <ul style="top:65%;">
                                         <li class="menu-has-children"><a href="#">{% trans 'Language' %} <i class="fas fa-chevron-down fat-dh" style="display:inline-block;"></i></a>
                                             <ul class="dropdown">
@@ -1244,7 +1243,7 @@
                                         </li>
                                     </ul>
                                 </li>
-                                <li class="menu-has-children notification-pc" style="cursor:pointer; margin-top:8px;"><a class="user_t5" style="font-weight:700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:150px;" title="{{username.co_user_login}}">{{username.co_user_login}} <i class="fas fa-chevron-down fat-dh" style="display:inline-block;"></i></a>
+                                <li class="menu-has-children notification-pc" style="cursor:pointer; margin-top:8px;"><a class="user_t5 a_color5" style="font-weight:700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:150px;" title="{{username.co_user_login}}">{{username.co_user_login}} <i class="fas fa-chevron-down fat-dh" style="display:inline-block;"></i></a>
                                     <ul style="top:65%;">
                                         {% if "admin" in username.co_agent_frontend_security %}
                                         <li><a href="{% url 'tt_website:admin'%}">Admin Setting</a></li>
@@ -1514,7 +1513,8 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="notification-mobile" style="padding-right:15px;cursor:pointer; display:none;"><a href="#"><img src="{{static_path}}images/noprofile.png" class="image-rounded-profile" alt="Photo Profile" style="margin-right:10px;" id="user_login"/> {{username.co_user_login}}</a>
+                    <li class="menu-has-children notification-mobile" style="padding-right:15px;cursor:pointer; display:none;">
+                        <a href="#"><img src="{{static_path}}images/noprofile.png" class="image-rounded-profile" alt="Photo Profile" style="margin-right:10px;" id="user_login"/> {{username.co_user_login}} <i class="fas fa-chevron-down"></i></a>
                         <ul>
                             {% if "admin" in username.co_agent_frontend_security %}
                             <li><a href="{% url 'tt_website:admin'%}">Admin Setting</a></li>
@@ -1569,7 +1569,7 @@
     {% include 'tt_website/header_corporate.html' %}
     {% endif %}
     <div class="header-area">
-        <div class="main-header ">
+        <div class="main-header">
             <div class="header-bottom header-sticky">
                 <div class="container">
                     <div class="row align-items-center">
@@ -1586,14 +1586,14 @@
                                     <ul id="navigation">
                                         {% if username.co_user_login == default_user %}
                                             <li class="pt5 mr5"><a href="{% url 'tt_website:index'%}">{% trans 'Home' %}</a></li>
-                                            <li class="pt5"><a href="#">{% trans 'Highlight' %} <i class="fas fa-chevron-down"></i></a>
+                                            <li class="pt5"><a href="#">{% trans 'Highlight' %} <i class="fas fa-chevron-down i_fast6"></i></a>
                                                 <ul id="highlight_header_div" class="submenu">
 
                                                 </ul>
                                             </li>
-                                            <li class="pt5 mr5"><a href="#"><i class="fas fa-language" style="font-size:18px;"></i><span style="padding-left:5px; font-size:15px;">{{currency_pick}}</span> <i class="fas fa-chevron-down"></i></a>
+                                            <li class="pt5 mr5"><a href="#"><i class="fas fa-language" style="font-size:18px;"></i><span style="padding-left:5px; font-size:15px;">{{currency_pick}}</span> <i class="fas fa-chevron-down i_fast6"></i></a>
                                                 <ul class="submenu">
-                                                    <li class="pt5"><a href="#">{% trans 'Language' %} <i class="fas fa-chevron-down"></i></a>
+                                                    <li class="pt5"><a href="#">{% trans 'Language' %} <i class="fas fa-chevron-down i_fast6"></i></a>
                                                         <ul class="submenu">
                                                             <form action="{% url 'set_language' %}" method="post" id="form_language">
                                                                 {% csrf_token %}
@@ -1608,7 +1608,7 @@
                                                             </form>
                                                         </ul>
                                                     </li>
-                                                    <li class="pt5"><a href="#">{% trans 'Currency' %} <i class="fas fa-chevron-down fat-dh" style="display:inline-block;"></i></a>
+                                                    <li class="pt5"><a href="#">{% trans 'Currency' %} <i class="fas fa-chevron-down i_fast6 fat-dh" style="display:inline-block;"></i></a>
                                                         <ul class="submenu">
                                                             {% for data_currency in currency.currency_list %}
                                                             <li>
@@ -1639,7 +1639,7 @@
                                                 <li><a href="{% url 'tt_website:reservation_request'%}">{% trans 'Reservation Request' %}</a></li>
                                                 {% endif%}
                                                 {% if "top_up" in username.co_agent_frontend_security %}
-                                                <li><a href="#">{% trans 'Top Up' %} <i class="fas fa-chevron-down"></i></a>
+                                                <li><a href="#">{% trans 'Top Up' %} <i class="fas fa-chevron-down i_fast6"></i></a>
                                                     <ul class="submenu">
                                                         <li><a href="{% url 'tt_website:top_up'%}">{% trans 'Request' %}</a></li>
                                                         <li><a href="{% url 'tt_website:top_up_history'%}">{% trans 'History' %}</a></li>
@@ -1648,14 +1648,14 @@
                                                 {% endif%}
                                             {% endif %}
                                             <li>
-                                                <a href="#">{% trans 'Highlight' %} <i class="fas fa-chevron-down"></i></a>
+                                                <a href="#">{% trans 'Highlight' %} <i class="fas fa-chevron-down i_fast6"></i></a>
                                                 <ul class="submenu" id="highlight_header_div">
 
                                                 </ul>
                                             </li>
                                             {% if username.co_user_login != '' %}
                                             <li class="notification-pc">
-                                                <a href="#">{% trans 'Balance & Credit' %} <i class="fas fa-chevron-down"></i></a>
+                                                <a href="#">{% trans 'Balance & Credit' %} <i class="fas fa-chevron-down i_fast6"></i></a>
                                                 <ul class="submenu" id="balance_ul">
                                                     <li class="pt5"><a href="#" id="balance"></a></li>
                                                     <li class="pt5"><a href="#" id="credit_limit"></a></li>
@@ -1663,15 +1663,15 @@
                                                 </ul>
                                             </li>
                                             <li class="notification-mobile bl_ul_mb">
-                                                <a href="#">{% trans 'Balance & Credit' %} <i class="fas fa-chevron-down"></i></a>
+                                                <a href="#">{% trans 'Balance & Credit' %} <i class="fas fa-chevron-down i_fast6"></i></a>
                                                 <ul class="submenu">
 
                                                 </ul>
                                             </li>
                                             <li>
-                                                <a href="#"><i class="fas fa-language" style="font-size:18px;"></i><span style="padding-left:5px; font-size:15px;">{{currency_pick}}</span> <i class="fas fa-chevron-down"></i></a>
+                                                <a href="#"><i class="fas fa-language" style="font-size:18px;"></i><span style="padding-left:5px; font-size:15px;">{{currency_pick}}</span> <i class="fas fa-chevron-down i_fast6"></i></a>
                                                 <ul class="submenu">
-                                                    <li class="pt5"><a href="#">{% trans 'Language' %} <i class="fas fa-chevron-down fat-dh" style="display:inline-block;"></i></a>
+                                                    <li class="pt5"><a href="#">{% trans 'Language' %} <i class="fas fa-chevron-down i_fast6 fat-dh" style="display:inline-block;"></i></a>
                                                         <ul class="submenu">
                                                             <form action="{% url 'set_language' %}" method="post" id="form_language2">
                                                                 {% csrf_token %}
@@ -1686,7 +1686,7 @@
                                                             </form>
                                                         </ul>
                                                     </li>
-                                                    <li class="pt5"><a href="#">{% trans 'Currency' %} <i class="fas fa-chevron-down fat-dh" style="display:inline-block;"></i></a>
+                                                    <li class="pt5"><a href="#">{% trans 'Currency' %} <i class="fas fa-chevron-down i_fast6 fat-dh" style="display:inline-block;"></i></a>
                                                         <ul class="submenu">
                                                             {% for data_currency in currency.currency_list %}
                                                             <li>
@@ -1705,7 +1705,7 @@
                                             <li class="notification-pc" style="cursor:pointer; top:15px;">
                                                 <a style="font-weight:700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:150px;" title="{{username.co_user_login}}" id="user_login2">
                                                     {{username.co_user_login}}
-                                                    <i class="fas fa-chevron-down"></i>
+                                                    <i class="fas fa-chevron-down i_fast6"></i>
                                                 </a>
                                                 <ul class="submenu">
                                                     {% if "admin" in username.co_agent_frontend_security %}
@@ -1792,8 +1792,8 @@
                             </div>
                         </div>
                         <!-- Mobile Menu -->
-                        <div class="col-12">
-                            <div title="Click to show your notification" class="notification-mobile" style="float:right; margin-right:15px; margin-top:5px; cursor:pointer; top: 15px; z-index: 99; right: 50px; position: absolute; cursor: pointer;">
+                        <div class="col-xs-12">
+                            <div title="Click to show your notification" class="notification-mobile" style="float:right; margin-right:15px; cursor:pointer; top: -30px; z-index: 99; right: 50px; position: absolute; cursor: pointer;">
                                 <button type="button" class="icon-button-notif notification-slide-toggle" id="notif_mb_badge" onclick="on_off_overlay_bar('box-notification', 'overlay_box_menu');">
                                     <span class="material-icons">
                                         <i class="fas fa-bell notif-hover bell_notif animated swing" style="font-size:24px;"></i>

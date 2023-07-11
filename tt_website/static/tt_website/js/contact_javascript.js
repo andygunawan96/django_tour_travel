@@ -1,3 +1,4 @@
+//add template
 counter_contact = 0;
 function add_table_of_contact(data){
     text = '';

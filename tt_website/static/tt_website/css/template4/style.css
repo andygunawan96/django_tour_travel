@@ -513,7 +513,7 @@ option::after{
   position: fixed;
   left: 0;
   z-index: 1050;
-  padding-top: 20px;
+  padding-bottom: 20px;
   background: #fff;
   border-right:1px solid #cdcdcd;
   height: calc(100vh);
@@ -566,7 +566,6 @@ option::after{
     position: relative;
     padding: 0px 0px 20px 1px;
     height: calc(100vh - 52px);
-    margin:10px;
     padding-bottom: 150px; }
   .site-mobile-menu .site-nav-wrap {
     padding: 0;
