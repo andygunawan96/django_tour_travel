@@ -152,14 +152,14 @@
                                                     <input id="train_origin" name="train_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;outline:0" autocomplete="off" value="" onfocus="document.getElementById('train_origin').select();" onclick="set_train_search_value_to_false();" value="BD - Bandung">
                                                 </div>
                                             </div>
-                                            <div class="image-change-route-vertical">
-                                                <h4><a href="javascript:train_switch();" style="z-index:5; color:black;" id="train_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
-                                            </div>
-                                            <div class="image-change-route-horizontal">
-                                                <h4><a class="horizontal-arrow" href="javascript:train_switch();" style="z-index:5; color:{{text_color}} !important;" id="train_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt"></i></i></a></h4>
-                                            </div>
 
                                             <div class="col-lg-6 col-md-6 train-to" style="z-index:5;">
+                                                <div class="image-change-route-vertical">
+                                                    <h4><a href="javascript:train_switch();" style="z-index:5; color:black;" id="train_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                                                </div>
+                                                <div class="image-change-route-horizontal">
+                                                    <h4><a class="horizontal-arrow" href="javascript:train_switch();" style="z-index:5; color:{{text_color}} !important;" id="train_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                                                </div>
                                                 <span class="span-search-ticket"><i class="fas fa-map-marked-alt"></i> {% trans 'To' %}</span>
                                                 <div class="input-container-search-ticket">
                                                     <input id="train_destination" name="train_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;outline:0" autocomplete="off" value="" onfocus="document.getElementById('train_destination').select();" onclick="set_train_search_value_to_false();" value="GMR - Gambir">
@@ -226,6 +226,42 @@
                                             </ul>
                                         </div>
                                     </div>
+                                    {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
+                                    <br/>
+                                    <div class="col-lg-12" style="text-align:left;">
+                                        <label class="check_box_custom mt-2">
+                                            <span style="font-size:13px; color:{{text_color}};">Activate Corporate Mode</span>
+                                            <input type="checkbox" id="checkbox_corpor_mode_train" name="checkbox_corpor_mode_train" onclick="toggle_corpor_mode_div('train');"/>
+                                            <span class="check_box_span_custom"></span>
+                                        </label><span id="corpor_list_loading_train" style="font-size:13px; color:{{text_color}}; padding:5px; display:none;"> <div class="ld ld-ring ld-cycle"></div></span>
+                                    </div>
+                                    <div class="col-lg-12" id="div_corpor_mode_train" style="display:none;">
+                                        <div class="row">
+                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                                <span class="span-search-ticket">Corporate</span>
+                                                <div class="input-container-search-ticket">
+                                                    <div class="form-select">
+                                                        <select id="train_corpor_select" name="train_corpor_select" class="form-control js-example-basic-single" style="width:100%;" onchange="render_corbooker_list('train');">
+
+                                                        </select>
+                                                        <input type="hidden" id="train_corpor_select_post" name="train_corpor_select_post"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                                <span class="span-search-ticket">Booker</span>
+                                                <div class="input-container-search-ticket">
+                                                    <div class="form-select">
+                                                        <select id="train_corbooker_select" name="train_corbooker_select" class="form-control js-example-basic-single" style="width:100%;" onchange="set_corbooker_post_value('train');">
+
+                                                        </select>
+                                                        <input type="hidden" id="train_corbooker_select_post" name="train_corbooker_select_post"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endif %}
                                 </div>
                                 <br/>
 
@@ -403,14 +439,14 @@
                                                 <input id="train_origin" name="train_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;outline:0" autocomplete="off" value="" onfocus="document.getElementById('train_origin').select();" onclick="set_train_search_value_to_false();" value="BD - Bandung">
                                             </div>
                                         </div>
-                                        <div class="image-change-route-vertical">
-                                            <h4><a href="javascript:train_switch();" style="z-index:5;" id="train_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
-                                        </div>
-                                        <div class="image-change-route-horizontal">
-                                            <h4><a class="horizontal-arrow" href="javascript:train_switch();" style="z-index:5; color:{{text_color}};" id="train_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt"></i></i></a></h4>
-                                        </div>
 
                                         <div class="col-lg-6 col-md-6 train-to" style="z-index:5;">
+                                            <div class="image-change-route-vertical">
+                                                <h4><a href="javascript:train_switch();" style="z-index:5;" id="train_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                                            </div>
+                                            <div class="image-change-route-horizontal">
+                                                <h4><a class="horizontal-arrow" href="javascript:train_switch();" style="z-index:5; color:{{text_color}};" id="train_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                                            </div>
                                             <span class="span-search-ticket"><i class="fas fa-map-marked-alt"></i> {% trans 'To' %}</span>
                                             <div class="input-container-search-ticket">
                                                 <input id="train_destination" name="train_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;outline:0" autocomplete="off" value="" onfocus="document.getElementById('train_destination').select();" onclick="set_train_search_value_to_false();" value="GMR - Gambir">
@@ -475,6 +511,42 @@
                                         </div>
                                     </ul>
                                 </div>
+                                {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
+                                <br/>
+                                <div class="col-lg-12" style="text-align:left;">
+                                    <label class="check_box_custom mt-2">
+                                        <span style="font-size:13px; color:{{text_color}};">Activate Corporate Mode</span>
+                                        <input type="checkbox" id="checkbox_corpor_mode_train" name="checkbox_corpor_mode_train" onclick="toggle_corpor_mode_div('train');"/>
+                                        <span class="check_box_span_custom"></span>
+                                    </label><span id="corpor_list_loading_train" style="font-size:13px; color:{{text_color}}; padding:5px; display:none;"> <div class="ld ld-ring ld-cycle"></div></span>
+                                </div>
+                                <div class="col-lg-12" id="div_corpor_mode_train" style="display:none;">
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <span class="span-search-ticket">Corporate</span>
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select">
+                                                    <select id="train_corpor_select" name="train_corpor_select" class="form-control js-example-basic-single" style="width:100%;" onchange="render_corbooker_list('train');">
+
+                                                    </select>
+                                                    <input type="hidden" id="train_corpor_select_post" name="train_corpor_select_post"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <span class="span-search-ticket">Booker</span>
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select">
+                                                    <select id="train_corbooker_select" name="train_corbooker_select" class="form-control js-example-basic-single" style="width:100%;" onchange="set_corbooker_post_value('train');">
+
+                                                    </select>
+                                                    <input type="hidden" id="train_corbooker_select_post" name="train_corbooker_select_post"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endif %}
                             </div>
                             <input type="hidden" id="train_response" name="response"/>
 
@@ -716,7 +788,42 @@
                                         </div>
                                     </div>
                                     <input type="hidden" id="train_response" name="response"/>
+                                    {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
+                                    <br/>
+                                    <div class="col-lg-12" style="text-align:left;">
+                                        <label class="check_box_custom mt-2">
+                                            <span style="font-size:13px; color:{{text_color}};">Activate Corporate Mode</span>
+                                            <input type="checkbox" id="checkbox_corpor_mode_train" name="checkbox_corpor_mode_train" onclick="toggle_corpor_mode_div('train');"/>
+                                            <span class="check_box_span_custom"></span>
+                                        </label><span id="corpor_list_loading_train" style="font-size:13px; color:{{text_color}}; padding:5px; display:none;"> <div class="ld ld-ring ld-cycle"></div></span>
+                                    </div>
+                                    <div class="col-lg-12" id="div_corpor_mode_train" style="display:none;">
+                                        <div class="row">
+                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                                <span class="span-search-ticket">Corporate</span>
+                                                <div class="input-container-search-ticket">
+                                                    <div class="form-select">
+                                                        <select id="train_corpor_select" name="train_corpor_select" class="form-control js-example-basic-single" style="width:100%;" onchange="render_corbooker_list('train');">
 
+                                                        </select>
+                                                        <input type="hidden" id="train_corpor_select_post" name="train_corpor_select_post"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                                <span class="span-search-ticket">Booker</span>
+                                                <div class="input-container-search-ticket">
+                                                    <div class="form-select">
+                                                        <select id="train_corbooker_select" name="train_corbooker_select" class="form-control js-example-basic-single" style="width:100%;" onchange="set_corbooker_post_value('train');">
+
+                                                        </select>
+                                                        <input type="hidden" id="train_corbooker_select_post" name="train_corbooker_select_post"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endif %}
                                     <div class="col-lg-12" style="margin-top:15px;">
                                         <center>
                                             <button class="primary-btn ld-ext-right" id="btn-search-train" type="button" onclick="get_captcha('recaptcha_train','train');" value="Submit">
@@ -1005,6 +1112,42 @@
                                                 </ul>
                                             </div>
                                         </div>
+                                        {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
+                                        <br/>
+                                        <div class="col-lg-12" style="text-align:left;">
+                                            <label class="check_box_custom mt-2">
+                                                <span style="font-size:13px; color:{{text_color}};">Activate Corporate Mode</span>
+                                                <input type="checkbox" id="checkbox_corpor_mode_train" name="checkbox_corpor_mode_train" onclick="toggle_corpor_mode_div('train');"/>
+                                                <span class="check_box_span_custom"></span>
+                                            </label><span id="corpor_list_loading_train" style="font-size:13px; color:{{text_color}}; padding:5px; display:none;"> <div class="ld ld-ring ld-cycle"></div></span>
+                                        </div>
+                                        <div class="col-lg-12" id="div_corpor_mode_train" style="display:none;">
+                                            <div class="row">
+                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                    <span class="span-search-ticket">Corporate</span>
+                                                    <div class="input-container-search-ticket">
+                                                        <div class="form-select">
+                                                            <select id="train_corpor_select" name="train_corpor_select" class="form-control js-example-basic-single" style="width:100%;" onchange="render_corbooker_list('train');">
+
+                                                            </select>
+                                                            <input type="hidden" id="train_corpor_select_post" name="train_corpor_select_post"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                    <span class="span-search-ticket">Booker</span>
+                                                    <div class="input-container-search-ticket">
+                                                        <div class="form-select">
+                                                            <select id="train_corbooker_select" name="train_corbooker_select" class="form-control js-example-basic-single" style="width:100%;" onchange="set_corbooker_post_value('train');">
+
+                                                            </select>
+                                                            <input type="hidden" id="train_corbooker_select_post" name="train_corbooker_select_post"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% endif %}
                                     </div>
                                     <br/>
 
@@ -1198,14 +1341,14 @@
                                                                 <input id="train_origin" name="train_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;outline:0" autocomplete="off" value="" onfocus="document.getElementById('train_origin').select();" onclick="set_train_search_value_to_false();" value="BD - Bandung">
                                                             </div>
                                                         </div>
-                                                        <div class="image-change-route-vertical">
-                                                            <h4><a href="javascript:train_switch();" style="z-index:5;" id="train_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
-                                                        </div>
-                                                        <div class="image-change-route-horizontal">
-                                                            <h4><a class="horizontal-arrow" href="javascript:train_switch();" style="z-index:5; color:{{text_color}} !important;" id="train_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt"></i></i></a></h4>
-                                                        </div>
 
                                                         <div class="col-lg-6 col-md-6 train-to" style="z-index:5;">
+                                                            <div class="image-change-route-vertical">
+                                                            <h4><a href="javascript:train_switch();" style="z-index:5;" id="train_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                                                            </div>
+                                                            <div class="image-change-route-horizontal">
+                                                                <h4><a class="horizontal-arrow" href="javascript:train_switch();" style="z-index:5; color:{{text_color}} !important;" id="train_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                                                            </div>
                                                             <span class="span-search-ticket"><i class="fas fa-map-marked-alt"></i> {% trans 'To' %}</span>
                                                             <div class="input-container-search-ticket">
                                                                 <input id="train_destination" name="train_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;outline:0" autocomplete="off" value="" onfocus="document.getElementById('train_destination').select();" onclick="set_train_search_value_to_false();" value="GMR - Gambir">
@@ -1272,6 +1415,42 @@
                                                         </ul>
                                                     </div>
                                                 </div>
+                                                {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
+                                                <br/>
+                                                <div class="col-lg-12" style="text-align:left;">
+                                                    <label class="check_box_custom mt-2">
+                                                        <span style="font-size:13px; color:{{text_color}};">Activate Corporate Mode</span>
+                                                        <input type="checkbox" id="checkbox_corpor_mode_train" name="checkbox_corpor_mode_train" onclick="toggle_corpor_mode_div('train');"/>
+                                                        <span class="check_box_span_custom"></span>
+                                                    </label><span id="corpor_list_loading_train" style="font-size:13px; color:{{text_color}}; padding:5px; display:none;"> <div class="ld ld-ring ld-cycle"></div></span>
+                                                </div>
+                                                <div class="col-lg-12" id="div_corpor_mode_train" style="display:none;">
+                                                    <div class="row">
+                                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                                            <span class="span-search-ticket">Corporate</span>
+                                                            <div class="input-container-search-ticket">
+                                                                <div class="form-select">
+                                                                    <select id="train_corpor_select" name="train_corpor_select" class="form-control js-example-basic-single" style="width:100%;" onchange="render_corbooker_list('train');">
+
+                                                                    </select>
+                                                                    <input type="hidden" id="train_corpor_select_post" name="train_corpor_select_post"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                                            <span class="span-search-ticket">Booker</span>
+                                                            <div class="input-container-search-ticket">
+                                                                <div class="form-select">
+                                                                    <select id="train_corbooker_select" name="train_corbooker_select" class="form-control js-example-basic-single" style="width:100%;" onchange="set_corbooker_post_value('train');">
+
+                                                                    </select>
+                                                                    <input type="hidden" id="train_corbooker_select_post" name="train_corbooker_select_post"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                {% endif %}
                                             </div>
                                             <br/>
 
@@ -1454,14 +1633,14 @@
                                                 <input id="train_origin" name="train_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;outline:0" autocomplete="off" value="" onfocus="document.getElementById('train_origin').select();" onclick="set_train_search_value_to_false();" value="BD - Bandung">
                                             </div>
                                         </div>
-                                        <div class="image-change-route-vertical">
-                                            <h4><a href="javascript:train_switch();" style="z-index:5; color:black;" id="train_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
-                                        </div>
-                                        <div class="image-change-route-horizontal">
-                                            <h4><a class="horizontal-arrow" href="javascript:train_switch();" style="z-index:5; color:{{text_color}} !important;" id="train_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt"></i></i></a></h4>
-                                        </div>
 
                                         <div class="col-lg-6 col-md-6" style="z-index:5;">
+                                            <div class="image-change-route-vertical">
+                                                <h4><a href="javascript:train_switch();" style="z-index:5; color:black;" id="train_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                                            </div>
+                                            <div class="image-change-route-horizontal">
+                                                <h4><a class="horizontal-arrow" href="javascript:train_switch();" style="z-index:5; color:{{text_color}} !important;" id="train_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                                            </div>
                                             <span class="span-search-ticket"><i class="fas fa-map-marked-alt"></i> {% trans 'To' %}</span>
                                             <div class="input-container-search-ticket">
                                                 <input id="train_destination" name="train_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;outline:0" autocomplete="off" value="" onfocus="document.getElementById('train_destination').select();" onclick="set_train_search_value_to_false();" value="GMR - Gambir">
@@ -1528,6 +1707,42 @@
                                         </ul>
                                     </div>
                                 </div>
+                                {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
+                                <br/>
+                                <div class="col-lg-12" style="text-align:left;">
+                                    <label class="check_box_custom mt-2">
+                                        <span style="font-size:13px; color:{{text_color}};">Activate Corporate Mode</span>
+                                        <input type="checkbox" id="checkbox_corpor_mode_train" name="checkbox_corpor_mode_train" onclick="toggle_corpor_mode_div('train');"/>
+                                        <span class="check_box_span_custom"></span>
+                                    </label><span id="corpor_list_loading_train" style="font-size:13px; color:{{text_color}}; padding:5px; display:none;"> <div class="ld ld-ring ld-cycle"></div></span>
+                                </div>
+                                <div class="col-lg-12" id="div_corpor_mode_train" style="display:none;">
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <span class="span-search-ticket">Corporate</span>
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select">
+                                                    <select id="train_corpor_select" name="train_corpor_select" class="form-control js-example-basic-single" style="width:100%;" onchange="render_corbooker_list('train');">
+
+                                                    </select>
+                                                    <input type="hidden" id="train_corpor_select_post" name="train_corpor_select_post"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <span class="span-search-ticket">Booker</span>
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select">
+                                                    <select id="train_corbooker_select" name="train_corbooker_select" class="form-control js-example-basic-single" style="width:100%;" onchange="set_corbooker_post_value('train');">
+
+                                                    </select>
+                                                    <input type="hidden" id="train_corbooker_select_post" name="train_corbooker_select_post"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endif %}
                             </div>
                             <br/>
 
