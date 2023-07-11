@@ -2400,6 +2400,7 @@ h1, h2, h3, h4, h5, h6 {
   width: 300px;
   overflow-y: auto;
   transition: 0.4s;
+  padding-bottom:50px;
 }
 
 @media (max-width: 575px) {

@@ -1,3 +1,4 @@
+//add template
 counter_social = 0;
 function add_table_of_social(data){
     text = '';

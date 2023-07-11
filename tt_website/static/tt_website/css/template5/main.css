@@ -3796,12 +3796,6 @@ ul.tabs li.current .image-rounded-icon{
 }
 
 @media (max-width: 991px) {
-    .icon-button__badge{
-        top:10px !important;
-    }
-}
-
-@media (max-width: 991px) {
     #mobile-nav ul li{
       margin-left: 10px;
       margin-right: 10px;

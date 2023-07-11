@@ -6568,3 +6568,23 @@ text-align: center;
 }
 */
 
+.search_country_tour{
+    border: 1px solid #cdcdcd;
+    background: #f7f7f7;
+    color: black;
+    margin-right:0px;
+    margin-bottom:15px;
+    padding: 30px 15px;
+    height:85px;
+    width: 100%;
+    -webkit-transition: .4s;
+    -moz-transition: .4s;
+    -o-transition: .4s;
+    transition: .4s;
+}
+
+.search_country_tour:hover{
+    color: white;
+    background: #205B95;
+}
+
