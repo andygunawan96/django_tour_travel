@@ -1782,6 +1782,8 @@ def get_ho_currency_api(request, signature='', forceUpdate=False):
                     _logger.info("get_ho_currency SIGNATURE " + headers['signature'])
                 except Exception as e:
                     _logger.error('ERROR read file get_ho_currency\n' + str(e) + '\n' + traceback.format_exc())
+            if res.get('currency_dict'):
+                res = res['currency_dict']
             if request.session['user_account']['co_ho_seq_id'] in res:
                 res = res[request.session['user_account']['co_ho_seq_id']]
         except Exception as e:
@@ -1789,6 +1791,8 @@ def get_ho_currency_api(request, signature='', forceUpdate=False):
     else:
         try:
             res = file
+            if res.get('currency_dict'):
+                res = res['currency_dict']
             if request.session['user_account']['co_ho_seq_id'] in res:
                 res = res[request.session['user_account']['co_ho_seq_id']]
             else:
