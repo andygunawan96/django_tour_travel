@@ -6606,7 +6606,10 @@ function search_reorder(){
         airline_request['return'].push(journey_list_copy[i].departure_date.split('  ')[0])
 
     }
-    airline_request['direction'] = airline_request['origin'].length == 1 ? 'OW' : 'MC';
+    if(airline_get_detail.result.response.direction != 'OTHER')
+        airline_request['direction'] = airline_get_detail.result.response.direction;
+    else
+        airline_request['direction'] = airline_request['origin'].length == 1 ? 'OW' : 'MC';
     airline_request['adult'] = adult;
     airline_request['child'] = child;
     airline_request['infant'] = infant;
@@ -6614,7 +6617,7 @@ function search_reorder(){
     airline_request['labour'] = labour;
     airline_request['seaman'] = seaman;
     airline_request['counter'] = airline_request['origin'].length.toString();
-    if(airline_request['direction'] == 'OW')
+    if(airline_request['direction'] == 'OW' || Object.keys(provider_list_reorder).length > 1)
         airline_request['is_combo_price'] = "false"
     else
         airline_request['is_combo_price'] = "true"
