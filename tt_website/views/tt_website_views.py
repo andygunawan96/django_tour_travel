@@ -1470,8 +1470,8 @@ def get_data_template(request, type='home', provider_type = []):
     if not os.path.exists(path):
         os.mkdir(path)
     template = 1
-    logo = '/static/tt_website/images/icon/orbis_logo.png'
-    logo_icon = '/static/tt_website/images/icon/orbis_title.png'
+    logo = '/static/tt_website/images/logo/default/orbis_logo.png'
+    logo_icon = '/static/tt_website/images/logo/default/orbis_title.png'
     if type == 'registration':
         background = '/static/tt_website/images/background/default/def_bg_home.jpg'
     else:

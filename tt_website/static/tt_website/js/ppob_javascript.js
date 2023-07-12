@@ -162,7 +162,7 @@ function get_carrier_setup(car_provider){
                 }else{
                     text+=`<input type="radio" name="bills_type" value="`+i+`">`;
                 }
-                img_path = "/static/tt_website/images/icon/"+i.toString().toLowerCase().replace('-','').replace(' ','_')+".png";
+                img_path = "/static/tt_website/images/logo/ppob/"+i.toString().toLowerCase().replace('-','').replace(' ','_')+".png";
                 text+=`<img src="`+img_path+`" alt="`+i.toString().toUpperCase()+`" style="width:80px; height:80px; padding:0px;">
                 <div style="width:100px; color:`+text_color+`;">
                     <span>`+i.toString().toUpperCase()+`</span>
@@ -5408,57 +5408,57 @@ function check_hp_number(evoucher_val){
                     text_img+=`<label class="radio-img" style="height:70px;">
                     <input type="radio" checked="checked" name="voucher-type" value="pulsa" onchange="set_evoucher_type();">`;
                     if(code_voucher == "TSEL" || code_voucher == "TS"){
-                        text_img+=`<img src="/static/tt_website/images/icon/telkomsel.png" alt="Telkomsel" style="width:auto; height:60px; padding:0px;">`;
+                        text_img+=`<img src="/static/tt_website/images/logo/ppob/telkomsel.png" alt="Telkomsel" style="width:auto; height:60px; padding:0px;">`;
                     }else if(code_voucher == "ISAT" || code_voucher == "IR"){
-                        text_img+=`<img src="/static/tt_website/images/icon/indosat.png" alt="Indosat" style="width:auto; height:60px; padding:0px;">`;
+                        text_img+=`<img src="/static/tt_website/images/logo/ppob/indosat.png" alt="Indosat" style="width:auto; height:60px; padding:0px;">`;
                     }else if(code_voucher == "XL" || code_voucher == "XR"){
-                        text_img+=`<img src="/static/tt_website/images/icon/xl.png" alt="XL" style="width:auto; height:60px; padding:0px;">`;
+                        text_img+=`<img src="/static/tt_website/images/logo/ppob/xl.png" alt="XL" style="width:auto; height:60px; padding:0px;">`;
                     }else if(code_voucher == "AX"){
-                        text_img+=`<img src="/static/tt_website/images/icon/axis.png" alt="XL" style="width:auto; height:60px; padding:0px;">`;
+                        text_img+=`<img src="/static/tt_website/images/logo/ppob/axis.png" alt="XL" style="width:auto; height:60px; padding:0px;">`;
                     }else if(code_voucher == "TR"){
-                        text_img+=`<img src="/static/tt_website/images/icon/tri.png" alt="Tri" style="width:auto; height:60px; padding:0px;">`;
+                        text_img+=`<img src="/static/tt_website/images/logo/ppob/tri.png" alt="Tri" style="width:auto; height:60px; padding:0px;">`;
                     }else if(code_voucher == "SM" || code_voucher == "FR"){
-                        text_img+=`<img src="/static/tt_website/images/icon/smartfren.png" alt="Smartfren" style="width:auto; height:60px; padding:0px;">`;
+                        text_img+=`<img src="/static/tt_website/images/logo/ppob/smartfren.png" alt="Smartfren" style="width:auto; height:60px; padding:0px;">`;
                     }else if(code_voucher == "BT"){
-                        text_img+=`<img src="/static/tt_website/images/icon/bolt.png" alt="Bolt" style="width:auto; height:60px; padding:0px;">`;
+                        text_img+=`<img src="/static/tt_website/images/logo/ppob/bolt.png" alt="Bolt" style="width:auto; height:60px; padding:0px;">`;
                     }
                     text_img+=`</label>`;
 
                     text_img+=`
                     <label class="radio-img" style="height:70px;">
                         <input type="radio" name="voucher-type" value="ovo" onchange="set_evoucher_type();">
-                        <img src="/static/tt_website/images/icon/ovo.png" alt="OVO" style="width:auto; height:60px; padding:0px;">
+                        <img src="/static/tt_website/images/logo/ppob/ovo.png" alt="OVO" style="width:auto; height:60px; padding:0px;">
                     </label>`;
                 }else{
                     text_img+=`
                     <label class="radio-img" style="height:70px;">
                         <input type="radio" checked="checked" name="voucher-type" value="ovo" onchange="set_evoucher_type();">
-                        <img src="/static/tt_website/images/icon/ovo.png" alt="OVO" style="width:auto; height:60px; padding:0px;">
+                        <img src="/static/tt_website/images/logo/ppob/ovo.png" alt="OVO" style="width:auto; height:60px; padding:0px;">
                     </label>`;
                 }
 
                 text_img+=`
                 <label class="radio-img" style="height:70px;">
                     <input type="radio" name="voucher-type" value="gopay" onchange="set_evoucher_type();">
-                    <img src="/static/tt_website/images/icon/gopay.png" alt="GO-PAY" style="width:auto; height:60px; padding:0px;">
+                    <img src="/static/tt_website/images/logo/ppob/gopay.png" alt="GO-PAY" style="width:auto; height:60px; padding:0px;">
                 </label>`;
 
                 text_img+=`
                 <label class="radio-img" style="height:70px;">
                     <input type="radio" name="voucher-type" value="shopee" onchange="set_evoucher_type();">
-                    <img src="/static/tt_website/images/icon/shopee.png" alt="SHOPEE" style="width:auto; height:60px; padding:0px;">
+                    <img src="/static/tt_website/images/logo/ppob/shopee.png" alt="SHOPEE" style="width:auto; height:60px; padding:0px;">
                 </label>`;
 
                 text_img+=`
                 <label class="radio-img" style="height:70px;">
                     <input type="radio" name="voucher-type" value="dana" onchange="set_evoucher_type();">
-                    <img src="/static/tt_website/images/icon/dana.png" alt="DANA" style="width:auto; height:60px; padding:0px;">
+                    <img src="/static/tt_website/images/logo/ppob/dana.png" alt="DANA" style="width:auto; height:60px; padding:0px;">
                 </label>`;
 
                 text_img+=`
                 <label class="radio-img" style="height:70px;">
                     <input type="radio" name="voucher-type" value="linkaja" onchange="set_evoucher_type();">
-                    <img src="/static/tt_website/images/icon/linkaja.png" alt="LINKAJA" style="width:auto; height:60px; padding:0px;">
+                    <img src="/static/tt_website/images/logo/ppob/linkaja.png" alt="LINKAJA" style="width:auto; height:60px; padding:0px;">
                 </label>`;
 
             text_img+=`</div>

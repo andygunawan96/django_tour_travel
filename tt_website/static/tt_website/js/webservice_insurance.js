@@ -636,9 +636,9 @@ function sort(data){
                     text+=`
                         <div class="single-destination relative">`;
                             if(insurance_data_filter[i][j].provider == 'bcainsurance')
-                                text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:200px; background: white url('/static/tt_website/images/insurance/`+insurance_data_filter[i][j].MasterBenefitName.toLowerCase()+`-`+insurance_data_filter[i][j].type_trip_name.toLowerCase()+`.png'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+i+`','`+sequence+`')">`;
+                                text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:200px; background: white url('/static/tt_website/images/logo/insurance/`+insurance_data_filter[i][j].MasterBenefitName.toLowerCase()+`-`+insurance_data_filter[i][j].type_trip_name.toLowerCase()+`.png'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+i+`','`+sequence+`')">`;
                             else if(insurance_data_filter[i][j].provider == 'zurich')
-                                text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:200px; background: white url('/static/tt_website/images/icon/home-zurich.png'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+i+`','`+sequence+`')">`;
+                                text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:200px; background: white url('/static/tt_website/images/logo/insurance/zurich_img.png'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+i+`','`+sequence+`')">`;
                             text+=`
                             </div>
                             <div class="card card-effect-promotion" style="border:unset;">`;

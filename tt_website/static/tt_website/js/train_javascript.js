@@ -704,7 +704,7 @@ function train_get_detail(){
                         <tr>
                             <td><h6>`+journeys[i].departure_date[1]+`</h6></td>
                             <td style="padding-left:15px;">
-                                <img src="/static/tt_website/img/icon/train-01.png" alt="Train" style="width:20px; height:20px;">
+                                <img src="/static/tt_website/images/icon/symbol/train-01.png" alt="Train" style="width:20px; height:20px;">
                             </td>
                             <td style="height:30px;padding:0 15px;width:100%">
                                 <div style="display:inline-block;position:relative;width:100%">
@@ -1166,7 +1166,7 @@ function train_detail(){
                             <tr>
                                 <td><h6>`+train_data[i].departure_date[1]+`</h6></td>
                                 <td style="padding-left:15px;">
-                                    <img src="/static/tt_website/img/icon/train-01.png" style="width:20px; height:20px;">
+                                    <img src="/static/tt_website/images/icon/symbol/train-01.png" style="width:20px; height:20px;">
                                 </td>
                                 <td style="height:30px;padding:0 15px;width:100%">
                                     <div style="display:inline-block;position:relative;width:100%">
@@ -2287,7 +2287,7 @@ function sort(value){
                                         <tr>
                                             <td><h5 class="copy_time_depart">`+data_filter[i].departure_date[1]+`</h5></td>
                                             <td style="padding-left:15px;">
-                                                <img src="/static/tt_website/img/icon/train-01.png" alt="Train" style="width:20px; height:20px;"/>
+                                                <img src="/static/tt_website/images/icon/symbol/train-01.png" alt="Train" style="width:20px; height:20px;"/>
                                             </td>
                                             <td style="height:30px;padding:0 15px;width:100%">
                                                 <div style="display:inline-block;position:relative;width:100%">
@@ -2393,7 +2393,7 @@ function sort(value){
             response +=`
             <div style="padding:5px; margin:10px;">
                 <div style="text-align:center">
-                    <img src="/static/tt_website/img/icon/no-train.png" style="width:80px; height:80px;" alt="Not Found Train" title="" />
+                    <img src="/static/tt_website/images/icon/symbol/no-train.png" style="width:80px; height:80px;" alt="Not Found Train" title="" />
                     <br/><br/>
                     <h6>NO TRAIN AVAILABLE</h6>
                 </div>
@@ -2542,7 +2542,7 @@ function train_ticket_pick(){
                                 <tr>
                                     <td><h5>`+journeys[i].departure_date[1]+`</h5></td>
                                     <td style="padding-left:15px;">
-                                        <img src="/static/tt_website/img/icon/train-01.png" alt="Train" style="width:20px; height:20px;"/>
+                                        <img src="/static/tt_website/images/icon/symbol/train-01.png" alt="Train" style="width:20px; height:20px;"/>
                                     </td>
                                     <td style="height:30px;padding:0 15px;width:100%">
                                         <div style="display:inline-block;position:relative;width:100%">
@@ -3188,7 +3188,7 @@ function change_date_shortcut(val){
                                         </h5>
                                     </td>
                                     <td style="padding-left:15px;">
-                                        <img src="/static/tt_website/img/icon/train-01.png" alt="Train" style="width:20px; height:20px; margin-top:5px;">
+                                        <img src="/static/tt_website/images/icon/symbol/train-01.png" alt="Train" style="width:20px; height:20px; margin-top:5px;">
                                     </td>
                                     <td style="height:30px;padding:0 15px;width:100%">
                                         <div style="display:inline-block;position:relative;width:100%">
@@ -3343,7 +3343,7 @@ function change_date_shortcut(val){
                                         </h5>
                                     </td>
                                     <td style="padding-left:15px;">
-                                        <img src="/static/tt_website/img/icon/train-01.png" alt="Train" style="width:20px; height:20px; margin-top:5px;">
+                                        <img src="/static/tt_website/images/icon/symbol/train-01.png" alt="Train" style="width:20px; height:20px; margin-top:5px;">
                                     </td>
                                     <td style="height:30px;padding:0 15px;width:100%">
                                         <div style="display:inline-block;position:relative;width:100%">
@@ -3498,7 +3498,7 @@ function change_date_shortcut(val){
                                         </h5>
                                     </td>
                                     <td style="padding-left:15px;">
-                                        <img src="/static/tt_website/img/icon/train-01.png" alt="Train" style="width:20px; height:20px; margin-top:5px;">
+                                        <img src="/static/tt_website/images/icon/symbol/train-01.png" alt="Train" style="width:20px; height:20px; margin-top:5px;">
                                     </td>
                                     <td style="height:30px;padding:0 15px;width:100%">
                                         <div style="display:inline-block;position:relative;width:100%">

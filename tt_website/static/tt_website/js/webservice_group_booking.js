@@ -159,7 +159,7 @@ function group_booking_get_config(page=false){
                         if(msg.result.response.provider_type[i].code == 'airline')
                             text+=` checked="checked"`;
                         text+=` name="radio_group_booking_type" value="`+msg.result.response.provider_type[i].code+`">
-                                <img style="width:70px; height:70px; padding:0px;" src="/static/tt_website/images/icon/home-airline.png" alt="Airline Icon"/><br/>
+                                <img style="width:70px; height:70px; padding:0px;" src="/static/tt_website/images/icon/product/w-airline.png" alt="Airline Icon"/><br/>
                                 <div style="text-align:center;"><span style="font-size:13px; color:`+text_color+`;">`+msg.result.response.provider_type[i].name+`</span></div>
                             </label>`;
                     }
@@ -921,7 +921,7 @@ function group_booking_get_booking(order_number){
                                                                         <tr>
                                                                             <td><h5>`+msg.result.response.price_pick_departure.segments[i].legs[j].departure_date.split('  ')[1]+`</h5></td>
                                                                             <td style="padding-left:15px;">
-                                                                                <img src="/static/tt_website/img/icon/airlines-01.png" alt="Airline" style="width:20px; height:20px;"/>
+                                                                                <img src="/static/tt_website/images/icon/symbol/airlines-01.png" alt="Airline" style="width:20px; height:20px;"/>
                                                                             </td>
                                                                             <td style="height:30px;padding:0 15px;width:100%">
                                                                                 <div style="display:inline-block;position:relative;width:100%">
@@ -1025,7 +1025,7 @@ function group_booking_get_booking(order_number){
                                                                         <tr>
                                                                             <td><h5>`+msg.result.response.price_pick_return.segments[i].legs[j].departure_date.split('  ')[1]+`</h5></td>
                                                                             <td style="padding-left:15px;">
-                                                                                <img src="/static/tt_website/img/icon/airlines-01.png" alt="Airline" style="width:20px; height:20px;"/>
+                                                                                <img src="/static/tt_website/images/icon/symbol/airlines-01.png" alt="Airline" style="width:20px; height:20px;"/>
                                                                             </td>
                                                                             <td style="height:30px;padding:0 15px;width:100%">
                                                                                 <div style="display:inline-block;position:relative;width:100%">
@@ -1174,7 +1174,7 @@ function group_booking_get_booking(order_number){
                                                             <tr>
                                                                 <td><h5>`+msg.result.response.provider_bookings[i].ticket.segments[k].legs[l].departure_date.split('  ')[1]+`</h5></td>
                                                                 <td style="padding-left:15px;">
-                                                                    <img src="/static/tt_website/img/icon/airlines-01.png" alt="Airline" style="width:20px; height:20px;"/>
+                                                                    <img src="/static/tt_website/images/icon/symbol/airlines-01.png" alt="Airline" style="width:20px; height:20px;"/>
                                                                 </td>
                                                                 <td style="height:30px;padding:0 15px;width:100%">
                                                                     <div style="display:inline-block;position:relative;width:100%">
@@ -2117,7 +2117,7 @@ function render_ticket(){
                                     <tbody><tr>
                                         <td class="airport-code"><h5 class="copy_time_depart">`+group_booking_get_detail.result.response.ticket_list[i].departure_date.split('  ')[1]+`</h5></td>
                                         <td style="padding-left:15px;">
-                                            <img src="/static/tt_website/img/icon/airlines-01.png" alt="Airline" style="width:20px; height:20px;">
+                                            <img src="/static/tt_website/images/icon/symbol/airlines-01.png" alt="Airline" style="width:20px; height:20px;">
                                         </td>
                                         <td style="height:30px;padding:0 15px;width:100%">
                                             <div style="display:inline-block;position:relative;width:100%">
@@ -2278,7 +2278,7 @@ function render_ticket(){
                                         }
                                     }
                                     text+=`
-                                        <img src="/static/tt_website/img/icon/seat.png" style="height:16px; width:auto;"> <span id="choose_seat_span`+i+`">Choose Seat Class  - `+cabin_class_list[group_booking_get_detail.result.response.request.provider_type][group_booking_get_detail.result.response.request.cabin_class]+` - `+group_booking_get_detail.result.response.ticket_list[i].fare_list[0].price_list[0].currency+` `+getrupiah(price)+`</span>
+                                        <img src="/static/tt_website/images/icon/symbol/seat.png" style="height:16px; width:auto;"> <span id="choose_seat_span`+i+`">Choose Seat Class  - `+cabin_class_list[group_booking_get_detail.result.response.request.provider_type][group_booking_get_detail.result.response.request.cabin_class]+` - `+group_booking_get_detail.result.response.ticket_list[i].fare_list[0].price_list[0].currency+` `+getrupiah(price)+`</span>
                                     </button>
                                     <ul id="provider_seat_content`+i+`" class="dropdown-menu" style="background:unset; padding:0px 15px 15px 15px; z-index:5; border:unset;">
                                        <div style="background:white; padding:15px; border:1px solid #cdcdcd; overflow-y:auto; height:200px;">

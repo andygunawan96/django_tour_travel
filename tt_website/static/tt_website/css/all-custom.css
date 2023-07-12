@@ -4333,7 +4333,7 @@ ul.progress_tabs li.current .image-rounded-icon{
         text-align: left;
         background-size: 20px 20px!important;
         background-position: 70px 4px!important;
-        background: url(/static/tt_website/img/icon/up-icon.png) no-repeat scroll 2px 2px;
+        background: url(/static/tt_website/images/icon/symbol/up-icon.png) no-repeat scroll 2px 2px;
     }
 }
 
@@ -4353,14 +4353,14 @@ ul.progress_tabs li.current .image-rounded-icon{
     .item-asc {
         background-size: 20px 20px!important;
         background-position: 70px 4px!important;
-        background: url(/static/tt_website/img/icon/up-icon.png) no-repeat scroll 2px 2px;
+        background: url(/static/tt_website/images/icon/symbol/up-icon.png) no-repeat scroll 2px 2px;
         margin-bottom:10px;
         font-size: 12px;
         }
      .item-desc {
         background-size: 20px 20px!important;
         background-position: 70px 4px!important;
-        background: url(/static/tt_website/img/icon/up-icon.png) no-repeat scroll 2px 2px;
+        background: url(/static/tt_website/images/icon/symbol/up-icon.png) no-repeat scroll 2px 2px;
         margin-bottom:10px;
         font-size: 12px;
     }
@@ -4416,7 +4416,7 @@ ul.progress_tabs li.current .image-rounded-icon{
 	width: 100%;
 	height: 100%;
 	z-index: 99999;
-	background: url('/static/tt_website/img/icon/loading_rolling.gif') 50% 50%/200px auto no-repeat rgb(0,0,0,0.8);
+	background: url('/static/tt_website/images/icon/symbol/loading_rolling.gif') 50% 50%/200px auto no-repeat rgb(0,0,0,0.8);
 	/*background: url('/static/tt_website/img/activity_loading.gif') 50% 50% no-repeat rgb(0,0,0,0.9);
 	background: rgba(0,0,0,0.3);*/
 	background-size:30px auto;
