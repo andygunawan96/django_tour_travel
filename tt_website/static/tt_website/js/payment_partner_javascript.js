@@ -1,3 +1,4 @@
+//add template
 function get_payment_partner(type){
     $.ajax({
        type: "POST",

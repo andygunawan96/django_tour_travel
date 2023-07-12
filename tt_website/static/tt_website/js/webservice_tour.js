@@ -288,6 +288,7 @@ function get_tour_config(type, val){
                 });
             }
 
+            //add template
             country_txt = '';
             if(type == 'search')
             {
@@ -316,18 +317,31 @@ function get_tour_config(type, val){
             {
                 if(tour_search_template == 'country_search')
                 {
+                    country_txt += `<div class="row">`;
                     for(i in tour_country){
 //                        country_txt += `
 //                        <label class="radio-img" style="margin-bottom:15px; margin-right:15px; border: 2px solid #cdcdcd; height:130px; width:190px; background: linear-gradient(0deg, rgba(0, 0, 0, 0.1),rgba(0, 0, 0, 0.1)),url('`+tour_country[i].image+`') !important; background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;">
 //                            <input type="radio" name="tour_countries" value="`+tour_country[i].id+`">
 //                            <span style="display:inline-flex; float:left; padding-top:10px; padding-left:10px; font-size:18px; color:`+text_color+`; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;">`+tour_country[i].name+`</span>
 //                        </label>`;
+//                          country_txt += `
+//                          <label class="radio-img" style="margin-bottom:15px; margin-right:15px; border: 2px solid #cdcdcd; height:130px; width:190px; background: linear-gradient(0deg, rgba(0, 0, 0, 0.1),rgba(0, 0, 0, 0.1)) !important; background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;">
+//                              <input type="radio" name="tour_countries" value="`+tour_country[i].id+`">
+//                              <span style="display:inline-flex; margin-top: 30%; font-size:18px; color:`+text_color+`; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;">`+tour_country[i].name+`</span>
+//                          </label>`;
+                          if(template == 3 || template == 7){
+                            country_txt += `<div class="col-lg-4 col-md-6 col-sm-6 col-xs-12" title="`+tour_country[i].name+`">`;
+                          }else{
+                            country_txt += `<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12" title="`+tour_country[i].name+`">`;
+                          }
                           country_txt += `
-                          <label class="radio-img" style="margin-bottom:15px; margin-right:15px; border: 2px solid #cdcdcd; height:130px; width:190px; background: linear-gradient(0deg, rgba(0, 0, 0, 0.1),rgba(0, 0, 0, 0.1)) !important; background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;">
-                              <input type="radio" name="tour_countries" value="`+tour_country[i].id+`">
-                              <span style="display:inline-flex; margin-top: 30%; font-size:18px; color:`+text_color+`; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;">`+tour_country[i].name+`</span>
-                          </label>`;
+                              <label class="radio-img search_country_tour" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;max-width: 100%;">
+                                  <input type="radio" name="tour_countries" value="`+tour_country[i].id+`">
+                                  <span><i class="fas fa-map-marker-alt"></i> `+tour_country[i].name+`</span>
+                              </label>
+                          </div>`;
                     }
+                    country_txt += `</div>`;
                 }
                 else
                 {

@@ -314,10 +314,10 @@
                                                 <br/>
                                                 <div class="col-lg-12 mt-2">
                                                     <label class="check_box_custom">
-                                                    <span style="font-size:13px; color:{{text_color}};">Activate Corporate Mode (Beta)</span>
+                                                    <span style="font-size:13px; color:{{text_color}};">Activate Corporate Mode</span>
                                                         <input type="checkbox" id="checkbox_corpor_mode_airline" name="checkbox_corpor_mode_airline" onclick="toggle_corpor_mode_div('airline');"/>
                                                     <span class="check_box_span_custom"></span>
-                                                    </label><span id="corpor_list_loading" style="font-size:13px; color:{{text_color}}; padding:5px; display:none;"> <div class="ld ld-ring ld-cycle"></div></span>
+                                                    </label><span id="corpor_list_loading_airline" style="font-size:13px; color:{{text_color}}; padding:5px; display:none;"> <div class="ld ld-ring ld-cycle"></div></span>
                                                 </div>
                                                 <div class="col-lg-12" id="div_corpor_mode_airline" style="display:none;">
                                                     <div class="row">
@@ -458,6 +458,42 @@
                                                         </ul>
                                                     </div>
                                                 </div>
+                                                {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
+                                                <br/>
+                                                <div class="col-lg-12 mt-2">
+                                                    <label class="check_box_custom">
+                                                    <span style="font-size:13px; color:{{text_color}};">Activate Corporate Mode</span>
+                                                        <input type="checkbox" id="checkbox_corpor_mode_train" name="checkbox_corpor_mode_train" onclick="toggle_corpor_mode_div('train');"/>
+                                                    <span class="check_box_span_custom"></span>
+                                                    </label><span id="corpor_list_loading_train" style="font-size:13px; color:{{text_color}}; padding:5px; display:none;"> <div class="ld ld-ring ld-cycle"></div></span>
+                                                </div>
+                                                <div class="col-lg-12" id="div_corpor_mode_train" style="display:none;">
+                                                    <div class="row">
+                                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                                            <span class="span-search-ticket">Corporate</span>
+                                                            <div class="input-container-search-ticket">
+                                                                <div class="form-select">
+                                                                    <select id="train_corpor_select" name="train_corpor_select" class="form-control js-example-basic-single" style="width:100%;" onchange="render_corbooker_list('train');">
+
+                                                                    </select>
+                                                                    <input type="hidden" id="train_corpor_select_post" name="train_corpor_select_post"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                                            <span class="span-search-ticket">Booker</span>
+                                                            <div class="input-container-search-ticket">
+                                                                <div class="form-select">
+                                                                    <select id="train_corbooker_select" name="train_corbooker_select" class="form-control js-example-basic-single" style="width:100%;" onchange="set_corbooker_post_value('train');">
+
+                                                                    </select>
+                                                                    <input type="hidden" id="train_corbooker_select_post" name="train_corbooker_select_post"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                {% endif %}
                                             </div>
                                             <br/>
 
@@ -594,6 +630,42 @@
                                                     </label>
                                                     <span id="business_trip_help" style="color:{{text_color}}; cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;"></i></span>
                                                 </div>
+                                                {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
+                                                <br/>
+                                                <div class="col-lg-12" style="text-align:left;">
+                                                    <label class="check_box_custom mt-2">
+                                                        <span style="font-size:13px; color:{{text_color}};">Activate Corporate Mode</span>
+                                                        <input type="checkbox" id="checkbox_corpor_mode_hotel" name="checkbox_corpor_mode_hotel" onclick="toggle_corpor_mode_div('hotel');"/>
+                                                        <span class="check_box_span_custom"></span>
+                                                    </label><span id="corpor_list_loading_hotel" style="font-size:13px; color:{{text_color}}; padding:5px; display:none;"> <div class="ld ld-ring ld-cycle"></div></span>
+                                                </div>
+                                                <div class="col-lg-12" id="div_corpor_mode_hotel" style="display:none;">
+                                                    <div class="row">
+                                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                                            <span class="span-search-ticket">Corporate</span>
+                                                            <div class="input-container-search-ticket">
+                                                                <div class="form-select">
+                                                                    <select id="hotel_corpor_select" name="hotel_corpor_select" class="form-control js-example-basic-single" style="width:100%;" onchange="render_corbooker_list('hotel');">
+
+                                                                    </select>
+                                                                    <input type="hidden" id="hotel_corpor_select_post" name="hotel_corpor_select_post"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                                            <span class="span-search-ticket">Booker</span>
+                                                            <div class="input-container-search-ticket">
+                                                                <div class="form-select">
+                                                                    <select id="hotel_corbooker_select" name="hotel_corbooker_select" class="form-control js-example-basic-single" style="width:100%;" onchange="set_corbooker_post_value('hotel');">
+
+                                                                    </select>
+                                                                    <input type="hidden" id="hotel_corbooker_select_post" name="hotel_corbooker_select_post"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                {% endif %}
                                             </div>
                                             <br/>
                                             <center>
@@ -612,14 +684,15 @@
                                             {% csrf_token %}
                                             <input type="hidden" name="g-recaptcha-response" id='recaptcha_activity'>
                                             <div class="row">
-                                                <div class="col-lg-9 col-md-9">
+                                                <div class="col-lg-12">
                                                     <span class="span-search-ticket"><i class="fas fa-umbrella-beach"></i> {% trans 'Activity' %}</span>
+                                                </div>
+                                                <div class="col-lg-9 col-md-9">
                                                     <div class="input-container-search-ticket">
                                                         <input type="text" style="margin-bottom:0px;" class="form-control" name="activity_query" id="activity_query" placeholder="{% trans 'Search for Activities, Theme Parks, etc' %}" autocomplete="off"/>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-3 col-md-3">
-                                                    <span class="span-search-ticket">&nbsp;</span>
                                                     <div class="input-container-search-ticket">
                                                         <button type="button" class="form-control activity_btn_advance" id="activity_advanced_down" onclick="show_hide_advanced('activity');" style="display:block;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-down"></i></button>
                                                         <button type="button" class="form-control activity_btn_advance" id="activity_advanced_up" onclick="show_hide_advanced('activity');" style="display:none;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-up"></i></button>
@@ -686,6 +759,44 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
+                                            <div class="row">
+                                                <br/>
+                                                <div class="col-lg-12" style="text-align:left;">
+                                                    <label class="check_box_custom mt-2">
+                                                        <span style="font-size:13px; color:{{text_color}};">Activate Corporate Mode</span>
+                                                        <input type="checkbox" id="checkbox_corpor_mode_activity" name="checkbox_corpor_mode_activity" onclick="toggle_corpor_mode_div('activity');"/>
+                                                        <span class="check_box_span_custom"></span>
+                                                    </label><span id="corpor_list_loading_activity" style="font-size:13px; color:{{text_color}}; padding:5px; display:none;"> <div class="ld ld-ring ld-cycle"></div></span>
+                                                </div>
+                                                <div class="col-lg-12" id="div_corpor_mode_activity" style="display:none;">
+                                                    <div class="row">
+                                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                                            <span class="span-search-ticket">Corporate</span>
+                                                            <div class="input-container-search-ticket">
+                                                                <div class="form-select">
+                                                                    <select id="activity_corpor_select" name="activity_corpor_select" class="form-control js-example-basic-single" style="width:100%;" onchange="render_corbooker_list('activity');">
+
+                                                                    </select>
+                                                                    <input type="hidden" id="activity_corpor_select_post" name="activity_corpor_select_post"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                                            <span class="span-search-ticket">Booker</span>
+                                                            <div class="input-container-search-ticket">
+                                                                <div class="form-select">
+                                                                    <select id="activity_corbooker_select" name="activity_corbooker_select" class="form-control js-example-basic-single" style="width:100%;" onchange="set_corbooker_post_value('activity');">
+
+                                                                    </select>
+                                                                    <input type="hidden" id="activity_corbooker_select_post" name="activity_corbooker_select_post"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {% endif %}
                                             <br/>
                                             <center>
                                                 <button class="button-search primary-btn ld-ext-right" onclick="get_captcha('recaptcha_activity','activity');" type="button" value="Submit">
@@ -711,11 +822,11 @@
                                                 <div class="col-lg-12">
                                                     <div class="row">
                                                         <div class="col-lg-12" style="text-align:center;">
-                                                            <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Select Country' %} </span>
+                                                            <span class="span-search-ticket"><i class="fas fa-globe-asia"></i> {% trans 'Select Country' %} </span>
                                                         </div>
                                                     </div>
                                                     <div class="row">
-                                                        <div class="col-lg-12" id="tour_countries" style="padding:0px; text-align:left;margin-bottom:10px; text-align:center;">
+                                                        <div class="col-lg-12" id="tour_countries">
 
                                                         </div>
                                                     </div>
@@ -729,17 +840,18 @@
                                             {% csrf_token %}
                                             <input type="hidden" name="g-recaptcha-response" id='recaptcha_tour'>
                                             <div class="row">
-                                                <div class="col-lg-9 col-md-9">
+                                                <div class="col-lg-12">
                                                     <span class="span-search-ticket"><i class="fas fa-briefcase"></i> {% trans 'Tour' %}</span>
+                                                </div>
+                                                <div class="col-lg-9 col-md-9">
                                                     <div class="input-container-search-ticket">
                                                         <input type="text" style="margin-bottom:0px;" class="form-control" name="tour_query" id="tour_query" placeholder="{% trans 'Search for Tour' %}" autocomplete="off"/>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-3 col-md-3">
-                                                    <span class="span-search-ticket">&nbsp;</span>
                                                     <div class="input-container-search-ticket">
-                                                        <button type="button" class="form-control" id="tour_advanced_down" onclick="show_hide_advanced('tour');" style="background:{{color}}; color:#ffffff; cursor:pointer;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-down"></i></button>
-                                                        <button type="button" class="form-control" id="tour_advanced_up" onclick="show_hide_advanced('tour');" style="background:{{color}}; color:#ffffff; cursor:pointer; display:none;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-up"></i></button>
+                                                        <button type="button" class="form-control" id="tour_advanced_down" onclick="show_hide_advanced('tour');" style="background:{{color}}; color:{{text_color}}; cursor:pointer;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-down"></i></button>
+                                                        <button type="button" class="form-control" id="tour_advanced_up" onclick="show_hide_advanced('tour');" style="background:{{color}}; color:{{text_color}}; cursor:pointer; display:none;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-up"></i></button>
                                                     </div>
                                                 </div>
                                             </div>

@@ -2112,6 +2112,7 @@ h1, h2, h3, h4, h5, h6 {
   position: fixed;
   top: 0;
   padding-top: 18px;
+  padding-bottom: 30px;
   bottom: 0;
   z-index: 998;
   background: rgba(0, 0, 0, 0.8);

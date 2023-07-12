@@ -81,7 +81,7 @@ function render_payment(){
 
             payment_counter = 1;
             if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
-                if(typeof(payment_ho) !== 'undefined' && payment_ho.length > 1 && total_price_payment_acq > 0 && type_render != 'top_up'){
+                if(typeof(payment_ho) !== 'undefined' && total_price_payment_acq > 0 && type_render != 'top_up'){
                     text+=`
                         <h6 style="padding-bottom:10px;">`+payment_counter+`. Payment to HO: </h6>`;
                         if(template == 1 || template == 5){
@@ -186,7 +186,7 @@ function render_payment(){
 
             $('#payment_via').niceSelect();
             if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
-                if(typeof(payment_ho) !== 'undefined' && payment_ho.length > 1){
+                if(typeof(payment_ho) !== 'undefined'){
                     $('#payment_ho_id').niceSelect();
                 }
             }

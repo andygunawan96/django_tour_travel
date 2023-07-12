@@ -80,6 +80,7 @@ function get_balance(val){
 //                        try{
 //                            document.getElementById("balance_search").style.color = "black";
 //                        }catch(err){}
+                        //add template
                         text = '';
                         if(template == 3 || template == 5){
                             text = `<div style="margin-bottom:10px; padding-right:15px;"><span class="fas fa-wallet" style="color:`+color+`; padding-right:5px; font-size:16px;"></span>Balance: `+msg.result.response.currency_code + ' ' + getrupiah(balance)+`</div>`;
@@ -239,7 +240,7 @@ function get_balance(val){
 }
 
 function get_corpor_list(prov_type){
-    document.getElementById('corpor_list_loading').style.display = "block";
+    document.getElementById('corpor_list_loading_'+prov_type).style.display = "block";
     $.ajax({
        type: "POST",
        url: "/webservice/account",
@@ -250,7 +251,7 @@ function get_corpor_list(prov_type){
             'signature': signature
        },
        success: function(msg) {
-        document.getElementById('corpor_list_loading').style.display = "none";
+        document.getElementById('corpor_list_loading_'+prov_type).style.display = "none";
         if(msg.result.error_code == 0){
             agent_corpor_data = msg.result.response.customer_parent_data;
             text = ``;
@@ -264,6 +265,7 @@ function get_corpor_list(prov_type){
             {
                 render_corbooker_list(prov_type);
             }
+            document.getElementById('div_corpor_mode_'+prov_type).style.display = "block";
         }else{
             Swal.fire({
               type: 'error',
@@ -273,7 +275,7 @@ function get_corpor_list(prov_type){
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            document.getElementById('corpor_list_loading').style.display = "none";
+            document.getElementById('corpor_list_loading_'+prov_type).style.display = "none";
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get agent corpor list');
        },timeout: 60000
     });

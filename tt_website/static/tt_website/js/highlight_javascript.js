@@ -64,6 +64,7 @@ function get_highlight(type){
        },
        data: {},
        success: function(msg) {
+            //add template
             if(type == 'setting'){
                 document.getElementById("highlight_div").innerHTML = '';
                 counter_highlight = 0;
