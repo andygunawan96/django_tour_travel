@@ -574,7 +574,7 @@
             text_product=`<div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">`;
                 text_product += `<label class="radio-button-custom">`;
                 if(provider_types_sequence[i].code == 'airline' && user_login.co_agent_frontend_security.includes('ticketing_airline') || provider_types_sequence[i].code == 'airline' &&  user_login.co_agent_frontend_security.includes('process_channel_booking')){
-                    text_product+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/airlines_black.png" alt="Airline Icon"/>`;
+                    text_product+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/product/b-airline.png" alt="Airline Icon"/>`;
                     add_product = true;
                 }else if(provider_types_sequence[i].code == 'hotel' && user_login.co_agent_frontend_security.includes('ticketing_hotel') || provider_types_sequence[i].code == 'hotel' && user_login.co_agent_frontend_security.includes('process_channel_booking')){
                     text_product+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/hotel_black.png" alt="Hotel Icon"/>`;
@@ -586,13 +586,13 @@
                     text_product+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/ppob_black.png" alt="PPOB Icon"/>`;
                     add_product = true;
                 }else if(provider_types_sequence[i].code == 'activity' && user_login.co_agent_frontend_security.includes('ticketing_activity') || provider_types_sequence[i].code == 'activity' && user_login.co_agent_frontend_security.includes('process_channel_booking')){
-                    text_product+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/activity_black.png" alt="Event Icon"/>`;
+                    text_product+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/product/b-activity.png" alt="Event Icon"/>`;
                     add_product = true;
                 }else if(provider_types_sequence[i].code == 'tour' && user_login.co_agent_frontend_security.includes('ticketing_tour') || provider_types_sequence[i].code == 'tour' &&  user_login.co_agent_frontend_security.includes('process_channel_booking')){
                     text_product+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/tour_black.png" alt="Tour Icon"/>`;
                     add_product = true;
                 }else if(provider_types_sequence[i].code == 'event' && user_login.co_agent_frontend_security.includes('ticketing_event') || provider_types_sequence[i].code == 'event' && user_login.co_agent_frontend_security.includes('process_channel_booking')){
-                    text_product+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/event_black.png" alt="Event Icon"/>`;
+                    text_product+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/product/b-event.png" alt="Event Icon"/>`;
                     add_product = true;
                 }else if(provider_types_sequence[i].code == 'visa' && user_login.co_agent_frontend_security.includes('ticketing_visa') || provider_types_sequence[i].code == 'visa' && user_login.co_agent_frontend_security.includes('process_channel_booking')){
                     text_product+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/visa_black.png" alt="Visa Icon"/>`;
@@ -607,7 +607,7 @@
                     text_product+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/passport_black.png" alt="Passport Icon"/>`;
                     add_product = true;
                 }else if(provider_types_sequence[i].code == 'bus' && user_login.co_agent_frontend_security.includes('ticketing_bus') || provider_types_sequence[i].code == 'bus' && user_login.co_agent_frontend_security.includes('process_channel_booking')){
-                    text_product+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/bus_black.png" alt="Bus Icon"/>`;
+                    text_product+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/product/b-bus.png" alt="Bus Icon"/>`;
                     add_product = true;
                 }else if(provider_types_sequence[i].code == 'medical' && user_login.co_agent_frontend_security.includes('ticketing_medical') || provider_types_sequence[i].code == 'medical' && user_login.co_agent_frontend_security.includes('process_channel_booking')){
                     text_product+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/swab_black.png" alt="Medical Icon"/>`;
@@ -628,7 +628,7 @@
                     text_product+=`<img style="width:auto; height:15px" src="{{static_path}}images/icon/swab_black.png" alt="Sentra Medika Icon"/>`;
                     add_product = true;
                 }else if(provider_types_sequence[i].code == 'groupbooking' && user_login.co_agent_frontend_security.includes('ticketing_group_booking') || provider_types_sequence[i].code == 'groupbooking' && user_login.co_agent_frontend_security.includes('process_channel_booking')){
-                    text_product+=`<img style="width:auto; height:15px" src="{{static_path}}images/icon/groupbooking_black.png" alt="Group Booking Icon"/>`;
+                    text_product+=`<img style="width:auto; height:15px" src="{{static_path}}images/icon/product/b-group.png" alt="Group Booking Icon"/>`;
                     add_product = true;
                 }
                 text_product+=`

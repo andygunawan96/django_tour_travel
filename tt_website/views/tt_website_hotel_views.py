@@ -305,7 +305,7 @@ def detail_static(request):
             'username': request.session['user_account'],
             'static_path_url_server': get_url_static_path(),
             'javascript_version': javascript_version,
-            'logo': '/static/tt_website/images/icon/LOGO_RODEXTRIP.png',
+            'logo': '/static/tt_website/images/logo/default/orbis_logo.png',
             'template': 1,
         }
     except Exception as e:

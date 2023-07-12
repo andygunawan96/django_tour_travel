@@ -546,7 +546,7 @@ function sort(value){
                             <tr>
                                 <td><h5 class="copy_time_depart">`+data_filter[i].departure_date[1]+`</h5></td>
                                 <td style="padding-left:15px;">
-                                    <img src="/static/tt_website/img/icon/bus-01.png" alt="Train" style="width:30px; height:30px;"/>
+                                    <img src="/static/tt_website/images/icon/symbol/bus-01.png" alt="Train" style="width:30px; height:30px;"/>
                                 </td>
                                 <td style="height:30px;padding:0 15px;width:100%">
                                     <div style="display:inline-block;position:relative;width:100%">
@@ -814,7 +814,7 @@ function bus_ticket_pick(){
                         <tr>
                             <td><h5>`+journeys[i].departure_date[1]+`</h5></td>
                             <td style="padding-left:15px;">
-                                <img src="/static/tt_website/img/icon/bus-01.png" alt="Train" style="width:30px; height:30px;"/>
+                                <img src="/static/tt_website/images/icon/symbol/bus-01.png" alt="Train" style="width:30px; height:30px;"/>
                             </td>
                             <td style="height:30px;padding:0 15px;width:100%">
                                 <div style="display:inline-block;position:relative;width:100%">
@@ -1008,7 +1008,7 @@ function bus_get_detail(){
                         <tr>
                             <td><h6>`+journeys[i].departure_date[1]+`</h6></td>
                             <td style="padding-left:15px;">
-                                <img src="/static/tt_website/img/icon/bus-01.png" alt="Train" style="width:30px; height:30px;">
+                                <img src="/static/tt_website/images/icon/symbol/bus-01.png" alt="Train" style="width:30px; height:30px;">
                             </td>
                             <td style="height:30px;padding:0 15px;width:100%">
                                 <div style="display:inline-block;position:relative;width:100%">
@@ -1416,7 +1416,7 @@ function bus_detail(){
                             <tr>
                                 <td><h6>`+bus_data[i].departure_date[1]+`</h6></td>
                                 <td style="padding-left:15px;">
-                                    <img src="/static/tt_website/img/icon/bus-01.png" style="width:30px; height:30px;">
+                                    <img src="/static/tt_website/images/icon/symbol/bus-01.png" style="width:30px; height:30px;">
                                 </td>
                                 <td style="height:30px;padding:0 15px;width:100%">
                                     <div style="display:inline-block;position:relative;width:100%">

@@ -146,7 +146,7 @@
                 <div class="row fullscreen d-flex" id="div-search-overlay" style="position:relative; padding:15px;">
                     <div class="banner-content col-xl-3 col-lg-3 col-md-3" style="background: {{tab_color}}; border: 1px solid #cdcdcd;">
                         <div class="pt-30">
-                            <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-insurance.png" alt="Insurance Icon"/></i>
+                            <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/product/w-insurance.png" alt="Insurance Icon"/></i>
                         </div>
                         <h6 class="pt-30 pb-30" style="color:{{text_color}};">
                             Book your {% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}
@@ -204,7 +204,7 @@
                                     <div class="col-lg-12 mb-3">
                                         <h4 class="heading" style="text-align:right; color:{{text_color}};">
                                             <h4 class="heading" style="text-align:right; color:{{text_color}};">
-                                                <img style="width:auto; height:40px;" src="/static/tt_website/images/icon/c-insurance.png" alt="Insurance Icon">
+                                                <img style="width:auto; height:40px;" src="/static/tt_website/images/icon/product/c-insurance.png" alt="Insurance Icon">
                                                 {% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}
                                             </h4>
                                         </h4>
@@ -471,7 +471,7 @@
             text+=`
             <label class="radio-img">
                 <input type="radio" name="insurance_provider" value="bcainsurance" checked="checked">
-                <img src="/static/tt_website/images/icon/bca_insurance.png" alt="BCA Insurance" style="width:70px; height:70px; padding:0px;"><br/>
+                <img src="/static/tt_website/images/logo/insurance/bca_insurance.png.png" alt="BCA Insurance" style="width:70px; height:70px; padding:0px;"><br/>
                 <div style="text-align:center;"><span style="font-size:13px; color:{{text_color}};">BCA<br/>Insurance</span></div>
             </label>`;
             is_checked = true;
@@ -484,7 +484,7 @@
             if(is_checked == false)
                 text += `checked="checked"`;
             text+=`>
-                <img src="/static/tt_website/images/icon/zurich.png" alt="Zurich" style="width:70px; height:70px; padding:0px;"><br/>
+                <img src="/static/tt_website/images/logo/insurance/zurich.png" alt="Zurich" style="width:70px; height:70px; padding:0px;"><br/>
                 <div style="text-align:center;"><span style="font-size:13px; color:{{text_color}};">Zurich<br/></span><span style="font-size:9px; color:{{text_color}};">(Cover Covid-19)</span></div>
             </label>`;
             is_insurance_need_to_print = true;

@@ -117,10 +117,10 @@ function get_contact(type){
                         text += `<div style="margin-bottom:5px; display: flex; align-items: center;">`;
 
                         if(msg[i][0] == "Just Title"){
-                            text+=`<img style="height:30px; width:auto; padding-right:12px;" src="/static/tt_website/img/office.png" alt="Office"/>`;
+                            text+=`<img style="height:30px; width:auto; padding-right:12px;" src="/static/tt_website/images/icon/symbol/office.png" alt="Office"/>`;
                         }
                         else if(msg[i][0] == "Phone"){
-                            text += `<img style="height:30px; width:auto; padding-right:12px;" src="/static/tt_website/img/phone.png" alt="Phone"/>`;
+                            text += `<img style="height:30px; width:auto; padding-right:12px;" src="/static/tt_website/images/icon/symbol/phone.png" alt="Phone"/>`;
                         }
                         else if(msg[i][0] == "Whatsapp"){
                             text += `<img style="height:33px; width:auto; padding-right:12px;" src="/static/tt_website/img/whatsappic.png" alt="Whatsapp"/>`;

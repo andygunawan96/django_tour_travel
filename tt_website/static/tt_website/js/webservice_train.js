@@ -456,7 +456,7 @@ function train_search(provider, signature, type){
                             response +=`
                                 <div style="padding:5px; margin:10px;">
                                     <div style="text-align:center">
-                                        <img src="/static/tt_website/img/icon/no-train.png" style="width:80px; height:80px;" alt="Not Found Train" title="" />
+                                        <img src="/static/tt_website/images/icon/symbol/no-train.png" style="width:80px; height:80px;" alt="Not Found Train" title="" />
                                         <br/><br/>
                                         <h6>NO TRAIN AVAILABLE</h6>
                                     </div>
@@ -503,7 +503,7 @@ function train_search(provider, signature, type){
                         response +=`
                             <div style="padding:5px; margin:10px;">
                                 <div style="text-align:center">
-                                    <img src="/static/tt_website/img/icon/no-train.png" style="width:80px; height:80px;" alt="Not Found Train" title="" />
+                                    <img src="/static/tt_website/images/icon/symbol/no-train.png" style="width:80px; height:80px;" alt="Not Found Train" title="" />
                                     <br/><br/>
                                     <h6>NO TRAIN AVAILABLE</h6>
                                 </div>
@@ -1043,7 +1043,7 @@ function train_get_booking(data){
                                                     <tr>
                                                         <td><h5>`+msg.result.response.provider_bookings[i].journeys[j].departure_date.split(' - ')[1]+`</h5></td>
                                                         <td style="padding-left:15px;">
-                                                            <img src="/static/tt_website/img/icon/train-01.png" style="width:20px; height:20px;" alt="Train"/>
+                                                            <img src="/static/tt_website/images/icon/symbol/train-01.png" style="width:20px; height:20px;" alt="Train"/>
                                                         </td>
                                                         <td style="height:25px;padding:0 15px;width:100%">
                                                             <div style="display:inline-block;position:relative;width:100%">

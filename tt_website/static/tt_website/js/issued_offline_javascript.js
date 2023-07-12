@@ -656,7 +656,7 @@ function add_table_of_line(type){
                             text+=`<i class="fas fa-plane-departure"></i>`;
                         }
                         else{
-                            text+=`<img src="static/tt_website/img/icon/train-01.png" alt="Issued Offline" style="height:15px; width:auto;"/>`;
+                            text+=`<img src="static/tt_website/images/icon/symbol/train-01.png" alt="Issued Offline" style="height:15px; width:auto;"/>`;
                         }
                         text+=`<label style="color:red">*</label> Origin</span>
                         <div class="input-container-search-ticket">
@@ -669,7 +669,7 @@ function add_table_of_line(type){
                             text+=`<i class="fas fa-plane-arrival"></i>`;
                         }
                         else{
-                            text+=`<img src="static/tt_website/img/icon/train-02.png" alt="Issued Offline" style="height:15px; width:auto;"/>`;
+                            text+=`<img src="static/tt_website/images/icon/symbol/train-02.png" alt="Issued Offline" style="height:15px; width:auto;"/>`;
                         }
                         text+=`<label style="color:red">*</label> Destination
                         </span>
