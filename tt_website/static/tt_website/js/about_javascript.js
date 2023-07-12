@@ -116,7 +116,7 @@ function change_about_us(){
         if(about_us[paragraph_number].image_paragraph != '/media/'+window.location.hostname+'/image_about_us/'){
             document.getElementById("paragraph_img").src = about_us[paragraph_number].image_paragraph;
         }else{
-            document.getElementById("paragraph_img").src = '/static/tt_website/images/no pic/no-image-available.jpg';
+            document.getElementById("paragraph_img").src = '/static/tt_website/images/no_found/no-image-available.jpg';
         }
         document.getElementById('delete_paragraph').hidden = false;
         CKEDITOR.instances.body_paragraph.setData(about_us[paragraph_number].body);
@@ -126,7 +126,7 @@ function change_about_us(){
         document.getElementById('title_paragraph').value = '';
         document.getElementById("image_paragraph").value = '';
         document.getElementById('delete_paragraph').hidden = true;
-        document.getElementById("paragraph_img").src = '/static/tt_website/images/no pic/no-image-available.jpg';
+        document.getElementById("paragraph_img").src = '/static/tt_website/images/no_found/no-image-available.jpg';
         CKEDITOR.instances.body_paragraph.setData('');
     }
 

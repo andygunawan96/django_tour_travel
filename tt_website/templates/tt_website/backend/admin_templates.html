@@ -990,7 +990,7 @@
                                                         <input type="file" style="" name="image_carousel" id="image_carousel" accept="image/*" onchange="file_validation('image_carousel'); get_url_image_file(window.URL.createObjectURL(this.files[0]), 'dynamic_img', 'img');"/>
                                                     </div>
                                                     <span id="size_image_carousel"></span><br/>
-                                                    <img src="{{static_path}}images/no pic/no-image-available.jpg" id="dynamic_img" alt="Dynamic Image" style="width:100%; max-width:200px; margin-bottom:15px;">
+                                                    <img src="{{static_path}}images/no_found/no-image-available.jpg" id="dynamic_img" alt="Dynamic Image" style="width:100%; max-width:200px; margin-bottom:15px;">
                                                 </div>
                                                 <div class="col-lg-12">
                                                     <h6 style="margin-bottom:10px;">{% trans 'Title' %}</h6>
@@ -1087,7 +1087,7 @@
                                                     <span id="size_image_paragraph"></span>
                                                 </div>
                                                 <div class="col-lg-12 mb-2">
-                                                    <img src="{{static_path}}images/no pic/no-image-available.jpg" id="paragraph_img" alt="Paragraph Image" style="width:100%; max-width:200px; margin-bottom:15px;">
+                                                    <img src="{{static_path}}images/no_found/no-image-available.jpg" id="paragraph_img" alt="Paragraph Image" style="width:100%; max-width:200px; margin-bottom:15px;">
                                                     <label class="check_box_custom" id="paragraph_img_label" style="display:none;">
                                                         <span>{% trans 'Delete Thumbnail' %} <i class="fas fa-times"></i></span>
                                                         <input type="checkbox" id="paragraph_img_delete" />
@@ -1296,7 +1296,7 @@
                                                         <input type="file" style="" name="image_partner" id="image_partner" accept="image/*" onchange="file_validation('image_partner'); get_url_image_file(window.URL.createObjectURL(this.files[0]), 'partner_img', 'img');"/>
                                                         <span id="size_image_partner"></span>
                                                     </div>
-                                                    <img src="{{static_path}}images/no pic/no-image-available.jpg" id="partner_img" alt="Partner Image" style="width:100%; max-width:250px;">
+                                                    <img src="{{static_path}}images/no_found/no-image-available.jpg" id="partner_img" alt="Partner Image" style="width:100%; max-width:250px;">
                                                 </div>
                                                 <div class="col-lg-12">
                                                     <h6 style="margin-bottom:10px;">{% trans 'Partner Name' %}</h6>
@@ -2448,7 +2448,7 @@
                                 <input type="file" name="live_chat_image`+number_of_table_live_chat+`" id="live_chat_image`+number_of_table_live_chat+`" accept="image/*" onchange="file_validation('live_chat_image`+number_of_table_live_chat+`'); get_url_image_file(window.URL.createObjectURL(this.files[0]), 'preview_custom_icon_chat', 'img');"/>
                                 <span id="size_live_chat_image`+number_of_table_live_chat+`"></span>
                             </div>
-                            <img id="preview_custom_icon_chat" src="/static/tt_website/images/no pic/no-image-available.jpg" alt="Custom Icon Live Chat" style="width:250px; height:auto;"/>
+                            <img id="preview_custom_icon_chat" src="/static/tt_website/images/no_found/no-image-available.jpg" alt="Custom Icon Live Chat" style="width:250px; height:auto;"/>
                         </div>
                         <input type="hidden" id="live_chat_image_str`+number_of_table_live_chat+`" name="live_chat_image_str`+number_of_table_live_chat+`"/>
                     </div>

@@ -984,7 +984,7 @@ function change_dynamic_page(){
         if(dynamic_page[page_number].image_paragraph != '/media/'+window.location.hostname+'/image_dynamic/'){
             document.getElementById("dynamic_img").src = dynamic_page[page_number].image_carousel;
         }else{
-            document.getElementById("dynamic_img").src = '/static/tt_website/images/no pic/no-image-available.jpg';
+            document.getElementById("dynamic_img").src = '/static/tt_website/images/no_found/no-image-available.jpg';
         }
         console.log(dynamic_page[page_number]);
         CKEDITOR.instances.editor.setData(dynamic_page[page_number].body);
@@ -993,7 +993,7 @@ function change_dynamic_page(){
         document.getElementById('title_dynamic_page').value = '';
         document.getElementById('delete_page').hidden = true;
         document.getElementById('page_url').value = '';
-        document.getElementById("dynamic_img").src = '/static/tt_website/images/no pic/no-image-available.jpg';
+        document.getElementById("dynamic_img").src = '/static/tt_website/images/no_found/no-image-available.jpg';
         CKEDITOR.instances.editor.setData('');
     }
 

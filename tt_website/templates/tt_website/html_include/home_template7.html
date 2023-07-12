@@ -40,7 +40,7 @@
                     {% for rec in provider_types_sequence %}
                     {% if "airline" in provider and "ticketing_airline" in username.co_agent_frontend_security and rec.code == "airline" %}
                     <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-xs-6">
-                        <div onclick="location.href='/airline';" class="single-services text-center mb-30" style="background: linear-gradient(0deg, rgba(63, 63, 63, 0.5), rgba(63, 63, 63, 0.5)), url('{{static_path}}images/background/bg_airlines.jpg'); background-size: cover;">
+                        <div onclick="location.href='/airline';" class="single-services text-center mb-30" style="background: linear-gradient(0deg, rgba(63, 63, 63, 0.5), rgba(63, 63, 63, 0.5)), url('{{static_path}}images/background/product/bg_airlines.jpg'); background-size: cover;">
                             <div class="services-cap">
                                 <h5>{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</h5>
                             </div>
@@ -48,7 +48,7 @@
                     </div>
                     {% elif "hotel" in provider and "ticketing_hotel" in username.co_agent_frontend_security and rec.code == "hotel" %}
                     <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-xs-6">
-                        <div onclick="location.href='/hotel';" class="single-services text-center mb-30" style="background: linear-gradient(0deg, rgba(63, 63, 63, 0.5), rgba(63, 63, 63, 0.5)), url('{{static_path}}images/background/bg_hotel.jpg'); background-size: cover;">
+                        <div onclick="location.href='/hotel';" class="single-services text-center mb-30" style="background: linear-gradient(0deg, rgba(63, 63, 63, 0.5), rgba(63, 63, 63, 0.5)), url('{{static_path}}images/background/product/bg_hotel.jpg'); background-size: cover;">
                             <div class="services-cap">
                                 <h5>{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</h5>
                             </div>
@@ -56,7 +56,7 @@
                     </div>
                     {% elif "train" in provider and "ticketing_train" in username.co_agent_frontend_security and rec.code == "train" %}
                     <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-xs-6">
-                        <div onclick="location.href='/train';" class="single-services text-center mb-30" style="background: linear-gradient(0deg, rgba(63, 63, 63, 0.5), rgba(63, 63, 63, 0.5)), url('{{static_path}}images/background/bg_train.jpg'); background-size: cover;">
+                        <div onclick="location.href='/train';" class="single-services text-center mb-30" style="background: linear-gradient(0deg, rgba(63, 63, 63, 0.5), rgba(63, 63, 63, 0.5)), url('{{static_path}}images/background/product/bg_train.jpg'); background-size: cover;">
                             <div class="services-cap">
                                 <h5>{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</h5>
                             </div>
@@ -64,7 +64,7 @@
                     </div>
                     {% elif "ppob" in provider and "ticketing_ppob" in username.co_agent_frontend_security and rec.code == "ppob" %}
                     <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-xs-6">
-                        <div onclick="location.href='/ppob';" class="single-services text-center mb-30" style="background: linear-gradient(0deg, rgba(63, 63, 63, 0.5), rgba(63, 63, 63, 0.5)), url('{{static_path}}images/background/bg_ppob.jpg'); background-size: cover;">
+                        <div onclick="location.href='/ppob';" class="single-services text-center mb-30" style="background: linear-gradient(0deg, rgba(63, 63, 63, 0.5), rgba(63, 63, 63, 0.5)), url('{{static_path}}images/background/product/bg_ppob.jpg'); background-size: cover;">
                             <div class="services-cap">
                                 <h5>{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</h5>
                             </div>
@@ -72,7 +72,7 @@
                     </div>
                     {% elif "tour" in provider and "ticketing_tour" in username.co_agent_frontend_security and rec.code == "tour" %}
                     <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-xs-6">
-                        <div onclick="location.href='/tour';" class="single-services text-center mb-30" style="background: linear-gradient(0deg, rgba(63, 63, 63, 0.5), rgba(63, 63, 63, 0.5)), url('{{static_path}}images/background/bg_tour.jpg'); background-size: cover;">
+                        <div onclick="location.href='/tour';" class="single-services text-center mb-30" style="background: linear-gradient(0deg, rgba(63, 63, 63, 0.5), rgba(63, 63, 63, 0.5)), url('{{static_path}}images/background/product/bg_tour.jpg'); background-size: cover;">
                             <div class="services-cap">
                                 <h5>{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</h5>
                             </div>
@@ -80,7 +80,7 @@
                     </div>
                     {% elif "event" in provider and "ticketing_event" in username.co_agent_frontend_security and rec.code == "event" %}
                     <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-xs-6">
-                        <div onclick="location.href='/event';" class="single-services text-center mb-30" style="background: linear-gradient(0deg, rgba(63, 63, 63, 0.5), rgba(63, 63, 63, 0.5)), url('{{static_path}}images/background/bg_event.jpg'); background-size: cover;">
+                        <div onclick="location.href='/event';" class="single-services text-center mb-30" style="background: linear-gradient(0deg, rgba(63, 63, 63, 0.5), rgba(63, 63, 63, 0.5)), url('{{static_path}}images/background/product/bg_event.jpg'); background-size: cover;">
                             <div class="services-cap">
                                 <h5>{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</h5>
                             </div>
@@ -88,7 +88,7 @@
                     </div>
                     {% elif "activity" in provider and "ticketing_activity" in username.co_agent_frontend_security and rec.code == "activity" %}
                     <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-xs-6">
-                        <div onclick="location.href='/activity';" class="single-services text-center mb-30" style="background: linear-gradient(0deg, rgba(63, 63, 63, 0.5), rgba(63, 63, 63, 0.5)), url('{{static_path}}images/background/bg_activity.jpg'); background-size: cover;">
+                        <div onclick="location.href='/activity';" class="single-services text-center mb-30" style="background: linear-gradient(0deg, rgba(63, 63, 63, 0.5), rgba(63, 63, 63, 0.5)), url('{{static_path}}images/background/product/bg_activity.jpg'); background-size: cover;">
                             <div class="services-cap">
                                 <h5>{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</h5>
                             </div>
@@ -96,7 +96,7 @@
                     </div>
                     {% elif "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_visa" in username.co_agent_frontend_security and rec.code == "visa" %}
                     <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-xs-6">
-                        <div onclick="location.href='/visa';" class="single-services text-center mb-30" style="background: linear-gradient(0deg, rgba(63, 63, 63, 0.5), rgba(63, 63, 63, 0.5)), url('{{static_path}}images/background/bg_visa.jpg'); background-size: cover;">
+                        <div onclick="location.href='/visa';" class="single-services text-center mb-30" style="background: linear-gradient(0deg, rgba(63, 63, 63, 0.5), rgba(63, 63, 63, 0.5)), url('{{static_path}}images/background/product/bg_visa.jpg'); background-size: cover;">
                             <div class="services-cap">
                                 <h5>{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</h5>
                             </div>
@@ -104,7 +104,7 @@
                     </div>
                     {% elif "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_passport" in username.co_agent_frontend_security and rec.code == "passport" %}
                     <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-xs-6">
-                        <div onclick="location.href='/passport';" class="single-services text-center mb-30" style="background: linear-gradient(0deg, rgba(63, 63, 63, 0.5), rgba(63, 63, 63, 0.5)), url('{{static_path}}images/background/bg_passport.jpg'); background-size: cover;">
+                        <div onclick="location.href='/passport';" class="single-services text-center mb-30" style="background: linear-gradient(0deg, rgba(63, 63, 63, 0.5), rgba(63, 63, 63, 0.5)), url('{{static_path}}images/background/product/bg_passport.jpg'); background-size: cover;">
                             <div class="services-cap">
                                 <h5>{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</h5>
                             </div>
@@ -112,7 +112,7 @@
                     </div>
                     {% elif "bus" in provider and "ticketing_bus" in username.co_agent_frontend_security and rec.code == "bus" %}
                     <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-xs-6">
-                        <div onclick="location.href='/bus';" class="single-services text-center mb-30" style="background: linear-gradient(0deg, rgba(63, 63, 63, 0.5), rgba(63, 63, 63, 0.5)), url('{{static_path}}images/background/bg_bus.jpg'); background-size: cover;">
+                        <div onclick="location.href='/bus';" class="single-services text-center mb-30" style="background: linear-gradient(0deg, rgba(63, 63, 63, 0.5), rgba(63, 63, 63, 0.5)), url('{{static_path}}images/background/product/bg_bus.jpg'); background-size: cover;">
                             <div class="services-cap">
                                 <h5>{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</h5>
                             </div>
@@ -120,7 +120,7 @@
                     </div>
                     {% elif "insurance" in provider and "ticketing_insurance" in username.co_agent_frontend_security and rec.code == "insurance" %}
                     <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-xs-6">
-                        <div onclick="location.href='/insurance';" class="single-services text-center mb-30" style="background: linear-gradient(0deg, rgba(63, 63, 63, 0.5), rgba(63, 63, 63, 0.5)), url('{{static_path}}images/background/bg_insurance.jpg'); background-size: cover;">
+                        <div onclick="location.href='/insurance';" class="single-services text-center mb-30" style="background: linear-gradient(0deg, rgba(63, 63, 63, 0.5), rgba(63, 63, 63, 0.5)), url('{{static_path}}images/background/product/bg_insurance.jpg'); background-size: cover;">
                             <div class="services-cap">
                                 <h5>{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</h5>
                             </div>
@@ -128,7 +128,7 @@
                     </div>
                     {% elif rec.code == "health_care" and "mitrakeluarga" in provider and "ticketing_mitrakeluarga" in username.co_agent_frontend_security or rec.code == "health_care" and "sentramedika" in provider and "ticketing_sentramedika" in username.co_agent_frontend_security or rec.code == "health_care" and "periksain" in provider and "ticketing_periksain" in username.co_agent_frontend_security or rec.code == "health_care" and "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security or rec.code == "health_care" and "labpintar" in provider and "ticketing_labpintar" in username.co_agent_frontend_security or rec.code == "health_care" and "swabexpress" in provider and "ticketing_swabexpress" in username.co_agent_frontend_security or rec.code == "health_care" and "phc" in provider and "ticketing_phc" in username.co_agent_frontend_security %}
                     <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-xs-6">
-                        <div onclick="product_change_box('health_care')" class="single-services text-center mb-30" style="background: linear-gradient(0deg, rgba(63, 63, 63, 0.5), rgba(63, 63, 63, 0.5)), url('{{static_path}}images/background/bg_health_care.jpg'); background-size: cover;">
+                        <div onclick="product_change_box('health_care')" class="single-services text-center mb-30" style="background: linear-gradient(0deg, rgba(63, 63, 63, 0.5), rgba(63, 63, 63, 0.5)), url('{{static_path}}images/background/product/bg_health_care.jpg'); background-size: cover;">
                             <div class="services-cap">
                                 <h5>{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</h5>
                             </div>
@@ -152,7 +152,7 @@
                             {% for rec in provider_types_sequence %}
                             {% if rec.code == 'periksain' and "periksain" in provider and "ticketing_periksain" in username.co_agent_frontend_security and 'b2c_limitation' not in username.co_agent_frontend_security %}
                             <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-xs-6">
-                                <div onclick="location.href='/medical/periksain';" class="single-services text-center mb-30" style="background: linear-gradient(0deg, rgba(63, 63, 63, 0.5), rgba(63, 63, 63, 0.5)), url('{{static_path}}images/background/bg_periksain.jpg'); background-size: cover;">
+                                <div onclick="location.href='/medical/periksain';" class="single-services text-center mb-30" style="background: linear-gradient(0deg, rgba(63, 63, 63, 0.5), rgba(63, 63, 63, 0.5)), url('{{static_path}}images/background/product/bg_periksain.jpg'); background-size: cover;">
                                     <div class="services-cap">
                                         <h5>PERIKSAIN</h5>
                                     </div>
@@ -160,7 +160,7 @@
                             </div>
                             {% elif rec.code == 'medical' and "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security %}
                             <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-xs-6">
-                                <div onclick="location.href='/medical_global';" class="single-services text-center mb-30" style="background: linear-gradient(0deg, rgba(63, 63, 63, 0.5), rgba(63, 63, 63, 0.5)), url('{{static_path}}images/background/bg_national_hospital.jpg'); background-size: cover;">
+                                <div onclick="location.href='/medical_global';" class="single-services text-center mb-30" style="background: linear-gradient(0deg, rgba(63, 63, 63, 0.5), rgba(63, 63, 63, 0.5)), url('{{static_path}}images/background/product/bg_national_hospital.jpg'); background-size: cover;">
                                     <div class="services-cap">
                                         <h5>NATIONAL HOSPITAL</h5>
                                     </div>
@@ -168,7 +168,7 @@
                             </div>
                             {% elif rec.code == 'swabexpress' and "swabexpress" in provider and "ticketing_swabexpress" in username.co_agent_frontend_security %}
                             <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-xs-6">
-                                <div onclick="location.href='/swab_express';" class="single-services text-center mb-30" style="background: linear-gradient(0deg, rgba(63, 63, 63, 0.5), rgba(63, 63, 63, 0.5)), url('{{static_path}}images/background/bg_swab_express.jpg'); background-size: cover;">
+                                <div onclick="location.href='/swab_express';" class="single-services text-center mb-30" style="background: linear-gradient(0deg, rgba(63, 63, 63, 0.5), rgba(63, 63, 63, 0.5)), url('{{static_path}}images/background/product/bg_swab_express.jpg'); background-size: cover;">
                                     <div class="services-cap">
                                         <h5>SWAB EXPRESS</h5>
                                     </div>
@@ -176,7 +176,7 @@
                             </div>
                             {% elif rec.code == 'labpintar' and "labpintar" in provider and "ticketing_labpintar" in username.co_agent_frontend_security %}
                             <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-xs-6">
-                                <div onclick="location.href='/lab_pintar';" class="single-services text-center mb-30" style="background: linear-gradient(0deg, rgba(63, 63, 63, 0.5), rgba(63, 63, 63, 0.5)), url('{{static_path}}images/background/bg_lab_pintar.jpg'); background-size: cover;">
+                                <div onclick="location.href='/lab_pintar';" class="single-services text-center mb-30" style="background: linear-gradient(0deg, rgba(63, 63, 63, 0.5), rgba(63, 63, 63, 0.5)), url('{{static_path}}images/background/product/bg_lab_pintar.jpg'); background-size: cover;">
                                     <div class="services-cap">
                                         <h5>LAB PINTAR</h5>
                                     </div>
@@ -184,7 +184,7 @@
                             </div>
                             {% elif rec.code == 'mitrakeluarga' and "mitrakeluarga" in provider and "ticketing_mitrakeluarga" in username.co_agent_frontend_security %}
                             <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-xs-6">
-                                <div onclick="location.href='/mitra_keluarga';" class="single-services text-center mb-30" style="background: linear-gradient(0deg, rgba(63, 63, 63, 0.5), rgba(63, 63, 63, 0.5)), url('{{static_path}}images/background/bg_mitra_keluarga.jpg'); background-size: cover;">
+                                <div onclick="location.href='/mitra_keluarga';" class="single-services text-center mb-30" style="background: linear-gradient(0deg, rgba(63, 63, 63, 0.5), rgba(63, 63, 63, 0.5)), url('{{static_path}}images/background/product/bg_mitra_keluarga.jpg'); background-size: cover;">
                                     <div class="services-cap">
                                         <h5>MITRA KELUARGA</h5>
                                     </div>
@@ -192,7 +192,7 @@
                             </div>
                             {% elif rec.code == 'sentramedika' and "sentramedika" in provider and "ticketing_sentramedika" in username.co_agent_frontend_security %}
                             <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-xs-6">
-                                <div onclick="location.href='/sentra_medika';" class="single-services text-center mb-30" style="background: linear-gradient(0deg, rgba(63, 63, 63, 0.5), rgba(63, 63, 63, 0.5)), url('{{static_path}}images/background/bg_sentra_medika.jpg'); background-size: cover;">
+                                <div onclick="location.href='/sentra_medika';" class="single-services text-center mb-30" style="background: linear-gradient(0deg, rgba(63, 63, 63, 0.5), rgba(63, 63, 63, 0.5)), url('{{static_path}}images/background/product/bg_sentra_medika.jpg'); background-size: cover;">
                                     <div class="services-cap">
                                         <h5>SENTRA MEDIKA</h5>
                                     </div>
@@ -200,7 +200,7 @@
                             </div>
                             {% elif rec.code == 'phc' and "phc" in provider and "ticketing_phc" in username.co_agent_frontend_security %}
                             <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-xs-6">
-                                <div onclick="location.href='/medical/phc';" class="single-services text-center mb-30" style="background: linear-gradient(0deg, rgba(63, 63, 63, 0.5), rgba(63, 63, 63, 0.5)), url('{{static_path}}images/background/bg_phc.jpg'); background-size: cover;">
+                                <div onclick="location.href='/medical/phc';" class="single-services text-center mb-30" style="background: linear-gradient(0deg, rgba(63, 63, 63, 0.5), rgba(63, 63, 63, 0.5)), url('{{static_path}}images/background/product/bg_phc.jpg'); background-size: cover;">
                                     <div class="services-cap">
                                         <h5>RS PHC</h5>
                                     </div>

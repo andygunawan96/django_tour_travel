@@ -597,7 +597,7 @@ function hotel_search(){
                     text += `
                         <div style="padding:5px; margin:10px;">
                             <div style="text-align:center">
-                                <img src="/static/tt_website/images/nofound/no-hotel.png" style="width:60px; height:60px;" alt="Hotel Not Found" title="" />
+                                <img src="/static/tt_website/images/no_found/no-hotel.png" style="width:60px; height:60px;" alt="Hotel Not Found" title="" />
                                 <br/><br/>
                                 <span style="font-size:14px; font-weight:600;">Oops! Hotel not found. Please try another day or another hotel</span>
                             </div>
@@ -1407,7 +1407,7 @@ function hotel_detail_request(checkin_date, checkout_date){
         //                    }else{
         //                        text+=`
         //                        <div class="col-lg-3 col-md-3">
-        //                            <div class="img-hotel-detail" style="background-image: url('/static/tt_website/images/no pic/no_image_hotel.jpeg');"></div>
+        //                            <div class="img-hotel-detail" style="background-image: url('/static/tt_website/images/no_found/no-image-hotel.jpeg');"></div>
         //                        </div>`;
         //                    }
         //
@@ -1444,7 +1444,7 @@ function hotel_detail_request(checkin_date, checkout_date){
                 document.getElementById('detail_room_pick').innerHTML = `
                 <div style="padding:5px; margin:10px;">
                     <div style="text-align:center">
-                        <img src="/static/tt_website/images/nofound/no-hotel.png" style="width:60px; height:60px;" alt="Hotel Not Found" title="" />
+                        <img src="/static/tt_website/images/no_found/no-hotel.png" style="width:60px; height:60px;" alt="Hotel Not Found" title="" />
                         <br/><br/>
                         <span style="font-size:14px; font-weight:600;">Oops! Room not found.</span>
                     </div>
@@ -1460,7 +1460,7 @@ function hotel_detail_request(checkin_date, checkout_date){
                 document.getElementById('detail_room_pick').innerHTML = `
                 <div style="padding:5px; margin:10px;">
                     <div style="text-align:center">
-                        <img src="/static/tt_website/images/nofound/no-hotel.png" style="width:60px; height:60px;" alt="Hotel Not Found" title="" />
+                        <img src="/static/tt_website/images/no_found/no-hotel.png" style="width:60px; height:60px;" alt="Hotel Not Found" title="" />
                         <br/><br/>
                         <span style="font-size:14px; font-weight:600;">Oops! Room not found.</span>
                     </div>
@@ -1671,13 +1671,13 @@ function create_detail_room(i, data){
                 for(k in data.prices[i].rooms[j].images){
                 detail_room_txt+=`
                     <div class="item" style="cursor:zoom-in; float:none; display:inline-block; text-align:center;">
-                    <img class="owl-lazy img-hotel-detail zoom-img" data-src="`+data.prices[i].rooms[j].images[k].url+`" style="border:1px solid #cdcdcd; height:200px; margin:auto; width:auto;" alt="Room Hotel" onerror="this.src='/static/tt_website/images/no pic/no_image_hotel.jpeg';" style="margin: auto; max-height:300px; width:unset;">
+                    <img class="owl-lazy img-hotel-detail zoom-img" data-src="`+data.prices[i].rooms[j].images[k].url+`" style="border:1px solid #cdcdcd; height:200px; margin:auto; width:auto;" alt="Room Hotel" onerror="this.src='/static/tt_website/images/no_found/no-image-hotel.jpeg';" style="margin: auto; max-height:300px; width:unset;">
                     </div>`;
                }
             detail_room_txt+=`</div>`;
         }
         else{
-            detail_room_txt+=`<center><img src="/static/tt_website/images/no pic/no_image_hotel.jpeg" style="height:200px; width:auto; border:1px solid #cdcdcd;" alt="Room Hotel" onerror="this.src='/static/tt_website/images/no pic/no_image_hotel.jpeg';"></center>`;
+            detail_room_txt+=`<center><img src="/static/tt_website/images/no_found/no-image-hotel.jpeg" style="height:200px; width:auto; border:1px solid #cdcdcd;" alt="Room Hotel" onerror="this.src='/static/tt_website/images/no_found/no-image-hotel.jpeg';"></center>`;
         }
         detail_room_txt+=`</div>`;
 

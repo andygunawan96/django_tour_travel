@@ -1919,7 +1919,7 @@ body.mobile-nav-active #mobile-nav-toggle {
   bottom: 0; }
 
 .home-banner-area {
-  background: url(../../images/bg_7.jpg) no-repeat center center/cover; }
+  background: url(../../images/background/default/def_bg_home.jpg) no-repeat center center/cover; }
   .home-banner-area .overlay {
     background: rgba(0, 0, 0, 0.6); }
 
