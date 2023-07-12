@@ -614,7 +614,7 @@ function sort(response, check_filter){
 //                if(response.city_ids[i].image != false)
 //                    text+=`<div class="img-hotel-search-c" style="background-image: url('`+response.city_ids[i].image+`');border:1px solid #cdcdcd;"></div>`;
 //                else
-//                    text+=`<div class="img-hotel-search-c" style="background-image: url('/static/tt_website/images/no pic/no_image_hotel.jpeg');border:1px solid #cdcdcd;"></div>`;
+//                    text+=`<div class="img-hotel-search-c" style="background-image: url('/static/tt_website/images/no_found/no-image-hotel.jpeg');border:1px solid #cdcdcd;"></div>`;
 //                text+=`
 //                <div class="text-block-custom">
 //                    <span style="font-size:13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:100px;"><i class="fas fa-map-marker-alt" style="color:#FFC44D;"></i> `+response.city_ids[i].name+` `+response.city_ids[i].country_name+`</span><br/>
@@ -632,7 +632,7 @@ function sort(response, check_filter){
 //        text += `
 //        <div style="padding:5px; margin:10px;">
 //            <div style="text-align:center">
-//                <img src="/static/tt_website/images/nofound/no-city.png" style="width:60px; height:60px;" alt="Not Found City" title="" />
+//                <img src="/static/tt_website/images/no_found/no-city.png" style="width:60px; height:60px;" alt="Not Found City" title="" />
 //                <br/><br/>
 //                <span style="font-size:14px; font-weight:600;">Oops! City not found.</span>
 //            </div>
@@ -664,7 +664,7 @@ function sort(response, check_filter){
 //                if(response.landmark_ids[i].images.length != 0)
 //                    text+=`<div class="img-hotel-search-c" style="background-image: url('`+response.landmark_ids[i].images[0].url+`');border:1px solid #cdcdcd;"></div>`;
 //                else
-//                    text+=`<div class="img-hotel-search-c" style="background-image: url('/static/tt_website/images/no pic/no_image_hotel.jpeg');border:1px solid #cdcdcd;"></div>`;
+//                    text+=`<div class="img-hotel-search-c" style="background-image: url('/static/tt_website/images/no_found/no-image-hotel.jpeg');border:1px solid #cdcdcd;"></div>`;
 //
 //                text+=`
 //                <div class="text-block-custom">
@@ -684,7 +684,7 @@ function sort(response, check_filter){
 //        text += `
 //            <div style="padding:5px; margin:10px;">
 //                <div style="text-align:center">
-//                    <img src="/static/tt_website/images/nofound/no-landmark.png" style="width:60px; height:60px;" alt="Not Found Landmark" title="" />
+//                    <img src="/static/tt_website/images/no_found/no-landmark.png" style="width:60px; height:60px;" alt="Not Found Landmark" title="" />
 //                    <br/><br/>
 //                    <span style="font-size:14px; font-weight:600;">Oops! Landmark not found.</span>
 //                </div>
@@ -786,7 +786,7 @@ function sort(response, check_filter){
         text += `
             <div style="padding:5px; margin:10px;">
                 <div style="text-align:center">
-                    <img src="/static/tt_website/images/nofound/no-hotel.png" style="width:60px; height:60px;" alt="Not Found Hotel" title="" />
+                    <img src="/static/tt_website/images/no_found/no-hotel.png" style="width:60px; height:60px;" alt="Not Found Hotel" title="" />
                     <br/><br/>
                     <span style="font-size:14px; font-weight:600;">Oops! Hotel not found. Please try another day or another hotel</span>
                 </div>
@@ -808,7 +808,7 @@ function sort(response, check_filter){
         if(response.landmark_ids[i].images.length != 0)
             text+=`<img data-toggle="tooltip" class="airline-logo" alt="" style="width:50px;height:50px;" src="`+response.landmark_ids[i].images[0].url+`"><span> </span>`;
         else
-            text+=`<img data-toggle="tooltip" class="airline-logo" alt="" style="width:50px;height:50px;" src="/static/tt_website/images/no pic/no_image_hotel.jpeg"><span> </span>`;
+            text+=`<img data-toggle="tooltip" class="airline-logo" alt="" style="width:50px;height:50px;" src="/static/tt_website/images/no_found/no-image-hotel.jpeg"><span> </span>`;
         text+=`<br/><label>`+response.landmark_ids[i].name+`</label>`;
         text+=`<br/><label>`+response.landmark_ids[i].rating+` KASIH GAMBAR BINTANG</label>`;
         text+=`<input type="hidden" id="hotel_detail" name="hotel_detail" value='`+JSON.stringify(response.landmark_ids[i])+`'/>`;
@@ -932,7 +932,7 @@ function render_hotel_search(hotel_data_print, i){
         else{
             text+=`
             <div class="col-lg-3 mb-2 mt-2">
-                <div class="img-hotel-search" style="cursor:pointer; background-image: url('/static/tt_website/images/no pic/no_image_hotel.jpeg');"></div>
+                <div class="img-hotel-search" style="cursor:pointer; background-image: url('/static/tt_website/images/no_found/no-image-hotel.jpeg');"></div>
             </div>`;
         }
         text+=`
@@ -1051,7 +1051,7 @@ function render_hotel_search(hotel_data_print, i){
                         if(hotel_data_print.images.length != 0){
                             for(idx_img; idx_img < hotel_data_print.images.length; idx_img++){
                                 if(idx_img < 5){
-                                    text+=`<img class="img_hotel_smallbot" alt="Hotel" src="`+hotel_data_print.images[idx_img].url+`" onerror="this.src='/static/tt_website/images/no pic/no_image_hotel.jpeg';" width="50" height="50" onclick="go_to_owl_carousel_bottom(`+idx_img+`, `+i+`);">`;
+                                    text+=`<img class="img_hotel_smallbot" alt="Hotel" src="`+hotel_data_print.images[idx_img].url+`" onerror="this.src='/static/tt_website/images/no_found/no-image-hotel.jpeg';" width="50" height="50" onclick="go_to_owl_carousel_bottom(`+idx_img+`, `+i+`);">`;
                                 }
                                 else{
                                     break;
@@ -2993,7 +2993,7 @@ function go_to_owl_carousel_bottom(counter, co_i){
         }
     }
     else{
-        text_img+=`<img src="/static/tt_website/images/no pic/no_image_hotel.jpeg" alt="Not Found Hotel" width="60" height="60" style="margin-right:10px; border-radius:4px; border:1px solid #cdcdcd;">`;
+        text_img+=`<img src="/static/tt_website/images/no_found/no-image-hotel.jpeg" alt="Not Found Hotel" width="60" height="60" style="margin-right:10px; border-radius:4px; border:1px solid #cdcdcd;">`;
     }
     text_img += `</div>`;
     document.getElementById("viewImageHotelBottom").innerHTML = text_img;
@@ -3480,7 +3480,7 @@ function render_room_hotel(data_room_hotel_list){
         document.getElementById('detail_room_pick').innerHTML = `
         <div style="padding:5px; margin:10px;">
             <div style="text-align:center">
-                <img src="/static/tt_website/images/nofound/no-hotel.png" style="width:60px; height:60px;" alt="Hotel Not Found" title="" />
+                <img src="/static/tt_website/images/no_found/no-hotel.png" style="width:60px; height:60px;" alt="Hotel Not Found" title="" />
                 <br/><br/>
                 <span style="font-size:14px; font-weight:600;">Oops! Room not found.</span>
             </div>
@@ -3596,7 +3596,7 @@ function render_hotel_search_detail(data_room_hotel_list, i){
                 if (cnt_img > 0) {
                     text+=`
                     <div class="item" style="cursor:zoom-in; float:none; display:inline-block;">
-                        <img class="owl-lazy img-hotel-detail" data-src="`+current_url+`" style="border:1px solid #cdcdcd; width:100%; height:175px; object-fit:cover;" alt="Room Hotel" onerror="this.src='/static/tt_website/images/no pic/no_image_hotel.jpeg';" style="margin: auto; max-height:500px; width:unset;">
+                        <img class="owl-lazy img-hotel-detail" data-src="`+current_url+`" style="border:1px solid #cdcdcd; width:100%; height:175px; object-fit:cover;" alt="Room Hotel" onerror="this.src='/static/tt_website/images/no_found/no-image-hotel.jpeg';" style="margin: auto; max-height:500px; width:unset;">
                     </div>`;
                 }
                 current_url = encodeURI(img_dict[counter][1]);
@@ -3609,12 +3609,12 @@ function render_hotel_search_detail(data_room_hotel_list, i){
         if (cnt_img > 0) {
             text+=`
             <div class="item" style="cursor:zoom-in; float:none; display:inline-block;">
-            <img class="img-hotel-detail" src="`+current_url+`" style="border:1px solid #cdcdcd; width:100%; height:175px; object-fit:cover;" alt="Room Hotel" onerror="this.src='/static/tt_website/images/no pic/no_image_hotel.jpeg';" style="margin: auto; max-height:500px; width:unset;">
+            <img class="img-hotel-detail" src="`+current_url+`" style="border:1px solid #cdcdcd; width:100%; height:175px; object-fit:cover;" alt="Room Hotel" onerror="this.src='/static/tt_website/images/no_found/no-image-hotel.jpeg';" style="margin: auto; max-height:500px; width:unset;">
             </div>`;
         }
         text+=`</div>`;
     }else{
-        text+=`<div class="img-hotel-detail" style="background-image: url('/static/tt_website/images/no pic/no_image_hotel.jpeg'); border:1px solid #cdcdcd; width:100%; height:175px; object-fit:cover;"></div>`;
+        text+=`<div class="img-hotel-detail" style="background-image: url('/static/tt_website/images/no_found/no-image-hotel.jpeg'); border:1px solid #cdcdcd; width:100%; height:175px; object-fit:cover;"></div>`;
     }
     text+=`</div>`;
 

@@ -1672,7 +1672,7 @@ function sort(tour_dat, exist_check){
         text += `
             <div class="col-lg-12">
                 <div style="text-align:center">
-                    <img src="/static/tt_website/images/nofound/no-tour.png" style="width:70px; height:70px;" alt="Not Found Tour" title="" />
+                    <img src="/static/tt_website/images/no_found/no-tour.png" style="width:70px; height:70px;" alt="Not Found Tour" title="" />
                     <br/>
                 </div>
                 <center><div class="alert alert-warning" role="alert" style="margin-top:15px; border:1px solid #cdcdcd;"><h6><i class="fas fa-search-minus"></i> Oops! Tour not found. Please try again or search another tour. </h6></div></center>
@@ -2093,7 +2093,7 @@ function sort(tour_dat, exist_check){
             text += `
             <div class="col-lg-12">
                 <div style="text-align:center">
-                    <img src="/static/tt_website/images/nofound/no-tour.png" alt="Not Found Tour" style="width:70px; height:70px;" title="" />
+                    <img src="/static/tt_website/images/no_found/no-tour.png" alt="Not Found Tour" style="width:70px; height:70px;" title="" />
                     <br/>
                 </div>
                 <center><div class="alert alert-warning" role="alert" style="margin-top:15px; border:1px solid #cdcdcd;"><h6><i class="fas fa-search-minus"></i> Oops! Tour not found. Please try again or search another tour. </h6></div></center>

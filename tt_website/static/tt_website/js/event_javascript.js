@@ -236,7 +236,7 @@ function sort(response, check_filter){
                                 text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:200px; background: white url('`+response[i].images[0].url+`'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="goto_detail('event',`+i+`)">`;
                             }
                             else{
-                                text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:200px; background: white url('/static/tt_website/images/no pic/no-event.png'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="goto_detail('event',`+i+`)">`;
+                                text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:200px; background: white url('/static/tt_website/images/no_found/no-event.png'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="goto_detail('event',`+i+`)">`;
                             }
                             text+=`
                                 <div class="overlay overlay-bg"></div>
@@ -353,7 +353,7 @@ function sort(response, check_filter){
                             text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:200px; background: white url('`+response[i].images[0].url+`'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="goto_detail('event',`+i+`)">`;
                         }
                         else{
-                            text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:200px; background: white url('/static/tt_website/images/no pic/no-event.png'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="goto_detail('event',`+i+`)">`;
+                            text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:200px; background: white url('/static/tt_website/images/no_found/no-event.png'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="goto_detail('event',`+i+`)">`;
                         }
 
                         if(template != 5 && template != 6){
@@ -474,7 +474,7 @@ function sort(response, check_filter){
                                     text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:200px; background: white url('`+response[i].images[0].url+`'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="goto_detail('event',`+i+`)">`;
                                 }
                                 else{
-                                    text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:200px; background: white url('/static/tt_website/images/no pic/no-event.png'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="goto_detail('event',`+i+`)">`;
+                                    text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:200px; background: white url('/static/tt_website/images/no_found/no-event.png'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="goto_detail('event',`+i+`)">`;
                                 }
                                 text+=`
                                     <div class="overlay overlay-bg"></div>
@@ -595,7 +595,7 @@ function sort(response, check_filter){
                                 text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:200px; background: white url('`+response[i].images[0].url+`'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="goto_detail('event',`+i+`)">`;
                             }
                             else{
-                                text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:200px; background: white url('/static/tt_website/images/no pic/no-event.png'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="goto_detail('event',`+i+`)">`;
+                                text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:200px; background: white url('/static/tt_website/images/no_found/no-event.png'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="goto_detail('event',`+i+`)">`;
                             }
 
                             if(template != 5 && template != 6){
@@ -795,7 +795,7 @@ function sort(response, check_filter){
         text += `
             <div style="padding:5px; margin:10px;">
                 <div style="text-align:center">
-                    <img src="/static/tt_website/images/nofound/no-event.png" style="width:60px; height:60px;" alt="Not Found Event" title="" />
+                    <img src="/static/tt_website/images/no_found/no-event.png" style="width:60px; height:60px;" alt="Not Found Event" title="" />
                     <br/><br/>
                     <span style="font-size:14px; font-weight:600;">Oops! Event not found. Please try another event</span>
                 </div>
@@ -814,7 +814,7 @@ function sort(response, check_filter){
         document.getElementById("event_error").innerHTML = `
         <div style="padding:5px; margin:10px;">
             <div style="text-align:center">
-                <img src="/static/tt_website/images/nofound/no-event.png" style="width:60px; height:60px;" alt="Hotel Not Found" title="" />
+                <img src="/static/tt_website/images/no_found/no-event.png" style="width:60px; height:60px;" alt="Hotel Not Found" title="" />
                 <br/><br/>
                 <span style="font-size:14px; font-weight:600;">Oops! Event not found. Please try another event</span>
             </div>
@@ -1533,7 +1533,7 @@ function go_to_owl_carousel_bottom(counter, co_i){
         }
     }
     else{
-        text_img+=`<img src="/static/tt_website/images/no pic/no-event.png" alt="Not Found Event" width="60" height="60" style="margin-right:10px; border-radius:4px; border:1px solid #cdcdcd;">`;
+        text_img+=`<img src="/static/tt_website/images/no_found/no-event.png" alt="Not Found Event" width="60" height="60" style="margin-right:10px; border-radius:4px; border:1px solid #cdcdcd;">`;
     }
     text_img += `</div>`;
     document.getElementById("viewImageHotelBottom").innerHTML = text_img;
@@ -1584,7 +1584,7 @@ function change_image_hotel(numb){
                 if(temp_response.hotel_ids[i].images.length != 0){
                     for(idx_img; idx_img < temp_response.hotel_ids[i].images.length; idx_img++){
                         if(idx_img < 5){
-                            text_change_img+=`<img class="img_hotel_smallbot" src="`+temp_response.hotel_ids[i].images[idx_img].url+`" onerror="this.src='/static/tt_website/images/no pic/no_image_hotel.jpeg';" width="50" height="50" onclick="go_to_owl_carousel_bottom(`+idx_img+`, `+i+`);">`;
+                            text_change_img+=`<img class="img_hotel_smallbot" src="`+temp_response.hotel_ids[i].images[idx_img].url+`" onerror="this.src='/static/tt_website/images/no_found/no-image-hotel.jpeg';" width="50" height="50" onclick="go_to_owl_carousel_bottom(`+idx_img+`, `+i+`);">`;
                         }
                         else{
                             break;
@@ -1592,7 +1592,7 @@ function change_image_hotel(numb){
                     }
                 }
                 else{
-                    text_change_img+=`<img src="/static/tt_website/images/no pic/no-event.png" alt="Not Found Event" width="60" height="60" style="margin-right:10px; border-radius:4px; border:1px solid #cdcdcd;">`;
+                    text_change_img+=`<img src="/static/tt_website/images/no_found/no-event.png" alt="Not Found Event" width="60" height="60" style="margin-right:10px; border-radius:4px; border:1px solid #cdcdcd;">`;
                 }
 
                 document.getElementById('pagination_image'+i).innerHTML = text_change_img;

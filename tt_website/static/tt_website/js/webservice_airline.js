@@ -2682,7 +2682,7 @@ function send_search_to_api(val){
                 <div class="alert alert-warning" style="border:1px solid #cdcdcd;" role="alert">
                     <span style="font-weight:bold;"> Oops... Something went wrong, search other airline</span>
                 </div>
-                <img src="/static/tt_website/images/no pic/no-flight.jpeg" alt="Not Found Airlines" style="height:50px;"/>
+                <img src="/static/tt_website/images/no_found/no-flight.jpeg" alt="Not Found Airlines" style="height:50px;"/>
             `;
             var node = document.createElement("div");
             node.innerHTML = text;
@@ -2797,7 +2797,7 @@ function airline_search(provider,carrier_codes,last_send=false,re_order=false){
                         text = '';
                         text += `
                         <div style="text-align:center">
-                            <img src="/static/tt_website/images/nofound/no-airlines.png" style="width:70px; height:70px;" alt="Not Found Airlines" title="" />
+                            <img src="/static/tt_website/images/no_found/no-airlines.png" style="width:70px; height:70px;" alt="Not Found Airlines" title="" />
                             <br/>
                         </div>
                         <center><div class="alert alert-warning" role="alert" style="margin-top:15px; border:1px solid #cdcdcd;"><h6><i class="fas fa-search-minus"></i> Oops! Sorry no ticket for flight. Please try another flight. </h6></div></center>`;
