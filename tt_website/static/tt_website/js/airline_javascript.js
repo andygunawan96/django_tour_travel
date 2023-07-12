@@ -2421,7 +2421,7 @@ function sort(){
                                                                 <tr>
                                                                     <td class="airport-code"><h5 class="copy_time_depart">`+airline[i].segments[j].departure_date.split(' - ')[1]+`</h5></td>
                                                                     <td style="padding-left:15px;">
-                                                                        <img src="/static/tt_website/img/icon/airlines-01.png" style="width:20px; height:20px; margin-top:5px;"/>
+                                                                        <img src="/static/tt_website/images/icon/symbol/airlines-01.png" style="width:20px; height:20px; margin-top:5px;"/>
                                                                     </td>
                                                                     <td style="height:30px;padding:0 15px;width:100%">
                                                                         <div style="display:inline-block;position:relative;width:100%">
@@ -2532,7 +2532,7 @@ function sort(){
                                                             <tr>
                                                                 <td class="airport-code"><h5 class="copy_time_depart">`+airline[i].departure_date.split(' - ')[1]+`</h5></td>
                                                                 <td style="padding-left:15px;">
-                                                                    <img src="/static/tt_website/img/icon/airlines-01.png" alt="Airline" style="width:20px; height:20px; margin-top:5px;"/>
+                                                                    <img src="/static/tt_website/images/icon/symbol/airlines-01.png" alt="Airline" style="width:20px; height:20px; margin-top:5px;"/>
                                                                 </td>
                                                                 <td style="height:30px;padding:0 15px;width:100%">
                                                                     <div style="display:inline-block;position:relative;width:100%">
@@ -2603,9 +2603,9 @@ function sort(){
                                                             <div class="col-xs-12">`;
                                                             if(airline[i].available_count != 0){
                                                                 if(airline[i].available_count > 9){
-                                                                    text += `<img src="/static/tt_website/img/icon/seat.png" style="height:16px; width:auto;"/><span id='airline_seat_left`+i+`'>`+airline[i].available_count+` seats available</span>`;
+                                                                    text += `<img src="/static/tt_website/images/icon/symbol/seat.png" style="height:16px; width:auto;"/><span id='airline_seat_left`+i+`'>`+airline[i].available_count+` seats available</span>`;
                                                                 }else{
-                                                                    text += `<img src="/static/tt_website/img/icon/seat.png" style="height:16px; width:auto;"/><span id='airline_seat_left`+i+`' style="color:#fc2617;">`+airline[i].available_count+` seats left </span>`;
+                                                                    text += `<img src="/static/tt_website/images/icon/symbol/seat.png" style="height:16px; width:auto;"/><span id='airline_seat_left`+i+`' style="color:#fc2617;">`+airline[i].available_count+` seats left </span>`;
                                                                 }
                                                                 //if(choose_airline != null && choose_airline == airline[i].sequence && airline_request.direction != 'MC')
                                                                 //text+=`<input type='button' style="margin:10px;" id="departjourney`+i+`" class="primary-btn-custom-un choose_selection_ticket_airlines_depart" value="Chosen" onclick="get_price_itinerary(`+i+`)" sequence_id="0"/>`;
@@ -2812,7 +2812,7 @@ function sort(){
                                            <div class="col-lg-12">
                                                <div class="row">
                                                    <div class="col-lg-12" style="padding-top:10px;">
-                                                        <h6><img src="/static/tt_website/img/icon/seat.png" style="height:16px; width:auto;"> Choose Seat Class</h6>
+                                                        <h6><img src="/static/tt_website/images/icon/symbol/seat.png" style="height:16px; width:auto;"> Choose Seat Class</h6>
 
                                                         <div class="input-container-search-ticket btn-group">
                                                             <button style="text-align:left; width:unset; line-height:20px; margin-bottom:0px; font-size:13px; height:50px;" id="show_choose_seat`+i+``+j+`" type="button" class="form-control primary-btn-white dropdown-toggle" data-toggle="dropdown">
@@ -3714,7 +3714,7 @@ function airline_pick_mc(type){
                                                 <tr>
                                                     <td class="airport-code"><h5 class="copy_time_depart">`+airline_pick_list[i].segments[j].departure_date.split(' - ')[1]+`</h5></td>
                                                     <td style="padding-left:15px;">
-                                                        <img src="/static/tt_website/img/icon/airlines-01.png" alt="Airline" style="width:20px; height:20px; margin-top:5px;"/>
+                                                        <img src="/static/tt_website/images/icon/symbol/airlines-01.png" alt="Airline" style="width:20px; height:20px; margin-top:5px;"/>
                                                     </td>
                                                     <td style="height:30px;padding:0 15px;width:100%">
                                                         <div style="display:inline-block;position:relative;width:100%">
@@ -3817,7 +3817,7 @@ function airline_pick_mc(type){
                                             <tr>
                                                 <td class="airport-code"><h5 class="copy_time_depart">`+airline_pick_list[i].departure_date.split(' - ')[1]+`</h5></td>
                                                 <td style="padding-left:15px;">
-                                                    <img src="/static/tt_website/img/icon/airlines-01.png" alt="Airline" style="width:20px; height:20px; margin-top:5px;"/>
+                                                    <img src="/static/tt_website/images/icon/symbol/airlines-01.png" alt="Airline" style="width:20px; height:20px; margin-top:5px;"/>
                                                 </td>
                                                 <td style="height:30px;padding:0 15px;width:100%">
                                                     <div style="display:inline-block;position:relative;width:100%">
@@ -4181,7 +4181,7 @@ function airline_pick_mc(type){
                                     </div>
 
                                     <div class="col-lg-12" style="padding-top:10px;">
-                                        <h6><img src="/static/tt_website/img/icon/seat.png" style="height:16px; width:auto;">Seat Class</h6>
+                                        <h6><img src="/static/tt_website/images/icon/symbol/seat.png" style="height:16px; width:auto;">Seat Class</h6>
 
                                         <div class="input-container-search-ticket btn-group">
                                             <button style="text-align:left; width:unset; line-height:20px; margin-bottom:0px; font-size:13px; height:50px;" id="show_choose_seat_pick`+i+``+j+`" type="button" class="form-control primary-btn-white dropdown-toggle" data-toggle="dropdown">
@@ -4916,7 +4916,7 @@ function airline_detail(type){
                                         <tr>
                                             <td class="airport-code"><h5>`+price_itinerary_temp[i].journeys[j].segments[k].departure_date.split(' - ')[1]+`</h5></td>
                                             <td style="padding-left:15px;">
-                                                <img src="/static/tt_website/img/icon/airlines-01.png" alt="Airline" style="width:20px; height:20px; margin-top:5px;"/>
+                                                <img src="/static/tt_website/images/icon/symbol/airlines-01.png" alt="Airline" style="width:20px; height:20px; margin-top:5px;"/>
                                             </td>
                                             <td style="height:30px;padding:0 15px;width:100%">
                                                 <div style="display:inline-block;position:relative;width:100%">
@@ -4957,7 +4957,7 @@ function airline_detail(type){
                             </div>`;
 
                             if(price_itinerary_temp[i].journeys[j].segments[k].fares.length > 0){
-                                text += `<div style="margin-bottom:15px;"><img src="/static/tt_website/img/icon/seat.png" style="height:16px; width:auto;"><span style="font-weight:800;">`;
+                                text += `<div style="margin-bottom:15px;"><img src="/static/tt_website/images/icon/symbol/seat.png" style="height:16px; width:auto;"><span style="font-weight:800;">`;
                                 if(price_itinerary_temp[i].journeys[j].segments[k].fares[0].cabin_class != '')
                                     if(price_itinerary_temp[i].journeys[j].segments[k].fares[0].cabin_class == 'Y')
                                         text += 'Economy - ';
@@ -5460,7 +5460,7 @@ function airline_detail(type){
                                         <tr>
                                             <td class="airport-code"><h5>`+airline_get_detail.provider_bookings[i].journeys[j].segments[k].departure_date.split('  ')[1]+`</h5></td>
                                             <td style="padding-left:15px;">
-                                                <img src="/static/tt_website/img/icon/airlines-01.png" alt="Airline" style="width:20px; height:20px; margin-top:5px;"/>
+                                                <img src="/static/tt_website/images/icon/symbol/airlines-01.png" alt="Airline" style="width:20px; height:20px; margin-top:5px;"/>
                                             </td>
                                             <td style="height:30px;padding:0 15px;width:100%">
                                                 <div style="display:inline-block;position:relative;width:100%">
@@ -8726,7 +8726,7 @@ function get_airline_review(){
     <div style="background:white; margin-bottom:15px; padding:15px; border:1px solid #cdcdcd;">
         <div class="row">
             <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
-                <h4 class="mb-3"><img src="/static/tt_website/images/icon/airlines_black.png" alt="undefined" style="width:20px; height:20px;"> Flight Detail</h4>
+                <h4 class="mb-3"><img src="/static/tt_website/images/icon/product/b-airline.png" alt="undefined" style="width:20px; height:20px;"> Flight Detail</h4>
             </div>
         </div>`;
     flight_count = 0;
@@ -8781,7 +8781,7 @@ function get_airline_review(){
                                 <tr>
                                     <td class="airport-code"><h5>`+airline_pick[i].price_itinerary[j].segments[k].legs[l].departure_date.split(' - ')[1]+`</h5></td>
                                     <td style="padding-left:15px;">
-                                        <img src="/static/tt_website/img/icon/airlines-01.png" alt="Airline" style="width:20px; height:20px; margin-top:5px;"/>
+                                        <img src="/static/tt_website/images/icon/symbol/airlines-01.png" alt="Airline" style="width:20px; height:20px; margin-top:5px;"/>
                                     </td>
                                     <td style="height:30px;padding:0 15px;width:100%">
                                         <div style="display:inline-block;position:relative;width:100%">
@@ -9024,7 +9024,7 @@ function get_airline_review(){
 
                                 if(passengers_ssr[i].seat_list[j].seat_pick != ''){
                                     text+= `
-                                    • `+passengers_ssr[i].seat_list[j].segment_code+` (`+moment(passengers_ssr[i].seat_list[j].departure_date).format('DD MMM YYYY') +`)<br/><img src="/static/tt_website/img/icon/seat.png" style="height:16px; width:auto;"/> <i>` +passengers_ssr[i].seat_list[j].seat_pick + '</i><br>';
+                                    • `+passengers_ssr[i].seat_list[j].segment_code+` (`+moment(passengers_ssr[i].seat_list[j].departure_date).format('DD MMM YYYY') +`)<br/><img src="/static/tt_website/images/icon/symbol/seat.png" style="height:16px; width:auto;"/> <i>` +passengers_ssr[i].seat_list[j].seat_pick + '</i><br>';
                                 }
                                 text+=`</b>`;
                             }
@@ -9155,7 +9155,7 @@ function get_airline_review_after_sales(){
     <div style="background:white; margin-bottom:15px; padding:15px; border:1px solid #cdcdcd;">
         <div class="row">
             <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
-                <h4 class="mb-3"><img src="/static/tt_website/images/icon/airlines_black.png" alt="undefined" style="width:20px; height:20px;"> Flight Detail</h4>
+                <h4 class="mb-3"><img src="/static/tt_website/images/icon/product/b-airline.png" alt="undefined" style="width:20px; height:20px;"> Flight Detail</h4>
             </div>
         </div>`;
     flight_count = 0;
@@ -9185,7 +9185,7 @@ function get_airline_review_after_sales(){
                                 <tr>
                                     <td class="airport-code"><h5>`+airline_get_detail.provider_bookings[i].journeys[j].segments[k].departure_date.split('  ')[1]+`</h5></td>
                                     <td style="padding-left:15px;">
-                                        <img src="/static/tt_website/img/icon/airlines-01.png" alt="Airline" style="width:20px; height:20px; margin-top:5px;"/>
+                                        <img src="/static/tt_website/images/icon/symbol/airlines-01.png" alt="Airline" style="width:20px; height:20px; margin-top:5px;"/>
                                     </td>
                                     <td style="height:30px;padding:0 15px;width:100%">
                                         <div style="display:inline-block;position:relative;width:100%">
@@ -9387,7 +9387,7 @@ function get_airline_review_after_sales(){
                             text+=`<i class="fas fa-wheelchair"></i> `;
                         }
                         else if(airline_get_detail.passengers[i].fee_dict[j].fees[k].fee_category == 'seat'){
-                            text+=`<img src="/static/tt_website/img/icon/seat.png" style="height:16px; width:auto;"/> `;
+                            text+=`<img src="/static/tt_website/images/icon/symbol/seat.png" style="height:16px; width:auto;"/> `;
                         }
 
                         if(airline_get_detail.passengers[i].fee_dict[j].fees[k].fee_name.toLowerCase().includes(airline_get_detail.passengers[i].fee_dict[j].fees[k].fee_category.toLowerCase()) == false)
@@ -9433,7 +9433,7 @@ function get_airline_review_after_sales(){
                             text+=`<i class="fas fa-tools" style="color:`+color+`;"></i> `;
                         }
                         else if(passengers_ssr[i].fee_dict[j].fees[k].fee_category == 'seat'){
-                            text+=`<img src="/static/tt_website/img/icon/seat.png" style="height:16px; width:auto;"/> `;
+                            text+=`<img src="/static/tt_website/images/icon/symbol/seat.png" style="height:16px; width:auto;"/> `;
                         }
 
                         text += `<b>`;
@@ -9465,7 +9465,7 @@ function get_airline_review_after_sales(){
                     try{
                         if(passengers_ssr[i].seat_list[j].seat_pick != ''){
                             text += `<b>• `+passengers_ssr[i].seat_list[j].segment_code+`:</b><br/>
-                            <img src="/static/tt_website/img/icon/seat.png" style="height:16px; width:auto;"/> <i>`+passengers_ssr[i].seat_list[j].seat_pick + `</i><br/>`;
+                            <img src="/static/tt_website/images/icon/symbol/seat.png" style="height:16px; width:auto;"/> <i>`+passengers_ssr[i].seat_list[j].seat_pick + `</i><br/>`;
                         }
                   }catch(err){
                         console.log(err); // error kalau ada element yg tidak ada
@@ -10250,7 +10250,7 @@ function change_date_shortcut(val){
                                                 </h5>
                                             </td>
                                             <td style="padding-left:15px;">
-                                                <img src="/static/tt_website/img/icon/airlines-01.png" alt="Airline" style="width:20px; height:20px; margin-top:5px;">
+                                                <img src="/static/tt_website/images/icon/symbol/airlines-01.png" alt="Airline" style="width:20px; height:20px; margin-top:5px;">
                                             </td>
                                             <td style="height:30px;padding:0 15px;width:100%">
                                                 <div style="display:inline-block;position:relative;width:100%">
@@ -10447,7 +10447,7 @@ function change_date_shortcut(val){
                                                 </h5>
                                             </td>
                                             <td style="padding-left:15px;">
-                                                <img src="/static/tt_website/img/icon/airlines-01.png" alt="Airline" style="width:20px; height:20px; margin-top:5px;">
+                                                <img src="/static/tt_website/images/icon/symbol/airlines-01.png" alt="Airline" style="width:20px; height:20px; margin-top:5px;">
                                             </td>
                                             <td style="height:30px;padding:0 15px;width:100%">
                                                 <div style="display:inline-block;position:relative;width:100%">
@@ -10644,7 +10644,7 @@ function change_date_shortcut(val){
                                                 </h5>
                                             </td>
                                             <td style="padding-left:15px;">
-                                                <img src="/static/tt_website/img/icon/airlines-01.png" alt="Airline" style="width:20px; height:20px; margin-top:5px;">
+                                                <img src="/static/tt_website/images/icon/symbol/airlines-01.png" alt="Airline" style="width:20px; height:20px; margin-top:5px;">
                                             </td>
                                             <td style="height:30px;padding:0 15px;width:100%">
                                                 <div style="display:inline-block;position:relative;width:100%">

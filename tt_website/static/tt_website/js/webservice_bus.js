@@ -473,7 +473,7 @@ function bus_search(provider, signature){
                     response +=`
                         <div style="padding:5px; margin:10px;">
                             <div style="text-align:center">
-                                <img src="/static/tt_website/img/icon/no-train.png" style="width:80px; height:80px;" alt="Not Found Train" title="" />
+                                <img src="/static/tt_website/images/icon/symbol/no-train.png" style="width:80px; height:80px;" alt="Not Found Train" title="" />
                                 <br/><br/>
                                 <h6>NO BUS AVAILABLE</h6>
                             </div>
@@ -956,7 +956,7 @@ function bus_get_booking(data, sync=false){
                             <div style="padding:15px; background-color:white;">
                                 <div class="row">
                                     <div class="col-lg-12 mb-3" style="border-bottom: 1px solid #cdcdcd;">
-                                        <h4 class="mb-3"><img src="/static/tt_website/images/icon/bus_black.png" alt="undefined" style="width:20px; height:20px;"> Bus Detail</h4>
+                                        <h4 class="mb-3"><img src="/static/tt_website/images/icon/product/b-bus.png" alt="undefined" style="width:20px; height:20px;"> Bus Detail</h4>
                                     </div>
                                 </div>`;
                         check = 0;
@@ -1013,7 +1013,7 @@ function bus_get_booking(data, sync=false){
                                                     <tr>
                                                         <td><h5>`+msg.result.response.provider_bookings[i].journeys[j].departure_date.split(' - ')[1]+`</h5></td>
                                                         <td style="padding-left:15px;">
-                                                            <img src="/static/tt_website/img/icon/bus-01.png" style="width:30px; height:30px;" alt="Bus"/>
+                                                            <img src="/static/tt_website/images/icon/symbol/bus-01.png" style="width:30px; height:30px;" alt="Bus"/>
                                                         </td>
                                                         <td style="height:25px;padding:0 15px;width:100%">
                                                             <div style="display:inline-block;position:relative;width:100%">

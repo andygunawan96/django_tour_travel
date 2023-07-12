@@ -1337,7 +1337,7 @@ function get_booking_offline(data){
                                         if(msg.result.response.offline_provider_type == 'airline')
                                             text += `<img data-toggle="tooltip" alt="`+msg.result.response.lines[i].carrier+`" style="width:50px; height:50px;" title="`+msg.result.response.lines[i].carrier+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+msg.result.response.lines[i].carrier_code+`.png"/>`;
                                         else if(msg.result.response.offline_provider_type == 'train')
-                                            text += `<img data-toggle="tooltip" alt="`+msg.result.response.lines[i].carrier+`" style="width:50px; height:50px;" title="`+msg.result.response.lines[i].carrier+`" class="airline-logo" src="/static/tt_website/img/icon/kai.png"/>`;
+                                            text += `<img data-toggle="tooltip" alt="`+msg.result.response.lines[i].carrier+`" style="width:50px; height:50px;" title="`+msg.result.response.lines[i].carrier+`" class="airline-logo" src="/static/tt_website/images/icon/symbol/kai.png"/>`;
 
                                         text+=`<h5>`+msg.result.response.lines[i].carrier+' '+msg.result.response.lines[i].carrier_number+`</h5>
                                             <span>Class : `+msg.result.response.lines[i].class+` ( Class of service `+msg.result.response.lines[i].subclass+` )</span><br/>
@@ -1351,10 +1351,10 @@ function get_booking_offline(data){
                                                             <td style="padding-left:15px;">`;
                                                             if(msg.result.response.offline_provider_type == 'airline')
                                                             text+=`
-                                                                <img src="/static/tt_website/img/icon/airlines-01.png" alt="Issued Offline Airline" style="width:20px; height:20px;"/>`;
+                                                                <img src="/static/tt_website/images/icon/symbol/airlines-01.png" alt="Issued Offline Airline" style="width:20px; height:20px;"/>`;
                                                             else if(msg.result.response.offline_provider_type == 'train')
                                                             text+=`
-                                                                <img src="/static/tt_website/img/icon/train-01.png" alt="Issued Offline Train" style="width:20px; height:20px;"/>`;
+                                                                <img src="/static/tt_website/images/icon/symbol/train-01.png" alt="Issued Offline Train" style="width:20px; height:20px;"/>`;
                                                             text+=`
                                                             </td>
                                                             <td style="height:30px;padding:0 15px;width:100%">

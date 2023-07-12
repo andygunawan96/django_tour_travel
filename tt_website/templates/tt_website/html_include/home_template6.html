@@ -57,84 +57,84 @@
                             {% if "airline" in provider and "ticketing_airline" in username.co_agent_frontend_security and rec.code == "airline" %}
                             <div class="div_cst" onclick="product_change_box('airline')">
                                 <i class="image-rounded-product">
-                                    <img style="width:auto; height:45px;" src="{{static_path}}images/icon/c-airline.png" alt="Airline Icon"/>
+                                    <img style="width:auto; height:45px;" src="{{static_path}}images/icon/product/c-airline.png" alt="Airline Icon"/>
                                 </i>
                                 <h6 class="hover_cst" style="width:100px;">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</h6>
                             </div>
                             {% elif "hotel" in provider and "ticketing_hotel" in username.co_agent_frontend_security and rec.code == "hotel" %}
                             <div class="div_cst" onclick="product_change_box('hotel')">
                                 <i class="image-rounded-product">
-                                    <img style="width:auto; height:45px;" src="{{static_path}}images/icon/c-hotel.png" alt="Hotel Icon"/>
+                                    <img style="width:auto; height:45px;" src="{{static_path}}images/icon/product/c-hotel.png" alt="Hotel Icon"/>
                                 </i>
                                 <h6 class="hover_cst">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</h6>
                             </div>
                             {% elif "train" in provider and "ticketing_train" in username.co_agent_frontend_security and rec.code == "train" %}
                             <div class="div_cst" onclick="product_change_box('train')">
                                 <i class="image-rounded-product">
-                                    <img style="width:auto; height:45px;" src="{{static_path}}images/icon/c-train.png" alt="Train Icon"/>
+                                    <img style="width:auto; height:45px;" src="{{static_path}}images/icon/product/c-train.png" alt="Train Icon"/>
                                 </i>
                                 <h6 class="hover_cst">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</h6>
                             </div>
                             {% elif "ppob" in provider and "ticketing_ppob" in username.co_agent_frontend_security and rec.code == "ppob" %}
                             <div class="div_cst" onclick="product_change_box('ppob')">
                                 <i class="image-rounded-product">
-                                    <img style="width:auto; height:45px;" src="{{static_path}}images/icon/c-ppob.png" alt="PPOB Icon"/>
+                                    <img style="width:auto; height:45px;" src="{{static_path}}images/icon/product/c-ppob.png" alt="PPOB Icon"/>
                                 </i>
                                 <h6 class="hover_cst" style="font-size:14px;">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</h6>
                             </div>
                             {% elif "tour" in provider and "ticketing_tour" in username.co_agent_frontend_security and rec.code == "tour" %}
                             <div class="div_cst" onclick="product_change_box('tour')">
                                 <i class="image-rounded-product">
-                                    <img style="width:auto; height:45px;" src="{{static_path}}images/icon/c-tour.png" alt="Tour Icon"/>
+                                    <img style="width:auto; height:45px;" src="{{static_path}}images/icon/product/c-tour.png" alt="Tour Icon"/>
                                 </i>
                                 <h6 class="hover_cst">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</h6>
                             </div>
                             {% elif "event" in provider and "ticketing_event" in username.co_agent_frontend_security and rec.code == "event" %}
                             <div class="div_cst" onclick="product_change_box('event')">
                                 <i class="image-rounded-product">
-                                    <img style="width:auto; height:45px;" src="{{static_path}}images/icon/c-event.png" alt="Event Icon"/>
+                                    <img style="width:auto; height:45px;" src="{{static_path}}images/icon/product/c-event.png" alt="Event Icon"/>
                                 </i>
                                 <h6 class="hover_cst">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</h6>
                             </div>
                             {% elif "activity" in provider and "ticketing_activity" in username.co_agent_frontend_security and rec.code == "activity" %}
                             <div class="div_cst" onclick="product_change_box('activity')">
                                 <i class="image-rounded-product">
-                                    <img style="width:auto; height:45px;" src="{{static_path}}images/icon/c-activity.png" alt="Event Icon"/>
+                                    <img style="width:auto; height:45px;" src="{{static_path}}images/icon/product/c-activity.png" alt="Event Icon"/>
                                 </i>
                                 <h6 class="hover_cst">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</h6>
                             </div>
                             {% elif "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_visa" in username.co_agent_frontend_security and rec.code == "visa" %}
                             <div class="div_cst" onclick="product_change_box('visa')">
                                 <i class="image-rounded-product">
-                                    <img style="width:auto; height:45px;" src="{{static_path}}images/icon/c-visa.png" alt="Event Icon"/>
+                                    <img style="width:auto; height:45px;" src="{{static_path}}images/icon/product/c-visa.png" alt="Event Icon"/>
                                 </i>
                                 <h6 class="hover_cst">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</h6>
                             </div>
                             {% elif "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_passport" in username.co_agent_frontend_security and rec.code == "passport" %}
                             <div class="div_cst" onclick="product_change_box('passport')">
                                 <i class="image-rounded-product">
-                                    <img style="width:auto; height:45px;" src="{{static_path}}images/icon/c-passport.png" alt="Event Icon"/>
+                                    <img style="width:auto; height:45px;" src="{{static_path}}images/icon/product/c-passport.png" alt="Event Icon"/>
                                 </i>
                                 <h6 class="hover_cst">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</h6>
                             </div>
                             {% elif rec.code == "health_care" and "mitrakeluarga" in provider and "ticketing_mitrakeluarga" in username.co_agent_frontend_security or rec.code == "health_care" and "sentramedika" in provider and "ticketing_sentramedika" in username.co_agent_frontend_security or rec.code == "health_care" and "periksain" in provider and "ticketing_periksain" in username.co_agent_frontend_security or rec.code == "health_care" and "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security or rec.code == "health_care" and "labpintar" in provider and "ticketing_labpintar" in username.co_agent_frontend_security or rec.code == "health_care" and "swabexpress" in provider and "ticketing_swabexpress" in username.co_agent_frontend_security or rec.code == "health_care" and "phc" in provider and "ticketing_phc" in username.co_agent_frontend_security %}
                             <div class="div_cst" onclick="product_change_box('medical1')">
                                 <i class="image-rounded-product">
-                                    <img style="width:auto; height:45px;" src="{{static_path}}images/icon/c-health.png" alt="Health Care Icon"/>
+                                    <img style="width:auto; height:45px;" src="{{static_path}}images/icon/product/c-health.png" alt="Health Care Icon"/>
                                 </i>
                                 <h6 class="hover_cst">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</h6>
                             </div>
                             {% elif "insurance" in provider and "ticketing_insurance" in username.co_agent_frontend_security and rec.code == "insurance" %}
                             <div class="div_cst" onclick="product_change_box('insurance')">
                                 <i class="image-rounded-product">
-                                    <img style="width:auto; height:45px;" src="{{static_path}}images/icon/c-insurance.png" alt="INSURANCE Icon"/>
+                                    <img style="width:auto; height:45px;" src="{{static_path}}images/icon/product/c-insurance.png" alt="INSURANCE Icon"/>
                                 </i>
                                 <h6 class="hover_cst">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</h6>
                             </div>
                             {% elif "bus" in provider and "ticketing_bus" in username.co_agent_frontend_security and rec.code == "bus" %}
                             <div class="div_cst" onclick="product_change_box('bus')">
                                 <i class="image-rounded-product">
-                                    <img style="width:auto; height:45px;" src="{{static_path}}images/icon/c-bus.png" alt="Bus Icon"/>
+                                    <img style="width:auto; height:45px;" src="{{static_path}}images/icon/product/c-bus.png" alt="Bus Icon"/>
                                 </i>
                                 <h6 class="hover_cst">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</h6>
                             </div>
@@ -160,7 +160,7 @@
                                             <i class="fas fa-arrow-circle-left"></i> Back
                                         </button>
                                         <h4 class="heading" style="text-align:right; color:{{text_color}};">
-                                            <img style="width:auto; height:40px;" src="{{static_path}}images/icon/c-airline.png" alt="Airline Icon"/>
+                                            <img style="width:auto; height:40px;" src="{{static_path}}images/icon/product/c-airline.png" alt="Airline Icon"/>
                                             {% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}
                                         </h4>
                                     </div>
@@ -476,7 +476,7 @@
                                             <i class="fas fa-arrow-circle-left"></i> Back
                                         </button>
                                         <h4 class="heading" style="text-align:right; color:{{text_color}};">
-                                            <img style="width:auto; height:40px;" src="{{static_path}}images/icon/c-hotel.png" alt="Hotel Icon"/>
+                                            <img style="width:auto; height:40px;" src="{{static_path}}images/icon/product/c-hotel.png" alt="Hotel Icon"/>
                                             {% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}
                                         </h4>
                                     </div>
@@ -672,7 +672,7 @@
                                             <i class="fas fa-arrow-circle-left"></i> Back
                                         </button>
                                         <h4 class="heading" style="text-align:right; color:{{text_color}};">
-                                            <img style="width:auto; height:40px;" src="{{static_path}}images/icon/c-train.png" alt="Train Icon"/>
+                                            <img style="width:auto; height:40px;" src="{{static_path}}images/icon/product/c-train.png" alt="Train Icon"/>
                                             {% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}
                                         </h4>
                                     </div>
@@ -846,7 +846,7 @@
                                             <i class="fas fa-arrow-circle-left"></i> Back
                                         </button>
                                         <h4 class="heading" style="text-align:right; color:{{text_color}};">
-                                            <img style="width:auto; height:40px;" src="{{static_path}}images/icon/c-ppob.png" alt="PPOB Icon"/>
+                                            <img style="width:auto; height:40px;" src="{{static_path}}images/icon/product/c-ppob.png" alt="PPOB Icon"/>
                                             {% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}
                                         </h4>
                                     </div>
@@ -931,7 +931,7 @@
                                             <i class="fas fa-arrow-circle-left"></i> Back
                                         </button>
                                         <h4 class="heading" style="text-align:right; color:{{text_color}};">
-                                            <img style="width:auto; height:40px;" src="{{static_path}}images/icon/c-activity.png" alt="Activity Icon"/>
+                                            <img style="width:auto; height:40px;" src="{{static_path}}images/icon/product/c-activity.png" alt="Activity Icon"/>
                                             {% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}
                                         </h4>
                                     </div>
@@ -1088,7 +1088,7 @@
                                             <i class="fas fa-arrow-circle-left"></i> Back
                                         </button>
                                         <h4 class="heading" style="text-align:right; color:{{text_color}};">
-                                            <img style="width:auto; height:40px;" src="{{static_path}}images/icon/c-tour.png" alt="Tour Icon"/>
+                                            <img style="width:auto; height:40px;" src="{{static_path}}images/icon/product/c-tour.png" alt="Tour Icon"/>
                                             {% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}
                                         </h4>
                                     </div>
@@ -1138,7 +1138,7 @@
                                             <i class="fas fa-arrow-circle-left"></i> Back
                                         </button>
                                         <h4 class="heading" style="text-align:right; color:{{text_color}};">
-                                            <img style="width:auto; height:40px;" src="{{static_path}}images/icon/c-tour.png" alt="Tour Icon"/>
+                                            <img style="width:auto; height:40px;" src="{{static_path}}images/icon/product/c-tour.png" alt="Tour Icon"/>
                                             {% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}
                                         </h4>
                                     </div>
@@ -1263,7 +1263,7 @@
                                             <i class="fas fa-arrow-circle-left"></i> Back
                                         </button>
                                         <h4 class="heading" style="text-align:right; color:{{text_color}};">
-                                            <img style="width:auto; height:40px;" src="{{static_path}}images/icon/c-visa.png" alt="Visa Icon"/>
+                                            <img style="width:auto; height:40px;" src="{{static_path}}images/icon/product/c-visa.png" alt="Visa Icon"/>
                                             {% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}
                                         </h4>
                                     </div>
@@ -1335,7 +1335,7 @@
                                             <i class="fas fa-arrow-circle-left"></i> Back
                                         </button>
                                         <h4 class="heading" style="text-align:right; color:{{text_color}};">
-                                            <img style="width:auto; height:40px;" src="{{static_path}}images/icon/c-passport.png" alt="Passport Icon"/>
+                                            <img style="width:auto; height:40px;" src="{{static_path}}images/icon/product/c-passport.png" alt="Passport Icon"/>
                                             {% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}
                                         </h4>
                                     </div>
@@ -1412,7 +1412,7 @@
                                             <i class="fas fa-arrow-circle-left"></i> Back
                                         </button>
                                         <h4 class="heading" style="text-align:right; color:{{text_color}};">
-                                            <img style="width:auto; height:40px;" src="{{static_path}}images/icon/c-event.png" alt="Event Icon"/>
+                                            <img style="width:auto; height:40px;" src="{{static_path}}images/icon/product/c-event.png" alt="Event Icon"/>
                                             {% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}
                                         </h4>
                                     </div>
@@ -1472,7 +1472,7 @@
                                             <i class="fas fa-arrow-circle-left"></i> Back
                                         </button>
                                         <h4 class="heading" style="text-align:right; color:{{text_color}};">
-                                            <img style="width:auto; height:40px;" src="{{static_path}}images/icon/c-bus.png" alt="Bus Icon"/>
+                                            <img style="width:auto; height:40px;" src="{{static_path}}images/icon/product/c-bus.png" alt="Bus Icon"/>
                                             {% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}
                                         </h4>
                                     </div>
@@ -1591,7 +1591,7 @@
                                             <i class="fas fa-arrow-circle-left"></i> Back
                                         </button>
                                         <h4 class="heading" style="text-align:right; color:{{text_color}};">
-                                            <img style="width:auto; height:40px;" src="{{static_path}}images/icon/c-insurance.png" alt="Insurance Icon"/>
+                                            <img style="width:auto; height:40px;" src="{{static_path}}images/icon/product/c-insurance.png" alt="Insurance Icon"/>
                                             {% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}
                                         </h4>
                                     </div>
@@ -1620,7 +1620,7 @@
                                             <i class="fas fa-arrow-circle-left"></i> Back
                                         </button>
                                         <h4 class="heading" style="text-align:right; color:{{text_color}};">
-                                            <img style="width:auto; height:40px;" src="{{static_path}}images/icon/c-health.png" alt="Swab Icon"/>
+                                            <img style="width:auto; height:40px;" src="{{static_path}}images/icon/product/c-health.png" alt="Swab Icon"/>
                                             {% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}
                                         </h4>
                                     </div>

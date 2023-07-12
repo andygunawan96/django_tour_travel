@@ -187,13 +187,13 @@ function table_reservation(data, mode_view, restart=false){
                             <h4 class="single_border_custom_left" style="padding-left:10px;">`;
 
                             if(data[i].provider_type == "airline"){
-                                text += `<img src="/static/tt_website/images/icon/airlines_black.png" alt="`+data[i].provider_type+`" style="width:20px; height:20px;">`;
+                                text += `<img src="/static/tt_website/images/icon/product/b-airline.png" alt="`+data[i].provider_type+`" style="width:20px; height:20px;">`;
                             }else if(data[i].provider_type == "train"){
                                 text += `<img src="/static/tt_website/images/icon/train_black.png" alt="`+data[i].provider_type+`" style="width:20px; height:20px;">`;
                             }else if(data[i].provider_type == "hotel"){
                                 text += `<img src="/static/tt_website/images/icon/hotel_black.png" alt="`+data[i].provider_type+`" style="width:20px; height:20px;">`;
                             }else if(data[i].provider_type == "activity"){
-                                text += `<img src="/static/tt_website/images/icon/activity_black.png" alt="`+data[i].provider_type+`" style="width:20px; height:20px;">`;
+                                text += `<img src="/static/tt_website/images/icon/product/b-activity.png" alt="`+data[i].provider_type+`" style="width:20px; height:20px;">`;
                             }else if(data[i].provider_type == "tour"){
                                 text += `<img src="/static/tt_website/images/icon/tour_black.png" alt="`+data[i].provider_type+`" style="width:20px; height:20px;">`;
                             }else if(data[i].provider_type == "visa"){
@@ -203,15 +203,15 @@ function table_reservation(data, mode_view, restart=false){
                             }else if(data[i].provider_type == "ppob"){
                                 text += `<img src="/static/tt_website/images/icon/ppob_black.png" alt="`+data[i].provider_type+`" style="width:20px; height:20px;">`;
                             }else if(data[i].provider_type == "event"){
-                                text += `<img src="/static/tt_website/images/icon/event_black.png" alt="`+data[i].provider_type+`" style="width:20px; height:20px;">`;
+                                text += `<img src="/static/tt_website/images/icon/product/b-event.png" alt="`+data[i].provider_type+`" style="width:20px; height:20px;">`;
                             }else if(data[i].provider_type == "bus"){
-                                text += `<img src="/static/tt_website/images/icon/bus_black.png" alt="`+data[i].provider_type+`" style="width:20px; height:20px;">`;
+                                text += `<img src="/static/tt_website/images/icon/product/b-bus.png" alt="`+data[i].provider_type+`" style="width:20px; height:20px;">`;
                             }else if(data[i].provider_type == "insurance"){
                                 text += `<img src="/static/tt_website/images/icon/insurance_black.png" alt="`+data[i].provider_type+`" style="width:20px; height:20px;">`;
                             }else if(data[i].provider_type == "offline"){
                                 text += `<img src="/static/tt_website/images/icon/offline_black.png" alt="`+data[i].provider_type+`" style="width:auto; height:20px;">`;
                             }else if(data[i].provider_type == "groupbooking"){
-                                text += `<img src="/static/tt_website/images/icon/groupbooking_black.png" alt="`+data[i].provider_type+`" style="width:auto; height:20px;">`;
+                                text += `<img src="/static/tt_website/images/icon/product/b-group.png" alt="`+data[i].provider_type+`" style="width:auto; height:20px;">`;
                             }else if(data[i].provider_type == "mitrakeluarga"){
                                 text += `<img src="/static/tt_website/images/icon/mitra_keluarga.png" alt="`+data[i].provider_type+`" style="width:auto; height:20px;">`;
                             }else if(data[i].provider_type == "phc"){

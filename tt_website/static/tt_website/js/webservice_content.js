@@ -729,7 +729,7 @@ function get_page(data){
                     <a target="_blank" href="line://msg/text/`+msg.result.response.title+`  `+window.location.href+`" class="share-btn line">Line</a>
                     <a target="_blank" href="mailto:?subject=`+msg.result.response.title+` &body=`+window.location.href+`" class="share-btn email">Email</a>`;
                 }else{
-                    document.getElementById('container').innerHTML = `<center><img src="/static/tt_website/images/question.jpeg" style="max-height:250px;" /></center>`;
+                    document.getElementById('container').innerHTML = `<center><img src="/static/tt_website/images/no_found/question.jpeg" style="max-height:250px;" /></center>`;
                     document.getElementById('title').innerHTML = `<h1 style="text-align:center;color:`+color+`">Page Not Found</h1>`;
                 }
             }else{
@@ -1239,17 +1239,17 @@ function render_preview_template(){
     value_template = parseInt(document.getElementById("template").value);
     setTimeout(function(){
         if(value_template == 1){
-            document.getElementById("preview_template").innerHTML = `<h6 class="mb-3">Template 1</h6><img src="/static/tt_website/img/preview/HomeTemplate1.png" alt="Preview Template 1" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>`;
+            document.getElementById("preview_template").innerHTML = `<h6 class="mb-3">Template 1</h6><img src="/static/tt_website/images/guide/preview/HomeTemplate1.png" alt="Preview Template 1" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>`;
         }else if(value_template == 2){
-            document.getElementById("preview_template").innerHTML = `<h6 class="mb-3">Template 2</h6><img src="/static/tt_website/img/preview/HomeTemplate2.png" alt="Preview Template 2" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>`;
+            document.getElementById("preview_template").innerHTML = `<h6 class="mb-3">Template 2</h6><img src="/static/tt_website/images/guide/preview/HomeTemplate2.png" alt="Preview Template 2" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>`;
         }else if(value_template == 3){
-            document.getElementById("preview_template").innerHTML = `<h6 class="mb-3">Template 3</h6><img src="/static/tt_website/img/preview/HomeTemplate3.png" alt="Preview Template 3" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>`;
+            document.getElementById("preview_template").innerHTML = `<h6 class="mb-3">Template 3</h6><img src="/static/tt_website/images/guide/preview/HomeTemplate3.png" alt="Preview Template 3" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>`;
         }else if(value_template == 4){
-            document.getElementById("preview_template").innerHTML = `<h6 class="mb-3">Template 4</h6><img src="/static/tt_website/img/preview/HomeTemplate4.png" alt="Preview Template 4" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>`;
+            document.getElementById("preview_template").innerHTML = `<h6 class="mb-3">Template 4</h6><img src="/static/tt_website/images/guide/preview/HomeTemplate4.png" alt="Preview Template 4" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>`;
         }else if(value_template == 5){
-            document.getElementById("preview_template").innerHTML = `<h6 class="mb-3">Template 5</h6><img src="/static/tt_website/img/preview/HomeTemplate5.png" alt="Preview Template 5" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>`;
+            document.getElementById("preview_template").innerHTML = `<h6 class="mb-3">Template 5</h6><img src="/static/tt_website/images/guide/preview/HomeTemplate5.png" alt="Preview Template 5" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>`;
         }else if(value_template == 6){
-            document.getElementById("preview_template").innerHTML = `<h6 class="mb-3">Template 6</h6><img src="/static/tt_website/img/preview/HomeTemplate6.png" alt="Preview Template 6" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>`;
+            document.getElementById("preview_template").innerHTML = `<h6 class="mb-3">Template 6</h6><img src="/static/tt_website/images/guide/preview/HomeTemplate6.png" alt="Preview Template 6" style="max-width:600px; height:auto; border:1px solid #cdcdcd;"/>`;
         }
         document.getElementById("preview_template_loading").style.display = "none";
     }, 1000);

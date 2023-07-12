@@ -653,13 +653,13 @@ function get_transaction_history_ledger(type,use_cache){
                         <div class="row">
                             <div class="col-lg-9">`;
                                 if(msg.result.response[i].provider_type_name == "Airline"){
-                                    text += `<img src="/static/tt_website/images/icon/airlines_black.png" alt="`+msg.result.response[i].name+`" style="width:22px; height:22px;">`;
+                                    text += `<img src="/static/tt_website/images/icon/product/b-airline.png" alt="`+msg.result.response[i].name+`" style="width:22px; height:22px;">`;
                                 }else if(msg.result.response[i].provider_type_name == "Train"){
                                     text += `<img src="/static/tt_website/images/icon/train_black.png" alt="`+msg.result.response[i].name+`" style="width:22px; height:22px;">`;
                                 }else if(msg.result.response[i].provider_type_name == "Hotel"){
                                     text += `<img src="/static/tt_website/images/icon/hotel_black.png" alt="`+msg.result.response[i].name+`" style="width:22px; height:22px;">`;
                                 }else if(msg.result.response[i].provider_type_name == "Activity"){
-                                    text += `<img src="/static/tt_website/images/icon/activity_black.png" alt="`+msg.result.response[i].name+`" style="width:22px; height:22px;">`;
+                                    text += `<img src="/static/tt_website/images/icon/product/b-activity.png" alt="`+msg.result.response[i].name+`" style="width:22px; height:22px;">`;
                                 }else if(msg.result.response[i].provider_type_name == "Tour"){
                                     text += `<img src="/static/tt_website/images/icon/tour_black.png" alt="`+msg.result.response[i].name+`" style="width:22px; height:22px;">`;
                                 }else if(msg.result.response[i].provider_type_name == "Visa"){
@@ -669,15 +669,15 @@ function get_transaction_history_ledger(type,use_cache){
                                 }else if(msg.result.response[i].provider_type_name == "PPOB"){
                                     text += `<img src="/static/tt_website/images/icon/ppob_black.png" alt="`+msg.result.response[i].name+`" style="width:22px; height:22px;">`;
                                 }else if(msg.result.response[i].provider_type_name == "Event"){
-                                    text += `<img src="/static/tt_website/images/icon/event_black.png" alt="`+msg.result.response[i].name+`" style="width:22px; height:22px;">`;
+                                    text += `<img src="/static/tt_website/images/icon/product/b-event.png" alt="`+msg.result.response[i].name+`" style="width:22px; height:22px;">`;
                                 }else if(msg.result.response[i].provider_type_name == "Bus"){
-                                    text += `<img src="/static/tt_website/images/icon/bus_black.png" alt="`+msg.result.response[i].name+`" style="width:22px; height:22px;">`;
+                                    text += `<img src="/static/tt_website/images/icon/product/b-bus.png" alt="`+msg.result.response[i].name+`" style="width:22px; height:22px;">`;
                                 }else if(msg.result.response[i].provider_type_name == "Insurance"){
                                     text += `<img src="/static/tt_website/images/icon/insurance_black.png" alt="`+msg.result.response[i].name+`" style="width:22px; height:22px;">`;
                                 }else if(msg.result.response[i].provider_type_name == "Offline"){
                                     text += `<img src="/static/tt_website/images/icon/offline_black.png" alt="`+msg.result.response[i].name+`" style="width:auto; height:22px;">`;
                                 }else if(msg.result.response[i].provider_type_name == "Group Booking"){
-                                    text += `<img src="/static/tt_website/images/icon/groupbooking_black.png" alt="`+msg.result.response[i].name+`" style="width:auto; height:22px;">`;
+                                    text += `<img src="/static/tt_website/images/icon/product/b-group.png" alt="`+msg.result.response[i].name+`" style="width:auto; height:22px;">`;
                                 }else if(msg.result.response[i].provider_type_name == "Mitra Keluarga"){
                                     text += `<img src="/static/tt_website/images/icon/mitra_keluarga.png" alt="`+msg.result.response[i].name+`" style="width:auto; height:22px;">`;
                                 }else if(msg.result.response[i].provider_type_name == "phc"){
@@ -1970,13 +1970,13 @@ function get_vendor_balance(val){
                 text_balance += `<div class="col-lg-6 col-md-6 mt-2 mb-2">
                 <div style="border: 1px solid #cdcdcd; border-radius:14px; padding:10px;">`;
                     if(msg.result.response.data[blc].provider_type == "airline"){
-                        text_balance += `<img src="/static/tt_website/images/icon/airlines_black.png" alt="`+msg.result.response.data[blc].code+` `+msg.result.response.data[blc].code+`" style="width:15px; height:15px;">`;
+                        text_balance += `<img src="/static/tt_website/images/icon/product/b-airline.png" alt="`+msg.result.response.data[blc].code+` `+msg.result.response.data[blc].code+`" style="width:15px; height:15px;">`;
                     }else if(msg.result.response.data[blc].provider_type == "train"){
                         text_balance += `<img src="/static/tt_website/images/icon/train_black.png" alt="`+msg.result.response.data[blc].code+` `+msg.result.response.data[blc].code+`" style="width:15px; height:15px;">`;
                     }else if(msg.result.response.data[blc].provider_type == "hotel"){
                         text_balance += `<img src="/static/tt_website/images/icon/hotel_black.png" alt="`+msg.result.response.data[blc].code+` `+msg.result.response.data[blc].code+`" style="width:15px; height:15px;">`;
                     }else if(msg.result.response.data[blc].provider_type == "activity"){
-                        text_balance += `<img src="/static/tt_website/images/icon/activity_black.png" alt="`+msg.result.response.data[blc].code+` `+msg.result.response.data[blc].code+`" style="width:15px; height:15px;">`;
+                        text_balance += `<img src="/static/tt_website/images/icon/product/b-activity.png" alt="`+msg.result.response.data[blc].code+` `+msg.result.response.data[blc].code+`" style="width:15px; height:15px;">`;
                     }else if(msg.result.response.data[blc].provider_type == "tour"){
                         text_balance += `<img src="/static/tt_website/images/icon/tour_black.png" alt="`+msg.result.response.data[blc].code+` `+msg.result.response.data[blc].code+`" style="width:15px; height:15px;">`;
                     }else if(msg.result.response.data[blc].provider_type == "visa"){
@@ -1986,7 +1986,7 @@ function get_vendor_balance(val){
                     }else if(msg.result.response.data[blc].provider_type == "ppob"){
                         text_balance += `<img src="/static/tt_website/images/icon/ppob_black.png" alt="`+msg.result.response.data[blc].code+` `+msg.result.response.data[blc].code+`" style="width:15px; height:15px;">`;
                     }else if(msg.result.response.data[blc].provider_type == "event"){
-                        text_balance += `<img src="/static/tt_website/images/icon/event_black.png" alt="`+msg.result.response.data[blc].code+` `+msg.result.response.data[blc].code+`" style="width:15px; height:15px;">`;
+                        text_balance += `<img src="/static/tt_website/images/icon/product/b-event.png" alt="`+msg.result.response.data[blc].code+` `+msg.result.response.data[blc].code+`" style="width:15px; height:15px;">`;
                     }
                     text_balance += `
                         <span style="text-transform: capitalize; font-size:14px; font-weight:500;">`+msg.result.response.data[blc].code+`</span><br/>
@@ -2132,13 +2132,13 @@ function render_notification(){
                     <div class="row">
                         <div class="col-xs-12">`;
                             if(provider_type_unique[i] == "airline"){
-                                text_provider += `<img src="/static/tt_website/images/icon/airlines_black.png" alt="`+render_data_notification[i].name+`" style="width:20px; height:20px;">`;
+                                text_provider += `<img src="/static/tt_website/images/icon/product/b-airline.png" alt="`+render_data_notification[i].name+`" style="width:20px; height:20px;">`;
                             }else if(provider_type_unique[i] == "train"){
                                 text_provider += `<img src="/static/tt_website/images/icon/train_black.png" alt="`+render_data_notification[i].name+`" style="width:20px; height:20px;">`;
                             }else if(provider_type_unique[i] == "hotel"){
                                 text_provider += `<img src="/static/tt_website/images/icon/hotel_black.png" alt="`+render_data_notification[i].name+`" style="width:20px; height:20px;">`;
                             }else if(provider_type_unique[i] == "activity"){
-                                text_provider += `<img src="/static/tt_website/images/icon/activity_black.png" alt="`+render_data_notification[i].name+`" style="width:20px; height:20px;">`;
+                                text_provider += `<img src="/static/tt_website/images/icon/product/b-activity.png" alt="`+render_data_notification[i].name+`" style="width:20px; height:20px;">`;
                             }else if(provider_type_unique[i] == "tour"){
                                 text_provider += `<img src="/static/tt_website/images/icon/tour_black.png" alt="`+render_data_notification[i].name+`" style="width:20px; height:20px;">`;
                             }else if(provider_type_unique[i] == "visa"){
@@ -2148,15 +2148,15 @@ function render_notification(){
                             }else if(provider_type_unique[i] == "ppob"){
                                 text_provider += `<img src="/static/tt_website/images/icon/ppob_black.png" alt="`+render_data_notification[i].name+`" style="width:20px; height:20px;">`;
                             }else if(provider_type_unique[i] == "event"){
-                                text_provider += `<img src="/static/tt_website/images/icon/event_black.png" alt="`+render_data_notification[i].name+`" style="width:20px; height:20px;">`;
+                                text_provider += `<img src="/static/tt_website/images/icon/product/b-event.png" alt="`+render_data_notification[i].name+`" style="width:20px; height:20px;">`;
                             }else if(provider_type_unique[i] == "bus"){
-                                text_provider += `<img src="/static/tt_website/images/icon/bus_black.png" alt="`+render_data_notification[i].name+`" style="width:20px; height:20px;">`;
+                                text_provider += `<img src="/static/tt_website/images/icon/product/b-bus.png" alt="`+render_data_notification[i].name+`" style="width:20px; height:20px;">`;
                             }else if(provider_type_unique[i] == "insurance"){
                                 text_provider += `<img src="/static/tt_website/images/icon/insurance_black.png" alt="`+render_data_notification[i].name+`" style="width:20px; height:20px;">`;
                             }else if(provider_type_unique[i] == "offline"){
                                 text_provider += `<img src="/static/tt_website/images/icon/offline_black.png" alt="`+render_data_notification[i].name+`" style="width:auto; height:20px;">`;
                             }else if(provider_type_unique[i] == "groupooking"){
-                                text_provider += `<img src="/static/tt_website/images/icon/groupbooking_black.png" alt="`+render_data_notification[i].name+`" style="width:auto; height:20px;">`;
+                                text_provider += `<img src="/static/tt_website/images/icon/product/b-group.png" alt="`+render_data_notification[i].name+`" style="width:auto; height:20px;">`;
                             }else if(provider_type_unique[i] == "mitrakeluarga"){
                                 text_provider += `<img src="/static/tt_website/images/icon/mitra_keluarga.png" alt="`+render_data_notification[i].name+`" style="width:auto; height:20px;">`;
                             }else if(provider_type_unique[i] == "phc"){
