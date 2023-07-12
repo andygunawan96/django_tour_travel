@@ -491,7 +491,7 @@ function event_get_booking(data){
             text = `
                     <div class="row">
                         <div class="col-lg-12 mb-3" style="border-bottom: 1px solid #cdcdcd;">
-                            <h4 class="mb-3"><img src="/static/tt_website/images/no pic/no-ticket.png" alt="undefined" style="width:20px; height:20px;"> Ticket Information(s)</h4>
+                            <h4 class="mb-3"><img src="/static/tt_website/images/no_found/no-ticket.png" alt="undefined" style="width:20px; height:20px;"> Ticket Information(s)</h4>
                         </div>
                     </div>
                     <div class="row">`;
@@ -551,7 +551,7 @@ function event_get_booking(data){
                                 if(msg.result.response.options[i].option.event_option_id.option_image_ids.length != 0)
                                     text+=`<div class="border-event"><div class="img-event-detail" style="background-size:contain; background-repeat: no-repeat; background-image: url('`+msg.result.response.options[i].option.event_option_id.option_image_ids[0]+`');"></div></div>`;
                                 else
-                                    text+=`<div class="border-event"><div class="img-event-detail" style="background-size:contain; background-repeat: no-repeat; background-image: url('/static/tt_website/images/no pic/no-ticket.png');"></div></div>`;
+                                    text+=`<div class="border-event"><div class="img-event-detail" style="background-size:contain; background-repeat: no-repeat; background-image: url('/static/tt_website/images/no_found/no-ticket.png');"></div></div>`;
                             text+=`
                             </div>
                             <div class="col-lg-9">
@@ -1633,7 +1633,7 @@ function event_options(id){
                 alert("There's no option found for this event, Please Try again");
                 $('#loading-detail-event').hide();
 
-                text = '<div style="text-align:center"><img src="/static/tt_website/images/nofound/no-event.png" alt="Not Found Event" style="width:60px; height:60px;" title=""><br><br>';
+                text = '<div style="text-align:center"><img src="/static/tt_website/images/no_found/no-event.png" alt="Not Found Event" style="width:60px; height:60px;" title=""><br><br>';
                 text += '<span style="font-size:14px; font-weight:600;">Oops! No option(s) found for this event, Please Try again or search another event.</span></div>';
                 node.innerHTML = text;
                 document.getElementById("detail_room_pick").appendChild(node);

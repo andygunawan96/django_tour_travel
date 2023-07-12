@@ -55,9 +55,9 @@
                                     </div>
                                     <div class="col-lg-4 mb-3">
                                         {% if event_code.images|length > 0 %}
-                                        <img class="img-fluid" style="background-size:contain; background-repeat: no-repeat;" src="{{event_code.images.0.url}}" alt="Event" onerror="this.src='/static/tt_website/images/no pic/no-event.png';">
+                                        <img class="img-fluid" style="background-size:contain; background-repeat: no-repeat;" src="{{event_code.images.0.url}}" alt="Event" onerror="this.src='/static/tt_website/images/no_found/no-event.png';">
                                         {% else %}
-                                        <img class="img-fluid" src="{{static_path}}/images/no pic/no-event.png" alt="Not Found Event" style="background-size:contain; background-repeat: no-repeat;">
+                                        <img class="img-fluid" src="{{static_path}}/images/no_found/no-event.png" alt="Not Found Event" style="background-size:contain; background-repeat: no-repeat;">
                                         {% endif %}
                                     </div>
 

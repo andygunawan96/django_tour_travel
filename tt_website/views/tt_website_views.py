@@ -1473,9 +1473,9 @@ def get_data_template(request, type='home', provider_type = []):
     logo = '/static/tt_website/images/icon/orbis_logo.png'
     logo_icon = '/static/tt_website/images/icon/orbis_title.png'
     if type == 'registration':
-        background = '/static/tt_website/images/bg_7.jpg'
+        background = '/static/tt_website/images/background/default/def_bg_home.jpg'
     else:
-        background = '/static/tt_website/images/bg_7.jpg'
+        background = '/static/tt_website/images/background/default/def_bg_home.jpg'
     color = '#205B95'
     airline_country = []
     phone_code = []
@@ -1494,9 +1494,9 @@ def get_data_template(request, type='home', provider_type = []):
     backend_url = ''
     script_espay = ''
     contact_us = ''
-    bg_login = '/static/tt_website/images/bg_7.jpg'
-    bg_search = '/static/tt_website/images/bg_7.jpg'
-    bg_regis = '/static/tt_website/images/bg_registration.jpg'
+    bg_login = '/static/tt_website/images/background/default/def_bg_home.jpg'
+    bg_search = '/static/tt_website/images/background/default/def_bg_home.jpg'
+    bg_regis = '/static/tt_website/images/background/default/def_bg_registration.jpg'
     google_analytics = ''
     login_background_color = '#333333'
     airline_origin = ''
@@ -1816,9 +1816,9 @@ def get_data_template(request, type='home', provider_type = []):
                             background = line.split('\n')[0]
                     else:
                         if type == 'admin':
-                            bg_regis = '/static/tt_website/images/bg_registration.jpg'
+                            bg_regis = '/static/tt_website/images/background/default/def_bg_registration.jpg'
                         else:
-                            background = '/static/tt_website/images/bg_registration.jpg'
+                            background = '/static/tt_website/images/background/default/def_bg_registration.jpg'
                 elif idx == 13:
                     if line != '':
                         espay_api_key = line.split('\n')[0]

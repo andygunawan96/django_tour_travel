@@ -2390,7 +2390,7 @@ function sort(activity_dat, check){
         text += `
             <div class="col-lg-12">
                 <div style="text-align:center">
-                    <img src="/static/tt_website/images/nofound/no-activity.png" alt="Not Found Activity" style="width:70px; height:70px;" title="" />
+                    <img src="/static/tt_website/images/no_found/no-activity.png" alt="Not Found Activity" style="width:70px; height:70px;" title="" />
                     <br/>
                 </div>
                 <center><div class="alert alert-warning" role="alert" style="margin-top:15px; border:1px solid #cdcdcd;"><h6><i class="fas fa-search-minus"></i> Oops! Activity not found. Please try again or search another activity. </h6></div></center>
@@ -2625,7 +2625,7 @@ function sort(activity_dat, check){
             text += `
             <div class="col-lg-12">
                 <div style="text-align:center">
-                    <img src="/static/tt_website/images/nofound/no-activity.png" alt="Not Found Activity" style="width:70px; height:70px;" title="" />
+                    <img src="/static/tt_website/images/no_found/no-activity.png" alt="Not Found Activity" style="width:70px; height:70px;" title="" />
                     <br/>
                 </div>
                 <center><div class="alert alert-warning" role="alert" style="margin-top:15px; border:1px solid #cdcdcd;"><h6><i class="fas fa-search-minus"></i> Oops! Activity not found. Please try again or search another activity. </h6></div></center>

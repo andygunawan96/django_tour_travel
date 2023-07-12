@@ -439,7 +439,7 @@ function bus_search(provider, signature){
                         response +=`
                             <div style="padding:5px; margin:10px;">
                                 <div style="text-align:center">
-                                    <img src="/static/tt_website/images/nofound/no-bus.png" style="width:80px; height:80px;" alt="Not Found Bus" title="" />
+                                    <img src="/static/tt_website/images/no_found/no-bus.png" style="width:80px; height:80px;" alt="Not Found Bus" title="" />
                                     <br/><br/>
                                     <h6>NO BUS AVAILABLE</h6>
                                 </div>

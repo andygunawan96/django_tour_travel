@@ -52,6 +52,9 @@ $(document).ready(function(){
       };
     });
 
+    $('#myModalSignIn').on('shown.bs.modal', function () {
+        $('#username').focus();
+    })
 
     //notifikasi
     $(".notification-slide-toggle").click(function(){
@@ -3560,5 +3563,3 @@ function switch_modal(from_target, to_target){
         }
     }, 500);
 }
-
-

@@ -2276,7 +2276,7 @@ primary-btn:disabled {
 }
 
 .banner-area {
-  background: url(../../images/bg_7.jpg) center;
+  background: url(../../images/background/default/def_bg_home.jpg) center;
   background-attachment: fixed;
   background-position: center;
   background-repeat: no-repeat;

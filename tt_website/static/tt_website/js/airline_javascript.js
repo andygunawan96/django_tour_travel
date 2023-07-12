@@ -2169,7 +2169,7 @@ function sort(){
         text = '';
         text += `
         <div style="text-align:center">
-            <img src="/static/tt_website/images/nofound/no-airlines.png" style="width:70px; height:70px;" alt="Not Found Airlines" title="" />
+            <img src="/static/tt_website/images/no_found/no-airlines.png" style="width:70px; height:70px;" alt="Not Found Airlines" title="" />
             <br/>
         </div>
         <center><div class="alert alert-warning" role="alert" style="margin-top:15px; border:1px solid #cdcdcd;"><h6><i class="fas fa-search-minus"></i> Oops! Sorry no ticket for flight `+ parseInt(counter_search).toString()+` Please try another flight. </h6></div></center>`;
@@ -3487,7 +3487,7 @@ function sort(){
         text = '';
         text += `
         <div style="text-align:center">
-            <img src="/static/tt_website/images/nofound/no-airlines.png" alt="Not Found Airlines" style="width:70px; height:70px;" title="" />
+            <img src="/static/tt_website/images/no_found/no-airlines.png" alt="Not Found Airlines" style="width:70px; height:70px;" title="" />
             <br/>
         </div>
         <center><div class="alert alert-warning" role="alert" style="margin-top:15px; border:1px solid #cdcdcd;"><h6><i class="fas fa-search-minus"></i> Oops! Sorry no ticket for flight `+ parseInt(counter_search).toString()+`. Please try another flight. </h6></div></center>`;

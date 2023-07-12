@@ -468,8 +468,8 @@
                                                     <div class="owl-carousel-hotel-img-modal owl-theme" style="text-align:center;">
                                                         {% for i in event_code.images %}
                                                         <div class="item" style="cursor:zoom-in; float:none; display:inline-block;">
-<!--                                                            <div class="img-event-search zoom-img" style="background-size:contain; margin: auto; max-height:500px; background-repeat: no-repeat; cursor:pointer; background-image: url('{{i.url}}');" onerror="this.src='/static/tt_website/images/no pic/no-event.png';"></div>-->
-                                                            <img class="img-fluid zoom-img" src="{{i.url}}" alt="Event" onerror="this.src='/static/tt_website/images/no pic/no_image_hotel.jpeg';" style="margin: auto; max-height:500px; width:unset;">
+<!--                                                            <div class="img-event-search zoom-img" style="background-size:contain; margin: auto; max-height:500px; background-repeat: no-repeat; cursor:pointer; background-image: url('{{i.url}}');" onerror="this.src='/static/tt_website/images/no_found/no-event.png';"></div>-->
+                                                            <img class="img-fluid zoom-img" src="{{i.url}}" alt="Event" onerror="this.src='/static/tt_website/images/no_found/no-image-hotel.jpeg';" style="margin: auto; max-height:500px; width:unset;">
                                                         </div>
                                                         {% endfor %}
                                                     </div>
@@ -481,8 +481,8 @@
                                                     <div class="owl-carousel-hotel-modal owl-theme">
                                                         {% for i in event_code.images %}
                                                         <div class="item" style="cursor:pointer;">
-                                                            <div class="img-event-search" style="background-size:contain; max-width:100%; height:90px; background-repeat: no-repeat; cursor:pointer; background-image: url('{{i.url}}');" onerror="this.src='/static/tt_website/images/no pic/no-event.png';"></div>
-<!--                                                            <img class="img-fluid" src="{{i.url}}" onerror="this.src='/static/tt_website/images/no pic/no_image_hotel.jpeg';" style="max-width:100%; height:90px;">-->
+                                                            <div class="img-event-search" style="background-size:contain; max-width:100%; height:90px; background-repeat: no-repeat; cursor:pointer; background-image: url('{{i.url}}');" onerror="this.src='/static/tt_website/images/no_found/no-event.png';"></div>
+<!--                                                            <img class="img-fluid" src="{{i.url}}" onerror="this.src='/static/tt_website/images/no_found/no-image-hotel.jpeg';" style="max-width:100%; height:90px;">-->
                                                         </div>
                                                         {% endfor %}
                                                     </div>
@@ -502,8 +502,8 @@
                                     <div class="owl-carousel-hotel-img owl-theme">
                                         {% for i in event_code.images %}
                                         <div class="item" style="cursor:pointer; float:none;">
-                                            <div class="img-event-search" style="background-size:contain; height:400px; background-repeat: no-repeat; cursor:pointer; background-image: url('{{i.url}}');" onerror="this.src='/static/tt_website/images/no pic/no-event.png';" data-toggle="modal" data-target="#openImage" onclick="go_to_owl_carousel({{forloop.counter}}, {{event_code.images|length}});"></div>
-<!--                                            <img class="img-fluid" style="max-height:400px; margin-left:50%; transform:translateX(-50%); background-size:contain; background-repeat: no-repeat;" src="{{i.url}}" onerror="this.src='/static/tt_website/images/no pic/no_image_hotel.jpeg';" data-toggle="modal" data-target="#openImage" onclick="go_to_owl_carousel({{forloop.counter}}, {{event_code.images|length}});">-->
+                                            <div class="img-event-search" style="background-size:contain; height:400px; background-repeat: no-repeat; cursor:pointer; background-image: url('{{i.url}}');" onerror="this.src='/static/tt_website/images/no_found/no-event.png';" data-toggle="modal" data-target="#openImage" onclick="go_to_owl_carousel({{forloop.counter}}, {{event_code.images|length}});"></div>
+<!--                                            <img class="img-fluid" style="max-height:400px; margin-left:50%; transform:translateX(-50%); background-size:contain; background-repeat: no-repeat;" src="{{i.url}}" onerror="this.src='/static/tt_website/images/no_found/no-image-hotel.jpeg';" data-toggle="modal" data-target="#openImage" onclick="go_to_owl_carousel({{forloop.counter}}, {{event_code.images|length}});">-->
                                         </div>
                                         {% endfor %}
                                     </div>
@@ -511,8 +511,8 @@
                                     {% else %}
                                     <div class="owl-carousel-hotel-img owl-theme">
                                         <div class="item" style="float:none; display:inline-block; border:1px solid #cdcdcd;">
-                                            <div class="img-event-search" style="background-size:contain; height:400px; background-repeat: no-repeat; cursor:pointer; background-image: url('{{static_path}}/images/no pic/no-event.png');" onerror="this.src='/static/tt_website/images/no pic/no-event.png';"></div>
-<!--                                            <img class="img-fluid" src="{{static_path}}/images/no pic/no-event.png" style="margin: auto; max-height:400px; background-size:contain; background-repeat: no-repeat;">-->
+                                            <div class="img-event-search" style="background-size:contain; height:400px; background-repeat: no-repeat; cursor:pointer; background-image: url('{{static_path}}/images/no_found/no-event.png');" onerror="this.src='/static/tt_website/images/no_found/no-event.png';"></div>
+<!--                                            <img class="img-fluid" src="{{static_path}}/images/no_found/no-event.png" style="margin: auto; max-height:400px; background-size:contain; background-repeat: no-repeat;">-->
                                         </div>
                                     </div>
                                     {% endif %}
@@ -775,7 +775,7 @@
             try{
                 if(item.image_url.length != 0){
                     var autocomplete_event = '<div style="padding: 10px 10px 10px 10px;" class="autocomplete-suggestion" data-langname="'+item.name+' - '+item.type+'" data-lang="'+item.name+' - '+item.type+'" data-val="'+search+'"><div style="display:inline-block;">';
-                    autocomplete_event += `<img src="`+item.image_url[0]+`" style="max-width:70px;" onerror="this.src='/static/tt_website/images/no pic/no-event.png';" alt="Event"></div>`;
+                    autocomplete_event += `<img src="`+item.image_url[0]+`" style="max-width:70px;" onerror="this.src='/static/tt_website/images/no_found/no-event.png';" alt="Event"></div>`;
                     autocomplete_event += '<div style="display:inline-block; position:absolute; margin-left:10px;"><p><span style="display:block; font-size:13px;">'+item.name.replace(re, "<b>$1</b>")+ '</span>';
                     if(item.locations.length != 0){
                         autocomplete_event += '<span style="display:block; font-size:13px;"><i class="fas fa-map-marker-alt" style="padding-right:5px;"></i>';
@@ -798,7 +798,7 @@
                 }
                 else{
                     var autocomplete_event = '<div style="padding: 10px;" class="autocomplete-suggestion" data-langname="'+item.name+' - '+item.type+'" data-lang="'+item.name+'" data-val="'+search+'"><div style="display:inline-block;">';
-                    autocomplete_event += `<img src="`+item.image_url[0]+`" style="max-width:70px;" onerror="this.src='/static/tt_website/images/no pic/no-event.png';" alt="Event"></div>`;
+                    autocomplete_event += `<img src="`+item.image_url[0]+`" style="max-width:70px;" onerror="this.src='/static/tt_website/images/no_found/no-event.png';" alt="Event"></div>`;
                     autocomplete_event += '<div style="display:inline-block; position:absolute; margin-left:10px;"><p><span style="display:block; font-size:13px;">'+item.name.replace(re, "<b>$1</b>")+ '</span>';
                     if(item.locations.length != 0){
                         autocomplete_event += '<i class="fas fa-map-marker-alt"></i><span style="padding-left:5px; font-size:13px;">';
@@ -821,7 +821,7 @@
                 }
             }catch(err){
                 var autocomplete_event = '<div style="padding: 10px;" class="autocomplete-suggestion" data-langname="" data-lang="" data-val="'+search+'"><div style="display:inline-block;">';
-                autocomplete_event += `<img src="/static/tt_website/images/no pic/no-event.png" style="max-width:70px;" onerror="this.src='/static/tt_website/images/no pic/no-event.png';" alt="Not Found Event"></div>`;
+                autocomplete_event += `<img src="/static/tt_website/images/no_found/no-event.png" style="max-width:70px;" onerror="this.src='/static/tt_website/images/no_found/no-event.png';" alt="Not Found Event"></div>`;
                 autocomplete_event += '<div style="display:inline-block; position:absolute; margin-left:10px;"><p><span style="display:block; font-size:13px;">'+ search + '</span>';
                 autocomplete_event += '</div></div>';
                 return autocomplete_event;
