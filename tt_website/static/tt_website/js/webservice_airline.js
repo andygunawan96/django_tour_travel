@@ -7869,7 +7869,7 @@ function airline_get_booking(data, sync=false){
                                     for(l in fare_detail_list){
                                         if(l == 0)
                                             $text += '‣ Include:\n';
-                                        if(fare_detail_list[l].detail_type == 'BG'){
+                                        if(fare_detail_list[l].detail_type.includes('BG')){
                                             text+=`<i class="fas fa-suitcase"></i><span style="font-weight:500;" class="copy_suitcase_details"> `+fare_detail_list[l].amount+` `+fare_detail_list[l].unit+` for 1 person</span><br/>`;
                                             $text += 'Baggage ';
                                         }else if(fare_detail_list[l].detail_type == 'ML'){
@@ -7887,6 +7887,26 @@ function airline_get_booking(data, sync=false){
                                     $text += '\n';
                                 }
                             }
+
+                            if(msg.result.response.provider_bookings[i].hasOwnProperty('duplicates')){
+                                text += `<br/><h5>Duplicate Booking</h5>`;
+                                for(j in msg.result.response.provider_bookings[i].duplicates){
+                                    if(j != 0)
+                                        text+=`<br/>`;
+                                    text += `<span>`+msg.result.response.provider_bookings[i].duplicates[j]+`</span>`;
+                                }
+                                text += `<br/>`;
+                            }
+                            if(msg.result.response.provider_bookings[i].hasOwnProperty('pnr_references')){
+                                text += `<br/><h5>Other Info</h5>`;
+                                for(j in msg.result.response.provider_bookings[i].pnr_references){
+                                    if(j != 0)
+                                        text+=`<br/>`;
+                                    text += `<span>`+msg.result.response.provider_bookings[i].pnr_references[j]+`</span>`;
+                                }
+                                text += `<br/>`;
+                            }
+
                             try{
                                 //prevent error kalau provider tidak ada
                                 if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_issued_reschedule)

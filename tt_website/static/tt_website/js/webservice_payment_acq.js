@@ -81,7 +81,7 @@ function render_payment(){
 
             payment_counter = 1;
             if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
-                if(typeof(payment_ho) !== 'undefined' && total_price_payment_acq > 0 && type_render != 'top_up'){
+                if(typeof(payment_ho) !== 'undefined' && payment_ho.length > 1 && total_price_payment_acq > 0 && type_render != 'top_up'){
                     text+=`
                         <h6 style="padding-bottom:10px;">`+payment_counter+`. Payment to HO: </h6>`;
                         if(template == 1 || template == 5){
@@ -137,7 +137,7 @@ function render_payment(){
                         <input type="file" class="form-control o_website_form_input" id="pay_ref_file" name="pay_ref_file" multiple/>
                     </div>
                 </div>`;
-            if(payment_counter == 1) // agar tidak binggung kalau b2c
+            if(payment_counter == 1 && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false) // agar tidak binggung kalau b2c
                 text+=`
             <h6 style="padding-bottom:10px;">`+payment_counter+`. Payment: </h6>`;
             else // untuk agent agar bisa bedakan payment customer / payment ke HO (untuk agent yg punya credit limit saja)
@@ -186,7 +186,7 @@ function render_payment(){
 
             $('#payment_via').niceSelect();
             if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
-                if(typeof(payment_ho) !== 'undefined'){
+                if(typeof(payment_ho) !== 'undefined' && payment_ho.length > 1){
                     $('#payment_ho_id').niceSelect();
                 }
             }
