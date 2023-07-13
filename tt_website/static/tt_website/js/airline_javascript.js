@@ -3387,6 +3387,87 @@ function sort(){
                                     document.getElementById('fare'+i).innerHTML = airline[i].currency+' '+getrupiah(total_price);
                                 }else if(airline[i].can_book == true)
                                     document.getElementById('fare'+i).innerHTML = 'Choose to view price';
+
+                                if(is_show_breakdown_price){
+                                    document.getElementById('fare'+i).innerHTML+= ` <i class="fas fa-caret-down price_template"></i>`;
+                                    var price_breakdown = {};
+                                    for(l in airline_recommendations_journey[airline_recommendations_list.indexOf(airline[i].journey_ref_id)].service_charge_summary){
+                                        if(!['CHD', 'INF'].includes(airline_recommendations_journey[airline_recommendations_list.indexOf(airline[i].journey_ref_id)].service_charge_summary[l].pax_type)){
+                                            for(k in airline_recommendations_journey[airline_recommendations_list.indexOf(airline[i].journey_ref_id)].service_charge_summary[l].service_charges){
+                                                if(airline_recommendations_journey[airline_recommendations_list.indexOf(airline[i].journey_ref_id)].service_charge_summary[l].service_charges[k].charge_type != 'RAC'){
+                                                    if(!price_breakdown.hasOwnProperty(airline_recommendations_journey[airline_recommendations_list.indexOf(airline[i].journey_ref_id)].service_charge_summary[l].service_charges[k].charge_type))
+                                                        price_breakdown[airline_recommendations_journey[airline_recommendations_list.indexOf(airline[i].journey_ref_id)].service_charge_summary[l].service_charges[k].charge_type] = 0;
+                                                    price_breakdown[airline_recommendations_journey[airline_recommendations_list.indexOf(airline[i].journey_ref_id)].service_charge_summary[l].service_charges[k].charge_type] += airline_recommendations_journey[airline_recommendations_list.indexOf(airline[i].journey_ref_id)].service_charge_summary[l].service_charges[k].total;
+                                                }
+                                            }
+                                            break;
+                                        }
+                                    }
+                                    for(index_airline in airline_pick_list){
+                                        for(index_segment in airline_pick_list[index_airline].segments){
+                                            for(index_fare in airline_pick_list[index_airline].segments[index_segment].fares){
+                                                if(parseInt(index_fare) == airline_pick_list[index_airline].segments[index_segment].fare_pick){
+                                                    for(index_svc_summary in airline_pick_list[index_airline].segments[index_segment].fares[index_fare].service_charge_summary)
+                                                        if(!['CHD', 'INF'].includes(airline_pick_list[index_airline].segments[index_segment].fares[index_fare].service_charge_summary[index_svc_summary].pax_type)){
+                                                            for(index_svc in airline_pick_list[index_airline].segments[index_segment].fares[index_fare].service_charge_summary[index_svc_summary].service_charges){
+                                                                price_breakdown[airline_pick_list[index_airline].segments[index_segment].fares[index_fare].service_charge_summary[index_svc_summary].service_charges[index_svc].charge_type] -= airline_pick_list[index_airline].segments[index_segment].fares[index_fare].service_charge_summary[index_svc_summary].service_charges[index_svc].amount;
+                                                            }
+                                                            break;
+                                                        }
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                    }
+                                    var breakdown_text = '';
+                                    for(x in price_breakdown){
+                                        if(breakdown_text)
+                                            breakdown_text += '<br/>';
+                                        if(j != 'ROC')
+                                            breakdown_text += '<b>'+x+'</b> ';
+                                        else
+                                            breakdown_text += '<b>CONVENIENCE FEE</b> ';
+                                        breakdown_text += airline[i].currency + ' ' + getrupiah(price_breakdown[x]);
+                                    }
+                                    new jBox('Tooltip', {
+                                        attach: '#fare'+i,
+                                        target: '#fare'+i,
+                                        theme: 'TooltipBorder',
+                                        trigger: 'click',
+                                        adjustTracker: true,
+                                        closeOnClick: 'body',
+                                        closeButton: 'box',
+                                        animation: 'move',
+                                        position: {
+                                          x: 'left',
+                                          y: 'top'
+                                        },
+                                        outside: 'y',
+                                        pointer: 'left:20',
+                                        offset: {
+                                          x: 25
+                                        },
+                                        content: breakdown_text
+                                    });
+                                }
+                                if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && airline[i].total_price){
+                                    if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
+                                        for(k in currency_rate_data.result.response.agent[user_login.co_ho_seq_id]){
+                                            try{
+                                                if(currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].base_currency == airline[i].currency){
+                                                    price_convert = (airline[i].total_price/currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].rate).toFixed(2);
+                                                    if(price_convert%1 == 0)
+                                                        price_convert = parseInt(price_convert);
+                                                    document.getElementById('fare'+i+'_other_currency_'+k).innerHTML = 'Estimated ' + k + ' ' + getrupiah(price_convert) + '<br/>';
+                                                }else{
+                                                    document.getElementById('fare'+i+'_other_currency_'+k).style.display = 'none';
+                                                }
+                                            }catch(err){
+                                                console.log(err);
+                                            }
+                                        }
+                                    }
+                                }
                             }else{
                                 if(airline[i].total_price != 0){
                                     total_discount = 0;
@@ -3403,8 +3484,6 @@ function sort(){
                                     document.getElementById('fare'+i).innerHTML = airline[i].currency+' '+getrupiah(airline[i].total_price);
                                     if(is_show_breakdown_price){
                                         document.getElementById('fare'+i).innerHTML+= ` <i class="fas fa-caret-down price_template"></i>`;
-                                    }
-                                    if(is_show_breakdown_price){
                                         var price_breakdown = {};
                                         for(j in airline[i].segments){
                                             for(k in airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary){
