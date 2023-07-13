@@ -1631,46 +1631,46 @@
                                                 {% if rec.code == 'periksain' and "periksain" in provider and "ticketing_periksain" in username.co_agent_frontend_security and 'b2c_limitation' not in username.co_agent_frontend_security %}
                                                 <label class="radio-img">
                                                     <input type="radio" checked="checked" name="health_care_type" value="periksain">
-                                                    <img src="/static/tt_website/images/icon/periksain.png" alt="PERIKSAIN" style="width:70px; height:70px; padding:0px;"><br/>
+                                                    <img src="/static/tt_website/images/logo/health_care/periksain_logo.png" alt="PERIKSAIN" style="width:70px; height:70px; padding:0px;"><br/>
                                                     <div style="text-align:center;"><span style="font-size:13px; color:{{text_color}};">PERIKSAIN<br/>&nbsp;</span></div>
                                                 </label>
                                                 {% elif rec.code == 'medical' and "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security %}
                                                 <label class="radio-img">
                                                     <input type="radio" {% if 'b2c_limitation' in username.co_agent_frontend_security %} checked="checked" {% endif %} name="health_care_type" value="nathos">
-                                                    <img src="/static/tt_website/images/icon/national_hospital.png" alt="PERIKSAIN" style="width:70px; height:70px; padding:0px;"><br/>
+                                                    <img src="/static/tt_website/images/logo/health_care/national_hospital_logo.png" alt="PERIKSAIN" style="width:70px; height:70px; padding:0px;"><br/>
                                                     <div style="text-align:center;"><span style="font-size:13px; color:{{text_color}};">NATIONAL<br/>HOSPITAL</span></div>
                                                 </label>
                                                 {% elif rec.code == 'swabexpress' and "swabexpress" in provider and "ticketing_swabexpress" in username.co_agent_frontend_security %}
                                                 <label class="radio-img">
                                                     <input type="radio" {% if 'b2c_limitation' in username.co_agent_frontend_security and "medical" not in provider %} checked="checked" {% endif %} name="health_care_type" value="swab_express">
-                                                    <img src="/static/tt_website/images/icon/swab_express.png" alt="SWAB EXPRESS" style="width:70px; height:70px; padding:0px;"><br/>
+                                                    <img src="/static/tt_website/images/logo/health_care/swab_express_logo.png" alt="SWAB EXPRESS" style="width:70px; height:70px; padding:0px;"><br/>
                                                     <div style="text-align:center;"><span style="font-size:13px; color:{{text_color}};">SWAB<br/>EXPRESS</span></div>
                                                 </label>
                                                 {% elif rec.code == 'labpintar' and "labpintar" in provider and "ticketing_labpintar" in username.co_agent_frontend_security %}
                                                 <label class="radio-img">
                                                     <input type="radio" {% if 'b2c_limitation' in username.co_agent_frontend_security and "medical" not in provider and "swabexpress" in provider %} checked="checked" {% endif %} name="health_care_type" value="lab_pintar">
-                                                    <img src="/static/tt_website/images/icon/lab_pintar.png" alt="LAB PINTAR" style="width:70px; height:70px; padding:0px;"><br/>
+                                                    <img src="/static/tt_website/images/logo/health_care/lab_pintar_logo.png" alt="LAB PINTAR" style="width:70px; height:70px; padding:0px;"><br/>
                                                     <div style="text-align:center;"><span style="font-size:13px; color:{{text_color}};">LAB<br/>PINTAR</span></div>
                                                 </label>
                                                 {% endif %}
                                                 {% if rec.code == 'mitrakeluarga' and "mitrakeluarga" in provider and "ticketing_mitrakeluarga" in username.co_agent_frontend_security %}
                                                 <label class="radio-img">
                                                     <input type="radio" {% if 'b2c_limitation' in username.co_agent_frontend_security and "medical" not in provider and "swabexpress" not in provider and "mitrakeluarga" in provider %} checked="checked" {% endif %} name="health_care_type" value="mitra_keluarga">
-                                                    <img src="/static/tt_website/images/icon/mitra_keluarga.png" alt="MITRA KELUARGA" style="width:70px; height:70px; padding:0px;"><br/>
+                                                    <img src="/static/tt_website/images/logo/health_care/mitra_keluarga_logo.png" alt="MITRA KELUARGA" style="width:70px; height:70px; padding:0px;"><br/>
                                                     <div style="text-align:center;"><span style="font-size:13px; color:{{text_color}};">MITRA<br/>KELUARGA</span></div>
                                                 </label>
                                                 {% endif %}
                                                 {% if rec.code == 'sentramedika' and "sentramedika" in provider and "ticketing_sentramedika" in username.co_agent_frontend_security %}
                                                 <label class="radio-img">
                                                     <input type="radio" name="health_care_type" value="sentra_medika">
-                                                    <img src="/static/tt_website/images/icon/sentra_medika.png" alt="Sentra Medika" style="width:70px; height:70px; padding:0px;"><br/>
+                                                    <img src="/static/tt_website/images/logo/health_care/sentra_medika_logo.png" alt="Sentra Medika" style="width:70px; height:70px; padding:0px;"><br/>
                                                     <div style="text-align:center;"><span style="font-size:11px; color:{{text_color}};">SENTRA<br/>MEDIKA</span></div>
                                                 </label>
                                                 {% endif %}
                                                 {% if rec.code == 'phc' and "phc" in provider and "ticketing_phc" in username.co_agent_frontend_security %}
                                                 <label class="radio-img">
                                                     <input type="radio" name="health_care_type" value="phc">
-                                                    <img src="/static/tt_website/images/icon/phc_logo.png" alt="PHC" style="width:70px; height:70px; padding:0px;"><br/>
+                                                    <img src="/static/tt_website/images/logo/health_care/phc_logo.png" alt="PHC" style="width:70px; height:70px; padding:0px;"><br/>
                                                     <div style="text-align:center;"><span style="font-size:13px; color:{{text_color}};">RS<br/>PHC</span></div>
                                                 </label>
                                                 {% endif %}

@@ -6638,7 +6638,7 @@ function re_order_set_airline_request(type='reorder'){
        success: function(resJson) {
             setTimeout(function(){
                 if(type == 'reorder')
-                    please_wait_custom('Set Request <i class="fas fa-check-circle" style="color:'+color+';"></i><br/>Set Passenger, please wait <img src="/static/tt_website/img/loading-dot-white.gif" style="height:50px; width:50px;"/>');
+                    please_wait_custom('Set Request <i class="fas fa-check-circle" style="color:'+color+';"></i><br/>Set Passenger, please wait <img src="/static/tt_website/images/gif/loading-dot-white.gif" style="height:50px; width:50px;"/>');
                 re_order_set_passengers(type);
             }, 1000);
        },
@@ -6669,7 +6669,7 @@ function re_order_set_passengers(type){
        },
        success: function(resJson) {
             if(type == 'reorder'){
-                please_wait_custom('Set Passenger <i class="fas fa-check-circle" style="color:'+color+';"></i><br/>Select Data Journey, please wait <img src="/static/tt_website/img/loading-dot-white.gif" style="height:50px; width:50px;"/>');
+                please_wait_custom('Set Passenger <i class="fas fa-check-circle" style="color:'+color+';"></i><br/>Select Data Journey, please wait <img src="/static/tt_website/images/gif/loading-dot-white.gif" style="height:50px; width:50px;"/>');
                 airline_send_request_count = 0;
                 try{
                     airline_data_reorder = [];
@@ -6805,7 +6805,7 @@ function re_order_find_journey(){
 //       });
     }else{
         setTimeout(function(){
-            please_wait_custom('Select Data Journey <i class="fas fa-check-circle" style="color:'+color+';"></i><br/>Get Price, please wait <img src="/static/tt_website/img/loading-dot-white.gif" style="height:50px; width:50px;"/>');
+            please_wait_custom('Select Data Journey <i class="fas fa-check-circle" style="color:'+color+';"></i><br/>Get Price, please wait <img src="/static/tt_website/images/gif/loading-dot-white.gif" style="height:50px; width:50px;"/>');
             re_order_get_price();
         }, 1000);
     }
@@ -6829,7 +6829,7 @@ function re_order_get_price(){
                 get_price_airline_response = msg;
                 data_request = get_price_airline_response.result.request;
                 setTimeout(function(){
-                    please_wait_custom('Get Price <i class="fas fa-check-circle" style="color:'+color+';"></i><br/>Sell Journey, please wait <img src="/static/tt_website/img/loading-dot-white.gif" style="height:50px; width:50px;"/>');
+                    please_wait_custom('Get Price <i class="fas fa-check-circle" style="color:'+color+';"></i><br/>Sell Journey, please wait <img src="/static/tt_website/images/gif/loading-dot-white.gif" style="height:50px; width:50px;"/>');
                     re_order_get_fare_rules();
                 }, 1000);
             }else{
@@ -6897,7 +6897,7 @@ function re_order_sell_journeys(){
            if(msg.result.error_code == 0){
                 document.getElementById('airline_sell_journey_response').value = JSON.stringify(msg.result.response);
                 setTimeout(function(){
-                   please_wait_custom('Sell Journey <i class="fas fa-check-circle" style="color:'+color+';"></i><br/>Redirect page, please wait <img src="/static/tt_website/img/loading-dot-white.gif" style="height:50px; width:50px;"/>');
+                   please_wait_custom('Sell Journey <i class="fas fa-check-circle" style="color:'+color+';"></i><br/>Redirect page, please wait <img src="/static/tt_website/images/gif/loading-dot-white.gif" style="height:50px; width:50px;"/>');
                    get_ff_availability('reorder');
                 }, 1000);
            }else{
@@ -15070,7 +15070,7 @@ function airline_get_booking_refund(data){
                 <div class="row">
                     <div class="col-lg-12">
                         <div style="padding:10px; background-color:white;">
-                        <h5> Flight Detail <img style="width:18px;" alt="Flight Detail" src="/static/tt_website/images/icon/plane.png"/></h5>
+                        <h5> Flight Detail <img style="width:18px;" alt="Flight Detail" src="/static/tt_website/images/icon/product/w-plane.png"/></h5>
                         <hr/>`;
                     check = 0;
                     flight_counter = 1;

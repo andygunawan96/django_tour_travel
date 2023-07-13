@@ -111,7 +111,7 @@ function get_balance(val){
                         }
                         if(document.getElementById("my_balance"))
                             document.getElementById("my_balance").innerHTML = `
-                            <img src="/static/tt_website/images/icon/wallet_black.png" alt="Balance Vendor" style="width:15px; height:15px;">
+                            <img src="/static/tt_website/images/icon/symbol/wallet_black.png" alt="Balance Vendor" style="width:15px; height:15px;">
                             <span style="font-size:14px; font-weight:500;"><span style="color:`+color+`;">`+msg.result.response.currency_code+` `+getrupiah(balance)+`</span></span>`;
                     }
 
@@ -655,41 +655,41 @@ function get_transaction_history_ledger(type,use_cache){
                                 if(msg.result.response[i].provider_type_name == "Airline"){
                                     text += `<img src="/static/tt_website/images/icon/product/b-airline.png" alt="`+msg.result.response[i].name+`" style="width:22px; height:22px;">`;
                                 }else if(msg.result.response[i].provider_type_name == "Train"){
-                                    text += `<img src="/static/tt_website/images/icon/train_black.png" alt="`+msg.result.response[i].name+`" style="width:22px; height:22px;">`;
+                                    text += `<img src="/static/tt_website/images/icon/product/b-train.png" alt="`+msg.result.response[i].name+`" style="width:22px; height:22px;">`;
                                 }else if(msg.result.response[i].provider_type_name == "Hotel"){
-                                    text += `<img src="/static/tt_website/images/icon/hotel_black.png" alt="`+msg.result.response[i].name+`" style="width:22px; height:22px;">`;
+                                    text += `<img src="/static/tt_website/images/icon/product/b-hotel.png" alt="`+msg.result.response[i].name+`" style="width:22px; height:22px;">`;
                                 }else if(msg.result.response[i].provider_type_name == "Activity"){
                                     text += `<img src="/static/tt_website/images/icon/product/b-activity.png" alt="`+msg.result.response[i].name+`" style="width:22px; height:22px;">`;
                                 }else if(msg.result.response[i].provider_type_name == "Tour"){
-                                    text += `<img src="/static/tt_website/images/icon/tour_black.png" alt="`+msg.result.response[i].name+`" style="width:22px; height:22px;">`;
+                                    text += `<img src="/static/tt_website/images/icon/product/b-tour.png" alt="`+msg.result.response[i].name+`" style="width:22px; height:22px;">`;
                                 }else if(msg.result.response[i].provider_type_name == "Visa"){
-                                    text += `<img src="/static/tt_website/images/icon/visa_black.png" alt="`+msg.result.response[i].name+`" style="width:22px; height:22px;">`;
+                                    text += `<img src="/static/tt_website/images/icon/product/b-visa.png" alt="`+msg.result.response[i].name+`" style="width:22px; height:22px;">`;
                                 }else if(msg.result.response[i].provider_type_name == "Passport"){
-                                    text += `<img src="/static/tt_website/images/icon/passport_black.png" alt="`+msg.result.response[i].name+`" style="width:22px; height:22px;">`;
+                                    text += `<img src="/static/tt_website/images/icon/product/b-passport.png" alt="`+msg.result.response[i].name+`" style="width:22px; height:22px;">`;
                                 }else if(msg.result.response[i].provider_type_name == "PPOB"){
-                                    text += `<img src="/static/tt_website/images/icon/ppob_black.png" alt="`+msg.result.response[i].name+`" style="width:22px; height:22px;">`;
+                                    text += `<img src="/static/tt_website/images/icon/product/b-ppob.png" alt="`+msg.result.response[i].name+`" style="width:22px; height:22px;">`;
                                 }else if(msg.result.response[i].provider_type_name == "Event"){
                                     text += `<img src="/static/tt_website/images/icon/product/b-event.png" alt="`+msg.result.response[i].name+`" style="width:22px; height:22px;">`;
                                 }else if(msg.result.response[i].provider_type_name == "Bus"){
                                     text += `<img src="/static/tt_website/images/icon/product/b-bus.png" alt="`+msg.result.response[i].name+`" style="width:22px; height:22px;">`;
                                 }else if(msg.result.response[i].provider_type_name == "Insurance"){
-                                    text += `<img src="/static/tt_website/images/icon/insurance_black.png" alt="`+msg.result.response[i].name+`" style="width:22px; height:22px;">`;
+                                    text += `<img src="/static/tt_website/images/icon/product/b-insurance.png" alt="`+msg.result.response[i].name+`" style="width:22px; height:22px;">`;
                                 }else if(msg.result.response[i].provider_type_name == "Offline"){
-                                    text += `<img src="/static/tt_website/images/icon/offline_black.png" alt="`+msg.result.response[i].name+`" style="width:auto; height:22px;">`;
+                                    text += `<img src="/static/tt_website/images/icon/product/b-offline.png" alt="`+msg.result.response[i].name+`" style="width:auto; height:22px;">`;
                                 }else if(msg.result.response[i].provider_type_name == "Group Booking"){
                                     text += `<img src="/static/tt_website/images/icon/product/b-group.png" alt="`+msg.result.response[i].name+`" style="width:auto; height:22px;">`;
                                 }else if(msg.result.response[i].provider_type_name == "Mitra Keluarga"){
-                                    text += `<img src="/static/tt_website/images/icon/mitra_keluarga.png" alt="`+msg.result.response[i].name+`" style="width:auto; height:22px;">`;
+                                    text += `<img src="/static/tt_website/images/logo/health_care/mitra_keluarga_logo.png" alt="`+msg.result.response[i].name+`" style="width:auto; height:22px;">`;
                                 }else if(msg.result.response[i].provider_type_name == "phc"){
-                                    text += `<img src="/static/tt_website/images/icon/phc_logo.png" alt="`+msg.result.response[i].name+`" style="width:auto; height:22px;">`;
+                                    text += `<img src="/static/tt_website/images/logo/health_care/phc_logo.png" alt="`+msg.result.response[i].name+`" style="width:auto; height:22px;">`;
                                 }else if(msg.result.response[i].provider_type_name == "Lab Pintar"){
-                                    text += `<img src="/static/tt_website/images/icon/lab_pintar.png" alt="`+msg.result.response[i].name+`" style="width:auto; height:22px;">`;
+                                    text += `<img src="/static/tt_website/images/logo/health_care/lab_pintar_logo.png" alt="`+msg.result.response[i].name+`" style="width:auto; height:22px;">`;
                                 }else if(msg.result.response[i].provider_type_name == "Sentra Medika"){
-                                    text += `<img src="/static/tt_website/images/icon/sentra_medika.png" alt="`+msg.result.response[i].name+`" style="width:auto; height:22px;">`;
+                                    text += `<img src="/static/tt_website/images/logo/health_care/sentra_medika_logo.png" alt="`+msg.result.response[i].name+`" style="width:auto; height:22px;">`;
                                 }else if(msg.result.response[i].provider_type_name == "Periksain"){
-                                    text += `<img src="/static/tt_website/images/icon/periksain.png" alt="`+msg.result.response[i].name+`" style="width:auto; height:22px;">`;
+                                    text += `<img src="/static/tt_website/images/logo/health_care/periksain_logo.png" alt="`+msg.result.response[i].name+`" style="width:auto; height:22px;">`;
                                 }else{
-                                    text += `<img src="/static/tt_website/images/icon/wallet_black.png" alt="`+msg.result.response[i].name+`" style="width:20px; height:20px;">`;
+                                    text += `<img src="/static/tt_website/images/icon/symbol/wallet_black.png" alt="`+msg.result.response[i].name+`" style="width:20px; height:20px;">`;
                                 }
 
                                 if(msg.result.response[i].provider_type_name)
@@ -1682,7 +1682,7 @@ function table_top_up_history(){
                         <h4 class="single_border_custom_left" style="padding-left:10px;">
                             `+(parseInt(i)+1)+`.
                             <span name="order_number" style="padding-right:5px;">`+data[i].name+` </span>
-                            <img src="/static/tt_website/images/icon/wallet_black.png" alt="Top Up" style="width:15px; height:15px;">
+                            <img src="/static/tt_website/images/icon/symbol/wallet_black.png" alt="Top Up" style="width:15px; height:15px;">
                         </h4>
                     </div>
 
@@ -1972,25 +1972,25 @@ function get_vendor_balance(val){
                     if(msg.result.response.data[blc].provider_type == "airline"){
                         text_balance += `<img src="/static/tt_website/images/icon/product/b-airline.png" alt="`+msg.result.response.data[blc].code+` `+msg.result.response.data[blc].code+`" style="width:15px; height:15px;">`;
                     }else if(msg.result.response.data[blc].provider_type == "train"){
-                        text_balance += `<img src="/static/tt_website/images/icon/train_black.png" alt="`+msg.result.response.data[blc].code+` `+msg.result.response.data[blc].code+`" style="width:15px; height:15px;">`;
+                        text_balance += `<img src="/static/tt_website/images/icon/product/b-train.png" alt="`+msg.result.response.data[blc].code+` `+msg.result.response.data[blc].code+`" style="width:15px; height:15px;">`;
                     }else if(msg.result.response.data[blc].provider_type == "hotel"){
-                        text_balance += `<img src="/static/tt_website/images/icon/hotel_black.png" alt="`+msg.result.response.data[blc].code+` `+msg.result.response.data[blc].code+`" style="width:15px; height:15px;">`;
+                        text_balance += `<img src="/static/tt_website/images/icon/product/b-hotel.png" alt="`+msg.result.response.data[blc].code+` `+msg.result.response.data[blc].code+`" style="width:15px; height:15px;">`;
                     }else if(msg.result.response.data[blc].provider_type == "activity"){
                         text_balance += `<img src="/static/tt_website/images/icon/product/b-activity.png" alt="`+msg.result.response.data[blc].code+` `+msg.result.response.data[blc].code+`" style="width:15px; height:15px;">`;
                     }else if(msg.result.response.data[blc].provider_type == "tour"){
-                        text_balance += `<img src="/static/tt_website/images/icon/tour_black.png" alt="`+msg.result.response.data[blc].code+` `+msg.result.response.data[blc].code+`" style="width:15px; height:15px;">`;
+                        text_balance += `<img src="/static/tt_website/images/icon/product/b-tour.png" alt="`+msg.result.response.data[blc].code+` `+msg.result.response.data[blc].code+`" style="width:15px; height:15px;">`;
                     }else if(msg.result.response.data[blc].provider_type == "visa"){
-                        text_balance += `<img src="/static/tt_website/images/icon/visa_black.png" alt="`+msg.result.response.data[blc].code+` `+msg.result.response.data[blc].code+`" style="width:15px; height:15px;">`;
+                        text_balance += `<img src="/static/tt_website/images/icon/product/b-visa.png" alt="`+msg.result.response.data[blc].code+` `+msg.result.response.data[blc].code+`" style="width:15px; height:15px;">`;
                     }else if(msg.result.response.data[blc].provider_type == "passport"){
-                        text_balance += `<img src="/static/tt_website/images/icon/passport_black.png" alt="`+msg.result.response.data[blc].code+` `+msg.result.response.data[blc].code+`" style="width:15px; height:15px;">`;
+                        text_balance += `<img src="/static/tt_website/images/icon/product/b-passport.png" alt="`+msg.result.response.data[blc].code+` `+msg.result.response.data[blc].code+`" style="width:15px; height:15px;">`;
                     }else if(msg.result.response.data[blc].provider_type == "ppob"){
-                        text_balance += `<img src="/static/tt_website/images/icon/ppob_black.png" alt="`+msg.result.response.data[blc].code+` `+msg.result.response.data[blc].code+`" style="width:15px; height:15px;">`;
+                        text_balance += `<img src="/static/tt_website/images/icon/product/b-ppob.png" alt="`+msg.result.response.data[blc].code+` `+msg.result.response.data[blc].code+`" style="width:15px; height:15px;">`;
                     }else if(msg.result.response.data[blc].provider_type == "event"){
                         text_balance += `<img src="/static/tt_website/images/icon/product/b-event.png" alt="`+msg.result.response.data[blc].code+` `+msg.result.response.data[blc].code+`" style="width:15px; height:15px;">`;
                     }
                     text_balance += `
                         <span style="text-transform: capitalize; font-size:14px; font-weight:500;">`+msg.result.response.data[blc].code+`</span><br/>
-                        <img src="/static/tt_website/images/icon/wallet_black.png" alt="Balance Vendor" style="width:15px; height:15px;">
+                        <img src="/static/tt_website/images/icon/symbol/wallet_black.png" alt="Balance Vendor" style="width:15px; height:15px;">
                         <span style="font-size:14px; color:`+color+`; font-weight:500;">`+msg.result.response.data[blc].currency+` `+getrupiah(msg.result.response.data[blc].balance)+`</span>
                     </div>
                 </div>`;
@@ -2134,41 +2134,41 @@ function render_notification(){
                             if(provider_type_unique[i] == "airline"){
                                 text_provider += `<img src="/static/tt_website/images/icon/product/b-airline.png" alt="`+render_data_notification[i].name+`" style="width:20px; height:20px;">`;
                             }else if(provider_type_unique[i] == "train"){
-                                text_provider += `<img src="/static/tt_website/images/icon/train_black.png" alt="`+render_data_notification[i].name+`" style="width:20px; height:20px;">`;
+                                text_provider += `<img src="/static/tt_website/images/icon/product/b-train.png" alt="`+render_data_notification[i].name+`" style="width:20px; height:20px;">`;
                             }else if(provider_type_unique[i] == "hotel"){
-                                text_provider += `<img src="/static/tt_website/images/icon/hotel_black.png" alt="`+render_data_notification[i].name+`" style="width:20px; height:20px;">`;
+                                text_provider += `<img src="/static/tt_website/images/icon/product/b-hotel.png" alt="`+render_data_notification[i].name+`" style="width:20px; height:20px;">`;
                             }else if(provider_type_unique[i] == "activity"){
                                 text_provider += `<img src="/static/tt_website/images/icon/product/b-activity.png" alt="`+render_data_notification[i].name+`" style="width:20px; height:20px;">`;
                             }else if(provider_type_unique[i] == "tour"){
-                                text_provider += `<img src="/static/tt_website/images/icon/tour_black.png" alt="`+render_data_notification[i].name+`" style="width:20px; height:20px;">`;
+                                text_provider += `<img src="/static/tt_website/images/icon/product/b-tour.png" alt="`+render_data_notification[i].name+`" style="width:20px; height:20px;">`;
                             }else if(provider_type_unique[i] == "visa"){
-                                text_provider += `<img src="/static/tt_website/images/icon/visa_black.png" alt="`+render_data_notification[i].name+`" style="width:20px; height:20px;">`;
+                                text_provider += `<img src="/static/tt_website/images/icon/product/b-visa.png" alt="`+render_data_notification[i].name+`" style="width:20px; height:20px;">`;
                             }else if(provider_type_unique[i] == "passport"){
-                                text_provider += `<img src="/static/tt_website/images/icon/passport_black.png" alt="`+render_data_notification[i].name+`" style="width:20px; height:20px;">`;
+                                text_provider += `<img src="/static/tt_website/images/icon/product/b-passport.png" alt="`+render_data_notification[i].name+`" style="width:20px; height:20px;">`;
                             }else if(provider_type_unique[i] == "ppob"){
-                                text_provider += `<img src="/static/tt_website/images/icon/ppob_black.png" alt="`+render_data_notification[i].name+`" style="width:20px; height:20px;">`;
+                                text_provider += `<img src="/static/tt_website/images/icon/product/b-ppob.png" alt="`+render_data_notification[i].name+`" style="width:20px; height:20px;">`;
                             }else if(provider_type_unique[i] == "event"){
                                 text_provider += `<img src="/static/tt_website/images/icon/product/b-event.png" alt="`+render_data_notification[i].name+`" style="width:20px; height:20px;">`;
                             }else if(provider_type_unique[i] == "bus"){
                                 text_provider += `<img src="/static/tt_website/images/icon/product/b-bus.png" alt="`+render_data_notification[i].name+`" style="width:20px; height:20px;">`;
                             }else if(provider_type_unique[i] == "insurance"){
-                                text_provider += `<img src="/static/tt_website/images/icon/insurance_black.png" alt="`+render_data_notification[i].name+`" style="width:20px; height:20px;">`;
+                                text_provider += `<img src="/static/tt_website/images/icon/product/b-insurance.png" alt="`+render_data_notification[i].name+`" style="width:20px; height:20px;">`;
                             }else if(provider_type_unique[i] == "offline"){
-                                text_provider += `<img src="/static/tt_website/images/icon/offline_black.png" alt="`+render_data_notification[i].name+`" style="width:auto; height:20px;">`;
+                                text_provider += `<img src="/static/tt_website/images/icon/product/b-offline.png" alt="`+render_data_notification[i].name+`" style="width:auto; height:20px;">`;
                             }else if(provider_type_unique[i] == "groupooking"){
                                 text_provider += `<img src="/static/tt_website/images/icon/product/b-group.png" alt="`+render_data_notification[i].name+`" style="width:auto; height:20px;">`;
                             }else if(provider_type_unique[i] == "mitrakeluarga"){
-                                text_provider += `<img src="/static/tt_website/images/icon/mitra_keluarga.png" alt="`+render_data_notification[i].name+`" style="width:auto; height:20px;">`;
+                                text_provider += `<img src="/static/tt_website/images/logo/product/mitra_keluarga_logo.png" alt="`+render_data_notification[i].name+`" style="width:auto; height:20px;">`;
                             }else if(provider_type_unique[i] == "phc"){
-                                text_provider += `<img src="/static/tt_website/images/icon/phc_logo.png" alt="`+render_data_notification[i].name+`" style="width:auto; height:20px;">`;
+                                text_provider += `<img src="/static/tt_website/images/logo/product/phc_logo.png" alt="`+render_data_notification[i].name+`" style="width:auto; height:20px;">`;
                             }else if(provider_type_unique[i] == "labpintar"){
-                                text_provider += `<img src="/static/tt_website/images/icon/lab_pintar.png" alt="`+render_data_notification[i].name+`" style="width:auto; height:20px;">`;
+                                text_provider += `<img src="/static/tt_website/images/logo/product/lab_pintar_logo.png" alt="`+render_data_notification[i].name+`" style="width:auto; height:20px;">`;
                             }else if(provider_type_unique[i] == "sentramedika"){
-                                text_provider += `<img src="/static/tt_website/images/icon/sentra_medika.png" alt="`+render_data_notification[i].name+`" style="width:auto; height:20px;">`;
+                                text_provider += `<img src="/static/tt_website/images/logo/product/sentra_medika_logo.png" alt="`+render_data_notification[i].name+`" style="width:auto; height:20px;">`;
                             }else if(provider_type_unique[i] == "periksain"){
-                                text_provider += `<img src="/static/tt_website/images/icon/periksain.png" alt="`+render_data_notification[i].name+`" style="width:auto; height:20px;">`;
+                                text_provider += `<img src="/static/tt_website/images/logo/product/periksain_logo.png" alt="`+render_data_notification[i].name+`" style="width:auto; height:20px;">`;
                             }else{
-                                text_provider += `<img src="/static/tt_website/images/icon/wallet_black.png" alt="`+render_data_notification[i].name+`" style="width:20px; height:20px;">`;
+                                text_provider += `<img src="/static/tt_website/images/icon/symbol/wallet_black.png" alt="`+render_data_notification[i].name+`" style="width:20px; height:20px;">`;
                             }
             text_provider += `
                         </div>

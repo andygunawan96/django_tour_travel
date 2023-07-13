@@ -1086,7 +1086,7 @@ function visa_get_data(data){
                                    <div class="row">
                                        <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
                                            <h4 class="mb-3">
-                                               <img src="/static/tt_website/images/icon/visa_black.png" alt="undefined" style="width:20px; height:20px;">
+                                               <img src="/static/tt_website/images/icon/product/b-visa.png" alt="undefined" style="width:20px; height:20px;">
                                                Visa Information
                                            </h4>
                                        </div>

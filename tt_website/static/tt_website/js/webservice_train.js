@@ -962,7 +962,7 @@ function train_get_booking(data){
                             <div style="padding:15px; background-color:white;">
                             <div class="row">
                                 <div class="col-lg-12 mb-3" style="border-bottom: 1px solid #cdcdcd;">
-                                    <h4 class="mb-3"><img src="/static/tt_website/images/icon/train_black.png" alt="`+data[i].provider_type+`" style="width:20px; height:20px;"> Train Detail</h4>
+                                    <h4 class="mb-3"><img src="/static/tt_website/images/icon/product/b-train.png" alt="`+data[i].provider_type+`" style="width:20px; height:20px;"> Train Detail</h4>
                                 </div>
                             </div>`;
                         check = 0;
@@ -1027,7 +1027,7 @@ function train_get_booking(data){
                                 text+= `
                                 <div class="row">
                                     <div class="col-lg-4">
-                                        <img data-toggle="tooltip" style="width:auto; height:50px;" title="`+msg.result.response.provider_bookings[i].journeys[j].carrier_code+`" class="airline-logo" src="/static/tt_website/images/KAI_Logo01.png" alt="KAI"/>`;
+                                        <img data-toggle="tooltip" style="width:auto; height:50px;" title="`+msg.result.response.provider_bookings[i].journeys[j].carrier_code+`" class="airline-logo" src="/static/tt_website/images/logo/product/kai_logo.png" alt="KAI"/>`;
                                 text+=`<h6>`+msg.result.response.provider_bookings[i].journeys[j].carrier_name+' '+msg.result.response.provider_bookings[i].journeys[j].carrier_number+`</h5>
                                 <span>Class : `+msg.result.response.provider_bookings[i].journeys[j].cabin_class[1];
                                 if(msg.result.response.provider_bookings[i].journeys[j].class_of_service != '')
@@ -2179,7 +2179,7 @@ function re_order_set_passengers(){
        },
        success: function(resJson) {
             setTimeout(function(){
-                please_wait_custom('Set Passenger <i class="fas fa-check-circle" style="color:'+color+';"></i><br/>Search Schedule, please wait <img src="/static/tt_website/img/loading-dot-white.gif" style="height:50px; width:50px;"/>');
+                please_wait_custom('Set Passenger <i class="fas fa-check-circle" style="color:'+color+';"></i><br/>Search Schedule, please wait <img src="/static/tt_website/images/gif/loading-dot-white.gif" style="height:50px; width:50px;"/>');
                 train_data_reorder = [];
                 train_get_config_provider(signature,'reorder')
             }, 1000);
@@ -2200,7 +2200,7 @@ function re_order_set_passengers(){
 function re_order_check_search(){
     if(counter_train_provider == Object.keys(provider_train).length){
         setTimeout(function(){
-            please_wait_custom('Search Schedule <i class="fas fa-check-circle" style="color:'+color+';"></i><br/>Select Data Journey, please wait <img src="/static/tt_website/img/loading-dot-white.gif" style="height:50px; width:50px;"/>');
+            please_wait_custom('Search Schedule <i class="fas fa-check-circle" style="color:'+color+';"></i><br/>Select Data Journey, please wait <img src="/static/tt_website/images/gif/loading-dot-white.gif" style="height:50px; width:50px;"/>');
             re_order_find_journey();
         }, 1000);
     }
@@ -2235,7 +2235,7 @@ function re_order_find_journey(){
     }else{
         console.log('select data journey');
         setTimeout(function(){
-            please_wait_custom('Select Data Journey <i class="fas fa-check-circle" style="color:'+color+';"></i><br/>Set Pick Train, please wait <img src="/static/tt_website/img/loading-dot-white.gif" style="height:50px; width:50px;"/>');
+            please_wait_custom('Select Data Journey <i class="fas fa-check-circle" style="color:'+color+';"></i><br/>Set Pick Train, please wait <img src="/static/tt_website/images/gif/loading-dot-white.gif" style="height:50px; width:50px;"/>');
             re_order_set_journey();
         }, 1000);
     }
@@ -2253,7 +2253,7 @@ function re_order_set_journey(){
        },
        success: function(msg) {
             setTimeout(function(){
-                please_wait_custom('Set Pick Train <i class="fas fa-check-circle" style="color:'+color+';"></i><br/>Redirect page, please wait <img src="/static/tt_website/img/loading-dot-white.gif" style="height:50px; width:50px;"/>');
+                please_wait_custom('Set Pick Train <i class="fas fa-check-circle" style="color:'+color+';"></i><br/>Redirect page, please wait <img src="/static/tt_website/images/gif/loading-dot-white.gif" style="height:50px; width:50px;"/>');
                 train_create_booking(0,'reorder')
             }, 1000);
        },

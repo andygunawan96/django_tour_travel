@@ -1483,7 +1483,7 @@ function ppob_get_booking(data){
                             <div style="padding:15px; background-color:white;">
                             <div class="row">
                                 <div class="col-lg-12 mb-3" style="border-bottom: 1px solid #cdcdcd;">
-                                    <h4 class="mb-3"><img src="/static/tt_website/images/icon/ppob_black.png" alt="undefined" style="width:20px; height:20px;"> Bill Detail</h4>
+                                    <h4 class="mb-3"><img src="/static/tt_website/images/icon/product/b-ppob.png" alt="undefined" style="width:20px; height:20px;"> Bill Detail</h4>
                                 </div>
                             </div>`;
                         check = 0;
