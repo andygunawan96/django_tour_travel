@@ -2068,7 +2068,7 @@ function tour_get_booking(order_number)
                                    <div class="row">
                                        <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
                                            <h4 class="mb-3">
-                                               <img src="/static/tt_website/images/icon/tour_black.png" alt="undefined" style="width:20px; height:20px;">
+                                               <img src="/static/tt_website/images/icon/product/b-tour.png" alt="undefined" style="width:20px; height:20px;">
                                                Tour Information
                                            </h4>
                                        </div>
@@ -2090,7 +2090,7 @@ function tour_get_booking(order_number)
                                    <div class="row">
                                        <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
                                            <h4 class="mb-3">
-                                                <img src="/static/tt_website/images/icon/tour_black.png" alt="undefined" style="width:20px; height:20px;">
+                                                <img src="/static/tt_website/images/icon/product/b-tour.png" alt="undefined" style="width:20px; height:20px;">
                                                Tour Information
                                            </h4>
                                        </div>
@@ -2114,7 +2114,7 @@ function tour_get_booking(order_number)
                                 <div class="row">
                                     <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
                                         <h4 class="mb-3">
-                                            <img src="/static/tt_website/images/icon/hotel_black.png" alt="undefined" style="width:20px; height:20px;">
+                                            <img src="/static/tt_website/images/icon/product/b-hotel.png" alt="undefined" style="width:20px; height:20px;">
                                             List of Room(s)
                                         </h4>
                                     </div>

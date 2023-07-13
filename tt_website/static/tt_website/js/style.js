@@ -3213,7 +3213,7 @@ function please_wait_transaction(){
     <div style="text-align:center;" id="waitFlightSearch" style="display:block;">
         <div class="center-div-t">
             <div>
-                <img src="/static/tt_website/img/loading-screen-white.gif" style="height:30px; width:30px;"/>
+                <img src="/static/tt_website/images/gif/loading-screen-white.gif" style="height:30px; width:30px;"/>
             </div>
         </div>
         <div style="text-align:center">
@@ -3414,11 +3414,11 @@ function show_loading_reorder(product){
         <div id="waitFlightSearch" style="display:block;">
             <div class="center-div-t">
                 <div>
-                    <img src="/static/tt_website/img/loading-screen-white.gif" style="height:30px; width:30px;"/>
+                    <img src="/static/tt_website/images/gif/loading-screen-white.gif" style="height:30px; width:30px;"/>
                 </div>
             </div>
             <div style="text-align:center">
-                <span style="font-size:20px; font-weight:bold; color:`+text_color+`;" id="text_value_waiting">Set Request, please wait <img src="/static/tt_website/img/loading-dot-white.gif" style="height:50px; width:50px;"/></span>
+                <span style="font-size:20px; font-weight:bold; color:`+text_color+`;" id="text_value_waiting">Set Request, please wait <img src="/static/tt_website/images/gif/loading-dot-white.gif" style="height:50px; width:50px;"/></span>
             </div>
         </div>`;
     }else if(product == 'train'){
@@ -3426,11 +3426,11 @@ function show_loading_reorder(product){
         <div id="waitFlightSearch" style="display:block;">
             <div class="center-div-t">
                 <div>
-                    <img src="/static/tt_website/img/loading-screen-white.gif" style="height:30px; width:30px;"/>
+                    <img src="/static/tt_website/images/gif/loading-screen-white.gif" style="height:30px; width:30px;"/>
                 </div>
             </div>
             <div style="text-align:center">
-                <span style="font-size:20px; font-weight:bold; color:`+text_color+`;" id="text_value_waiting">Set Passenger, please wait <img src="/static/tt_website/img/loading-dot-white.gif" style="height:50px; width:50px;"/></span>
+                <span style="font-size:20px; font-weight:bold; color:`+text_color+`;" id="text_value_waiting">Set Passenger, please wait <img src="/static/tt_website/images/gif/loading-dot-white.gif" style="height:50px; width:50px;"/></span>
             </div>
         </div>`;
     }

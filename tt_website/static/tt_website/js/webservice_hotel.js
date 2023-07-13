@@ -3192,7 +3192,7 @@ function hotel_get_booking(data){
                    text = `
                    <div class="row">
                        <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
-                          <h4 class="mb-3"><img src="/static/tt_website/images/icon/hotel_black.png" alt="hotel" style="width:20px; height:20px;"> List of Room</h4>
+                          <h4 class="mb-3"><img src="/static/tt_website/images/icon/product/b-hotel.png" alt="hotel" style="width:20px; height:20px;"> List of Room</h4>
                        </div>
                    </div>`;
 

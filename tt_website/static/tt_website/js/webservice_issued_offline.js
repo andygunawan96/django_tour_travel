@@ -1303,7 +1303,7 @@ function get_booking_offline(data){
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div style="padding:10px; background-color:white;">
-                                    <h5> Reservation Detail <img style="width:18px;" src="/static/tt_website/images/icon/plane.png" alt="Reservasi Detail"/></h5>
+                                    <h5> Reservation Detail <img style="width:18px;" src="/static/tt_website/images/icon/product/w-plane.png" alt="Reservasi Detail"/></h5>
                                     <hr/>`;
                                 check = 0;
                                 flight_counter = 1;
@@ -1395,7 +1395,7 @@ function get_booking_offline(data){
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div style="padding:10px; background-color:white;">
-                                    <h5> Reservation Detail <img style="width:18px;" src="/static/tt_website/images/icon/plane.png" alt="Reservation Detail"/></h5>
+                                    <h5> Reservation Detail <img style="width:18px;" src="/static/tt_website/images/icon/product/w-plane.png" alt="Reservation Detail"/></h5>
                                     <hr/>`;
                                 check = 0;
                                 flight_counter = 1;
