@@ -56,11 +56,11 @@
                                 {% elif "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_visa" in username.co_agent_frontend_security and rec.code == 'visa' %}
                                 <li class="tab-link" data-tab="tab-visa" onclick="scroll_menu_horizontal('tab-link', 'visa');" id="nav_scroll_menu_visa"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/product/w-visa.png" alt="Visa Icon"/></i><label class="btn-txt-color">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</label></li>
                                 {% elif "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_passport" in username.co_agent_frontend_security and rec.code == 'passport' %}
-                                <li class="tab-link" data-tab="tab-passport" onclick="scroll_menu_horizontal('tab-link', 'passport');" id="nav_scroll_menu_passport"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/passport.png" alt="Passport Icon"/></i><label class="btn-txt-color">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</label></li>
+                                <li class="tab-link" data-tab="tab-passport" onclick="scroll_menu_horizontal('tab-link', 'passport');" id="nav_scroll_menu_passport"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/product/w-passport.png" alt="Passport Icon"/></i><label class="btn-txt-color">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</label></li>
                                 {% elif "bus" in provider and "ticketing_bus" in username.co_agent_frontend_security and rec.code == "bus" %}
                                 <li class="tab-link" data-tab="tab-bus" onclick="scroll_menu_horizontal('tab-link', 'bus');" id="nav_scroll_menu_bus"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/product/w-train.png" alt="Bus Icon"/></i><label class="btn-txt-color">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</label></li>
                                 {% elif rec.code == "health_care" and "mitrakeluarga" in provider and "ticketing_mitrakeluarga" in username.co_agent_frontend_security or rec.code == "health_care" and "sentramedika" in provider and "ticketing_sentramedika" in username.co_agent_frontend_security or rec.code == "health_care" and "periksain" in provider and "ticketing_periksain" in username.co_agent_frontend_security or rec.code == "health_care" and "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security or rec.code == "health_care" and "labpintar" in provider and "ticketing_labpintar" in username.co_agent_frontend_security or rec.code == "health_care" and "swabexpress" in provider and "ticketing_swabexpress" in username.co_agent_frontend_security or rec.code == "health_care" and "phc" in provider and "ticketing_phc" in username.co_agent_frontend_security %}
-                                <li class="tab-link" data-tab="tab-medical1" onclick="scroll_menu_horizontal('tab-link', 'medical1');" id="nav_scroll_menu_medical1"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/swab.png" alt="Health Care Icon"/></i><label class="btn-txt-color">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</label></li>
+                                <li class="tab-link" data-tab="tab-medical1" onclick="scroll_menu_horizontal('tab-link', 'medical1');" id="nav_scroll_menu_medical1"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/product/w-swab.png" alt="Health Care Icon"/></i><label class="btn-txt-color">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</label></li>
                                 {% elif "insurance" in provider and "ticketing_insurance" in username.co_agent_frontend_security and rec.code == "insurance" %}
                                 <li class="tab-link" data-tab="tab-insurance" onclick="scroll_menu_horizontal('tab-link', 'insurance');" id="nav_scroll_menu_insurance"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/product/w-insurance.png" alt="Insurance Icon"/></i><label class="btn-txt-color">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</label></li>
                                 {% endif %}
@@ -1119,46 +1119,46 @@
                                     {% if rec.code == 'periksain' and "periksain" in provider and "ticketing_periksain" in username.co_agent_frontend_security and 'b2c_limitation' not in username.co_agent_frontend_security %}
                                     <label class="radio-img">
                                         <input type="radio" name="health_care_type" value="periksain">
-                                        <img src="/static/tt_website/images/icon/periksain.png" alt="PERIKSAIN" style="width:70px; height:70px;"><br/>
+                                        <img src="/static/tt_website/images/logo/health_care/periksain_logo.png" alt="PERIKSAIN" style="width:70px; height:70px;"><br/>
                                         <div style="text-align:center;"><span style="font-size:13px; color:{{text_color}};">PERIKSAIN<br/>&nbsp;</span></div>
                                     </label>
                                     {% elif rec.code == 'medical' and "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security %}
                                     <label class="radio-img">
                                         <input type="radio" name="health_care_type" value="nathos">
-                                        <img src="/static/tt_website/images/icon/national_hospital.png" alt="NATIONAL HOSPITAL" style="width:70px; height:70px;"><br/>
+                                        <img src="/static/tt_website/images/logo/health_care/national_hospital_logo.png" alt="NATIONAL HOSPITAL" style="width:70px; height:70px;"><br/>
                                         <div style="text-align:center;"><span style="font-size:13px; color:{{text_color}};">NATIONAL<br/>HOSPITAL</span></div>
                                     </label>
                                     {% elif rec.code == 'swabexpress' and "swabexpress" in provider and "ticketing_swabexpress" in username.co_agent_frontend_security %}
                                     <label class="radio-img">
                                         <input type="radio" name="health_care_type" value="swab_express">
-                                        <img src="/static/tt_website/images/icon/swab_express.png" alt="SWAB EXPRESS" style="width:70px; height:70px;"><br/>
+                                        <img src="/static/tt_website/images/logo/health_care/swab_express_logo.png" alt="SWAB EXPRESS" style="width:70px; height:70px;"><br/>
                                         <div style="text-align:center;"><span style="font-size:13px; color:{{text_color}};">SWAB<br/>EXPRESS</span></div>
                                     </label>
                                     {% elif rec.code == 'labpintar' and "labpintar" in provider and "ticketing_labpintar" in username.co_agent_frontend_security %}
                                     <label class="radio-img">
                                         <input type="radio" name="health_care_type" value="lab_pintar">
-                                        <img src="/static/tt_website/images/icon/lab_pintar.png" alt="LAB PINTAR" style="width:70px; height:70px;"><br/>
+                                        <img src="/static/tt_website/images/logo/product/lab_pintar_logo.png" alt="LAB PINTAR" style="width:70px; height:70px;"><br/>
                                         <div style="text-align:center;"><span style="font-size:13px; color:{{text_color}};">LAB<br/>PINTAR</span></div>
                                     </label>
                                     {% endif %}
                                     {% if rec.code == 'mitrakeluarga' and "mitrakeluarga" in provider and "ticketing_mitrakeluarga" in username.co_agent_frontend_security %}
                                     <label class="radio-img">
                                         <input type="radio" name="health_care_type" value="mitra_keluarga">
-                                        <img src="/static/tt_website/images/icon/mitra_keluarga.png" alt="MITRA KELUARGA" style="width:70px; height:70px;"><br/>
+                                        <img src="/static/tt_website/images/logo/product/mitra_keluarga_logo.png" alt="MITRA KELUARGA" style="width:70px; height:70px;"><br/>
                                         <div style="text-align:center;"><span style="font-size:13px; color:{{text_color}};">MITRA<br/>KELUARGA</span></div>
                                     </label>
                                     {% endif %}
                                     {% if rec.code == 'sentramedika' and "sentramedika" in provider and "ticketing_sentramedika" in username.co_agent_frontend_security %}
                                     <label class="radio-img">
                                         <input type="radio" name="health_care_type" value="sentra_medika">
-                                        <img src="/static/tt_website/images/icon/sentra_medika.png" alt="Sentra Medika" style="width:70px; height:70px;"><br/>
+                                        <img src="/static/tt_website/images/logo/product/sentra_medika_logo.png" alt="Sentra Medika" style="width:70px; height:70px;"><br/>
                                         <div style="text-align:center;"><span style="font-size:11px; color:{{text_color}};">SENTRA<br/>MEDIKA</span></div>
                                     </label>
                                     {% endif %}
                                     {% if rec.code == 'phc' and "phc" in provider and "ticketing_phc" in username.co_agent_frontend_security %}
                                     <label class="radio-img">
                                         <input type="radio" name="health_care_type" value="phc">
-                                        <img src="/static/tt_website/images/icon/phc_logo.png" alt="PHC" style="width:70px; height:70px;"><br/>
+                                        <img src="/static/tt_website/images/logo/product/phc_logo.png" alt="PHC" style="width:70px; height:70px;"><br/>
                                         <div style="text-align:center;"><span style="font-size:13px; color:{{text_color}};">RS<br/>PHC</span></div>
                                     </label>
                                     {% endif %}
@@ -1385,12 +1385,6 @@
 
                         {% if "bus" in provider and "ticketing_bus" in username.co_agent_frontend_security%}
                         <div id="tab-bus" class="tab-content">
-                            <!--<center>-->
-                            <!--<div style="padding:15px;">-->
-                            <!--<img style="width:auto; height:100px" src="{{static_path}}images/icon/sorry.png"/>-->
-                            <!--<h1 style="color:{{text_color}} !important;">Train under construction</h1>-->
-                            <!--</div>-->
-                            <!--</center>-->
                             <form action="{% url 'tt_website:bus_search'%}" method="POST" class="form-wrap" id="bus_searchForm" onsubmit="return search_train_validation()">
                                 {% csrf_token %}
                                 <input type="hidden" name="g-recaptcha-response" id='recaptcha_bus'>
