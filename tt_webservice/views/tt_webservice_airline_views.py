@@ -313,7 +313,7 @@ def re_order_set_passengers(request):
             title = 'MR'
         elif data_booker['gender'] == 'female' and data_booker['marital_status'] == '':
             title = 'MS'
-        else:
+        elif data_booker['gender'] == 'female' and data_booker['marital_status'] != '':
             title = 'MRS'
         booker = {
             "title": title,
