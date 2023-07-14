@@ -2747,42 +2747,6 @@ th input {
     background-position:50% 50%;
 }
 
-.senior-icon {
-    background: url(/static/tt_website/img/senior.png) no-repeat scroll 7px 5px;
-    text-indent: 20px;
-    background-size: 22px 22px;
-    background-color: white;
-}
-
-.adult-icon {
-    background: url(/static/tt_website/img/adult.png) no-repeat scroll 2px 5px;
-    text-indent: 13px;
-    background-size: 28px 22px;
-    background-color: white;
-}
-
-.child-icon {
-    background: url(/static/tt_website/img/child.png) no-repeat scroll 3px 6px;
-    text-indent: 13px;
-    background-size: 26px 21px;
-    background-color: white;
-}
-
-.infant-icon {
-    background: url(/static/tt_website/img/infant.png) no-repeat scroll 4px 6px;
-    text-indent: 13px;
-    background-size: 20px 21px;
-    background-color: white;
-}
-
-.calendar-logo {
-    background: url(/static/tt_website/img/calendar-icon.png) no-repeat scroll 0px 3px;
-    padding-left: 35px;
-    background-size: 2rem 2rem;
-    padding-top: 10px;
-    background-color: white;
-}
-
 .dark-img {
   position: relative;
 }
@@ -4417,7 +4381,6 @@ ul.progress_tabs li.current .image-rounded-icon{
 	height: 100%;
 	z-index: 99999;
 	background: url('/static/tt_website/images/icon/symbol/loading_rolling.gif') 50% 50%/200px auto no-repeat rgb(0,0,0,0.8);
-	/*background: url('/static/tt_website/img/activity_loading.gif') 50% 50% no-repeat rgb(0,0,0,0.9);
 	background: rgba(0,0,0,0.3);*/
 	background-size:30px auto;
 }
