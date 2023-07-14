@@ -2418,7 +2418,7 @@ function airline_get_provider_list(type, data=''){
                 if(is_wheelchair == 1){
                     for(i=1;i<=adult;i++){
                         try{
-                            document.getElementById('adult_wheelchar_div'+i).innerHTML = `
+                            document.getElementById('adult_wheelchair_div'+i).innerHTML = `
                             <div class="input-container-search-ticket">
                                 <label class="check_box_custom">
                                     <span class="span-search-ticket" style="color:black;">Wheelchair</span>
@@ -2430,7 +2430,7 @@ function airline_get_provider_list(type, data=''){
                     }
                     for(i=1;i<=child;i++){
                         try{
-                            document.getElementById('child_wheelchar_div'+i).innerHTML = `
+                            document.getElementById('child_wheelchair_div'+i).innerHTML = `
                             <div class="input-container-search-ticket">
                                 <label class="check_box_custom">
                                     <span class="span-search-ticket" style="color:black;">Wheelchair</span>
@@ -2442,7 +2442,7 @@ function airline_get_provider_list(type, data=''){
                     }
                     for(i=1;i<=infant;i++){
                         try{
-                            document.getElementById('infant_wheelchar_div'+i).innerHTML = `
+                            document.getElementById('infant_wheelchair_div'+i).innerHTML = `
                             <div class="input-container-search-ticket">
                                 <label class="check_box_custom">
                                     <span class="span-search-ticket" style="color:black;">Wheelchair</span>

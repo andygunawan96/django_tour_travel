@@ -308,7 +308,7 @@ def re_order_set_passengers(request):
         contact = []
         data_booker = json.loads(request.POST['booker'])
         data_pax = json.loads(request.POST['pax'])
-        title = ''
+        title = 'MR'
         if data_booker['gender'] == 'male':
             title = 'MR'
         elif data_booker['gender'] == 'female' and data_booker['marital_status'] == '':
