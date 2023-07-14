@@ -962,7 +962,7 @@ function add_table_of_passenger(type){
                         <div class="col-lg-12">
                             <br/>
                             <div style="text-align:center">
-                                <span style="font-size:18px; font-weight:bold;">Please Wait </span><img src="/static/tt_website/img/search.gif" alt="Search Passenger" style="height:50px; width:50px;"/>
+                                <span style="font-size:18px; font-weight:bold;">Please Wait </span><img src="/static/tt_website/images/gif/search.gif" alt="Search Passenger" style="height:50px; width:50px;"/>
                             </div>
                         </div>
                     </div>
