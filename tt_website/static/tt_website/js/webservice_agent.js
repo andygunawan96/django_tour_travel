@@ -1716,19 +1716,19 @@ function filter_search_passenger(passenger_type='passenger', number='', product=
                                                 response+=`<img src="`+msg.result.response[i].face_image[0]+`" alt="User" class="picture_passenger_agent">`;
                                             }
                                             else if(msg.result.response[i].title == "MR"){
-                                                response+=`<img src="/static/tt_website/img/user_mr.png" alt="User MR" class="picture_passenger_agent">`;
+                                                response+=`<img src="/static/tt_website/images/icon/symbol/user_mr.png" alt="User MR" class="picture_passenger_agent">`;
                                             }
                                             else if(msg.result.response[i].title == "MRS"){
-                                                response+=`<img src="/static/tt_website/img/user_mrs.png" alt="User MRS" class="picture_passenger_agent">`;
+                                                response+=`<img src="/static/tt_website/images/icon/symbol/user_mrs.png" alt="User MRS" class="picture_passenger_agent">`;
                                             }
                                             else if(msg.result.response[i].title == "MS"){
-                                                response+=`<img src="/static/tt_website/img/user_ms.png" alt="User MS" class="picture_passenger_agent">`;
+                                                response+=`<img src="/static/tt_website/images/icon/symbol/user_ms.png" alt="User MS" class="picture_passenger_agent">`;
                                             }
                                             else if(msg.result.response[i].title == "MSTR"){
-                                                response+=`<img src="/static/tt_website/img/user_mistr.png" alt="User MSTR" class="picture_passenger_agent">`;
+                                                response+=`<img src="/static/tt_website/images/icon/symbol/user_mistr.png" alt="User MSTR" class="picture_passenger_agent">`;
                                             }
                                             else if(msg.result.response[i].title == "MISS"){
-                                                response+=`<img src="/static/tt_website/img/user_miss.png" alt="User MISS" class="picture_passenger_agent">`;
+                                                response+=`<img src="/static/tt_website/images/icon/symbol/user_miss.png" alt="User MISS" class="picture_passenger_agent">`;
                                             }
                                         response+=`
                                         </div>
@@ -7575,19 +7575,19 @@ function get_passenger_cache(type,update_cache=false){
                                         if(msg.result.response[i].face_image.length > 0)
                                             response+=`<img src="`+msg.result.response[i].face_image[0]+`" alt="User" class="picture_passenger_agent">`;
                                         else if(msg.result.response[i].title == "MR"){
-                                            response+=`<img src="/static/tt_website/img/user_mr.png" alt="User MR" class="picture_passenger_agent">`;
+                                            response+=`<img src="/static/tt_website/images/icon/symbol/user_mr.png" alt="User MR" class="picture_passenger_agent">`;
                                         }
                                         else if(msg.result.response[i].title == "MRS"){
-                                            response+=`<img src="/static/tt_website/img/user_mrs.png" alt="User MRS" class="picture_passenger_agent">`;
+                                            response+=`<img src="/static/tt_website/images/icon/symbol/user_mrs.png" alt="User MRS" class="picture_passenger_agent">`;
                                         }
                                         else if(msg.result.response[i].title == "MS"){
-                                            response+=`<img src="/static/tt_website/img/user_ms.png" alt="User MS" class="picture_passenger_agent">`;
+                                            response+=`<img src="/static/tt_website/images/icon/symbol/user_ms.png" alt="User MS" class="picture_passenger_agent">`;
                                         }
                                         else if(msg.result.response[i].title == "MSTR"){
-                                            response+=`<img src="/static/tt_website/img/user_mistr.png" alt="User MSTR" class="picture_passenger_agent">`;
+                                            response+=`<img src="/static/tt_website/images/icon/symbol/user_mistr.png" alt="User MSTR" class="picture_passenger_agent">`;
                                         }
                                         else if(msg.result.response[i].title == "MISS"){
-                                            response+=`<img src="/static/tt_website/img/user_miss.png" alt="User MISS" class="picture_passenger_agent">`;
+                                            response+=`<img src="/static/tt_website/images/icon/symbol/user_miss.png" alt="User MISS" class="picture_passenger_agent">`;
                                         }
                                     response+=`
                                     </div>

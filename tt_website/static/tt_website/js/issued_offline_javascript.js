@@ -232,7 +232,7 @@ function add_table_of_passenger(type){
                             </div>
                             <span><i class="fas fa-exclamation-triangle" style="font-size:18px; color:#ffcc00;"></i> Using this means you can't change title, first name, and last name</span>
                             <div class="loading-pax-train" style="display:none; text-align:center;">
-                                <span style="font-size:18px; font-weight:bold;">PLEASE WAIT </span><img src="static/tt_website/img/search.gif" alt="Search" style="height:50px; width:50px;"/>
+                                <span style="font-size:18px; font-weight:bold;">PLEASE WAIT </span><img src="static/tt_website/images/gif/search.gif" alt="Search" style="height:50px; width:50px;"/>
                             </div>
                             <div id="search_result_`+parseInt(counter_passenger+1)+`">
 
