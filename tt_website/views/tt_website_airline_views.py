@@ -12,6 +12,7 @@ import random
 import json
 from datetime import *
 from tt_webservice.views.tt_webservice_agent_views import *
+from tt_webservice.views.tt_webservice_airline_views import *
 from tt_webservice.views.tt_webservice import *
 from .tt_website_views import *
 from tools.parser import *
@@ -112,9 +113,11 @@ def search(request):
             file = read_cache("airline_destination", 'cache_web', request, 90911)
             if file:
                 airline_destinations = file
-            file = read_cache("get_airline_carriers", 'cache_web', request, 90911)
-            if file:
-                carrier = file
+
+            carrier = get_carriers(request, request.session['signature'])
+            # file = read_cache("get_airline_carriers", 'cache_web', request, 90911)
+            # if file:
+            #     carrier = file
             airline_destinations = []
             # try:
             #     file = read_cache("get_airline_active_carriers", 'cache_web', request, 90911)
@@ -413,9 +416,12 @@ def passenger(request, signature):
                 if i['phone_code'] not in phone_code:
                     phone_code.append(i['phone_code'])
             phone_code = sorted(phone_code)
-            file = read_cache("get_airline_carriers", 'cache_web', request, 90911)
-            if file:
-                carrier = file
+
+            carrier = get_carriers(request, signature)
+
+            # file = read_cache("get_airline_carriers", 'cache_web', request, 90911)
+            # if file:
+            #     carrier = file
 
             values = get_data_template(request)
 
@@ -468,7 +474,8 @@ def passenger(request, signature):
         except Exception as e:
             _logger.info(str(e) + traceback.format_exc())
             # signature = request.session['airline_signature']
-        carrier_code = read_cache("get_airline_carriers", 'cache_web', request, 90911)
+
+        # carrier_code = read_cache("get_airline_carriers", 'cache_web', request, 90911)
         is_lionair = False
         is_international = False
         is_garuda = False
@@ -486,13 +493,13 @@ def passenger(request, signature):
                     for leg in segment['legs']:
                         if leg['origin_country'] != 'Indonesia' or leg['destination_country'] != 'Indonesia':
                             is_international = True
-                            if carrier_code:
-                                if carrier_code[segment['carrier_code']]['required_identity_required_international']:
+                            if carrier:
+                                if carrier[segment['carrier_code']]['required_identity_required_international']:
                                     is_identity_required = True
                             break
                         else:
-                            if carrier_code:
-                                if carrier_code[segment['carrier_code']]['required_identity_required_domestic']:
+                            if carrier:
+                                if carrier[segment['carrier_code']]['required_identity_required_domestic']:
                                     is_identity_required = True
                             break
             if airline['provider'] == 'lionair' or airline['provider'] == 'lionairapi':
@@ -555,9 +562,10 @@ def passenger_aftersales(request, signature):
                 if i['phone_code'] not in phone_code:
                     phone_code.append(i['phone_code'])
             phone_code = sorted(phone_code)
-            file = read_cache("get_airline_carriers", 'cache_web', request, 90911)
-            if file:
-                carrier = file
+            carrier = get_carriers(request, signature)
+            # file = read_cache("get_airline_carriers", 'cache_web', request, 90911)
+            # if file:
+            #     carrier = file
 
             values = get_data_template(request)
 
@@ -611,7 +619,7 @@ def passenger_aftersales(request, signature):
         infant_title = ['MSTR', 'MISS']
 
         id_type = [['ktp', 'KTP'], ['sim', 'SIM'], ['pas', 'Passport']]
-        carrier_code = read_cache("get_airline_carriers", 'cache_web', request, 90911)
+        # carrier_code = read_cache("get_airline_carriers", 'cache_web', request, 90911)
         provider_list_data = read_cache("get_list_provider_data", 'cache_web', request, 90911)
         is_lionair = False
         is_international = False
@@ -636,19 +644,19 @@ def passenger_aftersales(request, signature):
                         is_international = True
                     if carrier[segment['carrier_code']]['is_adult_birth_date_required']:
                         is_birthdate_required = True
-                    if carrier_code[segment['carrier_code']]['required_identity_required_international']:
+                    if carrier[segment['carrier_code']]['required_identity_required_international']:
                         is_identity_required = True
                     if is_international == False:
                         for leg in segment['legs']:
                             if leg['origin_country'] != 'Indonesia' or leg['destination_country'] != 'Indonesia':
                                 is_international = True
-                                if carrier_code:
-                                    if carrier_code[segment['carrier_code']]['required_identity_required_international']:
+                                if carrier:
+                                    if carrier[segment['carrier_code']]['required_identity_required_international']:
                                         is_identity_required = True
                                 break
                             else:
-                                if carrier_code:
-                                    if carrier_code[segment['carrier_code']]['required_identity_required_domestic']:
+                                if carrier:
+                                    if carrier[segment['carrier_code']]['required_identity_required_domestic']:
                                         is_identity_required = True
                                 break
                     if is_international and is_birthdate_required and is_identity_required:
@@ -711,9 +719,10 @@ def ssr(request, signature):
                 if i['phone_code'] not in phone_code:
                     phone_code.append(i['phone_code'])
             phone_code = sorted(phone_code)
-            file = read_cache("get_airline_carriers", 'cache_web', request, 90911)
-            if file:
-                carrier = file
+            carrier = get_carriers(request, signature)
+            # file = read_cache("get_airline_carriers", 'cache_web', request, 90911)
+            # if file:
+            #     carrier = file
 
 
             values = get_data_template(request)
@@ -1047,9 +1056,10 @@ def seat_map(request, signature):
                 if i['phone_code'] not in phone_code:
                     phone_code.append(i['phone_code'])
             phone_code = sorted(phone_code)
-            file = read_cache("get_airline_carriers", 'cache_web', request, 90911)
-            if file:
-                carrier = file
+            carrier = get_carriers(request, signature)
+            # file = read_cache("get_airline_carriers", 'cache_web', request, 90911)
+            # if file:
+            #     carrier = file
 
             values = get_data_template(request)
 
@@ -1348,9 +1358,10 @@ def seat_map_public(request, signature=-1):
             if i['phone_code'] not in phone_code:
                 phone_code.append(i['phone_code'])
         phone_code = sorted(phone_code)
-        file = read_cache("get_airline_carriers", 'cache_web', request, 90911)
-        if file:
-            carrier = file
+        carrier = get_carriers(request, request.session['signature'])
+        # file = read_cache("get_airline_carriers", 'cache_web', request, 90911)
+        # if file:
+        #     carrier = file
 
         values = get_data_template(request)
 
@@ -1991,9 +2002,11 @@ def review(request, signature):
                     if pax_type not in ['infant', 'booker', 'contact']:
                         for pax in request.session['airline_create_passengers_%s' % signature][pax_type]:
                             passenger.append(pax)
-            file = read_cache("get_airline_carriers", 'cache_web', request, 90911)
-            if file:
-                airline_carriers = file
+
+            airline_carriers = get_carriers(request, signature)
+            # file = read_cache("get_airline_carriers", 'cache_web', request, 90911)
+            # if file:
+            #     airline_carriers = file
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
             try:
@@ -2177,9 +2190,10 @@ def review_after_sales(request, signature):
             except:
                 additional_price_input = '0'
 
-            file = read_cache("get_airline_carriers", 'cache_web', request, 90911)
-            if file:
-                airline_carriers = file
+            airline_carriers = get_carriers(request, signature)
+            # file = read_cache("get_airline_carriers", 'cache_web', request, 90911)
+            # if file:
+            #     airline_carriers = file
 
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY]  # get language from browser
@@ -2227,9 +2241,10 @@ def booking(request, order_number):
         if 'user_account' not in request.session:
             signin_btc(request)
         try:
-            file = read_cache("get_airline_carriers", 'cache_web', request, 90911)
-            if file:
-                airline_carriers = file
+            airline_carriers = get_carriers(request, request.session['signature'])
+            # file = read_cache("get_airline_carriers", 'cache_web', request, 90911)
+            # if file:
+            #     airline_carriers = file
         except Exception as e:
             _logger.error('ERROR get_airline_carriers file\n' + str(e) + '\n' + traceback.format_exc())
         values = get_data_template(request)
@@ -2262,9 +2277,10 @@ def refund(request, order_number):
         if 'user_account' not in request.session:
             signin_btc(request)
         try:
-            file = read_cache("get_airline_carriers", 'cache_web', request, 90911)
-            if file:
-                airline_carriers = file
+            airline_carriers = get_carriers(request, request.session['signature'])
+            # file = read_cache("get_airline_carriers", 'cache_web', request, 90911)
+            # if file:
+            #     airline_carriers = file
         except Exception as e:
             _logger.error('ERROR get_airline_carriers file\n' + str(e) + '\n' + traceback.format_exc())
         values = get_data_template(request)
