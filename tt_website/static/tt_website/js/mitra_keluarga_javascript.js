@@ -298,7 +298,7 @@ function print_timeslot(i,medical_date_pick){
     if(medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].availability == false)
         text_timeslot+= ` Full`;
     else if(medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].availability == true)
-        text_timeslot+= ` Available`;
+        text_timeslot+= ` Available (`+ medical_get_availability_response[document.getElementById('booker_area').value].timeslots[medical_date_pick][i].quota+` Left)`;
     text_timeslot+=`</option>`;
     return text_timeslot;
 }

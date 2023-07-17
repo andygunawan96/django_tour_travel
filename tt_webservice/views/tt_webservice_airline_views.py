@@ -308,7 +308,7 @@ def re_order_set_passengers(request):
         contact = []
         data_booker = json.loads(request.POST['booker'])
         data_pax = json.loads(request.POST['pax'])
-        title = ''
+        title = 'MR'
         if data_booker['gender'] == 'male':
             title = 'MR'
         elif data_booker['gender'] == 'female' and data_booker['marital_status'] == '':
@@ -917,6 +917,7 @@ def get_provider_description(request):
                 for ho_seq_id in res['result']['response']:
                     temp[ho_seq_id] = {}
                     for provider in res['result']['response'][ho_seq_id]:
+
                         temp[ho_seq_id][provider['provider']] = provider
                 write_cache(temp, "get_list_provider_data", request, 'cache_web')
                 _logger.info("get_provider_description AIRLINE RENEW SUCCESS SIGNATURE " + request.POST['signature'])
