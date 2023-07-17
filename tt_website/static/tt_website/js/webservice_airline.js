@@ -7888,7 +7888,7 @@ function airline_get_booking(data, sync=false){
                                 }
                             }
 
-                            if(msg.result.response.provider_bookings[i].hasOwnProperty('duplicates')){
+                            if(msg.result.response.provider_bookings[i].hasOwnProperty('duplicates') && msg.result.response.provider_bookings[i].duplicates.length){
                                 text += `<br/><h5>Duplicate Booking</h5>`;
                                 for(j in msg.result.response.provider_bookings[i].duplicates){
                                     if(j != 0)
@@ -7897,7 +7897,7 @@ function airline_get_booking(data, sync=false){
                                 }
                                 text += `<br/>`;
                             }
-                            if(msg.result.response.provider_bookings[i].hasOwnProperty('pnr_references')){
+                            if(msg.result.response.provider_bookings[i].hasOwnProperty('pnr_references') && msg.result.response.provider_bookings[i].pnr_references.length){
                                 text += `<br/><h5>Other Info</h5>`;
                                 for(j in msg.result.response.provider_bookings[i].pnr_references){
                                     if(j != 0)
