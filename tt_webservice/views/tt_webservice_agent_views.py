@@ -1368,6 +1368,12 @@ def get_new_cache(request, signature, type='all'):
             airline.get_carriers_search(request, signature)
             airline.get_provider_list_backend(request, signature)
 
+            try:
+                path = "%s/%s" % (var_log_path(request, 'cache_web'), 'train_provider.txt')
+                os.remove(path)
+            except:
+                _logger.info('Error delete file cache train_provider')
+
             get_ho_currency_api(request, signature, True)
 
             try:
