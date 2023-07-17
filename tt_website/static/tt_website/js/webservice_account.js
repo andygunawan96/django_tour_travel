@@ -2158,15 +2158,15 @@ function render_notification(){
                             }else if(provider_type_unique[i] == "groupooking"){
                                 text_provider += `<img src="/static/tt_website/images/icon/product/b-group.png" alt="`+render_data_notification[i].name+`" style="width:auto; height:20px;">`;
                             }else if(provider_type_unique[i] == "mitrakeluarga"){
-                                text_provider += `<img src="/static/tt_website/images/logo/product/mitra_keluarga_logo.png" alt="`+render_data_notification[i].name+`" style="width:auto; height:20px;">`;
+                                text_provider += `<img src="/static/tt_website/images/logo/health_care/mitra_keluarga_logo.png" alt="`+render_data_notification[i].name+`" style="width:auto; height:20px;">`;
                             }else if(provider_type_unique[i] == "phc"){
-                                text_provider += `<img src="/static/tt_website/images/logo/product/phc_logo.png" alt="`+render_data_notification[i].name+`" style="width:auto; height:20px;">`;
+                                text_provider += `<img src="/static/tt_website/images/logo/health_care/phc_logo.png" alt="`+render_data_notification[i].name+`" style="width:auto; height:20px;">`;
                             }else if(provider_type_unique[i] == "labpintar"){
-                                text_provider += `<img src="/static/tt_website/images/logo/product/lab_pintar_logo.png" alt="`+render_data_notification[i].name+`" style="width:auto; height:20px;">`;
+                                text_provider += `<img src="/static/tt_website/images/logo/health_care/lab_pintar_logo.png" alt="`+render_data_notification[i].name+`" style="width:auto; height:20px;">`;
                             }else if(provider_type_unique[i] == "sentramedika"){
-                                text_provider += `<img src="/static/tt_website/images/logo/product/sentra_medika_logo.png" alt="`+render_data_notification[i].name+`" style="width:auto; height:20px;">`;
+                                text_provider += `<img src="/static/tt_website/images/logo/health_care/sentra_medika_logo.png" alt="`+render_data_notification[i].name+`" style="width:auto; height:20px;">`;
                             }else if(provider_type_unique[i] == "periksain"){
-                                text_provider += `<img src="/static/tt_website/images/logo/product/periksain_logo.png" alt="`+render_data_notification[i].name+`" style="width:auto; height:20px;">`;
+                                text_provider += `<img src="/static/tt_website/images/logo/health_care/periksain_logo.png" alt="`+render_data_notification[i].name+`" style="width:auto; height:20px;">`;
                             }else{
                                 text_provider += `<img src="/static/tt_website/images/icon/symbol/wallet_black.png" alt="`+render_data_notification[i].name+`" style="width:20px; height:20px;">`;
                             }

@@ -12487,7 +12487,9 @@ function render_ticket_reissue(){
                                    if(is_show_breakdown_price){
                                         text += ` style="cursor:pointer;"`;
                                    }
-                                   text+=`></span><br/>`;
+                                   text+=`></span>
+                                   <span id="more_fare`+i+`"></span>
+                                   <br/>`;
                                    if(provider_list_data[airline[i].provider].description != '')
                                         text += `<span>`+provider_list_data[airline[i].provider].description+`</span>`;
                                    text+=`</div>`;
@@ -12960,7 +12962,7 @@ function render_ticket_reissue(){
                        }
                        document.getElementById('fare'+i).innerHTML = airline[i].currency+' '+getrupiah(total_price_airline);
                        if(is_show_breakdown_price){
-                           document.getElementById('fare'+i).innerHTML+= ` <i class="fas fa-caret-down price_template"></i>`;
+                           document.getElementById('more_fare'+i).innerHTML+= ` <i class="fas fa-caret-down price_template"></i>`;
                        }
 
                        if(is_show_breakdown_price){
@@ -12989,8 +12991,8 @@ function render_ticket_reissue(){
                                 breakdown_text += airline[i].currency + ' ' + getrupiah(price_breakdown[j]);
                             }
                             new jBox('Tooltip', {
-                                attach: '#fare'+i,
-                                target: '#fare'+i,
+                                attach: '#more_fare'+i,
+                                target: '#more_fare'+i,
                                 theme: 'TooltipBorder',
                                 trigger: 'click',
                                 adjustTracker: true,
