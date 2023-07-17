@@ -917,6 +917,7 @@ def get_provider_description(request):
                 for ho_seq_id in res['result']['response']:
                     temp[ho_seq_id] = {}
                     for provider in res['result']['response'][ho_seq_id]:
+
                         temp[ho_seq_id][provider['provider']] = provider
                 write_cache(temp, "get_list_provider_data", request, 'cache_web')
                 _logger.info("get_provider_description AIRLINE RENEW SUCCESS SIGNATURE " + request.POST['signature'])
