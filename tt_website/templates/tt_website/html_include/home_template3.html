@@ -313,7 +313,7 @@
                                     </div>
                                     <div class="col-lg-12" id="div_corpor_mode_airline" style="display:none;">
                                         <div class="row">
-                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <div class="col-lg-6 col-md-6">
                                                 <span class="span-search-ticket">Corporate</span>
                                                 <div class="input-container-search-ticket">
                                                     <div class="form-select">
@@ -324,7 +324,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <div class="col-lg-6 col-md-6">
                                                 <span class="span-search-ticket">Booker</span>
                                                 <div class="input-container-search-ticket">
                                                     <div class="form-select">
@@ -453,7 +453,7 @@
                                     </div>
                                     <div class="col-lg-12" id="div_corpor_mode_train" style="display:none;">
                                         <div class="row">
-                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <div class="col-lg-6 col-md-6">
                                                 <span class="span-search-ticket">Corporate</span>
                                                 <div class="input-container-search-ticket">
                                                     <div class="form-select">
@@ -464,7 +464,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <div class="col-lg-6 col-md-6">
                                                 <span class="span-search-ticket">Booker</span>
                                                 <div class="input-container-search-ticket">
                                                     <div class="form-select">
@@ -626,7 +626,7 @@
                                     </div>
                                     <div class="col-lg-12" id="div_corpor_mode_hotel" style="display:none;">
                                         <div class="row">
-                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <div class="col-lg-6 col-md-6">
                                                 <span class="span-search-ticket">Corporate</span>
                                                 <div class="input-container-search-ticket">
                                                     <div class="form-select">
@@ -637,7 +637,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <div class="col-lg-6 col-md-6">
                                                 <span class="span-search-ticket">Booker</span>
                                                 <div class="input-container-search-ticket">
                                                     <div class="form-select">
@@ -756,7 +756,7 @@
                                     </div>
                                     <div class="col-lg-12" id="div_corpor_mode_activity" style="display:none;">
                                         <div class="row">
-                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <div class="col-lg-6 col-md-6">
                                                 <span class="span-search-ticket">Corporate</span>
                                                 <div class="input-container-search-ticket">
                                                     <div class="form-select">
@@ -767,7 +767,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <div class="col-lg-6 col-md-6">
                                                 <span class="span-search-ticket">Booker</span>
                                                 <div class="input-container-search-ticket">
                                                     <div class="form-select">
@@ -1137,28 +1137,28 @@
                                     {% elif rec.code == 'labpintar' and "labpintar" in provider and "ticketing_labpintar" in username.co_agent_frontend_security %}
                                     <label class="radio-img">
                                         <input type="radio" name="health_care_type" value="lab_pintar">
-                                        <img src="/static/tt_website/images/logo/product/lab_pintar_logo.png" alt="LAB PINTAR" style="width:70px; height:70px;"><br/>
+                                        <img src="/static/tt_website/images/logo/health_care/lab_pintar_logo.png" alt="LAB PINTAR" style="width:70px; height:70px;"><br/>
                                         <div style="text-align:center;"><span style="font-size:13px; color:{{text_color}};">LAB<br/>PINTAR</span></div>
                                     </label>
                                     {% endif %}
                                     {% if rec.code == 'mitrakeluarga' and "mitrakeluarga" in provider and "ticketing_mitrakeluarga" in username.co_agent_frontend_security %}
                                     <label class="radio-img">
                                         <input type="radio" name="health_care_type" value="mitra_keluarga">
-                                        <img src="/static/tt_website/images/logo/product/mitra_keluarga_logo.png" alt="MITRA KELUARGA" style="width:70px; height:70px;"><br/>
+                                        <img src="/static/tt_website/images/logo/health_care/mitra_keluarga_logo.png" alt="MITRA KELUARGA" style="width:70px; height:70px;"><br/>
                                         <div style="text-align:center;"><span style="font-size:13px; color:{{text_color}};">MITRA<br/>KELUARGA</span></div>
                                     </label>
                                     {% endif %}
                                     {% if rec.code == 'sentramedika' and "sentramedika" in provider and "ticketing_sentramedika" in username.co_agent_frontend_security %}
                                     <label class="radio-img">
                                         <input type="radio" name="health_care_type" value="sentra_medika">
-                                        <img src="/static/tt_website/images/logo/product/sentra_medika_logo.png" alt="Sentra Medika" style="width:70px; height:70px;"><br/>
+                                        <img src="/static/tt_website/images/logo/health_care/sentra_medika_logo.png" alt="Sentra Medika" style="width:70px; height:70px;"><br/>
                                         <div style="text-align:center;"><span style="font-size:11px; color:{{text_color}};">SENTRA<br/>MEDIKA</span></div>
                                     </label>
                                     {% endif %}
                                     {% if rec.code == 'phc' and "phc" in provider and "ticketing_phc" in username.co_agent_frontend_security %}
                                     <label class="radio-img">
                                         <input type="radio" name="health_care_type" value="phc">
-                                        <img src="/static/tt_website/images/logo/product/phc_logo.png" alt="PHC" style="width:70px; height:70px;"><br/>
+                                        <img src="/static/tt_website/images/logo/health_care/phc_logo.png" alt="PHC" style="width:70px; height:70px;"><br/>
                                         <div style="text-align:center;"><span style="font-size:13px; color:{{text_color}};">RS<br/>PHC</span></div>
                                     </label>
                                     {% endif %}

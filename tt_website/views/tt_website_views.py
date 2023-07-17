@@ -2056,7 +2056,7 @@ def contact_us(request):
     # values = {
     #     'data': data
     # }
-    # return render(request, MODEL_NAME+'/contact_us.html', values)
+    # return render(request, MODEL_NAME+'/html_page/contact_us.html', values)
 
     if 'user_account' in request.session._session:
         try:
@@ -2087,7 +2087,7 @@ def contact_us(request):
         except Exception as e:
             _logger.error(str(e) + '\n' + traceback.format_exc())
             raise Exception('Make response code 500!')
-        return render(request, MODEL_NAME+'/contact_us.html', values)
+        return render(request, MODEL_NAME+'/html_page/contact_us.html', values)
     else:
         return no_session_logout(request)
 
@@ -2105,7 +2105,7 @@ def faq(request):
     # values = {
     #     'data': data
     # }
-    # return render(request, MODEL_NAME+'/contact_us.html', values)
+    # return render(request, MODEL_NAME+'/html_page/contact_us.html', values)
 
     if 'user_account' in request.session._session:
         try:
@@ -2136,7 +2136,7 @@ def faq(request):
         except Exception as e:
             _logger.error(str(e) + '\n' + traceback.format_exc())
             raise Exception('Make response code 500!')
-        return render(request, MODEL_NAME+'/faq.html', values)
+        return render(request, MODEL_NAME+'/html_page/faq.html', values)
     else:
         return no_session_logout(request)
 
@@ -2170,7 +2170,7 @@ def about_us(request):
         except Exception as e:
             _logger.error(str(e) + '\n' + traceback.format_exc())
             raise Exception('Make response code 500!')
-        return render(request, MODEL_NAME+'/about_us.html', values)
+        return render(request, MODEL_NAME+'/html_page/about_us.html', values)
     else:
         return no_session_logout(request)
 
@@ -2183,7 +2183,7 @@ def terms_and_condition(request):
         'static_path_url_server': get_url_static_path(),
         'username': request.session.get('user_account') or {'co_user_login': ''},
     })
-    return render(request, MODEL_NAME + '/terms.html', values)
+    return render(request, MODEL_NAME + '/html_page/terms.html', values)
 
 def privacy_policy(request):
     javascript_version = get_javascript_version(request)
@@ -2194,7 +2194,7 @@ def privacy_policy(request):
         'static_path_url_server': get_url_static_path(),
         'username': request.session.get('user_account') or {'co_user_login': ''},
     })
-    return render(request, MODEL_NAME + '/policy.html', values)
+    return render(request, MODEL_NAME + '/html_page/policy.html', values)
 
 def error_credential(request):
     values = get_data_template(request, 'login')
