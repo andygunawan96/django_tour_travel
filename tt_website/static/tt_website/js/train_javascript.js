@@ -2393,7 +2393,7 @@ function sort(value){
             response +=`
             <div style="padding:5px; margin:10px;">
                 <div style="text-align:center">
-                    <img src="/static/tt_website/images/icon/symbol/no-train.png" style="width:80px; height:80px;" alt="Not Found Train" title="" />
+                    <img src="/static/tt_website/images/no_found/no-train.png" style="width:80px; height:80px;" alt="Not Found Train" title="" />
                     <br/><br/>
                     <h6>NO TRAIN AVAILABLE</h6>
                 </div>
