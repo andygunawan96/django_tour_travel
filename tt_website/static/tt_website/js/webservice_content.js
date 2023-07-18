@@ -1515,7 +1515,10 @@ function get_notif_train(page=""){
                     }
                     CKEDITOR.instances['notification_train'].setData(msg.result.response.html)
                 }else{
-                    page = document.URL.split('/')[document.URL.split('/').length-1];
+                    if(document.URL.split('/')[document.URL.split('/').length <=5)
+                        page = document.URL.split('/')[document.URL.split('/').length-1];
+                    else
+                        page = document.URL.split('/')[document.URL.split('/').length-2];
                     if(page == 'train' && msg.result.response.train_page ||
                        page == 'search' && msg.result.response.train_search ||
                        page == 'passenger' && msg.result.response.train_passenger ||
@@ -1539,7 +1542,7 @@ function get_notif_airline(page=""){
        headers:{
             'action': 'get_notification_airline',
        },
-       data: data,
+       data: {},
        success: function(msg) {
             if(msg.result.error_code == 0){
                 if(page == 'admin'){
@@ -1560,7 +1563,11 @@ function get_notif_airline(page=""){
                     }
                     CKEDITOR.instances['notification_airline'].setData(msg.result.response.html)
                 }else{
-                    page = document.URL.split('/')[document.URL.split('/').length-1];
+                    if(document.URL.split('/')[document.URL.split('/').length] <=5)
+                        page = document.URL.split('/')[document.URL.split('/').length-1];
+                    else
+                        page = document.URL.split('/')[document.URL.split('/').length-2];
+
                     if(page == 'airline' && msg.result.response.airline_page ||
                        page == 'search' && msg.result.response.airline_search ||
                        page == 'passenger' && msg.result.response.airline_passenger ||
