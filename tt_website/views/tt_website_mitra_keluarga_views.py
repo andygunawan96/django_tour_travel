@@ -250,6 +250,7 @@ def review(request):
                 'static_path_url_server': get_url_static_path(),
                 'vendor': vendor,
                 'test_type': test_type,
+                'time_limit': time_limit,
                 'go_back_url': request.META['HTTP_REFERER'],
                 # 'cookies': json.dumps(res['result']['cookies']),
 
