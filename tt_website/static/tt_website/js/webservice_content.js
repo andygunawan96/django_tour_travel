@@ -1563,7 +1563,7 @@ function get_notif_airline(page=""){
                     }
                     CKEDITOR.instances['notification_airline'].setData(msg.result.response.html)
                 }else{
-                    if(document.URL.split('/')[document.URL.split('/').length <=5)
+                    if(document.URL.split('/')[document.URL.split('/').length] <=5)
                         page = document.URL.split('/')[document.URL.split('/').length-1];
                     else
                         page = document.URL.split('/')[document.URL.split('/').length-2];
