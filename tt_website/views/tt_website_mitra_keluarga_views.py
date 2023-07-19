@@ -107,11 +107,12 @@ def passenger(request, test_type=''):
     try:
         javascript_version = get_javascript_version(request)
         response = get_cache_data(request)
+        values = get_data_template(request)
         user_default = get_credential_user_default(request, 'dict')
         ## kalau belum signin, web btc & ada user default
         if not request.session.get('user_account') and values['website_mode'] in ['btc','btc_btb'] and user_default:
             signin_btc(request)
-        values = get_data_template(request)
+        
 
         # agent
         adult_title = ['', 'MR', 'MRS', 'MS']
