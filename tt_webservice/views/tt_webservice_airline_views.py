@@ -772,13 +772,15 @@ def get_carriers_search(request, signature=''):
         except Exception as e:
             res = {}
             _logger.error('ERROR read file get_airline_active_carriers\n' + str(e) + '\n' + traceback.format_exc())
-
-    allowed_carrier_search = get_allowed_config_search(request)
-    if len(allowed_carrier_search):
-        new_res = {}
-        for carrier in allowed_carrier_search:
-            new_res[carrier] = res[carrier]
-        res = new_res
+    
+    
+    ## BATASAN DARI CARRIER SEARCH CONFIG BACKEND FRONEND HANYA UNTUK REPORT
+    # allowed_carrier_search = get_allowed_config_search(request)
+    # if len(allowed_carrier_search):
+    #     new_res = {}
+    #     for carrier in allowed_carrier_search:
+    #         new_res[carrier] = res[carrier]
+    #     res = new_res
     return res
 
 def get_airline_advance_pax_type(request):

@@ -809,6 +809,9 @@ def admin(request):
                         text += request.POST['google_api_key'] + '\n'
                         text += request.POST['setting_login_page'] + '\n'
                         text += request.POST['tour_search_template'] + '\n'
+                        if request.session('username'): ## LAST UPDATE USER
+                            text += request.session['username'] + '\n'
+
                         write_cache(text, "data_cache_template", request, 'cache_web')
                         temp = text.split('\n')
                         for idx, rec in enumerate(temp):
@@ -926,11 +929,6 @@ def admin(request):
                         if text != {}:
                             write_cache(text, "font", request, 'cache_web')
 
-                        if request.POST.get('b2c_password_credential'):
-                            write_cache({
-                                "username": request.POST['b2c_username_credential'],
-                                "password": request.POST['b2c_password_credential']
-                            }, 'credential_user_default', request)
                         text = {}
                         provider = copy.deepcopy(request.session.get('provider'))
                         if 'health_care' not in provider:
@@ -1534,7 +1532,7 @@ def get_data_template(request, type='home', provider_type = []):
     keep_me_signin = False
     currency = []
     currency_pick = ''
-    if request.session.get('signature'):
+    if request.session.get('signature') and request.session.get('user_account'):
         currency = get_ho_currency_api(request, request.session['signature'])
         currency_pick = currency['default_currency']
     ## live chat
