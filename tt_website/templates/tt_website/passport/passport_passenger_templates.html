@@ -24,13 +24,13 @@
 </script>
 {% include 'tt_website/logout.html' %}
 {% include 'tt_website/loading_screen.html' %}
-{% include 'tt_website/check_connection.html' %}
+
 {% include 'tt_website/modal_balance_vendor.html' %}
 <title id="title_search">{{name}} {% trans 'Passport' %} - {% trans 'Passenger' %}</title>
 {%if template == 1%}
 <header id="header" class="header_breadcrumb">
     {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-    {% include 'tt_website/header_corporate.html' %}
+    {% include 'tt_website/html_include/header_corporate.html' %}
     {% endif %}
 
     <div class="main-menu">
@@ -622,7 +622,7 @@
 {% elif template == 2 %}
 <header class="header_breadcrumb" style="padding:unset; border-bottom:1px solid #cdcdcd; background:white;">
     {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-    {% include 'tt_website/header_corporate.html' %}
+    {% include 'tt_website/html_include/header_corporate.html' %}
     {% endif %}
 
     <div class="main-menu" style="border-bottom:1px solid #cdcdcd; padding:15px 0px 15px 0px;">
@@ -647,7 +647,7 @@
         </div>
     </div>
     {% if username.co_user_login == default_user %}
-    {% include 'tt_website/header_signin_signup.html' %}
+    {% include 'tt_website/html_include/header_signin_signup.html' %}
     {% endif %}
 </header>
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px; background:#f7f7f7; position:relative; z-index:200;">
@@ -1212,7 +1212,7 @@
 {% elif template == 3 %}
 <header class="header_breadcrumb" style="padding:unset; z-index:100;">
     {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-    {% include 'tt_website/header_corporate.html' %}
+    {% include 'tt_website/html_include/header_corporate.html' %}
     {% endif %}
 
     <div class="main-menu" style="border-bottom:1px solid #cdcdcd; padding:15px 0px 15px 0px;">
@@ -1237,7 +1237,7 @@
         </div>
     </div>
     {% if username.co_user_login == default_user %}
-    {% include 'tt_website/header_signin_signup.html' %}
+    {% include 'tt_website/html_include/header_signin_signup.html' %}
     {% endif %}
 </header>
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px; background:#f7f7f7;">
@@ -1810,7 +1810,7 @@
 {% elif template == 4 %}
 <header class="header_breadcrumb" style="padding:unset; z-index:100;">
     {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-    {% include 'tt_website/header_corporate.html' %}
+    {% include 'tt_website/html_include/header_corporate.html' %}
     {% endif %}
 
     <div class="main-menu" style="border-bottom:1px solid #cdcdcd; padding:15px 0px 15px 0px;">
@@ -1835,7 +1835,7 @@
         </div>
     </div>
     {% if username.co_user_login == default_user %}
-    {% include 'tt_website/header_signin_signup.html' %}
+    {% include 'tt_website/html_include/header_signin_signup.html' %}
     {% endif %}
 </header>
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px; background: #f7f7f7;">
@@ -2407,7 +2407,7 @@
 {% elif template == 5 %}
 <header class="header_breadcrumb" style="z-index:100; border-bottom:1px solid #cdcdcd; background:white;">
     {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-    {% include 'tt_website/header_corporate.html' %}
+    {% include 'tt_website/html_include/header_corporate.html' %}
     {% endif %}
 
     <div class="container">
@@ -2430,7 +2430,7 @@
         </div>
     </div>
     {% if username.co_user_login == default_user %}
-    {% include 'tt_website/header_signin_signup.html' %}
+    {% include 'tt_website/html_include/header_signin_signup.html' %}
     {% endif %}
 </header>
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px; background:#f7f7f7;">
@@ -2999,7 +2999,7 @@
 {% elif template == 6 %}
 <header id="header" class="header_breadcrumb" style="padding:unset;">
     {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-    {% include 'tt_website/header_corporate.html' %}
+    {% include 'tt_website/html_include/header_corporate.html' %}
     {% endif %}
 
     <div class="main-menu" style="border-bottom:1px solid #cdcdcd; padding:15px 0px 15px 0px;">
@@ -3024,7 +3024,7 @@
         </div>
     </div>
     {% if username.co_user_login == default_user %}
-    {% include 'tt_website/header_signin_signup.html' %}
+    {% include 'tt_website/html_include/header_signin_signup.html' %}
     {% endif %}
 </header>
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px; background:#f7f7f7;">

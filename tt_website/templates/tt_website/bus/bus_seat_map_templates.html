@@ -84,13 +84,13 @@ img {vertical-align: middle;}
 }
 </style>
 {% include 'tt_website/logout.html' %}
-{% include 'tt_website/check_connection.html' %}
+
 {% include 'tt_website/loading_screen.html' %}
 
 {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-{% include 'tt_website/header_corporate.html' %}
+{% include 'tt_website/html_include/header_corporate.html' %}
 {% endif %}
-{% include 'tt_website/header_breadcrumb.html' %}
+{% include 'tt_website/html_include/header_breadcrumb.html' %}
 
 <title id="title_search">{{name}} {% trans 'Bus' %} - {% trans 'Seat Map' %}</title>
 <section class="destinations-area" style="background:#f7f7f7;">
