@@ -809,7 +809,7 @@ def admin(request):
                         text += request.POST['google_api_key'] + '\n'
                         text += request.POST['setting_login_page'] + '\n'
                         text += request.POST['tour_search_template'] + '\n'
-                        if request.session('username'): ## LAST UPDATE USER
+                        if request.session.get('username'): ## LAST UPDATE USER
                             text += request.session['username'] + '\n'
 
                         write_cache(text, "data_cache_template", request, 'cache_web')
