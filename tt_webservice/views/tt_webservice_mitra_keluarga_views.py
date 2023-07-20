@@ -244,6 +244,15 @@ def get_price(request):
             'provider': 'mitrakeluarga',
             'carrier_code': request.POST['carrier_code'],
         }
+        if request.POST.get('medical_test_package'):
+            if request.POST['medical_test_package'] == 'hba1c':
+                data.update({
+                    "overtime_surcharge": True
+                })
+            elif request.POST['medical_test_package'] == 'hbsag':
+                data.update({
+                    "cito_surcharge": True
+                })
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 

@@ -303,19 +303,34 @@ function mitra_keluarga_check_price(){
         }
     }
     if(timeslot_list.length != 0 && error_log == '' || test_type.includes('DT')){
+        data_request = {
+            'signature': signature,
+            'provider': vendor,
+            'pax_count': document.getElementById('passenger').value,
+            'timeslot_list': JSON.stringify(timeslot_list),
+            'carrier_code': test_type
+        }
+        if(document.getElementsByName('medical_test_package')){
+            var medical_test_package = '';
+            var radios = document.getElementsByName('medical_test_package');
+            for (var j = 0, length = radios.length; j < length; j++) {
+                if (radios[j].checked) {
+                    // do whatever you want with the checked radio
+                    medical_test_package = radios[j].value;
+                    // only one radio can be logically checked, don't check the rest
+                    break;
+                }
+            }
+            if(medical_test_package)
+                data_request['medical_test_package'] = medical_test_package;
+        }
         $.ajax({
            type: "POST",
            url: "/webservice/mitra_keluarga",
            headers:{
                 'action': 'get_price',
            },
-           data: {
-                'signature': signature,
-                'provider': vendor,
-                'pax_count': document.getElementById('passenger').value,
-                'timeslot_list': JSON.stringify(timeslot_list),
-                'carrier_code': test_type
-           },
+           data: data_request,
            success: function(msg) {
                 try{
                     if(msg.result.error_code == 0){
@@ -1163,6 +1178,28 @@ function mitra_keluarga_get_booking(order_number, sync=false){
                                             text += 'MON-SAT 08:00 - 20:00 WIB | SUN 08:00 - 17:00 ' + gmt + timezone;
                                             $text += 'Time: MON-SAT 08:00 - 20:00 WIB | SUN 08:00 - 17:00 ' + gmt + timezone+`\n`;
                                         }
+
+
+
+                                            text+=`</b>
+                                    </div>
+                                </div>
+                                <hr/>`;
+
+
+                            }
+
+                            if(msg.result.response.provider_bookings[0].additional_info){
+                                text+=`
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <h6>Additional Info</h6>
+                                        <span>Info: <b>`;
+                                            text+=msg.result.response.provider_bookings[0].additional_info;
+
+                                            text+=`</b>
+                                        </span><br/>`;
+                                        $text += `Additional Info: `+ msg.result.response.provider_bookings[0].additional_info+'\n';
 
 
 
