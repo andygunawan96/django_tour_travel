@@ -109,12 +109,12 @@ img {vertical-align: middle;}
 <title id="title_search">{{name}} {% trans 'Train' %} - {% trans 'Seat Map' %}</title>
 
 {% include 'tt_website/logout.html' %}
-{% include 'tt_website/check_connection.html' %}
+
 
 {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-{% include 'tt_website/header_corporate.html' %}
+{% include 'tt_website/html_include/header_corporate.html' %}
 {% endif %}
-{% include 'tt_website/header_breadcrumb.html' %}
+{% include 'tt_website/html_include/header_breadcrumb.html' %}
 
 <section class="destinations-area" style="background:#f7f7f7;">
     <div class="container">

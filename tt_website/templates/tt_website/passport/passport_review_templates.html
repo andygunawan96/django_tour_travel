@@ -26,7 +26,7 @@
 
 {% include 'tt_website/loading_screen.html' %}
 {% include 'tt_website/logout.html' %}
-{% include 'tt_website/check_connection.html' %}
+
 {% include 'tt_website/modal_balance_vendor.html' %}
 <title id="title_search">{{name}} {% trans 'Passport' %} - {% trans 'Review' %}</title>
 <div id="overlay-div-box" onclick="close_div('payment_acq');"></div>
@@ -34,7 +34,7 @@
 {%if template == 1%}
 <header id="header" class="header_breadcrumb">
     {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-    {% include 'tt_website/header_corporate.html' %}
+    {% include 'tt_website/html_include/header_corporate.html' %}
     {% endif %}
     <div class="main-menu">
         <div class="container">
@@ -61,7 +61,7 @@
 {%elif template == 5%}
 <header class="header_breadcrumb" style="z-index:100; border-bottom:1px solid #cdcdcd; background:white;">
     {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-    {% include 'tt_website/header_corporate.html' %}
+    {% include 'tt_website/html_include/header_corporate.html' %}
     {% endif %}
     <div class="container">
         <div class="row align-items-center justify-content-between d-flex">
@@ -86,7 +86,7 @@
 {% elif template == 6 %}
 <header class="header_breadcrumb" style="padding:unset; z-index:100; border-bottom:1px solid #cdcdcd; background:white;">
     {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-    {% include 'tt_website/header_corporate.html' %}
+    {% include 'tt_website/html_include/header_corporate.html' %}
     {% endif %}
 
     <div class="main-menu" style="padding:10px 0px;">
@@ -111,13 +111,13 @@
         </div>
     </div>
     {% if username.co_user_login == default_user %}
-    {% include 'tt_website/header_signin_signup.html' %}
+    {% include 'tt_website/html_include/header_signin_signup.html' %}
     {% endif %}
 </header>
 {% else %}
 <header class="header_breadcrumb" style="padding:unset; z-index:100; border-bottom:1px solid #cdcdcd; background:white;">
     {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-    {% include 'tt_website/header_corporate.html' %}
+    {% include 'tt_website/html_include/header_corporate.html' %}
     {% endif %}
 
     <div class="main-menu" style="padding:10px 0px;">

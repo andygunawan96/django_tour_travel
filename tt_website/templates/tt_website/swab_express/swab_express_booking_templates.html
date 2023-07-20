@@ -20,14 +20,14 @@
 
 {% include 'tt_website/logout.html' %}
 {% include 'tt_website/loading_screen.html' %}
-{% include 'tt_website/check_connection.html' %}
+
 {% include 'tt_website/modal_balance_vendor.html' %}
 {% include 'tt_website/waiting_transaction_modal.html' %}
 
 {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-{% include 'tt_website/header_corporate.html' %}
+{% include 'tt_website/html_include/header_corporate.html' %}
 {% endif %}
-{% include 'tt_website/header_breadcrumb_change.html' %}
+{% include 'tt_website/html_include/header_breadcrumb_change.html' %}
 
 <form id="swab_express_edit_passenger" class="form-wrap" action="" method="POST">
     {% csrf_token %}
