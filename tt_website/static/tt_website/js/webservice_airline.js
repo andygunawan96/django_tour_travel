@@ -2676,6 +2676,7 @@ function send_search_to_api(val){
             $('.loader-rodextrip').fadeOut();
             $("#barFlightSearch").hide();
             $("#waitFlightSearch").hide();
+
             document.getElementById("airlines_error").innerHTML = '';
             text = '';
             text += `
@@ -2689,6 +2690,11 @@ function send_search_to_api(val){
             node.style = 'text-align:center';
             document.getElementById("airlines_error").appendChild(node);
             node = document.createElement("div");
+
+            document.getElementById('airlines_result_ticket').innerHTML = '';
+            document.getElementById("airlines_ticket_loading").innerHTML = '';
+            document.getElementById("airlineAirline_generalShow_loading").innerHTML = '<h6>Flights not Found</h6>';
+            document.getElementById("airlineAirline_generalShow_loading2").innerHTML = '<h6>Flights not Found</h6>';
         }
         else{
             ticket_count = 0;

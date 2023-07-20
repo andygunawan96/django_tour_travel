@@ -2413,9 +2413,9 @@ th input {
   font-weight: bold;
   color: #FFF;
   transition: all .575s;
-  position:sticky;
-  top:67px;
-  z-index:900;
+  position:fixed;
+  top:0px;
+  z-index:9999;
 }
 
 .status.on {
@@ -6549,4 +6549,8 @@ text-align: center;
 .search_country_tour:hover{
     color: white;
     background: #205B95;
+}
+
+.text_cap::marker{
+    content: none;
 }

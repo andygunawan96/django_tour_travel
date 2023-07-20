@@ -17,15 +17,15 @@
     static_path_url_server = '{{static_path_url_server}}';
     order_number = '{{order_number}}';
 </script>
-{% include 'tt_website/check_connection.html' %}
+
 {% include 'tt_website/modal_balance_vendor.html' %}
 <title id="title_search">{{name}} Event - {% trans 'Booking' %}</title>
 {% include 'tt_website/waiting_transaction_modal.html' %}
 
 {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-{% include 'tt_website/header_corporate.html' %}
+{% include 'tt_website/html_include/header_corporate.html' %}
 {% endif %}
-{% include 'tt_website/header_breadcrumb_change.html' %}
+{% include 'tt_website/html_include/header_breadcrumb_change.html' %}
 
 <div id="overlay-div-box" onclick="close_div('payment_acq');"></div>
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px; z-index:1; background:#f7f7f7;">
