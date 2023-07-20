@@ -75,14 +75,15 @@ def get_report(request):
     carrier_allowed_list = []
     file = read_cache("get_airline_active_carriers", 'cache_web', request, 90911)
     if file:
+        carrier_allowed_list = file
         if request.session['user_account']['co_ho_seq_id'] in file:
             file = read_cache("allowed_airline_carriers", 'cache_web', request, 90911)
             if file:
-                carrier_allowed_list = file
-                ho_carrier_airline = file[request.session['user_account']['co_ho_seq_id']]
-                for carrier_code in carrier_allowed_list:
+                carrier_allowed = file
+                ho_carrier_airline = carrier_allowed_list[request.session['user_account']['co_ho_seq_id']]
+                for carrier_code in ho_carrier_airline:
                     for provider in ho_carrier_airline[carrier_code]['provider']:
-                        if provider not in provider_allowed:
+                        if provider not in provider_allowed and carrier_code in carrier_allowed:
                             provider_allowed.append(provider)
 
                 new_provider = []
