@@ -991,7 +991,7 @@
                                         {% csrf_token %}
                                         <input type="hidden" name="g-recaptcha-response" id='recaptcha_passport'>
                                         <div class="row">
-                                            <div class="col-lg-4 col-md-4 col-sm-4 mb-3">
+                                            <div class="col-lg-4 col-md-4 mb-3">
                                                 <span class="span-search-ticket"> {% trans 'Passport Type' %}</span>
                                                 <div class="input-container-search-ticket">
                                                     <i class="fas fa-map-marker-alt" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
@@ -1003,7 +1003,7 @@
                                                 </div>
                                                 <input type="hidden" name="passport_type" id="passport_type" />
                                             </div>
-                                            <div class="col-lg-4 col-md-4 col-sm-4 mb-3">
+                                            <div class="col-lg-4 col-md-4 mb-3">
                                                 <span class="span-search-ticket"> {% trans 'Apply Type' %}</span>
                                                 <div class="input-container-search-ticket">
                                                     <i class="fas fa-calendar-alt" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
@@ -1015,7 +1015,7 @@
                                                 </div>
                                                 <input type="hidden" name="passport_apply_type" id="passport_apply_type" />
                                             </div>
-                                            <div class="col-lg-4 col-md-4 col-sm-4">
+                                            <div class="col-lg-4 col-md-4">
                                                 <span class="span-search-ticket"> {% trans 'Consulate' %}</span>
                                                 <div class="input-container-search-ticket">
                                                     <i class="fas fa-city" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
@@ -1051,20 +1051,20 @@
 
                                             </div>
                                             {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
-                                            <div class="col-lg-12 col-md-12 col-sm-12" style="margin-bottom:15px;">
+                                            <div class="col-lg-12" style="margin-bottom:15px;">
                                                 <div class="row" id="bill_div">
 
                                                 </div>
                                             </div>
                                             {% else %}
-                                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                            <div class="col-lg-12">
                                                 <div class="row" id="bill_div">
 
                                                 </div>
                                             </div>
-                                            <div class="col-lg-12 col-md-12 col-sm-12" style="margin-bottom:15px;">
+                                            <div class="col-lg-12" style="margin-bottom:15px;">
                                                 <div class="row">
-                                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                                    <div class="col-lg-12">
                                                         <span class="span-search-ticket"><i class="fas fa-mail"></i> Email Address</span>
                                                         <div class="input-container-search-ticket">
                                                             <input type="text" class="form-control" name="customer_email" id="customer_email" placeholder="The email address where we will send your payment information" autocomplete="off"/>
@@ -1199,7 +1199,7 @@
                                                     <div class="col-lg-12 mb-3" style="text-align:left;">
                                                         <h4 style="color:{{text_color}};">Periksain</h4>
                                                     </div>
-                                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                                    <div class="col-lg-12">
                                                         <span class="span-search-ticket">{% trans 'Medical Type' %}</span>
                                                         <div class="input-container-search-ticket">
                                                             <i class="fas fa-map-marker-alt" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
@@ -1231,7 +1231,7 @@
                                                         <h4 style="color:{{text_color}};">National Hospital</h4>
                                                     </div>
 
-                                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                                    <div class="col-lg-12">
                                                         <span class="span-search-ticket">{% trans 'Medical Type' %}</span>
                                                         <div class="input-container-search-ticket">
                                                             <i class="fas fa-map-marker-alt" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
@@ -1261,7 +1261,7 @@
                                                         <h4 style="color:{{text_color}};">Swab Express</h4>
                                                     </div>
 
-                                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                                    <div class="col-lg-12">
                                                         <span class="span-search-ticket">{% trans 'Swab Type' %}</span>
                                                         <div class="input-container-search-ticket">
                                                             <i class="fas fa-map-marker-alt" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
@@ -1291,7 +1291,7 @@
                                                         <h4 style="color:{{text_color}};">Lab Pintar</h4>
                                                     </div>
 
-                                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                                    <div class="col-lg-12">
                                                         <span class="span-search-ticket">{% trans 'Swab Type' %}</span>
                                                         <div class="input-container-search-ticket">
                                                             <i class="fas fa-map-marker-alt" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
@@ -1320,7 +1320,7 @@
                                                         <h4 style="color:{{text_color}};">Mitra Keluarga</h4>
                                                     </div>
 
-                                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                                    <div class="col-lg-12">
                                                         <span class="span-search-ticket">{% trans 'Type' %}</span>
                                                         <div class="input-container-search-ticket">
                                                             <i class="fas fa-map-marker-alt" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
@@ -1349,7 +1349,7 @@
                                                         <h4 style="color:{{text_color}};">Sentra Medika</h4>
                                                     </div>
 
-                                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                                    <div class="col-lg-12">
                                                         <span class="span-search-ticket">{% trans 'Type' %}</span>
                                                         <div class="input-container-search-ticket">
                                                             <i class="fas fa-map-marker-alt" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
