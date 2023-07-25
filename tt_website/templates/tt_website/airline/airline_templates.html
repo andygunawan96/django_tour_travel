@@ -120,12 +120,10 @@
 {% if username.co_user_login != '' %}
 {% for rec in provider_types_sequence %}
 {% if "airline" in provider and "ticketing_airline" in username.co_agent_frontend_security and rec.code == "airline" %}
-<section class="pt-4 pb-2">
+<section class="pt-3 pb-3" style="background:#f7f7f7;">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="title_cst">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}
-                </h1>
                 <span class="title_cst_sub">
                     {% if username.co_user_login != default_user %}
                     {% trans 'Hello' %}, {{username.co_user_name}}!
@@ -134,6 +132,18 @@
                     {% trans 'Hello, dear customer, book your trip with us' %}
                     {% endif %}
                 </span>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="pt-3 pb-3">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="title_cst">
+                    <img style="width:auto; height:70px; border:1px solid #cdcdcd; border-radius:7px; padding:15px;" src="/static/tt_website/images/icon/product/c-airline.png" alt="Airline Icon">
+                    {% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}
+                </h1>
             </div>
         </div>
     </div>
@@ -1596,15 +1606,6 @@
                             <div class="col-lg-1"></div>
                             <div class="col-lg-10" style="min-height:300px; background:{{tab_color}}; padding:30px;">
                                 <div class="row">
-                                    <div class="col-lg-12 mb-3">
-                                        <h4 class="heading" style="text-align:right; color:{{text_color}};">
-                                            <h4 class="heading" style="text-align:right; color:{{text_color}};">
-                                                <img style="width:auto; height:40px;" src="/static/tt_website/images/icon/product/c-airline.png" alt="Airline Icon">
-                                                {% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}
-                                            </h4>
-                                        </h4>
-                                    </div>
-
                                     <div class="col-lg-12">
                                         <form action="{% url 'tt_website:airline_search'%}" method="POST" class="form-wrap" id="airline_searchForm">
                                             {% csrf_token %}
@@ -2144,8 +2145,8 @@
                                             <div class="row">
                                                 <div class="col-lg-6 col-md-6">
                                                     <span class="span-search-ticket">Corporate</span>
-                                                    <div class="select-form mb-30">
-                                                        <div class="select-itms">
+                                                    <div class="input-container-search-ticket">
+                                                        <div class="form-select">
                                                             <select id="airline_corpor_select" name="airline_corpor_select" class="js-example-basic-single" style="width:100%;" onchange="render_corbooker_list('airline');">
 
                                                             </select>
