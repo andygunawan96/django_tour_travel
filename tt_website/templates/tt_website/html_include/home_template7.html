@@ -15,24 +15,29 @@
 
 </section>
 {% endif %}
+<section class="our-services" style="padding-top:30px; padding-bottom:15px; background:#fff;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                {% if username.co_user_name != '' %}
+                <span class="title_cst_sub">
+                    {% if username.co_user_login != default_user %}
+                    {% trans 'Hello' %}, {{username.co_user_name}}!
+                    {% trans 'Grow your business with' %} <span style="color:{{color}};">{{name}}</span>
+                    {% else %}
+                    {% trans 'Hello, dear customer, book your trip with us' %}
+                    {% endif %}
+                </span>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
 
 <div class="our-services pt-5 pb-5" style="background: #f7f7f7;">
     <div class="container">
         <div class="row d-flex">
-
             <div class="col-lg-12">
-                <div class="section-tittle">
-                    {% if username.co_user_name != '' %}
-                    <h2>
-                        {% if username.co_user_login != default_user %}
-                        {% trans 'Hello' %}, {{username.co_user_name}}!
-                        {% trans 'Grow your business with' %} <span style="color:{{color}}; display:unset;">{{name}}</span>
-                        {% else %}
-                        {% trans 'Hello, dear customer, book your trip with us' %}
-                        {% endif %}
-                    </h2>
-                    {% endif %}
-                </div>
             </div>
 
             <div class="col-lg-12" id="box_choose">
