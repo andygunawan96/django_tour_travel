@@ -97,12 +97,10 @@
 {% if username.co_user_login != '' %}
 {% for rec in provider_types_sequence %}
 {% if "insurance" in provider and "ticketing_insurance" in username.co_agent_frontend_security and rec.code == "insurance" %}
-<section class="pt-4 pb-2">
+<section class="pt-3 pb-3" style="background:#f7f7f7;">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="title_cst">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}
-                </h1>
                 <span class="title_cst_sub">
                     {% if username.co_user_login != default_user %}
                     {% trans 'Hello' %}, {{username.co_user_name}}!
@@ -111,6 +109,18 @@
                     {% trans 'Hello, dear customer, book your trip with us' %}
                     {% endif %}
                 </span>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="pt-3 pb-3">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="title_cst">
+                    <img style="width:auto; height:70px; border:1px solid #cdcdcd; border-radius:7px; padding:15px;" src="/static/tt_website/images/icon/product/c-insurance.png" alt="Insurance Icon">
+                    {% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}
+                </h1>
             </div>
         </div>
     </div>
@@ -201,15 +211,6 @@
                             <div class="col-lg-1"></div>
                             <div class="col-lg-10" style="min-height:300px; background:{{tab_color}}; padding:30px;">
                                 <div class="row">
-                                    <div class="col-lg-12 mb-3">
-                                        <h4 class="heading" style="text-align:right; color:{{text_color}};">
-                                            <h4 class="heading" style="text-align:right; color:{{text_color}};">
-                                                <img style="width:auto; height:40px;" src="/static/tt_website/images/icon/product/c-insurance.png" alt="Insurance Icon">
-                                                {% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}
-                                            </h4>
-                                        </h4>
-                                    </div>
-
                                     <div class="col-lg-12">
                                         <div id="insurance_provider_div">
 
@@ -522,10 +523,19 @@
     {%endif%}
     //bank_get_balance();
     //get_transaction();
+
+    {% if big_banner_value == 1 %}
     get_banner('big_banner','insurance');
+    {% endif %}
+    {% if small_banner_value == 1 %}
     get_banner('small_banner','insurance');
+    {% endif %}
+    {% if dynamic_page_value == 1 %}
     ///get_dynamic_page('insurance');
-    //get_banner('promotion','insurance');
+    {% endif %}
+    ///get_banner('promotion','insurance');
+
+
 </script>
 
     {% endblock %}

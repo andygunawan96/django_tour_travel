@@ -3216,6 +3216,46 @@ function set_pln_div(){
             </div>`;
         }
     }
+    else if(template == 7){
+        if($pln_type_name.includes('PLN Prepaid')){
+            text = `<div class="col-lg-6 col-md-6 col-sm-6" style="text-align:left;margin-bottom:10px;">
+                        <span class="span-search-ticket"><i class="fas fa-bolt"></i> Nomor Meter / ID Pelanggan</span>
+                        <div class="input-container-search-ticket">
+                            <input type="text" class="form-control pln_number" name="bpjs_number" id="bpjs_number" onkeyup="check_pln_number();" onpaste="setTimeout(check_pln_number.bind(null,this),100);" placeholder="Nomor Meter / ID Pelanggan" autocomplete="off"/>
+                        </div>
+                        <div style="text-align:left;">
+                            <h6 style="color:`+color+`;" id="input_alert" style="display:none;"></h6>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6" style="text-align:left;margin-bottom:10px;">
+                        <span class="span-search-ticket">Nominal</span>
+                        <div class="select-form mb-30">
+                            <div class="select-itms">
+                                <select id="pln_nominal" name="pln_nominal" class="nice-select-default">`;
+                                for(i in ppob_data.allowed_denominations)
+                                    if(i == 0)
+                                        text+=`<option value="`+ppob_data.allowed_denominations[i]+`" selected>`+getrupiah(ppob_data.allowed_denominations[i])+`</option>`;
+                                    else
+                                        text+=`<option value="`+ppob_data.allowed_denominations[i]+`">`+getrupiah(ppob_data.allowed_denominations[i])+`</option>`;
+
+                                text+=`</select>
+                            </div>
+                        </div>
+                    </div>`;
+        }
+        else if($pln_type_name.includes('PLN Postpaid') || $pln_type_name.includes('PLN Non Tagihan')){
+            text = `
+            <div class="col-lg-12 col-md-12 col-sm-12" style="text-align:left;margin-bottom:10px;">
+                <span class="span-search-ticket"><i class="fas fa-bolt"></i> Nomor Meter / ID Pelanggan</span>
+                <div class="input-container-search-ticket">
+                    <input type="text" class="form-control pln_number" name="bpjs_number" id="bpjs_number" onkeyup="check_pln_number();" onpaste="setTimeout(check_pln_number.bind(null,this),100);" placeholder="Nomor Meter / ID Pelanggan" autocomplete="off"/>
+                </div>
+                <div style="text-align:left;">
+                    <h6 style="color:`+color+`;" id="input_alert" style="display:none;"></h6>
+                </div>
+            </div>`;
+        }
+    }
 
     document.getElementById('pln_div').innerHTML = text;
     $('#pln_nominal').niceSelect();
@@ -3449,6 +3489,58 @@ function set_bpjs_div(bill_prov){
                 <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Pay Until</span>
                 <div class="input-container-search-ticket btn-group">
                     <div class="form-select" id="default-select">`;
+                        if(bill_prov == 'ppob_espay' || $bpjs_type_value.includes('~ppob_espay'))
+                        {
+                            text += `<select id="bpjs_month" name="bpjs_month" class="nice-select-default" disabled>`;
+                        }
+                        else
+                        {
+                            text += `<select id="bpjs_month" name="bpjs_month" class="nice-select-default">`;
+                        }
+                        print_month = false;
+                        max_count = 12;
+                        for(i in month_list){
+                            if(moment().format('MMM') == month_list[i][1]){
+                                print_month = true;
+                                month_counter = 1;
+                            }if(print_month == true){
+                                text+= `<option value='`+month_counter+`'>`+month_list[i][1]+` `+new Date().getFullYear()+`</option>`;
+                                month_counter++;
+                                max_count--;
+                            }
+                        }
+                        for(i in month_list){
+                            if(max_count != 0){
+                                text+= `<option value='`+month_counter+`'>`+month_list[i][1]+` `+parseInt(new Date().getFullYear()+1)+`</option>`;
+                                month_counter++;
+                                max_count--;
+                            }else{
+                                break;
+                            }
+                        }
+            text+=`
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-9 col-md-9 col-sm-12" style="text-align:left;">
+                <span class="span-search-ticket"><i class="fas fa-briefcase"></i> Nomor Virtual Account Keluarga / Perusahaan</span>
+                <div class="input-container-search-ticket">
+                    <input type="text" class="form-control virtual_number" name="bpjs_number" id="bpjs_number" onkeyup="check_bpjs_number();" onpaste="setTimeout(check_bpjs_number.bind(null,this),100);" placeholder="Nomor Virtual Account Keluarga / Perusahaan" autocomplete="off"/>
+                </div>
+                <div style="text-align:left;">
+                    <span style="color:`+color+`; font-size:14px; font-weight:bold;" id="input_alert" style="display:none;"></span>
+                </div>
+            </div>`;
+        }
+    }
+    else if(template == 7){
+        if($bpjs_type_name.includes('BPJS Kesehatan')){
+            text = `
+            <div class="col-lg-3 col-md-3 col-sm-12">
+                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Pay Until</span>
+                    <div class="select-form mb-30">
+                        <div class="select-itms">`;
                         if(bill_prov == 'ppob_espay' || $bpjs_type_value.includes('~ppob_espay'))
                         {
                             text += `<select id="bpjs_month" name="bpjs_month" class="nice-select-default" disabled>`;
@@ -4097,6 +4189,105 @@ function set_evoucher_div(){
             `;
         }
     }
+    else if(template == 7){
+        if($evoucher_type_name.includes('Prepaid Mobile')){
+            text = `
+            <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+                <span class="span-search-ticket"><i class="fas fa-mobile"></i> Nomor Handphone Pelanggan</span>
+                <div class="input-container-search-ticket">
+                    <input type="text" class="form-control hp_number" onkeyup="check_hp_number('`+$evoucher_type_value+`');" onpaste="setTimeout(check_hp_number.bind('`+$evoucher_type_value+`',this),100);" name="bpjs_number" id="bpjs_number" placeholder="Nomor Handphone Pelanggan" autocomplete="off"/>
+                </div>
+                <div style="text-align:left;">
+                    <h6 style="color:`+color+`;" id="input_alert" style="display:none;"></h6>
+                    <span style="color:`+text_color+`;">Contoh: 081234567890</span>
+                </div>
+            </div>
+            <div class="col-lg-12 mb-3" id="img_operator">
+
+            </div>
+            <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+                <div class="row" id="e-voucher_nominal_div">
+
+                </div>
+            </div>`;
+        }
+        else if($evoucher_type_name.includes('Game Voucher')){
+            text = `
+                <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+                    <span class="span-search-ticket">Select Voucher</span>
+                    <div class="input-container-search-ticket">
+                        <div class="form-select">
+                            <select id="game_voucher" name="game_voucher" class="form-control js-example-basic-single" style="width:100%;">
+
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            `;
+            text += `
+            <div class="col-lg-6" style="text-align:left;margin-bottom:10px;">
+                <span class="span-search-ticket"><i class="fas fa-user"></i> User ID / UUID</span>
+                <div class="input-container-search-ticket">
+                    <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="User ID / UUID" autocomplete="off"/>
+                </div>
+                <div style="text-align:left;">
+                    <h6 style="color:`+color+`;" id="input_alert" style="display:none;"></h6>
+                    <span style="color:`+text_color+`;">*Beberapa voucher game akan diberikan dalam bentuk code setelah pembayaran berhasil.</span>
+                </div>
+            </div>
+            <div class="col-lg-6" style="text-align:left;margin-bottom:10px;">
+                <span class="span-search-ticket"><i class="fas fa-map-marker"></i> Server / Zone ID</span>
+                <div class="input-container-search-ticket">
+                    <input type="text" class="form-control" name="game_zone_id" id="game_zone_id" placeholder="Server / Zone ID" autocomplete="off"/>
+                </div>
+                <div style="text-align:left;">
+                    <h6 style="color:`+color+`;" id="input_alert" style="display:none;"></h6>
+                    <span style="color:`+text_color+`;">*Server / Zone ID hanya perlu diisi untuk voucher game tertentu saja.</span>
+                </div>
+            </div>
+            `;
+        }
+        else if($evoucher_type_name.includes('Other Voucher')){
+            text += `
+                <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+                    <span class="span-search-ticket">Select Voucher</span>
+                    <div class="input-container-search-ticket">
+                        <div class="form-select">
+                            <select id="other_voucher" name="other_voucher" class="form-control js-example-basic-single" style="width:100%;">
+
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            `;
+            text = `
+            <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+                <span class="span-search-ticket"><i class="fas fa-mobile"></i> Nomor Handphone Pelanggan</span>
+                <div class="input-container-search-ticket">
+                    <input type="text" class="form-control hp_number" name="bpjs_number" id="bpjs_number" placeholder="Nomor Handphone Pelanggan" autocomplete="off"/>
+                </div>
+                <div style="text-align:left;">
+                    <h6 style="color:`+color+`;" id="input_alert" style="display:none;"></h6>
+                    <span style="color:`+text_color+`;">Contoh: 081234567890</span>
+                </div>
+            </div>
+            `;
+        }
+        else {
+            text = `
+            <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+                <span class="span-search-ticket"><i class="fas fa-mobile"></i> Nomor Handphone Pelanggan</span>
+                <div class="input-container-search-ticket">
+                    <input type="text" class="form-control hp_number" name="bpjs_number" id="bpjs_number" placeholder="Nomor Handphone Pelanggan" autocomplete="off"/>
+                </div>
+                <div style="text-align:left;">
+                    <h6 style="color:`+color+`;" id="input_alert" style="display:none;"></h6>
+                    <span style="color:`+text_color+`;">Contoh: 081234567890</span>
+                </div>
+            </div>
+            `;
+        }
+    }
 
     document.getElementById('e-voucher_div').innerHTML = text;
     if($evoucher_type_name.includes('Game Voucher')){
@@ -4216,6 +4407,27 @@ function set_cable_tv_div(){
         }
     }
     else if(template == 6){
+        text = `
+        <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+            <span class="span-search-ticket"><i class="fas fa-television"></i> Nomor Pelanggan TV Kabel</span>
+            <div class="input-container-search-ticket">
+                <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Pelanggan TV Kabel" autocomplete="off"/>
+            </div>
+        </div>
+        `;
+        if($cable_tv_type_name.includes('Indovision') || $cable_tv_type_name.includes('Indovision Top TV') || $cable_tv_type_name.includes('Indovision Oke Vision') || $cable_tv_type_name.includes('First Media'))
+        {
+            text += `
+                <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+                    <span class="span-search-ticket">Payment Amount</span>
+                    <div class="input-container-search-ticket">
+                        <input type="number" class="form-control" name="cable_tv_nominal" id="cable_tv_nominal" placeholder="Nominal" autocomplete="off"/>
+                    </div>
+                </div>
+            `;
+        }
+    }
+    else if(template == 7){
         text = `
         <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
             <span class="span-search-ticket"><i class="fas fa-television"></i> Nomor Pelanggan TV Kabel</span>
@@ -4369,6 +4581,27 @@ function set_internet_div(){
             `;
         }
     }
+    else if(template == 7){
+        text = `
+        <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+            <span class="span-search-ticket"><i class="fas fa-wifi"></i> Nomor Pelanggan Internet</span>
+            <div class="input-container-search-ticket">
+                <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Pelanggan Internet" autocomplete="off"/>
+            </div>
+        </div>
+        `;
+        if($internet_type_name.includes('CBN') || $internet_type_name.includes('Indosatnet') || $internet_type_name.includes('Centrinnet'))
+        {
+            text += `
+                <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+                    <span class="span-search-ticket">Payment Amount</span>
+                    <div class="input-container-search-ticket">
+                        <input type="number" class="form-control" name="internet_nominal" id="internet_nominal" placeholder="Nominal" autocomplete="off"/>
+                    </div>
+                </div>
+            `;
+        }
+    }
 
     document.getElementById('internet_div').innerHTML = text;
 }
@@ -4427,6 +4660,16 @@ function set_telephone_div(){
         `;
     }
     else if(template == 6){
+        text = `
+        <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+            <span class="span-search-ticket"><i class="fas fa-phone"></i> Nomor Telepon</span>
+            <div class="input-container-search-ticket">
+                <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Telepon" autocomplete="off"/>
+            </div>
+        </div>
+        `;
+    }
+    else if(template == 7){
         text = `
         <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
             <span class="span-search-ticket"><i class="fas fa-phone"></i> Nomor Telepon</span>
@@ -4534,6 +4777,24 @@ function set_insurance_div(){
         `;
     }
     else if(template == 6){
+        text = `
+        <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+            <span class="span-search-ticket"><i class="fas fa-shield-alt"></i> Nomor Polis</span>
+            <div class="input-container-search-ticket">
+                <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Polis" autocomplete="off"/>
+            </div>
+        </div>
+        `;
+        text += `
+            <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+                <span class="span-search-ticket">Payment Amount</span>
+                <div class="input-container-search-ticket">
+                    <input type="number" class="form-control" name="insurance_nominal" id="insurance_nominal" placeholder="Nominal" autocomplete="off"/>
+                </div>
+            </div>
+        `;
+    }
+    else if(template == 7){
         text = `
         <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
             <span class="span-search-ticket"><i class="fas fa-shield-alt"></i> Nomor Polis</span>
@@ -4691,6 +4952,28 @@ function set_pdam_div(){
         </div>
         `;
     }
+    else if(template == 7){
+        text = `
+            <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+                <span class="span-search-ticket">Area</span>
+                    <div class="select-form mb-30">
+                        <div class="select-itms">
+                        <select id="pdam_voucher" name="pdam_voucher" class="form-control js-example-basic-single" style="width:100%;">
+
+                        </select>
+                    </div>
+                </div>
+            </div>
+        `;
+        text += `
+        <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+            <span class="span-search-ticket"><i class="fas fa-water"></i> Nomor Pelanggan</span>
+            <div class="input-container-search-ticket">
+                <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Pelanggan" autocomplete="off"/>
+            </div>
+        </div>
+        `;
+    }
 
     document.getElementById('pdam_div').innerHTML = text;
     set_voucher_options($pdam_type_value, 'pdam');
@@ -4832,6 +5115,28 @@ function set_pbb_div(){
         </div>
         `;
     }
+    else if(template == 7){
+        text = `
+            <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+                <span class="span-search-ticket">Area</span>
+                    <div class="select-form mb-30">
+                        <div class="select-itms">
+                        <select id="pbb_voucher" name="pbb_voucher" class="form-control js-example-basic-single" style="width:100%;">
+
+                        </select>
+                    </div>
+                </div>
+            </div>
+        `;
+        text += `
+        <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+            <span class="span-search-ticket"><i class="fas fa-percent"></i> Nomor Objek Pajak</span>
+            <div class="input-container-search-ticket">
+                <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Pelanggan" autocomplete="off"/>
+            </div>
+        </div>
+        `;
+    }
 
     document.getElementById('pbb_div').innerHTML = text;
     set_voucher_options($pbb_type_value, 'pbb');
@@ -4891,6 +5196,16 @@ function set_gas_div(){
         `;
     }
     else if(template == 6){
+        text = `
+        <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+            <span class="span-search-ticket"><i class="fas fa-fire"></i> Nomor Pelanggan</span>
+            <div class="input-container-search-ticket">
+                <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Pelanggan" autocomplete="off"/>
+            </div>
+        </div>
+        `;
+    }
+    else if(template == 7){
         text = `
         <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
             <span class="span-search-ticket"><i class="fas fa-fire"></i> Nomor Pelanggan</span>
@@ -5015,6 +5330,24 @@ function set_credit_installment_div(){
             </div>
         `;
     }
+    else if(template == 7){
+        text = `
+        <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+            <span class="span-search-ticket"><i class="fas fa-coins"></i> Nomor Kontrak</span>
+            <div class="input-container-search-ticket">
+                <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Kontrak" autocomplete="off"/>
+            </div>
+        </div>
+        `;
+        text += `
+            <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+                <span class="span-search-ticket">Payment Amount</span>
+                <div class="input-container-search-ticket">
+                    <input type="number" class="form-control" name="credit_installment_nominal" id="credit_installment_nominal" placeholder="Nominal" autocomplete="off"/>
+                </div>
+            </div>
+        `;
+    }
 
     document.getElementById('credit_installment_div').innerHTML = text;
 }
@@ -5113,6 +5446,24 @@ function set_credit_card_div(){
         `;
     }
     else if(template == 6){
+        text = `
+        <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+            <span class="span-search-ticket"><i class="fas fa-credit-card"></i> Nomor Kartu Kredit</span>
+            <div class="input-container-search-ticket">
+                <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Kartu Kredit" autocomplete="off"/>
+            </div>
+        </div>
+        `;
+        text += `
+            <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
+                <span class="span-search-ticket">Payment Amount</span>
+                <div class="input-container-search-ticket">
+                    <input type="number" class="form-control" name="credit_card_nominal" id="credit_card_nominal" placeholder="Nominal" autocomplete="off"/>
+                </div>
+            </div>
+        `;
+    }
+    else if(template == 7){
         text = `
         <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
             <span class="span-search-ticket"><i class="fas fa-credit-card"></i> Nomor Kartu Kredit</span>

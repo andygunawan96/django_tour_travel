@@ -93,12 +93,10 @@
 {% if username.co_user_login != '' %}
 {% for rec in provider_types_sequence %}
 {% if "event" in provider and "ticketing_event" in username.co_agent_frontend_security and rec.code == "event" %}
-<section class="pt-4 pb-2">
+<section class="pt-3 pb-3" style="background:#f7f7f7;">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="title_cst">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}
-                </h1>
                 <span class="title_cst_sub">
                     {% if username.co_user_login != default_user %}
                     {% trans 'Hello' %}, {{username.co_user_name}}!
@@ -107,6 +105,18 @@
                     {% trans 'Hello, dear customer, book your trip with us' %}
                     {% endif %}
                 </span>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="pt-3 pb-3">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="title_cst">
+                    <img style="width:auto; height:70px; border:1px solid #cdcdcd; border-radius:7px; padding:15px;" src="/static/tt_website/images/icon/product/c-event.png" alt="Event Icon">
+                    {% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}
+                </h1>
             </div>
         </div>
     </div>
@@ -158,33 +168,33 @@
                         <div class="tab_body" style="min-height:300px; border:2px solid #cdcdcd;">
                             <div id="tab-event" class="tab-content current">
                                 <form action="{% url 'tt_website:event_search'%}" method="POST" class="form-wrap" id="event_searchForm">
-                            {% csrf_token %}
-                            <input type="hidden" name="g-recaptcha-response" id='recaptcha_event'>
-                            <div class="row">
-                                <div class="col-lg-3">
-                                    <span class="span-search-ticket">{% trans 'Category' %}</span>
-                                    <div class="input-container-search-ticket btn-group">
-                                        <select id="category_event" name="category_event" class="nice-select-default">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="g-recaptcha-response" id='recaptcha_event'>
+                                    <div class="row">
+                                        <div class="col-lg-3">
+                                            <span class="span-search-ticket">{% trans 'Category' %}</span>
+                                            <div class="input-container-search-ticket btn-group">
+                                                <select id="category_event" name="category_event" class="nice-select-default">
 
-                                        </select>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-9">
+                                            <span class="span-search-ticket">{% trans 'Event Name' %}</span>
+                                            <div class="input-container-search-ticket">
+                                                <input id="event_name_id" name="event_name_id" class="form-control" type="text" placeholder="{% trans 'Event Name' %}" style="outline:0" autocomplete="off" value=""/>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-lg-9">
-                                    <span class="span-search-ticket">{% trans 'Event Name' %}</span>
-                                    <div class="input-container-search-ticket">
-                                        <input id="event_name_id" name="event_name_id" class="form-control" type="text" placeholder="{% trans 'Event Name' %}" style="outline:0" autocomplete="off" value=""/>
-                                    </div>
-                                </div>
-                            </div>
-                            <br/>
-                            <center>
-                                <button class="button-search primary-btn ld-ext-right" id="btn-search-event" onclick="get_captcha('recaptcha_event','event');" type="button" value="Submit">
-                                    <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                                    {% trans 'Search' %}
-                                    <div class="ld ld-ring ld-cycle"></div>
-                                </button>
-                            </center>
-                        </form>
+                                    <br/>
+                                    <center>
+                                        <button class="button-search primary-btn ld-ext-right" id="btn-search-event" onclick="get_captcha('recaptcha_event','event');" type="button" value="Submit">
+                                            <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                            {% trans 'Search' %}
+                                            <div class="ld ld-ring ld-cycle"></div>
+                                        </button>
+                                    </center>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -243,33 +253,33 @@
                                     <div class="col-xl-12" style="text-align:left;">
                                         <div class="form-search-wrap">
                                             <form action="{% url 'tt_website:event_search'%}" method="POST" class="form-wrap" id="event_searchForm">
-                                        {% csrf_token %}
-                                        <input type="hidden" name="g-recaptcha-response" id='recaptcha_event'>
-                                        <div class="row">
-                                            <div class="col-lg-3">
-                                                <span class="span-search-ticket">{% trans 'Category' %}</span>
-                                                <div class="input-container-search-ticket btn-group">
-                                                    <select id="category_event" name="category_event" class="nice-select-default">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="g-recaptcha-response" id='recaptcha_event'>
+                                                <div class="row">
+                                                    <div class="col-lg-3">
+                                                        <span class="span-search-ticket">{% trans 'Category' %}</span>
+                                                        <div class="input-container-search-ticket btn-group">
+                                                            <select id="category_event" name="category_event" class="nice-select-default">
 
-                                                    </select>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-9">
+                                                        <span class="span-search-ticket">{% trans 'Event Name' %}</span>
+                                                        <div class="input-container-search-ticket">
+                                                            <input id="event_name_id" name="event_name_id" class="form-control" type="text" placeholder="{% trans 'Event Name' %}" style="outline:0" autocomplete="off" value=""/>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-lg-9">
-                                                <span class="span-search-ticket">{% trans 'Event Name' %}</span>
-                                                <div class="input-container-search-ticket">
-                                                    <input id="event_name_id" name="event_name_id" class="form-control" type="text" placeholder="{% trans 'Event Name' %}" style="outline:0" autocomplete="off" value=""/>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <br/>
-                                        <center>
-                                            <button class="button-search primary-btn ld-ext-right" id="btn-search-event" onclick="get_captcha('recaptcha_event','event');" type="button" value="Submit">
-                                                <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                                                {% trans 'Search' %}
-                                                <div class="ld ld-ring ld-cycle"></div>
-                                            </button>
-                                        </center>
-                                    </form>
+                                                <br/>
+                                                <center>
+                                                    <button class="button-search primary-btn ld-ext-right" id="btn-search-event" onclick="get_captcha('recaptcha_event','event');" type="button" value="Submit">
+                                                        <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                                        {% trans 'Search' %}
+                                                        <div class="ld ld-ring ld-cycle"></div>
+                                                    </button>
+                                                </center>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
@@ -285,35 +295,35 @@
                                 <div class="col-xl-12" style="text-align:left;">
                                     <div id="tab-event" class="tab-content current">
                                         <form action="{% url 'tt_website:event_search'%}" method="POST" class="form-wrap" id="event_searchForm">
-                                        {% csrf_token %}
-                                        <input type="hidden" name="g-recaptcha-response" id='recaptcha_event'>
-                                        <div class="row">
-                                            <div class="col-lg-3">
-                                                <span class="span-search-ticket"><i class="fas fa-folder"></i> {% trans 'Category' %}</span>
-                                                <div class="input-container-search-ticket">
-                                                    <div class="form-select">
-                                                        <select id="category_event" name="category_event" class="nice-select-default">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="g-recaptcha-response" id='recaptcha_event'>
+                                            <div class="row">
+                                                <div class="col-lg-3">
+                                                    <span class="span-search-ticket"><i class="fas fa-folder"></i> {% trans 'Category' %}</span>
+                                                    <div class="input-container-search-ticket">
+                                                        <div class="form-select">
+                                                            <select id="category_event" name="category_event" class="nice-select-default">
 
-                                                        </select>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-9">
+                                                    <span class="span-search-ticket">{% trans 'Event Name' %}</span>
+                                                    <div class="input-container-search-ticket">
+                                                        <input id="event_name_id" name="event_name_id" class="form-control" type="text" placeholder="{% trans 'Event Name' %}" style="outline:0" autocomplete="off" value=""/>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-9">
-                                                <span class="span-search-ticket">{% trans 'Event Name' %}</span>
-                                                <div class="input-container-search-ticket">
-                                                    <input id="event_name_id" name="event_name_id" class="form-control" type="text" placeholder="{% trans 'Event Name' %}" style="outline:0" autocomplete="off" value=""/>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <br/>
-                                        <center>
-                                            <button class="button-search primary-btn ld-ext-right" id="btn-search-event" onclick="get_captcha('recaptcha_event','event');" type="button" value="Submit">
-                                                <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                                                {% trans 'Search' %}
-                                                <div class="ld ld-ring ld-cycle"></div>
-                                            </button>
-                                        </center>
-                                    </form>
+                                            <br/>
+                                            <center>
+                                                <button class="button-search primary-btn ld-ext-right" id="btn-search-event" onclick="get_captcha('recaptcha_event','event');" type="button" value="Submit">
+                                                    <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                                    {% trans 'Search' %}
+                                                    <div class="ld ld-ring ld-cycle"></div>
+                                                </button>
+                                            </center>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -327,45 +337,36 @@
                             <div class="col-lg-1"></div>
                             <div class="col-lg-10" style="min-height:300px; background:{{tab_color}}; padding:30px;">
                                 <div class="row">
-                                    <div class="col-lg-12 mb-3">
-                                        <h4 class="heading" style="text-align:right; color:{{text_color}};">
-                                            <h4 class="heading" style="text-align:right; color:{{text_color}};">
-                                                <img style="width:auto; height:40px;" src="/static/tt_website/images/icon/product/c-event.png" alt="Event Icon">
-                                                {% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}
-                                            </h4>
-                                        </h4>
-                                    </div>
-
                                     <div class="col-lg-12">
                                         <form action="{% url 'tt_website:event_search'%}" method="POST" class="form-wrap" id="event_searchForm">
-                            {% csrf_token %}
-                            <input type="hidden" name="g-recaptcha-response" id='recaptcha_event'>
-                            <div class="row">
-                                <div class="col-lg-3">
-                                    <span class="span-search-ticket">{% trans 'Category' %}</span>
-                                    <div class="input-container-search-ticket">
-                                        <div class="form-select">
-                                            <select id="category_event" name="category_event">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="g-recaptcha-response" id='recaptcha_event'>
+                                            <div class="row">
+                                                <div class="col-lg-3">
+                                                    <span class="span-search-ticket">{% trans 'Category' %}</span>
+                                                    <div class="input-container-search-ticket">
+                                                        <div class="form-select">
+                                                            <select id="category_event" name="category_event">
 
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-9">
-                                    <span class="span-search-ticket">{% trans 'Event Name' %}</span>
-                                    <div class="input-container-search-ticket">
-                                        <input id="event_name_id" name="event_name_id" class="form-control" type="text" placeholder="{% trans 'Event Name' %}" style="outline:0" autocomplete="off" value=""/>
-                                    </div>
-                                </div>
-                            </div>
-                            <br/>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-9">
+                                                    <span class="span-search-ticket">{% trans 'Event Name' %}</span>
+                                                    <div class="input-container-search-ticket">
+                                                        <input id="event_name_id" name="event_name_id" class="form-control" type="text" placeholder="{% trans 'Event Name' %}" style="outline:0" autocomplete="off" value=""/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <br/>
 
-                            <button class="button-search primary-btn ld-ext-right" id="btn-search-event" style="float:right;" onclick="get_captcha('recaptcha_event','event');" type="button" value="Submit">
-                                <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                                {% trans 'Search' %}
-                                <div class="ld ld-ring ld-cycle"></div>
-                            </button>
-                        </form>
+                                            <button class="button-search primary-btn ld-ext-right" id="btn-search-event" style="float:right;" onclick="get_captcha('recaptcha_event','event');" type="button" value="Submit">
+                                                <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                                {% trans 'Search' %}
+                                                <div class="ld ld-ring ld-cycle"></div>
+                                            </button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -382,35 +383,35 @@
                         <div class="row">
                             <div class="col-lg-12" style="border:1px solid #cdcdcd; min-height:300px; background:{{tab_color}};">
                                 <form action="{% url 'tt_website:event_search'%}" method="POST" class="search-box" id="event_searchForm">
-                                {% csrf_token %}
-                                <input type="hidden" name="g-recaptcha-response" id='recaptcha_event'>
-                                <div class="row">
-                                    <div class="col-lg-12 mb-3">
-                                        <span class="span-search-ticket">{% trans 'Category' %}</span>
-                                        <div class="select-form mb-30">
-                                            <div class="select-itms">
-                                                <select id="category_event" name="category_event">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="g-recaptcha-response" id='recaptcha_event'>
+                                    <div class="row">
+                                        <div class="col-lg-12 mb-3">
+                                            <span class="span-search-ticket">{% trans 'Category' %}</span>
+                                            <div class="select-form mb-30">
+                                                <div class="select-itms">
+                                                    <select id="category_event" name="category_event">
 
-                                                </select>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <span class="span-search-ticket">{% trans 'Event Name' %}</span>
+                                            <div class="form-group">
+                                                <input id="event_name_id" name="event_name_id" class="form-control" type="text" placeholder="{% trans 'Event Name' %}" style="outline:0" autocomplete="off" value=""/>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-12">
-                                        <span class="span-search-ticket">{% trans 'Event Name' %}</span>
-                                        <div class="form-group">
-                                            <input id="event_name_id" name="event_name_id" class="form-control" type="text" placeholder="{% trans 'Event Name' %}" style="outline:0" autocomplete="off" value=""/>
-                                        </div>
-                                    </div>
-                                </div>
-                                <br/>
-                                <center>
-                                    <button class="button-search primary-btn ld-ext-right" id="btn-search-event" onclick="get_captcha('recaptcha_event','event');" type="button" value="Submit">
-                                        <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                                        {% trans 'Search' %}
-                                        <div class="ld ld-ring ld-cycle"></div>
-                                    </button>
-                                </center>
-                            </form>
+                                    <br/>
+                                    <center>
+                                        <button class="button-search primary-btn ld-ext-right" id="btn-search-event" onclick="get_captcha('recaptcha_event','event');" type="button" value="Submit">
+                                            <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                            {% trans 'Search' %}
+                                            <div class="ld ld-ring ld-cycle"></div>
+                                        </button>
+                                    </center>
+                                </form>
                             </div>
                         </div>
                     </div>
