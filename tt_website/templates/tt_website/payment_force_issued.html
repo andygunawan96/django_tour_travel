@@ -153,7 +153,8 @@
 </section>
 {% include 'tt_website/footer.html' %}
 <script>
-    provider_type = '{{type}}';
+    provider_type = '{% if provider_payment == 'phc' or provider_payment == 'periksain' %}medical/{% endif %}{% if provider_payment == 'medical' %}medical_global{% elif provider_payment == 'labpintar' %}lab_pintar{% elif provider_payment == 'swabexpress' %}swab_express{% elif provider_payment == 'mitrakeluarga' %}mitra_keluarga{% elif provider_payment == 'sentramedika' %}sentra_medika{% else %}{{provider_payment}}{% endif %}';
+
     try{
         get_payment_acq('Issued',passengers.booker.booker_seq_id, '{{order_number}}', 'billing',signature,'{{type}}');
 
