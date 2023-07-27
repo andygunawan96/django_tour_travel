@@ -723,7 +723,7 @@ def review(request):
                         elif perpax['name'] == 'Nationality':
                             perpax_list_temp.append({
                                 "uuid": perpax['uuid'],
-                                "value": request.POST['adult_nationality' + str(i + 1)],
+                                "value": request.POST['adult_nationality' + str(i + 1) + '_id'],
                                 "name": perpax['name']
                             })
                         elif perpax['name'] == 'Full name':
@@ -982,7 +982,7 @@ def review(request):
                         elif perpax['name'] == 'Nationality':
                             perpax_list_temp.append({
                                 "uuid": perpax['uuid'],
-                                "value": request.POST['senior_nationality'+str(i+1)],
+                                "value": request.POST['senior_nationality'+str(i+1) + '_id'],
                                 "name": perpax['name']
                             })
                         elif perpax['name'] == 'Full name':
@@ -1174,7 +1174,7 @@ def review(request):
                         elif perpax['name'] == 'Nationality':
                             perpax_list_temp.append({
                                 "uuid": perpax['uuid'],
-                                "value": request.POST['child_nationality' + str(i + 1)],
+                                "value": request.POST['child_nationality' + str(i + 1) + '_id'],
                                 "name": perpax['name']
                             })
                         elif perpax['name'] == 'Full name':

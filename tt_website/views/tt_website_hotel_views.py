@@ -441,8 +441,7 @@ def review(request):
                         "behaviors": behaviors,
                     })
                     printout_paxs.append({
-                        "name": request.POST['adult_title' + str(i + 1)] + ' ' + request.POST[
-                            'adult_first_name' + str(i + 1)] + ' ' + request.POST['adult_last_name' + str(i + 1)],
+                        "name": request.POST['adult_title' + str(i + 1)] + ' ' + request.POST['adult_first_name' + str(i + 1)] + ' ' + request.POST['adult_last_name' + str(i + 1)],
                         'ticket_number': '',
                         'birth_date': request.POST['adult_birth_date' + str(i + 1)],
                         'pax_type': 'Adult',
@@ -530,7 +529,7 @@ def review(request):
                         "last_name": request.POST['child_last_name' + str(i + 1)],
                         "title": request.POST['child_title' + str(i + 1)],
                         "birth_date": request.POST['child_birth_date' + str(i + 1)],
-                        "nationality_name": request.POST['child_nationality' + str(i + 1)],
+                        "nationality_name": request.POST['child_nationality' + str(i + 1) + '_id'],
                         "passenger_seq_id": request.POST['child_id' + str(i + 1)],
                         "room_number": '1',
                         "behaviors": behaviors,
