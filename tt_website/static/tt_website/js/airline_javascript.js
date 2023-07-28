@@ -1701,7 +1701,7 @@ function airline_set_passenger_plus(type, val){
             $('#student_flight1').val(quantity + 1);
         }
     }else if(type == 'labour'){
-        var quantity = parseInt($('#child_flight').val());
+        var quantity = parseInt($('#labour_flight').val());
         if(quantity_total_pax < 9){
             $('#labour_flight').val(quantity + 1);
             $('#labour_flight1').val(quantity + 1);
