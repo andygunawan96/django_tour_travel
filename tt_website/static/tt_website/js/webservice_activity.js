@@ -2672,6 +2672,8 @@ function activity_issued_booking(order_number)
                        document.getElementById('payment_acq').innerHTML = '';
                        document.getElementById('payment_acq').hidden = true;
                        document.getElementById("overlay-div-box").style.display = "none";
+                       document.getElementById('cancel').innerHTML = ``;
+                       document.getElementById('cancel').hidden = true;
                        hide_modal_waiting_transaction();
                    }
                }
@@ -2686,6 +2688,8 @@ function activity_issued_booking(order_number)
                document.getElementById('payment_acq').innerHTML = '';
                document.getElementById('payment_acq').hidden = true;
                document.getElementById("overlay-div-box").style.display = "none";
+               document.getElementById('cancel').innerHTML = ``;
+               document.getElementById('cancel').hidden = true;
                hide_modal_waiting_transaction();
                activity_get_booking(order_number);
                Swal.fire({
