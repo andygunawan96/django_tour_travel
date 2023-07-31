@@ -2765,6 +2765,8 @@ function get_customer_list(passenger, number, product){
 }
 
 function gotoForm(){
+    if(window.location.search.includes('redirect'))
+        document.getElementById('myForm').action = window.location.search.split('=')[1];
     document.getElementById('myForm').submit();
 //    document.getElementById('myForm2').submit();
 }

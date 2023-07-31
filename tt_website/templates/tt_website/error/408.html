@@ -1,0 +1,18 @@
+{% extends 'tt_website/template_website_booking.html' %}
+
+{% load i18n %}
+{% load static from staticfiles %}
+{% block content %}
+<script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/library/moment.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/library/daterangepicker.js?version={{javascript_version}}"></script>
+<title>{{name}} - Error</title>
+<div class="m-3" style="text-align:center">
+    <img src="{{ static_path }}images/no_found/question.jpeg" alt="Error" style="height:250px;">
+    <h2>Oops! . . .</h2>
+    <h4>Request Timeout</h4>
+    <p>Please contact admin.</p>
+</div>
+
+{% endblock %}

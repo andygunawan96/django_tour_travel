@@ -1807,7 +1807,12 @@ function mitra_keluarga_get_booking(order_number, sync=false){
                     document.getElementById('show_title_mitra_keluarga').hidden = false;
                     document.getElementById('show_loading_booking_mitra_keluarga').hidden = true;
                     document.getElementById('show_title_mitra_keluarga').hidden = true;
-                    render_login('mitra_keluarga');
+                    $('#myModalSignin').modal('show');
+                    Swal.fire({
+                        type: 'error',
+                        title: 'Oops!',
+                        html: msg.result.error_msg,
+                    })
                 }else{
                    Swal.fire({
                       type: 'error',

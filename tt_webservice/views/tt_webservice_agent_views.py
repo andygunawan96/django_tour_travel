@@ -2282,12 +2282,6 @@ def update_customer(request):
         passenger = json.loads(request.POST['data'])
         passenger['birth_date'] = '%s-%s-%s' % (passenger['birth_date'].split(' ')[2], month[passenger['birth_date'].split(' ')[1]], passenger['birth_date'].split(' ')[0])
 
-        if passenger['nationality_name'] != '':
-            for country in response['result']['response']['airline']['country']:
-                if passenger['nationality_name'] == country['name']:
-                    passenger['nationality_code'] = country['code']
-                    break
-
         for img in passenger['image']:
             if img[2] == 'files_attachment_edit':
                 if 'face_image' in passenger and img[1] == 4:

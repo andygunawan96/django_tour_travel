@@ -296,54 +296,33 @@ function event_get_booking(data){
                                         </td>
                                     </tr>`;
                             }
-                   text+=`</table><hr/>`;
-                   if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
-                        text+=`
-                        <div class="row mb-3">
-                            <div class="col-lg-6">
-                                <b>Agent: </b><i>`+msg.result.response.agent_name+`</i>
-                            </div>
-                            <div class="col-lg-6">`;
-                                if(msg.result.response.customer_parent_name){
-                                    text+=`<b>Customer: </b><i>`+msg.result.response.customer_parent_type_name+` `+msg.result.response.customer_parent_name+`</i>`;
-                                }
+                        text+=`</table><hr/>`;
+                        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
                             text+=`
-                            </div>
-                        </div>`;
-                    }
-                    text+=`
-                    <div class="row">
-                        <div class="col-lg-3">
-                            <span>
-                                <b>Booked by</b><br><i>`+msg.result.response.booked_by+`</i>
-                            </span>
-                        </div>
-                        <div class="col-lg-9 mb-3">
-                            <span>
-                                <b>Booked Date </b><br/>`;
-                                if(msg.result.response.booked_date != ""){
-                                    text+=`<i>`+msg.result.response.booked_date+`</i>`;
-                                }else{
-                                    text+=`-`;
-                                }
-                            text+=`
-                            </span>
-                        </div>
-                   </div>`;
-
-                   if(msg.result.response.state == 'issued'){
+                            <div class="row mb-3">
+                                <div class="col-lg-6">
+                                    <b>Agent: </b><i>`+msg.result.response.agent_name+`</i>
+                                </div>
+                                <div class="col-lg-6">`;
+                                    if(msg.result.response.customer_parent_name){
+                                        text+=`<b>Customer: </b><i>`+msg.result.response.customer_parent_type_name+` `+msg.result.response.customer_parent_name+`</i>`;
+                                    }
+                                text+=`
+                                </div>
+                            </div>`;
+                        }
                         text+=`
                         <div class="row">
-                            <div class="col-lg-3 mb-3">
+                            <div class="col-lg-3">
                                 <span>
-                                    <b>Issued by</b><br><i>`+msg.result.response.issued_by+`</i>
+                                    <b>Booked by</b><br><i>`+msg.result.response.booked_by+`</i>
                                 </span>
                             </div>
-                            <div class="col-lg-5 mb-3">
+                            <div class="col-lg-9 mb-3">
                                 <span>
-                                    <b>Issued Date </b><br/>`;
-                                    if(msg.result.response.issued_date != ""){
-                                        text+=`<i>`+msg.result.response.issued_date+`</i>`;
+                                    <b>Booked Date </b><br/>`;
+                                    if(msg.result.response.booked_date != ""){
+                                        text+=`<i>`+msg.result.response.booked_date+`</i>`;
                                     }else{
                                         text+=`-`;
                                     }
@@ -351,619 +330,657 @@ function event_get_booking(data){
                                 </span>
                             </div>
                         </div>`;
-                   }
-                   text+=`
-                   </div>
-                   <hr/>`;
-                   text+=`<div class="row">`;
-                   text+=`<div class="col-lg-12">`;
-                       if(msg.result.response.event_name != false)
-                            text+=`<h5>`+msg.result.response.event_name+`</h5>`;
-                   text+=`</div>`;
 
-                   text+=`<div class="col-lg-12">`;
-                   if(msg.result.response.event_location != false)
-                        text+=`<i class="fas fa-map-marker-alt" style="color:`+color+`;"></i> <b>Location: </b><br/>`;
-
-                       if(msg.result.response.event_location != false)
-                           for (loc_obj in msg.result.response.event_location)
-                               text+=`<i> `+msg.result.response.event_location[loc_obj].name+`, `+msg.result.response.event_location[loc_obj].address+`, `+msg.result.response.event_location[loc_obj].city+`</i><br/>`;
-                   text+=`</div>`;
-
-                   text+=`<div class="col-lg-12">`;
-                   if(msg.result.response.event_location != false)
-                        text+=`<b>Event Detail: </b><br/>`;
-
-                       if(msg.result.response.description != false)
-                           text+=`<i>`+msg.result.response.description+`</i>`;
-                       else
-                           text+=`<span>-</span><br/>`;
-                   text+=`</div>`;
-               document.getElementById('event_booking').innerHTML = text;
-            //======================= Button Issued ==================
-            if(msg.result.response.state == 'booked'){
-               check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'event', signature, msg.result.response.payment_acquirer_number);
-               $(".issued_booking_btn").show();
-               $text += 'Status: Booked\n';
-               document.getElementById('alert-state').innerHTML = `
-               <div class="alert alert-success" role="alert">
-                   <h5>Your booking has been successfully Booked. Please proceed to payment or review your booking again.</h5>
-               </div>`;
-            }
-            else if(msg.result.response.state == 'issued'){
-                document.getElementById('issued-breadcrumb').classList.add("br-active");
-                document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
-                document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
-                document.getElementById('show_title_event').hidden = true;
-                document.getElementById('display_state').innerHTML = `Your Order Has Been Issued`;
-                //document.getElementById('display_prices').style.display = "none";
-                $text += 'Status: Issued\n';
-                document.getElementById('alert-state').innerHTML = `
-                <div class="alert alert-success" role="alert">
-                    <h5>Your booking has been successfully Issued!</h5>
-                </div>`;
-            }else if(msg.result.response.state == 'refund'){
-               //document.getElementById('issued-breadcrumb').classList.remove("current");
-               //document.getElementById('issued-breadcrumb').classList.add("active");
-               document.getElementById('issued-breadcrumb').classList.add("br-active");
-               document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
-               document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
-               document.getElementById('alert-state').innerHTML = `
-               <div class="alert alert-dark" role="alert">
-                   <h5>Your booking has been Refunded!</h5>
-               </div>`;
-            }
-            else if(msg.result.response.state == 'cancel2'){
-                $text += 'Status: Expired \n';
-                document.getElementById('issued-breadcrumb').classList.remove("br-active");
-                document.getElementById('issued-breadcrumb').classList.add("br-fail");
-                document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
-                document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
-                document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
-                document.getElementById('issued-breadcrumb-span').innerHTML = `Expired`;
-                document.getElementById('display_state').innerHTML = `Your Order Has Been Expired`;
-                document.getElementById('show_title_event').hidden = true;
-                document.getElementById('alert-state').innerHTML = `
-                <div class="alert alert-danger" role="alert">
-                    <h5>Your booking has been Expired!</h5>
-                </div>`;
-            }
-            else if(msg.result.response.state == 'fail_issued'){
-                $text = 'Fail Issued';
-                document.getElementById('issued-breadcrumb').classList.remove("br-active");
-                document.getElementById('issued-breadcrumb').classList.add("br-fail");
-                document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
-                document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
-                document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
-                document.getElementById('issued-breadcrumb-span').innerHTML = `Fail Issued`;
-                document.getElementById('display_state').innerHTML = `Your Order Has Been Failed`;
-                document.getElementById('show_title_event').hidden = true;
-                document.getElementById('alert-state').innerHTML = `
-                <div class="alert alert-danger" role="alert">
-                    <h5>Your booking has been Failed!</h5>
-                </div>`;
-            }
-            else if(msg.result.response.state == 'fail_booked'){
-                $text = 'Fail Booked';
-                document.getElementById('issued-breadcrumb').classList.remove("br-active");
-                document.getElementById('issued-breadcrumb').classList.add("br-fail");
-                document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
-                document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
-                document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
-                document.getElementById('issued-breadcrumb-span').innerHTML = `Fail Booked`;
-                document.getElementById('display_state').innerHTML = `Your Order Has Been Failed`;
-                document.getElementById('show_title_event').hidden = true;
-                document.getElementById('alert-state').innerHTML = `
-                <div class="alert alert-danger" role="alert">
-                    <h5>Your booking has been Failed!</h5>
-                </div>`;
-            }
-            else if(msg.result.response.state == 'fail_refunded'){
-                $text = 'Fail Refunded';
-                document.getElementById('issued-breadcrumb').classList.remove("br-active");
-                document.getElementById('issued-breadcrumb').classList.add("br-fail");
-                document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
-                document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
-                document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
-                document.getElementById('issued-breadcrumb-span').innerHTML = `Fail Refunded`;
-                document.getElementById('display_state').innerHTML = `Your Order Has Been Failed`;
-                document.getElementById('show_title_event').hidden = true;
-                document.getElementById('alert-state').innerHTML = `
-                <div class="alert alert-danger" role="alert">
-                    <h5>Your booking has been Failed!</h5>
-                </div>`;
-            }
-            else if(msg.result.response.state == 'refund'){
-                $text = 'Refunded';
-                document.getElementById('issued-breadcrumb').classList.add("br-active");
-                document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
-                document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
-                document.getElementById('issued-breadcrumb-span').innerHTML = `Refunded`;
-                document.getElementById('display_state').innerHTML = `Your Order Has Been Refunded`;
-                document.getElementById('show_title_event').hidden = true;
-                document.getElementById('alert-state').innerHTML = `
-                <div class="alert alert-success" role="alert">
-                    <h5>Your booking has been Refund!</h5>
-                </div>`;
-            }
-
-            //======================= Option =========================
-            text = `
-                    <div class="row">
-                        <div class="col-lg-12 mb-3" style="border-bottom: 1px solid #cdcdcd;">
-                            <h4 class="mb-3"><img src="/static/tt_website/images/no_found/no-ticket.png" alt="undefined" style="width:20px; height:20px;"> Ticket Information(s)</h4>
-                        </div>
-                    </div>
-                    <div class="row">`;
-                    var temp_name_option = '';
-                    var temp_numb_option = 0;
-                    for(i in msg.result.response.options){
-                        var b = parseInt(i) + 1;
-                        //console.log(msg.result.response.options);
-                        if(temp_name_option != msg.result.response.options[i].option.event_option_id.grade){
-                            temp_numb_option = 0;
-                        }
-                        temp_name_option = msg.result.response.options[i].option.event_option_id.grade;
-                        temp_numb_option = temp_numb_option + 1;
-                        text+=`
-                            <div class="col-lg-12" style="margin-bottom:15px;">
-                                <h5>`+msg.result.response.options[i].option.event_option_id.grade+` - `+ temp_numb_option +`</h5>
-                                <b>Ticket Number: </b>`;
-                                if(msg.result.response.options[i].option.ticket_number == false)
-                                    text+=`<span>-</span>`;
-                                else
-                                    text+=`<i>`+msg.result.response.options[i].option.ticket_number+`</i>`;
-
+                        if(msg.result.response.state == 'issued'){
                             text+=`
-                                <br/>
-                                <b>Extra Question: </b>
-                                <span style="padding-left:5px; font-weight:600; font-size:12px; color:`+color+`; cursor:pointer;" data-toggle="modal" data-target="#answerModal`+i+`"> Show Your Answer </span>
-                                <div class="modal fade" id="answerModal`+i+`" role="dialog" data-keyboard="false">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 style="color:`+text_color+`;">Extra Question </h5>
-                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                            </div>
-                                            <div class="modal-body">
-                                            <h6>Your Answer on `+msg.result.response.options[i].option.event_option_id.grade+` - `+ temp_numb_option +`</h6>
-                                                <div class="row" style="overflow-y:auto; max-height:450px;">`;
-                                                for(j in msg.result.response.options[i].option.extra_question){
-                                                    var ans_index = (parseInt(j))+1;
-                                                    text+=`<div class="col-lg-12" style="margin-top:15px;">
-                                                        <div style="padding:15px; border: 1px solid #cdcdcd; background: #f7f7f7;">
-                                                            <h6>Question #`+ans_index+` - <i>`+ msg.result.response.options[i].option.extra_question[j].question +`</i></h6>
-                                                            <span>Answer:</span>
-                                                            <span style="font-weight:500;">`+ msg.result.response.options[i].option.extra_question[j].answer +`</span>
-                                                        </div>
-                                                    </div>`;
-                                                }
-                                            text+=`</div>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <div class="row">
+                                <div class="col-lg-3 mb-3">
+                                    <span>
+                                        <b>Issued by</b><br><i>`+msg.result.response.issued_by+`</i>
+                                    </span>
+                                </div>
+                                <div class="col-lg-5 mb-3">
+                                    <span>
+                                        <b>Issued Date </b><br/>`;
+                                        if(msg.result.response.issued_date != ""){
+                                            text+=`<i>`+msg.result.response.issued_date+`</i>`;
+                                        }else{
+                                            text+=`-`;
+                                        }
+                                    text+=`
+                                    </span>
+                                </div>
+                            </div>`;
+                        }
+                        text+=`
+                        </div>
+                        <hr/>`;
+                        text+=`<div class="row">`;
+                        text+=`<div class="col-lg-12">`;
+                           if(msg.result.response.event_name != false)
+                                text+=`<h5>`+msg.result.response.event_name+`</h5>`;
+                        text+=`</div>`;
+
+                        text+=`<div class="col-lg-12">`;
+                        if(msg.result.response.event_location != false)
+                            text+=`<i class="fas fa-map-marker-alt" style="color:`+color+`;"></i> <b>Location: </b><br/>`;
+
+                            if(msg.result.response.event_location != false)
+                                for (loc_obj in msg.result.response.event_location)
+                                    text+=`<i> `+msg.result.response.event_location[loc_obj].name+`, `+msg.result.response.event_location[loc_obj].address+`, `+msg.result.response.event_location[loc_obj].city+`</i><br/>`;
+                        text+=`</div>`;
+
+                        text+=`<div class="col-lg-12">`;
+                        if(msg.result.response.event_location != false)
+                            text+=`<b>Event Detail: </b><br/>`;
+
+                           if(msg.result.response.description != false)
+                               text+=`<i>`+msg.result.response.description+`</i>`;
+                           else
+                               text+=`<span>-</span><br/>`;
+                       text+=`</div>`;
+                    document.getElementById('event_booking').innerHTML = text;
+                    //======================= Button Issued ==================
+                    if(msg.result.response.state == 'booked'){
+                        check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'event', signature, msg.result.response.payment_acquirer_number);
+                        $(".issued_booking_btn").show();
+                        $text += 'Status: Booked\n';
+                        document.getElementById('alert-state').innerHTML = `
+                        <div class="alert alert-success" role="alert">
+                            <h5>Your booking has been successfully Booked. Please proceed to payment or review your booking again.</h5>
+                        </div>`;
+                    }
+                    else if(msg.result.response.state == 'issued'){
+                        document.getElementById('issued-breadcrumb').classList.add("br-active");
+                        document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
+                        document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
+                        document.getElementById('show_title_event').hidden = true;
+                        document.getElementById('display_state').innerHTML = `Your Order Has Been Issued`;
+                        //document.getElementById('display_prices').style.display = "none";
+                        $text += 'Status: Issued\n';
+                        document.getElementById('alert-state').innerHTML = `
+                        <div class="alert alert-success" role="alert">
+                            <h5>Your booking has been successfully Issued!</h5>
+                        </div>`;
+                    }else if(msg.result.response.state == 'refund'){
+                       //document.getElementById('issued-breadcrumb').classList.remove("current");
+                       //document.getElementById('issued-breadcrumb').classList.add("active");
+                       document.getElementById('issued-breadcrumb').classList.add("br-active");
+                       document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
+                       document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
+                       document.getElementById('alert-state').innerHTML = `
+                       <div class="alert alert-dark" role="alert">
+                           <h5>Your booking has been Refunded!</h5>
+                       </div>`;
+                    }
+                    else if(msg.result.response.state == 'cancel2'){
+                        $text += 'Status: Expired \n';
+                        document.getElementById('issued-breadcrumb').classList.remove("br-active");
+                        document.getElementById('issued-breadcrumb').classList.add("br-fail");
+                        document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
+                        document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
+                        document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
+                        document.getElementById('issued-breadcrumb-span').innerHTML = `Expired`;
+                        document.getElementById('display_state').innerHTML = `Your Order Has Been Expired`;
+                        document.getElementById('show_title_event').hidden = true;
+                        document.getElementById('alert-state').innerHTML = `
+                        <div class="alert alert-danger" role="alert">
+                            <h5>Your booking has been Expired!</h5>
+                        </div>`;
+                    }
+                    else if(msg.result.response.state == 'fail_issued'){
+                        $text = 'Fail Issued';
+                        document.getElementById('issued-breadcrumb').classList.remove("br-active");
+                        document.getElementById('issued-breadcrumb').classList.add("br-fail");
+                        document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
+                        document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
+                        document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
+                        document.getElementById('issued-breadcrumb-span').innerHTML = `Fail Issued`;
+                        document.getElementById('display_state').innerHTML = `Your Order Has Been Failed`;
+                        document.getElementById('show_title_event').hidden = true;
+                        document.getElementById('alert-state').innerHTML = `
+                        <div class="alert alert-danger" role="alert">
+                            <h5>Your booking has been Failed!</h5>
+                        </div>`;
+                    }
+                    else if(msg.result.response.state == 'fail_booked'){
+                        $text = 'Fail Booked';
+                        document.getElementById('issued-breadcrumb').classList.remove("br-active");
+                        document.getElementById('issued-breadcrumb').classList.add("br-fail");
+                        document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
+                        document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
+                        document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
+                        document.getElementById('issued-breadcrumb-span').innerHTML = `Fail Booked`;
+                        document.getElementById('display_state').innerHTML = `Your Order Has Been Failed`;
+                        document.getElementById('show_title_event').hidden = true;
+                        document.getElementById('alert-state').innerHTML = `
+                        <div class="alert alert-danger" role="alert">
+                            <h5>Your booking has been Failed!</h5>
+                        </div>`;
+                    }
+                    else if(msg.result.response.state == 'fail_refunded'){
+                        $text = 'Fail Refunded';
+                        document.getElementById('issued-breadcrumb').classList.remove("br-active");
+                        document.getElementById('issued-breadcrumb').classList.add("br-fail");
+                        document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
+                        document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
+                        document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
+                        document.getElementById('issued-breadcrumb-span').innerHTML = `Fail Refunded`;
+                        document.getElementById('display_state').innerHTML = `Your Order Has Been Failed`;
+                        document.getElementById('show_title_event').hidden = true;
+                        document.getElementById('alert-state').innerHTML = `
+                        <div class="alert alert-danger" role="alert">
+                            <h5>Your booking has been Failed!</h5>
+                        </div>`;
+                    }
+                    else if(msg.result.response.state == 'refund'){
+                        $text = 'Refunded';
+                        document.getElementById('issued-breadcrumb').classList.add("br-active");
+                        document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
+                        document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
+                        document.getElementById('issued-breadcrumb-span').innerHTML = `Refunded`;
+                        document.getElementById('display_state').innerHTML = `Your Order Has Been Refunded`;
+                        document.getElementById('show_title_event').hidden = true;
+                        document.getElementById('alert-state').innerHTML = `
+                        <div class="alert alert-success" role="alert">
+                            <h5>Your booking has been Refund!</h5>
+                        </div>`;
+                    }
+
+                    //======================= Option =========================
+                    text = `
+                        <div class="row">
+                            <div class="col-lg-12 mb-3" style="border-bottom: 1px solid #cdcdcd;">
+                                <h4 class="mb-3"><img src="/static/tt_website/images/no_found/no-ticket.png" alt="undefined" style="width:20px; height:20px;"> Ticket Information(s)</h4>
+                            </div>
+                        </div>
+                        <div class="row">`;
+                        var temp_name_option = '';
+                        var temp_numb_option = 0;
+                        for(i in msg.result.response.options){
+                            var b = parseInt(i) + 1;
+                            //console.log(msg.result.response.options);
+                            if(temp_name_option != msg.result.response.options[i].option.event_option_id.grade){
+                                temp_numb_option = 0;
+                            }
+                            temp_name_option = msg.result.response.options[i].option.event_option_id.grade;
+                            temp_numb_option = temp_numb_option + 1;
+                            text+=`
+                                <div class="col-lg-12" style="margin-bottom:15px;">
+                                    <h5>`+msg.result.response.options[i].option.event_option_id.grade+` - `+ temp_numb_option +`</h5>
+                                    <b>Ticket Number: </b>`;
+                                    if(msg.result.response.options[i].option.ticket_number == false)
+                                        text+=`<span>-</span>`;
+                                    else
+                                        text+=`<i>`+msg.result.response.options[i].option.ticket_number+`</i>`;
+
+                                text+=`
+                                    <br/>
+                                    <b>Extra Question: </b>
+                                    <span style="padding-left:5px; font-weight:600; font-size:12px; color:`+color+`; cursor:pointer;" data-toggle="modal" data-target="#answerModal`+i+`"> Show Your Answer </span>
+                                    <div class="modal fade" id="answerModal`+i+`" role="dialog" data-keyboard="false">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 style="color:`+text_color+`;">Extra Question </h5>
+                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                </div>
+                                                <div class="modal-body">
+                                                <h6>Your Answer on `+msg.result.response.options[i].option.event_option_id.grade+` - `+ temp_numb_option +`</h6>
+                                                    <div class="row" style="overflow-y:auto; max-height:450px;">`;
+                                                    for(j in msg.result.response.options[i].option.extra_question){
+                                                        var ans_index = (parseInt(j))+1;
+                                                        text+=`<div class="col-lg-12" style="margin-top:15px;">
+                                                            <div style="padding:15px; border: 1px solid #cdcdcd; background: #f7f7f7;">
+                                                                <h6>Question #`+ans_index+` - <i>`+ msg.result.response.options[i].option.extra_question[j].question +`</i></h6>
+                                                                <span>Answer:</span>
+                                                                <span style="font-weight:500;">`+ msg.result.response.options[i].option.extra_question[j].answer +`</span>
+                                                            </div>
+                                                        </div>`;
+                                                    }
+                                                text+=`</div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-lg-3" style="margin-bottom:10px;">`;
-                                if(msg.result.response.options[i].option.event_option_id.option_image_ids.length != 0)
-                                    text+=`<div class="border-event"><div class="img-event-detail" style="background-size:contain; background-repeat: no-repeat; background-image: url('`+msg.result.response.options[i].option.event_option_id.option_image_ids[0]+`');"></div></div>`;
-                                else
-                                    text+=`<div class="border-event"><div class="img-event-detail" style="background-size:contain; background-repeat: no-repeat; background-image: url('/static/tt_website/images/no_found/no-ticket.png');"></div></div>`;
-                            text+=`
-                            </div>
-                            <div class="col-lg-9">
-                                <h6>Description</h6>`;
-                            if(msg.result.response.options[i].option.event_option_id.description != false){
-                                text+=`<span>`+msg.result.response.options[i].option.event_option_id.description+`</span><hr/>`;
-                            }else{
-                                text+='<span>No Description for this Ticket</span><hr/>';
-                            }
-                            js_total_price = 0;
-                            js_currency = '';
-                            for(x in msg.result.response.passengers[0].sale_service_charges){
-                                for(y in msg.result.response.passengers[0].sale_service_charges[x]){
-                                    js_currency = msg.result.response.passengers[0].sale_service_charges[x][y].currency
+                                <div class="col-lg-3" style="margin-bottom:10px;">`;
+                                    if(msg.result.response.options[i].option.event_option_id.option_image_ids.length != 0)
+                                        text+=`<div class="border-event"><div class="img-event-detail" style="background-size:contain; background-repeat: no-repeat; background-image: url('`+msg.result.response.options[i].option.event_option_id.option_image_ids[0]+`');"></div></div>`;
+                                    else
+                                        text+=`<div class="border-event"><div class="img-event-detail" style="background-size:contain; background-repeat: no-repeat; background-image: url('/static/tt_website/images/no_found/no-ticket.png');"></div></div>`;
+                                text+=`
+                                </div>
+                                <div class="col-lg-9">
+                                    <h6>Description</h6>`;
+                                if(msg.result.response.options[i].option.event_option_id.description != false){
+                                    text+=`<span>`+msg.result.response.options[i].option.event_option_id.description+`</span><hr/>`;
+                                }else{
+                                    text+='<span>No Description for this Ticket</span><hr/>';
+                                }
+                                js_total_price = 0;
+                                js_currency = '';
+                                for(x in msg.result.response.passengers[0].sale_service_charges){
+                                    for(y in msg.result.response.passengers[0].sale_service_charges[x]){
+                                        js_currency = msg.result.response.passengers[0].sale_service_charges[x][y].currency
+                                        break;
+                                    }
                                     break;
                                 }
-                                break;
-                            }
-                            for(ssc_idx in msg.result.response.options[i].sale_service_charges){
-                                for(ssc_idx2 in msg.result.response.options[i].sale_service_charges[ssc_idx].FARE){
-                                    js_total_price += msg.result.response.options[i].sale_service_charges[ssc_idx].FARE[ssc_idx2].amount
-                                }
-                                for(ssc_idx2 in msg.result.response.options[i].sale_service_charges[ssc_idx].ROC){
-                                    js_total_price += msg.result.response.options[i].sale_service_charges[ssc_idx].ROC[ssc_idx2].amount
-                                }
-                            }
-                            text+=`
-                                <table style="width:100%;">
-                                    <tr>
-                                        <th style="width:40%;">Price</th>
-                                        <th style="width:20%;">Qty</th>
-                                        <th style="width:40%;">Sub Total</th>
-                                    </tr>
-                                    <tr>
-                                        <td>`+js_currency+` `+getrupiah(js_total_price)+`</td>
-                                        <td>1</td>
-                                        <td>`+js_currency+` `+getrupiah(js_total_price)+`</td>
-                                    </tr>
-                                </table>
-                            </div>`;
-                            if(msg.result.response.options.length > 1 && b != msg.result.response.options.length)
-                                text+=`<div class="col-lg-12"><hr/></div>`;
-                    }
-            document.getElementById('event_list_option').innerHTML = text;
-
-            //======================= Extra Question =========================
-
-            //detail
-
-            title = '';
-            if(msg.result.response.contact.gender == 'male')
-                title = 'MR';
-            else if(msg.result.response.contact.gender == 'female' && msg.result.response.contact.marital_status == true)
-                title = 'MRS';
-            else if(msg.result.response.contact.gender == 'female')
-                title = 'MS';
-            $text += '\nContact Person:\n';
-            $text += msg.result.response.contact.title + ' ' + msg.result.response.contact.name + '\n';
-            $text += msg.result.response.contact.email + '\n';
-            $text += msg.result.response.contact.phone + '\n';
-            text = '';
-            tax = 0;
-            fare = 0;
-            total_price = 0;
-            total_price_provider = [];
-            price_provider = 0;
-            commission = 0;
-            service_charge = ['FARE', 'RAC', 'ROC', 'TAX', 'SSR', 'DISC'];
-            text_detail=`
-            <div style="background-color:white; padding:10px; border: 1px solid #cdcdcd; margin-bottom:15px;">
-                <h5> Price Detail</h5>
-            <hr/>`;
-
-            //repricing
-            type_amount_repricing = ['Repricing'];
-            //repricing
-            counter_service_charge = 0;
-            $text += '\nPrice:\n';
-            for(i in msg.result.response.providers){
-                try{
-                    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false || msg.result.response.state == 'issued')
-                        text_detail+=`
-                            <div style="text-align:left">
-                                <span style="font-weight:500; font-size:14px;">PNR: `+msg.result.response.providers[i].pnr+` </span>
-                            </div>`;
-
-                    for(j in msg.result.response.passengers){
-                        price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0, 'SSR': 0, 'DISC': 0,'SEAT':0};
-                        for(k in msg.result.response.passengers[j].sale_service_charges[""]){
-                            price[k] += msg.result.response.passengers[j].sale_service_charges[""][k].amount;
-                            if(price['currency'] == '')
-                                price['currency'] = msg.result.response.passengers[j].sale_service_charges[""][k].currency;
-                        }
-                        try{
-                            price['CSC'] = msg.result.response.passengers[j].channel_service_charges.amount;
-
-                        }catch(err){
-                            console.log(err) //ada element yg tidak ada
-                        }
-                        //repricing
-                        check = 0;
-                        if(price_arr_repricing.hasOwnProperty(msg.result.response.passengers[j].pax_type) == false){
-                            price_arr_repricing[msg.result.response.passengers[j].pax_type] = {}
-                            pax_type_repricing.push([msg.result.response.passengers[j].pax_type, msg.result.response.passengers[j].pax_type]);
-                        }
-                        price_arr_repricing[msg.result.response.passengers[j].pax_type][msg.result.response.passengers[j].name] = {
-                            'Fare': price['FARE'] + price['SSR'] + price['SEAT'] + price['DISC'],
-                            'Tax': price['TAX'] + price['ROC'],
-                            'Repricing': price['CSC']
-                        }
-                        text_repricing = `
-                        <div class="col-lg-12">
-                            <div style="padding:5px;" class="row">
-                                <div class="col-lg-3"></div>
-                                <div class="col-lg-3">Price</div>
-                                <div class="col-lg-3">Repricing</div>
-                                <div class="col-lg-3">Total</div>
-                            </div>
-                        </div>`;
-                        for(k in price_arr_repricing){
-                            for(l in price_arr_repricing[k]){
-                                text_repricing += `
-                                <div class="col-lg-12">
-                                    <div style="padding:5px;" class="row" id="adult">
-                                        <div class="col-lg-3" id="`+j+`_`+k+`">`+l+`</div>
-                                        <div class="col-lg-3" id="`+l+`_price">`+getrupiah(price_arr_repricing[k][l].Fare + price_arr_repricing[k][l].Tax)+`</div>`;
-                                        if(price_arr_repricing[k][l].Repricing == 0)
-                                            text_repricing+=`<div class="col-lg-3" id="`+l+`_repricing">-</div>`;
-                                        else
-                                            text_repricing+=`<div class="col-lg-3" id="`+l+`_repricing">`+getrupiah(price_arr_repricing[k][l].Repricing)+`</div>`;
-                                        text_repricing+=`<div class="col-lg-3" id="`+l+`_total">`+getrupiah(price_arr_repricing[k][l].Fare + price_arr_repricing[k][l].Tax + price_arr_repricing[k][l].Repricing)+`</div>
-                                    </div>
-                                </div>`;
-                            }
-                        }
-                        //booker
-                        booker_insentif = '-';
-                        if(msg.result.response.hasOwnProperty('booker_insentif'))
-                            booker_insentif = getrupiah(msg.result.response.booker_insentif)
-                        text_repricing += `
-                            <div class="col-lg-12">
-                                <div style="padding:5px;" class="row" id="booker_repricing" hidden>
-                                <div class="col-lg-6" id="repricing_booker_name">Booker Insentif</div>
-                                <div class="col-lg-3" id="repriring_booker_repricing"></div>
-                                <div class="col-lg-3" id="repriring_booker_total">`+booker_insentif+`</div>
-                                </div>
-                            </div>`;
-                        text_repricing += `<div id='repricing_button' class="col-lg-12" style="text-align:center;"></div>`;
-                        document.getElementById('repricing_div').innerHTML = text_repricing;
-                        //repricing
-
-                        text_detail+=`
-                        <div class="row" style="margin-bottom:5px;">
-                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                <span style="font-size:12px;">`+msg.result.response.passengers[j].name+`</span>`;
-                            text_detail+=`</div>
-                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">`;
-                            if(counter_service_charge == 0) //with upsell pnr pertama
-                                text_detail+=`
-                                <span style="font-size:13px;">`+ msg.result.response.passengers[j].qty + `X @` + price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.CSC + price.SSR + price.SEAT + price.DISC + price.CSC))+`</span>`;
-                            else
-                                text_detail+=`
-                                <span style="font-size:13px;">`+ msg.result.response.passengers[j].qty + `X @` + price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.CSC + price.SSR + price.SEAT + price.DISC))+`</span>`;
-                            text_detail+=`
-                            </div>
-                        </div>`;
-                        $text += msg.result.response.passengers[j].name + ' ['+msg.result.response.providers[i].pnr+'] \n';
-                        if(counter_service_charge == 0){ //with upsell pnr pertama
-                            total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SEAT + price.CSC + price.SSR + price.DISC) * parseInt(msg.result.response.passengers[j].qty);
-                            price_provider += parseInt(price.TAX + price.ROC + price.FARE + price.SEAT + price.CSC + price.SSR + price.DISC) * parseInt(msg.result.response.passengers[j].qty);
-                            $text += msg.result.response.passengers[j].qty + ' x ' + price.currency+` `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.CSC + price.DISC))+'\n';
-                            $text += 'Sub Total: ' + price.currency+` `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.CSC + price.DISC) * msg.result.response.passengers[j].qty)+'\n\n';
-                        }else{ //no upsell
-                            total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT + price.DISC) * parseInt(msg.result.response.passengers[j].qty);
-                            price_provider += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT + price.DISC) * parseInt(msg.result.response.passengers[j].qty);
-                            $text += msg.result.response.passengers[j].qty + ' x ' + price.currency+` `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.DISC))+'\n';
-                            $text += 'Sub Total: ' + price.currency+` `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.DISC) * msg.result.response.passengers[j].qty)+'\n\n';
-                        }
-                        commission += parseInt(price.RAC);
-                    }
-                    total_price_provider.push({
-                        'pnr': msg.result.response.providers[i].pnr,
-                        'price': price_provider
-                    })
-                    price_provider = 0;
-                    counter_service_charge++;
-                }catch(err){console.log(err)}
-            }
-            try{
-                event_get_detail.result.response.total_price = total_price;
-                $text += 'Grand Total: '+price.currency+' '+ getrupiah(total_price);
-                if(msg.result.response.state == 'booked'){
-                    $text += '\n\nPrices and availability may change at any time';
-                }
-                text_detail+=`
-                <div>
-                    <hr/>
-                </div>
-                <div class="row" style="margin-bottom:10px;">
-                    <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                        <span style="font-size:13px; font-weight: bold;">Grand Total</span>
-                    </div>
-                    <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                        <span style="font-size:13px; font-weight: bold;">`;
-                        try{
-                            text_detail+= price.currency+` `+getrupiah(total_price);
-                        }catch(err){
-
-                        }
-                        text_detail+= `</span>
-                    </div>
-                </div>`;
-                if(['booked', 'partial_booked', 'partial_issued', 'halt_booked'].includes(msg.result.response.state)){
-                    if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && total_price){
-                        if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
-                            for(k in currency_rate_data.result.response.agent[user_login.co_ho_seq_id]){
-                                try{
-                                    if(currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].base_currency == price.currency){
-                                        price_convert = (parseFloat(total_price)/currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].rate).toFixed(2);
-                                        if(price_convert%1 == 0)
-                                            price_convert = parseInt(price_convert);
-                                        text_detail+=`
-                                            <div class="row" style="margin-bottom:10px;">
-                                                <div class="col-lg-12" style="text-align:right;">
-                                                    <span style="font-size:13px; font-weight:bold;" id="total_price_`+k+`"> Estimated `+k+` `+price_convert+`</span><br/>
-                                                </div>
-                                            </div>`;
+                                for(ssc_idx in msg.result.response.options[i].sale_service_charges){
+                                    for(ssc_idx2 in msg.result.response.options[i].sale_service_charges[ssc_idx].FARE){
+                                        js_total_price += msg.result.response.options[i].sale_service_charges[ssc_idx].FARE[ssc_idx2].amount
                                     }
-                                }catch(err){
-                                    console.log(err);
+                                    for(ssc_idx2 in msg.result.response.options[i].sale_service_charges[ssc_idx].ROC){
+                                        js_total_price += msg.result.response.options[i].sale_service_charges[ssc_idx].ROC[ssc_idx2].amount
+                                    }
                                 }
-                            }
+                                text+=`
+                                    <table style="width:100%;">
+                                        <tr>
+                                            <th style="width:40%;">Price</th>
+                                            <th style="width:20%;">Qty</th>
+                                            <th style="width:40%;">Sub Total</th>
+                                        </tr>
+                                        <tr>
+                                            <td>`+js_currency+` `+getrupiah(js_total_price)+`</td>
+                                            <td>1</td>
+                                            <td>`+js_currency+` `+getrupiah(js_total_price)+`</td>
+                                        </tr>
+                                    </table>
+                                </div>`;
+                                if(msg.result.response.options.length > 1 && b != msg.result.response.options.length)
+                                    text+=`<div class="col-lg-12"><hr/></div>`;
                         }
-                    }
-                }else if(msg.result.response.hasOwnProperty('estimated_currency') && msg.result.response.estimated_currency.hasOwnProperty('other_currency') && Object.keys(msg.result.response.estimated_currency.other_currency).length > 0){
-                    for(k in msg.result.response.estimated_currency.other_currency){
-                        text_detail+=`
-                                    <div class="col-lg-12" style="text-align:right;">
-                                        <span style="font-size:13px; font-weight:bold;" id="total_price_`+msg.result.response.estimated_currency.other_currency[k].currency+`"> Estimated `+msg.result.response.estimated_currency.other_currency[k].currency+` `+getrupiah(msg.result.response.estimated_currency.other_currency[k].amount)+`</span><br/>
-                                    </div>`;
-                    }
-                }
-                if(msg.result.response.state == 'booked' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-                    text_detail+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website/images/icon/symbol/upsell_price.png" alt="Bank" style="width:auto; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
-                else if(msg.result.response.state == 'issued' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
-                    text_detail+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website/images/icon/symbol/upsell_booker.png" alt="Bank" style="width:auto; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
-                    document.getElementById('repricing_type').innerHTML = '<option value="booker">Booker</option>';
-                    $('#repricing_type').niceSelect('update');
-                    reset_repricing();
-                }
-                text_detail+=`<div class="row">
-                <div class="col-lg-12" style="padding-bottom:10px;">
-                    <hr/>
-                    <span style="font-size:14px; font-weight:bold;"><i class="fas fa-share-alt"></i> Share This on:</span><br/>`;
-                    share_data();
-                    var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-                    if (isMobile) {
-                        text_detail+=`
-                            <a href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/whatsapp.png" alt="Whatsapp"/></a>
-                            <a href="line://msg/text/`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/line.png" alt="Line"/></a>
-                            <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/telegram.png" alt="Telegram"/></a>
-                            <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/email.png" alt="Email"/></a>`;
-                    } else {
-                        text_detail+=`
-                            <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/whatsapp.png" alt="Whatsapp"/></a>
-                            <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/line.png" alt="Line"/></a>
-                            <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/telegram.png" alt="Telegram"/></a>
-                            <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/email.png" alt="Email"/></a>`;
-                    }
+                    document.getElementById('event_list_option').innerHTML = text;
 
-                text_detail+=`
-                    </div>
-                </div>`;
-                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
-                    text_detail+=`
-                    <div class="row" id="show_commission_event" style="display:block;">
-                        <div class="col-lg-12 col-xs-12" style="text-align:center;">
-                            <div class="alert alert-success">
-                                <div class="row">
-                                    <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                                        <span style="font-size:13px; font-weight:bold;">YPM</span>
-                                    </div>
-                                    <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                                        <span style="font-size:13px; font-weight:bold;">`+price.currency+` `+getrupiah(parseInt(commission)*-1)+`</span>
-                                    </div>
-                                </div>`;
-                                if(msg.result.response.hasOwnProperty('agent_nta') == true){
-                                    total_nta = 0;
-                                    total_nta = msg.result.response.agent_nta;
-                                    text_detail+=`<div class="row">
-                                    <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                                        <span style="font-size:13px; font-weight:bold;">Agent NTA</span>
-                                    </div>
-                                    <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                                        <span style="font-size:13px; font-weight:bold;">`+price.currency+` `+getrupiah(total_nta)+`</span>
-                                    </div>
-                                </div>`;
+                    //======================= Extra Question =========================
+
+                    //detail
+
+                    title = '';
+                    if(msg.result.response.contact.gender == 'male')
+                        title = 'MR';
+                    else if(msg.result.response.contact.gender == 'female' && msg.result.response.contact.marital_status == true)
+                        title = 'MRS';
+                    else if(msg.result.response.contact.gender == 'female')
+                        title = 'MS';
+                    $text += '\nContact Person:\n';
+                    $text += msg.result.response.contact.title + ' ' + msg.result.response.contact.name + '\n';
+                    $text += msg.result.response.contact.email + '\n';
+                    $text += msg.result.response.contact.phone + '\n';
+                    text = '';
+                    tax = 0;
+                    fare = 0;
+                    total_price = 0;
+                    total_price_provider = [];
+                    price_provider = 0;
+                    commission = 0;
+                    service_charge = ['FARE', 'RAC', 'ROC', 'TAX', 'SSR', 'DISC'];
+                    text_detail=`
+                    <div style="background-color:white; padding:10px; border: 1px solid #cdcdcd; margin-bottom:15px;">
+                        <h5> Price Detail</h5>
+                    <hr/>`;
+
+                    //repricing
+                    type_amount_repricing = ['Repricing'];
+                    //repricing
+                    counter_service_charge = 0;
+                    $text += '\nPrice:\n';
+                    for(i in msg.result.response.providers){
+                        try{
+                            if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false || msg.result.response.state == 'issued')
+                                text_detail+=`
+                                    <div style="text-align:left">
+                                        <span style="font-weight:500; font-size:14px;">PNR: `+msg.result.response.providers[i].pnr+` </span>
+                                    </div>`;
+
+                            for(j in msg.result.response.passengers){
+                                price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0, 'SSR': 0, 'DISC': 0,'SEAT':0};
+                                for(k in msg.result.response.passengers[j].sale_service_charges[""]){
+                                    price[k] += msg.result.response.passengers[j].sale_service_charges[""][k].amount;
+                                    if(price['currency'] == '')
+                                        price['currency'] = msg.result.response.passengers[j].sale_service_charges[""][k].currency;
                                 }
-                                if(msg.result.response.hasOwnProperty('total_nta') == true){
-                                    total_nta = 0;
-                                    total_nta = msg.result.response.total_nta;
-                                    text_detail+=`<div class="row">
-                                    <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                                        <span style="font-size:13px; font-weight:bold;">HO NTA</span>
-                                    </div>
-                                    <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                                        <span style="font-size:13px; font-weight:bold;">`+price.currency+` `+getrupiah(total_nta)+`</span>
+                                try{
+                                    price['CSC'] = msg.result.response.passengers[j].channel_service_charges.amount;
+
+                                }catch(err){
+                                    console.log(err) //ada element yg tidak ada
+                                }
+                                //repricing
+                                check = 0;
+                                if(price_arr_repricing.hasOwnProperty(msg.result.response.passengers[j].pax_type) == false){
+                                    price_arr_repricing[msg.result.response.passengers[j].pax_type] = {}
+                                    pax_type_repricing.push([msg.result.response.passengers[j].pax_type, msg.result.response.passengers[j].pax_type]);
+                                }
+                                price_arr_repricing[msg.result.response.passengers[j].pax_type][msg.result.response.passengers[j].name] = {
+                                    'Fare': price['FARE'] + price['SSR'] + price['SEAT'] + price['DISC'],
+                                    'Tax': price['TAX'] + price['ROC'],
+                                    'Repricing': price['CSC']
+                                }
+                                text_repricing = `
+                                <div class="col-lg-12">
+                                    <div style="padding:5px;" class="row">
+                                        <div class="col-lg-3"></div>
+                                        <div class="col-lg-3">Price</div>
+                                        <div class="col-lg-3">Repricing</div>
+                                        <div class="col-lg-3">Total</div>
                                     </div>
                                 </div>`;
+                                for(k in price_arr_repricing){
+                                    for(l in price_arr_repricing[k]){
+                                        text_repricing += `
+                                        <div class="col-lg-12">
+                                            <div style="padding:5px;" class="row" id="adult">
+                                                <div class="col-lg-3" id="`+j+`_`+k+`">`+l+`</div>
+                                                <div class="col-lg-3" id="`+l+`_price">`+getrupiah(price_arr_repricing[k][l].Fare + price_arr_repricing[k][l].Tax)+`</div>`;
+                                                if(price_arr_repricing[k][l].Repricing == 0)
+                                                    text_repricing+=`<div class="col-lg-3" id="`+l+`_repricing">-</div>`;
+                                                else
+                                                    text_repricing+=`<div class="col-lg-3" id="`+l+`_repricing">`+getrupiah(price_arr_repricing[k][l].Repricing)+`</div>`;
+                                                text_repricing+=`<div class="col-lg-3" id="`+l+`_total">`+getrupiah(price_arr_repricing[k][l].Fare + price_arr_repricing[k][l].Tax + price_arr_repricing[k][l].Repricing)+`</div>
+                                            </div>
+                                        </div>`;
+                                    }
                                 }
-                                if(msg.result.response.hasOwnProperty('booker_insentif') == true){
-                                    booker_insentif = 0;
-                                    booker_insentif = msg.result.response.booker_insentif;
-                                    text_detail+=`<div class="row">
-                                    <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                                        <span style="font-size:13px; font-weight:bold;">Booker Insentif</span>
-                                    </div>
-                                    <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                                        <span style="font-size:13px; font-weight:bold;">`+price.currency+` `+getrupiah(booker_insentif)+`</span>
-                                    </div>
-                                </div>`;
-                                }
-                                if(commission == 0){
-                                    text_detail+=`
-                                    <div class="row">
-                                        <div class="col-lg-12 col-xs-12" style="text-align:left;">
-                                            <span style="font-size:13px; color:red;">* Please mark up the price first</span>
+                                //booker
+                                booker_insentif = '-';
+                                if(msg.result.response.hasOwnProperty('booker_insentif'))
+                                    booker_insentif = getrupiah(msg.result.response.booker_insentif)
+                                text_repricing += `
+                                    <div class="col-lg-12">
+                                        <div style="padding:5px;" class="row" id="booker_repricing" hidden>
+                                        <div class="col-lg-6" id="repricing_booker_name">Booker Insentif</div>
+                                        <div class="col-lg-3" id="repriring_booker_repricing"></div>
+                                        <div class="col-lg-3" id="repriring_booker_total">`+booker_insentif+`</div>
                                         </div>
                                     </div>`;
-                                }
+                                text_repricing += `<div id='repricing_button' class="col-lg-12" style="text-align:center;"></div>`;
+                                document.getElementById('repricing_div').innerHTML = text_repricing;
+                                //repricing
+
                                 text_detail+=`
+                                <div class="row" style="margin-bottom:5px;">
+                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                                        <span style="font-size:12px;">`+msg.result.response.passengers[j].name+`</span>`;
+                                    text_detail+=`</div>
+                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">`;
+                                    if(counter_service_charge == 0) //with upsell pnr pertama
+                                        text_detail+=`
+                                        <span style="font-size:13px;">`+ msg.result.response.passengers[j].qty + `X @` + price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.CSC + price.SSR + price.SEAT + price.DISC + price.CSC))+`</span>`;
+                                    else
+                                        text_detail+=`
+                                        <span style="font-size:13px;">`+ msg.result.response.passengers[j].qty + `X @` + price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.CSC + price.SSR + price.SEAT + price.DISC))+`</span>`;
+                                    text_detail+=`
+                                    </div>
+                                </div>`;
+                                $text += msg.result.response.passengers[j].name + ' ['+msg.result.response.providers[i].pnr+'] \n';
+                                if(counter_service_charge == 0){ //with upsell pnr pertama
+                                    total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SEAT + price.CSC + price.SSR + price.DISC) * parseInt(msg.result.response.passengers[j].qty);
+                                    price_provider += parseInt(price.TAX + price.ROC + price.FARE + price.SEAT + price.CSC + price.SSR + price.DISC) * parseInt(msg.result.response.passengers[j].qty);
+                                    $text += msg.result.response.passengers[j].qty + ' x ' + price.currency+` `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.CSC + price.DISC))+'\n';
+                                    $text += 'Sub Total: ' + price.currency+` `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.CSC + price.DISC) * msg.result.response.passengers[j].qty)+'\n\n';
+                                }else{ //no upsell
+                                    total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT + price.DISC) * parseInt(msg.result.response.passengers[j].qty);
+                                    price_provider += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT + price.DISC) * parseInt(msg.result.response.passengers[j].qty);
+                                    $text += msg.result.response.passengers[j].qty + ' x ' + price.currency+` `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.DISC))+'\n';
+                                    $text += 'Sub Total: ' + price.currency+` `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.DISC) * msg.result.response.passengers[j].qty)+'\n\n';
+                                }
+                                commission += parseInt(price.RAC);
+                            }
+                            total_price_provider.push({
+                                'pnr': msg.result.response.providers[i].pnr,
+                                'price': price_provider
+                            })
+                            price_provider = 0;
+                            counter_service_charge++;
+                        }catch(err){console.log(err)}
+                    }
+                    try{
+                        event_get_detail.result.response.total_price = total_price;
+                        $text += 'Grand Total: '+price.currency+' '+ getrupiah(total_price);
+                        if(msg.result.response.state == 'booked'){
+                            $text += '\n\nPrices and availability may change at any time';
+                        }
+                        text_detail+=`
+                        <div>
+                            <hr/>
+                        </div>
+                        <div class="row" style="margin-bottom:10px;">
+                            <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                                <span style="font-size:13px; font-weight: bold;">Grand Total</span>
                             </div>
-                        </div>
-                    </div>`;
-                }
-                text_detail+=`<center>
+                            <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                                <span style="font-size:13px; font-weight: bold;">`;
+                                try{
+                                    text_detail+= price.currency+` `+getrupiah(total_price);
+                                }catch(err){
 
-                <div style="padding-bottom:10px;">
-                    <center>
-                        <input type="button" class="primary-btn-white" style="width:100%;" onclick="copy_data();" value="Copy"/>
-                    </center>
-                </div>`;
-                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-                    text_detail+=`
-                        <div style="margin-bottom:5px;">
-                            <input class="primary-btn-white" id="show_commission_button_event" style="width:100%;" type="button" onclick="show_commission_event();" value="Hide YPM"/>
-                        </div>
-                    </div>`;
-            }catch(err){console.log(err);}
-            document.getElementById('event_detail').innerHTML = text_detail;
+                                }
+                                text_detail+= `</span>
+                            </div>
+                        </div>`;
+                        if(['booked', 'partial_booked', 'partial_issued', 'halt_booked'].includes(msg.result.response.state)){
+                            if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && total_price){
+                                if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
+                                    for(k in currency_rate_data.result.response.agent[user_login.co_ho_seq_id]){
+                                        try{
+                                            if(currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].base_currency == price.currency){
+                                                price_convert = (parseFloat(total_price)/currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].rate).toFixed(2);
+                                                if(price_convert%1 == 0)
+                                                    price_convert = parseInt(price_convert);
+                                                text_detail+=`
+                                                    <div class="row" style="margin-bottom:10px;">
+                                                        <div class="col-lg-12" style="text-align:right;">
+                                                            <span style="font-size:13px; font-weight:bold;" id="total_price_`+k+`"> Estimated `+k+` `+price_convert+`</span><br/>
+                                                        </div>
+                                                    </div>`;
+                                            }
+                                        }catch(err){
+                                            console.log(err);
+                                        }
+                                    }
+                                }
+                            }
+                        }else if(msg.result.response.hasOwnProperty('estimated_currency') && msg.result.response.estimated_currency.hasOwnProperty('other_currency') && Object.keys(msg.result.response.estimated_currency.other_currency).length > 0){
+                            for(k in msg.result.response.estimated_currency.other_currency){
+                                text_detail+=`
+                                            <div class="col-lg-12" style="text-align:right;">
+                                                <span style="font-size:13px; font-weight:bold;" id="total_price_`+msg.result.response.estimated_currency.other_currency[k].currency+`"> Estimated `+msg.result.response.estimated_currency.other_currency[k].currency+` `+getrupiah(msg.result.response.estimated_currency.other_currency[k].amount)+`</span><br/>
+                                            </div>`;
+                            }
+                        }
+                        if(msg.result.response.state == 'booked' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+                            text_detail+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website/images/icon/symbol/upsell_price.png" alt="Bank" style="width:auto; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
+                        else if(msg.result.response.state == 'issued' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
+                            text_detail+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website/images/icon/symbol/upsell_booker.png" alt="Bank" style="width:auto; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
+                            document.getElementById('repricing_type').innerHTML = '<option value="booker">Booker</option>';
+                            $('#repricing_type').niceSelect('update');
+                            reset_repricing();
+                        }
+                        text_detail+=`<div class="row">
+                        <div class="col-lg-12" style="padding-bottom:10px;">
+                            <hr/>
+                            <span style="font-size:14px; font-weight:bold;"><i class="fas fa-share-alt"></i> Share This on:</span><br/>`;
+                            share_data();
+                            var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+                            if (isMobile) {
+                                text_detail+=`
+                                    <a href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/whatsapp.png" alt="Whatsapp"/></a>
+                                    <a href="line://msg/text/`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/line.png" alt="Line"/></a>
+                                    <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/telegram.png" alt="Telegram"/></a>
+                                    <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/email.png" alt="Email"/></a>`;
+                            } else {
+                                text_detail+=`
+                                    <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/whatsapp.png" alt="Whatsapp"/></a>
+                                    <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/line.png" alt="Line"/></a>
+                                    <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/telegram.png" alt="Telegram"/></a>
+                                    <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/email.png" alt="Email"/></a>`;
+                            }
 
-            //==================== Print Button =====================
-            var print_text = '<div class="col-lg-4" style="padding-bottom:10px;">';
-            // === Button 1 ===
-            if (msg.result.response.state  == 'issued') {
-                hide_logo_text=`
-                    <div class="col-lg-12" style="border:1px solid #cdcdcd; background-color:white; padding-top:15px; padding-bottom:15px; margin-bottom:20px;" id="event_hide_logo_opt_cont">
-                        <label class="check_box_custom">
-                            <span class="span-search-ticket" style="color:black;">Hide agent logo on tickets</span>
-                            <input type="checkbox" id="is_hide_agent_logo" name="is_hide_agent_logo"/>
-                            <span class="check_box_span_custom"></span>
-                        </label>
-                    </div>
-                `;
-                document.getElementById('event_hide_agent_logo_opt').innerHTML = hide_logo_text;
-                print_text+=`
-                <button class="primary-btn hold-seat-booking-train ld-ext-right" id="button-choose-print" type="button" onclick="get_printout('` + msg.result.response.name + `','ticket','event');" style="width:100%;">
-                    Print Ticket
-                    <div class="ld ld-ring ld-cycle"></div>
-                </button>`;
-            }
-            print_text += '</div><div class="col-lg-4" style="padding-bottom:10px;">';
-            // === Button 2 ===
-            if (msg.result.response.state  == 'booked'){
-                print_text+=`
-                <button class="primary-btn hold-seat-booking-train ld-ext-right" id="button-print-print" type="button" onclick="get_printout('` + msg.result.response.name + `','itinerary','event');" style="width:100%;">
-                    Print Itinerary Form
-                    <div class="ld ld-ring ld-cycle"></div>
-                </button>`;
-            }else if (msg.result.response.state  == 'issued'){
-                print_text+=`
-                <button class="primary-btn hold-seat-booking-train ld-ext-right" type="button" id="button-print-print" onclick="get_printout('` + msg.result.response.name + `','ticket_price','event');" style="width:100%;">
-                    Print Ticket (With Price)
-                    <div class="ld ld-ring ld-cycle"></div>
-                </button>`;
-            }
-            print_text += '</div><div class="col-lg-4" style="padding-bottom:10px;">';
-            // === Button 3 ===
-            if (msg.result.response.state  == 'issued') {
-                print_text+=`
-                <button class="primary-btn hold-seat-booking-train ld-ext-right" type="button" onclick="window.location.href='`+backend_url+`/orbisway/report/pdf/tt.agent.invoice/`+msg.result.response.name+`'" style="width:100%;" >
-                    Print Invoice
-                    <div class="ld ld-ring ld-cycle"></div>
-                </button>`;
-            }
-            print_text += '</div>';
-            document.getElementById('event_btn_printout').innerHTML = print_text;
-            if(msg.result.response.hasOwnProperty('voucher_reference') && msg.result.response.voucher_reference != '' && msg.result.response.voucher_reference != false){
-                try{
-                    render_voucher(price.currency,msg.result.response.voucher_discount, msg.result.response.state)
-                }catch(err){console.log(err);}
-            }
-            try{
-                if(msg.result.response.state == 'booked' || msg.result.response.state == 'issued' && msg.result.response.voucher_reference)
-                    document.getElementById('voucher_discount').style.display = 'block';
-                else
-                    document.getElementById('voucher_discount').style.display = 'none';
-            }catch(err){console.log(err);}
-            //======================= Other =========================
-            add_repricing();
+                        text_detail+=`
+                            </div>
+                        </div>`;
+                        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
+                            text_detail+=`
+                            <div class="row" id="show_commission_event" style="display:block;">
+                                <div class="col-lg-12 col-xs-12" style="text-align:center;">
+                                    <div class="alert alert-success">
+                                        <div class="row">
+                                            <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                                                <span style="font-size:13px; font-weight:bold;">YPM</span>
+                                            </div>
+                                            <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                                                <span style="font-size:13px; font-weight:bold;">`+price.currency+` `+getrupiah(parseInt(commission)*-1)+`</span>
+                                            </div>
+                                        </div>`;
+                                        if(msg.result.response.hasOwnProperty('agent_nta') == true){
+                                            total_nta = 0;
+                                            total_nta = msg.result.response.agent_nta;
+                                            text_detail+=`<div class="row">
+                                            <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                                                <span style="font-size:13px; font-weight:bold;">Agent NTA</span>
+                                            </div>
+                                            <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                                                <span style="font-size:13px; font-weight:bold;">`+price.currency+` `+getrupiah(total_nta)+`</span>
+                                            </div>
+                                        </div>`;
+                                        }
+                                        if(msg.result.response.hasOwnProperty('total_nta') == true){
+                                            total_nta = 0;
+                                            total_nta = msg.result.response.total_nta;
+                                            text_detail+=`<div class="row">
+                                            <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                                                <span style="font-size:13px; font-weight:bold;">HO NTA</span>
+                                            </div>
+                                            <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                                                <span style="font-size:13px; font-weight:bold;">`+price.currency+` `+getrupiah(total_nta)+`</span>
+                                            </div>
+                                        </div>`;
+                                        }
+                                        if(msg.result.response.hasOwnProperty('booker_insentif') == true){
+                                            booker_insentif = 0;
+                                            booker_insentif = msg.result.response.booker_insentif;
+                                            text_detail+=`<div class="row">
+                                            <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                                                <span style="font-size:13px; font-weight:bold;">Booker Insentif</span>
+                                            </div>
+                                            <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                                                <span style="font-size:13px; font-weight:bold;">`+price.currency+` `+getrupiah(booker_insentif)+`</span>
+                                            </div>
+                                        </div>`;
+                                        }
+                                        if(commission == 0){
+                                            text_detail+=`
+                                            <div class="row">
+                                                <div class="col-lg-12 col-xs-12" style="text-align:left;">
+                                                    <span style="font-size:13px; color:red;">* Please mark up the price first</span>
+                                                </div>
+                                            </div>`;
+                                        }
+                                        text_detail+=`
+                                    </div>
+                                </div>
+                            </div>`;
+                        }
+                        text_detail+=`<center>
+
+                        <div style="padding-bottom:10px;">
+                            <center>
+                                <input type="button" class="primary-btn-white" style="width:100%;" onclick="copy_data();" value="Copy"/>
+                            </center>
+                        </div>`;
+                        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+                            text_detail+=`
+                                <div style="margin-bottom:5px;">
+                                    <input class="primary-btn-white" id="show_commission_button_event" style="width:100%;" type="button" onclick="show_commission_event();" value="Hide YPM"/>
+                                </div>
+                            </div>`;
+                    }catch(err){console.log(err);}
+                    document.getElementById('event_detail').innerHTML = text_detail;
+
+                    //==================== Print Button =====================
+                    var print_text = '<div class="col-lg-4" style="padding-bottom:10px;">';
+                    // === Button 1 ===
+                    if (msg.result.response.state  == 'issued') {
+                        hide_logo_text=`
+                            <div class="col-lg-12" style="border:1px solid #cdcdcd; background-color:white; padding-top:15px; padding-bottom:15px; margin-bottom:20px;" id="event_hide_logo_opt_cont">
+                                <label class="check_box_custom">
+                                    <span class="span-search-ticket" style="color:black;">Hide agent logo on tickets</span>
+                                    <input type="checkbox" id="is_hide_agent_logo" name="is_hide_agent_logo"/>
+                                    <span class="check_box_span_custom"></span>
+                                </label>
+                            </div>
+                        `;
+                        document.getElementById('event_hide_agent_logo_opt').innerHTML = hide_logo_text;
+                        print_text+=`
+                        <button class="primary-btn hold-seat-booking-train ld-ext-right" id="button-choose-print" type="button" onclick="get_printout('` + msg.result.response.name + `','ticket','event');" style="width:100%;">
+                            Print Ticket
+                            <div class="ld ld-ring ld-cycle"></div>
+                        </button>`;
+                    }
+                    print_text += '</div><div class="col-lg-4" style="padding-bottom:10px;">';
+                    // === Button 2 ===
+                    if (msg.result.response.state  == 'booked'){
+                        print_text+=`
+                        <button class="primary-btn hold-seat-booking-train ld-ext-right" id="button-print-print" type="button" onclick="get_printout('` + msg.result.response.name + `','itinerary','event');" style="width:100%;">
+                            Print Itinerary Form
+                            <div class="ld ld-ring ld-cycle"></div>
+                        </button>`;
+                    }else if (msg.result.response.state  == 'issued'){
+                        print_text+=`
+                        <button class="primary-btn hold-seat-booking-train ld-ext-right" type="button" id="button-print-print" onclick="get_printout('` + msg.result.response.name + `','ticket_price','event');" style="width:100%;">
+                            Print Ticket (With Price)
+                            <div class="ld ld-ring ld-cycle"></div>
+                        </button>`;
+                    }
+                    print_text += '</div><div class="col-lg-4" style="padding-bottom:10px;">';
+                    // === Button 3 ===
+                    if (msg.result.response.state  == 'issued') {
+                        print_text+=`
+                        <button class="primary-btn hold-seat-booking-train ld-ext-right" type="button" onclick="window.location.href='`+backend_url+`/orbisway/report/pdf/tt.agent.invoice/`+msg.result.response.name+`'" style="width:100%;" >
+                            Print Invoice
+                            <div class="ld ld-ring ld-cycle"></div>
+                        </button>`;
+                    }
+                    print_text += '</div>';
+                    document.getElementById('event_btn_printout').innerHTML = print_text;
+                    if(msg.result.response.hasOwnProperty('voucher_reference') && msg.result.response.voucher_reference != '' && msg.result.response.voucher_reference != false){
+                        try{
+                            render_voucher(price.currency,msg.result.response.voucher_discount, msg.result.response.state)
+                        }catch(err){console.log(err);}
+                    }
+                    try{
+                        if(msg.result.response.state == 'booked' || msg.result.response.state == 'issued' && msg.result.response.voucher_reference)
+                            document.getElementById('voucher_discount').style.display = 'block';
+                        else
+                            document.getElementById('voucher_discount').style.display = 'none';
+                    }catch(err){console.log(err);}
+                    //======================= Other =========================
+                    add_repricing();
+                }else if(msg.result.error_code == 1035){
+                    $('#myModalSignin').modal('show');
+                    Swal.fire({
+                        type: 'error',
+                        title: 'Oops!',
+                        html: msg.result.error_msg,
+                    })
                 }else{
                     //swal
+                    Swal.fire({
+                        type: 'error',
+                        title: 'Oops!',
+                        html: '<span style="color: #ff9900;">Error event booking </span>' + msg.result.error_msg,
+                    }).then((result) => {
+                        if (result.value) {
+                            hide_modal_waiting_transaction();
+                        }
+                    })
+                    hide_modal_waiting_transaction();
                 }
             }catch(err){
                 Swal.fire({

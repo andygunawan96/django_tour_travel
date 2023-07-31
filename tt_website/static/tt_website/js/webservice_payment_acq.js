@@ -1481,14 +1481,17 @@ function check_payment_payment_method(order_number,btn_name,booker,type,provider
                             <span style="font-size:14px; font-weight:500;">`+payment_acq_booking.currency+` `+getrupiah(payment_acq_booking.amount)+`<br>
                         </div>
                      </div>`;
-            if(payment_acq_booking.url != ''){
-                text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="window.location.href = '`+payment_acq_booking.url+`'" style="width:100%;">Pay Now <div class="ld ld-ring ld-cycle"></div></button>`;
-            }else if(payment_acq_booking.va_number != false){
-                text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="window.location.href = '/payment/espay/`+payment_acq_booking.order_number+`'" style="width:100%;">Pay Now <div class="ld ld-ring ld-cycle"></div></button>`;
-            }else
-                text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="window.location.href = '/payment/`+name+`/`+payment_acq_booking.order_number+`'" style="width:100%;">Pay Now <div class="ld ld-ring ld-cycle"></div></button>`;
+            if(['close'].includes(payment_acq_booking.state)){
+                if(payment_acq_booking.url != ''){
+                    text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="window.location.href = '`+payment_acq_booking.url+`'" style="width:100%;">Pay Now <div class="ld ld-ring ld-cycle"></div></button>`;
+                }else if(payment_acq_booking.va_number != false){
+                    text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="window.location.href = '/payment/espay/`+payment_acq_booking.order_number+`'" style="width:100%;">Pay Now <div class="ld ld-ring ld-cycle"></div></button>`;
+                }else
+                    text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="window.location.href = '/payment/`+name+`/`+payment_acq_booking.order_number+`'" style="width:100%;">Pay Now <div class="ld ld-ring ld-cycle"></div></button>`;
+            }
         }
-        text += `<input class="primary-btn-white" style="width:100%;margin-top:15px;" type="button" onclick="cancel_payment_method('`+order_number+`','`+provider_type+`');" value="Cancel Payment">`;
+        if(['close'].includes(payment_acq_booking.state))
+            text += `<input class="primary-btn-white" style="width:100%;margin-top:15px;" type="button" onclick="cancel_payment_method('`+order_number+`','`+provider_type+`');" value="Cancel Payment">`;
         document.getElementById('payment_acq').innerHTML = text;
     }
 //    if(provider_type == 'airline')

@@ -2029,7 +2029,12 @@ function medical_get_booking(order_number, sync=false){
                     document.getElementById('show_title_medical').hidden = false;
                     document.getElementById('show_loading_booking_medical').hidden = true;
                     document.getElementById('show_title_medical').hidden = true;
-                    render_login('medical');
+                    $('#myModalSignin').modal('show');
+                    Swal.fire({
+                        type: 'error',
+                        title: 'Oops!',
+                        html: msg.result.error_msg,
+                    })
                 }else{
                    Swal.fire({
                       type: 'error',
