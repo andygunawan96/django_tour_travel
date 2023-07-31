@@ -8398,55 +8398,94 @@ function airline_get_booking(data, sync=false){
                                             </div>
                                             <div class="modal-body">
                                                 <div class="row">
-                                                    <div class="col-lg-12">`;
-                                for(provider in msg.result.response.provider_bookings){
-                                    text += `<h5>` + msg.result.response.provider_bookings[provider].pnr + `</h5>`;
-                                    text += `           <div class="row">
-                                                            <div class="col-lg-6 col-md-6 col-xs-6">
-                                                                <h6>`+name+`<h6>
-                                                            </div>
-                                                            <div class="col-lg-6 col-md-6 col-xs-6">
-                                                                <h6>Vendor</h6>
-                                                            </div>
-                                                        </div>`;
-                                    for(pax in msg.result.response.passengers){
-                                        text += `
-                                                        <div class="row">
-                                                            <div class="col-lg-6 col-md-6 col-xs-6" style="margin-top:auto;margin-bottom:auto;">
-                                                                <span>` + msg.result.response.passengers[pax].title + ` ` + msg.result.response.passengers[pax].name +`<span>
-                                                            </div>
-                                                            <div class="col-lg-6 col-md-6 col-xs-6">
-                                                                <div class="input-container-search-ticket">
-                                                                    <div class="form-select-2" id="default-select">
-                                                                        <select id="passenger_`+pax+`_`+msg.result.response.provider_bookings[provider].pnr+`" name="passenger_`+pax+`_`+msg.result.response.provider_bookings[provider].pnr+`" class="nice-select-default" onchange="delete_passenger_draw();">`;
-                                        is_passenger_number_found = false;
-                                        for(ticket in msg.result.response.provider_bookings[provider].tickets){
-                                            if(msg.result.response.passengers[pax].passenger_number.toString() == msg.result.response.provider_bookings[provider].tickets[ticket].passenger_number.toString() && msg.result.response.provider_bookings[provider].tickets[ticket].passenger_number.toString() != ''){
-                                                text+=                      `<option>`+msg.result.response.provider_bookings[provider].tickets[ticket].title+` `+msg.result.response.provider_bookings[provider].tickets[ticket].first_name+` `+msg.result.response.provider_bookings[provider].tickets[ticket].last_name+`</option>`;
-                                                is_passenger_number_found = true;
-                                                break;
-                                            }
-                                        }
-                                        if(!is_passenger_number_found){
-                                            text+=`<option>Choose</option>`;
-                                            for(ticket in msg.result.response.provider_bookings[provider].tickets){
-                                                if(msg.result.response.provider_bookings[provider].tickets[ticket].passenger_number.toString() == ''){
-                                                    text +=                 `<option value="`+msg.result.response.provider_bookings[provider].tickets[ticket].ticket_id+`&&&`+msg.result.response.provider_bookings[provider].tickets[ticket].title+` `+msg.result.response.provider_bookings[provider].tickets[ticket].first_name+` `+msg.result.response.provider_bookings[provider].tickets[ticket].last_name+`">`+msg.result.response.provider_bookings[provider].tickets[ticket].title+` `+msg.result.response.provider_bookings[provider].tickets[ticket].first_name+` `+msg.result.response.provider_bookings[provider].tickets[ticket].last_name+`</option>`;
-                                                }
-                                            }
-                                        }
-                                        text += `
-                                                                        </select>
+                                                    <div class="col-lg-12" id="div_pax_sync">`;
+                                                    for(provider in msg.result.response.provider_bookings){
+                                                        text += `
+                                                        <h5 class="mt-3 mb-3"><i class="fas fa-scroll"></i> PNR: `+msg.result.response.provider_bookings[provider].pnr+`</h5>`;
+                                                        for(pax in msg.result.response.passengers){
+                                                            text += `
+                                                            <div class="row">
+                                                                <div class="col-lg-12" style="padding-top:15px; padding-bottom:15px; background: white; border-bottom: 1px solid #cdcdcd; border-top: 1px solid #cdcdcd;">
+                                                                    <div class="row">
+                                                                        <div class="col-lg-5 col-md-5" style="margin: auto; text-align:left;">`;
+                                                                            is_passenger_number_found = false;
+                                                                            for(ticket in msg.result.response.provider_bookings[provider].tickets){
+                                                                                if(msg.result.response.passengers[pax].passenger_number.toString() == msg.result.response.provider_bookings[provider].tickets[ticket].passenger_number.toString() && msg.result.response.provider_bookings[provider].tickets[ticket].passenger_number.toString() != ''){
+                                                                                    text+=`
+                                                                                    <h6 style="color: gray;"><i class="fas fa-user"></i> `+name+`</h6>
+                                                                                    <h6 style="padding:12px 10px; background: #f7f7f7; color: gray; border:1px solid #cdcdcd;">`+msg.result.response.passengers[pax].title + ` ` + msg.result.response.passengers[pax].name +`</h6>`;
+                                                                                    is_passenger_number_found = true;
+                                                                                    break;
+                                                                                }
+                                                                            }
+
+                                                                            if(!is_passenger_number_found){
+                                                                                text+=`
+                                                                                <h6><i class="fas fa-user"></i> `+name+`</h6>
+                                                                                <h6 style="padding:12px 10px; background: #fff; border:1px solid #cdcdcd;">` + msg.result.response.passengers[pax].title + ` ` + msg.result.response.passengers[pax].name +`</h6>`;
+                                                                            }
+
+                                                                        text+=`
+                                                                        </div>
+                                                                        <div class="col-lg-2 col-md-2 pt-2 pt-2" style="margin: auto; text-align:center;">
+                                                                            <i class="fas fa-arrow-circle-right show_pc" style="color:`+color+`; font-size:18px;"></i>
+                                                                            <i class="fas fa-arrow-circle-down show_mbl" style="color:`+color+`; font-size:18px;"></i>
+                                                                        </div>
+                                                                        <div class="col-lg-5 col-md-5" style="margin: auto;">
+                                                                            <h6 style="color:`+color+`;"><i class="fas fa-user"></i> Vendor</h6>`;
+                                                                            is_passenger_number_found = false;
+                                                                            for(ticket in msg.result.response.provider_bookings[provider].tickets){
+                                                                                if(msg.result.response.passengers[pax].passenger_number.toString() == msg.result.response.provider_bookings[provider].tickets[ticket].passenger_number.toString() && msg.result.response.provider_bookings[provider].tickets[ticket].passenger_number.toString() != ''){
+                                                                                    text+=`
+                                                                                    <h6 style="color:`+color+`; padding:12px 10px; border:1px solid `+color+`;">
+                                                                                        <i class="fas fa-check-circle" style="color:#50bd2f;"></i>
+                                                                                        `+msg.result.response.provider_bookings[provider].tickets[ticket].title+` `+msg.result.response.provider_bookings[provider].tickets[ticket].first_name+` `+msg.result.response.provider_bookings[provider].tickets[ticket].last_name+`
+                                                                                    </h6>
+                                                                                    <div class="input-container-search-ticket" style="display:none;">
+                                                                                        <div class="form-select-2" id="default-select">
+                                                                                            <select id="passenger_`+pax+`_`+msg.result.response.provider_bookings[provider].pnr+`" name="passenger_`+pax+`_`+msg.result.response.provider_bookings[provider].pnr+`" class="nice-select-default" onchange="delete_passenger_draw();">
+                                                                                                <option>Choose</option>`;
+                                                                                                for(ticket in msg.result.response.provider_bookings[provider].tickets){
+                                                                                                    if(msg.result.response.provider_bookings[provider].tickets[ticket].passenger_number.toString() == ''){
+                                                                                                        text +=`<option value="`+msg.result.response.provider_bookings[provider].tickets[ticket].ticket_id+`&&&`+msg.result.response.provider_bookings[provider].tickets[ticket].title+` `+msg.result.response.provider_bookings[provider].tickets[ticket].first_name+` `+msg.result.response.provider_bookings[provider].tickets[ticket].last_name+`">`+msg.result.response.provider_bookings[provider].tickets[ticket].title+` `+msg.result.response.provider_bookings[provider].tickets[ticket].first_name+` `+msg.result.response.provider_bookings[provider].tickets[ticket].last_name+`</option>`;
+                                                                                                    }
+                                                                                                }
+                                                                                            text += `
+                                                                                            </select>
+                                                                                        </div>
+                                                                                    </div>`;
+                                                                                    is_passenger_number_found = true;
+                                                                                    break;
+                                                                                }
+                                                                            }
+
+                                                                            if(!is_passenger_number_found){
+                                                                                text+=`
+                                                                                <div class="input-container-search-ticket">
+                                                                                    <div class="form-select-2" id="default-select">
+                                                                                        <select id="passenger_`+pax+`_`+msg.result.response.provider_bookings[provider].pnr+`" name="passenger_`+pax+`_`+msg.result.response.provider_bookings[provider].pnr+`" class="nice-select-default" onchange="delete_passenger_draw();">
+                                                                                            <option>Choose</option>`;
+                                                                                            for(ticket in msg.result.response.provider_bookings[provider].tickets){
+                                                                                                if(msg.result.response.provider_bookings[provider].tickets[ticket].passenger_number.toString() == ''){
+                                                                                                    text +=`<option value="`+msg.result.response.provider_bookings[provider].tickets[ticket].ticket_id+`&&&`+msg.result.response.provider_bookings[provider].tickets[ticket].title+` `+msg.result.response.provider_bookings[provider].tickets[ticket].first_name+` `+msg.result.response.provider_bookings[provider].tickets[ticket].last_name+`">`+msg.result.response.provider_bookings[provider].tickets[ticket].title+` `+msg.result.response.provider_bookings[provider].tickets[ticket].first_name+` `+msg.result.response.provider_bookings[provider].tickets[ticket].last_name+`</option>`;
+                                                                                                }
+                                                                                            }
+                                                                                        text += `
+                                                                                        </select>
+                                                                                    </div>
+                                                                                </div>`;
+                                                                            }
+                                                                            text += `
+                                                                        </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                        </div>`;
-                                    }
-                                }
-                                            text+=`
+                                                            </div>`;
+                                                        }
+                                                    }
+                                                    text+=`
                                                     </div>
-                                                    <div class="col-lg-12" style="text-align:center;margin-top:5px;">
-                                                        <button type="button" class="primary-btn-white" id="button-sync-status" onclick="update_passenger_draw();">
+                                                    <div class="col-lg-12 mt-3" style="text-align:center;">
+                                                        <button type="button" class="primary-btn" style="width:200px;" id="btn_continue_sync" onclick="update_passenger_draw(); next_prev_sync('btn_continue_sync', 'btn_back_sync', 'div_pax_sync', 'result_change_name', 'sync_pax');">
                                                             Continue
                                                         </button>
                                                     </div>
@@ -9557,41 +9596,81 @@ function update_passenger_draw(){
                     is_same_pax = true;
                     text_pax_dupe.push('Duplicate passenger '+ pax);
                 }
+
                 if(need_to_print_pnr){
-                    text += `
-                <h5>`+airline_get_detail.result.response.provider_bookings[provider].pnr+`</h5>`;
+                    text += `<h5 class="mt-3 mb-3"><i class="fas fa-scroll"></i> PNR: `+airline_get_detail.result.response.provider_bookings[provider].pnr+`</h5>`;
                     need_to_print_pnr = false;
                 }
                 text+=`
                 <div class="row">
-                    <div class="col-lg-5 col-md-5 col-xs-5">
-                        <span>`+airline_get_detail.result.response.passengers[pax].title+` `+airline_get_detail.result.response.passengers[pax].name+`</span>
-                    </div>
-                    <div class="col-lg-2 col-md-2 col-xs-2">
-                        <span>➜</span>
-                    </div>
-                    <div class="col-lg-5 col-md-5 col-xs-5">
-                        <span>`+$('#passenger_'+pax+'_'+airline_get_detail.result.response.provider_bookings[provider].pnr).val().split('&&&')[1]+`</span>
+                    <div class="col-lg-12" style="padding-top:15px; padding-bottom:15px; background: white; border-top:1px solid #cdcdcd; border-bottom:1px solid #cdcdcd;">
+                        <div class="row">
+                            <div class="col-lg-5 col-md-5" style="margin: auto;">
+                                <h6 style="color:gray;"><i class="fas fa-user"></i> `+name+`</h6>
+                                <h6 style="color:gray; padding:12px 10px; background: #f7f7f7; border:1px solid #cdcdcd;">`+airline_get_detail.result.response.passengers[pax].title+` `+airline_get_detail.result.response.passengers[pax].name+`</h6>
+                            </div>
+                            <div class="col-lg-2 col-md-2 pt-2 pb-2" style="margin: auto; text-align:center;">
+                                <i class="fas fa-arrow-circle-right show_pc" style="color:`+color+`; font-size:18px;"></i>
+                                <i class="fas fa-arrow-circle-down show_mbl" style="color:`+color+`; font-size:18px;"></i>
+                                <span style="font-size:11px;">changed</span>
+                            </div>`;
+
+                            if(!is_same_pax){
+                                text+=`
+                                <div class="col-lg-5 col-md-5" style="margin: auto;">
+                                    <h6 style="color:`+color+`;"><i class="fas fa-user"></i> Vendor</h6>
+                                    <h6 style="color:`+color+`; padding:12px 10px; border:1px solid `+color+`;">
+                                        <i class="fas fa-check-circle" style="color:#50bd2f;"></i>
+                                        `+$('#passenger_'+pax+'_'+airline_get_detail.result.response.provider_bookings[provider].pnr).val().split('&&&')[1]+`
+                                    </h6>
+                                </div>`;
+                            }else{
+                                //kalau pilih sama error
+                                text+=`
+                                <div class="col-lg-5 col-md-5" style="margin: auto;">
+                                    <h6 style="color:gray;"><i class="fas fa-user"></i> Vendor</h6>
+                                    <h6 style="color:#d43c31; padding:12px 10px; border:1px solid #d43c31; background:#f7f7f7;">
+                                        <i class="fas fa-times-circle" style="color:#d43c31;"></i>
+                                        `+$('#passenger_'+pax+'_'+airline_get_detail.result.response.provider_bookings[provider].pnr).val().split('&&&')[1]+`
+                                    </h6>
+                                </div>`;
+                            }
+                            text+=`
+                        </div>
                     </div>
                 </div>`;
             }
         }
     }
-    if(text && is_same_pax == false){
-        text = `<h4>Passenger Change<h4>` + text + `
-                <div class="col-lg-12" style="text-align:center;margin-top:5px;">
-                    <button type="button" class="primary-btn-white" id="button-sync-status" onclick="apply_pax_to_backend();">
-                        Save
-                    </button>
-                </div>`;
-    }else if(is_same_pax){
-        for(i in text_pax_dupe){
-            text = `<h4>`+text_pax_dupe[i]+`<h4>`;
-        }
+    if(text){
+        text = `
+        <div class="row">
+            <div class="col-lg-12" id="div_result_sync">
+                <h4 class="mb-3">Passenger Change</h>
+                ` + text + ``;
+
+                if(!is_same_pax){
+                    text+=`
+                    <div class="row">
+                        <div class="col-lg-12" style="text-align:center;">
+                            <button type="button" class="primary-btn mt-3" style="width:200px;" id="button-sync-status" onclick="apply_pax_to_backend();">
+                                Save
+                            </button>
+                        </div>
+                    </div>`;
+                }
+                text+=`
+            </div>
+        </div>`;
     }else{
         text = `<h4>No Pax Selected<h4>`
     }
+
     document.getElementById('result_change_name').innerHTML = text;
+    document.getElementById('button_tl_sync_passenger').innerHTML = `
+    <button type="button" class="primary-btn-white" style="width:fit-content; float:left; display:block;" id="btn_back_sync" onclick="next_prev_sync('btn_back_sync', 'btn_continue_sync', 'result_change_name', 'div_pax_sync'); default_filter_data();">
+        <i class="fas fa-arrow-left"></i> Back
+    </button>`;
 }
 
 function delete_passenger_draw(){

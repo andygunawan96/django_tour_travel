@@ -3468,6 +3468,14 @@ function next_prev_side_div(btn_from_id, btn_to_id, from_id, to_id, target_id){
     document.getElementById(to_id+'_'+target_id).style.display = "flex";
 }
 
+//untuk tombol next dan prev
+function next_prev_sync(btn_from_id, btn_to_id, from_id, to_id){
+    document.getElementById(btn_from_id).style.display = "none";
+    document.getElementById(btn_to_id).style.display = "inline-block";
+    document.getElementById(from_id).style.display = "none";
+    document.getElementById(to_id).style.display = "block";
+}
+
 //untuk kosongin tombol di atas
 function clear_btn_top(btn_pax_type, btn_pax_number){
     document.getElementById("button_tl_"+btn_pax_type+btn_pax_number).innerHTML = '';

@@ -674,11 +674,11 @@ ul.popular2_tabs li.current .image-rounded-icon{
 }
 
 .radio-img {
-    margin-right:10px;
+    margin-right:5px;
     margin-bottom:15px;
     cursor:pointer;
     text-align:center;
-    height:115px;
+    min-height:60px;
 }
 
 .radio-img  > input {
@@ -693,6 +693,15 @@ ul.popular2_tabs li.current .image-rounded-icon{
 
 .radio-img  > input:checked + img{
   border:3px solid orange;
+}
+
+.radio-img .title_prd{
+    font-size: 13px;
+    font-weight: 700;
+    color: #202020;
+    text-transform: uppercase;
+    word-spacing: 0px;
+    letter-spacing: 1px;
 }
 
 .btn-del-room {
@@ -6554,3 +6563,42 @@ text-align: center;
 .text_cap::marker{
     content: none;
 }
+
+.prd_img{
+    width:auto;
+    height:70px;
+    border:1px solid #cdcdcd;
+    border-radius:7px;
+    padding:15px;
+    background:white;
+}
+
+.show_pc{
+    display:block !important;
+}
+.show_mbl{
+    display:none !important;
+}
+
+@media (min-width: 768px) {
+    .show_pc{
+        display:block !important;
+    }
+    .show_mbl{
+        display:none !important;
+    }
+}
+
+@media (max-width: 767px) {
+    .show_mbl{
+        display:block !important;
+    }
+    .show_pc{
+        display:none !important;
+    }
+}
+
+
+
+
+
