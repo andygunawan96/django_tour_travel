@@ -376,7 +376,7 @@ def passenger(request):
                                 "name": perbooking['name']
                             })
                         elif perbooking['inputType'] == 5:
-                            if request.POST['perbooking' + str(idx)] == 'on':
+                            if request.POST.get('perbooking' + str(idx)) == 'on':
                                 perbooking_list.append({
                                     "uuid": perbooking['uuid'],
                                     "value": 'True',
@@ -642,7 +642,7 @@ def review(request):
                                     "name": perpax['name']
                                 })
                             elif perpax['inputType'] == 5:
-                                if request.POST['adult_perpax' + str(i + 1) + '_' + str(idx + 1)] == 'on':
+                                if request.POST.get('adult_perpax' + str(i + 1) + '_' + str(idx + 1)) == 'on':
                                     perpax_list_temp.append({
                                         "uuid": perpax['uuid'],
                                         "value": 'True',
@@ -901,7 +901,7 @@ def review(request):
                                     "name": perpax['name']
                                 })
                             elif perpax['inputType'] == 5:
-                                if request.POST['senior_perpax' + str(i+1) + '_' + str(idx+1)] == 'on':
+                                if request.POST.get('senior_perpax' + str(i+1) + '_' + str(idx+1)) == 'on':
                                     perpax_list_temp.append({
                                         "uuid": perpax['uuid'],
                                         "value": 'True',
@@ -1093,7 +1093,7 @@ def review(request):
                                     "name": perpax['name']
                                 })
                             elif perpax['inputType'] == 5:
-                                if request.POST['child_perpax' + str(i+1) + '_' + str(idx+1)] == 'on':
+                                if request.POST.get('child_perpax' + str(i+1) + '_' + str(idx+1)) == 'on':
                                     perpax_list_temp.append({
                                         "uuid": perpax['uuid'],
                                         "value": 'True',
