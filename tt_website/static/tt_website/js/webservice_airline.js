@@ -9544,10 +9544,19 @@ function airline_get_booking(data, sync=false){
 
 function update_passenger_draw(){
     text = '';
+    list_pax_ticket = []
+    is_same_pax = false;
+    text_pax_dupe = []
     for(provider in airline_get_detail.result.response.provider_bookings){
         need_to_print_pnr = true;
         for(pax in airline_get_detail.result.response.passengers){
             if($('#passenger_'+pax+'_'+airline_get_detail.result.response.provider_bookings[provider].pnr).val().includes('&&&')){
+                if(!list_pax_ticket.includes($('#passenger_'+pax+'_'+airline_get_detail.result.response.provider_bookings[provider].pnr).val().split('&&&')[0]))
+                    list_pax_ticket.push($('#passenger_'+pax+'_'+airline_get_detail.result.response.provider_bookings[provider].pnr).val().split('&&&')[0])
+                else{
+                    is_same_pax = true;
+                    text_pax_dupe.push('Duplicate passenger '+ pax);
+                }
                 if(need_to_print_pnr){
                     text += `
                 <h5>`+airline_get_detail.result.response.provider_bookings[provider].pnr+`</h5>`;
@@ -9568,13 +9577,17 @@ function update_passenger_draw(){
             }
         }
     }
-    if(text){
+    if(text && is_same_pax == false){
         text = `<h4>Passenger Change<h4>` + text + `
                 <div class="col-lg-12" style="text-align:center;margin-top:5px;">
                     <button type="button" class="primary-btn-white" id="button-sync-status" onclick="apply_pax_to_backend();">
                         Save
                     </button>
                 </div>`;
+    }else if(is_same_pax){
+        for(i in text_pax_dupe){
+            text = `<h4>`+text_pax_dupe[i]+`<h4>`;
+        }
     }else{
         text = `<h4>No Pax Selected<h4>`
     }
