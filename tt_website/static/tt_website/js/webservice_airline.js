@@ -7428,7 +7428,7 @@ function airline_get_booking(data, sync=false){
                        }
                        if(check_reschedule){
                             document.getElementById('reissued').hidden = false;
-                            document.getElementById('reissued').innerHTML = `<input class="issued_booking_btn primary-btn-white" style="width:100%;" type="button" onclick="reissued_btn();" value="Change Booking">`;
+                            document.getElementById('reissued').innerHTML = `<input class="issued_booking_btn primary-btn-white" style="width:100%;" type="button" onclick="reissued_btn();" value="Change Itinerary">`;
                        }
                        if(check_split){
                             document.getElementById('split_booking').hidden = false;
@@ -7487,9 +7487,8 @@ function airline_get_booking(data, sync=false){
                         <tr>
                             <th>PNR</th>`;
                             if(!['issued'].includes(msg.result.response.state)){
-                                text+=`<th id="hold_date_field_show">Hold Date<span id="hold_date_field" style="color:`+color+`; cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;"></i></span></th>`;
-                                if(msg.result.response.hasOwnProperty('expired_date') && msg.result.response.expired_date != '' && msg.result.response.expired_date != msg.result.response.hold_date)
-                                    text += `<th id="expired_date_field_show">Expired Date<span id="expired_date_field" style="color:`+color+`; cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;"></i></span></th>`;
+                                text+=`<th id="hold_date_field_show">Price Guarantee Timelimit<span id="hold_date_field" style="color:`+color+`; cursor:pointer;"></span></th>`;
+                                text += `<th id="expired_date_field_show">Expired Timelimit<span id="expired_date_field" style="color:`+color+`; cursor:pointer;"></span></th>`;
                             }
                         text+=`
                             <th>Status</th>
@@ -7533,12 +7532,11 @@ function airline_get_booking(data, sync=false){
                                 text += `<td> - </td>`;
 
                             if(!['issued'].includes(msg.result.response.state)){
-                                if(!['issued'].includes(msg.result.response.provider_bookings[i].state))
-                                    text+=`<td>`+msg.result.response.hold_date+`</td>`;
-                                else
-                                    text += `<td></td>`;
+                                text+=`<td>`+msg.result.response.hold_date+`</td>`;
                                 if(msg.result.response.hasOwnProperty('expired_date') && msg.result.response.expired_date != '' && msg.result.response.expired_date != msg.result.response.hold_date)
                                     text+=`<td>`+msg.result.response.expired_date+`</td>`;
+                                else
+                                    text+=`<td>`+msg.result.response.hold_date+`</td>`;
                             }
                             text+=`
                                 <td>`;
@@ -9025,7 +9023,12 @@ function airline_get_booking(data, sync=false){
                     airline_get_detail.result.response.total_price = total_price;
                     $text += '‣ Grand Total: '+price.currency+' '+ getrupiah(total_price);
                     if(check_provider_booking != 0 && msg.result.response.state == 'booked'){
-                        $text += '\n\nPrices and availability may change at any time';
+//                        $text += '\n\nPrices and availability may change at any time';
+                        $text += '\n\nPrice Guarantee Timelimit: ' + msg.result.response.hold_date;
+                        if(msg.result.response.hasOwnProperty('expired_date') && msg.result.response.expired_date != '' && msg.result.response.expired_date != msg.result.response.hold_date)
+                            $text += '\nExpired Timelimit: ' + msg.result.response.expired_date;
+                        else
+                            $text += '\nExpired Timelimit: ' + msg.result.response.hold_date;
                     }
 
                     if(disc != 0){
@@ -9441,52 +9444,52 @@ function airline_get_booking(data, sync=false){
                 }
 
                 // pop up hold date
-                if(!['issued'].includes(msg.result.response.state)){
-                    context_data = "Expired Price";
-                    if(msg.result.response.expired_date == '' || msg.result.response.expired_date != '' && msg.result.response.expired_date == msg.result.response.hold_date)
-                        context_data = "Expired Ticketing Limit";
-                    new jBox('Tooltip', {
-                        attach: '#hold_date_field',
-                        target: '#hold_date_field_show',
-                        theme: 'TooltipBorder',
-                        trigger: 'click',
-                        adjustTracker: true,
-                        closeOnClick: 'body',
-                        closeButton: 'box',
-                        animation: 'move',
-                        position: {
-                          x: 'left',
-                          y: 'bottom'
-                        },
-                        outside: 'y',
-                        pointer: 'left:20',
-                        offset: {
-                          x: 25
-                        },
-                        content: context_data,
-                    });
-                    if(msg.result.response.hasOwnProperty('expired_date') && msg.result.response.expired_date != '' && msg.result.response.expired_date != msg.result.response.hold_date)
-                        new jBox('Tooltip', {
-                            attach: '#expired_date_field',
-                            target: '#expired_date_field_show',
-                            theme: 'TooltipBorder',
-                            trigger: 'click',
-                            adjustTracker: true,
-                            closeOnClick: 'body',
-                            closeButton: 'box',
-                            animation: 'move',
-                            position: {
-                              x: 'left',
-                              y: 'bottom'
-                            },
-                            outside: 'y',
-                            pointer: 'left:20',
-                            offset: {
-                              x: 25
-                            },
-                            content: "Expired Ticketing Limit",
-                        });
-                }
+//                if(!['issued'].includes(msg.result.response.state)){
+//                    context_data = "Expired Price";
+//                    if(msg.result.response.expired_date == '' || msg.result.response.expired_date != '' && msg.result.response.expired_date == msg.result.response.hold_date)
+//                        context_data = "Expired Ticketing Limit";
+//                    new jBox('Tooltip', {
+//                        attach: '#hold_date_field',
+//                        target: '#hold_date_field_show',
+//                        theme: 'TooltipBorder',
+//                        trigger: 'click',
+//                        adjustTracker: true,
+//                        closeOnClick: 'body',
+//                        closeButton: 'box',
+//                        animation: 'move',
+//                        position: {
+//                          x: 'left',
+//                          y: 'bottom'
+//                        },
+//                        outside: 'y',
+//                        pointer: 'left:20',
+//                        offset: {
+//                          x: 25
+//                        },
+//                        content: context_data,
+//                    });
+//                    if(msg.result.response.hasOwnProperty('expired_date') && msg.result.response.expired_date != '' && msg.result.response.expired_date != msg.result.response.hold_date)
+//                        new jBox('Tooltip', {
+//                            attach: '#expired_date_field',
+//                            target: '#expired_date_field_show',
+//                            theme: 'TooltipBorder',
+//                            trigger: 'click',
+//                            adjustTracker: true,
+//                            closeOnClick: 'body',
+//                            closeButton: 'box',
+//                            animation: 'move',
+//                            position: {
+//                              x: 'left',
+//                              y: 'bottom'
+//                            },
+//                            outside: 'y',
+//                            pointer: 'left:20',
+//                            offset: {
+//                              x: 25
+//                            },
+//                            content: "Expired Ticketing Limit",
+//                        });
+//                }
                }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                    auto_logout();
                }else if(msg.result.error_code == 1035){
@@ -11677,16 +11680,11 @@ function reissued_btn(){
     flight = 1;
     cabin_class = 1;
     text += `<div class="row">`;
-    if(airline_get_detail.result.response.state == 'booked')
-        text += `
-        <div class="col-lg-12 mb-3">
-            <h4 class="mb-3"> Change Booking</h4>
-        </div>`;
-    else
-        text += `
-        <div class="col-lg-12 mb-3">
-            <h4 class="mb-3"> Reissue</h4>
-        </div>`;
+
+    text += `
+    <div class="col-lg-12 mb-3">
+        <h4 class="mb-3"> Change Itinerary</h4>
+    </div>`;
 
     if(is_reroute){
         text+=`
@@ -11844,7 +11842,7 @@ function reissued_btn(){
         <div class="col-lg-12" style="padding:15px 0px 0px 0px;">
             <!--<input class="primary-btn-ticket" style="width:100%;" type="button" onclick="airline_reissued();" value="Request Reissued">--!>
             <button class="primary-btn-ticket" id="reissued_req_btn" style="width:100%;" type="button" onclick="airline_get_reschedule_availability_v2();">
-                Request Reissued
+                Change Itinerary
             </button>
         </div>
     </div>`;
@@ -13027,9 +13025,9 @@ function render_ticket_reissue(){
         }
     }else{
         if(airline_get_detail.result.response.state == 'booked')
-            document.getElementById('reissued').innerHTML = `<input class="issued_booking_btn primary-btn-white" style="width:100%;" type="button" onclick="reissued_btn();" value="Change Booking">`;
+            document.getElementById('reissued').innerHTML = `<input class="issued_booking_btn primary-btn-white" style="width:100%;" type="button" onclick="reissued_btn();" value="Change Itinerary">`;
         else
-            document.getElementById('reissued').innerHTML = `<button class="primary-btn-ticket" id="reissued_btn_dsb" style="width:100%;" type="button" onclick="reissued_btn();">Reissued</button>`;
+            document.getElementById('reissued').innerHTML = `<button class="primary-btn-ticket" id="reissued_btn_dsb" style="width:100%;" type="button" onclick="reissued_btn();">Change Itinerary</button>`;
         document.getElementById('reissued').hidden = false;
         Swal.fire({
             type: 'error',
