@@ -77,6 +77,8 @@ def api_models(request):
             res = issued_booking(request)
         elif req_data['action'] == 'get_booking':
             res = get_booking(request)
+        elif req_data['action'] == 'cancel_booking':
+            res = cancel_booking(request)
         elif req_data['action'] == 'update_service_charge':
             res = update_service_charge(request)
         elif req_data['action'] == 'booker_insentif_booking':
@@ -717,6 +719,28 @@ def issued_booking(request):
             _logger.info("SUCCESS issued ACTIVITY SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR issued ACTIVITY SIGNATURE " + request.POST['signature'])
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+
+def cancel_booking(request):
+    data = {
+        'order_number': request.POST['order_number']
+    }
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
+        "action": "cancel_order",
+        "signature": request.POST['signature']
+    }
+    url_request = get_url_gateway('booking/activity')
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
+    try:
+        if res['result']['error_code'] == 0:
+            _logger.info("SUCCESS cancel ACTIVITY SIGNATURE " + request.POST['signature'])
+        else:
+            _logger.error("ERROR cancel ACTIVITY SIGNATURE " + request.POST['signature'])
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
