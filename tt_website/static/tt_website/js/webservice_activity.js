@@ -3079,6 +3079,7 @@ function activity_get_booking(data){
                             document.getElementById('display_state').innerHTML = `Your Order Has Been Booked`;
 
                            var check_error_msg_provider = 0;
+                           var check_cancel = 1;
                            for(co_error in msg.result.response.provider_booking){
                                if(msg.result.response.provider_booking[co_error].error_msg != ''){
                                     check_error_msg_provider = 1;
@@ -3091,6 +3092,10 @@ function activity_get_booking(data){
                                     <h5>Your booking has been successfully Booked. Please proceed to payment or review your booking again.</h5>
                                 </div>`;
                             }
+                            if(check_cancel){
+                                document.getElementById('cancel').hidden = false;
+                                document.getElementById('cancel').innerHTML = `<input class="primary-btn-white" style="width:100%;" type="button" onclick="cancel_btn();" value="Cancel Booking">`;
+                           }
                         }
                         else if(msg.result.response.state == 'rejected'){
                             conv_status = 'Rejected';
@@ -4176,6 +4181,82 @@ function activity_get_voucher(order_number){
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error activity voucher');
        },timeout: 60000
+    });
+}
+
+function cancel_btn(){
+    Swal.fire({
+      title: 'Are you sure want to Cancel this booking?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        show_loading();
+        please_wait_transaction();
+        getToken();
+        cancel_reservation_activity();
+      }
+    })
+}
+
+function cancel_reservation_activity(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/activity",
+       headers:{
+            'action': 'cancel_booking',
+       },
+       data: {
+           'order_number': activity_order_number,
+           'signature': signature
+       },
+       success: function(msg) {
+           if(msg.result.error_code == 0){
+                window.location = "/activity/booking/" + btoa(activity_order_number);
+           }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                auto_logout();
+           }else{
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: #ff9900;">Error activity cancel </span>' + msg.result.error_msg,
+                })
+                price_arr_repricing = {};
+                pax_type_repricing = [];
+                document.getElementById('activity_final_info').innerHTML = '';
+                document.getElementById('product_title').innerHTML = '';
+                document.getElementById('product_visit_date').innerHTML = '';
+                document.getElementById('repricing_div').innerHTML = '';
+                document.getElementById('activity_detail_table').innerHTML = '';
+                document.getElementById('payment_acq').innerHTML = '';
+                document.getElementById('payment_acq').hidden = true;
+                document.getElementById("overlay-div-box").style.display = "none";
+                $('.hold-seat-booking-train').prop('disabled', false);
+                $('.hold-seat-booking-train').removeClass("running");
+                hide_modal_waiting_transaction();
+                activity_get_booking(activity_order_number);
+           }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error activity cancel');
+            price_arr_repricing = {};
+            pax_type_repricing = [];
+            document.getElementById('activity_final_info').innerHTML = '';
+            document.getElementById('product_title').innerHTML = '';
+            document.getElementById('product_visit_date').innerHTML = '';
+            document.getElementById('repricing_div').innerHTML = '';
+            document.getElementById('activity_detail_table').innerHTML = '';
+            document.getElementById('payment_acq').innerHTML = '';
+            document.getElementById('payment_acq').hidden = true;
+            document.getElementById("overlay-div-box").style.display = "none";
+            $('.hold-seat-booking-train').prop('disabled', false);
+            $('.hold-seat-booking-train').removeClass("running");
+            hide_modal_waiting_transaction();
+            activity_get_booking(activity_order_number);
+       },timeout: 300000
     });
 }
 
