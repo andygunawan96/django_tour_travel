@@ -3534,12 +3534,17 @@ function insurance_get_booking(data, sync=false){
                     document.getElementById('show_title_insurance').hidden = false;
                     document.getElementById('show_loading_booking_insurance').hidden = true;
                     document.getElementById('show_title_insurance').hidden = true;
-                    render_login('insurance');
+                    $('#myModalSignin').modal('show');
+                    Swal.fire({
+                        type: 'error',
+                        title: 'Oops!',
+                        html: msg.result.error_msg,
+                    })
                 }else{
                    Swal.fire({
                       type: 'error',
                       title: 'Oops!',
-                      html: msg.result.error_msg,
+                      html: '<span style="color: #ff9900;">Error insurance booking </span>' + msg.result.error_msg,
                    })
                    try{
                     $("#show_loading_booking_insurance").hide();

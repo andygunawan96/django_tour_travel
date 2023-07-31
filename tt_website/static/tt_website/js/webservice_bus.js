@@ -1881,10 +1881,14 @@ function bus_get_booking(data, sync=false){
                         document.getElementById('voucher_discount').style.display = 'none';
                 }catch(err){console.log(err);}
             }else if(msg.result.error_code == 1035){
-                document.getElementById('show_title_bus').hidden = false;
                 document.getElementById('show_loading_booking_bus').hidden = true;
                 document.getElementById('show_title_bus').hidden = true;
-                render_login('bus');
+                $('#myModalSignin').modal('show');
+                Swal.fire({
+                    type: 'error',
+                    title: 'Oops!',
+                    html: msg.result.error_msg,
+                })
             }else{
                 Swal.fire({
                   type: 'error',

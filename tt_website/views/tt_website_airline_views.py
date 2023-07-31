@@ -2238,15 +2238,14 @@ def booking(request, order_number):
             del request.session['airline_create_passengers']
         if 'airline_get_booking_response' in request.session:
             del request.session['airline_get_booking_response']
-        if 'user_account' not in request.session:
+
+        web_mode = get_web_mode(request)
+
+        if 'user_account' not in request.session and 'btc' in web_mode:
             signin_btc(request)
-        try:
-            airline_carriers = get_carriers(request, request.session['signature'])
-            # file = read_cache("get_airline_carriers", 'cache_web', request, 90911)
-            # if file:
-            #     airline_carriers = file
-        except Exception as e:
-            _logger.error('ERROR get_airline_carriers file\n' + str(e) + '\n' + traceback.format_exc())
+        elif 'user_account' not in request.session and 'btc' not in web_mode:
+            raise Exception('Airline get booking without login in btb web')
+        airline_carriers = get_carriers(request, request.session['signature'])
         values = get_data_template(request)
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
@@ -2268,7 +2267,11 @@ def booking(request, order_number):
         })
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
-        raise Exception('Make response code 500!')
+        web_mode = get_web_mode(request)
+        if 'btc' not in web_mode:
+            return redirect('/login?redirect=%s' % request.META['PATH_INFO'])
+        if 'btc' in web_mode:
+            raise Exception('Make response code 500!')
     return render(request, MODEL_NAME+'/airline/airline_booking_templates.html', values)
 
 def refund(request, order_number):

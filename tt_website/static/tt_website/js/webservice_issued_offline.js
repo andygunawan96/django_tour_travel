@@ -2051,7 +2051,12 @@ function get_booking_offline(data){
 //                    }catch(err){console.log(err);}
                 }else if(msg.result.error_code == 1035){
                     document.getElementById('show_loading_booking_airline').hidden = true;
-                    render_login('issued_offline');
+                    $('#myModalSignin').modal('show');
+                    Swal.fire({
+                        type: 'error',
+                        title: 'Oops!',
+                        html: msg.result.error_msg,
+                    })
                 }else{
                     text += `<div class="alert alert-danger">
                             <h5>

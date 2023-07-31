@@ -9534,7 +9534,12 @@ function airline_get_booking(data, sync=false){
                }else if(msg.result.error_code == 1035){
                     hide_modal_waiting_transaction();
                     document.getElementById('show_loading_booking_airline').hidden = true;
-                    render_login('airline');
+                    $('#myModalSignin').modal('show');
+                    Swal.fire({
+                        type: 'error',
+                        title: 'Oops!',
+                        html: msg.result.error_msg,
+                    })
                }else{
                     text += `<div class="alert alert-danger">
                             <h5>
@@ -9584,17 +9589,25 @@ function airline_get_booking(data, sync=false){
 function update_passenger_draw(){
     text = '';
     list_pax_ticket = []
+    list_pax_number = []
     is_same_pax = false;
-    text_pax_dupe = []
     for(provider in airline_get_detail.result.response.provider_bookings){
         need_to_print_pnr = true;
         for(pax in airline_get_detail.result.response.passengers){
             if($('#passenger_'+pax+'_'+airline_get_detail.result.response.provider_bookings[provider].pnr).val().includes('&&&')){
-                if(!list_pax_ticket.includes($('#passenger_'+pax+'_'+airline_get_detail.result.response.provider_bookings[provider].pnr).val().split('&&&')[0]))
+                check_same_pax = false;
+                if(!list_pax_ticket.includes($('#passenger_'+pax+'_'+airline_get_detail.result.response.provider_bookings[provider].pnr).val().split('&&&')[0])){
                     list_pax_ticket.push($('#passenger_'+pax+'_'+airline_get_detail.result.response.provider_bookings[provider].pnr).val().split('&&&')[0])
-                else{
+                    list_pax_number.push(parseInt(parseInt(pax)+1))
+                }else{
                     is_same_pax = true;
-                    text_pax_dupe.push('Duplicate passenger '+ pax);
+                    check_same_pax = true;
+                    for(ticket_idx in list_pax_ticket){
+                        if(list_pax_ticket[ticket_idx] == $('#passenger_'+pax+'_'+airline_get_detail.result.response.provider_bookings[provider].pnr).val().split('&&&')[0]){
+                            ticket_pax_dupe = list_pax_number[ticket_idx]
+                            break;
+                        }
+                    }
                 }
 
                 if(need_to_print_pnr){
@@ -9615,7 +9628,7 @@ function update_passenger_draw(){
                                 <span style="font-size:11px;">changed</span>
                             </div>`;
 
-                            if(!is_same_pax){
+                            if(!check_same_pax){
                                 text+=`
                                 <div class="col-lg-5 col-md-5" style="margin: auto;">
                                     <h6 style="color:`+color+`;"><i class="fas fa-user"></i> Vendor</h6>
@@ -9630,6 +9643,7 @@ function update_passenger_draw(){
                                 <div class="col-lg-5 col-md-5" style="margin: auto;">
                                     <h6 style="color:gray;"><i class="fas fa-user"></i> Vendor</h6>
                                     <h6 style="color:#d43c31; padding:12px 10px; border:1px solid #d43c31; background:#f7f7f7;">
+                                        <span style="font-size:11px;">Duplicate with Passenger `+ticket_pax_dupe+`!</span><br/>
                                         <i class="fas fa-times-circle" style="color:#d43c31;"></i>
                                         `+$('#passenger_'+pax+'_'+airline_get_detail.result.response.provider_bookings[provider].pnr).val().split('&&&')[1]+`
                                     </h6>
@@ -9646,7 +9660,7 @@ function update_passenger_draw(){
         text = `
         <div class="row">
             <div class="col-lg-12" id="div_result_sync">
-                <h4 class="mb-3">Passenger Change</h>
+                <h4 class="mb-3">Passenger Change</h4>
                 ` + text + ``;
 
                 if(!is_same_pax){
