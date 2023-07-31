@@ -265,20 +265,15 @@
                                                 <label style="color:red !important">*</label>
                                                 {% trans "Package" %}
                                             </label><br/>
-                                            <label class="radio-button-custom">
-                                                <span style="font-size:14px;">Paket Tes Darah Lengkap</span>
-                                                <input type="radio" checked="checked" name="medical_test_package" value="merdeka" onclick="add_table();">
-                                                <span class="checkmark-radio"></span>
+                                            <label class="check_box_custom" style="margin-bottom:0px;">
+                                                <span class="span-search-ticket" style="color:black; padding-right:5px;">+ Hba1c</span>
+                                                <input type="checkbox" value="" name="medical_test_package_addons_1" id="medical_test_package_addons_1" style="margin-right: 5px;" onclick="add_table();"/>
+                                                <span class="check_box_span_custom" id="medical_test_package_addons_1_span"></span>
                                             </label>
-                                            <label class="radio-button-custom">
-                                                <span style="font-size:14px;">Paket Tes Darah Lengkap + Hba1c</span>
-                                                <input type="radio" name="medical_test_package" value="hba1c" onclick="add_table();">
-                                                <span class="checkmark-radio"></span>
-                                            </label>
-                                            <label class="radio-button-custom">
-                                                <span style="font-size:14px;">Paket Tes Darah Lengkap + HBsAg & Anti Hbs Kuantitatif</span>
-                                                <input type="radio" name="medical_test_package" value="hbsag" onclick="add_table();">
-                                                <span class="checkmark-radio"></span>
+                                            <label class="check_box_custom" style="margin-bottom:0px;">
+                                                <span class="span-search-ticket" style="color:black; padding-right:5px;">+ HBsAg & Anti Hbs Kuantitatif</span>
+                                                <input type="checkbox" value="" name="medical_test_package_addons_2" id="medical_test_package_addons_2" style="margin-right: 5px;" onclick="add_table();"/>
+                                                <span class="check_box_span_custom" id="medical_test_package_addons_2_span"></span>
                                             </label>
                                         </div>
                                     </div>

@@ -310,19 +310,11 @@ function mitra_keluarga_check_price(){
             'timeslot_list': JSON.stringify(timeslot_list),
             'carrier_code': test_type
         }
-        if(document.getElementsByName('medical_test_package')){
-            var medical_test_package = '';
-            var radios = document.getElementsByName('medical_test_package');
-            for (var j = 0, length = radios.length; j < length; j++) {
-                if (radios[j].checked) {
-                    // do whatever you want with the checked radio
-                    medical_test_package = radios[j].value;
-                    // only one radio can be logically checked, don't check the rest
-                    break;
-                }
-            }
-            if(medical_test_package)
-                data_request['medical_test_package'] = medical_test_package;
+        if(document.getElementById('medical_test_package_addons_1').checked){
+            data_request['overtime_surcharge'] = true;
+        }
+        if(document.getElementById('medical_test_package_addons_2').checked){
+            data_request['cito_surcharge'] = true;
         }
         $.ajax({
            type: "POST",
