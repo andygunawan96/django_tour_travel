@@ -7329,7 +7329,7 @@ function airline_get_booking(data, sync=false){
                             document.getElementById('reissued').hidden = false;
                             document.getElementById('reissued').innerHTML = `
                                 <button class="primary-btn-ticket" id="reissued_btn_dsb" style="width:100%;" type="button" onclick="reissued_btn();">
-                                    Reissued
+                                    Change Itinerary
                                 </button>
                             `;
                        }
@@ -10369,7 +10369,7 @@ function cancel_reservation_airline(){
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error airline reissued');
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error Airline Change Itinerary');
             price_arr_repricing = {};
             pax_type_repricing = [];
             document.getElementById('show_loading_booking_airline').hidden = false;
@@ -11840,7 +11840,7 @@ function reissued_btn(){
     text += `</div>`;
     text+=`
         <div class="col-lg-12" style="padding:15px 0px 0px 0px;">
-            <!--<input class="primary-btn-ticket" style="width:100%;" type="button" onclick="airline_reissued();" value="Request Reissued">--!>
+            <!--<input class="primary-btn-ticket" style="width:100%;" type="button" onclick="airline_reissued();" value="Change Itinerary">--!>
             <button class="primary-btn-ticket" id="reissued_req_btn" style="width:100%;" type="button" onclick="airline_get_reschedule_availability_v2();">
                 Change Itinerary
             </button>
@@ -12011,14 +12011,14 @@ function airline_reissued(){
                 document.getElementById('airline_detail').innerHTML = '';
                 //document.getElementById('ssr_request_after_sales').hidden = true;
 
-                document.getElementById('reissued').innerHTML = `<input class="primary-btn-white" style="width:100%;" type="button" onclick="show_loading();please_wait_transaction();airline_get_booking('`+airline_get_detail.result.response.order_number+`')" value="Cancel Reissued">`;
+                document.getElementById('reissued').innerHTML = `<input class="primary-btn-white" style="width:100%;" type="button" onclick="show_loading();please_wait_transaction();airline_get_booking('`+airline_get_detail.result.response.order_number+`')" value="Cancel Change Itinerary">`;
                 flight_select = 0;
                 datareissue2(msg.result.response.reschedule_availability_provider);
            }else{
                 Swal.fire({
                    type: 'error',
                    title: 'Oops!',
-                   html: '<span style="color: red;">Error reissued </span>' + msg.result.error_msg,
+                   html: '<span style="color: red;">Error Change Itinerary </span>' + msg.result.error_msg,
                 }).then((result) => {
                   if (result.value) {
                     hide_modal_waiting_transaction();
@@ -12030,7 +12030,7 @@ function airline_reissued(){
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error airline reissued');
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error Airline Change Itinerary');
             $("#show_loading_booking_airline").hide();
             $("#show_error_booking_airline").show();
             hide_modal_waiting_transaction();
@@ -15854,7 +15854,7 @@ function airline_get_reschedule_availability_v2(){
                         document.getElementById('show_loading_booking_airline').hidden = false;
                         //document.getElementById('ssr_request_after_sales').hidden = true;
 
-                        document.getElementById('reissued').innerHTML = `<input class="primary-btn-white" style="width:100%;" type="button" onclick="show_loading();please_wait_transaction();airline_get_booking('`+airline_get_detail.result.response.order_number+`')" value="Cancel Reissued">`;
+                        document.getElementById('reissued').innerHTML = `<input class="primary-btn-white" style="width:100%;" type="button" onclick="show_loading();please_wait_transaction();airline_get_booking('`+airline_get_detail.result.response.order_number+`')" value="Cancel Change Itinerary">`;
                         flight_select = 0;
 
                         datareissue2(msg.result.response.reschedule_availability_provider);
@@ -15871,7 +15871,7 @@ function airline_get_reschedule_availability_v2(){
                     Swal.fire({
                        type: 'error',
                        title: 'Oops!',
-                       html: '<span style="color: red;">Error reissued </span>' + msg.result.error_msg,
+                       html: '<span style="color: red;">Error Airline Change Itinerary </span>' + msg.result.error_msg,
                     }).then((result) => {
                       if (result.value) {
                         hide_modal_waiting_transaction();
@@ -15887,7 +15887,7 @@ function airline_get_reschedule_availability_v2(){
                }
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
-                error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error airline reissued');
+                error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error Airline Change Itinerary');
                 $("#show_loading_booking_airline").hide();
                 $("#show_error_booking_airline").show();
                 hide_modal_waiting_transaction();
@@ -17354,7 +17354,7 @@ function cancel_reservation_airline_v2(){
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error airline reissued');
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error Airline Change Itinerary');
             price_arr_repricing = {};
             pax_type_repricing = [];
             document.getElementById('show_loading_booking_airline').hidden = false;
