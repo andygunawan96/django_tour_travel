@@ -376,7 +376,7 @@ def passenger(request):
                                 "name": perbooking['name']
                             })
                         elif perbooking['inputType'] == 5:
-                            if request.POST['perbooking' + str(idx)] == 'on':
+                            if request.POST.get('perbooking' + str(idx)) == 'on':
                                 perbooking_list.append({
                                     "uuid": perbooking['uuid'],
                                     "value": 'True',
@@ -642,7 +642,7 @@ def review(request):
                                     "name": perpax['name']
                                 })
                             elif perpax['inputType'] == 5:
-                                if request.POST['adult_perpax' + str(i + 1) + '_' + str(idx + 1)] == 'on':
+                                if request.POST.get('adult_perpax' + str(i + 1) + '_' + str(idx + 1)) == 'on':
                                     perpax_list_temp.append({
                                         "uuid": perpax['uuid'],
                                         "value": 'True',
@@ -901,7 +901,7 @@ def review(request):
                                     "name": perpax['name']
                                 })
                             elif perpax['inputType'] == 5:
-                                if request.POST['senior_perpax' + str(i+1) + '_' + str(idx+1)] == 'on':
+                                if request.POST.get('senior_perpax' + str(i+1) + '_' + str(idx+1)) == 'on':
                                     perpax_list_temp.append({
                                         "uuid": perpax['uuid'],
                                         "value": 'True',
@@ -1093,7 +1093,7 @@ def review(request):
                                     "name": perpax['name']
                                 })
                             elif perpax['inputType'] == 5:
-                                if request.POST['child_perpax' + str(i+1) + '_' + str(idx+1)] == 'on':
+                                if request.POST.get('child_perpax' + str(i+1) + '_' + str(idx+1)) == 'on':
                                     perpax_list_temp.append({
                                         "uuid": perpax['uuid'],
                                         "value": 'True',
@@ -1426,8 +1426,11 @@ def booking(request, order_number):
         javascript_version = get_javascript_version(request)
 
         values = get_data_template(request)
-        if 'user_account' not in request.session:
+        web_mode = get_web_mode(request)
+        if 'user_account' not in request.session and 'btc' in web_mode:
             signin_btc(request)
+        elif 'user_account' not in request.session and 'btc' not in web_mode:
+            raise Exception('Airline get booking without login in btb web')
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
         try:
@@ -1447,5 +1450,9 @@ def booking(request, order_number):
         })
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
-        raise Exception('Make response code 500!')
+        web_mode = get_web_mode(request)
+        if 'btc' not in web_mode:
+            return redirect('/login?redirect=%s' % request.META['PATH_INFO'])
+        if 'btc' in web_mode:
+            raise Exception('Make response code 500!')
     return render(request, MODEL_NAME + '/activity/activity_booking_templates.html', values)

@@ -4125,8 +4125,13 @@ function activity_get_booking(data){
                             document.getElementById('voucher_discount').style.display = 'none';
                     }catch(err){console.log(err);}
                 }else if(msg.result.error_code == 1035){
-                        document.getElementById('activity_detail').hidden = true;
-                        render_login('activity');
+                    document.getElementById('activity_detail').hidden = true;
+                    $('#myModalSignin').modal('show');
+                    Swal.fire({
+                        type: 'error',
+                        title: 'Oops!',
+                        html: msg.result.error_msg,
+                    })
                 }else{
                     Swal.fire({
                       type: 'error',
