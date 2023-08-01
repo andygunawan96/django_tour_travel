@@ -4405,8 +4405,9 @@ function get_price_itinerary_request(){
                                                     if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares.length > 0){
                                                         text+=`
                                                         <div class="col-lg-12" style="padding-bottom:15px;">`;
-                                                        if(provider_list_data[resJson.result.response.price_itinerary_provider[i].provider].is_post_issued_reschedule)
-                                                            text+=`<span style="font-weight:bold;"><i class="fas fa-check-circle" style="color:#4f9c64;"></i> Reschedule</span>`;
+//                                                        if(provider_list_data[resJson.result.response.price_itinerary_provider[i].provider].is_post_issued_reschedule)
+//                                                            text+=`<span style="font-weight:bold;"><i class="fas fa-check-circle" style="color:#4f9c64;"></i> Reschedule</span>`;
+
                                                         //<span style="padding:5px 10px; margin-right:5px; border:1px solid #cdcdcd; background:#fafafa; font-weight:bold; border-radius:14px;"><i class="fas fa-check-circle" style="color:#4f9c64;"></i> Reschedule</span>
                             //                            if(provider_list_data[resJson.result.response.price_itinerary_provider[i].provider].is_post_issued_cancel)
                             //                                text+=`
@@ -7913,12 +7914,12 @@ function airline_get_booking(data, sync=false){
 
                             try{
                                 //prevent error kalau provider tidak ada
-                                if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_issued_reschedule)
-                                    text+=`
-                                        <br/><span style="font-weight:bold;"><i class="fas fa-check-circle" style="color:#4f9c64;"></i> Reschedule</span>`;
-                                if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_issued_cancel)
-                                    text+=`
-                                        <br/><span style="font-weight:bold;"><i class="fas fa-check-circle" style="color:#4f9c64;"></i> Refund</span>`;
+//                                if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_issued_reschedule)
+//                                    text+=`
+//                                        <br/><span style="font-weight:bold;"><i class="fas fa-check-circle" style="color:#4f9c64;"></i> Reschedule</span>`;
+//                                if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_issued_cancel)
+//                                    text+=`
+//                                        <br/><span style="font-weight:bold;"><i class="fas fa-check-circle" style="color:#4f9c64;"></i> Refund</span>`;
                             }catch(err){
                                 console.log(err); // error kalau ada element yg tidak ada
                             }
