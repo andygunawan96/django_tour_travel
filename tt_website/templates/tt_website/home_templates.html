@@ -775,7 +775,7 @@
                 }
             });
             {% endif %}
-            {% if "visa" in provider and "ticketing_visa" in username.co_agent_frontend_security and 'b2c_limitation' not in username.co_agent_frontend_security %}
+            {% if "visa" in provider and "ticketing_visa" in username.co_agent_frontend_security %}
             get_visa_config('home');
             {% endif %}
             {% if "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_passport" in username.co_agent_frontend_security %}

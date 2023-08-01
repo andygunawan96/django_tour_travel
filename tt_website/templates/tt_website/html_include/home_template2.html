@@ -53,7 +53,7 @@
                         <li class="tab-link" data-tab="tab-event" onclick="scroll_menu_horizontal('tab-link', 'event');" id="nav_scroll_menu_event"><i class="image-rounded-icon3"><img style="width:30px; height:30px" src="{{static_path}}images/icon/product/c-event.png" alt="Event Icon"/></i><label class="txt_clr">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</label></li>
                         {% elif "activity" in provider and "ticketing_activity" in username.co_agent_frontend_security and rec.code == 'activity' %}
                         <li class="tab-link" data-tab="tab-activity" onclick="scroll_menu_horizontal('tab-link', 'activty');" id="nav_scroll_menu_activity"><i class="image-rounded-icon3"><img style="width:30px; height:30px" src="{{static_path}}images/icon/product/c-activity.png" alt="Activity Icon"/></i><label class="txt_clr">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</label></li>
-                        {% elif "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_visa" in username.co_agent_frontend_security and rec.code == 'visa' %}
+                        {% elif "visa" in provider and "ticketing_visa" in username.co_agent_frontend_security and rec.code == 'visa' %}
                         <li class="tab-link" data-tab="tab-visa" onclick="scroll_menu_horizontal('tab-link', 'visa');" id="nav_scroll_menu_visa"><i class="image-rounded-icon3"><img style="width:30px; height:30px" src="{{static_path}}images/icon/product/c-visa.png" alt="Visa Icon"/></i><label class="txt_clr">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</label></li>
                         {% elif "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_passport" in username.co_agent_frontend_security and rec.code == 'passport' %}
                         <li class="tab-link" data-tab="tab-passport" onclick="scroll_menu_horizontal('tab-link', 'passport');" id="nav_scroll_menu_passport"><i class="image-rounded-icon3"><img style="width:30px; height:30px" src="{{static_path}}images/icon/product/c-passport.png" alt="Passport Icon"/></i><label class="txt_clr">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</label></li>
@@ -910,7 +910,7 @@
                     </div>
                     {% endif %}
                     {% endif %}
-                    {% if "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_visa" in username.co_agent_frontend_security %}
+                    {% if "visa" in provider and "ticketing_visa" in username.co_agent_frontend_security %}
                     <div id="tab-visa" class="tab-content">
                         <form action="{% url 'tt_website:visa_search'%}" id="visa_searchForm" method="post">
                             {% csrf_token %}

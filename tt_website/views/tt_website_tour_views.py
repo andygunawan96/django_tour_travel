@@ -132,6 +132,11 @@ def search(request):
                 {'value': '11', 'string': 'November'},
                 {'value': '12', 'string': 'December'},
             ]
+            ## CELINDO DARI COMPANY PROFILE REDIRECT KE PAGE SEARCH TOUR CHECK WEBSITE MODE
+            user_default = get_credential_user_default(request, 'dict')
+            ## kalau belum signin, web btc & ada user default
+            if not request.session.get('user_account') and values['website_mode'] in ['btc', 'btc_btb'] and user_default:
+                signin_btc(request)
 
             try:
                 set_session(request, 'tour_request', {
@@ -144,7 +149,20 @@ def search(request):
                     'offset': 0,
                 })
             except:
-                set_session(request, 'tour_request', request.session['tour_request'])
+                if request.session.get('tour_request'):
+                    set_session(request, 'tour_request', request.session['tour_request'])
+                else:
+                    ## ## CELINDO DARI COMPANY PROFILE REDIRECT KE PAGE SEARCH TOUR
+                    ## search all
+                    set_session(request, 'tour_request', {
+                        'tour_query': '',
+                        'country_id': 0,
+                        'city_id': 0,
+                        'month': '',
+                        'year': '',
+                        'limit': 25,
+                        'offset': 0,
+                    })
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'username': request.session['user_account'],
