@@ -310,19 +310,11 @@ function mitra_keluarga_check_price(){
             'timeslot_list': JSON.stringify(timeslot_list),
             'carrier_code': test_type
         }
-        if(document.getElementsByName('medical_test_package')){
-            var medical_test_package = '';
-            var radios = document.getElementsByName('medical_test_package');
-            for (var j = 0, length = radios.length; j < length; j++) {
-                if (radios[j].checked) {
-                    // do whatever you want with the checked radio
-                    medical_test_package = radios[j].value;
-                    // only one radio can be logically checked, don't check the rest
-                    break;
-                }
-            }
-            if(medical_test_package)
-                data_request['medical_test_package'] = medical_test_package;
+        if(document.getElementById('medical_test_package_addons_1').checked){
+            data_request['overtime_surcharge'] = true;
+        }
+        if(document.getElementById('medical_test_package_addons_2').checked){
+            data_request['cito_surcharge'] = true;
         }
         $.ajax({
            type: "POST",
@@ -1815,7 +1807,12 @@ function mitra_keluarga_get_booking(order_number, sync=false){
                     document.getElementById('show_title_mitra_keluarga').hidden = false;
                     document.getElementById('show_loading_booking_mitra_keluarga').hidden = true;
                     document.getElementById('show_title_mitra_keluarga').hidden = true;
-                    render_login('mitra_keluarga');
+                    $('#myModalSignin').modal('show');
+                    Swal.fire({
+                        type: 'error',
+                        title: 'Oops!',
+                        html: msg.result.error_msg,
+                    })
                 }else{
                    Swal.fire({
                       type: 'error',

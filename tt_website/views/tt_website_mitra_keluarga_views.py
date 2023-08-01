@@ -270,8 +270,11 @@ def booking(request, order_number):
     try:
         javascript_version = get_javascript_version(request)
         values = get_data_template(request)
-        if 'user_account' not in request.session:
+        web_mode = get_web_mode(request)
+        if 'user_account' not in request.session and 'btc' in web_mode:
             signin_btc(request)
+        elif 'user_account' not in request.session and 'btc' not in web_mode:
+            raise Exception('Airline get booking without login in btb web')
         try:
             set_session(request, 'mitra_keluarga_order_number', base64.b64decode(order_number).decode('ascii'))
         except:
@@ -302,7 +305,11 @@ def booking(request, order_number):
         })
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
-        raise Exception('Make response code 500!')
+        web_mode = get_web_mode(request)
+        if 'btc' not in web_mode:
+            return redirect('/login?redirect=%s' % request.META['PATH_INFO'])
+        if 'btc' in web_mode:
+            raise Exception('Make response code 500!')
     return render(request, MODEL_NAME+'/mitra_keluarga/mitra_keluarga_booking_templates.html', values)
 
 

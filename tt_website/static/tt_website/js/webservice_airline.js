@@ -7329,7 +7329,7 @@ function airline_get_booking(data, sync=false){
                             document.getElementById('reissued').hidden = false;
                             document.getElementById('reissued').innerHTML = `
                                 <button class="primary-btn-ticket" id="reissued_btn_dsb" style="width:100%;" type="button" onclick="reissued_btn();">
-                                    Reissued
+                                    Change Itinerary
                                 </button>
                             `;
                        }
@@ -7428,7 +7428,7 @@ function airline_get_booking(data, sync=false){
                        }
                        if(check_reschedule){
                             document.getElementById('reissued').hidden = false;
-                            document.getElementById('reissued').innerHTML = `<input class="issued_booking_btn primary-btn-white" style="width:100%;" type="button" onclick="reissued_btn();" value="Change Booking">`;
+                            document.getElementById('reissued').innerHTML = `<input class="issued_booking_btn primary-btn-white" style="width:100%;" type="button" onclick="reissued_btn();" value="Change Itinerary">`;
                        }
                        if(check_split){
                             document.getElementById('split_booking').hidden = false;
@@ -7487,9 +7487,8 @@ function airline_get_booking(data, sync=false){
                         <tr>
                             <th>PNR</th>`;
                             if(!['issued'].includes(msg.result.response.state)){
-                                text+=`<th id="hold_date_field_show">Hold Date<span id="hold_date_field" style="color:`+color+`; cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;"></i></span></th>`;
-                                if(msg.result.response.hasOwnProperty('expired_date') && msg.result.response.expired_date != '' && msg.result.response.expired_date != msg.result.response.hold_date)
-                                    text += `<th id="expired_date_field_show">Expired Date<span id="expired_date_field" style="color:`+color+`; cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;"></i></span></th>`;
+                                text+=`<th id="hold_date_field_show">Price Guarantee Timelimit<span id="hold_date_field" style="color:`+color+`; cursor:pointer;"></span></th>`;
+                                text += `<th id="expired_date_field_show">Expired Timelimit<span id="expired_date_field" style="color:`+color+`; cursor:pointer;"></span></th>`;
                             }
                         text+=`
                             <th>Status</th>
@@ -7533,12 +7532,11 @@ function airline_get_booking(data, sync=false){
                                 text += `<td> - </td>`;
 
                             if(!['issued'].includes(msg.result.response.state)){
-                                if(!['issued'].includes(msg.result.response.provider_bookings[i].state))
-                                    text+=`<td>`+msg.result.response.hold_date+`</td>`;
-                                else
-                                    text += `<td></td>`;
+                                text+=`<td>`+msg.result.response.hold_date+`</td>`;
                                 if(msg.result.response.hasOwnProperty('expired_date') && msg.result.response.expired_date != '' && msg.result.response.expired_date != msg.result.response.hold_date)
                                     text+=`<td>`+msg.result.response.expired_date+`</td>`;
+                                else
+                                    text+=`<td>`+msg.result.response.hold_date+`</td>`;
                             }
                             text+=`
                                 <td>`;
@@ -8400,55 +8398,94 @@ function airline_get_booking(data, sync=false){
                                             </div>
                                             <div class="modal-body">
                                                 <div class="row">
-                                                    <div class="col-lg-12">`;
-                                for(provider in msg.result.response.provider_bookings){
-                                    text += `<h5>` + msg.result.response.provider_bookings[provider].pnr + `</h5>`;
-                                    text += `           <div class="row">
-                                                            <div class="col-lg-6 col-md-6 col-xs-6">
-                                                                <h6>`+name+`<h6>
-                                                            </div>
-                                                            <div class="col-lg-6 col-md-6 col-xs-6">
-                                                                <h6>Vendor</h6>
-                                                            </div>
-                                                        </div>`;
-                                    for(pax in msg.result.response.passengers){
-                                        text += `
-                                                        <div class="row">
-                                                            <div class="col-lg-6 col-md-6 col-xs-6" style="margin-top:auto;margin-bottom:auto;">
-                                                                <span>` + msg.result.response.passengers[pax].title + ` ` + msg.result.response.passengers[pax].name +`<span>
-                                                            </div>
-                                                            <div class="col-lg-6 col-md-6 col-xs-6">
-                                                                <div class="input-container-search-ticket">
-                                                                    <div class="form-select-2" id="default-select">
-                                                                        <select id="passenger_`+pax+`_`+msg.result.response.provider_bookings[provider].pnr+`" name="passenger_`+pax+`_`+msg.result.response.provider_bookings[provider].pnr+`" class="nice-select-default" onchange="delete_passenger_draw();">`;
-                                        is_passenger_number_found = false;
-                                        for(ticket in msg.result.response.provider_bookings[provider].tickets){
-                                            if(msg.result.response.passengers[pax].passenger_number.toString() == msg.result.response.provider_bookings[provider].tickets[ticket].passenger_number.toString() && msg.result.response.provider_bookings[provider].tickets[ticket].passenger_number.toString() != ''){
-                                                text+=                      `<option>`+msg.result.response.provider_bookings[provider].tickets[ticket].title+` `+msg.result.response.provider_bookings[provider].tickets[ticket].first_name+` `+msg.result.response.provider_bookings[provider].tickets[ticket].last_name+`</option>`;
-                                                is_passenger_number_found = true;
-                                                break;
-                                            }
-                                        }
-                                        if(!is_passenger_number_found){
-                                            text+=`<option>Choose</option>`;
-                                            for(ticket in msg.result.response.provider_bookings[provider].tickets){
-                                                if(msg.result.response.provider_bookings[provider].tickets[ticket].passenger_number.toString() == ''){
-                                                    text +=                 `<option value="`+msg.result.response.provider_bookings[provider].tickets[ticket].ticket_id+`&&&`+msg.result.response.provider_bookings[provider].tickets[ticket].title+` `+msg.result.response.provider_bookings[provider].tickets[ticket].first_name+` `+msg.result.response.provider_bookings[provider].tickets[ticket].last_name+`">`+msg.result.response.provider_bookings[provider].tickets[ticket].title+` `+msg.result.response.provider_bookings[provider].tickets[ticket].first_name+` `+msg.result.response.provider_bookings[provider].tickets[ticket].last_name+`</option>`;
-                                                }
-                                            }
-                                        }
-                                        text += `
-                                                                        </select>
+                                                    <div class="col-lg-12" id="div_pax_sync">`;
+                                                    for(provider in msg.result.response.provider_bookings){
+                                                        text += `
+                                                        <h5 class="mt-3 mb-3"><i class="fas fa-scroll"></i> PNR: `+msg.result.response.provider_bookings[provider].pnr+`</h5>`;
+                                                        for(pax in msg.result.response.passengers){
+                                                            text += `
+                                                            <div class="row">
+                                                                <div class="col-lg-12" style="padding-top:15px; padding-bottom:15px; background: white; border-bottom: 1px solid #cdcdcd; border-top: 1px solid #cdcdcd;">
+                                                                    <div class="row">
+                                                                        <div class="col-lg-5 col-md-5" style="margin: auto; text-align:left;">`;
+                                                                            is_passenger_number_found = false;
+                                                                            for(ticket in msg.result.response.provider_bookings[provider].tickets){
+                                                                                if(msg.result.response.passengers[pax].passenger_number.toString() == msg.result.response.provider_bookings[provider].tickets[ticket].passenger_number.toString() && msg.result.response.provider_bookings[provider].tickets[ticket].passenger_number.toString() != ''){
+                                                                                    text+=`
+                                                                                    <h6 style="color: gray;"><i class="fas fa-user"></i> `+name+`</h6>
+                                                                                    <h6 style="padding:12px 10px; background: #f7f7f7; color: gray; border:1px solid #cdcdcd;">`+msg.result.response.passengers[pax].title + ` ` + msg.result.response.passengers[pax].name +`</h6>`;
+                                                                                    is_passenger_number_found = true;
+                                                                                    break;
+                                                                                }
+                                                                            }
+
+                                                                            if(!is_passenger_number_found){
+                                                                                text+=`
+                                                                                <h6><i class="fas fa-user"></i> `+name+`</h6>
+                                                                                <h6 style="padding:12px 10px; background: #fff; border:1px solid #cdcdcd;">` + msg.result.response.passengers[pax].title + ` ` + msg.result.response.passengers[pax].name +`</h6>`;
+                                                                            }
+
+                                                                        text+=`
+                                                                        </div>
+                                                                        <div class="col-lg-2 col-md-2 pt-2 pt-2" style="margin: auto; text-align:center;">
+                                                                            <i class="fas fa-arrow-circle-right show_pc" style="color:`+color+`; font-size:18px;"></i>
+                                                                            <i class="fas fa-arrow-circle-down show_mbl" style="color:`+color+`; font-size:18px;"></i>
+                                                                        </div>
+                                                                        <div class="col-lg-5 col-md-5" style="margin: auto;">
+                                                                            <h6 style="color:`+color+`;"><i class="fas fa-user"></i> Vendor</h6>`;
+                                                                            is_passenger_number_found = false;
+                                                                            for(ticket in msg.result.response.provider_bookings[provider].tickets){
+                                                                                if(msg.result.response.passengers[pax].passenger_number.toString() == msg.result.response.provider_bookings[provider].tickets[ticket].passenger_number.toString() && msg.result.response.provider_bookings[provider].tickets[ticket].passenger_number.toString() != ''){
+                                                                                    text+=`
+                                                                                    <h6 style="color:`+color+`; padding:12px 10px; border:1px solid `+color+`;">
+                                                                                        <i class="fas fa-check-circle" style="color:#50bd2f;"></i>
+                                                                                        `+msg.result.response.provider_bookings[provider].tickets[ticket].title+` `+msg.result.response.provider_bookings[provider].tickets[ticket].first_name+` `+msg.result.response.provider_bookings[provider].tickets[ticket].last_name+`
+                                                                                    </h6>
+                                                                                    <div class="input-container-search-ticket" style="display:none;">
+                                                                                        <div class="form-select-2" id="default-select">
+                                                                                            <select id="passenger_`+pax+`_`+msg.result.response.provider_bookings[provider].pnr+`" name="passenger_`+pax+`_`+msg.result.response.provider_bookings[provider].pnr+`" class="nice-select-default" onchange="delete_passenger_draw();">
+                                                                                                <option>Choose</option>`;
+                                                                                                for(ticket in msg.result.response.provider_bookings[provider].tickets){
+                                                                                                    if(msg.result.response.provider_bookings[provider].tickets[ticket].passenger_number.toString() == ''){
+                                                                                                        text +=`<option value="`+msg.result.response.provider_bookings[provider].tickets[ticket].ticket_id+`&&&`+msg.result.response.provider_bookings[provider].tickets[ticket].title+` `+msg.result.response.provider_bookings[provider].tickets[ticket].first_name+` `+msg.result.response.provider_bookings[provider].tickets[ticket].last_name+`">`+msg.result.response.provider_bookings[provider].tickets[ticket].title+` `+msg.result.response.provider_bookings[provider].tickets[ticket].first_name+` `+msg.result.response.provider_bookings[provider].tickets[ticket].last_name+`</option>`;
+                                                                                                    }
+                                                                                                }
+                                                                                            text += `
+                                                                                            </select>
+                                                                                        </div>
+                                                                                    </div>`;
+                                                                                    is_passenger_number_found = true;
+                                                                                    break;
+                                                                                }
+                                                                            }
+
+                                                                            if(!is_passenger_number_found){
+                                                                                text+=`
+                                                                                <div class="input-container-search-ticket">
+                                                                                    <div class="form-select-2" id="default-select">
+                                                                                        <select id="passenger_`+pax+`_`+msg.result.response.provider_bookings[provider].pnr+`" name="passenger_`+pax+`_`+msg.result.response.provider_bookings[provider].pnr+`" class="nice-select-default" onchange="delete_passenger_draw();">
+                                                                                            <option>Choose</option>`;
+                                                                                            for(ticket in msg.result.response.provider_bookings[provider].tickets){
+                                                                                                if(msg.result.response.provider_bookings[provider].tickets[ticket].passenger_number.toString() == ''){
+                                                                                                    text +=`<option value="`+msg.result.response.provider_bookings[provider].tickets[ticket].ticket_id+`&&&`+msg.result.response.provider_bookings[provider].tickets[ticket].title+` `+msg.result.response.provider_bookings[provider].tickets[ticket].first_name+` `+msg.result.response.provider_bookings[provider].tickets[ticket].last_name+`">`+msg.result.response.provider_bookings[provider].tickets[ticket].title+` `+msg.result.response.provider_bookings[provider].tickets[ticket].first_name+` `+msg.result.response.provider_bookings[provider].tickets[ticket].last_name+`</option>`;
+                                                                                                }
+                                                                                            }
+                                                                                        text += `
+                                                                                        </select>
+                                                                                    </div>
+                                                                                </div>`;
+                                                                            }
+                                                                            text += `
+                                                                        </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                        </div>`;
-                                    }
-                                }
-                                            text+=`
+                                                            </div>`;
+                                                        }
+                                                    }
+                                                    text+=`
                                                     </div>
-                                                    <div class="col-lg-12" style="text-align:center;margin-top:5px;">
-                                                        <button type="button" class="primary-btn-white" id="button-sync-status" onclick="update_passenger_draw();">
+                                                    <div class="col-lg-12 mt-3" style="text-align:center;">
+                                                        <button type="button" class="primary-btn" style="width:200px;" id="btn_continue_sync" onclick="update_passenger_draw(); next_prev_sync('btn_continue_sync', 'btn_back_sync', 'div_pax_sync', 'result_change_name', 'sync_pax');">
                                                             Continue
                                                         </button>
                                                     </div>
@@ -9025,7 +9062,12 @@ function airline_get_booking(data, sync=false){
                     airline_get_detail.result.response.total_price = total_price;
                     $text += '‣ Grand Total: '+price.currency+' '+ getrupiah(total_price);
                     if(check_provider_booking != 0 && msg.result.response.state == 'booked'){
-                        $text += '\n\nPrices and availability may change at any time';
+//                        $text += '\n\nPrices and availability may change at any time';
+                        $text += '\n\nPrice Guarantee Timelimit: ' + msg.result.response.hold_date;
+                        if(msg.result.response.hasOwnProperty('expired_date') && msg.result.response.expired_date != '' && msg.result.response.expired_date != msg.result.response.hold_date)
+                            $text += '\nExpired Timelimit: ' + msg.result.response.expired_date;
+                        else
+                            $text += '\nExpired Timelimit: ' + msg.result.response.hold_date;
                     }
 
                     if(disc != 0){
@@ -9441,58 +9483,63 @@ function airline_get_booking(data, sync=false){
                 }
 
                 // pop up hold date
-                if(!['issued'].includes(msg.result.response.state)){
-                    context_data = "Expired Price";
-                    if(msg.result.response.expired_date == '' || msg.result.response.expired_date != '' && msg.result.response.expired_date == msg.result.response.hold_date)
-                        context_data = "Expired Ticketing Limit";
-                    new jBox('Tooltip', {
-                        attach: '#hold_date_field',
-                        target: '#hold_date_field_show',
-                        theme: 'TooltipBorder',
-                        trigger: 'click',
-                        adjustTracker: true,
-                        closeOnClick: 'body',
-                        closeButton: 'box',
-                        animation: 'move',
-                        position: {
-                          x: 'left',
-                          y: 'bottom'
-                        },
-                        outside: 'y',
-                        pointer: 'left:20',
-                        offset: {
-                          x: 25
-                        },
-                        content: context_data,
-                    });
-                    if(msg.result.response.hasOwnProperty('expired_date') && msg.result.response.expired_date != '' && msg.result.response.expired_date != msg.result.response.hold_date)
-                        new jBox('Tooltip', {
-                            attach: '#expired_date_field',
-                            target: '#expired_date_field_show',
-                            theme: 'TooltipBorder',
-                            trigger: 'click',
-                            adjustTracker: true,
-                            closeOnClick: 'body',
-                            closeButton: 'box',
-                            animation: 'move',
-                            position: {
-                              x: 'left',
-                              y: 'bottom'
-                            },
-                            outside: 'y',
-                            pointer: 'left:20',
-                            offset: {
-                              x: 25
-                            },
-                            content: "Expired Ticketing Limit",
-                        });
-                }
+//                if(!['issued'].includes(msg.result.response.state)){
+//                    context_data = "Expired Price";
+//                    if(msg.result.response.expired_date == '' || msg.result.response.expired_date != '' && msg.result.response.expired_date == msg.result.response.hold_date)
+//                        context_data = "Expired Ticketing Limit";
+//                    new jBox('Tooltip', {
+//                        attach: '#hold_date_field',
+//                        target: '#hold_date_field_show',
+//                        theme: 'TooltipBorder',
+//                        trigger: 'click',
+//                        adjustTracker: true,
+//                        closeOnClick: 'body',
+//                        closeButton: 'box',
+//                        animation: 'move',
+//                        position: {
+//                          x: 'left',
+//                          y: 'bottom'
+//                        },
+//                        outside: 'y',
+//                        pointer: 'left:20',
+//                        offset: {
+//                          x: 25
+//                        },
+//                        content: context_data,
+//                    });
+//                    if(msg.result.response.hasOwnProperty('expired_date') && msg.result.response.expired_date != '' && msg.result.response.expired_date != msg.result.response.hold_date)
+//                        new jBox('Tooltip', {
+//                            attach: '#expired_date_field',
+//                            target: '#expired_date_field_show',
+//                            theme: 'TooltipBorder',
+//                            trigger: 'click',
+//                            adjustTracker: true,
+//                            closeOnClick: 'body',
+//                            closeButton: 'box',
+//                            animation: 'move',
+//                            position: {
+//                              x: 'left',
+//                              y: 'bottom'
+//                            },
+//                            outside: 'y',
+//                            pointer: 'left:20',
+//                            offset: {
+//                              x: 25
+//                            },
+//                            content: "Expired Ticketing Limit",
+//                        });
+//                }
                }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                    auto_logout();
                }else if(msg.result.error_code == 1035){
                     hide_modal_waiting_transaction();
                     document.getElementById('show_loading_booking_airline').hidden = true;
-                    render_login('airline');
+                    $('#myModalSignin').modal('show');
+                    Swal.fire({
+                        type: 'error',
+                        title: 'Oops!',
+                        html: msg.result.error_msg,
+                    })
                }else{
                     text += `<div class="alert alert-danger">
                             <h5>
@@ -9541,41 +9588,103 @@ function airline_get_booking(data, sync=false){
 
 function update_passenger_draw(){
     text = '';
+    list_pax_ticket = []
+    list_pax_number = []
+    is_same_pax = false;
     for(provider in airline_get_detail.result.response.provider_bookings){
         need_to_print_pnr = true;
         for(pax in airline_get_detail.result.response.passengers){
             if($('#passenger_'+pax+'_'+airline_get_detail.result.response.provider_bookings[provider].pnr).val().includes('&&&')){
+                check_same_pax = false;
+                if(!list_pax_ticket.includes($('#passenger_'+pax+'_'+airline_get_detail.result.response.provider_bookings[provider].pnr).val().split('&&&')[0])){
+                    list_pax_ticket.push($('#passenger_'+pax+'_'+airline_get_detail.result.response.provider_bookings[provider].pnr).val().split('&&&')[0])
+                    list_pax_number.push(parseInt(parseInt(pax)+1))
+                }else{
+                    is_same_pax = true;
+                    check_same_pax = true;
+                    for(ticket_idx in list_pax_ticket){
+                        if(list_pax_ticket[ticket_idx] == $('#passenger_'+pax+'_'+airline_get_detail.result.response.provider_bookings[provider].pnr).val().split('&&&')[0]){
+                            ticket_pax_dupe = list_pax_number[ticket_idx]
+                            break;
+                        }
+                    }
+                }
+
                 if(need_to_print_pnr){
-                    text += `
-                <h5>`+airline_get_detail.result.response.provider_bookings[provider].pnr+`</h5>`;
+                    text += `<h5 class="mt-3 mb-3"><i class="fas fa-scroll"></i> PNR: `+airline_get_detail.result.response.provider_bookings[provider].pnr+`</h5>`;
                     need_to_print_pnr = false;
                 }
                 text+=`
                 <div class="row">
-                    <div class="col-lg-5 col-md-5 col-xs-5">
-                        <span>`+airline_get_detail.result.response.passengers[pax].title+` `+airline_get_detail.result.response.passengers[pax].name+`</span>
-                    </div>
-                    <div class="col-lg-2 col-md-2 col-xs-2">
-                        <span>➜</span>
-                    </div>
-                    <div class="col-lg-5 col-md-5 col-xs-5">
-                        <span>`+$('#passenger_'+pax+'_'+airline_get_detail.result.response.provider_bookings[provider].pnr).val().split('&&&')[1]+`</span>
+                    <div class="col-lg-12" style="padding-top:15px; padding-bottom:15px; background: white; border-top:1px solid #cdcdcd; border-bottom:1px solid #cdcdcd;">
+                        <div class="row">
+                            <div class="col-lg-5 col-md-5" style="margin: auto;">
+                                <h6 style="color:gray;"><i class="fas fa-user"></i> `+name+`</h6>
+                                <h6 style="color:gray; padding:12px 10px; background: #f7f7f7; border:1px solid #cdcdcd;">`+airline_get_detail.result.response.passengers[pax].title+` `+airline_get_detail.result.response.passengers[pax].name+`</h6>
+                            </div>
+                            <div class="col-lg-2 col-md-2 pt-2 pb-2" style="margin: auto; text-align:center;">
+                                <i class="fas fa-arrow-circle-right show_pc" style="color:`+color+`; font-size:18px;"></i>
+                                <i class="fas fa-arrow-circle-down show_mbl" style="color:`+color+`; font-size:18px;"></i>
+                                <span style="font-size:11px;">changed</span>
+                            </div>`;
+
+                            if(!check_same_pax){
+                                text+=`
+                                <div class="col-lg-5 col-md-5" style="margin: auto;">
+                                    <h6 style="color:`+color+`;"><i class="fas fa-user"></i> Vendor</h6>
+                                    <h6 style="color:`+color+`; padding:12px 10px; border:1px solid `+color+`;">
+                                        <i class="fas fa-check-circle" style="color:#50bd2f;"></i>
+                                        `+$('#passenger_'+pax+'_'+airline_get_detail.result.response.provider_bookings[provider].pnr).val().split('&&&')[1]+`
+                                    </h6>
+                                </div>`;
+                            }else{
+                                //kalau pilih sama error
+                                text+=`
+                                <div class="col-lg-5 col-md-5" style="margin: auto;">
+                                    <h6 style="color:gray;"><i class="fas fa-user"></i> Vendor</h6>
+                                    <h6 style="color:#d43c31; padding:12px 10px; border:1px solid #d43c31; background:#f7f7f7;">
+                                        <span style="font-size:11px;">Duplicate with Passenger `+ticket_pax_dupe+`!</span><br/>
+                                        <i class="fas fa-times-circle" style="color:#d43c31;"></i>
+                                        `+$('#passenger_'+pax+'_'+airline_get_detail.result.response.provider_bookings[provider].pnr).val().split('&&&')[1]+`
+                                    </h6>
+                                </div>`;
+                            }
+                            text+=`
+                        </div>
                     </div>
                 </div>`;
             }
         }
     }
     if(text){
-        text = `<h4>Passenger Change<h4>` + text + `
-                <div class="col-lg-12" style="text-align:center;margin-top:5px;">
-                    <button type="button" class="primary-btn-white" id="button-sync-status" onclick="apply_pax_to_backend();">
-                        Save
-                    </button>
-                </div>`;
+        text = `
+        <div class="row">
+            <div class="col-lg-12" id="div_result_sync">
+                <h4 class="mb-3">Passenger Change</h4>
+                ` + text + ``;
+
+                if(!is_same_pax){
+                    text+=`
+                    <div class="row">
+                        <div class="col-lg-12" style="text-align:center;">
+                            <button type="button" class="primary-btn mt-3" style="width:200px;" id="button-sync-status" onclick="apply_pax_to_backend();">
+                                Save
+                            </button>
+                        </div>
+                    </div>`;
+                }
+                text+=`
+            </div>
+        </div>`;
     }else{
         text = `<h4>No Pax Selected<h4>`
     }
+
     document.getElementById('result_change_name').innerHTML = text;
+    document.getElementById('button_tl_sync_passenger').innerHTML = `
+    <button type="button" class="primary-btn-white" style="width:fit-content; float:left; display:block;" id="btn_back_sync" onclick="next_prev_sync('btn_back_sync', 'btn_continue_sync', 'result_change_name', 'div_pax_sync'); default_filter_data();">
+        <i class="fas fa-arrow-left"></i> Back
+    </button>`;
 }
 
 function delete_passenger_draw(){
@@ -10366,7 +10475,7 @@ function cancel_reservation_airline(){
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error airline reissued');
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error Airline Change Itinerary');
             price_arr_repricing = {};
             pax_type_repricing = [];
             document.getElementById('show_loading_booking_airline').hidden = false;
@@ -11677,16 +11786,11 @@ function reissued_btn(){
     flight = 1;
     cabin_class = 1;
     text += `<div class="row">`;
-    if(airline_get_detail.result.response.state == 'booked')
-        text += `
-        <div class="col-lg-12 mb-3">
-            <h4 class="mb-3"> Change Booking</h4>
-        </div>`;
-    else
-        text += `
-        <div class="col-lg-12 mb-3">
-            <h4 class="mb-3"> Reissue</h4>
-        </div>`;
+
+    text += `
+    <div class="col-lg-12 mb-3">
+        <h4 class="mb-3"> Change Itinerary</h4>
+    </div>`;
 
     if(is_reroute){
         text+=`
@@ -11842,9 +11946,9 @@ function reissued_btn(){
     text += `</div>`;
     text+=`
         <div class="col-lg-12" style="padding:15px 0px 0px 0px;">
-            <!--<input class="primary-btn-ticket" style="width:100%;" type="button" onclick="airline_reissued();" value="Request Reissued">--!>
+            <!--<input class="primary-btn-ticket" style="width:100%;" type="button" onclick="airline_reissued();" value="Change Itinerary">--!>
             <button class="primary-btn-ticket" id="reissued_req_btn" style="width:100%;" type="button" onclick="airline_get_reschedule_availability_v2();">
-                Request Reissued
+                Change Itinerary
             </button>
         </div>
     </div>`;
@@ -12013,14 +12117,14 @@ function airline_reissued(){
                 document.getElementById('airline_detail').innerHTML = '';
                 //document.getElementById('ssr_request_after_sales').hidden = true;
 
-                document.getElementById('reissued').innerHTML = `<input class="primary-btn-white" style="width:100%;" type="button" onclick="show_loading();please_wait_transaction();airline_get_booking('`+airline_get_detail.result.response.order_number+`')" value="Cancel Reissued">`;
+                document.getElementById('reissued').innerHTML = `<input class="primary-btn-white" style="width:100%;" type="button" onclick="show_loading();please_wait_transaction();airline_get_booking('`+airline_get_detail.result.response.order_number+`')" value="Cancel Change Itinerary">`;
                 flight_select = 0;
                 datareissue2(msg.result.response.reschedule_availability_provider);
            }else{
                 Swal.fire({
                    type: 'error',
                    title: 'Oops!',
-                   html: '<span style="color: red;">Error reissued </span>' + msg.result.error_msg,
+                   html: '<span style="color: red;">Error Change Itinerary </span>' + msg.result.error_msg,
                 }).then((result) => {
                   if (result.value) {
                     hide_modal_waiting_transaction();
@@ -12032,7 +12136,7 @@ function airline_reissued(){
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error airline reissued');
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error Airline Change Itinerary');
             $("#show_loading_booking_airline").hide();
             $("#show_error_booking_airline").show();
             hide_modal_waiting_transaction();
@@ -13027,9 +13131,9 @@ function render_ticket_reissue(){
         }
     }else{
         if(airline_get_detail.result.response.state == 'booked')
-            document.getElementById('reissued').innerHTML = `<input class="issued_booking_btn primary-btn-white" style="width:100%;" type="button" onclick="reissued_btn();" value="Change Booking">`;
+            document.getElementById('reissued').innerHTML = `<input class="issued_booking_btn primary-btn-white" style="width:100%;" type="button" onclick="reissued_btn();" value="Change Itinerary">`;
         else
-            document.getElementById('reissued').innerHTML = `<button class="primary-btn-ticket" id="reissued_btn_dsb" style="width:100%;" type="button" onclick="reissued_btn();">Reissued</button>`;
+            document.getElementById('reissued').innerHTML = `<button class="primary-btn-ticket" id="reissued_btn_dsb" style="width:100%;" type="button" onclick="reissued_btn();">Change Itinerary</button>`;
         document.getElementById('reissued').hidden = false;
         Swal.fire({
             type: 'error',
@@ -15856,7 +15960,7 @@ function airline_get_reschedule_availability_v2(){
                         document.getElementById('show_loading_booking_airline').hidden = false;
                         //document.getElementById('ssr_request_after_sales').hidden = true;
 
-                        document.getElementById('reissued').innerHTML = `<input class="primary-btn-white" style="width:100%;" type="button" onclick="show_loading();please_wait_transaction();airline_get_booking('`+airline_get_detail.result.response.order_number+`')" value="Cancel Reissued">`;
+                        document.getElementById('reissued').innerHTML = `<input class="primary-btn-white" style="width:100%;" type="button" onclick="show_loading();please_wait_transaction();airline_get_booking('`+airline_get_detail.result.response.order_number+`')" value="Cancel Change Itinerary">`;
                         flight_select = 0;
 
                         datareissue2(msg.result.response.reschedule_availability_provider);
@@ -15873,7 +15977,7 @@ function airline_get_reschedule_availability_v2(){
                     Swal.fire({
                        type: 'error',
                        title: 'Oops!',
-                       html: '<span style="color: red;">Error reissued </span>' + msg.result.error_msg,
+                       html: '<span style="color: red;">Error Airline Change Itinerary </span>' + msg.result.error_msg,
                     }).then((result) => {
                       if (result.value) {
                         hide_modal_waiting_transaction();
@@ -15889,7 +15993,7 @@ function airline_get_reschedule_availability_v2(){
                }
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
-                error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error airline reissued');
+                error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error Airline Change Itinerary');
                 $("#show_loading_booking_airline").hide();
                 $("#show_error_booking_airline").show();
                 hide_modal_waiting_transaction();
@@ -17356,7 +17460,7 @@ function cancel_reservation_airline_v2(){
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error airline reissued');
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error Airline Change Itinerary');
             price_arr_repricing = {};
             pax_type_repricing = [];
             document.getElementById('show_loading_booking_airline').hidden = false;

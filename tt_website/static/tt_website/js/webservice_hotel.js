@@ -3904,7 +3904,12 @@ function hotel_get_booking(data){
 
     //               document.getElementById('hotel_detail').innerHTML = text;
                 }else if(msg.result.error_code == 1035){
-                    render_login('hotel');
+                    $('#myModalSignin').modal('show');
+                    Swal.fire({
+                        type: 'error',
+                        title: 'Oops!',
+                        html: msg.result.error_msg,
+                    })
                 }else{
                     Swal.fire({
                       type: 'error',

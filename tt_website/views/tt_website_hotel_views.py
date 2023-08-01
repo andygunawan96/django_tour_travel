@@ -529,7 +529,7 @@ def review(request):
                         "last_name": request.POST['child_last_name' + str(i + 1)],
                         "title": request.POST['child_title' + str(i + 1)],
                         "birth_date": request.POST['child_birth_date' + str(i + 1)],
-                        "nationality_name": request.POST['child_nationality' + str(i + 1) + '_id'],
+                        "nationality_code": request.POST['child_nationality' + str(i + 1) + '_id'],
                         "passenger_seq_id": request.POST['child_id' + str(i + 1)],
                         "room_number": '1',
                         "behaviors": behaviors,
@@ -621,8 +621,11 @@ def booking(request, order_number):
     try:
         javascript_version = get_javascript_version(request)
         values = get_data_template(request)
-        if 'user_account' not in request.session:
+        web_mode = get_web_mode(request)
+        if 'user_account' not in request.session and 'btc' in web_mode:
             signin_btc(request)
+        elif 'user_account' not in request.session and 'btc' not in web_mode:
+            raise Exception('Airline get booking without login in btb web')
         try:
             set_session(request, 'hotel_order_number', base64.b64decode(order_number).decode('ascii'))
         except:
@@ -641,5 +644,9 @@ def booking(request, order_number):
         })
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
-        raise Exception('Make response code 500!')
+        web_mode = get_web_mode(request)
+        if 'btc' not in web_mode:
+            return redirect('/login?redirect=%s' % request.META['PATH_INFO'])
+        if 'btc' in web_mode:
+            raise Exception('Make response code 500!')
     return render(request, MODEL_NAME + '/hotel/hotel_booking_templates.html', values)
