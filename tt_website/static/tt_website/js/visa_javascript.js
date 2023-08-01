@@ -290,8 +290,8 @@ function update_table_new(type){
                         <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Hide YPM"><br>
                    </div>
                 </div>`;
-                if(agent_security.includes('book_reservation') == true && check_visa == 1)
-                text+=
+                if(agent_security.includes('book_reservation') == true && check_visa == 1 && user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
+                    text+=
                 `<div class="row" style="margin-top:10px; text-align:center;">
                     <div class="col-lg-12" style="padding-bottom:10px;">
                         <button id="visa_btn_search" class="primary-btn-ticket next-loading ld-ext-right" style="width:100%;" onclick="show_loading();visa_check_availability();" type="button" value="Next">
@@ -300,6 +300,7 @@ function update_table_new(type){
                         </button>
                     </div>
                 </div>`;
+                }
             text+=`</div>`;
             if(check_visa == 0){
                 Swal.fire({

@@ -103,7 +103,7 @@
                                 </i>
                                 <h6 class="hover_cst">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</h6>
                             </div>
-                            {% elif "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_visa" in username.co_agent_frontend_security and rec.code == "visa" %}
+                            {% elif "visa" in provider and "ticketing_visa" in username.co_agent_frontend_security and rec.code == "visa" %}
                             <div class="div_cst" onclick="product_change_box('visa')">
                                 <i class="image-rounded-product">
                                     <img style="width:auto; height:45px;" src="{{static_path}}images/icon/product/c-visa.png" alt="Event Icon"/>
@@ -1249,7 +1249,7 @@
             </div>
         </div>
         {% endif %}
-        {% elif "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_visa" in username.co_agent_frontend_security and rec.code == "visa" %}
+        {% elif "visa" in provider and "ticketing_visa" in username.co_agent_frontend_security and rec.code == "visa" %}
         <div class="about pt-5 pb-5" style="display:none; background: #f7f7f7;" id="box_visa">
             <div class="container">
                 <div class="row">
