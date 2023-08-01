@@ -82,7 +82,7 @@
                                 <span style="padding-left:5px; padding-right:5px; font-weight:bold;"> {% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%} </span>
                             </a>
                         </li>
-                        {% elif "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_visa" in username.co_agent_frontend_security and rec.code == "visa" %}
+                        {% elif "visa" in provider and "ticketing_visa" in username.co_agent_frontend_security and rec.code == "visa" %}
                         <li class="nav-item" onclick="scroll_menu_horizontal('nav-item', 'visa');" id="nav_scroll_menu_visa">
                             <a class="nav-link" id="visa-tab" data-toggle="tab" href="#visa" role="tab" aria-controls="visa" aria-selected="false">
                                 <i class="image-rounded-icon"><img style="width:25px; height:25px" src="{{static_path}}images/icon/product/w-visa.png" alt="Visa Icon"/></i>
@@ -1101,7 +1101,7 @@
                         </div>
                         {% endif %}
                         {% endif %}
-                        {% if "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_visa" in username.co_agent_frontend_security %}
+                        {% if "visa" in provider and "ticketing_visa" in username.co_agent_frontend_security %}
                         <div class="tab-pane fade" id="visa" role="tabpanel" aria-labelledby="visa-tab">
                             <form action="{% url 'tt_website:visa_search'%}" class="form-wrap" id="visa_searchForm" method="post">
                                 {% csrf_token %}

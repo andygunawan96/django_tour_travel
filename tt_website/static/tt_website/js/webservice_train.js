@@ -64,46 +64,8 @@ function train_redirect_signin(type){
                if(msg.result.error_code == 0){
                     train_signature = msg.result.response.signature;
                     new_login_signature = msg.result.response.signature;
-                    if(type != 'search'){
-                        $.ajax({
-                           type: "POST",
-                           url: "/webservice/train",
-                           headers:{
-                                'action': 'search',
-                           },
-                           data: {
-                               'use_cache': true,
-                               'signature': new_login_signature
-                           },
-                           success: function(msg) {
-                               if(msg.result.error_code == 0){
-                                    signature = new_login_signature;
-                                    document.getElementById('reload_page').innerHTML +=`
-                                        <input type='hidden' name="time_limit_input" value="`+time_limit+`"/>
-                                        <input type='hidden' id="response" name="response" value=""/>
-                                        <input type='hidden' name="signature" value='`+new_login_signature+`'/>
-                                    `;
-                                    try{
-                                        document.getElementById('response').value = train_response;
-                                    }catch(err){
-                                        console.log(err); // error kalau ada element yg tidak ada
-                                    }
-                                    var url = document.getElementById('reload_page').action.split('/');
-                                    url.pop();
-                                    url = url.join('/') + '/' + signature;
-                                    document.getElementById('reload_page').action = url;
-                                    document.getElementById('reload_page').submit();
-                                    $('#myModalSignin').modal('hide');
-                               }
-                           },
-                           error: function(XMLHttpRequest, textStatus, errorThrown) {
-                           },timeout: 120000 // sets timeout to 120 seconds
-                        });
-                    }else{
-                        signature = new_login_signature;
-                        $('#myModalSignin').modal('hide');
-                        location.reload();
-                    }
+                    $('#myModalSignin').modal('hide');
+                    location.reload();
                }
            }catch(err){
                console.log(err)
