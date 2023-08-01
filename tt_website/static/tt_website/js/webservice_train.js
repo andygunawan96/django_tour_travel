@@ -1928,7 +1928,7 @@ function train_get_booking(data){
                         }
                         if(is_show_web_check_in){
                             for(i in msg.result.response.passengers){
-                                if(msg.result.response.passengers[i].hasOwnProperty('temporary_field') && msg.result.response.passengers[i]['temporary_field'][0].hasOwnProperty('web_check_in') && is_show_web_check_in)
+                                if(msg.result.response.passengers[i].hasOwnProperty('temporary_field') && msg.result.response.passengers[i]['temporary_field'].length > 0 && msg.result.response.passengers[i]['temporary_field'][0].hasOwnProperty('web_check_in') && is_show_web_check_in)
                                     is_show_web_check_in = false;
                             }
                         }
