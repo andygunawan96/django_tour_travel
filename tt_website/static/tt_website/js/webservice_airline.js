@@ -1901,9 +1901,7 @@ function get_allowed_config_search(){
         headers:{
             'action': 'get_allowed_config_search',
         },
-        data: {
-            'airline_carriers': JSON.stringify(data)
-        },
+        data: {},
         success: function(msg) {
            for(i in msg){
                 try{
@@ -4366,6 +4364,8 @@ function get_price_itinerary_request(){
                                                                     description = '';
                                                                     if(family_provider_list[i].journeys[j].segments[k].fares[l].fare_name)
                                                                        description+=`<br/>`+family_provider_list[i].journeys[j].segments[k].fares[l].fare_name;
+                                                                    if(family_provider_list[i].journeys[j].segments[k].fares[l].fare_basis_code)
+                                                                       description+=`<br/>`+family_provider_list[i].journeys[j].segments[k].fares[l].fare_basis_code;
                                                                     for(m in family_provider_list[i].journeys[j].segments[k].fares[l].description){
                                                                         description += '<br/>' + family_provider_list[i].journeys[j].segments[k].fares[l].description[m];
                                                                     }
@@ -12876,6 +12876,8 @@ function render_ticket_reissue(){
                                                                    }
                                                                    if(airline[i].segments[j].fares[k].fare_name)
                                                                        text+=`<span style="font-size:13px;">`+airline[i].segments[j].fares[k].fare_name+`</span>`;
+                                                                   if(airline[i].segments[j].fares[k].fare_basis_code)
+                                                                       text+=`<br/><span style="font-size:13px;">`+airline[i].segments[j].fares[k].fare_basis_code+`</span>`;
                                                                    if(airline[i].segments[j].fares[k].description.length != 0){
                                                                         for(l in airline[i].segments[j].fares[k].description){
                                                                             text += `<span style="font-size:13px; display:block;">`+airline[i].segments[j].fares[k].description[l]+`</span>`;
@@ -12941,6 +12943,8 @@ function render_ticket_reissue(){
                                                                    }
                                                                    if(airline[i].segments[j].fares[k].fare_name)
                                                                        text+=`<span style="font-size:13px;">`+airline[i].segments[j].fares[k].fare_name+`</span>`;
+                                                                   if(airline[i].segments[j].fares[k].fare_basis_code)
+                                                                       text+=`<span style="font-size:13px;">`+airline[i].segments[j].fares[k].fare_basis_code+`</span>`;
                                                                    if(airline[i].segments[j].fares[k].description.length != 0){
                                                                         for(l in airline[i].segments[j].fares[k].description){
                                                                             text += `<span style="font-size:13px; display:block;">`+airline[i].segments[j].fares[k].description[l]+`</span>`;
@@ -13748,6 +13752,9 @@ function get_chosen_ticket(type='all'){
 
                                             if(airline_pick_list[i].segments[j].fares[k].fare_name){
                                                text+=`<br/><span style="font-size:13px;">`+airline_pick_list[i].segments[j].fares[k].fare_name+`</span>`;
+                                            }
+                                            if(airline_pick_list[i].segments[j].fares[k].fare_basis_code){
+                                               text+=`<br/><span style="font-size:13px;">`+airline_pick_list[i].segments[j].fares[k].fare_basis_code+`</span>`;
                                             }
 
                                             if(airline_pick_list[i].segments[j].fares[k].description.length != 0){
