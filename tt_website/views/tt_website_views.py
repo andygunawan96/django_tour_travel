@@ -1550,7 +1550,7 @@ def get_data_template(request, type='home', provider_type = []):
     currency_pick = ''
     if request.session.get('signature') and request.session.get('user_account'):
         currency = get_ho_currency_api(request, request.session['signature'])
-        currency_pick = currency['default_currency']
+        currency_pick = currency.get('default_currency')
     ## live chat
     if request.session.get('keep_me_signin'):
         keep_me_signin = request.session['keep_me_signin']
