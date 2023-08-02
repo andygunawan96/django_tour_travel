@@ -452,7 +452,7 @@ function get_transactions_notification(){
             }, 500);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get transaction need update identity');
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get transaction');
        },timeout: 60000
     });
 }

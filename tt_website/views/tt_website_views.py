@@ -358,8 +358,10 @@ def index(request):
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
         if str(e) == 'Make response code 409!':
             return redirect('/error/credential')
-        else:
+        elif str(e) == 'Make response code 500!':
             return redirect('/error')
+        else:
+            pass
     if translation.LANGUAGE_SESSION_KEY in request.session:
         del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
 
