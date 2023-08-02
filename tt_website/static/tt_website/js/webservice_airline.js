@@ -10469,9 +10469,10 @@ function cancel_reservation_airline(){
 
                 $('.hold-seat-booking-train').prop('disabled', false);
                 $('.hold-seat-booking-train').removeClass("running");
-                if(window.location.href.split('/').length == 7)
+                // karena fungsi cancel & refund jadi 1
+                if(window.location.href.split('/')[window.location.href.split('/').length-1] == 'refund') //page refund
                     airline_get_booking_refund(airline_get_detail.result.response.order_number);
-                else if(window.location.href.split('/').length == 6)
+                else // page get booking
                     airline_get_booking(airline_get_detail.result.response.order_number);
            }
        },
