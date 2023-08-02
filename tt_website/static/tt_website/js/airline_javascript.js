@@ -2624,9 +2624,10 @@ function sort(){
                                    text+=`
                                    <div class="col-lg-6 col-md-6 col-sm-6" style="padding-bottom:10px; margin-top: 15px;">`;
 
-                                   if(provider_list_data[airline[i].provider].is_post_issued_reschedule)
-                                        text+=`
-                                            <span style="font-weight:bold; padding-right:5px;"><i class="fas fa-check-circle" style="color:#4f9c64;"></i> Reschedule</span>`;
+//                                   if(provider_list_data[airline[i].provider].is_post_issued_reschedule)
+//                                        text+=`
+//                                            <span style="font-weight:bold; padding-right:5px;"><i class="fas fa-check-circle" style="color:#4f9c64;"></i> Reschedule</span>`;
+
 //                                   if(provider_list_data[airline[i].provider].is_post_issued_cancel)
 //                                        text+=`
 //                                            <span style="font-weight:bold; padding-right:5px;"><i class="fas fa-check-circle" style="color:#4f9c64;"></i> Refund</span>`;
@@ -5089,9 +5090,10 @@ function airline_detail(type){
                                 text+=`</div>`;
 
                                 if(k == price_itinerary_temp[i].journeys[j].segments.length-1){
-                                    if(provider_list_data[price_itinerary_temp[i].provider].is_post_issued_reschedule)
-                                        text+=`
-                                            <span style="font-weight:bold;"><i class="fas fa-check-circle" style="color:#4f9c64;"></i> Reschedule</span>`;
+//                                    if(provider_list_data[price_itinerary_temp[i].provider].is_post_issued_reschedule)
+//                                        text+=`
+//                                            <span style="font-weight:bold;"><i class="fas fa-check-circle" style="color:#4f9c64;"></i> Reschedule</span>`;
+
                                     if(price_itinerary_temp[i].hasOwnProperty('is_ssr') && price_itinerary_temp[i].is_ssr)
                                         text+=`
                                             <br/><span style="font-weight:bold;"><i class="fas fa-check-circle" style="color:#4f9c64;"></i> SSR</span>`;
@@ -8904,9 +8906,10 @@ function get_airline_review(){
             }
 
             text+=`<div class="col-lg-12">`;
-                if(provider_list_data[airline_pick[i].price_itinerary[j].provider].is_post_issued_reschedule)
-                    text+=`
-                        <br/><span style="font-weight:bold;"><i class="fas fa-check-circle" style="color:#4f9c64;"></i> Reschedule</span>`;
+//                if(provider_list_data[airline_pick[i].price_itinerary[j].provider].is_post_issued_reschedule)
+//                    text+=`
+//                        <br/><span style="font-weight:bold;"><i class="fas fa-check-circle" style="color:#4f9c64;"></i> Reschedule</span>`;
+
 //                if(provider_list_data[airline_pick[i].price_itinerary[j].provider].is_post_issued_cancel)
 //                    text+=`
 //                        <br/><span style="font-weight:bold;"><i class="fas fa-check-circle" style="color:#4f9c64;"></i> Refund</span>`;
