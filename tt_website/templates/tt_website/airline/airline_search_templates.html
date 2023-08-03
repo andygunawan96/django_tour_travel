@@ -3416,8 +3416,10 @@
                                 add_promotion_code('{{promo_code.carrier_code}}','{{promo_code.promo_code}}');
                             {% endfor %}
                         {% else %}
-                            for(i in user_login['co_customer_parent_osi_codes']){
-                                add_promotion_code(i, user_login['co_customer_parent_osi_codes'][i]);
+                            if('{{use_osi_code_backend}}' == 'True'){
+                                for(i in user_login['co_customer_parent_osi_codes']){
+                                    add_promotion_code(i, user_login['co_customer_parent_osi_codes'][i]);
+                                }
                             }
                         {% endif %}
                     </script>
