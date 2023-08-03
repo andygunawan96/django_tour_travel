@@ -295,6 +295,13 @@
         {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
         <input type="checkbox" id="checkbox_corpor_mode_airline" name="checkbox_corpor_mode_airline"/>
         <span id="corpor_list_loading_airline"></span>
+        <div class="col-lg-6" style="text-align:left;display:none;" id="div_osi_code_airline">
+            <label class="check_box_custom mt-2">
+                <span style="font-size:13px; color:{{text_color}};">Don't use OSI Code</span>
+                <input type="checkbox" id="checkbox_osi_code_backend_airline" name="checkbox_osi_code_backend_airline"/>
+                <span class="check_box_span_custom"></span>
+            </label>
+        </div>
         <div id="div_corpor_mode_airline">
             <select id="airline_corpor_select" name="airline_corpor_select" class="js-example-basic-single"></select>
             <input type="hidden" id="airline_corpor_select_post" name="airline_corpor_select_post"/>

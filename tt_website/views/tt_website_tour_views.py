@@ -103,90 +103,87 @@ def tour(request):
         return no_session_logout(request)
 
 def search(request):
-    if 'user_account' in request.session._session:
+    try:
+        # check_captcha(request)
+        javascript_version = get_javascript_version(request)
+        response = get_cache_data(request)
+        airline_country = response['result']['response']['airline']['country']
+        phone_code = []
+        for i in airline_country:
+            if i['phone_code'] not in phone_code:
+                phone_code.append(i['phone_code'])
+        phone_code = sorted(phone_code)
+
+        values = get_data_template(request, 'search')
+
+        dest_month_data = [
+            {'value': '00', 'string': 'All Months'},
+            {'value': '01', 'string': 'January'},
+            {'value': '02', 'string': 'February'},
+            {'value': '03', 'string': 'March'},
+            {'value': '04', 'string': 'April'},
+            {'value': '05', 'string': 'May'},
+            {'value': '06', 'string': 'June'},
+            {'value': '07', 'string': 'July'},
+            {'value': '08', 'string': 'August'},
+            {'value': '09', 'string': 'September'},
+            {'value': '10', 'string': 'October'},
+            {'value': '11', 'string': 'November'},
+            {'value': '12', 'string': 'December'},
+        ]
+        ## CELINDO DARI COMPANY PROFILE REDIRECT KE PAGE SEARCH TOUR CHECK WEBSITE MODE
+        user_default = get_credential_user_default(request, 'dict')
+        ## kalau belum signin, web btc & ada user default
+        if not request.session.get('user_account') and values['website_mode'] in ['btc', 'btc_btb'] and user_default:
+            signin_btc(request)
+
         try:
-            # check_captcha(request)
-            javascript_version = get_javascript_version(request)
-            response = get_cache_data(request)
-            airline_country = response['result']['response']['airline']['country']
-            phone_code = []
-            for i in airline_country:
-                if i['phone_code'] not in phone_code:
-                    phone_code.append(i['phone_code'])
-            phone_code = sorted(phone_code)
-
-            values = get_data_template(request, 'search')
-
-            dest_month_data = [
-                {'value': '00', 'string': 'All Months'},
-                {'value': '01', 'string': 'January'},
-                {'value': '02', 'string': 'February'},
-                {'value': '03', 'string': 'March'},
-                {'value': '04', 'string': 'April'},
-                {'value': '05', 'string': 'May'},
-                {'value': '06', 'string': 'June'},
-                {'value': '07', 'string': 'July'},
-                {'value': '08', 'string': 'August'},
-                {'value': '09', 'string': 'September'},
-                {'value': '10', 'string': 'October'},
-                {'value': '11', 'string': 'November'},
-                {'value': '12', 'string': 'December'},
-            ]
-            ## CELINDO DARI COMPANY PROFILE REDIRECT KE PAGE SEARCH TOUR CHECK WEBSITE MODE
-            user_default = get_credential_user_default(request, 'dict')
-            ## kalau belum signin, web btc & ada user default
-            if not request.session.get('user_account') and values['website_mode'] in ['btc', 'btc_btb'] and user_default:
-                signin_btc(request)
-
-            try:
+            set_session(request, 'tour_request', {
+                'tour_query': request.POST.get('tour_query') and request.POST['tour_query'] or '',
+                'country_id': request.POST.get('tour_countries') != '0' and int(request.POST['tour_countries']) or 0,
+                'city_id': request.POST.get('tour_cities') != '0' and int(request.POST['tour_cities']) or 0,
+                'month': request.POST['tour_dest_month'],
+                'year': request.POST['tour_dest_year'],
+                'limit': 25,
+                'offset': 0,
+            })
+        except:
+            if request.session.get('tour_request'):
+                set_session(request, 'tour_request', request.session['tour_request'])
+            else:
+                ## ## CELINDO DARI COMPANY PROFILE REDIRECT KE PAGE SEARCH TOUR
+                ## search all
                 set_session(request, 'tour_request', {
-                    'tour_query': request.POST.get('tour_query') and request.POST['tour_query'] or '',
-                    'country_id': request.POST.get('tour_countries') != '0' and int(request.POST['tour_countries']) or 0,
-                    'city_id': request.POST.get('tour_cities') != '0' and int(request.POST['tour_cities']) or 0,
-                    'month': request.POST['tour_dest_month'],
-                    'year': request.POST['tour_dest_year'],
+                    'tour_query': '',
+                    'country_id': 0,
+                    'city_id': 0,
+                    'month': '',
+                    'year': '',
                     'limit': 25,
                     'offset': 0,
                 })
-            except:
-                if request.session.get('tour_request'):
-                    set_session(request, 'tour_request', request.session['tour_request'])
-                else:
-                    ## ## CELINDO DARI COMPANY PROFILE REDIRECT KE PAGE SEARCH TOUR
-                    ## search all
-                    set_session(request, 'tour_request', {
-                        'tour_query': '',
-                        'country_id': 0,
-                        'city_id': 0,
-                        'month': '',
-                        'year': '',
-                        'limit': 25,
-                        'offset': 0,
-                    })
-            values.update({
-                'static_path': path_util.get_static_path(MODEL_NAME),
-                'username': request.session['user_account'],
-                'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
-                'countries': airline_country,
-                'phone_code': phone_code,
-                'tour_request': request.session['tour_request'],
-                'query': request.session['tour_request']['tour_query'],
-                'dest_country': request.session['tour_request']['country_id'],
-                'dest_city': request.session['tour_request']['city_id'],
-                'dest_year': request.session['tour_request']['year'],
-                'dest_month': request.session['tour_request']['month'],
-                'dest_month_data': dest_month_data,
-                'javascript_version': javascript_version,
-                'signature': request.session['signature'],
-                'time_limit': 1200,
-                'static_path_url_server': get_url_static_path(),
-            })
-        except Exception as e:
-            _logger.error(str(e) + '\n' + traceback.format_exc())
-            raise Exception('Make response code 500!')
-        return render(request, MODEL_NAME + '/tour/tour_search_templates.html', values)
-    else:
-        return no_session_logout(request)
+        values.update({
+            'static_path': path_util.get_static_path(MODEL_NAME),
+            'username': request.session['user_account'],
+            'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
+            'countries': airline_country,
+            'phone_code': phone_code,
+            'tour_request': request.session['tour_request'],
+            'query': request.session['tour_request']['tour_query'],
+            'dest_country': request.session['tour_request']['country_id'],
+            'dest_city': request.session['tour_request']['city_id'],
+            'dest_year': request.session['tour_request']['year'],
+            'dest_month': request.session['tour_request']['month'],
+            'dest_month_data': dest_month_data,
+            'javascript_version': javascript_version,
+            'signature': request.session['signature'],
+            'time_limit': 1200,
+            'static_path_url_server': get_url_static_path(),
+        })
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+        raise Exception('Make response code 500!')
+    return render(request, MODEL_NAME + '/tour/tour_search_templates.html', values)
 
 def detail(request, tour_code):
     try:
