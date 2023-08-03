@@ -2311,10 +2311,6 @@ def update_customer(request):
                         passenger['identity'][identity]['identity_expdate'].split(' ')[2], month[passenger['identity'][identity]['identity_expdate'].split(' ')[1]],
                         passenger['identity'][identity]['identity_expdate'].split(' ')[0])
                 })
-            for country in response['result']['response']['airline']['country']:
-                if passenger['identity'][identity]['identity_country_of_issued_name'] == country['name']:
-                    passenger['identity'][identity]['identity_country_of_issued_code'] = country['code']
-                    break
         passenger.pop('image')
         data = {
             'passengers': passenger
