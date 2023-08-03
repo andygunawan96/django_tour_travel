@@ -6498,8 +6498,31 @@ function check_passenger(adult, child, infant, type=''){
                for(j=1;j<=ff_request.length;j++){
                     index_ff = j-1;
                     if(ff_request[index_ff].hasOwnProperty('error_code') == false){
-                        error_ff = true
-                        if(document.getElementById('adult_ff_request'+i+'_'+j + '_id').value != '')
+                        error_ff = true;
+                        ff_required = false;
+                        for(k in ff_request[index_ff].carrier_codes){
+                            if(airline_carriers[ff_request[index_ff].carrier_codes[k]].hasOwnProperty('required_frequent_flyer') && airline_carriers[ff_request[index_ff].carrier_codes[k]].required_frequent_flyer){
+                                ff_required = airline_carriers[ff_request[index_ff].carrier_codes[k]].required_frequent_flyer;
+                                break;
+                            }
+                        }
+                        if(ff_required && document.getElementById('adult_ff_request'+i+'_'+j + '_id').value == '' && document.getElementById('adult_ff_number'+i+'_'+j).value == ''){
+                            error_log+= 'Please choose Frequent Flyer Program Journey '+j+' for passenger adult '+i+'!</br>\n';
+                            error_log+= 'Please fill Frequent Flyer Number '+j+' for passenger adult '+i+'!</br>\n';
+                            $("#adult_ff_request"+i+'_'+j+'_id').each(function() {
+                                $(this).parent().find('.nice-select').css('border', '1px solid red');
+                            });
+                            document.getElementById('adult_ff_number'+i+'_'+j).style['border-color'] = 'red';
+                        }else if(ff_required && document.getElementById('adult_ff_request'+i+'_'+j + '_id').value == ''){
+                            error_log+= 'Please choose Frequent Flyer Program Journey '+j+' for passenger adult '+i+'!</br>\n';
+                            $("#adult_ff_request"+i+'_'+j+'_id').each(function() {
+                                $(this).parent().find('.nice-select').css('border', '1px solid red');
+                            });
+                        }else if(ff_required && document.getElementById('adult_ff_number'+i+'_'+j).value == ''){
+                            error_log+= 'Please fill Frequent Flyer Number '+j+' for passenger adult '+i+'!</br>\n';
+                            document.getElementById('adult_ff_number'+i+'_'+j).style['border-color'] = 'red';
+                        }
+                        else if(document.getElementById('adult_ff_request'+i+'_'+j + '_id').value != '')
                             error_ff = false
                         else if(document.getElementById('adult_ff_request'+i+'_'+j + '_id').value == '' && document.getElementById('adult_ff_number'+i+'_'+j).value != ''){
                             error_log+= 'Please choose Frequent Flyer Program Journey '+j+' for passenger adult '+i+'!</br>\n';
@@ -6793,7 +6816,30 @@ function check_passenger(adult, child, infant, type=''){
                     index_ff = j-1;
                     if(ff_request[index_ff].hasOwnProperty('error_code') == false){
                         error_ff = true
-                        if(document.getElementById('child_ff_request'+i+'_'+j + '_id').value != '' && document.getElementById('child_ff_number'+i+'_'+j).value != '')
+                        ff_required = false;
+                        for(k in ff_request[index_ff].carrier_codes){
+                            if(airline_carriers[ff_request[index_ff].carrier_codes[k]].hasOwnProperty('required_frequent_flyer') && airline_carriers[ff_request[index_ff].carrier_codes[k]].required_frequent_flyer){
+                                ff_required = airline_carriers[ff_request[index_ff].carrier_codes[k]].required_frequent_flyer;
+                                break;
+                            }
+                        }
+                        if(ff_required && document.getElementById('child_ff_request'+i+'_'+j + '_id').value == '' && document.getElementById('child_ff_number'+i+'_'+j).value == ''){
+                            error_log+= 'Please choose Frequent Flyer Program Journey '+j+' for passenger child '+i+'!</br>\n';
+                            error_log+= 'Please fill Frequent Flyer Number '+j+' for passenger child '+i+'!</br>\n';
+                            $("#child_ff_request"+i+'_'+j+'_id').each(function() {
+                                $(this).parent().find('.nice-select').css('border', '1px solid red');
+                            });
+                            document.getElementById('child_ff_number'+i+'_'+j).style['border-color'] = 'red';
+                        }else if(ff_required && document.getElementById('child_ff_request'+i+'_'+j + '_id').value == ''){
+                            error_log+= 'Please choose Frequent Flyer Program Journey '+j+' for passenger child '+i+'!</br>\n';
+                            $("#child_ff_request"+i+'_'+j+'_id').each(function() {
+                                $(this).parent().find('.nice-select').css('border', '1px solid red');
+                            });
+                        }else if(ff_required && document.getElementById('child_ff_number'+i+'_'+j).value == ''){
+                            error_log+= 'Please fill Frequent Flyer Number '+j+' for passenger child '+i+'!</br>\n';
+                            document.getElementById('child_ff_number'+i+'_'+j).style['border-color'] = 'red';
+                        }
+                        else if(document.getElementById('child_ff_request'+i+'_'+j + '_id').value != '' && document.getElementById('child_ff_number'+i+'_'+j).value != '')
                             error_ff = false
                         else if(document.getElementById('child_ff_request'+i+'_'+j + '_id').value == '' && document.getElementById('child_ff_number'+i+'_'+j).value != ''){
                             error_log+= 'Please choose Frequent Flyer Program Journey '+j+' for passenger child '+i+'!</br>\n';
@@ -7355,7 +7401,30 @@ function check_passenger(adult, child, infant, type=''){
                         index_ff = j-1;
                         if(ff_request[index_ff].hasOwnProperty('error_code') == false){
                             error_ff = true
-                            if(document.getElementById('student_ff_request'+i+'_'+j + '_id').value != '' && document.getElementById('student_ff_number'+i+'_'+j).value != '')
+                            ff_required = false;
+                            for(k in ff_request[index_ff].carrier_codes){
+                                if(airline_carriers[ff_request[index_ff].carrier_codes[k]].hasOwnProperty('required_frequent_flyer') && airline_carriers[ff_request[index_ff].carrier_codes[k]].required_frequent_flyer){
+                                    ff_required = airline_carriers[ff_request[index_ff].carrier_codes[k]].required_frequent_flyer;
+                                    break;
+                                }
+                            }
+                            if(ff_required && document.getElementById('student_ff_request'+i+'_'+j + '_id').value == '' && document.getElementById('student_ff_number'+i+'_'+j).value == ''){
+                                error_log+= 'Please choose Frequent Flyer Program Journey '+j+' for passenger student '+i+'!</br>\n';
+                                error_log+= 'Please fill Frequent Flyer Number '+j+' for passenger student '+i+'!</br>\n';
+                                $("#student_ff_request"+i+'_'+j+'_id').each(function() {
+                                    $(this).parent().find('.nice-select').css('border', '1px solid red');
+                                });
+                                document.getElementById('student_ff_number'+i+'_'+j).style['border-color'] = 'red';
+                            }else if(ff_required && document.getElementById('student_ff_request'+i+'_'+j + '_id').value == ''){
+                                error_log+= 'Please choose Frequent Flyer Program Journey '+j+' for passenger student '+i+'!</br>\n';
+                                $("#student_ff_request"+i+'_'+j+'_id').each(function() {
+                                    $(this).parent().find('.nice-select').css('border', '1px solid red');
+                                });
+                            }else if(ff_required && document.getElementById('student_ff_number'+i+'_'+j).value == ''){
+                                error_log+= 'Please fill Frequent Flyer Number '+j+' for passenger student '+i+'!</br>\n';
+                                document.getElementById('student_ff_number'+i+'_'+j).style['border-color'] = 'red';
+                            }
+                            else if(document.getElementById('student_ff_request'+i+'_'+j + '_id').value != '' && document.getElementById('student_ff_number'+i+'_'+j).value != '')
                                 error_ff = false
                             else if(document.getElementById('student_ff_request'+i+'_'+j + '_id').value == '' && document.getElementById('student_ff_number'+i+'_'+j).value != ''){
                                 error_log+= 'Please choose Frequent Flyer Program Journey '+j+' for passenger student '+i+'!</br>\n';
@@ -7652,7 +7721,30 @@ function check_passenger(adult, child, infant, type=''){
                         index_ff = j-1;
                         if(ff_request[index_ff].hasOwnProperty('error_code') == false){
                             error_ff = true
-                            if(document.getElementById('seaman_ff_request'+i+'_'+j + '_id').value != '' && document.getElementById('seaman_ff_number'+i+'_'+j).value != '')
+                            ff_required = false;
+                            for(k in ff_request[index_ff].carrier_codes){
+                                if(airline_carriers[ff_request[index_ff].carrier_codes[k]].hasOwnProperty('required_frequent_flyer') && airline_carriers[ff_request[index_ff].carrier_codes[k]].required_frequent_flyer){
+                                    ff_required = airline_carriers[ff_request[index_ff].carrier_codes[k]].required_frequent_flyer;
+                                    break;
+                                }
+                            }
+                            if(ff_required && document.getElementById('seaman_ff_request'+i+'_'+j + '_id').value == '' && document.getElementById('seaman_ff_number'+i+'_'+j).value == ''){
+                                error_log+= 'Please choose Frequent Flyer Program Journey '+j+' for passenger seaman '+i+'!</br>\n';
+                                error_log+= 'Please fill Frequent Flyer Number '+j+' for passenger seaman '+i+'!</br>\n';
+                                $("#seaman_ff_request"+i+'_'+j+'_id').each(function() {
+                                    $(this).parent().find('.nice-select').css('border', '1px solid red');
+                                });
+                                document.getElementById('seaman_ff_number'+i+'_'+j).style['border-color'] = 'red';
+                            }else if(ff_required && document.getElementById('seaman_ff_request'+i+'_'+j + '_id').value == ''){
+                                error_log+= 'Please choose Frequent Flyer Program Journey '+j+' for passenger seaman '+i+'!</br>\n';
+                                $("#seaman_ff_request"+i+'_'+j+'_id').each(function() {
+                                    $(this).parent().find('.nice-select').css('border', '1px solid red');
+                                });
+                            }else if(ff_required && document.getElementById('seaman_ff_number'+i+'_'+j).value == ''){
+                                error_log+= 'Please fill Frequent Flyer Number '+j+' for passenger seaman '+i+'!</br>\n';
+                                document.getElementById('seaman_ff_number'+i+'_'+j).style['border-color'] = 'red';
+                            }
+                            else if(document.getElementById('seaman_ff_request'+i+'_'+j + '_id').value != '' && document.getElementById('seaman_ff_number'+i+'_'+j).value != '')
                                 error_ff = false
                             else if(document.getElementById('seaman_ff_request'+i+'_'+j + '_id').value == '' && document.getElementById('seaman_ff_number'+i+'_'+j).value != ''){
                                 error_log+= 'Please choose Frequent Flyer Program Journey '+j+' for passenger seaman '+i+'!</br>\n';
@@ -7949,7 +8041,30 @@ function check_passenger(adult, child, infant, type=''){
                         index_ff = j-1;
                         if(ff_request[index_ff].hasOwnProperty('error_code') == false){
                             error_ff = true
-                            if(document.getElementById('labour_ff_request'+i+'_'+j + '_id').value != '' && document.getElementById('labour_ff_number'+i+'_'+j).value != '')
+                            ff_required = false;
+                            for(k in ff_request[index_ff].carrier_codes){
+                                if(airline_carriers[ff_request[index_ff].carrier_codes[k]].hasOwnProperty('required_frequent_flyer') && airline_carriers[ff_request[index_ff].carrier_codes[k]].required_frequent_flyer){
+                                    ff_required = airline_carriers[ff_request[index_ff].carrier_codes[k]].required_frequent_flyer;
+                                    break;
+                                }
+                            }
+                            if(ff_required && document.getElementById('labour_ff_request'+i+'_'+j + '_id').value == '' && document.getElementById('labour_ff_number'+i+'_'+j).value == ''){
+                                error_log+= 'Please choose Frequent Flyer Program Journey '+j+' for passenger labour '+i+'!</br>\n';
+                                error_log+= 'Please fill Frequent Flyer Number '+j+' for passenger labour '+i+'!</br>\n';
+                                $("#labour_ff_request"+i+'_'+j+'_id').each(function() {
+                                    $(this).parent().find('.nice-select').css('border', '1px solid red');
+                                });
+                                document.getElementById('labour_ff_number'+i+'_'+j).style['border-color'] = 'red';
+                            }else if(ff_required && document.getElementById('labour_ff_request'+i+'_'+j + '_id').value == ''){
+                                error_log+= 'Please choose Frequent Flyer Program Journey '+j+' for passenger labour '+i+'!</br>\n';
+                                $("#labour_ff_request"+i+'_'+j+'_id').each(function() {
+                                    $(this).parent().find('.nice-select').css('border', '1px solid red');
+                                });
+                            }else if(ff_required && document.getElementById('labour_ff_number'+i+'_'+j).value == ''){
+                                error_log+= 'Please fill Frequent Flyer Number '+j+' for passenger labour '+i+'!</br>\n';
+                                document.getElementById('labour_ff_number'+i+'_'+j).style['border-color'] = 'red';
+                            }
+                            else if(document.getElementById('labour_ff_request'+i+'_'+j + '_id').value != '' && document.getElementById('labour_ff_number'+i+'_'+j).value != '')
                                 error_ff = false
                             else if(document.getElementById('labour_ff_request'+i+'_'+j + '_id').value == '' && document.getElementById('labour_ff_number'+i+'_'+j).value != ''){
                                 error_log+= 'Please choose Frequent Flyer Program Journey '+j+' for passenger labour '+i+'!</br>\n';
