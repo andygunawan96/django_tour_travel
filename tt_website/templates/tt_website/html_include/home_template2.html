@@ -298,6 +298,22 @@
 
                                 </div>
                                 <input type="hidden" class="col-lg-12" id="counter" name="counter"/>
+
+                                <div class="col-lg-12" style="text-align:left;margin-bottom:15px;" id="div_checkbox_promo_code_airline">
+                                    <label class="check_box_custom mt-2">
+                                        <span style="font-size:13px; color:{{text_color}};">Promo Code</span>
+                                        <input type="checkbox" id="checkbox_add_promotion_code_airline" name="checkbox_add_promotion_code_airline" onclick="toggle_promo_code();"/>
+                                        <span class="check_box_span_custom"></span>
+                                    </label>
+                                </div>
+                                <div class="col-lg-12" id="promo_code_airline" style="display:none;">
+                                    <div class="col-lg-12 mb-3">
+                                        <button class="primary-btn-ticket" type="button" onclick="add_promotion_code_home();">Add <i class="fas fa-plus"></i></button>
+                                    </div>
+                                    <div class="col-lg-12" id="promo_code_airline_div">
+                                    </div>
+                                </div>
+                                <input type="hidden" class="col-lg-12" id="promo_code_counter" name="promo_code_counter"/>
                                 {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
                                 <br/>
                                 <div class="col-lg-12 mt-2">

@@ -600,10 +600,18 @@ function toggle_corpor_mode_div(prov_type){
                 render_corbooker_list(prov_type);
             }
             document.getElementById('div_corpor_mode_'+prov_type).style.display = "block";
+            if(prov_type == 'airline'){
+                document.getElementById('div_checkbox_promo_code_airline').style.display = 'none';
+                document.getElementById('promo_code_airline').style.display = 'none';
+            }
         }
     }
     else{
         document.getElementById('div_corpor_mode_'+prov_type).style.display = "none";
+        if(prov_type == 'airline'){
+            document.getElementById('div_checkbox_promo_code_airline').style.display = 'block';
+            toggle_promo_code();
+        }
     }
 }
 

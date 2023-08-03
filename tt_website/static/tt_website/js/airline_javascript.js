@@ -172,6 +172,38 @@ function add_promotion_code(car_code='', osi_code=''){
     node.innerHTML = text;
     document.getElementById("promotion_code").appendChild(node);
     promotion_code++;
+    document.getElementById('promo_code_counter').value = promotion_code;
+}
+
+function toggle_promo_code(){
+    if(document.getElementById('checkbox_add_promotion_code_airline').checked){
+        document.getElementById('promo_code_airline').style.display = 'block';
+    }else{
+        document.getElementById('promo_code_airline').style.display = 'none';
+    }
+}
+
+function add_promotion_code_home(){
+    text = '';
+    text +=`
+    <div class="row" id="promotion_code_line`+promotion_code+`" style="background:white; padding-bottom:15px; margin-bottom:15px; border-top:1px solid #cdcdcd; border-bottom:1px solid #cdcdcd;">
+        <div class="col-xs-12" style="text-align:right;">
+            <button type="button" class="primary-delete-date" onclick="delete_promotion_code(`+promotion_code+`)"><i class="fa fa-times" style="color:#E92B2B;font-size:16px;"></i> Delete</button>
+        </div>
+        <div class="col-lg-6">
+            <label>Code</label>
+            <input type="text" class="form-control" id="code_line`+promotion_code+`" name="code_line`+promotion_code+`" placeholder="Code" value=""/>
+        </div>
+        <div class="col-lg-6">
+            <label>Carrier Code</label>
+            <input type="text" class="form-control" id="carrier_code_line`+promotion_code+`" name="carrier_code_line`+promotion_code+`" placeholder="ex GA" value=""/>
+        </div>
+    </div>`;
+    var node = document.createElement("div");
+    node.innerHTML = text;
+    document.getElementById("promo_code_airline_div").appendChild(node);
+    promotion_code++;
+    document.getElementById('promo_code_counter').value = promotion_code;
 }
 
 function delete_promotion_code(val){

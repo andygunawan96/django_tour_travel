@@ -3409,6 +3409,12 @@
                     <div class="col-lg-12" id="promotion_code">
 
                     </div>
+                    <script>
+                        {% for promo_code in promo_codes %}
+                        add_promotion_code('{{promo_code.carrier_code}}','{{promo_code.promo_code}}');
+                        {% endfor %}
+                    </script>
+                    <input type="hidden" class="col-lg-12" id="promo_code_counter" name="promo_code_counter"/>
                 </div>
             </div>
         </div>
