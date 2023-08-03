@@ -139,10 +139,11 @@ def index(request):
                     return no_credential_b2c(request)
             except Exception as e:
                 _logger.error('Error user b2c auto sign in')
-                if provider['result']['error_code'] == 4002:
+                if provider['result']['error_code'] == 4002 and 'connection refused' not in provider['result']['error_msg'].lower():
                     raise Exception('Make response code 409!')
-                else:
-                    raise Exception('Make response code 500!')
+                ## GW MATI OR BACKEND MATI
+                elif 'httpconnectionpool' in provider['result']['error_msg'].lower() or 'connection refused' in provider['result']['error_msg'].lower():
+                    raise Exception('Make response code 408!')
         elif request.session.get('user_account') and values['website_mode'] == 'btb' or request.session.get('user_account') and values['website_mode'] == 'btb_with_signup_b2c':
             if request.session.get('user_account').get('co_user_login') == user_default.get('user_name', ''):
                 for key in reversed(list(request.session._session.keys())):
@@ -357,9 +358,9 @@ def index(request):
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
         if str(e) == 'Make response code 409!':
-            return redirect('/error/credential')
-        elif str(e) == 'Make response code 500!':
-            return redirect('/error')
+            return error_credential(request)
+        elif str(e) == 'Make response code 408!':
+            return error_timeout(request)
         else:
             pass
     if translation.LANGUAGE_SESSION_KEY in request.session:
