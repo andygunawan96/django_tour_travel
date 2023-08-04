@@ -2412,6 +2412,146 @@ function airline_get_provider_list(type, data=''){
                             }catch(err){console.log(err)}
                         }
                     }
+                    if(typeof(student) === 'undefined'){
+                        for(i=1;i<=student;i++){
+                            for(j=1;j<=ff_request.length;j++){
+                                try{
+                                    document.getElementById('student_ff_program_'+i+'_'+j).innerHTML = '';
+                                    document.getElementById('student_ff_value_'+i+'_'+j).innerHTML = '';
+                                }catch(err){console.log(err)}
+                            }
+                        }
+                    }
+                    if(typeof(labour) === 'undefined'){
+                        for(i=1;i<=labour;i++){
+                            for(j=1;j<=ff_request.length;j++){
+                                try{
+                                    document.getElementById('labour_ff_program_'+i+'_'+j).innerHTML = '';
+                                    document.getElementById('labour_ff_value_'+i+'_'+j).innerHTML = '';
+                                }catch(err){console.log(err)}
+                            }
+                        }
+                    }
+                    if(typeof(seaman) === 'undefined'){
+                        for(i=1;i<=seaman;i++){
+                            for(j=1;j<=ff_request.length;j++){
+                                try{
+                                    document.getElementById('seaman_ff_program_'+i+'_'+j).innerHTML = '';
+                                    document.getElementById('seaman_ff_value_'+i+'_'+j).innerHTML = '';
+                                }catch(err){console.log(err)}
+                            }
+                        }
+                    }
+                }
+                else if(check_ff == 1){
+                    for(i=1;i<=adult;i++){
+                        for(j=1;j<=ff_request.length;j++){
+                            try{
+                                ff_required = false;
+                                for(k in ff_request[j-1].carrier_codes){
+                                    if(airline_carriers[ff_request[j-1].carrier_codes[k]].hasOwnProperty('required_frequent_flyer') && airline_carriers[ff_request[j-1].carrier_codes[k]].required_frequent_flyer){
+                                        ff_required = airline_carriers[ff_request[j-1].carrier_codes[k]].required_frequent_flyer;
+                                        break;
+                                    }
+                                }
+                                if(ff_required){
+                                    document.getElementById('adult_ff_required_'+i+'_'+j).style.color = 'red';
+                                    document.getElementById('adult_ff_number_required_'+i+'_'+j).style.color = 'red';
+                                }
+                            }catch(err){console.log(err)}
+                        }
+                    }
+                    for(i=1;i<=child;i++){
+                        for(j=1;j<=ff_request.length;j++){
+                            try{
+                                ff_required = false;
+                                for(k in ff_request[j-1].carrier_codes){
+                                    if(airline_carriers[ff_request[j-1].carrier_codes[k]].hasOwnProperty('required_frequent_flyer') && airline_carriers[ff_request[j-1].carrier_codes[k]].required_frequent_flyer){
+                                        ff_required = airline_carriers[ff_request[j-1].carrier_codes[k]].required_frequent_flyer;
+                                        break;
+                                    }
+                                }
+                                if(ff_required){
+                                    document.getElementById('child_ff_required_'+i+'_'+j).style.color = 'red';
+                                    document.getElementById('child_ff_number_required_'+i+'_'+j).style.color = 'red';
+                                }
+                            }catch(err){console.log(err)}
+                        }
+                    }
+                    for(i=1;i<=infant;i++){
+                        for(j=1;j<=ff_request.length;j++){
+                            try{
+                                ff_required = false;
+                                for(k in ff_request[j-1].carrier_codes){
+                                    if(airline_carriers[ff_request[j-1].carrier_codes[k]].hasOwnProperty('required_frequent_flyer') && airline_carriers[ff_request[j-1].carrier_codes[k]].required_frequent_flyer){
+                                        ff_required = airline_carriers[ff_request[j-1].carrier_codes[k]].required_frequent_flyer;
+                                        break;
+                                    }
+                                }
+                                if(ff_required){
+                                    document.getElementById('infant_ff_required_'+i+'_'+j).style.color = 'red';
+                                    document.getElementById('infant_ff_number_required_'+i+'_'+j).style.color = 'red';
+                                }
+                            }catch(err){console.log(err)}
+                        }
+                    }
+                    if(typeof(student) === 'undefined'){
+                        for(i=1;i<=student;i++){
+                            for(j=1;j<=ff_request.length;j++){
+                                try{
+                                    ff_required = false;
+                                    for(k in ff_request[j-1].carrier_codes){
+                                        if(airline_carriers[ff_request[j-1].carrier_codes[k]].hasOwnProperty('required_frequent_flyer') && airline_carriers[ff_request[j-1].carrier_codes[k]].required_frequent_flyer){
+                                            ff_required = airline_carriers[ff_request[j-1].carrier_codes[k]].required_frequent_flyer;
+                                            break;
+                                        }
+                                    }
+                                    if(ff_required){
+                                        document.getElementById('student_ff_required_'+i+'_'+j).style.color = 'red';
+                                        document.getElementById('student_ff_number_required_'+i+'_'+j).style.color = 'red';
+                                    }
+                                }catch(err){console.log(err)}
+                            }
+                        }
+                    }
+                    if(typeof(labour) === 'undefined'){
+                        for(i=1;i<=labour;i++){
+                            for(j=1;j<=ff_request.length;j++){
+                                try{
+                                    ff_required = false;
+                                    for(k in ff_request[j-1].carrier_codes){
+                                        if(airline_carriers[ff_request[j-1].carrier_codes[k]].hasOwnProperty('required_frequent_flyer') && airline_carriers[ff_request[j-1].carrier_codes[k]].required_frequent_flyer){
+                                            ff_required = airline_carriers[ff_request[j-1].carrier_codes[k]].required_frequent_flyer;
+                                            break;
+                                        }
+                                    }
+                                    if(ff_required){
+                                        document.getElementById('labour_ff_required_'+i+'_'+j).style.color = 'red';
+                                        document.getElementById('labour_ff_number_required_'+i+'_'+j).style.color = 'red';
+                                    }
+                                }catch(err){console.log(err)}
+                            }
+                        }
+                    }
+                    if(typeof(seaman) === 'undefined'){
+                        for(i=1;i<=seaman;i++){
+                            for(j=1;j<=ff_request.length;j++){
+                                try{
+                                    ff_required = false;
+                                    for(k in ff_request[j-1].carrier_codes){
+                                        if(airline_carriers[ff_request[j-1].carrier_codes[k]].hasOwnProperty('required_frequent_flyer') && airline_carriers[ff_request[j-1].carrier_codes[k]].required_frequent_flyer){
+                                            ff_required = airline_carriers[ff_request[j-1].carrier_codes[k]].required_frequent_flyer;
+                                            break;
+                                        }
+                                    }
+                                    if(ff_required){
+                                        document.getElementById('seaman_ff_required_'+i+'_'+j).style.color = 'red';
+                                        document.getElementById('seaman_ff_number_required_'+i+'_'+j).style.color = 'red';
+                                    }
+                                }catch(err){console.log(err)}
+                            }
+                        }
+                    }
                 }
                 if(is_wheelchair == 1){
                     for(i=1;i<=adult;i++){
@@ -2438,17 +2578,60 @@ function airline_get_provider_list(type, data=''){
                             </div>`;
                         }catch(err){console.log(err)}
                     }
-                    for(i=1;i<=infant;i++){
-                        try{
-                            document.getElementById('infant_wheelchair_div'+i).innerHTML = `
-                            <div class="input-container-search-ticket">
-                                <label class="check_box_custom">
-                                    <span class="span-search-ticket" style="color:black;">Wheelchair</span>
-                                    <input type="checkbox" id="infant_wheelchair`+i+`" name="infant_wheelchair`+i+`" />
-                                    <span class="check_box_span_custom"></span>
-                                </label>
-                            </div>`;
-                        }catch(err){console.log(err)}
+                    // infant ga ada wheelchair
+//                    for(i=1;i<=infant;i++){
+//                        try{
+//                            document.getElementById('infant_wheelchair_div'+i).innerHTML = `
+//                            <div class="input-container-search-ticket">
+//                                <label class="check_box_custom">
+//                                    <span class="span-search-ticket" style="color:black;">Wheelchair</span>
+//                                    <input type="checkbox" id="infant_wheelchair`+i+`" name="infant_wheelchair`+i+`" />
+//                                    <span class="check_box_span_custom"></span>
+//                                </label>
+//                            </div>`;
+//                        }catch(err){console.log(err)}
+//                    }
+                    if(typeof(student) === 'undefined'){
+                        for(i=1;i<=student;i++){
+                            try{
+                                document.getElementById('student_wheelchair_div'+i).innerHTML = `
+                                <div class="input-container-search-ticket">
+                                    <label class="check_box_custom">
+                                        <span class="span-search-ticket" style="color:black;">Wheelchair</span>
+                                        <input type="checkbox" id="student_wheelchair`+i+`" name="student_wheelchair`+i+`" />
+                                        <span class="check_box_span_custom"></span>
+                                    </label>
+                                </div>`;
+                            }catch(err){console.log(err)}
+                        }
+                    }
+                    if(typeof(labour) === 'undefined'){
+                        for(i=1;i<=labour;i++){
+                            try{
+                                document.getElementById('labour_wheelchair_div'+i).innerHTML = `
+                                <div class="input-container-search-ticket">
+                                    <label class="check_box_custom">
+                                        <span class="span-search-ticket" style="color:black;">Wheelchair</span>
+                                        <input type="checkbox" id="labour_wheelchair`+i+`" name="labour_wheelchair`+i+`" />
+                                        <span class="check_box_span_custom"></span>
+                                    </label>
+                                </div>`;
+                            }catch(err){console.log(err)}
+                        }
+                    }
+                    if(typeof(seaman) === 'undefined'){
+                        for(i=1;i<=seaman;i++){
+                            try{
+                                document.getElementById('seaman_wheelchair_div'+i).innerHTML = `
+                                <div class="input-container-search-ticket">
+                                    <label class="check_box_custom">
+                                        <span class="span-search-ticket" style="color:black;">Wheelchair</span>
+                                        <input type="checkbox" id="seaman_wheelchair`+i+`" name="seaman_wheelchair`+i+`" />
+                                        <span class="check_box_span_custom"></span>
+                                    </label>
+                                </div>`;
+                            }catch(err){console.log(err)}
+                        }
                     }
                 }
                 $(function() {
