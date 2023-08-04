@@ -172,6 +172,38 @@ function add_promotion_code(car_code='', osi_code=''){
     node.innerHTML = text;
     document.getElementById("promotion_code").appendChild(node);
     promotion_code++;
+    document.getElementById('promo_code_counter').value = promotion_code;
+}
+
+function toggle_promo_code(){
+    if(document.getElementById('checkbox_add_promotion_code_airline').checked){
+        document.getElementById('promo_code_airline').style.display = 'block';
+    }else{
+        document.getElementById('promo_code_airline').style.display = 'none';
+    }
+}
+
+function add_promotion_code_home(){
+    text = '';
+    text +=`
+    <div class="row" id="promotion_code_line`+promotion_code+`" style="background:white; padding-bottom:15px; margin-bottom:15px; border-top:1px solid #cdcdcd; border-bottom:1px solid #cdcdcd;">
+        <div class="col-xs-12" style="text-align:right;">
+            <button type="button" class="primary-delete-date" onclick="delete_promotion_code(`+promotion_code+`)"><i class="fa fa-times" style="color:#E92B2B;font-size:16px;"></i> Delete</button>
+        </div>
+        <div class="col-lg-6">
+            <label>Code</label>
+            <input type="text" class="form-control" id="code_line`+promotion_code+`" name="code_line`+promotion_code+`" placeholder="Code" value=""/>
+        </div>
+        <div class="col-lg-6">
+            <label>Carrier Code</label>
+            <input type="text" class="form-control" id="carrier_code_line`+promotion_code+`" name="carrier_code_line`+promotion_code+`" placeholder="ex GA" value=""/>
+        </div>
+    </div>`;
+    var node = document.createElement("div");
+    node.innerHTML = text;
+    document.getElementById("promo_code_airline_div").appendChild(node);
+    promotion_code++;
+    document.getElementById('promo_code_counter').value = promotion_code;
 }
 
 function delete_promotion_code(val){
@@ -248,6 +280,94 @@ function airline_goto_search(){
     if(error_log == ''){
         $('.button-search').addClass("running");
         document.getElementById('counter').value = counter_airline_search;
+        // SIMPEN CACHE
+        var radios = document.getElementsByName('radio_airline_type');
+        var direction = '';
+        for (var j = 0, length = radios.length; j < length; j++) {
+            if (radios[j].checked) {
+                // do whatever you want with the checked radio
+                direction = radios[j].value;
+                // only one radio can be logically checked, don't check the rest
+                break;
+            }
+        }
+        if(['oneway', 'roundtrip'].includes(direction)){
+            request_airline = {
+                "origin": [document.getElementById('origin_id_flight').value],
+                "destination": [document.getElementById('destination_id_flight').value],
+                "departure": [direction == 'roundtrip' ? document.getElementById('airline_departure_return').value.split(' - ')[0] : document.getElementById('airline_departure').value],
+                "return": [direction == 'roundtrip' ? document.getElementById('airline_departure_return').value.split(' - ')[1] : ''],
+                "direction": direction,
+                "adult": parseInt(document.getElementById('adult_flight').value),
+                "child": parseInt(document.getElementById('child_flight').value),
+                "infant": parseInt(document.getElementById('infant_flight').value),
+                "cabin_class": document.getElementById('cabin_class_flight').value,
+                "cabin_class_list": [], // hanya untuk MC
+                "is_combo_price": document.getElementById('is_combo_price').checked,
+                "carrier_codes": [],
+                "counter":1
+            }
+
+            // check adv
+            if(document.getElementById('student_flight'))
+                request_airline['student'] = parseInt(document.getElementById('student_flight').value);
+            if(document.getElementById('labour_flight'))
+                request_airline['labour'] = parseInt(document.getElementById('labour_flight').value);
+            if(document.getElementById('seaman_flight'))
+                request_airline['seaman'] = parseInt(document.getElementById('seaman_flight').value);
+
+            if(document.getElementById('provider_box_All') && document.getElementById('provider_box_All').checked){
+
+            }else{
+                for(i in airline_provider_list){
+                    if(document.getElementById('provider_box_'+i) && document.getElementById('provider_box_'+i).checked){
+                        request_airline['carrier_codes'].push(i);
+                    }
+                }
+            }
+            //
+        }else{
+            // MC
+            request_airline = {
+                "origin": [],
+                "destination": [],
+                "departure": [],
+                "return": [],
+                "direction": direction,
+                "adult": parseInt(document.getElementById('adult_flight1').value),
+                "child": parseInt(document.getElementById('child_flight1').value),
+                "infant": parseInt(document.getElementById('infant_flight1').value),
+                "cabin_class": document.getElementById('cabin_class_flight_mc').value,
+                "cabin_class_list": [], // hanya untuk MC
+                "is_combo_price": document.getElementById('is_combo_price').checked,
+                "carrier_codes": [],
+                "counter": counter_airline_search
+            }
+            for(i=1;i<=counter_airline_search;i++){
+                request_airline['origin'].push(document.getElementById('origin_id_flight'+i).value)
+                request_airline['destination'].push(document.getElementById('destination_id_flight'+i).value)
+                request_airline['departure'].push(document.getElementById('airline_departure'+i).value)
+                request_airline['cabin_class_list'].push(document.getElementById('cabin_class_flight'+i).value)
+            }
+            if(document.getElementById('student_flight1'))
+                request_airline['student'] = parseInt(document.getElementById('student_flight1').value);
+            if(document.getElementById('labour_flight1'))
+                request_airline['labour'] = parseInt(document.getElementById('labour_flight1').value);
+            if(document.getElementById('seaman_flight1'))
+                request_airline['seaman'] = parseInt(document.getElementById('seaman_flight1').value);
+
+            if(document.getElementById('provider_box_All_1') && document.getElementById('provider_box_All_1').checked){
+
+            }else{
+                for(i in airline_provider_list){
+                    if(document.getElementById('provider_box_'+i+'_1') && document.getElementById('provider_box_'+i+'_1').checked){
+                        request_airline['carrier_codes'].push(i);
+                    }
+                }
+            }
+        }
+        document_set_cookie('airline_request', JSON.stringify(request_airline));
+
         document.getElementById('airline_searchForm').submit();
     }else{
         $('.button-search').removeClass("running");
@@ -11773,4 +11893,108 @@ function print_fare_detail_name(id, val){
 function delete_fare_detail_name(id, val){
     document.getElementById(id).innerHTML = `
     <i class="fas fa-info-circle" onclick="print_fare_detail_name('`+id+`', '`+val+`');" style="padding-left:5px; color:`+color+`; cursor:pointer; font-size:16px;"></i>`;
+}
+
+function auto_fill_airline_cookie(cookie_airline,page='home'){
+    // data default awal agar kalau oneway/return pindah ke MC tidak rusak
+    airline_origin = cookie_airline['origin'][0];
+    airline_destination = cookie_airline['destination'][0];
+    airline_date =cookie_airline['departure'][0];
+
+    // CHANGE tab oneway, return, MC
+    if(['roundtrip', 'multicity'].includes(cookie_airline['direction'])){
+        $("input[name=radio_airline_type][value='"+cookie_airline['direction']+"']").prop("checked",true);
+        $("#radio_airline_search").click();
+    }
+
+    // DATA FILL
+    if(['oneway','roundtrip'].includes(cookie_airline['direction'])){
+        document.getElementById('origin_id_flight').value = cookie_airline['origin'][0];
+        document.getElementById('destination_id_flight').value = cookie_airline['destination'][0];
+        if(cookie_airline['direction'] == 'oneway'){
+            document.getElementById('airline_departure').value = cookie_airline['departure'][0];
+        }else{
+            document.getElementById('airline_departure_return').value = cookie_airline['departure'][0] + ' - ' + cookie_airline['return'][0];
+            document.getElementById('airline_departure').value = cookie_airline['departure'][0];
+            document.getElementById('airline_return').value = cookie_airline['return'][0];
+        }
+        if(cookie_airline['adult']){
+            document.getElementById('adult_flight').value = cookie_airline['adult'];
+        }
+
+        if(cookie_airline['child']){
+            document.getElementById('child_flight').value = cookie_airline['child'];
+        }
+
+        if(cookie_airline['infant']){
+            document.getElementById('infant_flight').value = cookie_airline['infant'];
+        }
+
+        if(cookie_airline.hasOwnProperty('student') && cookie_airline['student']){
+            document.getElementById('student_flight').value = cookie_airline['student'];
+        }
+
+        if(cookie_airline.hasOwnProperty('labour') && cookie_airline['labour']){
+            document.getElementById('student_flight').value = cookie_airline['student'];
+        }
+
+        if(cookie_airline.hasOwnProperty('seaman') && cookie_airline['seaman']){
+            document.getElementById('seaman_flight').value = cookie_airline['seaman'];
+        }
+        document.getElementById('cabin_class_flight').value = cookie_airline['cabin_class'];
+        // update niceselect
+        $('#cabin_class_flight').niceSelect('update');
+    }else{
+        document.getElementById('origin_id_flight1').value = cookie_airline['origin'][0];
+        document.getElementById('destination_id_flight1').value = cookie_airline['destination'][0];
+        document.getElementById('airline_departure1').value = cookie_airline['departure'][0];
+        document.getElementById('cabin_class_flight1').value = cookie_airline['cabin_class_list'][0];
+        document.getElementById('origin_id_flight2').value = cookie_airline['origin'][1];
+        document.getElementById('destination_id_flight2').value = cookie_airline['destination'][1];
+        document.getElementById('airline_departure2').value = cookie_airline['departure'][1];
+        document.getElementById('cabin_class_flight2').value = cookie_airline['cabin_class_list'][1];
+        document.getElementById('cabin_class_flight_mc').value = cookie_airline['cabin_class'];
+        // update niceselect
+        $('#cabin_class_flight1').niceSelect('update');
+        $('#cabin_class_flight2').niceSelect('update');
+
+        if(cookie_airline['adult']){
+            document.getElementById('adult_flight1').value = cookie_airline['adult'];
+        }
+
+        if(cookie_airline['child']){
+            document.getElementById('child_flight1').value = cookie_airline['child'];
+        }
+
+        if(cookie_airline['infant']){
+            document.getElementById('infant_flight1').value = cookie_airline['infant'];
+        }
+
+        if(cookie_airline.hasOwnProperty('student') && cookie_airline['student']){
+            document.getElementById('student_flight1').value = cookie_airline['student'];
+        }
+
+        if(cookie_airline.hasOwnProperty('labour') && cookie_airline['labour']){
+            document.getElementById('student_flight1').value = cookie_airline['student'];
+        }
+
+        if(cookie_airline.hasOwnProperty('seaman') && cookie_airline['seaman']){
+            document.getElementById('seaman_flight1').value = cookie_airline['seaman'];
+        }
+        // MC
+        for(i=3;i<=counter;i++){
+            add_multi_city(page);
+            document.getElementById('origin_id_flight'+i).value = cookie_airline['origin'][i-1];
+            document.getElementById('destination_id_flight'+i).value = cookie_airline['destination'][i-1];
+            document.getElementById('airline_departure'+i).value = cookie_airline['departure'][i-1];
+            document.getElementById('cabin_class_flight'+i).value = cookie_airline['cabin_class_list'][i-1];
+            $('#cabin_class_flight'+i).niceSelect('update');
+        }
+    }
+    plus_min_passenger_airline_btn();
+    if(['roundtrip', 'multicity'].includes(cookie_airline['is_combo_price'])){
+        document.getElementById('is_combo_price').checked = cookie_airline['is_combo_price'];
+    }
+
+
 }

@@ -254,18 +254,20 @@ function get_corpor_list(prov_type){
         document.getElementById('corpor_list_loading_'+prov_type).style.display = "none";
         if(msg.result.error_code == 0){
             agent_corpor_data = msg.result.response.customer_parent_data;
-            text = ``;
-            for(i in agent_corpor_data){
-                text += `<option value="`+i+`">`+agent_corpor_data[i].name+`</option>`;
-            }
-            document.getElementById(prov_type+'_corpor_select').innerHTML = text;
-            document.getElementById('div_corpor_mode_'+prov_type).style.display = "block";
-            $('#'+prov_type+'_corpor_select').select2();
-            if(text != '')
-            {
-                render_corbooker_list(prov_type);
-            }
-            document.getElementById('div_corpor_mode_'+prov_type).style.display = "block";
+            // jadi 1 fungsi 4 agustus 2023
+            toggle_corpor_mode_div(prov_type);
+//            text = ``;
+//            for(i in agent_corpor_data){
+//                text += `<option value="`+i+`">`+agent_corpor_data[i].name+`</option>`;
+//            }
+//            document.getElementById(prov_type+'_corpor_select').innerHTML = text;
+//            document.getElementById('div_corpor_mode_'+prov_type).style.display = "block";
+//            $('#'+prov_type+'_corpor_select').select2();
+//            if(text != '')
+//            {
+//                render_corbooker_list(prov_type);
+//            }
+//            document.getElementById('div_corpor_mode_'+prov_type).style.display = "block";
         }else{
             Swal.fire({
               type: 'error',
