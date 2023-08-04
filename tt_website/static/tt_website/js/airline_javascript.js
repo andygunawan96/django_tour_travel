@@ -11897,9 +11897,9 @@ function delete_fare_detail_name(id, val){
 
 function auto_fill_airline_cookie(cookie_airline,page='home'){
     // data default awal agar kalau oneway/return pindah ke MC tidak rusak
-    airline_origin = '';
-    airline_destination = '';
-    airline_date = '';
+    airline_origin = cookie_airline['origin'][0];
+    airline_destination = cookie_airline['destination'][0];
+    airline_date =cookie_airline['departure'][0];
 
     // CHANGE tab oneway, return, MC
     if(['roundtrip', 'multicity'].includes(cookie_airline['direction'])){
@@ -11912,7 +11912,7 @@ function auto_fill_airline_cookie(cookie_airline,page='home'){
         document.getElementById('origin_id_flight').value = cookie_airline['origin'][0];
         document.getElementById('destination_id_flight').value = cookie_airline['destination'][0];
         if(cookie_airline['direction'] == 'oneway'){
-            document.getElementById('airline_departure').value = cookie_airline['departure'][0]
+            document.getElementById('airline_departure').value = cookie_airline['departure'][0];
         }else{
             document.getElementById('airline_departure_return').value = cookie_airline['departure'][0] + ' - ' + cookie_airline['return'][0];
             document.getElementById('airline_departure').value = cookie_airline['departure'][0];
