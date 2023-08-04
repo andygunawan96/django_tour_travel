@@ -6937,12 +6937,12 @@ function check_passenger(adult, child, infant, type=''){
                     if(ff_request[index_ff].hasOwnProperty('error_code') == false){
                         error_ff = true
                         ff_required = false;
-                        for(k in ff_request[index_ff].carrier_codes){
-                            if(airline_carriers[ff_request[index_ff].carrier_codes[k]].hasOwnProperty('required_frequent_flyer') && airline_carriers[ff_request[index_ff].carrier_codes[k]].required_frequent_flyer){
-                                ff_required = airline_carriers[ff_request[index_ff].carrier_codes[k]].required_frequent_flyer;
-                                break;
-                            }
-                        }
+//                        for(k in ff_request[index_ff].carrier_codes){
+//                            if(airline_carriers[ff_request[index_ff].carrier_codes[k]].hasOwnProperty('required_frequent_flyer') && airline_carriers[ff_request[index_ff].carrier_codes[k]].required_frequent_flyer){
+//                                ff_required = airline_carriers[ff_request[index_ff].carrier_codes[k]].required_frequent_flyer;
+//                                break;
+//                            }
+//                        }
                         if(ff_required && document.getElementById('child_ff_request'+i+'_'+j + '_id').value == '' && document.getElementById('child_ff_number'+i+'_'+j).value == ''){
                             error_log+= 'Please choose Frequent Flyer Program Journey '+j+' for passenger child '+i+'!</br>\n';
                             error_log+= 'Please fill Frequent Flyer Number '+j+' for passenger child '+i+'!</br>\n';
@@ -7522,12 +7522,12 @@ function check_passenger(adult, child, infant, type=''){
                         if(ff_request[index_ff].hasOwnProperty('error_code') == false){
                             error_ff = true
                             ff_required = false;
-                            for(k in ff_request[index_ff].carrier_codes){
-                                if(airline_carriers[ff_request[index_ff].carrier_codes[k]].hasOwnProperty('required_frequent_flyer') && airline_carriers[ff_request[index_ff].carrier_codes[k]].required_frequent_flyer){
-                                    ff_required = airline_carriers[ff_request[index_ff].carrier_codes[k]].required_frequent_flyer;
-                                    break;
-                                }
-                            }
+//                            for(k in ff_request[index_ff].carrier_codes){
+//                                if(airline_carriers[ff_request[index_ff].carrier_codes[k]].hasOwnProperty('required_frequent_flyer') && airline_carriers[ff_request[index_ff].carrier_codes[k]].required_frequent_flyer){
+//                                    ff_required = airline_carriers[ff_request[index_ff].carrier_codes[k]].required_frequent_flyer;
+//                                    break;
+//                                }
+//                            }
                             if(ff_required && document.getElementById('student_ff_request'+i+'_'+j + '_id').value == '' && document.getElementById('student_ff_number'+i+'_'+j).value == ''){
                                 error_log+= 'Please choose Frequent Flyer Program Journey '+j+' for passenger student '+i+'!</br>\n';
                                 error_log+= 'Please fill Frequent Flyer Number '+j+' for passenger student '+i+'!</br>\n';
@@ -7842,12 +7842,12 @@ function check_passenger(adult, child, infant, type=''){
                         if(ff_request[index_ff].hasOwnProperty('error_code') == false){
                             error_ff = true
                             ff_required = false;
-                            for(k in ff_request[index_ff].carrier_codes){
-                                if(airline_carriers[ff_request[index_ff].carrier_codes[k]].hasOwnProperty('required_frequent_flyer') && airline_carriers[ff_request[index_ff].carrier_codes[k]].required_frequent_flyer){
-                                    ff_required = airline_carriers[ff_request[index_ff].carrier_codes[k]].required_frequent_flyer;
-                                    break;
-                                }
-                            }
+//                            for(k in ff_request[index_ff].carrier_codes){
+//                                if(airline_carriers[ff_request[index_ff].carrier_codes[k]].hasOwnProperty('required_frequent_flyer') && airline_carriers[ff_request[index_ff].carrier_codes[k]].required_frequent_flyer){
+//                                    ff_required = airline_carriers[ff_request[index_ff].carrier_codes[k]].required_frequent_flyer;
+//                                    break;
+//                                }
+//                            }
                             if(ff_required && document.getElementById('seaman_ff_request'+i+'_'+j + '_id').value == '' && document.getElementById('seaman_ff_number'+i+'_'+j).value == ''){
                                 error_log+= 'Please choose Frequent Flyer Program Journey '+j+' for passenger seaman '+i+'!</br>\n';
                                 error_log+= 'Please fill Frequent Flyer Number '+j+' for passenger seaman '+i+'!</br>\n';
@@ -8162,12 +8162,12 @@ function check_passenger(adult, child, infant, type=''){
                         if(ff_request[index_ff].hasOwnProperty('error_code') == false){
                             error_ff = true
                             ff_required = false;
-                            for(k in ff_request[index_ff].carrier_codes){
-                                if(airline_carriers[ff_request[index_ff].carrier_codes[k]].hasOwnProperty('required_frequent_flyer') && airline_carriers[ff_request[index_ff].carrier_codes[k]].required_frequent_flyer){
-                                    ff_required = airline_carriers[ff_request[index_ff].carrier_codes[k]].required_frequent_flyer;
-                                    break;
-                                }
-                            }
+//                            for(k in ff_request[index_ff].carrier_codes){
+//                                if(airline_carriers[ff_request[index_ff].carrier_codes[k]].hasOwnProperty('required_frequent_flyer') && airline_carriers[ff_request[index_ff].carrier_codes[k]].required_frequent_flyer){
+//                                    ff_required = airline_carriers[ff_request[index_ff].carrier_codes[k]].required_frequent_flyer;
+//                                    break;
+//                                }
+//                            }
                             if(ff_required && document.getElementById('labour_ff_request'+i+'_'+j + '_id').value == '' && document.getElementById('labour_ff_number'+i+'_'+j).value == ''){
                                 error_log+= 'Please choose Frequent Flyer Program Journey '+j+' for passenger labour '+i+'!</br>\n';
                                 error_log+= 'Please fill Frequent Flyer Number '+j+' for passenger labour '+i+'!</br>\n';
