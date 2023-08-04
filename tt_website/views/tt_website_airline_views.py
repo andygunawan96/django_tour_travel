@@ -382,9 +382,9 @@ def search(request):
                         'carrier_code': request.POST.get('carrier_code_line'+str(i)),
                         'promo_code': request.POST.get('code_line'+str(i))
                     })
-            use_osi_code_backend = False
-            if request.POST.get('checkbox_osi_code_backend_airline', '') == 'off':
-                use_osi_code_backend = True
+            use_osi_code_backend = True
+            if request.POST.get('checkbox_osi_code_backend_airline', 'on') == 'on':
+                use_osi_code_backend = False
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 # 'journeys': journeys,

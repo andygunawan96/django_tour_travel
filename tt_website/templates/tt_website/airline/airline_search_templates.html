@@ -3411,17 +3411,15 @@
                     </div>
                     <input type="hidden" class="col-lg-12" id="promo_code_counter" name="promo_code_counter"/>
                     <script>
-                        {% if promo_codes %}
+                        {% if use_osi_code_backend == True %}
+                            for(i in user_login['co_customer_parent_osi_codes']){
+                                add_promotion_code(i, user_login['co_customer_parent_osi_codes'][i]);
+                            }
+                        {% else %}
                             {% for promo_code in promo_codes %}
                                 add_promotion_code('{{promo_code.carrier_code}}','{{promo_code.promo_code}}');
                             {% endfor %}
-                        {% else %}
-                            if('{{use_osi_code_backend}}' == 'True'){
-                                for(i in user_login['co_customer_parent_osi_codes']){
-                                    add_promotion_code(i, user_login['co_customer_parent_osi_codes'][i]);
-                                }
-                            }
-                        {% endif %}
+                        {%endif %}
                     </script>
                 </div>
             </div>
