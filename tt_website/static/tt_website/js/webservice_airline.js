@@ -2475,33 +2475,16 @@ function airline_get_provider_list(type, data=''){
                     for(i=1;i<=child;i++){
                         for(j=1;j<=ff_request.length;j++){
                             try{
-                                ff_required = false;
-                                for(k in ff_request[j-1].carrier_codes){
-                                    if(airline_carriers[ff_request[j-1].carrier_codes[k]].hasOwnProperty('required_frequent_flyer') && airline_carriers[ff_request[j-1].carrier_codes[k]].required_frequent_flyer){
-                                        ff_required = airline_carriers[ff_request[j-1].carrier_codes[k]].required_frequent_flyer;
-                                        break;
-                                    }
-                                }
+//                                ff_required = false;
+//                                for(k in ff_request[j-1].carrier_codes){
+//                                    if(airline_carriers[ff_request[j-1].carrier_codes[k]].hasOwnProperty('required_frequent_flyer') && airline_carriers[ff_request[j-1].carrier_codes[k]].required_frequent_flyer){
+//                                        ff_required = airline_carriers[ff_request[j-1].carrier_codes[k]].required_frequent_flyer;
+//                                        break;
+//                                    }
+//                                }
                                 if(ff_required){
                                     document.getElementById('child_ff_required_'+i+'_'+j).style.color = 'red';
                                     document.getElementById('child_ff_number_required_'+i+'_'+j).style.color = 'red';
-                                }
-                            }catch(err){console.log(err)}
-                        }
-                    }
-                    for(i=1;i<=infant;i++){
-                        for(j=1;j<=ff_request.length;j++){
-                            try{
-                                ff_required = false;
-                                for(k in ff_request[j-1].carrier_codes){
-                                    if(airline_carriers[ff_request[j-1].carrier_codes[k]].hasOwnProperty('required_frequent_flyer') && airline_carriers[ff_request[j-1].carrier_codes[k]].required_frequent_flyer){
-                                        ff_required = airline_carriers[ff_request[j-1].carrier_codes[k]].required_frequent_flyer;
-                                        break;
-                                    }
-                                }
-                                if(ff_required){
-                                    document.getElementById('infant_ff_required_'+i+'_'+j).style.color = 'red';
-                                    document.getElementById('infant_ff_number_required_'+i+'_'+j).style.color = 'red';
                                 }
                             }catch(err){console.log(err)}
                         }
@@ -2511,12 +2494,12 @@ function airline_get_provider_list(type, data=''){
                             for(j=1;j<=ff_request.length;j++){
                                 try{
                                     ff_required = false;
-                                    for(k in ff_request[j-1].carrier_codes){
-                                        if(airline_carriers[ff_request[j-1].carrier_codes[k]].hasOwnProperty('required_frequent_flyer') && airline_carriers[ff_request[j-1].carrier_codes[k]].required_frequent_flyer){
-                                            ff_required = airline_carriers[ff_request[j-1].carrier_codes[k]].required_frequent_flyer;
-                                            break;
-                                        }
-                                    }
+//                                    for(k in ff_request[j-1].carrier_codes){
+//                                        if(airline_carriers[ff_request[j-1].carrier_codes[k]].hasOwnProperty('required_frequent_flyer') && airline_carriers[ff_request[j-1].carrier_codes[k]].required_frequent_flyer){
+//                                            ff_required = airline_carriers[ff_request[j-1].carrier_codes[k]].required_frequent_flyer;
+//                                            break;
+//                                        }
+//                                    }
                                     if(ff_required){
                                         document.getElementById('student_ff_required_'+i+'_'+j).style.color = 'red';
                                         document.getElementById('student_ff_number_required_'+i+'_'+j).style.color = 'red';
@@ -2530,12 +2513,12 @@ function airline_get_provider_list(type, data=''){
                             for(j=1;j<=ff_request.length;j++){
                                 try{
                                     ff_required = false;
-                                    for(k in ff_request[j-1].carrier_codes){
-                                        if(airline_carriers[ff_request[j-1].carrier_codes[k]].hasOwnProperty('required_frequent_flyer') && airline_carriers[ff_request[j-1].carrier_codes[k]].required_frequent_flyer){
-                                            ff_required = airline_carriers[ff_request[j-1].carrier_codes[k]].required_frequent_flyer;
-                                            break;
-                                        }
-                                    }
+//                                    for(k in ff_request[j-1].carrier_codes){
+//                                        if(airline_carriers[ff_request[j-1].carrier_codes[k]].hasOwnProperty('required_frequent_flyer') && airline_carriers[ff_request[j-1].carrier_codes[k]].required_frequent_flyer){
+//                                            ff_required = airline_carriers[ff_request[j-1].carrier_codes[k]].required_frequent_flyer;
+//                                            break;
+//                                        }
+//                                    }
                                     if(ff_required){
                                         document.getElementById('labour_ff_required_'+i+'_'+j).style.color = 'red';
                                         document.getElementById('labour_ff_number_required_'+i+'_'+j).style.color = 'red';
@@ -2549,12 +2532,12 @@ function airline_get_provider_list(type, data=''){
                             for(j=1;j<=ff_request.length;j++){
                                 try{
                                     ff_required = false;
-                                    for(k in ff_request[j-1].carrier_codes){
-                                        if(airline_carriers[ff_request[j-1].carrier_codes[k]].hasOwnProperty('required_frequent_flyer') && airline_carriers[ff_request[j-1].carrier_codes[k]].required_frequent_flyer){
-                                            ff_required = airline_carriers[ff_request[j-1].carrier_codes[k]].required_frequent_flyer;
-                                            break;
-                                        }
-                                    }
+//                                    for(k in ff_request[j-1].carrier_codes){
+//                                        if(airline_carriers[ff_request[j-1].carrier_codes[k]].hasOwnProperty('required_frequent_flyer') && airline_carriers[ff_request[j-1].carrier_codes[k]].required_frequent_flyer){
+//                                            ff_required = airline_carriers[ff_request[j-1].carrier_codes[k]].required_frequent_flyer;
+//                                            break;
+//                                        }
+//                                    }
                                     if(ff_required){
                                         document.getElementById('seaman_ff_required_'+i+'_'+j).style.color = 'red';
                                         document.getElementById('seaman_ff_number_required_'+i+'_'+j).style.color = 'red';
