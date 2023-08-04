@@ -123,3 +123,8 @@ function checkCookie(type, check, page, version) {
         }
     }
 }
+
+// set cookie one time till browser close
+function document_set_cookie(name, value){
+    document.cookie = name + '=' + value;
+}

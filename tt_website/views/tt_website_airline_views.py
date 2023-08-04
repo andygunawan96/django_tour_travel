@@ -374,6 +374,17 @@ def search(request):
                 set_session(request, 'user_account', cur_session)
                 activate_corporate_mode(request, request.session['signature'])
 
+            ## PROMO CODE
+            promo_codes = []
+            if request.POST.get('checkbox_add_promotion_code_airline', '') == 'on' or request.META.get('HTTP_REFERER').split('/')[len(request.META.get('HTTP_REFERER').split('/'))-1] == 'search':
+                for i in range(int(request.POST.get('promo_code_counter', '0'))):
+                    promo_codes.append({
+                        'carrier_code': request.POST.get('carrier_code_line'+str(i)),
+                        'promo_code': request.POST.get('code_line'+str(i))
+                    })
+            use_osi_code_backend = True
+            if request.POST.get('checkbox_osi_code_backend_airline') == 'on' or request.META.get('HTTP_REFERER').split('/')[len(request.META.get('HTTP_REFERER').split('/'))-1] == 'search':
+                use_osi_code_backend = False
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 # 'journeys': journeys,
@@ -391,7 +402,9 @@ def search(request):
                 'signature': request.session['signature'],
                 'time_limit': 1200,
                 'static_path_url_server': get_url_static_path(),
-                'is_reorder': is_reorder
+                'is_reorder': is_reorder,
+                'promo_codes': promo_codes,
+                'use_osi_code_backend': use_osi_code_backend
                 # 'co_uid': request.session['co_uid'],
                 # 'cookies': json.dumps(res['result']['cookies']),
                 # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
