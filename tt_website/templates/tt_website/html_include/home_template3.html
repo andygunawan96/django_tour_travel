@@ -53,7 +53,7 @@
                                 <li class="tab-link" data-tab="tab-event" onclick="scroll_menu_horizontal('tab-link', 'event');" id="nav_scroll_menu_event"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/product/w-event.png" alt="Event Icon"/></i><label class="btn-txt-color">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</label></li>
                                 {% elif "activity" in provider and "ticketing_activity" in username.co_agent_frontend_security and rec.code == 'activity' %}
                                 <li class="tab-link" data-tab="tab-activity" onclick="scroll_menu_horizontal('tab-link', 'activity');" id="nav_scroll_menu_activity"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/product/w-activity.png" alt="Activity Icon"/></i><label class="btn-txt-color">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</label></li>
-                                {% elif "visa" in provider "ticketing_visa" in username.co_agent_frontend_security and rec.code == 'visa' %}
+                                {% elif "visa" in provider and "ticketing_visa" in username.co_agent_frontend_security and rec.code == 'visa' %}
                                 <li class="tab-link" data-tab="tab-visa" onclick="scroll_menu_horizontal('tab-link', 'visa');" id="nav_scroll_menu_visa"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/product/w-visa.png" alt="Visa Icon"/></i><label class="btn-txt-color">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</label></li>
                                 {% elif "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_passport" in username.co_agent_frontend_security and rec.code == 'passport' %}
                                 <li class="tab-link" data-tab="tab-passport" onclick="scroll_menu_horizontal('tab-link', 'passport');" id="nav_scroll_menu_passport"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/product/w-passport.png" alt="Passport Icon"/></i><label class="btn-txt-color">{% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}</label></li>
@@ -303,6 +303,7 @@
                                     </div>
                                     <input type="hidden" class="col-lg-12" id="counter" name="counter"/>
 
+                                    {% if 'co_customer_parent_type_name' not in username or 'corp_limitation' in username.co_agent_frontend_security %}
                                     <div class="col-lg-12" style="text-align:left;margin-bottom:15px;" id="div_checkbox_promo_code_airline">
                                         <label class="check_box_custom mt-2">
                                             <span style="font-size:13px; color:{{text_color}};">Promo Code</span>
@@ -318,6 +319,7 @@
                                         </div>
                                     </div>
                                     <input type="hidden" class="col-lg-12" id="promo_code_counter" name="promo_code_counter"/>
+                                    {% endif %}
                                     {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
                                     <br/>
                                     <div class="col-lg-6 mt-2">
@@ -368,6 +370,14 @@
                                             </div>
                                         </div>
                                     </div>
+                                    {% elif 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+                                    <div class="col-lg-6" style="text-align:left;" id="div_osi_code_airline">
+                                    <label class="check_box_custom mt-2">
+                                        <span style="font-size:13px; color:{{text_color}};">Don't use OSI Code</span>
+                                        <input type="checkbox" id="checkbox_osi_code_backend_airline" name="checkbox_osi_code_backend_airline"/>
+                                        <span class="check_box_span_custom"></span>
+                                    </label>
+                                </div>
                                     {% endif %}
                                     <div class="col-lg-12" style="text-align:center; padding-top:15px;">
                                         <button class="button-search primary-btn ld-ext-right" type="button" id="airline_button_search" onclick="get_captcha('recaptcha_airline','airline');" value="Submit">

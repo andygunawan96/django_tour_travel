@@ -7284,6 +7284,7 @@ function get_voucher(){
 }
 
 function logout(){
+    document.cookie = 'airline_request=;expires=Thu, 01 Jan 1970';
     document.getElementById('form_logout').submit();
     //logout here
 }

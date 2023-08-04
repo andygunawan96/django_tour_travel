@@ -1835,7 +1835,18 @@ function get_carrier_code_list(type, val){
 //               }
            }
            if(type != 'groupbooking')
-            first_value_provider();
+                first_value_provider();
+           if(type != 'search' && type != 'groupbooking' && typeof(cookie_airline) !== 'undefined' && cookie_airline != null){
+                for(i in cookie_airline['carrier_codes']){
+                    if(document.getElementById('provider_box_'+cookie_airline['carrier_codes'][i])){
+                        document.getElementById('provider_box_'+cookie_airline['carrier_codes'][i]).checked = true;
+                        func_check_provider(cookie_airline['carrier_codes'][i]);
+                    }if(document.getElementById('provider_box_'+cookie_airline['carrier_codes'][i] + '_1')){
+                        document.getElementById('provider_box_'+cookie_airline['carrier_codes'][i] + '_1').checked = true;
+                        func_check_provider(cookie_airline['carrier_codes'][i] + '_1');
+                    }
+                }
+           }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error airline carrier code list');

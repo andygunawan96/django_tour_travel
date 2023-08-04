@@ -3412,9 +3412,11 @@
                     <input type="hidden" class="col-lg-12" id="promo_code_counter" name="promo_code_counter"/>
                     <script>
                         {% if use_osi_code_backend == True %}
-                            for(i in user_login['co_customer_parent_osi_codes']){
-                                add_promotion_code(i, user_login['co_customer_parent_osi_codes'][i]);
-                            }
+                            {% if 'co_customer_parent_osi_codes' in username %}
+                                {% for key, osi_code in username.co_customer_parent_osi_codes.items %}
+                                    add_promotion_code('{{key}}', '{{osi_code}}');
+                                {% endfor %}
+                            {% endif %}
                         {% else %}
                             {% for promo_code in promo_codes %}
                                 add_promotion_code('{{promo_code.carrier_code}}','{{promo_code.promo_code}}');

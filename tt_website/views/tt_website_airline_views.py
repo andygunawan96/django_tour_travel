@@ -383,7 +383,7 @@ def search(request):
                         'promo_code': request.POST.get('code_line'+str(i))
                     })
             use_osi_code_backend = True
-            if request.POST.get('checkbox_osi_code_backend_airline', 'on') == 'on':
+            if request.POST.get('checkbox_osi_code_backend_airline') == 'on' or request.META.get('HTTP_REFERER').split('/')[len(request.META.get('HTTP_REFERER').split('/'))-1] == 'search':
                 use_osi_code_backend = False
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
