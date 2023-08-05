@@ -3,6 +3,7 @@ from ..views import tt_website_mitra_keluarga_views as view
 
 
 urlpatterns.append(path('mitra_keluarga/confirm_order/<path:order_number>', view.confirm_order_booking, name="mitra_keluarga_confirm_order_booking"))
+urlpatterns.append(path('mitrakeluarga/booking/<path:order_number>', view.booking, name="mitra_keluarga_booking_from_url"))
 urlpatterns.append(path('mitra_keluarga/booking/<path:order_number>', view.booking, name="mitra_keluarga_booking"))
 urlpatterns.append(path('mitra_keluarga/passenger/<path:test_type>', view.passenger, name="mitra_keluarga_passenger"))
 urlpatterns.append(re_path('mitra_keluarga/confirm_order', view.confirm_order, name="mitra_keluarga_confirm_order_page"))
