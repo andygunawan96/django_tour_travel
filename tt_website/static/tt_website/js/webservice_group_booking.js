@@ -151,19 +151,19 @@ function group_booking_get_config(page=false){
                 if(page == 'home'){
                     text = '<div class="row">';
                     text += `
-                    <div class="col-lg-12" id="radio_group_booking" style="margin: 15px 15px 0px 15px;">`;
+                    <div class="col-lg-12" id="radio_group_booking">`;
                     for(i in msg.result.response.provider_type){
                         text += `
-                            <label class="radio-img">
-                                <input type="radio"`;
-                        if(msg.result.response.provider_type[i].code == 'airline')
-                            text+=` checked="checked"`;
-                        text+=` name="radio_group_booking_type" value="`+msg.result.response.provider_type[i].code+`">
-                                <img style="width:70px; height:70px; padding:0px;" src="/static/tt_website/images/icon/product/w-airline.png" alt="Airline Icon"/><br/>
-                                <div style="text-align:center;"><span style="font-size:13px; color:`+text_color+`;">`+msg.result.response.provider_type[i].name+`</span></div>
-                            </label>`;
+                        <label class="radio-img" style="vertical-align:top; margin-right: 10px;">
+                            <input type="radio"`;
+                            if(msg.result.response.provider_type[i].code == 'airline')
+                                text+=` checked="checked"`;
+                        text+=`name="radio_group_booking_type" value="`+msg.result.response.provider_type[i].code+`">
+                            <img style="width:auto; height:70px; border-radius:7px; padding:15px; background:white;" src="/static/tt_website/images/icon/product/c-airline.png" alt="Airline Icon">
+                            <div style="width:100px; text-align:center;"><span class="title_prd">`+msg.result.response.provider_type[i].name+`</span></div>
+                        </label>`;
                     }
-                    text += `</div></div><hr style="border-color": `+text_color+`/>`;
+                    text += `</div></div>`;
                     document.getElementById('groupbooking_searchForm').innerHTML += text;
                     show_form();
                 }

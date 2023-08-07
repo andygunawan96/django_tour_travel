@@ -19,6 +19,7 @@
     signature = `{{signature}}`;
     static_path_url_server = '{{static_path_url_server}}'
     name = '';
+    tab_color = '{{tab_color}}';
 </script>
 
 <style>
@@ -42,6 +43,18 @@
             padding-top:10px;
         }
     }
+    {% if template == 7 %}
+    .radio-img div{
+        background: white;
+        padding: 0px 10px;
+        margin-top: 5px;
+    }
+    {% endif %}
+
+    .radio-button-custom span{
+        color: black !important;
+    }
+
 </style>
 
 {% for rec in provider_types_sequence %}
@@ -57,6 +70,21 @@
 {% endif %}
 {% include 'tt_website/header.html' %}
 {% include 'tt_website/notification_box.html' %}
+
+{% if username.co_user_login != default_user %}
+<section class="section_bg" style="z-index:998; position:relative; border-top:1px solid #cdcdcd; background:white;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 pt-2 pb-2">
+                <span class="span_link" style="border-right:2px solid #cdcdcd; padding-right:5px; color:black;" onclick="location='{% url 'tt_website:issued_offline'%}'"><i class="fas fa-book-open"></i> {% trans 'Issued Offline' %}</span>
+                {% if "groupbooking" in provider and "ticketing_group_booking" in username.co_agent_frontend_security%}
+                <span class="span_link" style="padding-left:5px; color: black;" onclick="location='{% url 'tt_website:group_booking'%}'"><i class="fas fa-users"></i> {% trans 'Group Booking' %}</span>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endif%}
 
 {% if username.co_user_login != '' %}
 <input type="hidden" id="country_id"/>
@@ -117,7 +145,7 @@
 {% if username.co_user_login != '' %}
 {% for rec in provider_types_sequence %}
 {% if "ppob" in provider and "ticketing_ppob" in username.co_agent_frontend_security and rec.code == "ppob" %}
-<section class="pt-3 pb-3" style="background:#f7f7f7;">
+<section class="pt-3 pb-3">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
@@ -133,70 +161,70 @@
         </div>
     </div>
 </section>
-<section class="pt-3 pb-3">
+<section class="pt-3 pb-3" style="background:#f7f7f7; border-top:1px solid #cdcdcd; border-bottom:1px solid #cdcdcd;">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="title_cst">
-                    <img style="width:auto; height:70px; border:1px solid #cdcdcd; border-radius:7px; padding:15px;" src="/static/tt_website/images/icon/product/c-ppob.png" alt="PPOB Icon">
+                <h1 class="title_cst" style="color:black;">
+                    <img class="prd_img" src="/static/tt_website/images/icon/product/c-ppob.png" alt="PPOB Icon">
                     {% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}
                 </h1>
+                <div id="radio_bill_search" style="text-align:left;">
+
+                </div>
             </div>
         </div>
     </div>
 </section>
-<section class="pb-5">
+<section class="pt-4 pb-5">
     <div class="container">
         <div class="row">
             <div id="overlay-search-box" onclick="off_overlay()"></div>
             <div class="col-lg-12" id="div-search-overlay">
                 {% if template == 1 %}
                 <div class="banner-right">
-                    <div class="tab-content" id="myTabContent" style="border:1px solid #cdcdcd; min-height:300px; background: {{tab_color}} !important; border-bottom-left-radius: 0px; border-bottom-right-radius: 0px;">
+                    <div class="tab-content" id="myTabContent" style="background: transparent;">
                         <div class="tab-pane fade show active" id="bills" role="tabpanel" aria-labelledby="bills-tab">
-                            <form action="" method="POST" class="form-wrap" id="bill_searchForm">
+                            <form action="" method="POST" class="form-wrap" id="bill_searchForm" style="padding:30px 0px;">
                                 {% csrf_token %}
                                 <div class="row">
-                                    <div class="col-lg-12" id="radio_bill_search" style="text-align:left;margin-bottom:10px;">
+                                    <div class="col-lg-4" id="radio_bill_search2" style="text-align:left; margin-bottom:30px; max-height:400px; overflow:auto;" onchange="set_container_bill();">
 
                                     </div>
-                                    <div class="col-lg-12" id="radio_bill_search2" style="text-align:left; margin-bottom:10px;" onchange="set_container_bill();">
 
-                                    </div>
-                                    {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
-                                    <div class="col-lg-12">
-                                        <div class="row" id="bill_div">
+                                    <div class="col-lg-8">
+                                        <div style="padding:30px; border:1px solid #cdcdcd; background: {{tab_color}} !important; border-bottom-left-radius: 0px; border-bottom-right-radius: 0px;">
+                                            <div class="row" id="bill_div" >
 
-                                        </div>
-                                    </div>
-                                    {% else %}
-                                    <div class="col-lg-12">
-                                        <div class="row" id="bill_div">
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div class="row">
+                                                        {% if 'b2c_limitation' in username.co_agent_frontend_security %}
+                                                        <div class="col-lg-12 mb-2" style="text-align:left;"><h4 style="color:{{text_color}};">3. Checkout!</h4></div>
+                                                        <div class="col-lg-12">
+                                                            <span class="span-search-ticket"><i class="fas fa-mail"></i> Email Address</span>
+                                                            <div class="input-container-search-ticket">
+                                                                <input type="text" class="form-control" name="customer_email" id="customer_email" placeholder="The email address where we will send your payment information" autocomplete="off"/>
+                                                            </div>
+                                                        </div>
+                                                        {% endif %}
 
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12" style="margin-bottom:15px;">
-                                        <div class="row">
-                                            <div class="col-lg-12">
-                                                <span class="span-search-ticket"><i class="fas fa-mail"></i> Email Address</span>
-                                                <div class="input-container-search-ticket">
-                                                    <input type="text" class="form-control" name="customer_email" id="customer_email" placeholder="The email address where we will send your payment information" autocomplete="off"/>
+                                                        {% if 'book_reservation' in username.co_agent_frontend_security or 'issued_reservation' in username.co_agent_frontend_security %}
+                                                        <div class="col-lg-12" style="text-align:center;">
+                                                            <button class="button-search primary-btn ld-ext-right btn-next" type="button" onclick="signin_ppob('');" value="Submit">
+                                                                <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                                                {% trans 'Search' %}
+                                                                <div class="ld ld-ring ld-cycle"></div>
+                                                            </button>
+                                                        </div>
+                                                        {% endif %}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    {% endif %}
                                 </div>
-
-                                <center>
-                                    {% if 'book_reservation' in username.co_agent_frontend_security or 'issued_reservation' in username.co_agent_frontend_security %}
-                                    <button class="button-search primary-btn ld-ext-right btn-next" type="button" onclick="signin_ppob('');" value="Submit">
-                                        <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                                        {% trans 'Search' %}
-                                        <div class="ld ld-ring ld-cycle"></div>
-                                    </button>
-                                    {% endif %}
-                                </center>
                             </form>
                         </div>
                     </div>
@@ -204,51 +232,48 @@
                 {% elif template == 2 %}
                 <div class="hotel-search-form-area" style="position:relative; bottom:unset; padding-left: unset; padding-right:unset;">
                     <div class="hotel-search-form">
-                        <div class="tab_body" style="min-height:300px; border:2px solid #cdcdcd;">
+                        <div class="tab_body" style="min-height:300px; background: transparent; border: unset;">
                             <div id="tab-bills" class="tab-content current">
                                 <form action="" class="form-wrap" id="bill_searchForm" method="post">
                                     {% csrf_token %}
                                     <div class="row">
-                                        <div class="col-lg-12" id="radio_bill_search" style="text-align:left;margin-bottom:10px;">
+                                        <div class="col-lg-4" id="radio_bill_search2" style="text-align:left; margin-bottom:30px; max-height:400px; overflow:auto;" onchange="set_container_bill();">
 
                                         </div>
-                                        <div class="col-lg-12" id="radio_bill_search2" style="text-align:left;margin-bottom:10px;" onchange="set_container_bill();">
 
-                                        </div>
-                                        {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
-                                        <div class="col-lg-12" style="margin-bottom:15px;">
-                                            <div class="row" id="bill_div">
+                                        <div class="col-lg-8">
+                                            <div style="padding:30px; border:1px solid #cdcdcd; background: {{tab_color}} !important; border-bottom-left-radius: 0px; border-bottom-right-radius: 0px;">
+                                                <div class="row" id="bill_div" >
 
-                                            </div>
-                                        </div>
-                                        {% else %}
-                                        <div class="col-lg-12">
-                                            <div class="row" id="bill_div">
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <div class="row">
+                                                            {% if 'b2c_limitation' in username.co_agent_frontend_security %}
+                                                            <div class="col-lg-12 mb-2" style="text-align:left;"><h4 style="color:{{text_color}};">3. Checkout!</h4></div>
+                                                            <div class="col-lg-12">
+                                                                <span class="span-search-ticket"><i class="fas fa-mail"></i> Email Address</span>
+                                                                <div class="input-container-search-ticket">
+                                                                    <input type="text" class="form-control" name="customer_email" id="customer_email" placeholder="The email address where we will send your payment information" autocomplete="off"/>
+                                                                </div>
+                                                            </div>
+                                                            {% endif %}
 
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-12" style="margin-bottom:15px;">
-                                            <div class="row">
-                                                <div class="col-lg-12">
-                                                    <span class="span-search-ticket"><i class="fas fa-mail"></i> Email Address</span>
-                                                    <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control" name="customer_email" id="customer_email" placeholder="The email address where we will send your payment information" autocomplete="off"/>
+                                                            {% if 'book_reservation' in username.co_agent_frontend_security or 'issued_reservation' in username.co_agent_frontend_security %}
+                                                            <div class="col-lg-12" style="text-align:center;">
+                                                                <button class="button-search primary-btn ld-ext-right btn-next" type="button" onclick="signin_ppob('');" value="Submit">
+                                                                    <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                                                    {% trans 'Search' %}
+                                                                    <div class="ld ld-ring ld-cycle"></div>
+                                                                </button>
+                                                            </div>
+                                                            {% endif %}
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        {% endif %}
                                     </div>
-                                    <br/>
-                                    <center>
-                                        {% if 'book_reservation' in username.co_agent_frontend_security or 'issued_reservation' in username.co_agent_frontend_security %}
-                                        <button class="button-search primary-btn ld-ext-right btn-next" type="button" onclick="signin_ppob('');" value="Submit">
-                                            <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                                            {% trans 'Search' %}
-                                            <div class="ld ld-ring ld-cycle"></div>
-                                        </button>
-                                        {% endif %}
-                                    </center>
                                 </form>
                             </div>
                         </div>
@@ -256,114 +281,103 @@
                 </div>
                 {% elif template == 3 %}
                 <div class="row fullscreen d-flex" id="div-search-overlay" style="position:relative; padding:15px;">
-                    <div class="banner-content col-xl-3 col-lg-3 col-md-3" style="background: {{tab_color}}; border: 1px solid #cdcdcd;">
-                        <div class="pt-30">
-                            <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/product/w-ppob.png" alt="PPOB Icon"/></i>
+                    <div class="banner-content col-xl-4 col-lg-4">
+                        <div class="row">
+                            <div class="col-lg-12" id="radio_bill_search2" style="text-align:left; margin-bottom:30px; max-height:400px; overflow:auto;" onchange="set_container_bill();">
+
+                            </div>
                         </div>
-                        <h5 class="pt-30 pb-30" style="color:{{text_color}};">
-                            {% trans 'Pay Your Bills' %}
-                        </h5>
                     </div>
-                    <div class="col-xl-9 col-lg-9 col-md-9 header-right" style="min-height:300px; padding-left:0px;">
+                    <div class="col-xl-8 col-lg-8 header-right" style="min-height:300px; padding-left:0px;">
                         <div id="tab-ppob" class="tab-content current">
                             <form action="" class="form-wrap" id="bill_searchForm" method="post">
                                 {% csrf_token %}
                                 <div class="row">
-                                    <div class="col-lg-12" id="radio_bill_search" style="text-align:left;margin-bottom:10px;">
-
-                                    </div>
-                                    <div class="col-lg-12" id="radio_bill_search2" style="text-align:left;margin-bottom:10px;" onchange="set_container_bill();">
-
-                                    </div>
-                                    {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
-                                    <div class="col-lg-12" style="margin-bottom:15px;">
-                                        <div class="row" id="bill_div">
-
-                                        </div>
-                                    </div>
-                                    {% else %}
                                     <div class="col-lg-12">
-                                        <div class="row" id="bill_div">
+                                        <div style="padding:20px 5px 20px 5px; border-bottom-left-radius: 0px; border-bottom-right-radius: 0px;">
+                                            <div class="row" id="bill_div" >
 
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12" style="margin-bottom:15px;">
-                                        <div class="row">
-                                            <div class="col-lg-12">
-                                                <span class="span-search-ticket"><i class="fas fa-mail"></i> Email Address</span>
-                                                <div class="input-container-search-ticket">
-                                                    <input type="text" class="form-control" name="customer_email" id="customer_email" placeholder="The email address where we will send your payment information" autocomplete="off"/>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div class="row">
+                                                        {% if 'b2c_limitation' in username.co_agent_frontend_security %}
+                                                        <div class="col-lg-12 mb-2" style="text-align:left;"><h4 style="color:{{text_color}};">3. Checkout!</h4></div>
+                                                        <div class="col-lg-12">
+                                                            <span class="span-search-ticket"><i class="fas fa-mail"></i> Email Address</span>
+                                                            <div class="input-container-search-ticket">
+                                                                <input type="text" class="form-control" name="customer_email" id="customer_email" placeholder="The email address where we will send your payment information" autocomplete="off"/>
+                                                            </div>
+                                                        </div>
+                                                        {% endif %}
+
+                                                        {% if 'book_reservation' in username.co_agent_frontend_security or 'issued_reservation' in username.co_agent_frontend_security %}
+                                                        <div class="col-lg-12" style="text-align:center;">
+                                                            <button class="button-search primary-btn ld-ext-right btn-next" type="button" onclick="signin_ppob('');" value="Submit">
+                                                                <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                                                {% trans 'Search' %}
+                                                                <div class="ld ld-ring ld-cycle"></div>
+                                                            </button>
+                                                        </div>
+                                                        {% endif %}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    {% endif %}
                                 </div>
-                                <br/>
-                                <center>
-                                    {% if 'book_reservation' in username.co_agent_frontend_security or 'issued_reservation' in username.co_agent_frontend_security %}
-                                    <button class="button-search primary-btn ld-ext-right btn-next" type="button" onclick="signin_ppob('');" value="Submit">
-                                        <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                                        {% trans 'Search' %}
-                                        <div class="ld ld-ring ld-cycle"></div>
-                                    </button>
-                                    {% endif %}
-                                </center>
                             </form>
                         </div>
                     </div>
                 </div>
                 {% elif template == 4 %}
-                <div style="min-height:300px; position:relative; background:{{tab_color}}; border:1px solid #cdcdcd; z-index:2;">
+                <div style="min-height:300px; position:relative; z-index:2;">
                     <div class="container">
                         <div class="row justify-content-center">
                             <div class="col-xl-12">
                                 <div class="row">
-                                    <div class="col-xl-12" style="text-align:left;">
+                                    <div class="col-xl-12" style="text-align:left; padding:0px;">
                                         <div class="form-search-wrap">
                                             <form action="" class="form-wrap" id="bill_searchForm" method="post">
-                                        {% csrf_token %}
-                                        <div class="row">
-                                            <div class="col-lg-12" id="radio_bill_search" style="text-align:left;margin-bottom:10px;">
-
-                                            </div>
-                                            <div class="col-lg-12" id="radio_bill_search2" style="text-align:left;margin-bottom:10px;" onchange="set_container_bill();">
-
-                                            </div>
-                                            {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
-                                            <div class="col-lg-12" style="margin-bottom:15px;">
-                                                <div class="row" id="bill_div">
-
-                                                </div>
-                                            </div>
-                                            {% else %}
-                                            <div class="col-lg-12">
-                                                <div class="row" id="bill_div">
-
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-12" style="margin-bottom:15px;">
+                                                {% csrf_token %}
                                                 <div class="row">
-                                                    <div class="col-lg-12">
-                                                        <span class="span-search-ticket"><i class="fas fa-mail"></i> Email Address</span>
-                                                        <div class="input-container-search-ticket">
-                                                            <input type="text" class="form-control" name="customer_email" id="customer_email" placeholder="The email address where we will send your payment information" autocomplete="off"/>
+                                                    <div class="col-lg-4" id="radio_bill_search2" style="text-align:left; margin-bottom:30px; max-height:400px; overflow:auto;" onchange="set_container_bill();">
+
+                                                    </div>
+                                                    <div class="col-lg-8">
+                                                        <div style="padding:30px; border:1px solid #cdcdcd; background: {{tab_color}} !important; border-bottom-left-radius: 0px; border-bottom-right-radius: 0px;">
+                                                            <div class="row" id="bill_div">
+
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-lg-12">
+                                                                    <div class="row">
+                                                                        {% if 'b2c_limitation' in username.co_agent_frontend_security %}
+                                                                        <div class="col-lg-12 mb-2" style="text-align:left;"><h4 style="color:{{text_color}};">3. Checkout!</h4></div>
+                                                                        <div class="col-lg-12">
+                                                                            <span class="span-search-ticket"><i class="fas fa-mail"></i> Email Address</span>
+                                                                            <div class="input-container-search-ticket">
+                                                                                <input type="text" class="form-control" name="customer_email" id="customer_email" placeholder="The email address where we will send your payment information" autocomplete="off"/>
+                                                                            </div>
+                                                                        </div>
+                                                                        {% endif %}
+
+                                                                        {% if 'book_reservation' in username.co_agent_frontend_security or 'issued_reservation' in username.co_agent_frontend_security %}
+                                                                        <div class="col-lg-12" style="text-align:center;">
+                                                                            <button class="button-search primary-btn ld-ext-right btn-next" type="button" onclick="signin_ppob('');" value="Submit">
+                                                                                <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                                                                {% trans 'Search' %}
+                                                                                <div class="ld ld-ring ld-cycle"></div>
+                                                                            </button>
+                                                                        </div>
+                                                                        {% endif %}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            {% endif %}
-                                        </div>
-                                        <center>
-                                            {% if 'book_reservation' in username.co_agent_frontend_security or 'issued_reservation' in username.co_agent_frontend_security %}
-                                            <button class="button-search primary-btn ld-ext-right btn-next" type="button" onclick="signin_ppob('');" value="Submit">
-                                                <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                                                {% trans 'Search' %}
-                                                <div class="ld ld-ring ld-cycle"></div>
-                                            </button>
-                                            {% endif %}
-                                        </center>
-                                    </form>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
@@ -374,53 +388,49 @@
                 {% elif template == 5 %}
                 <div class="row">
                     <div class="banner-content col-xl-12">
-                        <div class="search-field" style="min-height:300px; padding:20px; border:1px solid #cdcdcd">
+                        <div class="search-field" style="min-height:300px; padding:0px; background:unset;">
                             <div class="row">
                                 <div class="col-xl-12" style="text-align:left;">
                                     <div id="tab-ppob" class="tab-content current">
                                         <form action="" class="form-wrap" id="bill_searchForm" method="post">
                                             {% csrf_token %}
                                             <div class="row">
-                                                <div class="col-lg-12" id="radio_bill_search" style="text-align:left;margin-bottom:10px;">
+                                                <div class="col-lg-4" id="radio_bill_search2" style="text-align:left; margin-bottom:30px; max-height:400px; overflow:auto;" onchange="set_container_bill();">
 
                                                 </div>
-                                                <div class="col-lg-12" id="radio_bill_search2" style="text-align:left;margin-bottom:10px;" onchange="set_container_bill();">
+                                                <div class="col-lg-8">
+                                                    <div style="padding:30px; border:1px solid #cdcdcd; background: {{tab_color}} !important; border-bottom-left-radius: 0px; border-bottom-right-radius: 0px;">
+                                                        <div class="row" id="bill_div">
 
-                                                </div>
-                                                {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
-                                                <div class="col-lg-12" style="margin-bottom:15px;">
-                                                    <div class="row" id="bill_div">
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-lg-12">
+                                                                <div class="row">
+                                                                    {% if 'b2c_limitation' in username.co_agent_frontend_security %}
+                                                                    <div class="col-lg-12 mb-2" style="text-align:left;"><h4 style="color:{{text_color}};">3. Checkout!</h4></div>
+                                                                    <div class="col-lg-12">
+                                                                        <span class="span-search-ticket"><i class="fas fa-mail"></i> Email Address</span>
+                                                                        <div class="input-container-search-ticket">
+                                                                            <input type="text" class="form-control" name="customer_email" id="customer_email" placeholder="The email address where we will send your payment information" autocomplete="off"/>
+                                                                        </div>
+                                                                    </div>
+                                                                    {% endif %}
 
-                                                    </div>
-                                                </div>
-                                                {% else %}
-                                                <div class="col-lg-12">
-                                                    <div class="row" id="bill_div">
-
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-12" style="margin-bottom:15px;">
-                                                    <div class="row">
-                                                        <div class="col-lg-12">
-                                                            <span class="span-search-ticket"><i class="fas fa-mail"></i> Email Address</span>
-                                                            <div class="input-container-search-ticket">
-                                                                <input type="text" class="form-control" name="customer_email" id="customer_email" placeholder="The email address where we will send your payment information" autocomplete="off"/>
+                                                                    {% if 'book_reservation' in username.co_agent_frontend_security or 'issued_reservation' in username.co_agent_frontend_security %}
+                                                                    <div class="col-lg-12" style="text-align:center;">
+                                                                        <button class="button-search primary-btn ld-ext-right btn-next" type="button" onclick="signin_ppob('');" value="Submit">
+                                                                            <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                                                            {% trans 'Search' %}
+                                                                            <div class="ld ld-ring ld-cycle"></div>
+                                                                        </button>
+                                                                    </div>
+                                                                    {% endif %}
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                {% endif %}
                                             </div>
-                                            <br/>
-                                            <center>
-                                                {% if 'book_reservation' in username.co_agent_frontend_security or 'issued_reservation' in username.co_agent_frontend_security %}
-                                                <button class="button-search primary-btn ld-ext-right btn-next" type="button" onclick="signin_ppob('');" value="Submit">
-                                                    <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                                                    {% trans 'Search' %}
-                                                    <div class="ld ld-ring ld-cycle"></div>
-                                                </button>
-                                                {% endif %}
-                                            </center>
                                         </form>
                                     </div>
                                 </div>
@@ -439,48 +449,40 @@
                                         <form action="" method="POST" class="form-wrap" id="bill_searchForm" onsubmit="return search_train_validation()">
                                             {% csrf_token %}
                                             <div class="row">
-                                                <div class="col-lg-12" id="radio_bill_search" style="text-align:left;margin-bottom:10px;">
+                                                <div class="col-lg-12" id="radio_bill_search2" style="text-align:left; margin-bottom:30px; max-height:400px; overflow:auto;" onchange="set_container_bill();">
 
                                                 </div>
-                                                <div class="col-lg-12" id="radio_bill_search2" style="text-align:left;margin-bottom:10px;" onchange="set_container_bill();">
-
-                                                </div>
-                                                {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
-                                                <div class="col-lg-12" style="margin-bottom:15px;">
-                                                    <div class="row" id="bill_div">
-
-                                                    </div>
-                                                </div>
-                                                {% else %}
                                                 <div class="col-lg-12">
                                                     <div class="row" id="bill_div">
 
                                                     </div>
-                                                </div>
-                                                <div class="col-lg-12" style="margin-bottom:15px;">
                                                     <div class="row">
                                                         <div class="col-lg-12">
-                                                            <span class="span-search-ticket"><i class="fas fa-mail"></i> Email Address</span>
-                                                            <div class="input-container-search-ticket">
-                                                                <input type="text" class="form-control" name="customer_email" id="customer_email" placeholder="The email address where we will send your payment information" autocomplete="off"/>
+                                                            <div class="row">
+                                                                {% if 'b2c_limitation' in username.co_agent_frontend_security %}
+                                                                <div class="col-lg-12 mb-2" style="text-align:left;"><h4 style="color:{{text_color}};">3. Checkout!</h4></div>
+                                                                <div class="col-lg-12">
+                                                                    <span class="span-search-ticket"><i class="fas fa-mail"></i> Email Address</span>
+                                                                    <div class="input-container-search-ticket">
+                                                                        <input type="text" class="form-control" name="customer_email" id="customer_email" placeholder="The email address where we will send your payment information" autocomplete="off"/>
+                                                                    </div>
+                                                                </div>
+                                                                {% endif %}
+
+                                                                {% if 'book_reservation' in username.co_agent_frontend_security or 'issued_reservation' in username.co_agent_frontend_security %}
+                                                                <div class="col-lg-12" style="text-align:center;">
+                                                                    <button class="button-search primary-btn ld-ext-right btn-next" type="button" onclick="signin_ppob('');" value="Submit">
+                                                                        <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                                                        {% trans 'Search' %}
+                                                                        <div class="ld ld-ring ld-cycle"></div>
+                                                                    </button>
+                                                                </div>
+                                                                {% endif %}
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                {% endif %}
                                             </div>
-
-                                            {% if 'book_reservation' in username.co_agent_frontend_security or 'issued_reservation' in username.co_agent_frontend_security %}
-                                            <div class="row">
-                                                <div class="col-lg-12" style="text-align:center;">
-                                                    <button class="button-search primary-btn ld-ext-right btn-next" type="button" onclick="signin_ppob('');" value="Submit">
-                                                        <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                                                        {% trans 'Search' %}
-                                                        <div class="ld ld-ring ld-cycle"></div>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            {% endif %}
                                         </form>
                                     </div>
                                 </div>
@@ -491,48 +493,31 @@
                 </div>
                 {% elif template == 7 %}
                 <div class="row" style="padding:0px 15px;">
-                    <div class="col-lg-3" style="min-height:75px; background: linear-gradient(0deg, rgba(63, 63, 63, 0.4), rgba(63, 63, 63, 0.4)), url('{{static_path}}images/background/search_box/sb_bg_ppob.jpg'); background-position: center !important; background-size: cover !important; background-repeat: no-repeat !important;">
+                    <div class="col-lg-4" id="radio_bill_search2" style="padding:30px; min-height:75px; background: linear-gradient(0deg, rgba(63, 63, 63, 0.4), rgba(63, 63, 63, 0.4)), url('{{static_path}}images/background/search_box/sb_bg_ppob.jpg'); background-position: center !important; background-size: cover !important; background-repeat: no-repeat !important;" onchange="set_container_bill();">
 
                     </div>
-                    <div class="col-lg-9">
+                    <div class="col-lg-8" style="border:1px solid #cdcdcd; min-height:300px; background:{{tab_color}};">
                         <div class="row">
-                            <div class="col-lg-12" style="border:1px solid #cdcdcd; min-height:300px; background:{{tab_color}};">
+                            <div class="col-lg-12">
                                 <form action="" method="POST" class="search-box" id="bill_searchForm" onsubmit="return search_train_validation()">
-                                            {% csrf_token %}
+                                    {% csrf_token %}
+                                    <div class="row" id="bill_div" >
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-12">
                                             <div class="row">
-                                                <div class="col-lg-12" id="radio_bill_search" style="text-align:left;margin-bottom:10px;">
-
-                                                </div>
-                                                <div class="col-lg-12" id="radio_bill_search2" style="text-align:left;margin-bottom:10px;" onchange="set_container_bill();">
-
-                                                </div>
-                                                {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
-                                                <div class="col-lg-12" style="margin-bottom:15px;">
-                                                    <div class="row" id="bill_div">
-
-                                                    </div>
-                                                </div>
-                                                {% else %}
+                                                {% if 'b2c_limitation' in username.co_agent_frontend_security %}
+                                                <div class="col-lg-12 mb-2" style="text-align:left;"><h4 style="color:{{text_color}};">3. Checkout!</h4></div>
                                                 <div class="col-lg-12">
-                                                    <div class="row" id="bill_div">
-
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-12" style="margin-bottom:15px;">
-                                                    <div class="row">
-                                                        <div class="col-lg-12">
-                                                            <span class="span-search-ticket"><i class="fas fa-mail"></i> Email Address</span>
-                                                            <div class="input-container-search-ticket">
-                                                                <input type="text" class="form-control" name="customer_email" id="customer_email" placeholder="The email address where we will send your payment information" autocomplete="off"/>
-                                                            </div>
-                                                        </div>
+                                                    <span class="span-search-ticket"><i class="fas fa-mail"></i> Email Address</span>
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" class="form-control" name="customer_email" id="customer_email" placeholder="The email address where we will send your payment information" autocomplete="off"/>
                                                     </div>
                                                 </div>
                                                 {% endif %}
-                                            </div>
 
-                                            {% if 'book_reservation' in username.co_agent_frontend_security or 'issued_reservation' in username.co_agent_frontend_security %}
-                                            <div class="row">
+                                                {% if 'book_reservation' in username.co_agent_frontend_security or 'issued_reservation' in username.co_agent_frontend_security %}
                                                 <div class="col-lg-12" style="text-align:center;">
                                                     <button class="button-search primary-btn ld-ext-right btn-next" type="button" onclick="signin_ppob('');" value="Submit">
                                                         <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
@@ -540,9 +525,11 @@
                                                         <div class="ld ld-ring ld-cycle"></div>
                                                     </button>
                                                 </div>
+                                                {% endif %}
                                             </div>
-                                            {% endif %}
-                                        </form>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -770,4 +757,4 @@
     ///get_banner('promotion','ppob');
 </script>
 
-    {% endblock %}
+{% endblock %}
