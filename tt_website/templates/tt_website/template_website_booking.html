@@ -946,8 +946,16 @@ Licence URI: http://www.os-templates.com/template-terms
         .center-div-t div{
             background-color: {{color}};
         }
-        .radio-img  > input:checked + img{
-          border:3px solid {{color}};
+        .radio-img > input:checked + img{
+          border:2px solid {{color}};
+        }
+
+        .radio-img > input:checked ~ div{
+          color: {{text_color}};
+          background: {{color}};
+        }
+        .radio-button-custom .title_prd{
+            color: {{text_color}};
         }
         .tags_btn{
             color: {{color}};
@@ -1142,6 +1150,10 @@ Licence URI: http://www.os-templates.com/template-terms
 
         .radio-label > input:checked + .div_radio_img_txt{
             background: {{color}};
+        }
+
+        .title_cst{
+            color: {{text_color}};
         }
     </style>
 

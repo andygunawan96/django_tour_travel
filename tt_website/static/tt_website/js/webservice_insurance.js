@@ -4088,6 +4088,13 @@ function onchange_provider_insurance(){
     text = '';
     //add template
     if(insurance_provider == 'bcainsurance'){
+        text+=`
+        <div class="col-lg-12 mt-3" style="text-align:left;">
+            <h3 class="title_cst mb-4">
+                <img src="/static/tt_website/images/logo/insurance/bca_insurance.png" alt="BCA Insurance" style="width:auto; height:45px; border-radius:7px; padding:0px; background:white;">
+                BCA Insurance
+            </h3>
+        </div>`;
         if(template == 4){
         text +=`
             <div class="col-lg-12" id="radio_insurance_search" style="text-align:left;margin-bottom:10px;">
@@ -4293,6 +4300,13 @@ function onchange_provider_insurance(){
     }
     else if(insurance_provider == 'zurich'){
         //zurich
+        text+=`
+        <div class="col-lg-12 mt-3" style="text-align:left;">
+            <h3 class="title_cst mb-4">
+                <img src="/static/tt_website/images/logo/insurance/zurich.png" alt="Zurich" style="width:auto; height:45px; border-radius:7px; padding:0px; background:white;">
+                Zurich
+            </h3>
+        </div>`;
         if(template == 4){
         text +=`
             <div class="col-lg-12" id="radio_insurance_search" style="text-align:left;margin-bottom:10px;">

@@ -1,4 +1,8 @@
 /*element*/
+body {
+    font-size: 13px;
+}
+
 header{
     z-index: 1001 !important
 }
@@ -675,10 +679,8 @@ ul.popular2_tabs li.current .image-rounded-icon{
 
 .radio-img {
     margin-right:5px;
-    margin-bottom:15px;
     cursor:pointer;
     text-align:center;
-    min-height:60px;
 }
 
 .radio-img  > input {
@@ -688,21 +690,33 @@ ul.popular2_tabs li.current .image-rounded-icon{
 .radio-img  > img{
   cursor:pointer;
   padding:10px;
-  border:3px solid #cdcdcd;
+  border:2px solid #cdcdcd;
+}
+.radio-img > div{
+    color: black;
+    background: white;
+    border:1px solid #cdcdcd;
+    padding: 5px 10px;
+    margin-top: 5px;
 }
 
-.radio-img  > input:checked + img{
-  border:3px solid orange;
+.radio-img > input:checked + img{
+  border:2px solid orange;
+}
+.radio-img > input:checked ~ div{
+  color: white !important;
+  background: #205B95 !important;
 }
 
 .radio-img .title_prd{
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 700;
-    color: #202020;
     text-transform: uppercase;
     word-spacing: 0px;
     letter-spacing: 1px;
+    padding-left:5px;
 }
+
 
 .btn-del-room {
     margin: -10px;
@@ -1486,12 +1500,13 @@ ul.popular2_tabs li.current .image-rounded-icon{
 .radio-label  > .div_label{
     cursor:pointer;
     padding:10px;
-    min-height:90px;
+    min-height:80px;
     display: flex;
     justify-content: center;
     align-items: center;
     text-align:center;
     border:2px solid #cdcdcd;
+    font-size:13px;
     background:white;
 }
 .radio-label > input:checked + .div_label{
