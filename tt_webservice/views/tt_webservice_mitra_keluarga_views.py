@@ -512,7 +512,7 @@ def cancel(request):
         data = {
             'order_number': request.POST['order_number'],
         }
-        additional_url = 'booking/mitra_keluarga'
+        additional_url = 'booking/mitrakeluarga'
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",

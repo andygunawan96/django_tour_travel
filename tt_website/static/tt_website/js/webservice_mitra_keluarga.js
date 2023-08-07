@@ -735,7 +735,7 @@ function mitra_keluarga_commit_booking(val){
 
                       }else{
                         document.getElementById('mitra_keluarga_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
-                        document.getElementById('mitra_keluarga_booking').action = '/mitra_keluarga/booking/' + btoa(msg.result.response.order_number);
+                        document.getElementById('mitra_keluarga_booking').action = '/mitrakeluarga/booking/' + btoa(msg.result.response.order_number);
                         document.getElementById('mitra_keluarga_booking').submit();
                       }
                     })
@@ -755,7 +755,7 @@ function mitra_keluarga_commit_booking(val){
 //                       document.getElementById('medical_booking').submit();
                }else{
                     document.getElementById('mitra_keluarga_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
-                    document.getElementById('mitra_keluarga_booking').action = '/mitra_keluarga/booking/' + btoa(msg.result.response.order_number);
+                    document.getElementById('mitra_keluarga_booking').action = '/mitrakeluarga/booking/' + btoa(msg.result.response.order_number);
                     document.getElementById('mitra_keluarga_booking').submit();
                }
             }else if(msg.result.error_code == 1011 || msg.result.error_code == 4014){
@@ -789,7 +789,7 @@ function mitra_keluarga_commit_booking(val){
 
                       }else{
                         document.getElementById('mitra_keluarga_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
-                        document.getElementById('mitra_keluarga_booking').action = '/mitra_keluarga/booking/' + btoa(msg.result.response.order_number);
+                        document.getElementById('mitra_keluarga_booking').action = '/mitrakeluarga/booking/' + btoa(msg.result.response.order_number);
                         document.getElementById('mitra_keluarga_booking').submit();
                       }
                    })
@@ -801,11 +801,11 @@ function mitra_keluarga_commit_booking(val){
 //                        if (result.value) {
 //                            if(val == 0){
 //                                document.getElementById('mitra_keluarga_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
-//                                document.getElementById('mitra_keluarga_booking').action = '/mitra_keluarga/booking/' + btoa(msg.result.response.order_number);
+//                                document.getElementById('mitra_keluarga_booking').action = '/mitrakeluarga/booking/' + btoa(msg.result.response.order_number);
 //                                document.getElementById('mitra_keluarga_booking').submit();
 //                            }else if(val == 1){
 //                                document.getElementById('order_number').value = msg.result.response.order_number;
-//                                document.getElementById('issued').action = '/mitra_keluarga/booking/' + btoa(msg.result.response.order_number);
+//                                document.getElementById('issued').action = '/mitrakeluarga/booking/' + btoa(msg.result.response.order_number);
 //                                document.getElementById('issued').submit();
 //                            }
 //                        }
@@ -873,7 +873,7 @@ function mitra_keluarga_get_booking(order_number, sync=false){
                 //======================= Resv =========================
                 if(msg.result.error_code == 0){
                     if(window.location.pathname.includes('confirm_order') && user_login.co_agent_frontend_security.includes('confirm_order_mitra_keluarga') == false){
-                        window.location.href = '/mitra_keluarga/confirm_order/';
+                        window.location.href = '/mitrakeluarga/confirm_order/';
                         Swal.fire({
                           type: 'error',
                           title: 'Oops!',
@@ -1871,7 +1871,7 @@ function mitra_keluarga_cancel_booking(data){
                document.getElementById('cancel_reservation').innerHTML = '';
                if(msg.result.error_code == 0){
                    if(document.URL.split('/')[document.URL.split('/').length-1] == 'payment'){
-                        window.location.href = '/mitra_keluarga/booking/' + btoa(data);
+                        window.location.href = '/mitrakeluarga/booking/' + btoa(data);
                    }else{
 //                       //update ticket
                         document.getElementById('show_loading_booking_mitra_keluarga').hidden = false;
@@ -2001,7 +2001,7 @@ function mitra_keluarga_issued_booking(data){
                        console.log(err); // error kalau ada element yg tidak ada
                    }
                    if(document.URL.split('/')[document.URL.split('/').length-1] == 'payment'){
-                        window.location.href = '/mitra_keluarga/booking/' + btoa(data);
+                        window.location.href = '/mitrakeluarga/booking/' + btoa(data);
                    }else{
 //                       //update ticket
                         document.getElementById('show_loading_booking_mitra_keluarga').hidden = false;
@@ -2570,7 +2570,7 @@ function mitra_keluarga_reorder(){
         }
     }
     if(checked){
-        var path = '/mitra_keluarga/passenger/' + document.getElementById('test_type').value;
+        var path = '/mitrakeluarga/passenger/' + document.getElementById('test_type').value;
         document.getElementById('data').value = JSON.stringify(passenger_list_copy);
         var data_temp = {
             "address": medical_get_detail.result.response.test_address,
