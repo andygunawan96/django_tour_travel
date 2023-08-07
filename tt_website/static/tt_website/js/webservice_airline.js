@@ -2475,7 +2475,7 @@ function airline_get_provider_list(type, data=''){
                     for(i=1;i<=child;i++){
                         for(j=1;j<=ff_request.length;j++){
                             try{
-//                                ff_required = false;
+                               ff_required = false;
 //                                for(k in ff_request[j-1].carrier_codes){
 //                                    if(airline_carriers[ff_request[j-1].carrier_codes[k]].hasOwnProperty('required_frequent_flyer') && airline_carriers[ff_request[j-1].carrier_codes[k]].required_frequent_flyer){
 //                                        ff_required = airline_carriers[ff_request[j-1].carrier_codes[k]].required_frequent_flyer;
