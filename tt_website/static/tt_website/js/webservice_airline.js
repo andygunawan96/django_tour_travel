@@ -7890,7 +7890,7 @@ function airline_get_booking(data, sync=false){
                                         cabin_class = 'Business Class';
                                     else if(msg.result.response.provider_bookings[i].journeys[j].segments[k].cabin_class == 'F')
                                         cabin_class = 'First Class';
-
+                                    text += `<br/><span>`+msg.result.response.provider_bookings[i].journeys[j].segments[k].fare_basis_code+`</span>`;
                                     text+=`
                                     <div class="row">
                                         <div class="col-lg-4">`;
