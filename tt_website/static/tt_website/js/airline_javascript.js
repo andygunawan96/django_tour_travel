@@ -3038,7 +3038,7 @@ function sort(){
 
                                                                                    temp_seat_name += ' - SOLD OUT';
                                                                                    text+=`</span> / <span style="font-size:14px;">seat left: `+airline[i].segments[j].fares[k].available_count+`</span>
-                                                                                       <input onclick="change_fare(`+i+`,`+j+`,`+k+`); change_seat_span(`+i+`, `+j+`, '`+temp_seat_name+`')" id="journey`+i+`segment`+j+`fare" name="journey`+i+`segment`+j+`fare" type="radio" value="`+k+`" disabled>
+                                                                                       <input onclick="change_fare(`+i+`,`+j+`,`+k+`,'`+airline[i].segments[j].fares[k].fare_code+`'); change_seat_span(`+i+`, `+j+`, '`+temp_seat_name+`')" id="journey`+i+`segment`+j+`fare" name="journey`+i+`segment`+j+`fare" type="radio" value="`+airline[i].segments[j].fares[k].fare_code+`" disabled>
                                                                                        <span class="checkmark-radio"></span>
                                                                                    </label>`;
                                                                                 }
@@ -3076,7 +3076,7 @@ function sort(){
                                                                                              temp_seat_name += ' - '+airline[i].currency + ' ' + getrupiah(total_price);
                                                                                         }
                                                                                         text+=`</span> / <span style="font-size:14px;">seat left: `+airline[i].segments[j].fares[k].available_count+`</span>
-                                                                                        <input onclick="change_fare(`+i+`,`+j+`,`+k+`); change_seat_span(`+i+`, `+j+`, '`+temp_seat_name+`');" id="journey`+i+`segment`+j+`fare" name="journey`+i+`segment`+j+`fare" type="radio" value="`+k+`"`;
+                                                                                        <input onclick="change_fare(`+i+`,`+j+`,`+k+`,'`+airline[i].segments[j].fares[k].fare_code+`'); change_seat_span(`+i+`, `+j+`, '`+temp_seat_name+`');" id="journey`+i+`segment`+j+`fare" name="journey`+i+`segment`+j+`fare" type="radio" value="`+airline[i].segments[j].fares[k].fare_code+`"`;
                                                                                         if(fare_check == 0){
                                                                                              text+=` checked="checked"`;
                                                                                              airline[i].segments[j].fare_pick = parseInt(k);
@@ -3152,7 +3152,7 @@ function sort(){
                                                                                if(airline_request.adult + airline_request.child > airline[i].segments[j].fares[k].available_count)
                                                                                     text+= `<input onclick="" disabled id="journey`+i+`segment`+j+`fare" name="journey`+i+`segment`+j+`fare" type="radio" value="`+k+`"`;
                                                                                text+=`
-                                                                               <input onclick="change_fare(`+i+`,`+j+`,`+k+`); change_seat_span(`+i+`, `+j+`, '`+temp_seat_name+`');" id="journey`+i+`segment`+j+`fare" name="journey`+i+`segment`+j+`fare" type="radio" value="`+k+`"`;
+                                                                               <input onclick="change_fare(`+i+`,`+j+`,`+k+`,'`+airline[i].segments[j].fares[k].fare_code+`'); change_seat_span(`+i+`, `+j+`, '`+temp_seat_name+`');" id="journey`+i+`segment`+j+`fare" name="journey`+i+`segment`+j+`fare" type="radio" value="`+airline[i].segments[j].fares[k].fare_code+`"`;
                                                                                if(fare_check == 0 && airline[i].segments[j].fares[k].available_count > airline_request.adult + airline_request.child){
                                                                                     text+=` checked="checked"`;
                                                                                     airline[i].segments[j].fare_pick = parseInt(k);
@@ -3270,7 +3270,7 @@ function sort(){
         //                                                                       }
         //                                                                       temp_seat_name += ' - SOLD OUT';
         //                                                                       text+=`</span> / <span>`+airline[i].segments[j].fares[k].available_count+`
-        //                                                                           <input onclick="change_fare(`+i+`,`+j+`,`+k+`); change_seat_span(`+i+`, `+j+`, '`+temp_seat_name+`')" id="journey`+i+`segment`+j+`fare" name="journey`+i+`segment`+j+`fare" type="radio" value="`+k+`" disabled>
+        //                                                                           <input onclick="change_fare(`+i+`,`+j+`,`+k+`,'`+airline[i].segments[j].fares[k].fare_code+`'); change_seat_span(`+i+`, `+j+`, '`+temp_seat_name+`')" id="journey`+i+`segment`+j+`fare" name="journey`+i+`segment`+j+`fare" type="radio" value="`+k+`" disabled>
         //                                                                           <span class="checkmark-radio"></span>`;
         //
         //                                                                   }
@@ -3308,7 +3308,7 @@ function sort(){
         //                                                                                        temp_seat_name += ' - '+airline[i].currency + ' ' + getrupiah(total_price);
         //                                                                                   }
         //                                                                                   text+=`</span> / <span>`+airline[i].segments[j].fares[k].available_count+`
-        //                                                                                   <input onclick="change_fare(`+i+`,`+j+`,`+k+`); change_seat_span(`+i+`, `+j+`, '`+temp_seat_name+`');" id="journey`+i+`segment`+j+`fare" name="journey`+i+`segment`+j+`fare" type="radio" value="`+k+`" checked="checked">
+        //                                                                                   <input onclick="change_fare(`+i+`,`+j+`,`+k+`,'`+airline[i].segments[j].fares[k].fare_code+`'); change_seat_span(`+i+`, `+j+`, '`+temp_seat_name+`');" id="journey`+i+`segment`+j+`fare" name="journey`+i+`segment`+j+`fare" type="radio" value="`+k+`" checked="checked">
         //                                                                                   <span class="checkmark-radio"></span>`;
         //
         //                                                                               fare_check = 1;
@@ -3342,7 +3342,7 @@ function sort(){
         //                                                                                    temp_seat_name += ' - '+airline[i].currency + ' ' + getrupiah(total_price);
         //                                                                               }
         //                                                                               text+=`</span> / <span>`+airline[i].segments[j].fares[k].available_count+`
-        //                                                                               <input onclick="change_fare(`+i+`,`+j+`,`+k+`); change_seat_span(`+i+`, `+j+`, '`+temp_seat_name+`');" id="journey`+i+`segment`+j+`fare" name="journey`+i+`segment`+j+`fare" type="radio" value="`+k+`">
+        //                                                                               <input onclick="change_fare(`+i+`,`+j+`,`+k+`,'`+airline[i].segments[j].fares[k].fare_code+`'); change_seat_span(`+i+`, `+j+`, '`+temp_seat_name+`');" id="journey`+i+`segment`+j+`fare" name="journey`+i+`segment`+j+`fare" type="radio" value="`+k+`">
         //                                                                               <span class="checkmark-radio"></span>`;
         //                                                                       }
         //                                                                   }
