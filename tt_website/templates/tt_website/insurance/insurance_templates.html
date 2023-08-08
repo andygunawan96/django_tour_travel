@@ -67,6 +67,21 @@
 {% include 'tt_website/header.html' %}
 {% include 'tt_website/notification_box.html' %}
 
+{% if username.co_user_login != default_user %}
+<section class="section_bg" style="z-index:998; position:relative; border-top:1px solid #cdcdcd; background:white;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 pt-2 pb-2">
+                <span class="span_link" style="border-right:2px solid #cdcdcd; padding-right:5px; color:black;" onclick="location='{% url 'tt_website:issued_offline'%}'"><i class="fas fa-book-open"></i> {% trans 'Issued Offline' %}</span>
+                {% if "groupbooking" in provider and "ticketing_group_booking" in username.co_agent_frontend_security%}
+                <span class="span_link" style="padding-left:5px; color: black;" onclick="location='{% url 'tt_website:group_booking'%}'"><i class="fas fa-users"></i> {% trans 'Group Booking' %}</span>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endif%}
+
 {% if username.co_user_login != '' %}
 <input type="hidden" id="country_id"/>
 <input type="hidden" id="start"/>
@@ -97,7 +112,7 @@
 {% if username.co_user_login != '' %}
 {% for rec in provider_types_sequence %}
 {% if "insurance" in provider and "ticketing_insurance" in username.co_agent_frontend_security and rec.code == "insurance" %}
-<section class="pt-3 pb-3" style="background:#f7f7f7;">
+<section class="pt-3 pb-3">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
@@ -113,19 +128,19 @@
         </div>
     </div>
 </section>
-<section class="pt-3 pb-3">
+<section class="pt-3 pb-3" style="background:#f7f7f7; border-top:1px solid #cdcdcd; border-bottom:1px solid #cdcdcd;">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="title_cst">
-                    <img style="width:auto; height:70px; border:1px solid #cdcdcd; border-radius:7px; padding:15px;" src="/static/tt_website/images/icon/product/c-insurance.png" alt="Insurance Icon">
+                <h1>
+                    <img class="prd_img" src="/static/tt_website/images/icon/product/c-insurance.png" alt="Insurance Icon">
                     {% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}
                 </h1>
             </div>
         </div>
     </div>
 </section>
-<section class="pb-5">
+<section class="pt-4 pb-5">
     <div class="container">
         <div class="row">
             <div id="overlay-search-box" onclick="off_overlay()"></div>
@@ -461,9 +476,9 @@
 
         //add template
         if(template == 1 || template == 7){
-            text+=`<div class="col-lg-12" style="padding:30px 30px 0px 30px; text-align:left;" onchange="onchange_provider_insurance();">`;
+            text+=`<div class="col-lg-12" style="padding:30px; text-align:left;" onchange="onchange_provider_insurance();">`;
         }else{
-            text+=`<div class="col-lg-12" style="padding:0px 15px 0px 0px; text-align:left;" onchange="onchange_provider_insurance();">`;
+            text+=`<div class="col-lg-12" style="padding:0px 15px 15px 0px; text-align:left;" onchange="onchange_provider_insurance();">`;
         }
 
         is_checked = false;
@@ -472,8 +487,10 @@
             text+=`
             <label class="radio-img">
                 <input type="radio" name="insurance_provider" value="bcainsurance" checked="checked">
-                <img src="/static/tt_website/images/logo/insurance/bca_insurance.png" alt="BCA Insurance" style="width:70px; height:70px; padding:0px;"><br/>
-                <div style="text-align:center;"><span style="font-size:13px; color:{{text_color}};">BCA<br/>Insurance</span></div>
+                <div style="width:200px; max-width:200px; display:flex; text-align:left; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                    <img src="/static/tt_website/images/logo/insurance/bca_insurance.png" alt="BCA Insurance" style="width:auto; height:45px; border-radius:7px; padding:0px; background:white;">
+                    <span class="title_prd">BCA<br/>Insurance</span></span>
+                </div>
             </label>`;
             is_checked = true;
             is_insurance_need_to_print = true;
@@ -485,8 +502,10 @@
             if(is_checked == false)
                 text += `checked="checked"`;
             text+=`>
-                <img src="/static/tt_website/images/logo/insurance/zurich.png" alt="Zurich" style="width:70px; height:70px; padding:0px;"><br/>
-                <div style="text-align:center;"><span style="font-size:13px; color:{{text_color}};">Zurich<br/></span><span style="font-size:9px; color:{{text_color}};">(Cover Covid-19)</span></div>
+                <div style="width:200px; max-width:200px; display:flex; text-align:left; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                    <img src="/static/tt_website/images/logo/insurance/zurich.png" alt="Zurich" style="width:auto; height:45px; border-radius:7px; padding:0px; background:white;">
+                    <span class="title_prd">Zurich<br/>(Cover Covid-19)</span></span>
+                </div>
             </label>`;
             is_insurance_need_to_print = true;
         }

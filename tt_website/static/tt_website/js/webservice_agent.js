@@ -1397,6 +1397,8 @@ function session_time_limit(){
             }).then((result) => {
                 if (result.value) {
                     window.location.href = url_home;
+                }else if(document.URL.split('/')[document.URL.split('/').length-1] != 'payment'){
+                    window.location.href = url_home;
                 }
             })
             clearInterval(timeLimitInterval);
