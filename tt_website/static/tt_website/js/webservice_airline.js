@@ -4165,8 +4165,8 @@ function get_price_itinerary_request(){
     if(rerender){
         document.getElementById('airline_detail').innerHTML = '';
         document.getElementById('airline_detail_next').innerHTML = '';
-        document.getElementById("airlines_ticket").innerHTML = '';
     }
+    document.getElementById("airlines_ticket").innerHTML = '';
     last_session = 'sell_journeys';
     $.ajax({
        type: "POST",
