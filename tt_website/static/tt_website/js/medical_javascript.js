@@ -5992,7 +5992,7 @@ function check_passenger(){
                     "last_name": document.getElementById('booker_last_name').value,
                     "title": document.getElementById('booker_title').value,
                     'email': document.getElementById('booker_email').value,
-                    'calling_code': document.getElementById('booker_phone_code').value,
+                    'calling_code': document.getElementById('booker_phone_code_id').value,
                     'mobile': document.getElementById('booker_phone').value,
                     'nationality_code': document.getElementById('booker_nationality_id').value,
                     'booker_seq_id': document.getElementById('booker_id').value
@@ -6002,7 +6002,7 @@ function check_passenger(){
                     "last_name": document.getElementById('booker_last_name').value,
                     "title": document.getElementById('booker_title').value,
                     'email': document.getElementById('booker_email').value,
-                    'calling_code': document.getElementById('booker_phone_code').value,
+                    'calling_code': document.getElementById('booker_phone_code_id').value,
                     'mobile': document.getElementById('booker_phone').value,
                     'nationality_code': document.getElementById('booker_nationality_id').value,
                     'contact_seq_id': document.getElementById('booker_id').value,

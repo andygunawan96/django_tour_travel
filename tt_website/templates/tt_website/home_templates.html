@@ -985,7 +985,7 @@
     $(window).on('load', function() {
         {% if "airline" in provider and "ticketing_airline" in username.co_agent_frontend_security %}
             // check data cache airline
-            if(typeof(cookie_airline) !== 'undefined' && cookie_airline != null){
+            if(typeof(cookie_airline) !== 'undefined' && cookie_airline != null && cookie_airline != ''){
                 //cookie
                 auto_fill_airline_cookie(cookie_airline);
             }
