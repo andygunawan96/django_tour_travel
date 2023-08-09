@@ -4624,8 +4624,8 @@ function get_price_itinerary_request(){
                                                                         text_family_fare+=`<br/><span style="font-size:13px;">`+family_provider_list[i].journeys[j].segments[k].fares[l].fare_basis_code+`</span>`;
 
                                                                     if(family_provider_list[i].journeys[j].segments[k].fares[l].description.length != 0){
-                                                                        for(k in family_provider_list[i].journeys[j].segments[k].fares[l].description){
-                                                                            text_family_fare += `<span style="font-size:13px; display:block;">`+family_provider_list[i].journeys[j].segments[k].fares[l].description[l]+`</span>`;
+                                                                        for(m in family_provider_list[i].journeys[j].segments[k].fares[l].description){
+                                                                            text_family_fare += `<span style="font-size:13px; display:block;">`+family_provider_list[i].journeys[j].segments[k].fares[l].description[m]+`</span>`;
                                                                             if(k != family_provider_list[i].journeys[j].segments[k].fares[l].description.length -1)
                                                                                 text_family_fare += '';
                                                                         }
@@ -7783,7 +7783,8 @@ function airline_get_booking(data, sync=false){
                             <th>PNR</th>`;
                             if(!['issued'].includes(msg.result.response.state)){
                                 text+=`<th id="hold_date_field_show">Price Guarantee Timelimit<span id="hold_date_field" style="color:`+color+`; cursor:pointer;"></span></th>`;
-                                text += `<th id="expired_date_field_show">Expired Timelimit<span id="expired_date_field" style="color:`+color+`; cursor:pointer;"></span></th>`;
+                                if(msg.result.response.hasOwnProperty('expired_date') && msg.result.response.expired_date != '' && msg.result.response.expired_date != msg.result.response.hold_date)
+                                    text += `<th id="expired_date_field_show">Expired Timelimit<span id="expired_date_field" style="color:`+color+`; cursor:pointer;"></span></th>`;
                             }
                         text+=`
                             <th>Status</th>
@@ -7830,8 +7831,8 @@ function airline_get_booking(data, sync=false){
                                 text+=`<td>`+msg.result.response.hold_date+`</td>`;
                                 if(msg.result.response.hasOwnProperty('expired_date') && msg.result.response.expired_date != '' && msg.result.response.expired_date != msg.result.response.hold_date)
                                     text+=`<td>`+msg.result.response.expired_date+`</td>`;
-                                else
-                                    text+=`<td>`+msg.result.response.hold_date+`</td>`;
+//                                else
+//                                    text+=`<td>`+msg.result.response.hold_date+`</td>`;
                             }
                             text+=`
                                 <td>`;
