@@ -3619,9 +3619,10 @@
     <script src="https://maps.googleapis.com/maps/api/js?key={{google_api_key}}&callback=initMap&libraries=places&v=weekly"></script>
     <script>
     var marker;
+    {% if google_api_key != '' and test_type != 'MKHCKBT' %}
     document.getElementById('googleMap').style.width = '100%';
     document.getElementById('googleMap').style.height = '400px';
-
+    {% endif %}
     $(document).keypress(
       function(event){
         if (event.which == '13') {
