@@ -91,6 +91,13 @@ $(document).ready(function(){
         });
         document.body.style.overflowY = "hidden";
     });
+    $(".cor-db-slide-toggle").click(function(){
+        $(".box-cor-db").animate({
+            width: "toggle",
+            opacity: "toggle"
+        });
+        document.body.style.overflowY = "hidden";
+    });
 
 //    var slowLoad = window.setTimeout( function() {
 //        alert( "the page is taking its sweet time loading" );

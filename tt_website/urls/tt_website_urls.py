@@ -12,6 +12,7 @@ urlpatterns.append(path('currency/<str:data>', view.set_currency, name="currency
 urlpatterns.append(path('assign_analyst/<str:vendor>', view.assign_analyst, name="assign_analyst"))
 urlpatterns.append(path('reservation_request/<str:request_number>', view.get_reservation_request, name="get_reservation_request"))
 urlpatterns.append(path('create_passenger/<str:signature>', view.create_passenger_request, name="create_reservation_request"))
+urlpatterns.append(path('create_cor/<str:signature>', view.create_cor_request, name="create_cor_request"))
 urlpatterns.append(re_path('history_transaction', view.history_transaction_ledger, name="history_transaction"))
 urlpatterns.append(re_path('setting_footer_printout', view.setting_footer_printout, name="setting_footer_printout"))
 urlpatterns.append(re_path('reservation_request', view.reservation_request, name="reservation_request"))

@@ -597,6 +597,8 @@ def api_models(request):
             res = read_idcard_img_to_text(request)
         elif req_data['action'] == 'get_ho_currency_api':
             res = get_ho_currency_api(request)
+        elif req_data['action'] == 'create_request_cor':
+            res = create_request_cor(request)
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:
@@ -1807,7 +1809,26 @@ def get_ho_currency_api(request, signature='', forceUpdate=False):
                 res = get_ho_currency_api(request, signature)
         except Exception as e:
             _logger.error('ERROR read file get_ho_currency\n' + str(e) + '\n' + traceback.format_exc())
+    return res
 
+def create_request_cor(request):
+    try:
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "create_request_cor_api",
+            "signature": request.POST['signature']
+        }
+        data = json.loads(request.POST['data'])
+        if data['account_web'] == 'true':
+            data['account_web'] = True
+        else:
+            data['account_web'] = False
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+
+    url_request = get_url_gateway('account')
+    res = send_request_api(request, url_request, headers, data, 'POST')
     return res
 
 def update_cache_data(request):
