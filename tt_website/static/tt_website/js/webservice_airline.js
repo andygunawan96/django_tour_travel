@@ -4624,8 +4624,8 @@ function get_price_itinerary_request(){
                                                                         text_family_fare+=`<br/><span style="font-size:13px;">`+family_provider_list[i].journeys[j].segments[k].fares[l].fare_basis_code+`</span>`;
 
                                                                     if(family_provider_list[i].journeys[j].segments[k].fares[l].description.length != 0){
-                                                                        for(k in family_provider_list[i].journeys[j].segments[k].fares[l].description){
-                                                                            text_family_fare += `<span style="font-size:13px; display:block;">`+family_provider_list[i].journeys[j].segments[k].fares[l].description[l]+`</span>`;
+                                                                        for(m in family_provider_list[i].journeys[j].segments[k].fares[l].description){
+                                                                            text_family_fare += `<span style="font-size:13px; display:block;">`+family_provider_list[i].journeys[j].segments[k].fares[l].description[m]+`</span>`;
                                                                             if(k != family_provider_list[i].journeys[j].segments[k].fares[l].description.length -1)
                                                                                 text_family_fare += '';
                                                                         }
