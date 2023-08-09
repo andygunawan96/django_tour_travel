@@ -126,5 +126,9 @@ function checkCookie(type, check, page, version) {
 
 // set cookie one time till browser close
 function document_set_cookie(name, value){
-    document.cookie = name + '=' + value;
+    const next_date = new Date();
+    next_date.setTime(next_date.getTime() + (86400*1000));
+    let expires = "expires="+next_date.toUTCString();
+    document.cookie = name + '=' + value +';' + expires+";path=/";
+//    document.cookie = name + '=' + value +';';
 }
