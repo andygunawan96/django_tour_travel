@@ -5098,7 +5098,7 @@ function copy_booker(val,type,identity){
                     document.getElementById('adult_birth_date1').value = document.getElementById('booker_birth_date').value;
                     document.getElementById('adult_email1').value = document.getElementById('booker_email').value;
                     document.getElementById('adult_phone1').value = document.getElementById('booker_phone').value;
-                    $('#adult_phone_code1_id').val(document.getElementById('booker_phone_code').value).trigger('change');
+                    $('#adult_phone_code1_id').val(document.getElementById('booker_phone_code_id').value).trigger('change');
 
 //                    if(document.getElementById('booker_id_type').value == 'ktp' && vendor == 'periksain' || vendor == 'phc' && test_type == 'PHCDTKATG' && document.getElementById('booker_id_type').value == 'ktp' || vendor == 'phc' && test_type == 'PHCHCKATG' && document.getElementById('booker_id_type').value == 'ktp'){
 //                        if(document.getElementById('booker_id_number').value != 'undefined' && document.getElementById('booker_id_number').value != '')
@@ -5120,7 +5120,7 @@ function copy_booker(val,type,identity){
                         }
                     }catch(err){console.log(err)}
 
-                    $('#adult_nationality1_id').val(document.getElementById('booker_nationality').value).trigger('change');
+                    $('#adult_nationality1_id').val(document.getElementById('booker_nationality_id').value).trigger('change');
                     $('#adult_nationality1_id').select2({"disabled":true});
                     document.getElementById('adult_email1').readOnly = true;
                     document.getElementById('adult_phone1').readOnly = true;
@@ -10529,11 +10529,13 @@ function change_identity_type(id, automatic_change_number=true){
             document.getElementById(id.replace('id_type','identity_number_required')).style.color = 'white';
             document.getElementById(id.replace('id_type','country_of_issued_required')).style.color = 'white';
         }
-        if(document.getElementById(id).value == 'passport'){
-            document.getElementById(id.replace('id_type','birth_date') + '_required').innerHTML = '*';
-        }else if(!birth_date_required){
-            document.getElementById(id.replace('id_type','birth_date') + '_required').innerHTML = '';
-        }
+        try{
+            if(document.getElementById(id).value == 'passport'){
+                document.getElementById(id.replace('id_type','birth_date') + '_required').innerHTML = '*';
+            }else if(!birth_date_required){
+                document.getElementById(id.replace('id_type','birth_date') + '_required').innerHTML = '';
+            }
+        }catch(err){console.log(err);}
     }catch(err){
         console.log(err); // di html tidak ada id id_type
     }
