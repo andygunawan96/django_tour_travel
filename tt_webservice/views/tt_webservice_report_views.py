@@ -66,6 +66,7 @@ def get_report(request):
         'provider': request.POST['provider'],
         'ho_seq_id': '',
         'agent_seq_id': '',
+        'customer_parent_seq_id': '',
         'agent_type_seq_id': '',
     }
 
@@ -130,6 +131,7 @@ def update_report(request):
         'provider': request.POST['provider'],
         'ho_seq_id': request.POST['head_office'],
         'agent_seq_id': request.POST['agent'],
+        'customer_parent_seq_id': request.POST['customer_parent'],
         'agent_type_seq_id': request.POST['agent_type'],
     }
 

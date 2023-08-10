@@ -51,6 +51,11 @@ $(document).ready(function(){
         var value_agent_type = $( "#agent_type option:selected" ).attr('label');
         filter_agent(result_data, value_agent_type, value_head_office);
     });
+
+    $('#agent').change(function(e){
+        var value_agent = $( "#agent" ).val();
+        filter_customer_parent(result_data, value_agent);
+    });
 });
 
 
@@ -129,6 +134,7 @@ function get_report_overall(){
 //            document.getElementById('currency_profit_ho').innerHTML = data_report['raw_data']['result']['response']['currency'];
             document.getElementById('update_chart_button').disabled = false;
             filter_agent(result, '', '');
+            filter_customer_parent(result, '');
             $("#get_report_startdate").val(result.start_date);
             $("#get_report_enddate").val(result.end_date);
 
@@ -660,6 +666,14 @@ function get_report_overall(){
                 }
             });
 
+            // proceed with customer parent data
+            var customer_parent_datalist = ``;
+            result.raw_data.result.response.dependencies.customer_parent_list.forEach(function(item){
+                if(item['seq_id'] == ""){
+                    customer_parent_datalist += `<option value="`+ item['seq_id'] +`">`+ item['name'] +`</option>`;
+                }
+            });
+
             $('#loading-report').hide();
             // after document ready then show the input field and all
             $(document).ready(function(){
@@ -668,6 +682,7 @@ function get_report_overall(){
                 $('#provider').niceSelect('destroy');
                 $('#head_office').niceSelect('destroy');
                 $('#agent').niceSelect('destroy');
+                $('#customer_parent').niceSelect('destroy');
                 // populating provider type
                 $('#provider_type').append(provider_type_datalist);
 
@@ -676,21 +691,27 @@ function get_report_overall(){
                 // change provider selector to text and dropdown (user can type the name of provider)
                 $('#provider').select2();
 
-                // populating agent selector
-                // agent list will be empty list if agent is not HO
+                // populating ho selector
+                // ho list will be empty list if user is not admin
                 $('#head_office').append(ho_datalist);
-                // change agent selector to text and dropdown (user can type the name of the agent)
+                // change ho selector to text and dropdown (user can type the name of the ho)
                 $('#head_office').select2();
 
                 // populating agent type selector
-                // agent list will be empty list if agent is not HO
+                // agent type list will be empty list if user is not HO
                 $('#agent_type').append(agent_type_datalist);
 
                 // populating agent selector
-                // agent list will be empty list if agent is not HO
+                // agent list will be empty list if user is not HO
                 $('#agent').append(agent_datalist);
                 // change agent selector to text and dropdown (user can type the name of the agent)
                 $('#agent').select2();
+
+                // populating customer parent selector
+                // customer parent list will be empty list if user is corpor user
+                $('#customer_parent').append(customer_parent_datalist);
+                // change customer parent selector to text and dropdown (user can type the name of the customer parent)
+                $('#customer_parent').select2();
 
                 $('#provider_type').niceSelect('update');
                 $('#agent_type').niceSelect('update');
@@ -705,6 +726,12 @@ function get_report_overall(){
                 // if not then hide
                 if(result.raw_data.result.response.dependencies.is_ho == 1){
                     $('#agent_selector').show();
+                }
+
+                // if agent is not corpor then shows the customer parent selector
+                // if not then hide
+                if(result.raw_data.result.response.dependencies.is_not_corpor == 1){
+                    $('#customer_parent_selector').show();
                 }
 
                 $('#overall_table').DataTable({
@@ -3411,6 +3438,23 @@ function filter_agent(result, agent_type_label, head_office_label){
     });
     $('#agent').append(agent_datalist);
     $('#agent').select2();
+}
+
+function filter_customer_parent(result, agent_label){
+    document.getElementById('customer_parent').innerHTML = '';
+    var customer_parent_datalist = ``;
+    customer_parent_datalist += `<option value="" selected>All Customer Parent</option>`;
+    result.raw_data.result.response.dependencies.customer_parent_list.forEach(function(item){
+        if(agent_label == ''){
+            customer_parent_datalist += `<option value="`+ item['seq_id'] +`">`+ item['name'] +`</option>`;
+        }else if(agent_label){
+            if(item['agent_seq_id'] == agent_label){
+                customer_parent_datalist += `<option value="`+ item['seq_id'] +`">`+ item['name'] +`</option>`;
+            }
+        }
+    });
+    $('#customer_parent').append(customer_parent_datalist);
+    $('#customer_parent').select2();
 }
 
 function report_dropdown_id(type,id){
