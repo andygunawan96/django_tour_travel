@@ -11603,8 +11603,6 @@ function change_seat_span(id1, id2, textseat){
 function change_seat_fare_span(id1, id2, textseat){
     document.getElementById('fare_seat_class'+id1+id2).innerHTML = ''+textseat;
     document.getElementById('fare_seat_class_fd'+id1+id2).innerHTML = ''+textseat;
-    alert(id1);
-    alert(id2);
 }
 
 function checkboxCopyReschedule(){
