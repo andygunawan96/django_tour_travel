@@ -512,6 +512,32 @@ Licence URI: http://www.os-templates.com/template-terms
             background: {{color}};
         }
 
+        .radio-label100 > input:checked + .div_radio_bg{
+            background: {{color}};
+            color: {{text_color}};
+        }
+        .radio-label100 .div_radio_bg:hover{
+            background: {{color}};
+        }
+        .radio-label100 > input:checked + .div_label100{
+            background: {{color}} !important;
+            color: {{text_color}} !important;
+        }
+        .radio-label100 > input:checked + .div_label100 > div > .price_template{
+          color: {{text_color}} !important;
+        }
+        .radio-label100 > .div_label100:hover > div > .price_template{
+          color: {{text_color}};
+        }
+        .radio-label100  > .div_label100 > .check_label100{
+            background: {{text_color}};
+            color: {{color}};
+        }
+
+        .price_template{
+            color: {{color}};
+        }
+
         .forgot-pass-login{
             color:black;
         }
@@ -759,9 +785,6 @@ Licence URI: http://www.os-templates.com/template-terms
         }
         .search-box-result:hover {
             border: 1px solid {{color}} !important;
-        }
-        .price_template{
-            color: {{color}};
         }
         .carrier_code_template{
             color: {{color}};
