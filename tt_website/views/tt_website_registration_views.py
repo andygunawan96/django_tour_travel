@@ -59,6 +59,42 @@ def open_page(request):
             raise Exception('Make response code 500!')
     return render(request, MODEL_NAME + '/agent_registration/registration_form_template.html', values)
 
+def open_page_with_signature(request, signature):
+    try:
+        javascript_version = get_javascript_version(request)
+        response = get_cache_data(request)
+
+        values = get_data_template(request, 'registration')
+        social_medias = []
+        try:
+            social_medias = response['result']['response']['issued_offline']['social_media_id']
+        except:
+            pass
+        set_session(request, 'signature', signature)
+        values.update({
+            'countries': response['result']['response']['airline']['country'],
+            'static_path': path_util.get_static_path(MODEL_NAME),
+            'javascript_version': javascript_version,
+            'username': request.session.get('user_account') or {'co_user_login': ''},
+            'static_path_url_server': get_url_static_path(),
+            'signature': signature,
+            'social_medias': social_medias,
+            # 'username': request.session['username'],
+            # 'co_uid': request.session['co_uid'],
+        })
+    except:
+        try:
+            values.update({
+                'static_path': path_util.get_static_path(MODEL_NAME),
+                'javascript_version': javascript_version,
+                'static_path_url_server': get_url_static_path(),
+                'signature': signature
+            })
+        except Exception as e:
+            _logger.error(str(e) + '\n' + traceback.format_exc())
+            raise Exception('Make response code 500!')
+    return render(request, MODEL_NAME + '/agent_registration/registration_form_template.html', values)
+
 
 def register_agent(request):
     try:

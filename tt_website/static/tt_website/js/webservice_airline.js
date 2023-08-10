@@ -1855,7 +1855,7 @@ function get_carrier_code_list(type, val){
     });
 }
 
-function get_all_carrier_airline(){
+function get_all_carrier_airline(page){
     $.ajax({
        type: "POST",
        url: "/webservice/airline",
@@ -1869,7 +1869,8 @@ function get_all_carrier_airline(){
             airline_provider_list = msg;
 
             text = '<div class="col-lg-12" style="overflow-y:auto;overflow-x:hidden;max-height:235px;">';
-            text += `
+            if(page == 'admin'){
+                text += `
                 <a class="small" data-value="option1" tabIndex="-1">
                     <label class="check_box_custom">
                         <span class="span-search-ticket" style="color:black;">All</span>`;
@@ -1879,14 +1880,19 @@ function get_all_carrier_airline(){
                         <span class="check_box_span_custom"></span>
                     </label>
                 </a>`;
+            }
             for(i in msg){
                 text+=`
                 <br/>
                 <a class="small" data-value="option1" tabIndex="-1">
                     <label class="check_box_custom">
                         <span class="span-search-ticket" style="color:black;">`+msg[i].display_name+`</span>`;
-                        text+=`
-                            <input type="checkbox" id="provider_box_`+i+`" name="provider_box_`+i+`" value="`+i+`" onclick="func_check_provider('`+i+`')"/>`;
+                        if(page == 'admin')
+                            text+=`
+                            <input type="checkbox" id="provider_box_`+i+`" name="provider_box_`+i+`" value="`+i+`"/>`;
+                        if(page == 'cor')
+                            text+=`
+                            <input type="checkbox" id="provider_box_cor_`+i+`" name="provider_box_cor_`+i+`" value="`+i+`"/>`;
                         text+=`
                         <span class="check_box_span_custom"></span>
                     </label>
@@ -1894,8 +1900,15 @@ function get_all_carrier_airline(){
             }
             text += `</div>`;
             //text += `<div class="col-lg-12" style="text-align:center;"><hr/><button class="primary-btn" type="button" style="line-height:34px;" id="save_allowed_carrier_btn" onclick="save_allowed_airline_carriers();">Save changes <i class="fas fa-save"></i></button></div>`;
-            document.getElementById('airline_carrier_div').innerHTML = text;
-            get_allowed_config_search();
+            if(page == 'admin'){
+                document.getElementById('airline_carrier_div').innerHTML = text;
+                get_allowed_config_search();
+            }else if(page == 'cor'){
+                if(document.getElementById('corporate_airline_div')){
+                    document.getElementById('corporate_airline_div').innerHTML = text;
+                    document.getElementById('corporate_airline').style.display = 'block';
+                }
+            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error airline carrier code list');
@@ -4165,8 +4178,8 @@ function get_price_itinerary_request(){
     if(rerender){
         document.getElementById('airline_detail').innerHTML = '';
         document.getElementById('airline_detail_next').innerHTML = '';
-        document.getElementById("airlines_ticket").innerHTML = '';
     }
+    document.getElementById("airlines_ticket").innerHTML = '';
     last_session = 'sell_journeys';
     $.ajax({
        type: "POST",

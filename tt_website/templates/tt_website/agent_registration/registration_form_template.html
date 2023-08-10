@@ -43,6 +43,10 @@
             <div class="col-lg-12" style="margin-bottom:20px;">
                 <img src="{{background}}" alt="Background" style="width:100%;"/>
             </div>
+            <div class="col-lg-12 mb-3" style="text-align:right;">
+                <button type="button" class="primary-btn" onclick="generate_url_create('agent');">Generate Link <i class="fas fa-link"></i></button>
+            </div>
+            <br/>
             <div class="col-lg-12" style="position:sticky;top: 0px;z-index: 89;">
                 <div class="box-sticky-hotel">
                     <button class="primary-btn-sticky-hotel" type="button" id="about-partnership">{% trans 'About Partnership' %}</button>
@@ -304,6 +308,10 @@
                     <div class="col-lg-12" style="margin-bottom:20px;">
                         <img src="{{background}}" alt="Background" style="width:100%;"/>
                     </div>
+                    <div class="col-lg-12" style="margin-top:15px; text-align:center;">
+                        <input type="button" id="create_request_cor_btn" style="width:100%;" class="primary-btn" onclick="generate_url_create();" value="Request Corporate"/>
+                    </div>
+                    <br/>
                     <div class="col-lg-12">
                         <div class="box-sticky-hotel">
                             <button class="primary-btn-sticky-hotel" type="button" id="about-partnership">{% trans 'About Partnership' %}</button>
@@ -556,6 +564,10 @@
                     <div class="col-lg-12" style="margin-bottom:20px;">
                         <img src="{{background}}" alt="Background" style="width:100%;"/>
                     </div>
+                    <div class="col-lg-12" style="margin-top:15px; text-align:center;">
+                        <input type="button" id="create_request_cor_btn" style="width:100%;" class="primary-btn" onclick="generate_url_create();" value="Request Corporate"/>
+                    </div>
+                    <br/>
                     <div class="col-lg-12">
                         <div class="box-sticky-hotel">
                             <button class="primary-btn-sticky-hotel" type="button" id="about-partnership">{% trans 'About Partnership' %}</button>
@@ -808,6 +820,10 @@
                     <div class="col-lg-12" style="margin-bottom:20px;">
                         <img src="{{background}}" alt="Background" style="width:100%;"/>
                     </div>
+                    <div class="col-lg-12" style="margin-top:15px; text-align:center;">
+                        <input type="button" id="create_request_cor_btn" style="width:100%;" class="primary-btn" onclick="generate_url_create();" value="Request Corporate"/>
+                    </div>
+                    <br/>
                     <div class="col-lg-12">
                         <div class="box-sticky-hotel">
                             <button class="primary-btn-sticky-hotel" type="button" id="about-partnership">{% trans 'About Partnership' %}</button>
@@ -1060,6 +1076,10 @@
             <div class="col-lg-12" style="margin-bottom:20px;">
                 <img src="{{background}}" alt="Background" style="width:100%;"/>
             </div>
+            <div class="col-lg-12" style="margin-top:15px; text-align:center;">
+                <input type="button" id="create_request_cor_btn" style="width:100%;" class="primary-btn" onclick="generate_url_create();" value="Request Corporate"/>
+            </div>
+            <br/>
             <div class="col-lg-12">
                 <div class="box-sticky-hotel">
                     <button class="primary-btn-sticky-hotel" type="button" id="about-partnership">{% trans 'About Partnership' %}</button>
@@ -1328,6 +1348,10 @@
             {% endif %}
             <div class="col-lg-12" style="margin-bottom:20px;">
                 <img src="{{background}}" alt="Background" style="width:100%;"/>
+            </div>
+            <br/>
+            <div class="col-lg-12" style="margin-top:15px; text-align:center;">
+                <input type="button" id="create_request_cor_btn" style="width:100%;" class="primary-btn" onclick="generate_url_create();" value="Request Corporate"/>
             </div>
             <div class="col-lg-12" style="position:sticky;top: 0px;z-index: 89;">
                 <div class="box-sticky-hotel">
@@ -1635,7 +1659,15 @@
 <script>
     $( document ).ready(function() {
         $('.js-example-basic-single').select2();
-        signin_orbisway('registration');
+        if('{{signature}}' == '')
+            signin_orbisway('registration');
+        else{
+            signature = `{{signature}}`;
+            agent_register_get_config();
+            get_promotions();
+            auto_complete('country')
+            auto_complete_registration('social_media');
+        }
         get_privacy_policy('registration');
         get_term_and_condition('registration');
     });
