@@ -3336,6 +3336,7 @@ function change_fare(journey, segment, fares, fare_code){
                                     document.getElementsByName('journey'+journey+'segment'+j+'fare')[l].checked = true;
                             }
                             temp_seat_name = airline_data_filter[journey].segments[j].fares[k].class_of_service+' -';
+                            fare_seat_name = airline_data_filter[journey].segments[j].fares[k].class_of_service;
                             if(airline_data_filter[journey].segments[j].fares[k].cabin_class != ''){
                                 if(airline_data_filter[journey].segments[j].fares[k].cabin_class == 'Y'){
                                     temp_seat_name += ' (Economy)';
@@ -3368,7 +3369,8 @@ function change_fare(journey, segment, fares, fare_code){
                                     temp_seat_name += ' - '+airline_data_filter[journey].currency + ' ' + getrupiah(temporary_total_price);
                                 }
                             }
-                            change_seat_span(journey,j, temp_seat_name)
+                            change_seat_span(journey,j, temp_seat_name);
+                            change_seat_fare_span(journey,j, fare_seat_name);
                             break;
                         }
                     }
@@ -3387,6 +3389,7 @@ function change_fare(journey, segment, fares, fare_code){
                     }else if(airline[journey].segments[i].fares[j].group_fare_id == group_fares){
                         document.getElementsByName('journey'+journey+'segment'+i+'fare')[parseInt(j)].checked = true;
                         temp_seat_name = airline[journey].segments[i].fares[j].class_of_service+' -';
+                        fare_seat_name = airline[journey].segments[i].fares[j].class_of_service;
                         if(airline[journey].segments[i].fares[j].cabin_class != ''){
                             if(airline[journey].segments[i].fares[j].cabin_class == 'Y'){
                                 temp_seat_name += ' (Economy)';
@@ -3420,6 +3423,7 @@ function change_fare(journey, segment, fares, fare_code){
                             }
                         }
                         change_seat_span(journey,i, temp_seat_name)
+                        change_seat_fare_span(journey,i, fare_seat_name);
                         break;
                     }
                 }
