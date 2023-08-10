@@ -3336,6 +3336,7 @@ function change_fare(journey, segment, fares, fare_code){
                                     document.getElementsByName('journey'+journey+'segment'+j+'fare')[l].checked = true;
                             }
                             temp_seat_name = airline_data_filter[journey].segments[j].fares[k].class_of_service+' -';
+                            fare_seat_name = airline_data_filter[journey].segments[j].fares[k].class_of_service;
                             if(airline_data_filter[journey].segments[j].fares[k].cabin_class != ''){
                                 if(airline_data_filter[journey].segments[j].fares[k].cabin_class == 'Y'){
                                     temp_seat_name += ' (Economy)';
@@ -3368,7 +3369,8 @@ function change_fare(journey, segment, fares, fare_code){
                                     temp_seat_name += ' - '+airline_data_filter[journey].currency + ' ' + getrupiah(temporary_total_price);
                                 }
                             }
-                            change_seat_span(journey,j, temp_seat_name)
+                            change_seat_span(journey,j, temp_seat_name);
+                            change_seat_fare_span(journey,j, fare_seat_name);
                             break;
                         }
                     }
@@ -3387,6 +3389,7 @@ function change_fare(journey, segment, fares, fare_code){
                     }else if(airline[journey].segments[i].fares[j].group_fare_id == group_fares){
                         document.getElementsByName('journey'+journey+'segment'+i+'fare')[parseInt(j)].checked = true;
                         temp_seat_name = airline[journey].segments[i].fares[j].class_of_service+' -';
+                        fare_seat_name = airline[journey].segments[i].fares[j].class_of_service;
                         if(airline[journey].segments[i].fares[j].cabin_class != ''){
                             if(airline[journey].segments[i].fares[j].cabin_class == 'Y'){
                                 temp_seat_name += ' (Economy)';
@@ -3420,6 +3423,7 @@ function change_fare(journey, segment, fares, fare_code){
                             }
                         }
                         change_seat_span(journey,i, temp_seat_name)
+                        change_seat_fare_span(journey,i, fare_seat_name);
                         break;
                     }
                 }
@@ -4402,275 +4406,287 @@ function get_price_itinerary_request(){
                                                     //logo
 
                                                     for(k in resJson.result.response.price_itinerary_provider[i].journeys[j].segments){ //print gambar airline
-                                                        text+=`<div class="col-lg-3">`;
-                                                        try{
-                                                            if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].carrier_code != resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].operating_airline_code && resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].operating_airline_code != ''){
-                                                                text+=`
-                                                                <span style="font-weight: 500; font-size:12px;">Operated By `+airline_carriers[0][resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].operating_airline_code].name+` `+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].carrier_number+`</span><br/>
-                                                                <img data-toggle="tooltip" alt="`+airline_carriers[0][resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].operating_airline_code].name+`" title="`+airline_carriers[0][resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].operating_airline_code].name+`" style="width:50px; height:50px;" src="`+static_path_url_server+`/public/airline_logo/`+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].operating_airline_code+`.png"><span> </span>`;
-                                                            }else{
-                                                                text+=`
-                                                                <span style="font-weight: 500; font-size:12px;">`+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].carrier_code+` `+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].carrier_number+`</span><br/>
-                                                                <img data-toggle="tooltip" alt="`+airline_carriers[0][resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].carrier_code].name+`" title="`+airline_carriers[0][resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].carrier_code].name+`" style="width:50px; height:50px;" src="`+static_path_url_server+`/public/airline_logo/`+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].carrier_code+`.png"><span> </span>`;
-                                                            }
-
-                                                        }catch(err){
-                                                            if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].carrier_code != resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].operating_airline_code && resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].operating_airline_code != ''){
-                                                                text+=`<img data-toggle="tooltip" alt="Airline" title="" style="width:50px; height:50px;" src="`+static_path_url_server+`/public/airline_logo/`+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].operating_airline_code+`.png"><span> </span>`;
-                                                            }else{
-                                                                text+=`<img data-toggle="tooltip" alt="Airline" title="" style="width:50px; height:50px;" src="`+static_path_url_server+`/public/airline_logo/`+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].carrier_code+`.png"><span> </span>`;
-                                                            }
-                                                        }
-                                                        text += `<br/>`;
                                                         text+=`
-                                                        </div>
-                                                        <div class="col-lg-9">`;
-
-                                                        //datacopy
-                                                        $text += '‣ ';
-                                                        try{
-                                                            //sesuai dict
-                                                            $text += airline_carriers[0][resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].carrier_code].name + ' (' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].carrier_code + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].carrier_number + ') ';
-                                                        }catch(err){
-                                                            //di dict tidak ada
-                                                            $text += resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].carrier_code + ' (' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].carrier_code + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].carrier_number + ') ';
-
-                                                        }
-                                                        for(l in resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares){
-                                                            if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].cabin_class != '' && airline_cabin_class_list.hasOwnProperty(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].cabin_class)){
-                                                                if(is_citilink && resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].cabin_class == 'W')
-                                                                    $text += airline_cabin_class_list['W1'];
-                                                                else
-                                                                    $text += airline_cabin_class_list[resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].cabin_class];
-                                                            }
-                                                            $text += ' [' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].class_of_service + ']\n';
-                                                        }
-                                                        //operated by
-                                                        try{
-                                                            //sesuai dict
-                                                            if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].carrier_code != resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].operating_airline_code && resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].operating_airline_code != ''){
-                                                                $text += 'Operated By ' + airline_carriers[0][resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].operating_airline_code].name + '\n';
-                                                            }
-                                                        }catch(err){
-                                                            //di dict tidak ada
-                                                            if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].carrier_code != resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].operating_airline_code && resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].operating_airline_code != ''){
-                                                                $text += 'Operated By ' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].operating_airline_code + '\n';
-                                                            }
-                                                        }
-
-                            //                            $text += '\n';
-                            //                            $text += 'Departure: ';
-                            //                            $text += resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].origin_name + ' (' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].origin_city + ') ' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].departure_date + '\n';
-
-                            //                            $text += '\n';
-                            //                            $text += 'Arrival: ';
-                            //                            $text += resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].destination_name + ' (' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].destination_city + ') '+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].arrival_date +'\n\n';
-
-                                                        $text += resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].origin_city + ' (' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].origin + ') - ' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].destination_city + ' (' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].destination + ')\n';
-                                                        $text += 'Departure Date  : '+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].departure_date+'\n';
-                                                        if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].origin_terminal)
-                                                            $text += 'Terminal  : '+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].origin_terminal+'\n';
-                                                        $text += 'Arrival Date    : '+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].arrival_date +'\n';
-                                                        if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].destination_terminal)
-                                                            $text += 'Terminal  : '+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].destination_terminal+'\n';
-                                                        $text += '\n';
-                                                        for(l in resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs){
-                                                            text+=`
-                                                                <div class="row">
-                                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                                                        <table style="width:100%">
-                                                                            <tr>
-                                                                                <td class="airport-code"><h5>`;
-                                                                                if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].departure_date)
-                                                                                    text+=resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].departure_date.split(' - ')[1];
-                                                                                else
-                                                                                    text += '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
-                                                                                text+=`</h5></td>
-                                                                                <td style="padding-left:15px;">
-                                                                                    <img src="/static/tt_website/images/icon/symbol/airlines-01.png" alt="Airline" style="width:20px; height:20px;"/>
-                                                                                </td>
-                                                                                <td style="height:30px;padding:0 15px;width:100%">
-                                                                                    <div style="display:inline-block;position:relative;width:100%">
-                                                                                        <div style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
-                                                                                        <div class="origin-code-snippet" style="background-color:#d4d4d4;right:-6px"></div>
-                                                                                        <div style="height:30px;min-width:40px;position:relative;width:0%"/>
-                                                                                    </div>
-                                                                                </td>
-                                                                            </tr>
-                                                                        </table>
-                                                                        <span style="font-size:13px;">`;
-                                                                        if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].departure_date)
-                                                                            text+=resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].departure_date.split(' - ')[0];
-                                                                        text+=`</span></br>
-                                                                        <span style="font-size:13px; font-weight:500;">`+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].origin_city+` (`+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].origin+`)</span><br/>`;
-                                                                    if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].origin_terminal != ''){
-                                                                        text+=`<span style="font-size:13px; font-weight:500;">Terminal: `+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].origin_terminal+`</span>`;
+                                                        <div class="col-lg-12" style="border-bottom:1px solid #cdcdcd; padding-bottom:15px; margin-bottom:10px;">
+                                                            <div class="row">
+                                                                <div class="col-lg-3">`;
+                                                                try{
+                                                                    if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].carrier_code != resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].operating_airline_code && resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].operating_airline_code != ''){
+                                                                        text+=`
+                                                                        <span style="font-weight: 500; font-size:12px;">Operated By `+airline_carriers[0][resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].operating_airline_code].name+` `+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].carrier_number+`</span><br/>
+                                                                        <img data-toggle="tooltip" alt="`+airline_carriers[0][resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].operating_airline_code].name+`" title="`+airline_carriers[0][resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].operating_airline_code].name+`" style="width:50px; height:50px;" src="`+static_path_url_server+`/public/airline_logo/`+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].operating_airline_code+`.png"><span> </span>`;
                                                                     }else{
-                                                                        text+=`<span style="font-size:13px; font-weight:500;">Terminal: -</span>`;
+                                                                        text+=`
+                                                                        <span style="font-weight: 500; font-size:12px;">`+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].carrier_code+` `+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].carrier_number+`</span><br/>
+                                                                        <img data-toggle="tooltip" alt="`+airline_carriers[0][resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].carrier_code].name+`" title="`+airline_carriers[0][resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].carrier_code].name+`" style="width:50px; height:50px;" src="`+static_path_url_server+`/public/airline_logo/`+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].carrier_code+`.png"><span> </span>`;
                                                                     }
-                                                                    text+=`
-                                                                    </div>
-                                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                                                        <table style="width:100%; margin-bottom:6px;">
-                                                                            <tr>
-                                                                                <td><h5>`;
-                                                                                if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].arrival_date)
-                                                                                    text+=resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].arrival_date.split(' - ')[1];
-                                                                                else
-                                                                                    text += '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
-                                                                                text+=`</h5></td>
 
-                                                                                <td></td>
-                                                                                <td style="height:30px;padding:0 15px;width:100%"></td>
-                                                                            </tr>
-                                                                        </table>
-                                                                        <span style="font-size:13px;">`;
-                                                                        if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].arrival_date)
-                                                                            text+=resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].arrival_date.split(' - ')[0];
-                                                                        text+=`</span><br/>
-                                                                        <span style="font-size:13px; font-weight:500;">`+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].destination_city+` (`+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].destination+`)</span><br/>`;
+                                                                }
+                                                                catch(err){
+                                                                    if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].carrier_code != resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].operating_airline_code && resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].operating_airline_code != ''){
+                                                                        text+=`<img data-toggle="tooltip" alt="Airline" title="" style="width:50px; height:50px;" src="`+static_path_url_server+`/public/airline_logo/`+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].operating_airline_code+`.png"><span> </span>`;
+                                                                    }else{
+                                                                        text+=`<img data-toggle="tooltip" alt="Airline" title="" style="width:50px; height:50px;" src="`+static_path_url_server+`/public/airline_logo/`+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].carrier_code+`.png"><span> </span>`;
+                                                                    }
+                                                                }
+                                                                text += `<br/>`;
+                                                                text+=`
+                                                                </div>
+                                                                <div class="col-lg-9">`;
 
-                                                                        if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].destination_terminal != ''){
-                                                                            text+=`<span style="font-size:13px; font-weight:500;">Terminal: `+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].destination_terminal+`</span>`;
-                                                                        }else{
-                                                                            text+=`<span style="font-size:13px; font-weight:500;">Terminal: -</span>`;
-                                                                        }
+                                                                //datacopy
+                                                                $text += '‣ ';
+                                                                try{
+                                                                    //sesuai dict
+                                                                    $text += airline_carriers[0][resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].carrier_code].name + ' (' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].carrier_code + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].carrier_number + ') ';
+                                                                }catch(err){
+                                                                    //di dict tidak ada
+                                                                    $text += resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].carrier_code + ' (' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].carrier_code + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].carrier_number + ') ';
 
-                                                                    text+=`
-                                                                    </div>
-                                                                </div>`;
-                                                        }
-
-                                                        //if(k == resJson.result.response.price_itinerary_provider[i].journeys[j].segments.length - 1)
-                                                        //    text+=`</div>`;
-                                                        if(airline_price.length > resJson.result.response.price_itinerary_provider[i].journeys.length || //journey
-                                                           airline_price.length > resJson.result.response.price_itinerary_provider.length){ //provider
-                                                            fare_print = true;
-                                                        }
-                                                        text+=`</div>`;
-                                                        text+=`<div class="col-lg-12 mt-2">`;
-                                                        if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares.length > 0){
-                                                            text += `<img src="/static/tt_website/images/icon/symbol/seat.png" style="height:16px; width:auto;"><span style="font-weight:800;">`;
-                                                            if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[0].cabin_class != '' &&  airline_cabin_class_list.hasOwnProperty(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[0].cabin_class)){
-                                                                if(is_citilink && resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[0].cabin_class == 'W')
-                                                                    text += airline_cabin_class_list['W1']
-                                                                else
-                                                                    text += airline_cabin_class_list[resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[0].cabin_class]
-                                                            }
-                                                            text += ` - Class `+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[0].class_of_service+`</span>`;
-
-                                                            for(l in resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares){
-                                                                for(m in resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details){
-                                                                    if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].detail_type.includes('BG')){
-                                                                        $text += '• Baggage ';
-                                                                        if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].detail_name != '' && resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].detail_name.includes('default_ssr') == false)
-                                                                            $text += resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].detail_name;
+                                                                }
+                                                                for(l in resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares){
+                                                                    if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].cabin_class != '' && airline_cabin_class_list.hasOwnProperty(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].cabin_class)){
+                                                                        if(is_citilink && resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].cabin_class == 'W')
+                                                                            $text += airline_cabin_class_list['W1'];
                                                                         else
-                                                                            $text += resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].amount + ' ' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].unit;
-                                                                        $text += '\n';
-                                                                        text += `<br/><i class="fas fa-suitcase"></i><span style="font-weight:800;"> Baggage - `+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].amount + ' ' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].unit+` </span>`;
-                                                                    }else if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].detail_type.includes('ML')){
-                                                                        $text += '• Meal ' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].amount + ' ' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].unit + '\n';
-                                                                        text += `<br/><i class="fas fa-suitcase"></i><span style="font-weight:800;"> Meal - `+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].amount + ' ' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].unit+` </span>`;
+                                                                            $text += airline_cabin_class_list[resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].cabin_class];
                                                                     }
-                                                                    if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].hasOwnProperty('detail_name')){
-                                                                        if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].detail_name){
-                                                                            text+=`
-                                                                            <span id="fare_detail_name`+i+``+j+``+k+``+l+``+m+`">
-                                                                                <i class="fas fa-info-circle" onclick="print_fare_detail_name('fare_detail_name`+i+``+j+``+k+``+l+``+m+`', '`+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].detail_name+`');" style="padding-left:5px; color:`+color+`; cursor:pointer; font-size:16px;"></i>
-                                                                            </span>`;
-                                                                        }
+                                                                    $text += ' [' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].class_of_service + ']\n';
+                                                                }
+                                                                //operated by
+                                                                try{
+                                                                    //sesuai dict
+                                                                    if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].carrier_code != resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].operating_airline_code && resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].operating_airline_code != ''){
+                                                                        $text += 'Operated By ' + airline_carriers[0][resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].operating_airline_code].name + '\n';
                                                                     }
-                                                                }
-                                                                if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].carrier_type_name){
-                                                                    $text += '• Aircraft: ' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].carrier_type_name + '\n';
-                                                                    text += `<br/><i class="fas fa-plane"></i><span style="font-weight:800;"> Aircraft - `+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].carrier_type_name+` </span>`;
-                                                                }
-                                                                if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].description.length > 0){
-                                                                    $text += 'Description: \n';
-                                                                    for(m in resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].description){
-                                                                        $text += '• ' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].description[m] + '\n';
+                                                                }catch(err){
+                                                                    //di dict tidak ada
+                                                                    if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].carrier_code != resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].operating_airline_code && resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].operating_airline_code != ''){
+                                                                        $text += 'Operated By ' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].operating_airline_code + '\n';
                                                                     }
                                                                 }
-                                                            }
-                                                            $text += '\n';
-                                                        }
 
-                                                        if(is_family_fare){
-                                                            text_family_fare = '';
-                                                            try{
-                                                                for(l in family_provider_list[i].journeys[j].segments[k].fares){
-                                                                    currency = '';
-                                                                    total_price_fare = 0;
-                                                                    if(family_provider_list[i].journeys[j].segments[k].fares[l].service_charge_summary){
-                                                                        for(m in family_provider_list[i].journeys[j].segments[k].fares[l].service_charge_summary){
-                                                                            if(!['CHD', 'INF'].includes(family_provider_list[i].journeys[j].segments[k].fares[l].service_charge_summary[m].pax_type)){
-                                                                                total_price_fare = family_provider_list[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_price;
-                                                                                if(family_provider_list[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges && currency == ''){
-                                                                                    for(n in family_provider_list[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges){
-                                                                                        currency = family_provider_list[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].currency;
-                                                                                        break;
-                                                                                    }
+                                    //                            $text += '\n';
+                                    //                            $text += 'Departure: ';
+                                    //                            $text += resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].origin_name + ' (' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].origin_city + ') ' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].departure_date + '\n';
+
+                                    //                            $text += '\n';
+                                    //                            $text += 'Arrival: ';
+                                    //                            $text += resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].destination_name + ' (' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].destination_city + ') '+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].arrival_date +'\n\n';
+
+                                                                $text += resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].origin_city + ' (' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].origin + ') - ' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].destination_city + ' (' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].destination + ')\n';
+                                                                $text += 'Departure Date  : '+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].departure_date+'\n';
+                                                                if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].origin_terminal)
+                                                                    $text += 'Terminal  : '+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].origin_terminal+'\n';
+                                                                $text += 'Arrival Date    : '+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].arrival_date +'\n';
+                                                                if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].destination_terminal)
+                                                                    $text += 'Terminal  : '+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].destination_terminal+'\n';
+                                                                $text += '\n';
+                                                                for(l in resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs){
+                                                                    text+=`
+                                                                        <div class="row">
+                                                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                                                <table style="width:100%">
+                                                                                    <tr>
+                                                                                        <td class="airport-code"><h5>`;
+                                                                                        if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].departure_date)
+                                                                                            text+=resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].departure_date.split(' - ')[1];
+                                                                                        else
+                                                                                            text += '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
+                                                                                        text+=`</h5></td>
+                                                                                        <td style="padding-left:15px;">
+                                                                                            <img src="/static/tt_website/images/icon/symbol/airlines-01.png" alt="Airline" style="width:20px; height:20px;"/>
+                                                                                        </td>
+                                                                                        <td style="height:30px;padding:0 15px;width:100%">
+                                                                                            <div style="display:inline-block;position:relative;width:100%">
+                                                                                                <div style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
+                                                                                                <div class="origin-code-snippet" style="background-color:#d4d4d4;right:-6px"></div>
+                                                                                                <div style="height:30px;min-width:40px;position:relative;width:0%"/>
+                                                                                            </div>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                </table>
+                                                                                <span style="font-size:13px;">`;
+                                                                                if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].departure_date)
+                                                                                    text+=resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].departure_date.split(' - ')[0];
+                                                                                text+=`</span></br>
+                                                                                <span style="font-size:13px; font-weight:500;">`+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].origin_city+` (`+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].origin+`)</span><br/>`;
+                                                                            if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].origin_terminal != ''){
+                                                                                text+=`<span style="font-size:13px; font-weight:500;">Terminal: `+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].origin_terminal+`</span>`;
+                                                                            }else{
+                                                                                text+=`<span style="font-size:13px; font-weight:500;">Terminal: -</span>`;
+                                                                            }
+                                                                            text+=`
+                                                                            </div>
+                                                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                                                <table style="width:100%; margin-bottom:6px;">
+                                                                                    <tr>
+                                                                                        <td><h5>`;
+                                                                                        if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].arrival_date)
+                                                                                            text+=resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].arrival_date.split(' - ')[1];
+                                                                                        else
+                                                                                            text += '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
+                                                                                        text+=`</h5></td>
+
+                                                                                        <td></td>
+                                                                                        <td style="height:30px;padding:0 15px;width:100%"></td>
+                                                                                    </tr>
+                                                                                </table>
+                                                                                <span style="font-size:13px;">`;
+                                                                                if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].arrival_date)
+                                                                                    text+=resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].arrival_date.split(' - ')[0];
+                                                                                text+=`</span><br/>
+                                                                                <span style="font-size:13px; font-weight:500;">`+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].destination_city+` (`+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].destination+`)</span><br/>`;
+
+                                                                                if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].destination_terminal != ''){
+                                                                                    text+=`<span style="font-size:13px; font-weight:500;">Terminal: `+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs[l].destination_terminal+`</span>`;
+                                                                                }else{
+                                                                                    text+=`<span style="font-size:13px; font-weight:500;">Terminal: -</span>`;
                                                                                 }
-                                                                                break;
+
+                                                                            text+=`
+                                                                            </div>
+                                                                        </div>`;
+                                                                }
+
+                                                                //if(k == resJson.result.response.price_itinerary_provider[i].journeys[j].segments.length - 1)
+                                                                //    text+=`</div>`;
+                                                                if(airline_price.length > resJson.result.response.price_itinerary_provider[i].journeys.length || //journey
+                                                                   airline_price.length > resJson.result.response.price_itinerary_provider.length){ //provider
+                                                                    fare_print = true;
+                                                                }
+                                                                text+=`</div>`;
+                                                                text+=`<div class="col-lg-12 mt-2">`;
+                                                                if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares.length > 0){
+                                                                    text += `<img src="/static/tt_website/images/icon/symbol/seat.png" style="height:16px; width:auto;"><span style="font-weight:800;">`;
+                                                                    if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[0].cabin_class != '' &&  airline_cabin_class_list.hasOwnProperty(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[0].cabin_class)){
+                                                                        if(is_citilink && resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[0].cabin_class == 'W')
+                                                                            text += airline_cabin_class_list['W1']
+                                                                        else
+                                                                            text += airline_cabin_class_list[resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[0].cabin_class]
+                                                                    }
+                                                                    text += ` - Class `+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[0].class_of_service+`</span>`;
+
+                                                                    for(l in resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares){
+                                                                        for(m in resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details){
+                                                                            if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].detail_type.includes('BG')){
+                                                                                $text += '• Baggage ';
+                                                                                if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].detail_name != '' && resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].detail_name.includes('default_ssr') == false)
+                                                                                    $text += resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].detail_name;
+                                                                                else
+                                                                                    $text += resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].amount + ' ' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].unit;
+                                                                                $text += '\n';
+                                                                                text += `<br/><i class="fas fa-suitcase"></i><span style="font-weight:800;"> Baggage - `+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].amount + ' ' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].unit+` </span>`;
+                                                                            }else if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].detail_type.includes('ML')){
+                                                                                $text += '• Meal ' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].amount + ' ' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].unit + '\n';
+                                                                                text += `<br/><i class="fas fa-suitcase"></i><span style="font-weight:800;"> Meal - `+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].amount + ' ' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].unit+` </span>`;
+                                                                            }
+                                                                            if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].hasOwnProperty('detail_name')){
+                                                                                if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].detail_name){
+                                                                                    text+=`
+                                                                                    <span id="fare_detail_name`+i+``+j+``+k+``+l+``+m+`">
+                                                                                        <i class="fas fa-info-circle" onclick="print_fare_detail_name('fare_detail_name`+i+``+j+``+k+``+l+``+m+`', '`+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].detail_name+`');" style="padding-left:5px; color:`+color+`; cursor:pointer; font-size:16px;"></i>
+                                                                                    </span>`;
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                        if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].carrier_type_name){
+                                                                            $text += '• Aircraft: ' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].carrier_type_name + '\n';
+                                                                            text += `<br/><i class="fas fa-plane"></i><span style="font-weight:800;"> Aircraft - `+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].carrier_type_name+` </span>`;
+                                                                        }
+                                                                        if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].description.length > 0){
+                                                                            $text += 'Description: \n';
+                                                                            for(m in resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].description){
+                                                                                $text += '• ' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].description[m] + '\n';
                                                                             }
                                                                         }
                                                                     }
-                                                                    if(l == 0){
-                                                                        text_family_fare += '<div style="margin-left:15px;max-width: 700px;overflow: auto;display: flex;">';
-                                                                    }
-                                                                    text_family_fare += `
-
-                                                                            <label class="radio-button-custom">
-                                                                                <span style="font-size:13px;">`+family_provider_list[i].journeys[j].segments[k].fares[l].class_of_service+`</span>`;
-                                                                    if(family_provider_list[i].journeys[j].segments[k].fares[l].is_fare_pick)
-                                                                        text_family_fare += `
-                                                                                <input type="radio" checked="checked" `;
-                                                                    else
-                                                                        text_family_fare += `
-                                                                                <input type="radio" `;
-                                                                    text_family_fare += `name="price_detail_`+journey_idx+`_`+k+`" id="price_detail_`+journey_idx+`_`+k+`_`+l+`" value="`+journey_idx+`_`+k+`_`+l+`" onchange="change_airline_pick(`+journey_idx+`,`+k+`,`+l+`,'`+family_provider_list[i].journeys[j].segments[k].fares[l].fare_code+`','`+family_provider_list[i].journeys[j].segments[k].fares[l].group_fare_id+`');">`;
-                                                                    text_family_fare +=`</br><span>Price: </span><span class="price_template">`+currency+` `+getrupiah(total_price_fare)+`</span>`;
-                                                                    if(family_provider_list[i].journeys[j].segments[k].fares[l].fare_name)
-                                                                       text_family_fare+=`<br/><span style="font-size:13px;">`+family_provider_list[i].journeys[j].segments[k].fares[l].fare_name+`</span>`;
-                                                                    if(family_provider_list[i].journeys[j].segments[k].fares[l].fare_basis_code)
-                                                                        text_family_fare+=`<br/><span style="font-size:13px;">`+family_provider_list[i].journeys[j].segments[k].fares[l].fare_basis_code+`</span>`;
-
-                                                                    if(family_provider_list[i].journeys[j].segments[k].fares[l].description.length != 0){
-                                                                        for(m in family_provider_list[i].journeys[j].segments[k].fares[l].description){
-                                                                            text_family_fare += `<span style="font-size:13px; display:block;">`+family_provider_list[i].journeys[j].segments[k].fares[l].description[m]+`</span>`;
-                                                                            if(k != family_provider_list[i].journeys[j].segments[k].fares[l].description.length -1)
-                                                                                text_family_fare += '';
-                                                                        }
-                                                                    }
-                                                                    text_family_fare +=`
-                                                                                <span class="checkmark-radio"></span>
-                                                                            </label>
-
-                                                                    `;
+                                                                    $text += '\n';
                                                                 }
-                                                            }catch(err){console.log(err);}
-                                                            if(text_family_fare){
-                                                                if(text_family_fare.substr(text_family_fare.length-5) != '</div>')
-                                                                    text_family_fare += '</div>';
-                                                                text += `
-                                                                <div class="row">
-                                                                    <div class="col-lg-12" style="border-top:1px solid #cdcdcd;padding-top:15px;padding-bottom:15px;">
-                                                                        <h6>Class of Service</h6>
-                                                                    </div>
+
+                                                                if(is_family_fare){
+                                                                    text_family_fare = '';
+                                                                    try{
+                                                                        text_family_fare+=`
+                                                                        <div class="col-lg-12">
+                                                                           <div style="display:flex; overflow:auto;">`;
+                                                                            for(l in family_provider_list[i].journeys[j].segments[k].fares){
+                                                                                currency = '';
+                                                                                text_seat_name = '';
+                                                                                total_price_fare = 0;
+                                                                                if(family_provider_list[i].journeys[j].segments[k].fares[l].service_charge_summary){
+                                                                                    for(m in family_provider_list[i].journeys[j].segments[k].fares[l].service_charge_summary){
+                                                                                        if(!['CHD', 'INF'].includes(family_provider_list[i].journeys[j].segments[k].fares[l].service_charge_summary[m].pax_type)){
+                                                                                            total_price_fare = family_provider_list[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_price;
+                                                                                            if(family_provider_list[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges && currency == ''){
+                                                                                                for(n in family_provider_list[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges){
+                                                                                                    currency = family_provider_list[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].currency;
+                                                                                                    break;
+                                                                                                }
+                                                                                            }
+                                                                                            break;
+                                                                                        }
+                                                                                    }
+                                                                                }
+
+                                                                                text_family_fare += `
+                                                                                <label class="radio-label100">
+                                                                                    <input type="radio" name="price_detail_`+journey_idx+`_`+k+`" id="price_detail_`+journey_idx+`_`+k+`_`+l+`" value="`+journey_idx+`_`+k+`_`+l+`" onchange="change_airline_pick(`+journey_idx+`,`+k+`,`+l+`,'`+family_provider_list[i].journeys[j].segments[k].fares[l].fare_code+`','`+family_provider_list[i].journeys[j].segments[k].fares[l].group_fare_id+`');"`;
+                                                                                    if(family_provider_list[i].journeys[j].segments[k].fares[l].is_fare_pick){
+                                                                                         text_family_fare+=` checked="checked"`;
+                                                                                    }
+                                                                                    text_family_fare+=`>
+                                                                                    <div class="div_label100">
+                                                                                        <i class="fas fa-check check_label100"></i>
+                                                                                        <span style="font-weight:bold; font-size:15px;">`+family_provider_list[i].journeys[j].segments[k].fares[l].class_of_service+` `+text_seat_name+`</span><br/>`;
+                                                                                        if(family_provider_list[i].journeys[j].segments[k].fares[l].fare_name)
+                                                                                           text_family_fare+=`<span style="font-size:13px;">`+family_provider_list[i].journeys[j].segments[k].fares[l].fare_name+`</span><br/>`;
+                                                                                        if(family_provider_list[i].journeys[j].segments[k].fares[l].fare_basis_code)
+                                                                                            text_family_fare+=`<span style="font-size:13px;">`+family_provider_list[i].journeys[j].segments[k].fares[l].fare_basis_code+`</span><br/>`;
+
+                                                                                        if(family_provider_list[i].journeys[j].segments[k].fares[l].description.length != 0){
+                                                                                            for(m in family_provider_list[i].journeys[j].segments[k].fares[l].description){
+                                                                                                text_family_fare += `<span style="font-size:13px; display:block;"><i class="fas fa-caret-right"></i> `+family_provider_list[i].journeys[j].segments[k].fares[l].description[m]+`</span>`;
+                                                                                            }
+                                                                                            text_family_fare += `<br/>`;
+                                                                                        }
+                                                                                        text_family_fare+=`
+                                                                                        <div style="width:100%; text-align:right; right: 10px; bottom: 10px; position: absolute;">
+                                                                                            <span class="price_template">`+currency+` `+getrupiah(total_price_fare)+`</span>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </label>`;
+                                                                            }
+
+                                                                            text_family_fare+=`
+                                                                            </div>
+                                                                        </div>`;
+                                                                    }catch(err){console.log(err);}
+
+                                                                    //choose ticket airline
+                                                                    if(text_family_fare){
+                                                                        text += `
+                                                                        <div class="row">
+                                                                            <div class="col-lg-12" style="padding-top:15px;padding-bottom:15px;">
+                                                                                <h6>Class of Service</h6>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row" id="price_detail_`+journey_idx+`" style="padding:0px; text-align:left;">
+                                                                            `+text_family_fare+`
+                                                                        </div>`;
+                                                                    }else{
+                                                                        text_family_fare += `<div class="row" style="border-bottom:1px solid #cdcdcd;"></div>`;
+                                                                    }
+                                                                }
+                                                                text+=`
                                                                 </div>
-                                                                <div class="row" id="price_detail_`+journey_idx+`" style="padding:0px; text-align:left; max-height:250px; overflow:auto;">
-                                                                    `+text_family_fare+`
-                                                                </div>`;
-                                                            }
-                                                        }
-                                                        text+=`
+                                                            </div>
                                                         </div>`;
                                                     }
 
                                                     if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares.length > 0){
-                                                        text+=`
-                                                        <div class="col-lg-12" style="padding-bottom:15px;">`;
+                                                        //text+=`
+                                                        //<div class="col-lg-12" style="padding-bottom:15px;">`;
 //                                                        if(provider_list_data[resJson.result.response.price_itinerary_provider[i].provider].is_post_issued_reschedule)
 //                                                            text+=`<span style="font-weight:bold;"><i class="fas fa-check-circle" style="color:#4f9c64;"></i> Reschedule</span>`;
 
@@ -4678,8 +4694,8 @@ function get_price_itinerary_request(){
                             //                            if(provider_list_data[resJson.result.response.price_itinerary_provider[i].provider].is_post_issued_cancel)
                             //                                text+=`
                             //                                    <span style="padding:5px 10px; margin-right:5px; border:1px solid #cdcdcd; background:#fafafa; font-weight:bold; border-radius:14px;"><i class="fas fa-check-circle" style="color:#4f9c64;"></i> Refund</span>`;
-                                                        text+=`
-                                                        </div>`;
+                                                        //text+=`
+                                                        //</div>`;
                                                     }
                                                     text+=`
                                                     </div>`;
@@ -13073,6 +13089,8 @@ function render_ticket_reissue(){
                                                 }else{
                                                     text+=`<ul id="provider_seat_content`+i+``+j+`" class="dropdown-menu" style="background:unset; z-index:5; border:unset; padding:0px 15px;">`;
                                                 }
+
+                                                //when reissue
                                                 text+=`
                                                   <div style="background:white; padding:15px; border:1px solid #cdcdcd; background:white; overflow-y:auto; height:200px;">
                                                   <div class="row">

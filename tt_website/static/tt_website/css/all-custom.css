@@ -1591,6 +1591,139 @@ ul.popular2_tabs li.current .image-rounded-icon{
     text-align:center;
 }
 
+
+.radio-label100 {
+    padding-right:15px;
+    cursor:pointer;
+    text-align:left;
+    font-weight: 200;
+    display:flex;
+}
+.radio-label100 > input {
+  display:none;
+}
+.radio-label100 > .div_label100{
+    cursor:pointer;
+    padding:10px;
+    text-align:left;
+    border:2px solid #cdcdcd;
+    background:white;
+    margin-bottom:15px;
+    font-size:13px;
+    width: 200px;
+    min-height: 150px;
+    height:auto;
+    position: relative;
+}
+.radio-label100 > .div_label100:hover{
+    background: #205B95;
+    color: white;
+}
+
+.radio-label100  > .div_label100 > .check_label100{
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    opacity: 0;
+    padding:5px;
+    border-radius:5px;
+    font-size: 13px;
+    background: white;
+    color: #205B95;
+}
+
+.radio-label100 > input:checked + .div_label100{
+  background:2px solid #205B95 !important;
+  color: white !important;
+}
+
+.radio-label100 > input:checked + .div_label100 > div > .price_template{
+  color: white !important;
+}
+
+.radio-label100 > input:checked + .div_label100 > .check_label100{
+    opacity: 1;
+}
+
+.radio-label100 .div_radio_bg{
+    height:40px;
+    background:white;
+    color:black;
+    cursor:pointer;
+    text-align:center;
+    padding:5px 5px 5px 5px; border:1px solid #cdcdcd;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    text-align:center;
+}
+.radio-label100 .div_radio_bg:hover{
+    height:40px;
+    background:#205B95;
+    color:white;
+    cursor:pointer;
+    text-align:center;
+    padding:5px 5px 5px 5px; border:1px solid #cdcdcd;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    text-align:center;
+}
+.radio-label100 > input:checked + .div_radio_bg{
+    height:40px;
+    background:#205B95;
+    color:white;
+    cursor:pointer;
+    text-align:center;
+    padding:5px 5px 5px 5px;
+    border:1px solid #cdcdcd;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    text-align:center;
+}
+
+.radio-label100 .div_radio_img_txt{
+    height:60px;
+    background:white;
+    color:black;
+    cursor:pointer;
+    text-align:center;
+    padding:5px 5px 5px 5px;
+    border:1px solid #cdcdcd;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    text-align:center;
+}
+.radio-label100 .div_radio_img_txt:hover{
+    height:60px;
+    background:#205B95;
+    color:white;
+    cursor:pointer;
+    text-align:center;
+    padding:5px 5px 5px 5px;
+    border:1px solid #cdcdcd;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    text-align:center;
+}
+.radio-label100 > input:checked + .div_radio_img_txt{
+    height:60px;
+    background:#205B95;
+    color:white;
+    cursor:pointer;
+    text-align:center;
+    padding:5px 5px 5px 5px; border:1px solid #cdcdcd;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    text-align:center;
+}
+
+
+
 .activity_btn_advance{
     background: rgb(241, 90, 34);
     color: rgb(255, 255, 255);
@@ -2979,6 +3112,11 @@ th input {
     z-index: 999;
 }
 */
+
+.dropdown-menu{
+    width: 100% !important;
+    max-height: 470px !important;
+}
 
 .modal-header{
     background-color:white;
