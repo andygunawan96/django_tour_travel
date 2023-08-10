@@ -1,0 +1,479 @@
+{% load i18n %}
+
+<style>
+    [data-tooltip]:before {
+        /* needed - do not touch */
+        content: attr(data-tooltip);
+        position: absolute;
+        opacity: 0;
+
+        /* customizable */
+        transition: all 0.15s ease;
+        padding: 10px;
+        color: #333;
+        border-radius: 10px;
+        box-shadow: 2px 2px 1px #cdcdcd;
+    }
+
+    [data-tooltip]:hover:before {
+        /* needed - do not touch */
+        opacity: 1;
+
+        /* customizable */
+        background: {{color}};
+        color: {{text_color}};
+        margin-top: -50px;
+        margin-left: 20px;
+        text-align:left;
+        z-index:10000;
+    }
+
+    [data-tooltip]:not([data-tooltip-persistent]):before {
+        pointer-events: none;
+    }
+    .tooltip-inner {
+        white-space: pre-line;
+    }
+
+</style>
+
+{%if "create_request_corporate" in username.co_agent_frontend_security %}
+<button type="button" style="background-color:{{color}};" id="mystickycor" class="mystickypaxs cor-db-slide-toggle" class="primary-btn" data-toggle="modal" data-target="#myModal_cor">
+    <i class="fas fa-user-tie"></i>
+</button>
+
+<script>
+    document.getElementById('mystickycor').style.bottom = JSON.parse(JSON.stringify(bottom.toString())) + 'px';
+    bottom+=60;
+</script>
+
+<div class="modal fade" id="myModal_cor" role="dialog">
+    <div class="overlay_modal_custom" onclick="$('#myModal_cor').modal('hide');clear_request_cor();"></div>
+    <div class="modal-dialog modal_custom_fixed">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="row">
+                    <div class="col-xs-6 pb-3">
+                        <h4 class="modal-title">{% trans 'New Corporate Form' %}</h4>
+                    </div>
+                    <div class="col-xs-6">
+                        <button type="button" class="close modal_custom_close" data-dismiss="modal" onclick="$('#myModal_cor').modal('hide');clear_request_cor();">&times;</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6" id="button_tl_adult{{forloop.counter}}">
+
+                    </div>
+                    <div class="col-xs-6" id="button_tr_adult{{forloop.counter}}">
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body" style="text-align:left;">
+                <form action="" class="form-wrap" style="padding:5px; text-align:left;" method="POST" id="form_identity_cor" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col-lg-12 mb-3" style="text-align:right;">
+                            <button type="button" class="primary-btn" onclick="generate_url_create('cor');">Generate Link <i class="fas fa-link"></i></button>
+                        </div>
+                        <div class="col-lg-12 mb-3">
+                            <h4>Company</h4>
+                            <div style="background:white; border:1px solid #cdcdcd; padding:15px;">
+                                <div class="row">
+                                    <div class="col-lg-12" style="margin-bottom:15px;">
+                                        <label style="color:red">*</label>
+                                        <label>{% trans 'Name' %}</label>
+                                        <div class="input-container-search-ticket">
+                                            <input type="text" style="margin-bottom:0px;" class="form-control" name="company_name" id="company_name" placeholder="{% trans 'Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Name '">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12" style="margin-bottom:15px;">
+                                        <label style="color:red">*</label>
+                                        <label>{% trans 'Address' %}</label>
+                                        <div class="input-container-search-ticket">
+                                            <input type="text" style="margin-bottom:0px;" class="form-control" name="company_address" id="company_address" placeholder="{% trans 'Address' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Address '">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12" style="margin-bottom:15px;">
+                                        <label style="color:red">*</label>
+                                        <label>{% trans 'Property' %}</label>
+                                        <div class="input-container-search-ticket">
+                                            <div class="form-select">
+                                                <select class="form-control js-example-basic-single" name="company_property" style="width:100%;" id="company_property" placeholder="Property"  class="nice-select-default">
+                                                    <option value="">Property</option>
+                                                    <option value="milik sendiri">Own</option>
+                                                    <option value="sewa">Rent</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12" style="margin-bottom:15px;">
+                                        <label style="color:red">*</label>
+                                        <label>{% trans 'How long do you occupied this property?' %}</label>
+                                        <div class="input-container-search-ticket">
+                                            <input type="text" class="form-control" name="company_occupied" id="company_occupied" placeholder="Years " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Years '" autocomplete="off">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12" style="margin-bottom:15px;">
+                                        <label style="color:red">*</label>
+                                        <label>{% trans 'Phone Number' %}</label>
+                                        <div class="input-container-search-ticket">
+                                            <input type="text" style="margin-bottom:0px;" class="form-control" name="company_phone_number" id="company_phone_number" placeholder="{% trans 'Phone Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12" style="margin-bottom:15px;">
+                                        <label style="color:red">*</label>
+                                        <label>{% trans 'Email' %}</label>
+                                        <div class="input-container-search-ticket">
+                                            <input type="text" style="margin-bottom:0px;" class="form-control" name="company_email" id="company_email" placeholder="{% trans 'Email' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email '">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12" style="margin-bottom:15px;">
+                                        <label style="color:red">*</label></label>
+                                        <label>{% trans 'Established Date' %}</label>
+                                        <div class="input-container-search-ticket">
+                                            <input type="text" style="margin-bottom:0px;" class="form-control" name="company_established_date" id="company_established_date" placeholder="{% trans 'Established Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Established Date '">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12" style="margin-bottom:15px;">
+                                        <label style="color:red">*</label>
+                                        <label>{% trans 'How many workers in company?' %}</label>
+                                        <div class="input-container-search-ticket">
+                                            <input type="text" style="margin-bottom:0px;" class="form-control" name="company_worker" id="company_worker" placeholder="{% trans '5 - 15' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = '5 - 15 '">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12" style="margin-bottom:15px;">
+                                        <label style="color:red">*</label>
+                                        <label>{% trans 'Affiliate / Group' %}</label>
+                                        <div class="input-container-search-ticket">
+                                            <input type="text" style="margin-bottom:0px;" class="form-control" name="company_group" id="company_group" placeholder="{% trans 'Affiliate / Group' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Affiliate / Group '">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12" style="margin-bottom:15px;">
+                                        <label style="color:red">*</label>
+                                        <label>{% trans 'Business Field' %}</label>
+                                        <div class="input-container-search-ticket">
+                                            <input type="text" style="margin-bottom:0px;" class="form-control" name="company_business_field" id="company_business_field" placeholder="{% trans 'Business Field' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Business Field '">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12" style="margin-bottom:15px;">
+                                        <label style="color:red">*</label>
+                                        <label>{% trans 'Company Data Bank' %}</label>
+                                        <div class="input-container-search-ticket">
+                                            <input type="text" style="margin-bottom:0px;" class="form-control" name="company_bank_data" id="company_bank_data" placeholder="{% trans 'Data Bank' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Data Bank '">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12" style="margin-bottom:15px;">
+                                        <label style="color:red">*</label>
+                                        <label>{% trans 'How do you know us?' %}</label>
+                                        <div class="input-container-search-ticket">
+                                            <textarea class="form-control" style="resize: none; height:200px;" id="company_how_to_know_us" name="company_how_to_know_us" placeholder="" rows="6" cols="45"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12 mb-3">
+                            <h4>Data Owner</h4>
+                            <div style="background:white; border:1px solid #cdcdcd; padding:15px;">
+                                <div class="row">
+                                    <div class="col-lg-12" style="margin-bottom:15px;">
+                                        <label style="color:red">*</label>
+                                        <label>{% trans 'Full Name' %}</label>
+                                        <div class="input-container-search-ticket">
+                                            <input type="text" style="margin-bottom:0px;" class="form-control" name="owner_name" id="owner_name" placeholder="{% trans 'Full Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Full Name '">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12" style="margin-bottom:15px;">
+                                        <label style="color:red">*</label>
+                                        <label>{% trans 'Position' %}</label>
+                                        <div class="input-container-search-ticket">
+                                            <input type="text" style="margin-bottom:0px;" class="form-control" name="owner_position" id="owner_position" placeholder="{% trans 'Position' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Position '">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12" style="margin-bottom:15px;">
+                                        <label style="color:red">*</label>
+                                        <label>{% trans 'Birth Date' %}</label>
+                                        <div class="input-container-search-ticket">
+                                            <input type="text" class="form-control date-picker-birth" name="owner_birth_date" id="owner_birth_date" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12" style="margin-bottom:15px;">
+                                        <label style="color:red">*</label>
+                                        <label>{% trans 'Phone Number' %}</label>
+                                        <div class="input-container-search-ticket">
+                                            <input type="text" style="margin-bottom:0px;" class="form-control" name="owner_phone_number" id="owner_phone_number" placeholder="{% trans 'Phone Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12" style="margin-bottom:15px;">
+                                        <label style="color:red">*</label>
+                                        <label>{% trans 'Email' %}</label>
+                                        <div class="input-container-search-ticket">
+                                            <input type="text" style="margin-bottom:0px;" class="form-control" name="owner_email" id="owner_email" placeholder="{% trans 'Email' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email '">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12 mb-3">
+                            <h4>Data Director</h4>
+                            <div style="background:white; border:1px solid #cdcdcd; padding:15px;">
+                                <div class="row">
+                                    <div class="col-lg-12" style="margin-bottom:15px;">
+                                        <label style="color:red">*</label>
+                                        <label>{% trans 'Full Name' %}</label>
+                                        <div class="input-container-search-ticket">
+                                            <input type="text" style="margin-bottom:0px;" class="form-control" name="director_name" id="director_name" placeholder="{% trans 'Full Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Full Name '">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12" style="margin-bottom:15px;">
+                                        <label style="color:red">*</label>
+                                        <label>{% trans 'Position' %}</label>
+                                        <div class="input-container-search-ticket">
+                                            <input type="text" style="margin-bottom:0px;" class="form-control" name="director_position" id="director_position" placeholder="{% trans 'Position' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Position '">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12" style="margin-bottom:15px;">
+                                        <label style="color:red">*</label>
+                                        <label>{% trans 'Birth Date' %}</label>
+                                        <div class="input-container-search-ticket">
+                                            <input type="text" class="form-control date-picker-birth" name="director_birth_date" id="director_birth_date" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12" style="margin-bottom:15px;">
+                                        <label style="color:red">*</label>
+                                        <label>{% trans 'Phone Number' %}</label>
+                                        <div class="input-container-search-ticket">
+                                            <input type="text" style="margin-bottom:0px;" class="form-control" name="director_phone_number" id="director_phone_number" placeholder="{% trans 'Phone Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12" style="margin-bottom:15px;">
+                                        <label style="color:red">*</label>
+                                        <label>{% trans 'Email' %}</label>
+                                        <div class="input-container-search-ticket">
+                                            <input type="text" style="margin-bottom:0px;" class="form-control" name="director_email" id="director_email" placeholder="{% trans 'Email' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email '">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12 mb-3">
+                            <h4>Data Head of Accounting</h4>
+                            <div style="background:white; border:1px solid #cdcdcd; padding:15px;">
+                                <div class="row">
+                                    <div class="col-lg-12" style="margin-bottom:15px;">
+                                        <label style="color:red">*</label>
+                                        <label>{% trans 'Full Name' %}</label>
+                                        <div class="input-container-search-ticket">
+                                            <input type="text" style="margin-bottom:0px;" class="form-control" name="accounting_name" id="accounting_name" placeholder="{% trans 'Full Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Full Name '">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12" style="margin-bottom:15px;">
+                                        <label style="color:red">*</label>
+                                        <label>{% trans 'Position' %}</label>
+                                        <div class="input-container-search-ticket">
+                                            <input type="text" style="margin-bottom:0px;" class="form-control" name="accounting_position" id="accounting_position" placeholder="{% trans 'Position' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Position '">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12" style="margin-bottom:15px;">
+                                        <label style="color:red">*</label>
+                                        <label>{% trans 'Birth Date' %}</label>
+                                        <div class="input-container-search-ticket">
+                                            <input type="text" class="form-control date-picker-birth" name="accounting_birth_date" id="accounting_birth_date" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12" style="margin-bottom:15px;">
+                                        <label style="color:red">*</label>
+                                        <label>{% trans 'Phone Number' %}</label>
+                                        <div class="input-container-search-ticket">
+                                            <input type="text" style="margin-bottom:0px;" class="form-control" name="accounting_phone_number" id="accounting_phone_number" placeholder="{% trans 'Phone Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12" style="margin-bottom:15px;">
+                                        <label style="color:red">*</label>
+                                        <label>{% trans 'Email' %}</label>
+                                        <div class="input-container-search-ticket">
+                                            <input type="text" style="margin-bottom:0px;" class="form-control" name="accounting_email" id="accounting_email" placeholder="{% trans 'Email' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email '">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12 mb-3">
+                            <h4>PIC</h4>
+                            <div style="background:white; border:1px solid #cdcdcd; padding:15px;">
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
+                                        <label style="color:red">*</label>
+                                        <label>{% trans 'Title' %}</label>
+                                        <div class="input-container-search-ticket">
+                                            <div class="form-select-2" id="default-select">
+                                                <select id="pic_title" name="pic_title" class="nice-select-default">
+                                                    <option value=""></option>
+                                                    <option value="MR">MR</option>
+                                                    <option value="MRS">MRS</option>
+                                                    <option value="MS">MS</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12" style="margin-bottom:15px;">
+                                        <label style="color:red">*</label>
+                                        <label>{% trans 'First Name' %}</label>
+                                        <div class="input-container-search-ticket">
+                                            <input type="text" style="margin-bottom:0px;" class="form-control" name="pic_first_name" id="pic_first_name" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12" style="margin-bottom:15px;">
+                                        <label style="color:red">*</label>
+                                        <label>{% trans 'Last Name' %}</label>
+                                        <div class="input-container-search-ticket">
+                                            <input type="text" style="margin-bottom:0px;" class="form-control" name="pic_last_name" id="pic_last_name" placeholder="{% trans 'Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12" style="margin-bottom:15px;">
+                                        <label style="color:red">*</label>
+                                        <label>{% trans 'Position' %}</label>
+                                        <div class="input-container-search-ticket">
+                                            <input type="text" style="margin-bottom:0px;" class="form-control" name="pic_position" id="pic_position" placeholder="{% trans 'Position' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Position '">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12" style="margin-bottom:15px;">
+                                        <label style="color:red">*</label>
+                                        <label>{% trans 'Birth Date' %}</label>
+                                        <div class="input-container-search-ticket">
+                                            <input type="text" class="form-control date-picker-birth" name="pic_birth_date" id="pic_birth_date" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12" style="margin-bottom:15px;">
+                                        <label style="color:red">*</label>
+                                        <label>{% trans 'Phone Number' %}</label>
+                                        <div class="input-container-search-ticket">
+                                            <input type="text" style="margin-bottom:0px;" class="form-control" name="pic_phone_number" id="pic_phone_number" placeholder="{% trans 'Phone Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12" style="margin-bottom:15px;">
+                                        <label style="color:red">*</label>
+                                        <label>{% trans 'Email' %}</label>
+                                        <div class="input-container-search-ticket">
+                                            <input type="text" style="margin-bottom:0px;" class="form-control" name="pic_email" id="pic_email" placeholder="{% trans 'Email' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email '">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12 mb-3" id="corporate_airline" style="display:none;">
+                            <h4>Do you want to have a Corporate Airline Code?</h4>
+                            <div style="background:white; border:1px solid #cdcdcd; padding:15px;" id="corporate_airline_div">
+
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12 mb-3">
+                            <h4>Other Question</h4>
+                            <div style="background:white; border:1px solid #cdcdcd; padding:15px;">
+                                <div class="row">
+                                    <div class="col-lg-12" style="margin-bottom:15px;">
+                                        <label>{% trans 'Do you want to have and account in ' %}{{name}}</label>
+                                        <div class="input-container-search-ticket">
+                                            <label class="radio-button-custom">
+                                                {% trans 'Yes' %}
+                                                <input type="radio" name="myRadios_account" value="yes"/>
+                                                <span class="checkmark-radio"></span>
+                                            </label>
+
+                                            <label class="radio-button-custom">
+                                                {% trans 'No' %}
+                                                <input type="radio" name="myRadios_account" value="no" checked="checked"/>
+                                                <span class="checkmark-radio"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <!--<div class="col-lg-12" style="margin-bottom:15px;">-->
+                                        <!--<label>{% trans 'Airline' %}</label>-->
+                                        <!--<div class="input-container-search-ticket">-->
+
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12" style="margin-top:15px; text-align:center;">
+                            <input type="button" id="create_request_cor_btn" style="width:100%;" class="primary-btn" onclick="create_request_cor();" value="Request Corporate"/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function() {
+        $('input[name="company_established_date"]').daterangepicker({
+              singleDatePicker: true,
+              autoUpdateInput: true,
+              maxDate: moment(),
+              showDropdowns: true,
+              opens: 'center',
+              locale: {
+                  format: 'DD MMM YYYY',
+              }
+        });
+        $('input[name="company_established_date"]').val("");
+        $('input[name="owner_birth_date"]').daterangepicker({
+              singleDatePicker: true,
+              autoUpdateInput: true,
+              maxDate: moment(),
+              showDropdowns: true,
+              opens: 'center',
+              locale: {
+                  format: 'DD MMM YYYY',
+              }
+        });
+        $('input[name="owner_birth_date"]').val("");
+        $('input[name="director_birth_date"]').daterangepicker({
+              singleDatePicker: true,
+              autoUpdateInput: true,
+              maxDate: moment(),
+              showDropdowns: true,
+              opens: 'center',
+              locale: {
+                  format: 'DD MMM YYYY',
+              }
+        });
+        $('input[name="director_birth_date"]').val("");
+        $('input[name="accounting_birth_date"]').daterangepicker({
+              singleDatePicker: true,
+              autoUpdateInput: true,
+              maxDate: moment(),
+              showDropdowns: true,
+              opens: 'center',
+              locale: {
+                  format: 'DD MMM YYYY',
+              }
+        });
+        $('input[name="accounting_birth_date"]').val("");
+        $('input[name="pic_birth_date"]').daterangepicker({
+              singleDatePicker: true,
+              autoUpdateInput: true,
+              maxDate: moment(),
+              showDropdowns: true,
+              opens: 'center',
+              locale: {
+                  format: 'DD MMM YYYY',
+              }
+        });
+        $('input[name="pic_birth_date"]').val("");
+        get_all_carrier_airline('cor');
+    });
+</script>
+
+{% endif %}
