@@ -4169,11 +4169,10 @@ function airline_pick_mc(type){
                         <div class="row">
                             <div class="col-lg-2">`;
                                 for(j in airline_pick_list[i].segments){
-                                    if(j != 0){
-                                        text+=`<hr style="margin-top:unset;"/>`;
-                                    }
-
                                     if(airline_pick_list[i].segments[j].carrier_code != airline_pick_list[i].segments[j].operating_airline_code && airline_pick_list[i].segments[j].operating_airline_code != ''){
+                                        if(j != 0){
+                                            text+=`<hr style="margin-top:unset;"/>`;
+                                        }
                                         try{
                                             text += `<span class="copy_operated_by" style="float:left; font-weight: 700; font-size:12px;">Operated by `+airline_carriers[0][airline_pick_list[i].segments[j].operating_airline_code].name+`</span><br/>`;
                                         }
@@ -4187,6 +4186,9 @@ function airline_pick_mc(type){
                                             <span class="copy_carrier_provider" style="font-weight:500; font-size:12px;">`+airline_pick_list[i].segments[j].carrier_code+`</span><br/>`;
                                         }
                                     }else if(carrier_code_airline.includes(airline_pick_list[i].segments[j].carrier_code) == false){
+                                        if(j != 0){
+                                            text+=`<hr style="margin-top:unset;"/>`;
+                                        }
                                         try{
                                             text+=`
                                             <span class="copy_carrier_provider" style="font-weight:500; font-size:12px;">`+airline_carriers[0][airline_pick_list[i].segments[j].carrier_code].name+`</span><br/>`;
