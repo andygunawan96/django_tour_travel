@@ -935,10 +935,28 @@ def check_credential_b2c(request):
     res = send_request_api(request, url_request, headers, data, 'POST', 10)
     try:
         if res['result']['error_code'] == 0:
-            if request.POST.get('is_need_to_save', '') == 'true':
+            ## check frontend permission kalau ada b2c_limitation baru save
+            data = {}
+            headers = {
+                "Accept": "application/json,text/html,application/xml",
+                "Content-Type": "application/json",
+                "action": "get_account",
+                "signature": res['result']['response']['signature']
+            }
+            url_request = get_url_gateway('account')
+            res_user = send_request_api(request, url_request, headers, data, 'POST')
+            if request.POST.get('is_need_to_save', '') == 'true' and "b2c_limitation" in res_user['result']['response']['co_agent_frontend_security']:
                 write_cache({
                     "username": request.POST['username'],
                     "password": request.POST['password']}, 'credential_user_default', request)
+            else:
+                res = {
+                    "result": {
+                        "response": "",
+                        "error_code": 500,
+                        "error_msg": "Please change to B2C User"
+                    }
+                }
         else:
             res = {
                 "result": {

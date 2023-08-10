@@ -136,7 +136,8 @@ def index(request):
                 if provider['result']['response'].get('provider'):
                     values = get_data_template(request, 'home', provider['result']['response']['provider'])
                 else:
-                    return no_credential_b2c(request)
+                    raise Exception('Make response code 409!')
+                    # return no_credential_b2c(request)
             except Exception as e:
                 _logger.error('Error user b2c auto sign in')
                 if provider['result']['error_code'] == 4002 and 'connection refused' not in provider['result']['error_msg'].lower():
