@@ -3421,11 +3421,6 @@ function sort(){
                                                                            text+=`
                                                                            </div>
                                                                        </div>
-                                                                       <div class="col-lg-12 mt-2" style="text-align:right;">
-                                                                           <button type="button" class="primary-btn dropdown-close-seat">
-                                                                               Done
-                                                                           </button>
-                                                                       </div>
                                                                    </div>
                                                                </ul>
                                                            </div>
@@ -3921,12 +3916,9 @@ function sort(){
         document.getElementById("airlineAirline_generalShow_loading2").innerHTML = '';
    }
 
-    $('.dropdown-menu').on('click', function(e) {
-      e.stopPropagation();
-    });
-    $(".dropdown-close-seat").click(function() {
-       $(".dropdown-close-seat").dropdown("toggle");
-    });
+//    $('.dropdown-menu').on('click', function(e) {
+//      e.stopPropagation();
+//    });
 }
 
 function change_departure(val){
