@@ -806,7 +806,20 @@ def admin(request):
                                 text += '\n'
                         text += request.POST['website_mode'] + '\n'
                         text += '\n'
-                        text += request.POST['google_analytics'] + '\n'
+                        if request.POST.get('google_analytics'):
+                            text += request.POST['google_analytics'] + '\n'
+                        else:
+                            try:
+                                file = read_cache("data_cache_template", 'cache_web', request, 90911)
+                                if file:
+                                    for idx, line in enumerate(file.split('\n')):
+                                        if idx == 18:
+                                            text += line + '\n'
+                                            break
+                                else:
+                                    text += '\n'
+                            except:
+                                text += '\n'
                         text += '<br>'.join(''.join(request.POST['contact_us'].split('\r')).split('\n')) + '\n'
                         opacity = 'FF'
                         if request.POST.get('tab_login_background_checkbox'):
@@ -815,7 +828,20 @@ def admin(request):
                         text += "#" + request.POST['text_pick_login'] + '\n'
                         text += '\n' ## wa chat yg lama deprecated
                         text += '\n' ## wa chat yg lama deprecated
-                        text += request.POST['google_api_key'] + '\n'
+                        if request.POST.get('google_api_key'):
+                            text += request.POST['google_api_key'] + '\n'
+                        else:
+                            try:
+                                file = read_cache("data_cache_template", 'cache_web', request, 90911)
+                                if file:
+                                    for idx, line in enumerate(file.split('\n')):
+                                        if idx == 24:
+                                            text += line + '\n'
+                                            break
+                                else:
+                                    text += '\n'
+                            except:
+                                text += '\n'
                         text += request.POST['setting_login_page'] + '\n'
                         text += request.POST['tour_search_template'] + '\n'
                         if request.session.get('username'): ## LAST UPDATE USER
