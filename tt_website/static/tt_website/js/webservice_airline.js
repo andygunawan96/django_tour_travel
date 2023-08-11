@@ -3156,22 +3156,22 @@ function airline_search(provider,carrier_codes,last_send=false,re_order=false){
 }
 
 function datasearch2(airline){
-   airline_choose++;
-   data = [];
-   data_show = [];
-   temp_data = [];
-   text = '';
-   var counter = 0;
-   for(i in airline_data){
-       data.push(airline_data[i]);
-       if(airline_data[i].origin == airline_request.origin[counter_search-1].substr(airline_request.origin[counter_search-1].length-4,3) && airline_departure == 'departure')
+    airline_choose++;
+    data = [];
+    data_show = [];
+    temp_data = [];
+    text = '';
+    var counter = 0;
+    for(i in airline_data){
+        data.push(airline_data[i]);
+        if(airline_data[i].origin == airline_request.origin[counter_search-1].substr(airline_request.origin[counter_search-1].length-4,3) && airline_departure == 'departure')
            data_show.push(airline_data[i]);
-       else if(airline_data[i].origin == airline_request.destination[counter_search-1].substr(airline_request.origin[counter_search-1].length-4,3) && airline_departure == 'return')
+        else if(airline_data[i].origin == airline_request.destination[counter_search-1].substr(airline_request.origin[counter_search-1].length-4,3) && airline_departure == 'return')
            data_show.push(airline_data[i]);
-       counter++;
-   }
+        counter++;
+    }
 
-   for(i in airline.schedules){
+    for(i in airline.schedules){
         for(j in airline.schedules[i].journeys){
            fare_details = [];
            airline.schedules[i].journeys[j].sequence = counter;
@@ -3300,15 +3300,17 @@ function datasearch2(airline){
            temp_data.push(airline.schedules[i].journeys[j]);
            counter++;
         }
-   }
-   airline_data = data;
+    }
+    airline_data = data;
 
 //   print_ticket_search(temp_data);
 //   sort_button('price');
 //   sort(temp_data);
-   recommendations_airline = recommendations_airline.concat(airline.recommendations)
-   if(airline_request.departure.length != journey.length)
-       filtering('filter');
+    if(airline.recommendations){
+        recommendations_airline = recommendations_airline.concat(airline.recommendations)
+    }
+    if(airline_request.departure.length != journey.length)
+        filtering('filter');
 }
 
 function change_fare(journey, segment, fares, fare_code){
