@@ -2254,7 +2254,7 @@ function render_notification(){
             }else if(render_data_notification[i].provider_type == 'labpintar'){
                 url_goto = '/lab_pintar/booking/';
             }else if(render_data_notification[i].provider_type == 'mitrakeluarga'){
-                url_goto = '/mitra_keluarga/booking/';
+                url_goto = '/mitrakeluarga/booking/';
             }else if(render_data_notification[i].provider_type == 'insurance'){
                 url_goto = '/insurance/booking/';
             }else if(render_data_notification[i].provider_type == 'groupbooking'){

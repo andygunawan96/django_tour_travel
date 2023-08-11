@@ -2983,6 +2983,46 @@ function sort(){
                                                                        <div class="col-lg-12">
                                                                            <div style="display:flex; overflow:auto;">`;
                                                                            fare_check = 0;
+
+                                                                           data_soc = [];//seat of class
+                                                                           data_soc_av = [];//seat of class available
+                                                                           data_soc_so = [];//seat of class sold out
+                                                                           for(k in airline[i].segments[j].fares){
+                                                                                if(airline_pick_list.length == 0 || airline_recommendations_dict == {} || airline_recommendations_dict.hasOwnProperty(airline[i].journey_ref_id)){
+                                                                                    print = true;
+                                                                                    if(airline_recommendations_dict.hasOwnProperty(airline[i].journey_ref_id)){
+                                                                                        print = false;
+                                                                                        for(l in airline_recommendations_dict[airline[i].journey_ref_id]){
+                                                                                            for(m in airline_recommendations_dict[airline[i].journey_ref_id][l].segments){
+                                                                                                if(airline[i].segments[j].fares[k].fare_ref_id == airline_recommendations_dict[airline[i].journey_ref_id][l].segments[m].fare_ref_id){
+                                                                                                    print = true;
+                                                                                                    break;
+                                                                                                }
+                                                                                            }
+                                                                                            if(print)
+                                                                                                break;
+                                                                                        }
+                                                                                    }
+                                                                                    if(print == true){
+                                                                                        if(airline_request.adult + airline_request.child > airline[i].segments[j].fares[k].available_count){
+                                                                                            data_soc_so.push(airline[i].segments[j].fares[k]);
+                                                                                        }else{
+                                                                                            data_soc_av.push(airline[i].segments[j].fares[k]);
+                                                                                        }
+                                                                                    }
+                                                                                }
+                                                                                else{
+                                                                                    if(airline_request.adult + airline_request.child > airline[i].segments[j].fares[k].available_count){
+                                                                                        data_soc_so.push(airline[i].segments[j].fares[k]);
+                                                                                    }else{
+                                                                                        data_soc_av.push(airline[i].segments[j].fares[k]);
+                                                                                    }
+                                                                                }
+                                                                           }
+
+                                                                           data_soc = data_soc_av.concat(data_soc_so);
+                                                                           airline[i].segments[j].fares = data_soc;
+
                                                                            for(k in airline[i].segments[j].fares){
                                                                                check = 0;
                                                                                text_seat_name = '';
@@ -4642,6 +4682,26 @@ function airline_pick_mc(type){
                                                </div>
                                                <div class="col-lg-12">
                                                    <div style="display:flex; overflow:auto;">`;
+
+                                                       data_soc_pick = [];//seat of class
+                                                       data_soc_av_pick = [];//seat of class available
+                                                       data_soc_ds_pick = [];//seat of class available disable
+                                                       data_soc_so_pick = [];//seat of class avail sold out
+                                                       for(k in airline_pick_list[i].segments[j].fares){
+                                                            if(k==airline_pick_list[i].segments[j].fare_pick){
+                                                                data_soc_av.push(airline_pick_list[i].segments[j].fares[k]);
+                                                            }else{
+                                                                if(airline_request.adult + airline_request.child > airline_pick_list[i].segments[j].fares[k].available_count){
+                                                                    data_soc_so_pick.push(airline_pick_list[i].segments[j].fares[k]);
+                                                                }else{
+                                                                    data_soc_ds_pick.push(airline_pick_list[i].segments[j].fares[k]);
+                                                                }
+                                                            }
+                                                       }
+
+                                                       data_soc_pick = data_soc_av_pick.concat(data_soc_ds_pick, data_soc_so_pick);
+                                                       airline_pick_list[i].segments[j].fares = data_soc_pick;
+
                                                        for(k in airline_pick_list[i].segments[j].fares){
                                                             text_seat_name_pick = '';
                                                             if(airline_pick_list[i].segments[j].fares[k].cabin_class != ''){
@@ -4777,11 +4837,6 @@ function airline_pick_mc(type){
                                                         }
                                                        text+=`
                                                     </div>
-                                                </div>
-                                                <div class="col-lg-12 mt-2" style="text-align:right;">
-                                                    <button type="button" class="primary-btn dropdown-close-seat">
-                                                        Close
-                                                    </button>
                                                 </div>
                                             </div>
                                         </ul>

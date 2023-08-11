@@ -4331,11 +4331,12 @@ function draw_get_price_itinerary(){
                     counter_class_of_service++;
 //                                }
                 }
-                if(counter_class_of_service > 1){
-                    family_segment_journey.push({"fares":fare_list});
-                }else{
-                    family_segment_journey.push({"fares":[]});
-                }
+                family_segment_journey.push({"fares":fare_list});
+//                if(counter_class_of_service > 1){
+//                    family_segment_journey.push({"fares":fare_list});
+//                }else{
+//                    family_segment_journey.push({"fares":[]});
+//                }
             }
             journey_idx++;
             family_journey_list.push({"segments":family_segment_journey});
