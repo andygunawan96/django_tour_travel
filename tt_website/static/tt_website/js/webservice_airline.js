@@ -12237,6 +12237,7 @@ function reissued_btn(){
                                     <label class="span_link" onclick="delete_reissue(`+i+`,`+j+`)">Close <i class="fas fa-times" style="font-size:18px; color:red;"></i></label>
                                </div>
                             </div>`;
+                            cabin_class = ''
                             for(k in airline_get_detail.result.response.provider_bookings[i].journeys[j].segments){
                                 //kasih silang kasih reset
                                 text+=`
@@ -12253,6 +12254,7 @@ function reissued_btn(){
                                     text +=`
                                     </div>
                                 </div>`;
+                                cabin_class = airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[k].cabin_class;
                             }
                             text+=`
                             <div class="row">
@@ -12295,14 +12297,30 @@ function reissued_btn(){
                                 <div class="col-lg-12">
                                     <div class="form-select">
                                         <select id="cabin_class`+flight+`" name="cabin_class`+flight+`" class="nice-select-default reissued-class-airline">
-                                            <option value="Y" selected="">Economy</option>`;
-                                            if(airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[0].carrier_code == 'QG')
-                                                text +=`<option value="W">Royal Green</option>`;
-                                            else
-                                                text +=`<option value="W">Premium Economy</option>`;
+                                            <option value="Y"`;
+                                            if(cabin_class == 'Y')
+                                                text += ` selected`;
+                                            text+=`>Economy</option>`;
+                                            if(airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[0].carrier_code == 'QG'){
+                                                text +=`<option value="W"`;
+                                                if(cabin_class == 'W')
+                                                    text += ` selected`;
+                                                text +=`>Royal Green</option>`;
+                                            }else{
+                                                text +=`<option value="W"`;
+                                                if(cabin_class == 'W')
+                                                    text += ` selected`;
+                                                text+=`>Premium Economy</option>`;
+                                            }
                                             text +=`
-                                            <option value="C">Business</option>
-                                            <option value="F">First Class</option>
+                                            <option value="C"`;
+                                            if(cabin_class == 'C')
+                                                text += ` selected`;
+                                            text+=`>Business</option>
+                                            <option value="F"`;
+                                            if(cabin_class == 'F')
+                                                text += ` selected`;
+                                            text+=`>First Class</option>
                                         </select>
                                     </div>
                                 </div>
