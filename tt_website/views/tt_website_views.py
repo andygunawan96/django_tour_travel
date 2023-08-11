@@ -140,7 +140,7 @@ def index(request):
                     # return no_credential_b2c(request)
             except Exception as e:
                 _logger.error('Error user b2c auto sign in')
-                if provider['result']['error_code'] == 4002 and 'connection refused' not in provider['result']['error_msg'].lower():
+                if provider['result']['error_code'] == 4002 and 'connection refused' not in provider['result']['error_msg'].lower() or str(e) == 'Make response code 409!':
                     raise Exception('Make response code 409!')
                 ## GW MATI OR BACKEND MATI
                 elif 'httpconnectionpool' in provider['result']['error_msg'].lower() or 'connection refused' in provider['result']['error_msg'].lower():

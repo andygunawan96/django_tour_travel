@@ -377,11 +377,12 @@ def search(request):
             ## PROMO CODE
             promo_codes = []
             if request.POST.get('checkbox_add_promotion_code_airline', '') == 'on' or request.META.get('HTTP_REFERER').split('/')[len(request.META.get('HTTP_REFERER').split('/'))-1] == 'search':
-                for i in range(int(request.POST.get('promo_code_counter', '0'))):
-                    promo_codes.append({
-                        'carrier_code': request.POST.get('carrier_code_line'+str(i)),
-                        'promo_code': request.POST.get('code_line'+str(i))
-                    })
+                if request.POST.get('promo_code_counter'):
+                    for i in range(int(request.POST.get('promo_code_counter', '0'))):
+                        promo_codes.append({
+                            'carrier_code': request.POST.get('carrier_code_line'+str(i)),
+                            'promo_code': request.POST.get('code_line'+str(i))
+                        })
             use_osi_code_backend = True
             if request.POST.get('checkbox_osi_code_backend_airline') == 'on' or request.META.get('HTTP_REFERER').split('/')[len(request.META.get('HTTP_REFERER').split('/'))-1] == 'search':
                 use_osi_code_backend = False
