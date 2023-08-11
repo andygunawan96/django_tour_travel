@@ -285,7 +285,7 @@
            success: function(msg) {
                console.log(msg);
                if(msg.result.error_code == 0 && msg.result.response != ''){
-                    window.location.href = '/mitra_keluarga/confirm_order/'+btoa(msg.result.response.order_number);
+                    window.location.href = '/mitrakeluarga/confirm_order/'+btoa(msg.result.response.order_number);
                }else{
                    Swal.fire({
                       type: 'error',
