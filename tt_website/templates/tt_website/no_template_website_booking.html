@@ -390,10 +390,26 @@ Licence URI: http://www.os-templates.com/template-terms
 <script>
     color = `{{color}}`;
     text_color = `{{text_color}}`;
-    user_login = '{{username}}';
-    user_login = user_login.replace(/False/g, false);
-    user_login = user_login.replace(/True/g, true);
-    user_login = JSON.parse(user_login.replace(/&#39;/g, '"'));
+    function get_user_login(type){
+        $.ajax({
+           type: "POST",
+           url: "/webservice/account",
+           headers:{
+                'action': 'get_user_login',
+           },
+           data: {},
+           success: function(msg) {
+                user_login = msg;
+           },
+           error: function(XMLHttpRequest, textStatus, errorThrown) {
+                //no login
+                //error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get signature');
+           },timeout: 60000
+        });
+    }
+    {% if username %}
+    get_user_login();
+    {% endif %}
     name = `{{name}}`;
     web_name = `{{name}}`;
     provider_types_sequence = `{{provider_types_sequence}}`;
