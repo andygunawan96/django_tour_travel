@@ -163,6 +163,8 @@ def api_models(request):
             res = get_vendor_balance(request)
         elif req_data['action'] == 'get_currency':
             res = get_currency(request)
+        elif req_data['action'] == 'get_user_login':
+            res = get_user_login(request)
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:
@@ -1807,6 +1809,9 @@ def get_currency(request):
     else:
         res = file
     return res
+
+def get_user_login(request):
+    return request.session.get('user_account')
 
 
 #DEPRECATED
