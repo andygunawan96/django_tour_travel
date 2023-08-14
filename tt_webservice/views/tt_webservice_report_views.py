@@ -64,6 +64,7 @@ def get_report(request):
         "start_date": start_date,
         'report_type': request.POST['provider_type'],
         'provider': request.POST['provider'],
+        'currency': request.POST['currency'],
         'ho_seq_id': '',
         'agent_seq_id': '',
         'customer_parent_seq_id': '',
@@ -133,6 +134,7 @@ def update_report(request):
         'agent_seq_id': request.POST['agent'],
         'customer_parent_seq_id': request.POST['customer_parent'],
         'agent_type_seq_id': request.POST['agent_type'],
+        'currency': request.POST['currency'],
     }
 
     url_request = get_url_gateway('account')
