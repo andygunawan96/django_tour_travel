@@ -1994,6 +1994,9 @@ Licence URI: http://www.os-templates.com/template-terms
            },timeout: 60000
         });
     }
+    user_login = {
+        "co_user_login": '{{username.co_user_login}}'
+    }
     {% if username %}
     get_user_login();
     {% endif %}
