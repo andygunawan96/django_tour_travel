@@ -4683,25 +4683,6 @@ function airline_pick_mc(type){
                                                <div class="col-lg-12">
                                                    <div style="display:flex; overflow:auto;">`;
 
-                                                       data_soc_pick = [];//seat of class
-                                                       data_soc_av_pick = [];//seat of class available
-                                                       data_soc_ds_pick = [];//seat of class available disable
-                                                       data_soc_so_pick = [];//seat of class avail sold out
-                                                       for(k in airline_pick_list[i].segments[j].fares){
-                                                            if(k==airline_pick_list[i].segments[j].fare_pick){
-                                                                data_soc_av.push(airline_pick_list[i].segments[j].fares[k]);
-                                                            }else{
-                                                                if(airline_request.adult + airline_request.child > airline_pick_list[i].segments[j].fares[k].available_count){
-                                                                    data_soc_so_pick.push(airline_pick_list[i].segments[j].fares[k]);
-                                                                }else{
-                                                                    data_soc_ds_pick.push(airline_pick_list[i].segments[j].fares[k]);
-                                                                }
-                                                            }
-                                                       }
-
-                                                       data_soc_pick = data_soc_av_pick.concat(data_soc_ds_pick, data_soc_so_pick);
-                                                       airline_pick_list[i].segments[j].fares = data_soc_pick;
-
                                                        for(k in airline_pick_list[i].segments[j].fares){
                                                             text_seat_name_pick = '';
                                                             if(airline_pick_list[i].segments[j].fares[k].cabin_class != ''){

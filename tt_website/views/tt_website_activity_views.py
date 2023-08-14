@@ -1331,29 +1331,125 @@ def review(request):
                     'infant': infant,
                     'skus': skus,
                     'upload_value': upload,
-                    'search_request': search_request
+                    'search_request': search_request,
+                    'additional_price': request.POST['additional_price']
                 })
             except Exception as e:
                 #change b2c to login
-                set_session(request, 'activity_review_booking', json.loads(request.POST['activity_review_booking']))
-                printout_paxs = json.loads(request.POST['printout_paxs'])
-                printout_prices = json.loads(request.POST['printout_prices'])
-                pax_count = json.loads(request.POST['pax_count'])
-                price_list = json.loads(request.POST['price_list']) #price
-                adult = request.session['activity_review_booking']['adult']
-                infant = request.session['activity_review_booking']['infant']
-                child = request.session['activity_review_booking']['child']
-                senior = request.session['activity_review_booking']['senior']
-                contact = request.session['activity_review_booking']['contacts']
-                all_pax = request.session['activity_review_booking']['all_pax']
-                booker = request.session['activity_review_booking']['booker']
-                skus = request.session['activity_review_booking']['skus']
-                timeslot = False
-                if request.session['activity_request'].get('activity_timeslot'):
-                    for time in request.session['activity_request']['activity_types_data'][int(request.session['activity_request']['activity_type_pick'])]['timeslots']:
-                        if time['uuid'] == request.session['activity_request']['activity_timeslot']:
-                            timeslot = time
+                try:
+                    set_session(request, 'activity_review_booking', json.loads(request.POST['activity_review_booking']))
+                    printout_paxs = json.loads(request.POST['printout_paxs'])
+                    printout_prices = json.loads(request.POST['printout_prices'])
+                    pax_count = json.loads(request.POST['pax_count'])
+                    price_list = json.loads(request.POST['price_list']) #price
+                    adult = request.session['activity_review_booking']['adult']
+                    infant = request.session['activity_review_booking']['infant']
+                    child = request.session['activity_review_booking']['child']
+                    senior = request.session['activity_review_booking']['senior']
+                    contact = request.session['activity_review_booking']['contacts']
+                    all_pax = request.session['activity_review_booking']['all_pax']
+                    booker = request.session['activity_review_booking']['booker']
+                    skus = request.session['activity_review_booking']['skus']
+                    timeslot = False
+                    if request.session['activity_request'].get('activity_timeslot'):
+                        for time in request.session['activity_request']['activity_types_data'][int(request.session['activity_request']['activity_type_pick'])]['timeslots']:
+                            if time['uuid'] == request.session['activity_request']['activity_timeslot']:
+                                timeslot = time
+                except Exception as e:
+                    ## from back page browser
+                    try:
+                        printout_paxs = []
+                        for pax_dict in request.session['activity_review_booking']['adult']:
+                            printout_paxs.append({
+                                "name": "%s %s %s" % (pax_dict['title'], pax_dict['first_name'], pax_dict['last_name']),
+                                'ticket_number': pax_dict['sku_id'],
+                                'birth_date': pax_dict['birth_date'],
+                                'pax_type': 'Adult',
+                                'additional_info': ["Ticket:" + pax_dict['sku_title']],
+                            })
 
+                        for pax_dict in request.session['activity_review_booking']['senior']:
+                            printout_paxs.append({
+                                "name": "%s %s %s" % (pax_dict['title'], pax_dict['first_name'], pax_dict['last_name']),
+                                'ticket_number': pax_dict['sku_id'],
+                                'birth_date': pax_dict['birth_date'],
+                                'pax_type': 'Senior',
+                                'additional_info': ["Ticket:" + pax_dict['sku_title']],
+                            })
+
+                        for pax_dict in request.session['activity_review_booking']['child']:
+                            printout_paxs.append({
+                                "name": "%s %s %s" % (pax_dict['title'], pax_dict['first_name'], pax_dict['last_name']),
+                                'ticket_number': pax_dict['sku_id'],
+                                'birth_date': pax_dict['birth_date'],
+                                'pax_type': 'Adult',
+                                'additional_info': ["Ticket:" + pax_dict['sku_title']],
+                            })
+
+                        for pax_dict in request.session['activity_review_booking']['infant']:
+                            printout_paxs.append({
+                                "name": "%s %s %s" % (pax_dict['title'], pax_dict['first_name'], pax_dict['last_name']),
+                                'ticket_number': pax_dict['sku_id'],
+                                'birth_date': pax_dict['birth_date'],
+                                'pax_type': 'Adult',
+                                'additional_info': ["Ticket:" + pax_dict['sku_title']],
+                            })
+
+                        price_list = request.session['activity_price']['result']['response']
+                        pax_type_conv = {
+                            'Adult': 'ADT',
+                            'Senior': 'YCD',
+                            'Child': 'CHD',
+                            'Infant': 'INF',
+                        }
+                        printout_prices = []
+                        for key, val in price_list['prices'].items():
+                            printout_prices.append({
+                                "fare": val['amount'],
+                                "name": key,
+                                "qty": val['pax_count'],
+                                "total": val['total'],
+                                "pax_type": pax_type_conv[key],
+                                "tax": 0
+                            })
+
+                        pax_count = {}
+                        no_low_pax_count = {}
+                        for temp_sku in request.session['activity_request']['activity_types_data'][
+                            int(request.session['activity_request']['activity_type_pick'])]['skus']:
+                            low_sku_id = temp_sku['sku_id'].lower()
+                            skus.append({
+                                'id': temp_sku['id'],
+                                'sku_id': low_sku_id,
+                                'raw_sku_id': temp_sku['sku_id'],
+                                'pax_type': temp_sku['pax_type'],
+                                'title': temp_sku['title'],
+                                'amount': int(request.session['activity_request'][low_sku_id + '_passenger']),
+                            })
+                            pax_count.update({
+                                low_sku_id: int(request.session['activity_request'][low_sku_id + '_passenger'])
+                            })
+                            no_low_pax_count.update({
+                                temp_sku['sku_id']: int(request.session['activity_request'][low_sku_id + '_passenger'])
+                            })
+                        price_list = request.session['activity_price']['result']['response']
+
+                        adult = request.session['activity_review_booking']['adult']
+                        infant = request.session['activity_review_booking']['infant']
+                        child = request.session['activity_review_booking']['child']
+                        senior = request.session['activity_review_booking']['senior']
+                        contact = request.session['activity_review_booking']['contacts']
+                        all_pax = request.session['activity_review_booking']['all_pax']
+                        booker = request.session['activity_review_booking']['booker']
+                        skus = request.session['activity_review_booking']['skus']
+
+                        timeslot = False
+                        if request.session['activity_request'].get('activity_timeslot'):
+                            for time in request.session['activity_request']['activity_types_data'][int(request.session['activity_request']['activity_type_pick'])]['timeslots']:
+                                if time['uuid'] == request.session['activity_request']['activity_timeslot']:
+                                    timeslot = time
+                    except Exception as e:
+                        _logger.error("%s, %s" % (str(e), traceback.format_exc()))
             printout_rec = {
                 "type": "activity",
                 "agent_name": request.session._session['user_account']['co_agent_name'],
@@ -1378,7 +1474,7 @@ def review(request):
 
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
-                'additional_price': request.POST['additional_price'],
+                'additional_price': request.session['activity_review_booking']['additional_price'],
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
                 'countries': airline_country,
                 'phone_code': phone_code,
