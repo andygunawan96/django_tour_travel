@@ -400,6 +400,10 @@ Licence URI: http://www.os-templates.com/template-terms
            data: {},
            success: function(msg) {
                 user_login = msg;
+                if(window.location.href.split('/')[window.location.href.split('/').length-1] == 'reservation'){
+                    if(window.render_provider_type_reservation != undefined)
+                        render_provider_type_reservation();
+                }
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
                 //no login

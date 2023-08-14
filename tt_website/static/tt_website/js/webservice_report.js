@@ -123,15 +123,16 @@ function get_report_overall(){
             'type': "overall",
             'start_date': moment().startOf('month').format('YYYY-MM-DD'),
             'end_date': moment().endOf('month').format('YYYY-MM-DD'),
+            'currency': document.getElementById('currency').value
         },
         success: function(result){
             data_report = result
-//            document.getElementById('currency_revenue').innerHTML = data_report['raw_data']['result']['response']['currency'];
-//            document.getElementById('currency_average').innerHTML = data_report['raw_data']['result']['response']['currency'];
-//            document.getElementById('currency_profit').innerHTML = data_report['raw_data']['result']['response']['currency'];
-//            document.getElementById('currency_profit_agent').innerHTML = data_report['raw_data']['result']['response']['currency'];
-//            document.getElementById('currency_profit_agent_parent').innerHTML = data_report['raw_data']['result']['response']['currency'];
-//            document.getElementById('currency_profit_ho').innerHTML = data_report['raw_data']['result']['response']['currency'];
+            document.getElementById('currency_revenue').innerHTML = data_report['raw_data']['result']['response']['currency'];
+            document.getElementById('currency_average').innerHTML = data_report['raw_data']['result']['response']['currency'];
+            document.getElementById('currency_profit').innerHTML = data_report['raw_data']['result']['response']['currency'];
+            document.getElementById('currency_profit_agent').innerHTML = data_report['raw_data']['result']['response']['currency'];
+            document.getElementById('currency_profit_agent_parent').innerHTML = data_report['raw_data']['result']['response']['currency'];
+            document.getElementById('currency_profit_ho').innerHTML = data_report['raw_data']['result']['response']['currency'];
             document.getElementById('update_chart_button').disabled = false;
             filter_agent(result, '', '');
             filter_customer_parent(result, '');
