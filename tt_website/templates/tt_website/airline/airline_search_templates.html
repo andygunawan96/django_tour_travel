@@ -429,6 +429,8 @@
                             <input type="hidden" class="col-lg-12" id="counter" name="counter"/>
 
                         </div>
+                        <input type="hidden" class="col-lg-12" id="promo_code_counter" name="promo_code_counter"/>
+                        <input type="hidden" class="col-lg-12" id="promo_code_counter_list" name="promo_code_counter_list"/>
                         <br/>
                         <button class="button-search primary-btn ld-ext-right" type="button" onclick="airline_goto_search();" value="Submit">
                             <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
@@ -3409,7 +3411,6 @@
                     <div class="col-lg-12" id="promotion_code">
 
                     </div>
-                    <input type="hidden" class="col-lg-12" id="promo_code_counter" name="promo_code_counter"/>
                     <script>
                         {% if use_osi_code_backend == True %}
                             {% if 'co_customer_parent_osi_codes' in username %}

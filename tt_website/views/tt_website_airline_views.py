@@ -376,15 +376,14 @@ def search(request):
 
             ## PROMO CODE
             promo_codes = []
-            if request.POST.get('checkbox_add_promotion_code_airline', '') == 'on' or request.META.get('HTTP_REFERER').split('/')[len(request.META.get('HTTP_REFERER').split('/'))-1] == 'search':
-                if request.POST.get('promo_code_counter'):
-                    for i in range(int(request.POST.get('promo_code_counter', '0'))):
-                        promo_codes.append({
-                            'carrier_code': request.POST.get('carrier_code_line'+str(i)),
-                            'promo_code': request.POST.get('code_line'+str(i))
-                        })
+            promo_code_list_data_input = request.POST.get('promo_code_counter_list')
+            for promo_code_data_input in json.loads(promo_code_list_data_input):
+                promo_codes.append({
+                    'carrier_code': promo_code_data_input['carrier_code'],
+                    'promo_code': promo_code_data_input['promo_code']
+                })
             use_osi_code_backend = True
-            if request.POST.get('checkbox_osi_code_backend_airline') == 'on' or request.META.get('HTTP_REFERER').split('/')[len(request.META.get('HTTP_REFERER').split('/'))-1] == 'search':
+            if request.POST.get('checkbox_osi_code_backend_airline', '') == '' or request.META.get('HTTP_REFERER').split('/')[len(request.META.get('HTTP_REFERER').split('/'))-1] == 'search':
                 use_osi_code_backend = False
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),

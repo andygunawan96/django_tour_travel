@@ -366,6 +366,21 @@ function airline_goto_search(){
                 }
             }
         }
+        if(document.getElementById('promo_code_counter')){
+            promo_code_counter = document.getElementById('promo_code_counter').value;
+            list_promo_code = [];
+            if(promo_code_counter != ''){
+                for(i=0;i<parseInt(promo_code_counter);i++){
+                    try{
+                        list_promo_code.push({
+                            "carrier_code": document.getElementById('carrier_code_line'+i).value,
+                            "promo_code": document.getElementById('code_line'+i).value,
+                        })
+                    }catch(err){console.log(err)}
+                }
+            }
+            document.getElementById('promo_code_counter_list').value = JSON.stringify(list_promo_code);
+        }
         document_set_cookie('airline_request', JSON.stringify(request_airline));
 
         document.getElementById('airline_searchForm').submit();
