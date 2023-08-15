@@ -530,7 +530,7 @@ function signin_btc(){
                         hotel_redirect_signup(last_session);
                     }else if(window.location.href.split('/')[3] == 'mitra_keluarga'){
                         if(typeof(test_type) !== 'undefined')
-                            window.location.href = '/mitra_keluarga/passenger/'+test_type
+                            window.location.href = '/mitrakeluarga/passenger/'+test_type
                         else
                             window.location.href = '/';
                     }else{

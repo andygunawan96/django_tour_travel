@@ -34,6 +34,7 @@
     provider_types_sequence = provider_types_sequence.replace(/True/g, 'true');
     provider_types_sequence = JSON.parse(provider_types_sequence);
     console.log(provider_types_sequence)
+    first_render = true;
 </script>
 <title>{{name}} - {% trans 'Reservation' %}</title>
 
@@ -563,102 +564,7 @@
 
 
 <script>
-    signin_orbisway('reservation');
-    var text = '';
-    text+=`<div class="row">`;
-    selected = true;
-    text_product = ''
-    for(i in provider_types_sequence){
-        add_product = false;
-        if(provider_types_sequence[i].name != 'health_care'){//health_care provider buatan dari frontend tidak ada di backend
-            text_product=`<div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">`;
-                text_product += `<label class="radio-button-custom">`;
-                if(provider_types_sequence[i].code == 'airline' && user_login.co_agent_frontend_security.includes('ticketing_airline') || provider_types_sequence[i].code == 'airline' &&  user_login.co_agent_frontend_security.includes('process_channel_booking')){
-                    text_product+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/product/b-airline.png" alt="Airline Icon"/>`;
-                    add_product = true;
-                }else if(provider_types_sequence[i].code == 'hotel' && user_login.co_agent_frontend_security.includes('ticketing_hotel') || provider_types_sequence[i].code == 'hotel' && user_login.co_agent_frontend_security.includes('process_channel_booking')){
-                    text_product+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/product/b-hotel.png" alt="Hotel Icon"/>`;
-                    add_product = true;
-                }else if(provider_types_sequence[i].code == 'train' && user_login.co_agent_frontend_security.includes('ticketing_train') || provider_types_sequence[i].code == 'train' && user_login.co_agent_frontend_security.includes('process_channel_booking')){
-                    text_product+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/product/b-train.png" alt="Train Icon"/>`;
-                    add_product = true;
-                }else if(provider_types_sequence[i].code == 'ppob' && user_login.co_agent_frontend_security.includes('ticketing_ppob') || provider_types_sequence[i].code == 'ppob' && user_login.co_agent_frontend_security.includes('process_channel_booking')){
-                    text_product+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/product/b-ppob.png" alt="PPOB Icon"/>`;
-                    add_product = true;
-                }else if(provider_types_sequence[i].code == 'activity' && user_login.co_agent_frontend_security.includes('ticketing_activity') || provider_types_sequence[i].code == 'activity' && user_login.co_agent_frontend_security.includes('process_channel_booking')){
-                    text_product+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/product/b-activity.png" alt="Event Icon"/>`;
-                    add_product = true;
-                }else if(provider_types_sequence[i].code == 'tour' && user_login.co_agent_frontend_security.includes('ticketing_tour') || provider_types_sequence[i].code == 'tour' &&  user_login.co_agent_frontend_security.includes('process_channel_booking')){
-                    text_product+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/product/b-tour.png" alt="Tour Icon"/>`;
-                    add_product = true;
-                }else if(provider_types_sequence[i].code == 'event' && user_login.co_agent_frontend_security.includes('ticketing_event') || provider_types_sequence[i].code == 'event' && user_login.co_agent_frontend_security.includes('process_channel_booking')){
-                    text_product+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/product/b-event.png" alt="Event Icon"/>`;
-                    add_product = true;
-                }else if(provider_types_sequence[i].code == 'visa' && user_login.co_agent_frontend_security.includes('ticketing_visa') || provider_types_sequence[i].code == 'visa' && user_login.co_agent_frontend_security.includes('process_channel_booking')){
-                    text_product+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/product/b-visa.png" alt="Visa Icon"/>`;
-                    add_product = true;
-                }else if(provider_types_sequence[i].code == 'periksain' && user_login.co_agent_frontend_security.includes('ticketing_periksain') || provider_types_sequence[i].code == 'periksain' && user_login.co_agent_frontend_security.includes('process_channel_booking')){
-                    text_product+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/product/b-swab.png" alt="Periksain Icon"/>`;
-                    add_product = true;
-                }else if(provider_types_sequence[i].code == 'phc' && user_login.co_agent_frontend_security.includes('ticketing_medical') || provider_types_sequence[i].code == 'phc' && user_login.co_agent_frontend_security.includes('process_channel_booking')){
-                    text_product+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/product/b-swab.png" alt="PHC Icon"/>`;
-                    add_product = true;
-                }else if(provider_types_sequence[i].code == 'passport' && user_login.co_agent_frontend_security.includes('ticketing_passport') || provider_types_sequence[i].code == 'passport' && user_login.co_agent_frontend_security.includes('process_channel_booking')){
-                    text_product+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/product/b-passport.png" alt="Passport Icon"/>`;
-                    add_product = true;
-                }else if(provider_types_sequence[i].code == 'bus' && user_login.co_agent_frontend_security.includes('ticketing_bus') || provider_types_sequence[i].code == 'bus' && user_login.co_agent_frontend_security.includes('process_channel_booking')){
-                    text_product+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/product/b-bus.png" alt="Bus Icon"/>`;
-                    add_product = true;
-                }else if(provider_types_sequence[i].code == 'medical' && user_login.co_agent_frontend_security.includes('ticketing_medical') || provider_types_sequence[i].code == 'medical' && user_login.co_agent_frontend_security.includes('process_channel_booking')){
-                    text_product+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/product/b-swab.png" alt="Medical Icon"/>`;
-                    add_product = true;
-                }else if(provider_types_sequence[i].code == 'labpintar' && user_login.co_agent_frontend_security.includes('ticketing_labpintar') || provider_types_sequence[i].code == 'labpintar' && user_login.co_agent_frontend_security.includes('process_channel_booking')){
-                    text_product+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/product/b-swab.png" alt="Lab Pintar Icon"/>`;
-                    add_product = true;
-                }else if(provider_types_sequence[i].code == 'swabexpress' && user_login.co_agent_frontend_security.includes('ticketing_swabexpress') || provider_types_sequence[i].code == 'swabexpress' && user_login.co_agent_frontend_security.includes('process_channel_booking')){
-                    text_product+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/product/b-swab.png" alt="Swab Express Icon"/>`;
-                    add_product = true;
-                }else if(provider_types_sequence[i].code == 'insurance' && user_login.co_agent_frontend_security.includes('ticketing_insurance') || provider_types_sequence[i].code == 'insurance' && user_login.co_agent_frontend_security.includes('process_channel_booking')){
-                    text_product+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/product/b-insurance.png" alt="Insurance Icon"/>`;
-                    add_product = true;
-                }else if(provider_types_sequence[i].code == 'mitrakeluarga' && user_login.co_agent_frontend_security.includes('ticketing_mitrakeluarga') || provider_types_sequence[i].code == 'mitrakeluarga' && user_login.co_agent_frontend_security.includes('process_channel_booking')){
-                    text_product+=`<img style="width:auto; height:15px" src="{{static_path}}images/icon/product/b-swab.png" alt="Swab Express Icon"/>`;
-                    add_product = true;
-                }else if(provider_types_sequence[i].code == 'sentramedika' && user_login.co_agent_frontend_security.includes('ticketing_sentramedika') || provider_types_sequence[i].code == 'sentramedika' && user_login.co_agent_frontend_security.includes('process_channel_booking')){
-                    text_product+=`<img style="width:auto; height:15px" src="{{static_path}}images/icon/product/b-swab.png" alt="Sentra Medika Icon"/>`;
-                    add_product = true;
-                }else if(provider_types_sequence[i].code == 'groupbooking' && user_login.co_agent_frontend_security.includes('ticketing_group_booking') || provider_types_sequence[i].code == 'groupbooking' && user_login.co_agent_frontend_security.includes('process_channel_booking')){
-                    text_product+=`<img style="width:auto; height:15px" src="{{static_path}}images/icon/product/b-group.png" alt="Group Booking Icon"/>`;
-                    add_product = true;
-                }
-                text_product+=`
-                    <span>`+provider_types_sequence[i].name.charAt(0).toUpperCase()+provider_types_sequence[i].name.slice(1).toLowerCase()+`</span>
-                    <input type="radio" name="filter" value="`+provider_types_sequence[i].code+`" onclick="get_transactions('filter');" `;
-                if(selected)
-                    text_product += `checked`;
-                    text_product+=`>
-                    <span class="checkmark-radio"></span>
-                </label>`;
-            text_product+=`</div>`;
-            if(add_product){
-                text += text_product;
-                selected = false
-            }
-        }
 
-    }
-    if(user_login.co_agent_frontend_security.includes('ticketing_offline') || user_login.co_agent_frontend_security.includes('process_channel_booking'))
-        text += `
-        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-6">
-            <label class="radio-button-custom">
-                <img style="width:auto; height:15px" src="{{static_path}}images/icon/product/b-offline.png" alt="Offline Icon"/>
-                <span>Offline</span>
-                <input type="radio" name="filter" value="offline" onclick="get_transactions('filter');">
-                <span class="checkmark-radio"></span>
-            </label>
-        </div>`;
-    text+=`</div>`;
-    document.getElementById('type').innerHTML = text;
     //get_transactions('reset');
     function goto_detail_reservation(key){
         document.getElementById('gotobooking'+key).innerHTML += `{% csrf_token %}`;
@@ -697,7 +603,7 @@
         }else if(data_search[key].provider_type == 'insurance'){
             document.getElementById('gotobooking'+key).action = '/insurance/booking/' + btoa(data_search[key].order_number);
         }else if(data_search[key].provider_type == 'mitrakeluarga'){
-            document.getElementById('gotobooking'+key).action = '/mitra_keluarga/booking/' + btoa(data_search[key].order_number);
+            document.getElementById('gotobooking'+key).action = '/mitrakeluarga/booking/' + btoa(data_search[key].order_number);
         }else if(data_search[key].provider_type == 'sentramedika'){
             document.getElementById('gotobooking'+key).action = '/sentra_medika/booking/' + btoa(data_search[key].order_number);
         }else if(data_search[key].provider_type == 'groupbooking'){
@@ -711,7 +617,114 @@
             get_transactions();
         }
     }
+
+    function render_provider_type_reservation(){
+        if(first_render){
+            first_render = false
+            var text = '';
+            text+=`<div class="row">`;
+            selected = true;
+            text_product = ''
+            for(i in provider_types_sequence){
+                add_product = false;
+                if(provider_types_sequence[i].name != 'health_care'){//health_care provider buatan dari frontend tidak ada di backend
+                    text_product=`<div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">`;
+                        text_product += `<label class="radio-button-custom">`;
+                        if(provider_types_sequence[i].code == 'airline' && user_login.co_agent_frontend_security.includes('ticketing_airline') || provider_types_sequence[i].code == 'airline' &&  user_login.co_agent_frontend_security.includes('process_channel_booking')){
+                            text_product+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/product/b-airline.png" alt="Airline Icon"/>`;
+                            add_product = true;
+                        }else if(provider_types_sequence[i].code == 'hotel' && user_login.co_agent_frontend_security.includes('ticketing_hotel') || provider_types_sequence[i].code == 'hotel' && user_login.co_agent_frontend_security.includes('process_channel_booking')){
+                            text_product+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/product/b-hotel.png" alt="Hotel Icon"/>`;
+                            add_product = true;
+                        }else if(provider_types_sequence[i].code == 'train' && user_login.co_agent_frontend_security.includes('ticketing_train') || provider_types_sequence[i].code == 'train' && user_login.co_agent_frontend_security.includes('process_channel_booking')){
+                            text_product+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/product/b-train.png" alt="Train Icon"/>`;
+                            add_product = true;
+                        }else if(provider_types_sequence[i].code == 'ppob' && user_login.co_agent_frontend_security.includes('ticketing_ppob') || provider_types_sequence[i].code == 'ppob' && user_login.co_agent_frontend_security.includes('process_channel_booking')){
+                            text_product+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/product/b-ppob.png" alt="PPOB Icon"/>`;
+                            add_product = true;
+                        }else if(provider_types_sequence[i].code == 'activity' && user_login.co_agent_frontend_security.includes('ticketing_activity') || provider_types_sequence[i].code == 'activity' && user_login.co_agent_frontend_security.includes('process_channel_booking')){
+                            text_product+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/product/b-activity.png" alt="Event Icon"/>`;
+                            add_product = true;
+                        }else if(provider_types_sequence[i].code == 'tour' && user_login.co_agent_frontend_security.includes('ticketing_tour') || provider_types_sequence[i].code == 'tour' &&  user_login.co_agent_frontend_security.includes('process_channel_booking')){
+                            text_product+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/product/b-tour.png" alt="Tour Icon"/>`;
+                            add_product = true;
+                        }else if(provider_types_sequence[i].code == 'event' && user_login.co_agent_frontend_security.includes('ticketing_event') || provider_types_sequence[i].code == 'event' && user_login.co_agent_frontend_security.includes('process_channel_booking')){
+                            text_product+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/product/b-event.png" alt="Event Icon"/>`;
+                            add_product = true;
+                        }else if(provider_types_sequence[i].code == 'visa' && user_login.co_agent_frontend_security.includes('ticketing_visa') || provider_types_sequence[i].code == 'visa' && user_login.co_agent_frontend_security.includes('process_channel_booking')){
+                            text_product+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/product/b-visa.png" alt="Visa Icon"/>`;
+                            add_product = true;
+                        }else if(provider_types_sequence[i].code == 'periksain' && user_login.co_agent_frontend_security.includes('ticketing_periksain') || provider_types_sequence[i].code == 'periksain' && user_login.co_agent_frontend_security.includes('process_channel_booking')){
+                            text_product+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/product/b-swab.png" alt="Periksain Icon"/>`;
+                            add_product = true;
+                        }else if(provider_types_sequence[i].code == 'phc' && user_login.co_agent_frontend_security.includes('ticketing_medical') || provider_types_sequence[i].code == 'phc' && user_login.co_agent_frontend_security.includes('process_channel_booking')){
+                            text_product+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/product/b-swab.png" alt="PHC Icon"/>`;
+                            add_product = true;
+                        }else if(provider_types_sequence[i].code == 'passport' && user_login.co_agent_frontend_security.includes('ticketing_passport') || provider_types_sequence[i].code == 'passport' && user_login.co_agent_frontend_security.includes('process_channel_booking')){
+                            text_product+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/product/b-passport.png" alt="Passport Icon"/>`;
+                            add_product = true;
+                        }else if(provider_types_sequence[i].code == 'bus' && user_login.co_agent_frontend_security.includes('ticketing_bus') || provider_types_sequence[i].code == 'bus' && user_login.co_agent_frontend_security.includes('process_channel_booking')){
+                            text_product+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/product/b-bus.png" alt="Bus Icon"/>`;
+                            add_product = true;
+                        }else if(provider_types_sequence[i].code == 'medical' && user_login.co_agent_frontend_security.includes('ticketing_medical') || provider_types_sequence[i].code == 'medical' && user_login.co_agent_frontend_security.includes('process_channel_booking')){
+                            text_product+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/product/b-swab.png" alt="Medical Icon"/>`;
+                            add_product = true;
+                        }else if(provider_types_sequence[i].code == 'labpintar' && user_login.co_agent_frontend_security.includes('ticketing_labpintar') || provider_types_sequence[i].code == 'labpintar' && user_login.co_agent_frontend_security.includes('process_channel_booking')){
+                            text_product+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/product/b-swab.png" alt="Lab Pintar Icon"/>`;
+                            add_product = true;
+                        }else if(provider_types_sequence[i].code == 'swabexpress' && user_login.co_agent_frontend_security.includes('ticketing_swabexpress') || provider_types_sequence[i].code == 'swabexpress' && user_login.co_agent_frontend_security.includes('process_channel_booking')){
+                            text_product+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/product/b-swab.png" alt="Swab Express Icon"/>`;
+                            add_product = true;
+                        }else if(provider_types_sequence[i].code == 'insurance' && user_login.co_agent_frontend_security.includes('ticketing_insurance') || provider_types_sequence[i].code == 'insurance' && user_login.co_agent_frontend_security.includes('process_channel_booking')){
+                            text_product+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/product/b-insurance.png" alt="Insurance Icon"/>`;
+                            add_product = true;
+                        }else if(provider_types_sequence[i].code == 'mitrakeluarga' && user_login.co_agent_frontend_security.includes('ticketing_mitrakeluarga') || provider_types_sequence[i].code == 'mitrakeluarga' && user_login.co_agent_frontend_security.includes('process_channel_booking')){
+                            text_product+=`<img style="width:auto; height:15px" src="{{static_path}}images/icon/product/b-swab.png" alt="Swab Express Icon"/>`;
+                            add_product = true;
+                        }else if(provider_types_sequence[i].code == 'sentramedika' && user_login.co_agent_frontend_security.includes('ticketing_sentramedika') || provider_types_sequence[i].code == 'sentramedika' && user_login.co_agent_frontend_security.includes('process_channel_booking')){
+                            text_product+=`<img style="width:auto; height:15px" src="{{static_path}}images/icon/product/b-swab.png" alt="Sentra Medika Icon"/>`;
+                            add_product = true;
+                        }else if(provider_types_sequence[i].code == 'groupbooking' && user_login.co_agent_frontend_security.includes('ticketing_group_booking') || provider_types_sequence[i].code == 'groupbooking' && user_login.co_agent_frontend_security.includes('process_channel_booking')){
+                            text_product+=`<img style="width:auto; height:15px" src="{{static_path}}images/icon/product/b-group.png" alt="Group Booking Icon"/>`;
+                            add_product = true;
+                        }
+                        text_product+=`
+                            <span>`+provider_types_sequence[i].name.charAt(0).toUpperCase()+provider_types_sequence[i].name.slice(1).toLowerCase()+`</span>
+                            <input type="radio" name="filter" value="`+provider_types_sequence[i].code+`" onclick="get_transactions('filter');" `;
+                        if(selected)
+                            text_product += `checked`;
+                            text_product+=`>
+                            <span class="checkmark-radio"></span>
+                        </label>`;
+                    text_product+=`</div>`;
+                    if(add_product){
+                        text += text_product;
+                        selected = false
+                    }
+                }
+
+            }
+            if(user_login.co_agent_frontend_security.includes('ticketing_offline') || user_login.co_agent_frontend_security.includes('process_channel_booking'))
+                text += `
+                <div class="col-lg-2 col-md-2 col-sm-4 col-xs-6">
+                    <label class="radio-button-custom">
+                        <img style="width:auto; height:15px" src="{{static_path}}images/icon/product/b-offline.png" alt="Offline Icon"/>
+                        <span>Offline</span>
+                        <input type="radio" name="filter" value="offline" onclick="get_transactions('filter');">
+                        <span class="checkmark-radio"></span>
+                    </label>
+                </div>`;
+            text+=`</div>`;
+            document.getElementById('type').innerHTML = text;
+        }
+    }
+
+
+
     $(document).ready(function () {
+        signin_orbisway('reservation');
+        if(Object.keys(user_login).length > 1)
+            render_provider_type_reservation();
         get_providers_airline();
         //$(window).scroll(function() {
         //    if($(window).scrollTop() >= $(document).height() - ($(window).height() + 600)) {
