@@ -641,211 +641,271 @@ def admin(request):
                 #save
                 try:
                     if request.POST != {}:
+                        ## AMBIL CACHE DATA HANYA 1x Loop
+                        file = read_cache("data_cache_template", 'cache_web', request, 90911)
+                        data_cache = {}
+                        if file:
+                            for idx, line in enumerate(file.split('\n')):
+                                if idx == 0:
+                                    if line != '':
+                                        data_cache['logo'] = line.split('\n')[0]
+                                elif idx == 1:
+                                    if line != '':
+                                        data_cache['template'] = line.split('\n')[0]
+                                elif idx == 2:
+                                    if line != '':
+                                        data_cache['color_pick'] = line.split('\n')[0]
+                                elif idx == 3:
+                                    if line != '':
+                                        data_cache['website_name'] = line.split('\n')[0]
+                                elif idx == 4:
+                                    if line != '':
+                                        data_cache['background'] = line.split('\n')[0]
+                                elif idx == 5:
+                                    if line != '':
+                                        data_cache['bg_login'] = line.split('\n')[0]
+                                elif idx == 6:
+                                    if line != '':
+                                        data_cache['bg_search'] = line.split('\n')[0]
+                                elif idx == 7:
+                                    pass
+                                    # if line != '':
+                                    #     tawk_chat = int(line)
+                                elif idx == 8:
+                                    pass
+                                    # if line != '':
+                                    #     tawk_code = line.split('\n')[0]
+                                elif idx == 9:
+                                    if line != '':
+                                        data_cache['text_color'] = line.split('\n')[0]
+                                elif idx == 10:
+                                    if line != '':
+                                        data_cache['tab_color'] = line.split('\n')[0]
+                                elif idx == 11:
+                                    if line != '':
+                                        data_cache['logo_icon'] = line.split('\n')[0]
+                                elif idx == 12:
+                                    if line != '':
+                                        data_cache['bg_regis'] = line.split('\n')[0]
+                                elif idx == 13:
+                                    if line != '':
+                                        data_cache['espay_api_key'] = line.split('\n')[0]
+                                elif idx == 14:
+                                    if line != '':
+                                        data_cache['espay_api_key_callback_url'] = line.split('\n')[0]
+                                elif idx == 15:
+                                    if line != '':
+                                        data_cache['backend_url'] = line.split('\n')[0]
+                                elif idx == 16:
+                                    if line != '':
+                                        data_cache['website_mode'] = line.split('\n')[0]
+                                elif idx == 17:
+                                    if line != '':
+                                        data_cache['script_espay'] = line.split('\n')[0]
+                                elif idx == 18:
+                                    if line != '':
+                                        data_cache['google_analytics'] = line.split('\n')[0]
+                                elif idx == 19:
+                                    data_cache['contact_us'] = '\n'.join(line.split('<br>'))
+                                elif idx == 20:
+                                    if line != '':
+                                        data_cache['tab_login_background'] = line.split('\n')[0]
+                                elif idx == 21:
+                                    if line != '':
+                                        data_cache['text_color_login'] = line.split('\n')[0]
+                                elif idx == 22:
+                                    pass
+                                    # if line != '':
+                                    #     wa_chat = int(line.split('\n')[0])
+                                elif idx == 23:
+                                    pass
+                                    # if line != '':
+                                    #     wa_number = line.split('\n')[0]
+                                elif idx == 24:
+                                    if line != '':
+                                        data_cache['google_api_key'] = line.split('\n')[0]
+                                elif idx == 25:
+                                    if line != '':
+                                        data_cache['setting_login_page'] = line.split('\n')[0]
+                                elif idx == 26:
+                                    if line != '':
+                                        data_cache['tour_search_template'] = line.split('\n')[0]
+
+
                         text = ''
                         fs = FileSystemStorage()
                         fs.location = media_path(request, fs.location, '')
-                        try:
-                            if request.POST.get('empty_logo'):
-                                text += '\n'
-                            elif request.FILES['fileToUpload'].content_type in ['image/jpeg', 'image/png', 'image/png']:
+                        if request.POST.get('empty_logo'):
+                            pass
+                        elif request.FILES.get('fileToUpload'):
+                            if request.FILES['fileToUpload'].content_type in ['image/jpeg', 'image/png', 'image/png']:
                                 file = request.FILES['fileToUpload']
                                 filename = fs.save(file.name, file)
-                                text += fs.base_url + request.META['HTTP_HOST'].split(':')[0] + '/' + filename + '\n'
-                            else:
-                                file = read_cache("data_cache_template", 'cache_web', request, 90911)
-                                if file:
-                                    for idx, line in enumerate(file.split('\n')):
-                                        if idx == 0:
-                                            text = line + '\n'
-                        except:
-                            try:
-                                file = read_cache("data_cache_template", 'cache_web', request, 90911)
-                                if file:
-                                    for idx, line in enumerate(file.split('\n')):
-                                        if idx == 0:
-                                            text = line + '\n'
-                                            break
-                                else:
-                                    text += '\n'
-                            except:
-                                text += '\n'
-                                pass
+                                text += fs.base_url + request.META['HTTP_HOST'].split(':')[0] + '/' + filename
+                        elif data_cache.get('logo'):
+                            text += data_cache['logo']
+                        text += '\n'
+
                         # logo template color name desc backgroundhome backgroundlogin
-                        text += request.POST['template'] + '\n'
-                        text += "#" + request.POST['color_pick'] + '\n'
-                        text += request.POST['website_name'] + '\n'
-                        try:
-                            if request.POST.get('empty_image_home'):
-                                text += '\n'
-                            elif request.FILES['fileBackgroundHome'].content_type.split('/')[0] in ['image', 'video']:
+                        if request.POST.get('template'):
+                            text += request.POST['template']
+                        elif data_cache.get('template'):
+                            text += data_cache['template']
+                        text += '\n'
+
+                        if request.POST.get('color_pick'):
+                            text += "#" + request.POST['color_pick']
+                        elif data_cache.get('color_pick'):
+                            text += data_cache['color_pick']
+                        text += '\n'
+
+                        if request.POST.get('website_name'):
+                            text += request.POST['website_name']
+                        elif data_cache.get('background'):
+                            text += data_cache['background']
+                        text += '\n'
+
+                        if request.POST.get('empty_image_home'):
+                            pass
+                        elif request.FILES.get('fileBackgroundHome'):
+                            if request.FILES['fileBackgroundHome'].content_type.split('/')[0] in ['image', 'video']:
                                 file = request.FILES['fileBackgroundHome']
                                 filename = fs.save(file.name, file)
-                                text += fs.base_url + request.META['HTTP_HOST'].split(':')[0] + '/' + filename + '\n'
+                                text += fs.base_url + request.META['HTTP_HOST'].split(':')[0] + '/' + filename
+                        elif data_cache.get('background'):
+                            text += data_cache['background']
+                        text += '\n'
 
-                        except:
-                            try:
-                                file = read_cache("data_cache_template", 'cache_web', request, 90911)
-                                if file:
-                                    for idx, line in enumerate(file.split('\n')):
-                                        if idx == 4:
-                                            text += line + '\n'
-                                            check = 1
-                                            break
-                                else:
-                                    text += '\n'
-                            except:
-                                pass
-
-                        try:
-                            if request.POST.get('empty_image_login'):
-                                text += '\n'
-                            elif request.FILES['fileBackgroundLogin'].content_type.split('/')[0] in ['image', 'video']:
+                        if request.POST.get('empty_image_login'):
+                            pass
+                        elif request.FILES.get('fileBackgroundLogin'):
+                            if request.FILES['fileBackgroundLogin'].content_type.split('/')[0] in ['image', 'video']:
                                 file = request.FILES['fileBackgroundLogin']
                                 filename = fs.save(file.name, file)
-                                text += fs.base_url + request.META['HTTP_HOST'].split(':')[0] + '/' + filename + '\n'
-                        except:
-                            try:
-                                file = read_cache("data_cache_template", 'cache_web', request, 90911)
-                                if file:
-                                    for idx, line in enumerate(file.split('\n')):
-                                        if idx == 5:
-                                            text += line + '\n'
-                                            check = 1
-                                            break
-                                else:
-                                    text += '\n'
-                            except:
-                                pass
+                                text += fs.base_url + request.META['HTTP_HOST'].split(':')[0] + '/' + filename
+                        elif data_cache.get('bg_login'):
+                            text += data_cache['bg_login']
+                        text += '\n'
 
-                        try:
-                            if request.POST.get('empty_image_search'):
-                                text += '\n'
-                            elif request.FILES['fileBackgroundSearch'].content_type.split('/')[0] in ['image', 'video']:
+                        if request.POST.get('empty_image_search'):
+                            pass
+                        elif request.FILES.get('fileBackgroundSearch'):
+                            if request.FILES['fileBackgroundSearch'].content_type.split('/')[0] in ['image', 'video']:
                                 file = request.FILES['fileBackgroundSearch']
                                 filename = fs.save(file.name, file)
-                                text += fs.base_url + request.META['HTTP_HOST'].split(':')[0] + '/' + filename + '\n'
-                        except:
-                            try:
-                                file = read_cache("data_cache_template", 'cache_web', request, 90911)
-                                if file:
-                                    for idx, line in enumerate(file.split('\n')):
-                                        if idx == 6:
-                                            text += line + '\n'
-                                            check = 1
-                                            break
-                                else:
-                                    text += '\n'
-                            except:
-                                pass
+                                text += fs.base_url + request.META['HTTP_HOST'].split(':')[0] + '/' + filename
+                        elif data_cache.get('bg_search'):
+                            text += data_cache['bg_search']
+                        text += '\n'
+
                         text += '\n' ## tawk to yg lama deprecated
                         text += '\n' ## tawk to yg lama deprecated
-                        text += "#" + request.POST['text_pick'] + '\n'
+
+                        if request.POST.get('text_pick'):
+                            text += "#" + request.POST['text_pick']
+                        elif data_cache.get('text_color'):
+                            text += data_cache['text_color']
+                        text += '\n'
+
                         opacity = 'FF'
                         if request.POST.get('bg_tab_pick_checkbox'):
                             opacity = 'B3'
-                        if request.POST['bg_tab_pick'] == '':
+                        if request.POST.get('bg_tab_pick') == '':
                             text += 'none'
                         else:
-                            text += "#" + request.POST['bg_tab_pick'] + opacity
+                            text += "#" + request.POST.get('bg_tab_pick') + opacity
                         text += '\n'
-                        try:
-                            if request.POST.get('empty_logo_icon'):
-                                text += '\n'
-                            elif request.FILES['filelogoicon'].content_type in ['image/jpeg', 'image/png', 'image/png']:
+
+                        if request.POST.get('empty_logo_icon'):
+                            pass
+                        elif request.FILES.get('filelogoicon'):
+                            if request.FILES['filelogoicon'].content_type in ['image/jpeg', 'image/png', 'image/png']:
                                 file = request.FILES['filelogoicon']
                                 filename = fs.save(file.name, file)
-                                text += fs.base_url + request.META['HTTP_HOST'].split(':')[0] + '/' + filename + '\n'
-                        except:
-                            try:
-                                file = read_cache("data_cache_template", 'cache_web', request, 90911)
-                                if file:
-                                    for idx, line in enumerate(file.split('\n')):
-                                        if idx == 11:
-                                            text += line + '\n'
-                                            check = 1
-                                            break
-                                else:
-                                    text += '\n'
-                            except:
-                                pass
-                        try:
-                            if request.POST.get('empty_image_regis'):
-                                text += '\n'
-                            elif request.FILES['fileRegistrationBanner'].content_type.split('/')[0] in ['image', 'video']:
+                                text += fs.base_url + request.META['HTTP_HOST'].split(':')[0] + '/' + filename
+                        elif data_cache.get('logo_icon'):
+                            text += data_cache['logo_icon']
+                        text += '\n'
+
+                        if request.POST.get('empty_image_regis'):
+                            pass
+                        elif request.FILES.get('fileRegistrationBanner'):
+                            if request.FILES['fileRegistrationBanner'].content_type.split('/')[0] in ['image', 'video']:
                                 file = request.FILES['fileRegistrationBanner']
                                 filename = fs.save(file.name, file)
-                                text += fs.base_url + request.META['HTTP_HOST'].split(':')[0] + '/' + filename + '\n'
-                        except:
-                            try:
-                                file = read_cache("data_cache_template", 'cache_web', request, 90911)
-                                if file:
-                                    for idx, line in enumerate(file.split('\n')):
-                                        if idx == 12:
-                                            text += line + '\n'
-                                            check = 1
-                                            break
-                                else:
-                                    text += '\n'
-                            except:
-                                pass
+                                text += fs.base_url + request.META['HTTP_HOST'].split(':')[0] + '/' + filename
+                        elif data_cache.get('bg_regis'):
+                            text += data_cache['bg_regis']
+                        text += '\n'
+
                         text += '\n'
                         text += '\n'
+
                         if request.POST.get('backend_url'):
-                            text += request.POST['backend_url'] + '\n'
-                        else:
-                            try:
-                                file = read_cache("data_cache_template", 'cache_web', request, 90911)
-                                if file:
-                                    for idx, line in enumerate(file.split('\n')):
-                                        if idx == 15:
-                                            text += line + '\n'
-                                            break
-                                else:
-                                    text += '\n'
-                            except:
-                                text += '\n'
-                        text += request.POST['website_mode'] + '\n'
+                            text += request.POST['backend_url']
+                        elif data_cache.get('backend_url'):
+                            text += data_cache['backend_url']
                         text += '\n'
+
+                        if request.POST.get('website_mode'):
+                            text += request.POST['website_mode']
+                        elif data_cache.get('website_mode'):
+                            text += data_cache['website_mode']
+                        text += '\n'
+
+                        text += '\n'
+
                         if request.POST.get('google_analytics'):
-                            text += request.POST['google_analytics'] + '\n'
-                        else:
-                            try:
-                                file = read_cache("data_cache_template", 'cache_web', request, 90911)
-                                if file:
-                                    for idx, line in enumerate(file.split('\n')):
-                                        if idx == 18:
-                                            text += line + '\n'
-                                            break
-                                else:
-                                    text += '\n'
-                            except:
-                                text += '\n'
-                        text += '<br>'.join(''.join(request.POST['contact_us'].split('\r')).split('\n')) + '\n'
+                            text += request.POST['google_analytics']
+                        elif data_cache.get('google_analytics'):
+                            text += data_cache['google_analytics']
+                        text += '\n'
+
+                        if request.POST.get('contact_us'):
+                            text += '<br>'.join(''.join(request.POST['contact_us'].split('\r')).split('\n'))
+                        elif data_cache.get('contact_us'):
+                            text += data_cache['contact_us']
+                        text += '\n'
+
                         opacity = 'FF'
                         if request.POST.get('tab_login_background_checkbox'):
                             opacity = 'B3'
-                        text += "#" + request.POST['tab_login_background'] + opacity + '\n'
-                        text += "#" + request.POST['text_pick_login'] + '\n'
+                        if request.POST.get('tab_login_background'):
+                            text += "#" + request.POST['tab_login_background'] + opacity
+                        elif data_cache.get('tab_login_background'):
+                            text += data_cache['tab_login_background']
+                        text += '\n'
+
+                        if request.POST.get('text_pick_login'):
+                            text += "#" + request.POST['text_pick_login']
+                        elif data_cache.get('text_color_login'):
+                            text += data_cache['text_color_login']
+                        text += '\n'
+
                         text += '\n' ## wa chat yg lama deprecated
                         text += '\n' ## wa chat yg lama deprecated
+
                         if request.POST.get('google_api_key'):
-                            text += request.POST['google_api_key'] + '\n'
-                        else:
-                            try:
-                                file = read_cache("data_cache_template", 'cache_web', request, 90911)
-                                if file:
-                                    for idx, line in enumerate(file.split('\n')):
-                                        if idx == 24:
-                                            text += line + '\n'
-                                            break
-                                else:
-                                    text += '\n'
-                            except:
-                                text += '\n'
-                        text += request.POST['setting_login_page'] + '\n'
-                        text += request.POST['tour_search_template'] + '\n'
+                            text += request.POST['google_api_key']
+                        elif data_cache.get('google_api_key'):
+                            text += data_cache['google_api_key']
+                        text += '\n'
+
+                        if request.POST.get('setting_login_page'):
+                            text += request.POST['setting_login_page']
+                        elif data_cache.get('setting_login_page'):
+                            text += data_cache['setting_login_page']
+                        text += '\n'
+
+                        if request.POST.get('tour_search_template'):
+                            text += request.POST['tour_search_template']
+                        elif data_cache.get('tour_search_template'):
+                            text += data_cache['tour_search_template']
+                        text += '\n'
+
                         if request.session.get('username'): ## LAST UPDATE USER
-                            text += request.session['username'] + '\n'
+                            text += request.session['username']
+                        text += '\n'
 
                         write_cache(text, "data_cache_template", request, 'cache_web')
                         temp = text.split('\n')
@@ -941,25 +1001,25 @@ def admin(request):
                         write_cache(text, "top_up_term", request, 'cache_web')
 
                         text = ''
-                        text += request.POST['google_recaptcha'] + '\n'
-                        text += request.POST['site_key'] + '\n'
-                        text += request.POST['secret_key']
+                        text += request.POST.get('google_recaptcha') + '\n'
+                        text += request.POST.get('site_key') + '\n'
+                        text += request.POST.get('secret_key')
                         write_cache(text, "google_recaptcha", request, 'cache_web')
 
                         text = ''
-                        text += request.POST['google_tag_manager_key']
+                        text += request.POST.get('google_tag_manager_key')
                         write_cache(text, "google_tag_manager", request, 'cache_web')
 
                         text = ''
-                        text += request.POST['signup_btb_text'] + '\n'
-                        text += request.POST['signup_btb_btn'] + '\n'
+                        text += request.POST.get('signup_btb_text') + '\n'
+                        text += request.POST.get('signup_btb_btn') + '\n'
                         write_cache(text, "signup_b2b", request, 'cache_web')
 
 
                         text = {}
                         text.update({
-                            'name': request.POST['font'].split('.')[0],
-                            'font': request.POST['font'],
+                            'name': request.POST.get('font').split('.')[0],
+                            'font': request.POST.get('font'),
                         })
                         if text != {}:
                             write_cache(text, "font", request, 'cache_web')
