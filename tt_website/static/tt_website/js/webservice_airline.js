@@ -2396,7 +2396,8 @@ function airline_get_provider_list(type, data=''){
                 get_airline_review();
 
 
-           }else if(type == 'passenger'){
+           }
+           else if(type == 'passenger'){
                 check_ff = 0;
                 is_wheelchair = 0
                 for(i in airline_pick){
@@ -2646,13 +2647,15 @@ function airline_get_provider_list(type, data=''){
                     document.getElementById('airline_sell_journey').value = JSON.stringify(price_itinerary);
                     airline_do_passenger_js_load();
                 });
-           }else if(type == 'search'){
+           }
+           else if(type == 'search'){
                 get_carrier_providers('search');
            }else if(type == 'get_booking'){
                 airline_get_booking(data);
            }else if(type == 'refund'){
                 airline_get_booking_refund(data);
-           }else if(type == 'ssr'){
+           }
+           else if(type == 'ssr'){
                 airline_detail(ssr_page_type);
                 if(after_sales){
                     // disable baggage di bawah yg telah di pilih
@@ -2693,10 +2696,153 @@ function airline_get_provider_list(type, data=''){
                         }
                     }
                 }
-           }else if(type == 'seat'){
+                description_info = '';
+                text = '';
+                if(after_sales){
+                    for(i in airline_get_detail.provider_bookings){
+                        if(provider_list_data.hasOwnProperty(airline_get_detail.provider_bookings[i].provider) && provider_list_data[airline_get_detail.provider_bookings[i].provider].hasOwnProperty('ssr_description_info')){
+                            if(provider_list_data[airline_get_detail.provider_bookings[i].provider]['ssr_description_info']){
+                                text+=`
+                            <div class="row">
+                                <div class="col-lg-12" id="alert-state">
+                                    <div class="alert alert-warning" role="alert">
+                                        <h4>`+provider_list_data[airline_get_detail.provider_bookings[i].provider]['ssr_description_info']+`</h4>
+                                    </div>
+                                </div>`;
+                                if(description_info){
+                                    description_info += `<br/>`;
+                                }
+                                description_info += provider_list_data[airline_get_detail.provider_bookings[i].provider]['ssr_description_info'];
+                            }
+                        }
+                        if(provider_list_data.hasOwnProperty(airline_get_detail.provider_bookings[i].provider) && airline_get_detail.state == 'booked' && provider_list_data[airline_get_detail.provider_bookings[i].provider].hasOwnProperty('ssr_description_booked') ||
+                           provider_list_data.hasOwnProperty(airline_get_detail.provider_bookings[i].provider) && airline_get_detail.state == 'issued' && provider_list_data[airline_get_detail.provider_bookings[i].provider].hasOwnProperty('ssr_description_issued')){
+                            if(airline_get_detail.state == 'booked' && provider_list_data[airline_get_detail.provider_bookings[i].provider]['ssr_description_booked'] ||
+                               airline_get_detail.state == 'issued' && provider_list_data[airline_get_detail.provider_bookings[i].provider]['ssr_description_issued']){
+                                text+=`
+                                    <div class="col-lg-12" id="alert-state">
+                                        <div class="alert alert-warning" role="alert">`;
+                                if(airline_get_detail.result.response.state == 'booked'){
+                                    text+=`<h4>`+provider_list_data[airline_get_detail.provider_bookings[i].provider]['ssr_description_booked']+`</h4>`;
+                                    description_info += '<br/>' + provider_list_data[airline_get_detail.provider_bookings[i].provider]['ssr_description_booked'];
+                                }else{
+                                    text+=`<h4>`+provider_list_data[airline_get_detail.provider_bookings[i].provider]['ssr_description_issued']+`</h4>`;
+                                    description_info += '<br/>' + provider_list_data[airline_get_detail.provider_bookings[i].provider]['ssr_description_issued'];
+                                }
+                                text+=`
+                                        </div>
+                                    </div>
+                                </div>`;
+                            }
+                        }
+                    }
+                }else{
+                    for(i in airline_pick){
+                        if(provider_list_data.hasOwnProperty(airline_pick[i].provider) && provider_list_data[airline_pick[i].provider].hasOwnProperty('ssr_description_info')){
+                            if(provider_list_data[airline_pick[i].provider]['ssr_description_info']){
+                                text+=`
+                            <div class="row">
+                                <div class="col-lg-12" id="alert-state">
+                                    <div class="alert alert-warning" role="alert">
+                                        <h4>`+provider_list_data[airline_pick[i].provider]['ssr_description_info']+`</h4>
+                                    </div>
+                                </div>`;
+                                if(description_info){
+                                    description_info += `<br/>`;
+                                }
+                                description_info += provider_list_data[airline_pick[i].provider]['ssr_description_info'];
+                            }
+                        }
+                    }
+                }
+                if(text != ''){
+                    text += `
+                    </div>`;
+                    document.getElementById('airline_reissue_info_div').innerHTML = text;
+                    document.getElementById('airline_reissue_info_div').style.display = 'block';
+                    Swal.fire({
+                        type: 'warning',
+                        title: 'SSR Info',
+                        html: description_info,
+                    })
+                }
+           }
+           else if(type == 'seat'){
                 get_seat_map_response();
                 set_passenger_seat_map_airline(0);
                 airline_detail(seat_page_type);
+
+                description_info = '';
+                text = '';
+                if(after_sales){
+                    for(i in airline_get_detail.provider_bookings){
+                        if(provider_list_data.hasOwnProperty(airline_get_detail.provider_bookings[i].provider) && provider_list_data[airline_get_detail.provider_bookings[i].provider].hasOwnProperty('seat_description_info')){
+                            if(provider_list_data[airline_get_detail.provider_bookings[i].provider]['seat_description_info']){
+                                text+=`
+                            <div class="row">
+                                <div class="col-lg-12" id="alert-state">
+                                    <div class="alert alert-warning" role="alert">
+                                        <h4>`+provider_list_data[airline_get_detail.provider_bookings[i].provider]['seat_description_info']+`</h4>
+                                    </div>
+                                </div>`;
+                                if(description_info){
+                                    description_info += `<br/>`;
+                                }
+                                description_info += provider_list_data[airline_get_detail.provider_bookings[i].provider]['seat_description_info'];
+                            }
+                        }
+                        if(provider_list_data.hasOwnProperty(airline_get_detail.provider_bookings[i].provider) && airline_get_detail.state == 'booked' && provider_list_data[airline_get_detail.provider_bookings[i].provider].hasOwnProperty('seat_description_booked') ||
+                           provider_list_data.hasOwnProperty(airline_get_detail.provider_bookings[i].provider) && airline_get_detail.state == 'issued' && provider_list_data[airline_get_detail.provider_bookings[i].provider].hasOwnProperty('seat_description_issued')){
+                            if(airline_get_detail.state == 'booked' && provider_list_data[airline_get_detail.provider_bookings[i].provider]['seat_description_booked'] ||
+                               airline_get_detail.state == 'issued' && provider_list_data[airline_get_detail.provider_bookings[i].provider]['seat_description_issued']){
+                                text+=`
+                                    <div class="col-lg-12" id="alert-state">
+                                        <div class="alert alert-warning" role="alert">`;
+                                if(airline_get_detail.result.response.state == 'booked'){
+                                    text+=`<h4>`+provider_list_data[airline_get_detail.provider_bookings[i].provider]['seat_description_booked']+`</h4>`;
+                                    description_info += '<br/>' + provider_list_data[airline_get_detail.provider_bookings[i].provider]['seat_description_booked'];
+                                }else{
+                                    text+=`<h4>`+provider_list_data[airline_get_detail.provider_bookings[i].provider]['seat_description_issued']+`</h4>`;
+                                    description_info += '<br/>' + provider_list_data[airline_get_detail.provider_bookings[i].provider]['seat_description_issued'];
+                                }
+                                text+=`
+                                        </div>
+                                    </div>
+                                </div>`;
+                            }
+                        }
+                    }
+                }else{
+                    for(i in airline_pick){
+                        if(provider_list_data.hasOwnProperty(airline_pick[i].provider) && provider_list_data[airline_pick[i].provider].hasOwnProperty('seat_description_info')){
+                            if(provider_list_data[airline_pick[i].provider]['seat_description_info']){
+                                text+=`
+                            <div class="row">
+                                <div class="col-lg-12" id="alert-state">
+                                    <div class="alert alert-warning" role="alert">
+                                        <h4>`+provider_list_data[airline_pick[i].provider]['seat_description_info']+`</h4>
+                                    </div>
+                                </div>`;
+                                if(description_info){
+                                    description_info += `<br/>`;
+                                }
+                                description_info += provider_list_data[airline_pick[i].provider]['seat_description_info'];
+                            }
+                        }
+                    }
+                }
+                if(text != ''){
+                    text += `
+                    </div>`;
+                    document.getElementById('airline_reissue_info_div').innerHTML = text;
+                    document.getElementById('airline_reissue_info_div').style.display = 'block';
+                    Swal.fire({
+                        type: 'warning',
+                        title: 'Seat Info',
+                        html: description_info,
+                    })
+                }
+
            }else if(type == 'review_aftersales'){
                 get_airline_review_after_sales();
            }
