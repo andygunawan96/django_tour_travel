@@ -133,7 +133,8 @@ def search(request):
                     'is_senior': True if request.POST.get('insurance_is_senior') else False,
                 })
             except Exception as e:
-                _logger.error(str(e) + '\n' + traceback.format_exc())
+                _logger.error('Data POST for insurance_request not found use cache')
+                _logger.error("%s, %s" % (str(e), traceback.format_exc()))
 
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -182,12 +183,15 @@ def passenger(request):
                     phone_code.append(i['phone_code'])
             phone_code = sorted(phone_code)
 
-
             try:
                 time_limit = get_timelimit_product(request, 'insurance')
                 if time_limit == 0:
                     time_limit = int(request.POST['time_limit_input'])
                 set_session(request, 'time_limit', time_limit)
+            except:
+                pass
+
+            try:
                 set_session(request, 'insurance_pick', json.loads(request.POST['data_insurance']))
                 set_session(request, 'insurance_signature', request.POST['signature_data'])
                 insurance_request_with_passenger = copy.deepcopy(request.session['insurance_request'])
@@ -199,8 +203,9 @@ def passenger(request):
                     }
                 })
                 set_session(request, 'insurance_request_with_passenger', insurance_request_with_passenger)
-            except:
-                pass
+            except Exception as e:
+                _logger.error('Data POST for insurance_pick, insurance_signature, insurance_request not found use cache')
+                _logger.error("%s, %s" % (str(e), traceback.format_exc()))
 
             file = read_cache("get_insurance_config", 'cache_web', request, 90911)
             if file:
@@ -453,30 +458,25 @@ def review(request):
                 'adult': adult,
                 'contact': contact
             })
-            schedules = []
-            journeys = []
-            try:
-                time_limit = get_timelimit_product(request, 'insurance')
-                if time_limit == 0:
-                    time_limit = int(request.POST['time_limit_input'])
-                set_session(request, 'time_limit', time_limit)
-                set_session(request, 'insurance_signature', request.POST['signature'])
-            except:
-                pass
-            time_limit = request.session['time_limit']
-            if translation.LANGUAGE_SESSION_KEY in request.session:
-                del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
         except Exception as e:
-            # coba pakai cache
-            try:
-                time_limit = get_timelimit_product(request, 'insurance')
-                if time_limit == 0:
-                    time_limit = int(request.POST['time_limit_input'])
-                set_session(request, 'time_limit', time_limit)
-                set_session(request, 'insurance_signature', request.POST['signature'])
-            except:
-                pass
-            time_limit = request.session['time_limit']
+            _logger.error("%s, %s" % (str(e), traceback.format_exc()))
+        schedules = []
+        journeys = []
+
+        try:
+            time_limit = get_timelimit_product(request, 'insurance')
+            if time_limit == 0:
+                time_limit = int(request.POST['time_limit_input'])
+            set_session(request, 'time_limit', time_limit)
+        except:
+            pass
+
+        try:
+            set_session(request, 'insurance_signature', request.POST['signature'])
+        except:
+            pass
+        if translation.LANGUAGE_SESSION_KEY in request.session:
+            del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
         try:
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
@@ -485,9 +485,7 @@ def review(request):
                 'id_types': id_type,
                 'insurance_request': request.session['insurance_request_with_passenger'],
                 'response': request.session['insurance_pick'],
-                'upsell': request.session.get(
-                    'insurance_upsell_' + request.session['insurance_signature']) and request.session.get(
-                    'insurance_upsell_' + request.session['insurance_signature']) or 0,
+                'upsell': request.session.get('insurance_upsell_' + request.session['insurance_signature']) and request.session.get('insurance_upsell_' + request.session['insurance_signature']) or 0,
                 'username': request.session['user_account'],
                 'passenger': request.session['insurance_create_passengers'],
                 'javascript_version': javascript_version,
@@ -511,7 +509,7 @@ def booking(request, order_number):
         if 'user_account' not in request.session and 'btc' in web_mode:
             signin_btc(request)
         elif 'user_account' not in request.session and 'btc' not in web_mode:
-            raise Exception('Airline get booking without login in btb web')
+            raise Exception('Insurance get booking without login in btb web')
         try:
             set_session(request, 'insurance_order_number', base64.b64decode(order_number).decode('ascii'))
         except:

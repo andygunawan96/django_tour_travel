@@ -88,37 +88,6 @@ def group_booking(request):
     else:
         return no_session_logout(request)
 
-def issued_offline_history(request):
-    if 'user_account' in request.session._session:
-        try:
-            javascript_version = get_javascript_version(request)
-            response = get_cache_data(request)
-            airline_country = response['result']['response']['airline']['country']
-            phone_code = []
-            for i in airline_country:
-                if i['phone_code'] not in phone_code:
-                    phone_code.append(i['phone_code'])
-            phone_code = sorted(phone_code)
-            values = get_data_template(request)
-
-            if translation.LANGUAGE_SESSION_KEY in request.session:
-                del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
-            values.update({
-                'static_path': path_util.get_static_path(MODEL_NAME),
-                'username': request.session['user_account'],
-                'titles': ['', 'MR', 'MRS', 'MS', 'MSTR', 'MISS'],
-                'countries': airline_country,
-                'phone_code': phone_code,
-                'static_path_url_server': get_url_static_path(),
-                'javascript_version': javascript_version,
-            })
-        except Exception as e:
-            _logger.error(str(e) + '\n' + traceback.format_exc())
-            raise Exception('Make response code 500!')
-        return render(request, MODEL_NAME+'/issued_offline/issued_offline_history_templates.html', values)
-    else:
-        return no_session_logout(request)
-
 def booking(request, order_number):
     try:
         javascript_version = get_javascript_version(request)
@@ -127,7 +96,7 @@ def booking(request, order_number):
         if 'user_account' not in request.session and 'btc' in web_mode:
             signin_btc(request)
         elif 'user_account' not in request.session and 'btc' not in web_mode:
-            raise Exception('Airline get booking without login in btb web')
+            raise Exception('Group Booking get booking without login in btb web')
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
         try:
