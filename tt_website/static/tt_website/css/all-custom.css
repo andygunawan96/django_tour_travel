@@ -1994,13 +1994,20 @@ ul.popular2_tabs li.current .image-rounded-icon{
   cursor: pointer;
   position: relative;
   margin-bottom:15px;
-  border: 2px solid #cdcdcd;
+  border: 2px solid #e60019;
 }
 
 .primary-btn-white-cancel:hover {
   background: #e60019;
-  border: 2px solid #e60019;
+  border: 1px solid #e60019;
   color: white;
+}
+
+.primary-btn-white-cancel:disabled {
+  cursor:not-allowed !important;
+  border: 1px solid #999999 !important;
+  background: #cccccc !important;
+  color: #666666 !important;
 }
 
 .button-seat-pass-cancel{
@@ -2801,7 +2808,7 @@ th input {
 
 .carrier_code_template{
     color: #205B95;
-    font-weight: 500;
+    font-weight: 700;
 }
 
 .text-block-img {
@@ -6726,11 +6733,69 @@ text-align: center;
     background:white;
 }
 
+.airlines_provider_img{
+    width:auto;
+    height:55px;
+    border:1px solid #cdcdcd;
+    border-radius:7px;
+    padding:5px;
+    margin-right: 10px;
+    margin-top: 3px;
+    background:white;
+}
+
+.airlines_provider_img_detail{
+    width:auto;
+    height:40px;
+    border:1px solid #cdcdcd;
+    border-radius:7px;
+    padding:5px;
+    margin-right: 5px;
+    background:white;
+}
+
+.airlines_provider_img_fd{
+    width:auto;
+    height:40px;
+    margin-right: 5px;
+}
+
 .show_pc{
     display:block !important;
 }
 .show_mbl{
     display:none !important;
+}
+
+@media (min-width: 992px) {
+    .show_fd{
+        display:block !important;
+    }
+    .show_fd_mbl{
+        display:none !important;
+    }
+    .min_height_fare{
+        min-height:140px;
+    }
+    .button_choose_bot{
+        position:absolute;
+        bottom:0px;
+    }
+}
+@media (max-width: 991px) {
+    .show_fd{
+        display:none !important;
+    }
+    .show_fd_mbl{
+        display:block !important;
+    }
+    .min_height_fare{
+        min-height:unset;
+    }
+    .button_choose_bot{
+        position:unset;
+        bottom:unset;
+    }
 }
 
 @media (min-width: 768px) {
@@ -6740,6 +6805,7 @@ text-align: center;
     .show_mbl{
         display:none !important;
     }
+
 }
 
 @media (max-width: 767px) {
@@ -6751,7 +6817,23 @@ text-align: center;
     }
 }
 
+.custom_seat_cls{
+    padding: 3px 7px;
+    background:white;
+    margin-bottom:2px;
+    margin-left:5px;
+    display: inline-block;
+    width:auto;
+    text-align:center;
+    border:1px solid #205B95;
+    border-radius:3px;
+}
 
-
-
+.custom_fare_cls{
+    font-size: 13px;
+    margin-bottom:2px;
+    margin-right:5px;
+    display: inline-block;
+    width:auto;
+}
 
