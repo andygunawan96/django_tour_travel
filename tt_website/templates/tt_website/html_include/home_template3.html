@@ -303,6 +303,8 @@
                                     </div>
                                     <input type="hidden" class="col-lg-12" id="counter" name="counter"/>
 
+                                    <input type="hidden" class="col-lg-12" id="promo_code_counter" name="promo_code_counter"/>
+                                    <input type="hidden" class="col-lg-12" id="promo_code_counter_list" name="promo_code_counter_list"/>
                                     {% if 'co_customer_parent_type_name' not in username or 'corp_limitation' in username.co_agent_frontend_security %}
                                     <div class="col-lg-12 mt-2" style="text-align:left;margin-bottom:15px;" id="div_checkbox_promo_code_airline">
                                         <label class="check_box_custom mt-2">
@@ -318,8 +320,6 @@
                                         <div class="col-lg-12" id="promo_code_airline_div">
                                         </div>
                                     </div>
-                                    <input type="hidden" class="col-lg-12" id="promo_code_counter" name="promo_code_counter"/>
-                                    <input type="hidden" class="col-lg-12" id="promo_code_counter_list" name="promo_code_counter_list"/>
                                     {% endif %}
                                     {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
                                     <br/>
