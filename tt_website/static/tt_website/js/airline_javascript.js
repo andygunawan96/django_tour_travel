@@ -6131,7 +6131,7 @@ function airline_detail(type){
         </div>
         <div class="row">
             <div class="col-lg-7" style="text-align:left;">
-                <label>Additional Price</label><br/>
+                <label>Ancillary Fee</label><br/>
             </div>
             <div class="col-lg-5" style="text-align:right;">`;
             currency = '';
@@ -6160,7 +6160,7 @@ function airline_detail(type){
 //                console.log(err); // error kalau ada element yg tidak ada
 //            }
             if(additional_price != 0)
-                $text += '‣ Additional Price: ' + currency + ' ' +getrupiah(additional_price) + '\n';
+                $text += '‣ Ancillary Fee: ' + currency + ' ' +getrupiah(additional_price) + '\n';
             try{
                 if(total_discount != 0){
                     text+=`<div class="col-lg-7" style="text-align:left;">
@@ -6512,7 +6512,7 @@ function airline_detail(type){
         text += `
         <div class="row">
             <div class="col-lg-7" style="text-align:left;">
-                <label>Additional Price</label><br/>
+                <label>Ancillary Fee</label><br/>
             </div>
             <div class="col-lg-5" style="text-align:right;">`;
             text+=`
@@ -6561,7 +6561,7 @@ function airline_detail(type){
             document.getElementById('additional_price_information_rs').innerHTML = `
                 <div class="row">
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                        <span style="font-size:13px; font-weight:500;">Additional Price</span>
+                        <span style="font-size:13px; font-weight:500;">Ancillary Fee</span>
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
                         <span style="font-size:13px; font-weight:500;">`+currency+` `+getrupiah(Math.ceil(additional_price))+`</span>
@@ -6637,6 +6637,9 @@ function airline_detail(type){
                             price_breakdown['ROC'] = 0;
                         price_breakdown['ROC'] += upsell_price_dict[i];
                     }
+                }
+                if(typeof(additional_price) !== 'undefined' && additional_price){
+                    price_breakdown['ANCILLARY FEE'] = additional_price;
                 }
                 var breakdown_text = '';
                 for(j in price_breakdown){
