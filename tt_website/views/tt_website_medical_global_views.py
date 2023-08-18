@@ -179,7 +179,9 @@ def review(request):
             values = get_data_template(request)
             try:
                 data = json.loads(request.POST['data'])
-            except:
+            except Exception as e:
+                _logger.error('Data POST for data not found use cache')
+                _logger.error("%s, %s" % (str(e), traceback.format_exc()))
                 try:
                     data = request.session.get('medical_data_%s' % request.POST['signature'])
                 except:
@@ -211,6 +213,10 @@ def review(request):
                 if time_limit == 0:
                     time_limit = int(request.POST['time_limit_input'])
                 set_session(request, 'time_limit', time_limit)
+            except:
+                pass
+
+            try:
                 set_session(request, 'medical_signature', request.POST['signature'])
                 set_session(request, 'vendor_%s' % request.POST['signature'], request.POST['vendor'])
                 set_session(request, 'test_type_%s' % request.POST['signature'], request.POST['test_type'])
@@ -268,7 +274,7 @@ def booking(request, order_number):
         if 'user_account' not in request.session and 'btc' in web_mode:
             signin_btc(request)
         elif 'user_account' not in request.session and 'btc' not in web_mode:
-            raise Exception('Airline get booking without login in btb web')
+            raise Exception('Medical Global (Nathos) get booking without login in btb web')
         try:
             set_session(request, 'medical_order_number', base64.b64decode(order_number).decode('ascii'))
         except:

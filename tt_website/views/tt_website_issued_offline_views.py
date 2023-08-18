@@ -109,7 +109,7 @@ def booking(request, order_number):
         if 'user_account' not in request.session and 'btc' in web_mode:
             signin_btc(request)
         elif 'user_account' not in request.session and 'btc' not in web_mode:
-            raise Exception('Airline get booking without login in btb web')
+            raise Exception('Issued Offline get booking without login in btb web')
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
         try:

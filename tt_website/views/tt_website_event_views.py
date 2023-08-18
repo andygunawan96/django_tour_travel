@@ -76,7 +76,6 @@ def event(request):
     else:
         return no_session_logout(request)
 
-
 def search(request):
     if 'user_account' in request.session._session:
         try:
@@ -101,8 +100,9 @@ def search(request):
                     'is_online': request.POST.get('include_online'), #Checkbox klo disi baru di POST
                 })
                 request.session.modified = True
-            except:
-                print('error')
+            except Exception as e:
+                _logger.error('Data POST for event_request not found use cache')
+                _logger.error("%s, %s" % (str(e), traceback.format_exc()))
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
@@ -113,7 +113,6 @@ def search(request):
                 'static_path_url_server': get_url_static_path(),
                 'time_limit': 1200,
                 'signature': request.session['signature'],
-
                 'event_search': request.session['event_request'],
             })
         except Exception as e:
@@ -122,7 +121,6 @@ def search(request):
         return render(request, MODEL_NAME+'/event/01_event_search_templates.html', values)
     else:
         return no_session_logout(request)
-
 
 def search_category(request, category_name):
     if 'user_account' in request.session._session:
@@ -145,8 +143,9 @@ def search_category(request, category_name):
                     'category_name': category_name,
                 })
                 request.session.modified = True
-            except:
-                print('error')
+            except Exception as e:
+                _logger.error('Data POST for event_request not found use cache')
+                _logger.error("%s, %s" % (str(e), traceback.format_exc()))
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
@@ -167,7 +166,6 @@ def search_category(request, category_name):
     else:
         return no_session_logout(request)
 
-
 def detail(request):
     if 'user_account' in request.session._session:
         try:
@@ -180,18 +178,21 @@ def detail(request):
                 if i['phone_code'] not in phone_code:
                     phone_code.append(i['phone_code'])
             phone_code = sorted(phone_code)
-            if request.POST:
+            try:
                 time_limit = get_timelimit_product(request, 'event')
                 if time_limit == 0:
                     time_limit = int(request.POST['time_limit_input'])
                 set_session(request, 'time_limit', time_limit)
+            except:
+                pass
 
             try:
                 if translation.LANGUAGE_SESSION_KEY in request.session:
                     del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
                 set_session(request, 'event_code', json.loads(request.POST['event_code']))
-            except:
-                pass
+            except Exception as e:
+                _logger.error('Data POST for event_code not found use cache')
+                _logger.error("%s, %s" % (str(e), traceback.format_exc()))
             data = request.session['event_code']
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
@@ -203,7 +204,6 @@ def detail(request):
                 'static_path_url_server': get_url_static_path(),
                 'javascript_version': javascript_version,
                 'time_limit': request.session['time_limit'],
-
                 'event_search': request.session['event_request'],
                 'event_code': data,
             })
@@ -213,7 +213,6 @@ def detail(request):
         return render(request, MODEL_NAME+'/event/02_event_detail_templates.html', values)
     else:
         return no_session_logout(request)
-
 
 def vendor(request):
     if 'user_account' in request.session._session:
@@ -228,18 +227,21 @@ def vendor(request):
                     phone_code.append(i['phone_code'])
             phone_code = sorted(phone_code)
 
-            if request.POST:
+            try:
                 time_limit = get_timelimit_product(request, 'event')
                 if time_limit == 0:
                     time_limit = int(request.POST['time_limit_input'])
                 set_session(request, 'time_limit', time_limit)
+            except:
+                pass
 
             try:
                 if translation.LANGUAGE_SESSION_KEY in request.session:
                     del request.session[translation.LANGUAGE_SESSION_KEY]  # get language from browser
                 set_session(request, 'event_code', json.loads(request.POST['event_code']))
-            except:
-                pass
+            except Exception as e:
+                _logger.error('Data POST for event_code not found use cache')
+                _logger.error("%s, %s" % (str(e), traceback.format_exc()))
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
@@ -268,11 +270,13 @@ def contact_passengers(request):
             response = get_cache_data(request)
             values = get_data_template(request)
 
-            if request.POST:
+            try:
                 time_limit = get_timelimit_product(request, 'event')
                 if time_limit == 0:
                     time_limit = int(request.POST['time_limit_input'])
                 set_session(request, 'time_limit', time_limit)
+            except:
+                pass
 
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -305,20 +309,24 @@ def contact_passengers(request):
 
             # Vin 2021/03/16: Update mekanisme read selected option
             # Rule yg lama bisa error jika option awal tidk dibeli
-            for key in sorted(request.POST.keys()):
-                if 'option_qty_' in key:
-                    if int(request.POST[key]) != 0:
-                        i = int(key.split('_')[-1])
-                        opt_code.append({
-                            'name': request.session['event_detail']['result']['response'][i]['grade'],
-                            'code': request.session['event_detail']['result']['response'][i]['option_id'],
-                            'qty': request.POST[key],
-                            'currency': request.session['event_detail']['result']['response'][i]['currency'],
-                            'price': request.session['event_detail']['result']['response'][i]['price'],
-                            'comm': request.session['event_detail']['result']['response'][i].get('commission',0),
-                        })
+            try:
+                for key in sorted(request.POST.keys()):
+                    if 'option_qty_' in key:
+                        if int(request.POST[key]) != 0:
+                            i = int(key.split('_')[-1])
+                            opt_code.append({
+                                'name': request.session['event_detail']['result']['response'][i]['grade'],
+                                'code': request.session['event_detail']['result']['response'][i]['option_id'],
+                                'qty': request.POST[key],
+                                'currency': request.session['event_detail']['result']['response'][i]['currency'],
+                                'price': request.session['event_detail']['result']['response'][i]['price'],
+                                'comm': request.session['event_detail']['result']['response'][i].get('commission',0),
+                            })
 
-            set_session(request, 'event_option_code' + request.session['event_signature'], opt_code)
+                set_session(request, 'event_option_code' + request.session['event_signature'], opt_code)
+            except Exception as e:
+                _logger.error('Data POST for event_option_code not found use cache')
+                _logger.error("%s, %s" % (str(e), traceback.format_exc()))
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'countries': airline_country,
@@ -357,99 +365,25 @@ def review(request):
                 if i['phone_code'] not in phone_code:
                     phone_code.append(i['phone_code'])
             phone_code = sorted(phone_code)
-            time_limit = get_timelimit_product(request, 'event')
-            if time_limit == 0:
-                time_limit = int(request.POST['time_limit_input'])
-            set_session(request, 'time_limit', time_limit)
-            set_session(request, 'special_req_event', request.POST['special_req_event'])
+            try:
+                time_limit = get_timelimit_product(request, 'event')
+                if time_limit == 0:
+                    time_limit = int(request.POST['time_limit_input'])
+                set_session(request, 'time_limit', time_limit)
+            except:
+                pass
 
-            adult = []
-            contact = []
-            printout_paxs = []
-            booker = {
-                'title': request.POST['booker_title'],
-                'first_name': request.POST['booker_first_name'],
-                'last_name': request.POST['booker_last_name'],
-                'email': request.POST['booker_email'],
-                'calling_code': request.POST['booker_phone_code_id'],
-                'mobile': request.POST['booker_phone'],
-                'nationality_code': request.POST['booker_nationality_id'],
-                "work_phone": request.POST['booker_phone_code_id'] + request.POST['booker_phone'],
-                'booker_seq_id': request.POST['booker_id']
-            }
-            # for i in range(int(request.session['event_request'].get('adult') or 1)):
-            for i in range(1):
-                behaviors = {}
-                if request.POST.get('adult_behaviors_' + str(i + 1)):
-                    behaviors = {'event': request.POST['adult_behaviors_' + str(i + 1)]}
-                adult.append({
-                    "pax_type": "ADT",
-                    "first_name": request.POST['adult_first_name' + str(i + 1)],
-                    "last_name": request.POST['adult_last_name' + str(i + 1)],
-                    "title": request.POST['adult_title' + str(i + 1)],
-                    "birth_date": request.POST['adult_birth_date' + str(i + 1)],
-                    "nationality_code": request.POST['adult_nationality' + str(i + 1) + '_id'],
-                    "passenger_seq_id": request.POST['adult_id' + str(i + 1)],
-                    "behaviors": behaviors,
-                })
-                if i == 0:
-                    if request.POST['myRadios'] == 'yes':
-                        adult[len(adult) - 1].update({
-                            'is_also_booker': True,
-                            'is_also_contact': True
-                        })
-                    else:
-                        adult[len(adult) - 1].update({
-                            'is_also_booker': False
-                        })
-                else:
-                    adult[len(adult) - 1].update({
-                        'is_also_booker': False
-                    })
-                try:
-                    if request.POST['adult_cp' + str(i + 1)] == 'on':
-                        adult[len(adult) - 1].update({
-                            'is_also_contact': True
-                        })
-                    else:
-                        adult[len(adult) - 1].update({
-                            'is_also_contact': False
-                        })
-                except:
-                    if i == 0 and request.POST['myRadios'] == 'yes':
-                        continue
-                    else:
-                        adult[len(adult) - 1].update({
-                            'is_also_contact': False
-                        })
-                try:
-                    if request.POST['adult_cp' + str(i + 1)] == 'on':
-                        contact.append({
-                            "first_name": request.POST['adult_first_name' + str(i + 1)],
-                            "last_name": request.POST['adult_last_name' + str(i + 1)],
-                            "title": request.POST['adult_title' + str(i + 1)],
-                            "email": request.POST['adult_email' + str(i + 1)],
-                            "calling_code": request.POST['adult_phone_code' + str(i + 1) + '_id'],
-                            "mobile": request.POST['adult_phone' + str(i + 1)],
-                            "nationality_code": request.POST['adult_nationality' + str(i + 1) + '_id'],
-                            "work_phone": request.POST['booker_phone_code'] + request.POST['booker_phone'],
-                            "address": request.session.get('company_details') and request.session['company_details']['address'] or '',
-                            "contact_seq_id": request.POST['adult_id' + str(i + 1)]
-                        })
-                    if i == 0:
-                        if request.POST['myRadios'] == 'yes':
-                            contact[len(contact)].update({
-                                'is_also_booker': True
-                            })
-                        else:
-                            contact[len(contact)].update({
-                                'is_also_booker': False
-                            })
-                except:
-                    pass
+            try:
+                set_session(request, 'special_req_event', request.POST['special_req_event'])
+            except Exception as e:
+                _logger.error('Data POST for special_req_event not found use cache')
+                _logger.error("%s, %s" % (str(e), traceback.format_exc()))
 
-            if len(contact) == 0:
-                contact.append({
+            try:
+                adult = []
+                contact = []
+                printout_paxs = []
+                booker = {
                     'title': request.POST['booker_title'],
                     'first_name': request.POST['booker_first_name'],
                     'last_name': request.POST['booker_last_name'],
@@ -457,58 +391,149 @@ def review(request):
                     'calling_code': request.POST['booker_phone_code_id'],
                     'mobile': request.POST['booker_phone'],
                     'nationality_code': request.POST['booker_nationality_id'],
-                    'contact_seq_id': request.POST['booker_id'],
                     "work_phone": request.POST['booker_phone_code_id'] + request.POST['booker_phone'],
-                    "address": request.session.get('company_details') and request.session['company_details']['address'] or '',
-                    'is_also_booker': True
-                })
-            set_session(request, 'event_review_pax', {
-                'booker': booker,
-                'contact': contact,
-                'adult': adult,
-            })
-
-            question_answer = []
-            for a in request.POST.keys():
-                if 'que_' in a:
-                    b = a.split('_')
-                    c_obj = False
-                    for c in question_answer:
-                        if c['option_grade'] == request.session['event_option_code' + request.session['event_signature']][int(b[1])]['name'] and c['idx'] == b[2]:
-                            c_obj = c
-                            break
-                    if not c_obj:
-                        c_obj = {
-                            'option_grade': request.session['event_option_code' + request.session['event_signature']][int(b[1])]['name'],
-                            'option_code': request.session['event_option_code' + request.session['event_signature']][int(b[1])]['code'],
-                            'idx': b[2],
-                            'answer': []
-                        }
-                        question_answer.append(c_obj)
-
-                    c_obj['answer'].append({
-                        'que': request.POST[a],
-                        'ans': request.POST.get('question_event_' + a.replace('que_','')) or '', #Check Box Hasil nysa bisa tidak ada
+                    'booker_seq_id': request.POST['booker_id']
+                }
+                # for i in range(int(request.session['event_request'].get('adult') or 1)):
+                for i in range(1):
+                    behaviors = {}
+                    if request.POST.get('adult_behaviors_' + str(i + 1)):
+                        behaviors = {'event': request.POST['adult_behaviors_' + str(i + 1)]}
+                    adult.append({
+                        "pax_type": "ADT",
+                        "first_name": request.POST['adult_first_name' + str(i + 1)],
+                        "last_name": request.POST['adult_last_name' + str(i + 1)],
+                        "title": request.POST['adult_title' + str(i + 1)],
+                        "birth_date": request.POST['adult_birth_date' + str(i + 1)],
+                        "nationality_code": request.POST['adult_nationality' + str(i + 1) + '_id'],
+                        "passenger_seq_id": request.POST['adult_id' + str(i + 1)],
+                        "behaviors": behaviors,
                     })
+                    if i == 0:
+                        if request.POST['myRadios'] == 'yes':
+                            adult[len(adult) - 1].update({
+                                'is_also_booker': True,
+                                'is_also_contact': True
+                            })
+                        else:
+                            adult[len(adult) - 1].update({
+                                'is_also_booker': False
+                            })
+                    else:
+                        adult[len(adult) - 1].update({
+                            'is_also_booker': False
+                        })
+                    try:
+                        if request.POST['adult_cp' + str(i + 1)] == 'on':
+                            adult[len(adult) - 1].update({
+                                'is_also_contact': True
+                            })
+                        else:
+                            adult[len(adult) - 1].update({
+                                'is_also_contact': False
+                            })
+                    except:
+                        if i == 0 and request.POST['myRadios'] == 'yes':
+                            continue
+                        else:
+                            adult[len(adult) - 1].update({
+                                'is_also_contact': False
+                            })
+                    try:
+                        if request.POST['adult_cp' + str(i + 1)] == 'on':
+                            contact.append({
+                                "first_name": request.POST['adult_first_name' + str(i + 1)],
+                                "last_name": request.POST['adult_last_name' + str(i + 1)],
+                                "title": request.POST['adult_title' + str(i + 1)],
+                                "email": request.POST['adult_email' + str(i + 1)],
+                                "calling_code": request.POST['adult_phone_code' + str(i + 1) + '_id'],
+                                "mobile": request.POST['adult_phone' + str(i + 1)],
+                                "nationality_code": request.POST['adult_nationality' + str(i + 1) + '_id'],
+                                "work_phone": request.POST['booker_phone_code'] + request.POST['booker_phone'],
+                                "address": request.session.get('company_details') and request.session['company_details']['address'] or '',
+                                "contact_seq_id": request.POST['adult_id' + str(i + 1)]
+                            })
+                        if i == 0:
+                            if request.POST['myRadios'] == 'yes':
+                                contact[len(contact)].update({
+                                    'is_also_booker': True
+                                })
+                            else:
+                                contact[len(contact)].update({
+                                    'is_also_booker': False
+                                })
+                    except:
+                        pass
 
-                    if c_obj['answer'][-1]['ans'] == '':
-                        # Jika tidak ada answer coba cari untuk method checkbox
-                        new_ans = ''
-                        for a1 in request.POST.keys():
-                            if 'question_event_' + a.replace('que_','') in a1:
-                                new_ans += request.POST[a1] + ', '
-                        c_obj['answer'][-1]['ans'] = new_ans[:-2]
+                if len(contact) == 0:
+                    contact.append({
+                        'title': request.POST['booker_title'],
+                        'first_name': request.POST['booker_first_name'],
+                        'last_name': request.POST['booker_last_name'],
+                        'email': request.POST['booker_email'],
+                        'calling_code': request.POST['booker_phone_code_id'],
+                        'mobile': request.POST['booker_phone'],
+                        'nationality_code': request.POST['booker_nationality_id'],
+                        'contact_seq_id': request.POST['booker_id'],
+                        "work_phone": request.POST['booker_phone_code_id'] + request.POST['booker_phone'],
+                        "address": request.session.get('company_details') and request.session['company_details']['address'] or '',
+                        'is_also_booker': True
+                    })
+                set_session(request, 'event_review_pax', {
+                    'booker': booker,
+                    'contact': contact,
+                    'adult': adult,
+                })
 
-            set_session(request, 'event_extra_question' + request.session['event_signature'], question_answer)
+                question_answer = []
+                for a in request.POST.keys():
+                    if 'que_' in a:
+                        b = a.split('_')
+                        c_obj = False
+                        for c in question_answer:
+                            if c['option_grade'] == request.session['event_option_code' + request.session['event_signature']][int(b[1])]['name'] and c['idx'] == b[2]:
+                                c_obj = c
+                                break
+                        if not c_obj:
+                            c_obj = {
+                                'option_grade': request.session['event_option_code' + request.session['event_signature']][int(b[1])]['name'],
+                                'option_code': request.session['event_option_code' + request.session['event_signature']][int(b[1])]['code'],
+                                'idx': b[2],
+                                'answer': []
+                            }
+                            question_answer.append(c_obj)
 
-            print_json = json.dumps({
-                "type": "event",
-                "agent_name": request.session._session['user_account']['co_agent_name'],
-                "passenger": printout_paxs,
-                "price_detail": [],
-                "price_lines": question_answer,
-            })
-            set_session(request, 'event_json_printout' + request.session['event_signature'], print_json)
+                        c_obj['answer'].append({
+                            'que': request.POST[a],
+                            'ans': request.POST.get('question_event_' + a.replace('que_','')) or '', #Check Box Hasil nysa bisa tidak ada
+                        })
+
+                        if c_obj['answer'][-1]['ans'] == '':
+                            # Jika tidak ada answer coba cari untuk method checkbox
+                            new_ans = ''
+                            for a1 in request.POST.keys():
+                                if 'question_event_' + a.replace('que_','') in a1:
+                                    new_ans += request.POST[a1] + ', '
+                            c_obj['answer'][-1]['ans'] = new_ans[:-2]
+
+                set_session(request, 'event_extra_question' + request.session['event_signature'], question_answer)
+
+                print_json = json.dumps({
+                    "type": "event",
+                    "agent_name": request.session._session['user_account']['co_agent_name'],
+                    "passenger": printout_paxs,
+                    "price_detail": [],
+                    "price_lines": question_answer,
+                })
+                set_session(request, 'event_json_printout' + request.session['event_signature'], print_json)
+            except Exception as e:
+                _logger.error('Data POST for event_json_printout, event_extra_question, event_review_pax not found use cache')
+                _logger.error("%s, %s" % (str(e), traceback.format_exc()))
+                adult = request.session['event_review_pax']['adult']
+                contact = request.session['event_review_pax']['contact']
+                booker = request.session['event_review_pax']['booker']
+                question_answer = request.session['event_extra_question' + request.session['event_signature']]
+                print_json = request.session['event_json_printout' + request.session['event_signature']]
 
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
@@ -529,7 +554,7 @@ def review(request):
                 'event_code': request.session['event_code'],
                 'event_option_code': request.session['event_option_code' + request.session['event_signature']],
                 'event_extra_question': question_answer,
-                'special_req_event': request.POST['special_req_event'],
+                'special_req_event': request.session['special_req_event'],
             })
         except Exception as e:
             _logger.error(str(e) + '\n' + traceback.format_exc())
@@ -547,7 +572,7 @@ def booking(request, order_number):
         if 'user_account' not in request.session and 'btc' in web_mode:
             signin_btc(request)
         elif 'user_account' not in request.session and 'btc' not in web_mode:
-            raise Exception('Airline get booking without login in btb web')
+            raise Exception('Event get booking without login in btb web')
         try:
             set_session(request, 'event_order_number', base64.b64decode(order_number).decode('ascii'))
         except:

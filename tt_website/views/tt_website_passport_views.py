@@ -130,10 +130,13 @@ def passenger(request):
             response = get_cache_data(request)
             values = get_data_template(request)
 
-            time_limit = get_timelimit_product(request, 'passport')
-            if time_limit == 0:
-                time_limit = int(request.POST['time_limit_input'])
-            set_session(request, 'time_limit', time_limit)
+            try:
+                time_limit = get_timelimit_product(request, 'passport')
+                if time_limit == 0:
+                    time_limit = int(request.POST['time_limit_input'])
+                set_session(request, 'time_limit', time_limit)
+            except:
+                pass
 
             request.session['passport_search']['result']['response']['list_of_passport'] = json.loads(request.POST['passport_list'])
             list_passport = request.session['passport_search']
@@ -250,10 +253,13 @@ def review(request):
             phone_code = sorted(phone_code)
             values = get_data_template(request)
 
-            time_limit = get_timelimit_product(request, 'passport')
-            if time_limit == 0:
-                time_limit = int(request.POST['time_limit_input'])
-            set_session(request, 'time_limit', time_limit)
+            try:
+                time_limit = get_timelimit_product(request, 'passport')
+                if time_limit == 0:
+                    time_limit = int(request.POST['time_limit_input'])
+                set_session(request, 'time_limit', time_limit)
+            except:
+                pass
 
             # get_balance(request)
             adult = []
@@ -414,7 +420,7 @@ def booking(request, order_number):
         if 'user_account' not in request.session and 'btc' in web_mode:
             signin_btc(request)
         elif 'user_account' not in request.session and 'btc' not in web_mode:
-            raise Exception('Airline get booking without login in btb web')
+            raise Exception('Passport get booking without login in btb web')
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
         try:

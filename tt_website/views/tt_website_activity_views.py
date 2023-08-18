@@ -123,8 +123,9 @@ def search(request):
                     'category': request.POST.get('activity_category') and int(request.POST['activity_category'].split(' ')[0]) or 0,
                     'sub_category': request.POST.get('activity_sub_category') and int(request.POST['activity_sub_category']) or 0,
                 }
-            except:
-                set_session(request, 'activity_search_request', request.session['activity_search_request'])
+            except Exception as e:
+                _logger.error('Data POST for activity_search_request not found use cache')
+                _logger.error("%s, %s" % (str(e), traceback.format_exc()))
 
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -212,6 +213,7 @@ def detail(request, activity_uuid):
                     'category': 0,
                     'sub_category': 0,
                 })
+                _logger.info('activity skip page search create activity_search_request')
 
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
@@ -269,6 +271,10 @@ def passenger(request):
                 if time_limit == 0:
                     time_limit = int(request.POST['time_limit_input'])
                 set_session(request, 'time_limit', time_limit)
+            except:
+                pass
+
+            try:
                 set_session(request, 'activity_request', {
                     'activity_uuid': request.POST['activity_uuid'],
                     'activity_type_pick': request.POST['activity_type_pick'],
@@ -278,9 +284,9 @@ def passenger(request):
                     'activity_types_data': json.loads(request.POST['details_data']),
                     'activity_date_data': json.loads(request.POST['activity_date_data']),
                 })
-            except:
-                set_session(request, 'time_limit', request.session['time_limit'])
-                set_session(request, 'activity_request', request.session['activity_request'])
+            except Exception as e:
+                _logger.error('Data POST for activity_request not found use cache')
+                _logger.error("%s, %s" % (str(e), traceback.format_exc()))
 
             try:
                 pax_count = {}
@@ -463,7 +469,9 @@ def passenger(request):
                 set_session(request, 'activity_timeslot', request.POST['activity_timeslot'])
                 set_session(request, 'additional_price_input', request.POST.get('additional_price_input') and request.POST['additional_price_input'] or 0)
                 set_session(request, 'activity_event_pick', int(request.POST['event_pick']))
-            except:
+            except Exception as e:
+                _logger.error('Data POST for activity_pax_data, activity_perbooking, activity_upload, activity_details_data, activity_type_pick, activity_timeslot, additional_price_input, activity_event_pick not found use cache')
+                _logger.error("%s, %s" % (str(e), traceback.format_exc()))
                 set_session(request, 'activity_perbooking', request.session['activity_perbooking'])
                 set_session(request, 'activity_upload', request.session['activity_upload'])
                 set_session(request, 'activity_details_data', request.session['activity_details_data'])
@@ -550,10 +558,14 @@ def review(request):
                         phone_code.append(i['phone_code'])
                 phone_code = sorted(phone_code)
                 values = get_data_template(request)
-                time_limit = get_timelimit_product(request, 'activity')
-                if time_limit == 0:
-                    time_limit = int(request.POST['time_limit_input'])
-                set_session(request, 'time_limit', time_limit)
+
+                try:
+                    time_limit = get_timelimit_product(request, 'activity')
+                    if time_limit == 0:
+                        time_limit = int(request.POST['time_limit_input'])
+                    set_session(request, 'time_limit', time_limit)
+                except:
+                    pass
 
                 try:
                     img_list_data = json.loads(request.POST['image_list_data'])
@@ -1356,6 +1368,8 @@ def review(request):
                             if time['uuid'] == request.session['activity_request']['activity_timeslot']:
                                 timeslot = time
                 except Exception as e:
+                    _logger.error('Data POST for activity_review_booking not found use cache')
+                    _logger.error("%s, %s" % (str(e), traceback.format_exc()))
                     ## from back page browser
                     try:
                         printout_paxs = []
@@ -1415,8 +1429,7 @@ def review(request):
 
                         pax_count = {}
                         no_low_pax_count = {}
-                        for temp_sku in request.session['activity_request']['activity_types_data'][
-                            int(request.session['activity_request']['activity_type_pick'])]['skus']:
+                        for temp_sku in request.session['activity_request']['activity_types_data'][int(request.session['activity_request']['activity_type_pick'])]['skus']:
                             low_sku_id = temp_sku['sku_id'].lower()
                             skus.append({
                                 'id': temp_sku['id'],
@@ -1526,7 +1539,7 @@ def booking(request, order_number):
         if 'user_account' not in request.session and 'btc' in web_mode:
             signin_btc(request)
         elif 'user_account' not in request.session and 'btc' not in web_mode:
-            raise Exception('Airline get booking without login in btb web')
+            raise Exception('Activity get booking without login in btb web')
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
         try:
