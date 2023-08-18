@@ -24,7 +24,6 @@ def report_main(request):
         try:
             values = get_data_template(request)
             javascript_version = get_javascript_version(request)
-            response = get_cache_data(request)
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'javascript_version': javascript_version,
@@ -46,7 +45,6 @@ def report_view(request):
             try:
                 values = get_data_template(request)
                 javascript_version = get_javascript_version(request)
-                response = get_cache_data(request)
                 values.update({
                     'static_path': path_util.get_static_path(MODEL_NAME),
                     'javascript_version': javascript_version,

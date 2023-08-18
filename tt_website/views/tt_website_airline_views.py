@@ -305,6 +305,8 @@ def search(request):
                 request.session.modified = True
             except Exception as e:
                 ## TIDAK ADA DATA POST, DARI REORDER
+                _logger.error('Data POST for airline_request create new from reorder')
+                _logger.error("%s, %s" % (str(e), traceback.format_exc()))
                 airline_request = request.session['airline_request']
                 airline_carriers = [{
                     'All': {
@@ -376,15 +378,20 @@ def search(request):
 
             ## PROMO CODE
             promo_codes = []
-            promo_code_list_data_input = request.POST.get('promo_code_counter_list')
-            for promo_code_data_input in json.loads(promo_code_list_data_input):
-                promo_codes.append({
-                    'carrier_code': promo_code_data_input['carrier_code'],
-                    'promo_code': promo_code_data_input['promo_code']
-                })
             use_osi_code_backend = True
-            if request.POST.get('checkbox_osi_code_backend_airline') == 'on' or request.POST.get('checkbox_add_promotion_code_airline') == 'on' or request.META.get('HTTP_REFERER').split('/')[len(request.META.get('HTTP_REFERER').split('/'))-1] == 'search':
-                use_osi_code_backend = False
+            try:
+                promo_code_list_data_input = request.POST.get('promo_code_counter_list')
+                for promo_code_data_input in json.loads(promo_code_list_data_input):
+                    promo_codes.append({
+                        'carrier_code': promo_code_data_input['carrier_code'],
+                        'promo_code': promo_code_data_input['promo_code']
+                    })
+
+                if request.POST.get('checkbox_osi_code_backend_airline') == 'on' or request.POST.get('checkbox_add_promotion_code_airline') == 'on' or request.META.get('HTTP_REFERER').split('/')[len(request.META.get('HTTP_REFERER').split('/'))-1] == 'search':
+                    use_osi_code_backend = False
+            except Exception as e:
+                _logger.error('Data POST for promo code not found use cache')
+                _logger.error("%s, %s" % (str(e), traceback.format_exc()))
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 # 'journeys': journeys,
@@ -477,10 +484,15 @@ def passenger(request, signature):
                 set_session(request, 'airline_sell_journey_%s' % signature, json.loads(request.POST['airline_sell_journey_response']))
             except:
                 _logger.info('no sell journey input')
-            time_limit = get_timelimit_product(request,'airline')
-            if time_limit == 0:
-                time_limit = int(request.POST['time_limit_input'])
-            set_session(request, 'time_limit', time_limit)
+
+            try:
+                time_limit = get_timelimit_product(request, 'airline')
+                if time_limit == 0:
+                    time_limit = int(request.POST['time_limit_input'])
+                set_session(request, 'time_limit', time_limit)
+            except:
+                pass
+
             set_session(request, 'signature', signature)
             set_session(request, 'airline_signature', signature)
             # signature = request.POST['signature']
@@ -617,10 +629,15 @@ def passenger_aftersales(request, signature):
                             json.loads(request.POST['airline_sell_journey_response']))
             except:
                 _logger.info('no sell journey input')
-            time_limit = get_timelimit_product(request, 'airline')
-            if time_limit == 0:
-                time_limit = int(request.POST['time_limit_input'])
-            set_session(request, 'time_limit', time_limit)
+
+            try:
+                time_limit = get_timelimit_product(request, 'airline')
+                if time_limit == 0:
+                    time_limit = int(request.POST['time_limit_input'])
+                set_session(request, 'time_limit', time_limit)
+            except:
+                pass
+
             set_session(request, 'signature', signature)
             set_session(request, 'airline_signature', signature)
             # signature = request.POST['signature']
@@ -776,10 +793,14 @@ def ssr(request, signature):
                         pax['behaviors']['airline'] = ""
                     if pax['behaviors'].get('airline'):
                         pax['behaviors']['airline'] = pax['behaviors']['airline'].replace('<br/>', '\n')
-                time_limit = get_timelimit_product(request, 'airline')
-                if time_limit == 0:
-                    time_limit = int(request.POST['time_limit_input'])
-                set_session(request, 'time_limit', time_limit)
+
+                try:
+                    time_limit = get_timelimit_product(request, 'airline')
+                    if time_limit == 0:
+                        time_limit = int(request.POST['time_limit_input'])
+                    set_session(request, 'time_limit', time_limit)
+                except:
+                    pass
 
                 values.update({
                     'static_path': path_util.get_static_path(MODEL_NAME),
@@ -997,7 +1018,6 @@ def ssr(request, signature):
                                                         "availability_type": fee['fee_category'].lower()
                                                     })
                 title_booker = 'MR'
-                title_contact = 'MR'
                 if airline_get_booking_resp['result']['response']['booker']['gender'] == 'female':
                     if airline_get_booking_resp['result']['response']['booker']['marital_status'] != '':
                         title_booker = 'MRS'
@@ -1113,10 +1133,13 @@ def seat_map(request, signature):
                 for i in additional_price:
                     additional_price_input += i
 
-                time_limit = get_timelimit_product(request, 'airline')
-                if time_limit == 0:
-                    time_limit = int(request.POST['time_limit_input'])
-                set_session(request, 'time_limit', time_limit)
+                try:
+                    time_limit = get_timelimit_product(request, 'airline')
+                    if time_limit == 0:
+                        time_limit = int(request.POST['time_limit_input'])
+                    set_session(request, 'time_limit', time_limit)
+                except:
+                    pass
 
                 values.update({
                     'static_path': path_util.get_static_path(MODEL_NAME),
@@ -1247,7 +1270,6 @@ def seat_map(request, signature):
                                 "sequence": pax['sequence']
                             })
                     title_booker = 'MR'
-                    title_contact = 'MR'
                     if airline_get_booking_resp['result']['response']['booker']['gender'] == 'female':
                         if airline_get_booking_resp['result']['response']['booker']['marital_status'] != '':
                             title_booker = 'MRS'
@@ -1255,18 +1277,14 @@ def seat_map(request, signature):
                             title_booker = 'MS'
                     airline_create_passengers = {
                         'booker': {
-                            "first_name": airline_get_booking_resp['result']['response']['booker'][
-                                'first_name'],
-                            "last_name": airline_get_booking_resp['result']['response']['booker'][
-                                'last_name'],
+                            "first_name": airline_get_booking_resp['result']['response']['booker']['first_name'],
+                            "last_name": airline_get_booking_resp['result']['response']['booker']['last_name'],
                             "title": title_booker,
                             "email": airline_get_booking_resp['result']['response']['booker']['email'],
                             "calling_code":airline_get_booking_resp['result']['response']['booker']['phones'][len(airline_get_booking_resp['result']['response']['booker']['phones']) - 1]['calling_code'],
                             "mobile": airline_get_booking_resp['result']['response']['booker']['phones'][len(airline_get_booking_resp['result']['response']['booker']['phones']) - 1]['calling_number'],
-                            "nationality_code": airline_get_booking_resp['result']['response']['booker'][
-                                'nationality_name'],
-                            "contact_seq_id": airline_get_booking_resp['result']['response']['booker'][
-                                'seq_id']
+                            "nationality_code": airline_get_booking_resp['result']['response']['booker']['nationality_name'],
+                            "contact_seq_id": airline_get_booking_resp['result']['response']['booker']['seq_id']
                         },
                         'adult': adult,
                         'child': child,
@@ -2039,10 +2057,13 @@ def review(request, signature):
                 _logger.info('cache reset here ' + str(e) + '\n' + traceback.format_exc())
                 set_session(request, 'airline_sell_journey_%s' % signature, json.loads(request.POST['airline_sell_journey']))
 
-            time_limit = get_timelimit_product(request, 'airline')
-            if time_limit == 0:
-                time_limit = int(request.POST['time_limit_input'])
-            set_session(request, 'time_limit', time_limit)
+            try:
+                time_limit = get_timelimit_product(request, 'airline')
+                if time_limit == 0:
+                    time_limit = int(request.POST['time_limit_input'])
+                set_session(request, 'time_limit', time_limit)
+            except:
+                pass
             set_session(request, 'passenger_with_ssr_%s' % signature, passenger)
 
             values.update({

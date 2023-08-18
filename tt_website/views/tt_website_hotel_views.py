@@ -127,8 +127,9 @@ def search(request):
                     'child': int(request.POST['hotel_child']),
                     'child_ages': child_age
                 })
-            except:
-                print('error')
+            except Exception as e:
+                _logger.error('Data POST for hotel_request not found use cache')
+                _logger.error("%s, %s" % (str(e), traceback.format_exc()))
 
             if request.POST.get('checkbox_corpor_mode_hotel') and request.POST.get('hotel_corpor_select_post') and request.POST.get('hotel_corbooker_select_post'):
                 updated_request = request.POST.copy()
@@ -188,8 +189,9 @@ def detail_with_path(request, id):
                 if translation.LANGUAGE_SESSION_KEY in request.session:
                     del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
                 set_session(request, 'hotel_detail', json.loads(request.POST['hotel_detail']))
-            except:
-                pass
+            except Exception as e:
+                _logger.error('Data POST for hotel_detail not found use cache')
+                _logger.error("%s, %s" % (str(e), traceback.format_exc()))
             data = request.session.get('hotel_request') or {}
             if data != {}:
                 need_signin = False
@@ -214,8 +216,9 @@ def detail_with_path(request, id):
                         'child': int(request.POST['hotel_child_wizard']),
                         'child_ages': child_age
                     })
-                except:
-                    pass
+                except Exception as e:
+                    _logger.error('Data POST for hotel_request not found use cache')
+                    _logger.error("%s, %s" % (str(e), traceback.format_exc()))
                 data = request.session.get('hotel_request')
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
@@ -253,16 +256,20 @@ def detail(request):
                 if i['phone_code'] not in phone_code:
                     phone_code.append(i['phone_code'])
             phone_code = sorted(phone_code)
-            time_limit = get_timelimit_product(request, 'hotel')
-            if time_limit == 0:
-                time_limit = int(request.POST['time_limit_input'])
-            set_session(request, 'time_limit', time_limit)
+            try:
+                time_limit = get_timelimit_product(request, 'hotel')
+                if time_limit == 0:
+                    time_limit = int(request.POST['time_limit_input'])
+                set_session(request, 'time_limit', time_limit)
+            except:
+                pass
             try:
                 if translation.LANGUAGE_SESSION_KEY in request.session:
                     del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
                 set_session(request, 'hotel_detail', json.loads(request.POST['hotel_detail']))
-            except:
-                pass
+            except Exception as e:
+                _logger.error('Data POST for hotel_detail not found use cache')
+                _logger.error("%s, %s" % (str(e), traceback.format_exc()))
             data = request.session['hotel_request']
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
@@ -319,10 +326,14 @@ def passengers(request):
             javascript_version = get_javascript_version(request)
             response = get_cache_data(request)
             values = get_data_template(request)
-            time_limit = get_timelimit_product(request, 'hotel')
-            if time_limit == 0:
-                time_limit = int(request.POST['time_limit_input'])
-            set_session(request, 'time_limit', time_limit)
+
+            try:
+                time_limit = get_timelimit_product(request, 'hotel')
+                if time_limit == 0:
+                    time_limit = int(request.POST['time_limit_input'])
+                set_session(request, 'time_limit', time_limit)
+            except:
+                pass
 
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -342,11 +353,15 @@ def passengers(request):
             # pax
             adult = ['' for i in range(int(request.session['hotel_request']['adult']))]
             child = ['' for i in range(int(request.session['hotel_request']['child']))]
-            request.session['hotel_request'].update({
-                'check_in': request.POST.get('checkin_date') and str(datetime.strptime(request.POST['checkin_date'], '%d %b %Y'))[:10] or request.session['hotel_request']['checkin_date'],
-                'check_out': request.POST.get('checkout_date') and str(datetime.strptime(request.POST['checkout_date'], '%d %b %Y'))[:10] or request.session['hotel_request']['checkout_date'],
-            })
-            set_session(request, 'hotel_room_pick', json.loads(request.POST['hotel_detail_send']))
+            try:
+                request.session['hotel_request'].update({
+                    'check_in': request.POST.get('checkin_date') and str(datetime.strptime(request.POST['checkin_date'], '%d %b %Y'))[:10] or request.session['hotel_request']['checkin_date'],
+                    'check_out': request.POST.get('checkout_date') and str(datetime.strptime(request.POST['checkout_date'], '%d %b %Y'))[:10] or request.session['hotel_request']['checkout_date'],
+                })
+                set_session(request, 'hotel_room_pick', json.loads(request.POST['hotel_detail_send']))
+            except Exception as e:
+                _logger.error('Data POST for hotel_request checkin and checkout, hotel_room_pick not found use cache')
+                _logger.error("%s, %s" % (str(e), traceback.format_exc()))
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'countries': airline_country,
@@ -403,10 +418,14 @@ def review(request):
                 spc_req += request.POST.get('late_co') and 'Late CheckOut: ' + request.POST['late_co'] + '; ' or ''
 
                 request.session['hotel_request'].update({'special_request': spc_req})
-                time_limit = get_timelimit_product(request, 'hotel')
-                if time_limit == 0:
-                    time_limit = int(request.POST['time_limit_input'])
-                set_session(request, 'time_limit', time_limit)
+
+                try:
+                    time_limit = get_timelimit_product(request, 'hotel')
+                    if time_limit == 0:
+                        time_limit = int(request.POST['time_limit_input'])
+                    set_session(request, 'time_limit', time_limit)
+                except:
+                    pass
 
                 adult = []
                 child = []
@@ -625,7 +644,7 @@ def booking(request, order_number):
         if 'user_account' not in request.session and 'btc' in web_mode:
             signin_btc(request)
         elif 'user_account' not in request.session and 'btc' not in web_mode:
-            raise Exception('Airline get booking without login in btb web')
+            raise Exception('Hotel get booking without login in btb web')
         try:
             set_session(request, 'hotel_order_number', base64.b64decode(order_number).decode('ascii'))
         except:

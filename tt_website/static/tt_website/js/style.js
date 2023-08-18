@@ -2535,12 +2535,16 @@ function show_visa_details(key){
 function show_flight_details(key){
     var journey = document.getElementById('journey'+key);
     var flight = document.getElementById('detail_departjourney'+key);
+    var flight_down_pc = document.getElementById('flight_details_down_pc'+key);
+    var flight_up_pc = document.getElementById('flight_details_up_pc'+key);
     var flight_down = document.getElementById('flight_details_down'+key);
     var flight_up = document.getElementById('flight_details_up'+key);
 
     if (flight.style.display === "none") {
         flight_up.style.display = "block";
         flight_down.style.display = "none";
+        flight_up_pc.style.display = "block";
+        flight_down_pc.style.display = "none";
         flight.style.display = "block";
         journey.style.marginBottom = "15px";
         journey.style.border= "1px solid "+color;
@@ -2548,6 +2552,8 @@ function show_flight_details(key){
     else {
         flight_up.style.display = "none";
         flight_down.style.display = "block";
+        flight_up_pc.style.display = "none";
+        flight_down_pc.style.display = "block";
         flight.style.display = "none";
         journey.style.marginBottom = "15px";
         journey.style.border= "1px solid #cdcdcd";
@@ -2559,16 +2565,22 @@ function show_flight_details2(key){
     var flight = document.getElementById('detail_departjourney_pick'+key);
     var flight_down = document.getElementById('flight_details_down2'+key);
     var flight_up = document.getElementById('flight_details_up2'+key);
+    var flight_down_pc = document.getElementById('flight_details_down_pc2'+key);
+    var flight_up_pc = document.getElementById('flight_details_up_pc2'+key);
 
     if (flight.style.display === "none") {
         flight_up.style.display = "block";
         flight_down.style.display = "none";
+        flight_up_pc.style.display = "block";
+        flight_down_pc.style.display = "none";
         flight.style.display = "block";
         journey.style.marginBottom = "15px";
     }
     else {
         flight_up.style.display = "none";
         flight_down.style.display = "block";
+        flight_up_pc.style.display = "none";
+        flight_down_pc.style.display = "block";
         flight.style.display = "none";
         journey.style.marginBottom = "15px";
     }
@@ -3307,6 +3319,25 @@ function div_dropdown(type){
         general_up.style.display = "inline-block";
         general_down.style.display = "none";
         general_show.style.display = "block";
+    }
+}
+function open_cos_seat_class(id1, id2){
+    if ($("#provider_seat_content"+id1+id2).hasClass("show")) {
+        $("#provider_seat_content"+id1+id2).dropdown("toggle");
+    }else{
+        setTimeout(function(){
+            $("#show_choose_seat"+id1+id2).click();
+        }, 200);
+    }
+}
+
+function open_cos_seat_class_pick(id1, id2){
+    if ($("#provider_seat_content_pick"+id1+id2).hasClass("show")) {
+        $("#provider_seat_content_pick"+id1+id2).dropdown("toggle");
+    }else{
+        setTimeout(function(){
+            $("#show_choose_seat_pick"+id1+id2).click();
+        }, 200);
     }
 }
 
