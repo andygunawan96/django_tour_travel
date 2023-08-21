@@ -1345,10 +1345,8 @@ def seat_map(request, signature):
                     for pax in request.session['airline_get_booking_response']['result']['response']['passengers']:
                         if pax.get('channel_service_charges'):
                             upsell = pax['channel_service_charges']['amount']
-                    airline_get_booking = copy.deepcopy(
-                        request.session['airline_get_booking_response']['result']['response'])
-                    del airline_get_booking[
-                        'reschedule_list']  # pop sementara ada list isi string pakai " wktu di parser error
+                    airline_get_booking = copy.deepcopy(request.session['airline_get_booking_response']['result']['response'])
+                    del airline_get_booking['reschedule_list']  # pop sementara ada list isi string pakai " wktu di parser error
                     values.update({
                         'static_path': path_util.get_static_path(MODEL_NAME),
                         'airline_carriers': carrier,
@@ -1368,7 +1366,32 @@ def seat_map(request, signature):
                         'time_limit': '',
                         'signature': request.session['airline_signature'],
                     })
-                else:
+                elif request.session.get('airline_get_booking_response'):
+                    upsell = 0
+                    for pax in request.session['airline_get_booking_response']['result']['response']['passengers']:
+                        if pax.get('channel_service_charges'):
+                            upsell = pax['channel_service_charges']['amount']
+                    airline_get_booking = copy.deepcopy(request.session['airline_get_booking_response']['result']['response'])
+                    values.update({
+                        'static_path': path_util.get_static_path(MODEL_NAME),
+                        'airline_carriers': carrier,
+                        'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
+                        'countries': airline_country,
+                        'phone_code': phone_code,
+                        'after_sales': 1,
+                        'upsell': upsell,
+                        'airline_getbooking': airline_get_booking,
+                        'additional_price': '',
+                        'passengers': passenger,
+                        'static_path_url_server': get_url_static_path(),
+                        'username': request.session['user_account'],
+                        'javascript_version': javascript_version,
+                        'airline_request': '',
+                        'price': '',
+                        'time_limit': '',
+                        'signature': request.session['airline_signature'],
+                    })
+                elif not request.session.get('airline_get_booking_response'):
                     ## pre booking error
                     _logger.error(str(e) + '\n' + traceback.format_exc())
                     raise Exception('Make response code 500!')

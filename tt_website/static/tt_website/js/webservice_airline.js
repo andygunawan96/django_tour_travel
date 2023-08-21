@@ -9813,7 +9813,6 @@ function airline_get_booking(data, sync=false){
                                 }
                             }
                         }
-
                         var breakdown_text = '';
                         for(j in price_breakdown){
                             if(breakdown_text)
@@ -11311,7 +11310,7 @@ function airline_issued(data){
                                 text+=`
                                 <div class="row" style="margin-bottom:5px;">
                                     <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                        <span style="font-size:12px;">`+airline_get_detail.result.response.passengers[j].name+` Additional
+                                        <span style="font-size:12px;">`+airline_get_detail.result.response.passengers[j].name+` Ancillary Fee
                                     </div>
                                     <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
                                         <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.SSR + price.SEAT))+`</span>
@@ -11430,7 +11429,7 @@ function airline_issued(data){
                                 text+=`
                                 <div class="row" style="margin-bottom:5px;">
                                     <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                        <span style="font-size:12px;">`+airline_get_detail.result.response.passengers[j].name+` Additional
+                                        <span style="font-size:12px;">`+airline_get_detail.result.response.passengers[j].name+` Ancillary Fee
                                     </div>
                                     <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
                                         <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.SSR + price.SEAT))+`</span>
