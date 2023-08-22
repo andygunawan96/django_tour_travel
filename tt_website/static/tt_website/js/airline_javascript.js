@@ -5775,15 +5775,15 @@ function airline_detail(type){
                         }
                         if(i == 0 && j == 0 && Boolean(price_itinerary.is_combo_price) == true && price_itinerary_temp.length > 1){
                             text += `<h6>Special Price</h6>`;
-                            $text +='Special Price\n';
+//                            $text +='Special Price\n';
                         }else if( i != 0 && j != 0){
                             text+=`<hr/>`;
                         }
                         flight_count++;
                         if(!is_roundtrip_combo)
-                            $text +='*Flight '+flight_count+'*\n';
+                            $text +='‣ Flight '+flight_count+'\n';
                         else
-                            $text +='*Roundtrip*\n';
+                            $text +='‣ Roundtrip\n';
                         if(flight_count != 1){
                             text+=`<div class="col-lg-12"><hr/></div>`;
                         }
@@ -5847,7 +5847,7 @@ function airline_detail(type){
 
                         //text+=`<br/>`;
                         for(k in price_itinerary_temp[i].journeys[j].segments){
-                            $text += '‣ ';
+//                            $text += '‣ ';
                             try{
                                 if(price_itinerary_temp[i].journeys[j].segments[k].carrier_code != price_itinerary_temp[i].journeys[j].segments[k].operating_airline_code && price_itinerary_temp[i].journeys[j].segments[k].operating_airline_code != ''){
                                     text+=`<span style="margin-top:15px; font-size:13px; font-weight:500;">Operated By `+airline_carriers[price_itinerary_temp[i].journeys[j].segments[k].operating_airline_code].name+` (`+price_itinerary_temp[i].journeys[j].segments[k].carrier_code+price_itinerary_temp[i].journeys[j].segments[k].carrier_number+`)</span><br/>`
@@ -5873,18 +5873,53 @@ function airline_detail(type){
                                     $text += airline_cabin_class_list['W1'];
                                 else
                                     $text += airline_cabin_class_list[price_itinerary_temp[i].journeys[j].segments[k].fares[l].cabin_class];
-                                $text += ' [' + price_itinerary_temp[i].journeys[j].segments[k].fares[l].class_of_service + ']\n';
+                                $text += ' [' + price_itinerary_temp[i].journeys[j].segments[k].fares[l].class_of_service + ']';
                             }
                             //OPERATED BY
                             try{
                                 if(price_itinerary_temp[i].journeys[j].segments[k].carrier_code != price_itinerary_temp[i].journeys[j].segments[k].operating_airline_code && price_itinerary_temp[i].journeys[j].segments[k].operating_airline_code != ''){
-                                    $text += 'Operated By ' + airline_carriers[price_itinerary_temp[i].journeys[j].segments[k].operating_airline_code].name + '\n';
+                                    $text += ' Operated By ' + airline_carriers[price_itinerary_temp[i].journeys[j].segments[k].operating_airline_code].name;
                                 }
                             }catch(err){
                                 if(price_itinerary_temp[i].journeys[j].segments[k].carrier_code != price_itinerary_temp[i].journeys[j].segments[k].operating_airline_code && price_itinerary_temp[i].journeys[j].segments[k].operating_airline_code != ''){
-                                    $text += 'Operated By ' + price_itinerary_temp[i].journeys[j].segments[k].operating_airline_code + '\n';
+                                    $text += ' Operated By ' + price_itinerary_temp[i].journeys[j].segments[k].operating_airline_code;
                                 }
                             }
+                            $text_ssr = '';
+                            $text_description = '';
+                            for(l in price_itinerary_temp[i].journeys[j].segments[k].fares){
+                                for(m in price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details){
+                                    if(price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details[m].detail_type.includes('BG')){
+                                        if($text_ssr != '')
+                                            $text_ssr += ', '
+                                        if(price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details[m].detail_name != '' && price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details[m].detail_name.includes('default_ssr') == false)
+                                            $text_ssr += price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details[m].detail_name;
+                                        else
+                                            $text_ssr += 'Baggage ' + price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details[m].amount + ' ' + price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details[m].unit
+                                    }else if(price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details[m].detail_type.includes('ML')){
+                                        $text_ssr += 'Meal ' + price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details[m].amount + ' ' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].unit + '\n';
+                                    }
+                                }
+                                if(price_itinerary_temp[i].journeys[j].segments[k].carrier_type_name){
+                                    if($text_ssr != '')
+                                        $text_ssr += ', '
+                                    $text_ssr += 'Aircraft ' + price_itinerary_temp[i].journeys[j].segments[k].carrier_type_name + '\n';
+                                }
+                                if(price_itinerary_temp[i].journeys[j].segments[k].fares[l].description.length > 0){
+                                    $text_description += '- Description: ';
+                                    for(m in price_itinerary_temp[i].journeys[j].segments[k].fares[l].description){
+                                        if(m != 0)
+                                            $text_description += ', ';
+                                        $text_description += '• ' + price_itinerary_temp[i].journeys[j].segments[k].fares[l].description[m] + '\n';
+                                    }
+                                }
+                            }
+
+                            if($text_ssr)
+                                $text += $text_ssr;
+                            if($text_description)
+                                $text += $text_description;
+
 
         //                    $text += '\n\n';
         //                    $text += '‣ Departure:\n';
@@ -5894,14 +5929,26 @@ function airline_detail(type){
         //                    $text += '‣ Arrival:\n';
         //                    $text += price_itinerary_temp[i].journeys[j].segments[k].destination_name + ' (' + price_itinerary_temp[i].journeys[j].segments[k].destination_city + ') '+price_itinerary_temp[i].journeys[j].segments[k].arrival_date +'\n\n';
 
-                            $text += price_itinerary_temp[i].journeys[j].segments[k].origin_city + ' (' + price_itinerary_temp[i].journeys[j].segments[k].origin + ') - ' + price_itinerary_temp[i].journeys[j].segments[k].destination_city + ' (' + price_itinerary_temp[i].journeys[j].segments[k].destination + ')\n';
-                            $text += 'Departure Date: '+price_itinerary_temp[i].journeys[j].segments[k].departure_date+'\n';
+                            // NEW //
+                            $text += '- Departure: ' + price_itinerary_temp[i].journeys[j].segments[k].origin_city + ', ' + price_itinerary_temp[i].journeys[j].segments[k].origin_country + ' (' + price_itinerary_temp[i].journeys[j].segments[k].origin + ') ';
+                            $text += price_itinerary_temp[i].journeys[j].segments[k].departure_date.split(' - ')[0] + ' at ' + price_itinerary_temp[i].journeys[j].segments[k].departure_date.split(' - ')[1] + '\n';
                             if(price_itinerary_temp[i].journeys[j].segments[k].origin_terminal)
-                                $text += 'Terminal: ' + price_itinerary_temp[i].journeys[j].segments[k].origin_terminal + '\n';
-                            $text += 'Arrival Date: '+price_itinerary_temp[i].journeys[j].segments[k].arrival_date +'\n';
-                            if(price_itinerary_temp[i].journeys[j].segments[k].destination_terminal)
-                                $text += 'Terminal: ' + price_itinerary_temp[i].journeys[j].segments[k].destination_terminal + '\n';
+                                $text += '- Terminal: ' + price_itinerary_temp[i].journeys[j].segments[k].origin_terminal + '\n';
+                            $text += '- Arrival: ' + price_itinerary_temp[i].journeys[j].segments[k].destination_city  + ', ' + price_itinerary_temp[i].journeys[j].segments[k].destination_country + ' (' + price_itinerary_temp[i].journeys[j].segments[k].destination + ') ';
+                            $text += price_itinerary_temp[i].journeys[j].segments[k].arrival_date.split(' - ')[0] + ' at ' + price_itinerary_temp[i].journeys[j].segments[k].arrival_date.split(' - ')[1] + '\n';
+                            if(price_itinerary_temp[i].journeys[j].segments[k].arrival_terminal)
+                                $text += '- Terminal: ' + price_itinerary_temp[i].journeys[j].segments[k].arrival_terminal + '\n';
                             $text += '\n';
+                            // NEW //
+
+//                            $text += price_itinerary_temp[i].journeys[j].segments[k].origin_city + ' (' + price_itinerary_temp[i].journeys[j].segments[k].origin + ') - ' + price_itinerary_temp[i].journeys[j].segments[k].destination_city + ' (' + price_itinerary_temp[i].journeys[j].segments[k].destination + ')\n';
+//                            $text += 'Departure Date: '+price_itinerary_temp[i].journeys[j].segments[k].departure_date+'\n';
+//                            if(price_itinerary_temp[i].journeys[j].segments[k].origin_terminal)
+//                                $text += 'Terminal: ' + price_itinerary_temp[i].journeys[j].segments[k].origin_terminal + '\n';
+//                            $text += 'Arrival Date: '+price_itinerary_temp[i].journeys[j].segments[k].arrival_date +'\n';
+//                            if(price_itinerary_temp[i].journeys[j].segments[k].destination_terminal)
+//                                $text += 'Terminal: ' + price_itinerary_temp[i].journeys[j].segments[k].destination_terminal + '\n';
+//                            $text += '\n';
                             text+=`
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
@@ -5967,15 +6014,15 @@ function airline_detail(type){
                                 for(l in price_itinerary_temp[i].journeys[j].segments[k].fares){
                                     for(m in price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details){
                                         if(price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details[m].detail_type.includes('BG')){
-                                            $text += '• Baggage ';
-                                            if(price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details[m].detail_name != '' && price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details[m].detail_name.includes('default_ssr') == false)
-                                                $text += price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details[m].detail_name;
-                                            else
-                                                $text += price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details[m].amount + ' ' + price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details[m].unit
-                                            $text += '\n';
+//                                            $text += '• Baggage ';
+//                                            if(price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details[m].detail_name != '' && price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details[m].detail_name.includes('default_ssr') == false)
+//                                                $text += price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details[m].detail_name;
+//                                            else
+//                                                $text += price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details[m].amount + ' ' + price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details[m].unit
+//                                            $text += '\n';
                                             text += `<br/><i class="fas fa-suitcase"></i><span style="font-weight:800;"> Baggage - `+price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details[m].amount + ' ' + price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details[m].unit+` </span>`;
                                         }else if(price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details[m].detail_type.includes('ML')){
-                                            $text += '• Meal ' + price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details[m].amount + ' ' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].unit + '\n';
+//                                            $text += '• Meal ' + price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details[m].amount + ' ' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].unit + '\n';
                                             text += `<br/><i class="fas fa-suitcase"></i><span style="font-weight:800;"> Meal - `+price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details[m].amount + ' ' + price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details[m].unit+` </span>`;
                                         }
 
@@ -5989,15 +6036,15 @@ function airline_detail(type){
                                         }
                                     }
                                     if(price_itinerary_temp[i].journeys[j].segments[k].carrier_type_name){
-                                        $text += '• Aircraft: ' + price_itinerary_temp[i].journeys[j].segments[k].carrier_type_name + '\n';
+//                                        $text += '• Aircraft: ' + price_itinerary_temp[i].journeys[j].segments[k].carrier_type_name + '\n';
                                         text += `<br/><i class="fas fa-plane"></i><span style="font-weight:800;"> Aircraft - `+price_itinerary_temp[i].journeys[j].segments[k].carrier_type_name+` </span>`;
                                     }
-                                    if(price_itinerary_temp[i].journeys[j].segments[k].fares[l].description.length > 0){
-                                        $text += 'Description: \n';
-                                        for(m in price_itinerary_temp[i].journeys[j].segments[k].fares[l].description){
-                                            $text += '• ' + price_itinerary_temp[i].journeys[j].segments[k].fares[l].description[m] + '\n';
-                                        }
-                                    }
+//                                    if(price_itinerary_temp[i].journeys[j].segments[k].fares[l].description.length > 0){
+//                                        $text += 'Description: \n';
+//                                        for(m in price_itinerary_temp[i].journeys[j].segments[k].fares[l].description){
+//                                            $text += '• ' + price_itinerary_temp[i].journeys[j].segments[k].fares[l].description[m] + '\n';
+//                                        }
+//                                    }
                                 }
                                 text+=`</div>`;
 
@@ -6034,7 +6081,7 @@ function airline_detail(type){
                                         //price
                                         price = 0;
                                         //adult
-                                        $text+= 'Price\n';
+                                        $text+= '‣ Price\n';
                                         for(pax_type in airline_price[price_counter]){
                                             pax_count = 0;
                                             pax_type_name = '';
@@ -6146,7 +6193,6 @@ function airline_detail(type){
         //                text+=`<div class="row"><div class="col-lg-12"><hr/></div></div>`;
 
                         text+=`</div>`;
-                        $text += '\n';
                     }
                 }
 
@@ -6183,6 +6229,286 @@ function airline_detail(type){
 //            }catch(err){
 //                console.log(err); // error kalau ada element yg tidak ada
 //            }
+
+
+            //contact person pax //
+            if(typeof(passengers) !== 'undefined'){
+                if(passengers.hasOwnProperty('contact')){
+                    $text += '‣ Contact Person:\n'
+                    for(x in passengers['contact']){
+                        $text += '- ' + passengers['contact'][x].title + ' ' + passengers['contact'][x].first_name + ' ' + passengers['contact'][x].last_name + '\n';
+                        $text += 'Email: ' + passengers['contact'][x].email + '\n';
+                        $text += 'Phone: ' + passengers['contact'][x].calling_code + ' - ' + passengers['contact'][x].mobile + '\n\n';
+                    }
+                }
+                total_pax = airline_request.adult + airline_request.child + airline_request.infant;
+                if(airline_request.hasOwnProperty('labour'))
+                    total_pax += airline_request.labour;
+                if(airline_request.hasOwnProperty('seaman'))
+                    total_pax += airline_request.seaman;
+                if(airline_request.hasOwnProperty('student'))
+                    total_pax += airline_request.student;
+                $text += '‣ Passenger'
+                if(total_pax > 1)
+                    $text += 's';
+                $text += ':\n';
+                if(passengers.hasOwnProperty('adult')){
+                    for(x in passengers['adult']){
+                        $text += '• ' + passengers['adult'][x].title + ' ' + passengers['adult'][x].first_name + ' ' + passengers['adult'][x].last_name + ' ';
+                        if(passengers['adult'][x].identity_type){
+                            $text += '- ' + passengers['adult'][x].identity_type.substr(0,1).toUpperCase() + passengers['adult'][x].identity_type.substr(1,passengers['adult'][x].identity_type.length).toLowerCase() + ': ';
+                            $text += passengers['adult'][x].identity_number.substr(0,1);
+                            for(z=0;z<passengers['adult'][x].identity_number.length-4;z++)
+                                $text += '-'
+                            $text += passengers['adult'][x].identity_number.substr(passengers['adult'][x].identity_number.length-3,passengers['adult'][x].identity_number.length)
+                        }
+                        for(y in passengers['adult'][x].ff_numbers){
+                            if(y == 0)
+                                $text += '- ';
+                            if(y != 0)
+                                $text += ',';
+                            $text += passengers['adult'][x].ff_numbers[y].ff_code + ': ';
+                            $text += passengers['adult'][x].ff_numbers[y].ff_number.substr(0,1);
+                            for(z=0;z<passengers['adult'][x].ff_numbers[y].ff_number.length-4;z++)
+                                $text += '*'
+                            $text += passengers['adult'][x].ff_numbers[y].ff_number.substr(passengers['adult'][x].ff_numbers[y].ff_number.length-3,passengers['adult'][x].ff_numbers[y].ff_number.length);
+                        }
+                        $text += '\n';
+                        if(passengers['adult'][x].hasOwnProperty('ssr_list')){
+                            for(y in passengers['adult'][x].ssr_list){
+                                $text += '- ' + passengers['adult'][x].ssr_list[y].origin + '-' + passengers['adult'][x].ssr_list[y].destination + ' ';
+                                if(passengers['adult'][x].ssr_list[y].availability_type == 'baggage'){
+                                    $text += 'Baggage: ';
+                                }else if(passengers['adult'][x].ssr_list[y].availability_type == 'meal'){
+                                    $text += 'Meal: ';
+                                }else if(passengers['adult'][x].ssr_list[y].availability_type == 'seat'){
+                                    $text += 'Seat: ';
+                                }else if(passengers['adult'][x].ssr_list[y].availability_type == 'wheelchair'){
+                                    $text += 'Wheelchair';
+                                }else{
+                                    $text += passengers['adult'][x].ssr_list[y].availability_type.substr(0,1).toUpperCase() + passengers['adult'][x].ssr_list[y].availability_type.substr(1,passengers['adult'].ssr_list[y].availability_type.length).toLowerCase();
+                                }
+                                $text += passengers['adult'][x].ssr_list[y].name + '\n';
+                            }
+                        }
+                        if(passengers['adult'][x].hasOwnProperty('seat_list')){
+                            for(y in passengers['adult'][x].seat_list){
+                                if(passengers['adult'][x].seat_list[y].seat_name){
+                                    $text += '- ' + passengers['adult'][x].seat_list[y].segment_code + ' Seat: ' + passengers['adult'][x].seat_list[y].seat_name + '\n';
+                                }
+                            }
+                        }
+                        $text += '\n';
+                    }
+                }
+                if(passengers.hasOwnProperty('child')){
+                    for(x in passengers['child']){
+                        $text += '• ' + passengers['child'][x].title + ' ' + passengers['child'][x].first_name + ' ' + passengers['child'][x].last_name + ' ';
+                        if(passengers['child'][x].identity_type){
+                            $text += '- ' + passengers['child'][x].identity_type.substr(0,1).toUpperCase() + passengers['child'][x].identity_type.substr(1,passengers['child'][x].identity_type.length).toLowerCase() + ': ';
+                            $text += passengers['child'][x].identity_number.substr(0,1);
+                            for(z=0;z<passengers['child'][x].identity_number.length-4;z++)
+                                $text += '-'
+                            $text += passengers['child'][x].identity_number.substr(passengers['child'][x].identity_number.length-3,passengers['child'][x].identity_number.length)
+                        }
+                        for(y in passengers['child'][x].ff_numbers){
+                            if(y == 0)
+                                $text += '- ';
+                            if(y != 0)
+                                $text += ',';
+                            $text += passengers['child'][x].ff_numbers[y].ff_code + ': ';
+                            $text += passengers['child'][x].ff_numbers[y].ff_number.substr(0,1);
+                            for(z=0;z<passengers['child'][x].ff_numbers[y].ff_number.length-4;z++)
+                                $text += '*'
+                            $text += passengers['child'][x].ff_numbers[y].ff_number.substr(passengers['child'][x].ff_numbers[y].ff_number.length-3,passengers['child'][x].ff_numbers[y].ff_number.length);
+                        }
+                        $text += '\n';
+                        if(passengers['child'][x].hasOwnProperty('ssr_list')){
+                            for(y in passengers['child'][x].ssr_list){
+                                $text += '- ' + passengers['child'][x].ssr_list[y].origin + '-' + passengers['child'][x].ssr_list[y].destination + ' ';
+                                if(passengers['child'][x].ssr_list[y].availability_type == 'baggage'){
+                                    $text += 'Baggage: ';
+                                }else if(passengers['child'][x].ssr_list[y].availability_type == 'meal'){
+                                    $text += 'Meal: ';
+                                }else if(passengers['child'][x].ssr_list[y].availability_type == 'seat'){
+                                    $text += 'Seat: ';
+                                }else if(passengers['child'][x].ssr_list[y].availability_type == 'wheelchair'){
+                                    $text += 'Wheelchair';
+                                }else{
+                                    $text += passengers['child'][x].ssr_list[y].availability_type.substr(0,1).toUpperCase() + passengers['child'][x].ssr_list[y].availability_type.substr(1,passengers['child'].ssr_list[y].availability_type.length).toLowerCase();
+                                }
+                                $text += passengers['child'][x].ssr_list[y].name + '\n';
+                            }
+                        }
+                        if(passengers['child'][x].hasOwnProperty('seat_list')){
+                            for(y in passengers['child'][x].seat_list){
+                                if(passengers['child'][x].seat_list[y].seat_name){
+                                    $text += '- ' + passengers['child'][x].seat_list[y].segment_code + ' Seat: ' + passengers['child'][x].seat_list[y].seat_name + '\n';
+                                }
+                            }
+                        }
+                        $text += '\n';
+                    }
+                }
+                if(passengers.hasOwnProperty('infant')){
+                    for(x in passengers['infant']){
+                        $text += '• ' + passengers['infant'][x].title + ' ' + passengers['infant'][x].first_name + ' ' + passengers['infant'][x].last_name + ' ';
+                        if(passengers['infant'][x].identity_type)
+                            $text += '- ' + passengers['infant'][x].identity_type + ': ' + passengers['infant'][x].identity_number + ' ';
+                        $text += '\n';
+                    }
+                }
+
+                if(passengers.hasOwnProperty('student')){
+                    for(x in passengers['student']){
+                        $text += '- ' + passengers['student'][x].title + ' ' + passengers['student'][x].first_name + ' ' + passengers['student'][x].last_name + ' ';
+                        if(passengers['student'][x].identity_type){
+                            $text += '- ' + passengers['student'][x].identity_type.substr(0,1).toUpperCase() + passengers['student'][x].identity_type.substr(1,passengers['student'][x].identity_type.length).toLowerCase() + ': ';
+                            $text += passengers['student'][x].identity_number.substr(0,1);
+                            for(z=0;z<passengers['student'][x].identity_number.length-4;z++)
+                                $text += '-'
+                            $text += passengers['student'][x].identity_number.substr(passengers['student'][x].identity_number.length-3,passengers['student'][x].identity_number.length)
+                        }
+                        for(y in passengers['student'][x].ff_numbers){
+                            if(y == 0)
+                                $text += '- ';
+                            if(y != 0)
+                                $text += ',';
+                            $text += passengers['student'][x].ff_numbers[y].ff_code + ': ';
+                            $text += passengers['student'][x].ff_numbers[y].ff_number.substr(0,1);
+                            for(z=0;z<passengers['student'][x].ff_numbers[y].ff_number.length-4;z++)
+                                $text += '*'
+                            $text += passengers['student'][x].ff_numbers[y].ff_number.substr(passengers['student'][x].ff_numbers[y].ff_number.length-3,passengers['student'][x].ff_numbers[y].ff_number.length);
+                        }
+                        if(passengers['student'][x].hasOwnProperty('ssr_list')){
+                            for(y in passengers['student'][x].ssr_list){
+                                $text += '- ' + passengers['student'][x].ssr_list[y].origin + '-' + passengers['student'][x].ssr_list[y].destination + ' ';
+                                if(passengers['student'][x].ssr_list[y].availability_type == 'baggage'){
+                                    $text += 'Baggage: ';
+                                }else if(passengers['student'][x].ssr_list[y].availability_type == 'meal'){
+                                    $text += 'Meal: ';
+                                }else if(passengers['student'][x].ssr_list[y].availability_type == 'seat'){
+                                    $text += 'Seat: ';
+                                }else if(passengers['student'][x].ssr_list[y].availability_type == 'wheelchair'){
+                                    $text += 'Wheelchair';
+                                }else{
+                                    $text += passengers['student'][x].ssr_list[y].availability_type.substr(0,1).toUpperCase() + passengers['student'][x].ssr_list[y].availability_type.substr(1,passengers['student'].ssr_list[y].availability_type.length).toLowerCase();
+                                }
+                                $text += passengers['student'][x].ssr_list[y].name + '\n';
+                            }
+                        }
+                        if(passengers['student'][x].hasOwnProperty('seat_list')){
+                            for(y in passengers['student'][x].seat_list){
+                                if(passengers['student'][x].seat_list[y].seat_name){
+                                    $text += '- ' + passengers['student'][x].seat_list[y].segment_code + ' Seat: ' + passengers['student'][x].seat_list[y].seat_name + '\n';
+                                }
+                            }
+                        }
+                        $text += '\n';
+                    }
+                }
+
+                if(passengers.hasOwnProperty('labour')){
+                    for(x in passengers['labour']){
+                        $text += '- ' + passengers['labour'][x].title + ' ' + passengers['labour'][x].first_name + ' ' + passengers['labour'][x].last_name + ' ';
+                        if(passengers['labour'][x].identity_type){
+                            $text += '- ' + passengers['labour'][x].identity_type.substr(0,1).toUpperCase() + passengers['labour'][x].identity_type.substr(1,passengers['labour'][x].identity_type.length).toLowerCase() + ': ';
+                            $text += passengers['labour'][x].identity_number.substr(0,1);
+                            for(z=0;z<passengers['labour'][x].identity_number.length-4;z++)
+                                $text += '-'
+                            $text += passengers['labour'][x].identity_number.substr(passengers['labour'][x].identity_number.length-3,passengers['labour'][x].identity_number.length)
+                        }
+                        for(y in passengers['labour'][x].ff_numbers){
+                            if(y == 0)
+                                $text += '- ';
+                            if(y != 0)
+                                $text += ',';
+                            $text += passengers['labour'][x].ff_numbers[y].ff_code + ': ';
+                            $text += passengers['labour'][x].ff_numbers[y].ff_number.substr(0,1);
+                            for(z=0;z<passengers['labour'][x].ff_numbers[y].ff_number.length-4;z++)
+                                $text += '*'
+                            $text += passengers['labour'][x].ff_numbers[y].ff_number.substr(passengers['labour'][x].ff_numbers[y].ff_number.length-3,passengers['labour'][x].ff_numbers[y].ff_number.length);
+                        }
+                        if(passengers['labour'][x].hasOwnProperty('ssr_list')){
+                            for(y in passengers['labour'][x].ssr_list){
+                                $text += '- ' + passengers['labour'][x].ssr_list[y].origin + '-' + passengers['labour'][x].ssr_list[y].destination + ' ';
+                                if(passengers['labour'][x].ssr_list[y].availability_type == 'baggage'){
+                                    $text += 'Baggage: ';
+                                }else if(passengers['labour'][x].ssr_list[y].availability_type == 'meal'){
+                                    $text += 'Meal: ';
+                                }else if(passengers['labour'][x].ssr_list[y].availability_type == 'seat'){
+                                    $text += 'Seat: ';
+                                }else if(passengers['labour'][x].ssr_list[y].availability_type == 'wheelchair'){
+                                    $text += 'Wheelchair';
+                                }else{
+                                    $text += passengers['labour'][x].ssr_list[y].availability_type.substr(0,1).toUpperCase() + passengers['labour'][x].ssr_list[y].availability_type.substr(1,passengers['labour'].ssr_list[y].availability_type.length).toLowerCase();
+                                }
+                                $text += passengers['labour'][x].ssr_list[y].name + '\n';
+                            }
+                        }
+                        if(passengers['labour'][x].hasOwnProperty('seat_list')){
+                            for(y in passengers['labour'][x].seat_list){
+                                if(passengers['labour'][x].seat_list[y].seat_name){
+                                    $text += '- ' + passengers['labour'][x].seat_list[y].segment_code + ' Seat: ' + passengers['labour'][x].seat_list[y].seat_name + '\n';
+                                }
+                            }
+                        }
+                        $text += '\n';
+                    }
+                }
+
+                if(passengers.hasOwnProperty('seaman')){
+                    for(x in passengers['seaman']){
+                        $text += '- ' + passengers['seaman'][x].title + ' ' + passengers['seaman'][x].first_name + ' ' + passengers['seaman'][x].last_name + ' ';
+                        if(passengers['seaman'][x].identity_type){
+                            $text += '- ' + passengers['seaman'][x].identity_type.substr(0,1).toUpperCase() + passengers['seaman'][x].identity_type.substr(1,passengers['seaman'][x].identity_type.length).toLowerCase() + ': ';
+                            $text += passengers['seaman'][x].identity_number.substr(0,1);
+                            for(z=0;z<passengers['seaman'][x].identity_number.length-4;z++)
+                                $text += '-'
+                            $text += passengers['seaman'][x].identity_number.substr(passengers['seaman'][x].identity_number.length-3,passengers['seaman'][x].identity_number.length)
+                        }
+                        for(y in passengers['seaman'][x].ff_numbers){
+                            if(y == 0)
+                                $text += '- ';
+                            if(y != 0)
+                                $text += ',';
+                            $text += passengers['seaman'][x].ff_numbers[y].ff_code + ': ';
+                            $text += passengers['seaman'][x].ff_numbers[y].ff_number.substr(0,1);
+                            for(z=0;z<passengers['seaman'][x].ff_numbers[y].ff_number.length-4;z++)
+                                $text += '*'
+                            $text += passengers['seaman'][x].ff_numbers[y].ff_number.substr(passengers['seaman'][x].ff_numbers[y].ff_number.length-3,passengers['seaman'][x].ff_numbers[y].ff_number.length);
+                        }
+                        if(passengers['seaman'][x].hasOwnProperty('ssr_list')){
+                            for(y in passengers['seaman'][x].ssr_list){
+                                $text += '- ' + passengers['seaman'][x].ssr_list[y].origin + '-' + passengers['seaman'][x].ssr_list[y].destination + ' ';
+                                if(passengers['seaman'][x].ssr_list[y].availability_type == 'baggage'){
+                                    $text += 'Baggage: ';
+                                }else if(passengers['seaman'][x].ssr_list[y].availability_type == 'meal'){
+                                    $text += 'Meal: ';
+                                }else if(passengers['seaman'][x].ssr_list[y].availability_type == 'seat'){
+                                    $text += 'Seat: ';
+                                }else if(passengers['seaman'][x].ssr_list[y].availability_type == 'wheelchair'){
+                                    $text += 'Wheelchair';
+                                }else{
+                                    $text += passengers['seaman'][x].ssr_list[y].availability_type.substr(0,1).toUpperCase() + passengers['seaman'][x].ssr_list[y].availability_type.substr(1,passengers['seaman'].ssr_list[y].availability_type.length).toLowerCase();
+                                }
+                                $text += passengers['seaman'][x].ssr_list[y].name + '\n';
+                            }
+                        }
+                        if(passengers['seaman'][x].hasOwnProperty('seat_list')){
+                            for(y in passengers['seaman'][x].seat_list){
+                                if(passengers['seaman'][x].seat_list[y].seat_name){
+                                    $text += '- ' + passengers['seaman'][x].seat_list[y].segment_code + 'Seat: ' + passengers['seaman'][x].seat_list[y].seat_name + '\n';
+                                }
+                            }
+                        }
+                        $text += '\n';
+                    }
+                }
+                $text += '\n';
+            }
+
+
             if(additional_price != 0)
                 $text += '‣ Ancillary Fee: ' + currency + ' ' +getrupiah(additional_price) + '\n';
             try{
