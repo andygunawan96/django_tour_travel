@@ -1385,6 +1385,11 @@ def get_new_cache(request, signature, type='all'):
                 os.remove(path)
             except:
                 _logger.info('Error delete file cache get_airline_active_carriers')
+            try:
+                path = "%s/%s" % (var_log_path(request, 'cache_web'), 'get_provider_booking_from_vendor_airline.txt')
+                os.remove(path)
+            except:
+                _logger.info('Error delete file cache get_provider_booking_from_vendor_airline')
             airline.get_carriers_search(request, signature)
             airline.get_provider_list_backend(request, signature)
 
