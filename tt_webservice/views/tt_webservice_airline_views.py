@@ -3301,14 +3301,34 @@ def get_provider_booking_from_vendor(request):
             if res['result']['error_code'] == 0:
                 write_cache(res, "get_provider_booking_from_vendor_airline", request, 'cache_web')
                 _logger.info("SUCCESS get_provider_booking_from_vendor AIRLINE SIGNATURE " + request.POST['signature'])
+                if request.session['user_account']['co_ho_seq_id'] in res['result']['response']['list_provider']:
+                    res = res['result']['response']['list_provider'][request.session['user_account']['co_ho_seq_id']]
+                    res = {
+                        "result": {
+                            "error_code": 0,
+                            "error_msg": '',
+                            "response": {
+                                "list_provider": res
+                            }
+                        }
+                    }
             else:
                 _logger.error("ERROR get_provider_booking_from_vendor AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
         except Exception as e:
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
-            file = read_cache("get_provider_booking_from_vendor_airline", 'cache_web', request, 90911)
-            res = file
+            if request.session['user_account']['co_ho_seq_id'] in file['result']['response']['list_provider']:
+                res = file['result']['response']['list_provider'][request.session['user_account']['co_ho_seq_id']]
+                res = {
+                    "result": {
+                        "error_code": 0,
+                        "error_msg": '',
+                        "response": {
+                            "list_provider": res
+                        }
+                    }
+                }
         except Exception as e:
             _logger.error('ERROR get_provider_booking_from_vendor_airline file\n' + str(e) + '\n' + traceback.format_exc())
     return res
