@@ -8262,7 +8262,7 @@ function airline_get_booking(data, sync=false){
                                 timezone = timezone.filter(item => item !== '0') //hapus angka 0 di timezone
                                 $text += '‣ Price guarantee until ' + moment(msg.result.response.hold_date).format('MMMM DD, YYYY, HH:mm ') + ' ' + gmt + timezone;
                                 if(msg.result.response.hasOwnProperty('expired_date') && msg.result.response.expired_date != '' && msg.result.response.expired_date != msg.result.response.hold_date){
-                                    $text += '\nPrice may be change after price guarantee date';
+                                    $text += '\nPrice may change after price guarantee date';
                                     $text += '\n‣ Booking expiration on ' + moment(msg.result.response.expired_date).format('MMMM DD, YYYY, HH:mm ') + gmt + timezone;
                                 }
 
