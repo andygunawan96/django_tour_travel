@@ -8248,12 +8248,24 @@ function airline_get_booking(data, sync=false){
                             $text += ` (`+msg.result.response.provider_bookings[i].state_description+`)`;
                             $text += `\n`;
                             if(['booked', 'halt_booked'].includes(msg.result.response.provider_bookings[i].state)){
+//                                data_gmt = moment(msg.result.response.hold_date)._d.toString().split(' ')[5];
+//                                gmt = data_gmt.replace(/[^a-zA-Z+-]+/g, ''); //ambil gmt
+//                                timezone = data_gmt.replace (/[^\d.]/g, ''); //ambil timezone
+//                                timezone = timezone.split('') //split per char
+//                                timezone = timezone.filter(item => item !== '0') //hapus angka 0 di timezone
+//                                $text += 'Payment due by '+ moment(msg.result.response.hold_date).format('MMMM DD, YYYY, HH:mm ') + gmt + timezone;
+
                                 data_gmt = moment(msg.result.response.hold_date)._d.toString().split(' ')[5];
                                 gmt = data_gmt.replace(/[^a-zA-Z+-]+/g, ''); //ambil gmt
                                 timezone = data_gmt.replace (/[^\d.]/g, ''); //ambil timezone
                                 timezone = timezone.split('') //split per char
                                 timezone = timezone.filter(item => item !== '0') //hapus angka 0 di timezone
-                                $text += 'Payment due by '+ moment(msg.result.response.hold_date).format('MMMM DD, YYYY, HH:mm ') + gmt + timezone;
+                                $text += '‣ Price guarantee until ' + moment(msg.result.response.hold_date).format('MMMM DD, YYYY, HH:mm ') + ' ' + gmt + timezone;
+                                if(msg.result.response.hasOwnProperty('expired_date') && msg.result.response.expired_date != '' && msg.result.response.expired_date != msg.result.response.hold_date){
+                                    $text += '\nPrice may change after price guarantee date';
+                                    $text += '\n‣ Booking expiration on ' + moment(msg.result.response.expired_date).format('MMMM DD, YYYY, HH:mm ') + gmt + timezone;
+                                }
+
                                 $text += '\n\n';
                             }
                             if(i != 0){
@@ -9692,19 +9704,19 @@ function airline_get_booking(data, sync=false){
                 try{
                     airline_get_detail.result.response.total_price = total_price;
                     $text += '‣ Grand Total: '+price.currency+' '+ getrupiah(total_price);
-                    if(check_provider_booking != 0 && msg.result.response.state == 'booked'){
+//                    if(check_provider_booking != 0 && msg.result.response.state == 'booked'){
 //                        $text += '\n\nPrices and availability may change at any time';
-                        data_gmt = moment(msg.result.response.hold_date)._d.toString().split(' ')[5];
-                        gmt = data_gmt.replace(/[^a-zA-Z+-]+/g, ''); //ambil gmt
-                        timezone = data_gmt.replace (/[^\d.]/g, ''); //ambil timezone
-                        timezone = timezone.split('') //split per char
-                        timezone = timezone.filter(item => item !== '0') //hapus angka 0 di timezone
-                        $text += '\n\n- Price guarantee until ' + moment(msg.result.response.hold_date).format('MMMM DD, YYYY, HH:mm ') + ' ' + gmt + timezone;
-                        if(msg.result.response.hasOwnProperty('expired_date') && msg.result.response.expired_date != '' && msg.result.response.expired_date != msg.result.response.hold_date)
-                            $text += '\n- Booking expiration on ' + moment(msg.result.response.expired_date).format('MMMM DD, YYYY, HH:mm ') + gmt + timezone;
-                        else
-                            $text += '\n- Booking expiration on ' + moment(msg.result.response.hold_date).format('MMMM DD, YYYY, HH:mm ') + gmt + timezone;
-                    }
+//                        data_gmt = moment(msg.result.response.hold_date)._d.toString().split(' ')[5];
+//                        gmt = data_gmt.replace(/[^a-zA-Z+-]+/g, ''); //ambil gmt
+//                        timezone = data_gmt.replace (/[^\d.]/g, ''); //ambil timezone
+//                        timezone = timezone.split('') //split per char
+//                        timezone = timezone.filter(item => item !== '0') //hapus angka 0 di timezone
+//                        $text += '\n\n- Price guarantee until ' + moment(msg.result.response.hold_date).format('MMMM DD, YYYY, HH:mm ') + ' ' + gmt + timezone;
+//                        if(msg.result.response.hasOwnProperty('expired_date') && msg.result.response.expired_date != '' && msg.result.response.expired_date != msg.result.response.hold_date)
+//                            $text += '\n- Booking expiration on ' + moment(msg.result.response.expired_date).format('MMMM DD, YYYY, HH:mm ') + gmt + timezone;
+//                        else
+//                            $text += '\n- Booking expiration on ' + moment(msg.result.response.hold_date).format('MMMM DD, YYYY, HH:mm ') + gmt + timezone;
+//                    }
 
                     if(disc != 0){
                         text_detail+=`
