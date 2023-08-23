@@ -8028,17 +8028,19 @@ function check_passenger(adult, child, infant, type=''){
                     });
                }
            }else{
-               error_log+= 'Please choose identity type for passenger child '+i+'!</br>\n';
+                if(document.getElementById('child_id_type'+i).value != ''){
+                    error_log+= 'Please choose identity type for passenger child '+i+'!</br>\n';
 
-               document.getElementById('child_passport_number'+i).style['border-color'] = 'red';
-               document.getElementById('child_passport_expired_date'+i).style['border-color'] = 'red';
-               $("#child_id_type"+i).each(function() {
-                    $(this).parent().find('.nice-select').css('border', '1px solid red');
-               });
+                    document.getElementById('child_passport_number'+i).style['border-color'] = 'red';
+                    document.getElementById('child_passport_expired_date'+i).style['border-color'] = 'red';
+                    $("#child_id_type"+i).each(function() {
+                        $(this).parent().find('.nice-select').css('border', '1px solid red');
+                    });
 
-               $("#child_country_of_issued"+i+"_id").each(function() {
-                  $(this).siblings(".select2-container").css('border', '1px solid red');
-               });
+                    $("#child_country_of_issued"+i+"_id").each(function() {
+                        $(this).siblings(".select2-container").css('border', '1px solid red');
+                    });
+                }
            }
        }else{
            if(document.getElementById('child_valid_passport'+i))
@@ -8336,17 +8338,19 @@ function check_passenger(adult, child, infant, type=''){
                     });
                }
            }else{
-               error_log+= 'Please choose identity type for passenger infant '+i+'!</br>\n';
+                if(document.getElementById('infant_id_type'+i).value != ''){
+                    error_log+= 'Please choose identity type for passenger infant '+i+'!</br>\n';
 
-               document.getElementById('infant_passport_number'+i).style['border-color'] = 'red';
-               document.getElementById('infant_passport_expired_date'+i).style['border-color'] = 'red';
-               $("#infant_id_type"+i).each(function() {
-                    $(this).parent().find('.nice-select').css('border', '1px solid red');
-               });
+                    document.getElementById('infant_passport_number'+i).style['border-color'] = 'red';
+                    document.getElementById('infant_passport_expired_date'+i).style['border-color'] = 'red';
+                    $("#infant_id_type"+i).each(function() {
+                        $(this).parent().find('.nice-select').css('border', '1px solid red');
+                    });
 
-               $("#infant_country_of_issued"+i+"_id").each(function() {
-                  $(this).siblings(".select2-container").css('border', '1px solid red');
-               });
+                    $("#infant_country_of_issued"+i+"_id").each(function() {
+                        $(this).siblings(".select2-container").css('border', '1px solid red');
+                    });
+                }
            }
        }else{
            if(document.getElementById('infant_valid_passport'+i))
@@ -8613,17 +8617,19 @@ function check_passenger(adult, child, infant, type=''){
                         });
                    }
                }else{
-                   error_log+= 'Please choose identity type for passenger student '+i+'!</br>\n';
+                   if(document.getElementById('student_id_type'+i).value != ''){
+                        error_log+= 'Please choose identity type for passenger student '+i+'!</br>\n';
 
-                   document.getElementById('student_passport_number'+i).style['border-color'] = 'red';
-                   document.getElementById('student_passport_expired_date'+i).style['border-color'] = 'red';
-                   $("#student_id_type"+i).each(function() {
-                        $(this).parent().find('.nice-select').css('border', '1px solid red');
-                   });
+                        document.getElementById('student_passport_number'+i).style['border-color'] = 'red';
+                        document.getElementById('student_passport_expired_date'+i).style['border-color'] = 'red';
+                        $("#student_id_type"+i).each(function() {
+                            $(this).parent().find('.nice-select').css('border', '1px solid red');
+                        });
 
-                   $("#student_country_of_issued"+i+"_id").each(function() {
-                      $(this).siblings(".select2-container").css('border', '1px solid red');
-                   });
+                        $("#student_country_of_issued"+i+"_id").each(function() {
+                            $(this).siblings(".select2-container").css('border', '1px solid red');
+                        });
+                   }
                }
            }else{
                if(document.getElementById('student_valid_passport'+i))
@@ -8933,17 +8939,19 @@ function check_passenger(adult, child, infant, type=''){
                         });
                    }
                }else{
-                   error_log+= 'Please choose identity type for passenger seaman '+i+'!</br>\n';
+                    if(document.getElementById('seaman_id_type'+i).value != ''){
+                        error_log+= 'Please choose identity type for passenger seaman '+i+'!</br>\n';
 
-                   document.getElementById('seaman_passport_number'+i).style['border-color'] = 'red';
-                   document.getElementById('seaman_passport_expired_date'+i).style['border-color'] = 'red';
-                   $("#seaman_id_type"+i).each(function() {
-                        $(this).parent().find('.nice-select').css('border', '1px solid red');
-                   });
+                        document.getElementById('seaman_passport_number'+i).style['border-color'] = 'red';
+                        document.getElementById('seaman_passport_expired_date'+i).style['border-color'] = 'red';
+                        $("#seaman_id_type"+i).each(function() {
+                            $(this).parent().find('.nice-select').css('border', '1px solid red');
+                        });
 
-                   $("#seaman_country_of_issued"+i+"_id").each(function() {
-                      $(this).siblings(".select2-container").css('border', '1px solid red');
-                   });
+                        $("#seaman_country_of_issued"+i+"_id").each(function() {
+                            $(this).siblings(".select2-container").css('border', '1px solid red');
+                        });
+                    }
                }
            }else{
                if(document.getElementById('seaman_valid_passport'+i))
@@ -9253,17 +9261,19 @@ function check_passenger(adult, child, infant, type=''){
                         });
                    }
                }else{
-                   error_log+= 'Please choose identity type for passenger labour '+i+'!</br>\n';
+                    if(document.getElementById('labour_id_type'+i).value != ''){
+                        error_log+= 'Please choose identity type for passenger labour '+i+'!</br>\n';
 
-                   document.getElementById('labour_passport_number'+i).style['border-color'] = 'red';
-                   document.getElementById('labour_passport_expired_date'+i).style['border-color'] = 'red';
-                   $("#labour_id_type"+i).each(function() {
-                        $(this).parent().find('.nice-select').css('border', '1px solid red');
-                   });
+                        document.getElementById('labour_passport_number'+i).style['border-color'] = 'red';
+                        document.getElementById('labour_passport_expired_date'+i).style['border-color'] = 'red';
+                        $("#labour_id_type"+i).each(function() {
+                            $(this).parent().find('.nice-select').css('border', '1px solid red');
+                        });
 
-                   $("#labour_country_of_issued"+i+"_id").each(function() {
-                      $(this).siblings(".select2-container").css('border', '1px solid red');
-                   });
+                        $("#labour_country_of_issued"+i+"_id").each(function() {
+                            $(this).siblings(".select2-container").css('border', '1px solid red');
+                        });
+                    }
                }
            }else{
                if(document.getElementById('labour_valid_passport'+i))
