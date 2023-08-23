@@ -8253,7 +8253,7 @@ function airline_get_booking(data, sync=false){
                                 timezone = data_gmt.replace (/[^\d.]/g, ''); //ambil timezone
                                 timezone = timezone.split('') //split per char
                                 timezone = timezone.filter(item => item !== '0') //hapus angka 0 di timezone
-                                $text += 'Payment due by '+ moment(msg.result.response.hold_date).format('MMMM DD, YYYY, hh:mm ') + gmt + timezone;
+                                $text += 'Payment due by '+ moment(msg.result.response.hold_date).format('MMMM DD, YYYY, HH:mm ') + gmt + timezone;
                                 $text += '\n\n';
                             }
                             if(i != 0){
@@ -9703,11 +9703,11 @@ function airline_get_booking(data, sync=false){
                         timezone = data_gmt.replace (/[^\d.]/g, ''); //ambil timezone
                         timezone = timezone.split('') //split per char
                         timezone = timezone.filter(item => item !== '0') //hapus angka 0 di timezone
-                        $text += '\n\n- Price guarantee until ' + moment(msg.result.response.hold_date).format('MMMM DD, YYYY, hh:mm ') + ' ' + gmt + timezone;
+                        $text += '\n\n- Price guarantee until ' + moment(msg.result.response.hold_date).format('MMMM DD, YYYY, HH:mm ') + ' ' + gmt + timezone;
                         if(msg.result.response.hasOwnProperty('expired_date') && msg.result.response.expired_date != '' && msg.result.response.expired_date != msg.result.response.hold_date)
-                            $text += '\n- Booking expiration on ' + moment(msg.result.response.expired_date).format('MMMM DD, YYYY, hh:mm ') + gmt + timezone;
+                            $text += '\n- Booking expiration on ' + moment(msg.result.response.expired_date).format('MMMM DD, YYYY, HH:mm ') + gmt + timezone;
                         else
-                            $text += '\n- Booking expiration on ' + moment(msg.result.response.hold_date).format('MMMM DD, YYYY, hh:mm ') + gmt + timezone;
+                            $text += '\n- Booking expiration on ' + moment(msg.result.response.hold_date).format('MMMM DD, YYYY, HH:mm ') + gmt + timezone;
                     }
 
                     if(disc != 0){
