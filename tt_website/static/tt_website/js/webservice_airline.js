@@ -8491,10 +8491,6 @@ function airline_get_booking(data, sync=false){
                                             $text += '- Terminal: ' + msg.result.response.provider_bookings[i].journeys[j].segments[k].destination_terminal + '\n';
                                         $text += '\n';
                                     }
-
-                                    text+=`</div>
-                                    </div>`;
-
                                 }
                                 if(fare_detail_list.length > 0){
                                     for(l in fare_detail_list){
