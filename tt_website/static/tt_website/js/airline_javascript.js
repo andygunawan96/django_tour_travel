@@ -4861,36 +4861,36 @@ function airline_pick_mc(type){
                             <div class="row">`;
                             if(type == 'all'){
                                 text+=`
-                                <div class="col-lg-12 col-xs-6">
-                                    <input type='button' style="width:100%; height:35px; line-height:unset;" id="deletejourney_pick`+airline_pick_list[i].airline_pick_sequence+`" class="primary-btn-white-cancel choose_selection_ticket_airlines_depart" value="Delete" onclick="delete_mc_journey(`+airline_pick_list[i].airline_pick_sequence+`);" sequence_id="0"/>
-                                </div>
+//                                <div class="col-lg-12 col-xs-6">
+//                                    <input type='button' style="width:100%; height:35px; line-height:unset;" id="deletejourney_pick`+airline_pick_list[i].airline_pick_sequence+`" class="primary-btn-white-cancel choose_selection_ticket_airlines_depart" value="Delete" onclick="delete_mc_journey(`+airline_pick_list[i].airline_pick_sequence+`);" sequence_id="0"/>
+//                                </div>
                                 <div class="col-lg-12 col-xs-6">
                                     <input type='button' style="width:100%; height:35px; line-height:unset;" id="changejourney_pick`+airline_pick_list[i].airline_pick_sequence+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Change" onclick="change_departure(`+airline_pick_list[i].airline_pick_sequence+`);" sequence_id="0"/>
                                 </div>`;
                             }
                             else if(type == 'change'){
                                 text+=`
-                                <div class="col-lg-12 col-xs-6">
-                                    <input type='button' style="width:100%; height:35px; line-height:unset; background:#cdcdcd !important;" id="deletejourney_pick`+airline_pick_list[i].airline_pick_sequence+`" class="primary-btn-white-cancel choose_selection_ticket_airlines_depart" value="Delete" onclick="delete_mc_journey(`+airline_pick_list[i].airline_pick_sequence+`);" disabled sequence_id="0"/>
-                                </div>
+//                                <div class="col-lg-12 col-xs-6">
+//                                    <input type='button' style="width:100%; height:35px; line-height:unset; background:#cdcdcd !important;" id="deletejourney_pick`+airline_pick_list[i].airline_pick_sequence+`" class="primary-btn-white-cancel choose_selection_ticket_airlines_depart" value="Delete" onclick="delete_mc_journey(`+airline_pick_list[i].airline_pick_sequence+`);" disabled sequence_id="0"/>
+//                                </div>
                                 <div class="col-lg-12 col-xs-6">
                                     <input type='button' style="width:100%; height:35px; line-height:unset; " id="changejourney_pick`+airline_pick_list[i].airline_pick_sequence+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Change" onclick="change_departure(`+airline_pick_list[i].airline_pick_sequence+`);" sequence_id="0"/>
                                 </div>`;
                             }
                             else if(type == 'delete'){
                                 text+=`
-                                <div class="col-lg-12 col-xs-6">
-                                    <input type='button' style="width:100%; height:35px; line-height:unset; " id="deletejourney_pick`+airline_pick_list[i].airline_pick_sequence+`" class="primary-btn-white-cancel choose_selection_ticket_airlines_depart" value="Delete" onclick="delete_mc_journey(`+airline_pick_list[i].airline_pick_sequence+`);" sequence_id="0"/>
-                                </div>
+//                                <div class="col-lg-12 col-xs-6">
+//                                    <input type='button' style="width:100%; height:35px; line-height:unset; " id="deletejourney_pick`+airline_pick_list[i].airline_pick_sequence+`" class="primary-btn-white-cancel choose_selection_ticket_airlines_depart" value="Delete" onclick="delete_mc_journey(`+airline_pick_list[i].airline_pick_sequence+`);" sequence_id="0"/>
+//                                </div>
                                 <div class="col-lg-12 col-xs-6">
                                     <input type='button' style="width:100%; height:35px; line-height:unset; background:#f5f5f5 !important;" id="changejourney_pick`+airline_pick_list[i].airline_pick_sequence+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Change" onclick="change_departure(`+airline_pick_list[i].airline_pick_sequence+`);" disabled sequence_id="0"/>
                                 </div>`;
                             }
                             else if(type=='no_button'){
                                 text+=`
-                                <div class="col-lg-12 col-xs-6">
-                                    <input type='button' style="width:100%; height:35px; line-height:unset; background:#cdcdcd !important;" id="deletejourney_pickdepartjourney`+airline_pick_list[i].airline_pick_sequence+`" class="primary-btn-white-cancel choose_selection_ticket_airlines_depart" value="Delete" onclick="delete_mc_journey(`+airline_pick_list[i].airline_pick_sequence+`);" disabled sequence_id="0"/>
-                                </div>
+//                                <div class="col-lg-12 col-xs-6">
+//                                    <input type='button' style="width:100%; height:35px; line-height:unset; background:#cdcdcd !important;" id="deletejourney_pickdepartjourney`+airline_pick_list[i].airline_pick_sequence+`" class="primary-btn-white-cancel choose_selection_ticket_airlines_depart" value="Delete" onclick="delete_mc_journey(`+airline_pick_list[i].airline_pick_sequence+`);" disabled sequence_id="0"/>
+//                                </div>
                                 <div class="col-lg-12 col-xs-6">
                                     <input type='button' style="width:100%; height:35px; line-height:unset; background:#cdcdcd !important;" id="changejourney_pick`+airline_pick_list[i].airline_pick_sequence+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Change" onclick="change_departure(`+airline_pick_list[i].airline_pick_sequence+`);" disabled sequence_id="0"/>
                                 </div>`;
