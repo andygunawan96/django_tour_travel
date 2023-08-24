@@ -624,7 +624,10 @@ function get_airline_data_passenger_page(type='default'){
                price_itinerary = msg.price_itinerary;
                airline_carriers = msg.airline_carriers;
                airline_request = msg.airline_request;
-               ff_request = msg.ff_request;
+               if(msg.hasOwnProperty('ff_request'))
+                    ff_request = msg.ff_request;
+               else
+                    ff_request = [];
                adult = airline_request.adult;
                child = airline_request.child;
                infant = airline_request.infant;
@@ -11779,7 +11782,7 @@ function update_service_charge(type){
                     break;
                 }
             list_price = []
-            if(document.getElementById(airline_get_detail.result.response.passengers[i].name+'_repricing').innerHTML != '-' && document.getElementById(airline_get_detail.result.response.passengers[i].name+'_repricing').innerHTML != '0'){
+            if(document.getElementById(airline_get_detail.result.response.passengers[i].name+'_repricing').innerHTML != '-'){
                 list_price.push({
                     'amount': parseInt(document.getElementById(airline_get_detail.result.response.passengers[i].name+'_repricing').innerHTML.split(',').join('')),
                     'currency_code': currency
@@ -11814,7 +11817,7 @@ function update_service_charge(type){
                     }
                 pax_full_name = temp_check_var.passengers[i].title + ' ' + temp_check_var.passengers[i].first_name + ' ' + temp_check_var.passengers[i].last_name;
                 list_price = [];
-                if(document.getElementById(pax_full_name+'_repricing').innerHTML != '-' && document.getElementById(pax_full_name+'_repricing').innerHTML != '0'){
+                if(document.getElementById(pax_full_name+'_repricing').innerHTML != '-'){
                     list_price.push({
                         'amount': parseInt(document.getElementById(pax_full_name+'_repricing').innerHTML.split(',').join('')),
                         'currency_code': currency
