@@ -1788,7 +1788,7 @@ def update_passengers(request):
         _logger.error(str(e) + '\n' + traceback.format_exc())
     data_copy = copy.deepcopy(data)
     for data_pax in data_copy['passengers']:
-        if data_pax['identity']:
+        if data_pax.get('identity'):
             if not data_pax['identity'].get('is_valid_identity'): ## tidak valid buang data identity
                 data_pax.pop('identity')
     if 'airline_update_passengers' + request.POST['signature'] not in request.session or request.session.get('airline_update_passengers_data' + request.POST['signature']) != data_copy:
