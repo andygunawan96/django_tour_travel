@@ -1575,7 +1575,7 @@ function update_service_charge(type){
                     break;
                 }
             list_price = []
-            if(document.getElementById(visa.passengers[i].name+'_repricing').innerHTML != '-' && document.getElementById(visa.passengers[i].name+'_repricing').innerHTML != '0'){
+            if(document.getElementById(visa.passengers[i].name+'_repricing').innerHTML != '-'){
                 list_price.push({
                     'amount': parseInt(document.getElementById(visa.passengers[i].name+'_repricing').innerHTML.split(',').join('')),
                     'currency_code': currency
