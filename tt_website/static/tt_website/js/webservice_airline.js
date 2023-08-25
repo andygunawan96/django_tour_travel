@@ -10496,6 +10496,13 @@ function airline_get_reprice(data){
             'booking_data': JSON.stringify(airline_get_detail)
        },
        success: function(msg) {
+            if(msg.result.error_code != 0){
+                Swal.fire({
+                    type: 'error',
+                    title: 'Oops!',
+                    html: '<span style="color: red;">'+msg.result.error_msg+' </span>',
+                })
+            }
             airline_get_booking(data, true);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
