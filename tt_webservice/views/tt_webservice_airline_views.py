@@ -1786,8 +1786,12 @@ def update_passengers(request):
         }
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
-
-    if 'airline_update_passengers' + request.POST['signature'] not in request.session or request.session.get('airline_update_passengers_data' + request.POST['signature']) != data:
+    data_copy = copy.deepcopy(data)
+    for data_pax in data_copy['passengers']:
+        if data_pax.get('identity'):
+            if not data_pax['identity'].get('is_valid_identity'): ## tidak valid buang data identity
+                data_pax.pop('identity')
+    if 'airline_update_passengers' + request.POST['signature'] not in request.session or request.session.get('airline_update_passengers_data' + request.POST['signature']) != data_copy:
         url_request = get_url_gateway('booking/airline')
         res = send_request_api(request, url_request, headers, data, 'POST', 300)
     else:
@@ -1795,7 +1799,7 @@ def update_passengers(request):
     try:
         if res['result']['error_code'] == 0:
             set_session(request, 'airline_update_passengers' + request.POST['signature'], res)
-            set_session(request, 'airline_update_passengers_data' + request.POST['signature'], data)
+            set_session(request, 'airline_update_passengers_data' + request.POST['signature'], data_copy)
             _logger.info("SUCCESS update_passengers AIRLINE SIGNATURE " + request.POST['signature'])
         elif res['result']['error_code'] == 4014:
             if request.session.get('airline_update_passengers_data' + request.POST['signature']) == data:

@@ -4187,7 +4187,7 @@ function update_service_charge(type){
             break;
         }
         list_price = []
-        if(document.getElementById('Reservation_repricing').innerHTML != '-' && document.getElementById('Reservation_repricing').innerHTML != '0'){
+        if(document.getElementById('Reservation_repricing').innerHTML != '-'){
             list_price.push({
                 'amount': parseInt(document.getElementById('Reservation_repricing').innerHTML.split(',').join('')),
                 'currency_code': currency

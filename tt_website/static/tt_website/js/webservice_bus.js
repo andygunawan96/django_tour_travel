@@ -2442,7 +2442,7 @@ function update_service_charge(type){
                 currency = bus_get_detail.result.response.passengers[i].sale_service_charges[j].FARE.currency;
             }
             list_price = []
-            if(document.getElementById(bus_get_detail.result.response.passengers[i].name+'_repricing').innerHTML != '-' && document.getElementById(bus_get_detail.result.response.passengers[i].name+'_repricing').innerHTML != '0'){
+            if(document.getElementById(bus_get_detail.result.response.passengers[i].name+'_repricing').innerHTML != '-'){
                 list_price.push({
                     'amount': parseInt(document.getElementById(bus_get_detail.result.response.passengers[i].name+'_repricing').innerHTML.split(',').join('')),
                     'currency_code': currency

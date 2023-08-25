@@ -4665,7 +4665,7 @@ function update_service_charge(type){
                 break;
             }
             list_price = []
-            if(document.getElementById(insurance_get_detail.result.response.passengers[i].name+'_repricing').innerHTML != '-' && document.getElementById(insurance_get_detail.result.response.passengers[i].name+'_repricing').innerHTML != '0'){
+            if(document.getElementById(insurance_get_detail.result.response.passengers[i].name+'_repricing').innerHTML != '-'){
                 list_price.push({
                     'amount': parseInt(document.getElementById(insurance_get_detail.result.response.passengers[i].name+'_repricing').innerHTML.split(',').join('')),
                     'currency_code': currency
