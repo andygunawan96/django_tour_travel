@@ -311,7 +311,7 @@ def re_order_set_passengers(request):
         title = 'MR'
         if data_booker['gender'] == 'male':
             title = 'MR'
-        elif data_booker['gender'] == 'female' and data_booker['marital_status'] == '':
+        elif data_booker['gender'] == 'female' and data_booker['marital_status'] in ['','single']:
             title = 'MS'
         elif data_booker['gender'] == 'female' and data_booker['marital_status'] != '':
             title = 'MRS'
@@ -334,7 +334,7 @@ def re_order_set_passengers(request):
                     title = 'MSTR'
             elif pax['gender'] == 'female' and pax['pax_type'] not in ['ADT', 'YCD', 'LBR', 'STU', 'SEA']:
                 title = 'MISS'
-            elif pax['gender'] == 'female' and data_booker['marital_status'] == '':
+            elif pax['gender'] == 'female' and data_booker['marital_status'] in ['','single']:
                 title = 'MS'
             else:
                 title = 'MRS'
