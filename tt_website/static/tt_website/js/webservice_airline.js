@@ -5400,7 +5400,16 @@ function render_price_in_get_price(text, $text, $text_share){
     price = 0;
     discount = 0;
     sub_total_count = 0;
-
+    currency = '';
+    for(x in airline_price){
+        for(y in airline_price[x]){
+            if(!currency){
+                currency = airline_price[x][y].currency;
+            }else{
+                break;
+            }
+        }
+    }
     text+=`
     <div class="col-lg-12" id="div-subtotal`+subtotal_div+`">
         <div class="row">
@@ -9303,20 +9312,30 @@ function airline_get_booking(data, sync=false){
                     </div>
                 </div>`;
 
+                text += `
+                <div style="border:1px solid #cdcdcd; padding:10px; background-color:white; margin-top:20px;">
+                    <div class="row">`;
                 if (msg.result.response.state == 'issued'){
                     text+=`
-                    <div style="border:1px solid #cdcdcd; padding:10px; background-color:white; margin-top:20px;">
-                        <div class="row">
-                            <div class="col-lg-12 col-md-12">
-                                <label class="check_box_custom">
-                                    <span class="span-search-ticket" style="color:black;">Hide agent logo on tickets</span>
-                                    <input type="checkbox" id="is_hide_agent_logo" name="is_hide_agent_logo"/>
-                                    <span class="check_box_span_custom"></span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>`;
+                        <div class="col-lg-6">
+                            <label class="check_box_custom">
+                                <span class="span-search-ticket" style="color:black;">Hide agent logo on tickets</span>
+                                <input type="checkbox" id="is_hide_agent_logo" name="is_hide_agent_logo"/>
+                                <span class="check_box_span_custom"></span>
+                            </label>
+                        </div>`;
                 }
+                text+=`
+                        <div class="col-lg-6">
+                            <label class="check_box_custom">
+                                <span class="span-search-ticket" style="color:black;">force get new tickets</span>
+                                <input type="checkbox" id="is_force_get_new_printout" name="is_force_get_new_printout"/>
+                                <span class="check_box_span_custom"></span>
+                            </label>
+                        </div>`;
+                text += `
+                    </div>
+                </div>`;
 
                 text+=`<div class="row" style="margin-top:20px;">`;
                 text+=`

@@ -58,8 +58,14 @@ function get_printout(order_number,mode,provider_type,type='',reschedule_number=
         kwitansi_name = '';
         is_dynamic_print = false;
         included_pax_names = [];
+        is_force_get_new_printout = false
         try{
             is_hide_agent_logo = document.getElementById('is_hide_agent_logo').checked;
+        }catch(err){
+            console.log(err); // error kalau ada element yg tidak ada
+        }
+        try{
+            is_force_get_new_printout = document.getElementById('is_force_get_new_printout').checked;
         }catch(err){
             console.log(err); // error kalau ada element yg tidak ada
         }
@@ -123,6 +129,7 @@ function get_printout(order_number,mode,provider_type,type='',reschedule_number=
                 'mode': mode,
                 'provider_type': provider_type,
                 'is_hide_agent_logo': is_hide_agent_logo,
+                'is_force_get_new_printout': is_force_get_new_printout,
                 'bill_name_to': bill_name_to,
                 'bill_address': bill_address,
                 'additional_information': additional_information,
