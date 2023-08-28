@@ -1993,11 +1993,8 @@ function activity_get_price(val, bool){
                                         <input type="checkbox" id="perbooking`+i+j+`" name="perbooking`+i+j+`" onchange="input_type2_change_perbooking(`+i+`,`+j+`)" value="`+activity_type[activity_type_pick].options.perBooking[i].items[j].value+`">
                                         <span class="check_box_span_custom"></span>
                                     </label>
+                                    <br/>
                             `;
-                            if(template != 1){
-                                text+=`<br/>`;
-                            }
-
                         }
                     }else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 3){
                         //number validation
