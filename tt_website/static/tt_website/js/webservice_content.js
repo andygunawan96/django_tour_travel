@@ -27,6 +27,11 @@ function update_banner(){
                 set_inactive_delete_banner();
                 //document.getElementById('form_admin').submit();
             }else{
+                Swal.fire({
+                    type: 'error',
+                    title: 'Oops!',
+                    html: msg.result.error_msg,
+                });
 //                document.getElementById('update_banner_btn').disabled = false;
                 document.getElementsByClassName("update_banner_btn")[0].disabled = false;
                 document.getElementsByClassName("update_banner_btn")[1].disabled = false;

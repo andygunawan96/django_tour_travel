@@ -3296,15 +3296,31 @@ function hotel_get_booking(data){
                         document.getElementById('issued-breadcrumb').classList.add("br-active");
                         document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
                         document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
-                        text=`
-                            <div class="col-lg-12" style="border:1px solid #cdcdcd; background-color:white; padding-top:15px; padding-bottom:15px; margin-bottom:20px;" id="hotel_hide_logo_opt_cont">
-                                <label class="check_box_custom">
-                                    <span class="span-search-ticket" style="color:black;">Hide agent logo on tickets</span>
-                                    <input type="checkbox" id="is_hide_agent_logo" name="is_hide_agent_logo"/>
-                                    <span class="check_box_span_custom"></span>
-                                </label>
+                        text = `
+                        <div style="border:1px solid #cdcdcd; padding:10px; background-color:white; margin-top:20px;" id="hotel_hide_logo_opt_cont">
+                            <div class="row">`;
+                        if (msg.result.response.state == 'issued'){
+                            text+=`
+                                <div class="col-lg-6">
+                                    <label class="check_box_custom">
+                                        <span class="span-search-ticket" style="color:black;">Hide agent logo on tickets</span>
+                                        <input type="checkbox" id="is_hide_agent_logo" name="is_hide_agent_logo"/>
+                                        <span class="check_box_span_custom"></span>
+                                    </label>
+                                </div>`;
+                        }
+                        text+=`
+                                <div class="col-lg-6">
+                                    <label class="check_box_custom">
+                                        <span class="span-search-ticket" style="color:black;">force get new tickets</span>
+                                        <input type="checkbox" id="is_force_get_new_printout" name="is_force_get_new_printout"/>
+                                        <span class="check_box_span_custom"></span>
+                                    </label>
+                                </div>`;
+                        text += `
                             </div>
-                        `;
+                        </div>`;
+
                         document.getElementById('hotel_hide_agent_logo_opt').innerHTML = text;
                         text=`<div class="col-sm-6">
                                     <button type="button" id="button-choose-print" style="width:100%;" class="primary-btn ld-ext-right" onclick="get_printout('`+msg.result.response.order_number+`', 'ticket','hotel');">
