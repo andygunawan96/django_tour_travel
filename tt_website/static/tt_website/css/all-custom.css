@@ -962,6 +962,7 @@ ul.popular2_tabs li.current .image-rounded-icon{
   cursor: pointer;
   line-height:unset;
   width:280px;
+  height: 100px;
 }
 
 .button-route-pass:focus{

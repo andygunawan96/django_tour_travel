@@ -5889,7 +5889,7 @@ function get_seat_map_response(){
                                 segment_list.push(seat_map.seat_availability_provider[i].segments[j].segment_code2);
                             }
                             text += `
-                            <div class="item">
+                            <div class="item" style="height:100px;">
                                 <button class="button-route-pass" type="button" id="`+seat_map.seat_availability_provider[i].segments[j].segment_code2+`_`+seat_map.seat_availability_provider[i].segments[j].departure_date+`" onclick="show_seat_map('`+seat_map.seat_availability_provider[i].segments[j].segment_code2+`_`+seat_map.seat_availability_provider[i].segments[j].departure_date+`', false)">
                                     <div style="display:inline-flex;">
                                         <div style="display:inline-block;">`;
