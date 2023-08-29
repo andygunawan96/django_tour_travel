@@ -3421,6 +3421,12 @@ function go_guide(id){
     }, 500);
 }
 
+function go_to_element(id, min_top){
+    $('html, body').animate({
+        scrollTop: $("#"+id).offset().top - min_top
+    }, 500);
+}
+
 function open_signin_modal(){
     $('#mylogintemplate6').modal('show');
     $('#overlay_menu_mobile').show();
