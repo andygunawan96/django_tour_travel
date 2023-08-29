@@ -95,7 +95,7 @@ img {vertical-align: middle;}
     <form method="POST" id="airline_booking" action="{% if after_sales == 0 %}/airline/review/{{signature}}{% else %}/airline/review_after_sales/{{signature}}{%endif%}">
         {% csrf_token %}
 
-        <section id="section_sticky_seat" style="z-index: 1000; position:sticky; top:0px; z-index:1; background:white; padding-top:15px; padding-bottom:15px; border-bottom: 1px solid #cdcdcd;">
+        <section id="section_sticky_seat" style="position:sticky; top:0px; z-index:1000; background:white; padding-top:15px; padding-bottom:15px; border-bottom: 1px solid #cdcdcd;">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-4 col-md-5 border_customer_route">
