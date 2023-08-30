@@ -17,6 +17,7 @@ from tt_webservice.views.tt_webservice import *
 from .tt_website_views import *
 from tools.parser import *
 import base64
+import uuid
 _logger = logging.getLogger("website_logger")
 
 MODEL_NAME = 'tt_website'
@@ -28,6 +29,10 @@ def elapse_time(dep, arr):
 
 def can_book(now, dep):
     return dep > now
+
+def _generate_signature():
+    res = str(uuid.uuid4()).replace('-', '')
+    return res
 
 def airline(request):
     if 'user_account' in request.session._session and 'ticketing_airline' in request.session['user_account']['co_agent_frontend_security']:
@@ -58,16 +63,15 @@ def airline(request):
             ]
             # get_data_awal
             cache = {}
-            try:
+            if request.session.get('airline_request'):
+                airline_request = copy.deepcopy(request.session['airline_request'])
                 cache['airline'] = {
-                    'origin': request.session['airline_request']['origin'][0],
-                    'destination': request.session['airline_request']['destination'][0],
-                    'departure': request.session['airline_request']['departure'][0],
+                    'origin': airline_request['origin'][0],
+                    'destination': airline_request['destination'][0],
+                    'departure': airline_request['departure'][0],
                 }
                 if cache['airline']['departure'] == 'Invalid date':
                     cache['airline']['departure'] = convert_string_to_date_to_string_front_end(str(datetime.now())[:10])
-            except:
-                pass
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'cache': json.dumps(cache),
@@ -114,7 +118,9 @@ def search(request):
             if file:
                 airline_destinations = file
 
-            carrier = get_carriers(request, request.session['signature'])
+            signature = copy.deepcopy(request.session['signature'])
+
+            carrier = get_carriers(request, signature)
             # file = read_cache("get_airline_carriers", 'cache_web', request, 90911)
             # if file:
             #     carrier = file
@@ -125,7 +131,7 @@ def search(request):
             #         response = file
             # except Exception as e:
             #     _logger.error('ERROR get_airline_active_carriers file\n' + str(e) + '\n' + traceback.format_exc())
-            response = get_carriers_search(request, request.session['signature'])
+            response = get_carriers_search(request, signature)
 
             values = get_data_template(request, 'search')
 
@@ -300,14 +306,13 @@ def search(request):
                         airline_request['seaman'] = direction == 'MC' and int(request.POST['seaman_flight1']) or int(request.POST['seaman_flight'])
                     if advance_search['airline_pax_type_labour'] == 'true':
                         airline_request['labour'] = direction == 'MC' and int(request.POST['labour_flight1']) or int(request.POST['labour_flight'])
-                set_session(request, 'airline_carriers_request', airline_carriers)
 
-                request.session.modified = True
+                # request.session.modified = True
             except Exception as e:
                 ## TIDAK ADA DATA POST, DARI REORDER
                 _logger.error('Data POST for airline_request create new from reorder')
                 _logger.error("%s, %s" % (str(e), traceback.format_exc()))
-                airline_request = request.session['airline_request']
+                airline_request = copy.deepcopy(request.session['airline_request'])
                 airline_carriers = [{
                     'All': {
                         'name': 'All',
@@ -328,9 +333,8 @@ def search(request):
                         'is_excluded_from_b2c': response[rec]['is_excluded_from_b2c'],
                         'bool': False
                     }
-                set_session(request, 'airline_carriers_request', airline_carriers)
                 is_reorder = True
-                return_date = request.session['airline_request']['departure']
+                return_date = airline_request['departure']
 
             flight = ''
 
@@ -353,6 +357,9 @@ def search(request):
                         break
 
             airline_request['flight'] = flight
+            frontend_signature = _generate_signature()
+            set_session(request, 'airline_carriers_request_%s' % frontend_signature, airline_carriers)
+            set_session(request, 'airline_request_%s' % frontend_signature, airline_request)
             set_session(request, 'airline_request', airline_request)
             set_session(request, 'airline_mc_counter', 0)
 
@@ -368,13 +375,13 @@ def search(request):
                 updated_request.update({
                     'customer_parent_seq_id': request.POST['airline_corpor_select_post']
                 })
-                cur_session = request.session['user_account']
+                cur_session = copy.deepcopy(request.session['user_account'])
                 cur_session.update({
                     "co_customer_parent_seq_id": request.POST['airline_corpor_select_post'],
                     "co_customer_seq_id": request.POST['airline_corbooker_select_post']
                 })
                 set_session(request, 'user_account', cur_session)
-                activate_corporate_mode(request, request.session['signature'])
+                activate_corporate_mode(request, signature)
 
             ## PROMO CODE
             promo_codes = []
@@ -395,6 +402,7 @@ def search(request):
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 # 'journeys': journeys,
+                'frontend_signature': frontend_signature,
                 'airline_request': airline_request,
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
                 'countries': airline_country,
@@ -478,10 +486,10 @@ def passenger(request, signature):
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
             try:
-                time_limit = get_timelimit_product(request, 'airline')
+                time_limit = get_timelimit_product(request, 'airline', signature)
                 if time_limit == 0:
                     time_limit = int(request.POST['time_limit_input'])
-                set_session(request, 'time_limit', time_limit)
+                set_session(request, 'time_limit_%s' % signature, time_limit)
             except:
                 pass
 
@@ -506,7 +514,7 @@ def passenger(request, signature):
         is_garuda = False
         is_identity_required = False
         is_birthdate_required = False
-        airline_price_provider_temp = request.session['airline_sell_journey_%s' % signature]['sell_journey_provider']
+        airline_price_provider_temp = copy.deepcopy(request.session['airline_sell_journey_%s' % signature])['sell_journey_provider']
         ## KURANG AMBIL DEFAULT DOMESTIC ORIGIN SEMENTARA PAKAI INDONESIA
         for airline in airline_price_provider_temp:
             for journey in airline['journeys']:
@@ -529,10 +537,10 @@ def passenger(request, signature):
                             break
             if airline['provider'] == 'lionair' or airline['provider'] == 'lionairapi':
                 is_lionair = True
-            try:
-                ff_request = request.session['airline_get_ff_availability_%s' % signature]['result']['response']['ff_availability_provider']
-            except:
-                ff_request = []
+        try:
+            ff_request = copy.deepcopy(request.session['airline_get_ff_availability_%s' % signature])['result']['response']['ff_availability_provider']
+        except:
+            ff_request = []
         try:
             values.update({
                 'ff_request': ff_request,
@@ -562,7 +570,7 @@ def passenger(request, signature):
                 'username': request.session['user_account'],
                 'javascript_version': javascript_version,
                 'signature': signature,
-                'time_limit': request.session['time_limit'],
+                'time_limit': request.session['time_limit_%s' % signature],
                 'static_path_url_server': get_url_static_path(),
                 # 'co_uid': request.session['co_uid'],
                 # 'cookies': json.dumps(res['result']['cookies']),
@@ -620,21 +628,18 @@ def passenger_aftersales(request, signature):
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY]  # get language from browser
             # CHECK INI
-            set_session(request, 'airline_price_itinerary_%s' % signature,
-                        json.loads(request.POST['airline_price_itinerary']))
-            set_session(request, 'airline_get_price_request_%s' % signature,
-                        json.loads(request.POST['airline_price_itinerary_request']))
+            set_session(request, 'airline_price_itinerary_%s' % signature,json.loads(request.POST['airline_price_itinerary']))
+            set_session(request, 'airline_get_price_request_%s' % signature,json.loads(request.POST['airline_price_itinerary_request']))
             try:
-                set_session(request, 'airline_sell_journey_%s' % signature,
-                            json.loads(request.POST['airline_sell_journey_response']))
+                set_session(request, 'airline_sell_journey_%s' % signature,json.loads(request.POST['airline_sell_journey_response']))
             except:
                 _logger.info('no sell journey input')
 
             try:
-                time_limit = get_timelimit_product(request, 'airline')
+                time_limit = get_timelimit_product(request, 'airline', signature)
                 if time_limit == 0:
                     time_limit = int(request.POST['time_limit_input'])
-                set_session(request, 'time_limit', time_limit)
+                set_session(request, 'time_limit_%s' % signature, time_limit)
             except:
                 pass
 
@@ -656,7 +661,7 @@ def passenger_aftersales(request, signature):
         is_garuda = False
         is_identity_required = False
         is_birthdate_required = False
-        get_booking = request.session['airline_get_booking_response']
+        get_booking = copy.deepcopy(request.session['airline_get_booking_response_%s' % signature])
         is_change_identity = False
         is_change_name = False
         for provider_booking in get_booking['result']['response']['provider_bookings']:
@@ -709,7 +714,7 @@ def passenger_aftersales(request, signature):
                 'is_change_name': is_change_name,
                 'is_change_identity': is_change_identity,
                 'is_identity_required': is_identity_required,
-                'order_number': request.session['airline_get_booking_response']['result']['response']['order_number'],
+                'order_number': request.session['airline_get_booking_response_%s' % signature]['result']['response']['order_number'],
                 'airline_request': request.session['airline_request_%s' % signature],
                 'airline_carriers': carrier,
                 'adults': adult,
@@ -759,9 +764,10 @@ def ssr(request, signature):
 
             try:
                 passenger = []
-                for pax_type in request.session['airline_create_passengers_%s' % signature]:
+                airline_create_passengers = copy.deepcopy(request.session['airline_create_passengers_%s' % signature])
+                for pax_type in airline_create_passengers:
                     if pax_type not in ['infant', 'booker', 'contact']:
-                        for pax in request.session['airline_create_passengers_%s' % signature][pax_type]:
+                        for pax in airline_create_passengers[pax_type]:
                             passenger.append(pax)
                 additional_price_input = ''
                 additional_price = request.POST['additional_price_input'].split(' ')[-1].split(',')
@@ -772,7 +778,8 @@ def ssr(request, signature):
                     'ssr_availability_provider': []
                 }
                 airline_list = []
-                for ssr_provider in request.session['airline_get_ssr_%s' % signature]['result']['response']['ssr_availability_provider']:
+                airline_get_ssr = copy.deepcopy(request.session['airline_get_ssr_%s' % signature])
+                for ssr_provider in airline_get_ssr['result']['response']['ssr_availability_provider']:
                     if ssr_provider.get('ssr_availability'):
                         airline_ssr['ssr_availability_provider'].append(ssr_provider)
                         for available in ssr_provider['ssr_availability']:
@@ -785,7 +792,7 @@ def ssr(request, signature):
                         'airline_list': airline_list
                     })
                     airline_list = []
-                passengers = request.session['passenger_with_ssr_%s' % signature]
+                passengers = copy.deepcopy(request.session['passenger_with_ssr_%s' % signature])
                 for pax in passengers:
                     if not pax.get('behaviors'):
                         pax['behaviors'] = {}
@@ -795,10 +802,10 @@ def ssr(request, signature):
                         pax['behaviors']['airline'] = pax['behaviors']['airline'].replace('<br/>', '\n')
 
                 try:
-                    time_limit = get_timelimit_product(request, 'airline')
+                    time_limit = get_timelimit_product(request, 'airline', signature)
                     if time_limit == 0:
                         time_limit = int(request.POST['time_limit_input'])
-                    set_session(request, 'time_limit', time_limit)
+                    set_session(request, 'time_limit_%s' % signature, time_limit)
                 except:
                     pass
 
@@ -821,7 +828,7 @@ def ssr(request, signature):
                     'username': request.session['user_account'],
                     'javascript_version': javascript_version,
                     'static_path_url_server': get_url_static_path(),
-                    'time_limit': int(request.session['time_limit']),
+                    'time_limit': int(request.session['time_limit_%s' % signature]),
                     'airline_getbooking': ''
                 })
             except:
@@ -835,7 +842,7 @@ def ssr(request, signature):
                     'ssr_availability_provider': []
                 }
                 airline_list = []
-                after_sales_data = json.loads(request.POST['after_sales_data_%s' % signature]) if request.POST.get('after_sales_data_%s' % signature) else request.session['airline_get_ssr_%s' % signature]
+                after_sales_data = copy.deepcopy(json.loads(request.POST['after_sales_data_%s' % signature])) if request.POST.get('after_sales_data_%s' % signature) else request.session['airline_get_ssr_%s' % signature]
                 for ssr_provider in after_sales_data['result']['response']['ssr_availability_provider']:
                     if ssr_provider.get('ssr_availability'):
                         airline_ssr['ssr_availability_provider'].append(ssr_provider)
@@ -854,7 +861,7 @@ def ssr(request, signature):
                 infant = []
                 child = []
                 last_departure_date = ''
-                airline_get_booking_resp = request.session.get('airline_get_booking_response') if request.session.get('airline_get_booking_response') else json.loads(request.POST['get_booking_data_json'])
+                airline_get_booking_resp = copy.deepcopy(request.session.get('airline_get_booking_response_%s' % signature)) if request.session.get('airline_get_booking_response_%s' % signature) else json.loads(request.POST['get_booking_data_json'])
                 for rec in airline_get_booking_resp['result']['response']['provider_bookings']:
                     last_departure_date = rec['departure_date']
                     for ticket in rec['tickets']:
@@ -891,7 +898,7 @@ def ssr(request, signature):
                             old_segment.pop('fare_details')
                         if (old_segment.get('addons')):
                             old_segment.pop('addons')
-                set_session(request, 'airline_get_booking_response', airline_get_booking_resp)
+                set_session(request, 'airline_get_booking_response_%s' % signature, airline_get_booking_resp)
                 for pax in airline_get_booking_resp['result']['response']['passengers']:
                     if pax.get('birth_date'):
                         pax_type = pax.get('pax_type', '')
@@ -1047,7 +1054,7 @@ def ssr(request, signature):
                     passenger.append(pax)
 
                 upsell = 0
-                for pax in request.session['airline_get_booking_response']['result']['response']['passengers']:
+                for pax in airline_get_booking_resp['result']['response']['passengers']:
                     if pax.get('channel_service_charges'):
                         upsell = pax['channel_service_charges']['amount']
                 values.update({
@@ -1058,7 +1065,7 @@ def ssr(request, signature):
                     'phone_code': phone_code,
                     'airline_carriers': carrier,
                     'upsell': upsell,
-                    'airline_getbooking': request.session['airline_get_booking_response']['result']['response'],
+                    'airline_getbooking': request.session['airline_get_booking_response_%s' % signature]['result']['response'],
                     'airline_ssrs': airline_ssr,
                     'passengers': passenger,
                     'username': request.session['user_account'],
@@ -1100,33 +1107,35 @@ def seat_map(request, signature):
 
             try:
                 passenger = []
-                for pax_type in request.session['airline_create_passengers_%s' % signature]:
+                airline_create_passengers = copy.deepcopy(request.session['airline_create_passengers_%s' % signature])
+                airline_get_seat_availability = copy.deepcopy(request.session['airline_get_seat_availability_%s' % signature])
+                for pax_type in airline_create_passengers:
                     if pax_type not in ['infant', 'booker', 'contact']:
-                        for pax in request.session['airline_create_passengers_%s' % signature][pax_type]:
+                        for pax in airline_create_passengers[pax_type]:
+                            if not 'seat_list' in pax:
+                                pax['seat_list'] = []
+                                for seat_provider in airline_get_seat_availability['result']['response']['seat_availability_provider']:
+                                    if seat_provider.get('segments'):
+                                        for segment in seat_provider['segments']:
+                                            pax['seat_list'].append({
+                                                'segment_code': segment['segment_code2'],
+                                                'departure_date': segment['departure_date'],
+                                                'seat_pick': '',
+                                                'seat_code': '',
+                                                'seat_name': '',
+                                                'description': '',
+                                                'currency': '',
+                                                'price': ''
+                                            })
+                            if not pax.get('behaviors'):
+                                pax['behaviors'] = {}
+                            if not pax['behaviors'].get('airline'):
+                                pax['behaviors']['airline'] = ""
+                            if pax['behaviors'].get('airline'):
+                                pax['behaviors']['airline'] = pax['behaviors']['airline'].replace('<br/>', '\n')
                             passenger.append(pax)
 
-                for pax in passenger:
-                    if not 'seat_list' in pax:
-                        pax['seat_list'] = []
-                        for seat_provider in request.session['airline_get_seat_availability_%s' % signature]['result']['response']['seat_availability_provider']:
-                            if seat_provider.get('segments'):
-                                for segment in seat_provider['segments']:
-                                    pax['seat_list'].append({
-                                        'segment_code': segment['segment_code2'],
-                                        'departure_date': segment['departure_date'],
-                                        'seat_pick': '',
-                                        'seat_code': '',
-                                        'seat_name': '',
-                                        'description': '',
-                                        'currency': '',
-                                        'price': ''
-                                    })
-                    if not pax.get('behaviors'):
-                        pax['behaviors'] = {}
-                    if not pax['behaviors'].get('airline'):
-                        pax['behaviors']['airline'] = ""
-                    if pax['behaviors'].get('airline'):
-                        pax['behaviors']['airline'] = pax['behaviors']['airline'].replace('<br/>', '\n')
+                set_session(request, 'airline_create_passengers_%s' % signature, airline_create_passengers)
 
                 additional_price_input = ''
                 additional_price = request.POST['additional_price_input'].split(' ')[-1].split(',')
@@ -1134,10 +1143,10 @@ def seat_map(request, signature):
                     additional_price_input += i
 
                 try:
-                    time_limit = get_timelimit_product(request, 'airline')
+                    time_limit = get_timelimit_product(request, 'airline', signature)
                     if time_limit == 0:
                         time_limit = int(request.POST['time_limit_input'])
-                    set_session(request, 'time_limit', time_limit)
+                    set_session(request, 'time_limit_%s' % signature, time_limit)
                 except:
                     pass
 
@@ -1148,8 +1157,7 @@ def seat_map(request, signature):
                     'countries': airline_country,
                     'phone_code': phone_code,
                     'after_sales': 0,
-                    'upsell': request.session.get('airline_upsell_' + signature) and request.session.get(
-                        'airline_upsell_%s' % signature) or 0,
+                    'upsell': request.session.get('airline_upsell_' + signature) and request.session.get('airline_upsell_%s' % signature) or 0,
                     'airline_request': request.session['airline_request_%s' % signature],
                     'price': request.session['airline_sell_journey_%s' % signature],
                     'additional_price': float(additional_price_input),
@@ -1157,7 +1165,7 @@ def seat_map(request, signature):
                     'username': request.session['user_account'],
                     'static_path_url_server': get_url_static_path(),
                     'javascript_version': javascript_version,
-                    'time_limit': int(request.session['time_limit']),
+                    'time_limit': int(request.session['time_limit_%s' % signature]),
                     'airline_getbooking': '',
                     'signature': signature
                 })
@@ -1170,7 +1178,7 @@ def seat_map(request, signature):
                     adult = []
                     infant = []
                     child = []
-                    airline_get_booking_resp = request.session.get('airline_get_booking_response') if request.session.get('airline_get_booking_response') else json.loads(request.POST['get_booking_data_json'])
+                    airline_get_booking_resp = copy.deepcopy(request.session.get('airline_get_booking_response_%s' % signature)) if request.session.get('airline_get_booking_response_%s' % signature) else json.loads(request.POST['get_booking_data_json'])
                     last_departure_date = ''
                     for rec in airline_get_booking_resp['result']['response']['provider_bookings']:
                         last_departure_date = rec['departure_date']
@@ -1209,7 +1217,7 @@ def seat_map(request, signature):
                                 old_segment.pop('fare_details')
                             if (old_segment.get('addons')):
                                 old_segment.pop('addons')
-                    set_session(request, 'airline_get_booking_response', airline_get_booking_resp)
+                    set_session(request, 'airline_get_booking_response_%s' % signature, airline_get_booking_resp)
                     for pax in airline_get_booking_resp['result']['response']['passengers']:
                         if pax.get('birth_date'):
                             pax_type = pax.get('pax_type', '')
@@ -1291,62 +1299,60 @@ def seat_map(request, signature):
                         'infant': infant
                     }
                     set_session(request, 'airline_create_passengers_%s' % signature, airline_create_passengers)
-                    passenger = []
-                    for pax in adult:
-                        passenger.append(pax)
-                    for pax in child:
-                        passenger.append(pax)
 
                     passenger = []
-                    for pax_type in request.session['airline_create_passengers_%s' % signature]:
+
+                    # airline_create_passengers = copy.deepcopy(request.session['airline_create_passengers_%s' % signature])
+                    airline_get_seat_availability = copy.deepcopy(request.session['airline_get_seat_availability_%s' % signature])
+                    for pax_type in airline_create_passengers:
                         if pax_type not in ['infant', 'booker', 'contact']:
-                            for pax in request.session['airline_create_passengers_%s' % signature][pax_type]:
-                                passenger.append(pax)
-                    for pax in passenger:
-                        pax['seat_list'] = []
-                        for seat_provider in request.session['airline_get_seat_availability_%s' % signature]['result']['response']['seat_availability_provider']:
-                            if seat_provider.get('segments'):
-                                for segment in seat_provider['segments']:
-                                    found = False
-                                    passenger_obj = {
-                                        'seat_pick': '',
-                                        'seat_code': '',
-                                        'seat_name': '',
-                                        'description': '',
-                                        'currency': '',
-                                        'price': ''
-                                    }
-                                    for pax_obj in airline_get_booking_resp['result']['response']['passengers']:
-                                        if pax['first_name'] == pax_obj['first_name'] and pax['last_name'] == pax_obj['last_name'] and pax['birth_date'] == pax_obj['birth_date']:
-                                            for pax_obj in pax_obj['fees']:
-                                                if pax_obj['fee_type'] == 'SEAT' and segment['segment_code'] == pax_obj['journey_code']:
-                                                    passenger_obj['seat_pick'] = pax_obj['fee_value']
-                                                    passenger_obj['seat_code'] = pax_obj['fee_code']
-                                                    passenger_obj['seat_name'] = pax_obj['fee_name']
-                                                    passenger_obj['description'] = pax_obj['description']
-                                                    passenger_obj['currency'] = pax_obj['currency']
-                                                    passenger_obj['price'] = pax_obj['amount']
-                                                    found = True
+                            for pax in airline_create_passengers[pax_type]:
+                                pax['seat_list'] = []
+                                for seat_provider in airline_get_seat_availability['result']['response']['seat_availability_provider']:
+                                    if seat_provider.get('segments'):
+                                        for segment in seat_provider['segments']:
+                                            found = False
+                                            passenger_obj = {
+                                                'seat_pick': '',
+                                                'seat_code': '',
+                                                'seat_name': '',
+                                                'description': '',
+                                                'currency': '',
+                                                'price': ''
+                                            }
+                                            for pax_obj in airline_get_booking_resp['result']['response']['passengers']:
+                                                if pax['first_name'] == pax_obj['first_name'] and pax['last_name'] == pax_obj['last_name'] and pax['birth_date'] == pax_obj['birth_date']:
+                                                    for pax_obj in pax_obj['fees']:
+                                                        if pax_obj['fee_type'] == 'SEAT' and segment['segment_code'] == pax_obj['journey_code']:
+                                                            passenger_obj['seat_pick'] = pax_obj['fee_value']
+                                                            passenger_obj['seat_code'] = pax_obj['fee_code']
+                                                            passenger_obj['seat_name'] = pax_obj['fee_name']
+                                                            passenger_obj['description'] = pax_obj['description']
+                                                            passenger_obj['currency'] = pax_obj['currency']
+                                                            passenger_obj['price'] = pax_obj['amount']
+                                                            found = True
+                                                            break
+                                                if found:
                                                     break
-                                        if found:
-                                            break
-                                    pax['seat_list'].append({
-                                        'segment_code': segment['segment_code2'],
-                                        'departure_date': segment['departure_date'],
-                                        'seat_pick': passenger_obj['seat_pick'],
-                                        'seat_code': passenger_obj['seat_code'],
-                                        'seat_name': passenger_obj['seat_name'],
-                                        'description': passenger_obj['description'],
-                                        'currency': passenger_obj['currency'],
-                                        'price': passenger_obj['price']
-                                    })
+                                            pax['seat_list'].append({
+                                                'segment_code': segment['segment_code2'],
+                                                'departure_date': segment['departure_date'],
+                                                'seat_pick': passenger_obj['seat_pick'],
+                                                'seat_code': passenger_obj['seat_code'],
+                                                'seat_name': passenger_obj['seat_name'],
+                                                'description': passenger_obj['description'],
+                                                'currency': passenger_obj['currency'],
+                                                'price': passenger_obj['price']
+                                            })
+                                passenger.append(pax)
 
+                    set_session(request, 'airline_create_passengers_%s' % signature, airline_create_passengers)
                     upsell = 0
-                    for pax in request.session['airline_get_booking_response']['result']['response']['passengers']:
+                    for pax in airline_get_booking_resp['result']['response']['passengers']:
                         if pax.get('channel_service_charges'):
                             upsell = pax['channel_service_charges']['amount']
-                    airline_get_booking = copy.deepcopy(request.session['airline_get_booking_response']['result']['response'])
-                    del airline_get_booking['reschedule_list']  # pop sementara ada list isi string pakai " wktu di parser error
+                    if airline_get_booking_resp.get('reschedule_list'):
+                        del airline_get_booking_resp['reschedule_list']  # pop sementara ada list isi string pakai " wktu di parser error
                     values.update({
                         'static_path': path_util.get_static_path(MODEL_NAME),
                         'airline_carriers': carrier,
@@ -1355,7 +1361,7 @@ def seat_map(request, signature):
                         'phone_code': phone_code,
                         'after_sales': 1,
                         'upsell': upsell,
-                        'airline_getbooking': airline_get_booking,
+                        'airline_getbooking': airline_get_booking_resp['result']['response'],
                         'additional_price': '',
                         'passengers': passenger,
                         'static_path_url_server': get_url_static_path(),
@@ -1366,12 +1372,56 @@ def seat_map(request, signature):
                         'time_limit': '',
                         'signature': request.session['airline_signature'],
                     })
-                elif request.session.get('airline_get_booking_response'):
+                elif request.session.get('airline_get_booking_response_%s' % signature):
                     upsell = 0
-                    for pax in request.session['airline_get_booking_response']['result']['response']['passengers']:
+                    passenger = []
+                    airline_create_passengers = copy.deepcopy(request.session['airline_create_passengers_%s' % signature])
+                    airline_get_seat_availability = copy.deepcopy(request.session['airline_get_seat_availability_%s' % signature])
+                    airline_get_booking_resp = copy.deepcopy(request.session['airline_get_booking_response_%s' % signature])
+                    for pax_type in airline_create_passengers:
+                        if pax_type not in ['infant', 'booker', 'contact']:
+                            for pax in airline_create_passengers[pax_type]:
+                                pax['seat_list'] = []
+                                for seat_provider in airline_get_seat_availability['result']['response']['seat_availability_provider']:
+                                    if seat_provider.get('segments'):
+                                        for segment in seat_provider['segments']:
+                                            found = False
+                                            passenger_obj = {
+                                                'seat_pick': '',
+                                                'seat_code': '',
+                                                'seat_name': '',
+                                                'description': '',
+                                                'currency': '',
+                                                'price': ''
+                                            }
+                                            for pax_obj in airline_get_booking_resp['result']['response']['passengers']:
+                                                if pax['first_name'] == pax_obj['first_name'] and pax['last_name'] == pax_obj['last_name'] and pax['birth_date'] == pax_obj['birth_date']:
+                                                    for pax_obj in pax_obj['fees']:
+                                                        if pax_obj['fee_type'] == 'SEAT' and segment['segment_code'] == pax_obj['journey_code']:
+                                                            passenger_obj['seat_pick'] = pax_obj['fee_value']
+                                                            passenger_obj['seat_code'] = pax_obj['fee_code']
+                                                            passenger_obj['seat_name'] = pax_obj['fee_name']
+                                                            passenger_obj['description'] = pax_obj['description']
+                                                            passenger_obj['currency'] = pax_obj['currency']
+                                                            passenger_obj['price'] = pax_obj['amount']
+                                                            found = True
+                                                            break
+                                                if found:
+                                                    break
+                                            pax['seat_list'].append({
+                                                'segment_code': segment['segment_code2'],
+                                                'departure_date': segment['departure_date'],
+                                                'seat_pick': passenger_obj['seat_pick'],
+                                                'seat_code': passenger_obj['seat_code'],
+                                                'seat_name': passenger_obj['seat_name'],
+                                                'description': passenger_obj['description'],
+                                                'currency': passenger_obj['currency'],
+                                                'price': passenger_obj['price']
+                                            })
+                                passenger.append(pax)
+                    for pax in airline_get_booking_resp['result']['response']['passengers']:
                         if pax.get('channel_service_charges'):
                             upsell = pax['channel_service_charges']['amount']
-                    airline_get_booking = copy.deepcopy(request.session['airline_get_booking_response']['result']['response'])
                     values.update({
                         'static_path': path_util.get_static_path(MODEL_NAME),
                         'airline_carriers': carrier,
@@ -1380,7 +1430,7 @@ def seat_map(request, signature):
                         'phone_code': phone_code,
                         'after_sales': 1,
                         'upsell': upsell,
-                        'airline_getbooking': airline_get_booking,
+                        'airline_getbooking': airline_get_booking_resp['result']['response'],
                         'additional_price': '',
                         'passengers': passenger,
                         'static_path_url_server': get_url_static_path(),
@@ -1391,7 +1441,7 @@ def seat_map(request, signature):
                         'time_limit': '',
                         'signature': request.session['airline_signature'],
                     })
-                elif not request.session.get('airline_get_booking_response'):
+                elif not request.session.get('airline_get_booking_response_%s' % signature):
                     ## pre booking error
                     _logger.error(str(e) + '\n' + traceback.format_exc())
                     raise Exception('Make response code 500!')
@@ -1412,7 +1462,7 @@ def seat_map_public(request, signature=-1):
             if i['phone_code'] not in phone_code:
                 phone_code.append(i['phone_code'])
         phone_code = sorted(phone_code)
-        carrier = get_carriers(request, request.session['signature'])
+        carrier = get_carriers(request, signature)
         # file = read_cache("get_airline_carriers", 'cache_web', request, 90911)
         # if file:
         #     carrier = file
@@ -1460,9 +1510,12 @@ def review(request, signature):
                 if request.META.get('HTTP_REFERER').split('/')[len(request.META.get('HTTP_REFERER').split('/'))-2] == 'ssr':
                     try:
                         passenger = []
-                        for pax_type in request.session['airline_create_passengers_%s' % signature]:
+                        airline_create_passengers = copy.deepcopy(request.session['airline_create_passengers_%s' % signature])
+                        ssr_response = copy.deepcopy(request.session['airline_get_ssr_%s' % signature])['result']['response']
+
+                        for pax_type in airline_create_passengers:
                             if pax_type not in ['infant', 'booker', 'contact']:
-                                for pax in request.session['airline_create_passengers_%s' % signature][pax_type]:
+                                for pax in airline_create_passengers[pax_type]:
                                     passenger.append(pax)
                         sell_ssrs = []
                         sell_ssrs_request = []
@@ -1475,7 +1528,7 @@ def review(request, signature):
                                 pax['behaviors']['airline'] = ""
                             pax['behaviors']['airline'] = request.POST['passenger%s' % idx]
 
-                        ssr_response = request.session['airline_get_ssr_%s' % signature]['result']['response']
+
                         no_ssr_count = 0
                         for counter_ssr_availability_provider, ssr_package in enumerate(ssr_response['ssr_availability_provider']):
                             if (ssr_package.get('ssr_availability')):
@@ -1524,20 +1577,23 @@ def review(request, signature):
                 elif request.META.get('HTTP_REFERER').split('/')[len(request.META.get('HTTP_REFERER').split('/'))-2] == 'seat_map':
                     try:
                         passenger = []
-                        for pax_type in request.session['airline_create_passengers_%s' % signature]:
-                            if pax_type not in ['infant', 'booker', 'contact']:
-                                for pax in request.session['airline_create_passengers_%s' % signature][pax_type]:
-                                    passenger.append(pax)
+                        airline_create_passengers = copy.deepcopy(request.session['airline_create_passengers_%s' % signature])
                         passengers = json.loads(request.POST['passenger'])
-                        #
-                        for idx, pax in enumerate(passengers):
-                            passenger[idx]['seat_list'] = passengers[idx]['seat_list']
-                            if not passenger[idx].get('behaviors'):
-                                passenger[idx]['behaviors'] = {}
-                            if not passenger[idx]['behaviors'].get('airline'):
-                                passenger[idx]['behaviors']['airline'] = ""
-                            passenger[idx]['behaviors']['airline'] = pax['behaviors']['airline']
-                        seat_map_list = request.session['airline_get_seat_availability_%s' % signature]['result']['response']
+                        passenger_counter = 0
+                        for pax_type in airline_create_passengers:
+                            if pax_type not in ['infant', 'booker', 'contact']:
+                                for pax in airline_create_passengers[pax_type]:
+                                    pax['seat_list'] = passengers[passenger_counter]['seat_list']
+                                    if not pax.get('behaviors'):
+                                        pax['behaviors'] = {}
+                                    if not pax['behaviors'].get('airline'):
+                                        pax['behaviors']['airline'] = ""
+                                    pax['behaviors']['airline'] = pax['behaviors']['airline']
+                                    passenger.append(pax)
+                                    passenger_counter += 1
+
+
+                        seat_map_list = copy.deepcopy(request.session['airline_get_seat_availability_%s' % signature])['result']['response']
                         segment_seat_request = []
 
                         for seat_map_provider in seat_map_list['seat_availability_provider']:
@@ -1561,13 +1617,15 @@ def review(request, signature):
                                         })
                                     pax_request = []
                         set_session(request, 'airline_seat_request_%s' % signature, segment_seat_request)
+                        set_session(request, 'airline_create_passengers_%s' % signature, airline_create_passengers)
 
                     except Exception as e:
                         _logger.error("#####ERROR CHOOSE SEAT#####")
                         _logger.error("%s, %s" % (str(e), traceback.format_exc()))
                         try:
                             passenger = []
-                            for pax_type in request.session['airline_create_passengers_%s' % signature]:
+                            airline_create_passengers = copy.deepcopy(request.session['airline_create_passengers_%s' % signature])
+                            for pax_type in airline_create_passengers:
                                 if pax_type not in ['infant', 'booker', 'contact']:
                                     for pax in request.session['airline_create_passengers_%s' % signature][pax_type]:
                                         passenger.append(pax)
@@ -1602,12 +1660,13 @@ def review(request, signature):
                         'nationality_code': request.POST['booker_nationality_id'],
                         'booker_seq_id': request.POST['booker_id'],
                     }
-                    for i in range(int(request.session['airline_request_%s' % signature]['adult'])):
+                    try:
+                        ff_request = copy.deepcopy(request.session['airline_get_ff_availability_%s' % signature])['result']['response']['ff_availability_provider']
+                    except:
+                        ff_request = []
+                    airline_request = copy.deepcopy(request.session['airline_request_%s' % signature])
+                    for i in range(int(airline_request['adult'])):
                         ff_number = []
-                        try:
-                            ff_request = request.session['airline_get_ff_availability_%s' % signature]['result']['response']['ff_availability_provider']
-                        except:
-                            ff_request = []
                         counter = 0
                         for j in ff_request:
                             try:
@@ -1717,25 +1776,8 @@ def review(request, signature):
                         except:
                             pass
 
-                    if len(contact) == 0:
-                        contact.append({
-                            'title': request.POST['booker_title'],
-                            'first_name': request.POST['booker_first_name'],
-                            'last_name': request.POST['booker_last_name'],
-                            'email': request.POST['booker_email'],
-                            'calling_code': request.POST['booker_phone_code_id'],
-                            'mobile': request.POST['booker_phone'],
-                            'nationality_code': request.POST['booker_nationality_id'],
-                            'contact_seq_id': request.POST['booker_id'],
-                            'is_also_booker': True
-                        })
-
-                    for i in range(int(request.session['airline_request_%s' % signature]['child'])):
+                    for i in range(int(airline_request['child'])):
                         ff_number = []
-                        try:
-                            ff_request = request.session['airline_get_ff_availability_%s' % signature]['result']['response']['ff_availability_provider']
-                        except:
-                            ff_request = []
                         counter = 0
                         for j in ff_request:
                             try:
@@ -1793,7 +1835,7 @@ def review(request, signature):
                             "is_request_wheelchair": is_wheelchair
                         })
 
-                    for i in range(int(request.session['airline_request_%s' % signature]['infant'])):
+                    for i in range(int(airline_request['infant'])):
                         passport_number = ''
                         passport_ed = ''
                         passport_country_of_issued = ''
@@ -1830,12 +1872,8 @@ def review(request, signature):
                             "is_request_wheelchair": is_wheelchair
                         })
 
-                    for i in range(int(request.session['airline_request_%s' % signature].get('student') or 0)):
+                    for i in range(int(airline_request.get('student') or 0)):
                         ff_number = []
-                        try:
-                            ff_request = request.session['airline_get_ff_availability_%s' % signature]['result']['response']['ff_availability_provider']
-                        except:
-                            ff_request = []
                         counter = 0
                         for j in ff_request:
                             try:
@@ -1893,12 +1931,8 @@ def review(request, signature):
                             "is_request_wheelchair": is_wheelchair
                         })
 
-                    for i in range(int(request.session['airline_request_%s' % signature].get('labour') or 0)):
+                    for i in range(int(airline_request.get('labour') or 0)):
                         ff_number = []
-                        try:
-                            ff_request = request.session['airline_get_ff_availability_%s' % signature]['result']['response']['ff_availability_provider']
-                        except:
-                            ff_request = []
                         counter = 0
                         for j in ff_request:
                             try:
@@ -1956,12 +1990,8 @@ def review(request, signature):
                             "is_request_wheelchair": is_wheelchair
                         })
 
-                    for i in range(int(request.session['airline_request_%s' % signature].get('seaman') or 0)):
+                    for i in range(int(airline_request.get('seaman') or 0)):
                         ff_number = []
-                        try:
-                            ff_request = request.session['airline_get_ff_availability_%s' % signature]['result']['response']['ff_availability_provider']
-                        except:
-                            ff_request = []
                         counter = 0
                         for j in ff_request:
                             try:
@@ -2019,6 +2049,20 @@ def review(request, signature):
                             "is_request_wheelchair": is_wheelchair
                         })
 
+
+                    if len(contact) == 0:
+                        contact.append({
+                            'title': request.POST['booker_title'],
+                            'first_name': request.POST['booker_first_name'],
+                            'last_name': request.POST['booker_last_name'],
+                            'email': request.POST['booker_email'],
+                            'calling_code': request.POST['booker_phone_code_id'],
+                            'mobile': request.POST['booker_phone'],
+                            'nationality_code': request.POST['booker_nationality_id'],
+                            'contact_seq_id': request.POST['booker_id'],
+                            'is_also_booker': True
+                        })
+
                     airline_create_passengers = {
                         'booker': booker,
                         'adult': adult,
@@ -2029,16 +2073,16 @@ def review(request, signature):
                         'student': student,
                         'contact': contact
                     }
-                    set_session(request, 'airline_create_passengers_%s' % signature, airline_create_passengers)
 
-                    request.session.modified = True
+                    # request.session.modified = True
                     passenger = []
-                    for pax_type in request.session['airline_create_passengers_%s' % signature]:
+                    for pax_type in airline_create_passengers:
                         if pax_type not in ['infant', 'booker', 'contact']:
-                            for pax in request.session['airline_create_passengers_%s' % signature][pax_type]:
+                            for pax in airline_create_passengers[pax_type]:
+                                pax['ssr_list'] = []
                                 passenger.append(pax)
-                    for pax in passenger:
-                        pax['ssr_list'] = []
+
+                    set_session(request, 'airline_create_passengers_%s' % signature, airline_create_passengers)
             else:
                 # move from b2c to login user
                 try:
@@ -2053,9 +2097,10 @@ def review(request, signature):
                 except Exception as e:
                     _logger.error('use airline get price request from cache')
                 passenger = []
-                for pax_type in request.session['airline_create_passengers_%s' % signature]:
+                airline_create_passengers = copy.deepcopy(request.session['airline_create_passengers_%s' % signature])
+                for pax_type in airline_create_passengers:
                     if pax_type not in ['infant', 'booker', 'contact']:
-                        for pax in request.session['airline_create_passengers_%s' % signature][pax_type]:
+                        for pax in airline_create_passengers[pax_type]:
                             passenger.append(pax)
 
             airline_carriers = get_carriers(request, signature)
@@ -2071,7 +2116,7 @@ def review(request, signature):
 
             force_issued = True
             try:
-                airline_price_temp = request.session['airline_sell_journey_%s' % signature]['sell_journey_provider']
+                airline_price_temp = copy.deepcopy(request.session['airline_sell_journey_%s' % signature])['sell_journey_provider']
                 for airline in airline_price_temp:
                     if airline['provider'] == 'traveloka':
                         force_issued = False
@@ -2084,7 +2129,7 @@ def review(request, signature):
                 time_limit = get_timelimit_product(request, 'airline')
                 if time_limit == 0:
                     time_limit = int(request.POST['time_limit_input'])
-                set_session(request, 'time_limit', time_limit)
+                set_session(request, 'time_limit_%s' % signature, time_limit)
             except:
                 pass
             set_session(request, 'passenger_with_ssr_%s' % signature, passenger)
@@ -2110,7 +2155,7 @@ def review(request, signature):
                 'javascript_version': javascript_version,
                 'static_path_url_server': get_url_static_path(),
                 'signature': signature,
-                'time_limit': int(request.session['time_limit']),
+                'time_limit': int(request.session['time_limit_%s' % signature]),
                 'airline_get_price_request': request.session['airline_sell_journey_%s' % signature],
                 # 'co_uid': request.session['co_uid'],
                 # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
@@ -2141,37 +2186,53 @@ def review_after_sales(request, signature):
             if request.META.get('HTTP_REFERER').split('/')[len(request.META.get('HTTP_REFERER').split('/'))-2] == 'ssr':
                 try:
                     passenger = []
-                    for pax_type in request.session['airline_create_passengers_%s' % signature]:
-                        if pax_type not in ['infant', 'booker', 'contact']:
-                            for pax in request.session['airline_create_passengers_%s' % signature][pax_type]:
-                                passenger.append(pax)
+                    airline_create_passengers = copy.deepcopy(request.session['airline_create_passengers_%s' % signature])
                     sell_ssrs = []
                     sell_ssrs_request = []
                     passengers_list = []
                     page = 'ssr'
-                    for pax in passenger:
-                        pax['ssr_list'] = []
-                    ssr_response = request.session['airline_get_ssr_%s' % signature]['result']['response']
-                    data_booking = request.session['airline_get_booking_response']['result']['response']['provider_bookings']
+                    ssr_response = copy.deepcopy(request.session['airline_get_ssr_%s' % signature])['result']['response']
+                    data_booking = copy.deepcopy(request.session['airline_get_booking_response_%s' % signature])['result']['response']['provider_bookings']
                     no_ssr_count = 0
                     for counter_ssr_availability_provider, ssr_package in enumerate(ssr_response['ssr_availability_provider']):
                         if(ssr_package.get('ssr_availability')):
                             for ssr_key in ssr_package['ssr_availability']:
                                 for counter_journey, journey_ssr in enumerate(ssr_package['ssr_availability'][ssr_key]):
-                                    for idx, pax in enumerate(passenger):
-                                        try:
-                                            passengers_list.append({
-                                                "passenger_number": pax['sequence'],
-                                                "ssr_code": request.POST[ssr_key+'_'+str(counter_ssr_availability_provider+1 - no_ssr_count)+'_'+str(idx+1)+'_'+str(counter_journey+1)].split('_')[0]
-                                            })
-                                            for list_ssr in journey_ssr['ssrs']:
-                                                if request.POST[ssr_key +'_'+str(counter_ssr_availability_provider+1 - no_ssr_count)+ '_' + str(idx + 1) + '_' + str(counter_journey + 1)].split('_')[0] == list_ssr['ssr_code']:
-                                                    list_ssr['is_replace_ssr'] = ssr_package['is_replace_ssr']
-                                                    pax['ssr_list'].append(list_ssr)
-                                                    break
-                                        except Exception as e:
-                                            _logger.error("%s, %s" % (str(e), traceback.format_exc()))
-                                            pass
+                                    passenger_counter = 0
+                                    for pax_type in airline_create_passengers:
+                                        if pax_type not in ['infant', 'booker', 'contact']:
+                                            for pax in airline_create_passengers[pax_type]:
+                                                pax['ssr_list'] = []
+                                                try:
+                                                    passengers_list.append({
+                                                        "passenger_number": pax['sequence'],
+                                                        "ssr_code": request.POST[ssr_key + '_' + str(counter_ssr_availability_provider + 1 - no_ssr_count) + '_' + str(passenger_counter + 1) + '_' + str(counter_journey + 1)].split('_')[0]
+                                                    })
+                                                    for list_ssr in journey_ssr['ssrs']:
+                                                        if request.POST[ssr_key + '_' + str(counter_ssr_availability_provider + 1 - no_ssr_count) + '_' + str(passenger_counter + 1) + '_' + str(counter_journey + 1)].split('_')[0] == list_ssr['ssr_code']:
+                                                            list_ssr['is_replace_ssr'] = ssr_package['is_replace_ssr']
+                                                            pax['ssr_list'].append(list_ssr)
+                                                            break
+                                                except Exception as e:
+                                                    _logger.error("%s, %s" % (str(e), traceback.format_exc()))
+                                                    pass
+                                                passenger.append(pax)
+                                                passenger_counter += 1
+
+                                    # for idx, pax in enumerate(passenger):
+                                    #     try:
+                                    #         passengers_list.append({
+                                    #             "passenger_number": pax['sequence'],
+                                    #             "ssr_code": request.POST[ssr_key+'_'+str(counter_ssr_availability_provider+1 - no_ssr_count)+'_'+str(idx+1)+'_'+str(counter_journey+1)].split('_')[0]
+                                    #         })
+                                    #         for list_ssr in journey_ssr['ssrs']:
+                                    #             if request.POST[ssr_key +'_'+str(counter_ssr_availability_provider+1 - no_ssr_count)+ '_' + str(idx + 1) + '_' + str(counter_journey + 1)].split('_')[0] == list_ssr['ssr_code']:
+                                    #                 list_ssr['is_replace_ssr'] = ssr_package['is_replace_ssr']
+                                    #                 pax['ssr_list'].append(list_ssr)
+                                    #                 break
+                                    #     except Exception as e:
+                                    #         _logger.error("%s, %s" % (str(e), traceback.format_exc()))
+                                    #         pass
                                     if len(passengers_list) > 0:
                                         sell_ssrs_request.append({
                                             'journey_code': journey_ssr['journey_code'],
@@ -2190,8 +2251,10 @@ def review_after_sales(request, signature):
                         sell_ssrs_request = []
                     addons_type = 'ssr'
                     if len(sell_ssrs) > 0:
-                        request.session['airline_ssr_request_%s' % signature] = sell_ssrs
+                        set_session(request, 'airline_ssr_request_%s' % signature, sell_ssrs)
+                        # request.session['airline_ssr_request_%s' % signature] = sell_ssrs
                     sell_ssrs = []
+                    set_session(request, 'airline_create_passengers_%s' % signature, airline_create_passengers)
                 except Exception as e:
                     _logger.error("%s\n%s" % (str(e), traceback.format_exc()))
                     print('airline no ssr')
@@ -2200,18 +2263,23 @@ def review_after_sales(request, signature):
             if request.META.get('HTTP_REFERER').split('/')[len(request.META.get('HTTP_REFERER').split('/')) - 2] == 'seat_map':
                 try:
                     passenger = []
-                    for pax_type in request.session['airline_create_passengers_%s' % signature]:
-                        if pax_type not in ['infant', 'booker', 'contact']:
-                            for pax in request.session['airline_create_passengers_%s' % signature][pax_type]:
-                                passenger.append(pax)
                     passengers = json.loads(request.POST['passenger'])
+                    airline_create_passengers = copy.deepcopy(request.session['airline_create_passengers_%s' % signature])
+                    idx = 0
+                    for pax_type in airline_create_passengers:
+                        if pax_type not in ['infant', 'booker', 'contact']:
+                            for pax in airline_create_passengers[pax_type]:
+                                pax['seat_list'] = passengers[idx]['seat_list']
+                                passenger.append(pax)
+                                idx += 1
+
                     #
                     page = 'seat'
-                    for idx, pax in enumerate(passengers):
-                        passenger[idx]['seat_list'] = passengers[idx]['seat_list']
-                    seat_map_list = request.session['airline_get_seat_availability_%s' % signature]['result']['response']
+                    # for idx, pax in enumerate(passengers):
+                    #     passenger[idx]['seat_list'] = passengers[idx]['seat_list']
+                    seat_map_list = copy.deepcopy(request.session['airline_get_seat_availability_%s' % signature])['result']['response']
                     segment_seat_request = []
-                    data_booking = request.session['airline_get_booking_response']['result']['response']['provider_bookings']
+                    data_booking = copy.deepcopy(request.session['airline_get_booking_response_%s' % signature])['result']['response']['provider_bookings']
                     for counter_seat_availability_provider, seat_map_provider in enumerate(seat_map_list['seat_availability_provider']):
                         if seat_map_provider.get('segments'):
                             for seat_segment in seat_map_provider['segments']:
@@ -2234,6 +2302,7 @@ def review_after_sales(request, signature):
                                     })
                                 pax_request = []
                     addons_type = 'seat_map'
+                    set_session(request, 'airline_create_passengers_%s' % signature, airline_create_passengers)
                     set_session(request, 'airline_seat_request_%s' % signature, segment_seat_request)
                 except Exception as e:
                     print('airline no seatmap')
@@ -2255,8 +2324,9 @@ def review_after_sales(request, signature):
 
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY]  # get language from browser
-            airline_get_booking = copy.deepcopy(request.session['airline_get_booking_response']['result']['response'])
-            del airline_get_booking['reschedule_list']  # pop sementara ada list isi string pakai " wktu di parser error
+            airline_get_booking = copy.deepcopy(request.session['airline_get_booking_response_%s' % signature])['result']['response']
+            if airline_get_booking.get('reschedule_list'):
+                del airline_get_booking['reschedule_list']  # pop sementara ada list isi string pakai " wktu di parser error
             for rec in airline_get_booking['provider_bookings']:
                 if rec.get('rules'):
                     rec.pop('rules')
@@ -2292,34 +2362,35 @@ def review_after_sales(request, signature):
 def booking(request, order_number):
     try:
         javascript_version = get_javascript_version(request)
-        if 'airline_create_passengers' in request.session:
-            del request.session['airline_create_passengers']
-        if 'airline_get_booking_response' in request.session:
-            del request.session['airline_get_booking_response']
-
         web_mode = get_web_mode(request)
-
         if 'user_account' not in request.session and 'btc' in web_mode:
             signin_btc(request)
         elif 'user_account' not in request.session and 'btc' not in web_mode:
             raise Exception('Airline get booking without login in btb web')
+
+        if 'airline_create_passengers_%s' % request.session['signature'] in request.session:
+            del request.session['airline_create_passengers_%s' % request.session['signature']]
+        if 'airline_get_booking_response_%s' % request.session['signature'] in request.session:
+            del request.session['airline_get_booking_response_%s' % request.session['signature']]
+
         airline_carriers = get_carriers(request, request.session['signature'])
         values = get_data_template(request)
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
         try:
-            set_session(request, 'airline_order_number', base64.b64decode(order_number).decode('ascii'))
+            airline_order_number = base64.b64decode(order_number).decode('ascii')
         except:
             try:
-                set_session(request, 'airline_order_number', base64.b64decode(order_number[:-1]).decode('ascii'))
+                airline_order_number = base64.b64decode(order_number[:-1]).decode('ascii')
             except:
-                set_session(request, 'airline_order_number', order_number)
+                airline_order_number = order_number
+        set_session(request, 'airline_order_number', order_number)
         values.update({
             'static_path': path_util.get_static_path(MODEL_NAME),
             'username': request.session.get('user_account') or {'co_user_login': ''},
             'airline_carriers': airline_carriers,
-            'order_number': request.session['airline_order_number'],
+            'order_number': airline_order_number,
             'static_path_url_server': get_url_static_path(),
             'javascript_version': javascript_version,
         })
@@ -2349,14 +2420,17 @@ def refund(request, order_number):
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
         try:
-            set_session(request, 'airline_order_number', base64.b64decode(order_number).decode('ascii'))
+            airline_order_number = base64.b64decode(order_number).decode('ascii')
         except:
-            set_session(request, 'airline_order_number', order_number)
+            try:
+                airline_order_number = base64.b64decode(order_number[:-1]).decode('ascii')
+            except:
+                airline_order_number = order_number
         values.update({
             'static_path': path_util.get_static_path(MODEL_NAME),
             'username': request.session.get('user_account') or {'co_user_login': ''},
             'airline_carriers': airline_carriers,
-            'order_number': request.session['airline_order_number'],
+            'order_number': airline_order_number,
             'static_path_url_server': get_url_static_path(),
             'javascript_version': javascript_version,
         })

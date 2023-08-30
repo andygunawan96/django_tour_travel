@@ -578,7 +578,7 @@ function airline_re_get_price(type){
     });
 }
 
-function get_airline_data_search_page(){
+function get_airline_data_search_page(frontend_signature){
     $.ajax({
        type: "POST",
        url: "/webservice/airline",
@@ -586,7 +586,7 @@ function get_airline_data_search_page(){
             'action': 'get_data_search_page',
        },
        data: {
-            'signature': signature
+            'frontend_signature': frontend_signature
        },
        success: function(msg) {
            airline_request = msg.airline_request;
@@ -1584,13 +1584,17 @@ function get_airline_data_seat_page(after_sales){
 
 function airline_signin(data,type=''){
     getToken();
+    if(typeof(frontend_signature) === 'undefined')
+        frontend_signature = '';
     $.ajax({
        type: "POST",
        url: "/webservice/airline",
        headers:{
             'action': 'signin',
        },
-       data: {},
+       data: {
+            'frontend_signature': frontend_signature
+       },
        success: function(msg) {
        try{
            if(msg.result.error_code == 0){
@@ -17598,6 +17602,9 @@ function get_post_ssr_availability_v2(){
                 $('.loader-rodextrip').fadeOut();
                 $('#show_loading_booking_airline').hide();
                 hide_modal_waiting_transaction();
+                $('.payment_method').prop('disabled', false).niceSelect('update');
+                $('#reissued_btn_dsb').prop('disabled', false);
+                $('#reissued_req_btn').prop('disabled', false);
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -17605,6 +17612,9 @@ function get_post_ssr_availability_v2(){
             $('.loader-rodextrip').fadeOut();
             $('#show_loading_booking_airline').hide();
             hide_modal_waiting_transaction();
+            $('.payment_method').prop('disabled', false).niceSelect('update');
+            $('#reissued_btn_dsb').prop('disabled', false);
+            $('#reissued_req_btn').prop('disabled', false);
        },timeout: 300000
     });
 }
@@ -17647,6 +17657,9 @@ function get_post_seat_availability_v2(){
                 $('.loader-rodextrip').fadeOut();
                 $('#show_loading_booking_airline').hide();
                 hide_modal_waiting_transaction();
+                $('.payment_method').prop('disabled', false).niceSelect('update');
+                $('#reissued_btn_dsb').prop('disabled', false);
+                $('#reissued_req_btn').prop('disabled', false);
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -17654,6 +17667,9 @@ function get_post_seat_availability_v2(){
             $('.loader-rodextrip').fadeOut();
             $('#show_loading_booking_airline').hide();
             hide_modal_waiting_transaction();
+            $('.payment_method').prop('disabled', false).niceSelect('update');
+            $('#reissued_btn_dsb').prop('disabled', false);
+            $('#reissued_req_btn').prop('disabled', false);
        },timeout: 300000
     });
 }

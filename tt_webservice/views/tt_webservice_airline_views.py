@@ -264,7 +264,7 @@ def login(request):
     res = send_request_api({}, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
-            create_session_product(request, 'airline', 20)
+            create_session_product(request, 'airline', 20, res['result']['response']['signature'])
             set_session(request, 'airline_signature', res['result']['response']['signature'])
             set_session(request, 'signature', res['result']['response']['signature'])
             if request.session['user_account'].get('co_customer_parent_seq_id'):
@@ -389,7 +389,10 @@ def re_order_set_passengers(request):
 
 def re_order_set_pax_signature(request):
     try:
-        airline_create_passengers = request.session['airline_create_passengers']
+        if request.session.get('airline_create_passengers_%s' % request.POST['signature']):
+            airline_create_passengers = request.session['airline_create_passengers_%s' % request.POST['signature']]
+        else:
+            airline_create_passengers = request.session['airline_create_passengers']
         set_session(request, 'airline_create_passengers_%s' % request.POST['signature'], airline_create_passengers)
         res = ERR.get_no_error_api()
     except:
@@ -399,12 +402,19 @@ def re_order_set_pax_signature(request):
 def get_data_search_page(request):
     try:
         res = {}
-        res['airline_request'] = request.session.get('airline_request')
+        if request.session.get('airline_request_%s' % request.POST['frontend_signature']):
+            res['airline_request'] = request.session['airline_request_%s' % request.POST['frontend_signature']]
+        elif request.session.get('airline_request'):
+            res['airline_request'] = request.session['airline_request']
 
         file = read_cache("get_airline_carriers", 'cache_web', request, 90911)
         if file:
             res['airline_all_carriers'] = file
-        res['airline_carriers'] = request.session.get('airline_carriers_request')
+
+        if request.session.get('airline_carriers_request_%s' % request.POST['frontend_signature']):
+            res['airline_carriers'] = request.session['airline_carriers_request_%s' % request.POST['frontend_signature']]
+        elif request.session.get('airline_carriers_request'):
+            res['airline_carriers'] = request.session['airline_carriers_request']
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -423,15 +433,17 @@ def get_data_passenger_page(request):
         if file:
             res['airline_carriers'] = file
         if request.session.get('airline_get_ssr_%s' % request.POST['signature']):
-            if request.session['airline_get_ssr_%s' % request.POST['signature']]['result']['error_code'] == 0:
-                for idx, rec in enumerate(request.session['airline_get_ssr_%s' % request.POST['signature']]['result']['response']['ssr_availability_provider']):
+            airline_get_ssr = copy.deepcopy(request.session['airline_get_ssr_%s' % request.POST['signature']])
+            if airline_get_ssr['result']['error_code'] == 0:
+                for idx, rec in enumerate(airline_get_ssr['result']['response']['ssr_availability_provider']):
                     if rec['status'] == 'available':
                         res['price_itinerary']['sell_journey_provider'][idx]['is_ssr'] = True
                     else:
                         res['price_itinerary']['sell_journey_provider'][idx]['is_ssr'] = False
         if request.session.get('airline_get_seat_availability_%s' % request.POST['signature']):
-            if request.session['airline_get_seat_availability_%s' % request.POST['signature']]['result']['error_code'] == 0:
-                for idx, rec in enumerate(request.session['airline_get_seat_availability_%s' % request.POST['signature']]['result']['response']['seat_availability_provider']):
+            airline_get_seat_availability = copy.deepcopy(request.session['airline_get_seat_availability_%s' % request.POST['signature']])
+            if airline_get_seat_availability['result']['error_code'] == 0:
+                for idx, rec in enumerate(airline_get_seat_availability['result']['response']['seat_availability_provider']):
                     if rec['status'] == 'available':
                         res['price_itinerary']['sell_journey_provider'][idx]['is_seat'] = True
                     else:
@@ -441,7 +453,7 @@ def get_data_passenger_page(request):
         ## BUAT AFTER SALES SUPAYA TAU PENERBANGAN KAPAN
         _logger.error(str(e) + '\n' + traceback.format_exc())
         try:
-            res['airline_pick'] = request.session['airline_get_booking_response']['result']['response']['provider_bookings']
+            res['airline_pick'] = request.session['airline_get_booking_response_%s' % request.POST['signature']]['result']['response']['provider_bookings']
         except Exception as e:
             _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -458,9 +470,10 @@ def get_data_review_page(request):
         res['passengers'] = request.session['airline_create_passengers_%s' % request.POST['signature']]
 
         passenger = []
-        for pax_type in request.session['airline_create_passengers_%s' % request.POST['signature']]:
+        airline_create_passengers = copy.deepcopy(request.session['airline_create_passengers_%s' % request.POST['signature']])
+        for pax_type in airline_create_passengers:
             if pax_type not in ['infant', 'booker', 'contact']:
-                for pax in request.session['airline_create_passengers_%s' % request.POST['signature']][pax_type]:
+                for pax in airline_create_passengers[pax_type]:
                     passenger.append(pax)
         res['passengers_ssr'] = passenger
         res['airline_request'] = request.session['airline_request_%s' % request.POST['signature']]
@@ -469,16 +482,19 @@ def get_data_review_page(request):
         res['airline_request'] = request.session['airline_request_%s' % request.POST['signature']]
         res['upsell_price_dict'] = request.session.get('airline_upsell_%s' % request.POST['signature']) and request.session.get('airline_upsell_%s' % request.POST['signature']) or {}
         res['upsell_price_dict_ssr'] = request.session.get('airline_ssr_upsell_%s' % request.POST['signature']) and request.session.get('airline_ssr_upsell_%s' % request.POST['signature']) or {}
+
         if request.session.get('airline_get_ssr_%s' % request.POST['signature']):
-            if request.session['airline_get_ssr_%s' % request.POST['signature']]['result']['error_code'] == 0:
-                for idx, rec in enumerate(request.session['airline_get_ssr_%s' % request.POST['signature']]['result']['response']['ssr_availability_provider']):
+            airline_get_ssr = copy.deepcopy(request.session.get('airline_get_ssr_%s' % request.POST['signature']))
+            if airline_get_ssr['result']['error_code'] == 0:
+                for idx, rec in enumerate(airline_get_ssr['result']['response']['ssr_availability_provider']):
                     if rec['status'] == 'available':
                         res['price_itinerary']['sell_journey_provider'][idx]['is_ssr'] = True
                     else:
                         res['price_itinerary']['sell_journey_provider'][idx]['is_ssr'] = False
         if request.session.get('airline_get_seat_availability_%s' % request.POST['signature']):
-            if request.session['airline_get_seat_availability_%s' % request.POST['signature']]['result']['error_code'] == 0:
-                for idx, rec in enumerate(request.session['airline_get_seat_availability_%s' % request.POST['signature']]['result']['response']['seat_availability_provider']):
+            airline_get_seat_availability = copy.deepcopy(request.session['airline_get_seat_availability_%s' % request.POST['signature']])
+            if airline_get_seat_availability['result']['error_code'] == 0:
+                for idx, rec in enumerate(airline_get_seat_availability['result']['response']['seat_availability_provider']):
                     if rec['status'] == 'available':
                         res['price_itinerary']['sell_journey_provider'][idx]['is_seat'] = True
                     else:
@@ -497,7 +513,7 @@ def get_data_review_after_sales_page(request):
 
         res['passengers'] = request.session['airline_create_passengers_%s' % request.POST['signature']]
         res['passengers_ssr'] = request.session['airline_create_passengers_%s' % request.POST['signature']]['adult'] + request.session['airline_create_passengers_%s' % request.POST['signature']]['child']
-        res['airline_get_detail'] = request.session['airline_get_booking_response']['result']['response']
+        res['airline_get_detail'] = request.session['airline_get_booking_response_%s' % request.POST['signature']]['result']['response']
 
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
@@ -531,13 +547,13 @@ def get_data_ssr_page(request):
         else:
             #post
             passenger = []
-            pax_list = request.session['airline_create_passengers_%s' % request.POST['signature']]
+            pax_list = copy.deepcopy(request.session['airline_create_passengers_%s' % request.POST['signature']])
             for pax in pax_list['adult']:
                 passenger.append(pax)
             for pax in pax_list['child']:
                 passenger.append(pax)
             res['passengers'] = passenger
-            res['airline_getbooking'] = request.session['airline_get_booking_response']['result']['response']
+            res['airline_getbooking'] = request.session['airline_get_booking_response_%s' % request.POST['signature']]['result']['response']
             res['ssrs'] = request.session['airline_ssrs_aftersales_%s' % request.POST['signature']]
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
@@ -560,13 +576,13 @@ def get_data_seat_page(request):
         else:
             # post
             passenger = []
-            pax_list = request.session['airline_create_passengers_%s' % request.POST['signature']]
+            pax_list = copy.deepcopy(request.session['airline_create_passengers_%s' % request.POST['signature']])
             for pax in pax_list['adult']:
                 passenger.append(pax)
             for pax in pax_list['child']:
                 passenger.append(pax)
             res['passengers'] = passenger
-            res['airline_getbooking'] = request.session['airline_get_booking_response']['result']['response']
+            res['airline_getbooking'] = request.session['airline_get_booking_response_%s' % request.POST['signature']]['result']['response']
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -1053,7 +1069,7 @@ def search2(request):
     except Exception as e:
         if request.POST.get('use_cache'):
             ## change user
-            data = request.session['airline_search_%s' % request.POST['signature']]
+            data = copy.deepcopy(request.session['airline_search_%s' % request.POST['signature']])
             data.update({
                 "provider": request.POST['provider'],
                 "carrier_codes": json.loads(request.POST['carrier_code'])
@@ -1284,7 +1300,7 @@ def get_price_itinerary(request, boolean, counter):
         }
 
         set_session(request, 'airline_get_price_request_%s' % request.POST['signature'], data)
-        _logger.info(json.dumps(request.session['airline_get_price_request_%s' % request.POST['signature']]))
+        # _logger.info(json.dumps(request.session['airline_get_price_request_%s' % request.POST['signature']]))
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
         data = json.loads(request.POST['data'])
@@ -1385,7 +1401,7 @@ def get_price_itinerary(request, boolean, counter):
             _logger.info("SUCCESS get_price_itinerary AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
             try:
                 set_session(request, 'airline_price_itinerary_%s' % request.POST['signature'], res['result']['response'])
-                _logger.info(json.dumps(request.session['airline_price_itinerary_%s' % request.POST['signature']]))
+                # _logger.info(json.dumps(request.session['airline_price_itinerary_%s' % request.POST['signature']]))
             except Exception as e:
                 _logger.error(str(e) + traceback.format_exc())
         elif boolean == True:
@@ -1423,7 +1439,7 @@ def get_price_itinerary(request, boolean, counter):
 
 def get_fare_rules(request):
     try:
-        data = request.session['airline_get_price_request_%s' % request.POST['signature']]
+        data = copy.deepcopy(request.session['airline_get_price_request_%s' % request.POST['signature']])
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
@@ -1487,13 +1503,16 @@ def sell_journeys(request):
             }
         else:
             _logger.error(str(e) + '\n' + traceback.format_exc())
-    if 'sell_journey' + request.POST['signature'] not in request.session or request.session.get('sell_journey_data' + request.POST['signature']) != data:
+
+    if 'sell_journey_%s' % request.POST['signature'] not in request.session or request.session.get('sell_journey_data_%s' % request.POST['signature']) != data:
         url_request = get_url_gateway('booking/airline')
         res = send_request_api(request, url_request, headers, data, 'POST', 300)
     else:
-        res = request.session['sell_journey'+request.POST['signature']]
+        res = request.session['sell_journey_%s' % request.POST['signature']]
     try:
         if res['result']['error_code'] == 0:
+            set_session(request, 'sell_journey_%s' % request.POST['signature'], res)
+            set_session(request, 'sell_journey_data_%s' % request.POST['signature'], data)
             for price_itinerary_provider in res['result']['response']['sell_journey_provider']:
                 for journey in price_itinerary_provider['journeys']:
                     journey.update({
@@ -1613,7 +1632,7 @@ def get_ssr_availability(request):
                 _logger.error("get_ssr_availability_airline AIRLINE SIGNATURE " + request.POST['signature'] + json.dumps(res))
 
             set_session(request, 'airline_get_ssr_%s' % request.POST['signature'], res)
-            _logger.info(json.dumps(request.session['airline_get_ssr_%s' % request.POST['signature']]))
+            # _logger.info(json.dumps(request.session['airline_get_ssr_%s' % request.POST['signature']]))
         else:
             set_session(request, 'airline_get_ssr_%s' % request.POST['signature'], res)
             _logger.error("get_ssr_availability_airline ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
@@ -1633,7 +1652,7 @@ def get_seat_availability(request):
     url_request = get_url_gateway('booking/airline')
     res = send_request_api(request, url_request, headers, data, 'POST',timeout=300)
     set_session(request, 'airline_get_seat_availability_%s' % request.POST['signature'], res)
-    _logger.info(json.dumps(request.session['airline_get_seat_availability_%s' % request.POST['signature']]))
+    # _logger.info(json.dumps(request.session['airline_get_seat_availability_%s' % request.POST['signature']]))
     try:
         if res['result']['error_code'] == 0:
             _logger.info("get_seat_availability AIRLINE SIGNATURE " + request.POST['signature'])
@@ -1654,7 +1673,7 @@ def get_ff_availability(request):
     url_request = get_url_gateway('booking/airline')
     res = send_request_api(request, url_request, headers, data, 'POST',timeout=300)
     set_session(request, 'airline_get_ff_availability_%s' % request.POST['signature'], res)
-    _logger.info(json.dumps(request.session['airline_get_ff_availability_%s' % request.POST['signature']]))
+    # _logger.info(json.dumps(request.session['airline_get_ff_availability_%s' % request.POST['signature']]))
     try:
         if res['result']['error_code'] == 0:
             _logger.info("get_ff_availability AIRLINE SIGNATURE " + request.POST['signature'])
@@ -1686,18 +1705,18 @@ def update_contacts(request):
         }
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
-    if 'airline_update_contact' + request.POST['signature'] not in request.session or request.session.get('airline_update_contact_data' + request.POST['signature']) != data:
+    if 'airline_update_contact_%s' % request.POST['signature'] not in request.session or request.session.get('airline_update_contact_data_%s' % request.POST['signature']) != data:
         url_request = get_url_gateway('booking/airline')
         res = send_request_api(request, url_request, headers, data, 'POST', 300)
     else:
-        res = request.session['airline_update_contact'+request.POST['signature']]
+        res = copy.deepcopy(request.session['airline_update_contact_%s' % request.POST['signature']])
     try:
         if res['result']['error_code'] == 0:
-            set_session(request, 'airline_update_contact'+request.POST['signature'], res)
-            set_session(request, 'airline_update_contact_data'+request.POST['signature'], data)
+            set_session(request, 'airline_update_contact_%s' % request.POST['signature'], res)
+            set_session(request, 'airline_update_contact_data_%s' % request.POST['signature'], data)
             _logger.info("SUCCESS update_contacts AIRLINE SIGNATURE " + request.POST['signature'])
         elif res['result']['error_code'] == 4014:
-            if request.session.get('airline_update_contact_data' + request.POST['signature']) == data:
+            if request.session.get('airline_update_contact_data_%s' % request.POST['signature']) == data:
                 res['result']['error_code'] = 0 #SUDAH BERHASIL DOUBLE JADI DI PASS
         else:
             _logger.error("ERROR update_contacts_airline AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
@@ -1709,7 +1728,7 @@ def update_passengers(request):
     try:
         passenger = []
         passenger_cache = copy.deepcopy(request.session['airline_create_passengers_%s' % request.POST['signature']])
-        sell_journey_dict = request.session.get('airline_sell_journey_%s' % request.POST['signature'], {})
+        sell_journey_dict = copy.deepcopy(request.session.get('airline_sell_journey_%s' % request.POST['signature'], {}))
         last_departure_date = ''
         for sell_journey in sell_journey_dict['sell_journey_provider']:
             for journey in sell_journey['journeys']:
@@ -1791,18 +1810,18 @@ def update_passengers(request):
         if data_pax.get('identity'):
             if not data_pax['identity'].get('is_valid_identity'): ## tidak valid buang data identity
                 data_pax.pop('identity')
-    if 'airline_update_passengers' + request.POST['signature'] not in request.session or request.session.get('airline_update_passengers_data' + request.POST['signature']) != data_copy:
+    if 'airline_update_passengers_%s' % request.POST['signature'] not in request.session or request.session.get('airline_update_passengers_data_%s' % request.POST['signature']) != data_copy:
         url_request = get_url_gateway('booking/airline')
         res = send_request_api(request, url_request, headers, data, 'POST', 300)
     else:
-        res = request.session['airline_update_passengers' + request.POST['signature']]
+        res = copy.deepcopy(request.session['airline_update_passengers_%s' % request.POST['signature']])
     try:
         if res['result']['error_code'] == 0:
-            set_session(request, 'airline_update_passengers' + request.POST['signature'], res)
-            set_session(request, 'airline_update_passengers_data' + request.POST['signature'], data_copy)
+            set_session(request, 'airline_update_passengers_%s' % request.POST['signature'], res)
+            set_session(request, 'airline_update_passengers_data_%s' % request.POST['signature'], data_copy)
             _logger.info("SUCCESS update_passengers AIRLINE SIGNATURE " + request.POST['signature'])
         elif res['result']['error_code'] == 4014:
-            if request.session.get('airline_update_passengers_data' + request.POST['signature']) == data:
+            if request.session.get('airline_update_passengers_data_%s' % request.POST['signature']) == data:
                 res['result']['error_code'] = 0 #SUDAH BERHASIL DOUBLE JADI DI PASS
         else:
             _logger.error("ERROR update_passengers_airline AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
@@ -1812,8 +1831,8 @@ def update_passengers(request):
 
 def sell_ssrs(request):
     try:
-        ssr_data = request.session.get('airline_get_ssr_%s' % request.POST['signature'])
-        ssr_requests = request.session['airline_ssr_request_%s' % request.POST['signature']]
+        ssr_data = copy.deepcopy(request.session.get('airline_get_ssr_%s' % request.POST['signature']))
+        ssr_requests = copy.deepcopy(request.session['airline_ssr_request_%s' % request.POST['signature']])
         passenger_cache = copy.deepcopy(request.session['airline_create_passengers_%s' % request.POST['signature']])
         counter_passenger = 0
         for pax_type in passenger_cache:
@@ -1879,15 +1898,15 @@ def sell_ssrs(request):
         }
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
-    if 'airline_sell_ssrs' + request.POST['signature'] in request.session:
-        res = request.session['airline_sell_ssrs' + request.POST['signature']]
+    if 'airline_sell_ssrs_%s' % request.POST['signature'] in request.session and 'airline_sell_ssrs_req_%s' % request.POST['signature'] in request.session and request.session['airline_sell_ssrs_req_%s' % request.POST['signature']] == data:
+        res = request.session['airline_sell_ssrs_%s' % request.POST['signature']]
     elif ssr_requests != {}:
         url_request = get_url_gateway('booking/airline')
         res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
-
-            set_session(request, 'airline_sell_ssrs' + request.POST['signature'], res)
+            set_session(request, 'airline_sell_ssrs_%s' % request.POST['signature'], res)
+            set_session(request, 'airline_sell_ssrs_req_%s' % request.POST['signature'], data)
             _logger.info("SUCCESS update_passengers AIRLINE SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR update_passengers_airline AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
@@ -1913,7 +1932,7 @@ def sell_ssrs(request):
 def assign_seats(request):
     try:
         data = {
-            'segment_seat_request': request.session['airline_seat_request_%s' % request.POST['signature']]
+            'segment_seat_request': copy.deepcopy(request.session['airline_seat_request_%s' % request.POST['signature']])
         }
         if request.session.get('currency'):
             data.update({
@@ -1928,13 +1947,15 @@ def assign_seats(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    if 'airline_seat_request' + request.POST['signature'] in request.session:
-        res = request.POST['airline_seat_request' + request.POST['signature']]
+    if 'airline_assign_seat_%s' % request.POST['signature'] in request.session and 'airline_assign_seat_request_%s' % request.POST['signature'] in request.session and request.session['airline_assign_seat_request_%s' % request.POST['signature']] == data:
+        res = request.POST['airline_assign_seat_%s' % request.POST['signature']]
     elif len(request.session['airline_seat_request_%s' % request.POST['signature']]) != 0:
         url_request = get_url_gateway('booking/airline')
         res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
+            set_session(request, 'airline_assign_seat_%s' % request.POST['signature'], res)
+            set_session(request, 'airline_assign_seat_request_%s' % request.POST['signature'], res)
             # request.POST['airline_seat_request' + request.POST['signature']] = res #BELUM DI TESTING
             _logger.info("SUCCESS update_passengers AIRLINE SIGNATURE " + request.POST['signature'])
         else:
@@ -1987,7 +2008,8 @@ def commit_booking(request):
             except:
                 _logger.error('use_point not found')
             provider = []
-            for provider_type in request.session['airline_price_itinerary_%s' % request.POST['signature']]['price_itinerary_provider']:
+            airline_price_itinerary = copy.deepcopy(request.session['airline_price_itinerary_%s' % request.POST['signature']])
+            for provider_type in airline_price_itinerary['price_itinerary_provider']:
                 if not provider_type['provider'] in provider:
                     provider.append(provider_type['provider'])
             if request.POST['voucher_code'] != '':
@@ -2026,6 +2048,11 @@ def commit_booking(request):
     try:
         if res['result']['error_code'] == 0:
             _logger.info("SUCCESS commit_booking AIRLINE SIGNATURE " + request.POST['signature'])
+            ## hapus session
+            for key in reversed(list(request.session._session.keys())):
+                if request.POST['signature'] in key:
+                    del request.session[key]
+
         else:
             _logger.error("ERROR commit_booking_airline AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
@@ -2369,12 +2396,12 @@ def get_booking(request):
             for rec in response['result']['response']['provider_bookings']:
                 rec['error_msg'] = ''
             time.sleep(1)
-            set_session(request, 'airline_get_booking_response', response)
+            set_session(request, 'airline_get_booking_response_%s' % request.POST['signature'], response)
             _logger.info("SUCCESS get_booking AIRLINE SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR get_booking_airline AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
-        set_session(request, 'airline_get_booking_response', res)
+        set_session(request, 'airline_get_booking_response_%s' % request.POST['signature'], res)
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
 
@@ -2436,10 +2463,10 @@ def update_service_charge(request):
                         total_upsell_dict[upsell['pax_type']] += pricing['amount']
             if data['type'] == 'request_new':
                 set_session(request, 'airline_ssr_upsell_' + request.POST['signature'], total_upsell_dict)
-                _logger.info(json.dumps(request.session['airline_ssr_upsell_' + request.POST['signature']]))
+                # _logger.info(json.dumps(request.session['airline_ssr_upsell_' + request.POST['signature']]))
             else:
                 set_session(request, 'airline_upsell_' + request.POST['signature'], total_upsell_dict)
-                _logger.info(json.dumps(request.session['airline_upsell_' + request.POST['signature']]))
+                # _logger.info(json.dumps(request.session['airline_upsell_' + request.POST['signature']]))
             _logger.info("SUCCESS update_service_charge AIRLINE SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR update_service_charge_airline AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
@@ -2472,7 +2499,7 @@ def booker_insentif_booking(request):
                 for pricing in upsell['pricing']:
                     total_upsell += pricing['amount']
             set_session(request, 'airline_upsell_booker_'+request.POST['signature'], total_upsell)
-            _logger.info(json.dumps(request.session['airline_upsell_booker_' + request.POST['signature']]))
+            # _logger.info(json.dumps(request.session['airline_upsell_booker_' + request.POST['signature']]))
             _logger.info("SUCCESS update_service_charge_booker AIRLINE SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR update_service_charge_airline_booker AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
@@ -2550,7 +2577,7 @@ def update_refund_booking(request):
 def cancel(request):
     # nanti ganti ke get_ssr_availability
     try:
-        data_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
+        data_booking = copy.deepcopy(request.session['airline_get_booking_response_%s' % request.POST['signature']]) if request.session.get('airline_get_booking_response_%s' % request.POST['signature']) else json.loads(request.POST['booking'])
 
         data = {
             'order_number': request.POST['order_number'],
@@ -2609,7 +2636,7 @@ def issued(request):
         except:
             _logger.error('use_point not found')
         try:
-            airline_get_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
+            airline_get_booking = copy.deepcopy(request.session['airline_get_booking_response_%s' % request.POST['signature']]) if request.session.get('airline_get_booking_response_%s' % request.POST['signature']) else json.loads(request.POST['booking'])
             for provider_type in airline_get_booking['result']['response']['provider_bookings']:
                 if not provider_type['provider'] in provider:
                     provider.append(provider_type['provider'])
@@ -2657,7 +2684,7 @@ def issued(request):
 def reissue(request):
     # nanti ganti ke get_ssr_availability
     try:
-        airline_get_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
+        airline_get_booking = copy.deepcopy(request.session['airline_get_booking_response_%s' % request.POST['signature']]) if request.session.get('airline_get_booking_response_%s' % request.POST['signature']) else json.loads(request.POST['booking'])
         order_number = airline_get_booking['result']['response']['order_number']
         data_request = json.loads(request.POST['data'])
         cabin_class = ''
@@ -2784,7 +2811,7 @@ def get_price_reissue_construct(request,boolean, counter):
         journeys = []
         journey_booking = json.loads(request.POST['journeys_booking'])
         passengers = json.loads(request.POST['passengers'])
-        data_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
+        data_booking = copy.deepcopy(request.session['airline_get_booking_response_%s' % request.POST['signature']]) if request.session.get('airline_get_booking_response_%s' % request.POST['signature']) else json.loads(request.POST['booking'])
         order_number = data_booking['result']['response']['order_number']
         pnr_list = json.loads(request.POST['pnr'])
 
@@ -2947,7 +2974,7 @@ def sell_journey_reissue_construct(request,boolean, counter):
         journeys = []
         journey_booking = json.loads(request.POST['journeys_booking'])
         passengers = json.loads(request.POST['passengers'])
-        data_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
+        data_booking = copy.deepcopy(request.session['airline_get_booking_response_%s' % request.POST['signature']]) if request.session.get('airline_get_booking_response_%s' % request.POST['signature']) else json.loads(request.POST['booking'])
         order_number = data_booking['result']['response']['order_number']
         pnr_list = json.loads(request.POST['pnr'])
 
@@ -3257,7 +3284,7 @@ def pre_refund_login(request):
     try:
         provider = []
         pnr = []
-        airline_get_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
+        airline_get_booking = copy.deepcopy(request.session['airline_get_booking_response_%s' % request.POST['signature']]) if request.session.get('airline_get_booking_response_%s' % request.POST['signature']) else json.loads(request.POST['booking'])
         for provider_bookings in airline_get_booking['result']['response']['provider_bookings']:
             provider.append(provider_bookings['provider'])
             pnr.append(provider_bookings['pnr'])
@@ -3545,7 +3572,7 @@ def get_refund_booking(request):
 
 # POST
 def get_post_ssr_availability(request):
-    data_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
+    data_booking = copy.deepcopy(request.session['airline_get_booking_response_%s' % request.POST['signature']]) if request.session.get('airline_get_booking_response_%s' % request.POST['signature']) else json.loads(request.POST['booking'])
     schedules = []
     order_number = data_booking['result']['response']['order_number']
     for rec in data_booking['result']['response']['provider_bookings']:
@@ -3596,7 +3623,7 @@ def get_post_ssr_availability(request):
     return res
 
 def get_post_seat_availability(request):
-    data_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
+    data_booking = copy.deepcopy(request.session['airline_get_booking_response_%s' % request.POST['signature']]) if request.session.get('airline_get_booking_response_%s' % request.POST['signature']) else json.loads(request.POST['booking'])
     schedules = []
     order_number = data_booking['result']['response']['order_number']
     for rec in data_booking['result']['response']['provider_bookings']:
@@ -3614,7 +3641,7 @@ def get_post_seat_availability(request):
     url_request = get_url_gateway('booking/airline')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     set_session(request, 'airline_get_seat_availability_%s' % request.POST['signature'], res)
-    _logger.info(json.dumps(request.session['airline_get_seat_availability_%s' % request.POST['signature']]))
+    # _logger.info(json.dumps(request.session['airline_get_seat_availability_%s' % request.POST['signature']]))
 
     try:
         if res['result']['error_code'] == 0:
@@ -3627,7 +3654,7 @@ def get_post_seat_availability(request):
 
 def sell_post_ssrs(request):
     try:
-        airline_get_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
+        airline_get_booking = copy.deepcopy(request.session['airline_get_booking_response_%s' % request.POST['signature']]) if request.session.get('airline_get_booking_response_%s' % request.POST['signature']) else json.loads(request.POST['booking'])
         order_number = airline_get_booking['result']['response']['order_number']
         data = {
             'sell_ssrs_request': request.session['airline_ssr_request_%s' % request.POST['signature']],
@@ -3641,14 +3668,15 @@ def sell_post_ssrs(request):
         }
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
-    if 'airline_sell_ssrs' + request.POST['signature'] in request.session:
-        res = request.session['airline_sell_ssrs' + request.POST['signature']]
+    if 'airline_sell_ssrs_%s' % request.POST['signature'] in request.session and 'airline_sell_ssrs_request_%s' % request.POST['signature'] in request.session and request.session['airline_sell_ssrs_request_%s' % request.POST['signature']] == data:
+        res = request.session['airline_sell_ssrs_%s' % request.POST['signature']]
     elif request.session['airline_ssr_request_%s' % request.POST['signature']] != {}:
         url_request = get_url_gateway('booking/airline')
         res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
-            set_session(request, 'airline_sell_ssrs' + request.POST['signature'], res)
+            set_session(request, 'airline_sell_ssrs_%s' % request.POST['signature'], res)
+            set_session(request, 'airline_sell_ssrs_request_%s' % request.POST['signature'], data)
             _logger.info("SUCCESS sell_post_ssrs AIRLINE SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR sell_post_ssrs AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
@@ -3673,7 +3701,7 @@ def sell_post_ssrs(request):
 
 def assign_post_seats(request):
     try:
-        airline_get_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
+        airline_get_booking = copy.deepcopy(request.session['airline_get_booking_response_%s' % request.POST['signature']]) if request.session.get('airline_get_booking_response_%s' % request.POST['signature']) else json.loads(request.POST['booking'])
         order_number = airline_get_booking['result']['response']['order_number']
         data = {
             'segment_seat_request': request.session['airline_seat_request_%s' % request.POST['signature']],
@@ -3688,14 +3716,15 @@ def assign_post_seats(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    if 'airline_seat_request' + request.POST['signature'] in request.session:
+    if 'airline_assign_seat_%s' % request.POST['signature'] in request.session and 'airline_assign_seat_request_%s' % request.POST['signature'] in request.session and request.session['airline_assign_seat_request_%s' % request.POST['signature']] == data:
         res = request.POST['airline_seat_request' + request.POST['signature']]
     elif len(request.session['airline_seat_request_%s' % request.POST['signature']]) != 0:
         url_request = get_url_gateway('booking/airline')
         res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
-            request.session['airline_seat_request' + request.POST['signature']] = res
+            set_session(request, 'airline_assign_seat_%s' % request.POST['signature'], res)
+            set_session(request, 'airline_assign_seat_request_%s' % request.POST['signature'], data)
             _logger.info("SUCCESS assign_post_seats AIRLINE SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR assign_post_seats AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
@@ -3721,7 +3750,7 @@ def assign_post_seats(request):
 def update_booking(request):
     #nanti ganti ke get_ssr_availability
     try:
-        data_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
+        data_booking = copy.deepcopy(request.session['airline_get_booking_response_%s' % request.POST['signature']]) if request.session.get('airline_get_booking_response_%s' % request.POST['signature']) else json.loads(request.POST['booking'])
         schedules = []
         order_number = data_booking['result']['response']['order_number']
         for rec in data_booking['result']['response']['provider_bookings']:
@@ -3795,7 +3824,7 @@ def update_booking(request):
 def get_reschedule_availability_v2(request):
     # nanti ganti ke get_ssr_availability
     try:
-        airline_get_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
+        airline_get_booking = copy.deepcopy(request.session['airline_get_booking_response_%s' % request.POST['signature']]) if request.session.get('airline_get_booking_response_%s' % request.POST['signature']) else json.loads(request.POST['booking'])
         data_temp = airline_get_booking['result']['response']
         order_number = data_temp['order_number']
         passenger = []
@@ -3927,7 +3956,7 @@ def get_reschedule_itinerary_v2(request):
         journeys = []
         journey_booking = json.loads(request.POST['journeys_booking'])
 
-        data_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
+        data_booking = copy.deepcopy(request.session['airline_get_booking_response_%s' % request.POST['signature']]) if request.session.get('airline_get_booking_response_%s' % request.POST['signature']) else json.loads(request.POST['booking'])
         order_number = data_booking['result']['response']['order_number']
         passenger = []
         for pax in data_booking['result']['response']['passengers']:
@@ -4081,7 +4110,7 @@ def sell_reschedule_v2(request):
         journeys = []
         journey_booking = json.loads(request.POST['journeys_booking'])
 
-        data_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
+        data_booking = copy.deepcopy(request.session['airline_get_booking_response_%s' % request.POST['signature']]) if request.session.get('airline_get_booking_response_%s' % request.POST['signature']) else json.loads(request.POST['booking'])
         order_number = data_booking['result']['response']['order_number']
         passenger = []
         for pax in data_booking['result']['response']['passengers']:
@@ -4242,7 +4271,7 @@ def split_booking_v2(request):
         data_passengers = json.loads(request.POST['passengers'])
         for pax in data_passengers:
             passengers.append({"passenger_number": int(pax.split('_')[1])})
-        data_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
+        data_booking = copy.deepcopy(request.session['airline_get_booking_response_%s' % request.POST['signature']]) if request.session.get('airline_get_booking_response_%s' % request.POST['signature']) else json.loads(request.POST['booking'])
         for provider_booking in data_booking['result']['response']['provider_bookings']:
             provider_bookings.append({
                 'pnr': provider_booking['pnr'],
@@ -4274,7 +4303,7 @@ def split_booking_v2(request):
     return res
 
 def get_post_ssr_availability_v2(request):
-    data_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
+    data_booking = copy.deepcopy(request.session['airline_get_booking_response_%s' % request.POST['signature']]) if request.session.get('airline_get_booking_response_%s' % request.POST['signature']) else json.loads(request.POST['booking'])
     schedules = []
     order_number = data_booking['result']['response']['order_number']
     for rec in data_booking['result']['response']['provider_bookings']:
@@ -4331,7 +4360,7 @@ def get_post_ssr_availability_v2(request):
 
 def sell_post_ssrs_v2(request):
     try:
-        airline_get_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
+        airline_get_booking = copy.deepcopy(request.session['airline_get_booking_response_%s' % request.POST['signature']]) if request.session.get('airline_get_booking_response_%s' % request.POST['signature']) else json.loads(request.POST['booking'])
         order_number = airline_get_booking['result']['response']['order_number']
         data = {
             'sell_ssrs_request': request.session['airline_ssr_request_%s' % request.POST['signature']],
@@ -4349,14 +4378,15 @@ def sell_post_ssrs_v2(request):
         }
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
-    if 'airline_sell_ssrs' + request.POST['signature'] in request.session:
-        res = request.session['airline_sell_ssrs' + request.POST['signature']]
+    if 'airline_sell_ssrs_%s' % request.POST['signature'] in request.session and 'airline_sell_ssrs_request_%s' % request.POST['signature'] in request.session and request.session['airline_sell_ssrs_request_%s' % request.POST['signature']] == data:
+        res = request.session['airline_sell_ssrs_%s' % request.POST['signature']]
     elif request.session['airline_ssr_request_%s' % request.POST['signature']] != {}:
         url_request = get_url_gateway('booking/airline')
         res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
-            set_session(request, 'airline_sell_ssrs' + request.POST['signature'], res)
+            set_session(request, 'airline_sell_ssrs_%s' % request.POST['signature'], res)
+            set_session(request, 'airline_sell_ssrs_request_%s' % request.POST['signature'], data)
             _logger.info("SUCCESS sell_post_ssrs_v2 AIRLINE SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR sell_post_ssrs_v2 AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
@@ -4380,7 +4410,7 @@ def sell_post_ssrs_v2(request):
     return res
 
 def get_post_seat_availability_v2(request):
-    data_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
+    data_booking = copy.deepcopy(request.session['airline_get_booking_response_%s' % request.POST['signature']]) if request.session.get('airline_get_booking_response_%s' % request.POST['signature']) else json.loads(request.POST['booking'])
     schedules = []
     order_number = data_booking['result']['response']['order_number']
     for rec in data_booking['result']['response']['provider_bookings']:
@@ -4398,7 +4428,7 @@ def get_post_seat_availability_v2(request):
     url_request = get_url_gateway('booking/airline')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     set_session(request, 'airline_get_seat_availability_%s' % request.POST['signature'], res)
-    _logger.info(json.dumps(request.session['airline_get_seat_availability_%s' % request.POST['signature']]))
+    # _logger.info(json.dumps(request.session['airline_get_seat_availability_%s' % request.POST['signature']]))
 
     try:
         if res['result']['error_code'] == 0:
@@ -4411,7 +4441,7 @@ def get_post_seat_availability_v2(request):
 
 def assign_post_seats_v2(request):
     try:
-        airline_get_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
+        airline_get_booking = copy.deepcopy(request.session['airline_get_booking_response_%s' % request.POST['signature']]) if request.session.get('airline_get_booking_response_%s' % request.POST['signature']) else json.loads(request.POST['booking'])
         order_number = airline_get_booking['result']['response']['order_number']
         data = {
             'segment_seat_request': request.session['airline_seat_request_%s' % request.POST['signature']],
@@ -4426,14 +4456,15 @@ def assign_post_seats_v2(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    if 'airline_seat_request' + request.POST['signature'] in request.session:
-        res = request.POST['airline_seat_request' + request.POST['signature']]
+    if 'airline_assign_seat_%s' + request.POST['signature'] in request.session and 'airline_assign_seat_request_%s' + request.POST['signature'] in request.session and request.session['airline_assign_seat_request_%s' + request.POST['signature']] == data:
+        res = request.POST['airline_assign_seat_%s' % request.POST['signature']]
     elif len(request.session['airline_seat_request_%s' % request.POST['signature']]) != 0:
         url_request = get_url_gateway('booking/airline')
         res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
-            request.session['airline_seat_request' + request.POST['signature']] = res
+            request.session['airline_assign_seat_%s' % request.POST['signature']] = res
+            request.session['airline_assign_seat_request_%s' % request.POST['signature']] = data
             _logger.info("SUCCESS assign_post_seats_v2 AIRLINE SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR assign_post_seats_v2 AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
@@ -4459,7 +4490,7 @@ def assign_post_seats_v2(request):
 def update_booking_v2(request):
     #nanti ganti ke get_ssr_availability
     try:
-        data_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
+        data_booking = copy.deepcopy(request.session['airline_get_booking_response_%s' % request.POST['signature']]) if request.session.get('airline_get_booking_response_%s' % request.POST['signature']) else json.loads(request.POST['booking'])
         schedules = []
         order_number = data_booking['result']['response']['order_number']
         for rec in data_booking['result']['response']['provider_bookings']:
@@ -4531,7 +4562,7 @@ def update_booking_v2(request):
 def pre_refund_login_v2(request):
     try:
         schedules = compute_pax_js_new_v2(request.POST['passengers'])
-        airline_get_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
+        airline_get_booking = copy.deepcopy(request.session['airline_get_booking_response_%s' % request.POST['signature']]) if request.session.get('airline_get_booking_response_%s' % request.POST['signature']) else json.loads(request.POST['booking'])
 
         data = {
             "schedules": schedules,
@@ -4560,7 +4591,7 @@ def pre_refund_login_v2(request):
 def get_cancel_booking(request):
     try:
         schedules = compute_pax_js_new_v2(request.POST['passengers'])
-        airline_get_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
+        airline_get_booking = copy.deepcopy(request.session['airline_get_booking_response_%s' % request.POST['signature']]) if request.session.get('airline_get_booking_response_%s' % request.POST['signature']) else json.loads(request.POST['booking'])
         captcha = json.loads(request.POST['captcha'])
         if captcha:
             for idx, rec in enumerate(schedules):
@@ -4735,7 +4766,7 @@ def update_post_pax_name(request):
         response = get_cache_data(request)
         passenger = []
         passenger_cache = json.loads(request.POST['passengers'])
-        data_awal_passenger = request.session['airline_get_booking_response']['result']['response']['passengers']
+        data_awal_passenger = copy.deepcopy(request.session['airline_get_booking_response_%s' % request.POST['signature']])['result']['response']['passengers']
         for idx, pax in enumerate(passenger_cache):
             if pax['nationality_name'] != '':
                 for country in response['result']['response']['airline']['country']:
@@ -4801,7 +4832,7 @@ def update_post_pax_identity(request):
         response = get_cache_data(request)
         passenger = []
         passenger_cache = json.loads(request.POST['passengers'])
-        data_awal_passenger = request.session['airline_get_booking_response']['result']['response']['passengers']
+        data_awal_passenger = copy.deepcopy(request.session['airline_get_booking_response_%s' % request.POST['signature']])['result']['response']['passengers']
         for idx,pax in enumerate(passenger_cache):
             if pax['nationality_name'] != '':
                 for country in response['result']['response']['airline']['country']:
