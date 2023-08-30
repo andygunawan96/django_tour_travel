@@ -48,7 +48,7 @@
 </script>
 
 <div class="modal fade" id="myModal_cor" role="dialog">
-    <div class="overlay_modal_custom" onclick="$('#myModal_cor').modal('hide');clear_request_cor();"></div>
+    <div class="overlay_modal_custom" data-dismiss="modal" onclick="clear_request_cor();"></div>
     <div class="modal-dialog modal_custom_fixed">
         <!-- Modal content-->
         <div class="modal-content">
@@ -58,7 +58,7 @@
                         <h4 class="modal-title">{% trans 'New Corporate Form' %}</h4>
                     </div>
                     <div class="col-xs-6">
-                        <button type="button" class="close modal_custom_close" data-dismiss="modal" onclick="$('#myModal_cor').modal('hide');clear_request_cor();">&times;</button>
+                        <button type="button" class="close modal_custom_close" data-dismiss="modal" onclick="clear_request_cor();">&times;</button>
                     </div>
                 </div>
                 <div class="row">
