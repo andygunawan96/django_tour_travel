@@ -233,15 +233,24 @@ def index(request):
             # get_data_awal
             cache = {}
             try:
-                if request.session['airline_request']['origin'][0].split('-')[1] != ' ':
+                file = read_cache_file(request, '', 'airline_request')
+                if file:
                     cache['airline'] = {
-                        'origin': request.session['airline_request']['origin'][0],
-                        'destination': request.session['airline_request']['destination'][0],
-                        'departure': request.session['airline_request']['departure'][0],
+                        'origin': file['origin'][0],
+                        'destination': file['destination'][0],
+                        'departure': file['departure'][0],
                     }
-                    if cache['airline']['departure'] == 'Invalid date':
-                        cache['airline']['departure'] = convert_string_to_date_to_string_front_end(
-                            str(datetime.now())[:10])
+                if cache['airline']['departure'] == 'Invalid date':
+                    cache['airline']['departure'] = convert_string_to_date_to_string_front_end(str(datetime.now())[:10])
+                # if request.session['airline_request']['origin'][0].split('-')[1] != ' ':
+                #     cache['airline'] = {
+                #         'origin': request.session['airline_request']['origin'][0],
+                #         'destination': request.session['airline_request']['destination'][0],
+                #         'departure': request.session['airline_request']['departure'][0],
+                #     }
+                #     if cache['airline']['departure'] == 'Invalid date':
+                #         cache['airline']['departure'] = convert_string_to_date_to_string_front_end(
+                #             str(datetime.now())[:10])
             except:
                 pass
 

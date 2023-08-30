@@ -264,9 +264,12 @@ def login(request):
     res = send_request_api({}, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
-            create_session_product(request, 'airline', 20)
+            create_session_product(request, 'airline', 20, res['result']['response']['signature'])
             set_session(request, 'airline_signature', res['result']['response']['signature'])
             set_session(request, 'signature', res['result']['response']['signature'])
+            if request.POST.get('frontend_signature'):
+                write_cache_file(request, res['result']['response']['signature'], 'airline_frontend_signature',request.POST['frontend_signature'])
+                write_cache_file(request, request.POST['frontend_signature'], 'airline_signature',res['result']['response']['signature'])
             if request.session['user_account'].get('co_customer_parent_seq_id'):
                 webservice_agent.activate_corporate_mode(request, res['result']['response']['signature'])
             _logger.info(json.dumps(request.session['airline_signature']))
@@ -278,16 +281,19 @@ def login(request):
 def re_order_set_airline_request(request):
     try:
         ## UNTUK REORDER SAMPAI PASSENGER
-        set_session(request, 'airline_request_%s' % request.POST['signature'], json.loads(request.POST['airline_request']))
+        write_cache_file(request, request.POST['signature'], 'airline_request', json.loads(request.POST['airline_request']))
+        # set_session(request, 'airline_request_%s' % request.POST['signature'], json.loads(request.POST['airline_request']))
         ## UNTUK REORDER KEMBALI KE SEARCH KARENA TIDAK JADWAL YG SAMA HABIS / TIDAK KETEMU, BELUM ADA SIGNATURE
-        set_session(request, 'airline_request', json.loads(request.POST['airline_request']))
+        write_cache_file(request, '', 'airline_request',json.loads(request.POST['airline_request']))
+        # set_session(request, 'airline_request', json.loads(request.POST['airline_request']))
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return ERR.get_no_error_api()
 
 def set_airline_pick(request):
     try:
-        set_session(request, 'airline_pick_%s' % request.POST['signature'], json.loads(request.POST['airline_pick']))
+        write_cache_file(request, request.POST['signature'], 'airline_pick', json.loads(request.POST['airline_pick']))
+        # set_session(request, 'airline_pick_%s' % request.POST['signature'], json.loads(request.POST['airline_pick']))
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return ERR.get_no_error_api()
@@ -311,7 +317,7 @@ def re_order_set_passengers(request):
         title = 'MR'
         if data_booker['gender'] == 'male':
             title = 'MR'
-        elif data_booker['gender'] == 'female' and data_booker['marital_status'] in ['','single']:
+        elif data_booker['gender'] == 'female' and data_booker['marital_status'] == '':
             title = 'MS'
         elif data_booker['gender'] == 'female' and data_booker['marital_status'] != '':
             title = 'MRS'
@@ -334,7 +340,7 @@ def re_order_set_passengers(request):
                     title = 'MSTR'
             elif pax['gender'] == 'female' and pax['pax_type'] not in ['ADT', 'YCD', 'LBR', 'STU', 'SEA']:
                 title = 'MISS'
-            elif pax['gender'] == 'female' and data_booker['marital_status'] in ['','single']:
+            elif pax['gender'] == 'female' and data_booker['marital_status'] == '':
                 title = 'MS'
             else:
                 title = 'MRS'
@@ -380,68 +386,132 @@ def re_order_set_passengers(request):
             'student': student,
         }
         ## UNTUK REORDER SAMPAI PASSENGER
-        set_session(request, 'airline_create_passengers_%s' % request.POST['signature'], airline_create_passengers)
+        write_cache_file(request, request.POST['signature'], 'airline_create_passengers', airline_create_passengers)
+        # set_session(request, 'airline_create_passengers_%s' % request.POST['signature'], airline_create_passengers)
         ## UNTUK REORDER KEMBALI KE SEARCH KARENA TIDAK JADWAL YG SAMA HABIS / TIDAK KETEMU, BELUM ADA SIGNATURE
-        set_session(request, 'airline_create_passengers',airline_create_passengers)
+        write_cache_file(request, request.POST['signature'], 'airline_create_passengers', airline_create_passengers)
+        # set_session(request, 'airline_create_passengers',airline_create_passengers)
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return ERR.get_no_error_api()
 
 def re_order_set_pax_signature(request):
     try:
-        airline_create_passengers = request.session['airline_create_passengers']
-        set_session(request, 'airline_create_passengers_%s' % request.POST['signature'], airline_create_passengers)
+        # airline_create_passengers = request.session['airline_create_passengers']
+        airline_create_passengers = read_cache_file(request, request.POST['signature'], 'airline_create_passengers')
+        # request.session['airline_create_passengers']
+        write_cache_file(request, request.POST['signature'], 'airline_create_passengers', airline_create_passengers)
+        # set_session(request, 'airline_create_passengers_%s' % request.POST['signature'], airline_create_passengers)
         res = ERR.get_no_error_api()
     except:
         res = ERR.get_error_api(500)
     return res
 
 def get_data_search_page(request):
+    res = {}
     try:
-        res = {}
-        res['airline_request'] = request.session.get('airline_request')
+        file = read_cache_file(request, request.POST['frontend_signature'], 'airline_request')
+        if file:
+            res['airline_request'] = file
+        else:
+            file = read_cache_file(request, '', 'airline_request')
+            if file:
+                res['airline_request'] = file
 
         file = read_cache("get_airline_carriers", 'cache_web', request, 90911)
         if file:
             res['airline_all_carriers'] = file
-        res['airline_carriers'] = request.session.get('airline_carriers_request')
+
+        file = read_cache_file(request, request.POST['frontend_signature'], 'airline_carriers_request')
+        if file:
+            res['airline_carriers'] = file
+        # res['airline_carriers'] = request.session.get('airline_carriers_request')
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
 
 def get_data_passenger_page(request):
+    res = {}
     try:
-        res = {}
-        res['airline_request'] = request.session['airline_request_%s' % request.POST['signature']]
-        if request.session.get('airline_create_passengers_%s' % request.POST['signature']):
-            res['pax_cache'] = request.session['airline_create_passengers_%s' % request.POST['signature']]
-        res['ssr'] = request.session.get('airline_get_ssr_%s' % request.POST['signature'])
-        res['airline_pick'] = request.session['airline_sell_journey_%s' % request.POST['signature']]['sell_journey_provider']
-        res['airline_get_price_request'] = request.session['airline_get_price_request_%s' % request.POST['signature']]
-        res['price_itinerary'] = request.session['airline_sell_journey_%s' % request.POST['signature']]
+        file = read_cache_file(request, request.POST['signature'], 'airline_request')
+        if file:
+            res['airline_request'] = file
+        # res['airline_request'] = request.session['airline_request_%s' % request.POST['signature']]
+
+        file = read_cache_file(request, request.POST['signature'], 'airline_create_passengers')
+        if file:
+            res['pax_cache'] = file
+        # if request.session.get('airline_create_passengers_%s' % request.POST['signature']):
+        #     res['pax_cache'] = request.session['airline_create_passengers_%s' % request.POST['signature']]
+
+        file = read_cache_file(request, request.POST['signature'], 'airline_get_ssr')
+        if file:
+            res['ssr'] = file
+        # res['ssr'] = request.session.get('airline_get_ssr_%s' % request.POST['signature'])
+
+        file = read_cache_file(request, request.POST['signature'], 'airline_sell_journey')
+        if file:
+            res['airline_pick'] = file['sell_journey_provider']
+        # res['airline_pick'] = request.session['airline_sell_journey_%s' % request.POST['signature']]['sell_journey_provider']
+
+        file = read_cache_file(request, request.POST['signature'], 'airline_get_price_request')
+        if file:
+            res['airline_get_price_request'] = file
+        # res['airline_get_price_request'] = request.session['airline_get_price_request_%s' % request.POST['signature']]
+
+        file = read_cache_file(request, request.POST['signature'], 'airline_sell_journey')
+        if file:
+            res['price_itinerary'] = file
+        # res['price_itinerary'] = request.session['airline_sell_journey_%s' % request.POST['signature']]
+
         file = read_cache("get_airline_carriers", 'cache_web', request, 90911)
         if file:
             res['airline_carriers'] = file
-        if request.session.get('airline_get_ssr_%s' % request.POST['signature']):
-            if request.session['airline_get_ssr_%s' % request.POST['signature']]['result']['error_code'] == 0:
-                for idx, rec in enumerate(request.session['airline_get_ssr_%s' % request.POST['signature']]['result']['response']['ssr_availability_provider']):
+
+        file = read_cache_file(request, request.POST['signature'], 'airline_get_ssr')
+        if file:
+            if file['result']['error_code'] == 0:
+                for idx, rec in enumerate(file['result']['response']['ssr_availability_provider']):
                     if rec['status'] == 'available':
                         res['price_itinerary']['sell_journey_provider'][idx]['is_ssr'] = True
                     else:
                         res['price_itinerary']['sell_journey_provider'][idx]['is_ssr'] = False
-        if request.session.get('airline_get_seat_availability_%s' % request.POST['signature']):
-            if request.session['airline_get_seat_availability_%s' % request.POST['signature']]['result']['error_code'] == 0:
-                for idx, rec in enumerate(request.session['airline_get_seat_availability_%s' % request.POST['signature']]['result']['response']['seat_availability_provider']):
+        # if request.session.get('airline_get_ssr_%s' % request.POST['signature']):
+        #     if request.session['airline_get_ssr_%s' % request.POST['signature']]['result']['error_code'] == 0:
+        #         for idx, rec in enumerate(request.session['airline_get_ssr_%s' % request.POST['signature']]['result']['response']['ssr_availability_provider']):
+        #             if rec['status'] == 'available':
+        #                 res['price_itinerary']['sell_journey_provider'][idx]['is_ssr'] = True
+        #             else:
+        #                 res['price_itinerary']['sell_journey_provider'][idx]['is_ssr'] = False
+
+        file = read_cache_file(request, request.POST['signature'], 'airline_get_seat_availability')
+        if file:
+            if file['result']['error_code'] == 0:
+                for idx, rec in enumerate(file['result']['response']['seat_availability_provider']):
                     if rec['status'] == 'available':
                         res['price_itinerary']['sell_journey_provider'][idx]['is_seat'] = True
                     else:
                         res['price_itinerary']['sell_journey_provider'][idx]['is_seat'] = False
-        res['ff_request'] = request.session['airline_get_ff_availability_%s' % request.POST['signature']]['result']['response']['ff_availability_provider'] if request.session['airline_get_ff_availability_%s' % request.POST['signature']]['result']['response'] else []
+
+        # if request.session.get('airline_get_seat_availability_%s' % request.POST['signature']):
+        #     if request.session['airline_get_seat_availability_%s' % request.POST['signature']]['result']['error_code'] == 0:
+        #         for idx, rec in enumerate(request.session['airline_get_seat_availability_%s' % request.POST['signature']]['result']['response']['seat_availability_provider']):
+        #             if rec['status'] == 'available':
+        #                 res['price_itinerary']['sell_journey_provider'][idx]['is_seat'] = True
+        #             else:
+        #                 res['price_itinerary']['sell_journey_provider'][idx]['is_seat'] = False
+
+        file = read_cache_file(request, request.POST['signature'], 'airline_get_ff_availability')
+        res['ff_request'] = file['result']['response']['ff_availability_provider'] if file['result']['response'] else []
+        # res['ff_request'] = request.session['airline_get_ff_availability_%s' % request.POST['signature']]['result']['response']['ff_availability_provider'] if request.session['airline_get_ff_availability_%s' % request.POST['signature']]['result']['response'] else []
     except Exception as e:
         ## BUAT AFTER SALES SUPAYA TAU PENERBANGAN KAPAN
         _logger.error(str(e) + '\n' + traceback.format_exc())
         try:
-            res['airline_pick'] = request.session['airline_get_booking_response']['result']['response']['provider_bookings']
+            file = read_cache_file(request, request.POST['signature'], 'airline_get_booking_response')
+            if file:
+                res['airline_pick'] = file['result']['response']['provider_bookings']
+            # res['airline_pick'] = request.session['airline_get_booking_response']['result']['response']['provider_bookings']
         except Exception as e:
             _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -449,55 +519,126 @@ def get_data_passenger_page(request):
 def get_data_review_page(request):
     res = {}
     try:
-        res['airline_pick'] = request.session['airline_sell_journey_%s' % request.POST['signature']]['sell_journey_provider']
-        res['airline_request'] = request.session['airline_request_%s' % request.POST['signature']]
-        res['price_itinerary'] = request.session['airline_sell_journey_%s' % request.POST['signature']]
+        file = read_cache_file(request, request.POST['signature'], 'airline_sell_journey')
+        if file:
+            res['airline_pick'] = file['sell_journey_provider']
+        # res['airline_pick'] = request.session['airline_sell_journey_%s' % request.POST['signature']]['sell_journey_provider']
+
+        file = read_cache_file(request, request.POST['signature'], 'airline_request')
+        if file:
+            res['airline_request'] = file
+        # res['airline_request'] = request.session['airline_request_%s' % request.POST['signature']]
+
+        file = read_cache_file(request, request.POST['signature'], 'airline_sell_journey')
+        if file:
+            res['price_itinerary'] = file
+        # res['price_itinerary'] = request.session['airline_sell_journey_%s' % request.POST['signature']]
+
         file = read_cache("get_airline_carriers", 'cache_web', request, 90911)
         if file:
             res['airline_carriers'] = file
-        res['passengers'] = request.session['airline_create_passengers_%s' % request.POST['signature']]
+
+        file = read_cache_file(request, request.POST['signature'], 'airline_create_passengers')
+        if file:
+            res['passengers'] = file
+        # res['passengers'] = request.session['airline_create_passengers_%s' % request.POST['signature']]
 
         passenger = []
-        for pax_type in request.session['airline_create_passengers_%s' % request.POST['signature']]:
-            if pax_type not in ['infant', 'booker', 'contact']:
-                for pax in request.session['airline_create_passengers_%s' % request.POST['signature']][pax_type]:
-                    passenger.append(pax)
+
+        if file:
+            for pax_type in file:
+                if pax_type not in ['infant', 'booker', 'contact']:
+                    for pax in file[pax_type]:
+                        passenger.append(pax)
         res['passengers_ssr'] = passenger
-        res['airline_request'] = request.session['airline_request_%s' % request.POST['signature']]
-        res['airline_ssr_request'] = request.session['airline_ssr_request_%s' % request.POST['signature']] if request.session.get('airline_ssr_request_%s' % request.POST['signature']) else {}
-        res['airline_seat_request'] = request.session['airline_seat_request_%s' % request.POST['signature']] if request.session.get('airline_seat_request_%s' % request.POST['signature']) else {}
-        res['airline_request'] = request.session['airline_request_%s' % request.POST['signature']]
-        res['upsell_price_dict'] = request.session.get('airline_upsell_%s' % request.POST['signature']) and request.session.get('airline_upsell_%s' % request.POST['signature']) or {}
-        res['upsell_price_dict_ssr'] = request.session.get('airline_ssr_upsell_%s' % request.POST['signature']) and request.session.get('airline_ssr_upsell_%s' % request.POST['signature']) or {}
-        if request.session.get('airline_get_ssr_%s' % request.POST['signature']):
-            if request.session['airline_get_ssr_%s' % request.POST['signature']]['result']['error_code'] == 0:
-                for idx, rec in enumerate(request.session['airline_get_ssr_%s' % request.POST['signature']]['result']['response']['ssr_availability_provider']):
+
+        file = read_cache_file(request, request.POST['signature'], 'airline_request')
+        if file:
+            res['airline_request'] = file
+        # res['airline_request'] = request.session['airline_request_%s' % request.POST['signature']]
+
+        file = read_cache_file(request, request.POST['signature'], 'airline_ssr_request')
+        if file:
+            res['airline_ssr_request'] = file
+        else:
+            res['airline_ssr_request'] = {}
+        # res['airline_ssr_request'] = request.session['airline_ssr_request_%s' % request.POST['signature']] if request.session.get('airline_ssr_request_%s' % request.POST['signature']) else {}
+
+        file = read_cache_file(request, request.POST['signature'], 'airline_seat_request')
+        if file:
+            res['airline_seat_request'] = file
+        else:
+            res['airline_seat_request'] = {}
+        # res['airline_seat_request'] = request.session['airline_seat_request_%s' % request.POST['signature']] if request.session.get('airline_seat_request_%s' % request.POST['signature']) else {}
+
+        file = read_cache_file(request, request.POST['signature'], 'airline_upsell')
+        if file:
+            res['upsell_price_dict'] = file
+        else:
+            res['upsell_price_dict'] = {}
+        # res['upsell_price_dict'] = request.session.get('airline_upsell_%s' % request.POST['signature']) and request.session.get('airline_upsell_%s' % request.POST['signature']) or {}
+
+        file = read_cache_file(request, request.POST['signature'], 'airline_ssr_upsell')
+        if file:
+            res['upsell_price_dict_ssr'] = file
+        else:
+            res['upsell_price_dict_ssr'] = {}
+        # res['upsell_price_dict_ssr'] = request.session.get('airline_ssr_upsell_%s' % request.POST['signature']) and request.session.get('airline_ssr_upsell_%s' % request.POST['signature']) or {}
+
+        file = read_cache_file(request, request.POST['signature'], 'airline_get_ssr')
+        if file:
+            if file['result']['error_code'] == 0:
+                for idx, rec in enumerate(file['result']['response']['ssr_availability_provider']):
                     if rec['status'] == 'available':
                         res['price_itinerary']['sell_journey_provider'][idx]['is_ssr'] = True
                     else:
                         res['price_itinerary']['sell_journey_provider'][idx]['is_ssr'] = False
-        if request.session.get('airline_get_seat_availability_%s' % request.POST['signature']):
-            if request.session['airline_get_seat_availability_%s' % request.POST['signature']]['result']['error_code'] == 0:
-                for idx, rec in enumerate(request.session['airline_get_seat_availability_%s' % request.POST['signature']]['result']['response']['seat_availability_provider']):
+        # if request.session.get('airline_get_ssr_%s' % request.POST['signature']):
+        #     if request.session['airline_get_ssr_%s' % request.POST['signature']]['result']['error_code'] == 0:
+        #         for idx, rec in enumerate(request.session['airline_get_ssr_%s' % request.POST['signature']]['result']['response']['ssr_availability_provider']):
+        #             if rec['status'] == 'available':
+        #                 res['price_itinerary']['sell_journey_provider'][idx]['is_ssr'] = True
+        #             else:
+        #                 res['price_itinerary']['sell_journey_provider'][idx]['is_ssr'] = False
+
+        file = read_cache_file(request, request.POST['signature'], 'airline_get_seat_availability')
+        if file:
+            if file['result']['error_code'] == 0:
+                for idx, rec in enumerate(file['result']['response']['seat_availability_provider']):
                     if rec['status'] == 'available':
                         res['price_itinerary']['sell_journey_provider'][idx]['is_seat'] = True
                     else:
                         res['price_itinerary']['sell_journey_provider'][idx]['is_seat'] = False
+        # if request.session.get('airline_get_seat_availability_%s' % request.POST['signature']):
+        #     if request.session['airline_get_seat_availability_%s' % request.POST['signature']]['result']['error_code'] == 0:
+        #         for idx, rec in enumerate(request.session['airline_get_seat_availability_%s' % request.POST['signature']]['result']['response']['seat_availability_provider']):
+        #             if rec['status'] == 'available':
+        #                 res['price_itinerary']['sell_journey_provider'][idx]['is_seat'] = True
+        #             else:
+        #                 res['price_itinerary']['sell_journey_provider'][idx]['is_seat'] = False
         # res['airline_get_price_request'] = request.session['airline_get_price_request_%s' % request.POST['signature']]
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
 
 def get_data_review_after_sales_page(request):
+    res = {}
     try:
-        res = {}
         file = read_cache("get_airline_carriers", 'cache_web', request, 90911)
         if file:
             res['airline_carriers'] = file
 
-        res['passengers'] = request.session['airline_create_passengers_%s' % request.POST['signature']]
-        res['passengers_ssr'] = request.session['airline_create_passengers_%s' % request.POST['signature']]['adult'] + request.session['airline_create_passengers_%s' % request.POST['signature']]['child']
-        res['airline_get_detail'] = request.session['airline_get_booking_response']['result']['response']
+        file = read_cache_file(request, request.POST['signature'], 'airline_create_passengers')
+        if file:
+            res['passengers'] = file
+        # res['passengers'] = request.session['airline_create_passengers_%s' % request.POST['signature']]
+        if file:
+            res['passengers_ssr'] = file['adult'] + file['child']
+
+        file = read_cache_file(request, request.POST['signature'], 'airline_get_booking_response')
+        if file:
+            res['airline_get_detail'] = file['result']['response']
+        # res['airline_get_detail'] = request.session['airline_get_booking_response']['result']['response']
 
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
@@ -519,26 +660,58 @@ def get_data_ssr_page(request):
         file = read_cache("get_airline_carriers", 'cache_web', request, 90911)
         if file:
             res['airline_carriers'] = file
-        res['passengers'] = request.session['airline_create_passengers_%s' % request.POST['signature']]['adult'] + request.session['airline_create_passengers_%s' % request.POST['signature']]['child']
+
+        file = read_cache_file(request, request.POST['signature'], 'airline_create_passengers')
+        if file:
+            res['passengers'] = file['adult'] + file['child']
+        # res['passengers'] = request.session['airline_create_passengers_%s' % request.POST['signature']]['adult'] + request.session['airline_create_passengers_%s' % request.POST['signature']]['child']
 
 
         if request.POST['after_sales'] == 'false':
             # pre
-            res['airline_pick'] = request.session['airline_sell_journey_%s' % request.POST['signature']]['sell_journey_provider']
-            res['price_itinerary'] = request.session['airline_sell_journey_%s' % request.POST['signature']]
-            res['airline_request'] = request.session['airline_request_%s' % request.POST['signature']]
-            res['upsell'] = request.session.get('airline_upsell_' + request.POST['signature']) and request.session.get('airline_upsell_%s' % request.POST['signature']) or 0
+            file = read_cache_file(request, request.POST['signature'], 'airline_sell_journey')
+            if file:
+                res['airline_pick'] = file['sell_journey_provider']
+                res['price_itinerary'] = file
+            # res['airline_pick'] = request.session['airline_sell_journey_%s' % request.POST['signature']]['sell_journey_provider']
+            # res['price_itinerary'] = request.session['airline_sell_journey_%s' % request.POST['signature']]
+
+            file = read_cache_file(request, request.POST['signature'], 'airline_request')
+            if file:
+                res['airline_request'] = file
+            # res['airline_request'] = request.session['airline_request_%s' % request.POST['signature']]
+
+            file = read_cache_file(request, request.POST['signature'], 'airline_upsell')
+            if file:
+                res['upsell'] = file
+            else:
+                res['upsell'] = 0
+            # res['upsell'] = request.session.get('airline_upsell_' + request.POST['signature']) and request.session.get('airline_upsell_%s' % request.POST['signature']) or 0
         else:
             #post
             passenger = []
-            pax_list = request.session['airline_create_passengers_%s' % request.POST['signature']]
-            for pax in pax_list['adult']:
-                passenger.append(pax)
-            for pax in pax_list['child']:
-                passenger.append(pax)
+            file = read_cache_file(request, request.POST['signature'], 'airline_create_passengers')
+            if file:
+                for pax in file['adult']:
+                    passenger.append(pax)
+                for pax in file['child']:
+                    passenger.append(pax)
+            # pax_list = request.session['airline_create_passengers_%s' % request.POST['signature']]
+            # for pax in pax_list['adult']:
+            #     passenger.append(pax)
+            # for pax in pax_list['child']:
+            #     passenger.append(pax)
             res['passengers'] = passenger
-            res['airline_getbooking'] = request.session['airline_get_booking_response']['result']['response']
-            res['ssrs'] = request.session['airline_ssrs_aftersales_%s' % request.POST['signature']]
+
+            file = read_cache_file(request, request.POST['signature'], 'airline_get_booking_response')
+            if file:
+                res['airline_getbooking'] = file['result']['response']
+            # res['airline_getbooking'] = request.session['airline_get_booking_response']['result']['response']
+
+            file = read_cache_file(request, request.POST['signature'], 'airline_ssrs_aftersales')
+            if file:
+                res['ssrs'] = file
+            # res['ssrs'] = request.session['airline_ssrs_aftersales_%s' % request.POST['signature']]
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -549,24 +722,52 @@ def get_data_seat_page(request):
         file = read_cache("get_airline_carriers", 'cache_web', request, 90911)
         if file:
             res['airline_carriers'] = file
-        res['passengers'] = request.session['airline_create_passengers_%s' % request.POST['signature']]['adult'] + request.session['airline_create_passengers_%s' % request.POST['signature']]['child']
+
+        file = read_cache_file(request, request.POST['signature'], 'airline_create_passengers')
+        if file:
+            res['passengers'] = file['adult'] + file['child']
+        # res['passengers'] = request.session['airline_create_passengers_%s' % request.POST['signature']]['adult'] + request.session['airline_create_passengers_%s' % request.POST['signature']]['child']
 
         if request.POST['after_sales'] == 'false':
             # pre
-            res['airline_pick'] = request.session['airline_sell_journey_%s' % request.POST['signature']]['sell_journey_provider']
-            res['price_itinerary'] = request.session['airline_sell_journey_%s' % request.POST['signature']]
-            res['airline_request'] = request.session['airline_request_%s' % request.POST['signature']]
-            res['upsell'] = request.session.get('airline_upsell_' + request.POST['signature']) and request.session.get('airline_upsell_%s' % request.POST['signature']) or 0
+            file = read_cache_file(request, request.POST['signature'], 'airline_sell_journey')
+            if file:
+                res['airline_pick'] = file['sell_journey_provider']
+                res['price_itinerary'] = file
+            # res['airline_pick'] = request.session['airline_sell_journey_%s' % request.POST['signature']]['sell_journey_provider']
+            # res['price_itinerary'] = request.session['airline_sell_journey_%s' % request.POST['signature']]
+
+            file = read_cache_file(request, request.POST['signature'], 'airline_request')
+            if file:
+                res['airline_request'] = file
+            # res['airline_request'] = request.session['airline_request_%s' % request.POST['signature']]
+
+            file = read_cache_file(request, request.POST['signature'], 'airline_upsell')
+            if file:
+                res['upsell'] = file
+            else:
+                res['upsell'] = 0
+            # res['upsell'] = request.session.get('airline_upsell_' + request.POST['signature']) and request.session.get('airline_upsell_%s' % request.POST['signature']) or 0
         else:
             # post
             passenger = []
-            pax_list = request.session['airline_create_passengers_%s' % request.POST['signature']]
-            for pax in pax_list['adult']:
-                passenger.append(pax)
-            for pax in pax_list['child']:
-                passenger.append(pax)
+            file = read_cache_file(request, request.POST['signature'], 'airline_create_passengers')
+            if file:
+                for pax in file['adult']:
+                    passenger.append(pax)
+                for pax in file['child']:
+                    passenger.append(pax)
+            # pax_list = request.session['airline_create_passengers_%s' % request.POST['signature']]
+            # for pax in pax_list['adult']:
+            #     passenger.append(pax)
+            # for pax in pax_list['child']:
+            #     passenger.append(pax)
             res['passengers'] = passenger
-            res['airline_getbooking'] = request.session['airline_get_booking_response']['result']['response']
+
+            file = read_cache_file(request, request.POST['signature'], 'airline_get_booking_response')
+            if file:
+                res['airline_getbooking'] = file['result']['response']
+            # res['airline_getbooking'] = request.session['airline_get_booking_response']['result']['response']
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -1041,8 +1242,10 @@ def search2(request):
                 })
 
         if request.POST['last_send'] == 'true': ##SIMPEN CACHE REQUEST DENGAN SIGNATURE HANYA SEKALI SETIAP SEARCH
-            set_session(request, 'airline_request_%s' % request.POST['signature'], request.session['airline_request'])
-            set_session(request, 'airline_search_%s' % request.POST['signature'], data)
+            write_cache_file(request, request.POST['signature'], 'airline_request', data_search)
+            write_cache_file(request, request.POST['signature'], 'airline_search', data)
+            # set_session(request, 'airline_request_%s' % request.POST['signature'], data_search)
+            # set_session(request, 'airline_search_%s' % request.POST['signature'], data)
 
         headers = {
             "Accept": "application/json,text/html,application/xml",
@@ -1053,7 +1256,12 @@ def search2(request):
     except Exception as e:
         if request.POST.get('use_cache'):
             ## change user
-            data = request.session['airline_search_%s' % request.POST['signature']]
+            file = read_cache_file(request, request.POST['signature'], 'airline_search')
+            if file:
+                data = file['result']['response']
+            else:
+                data = {}
+            # data = request.session['airline_search_%s' % request.POST['signature']]
             data.update({
                 "provider": request.POST['provider'],
                 "carrier_codes": json.loads(request.POST['carrier_code'])
@@ -1065,8 +1273,13 @@ def search2(request):
                 "signature": request.POST['new_signature'] if request.POST.get('new_signature') else request.POST['signature']
             }
             if request.POST.get('new_signature'):
-                set_session(request, 'airline_request_%s' % request.POST['new_signature'],request.session['airline_request'])
-                set_session(request, 'airline_search_%s' % request.POST['new_signature'], data)
+                file = read_cache_file(request, '', 'airline_request')
+                if file:
+                    write_cache_file(request, request.POST['new_signature'], 'airline_request', file)
+                write_cache_file(request, request.POST['new_signature'], 'airline_search', data)
+
+                # set_session(request, 'airline_request_%s' % request.POST['new_signature'],request.session['airline_request'])
+                # set_session(request, 'airline_search_%s' % request.POST['new_signature'], data)
         else:
             _logger.error(str(e) + '\n' + traceback.format_exc())
     url_request = get_url_gateway('booking/airline')
@@ -1247,10 +1460,16 @@ def get_price_itinerary(request, boolean, counter):
                         'carrier_code': carrier_code
                     })
                 journeys = []
-        if request.session.get('airline_request_%s' % request.POST['signature']):
-            airline_request = copy.deepcopy(request.session['airline_request_%s' % request.POST['signature']])
+
+        file = read_cache_file(request, request.POST['signature'], 'airline_request')
+        if file:
+            airline_request = copy.deepcopy(file)
         else:
             airline_request = json.loads(request.POST['search_request'])
+        # if request.session.get('airline_request_%s' % request.POST['signature']):
+        #     airline_request = copy.deepcopy(request.session['airline_request_%s' % request.POST['signature']])
+        # else:
+        #     airline_request = json.loads(request.POST['search_request'])
         data = {
             "promo_codes": json.loads(request.POST['promo_codes']),
             "adult": int(airline_request['adult']),
@@ -1282,9 +1501,9 @@ def get_price_itinerary(request, boolean, counter):
             "action": "get_price_itinerary",
             "signature": request.POST['signature'],
         }
-
-        set_session(request, 'airline_get_price_request_%s' % request.POST['signature'], data)
-        _logger.info(json.dumps(request.session['airline_get_price_request_%s' % request.POST['signature']]))
+        write_cache_file(request, request.POST['signature'], 'airline_get_price_request', data)
+        # set_session(request, 'airline_get_price_request_%s' % request.POST['signature'], data)
+        # _logger.info(json.dumps(request.session['airline_get_price_request_%s' % request.POST['signature']]))
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
         data = json.loads(request.POST['data'])
@@ -1384,8 +1603,9 @@ def get_price_itinerary(request, boolean, counter):
                 _logger.error(str(e) + traceback.format_exc())
             _logger.info("SUCCESS get_price_itinerary AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
             try:
-                set_session(request, 'airline_price_itinerary_%s' % request.POST['signature'], res['result']['response'])
-                _logger.info(json.dumps(request.session['airline_price_itinerary_%s' % request.POST['signature']]))
+                write_cache_file(request, request.POST['signature'], 'airline_price_itinerary', res['result']['response'])
+                # set_session(request, 'airline_price_itinerary_%s' % request.POST['signature'], res['result']['response'])
+                # _logger.info(json.dumps(request.session['airline_price_itinerary_%s' % request.POST['signature']]))
             except Exception as e:
                 _logger.error(str(e) + traceback.format_exc())
         elif boolean == True:
@@ -1423,7 +1643,10 @@ def get_price_itinerary(request, boolean, counter):
 
 def get_fare_rules(request):
     try:
-        data = request.session['airline_get_price_request_%s' % request.POST['signature']]
+        file = read_cache_file(request, request.POST['signature'], 'airline_get_price_request')
+        if file:
+            data = file
+        # data = request.session['airline_get_price_request_%s' % request.POST['signature']]
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
@@ -1487,13 +1710,16 @@ def sell_journeys(request):
             }
         else:
             _logger.error(str(e) + '\n' + traceback.format_exc())
-    if 'sell_journey' + request.POST['signature'] not in request.session or request.session.get('sell_journey_data' + request.POST['signature']) != data:
+
+    file = read_cache_file(request, request.POST['signature'], 'airline_sell_journey')
+    if file != data:
         url_request = get_url_gateway('booking/airline')
         res = send_request_api(request, url_request, headers, data, 'POST', 300)
     else:
-        res = request.session['sell_journey'+request.POST['signature']]
+        res = file
     try:
         if res['result']['error_code'] == 0:
+            write_cache_file(request, request.POST['signature'], 'airline_sell_journey', res)
             for price_itinerary_provider in res['result']['response']['sell_journey_provider']:
                 for journey in price_itinerary_provider['journeys']:
                     journey.update({
@@ -1612,13 +1838,16 @@ def get_ssr_availability(request):
             except:
                 _logger.error("get_ssr_availability_airline AIRLINE SIGNATURE " + request.POST['signature'] + json.dumps(res))
 
-            set_session(request, 'airline_get_ssr_%s' % request.POST['signature'], res)
-            _logger.info(json.dumps(request.session['airline_get_ssr_%s' % request.POST['signature']]))
+            write_cache_file(request, request.POST['signature'], 'airline_get_ssr', res)
+            # set_session(request, 'airline_get_ssr_%s' % request.POST['signature'], res)
+            # _logger.info(json.dumps(request.session['airline_get_ssr_%s' % request.POST['signature']]))
         else:
-            set_session(request, 'airline_get_ssr_%s' % request.POST['signature'], res)
+            write_cache_file(request, request.POST['signature'], 'airline_get_ssr', res)
+            # set_session(request, 'airline_get_ssr_%s' % request.POST['signature'], res)
             _logger.error("get_ssr_availability_airline ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
-        set_session(request, 'airline_get_ssr_%s' % request.POST['signature'], res)
+        write_cache_file(request, request.POST['signature'], 'airline_get_ssr', res)
+        # set_session(request, 'airline_get_ssr_%s' % request.POST['signature'], res)
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
 
@@ -1632,8 +1861,9 @@ def get_seat_availability(request):
     }
     url_request = get_url_gateway('booking/airline')
     res = send_request_api(request, url_request, headers, data, 'POST',timeout=300)
-    set_session(request, 'airline_get_seat_availability_%s' % request.POST['signature'], res)
-    _logger.info(json.dumps(request.session['airline_get_seat_availability_%s' % request.POST['signature']]))
+    write_cache_file(request, request.POST['signature'], 'airline_get_seat_availability', res)
+    # set_session(request, 'airline_get_seat_availability_%s' % request.POST['signature'], res)
+    # _logger.info(json.dumps(request.session['airline_get_seat_availability_%s' % request.POST['signature']]))
     try:
         if res['result']['error_code'] == 0:
             _logger.info("get_seat_availability AIRLINE SIGNATURE " + request.POST['signature'])
@@ -1653,8 +1883,9 @@ def get_ff_availability(request):
     }
     url_request = get_url_gateway('booking/airline')
     res = send_request_api(request, url_request, headers, data, 'POST',timeout=300)
-    set_session(request, 'airline_get_ff_availability_%s' % request.POST['signature'], res)
-    _logger.info(json.dumps(request.session['airline_get_ff_availability_%s' % request.POST['signature']]))
+    write_cache_file(request, request.POST['signature'], 'airline_get_ff_availability', res)
+    # set_session(request, 'airline_get_ff_availability_%s' % request.POST['signature'], res)
+    # _logger.info(json.dumps(request.session['airline_get_ff_availability_%s' % request.POST['signature']]))
     try:
         if res['result']['error_code'] == 0:
             _logger.info("get_ff_availability AIRLINE SIGNATURE " + request.POST['signature'])
@@ -1665,15 +1896,23 @@ def get_ff_availability(request):
     return res
 
 def get_seat_map_response(request):
-    return request.session['airline_get_seat_availability_%s' % request.POST['signature']]['result']['response']
+    file = read_cache_file(request, request.POST['signature'], 'airline_get_seat_availability')
+    return file['result']['response']
+    # return request.session['airline_get_seat_availability_%s' % request.POST['signature']]['result']['response']
 
 def get_pax(request):
-    return request.session['airline_create_passengers_%s' % request.POST['signature']]
+    file = read_cache_file(request, request.POST['signature'], 'airline_create_passengers')
+    return file
+    # return request.session['airline_create_passengers_%s' % request.POST['signature']]
 
 def update_contacts(request):
     try:
-        booker = copy.deepcopy(request.session['airline_create_passengers_%s' % request.POST['signature']]['booker'])
-        contacts = copy.deepcopy(request.session['airline_create_passengers_%s' % request.POST['signature']]['contact'])
+        file = read_cache_file(request, request.POST['signature'], 'airline_create_passengers')
+        if file:
+            booker = file['booker']
+            contacts = file['contact']
+        # booker = copy.deepcopy(request.session['airline_create_passengers_%s' % request.POST['signature']]['booker'])
+        # contacts = copy.deepcopy(request.session['airline_create_passengers_%s' % request.POST['signature']]['contact'])
         data = {
             'booker': booker,
             'contacts': contacts
@@ -1686,19 +1925,27 @@ def update_contacts(request):
         }
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
-    if 'airline_update_contact' + request.POST['signature'] not in request.session or request.session.get('airline_update_contact_data' + request.POST['signature']) != data:
+
+    file = read_cache_file(request, request.POST['signature'], 'airline_update_contact_data')
+
+    if file != data:
         url_request = get_url_gateway('booking/airline')
         res = send_request_api(request, url_request, headers, data, 'POST', 300)
     else:
-        res = request.session['airline_update_contact'+request.POST['signature']]
+        file = read_cache_file(request, request.POST['signature'], 'airline_update_contact')
+        if file:
+            res = file
     try:
         if res['result']['error_code'] == 0:
-            set_session(request, 'airline_update_contact'+request.POST['signature'], res)
-            set_session(request, 'airline_update_contact_data'+request.POST['signature'], data)
+            write_cache_file(request, request.POST['signature'], 'airline_update_contact', res)
+            write_cache_file(request, request.POST['signature'], 'airline_update_contact_data', data)
+            # set_session(request, 'airline_update_contact'+request.POST['signature'], res)
+            # set_session(request, 'airline_update_contact_data'+request.POST['signature'], data)
             _logger.info("SUCCESS update_contacts AIRLINE SIGNATURE " + request.POST['signature'])
         elif res['result']['error_code'] == 4014:
-            if request.session.get('airline_update_contact_data' + request.POST['signature']) == data:
-                res['result']['error_code'] = 0 #SUDAH BERHASIL DOUBLE JADI DI PASS
+            file = read_cache_file(request, request.POST['signature'], 'airline_update_contact_data')
+            if file == data:
+                res['result']['error_code'] = 0  # SUDAH BERHASIL DOUBLE JADI DI PASS
         else:
             _logger.error("ERROR update_contacts_airline AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
@@ -1708,8 +1955,17 @@ def update_contacts(request):
 def update_passengers(request):
     try:
         passenger = []
-        passenger_cache = copy.deepcopy(request.session['airline_create_passengers_%s' % request.POST['signature']])
-        sell_journey_dict = request.session.get('airline_sell_journey_%s' % request.POST['signature'], {})
+        file = read_cache_file(request, request.POST['signature'], 'airline_create_passengers')
+        if file:
+            passenger_cache = file
+        # passenger_cache = copy.deepcopy(request.session['airline_create_passengers_%s' % request.POST['signature']])
+
+        file = read_cache_file(request, request.POST['signature'], 'airline_sell_journey')
+        if file:
+            sell_journey_dict = file
+        else:
+            sell_journey_dict = {}
+        # sell_journey_dict = request.session.get('airline_sell_journey_%s' % request.POST['signature'], {})
         last_departure_date = ''
         for sell_journey in sell_journey_dict['sell_journey_provider']:
             for journey in sell_journey['journeys']:
@@ -1791,19 +2047,29 @@ def update_passengers(request):
         if data_pax.get('identity'):
             if not data_pax['identity'].get('is_valid_identity'): ## tidak valid buang data identity
                 data_pax.pop('identity')
-    if 'airline_update_passengers' + request.POST['signature'] not in request.session or request.session.get('airline_update_passengers_data' + request.POST['signature']) != data_copy:
+
+    file = read_cache_file(request, request.POST['signature'], 'airline_update_passengers_data')
+    if file != data_copy:
         url_request = get_url_gateway('booking/airline')
         res = send_request_api(request, url_request, headers, data, 'POST', 300)
     else:
-        res = request.session['airline_update_passengers' + request.POST['signature']]
+        file = read_cache_file(request, request.POST['signature'], 'airline_update_passengers')
+        if file:
+            res = file
+        # res = request.session['airline_update_passengers' + request.POST['signature']]
     try:
         if res['result']['error_code'] == 0:
-            set_session(request, 'airline_update_passengers' + request.POST['signature'], res)
-            set_session(request, 'airline_update_passengers_data' + request.POST['signature'], data_copy)
+            write_cache_file(request, request.POST['signature'], 'airline_update_passengers', res)
+            write_cache_file(request, request.POST['signature'], 'airline_update_passengers_data', data_copy)
+            # set_session(request, 'airline_update_passengers' + request.POST['signature'], res)
+            # set_session(request, 'airline_update_passengers_data' + request.POST['signature'], data_copy)
             _logger.info("SUCCESS update_passengers AIRLINE SIGNATURE " + request.POST['signature'])
         elif res['result']['error_code'] == 4014:
-            if request.session.get('airline_update_passengers_data' + request.POST['signature']) == data:
-                res['result']['error_code'] = 0 #SUDAH BERHASIL DOUBLE JADI DI PASS
+            file = read_cache_file(request, request.POST['signature'], 'airline_update_passengers_data')
+            if file == data:
+                res['result']['error_code'] = 0  # SUDAH BERHASIL DOUBLE JADI DI PASS
+            # if request.session.get('airline_update_passengers_data' + request.POST['signature']) == data:
+            #     res['result']['error_code'] = 0 #SUDAH BERHASIL DOUBLE JADI DI PASS
         else:
             _logger.error("ERROR update_passengers_airline AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
@@ -1812,9 +2078,22 @@ def update_passengers(request):
 
 def sell_ssrs(request):
     try:
-        ssr_data = request.session.get('airline_get_ssr_%s' % request.POST['signature'])
-        ssr_requests = request.session['airline_ssr_request_%s' % request.POST['signature']]
-        passenger_cache = copy.deepcopy(request.session['airline_create_passengers_%s' % request.POST['signature']])
+        file = read_cache_file(request, request.POST['signature'], 'airline_get_ssr')
+        if file:
+            ssr_data = file
+        # ssr_data = request.session.get('airline_get_ssr_%s' % request.POST['signature'])
+
+        file = read_cache_file(request, request.POST['signature'], 'airline_ssr_request')
+        if file:
+            ssr_requests = file
+        else:
+            ssr_requests = {}
+        # ssr_requests = request.session['airline_ssr_request_%s' % request.POST['signature']]
+
+        file = read_cache_file(request, request.POST['signature'], 'airline_create_passengers')
+        if file:
+            passenger_cache = file
+        # passenger_cache = copy.deepcopy(request.session['airline_create_passengers_%s' % request.POST['signature']])
         counter_passenger = 0
         for pax_type in passenger_cache:
             if pax_type not in ['booker', 'contact']:
@@ -1879,21 +2158,28 @@ def sell_ssrs(request):
         }
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
-    if 'airline_sell_ssrs' + request.POST['signature'] in request.session:
-        res = request.session['airline_sell_ssrs' + request.POST['signature']]
+
+    file = read_cache_file(request, request.POST['signature'], 'airline_sell_ssrs')
+    if file:
+        res = file
     elif ssr_requests != {}:
         url_request = get_url_gateway('booking/airline')
         res = send_request_api(request, url_request, headers, data, 'POST', 300)
+    # if 'airline_sell_ssrs' + request.POST['signature'] in request.session:
+    #     res = request.session['airline_sell_ssrs' + request.POST['signature']]
+    # elif ssr_requests != {}:
+    #     url_request = get_url_gateway('booking/airline')
+    #     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
-
-            set_session(request, 'airline_sell_ssrs' + request.POST['signature'], res)
+            write_cache_file(request, request.POST['signature'], 'airline_sell_ssrs', res)
+            # set_session(request, 'airline_sell_ssrs' + request.POST['signature'], res)
             _logger.info("SUCCESS update_passengers AIRLINE SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR update_passengers_airline AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
-        if request.session['airline_ssr_request_%s' % request.POST['signature']] == {}:
-            _logger.error("NO SSR")
+        file = read_cache_file(request, request.POST['signature'], 'airline_ssr_request')
+        if not file or file == {}:
             res = {
                 'result': {
                     'error_code': 0,
@@ -1906,15 +2192,35 @@ def sell_ssrs(request):
                     }
                 }
             }
+        # if request.session['airline_ssr_request_%s' % request.POST['signature']] == {}:
+        #     _logger.error("NO SSR")
+        #     res = {
+        #         'result': {
+        #             'error_code': 0,
+        #             'response': {
+        #                 'sell_ssr_provider': [
+        #                     {
+        #                         'status': 'SUCCESS'
+        #                     }
+        #                 ]
+        #             }
+        #         }
+        #     }
         else:
             _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
 
 def assign_seats(request):
     try:
-        data = {
-            'segment_seat_request': request.session['airline_seat_request_%s' % request.POST['signature']]
-        }
+        file = read_cache_file(request, request.POST['signature'], 'airline_seat_request')
+        if file:
+            data = {
+                'segment_seat_request': file
+            }
+        else:
+            data = {
+                'segment_seat_request': []
+            }
         if request.session.get('currency'):
             data.update({
                 "currency_code": request.session['currency']
@@ -1928,19 +2234,28 @@ def assign_seats(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    if 'airline_seat_request' + request.POST['signature'] in request.session:
-        res = request.POST['airline_seat_request' + request.POST['signature']]
-    elif len(request.session['airline_seat_request_%s' % request.POST['signature']]) != 0:
+    file = read_cache_file(request, request.POST['signature'], 'airline_assign_seat')
+    if file:
+        res = file
+    elif len(data['segment_seat_request']) != 0:
         url_request = get_url_gateway('booking/airline')
         res = send_request_api(request, url_request, headers, data, 'POST', 300)
+
+    # if 'airline_seat_request' + request.POST['signature'] in request.session:
+    #     res = request.POST['airline_seat_request' + request.POST['signature']]
+    # elif len(request.session['airline_seat_request_%s' % request.POST['signature']]) != 0:
+    #     url_request = get_url_gateway('booking/airline')
+    #     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
+            write_cache_file(request, request.POST['signature'], 'airline_assign_seat', res)
             # request.POST['airline_seat_request' + request.POST['signature']] = res #BELUM DI TESTING
             _logger.info("SUCCESS update_passengers AIRLINE SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR update_passengers_airline AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
-        if len(request.session['airline_seat_request_%s' % request.POST['signature']]) == 0:
+        file = read_cache_file(request, request.POST['signature'], 'airline_seat_request')
+        if not file or len(file) == 0:
             _logger.error("NO seat")
             res = {
                 'result': {
@@ -1954,6 +2269,20 @@ def assign_seats(request):
                     }
                 }
             }
+        # if len(request.session['airline_seat_request_%s' % request.POST['signature']]) == 0:
+        #     _logger.error("NO seat")
+        #     res = {
+        #         'result': {
+        #             'error_code': 0,
+        #             'response': {
+        #                 'seat_provider': [
+        #                     {
+        #                         'status': 'SUCCESS'
+        #                     }
+        #                 ]
+        #             }
+        #         }
+        #     }
         else:
             _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -1987,9 +2316,11 @@ def commit_booking(request):
             except:
                 _logger.error('use_point not found')
             provider = []
-            for provider_type in request.session['airline_price_itinerary_%s' % request.POST['signature']]['price_itinerary_provider']:
-                if not provider_type['provider'] in provider:
-                    provider.append(provider_type['provider'])
+            file = read_cache_file(request, request.POST['signature'], 'airline_price_itinerary')
+            if file:
+                for provider_type in file['price_itinerary_provider']:
+                    if not provider_type['provider'] in provider:
+                        provider.append(provider_type['provider'])
             if request.POST['voucher_code'] != '':
                 data.update({
                     'voucher': data_voucher(request.POST['voucher_code'], 'airline', provider),
@@ -2026,6 +2357,14 @@ def commit_booking(request):
     try:
         if res['result']['error_code'] == 0:
             _logger.info("SUCCESS commit_booking AIRLINE SIGNATURE " + request.POST['signature'])
+            ## hapus session
+            for key in reversed(list(request.session._session.keys())):
+                if request.POST['signature'] in key:
+                    del request.session[key]
+
+            ## hapus cache file
+            delete_cache_file(request, request.POST['signature'])
+
         else:
             _logger.error("ERROR commit_booking_airline AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
@@ -2369,12 +2708,14 @@ def get_booking(request):
             for rec in response['result']['response']['provider_bookings']:
                 rec['error_msg'] = ''
             time.sleep(1)
-            set_session(request, 'airline_get_booking_response', response)
+            write_cache_file(request, request.POST['signature'], 'airline_get_booking_response', response)
+            # set_session(request, 'airline_get_booking_response_%s' % (request.POST['signature']), response)
             _logger.info("SUCCESS get_booking AIRLINE SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR get_booking_airline AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
-        set_session(request, 'airline_get_booking_response', res)
+        write_cache_file(request, request.POST['signature'], 'airline_get_booking_response', res)
+        # set_session(request, 'airline_get_booking_response_%s' % (request.POST['signature']), res)
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
 
@@ -2435,11 +2776,13 @@ def update_service_charge(request):
                             total_upsell_dict[upsell['pax_type']] = 0
                         total_upsell_dict[upsell['pax_type']] += pricing['amount']
             if data['type'] == 'request_new':
-                set_session(request, 'airline_ssr_upsell_' + request.POST['signature'], total_upsell_dict)
-                _logger.info(json.dumps(request.session['airline_ssr_upsell_' + request.POST['signature']]))
+                write_cache_file(request, request.POST['signature'], 'airline_ssr_upsell', total_upsell_dict)
+                # set_session(request, 'airline_ssr_upsell_' + request.POST['signature'], total_upsell_dict)
+                # _logger.info(json.dumps(request.session['airline_ssr_upsell_' + request.POST['signature']]))
             else:
-                set_session(request, 'airline_upsell_' + request.POST['signature'], total_upsell_dict)
-                _logger.info(json.dumps(request.session['airline_upsell_' + request.POST['signature']]))
+                write_cache_file(request, request.POST['signature'], 'airline_upsell', total_upsell_dict)
+                # set_session(request, 'airline_upsell_' + request.POST['signature'], total_upsell_dict)
+                # _logger.info(json.dumps(request.session['airline_upsell_' + request.POST['signature']]))
             _logger.info("SUCCESS update_service_charge AIRLINE SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR update_service_charge_airline AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
@@ -2471,8 +2814,9 @@ def booker_insentif_booking(request):
             for upsell in data['passengers']:
                 for pricing in upsell['pricing']:
                     total_upsell += pricing['amount']
-            set_session(request, 'airline_upsell_booker_'+request.POST['signature'], total_upsell)
-            _logger.info(json.dumps(request.session['airline_upsell_booker_' + request.POST['signature']]))
+            write_cache_file(request, request.POST['signature'], 'airline_upsell_booker', total_upsell)
+            # set_session(request, 'airline_upsell_booker_'+request.POST['signature'], total_upsell)
+            # _logger.info(json.dumps(request.session['airline_upsell_booker_' + request.POST['signature']]))
             _logger.info("SUCCESS update_service_charge_booker AIRLINE SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR update_service_charge_airline_booker AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
@@ -2550,7 +2894,12 @@ def update_refund_booking(request):
 def cancel(request):
     # nanti ganti ke get_ssr_availability
     try:
-        data_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
+        file = read_cache_file(request, request.POST['signature'], 'airline_get_booking_response')
+        if file:
+            data_booking = file
+        else:
+            data_booking = json.loads(request.POST['booking'])
+        # data_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
 
         data = {
             'order_number': request.POST['order_number'],
@@ -2609,7 +2958,12 @@ def issued(request):
         except:
             _logger.error('use_point not found')
         try:
-            airline_get_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
+            file = read_cache_file(request, request.POST['signature'], 'airline_get_booking_response')
+            if file:
+                airline_get_booking = file
+            else:
+                airline_get_booking = json.loads(request.POST['booking'])
+            # airline_get_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
             for provider_type in airline_get_booking['result']['response']['provider_bookings']:
                 if not provider_type['provider'] in provider:
                     provider.append(provider_type['provider'])
@@ -2657,7 +3011,13 @@ def issued(request):
 def reissue(request):
     # nanti ganti ke get_ssr_availability
     try:
-        airline_get_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
+        file = read_cache_file(request, request.POST['signature'], 'airline_get_booking_response')
+        if file:
+            airline_get_booking = file
+        else:
+            airline_get_booking = json.loads(request.POST['booking'])
+        # airline_get_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
+
         order_number = airline_get_booking['result']['response']['order_number']
         data_request = json.loads(request.POST['data'])
         cabin_class = ''
@@ -2784,7 +3144,13 @@ def get_price_reissue_construct(request,boolean, counter):
         journeys = []
         journey_booking = json.loads(request.POST['journeys_booking'])
         passengers = json.loads(request.POST['passengers'])
-        data_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
+
+        file = read_cache_file(request, request.POST['signature'], 'airline_get_booking_response')
+        if file:
+            data_booking = file
+        else:
+            data_booking = json.loads(request.POST['booking'])
+        # data_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
         order_number = data_booking['result']['response']['order_number']
         pnr_list = json.loads(request.POST['pnr'])
 
@@ -2947,7 +3313,12 @@ def sell_journey_reissue_construct(request,boolean, counter):
         journeys = []
         journey_booking = json.loads(request.POST['journeys_booking'])
         passengers = json.loads(request.POST['passengers'])
-        data_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
+        file = read_cache_file(request, request.POST['signature'], 'airline_get_booking_response')
+        if file:
+            data_booking = file
+        else:
+            data_booking = json.loads(request.POST['booking'])
+        # data_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
         order_number = data_booking['result']['response']['order_number']
         pnr_list = json.loads(request.POST['pnr'])
 
@@ -3257,7 +3628,12 @@ def pre_refund_login(request):
     try:
         provider = []
         pnr = []
-        airline_get_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
+        file = read_cache_file(request, request.POST['signature'], 'airline_get_booking_response')
+        if file:
+            airline_get_booking = file
+        else:
+            airline_get_booking = json.loads(request.POST['booking'])
+        # airline_get_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
         for provider_bookings in airline_get_booking['result']['response']['provider_bookings']:
             provider.append(provider_bookings['provider'])
             pnr.append(provider_bookings['pnr'])
@@ -3545,7 +3921,12 @@ def get_refund_booking(request):
 
 # POST
 def get_post_ssr_availability(request):
-    data_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
+    file = read_cache_file(request, request.POST['signature'], 'airline_get_booking_response')
+    if file:
+        data_booking = file
+    else:
+        data_booking = json.loads(request.POST['booking'])
+    # data_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
     schedules = []
     order_number = data_booking['result']['response']['order_number']
     for rec in data_booking['result']['response']['provider_bookings']:
@@ -3585,18 +3966,26 @@ def get_post_ssr_availability(request):
             except Exception as e:
                 _logger.error(str(e) + traceback.format_exc())
                 _logger.error("get_post_ssr_availability AIRLINE SIGNATURE " + request.POST['signature'] + json.dumps(res))
-            set_session(request, 'airline_get_ssr_%s' % request.POST['signature'], res)
+            write_cache_file(request, request.POST['signature'], 'airline_get_ssr', res)
+            # set_session(request, 'airline_get_ssr_%s' % request.POST['signature'], res)
         else:
-            set_session(request, 'airline_get_ssr_%s' % request.POST['signature'], res)
+            write_cache_file(request, request.POST['signature'], 'airline_get_ssr', res)
+            # set_session(request, 'airline_get_ssr_%s' % request.POST['signature'], res)
 
             _logger.error("get_post_ssr_availability ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
-        set_session(request, 'airline_get_ssr_%s' % request.POST['signature'], res)
+        write_cache_file(request, request.POST['signature'], 'airline_get_ssr', res)
+        # set_session(request, 'airline_get_ssr_%s' % request.POST['signature'], res)
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
 
 def get_post_seat_availability(request):
-    data_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
+    file = read_cache_file(request, request.POST['signature'], 'airline_get_booking_response')
+    if file:
+        data_booking = file
+    else:
+        data_booking = json.loads(request.POST['booking'])
+    # data_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
     schedules = []
     order_number = data_booking['result']['response']['order_number']
     for rec in data_booking['result']['response']['provider_bookings']:
@@ -3613,8 +4002,9 @@ def get_post_seat_availability(request):
     }
     url_request = get_url_gateway('booking/airline')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
-    set_session(request, 'airline_get_seat_availability_%s' % request.POST['signature'], res)
-    _logger.info(json.dumps(request.session['airline_get_seat_availability_%s' % request.POST['signature']]))
+    write_cache_file(request, request.POST['signature'], 'airline_get_seat_availability', res)
+    # set_session(request, 'airline_get_seat_availability_%s' % request.POST['signature'], res)
+    # _logger.info(json.dumps(request.session['airline_get_seat_availability_%s' % request.POST['signature']]))
 
     try:
         if res['result']['error_code'] == 0:
@@ -3627,12 +4017,20 @@ def get_post_seat_availability(request):
 
 def sell_post_ssrs(request):
     try:
-        airline_get_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
+        file = read_cache_file(request, request.POST['signature'], 'airline_get_booking_response')
+        if file:
+            airline_get_booking = file
+        else:
+            airline_get_booking = json.loads(request.POST['booking'])
+        # airline_get_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
         order_number = airline_get_booking['result']['response']['order_number']
-        data = {
-            'sell_ssrs_request': request.session['airline_ssr_request_%s' % request.POST['signature']],
-            'order_number': order_number
-        }
+
+        file = read_cache_file(request, request.POST['signature'], 'airline_ssr_request')
+        if file:
+            data = {
+                'sell_ssrs_request': file,
+                'order_number': order_number
+            }
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
@@ -3641,19 +4039,28 @@ def sell_post_ssrs(request):
         }
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
-    if 'airline_sell_ssrs' + request.POST['signature'] in request.session:
+    file = read_cache_file(request, request.POST['signature'], 'airline_sell_ssrs')
+    if file:
         res = request.session['airline_sell_ssrs' + request.POST['signature']]
-    elif request.session['airline_ssr_request_%s' % request.POST['signature']] != {}:
+    elif read_cache_file(request, request.POST['signature'], 'airline_ssr_request') != {}:
         url_request = get_url_gateway('booking/airline')
         res = send_request_api(request, url_request, headers, data, 'POST', 300)
+
+    # if 'airline_sell_ssrs' + request.POST['signature'] in request.session:
+    #     res = request.session['airline_sell_ssrs' + request.POST['signature']]
+    # elif request.session['airline_ssr_request_%s' % request.POST['signature']] != {}:
+    #     url_request = get_url_gateway('booking/airline')
+    #     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
-            set_session(request, 'airline_sell_ssrs' + request.POST['signature'], res)
+            write_cache_file(request, request.POST['signature'], 'airline_sell_ssrs', res)
+            # set_session(request, 'airline_sell_ssrs' + request.POST['signature'], res)
             _logger.info("SUCCESS sell_post_ssrs AIRLINE SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR sell_post_ssrs AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
-        if request.session['airline_ssr_request_%s' % request.POST['signature']] == {}:
+        file = read_cache_file(request, request.POST['signature'], 'airline_ssr_request')
+        if file == {}:
             _logger.error("NO SSR")
             res = {
                 'result': {
@@ -3667,18 +4074,39 @@ def sell_post_ssrs(request):
                     }
                 }
             }
+        # if request.session['airline_ssr_request_%s' % request.POST['signature']] == {}:
+        #     _logger.error("NO SSR")
+        #     res = {
+        #         'result': {
+        #             'error_code': 0,
+        #             'response': {
+        #                 'sell_ssr_provider': [
+        #                     {
+        #                         'status': 'SUCCESS'
+        #                     }
+        #                 ]
+        #             }
+        #         }
+        #     }
         else:
             _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
 
 def assign_post_seats(request):
     try:
-        airline_get_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
+        file = read_cache_file(request, request.POST['signature'], 'airline_get_booking_response')
+        if file:
+            airline_get_booking = file
+        else:
+            airline_get_booking = json.loads(request.POST['booking'])
+        # airline_get_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
         order_number = airline_get_booking['result']['response']['order_number']
-        data = {
-            'segment_seat_request': request.session['airline_seat_request_%s' % request.POST['signature']],
-            'order_number': order_number
-        }
+        file = read_cache_file(request, request.POST['signature'], 'airline_seat_request')
+        if file:
+            data = {
+                'segment_seat_request': file,
+                'order_number': order_number
+            }
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
@@ -3688,19 +4116,27 @@ def assign_post_seats(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    if 'airline_seat_request' + request.POST['signature'] in request.session:
-        res = request.POST['airline_seat_request' + request.POST['signature']]
-    elif len(request.session['airline_seat_request_%s' % request.POST['signature']]) != 0:
+    file = read_cache_file(request, request.POST['signature'], 'airline_assign_seat')
+    if file:
+        res = file
+    elif read_cache_file(request, request.POST['signature'], 'airline_seat_request') != 0:
         url_request = get_url_gateway('booking/airline')
         res = send_request_api(request, url_request, headers, data, 'POST', 300)
+    # if 'airline_seat_request' + request.POST['signature'] in request.session:
+    #     res = request.POST['airline_seat_request' + request.POST['signature']]
+    # elif len(request.session['airline_seat_request_%s' % request.POST['signature']]) != 0:
+    #     url_request = get_url_gateway('booking/airline')
+    #     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
-            request.session['airline_seat_request' + request.POST['signature']] = res
+            write_cache_file(request, request.POST['signature'], 'airline_assign_seat', res)
+            # request.session['airline_seat_request' + request.POST['signature']] = res
             _logger.info("SUCCESS assign_post_seats AIRLINE SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR assign_post_seats AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
-        if len(request.session['airline_seat_request_%s' % request.POST['signature']]) == 0:
+        file = read_cache_file(request, request.POST['signature'], 'airline_seat_request')
+        if file and len(file) == 0:
             _logger.error("NO seat")
             res = {
                 'result': {
@@ -3714,6 +4150,20 @@ def assign_post_seats(request):
                     }
                 }
             }
+        # if len(request.session['airline_seat_request_%s' % request.POST['signature']]) == 0:
+        #     _logger.error("NO seat")
+        #     res = {
+        #         'result': {
+        #             'error_code': 0,
+        #             'response': {
+        #                 'seat_provider': [
+        #                     {
+        #                         'status': 'SUCCESS'
+        #                     }
+        #                 ]
+        #             }
+        #         }
+        #     }
         else:
             _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -3721,7 +4171,12 @@ def assign_post_seats(request):
 def update_booking(request):
     #nanti ganti ke get_ssr_availability
     try:
-        data_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
+        file = read_cache_file(request, request.POST['signature'], 'airline_get_booking_response')
+        if file:
+            data_booking = file
+        else:
+            data_booking = json.loads(request.POST['booking'])
+        # data_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
         schedules = []
         order_number = data_booking['result']['response']['order_number']
         for rec in data_booking['result']['response']['provider_bookings']:
@@ -3795,7 +4250,12 @@ def update_booking(request):
 def get_reschedule_availability_v2(request):
     # nanti ganti ke get_ssr_availability
     try:
-        airline_get_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
+        file = read_cache_file(request, request.POST['signature'], 'airline_get_booking_response')
+        if file:
+            airline_get_booking = file
+        else:
+            airline_get_booking = json.loads(request.POST['booking'])
+        # airline_get_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
         data_temp = airline_get_booking['result']['response']
         order_number = data_temp['order_number']
         passenger = []
@@ -3927,7 +4387,12 @@ def get_reschedule_itinerary_v2(request):
         journeys = []
         journey_booking = json.loads(request.POST['journeys_booking'])
 
-        data_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
+        file = read_cache_file(request, request.POST['signature'], 'airline_get_booking_response')
+        if file:
+            data_booking = file
+        else:
+            data_booking = json.loads(request.POST['booking'])
+        # data_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
         order_number = data_booking['result']['response']['order_number']
         passenger = []
         for pax in data_booking['result']['response']['passengers']:
@@ -4081,7 +4546,12 @@ def sell_reschedule_v2(request):
         journeys = []
         journey_booking = json.loads(request.POST['journeys_booking'])
 
-        data_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
+        file = read_cache_file(request, request.POST['signature'], 'airline_get_booking_response')
+        if file:
+            data_booking = file
+        else:
+            data_booking = json.loads(request.POST['booking'])
+        # data_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
         order_number = data_booking['result']['response']['order_number']
         passenger = []
         for pax in data_booking['result']['response']['passengers']:
@@ -4242,7 +4712,14 @@ def split_booking_v2(request):
         data_passengers = json.loads(request.POST['passengers'])
         for pax in data_passengers:
             passengers.append({"passenger_number": int(pax.split('_')[1])})
-        data_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
+
+        file = read_cache_file(request, request.POST['signature'], 'airline_get_booking_response')
+        if file:
+            data_booking = file
+        else:
+            data_booking = json.loads(request.POST['booking'])
+        # data_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
+
         for provider_booking in data_booking['result']['response']['provider_bookings']:
             provider_bookings.append({
                 'pnr': provider_booking['pnr'],
@@ -4274,7 +4751,12 @@ def split_booking_v2(request):
     return res
 
 def get_post_ssr_availability_v2(request):
-    data_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
+    file = read_cache_file(request, request.POST['signature'], 'airline_get_booking_response')
+    if file:
+        data_booking = file
+    else:
+        data_booking = json.loads(request.POST['booking'])
+    # data_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
     schedules = []
     order_number = data_booking['result']['response']['order_number']
     for rec in data_booking['result']['response']['provider_bookings']:
@@ -4319,24 +4801,35 @@ def get_post_ssr_availability_v2(request):
             except Exception as e:
                 _logger.error(str(e) + traceback.format_exc())
                 _logger.error("get_post_ssr_availability_v2 AIRLINE SIGNATURE " + request.POST['signature'] + json.dumps(res))
-            set_session(request, 'airline_get_ssr_%s' % request.POST['signature'], res)
+            write_cache_file(request, request.POST['signature'], 'airline_get_ssr', res)
+            # set_session(request, 'airline_get_ssr_%s' % request.POST['signature'], res)
         else:
-            set_session(request, 'airline_get_ssr_%s' % request.POST['signature'], res)
+            write_cache_file(request, request.POST['signature'], 'airline_get_ssr', res)
+            # set_session(request, 'airline_get_ssr_%s' % request.POST['signature'], res)
 
             _logger.error("get_post_ssr_availability_v2 ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
-        set_session(request, 'airline_get_ssr_%s' % request.POST['signature'], res)
+        write_cache_file(request, request.POST['signature'], 'airline_get_ssr', res)
+        # set_session(request, 'airline_get_ssr_%s' % request.POST['signature'], res)
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
 
 def sell_post_ssrs_v2(request):
     try:
-        airline_get_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
+        file = read_cache_file(request, request.POST['signature'], 'airline_get_booking_response')
+        if file:
+            airline_get_booking = file
+        else:
+            airline_get_booking = json.loads(request.POST['booking'])
+        # airline_get_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
         order_number = airline_get_booking['result']['response']['order_number']
-        data = {
-            'sell_ssrs_request': request.session['airline_ssr_request_%s' % request.POST['signature']],
-            'order_number': order_number
-        }
+
+        file = read_cache_file(request, request.POST['signature'], 'airline_ssr_request')
+        if file:
+            data = {
+                'sell_ssrs_request': file,
+                'order_number': order_number
+            }
         if request.session.get('currency'):
             data.update({
                 "currency_code": request.session['currency']
@@ -4349,19 +4842,28 @@ def sell_post_ssrs_v2(request):
         }
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
-    if 'airline_sell_ssrs' + request.POST['signature'] in request.session:
-        res = request.session['airline_sell_ssrs' + request.POST['signature']]
-    elif request.session['airline_ssr_request_%s' % request.POST['signature']] != {}:
+
+    file = read_cache_file(request, request.POST['signature'], 'airline_sell_ssrs')
+    if file:
+        res = file
+    elif read_cache_file(request, request.POST['signature'], 'airline_ssr_request') != {}:
         url_request = get_url_gateway('booking/airline')
         res = send_request_api(request, url_request, headers, data, 'POST', 300)
+    # if 'airline_sell_ssrs' + request.POST['signature'] in request.session:
+    #     res = request.session['airline_sell_ssrs' + request.POST['signature']]
+    # elif request.session['airline_ssr_request_%s' % request.POST['signature']] != {}:
+    #     url_request = get_url_gateway('booking/airline')
+    #     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
-            set_session(request, 'airline_sell_ssrs' + request.POST['signature'], res)
+            write_cache_file(request, request.POST['signature'], 'airline_sell_ssrs', res)
+            # set_session(request, 'airline_sell_ssrs' + request.POST['signature'], res)
             _logger.info("SUCCESS sell_post_ssrs_v2 AIRLINE SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR sell_post_ssrs_v2 AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
-        if request.session['airline_ssr_request_%s' % request.POST['signature']] == {}:
+        file = read_cache_file(request, request.POST['signature'], 'airline_ssr_request')
+        if file and file == {}:
             _logger.error("NO SSR")
             res = {
                 'result': {
@@ -4375,12 +4877,31 @@ def sell_post_ssrs_v2(request):
                     }
                 }
             }
+        # if request.session['airline_ssr_request_%s' % request.POST['signature']] == {}:
+        #     _logger.error("NO SSR")
+        #     res = {
+        #         'result': {
+        #             'error_code': 0,
+        #             'response': {
+        #                 'sell_ssr_provider': [
+        #                     {
+        #                         'status': 'SUCCESS'
+        #                     }
+        #                 ]
+        #             }
+        #         }
+        #     }
         else:
             _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
 
 def get_post_seat_availability_v2(request):
-    data_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
+    file = read_cache_file(request, request.POST['signature'], 'airline_get_booking_response')
+    if file:
+        data_booking = file
+    else:
+        data_booking = json.loads(request.POST['booking'])
+    # data_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
     schedules = []
     order_number = data_booking['result']['response']['order_number']
     for rec in data_booking['result']['response']['provider_bookings']:
@@ -4397,8 +4918,9 @@ def get_post_seat_availability_v2(request):
     }
     url_request = get_url_gateway('booking/airline')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
-    set_session(request, 'airline_get_seat_availability_%s' % request.POST['signature'], res)
-    _logger.info(json.dumps(request.session['airline_get_seat_availability_%s' % request.POST['signature']]))
+    write_cache_file(request, request.POST['signature'], 'airline_get_seat_availability', res)
+    # set_session(request, 'airline_get_seat_availability_%s' % request.POST['signature'], res)
+    # _logger.info(json.dumps(request.session['airline_get_seat_availability_%s' % request.POST['signature']]))
 
     try:
         if res['result']['error_code'] == 0:
@@ -4411,12 +4933,19 @@ def get_post_seat_availability_v2(request):
 
 def assign_post_seats_v2(request):
     try:
-        airline_get_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
+        file = read_cache_file(request, request.POST['signature'], 'airline_get_booking_response')
+        if file:
+            airline_get_booking = file
+        else:
+            airline_get_booking = json.loads(request.POST['booking'])
+        # airline_get_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
         order_number = airline_get_booking['result']['response']['order_number']
-        data = {
-            'segment_seat_request': request.session['airline_seat_request_%s' % request.POST['signature']],
-            'order_number': order_number
-        }
+        file = read_cache_file(request, request.POST['signature'], 'airline_seat_request')
+        if file:
+            data = {
+                'segment_seat_request': request.session['airline_seat_request_%s' % request.POST['signature']],
+                'order_number': order_number
+            }
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
@@ -4426,19 +4955,28 @@ def assign_post_seats_v2(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    if 'airline_seat_request' + request.POST['signature'] in request.session:
-        res = request.POST['airline_seat_request' + request.POST['signature']]
-    elif len(request.session['airline_seat_request_%s' % request.POST['signature']]) != 0:
+    file = read_cache_file(request, request.POST['signature'], 'airline_assign_seat')
+    if file:
+        res = file
+    elif len(read_cache_file(request, request.POST['signature'], 'airline_seat_request')) != 0:
         url_request = get_url_gateway('booking/airline')
         res = send_request_api(request, url_request, headers, data, 'POST', 300)
+
+    # if 'airline_seat_request' + request.POST['signature'] in request.session:
+    #     res = request.POST['airline_seat_request' + request.POST['signature']]
+    # elif len(request.session['airline_seat_request_%s' % request.POST['signature']]) != 0:
+    #     url_request = get_url_gateway('booking/airline')
+    #     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
-            request.session['airline_seat_request' + request.POST['signature']] = res
+            write_cache_file(request, request.POST['signature'], 'airline_assign_seat', res)
+            # request.session['airline_assign_seat_request' + request.POST['signature']] = res
             _logger.info("SUCCESS assign_post_seats_v2 AIRLINE SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR assign_post_seats_v2 AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
-        if len(request.session['airline_seat_request_%s' % request.POST['signature']]) == 0:
+        file = read_cache_file(request, request.POST['signature'], 'airline_seat_request')
+        if file and len(file) == 0:
             _logger.error("NO seat")
             res = {
                 'result': {
@@ -4452,6 +4990,20 @@ def assign_post_seats_v2(request):
                     }
                 }
             }
+        # if len(request.session['airline_seat_request_%s' % request.POST['signature']]) == 0:
+        #     _logger.error("NO seat")
+        #     res = {
+        #         'result': {
+        #             'error_code': 0,
+        #             'response': {
+        #                 'seat_provider': [
+        #                     {
+        #                         'status': 'SUCCESS'
+        #                     }
+        #                 ]
+        #             }
+        #         }
+        #     }
         else:
             _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -4459,7 +5011,12 @@ def assign_post_seats_v2(request):
 def update_booking_v2(request):
     #nanti ganti ke get_ssr_availability
     try:
-        data_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
+        file = read_cache_file(request, request.POST['signature'], 'airline_get_booking_response')
+        if file:
+            data_booking = file
+        else:
+            data_booking = json.loads(request.POST['booking'])
+        # data_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
         schedules = []
         order_number = data_booking['result']['response']['order_number']
         for rec in data_booking['result']['response']['provider_bookings']:
@@ -4531,7 +5088,13 @@ def update_booking_v2(request):
 def pre_refund_login_v2(request):
     try:
         schedules = compute_pax_js_new_v2(request.POST['passengers'])
-        airline_get_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
+
+        file = read_cache_file(request, request.POST['signature'], 'airline_get_booking_response')
+        if file:
+            airline_get_booking = file
+        else:
+            airline_get_booking = json.loads(request.POST['booking'])
+        # airline_get_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
 
         data = {
             "schedules": schedules,
@@ -4560,7 +5123,13 @@ def pre_refund_login_v2(request):
 def get_cancel_booking(request):
     try:
         schedules = compute_pax_js_new_v2(request.POST['passengers'])
-        airline_get_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
+
+        file = read_cache_file(request, request.POST['signature'], 'airline_get_booking_response')
+        if file:
+            airline_get_booking = file
+        else:
+            airline_get_booking = json.loads(request.POST['booking'])
+        # airline_get_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
         captcha = json.loads(request.POST['captcha'])
         if captcha:
             for idx, rec in enumerate(schedules):
@@ -4735,7 +5304,10 @@ def update_post_pax_name(request):
         response = get_cache_data(request)
         passenger = []
         passenger_cache = json.loads(request.POST['passengers'])
-        data_awal_passenger = request.session['airline_get_booking_response']['result']['response']['passengers']
+        file = read_cache_file(request, request.POST['signature'], 'airline_get_booking_response')
+        if file:
+            data_awal_passenger = file['result']['response']['passengers']
+        # data_awal_passenger = request.session['airline_get_booking_response']['result']['response']['passengers']
         for idx, pax in enumerate(passenger_cache):
             if pax['nationality_name'] != '':
                 for country in response['result']['response']['airline']['country']:
@@ -4801,7 +5373,10 @@ def update_post_pax_identity(request):
         response = get_cache_data(request)
         passenger = []
         passenger_cache = json.loads(request.POST['passengers'])
-        data_awal_passenger = request.session['airline_get_booking_response']['result']['response']['passengers']
+        file = read_cache_file(request, request.POST['signature'], 'airline_get_booking_response')
+        if file:
+            data_awal_passenger = file['result']['response']['passengers']
+        # data_awal_passenger = request.session['airline_get_booking_response']['result']['response']['passengers']
         for idx,pax in enumerate(passenger_cache):
             if pax['nationality_name'] != '':
                 for country in response['result']['response']['airline']['country']:

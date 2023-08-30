@@ -78,7 +78,7 @@ function train_redirect_signin(type){
     }
 }
 
-function get_train_data_search_page(){
+function get_train_data_search_page(frontend_signature){
     getToken();
     $.ajax({
        type: "POST",
@@ -86,11 +86,13 @@ function get_train_data_search_page(){
        headers:{
             'action': 'get_train_data_search_page',
        },
-       data: {},
+       data: {
+            "frontend_signature": frontend_signature
+       },
        success: function(msg) {
-        train_request = msg.train_request;
-        get_train_config('home');
-        train_signin('');
+            train_request = msg.train_request;
+            get_train_config('home');
+            train_signin('');
 
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -107,7 +109,9 @@ function get_train_data_passenger_page(){
        headers:{
             'action': 'get_train_data_passenger_page',
        },
-       data: {},
+       data: {
+            "signature": signature
+       },
        success: function(msg) {
         train_data = msg.response;
         departure_date = '';
@@ -1200,7 +1204,7 @@ function train_get_booking(data){
                         if(msg.result.response.state != 'cancel' && msg.result.response.state != 'cancel2'){
                             if (msg.result.response.state == 'booked'){
                                 text+=`
-                                <form method="post" id="seat_map_request" action='/train/seat_map'>
+                                <form method="post" id="seat_map_request" action='/train/seat_map/`+signature+`'>
 
                                     <input type="button" id="button-choose-print" class="primary-btn hold-seat-booking-train ld-ext-right" style="width:100%;color:`+text_color+`;" value="Seat Map" onclick="set_seat_map();"/>
                                     <input id='passenger_input' name="passenger_input" type="hidden"/>

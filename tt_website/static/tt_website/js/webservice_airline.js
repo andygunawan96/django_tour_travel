@@ -578,7 +578,7 @@ function airline_re_get_price(type){
     });
 }
 
-function get_airline_data_search_page(){
+function get_airline_data_search_page(frontend_signature){
     $.ajax({
        type: "POST",
        url: "/webservice/airline",
@@ -586,7 +586,7 @@ function get_airline_data_search_page(){
             'action': 'get_data_search_page',
        },
        data: {
-            'signature': signature
+            'frontend_signature': frontend_signature
        },
        success: function(msg) {
            airline_request = msg.airline_request;
@@ -1584,13 +1584,17 @@ function get_airline_data_seat_page(after_sales){
 
 function airline_signin(data,type=''){
     getToken();
+    if(typeof(frontend_signature) === 'undefined')
+        frontend_signature = '';
     $.ajax({
        type: "POST",
        url: "/webservice/airline",
        headers:{
             'action': 'signin',
        },
-       data: {},
+       data: {
+            'frontend_signature': frontend_signature
+       },
        success: function(msg) {
        try{
            if(msg.result.error_code == 0){
