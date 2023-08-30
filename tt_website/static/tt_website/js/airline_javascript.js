@@ -6859,37 +6859,67 @@ function airline_detail(type){
 
             }
         }
-        text += `
+
+        text_header_seat = '';
+        content_estimated_seat = '';
+        text_header_seat += `
         <div class="row">
-            <div class="col-lg-7" style="text-align:left;">
+                <div class="col-lg-6 col-md-6" style="text-align:left;">
                 <label>Ancillary Fee</label><br/>
             </div>
-            <div class="col-lg-5" style="text-align:right;">`;
-            text+=`
-                <label id="additional_price">`+currency+` `+getrupiah(additional_price)+`</label><br/>`;
-
-            text+=`
+            <div class="col-lg-6 col-md-6" style="text-align:right;">`;
+            text_header_seat+=`
+                <label>`+currency+` `+getrupiah(additional_price)+`</label><br/>`;
+            text_header_seat+=`
             </div>
-            <div class="col-lg-7" style="text-align:left;">
+            <div class="col-lg-6 col-md-6" style="text-align:left;">
                 <span style="font-size:14px; font-weight:bold;"><b>Total</b></span><br/>
             </div>
-            <div class="col-lg-5" style="text-align:right; padding-bottom:10px;">`;
+            <div class="col-lg-6 col-md-6" style="text-align:right;">`;
+            text_header_seat+=`
+                <span style="font-size:14px; font-weight:bold;" id="total_price"><b>`+currency+` `+getrupiah(total_price+additional_price)+`</b></span><br/>`;
+            text_header_seat+=`
+            </div>`;
+
+        text += `
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
+                <label>Ancillary Fee</label><br/>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">`;
+            text+=`
+                <label id="additional_price">`+currency+` `+getrupiah(additional_price)+`</label><br/>`;
+            text+=`
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
+                <span style="font-size:14px; font-weight:bold;"><b>Total</b></span><br/>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right; padding-bottom:10px;">`;
             text+=`
                 <span style="font-size:14px; font-weight:bold;" id="total_price"><b>`+currency+` `+getrupiah(total_price+additional_price)+`</b></span><br/>`;
             text+=`
             </div>`;
             if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && total_price+additional_price){
                 if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
+                    check_k = 0;
                     for(k in currency_rate_data.result.response.agent[user_login.co_ho_seq_id]){
                         try{
                             if(currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].base_currency == currency){
                                 price_convert = ((total_price+additional_price)/currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].rate).toFixed(2);
                                 if(price_convert%1 == 0)
                                     price_convert = parseInt(price_convert);
-                                text+=`
-                                    <div class="col-lg-12" style="text-align:right;">
-                                        <span style="font-size:14px; font-weight:bold;" id="total_price_`+k+`"><b> Estimated `+k+` `+getrupiah(price_convert)+`</b></span><br/>
+                                if(check_k == 0){
+                                    text_header_seat+=`
+                                    <div class="col-lg-12" style="text-align:right; margin-bottom:5px;">
+                                        <span style="font-size:14px; font-weight:bold;" class="text_link_cst" id="estimated_price_header">Estimated Other Currency</span><br/>
                                     </div>`;
+                                    check_k = 1;
+                                }
+                                content_estimated_seat+=`<h6 class="mb-1">`+k+` `+getrupiah(price_convert)+`</h6>`;
+                                text+=`
+                                <div class="col-lg-12" style="text-align:right;">
+                                    <span style="font-size:14px; font-weight:bold;" id="total_price_`+k+`"><b> Estimated `+k+` `+getrupiah(price_convert)+`</b></span><br/>
+                                </div>`;
                             }
                         }catch(err){
                             console.log(err);
@@ -6927,6 +6957,27 @@ function airline_detail(type){
 
 
     if(type != 'reschedule'){
+        try{
+            document.getElementById('airline_price_seat_map').innerHTML = text_header_seat;
+            new jBox('Tooltip', {
+                attach: '#estimated_price_header',
+                target: '#estimated_price_header',
+                theme: 'TooltipBorder',
+                trigger: 'click',
+                adjustTracker: true,
+                closeOnClick: 'body',
+                closeButton: 'box',
+                animation: 'move',
+                position: {
+                  x: 'center',
+                  y: 'bottom'
+                },
+                content: content_estimated_seat
+            });
+        }catch(err){
+            console.log(err);
+        }
+
         try{
             document.getElementById('airline_detail').innerHTML = text;
             if (type != 'request_new')
