@@ -1263,10 +1263,8 @@ def get_price_itinerary(request, boolean, counter):
                         'carrier_code': carrier_code
                     })
                 journeys = []
-        if request.session.get('airline_request_%s' % request.POST['signature']):
-            airline_request = copy.deepcopy(request.session['airline_request_%s' % request.POST['signature']])
-        else:
-            airline_request = json.loads(request.POST['search_request'])
+
+        airline_request = json.loads(request.POST['search_request'])
         data = {
             "promo_codes": json.loads(request.POST['promo_codes']),
             "adult": int(airline_request['adult']),
