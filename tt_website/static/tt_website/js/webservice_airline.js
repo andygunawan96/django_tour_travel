@@ -5400,7 +5400,16 @@ function render_price_in_get_price(text, $text, $text_share){
     price = 0;
     discount = 0;
     sub_total_count = 0;
-
+    currency = '';
+    for(x in airline_price){
+        for(y in airline_price[x]){
+            if(!currency){
+                currency = airline_price[x][y].currency;
+            }else{
+                break;
+            }
+        }
+    }
     text+=`
     <div class="col-lg-12" id="div-subtotal`+subtotal_div+`">
         <div class="row">
@@ -5853,37 +5862,110 @@ function get_seat_map_response(){
        success: function(msg) {
             seat_map = msg;
             check = 0;
-            text = '<div class="col-lg-12"> <div class="row">';
+            text = '';
             percent = 0;
             segment_list = []
-            for(i in seat_map.seat_availability_provider){
-                if(seat_map.seat_availability_provider[i].hasOwnProperty('segments')){
-                    percent += seat_map.seat_availability_provider[i].segments.length;
-                    percent = 75 / percent;
-                    for(j in seat_map.seat_availability_provider[i].segments){
-                        if(typeof(set_seat_show_segments) === 'undefined'){
-                            set_seat_show_segments = seat_map.seat_availability_provider[i].segments[j].segment_code2+'_'+seat_map.seat_availability_provider[i].segments[j].departure_date;
-                            segment_list.push(seat_map.seat_availability_provider[i].segments[j].segment_code2);
+//            text+=`
+//            <div style="padding:15px; text-align:center; border-right:1px solid #cdcdcd;">
+//                <img class="small_img_icon" src="/static/tt_website/images/icon/product/c-airline.png" alt="Airline Icon">
+//                <h5>Select Flight</h5>
+//            </div>`;
+
+            //seat rute
+
+            text+=`
+            <div class="pad_route_map" style="display:flex; overflow:auto;">`;
+                //cenius hehe
+                for(i in seat_map.seat_availability_provider){
+                    if(seat_map.seat_availability_provider[i].hasOwnProperty('segments')){
+                        percent += seat_map.seat_availability_provider[i].segments.length;
+                        total_sm = seat_map.seat_availability_provider[i].segments.length;
+                        percent = 75 / percent;
+                        percent_width = 600/total_sm;
+
+                        for(j in seat_map.seat_availability_provider[i].segments){
+                            if(typeof(set_seat_show_segments) === 'undefined'){
+                                set_seat_show_segments = seat_map.seat_availability_provider[i].segments[j].segment_code2+'_'+seat_map.seat_availability_provider[i].segments[j].departure_date;
+                                segment_list.push(seat_map.seat_availability_provider[i].segments[j].segment_code2);
+                            }
                             text += `
-                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6">
-                                <button class="button-seat-pass" style="width:100%; margin-right:10px; margin-bottom:10px; padding:10px;" type="button" id="`+seat_map.seat_availability_provider[i].segments[j].segment_code2+`_`+seat_map.seat_availability_provider[i].segments[j].departure_date+`" onclick="show_seat_map('`+seat_map.seat_availability_provider[i].segments[j].segment_code2+`_`+seat_map.seat_availability_provider[i].segments[j].departure_date+`', false)">
-                                    <span style="font-weight:700"><i class="fas fa-plane-departure"></i> `+seat_map.seat_availability_provider[i].segments[j].segment_code2+`</span><br/>
-                                    <span style="font-weight:700">`+moment(seat_map.seat_availability_provider[i].segments[j].departure_date).format('DD MMM YYYY HH:mm')+`</span>
+                            <div class="item" style="height:100px;">
+                                <button class="button-route-pass" type="button" id="`+seat_map.seat_availability_provider[i].segments[j].segment_code2+`_`+seat_map.seat_availability_provider[i].segments[j].departure_date+`" onclick="show_seat_map('`+seat_map.seat_availability_provider[i].segments[j].segment_code2+`_`+seat_map.seat_availability_provider[i].segments[j].departure_date+`', false)">
+                                    <div style="display:inline-flex;">
+                                        <div style="display:inline-block;">`;
+                                            try{
+                                                text+=`<img data-toggle="tooltip" class="airlines_provider_img_seat" alt="`+airline_carriers[0][seat_map.seat_availability_provider[i].segments[j].carrier_code].name+`" title="`+airline_carriers[0][seat_map.seat_availability_provider[i].segments[j].carrier_code].name+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+seat_map.seat_availability_provider[i].segments[j].carrier_code+`.png">`;
+                                            }catch(err){
+                                                text+=`<img data-toggle="tooltip" class="airlines_provider_img_seat" alt="`+seat_map.seat_availability_provider[i].segments[j].carrier_code+`" title="`+seat_map.seat_availability_provider[i].segments[j].carrier_code+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+seat_map.seat_availability_provider[i].segments[j].carrier_code+`.png">`;
+                                            }
+                                        text+=`
+                                        </div>
+                                        <div style="display:inline-block; margin:auto; padding-top:3px;">
+                                            <div style="display:grid;">
+                                                <span style="font-weight:700">`+seat_map.seat_availability_provider[i].segments[j].segment_code2+`, `+moment(seat_map.seat_availability_provider[i].segments[j].departure_date).format('DD MMM YYYY HH:mm')+`</span>
+                                            </div>
+                                            <div style="display:grid;">
+                                                <span id="seat_pax_choose`+j+`" style="font-weight:bold;"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="border-top:1px solid #cdcdcd; padding-top:5px;">
+                                        <div class="row">
+                                            <div class="col-xs-6" style="text-align:left;">
+                                                <span id="price_pax_choose`+j+`" style="font-size:14px; font-weight:bold;"></span>
+                                            </div>
+                                            <div class="col-xs-6" id="cancel_pax_choose`+j+`">
+                                                <div style="text-align:right; padding:5px;">
+                                                    <span style="font-size:13px; font-weight:bold;">No seat selected</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </button>
                             </div>`;
-                        }else
-                            text += `
-                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6">
-                                <button class="button-seat-pass" style="width:100%; margin-right:10px; margin-bottom:10px; padding:10px; color:black; background-color:white;" id="`+seat_map.seat_availability_provider[i].segments[j].segment_code2+`_`+seat_map.seat_availability_provider[i].segments[j].departure_date+`" type="button" onclick="show_seat_map('`+seat_map.seat_availability_provider[i].segments[j].segment_code2+`_`+seat_map.seat_availability_provider[i].segments[j].departure_date+`', false)">
-                                    <span style="font-weight:700"><i class="fas fa-plane-departure"></i> `+seat_map.seat_availability_provider[i].segments[j].segment_code2+`</span><br/>
-                                    <span style="font-weight:700">`+moment(seat_map.seat_availability_provider[i].segments[j].departure_date).format('DD MMM YYYY HH:mm')+`</span>
-                                </button>
-                            </div>`;
+                        }
                     }
-                }
+                    text+=`
+                </div>`;
             }
-            text += '</div></div>';
+            text+=`</div>`;
             document.getElementById('airline_seat_map').innerHTML = text;
+//            $('.owl-carousel-routemap').owlCarousel({
+//                loop:false,
+//                nav: true,
+//                navRewind:false,
+//                rewind: false,
+//                merge:true,
+//                autoWidth:true,
+//                margin: 20,
+//                items:4,
+//                responsiveClass:true,
+//                dots: false,
+//                merge: false,
+//                lazyLoad:true,
+//                lazyLoadEager:true,
+//                smartSpeed:500,
+//                autoplay: false,
+//                autoplayTimeout:10000,
+//                autoplayHoverPause:false,
+//                navText: ['<i class="fa fa-chevron-left owl-wh"/>', '<i class="fa fa-chevron-right owl-wh"/>'],
+//                responsive:{
+//                    0:{
+//                        items:1,
+//                    },
+//                    575:{
+//                        items:1,
+//                    },
+//                    768:{
+//                        items:2,
+//                    },
+//                    992:{
+//                        items:2,
+//                    }
+//                }
+//            });
+
+            set_passenger_seat_map_airline(0);
             if(typeof(set_seat_show_segments) !== 'undefined')
                 show_seat_map(set_seat_show_segments, true)
        },
@@ -5897,19 +5979,31 @@ function get_seat_map_response(){
 function show_seat_map(val, checked){
     if(typeof(set_seat_show_segments) === 'undefined' || val != set_seat_show_segments || checked == true){
         if(typeof(set_seat_show_segments) !== 'undefined'){
-            document.getElementById(set_seat_show_segments).style.background = 'white';
+            document.getElementById(set_seat_show_segments).style = 'border:3px solid #cdcdcd';
             document.getElementById(set_seat_show_segments).style.color = 'black';
         }
-        document.getElementById(val).style.background = color;
-        document.getElementById(val).style.color = 'white';
+        document.getElementById(val).style = 'border:3px solid '+color;
+        document.getElementById(val).style.color = 'black';
         set_seat_show_segments = val;
         text = '';
+        text_prev = '';
+        text_next = '';
         check = 0;
         for(i in seat_map.seat_availability_provider){
             if(check == 1)
                 break;
             for(j in seat_map.seat_availability_provider[i].segments){
                 if(seat_map.seat_availability_provider[i].segments[j].segment_code2+'_'+seat_map.seat_availability_provider[i].segments[j].departure_date == set_seat_show_segments){
+                    try{
+                        document.getElementById('airline_route_active').innerHTML = `
+                        <span>
+                            `+seat_map.seat_availability_provider[i].segments[j].segment_code2+`, `+moment(seat_map.seat_availability_provider[i].segments[j].departure_date).format('DD MMM YYYY HH:mm')+`
+                        </span>`;
+
+                    }catch(err){
+                        console.log(err);
+                    }
+
                     try{
                         for(k in seat_map.seat_availability_provider[i].segments[j].seat_cabins){
                             text+=`<div class="mySlides1">
@@ -5935,6 +6029,7 @@ function show_seat_map(val, checked){
                                     for(n in passengers){
                                         if(check == 1)
                                             break;
+
                                         for(o in passengers[n].seat_list){
                                             seat_pick_parse = ''
                                             if(passengers[n].seat_list[o].seat_pick != '')
@@ -5942,21 +6037,21 @@ function show_seat_map(val, checked){
                                             if(passenger_pick == n){
                                                 if(passengers[n].seat_list[o].segment_code == seat_map.seat_availability_provider[i].segments[j].segment_code2 && seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].row_number+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].column == seat_pick_parse && passengers[n].seat_list[o].departure_date == seat_map.seat_availability_provider[i].segments[j].departure_date){
                                                     check = 1;
-                                                    text+=`<input class="button-seat-map" type="button" style="width:`+percent+`%;font-size:13px;background-color:`+color+`; padding:3px;color:`+text_color+`;" onclick="alert('Already booked');" id="`+seat_map.seat_availability_provider[i].segments[j].segment_code2+`_`+seat_map.seat_availability_provider[i].segments[j].departure_date+`_`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].row_number+`_`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].column+`" value="`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].row_number+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].column+`"/>`;
+                                                    text+=`<button class="button-seat-map" type="button" style="width:`+percent+`%;font-size:13px;background-color:`+color+`; padding:3px;color:`+text_color+`;" onclick="alert('Already booked');" id="`+seat_map.seat_availability_provider[i].segments[j].segment_code2+`_`+seat_map.seat_availability_provider[i].segments[j].departure_date+`_`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].row_number+`_`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].column+`">`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].row_number+`<span class="show_mbl"></span>`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].column+`</button>`;
                                                     break;
                                                 }
                                             }else if(passengers[n].seat_list[o].segment_code == seat_map.seat_availability_provider[i].segments[j].segment_code2 && seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].row_number+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].column == seat_pick_parse && passengers[n].seat_list[o].departure_date == seat_map.seat_availability_provider[i].segments[j].departure_date){
                                                 check = 1;
-                                                text+=`<input class="button-seat-map" type="button" style="width:`+percent+`%;font-size:13px;background-color:#ff8971; padding:3px;color:`+text_color+`;" onclick="alert('Already booked');" id="`+seat_map.seat_availability_provider[i].segments[j].segment_code2+`_`+seat_map.seat_availability_provider[i].segments[j].departure_date+`_`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].row_number+`_`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].column+`"  value="`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].row_number+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].column+`"/>`;
+                                                text+=`<button class="button-seat-map" type="button" style="width:`+percent+`%;font-size:13px;background-color:#ff8971; padding:3px;color:`+text_color+`;" onclick="alert('Already booked');" id="`+seat_map.seat_availability_provider[i].segments[j].segment_code2+`_`+seat_map.seat_availability_provider[i].segments[j].departure_date+`_`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].row_number+`_`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].column+`">`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].row_number+`<span class="show_mbl"></span>`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].column+`</button>`;
                                                 break;
                                             }
                                         }
                                     }
                                     if(check == 0){
                                         if(seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].availability == 0){
-                                            text+=`<input class="button-seat-map" type="button" style="width:`+percent+`%;font-size:13px;background-color:#656565; color:`+text_color+`; padding:3px;" id="`+seat_map.seat_availability_provider[i].segments[j].segment_code2+`_`+seat_map.seat_availability_provider[i].segments[j].departure_date+`_`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].row_number+`_`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].column+`" onclick="alert('Already booked');" value="`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].row_number+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].column+`"/>`;
+                                            text+=`<button class="button-seat-map" type="button" style="width:`+percent+`%;font-size:13px;background-color:#656565; color:`+text_color+`; padding:3px;" id="`+seat_map.seat_availability_provider[i].segments[j].segment_code2+`_`+seat_map.seat_availability_provider[i].segments[j].departure_date+`_`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].row_number+`_`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].column+`" onclick="alert('Already booked');">`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].row_number+`<span class="show_mbl"></span>`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].column+`</button>`;
                                         }else if(seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].availability == 1){
-                                            text+=`<input class="button-seat-map" type="button" style="width:`+percent+`%;font-size:13px;background-color:#CACACA; padding:3px;" id="`+seat_map.seat_availability_provider[i].segments[j].segment_code2+`_`+seat_map.seat_availability_provider[i].segments[j].departure_date+`_`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].row_number+`_`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].column+`"`;
+                                            text+=`<button class="button-seat-map" type="button" style="width:`+percent+`%;font-size:13px;background-color:#CACACA; padding:3px;" id="`+seat_map.seat_availability_provider[i].segments[j].segment_code2+`_`+seat_map.seat_availability_provider[i].segments[j].departure_date+`_`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].row_number+`_`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].column+`"`;
                                             seat_price = 0;
                                             for(n in seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].service_charges){
                                                 if(seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].service_charges[n].charge_type != 'RAC')
@@ -5972,9 +6067,9 @@ function show_seat_map(val, checked){
                                                                            '`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].service_charges[0].currency+`',
                                                                            '`+seat_price+`',
                                                                            '`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].description+`')"
-                                            value='`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].row_number+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].column+`'/>`;
+                                            >`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].row_number+`<span class="show_mbl"></span>`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].column+`</button>`;
                                         }else if(seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].availability == -1){
-                                            text+=`<input type="button" class="button-seat-map" style="width:`+percent+`%;background-color:transparent;font-size:13px;border:transparent; padding:3px;color:white;" id="`+seat_map.seat_availability_provider[i].segments[j].segment_code2+`_`+seat_map.seat_availability_provider[i].segments[j].departure_date+`_`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].row_number+`_`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].column+`" value="`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].row_number+`A" disabled/>`;
+                                            text+=`<button type="button" class="button-seat-map" style="width:`+percent+`%;background-color:transparent;font-size:13px;border:transparent; padding:3px;color:white;" id="`+seat_map.seat_availability_provider[i].segments[j].segment_code2+`_`+seat_map.seat_availability_provider[i].segments[j].departure_date+`_`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].row_number+`_`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].column+`" disabled></button>`;
                                         }
                                     }
                                 }
@@ -5987,8 +6082,8 @@ function show_seat_map(val, checked){
 
                         check = 1;
                         if(text != '')
-                            text+=`<a class="prev" onclick="plusSlides(-1, 0)" style="font-size:15px; padding:0px;">&#10094; Prev</a>
-                               <a class="next" onclick="plusSlides(1, 0)" style="font-size:15px; padding:0px;">Next &#10095;</a>`;
+                            text_prev+=`<a class="span_link" onclick="plusSlides(-1, 0)" style="font-size:25px; padding:0px;">&#10094;</a>`;
+                            text_next+=`<a class="span_link" onclick="plusSlides(1, 0)" style="font-size:25px; padding:0px;">&#10095;</a>`;
                         break;
                     }catch(err){
                         console.log(err); // error kalau ada element yg tidak ada
@@ -5997,16 +6092,30 @@ function show_seat_map(val, checked){
             }
         }
         document.getElementById('airline_slideshow').innerHTML = text;
+        document.getElementById('airline_slideshow_prev').innerHTML = text_prev;
+        document.getElementById('airline_slideshow_next').innerHTML = text_next;
         showSlides(1, 0);
     }
 }
 
 function set_passenger_seat_map_airline(val){
-    text='';
-    text += `
-    <h5>
-        <i class="fas fa-user"></i> `+passengers[val].title+` `+passengers[val].first_name+` `+passengers[val].last_name+`
-    </h5>`;
+    //pax choosen
+    text_paxs = '';
+    text_paxs += passengers[val].title+' '+passengers[val].first_name+' '+passengers[val].last_name;
+    text_paxs +=`
+    <b style="background:white; font-size:13px; color:black; padding:0px 10px; margin-left:5px; border: 1px solid #cdcdcd; border-radius:5px;">`;
+        if(passengers[val].pax_type == 'ADT'){
+            text_paxs += `Adult`;
+        }else if(passengers[val].pax_type == 'CHD'){
+            text_paxs += `Child`;
+        }else if(passengers[val].pax_type == 'INF'){
+            text_paxs += `Infant`;
+        }
+    text_paxs +=`</b>`;
+    document.getElementById('airline_passenger_detail_seat_span').innerHTML = text_paxs;
+    document.getElementById('airline_passenger_active').innerHTML = text_paxs;
+
+    text_pax_behavior='';
     var is_seat_behavior = false
     text_behaviors = '';
     print_behavior = false;
@@ -6015,43 +6124,21 @@ function set_passenger_seat_map_airline(val){
             if(j.toLowerCase() == 'airline'){
                 if(passengers[val].behaviors[j]){
                     print_behavior = true;
-                    text_behaviors=`<br/><b>Behavior History:</b><br/>`;
+                    text_behaviors = '';
                     text_behaviors += `<textarea id="passenger_remark" class="form-control" style="resize: none; height:200px;" rows="`+parseInt(parseInt(passengers[val].behaviors[j].split('\n').length)+2)+`" cols="50" onchange="update_remark(`+val+`)" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;">`+passengers[val].behaviors[j].split('<br/>').join('\n')+`</textarea><br/>`;
                 }
             }
         }
     }
     if(print_behavior)
-        text += text_behaviors;
+        text_pax_behavior += text_behaviors;
     else{
-        text+=`<br/><b>Behavior History:</b><br/>`;
-        text+= `<textarea id="passenger_remark" rows="6" cols="50" class="form-control" style="resize: none; height:200px;" onchange="update_remark(`+val+`)" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;"></textarea><br/>`;
+        text_pax_behavior+= `<textarea id="passenger_remark" rows="6" cols="50" class="form-control" style="resize: none; height:200px;" onchange="update_remark(`+val+`)" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;"></textarea><br/>`;
     }
-    text+=`
-    <div class="row">`;
-    for(i in passengers[val].seat_list){
-        text+=`
-        <div class="col-lg-12">
-            <h6 style="padding-top:10px;">
-                <img src="/static/tt_website/images/icon/symbol/seat.png" style="height:16px; width:auto;"/>
-                `+passengers[val].seat_list[i].segment_code+` (`+moment(passengers[val].seat_list[i].departure_date).format('DD MMM YYYY HH:mm')+`): `+passengers[val].seat_list[i].seat_pick+`
-            </h6>
-            <div style="border:1px solid #cdcdcd; padding:15px; background:white; margin-bottom:10px;">
-            <h6>Description: </h6>`;
-        for(j in passengers[val].seat_list[i].description){
-            //if(j == 0)
-                //text+=`<span style="font-weight:400; font-size:14px;">Description:</span><br/>`;
-            text+=`<span>`+passengers[val].seat_list[i].description[j]+`</span><br/>`;
-        }
-        text+=`</div>
-        </div>
-        <div class="col-lg-12" style="text-align:right;">
-            <span style="font-weight:bold; font-size:15px;">Price: `+passengers[val].seat_list[i].currency+` `+getrupiah(passengers[val].seat_list[i].price)+`</span><br/>`;
-        if(passengers[val].seat_list[i].seat_code != '')
-            text+= `<input class="button-seat-pass button-seat-pass-cancel" type="button" id="cancel_seat`+i+`" style="width:200px; padding: 10px; text-align: center; margin-bottom: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: white;" onclick="set_cancel_seat(`+i+`);" value="Cancel Seat">`;
-        text+=`</div>`;
-    }
-    text+=`</div>`;
+    document.getElementById('airline_passenger_behaviors').innerHTML = text_pax_behavior;
+
+    text = '';
+
     is_set_first_time = false;
     try{
         document.getElementById('passenger'+(passenger_pick+1)).style.background = 'white';
@@ -6064,7 +6151,69 @@ function set_passenger_seat_map_airline(val){
         // first passenger pick
         console.log(err);
     }
-    document.getElementById('airline_passenger_detail_seat').innerHTML = text;
+
+    //cenius hehe
+    try{
+        console.log(passengers[val].seat_list);
+        for(i in passengers[val].seat_list){
+            text_description = '';
+            text_description_title = '';
+            text_description_segment = '';
+            if(passengers[val].seat_list[i].seat_pick != ''){
+                text = `Seat: `+passengers[val].seat_list[i].seat_pick+`, <span style="text-decoration:underline; color:`+color+`;" id="span_see_description_map`+i+`">Description</span>`;
+                text_description_segment = passengers[val].seat_list[i].segment_code+' '+moment(passengers[val].seat_list[i].departure_date).format('DD MMM YYYY HH:mm');
+                text_description_title = `Seat: `+passengers[val].seat_list[i].seat_pick;
+                for(j in passengers[val].seat_list[i].description){
+                    text_description += `<span>`+passengers[val].seat_list[i].description[j]+`</span><br/>`;
+                }
+                document.getElementById('seat_pax_choose'+i).innerHTML = text;
+                new jBox('Tooltip', {
+                    attach: '#span_see_description_map'+i,
+                    target: '#section_sticky_seat',
+                    theme: 'TooltipBorder',
+                    trigger: 'click',
+                    adjustTracker: true,
+                    closeOnEsc: true,
+                    closeOnClick: 'body',
+                    closeButton: 'box',
+                    animation: 'move',
+                    position: {
+                      x: 'center',
+                      y: 'bottom'
+                    },
+                    title: text_description_segment+'<br/>'+text_description_title,
+                    content: text_description
+                });
+
+            }else{
+                document.getElementById('seat_pax_choose'+i).innerHTML = '';
+            }
+
+            if(passengers[val].seat_list[i].price != ''){
+                text = passengers[val].seat_list[i].currency+` `+getrupiah(passengers[val].seat_list[i].price);
+                document.getElementById('price_pax_choose'+i).innerHTML = text;
+            }else{
+                text = `
+                <div style="text-align:left; padding:5px;">
+                    <span style="font-size:13px; font-weight:bold;">No seat selected</span>
+                </div>`;
+                document.getElementById('price_pax_choose'+i).innerHTML = text;
+            }
+
+            if(passengers[val].seat_list[i].seat_code != ''){
+                text = `
+                <div style="text-align:right; padding-bottom:10px; cursor:pointer;" >
+                    <span style="font-size:13px; font-weight:bold; color:#ff0002; background:white; padding:5px 10px; border-radius:5px" onclick="set_cancel_seat(`+i+`);">Cancel seat</span>
+                </div>`;
+                document.getElementById('cancel_pax_choose'+i).innerHTML = text;
+            }else{
+                document.getElementById('cancel_pax_choose'+i).innerHTML = '';
+            }
+        }
+    }catch(err){}
+
+    //document.getElementById('airline_passenger_detail_seat').innerHTML = text;
+
     if(is_set_not_first_time){
         try{
             if(typeof(set_seat_show_segments) !== 'undefined')
@@ -6157,10 +6306,6 @@ function set_cancel_seat(segment_number){
 
 function update_seat_passenger(segment, departure_date, row, column,seat_code,seat_name, currency, amount,description){
 
-    $('html, body').animate({
-        scrollTop: $("#airline_passenger_detail_seat").offset().top - 110
-    }, 500);
-
     if(isNaN(passenger_pick) == false){
         try{
             for(i in passengers[passenger_pick].seat_list){
@@ -6220,10 +6365,15 @@ function update_seat_passenger(segment, departure_date, row, column,seat_code,se
                     passengers[passenger_pick].seat_list[i].description = description.split(',');
                     document.getElementById(segment+'_'+departure_date+'_'+row+'_'+column).style.background = color;
                     document.getElementById(segment+'_'+departure_date+'_'+row+'_'+column).style.color = 'white';
+                    i_temp_seat = i;
                     break;
                 }
             }
+
             set_passenger_seat_map_airline(passenger_pick);
+            $("#span_see_description_map"+i_temp_seat).click();
+
+
         }catch(err){
             Swal.fire({
               type: 'error',
@@ -6232,7 +6382,8 @@ function update_seat_passenger(segment, departure_date, row, column,seat_code,se
             })
             $('.loader-rodextrip').fadeOut();
         }
-    }else{
+    }
+    else{
         Swal.fire({
           type: 'error',
           title: 'Oops!',
@@ -9303,20 +9454,30 @@ function airline_get_booking(data, sync=false){
                     </div>
                 </div>`;
 
+                text += `
+                <div style="border:1px solid #cdcdcd; padding:10px; background-color:white; margin-top:20px;">
+                    <div class="row">`;
                 if (msg.result.response.state == 'issued'){
                     text+=`
-                    <div style="border:1px solid #cdcdcd; padding:10px; background-color:white; margin-top:20px;">
-                        <div class="row">
-                            <div class="col-lg-12 col-md-12">
-                                <label class="check_box_custom">
-                                    <span class="span-search-ticket" style="color:black;">Hide agent logo on tickets</span>
-                                    <input type="checkbox" id="is_hide_agent_logo" name="is_hide_agent_logo"/>
-                                    <span class="check_box_span_custom"></span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>`;
+                        <div class="col-lg-6">
+                            <label class="check_box_custom">
+                                <span class="span-search-ticket" style="color:black;">Hide agent logo on tickets</span>
+                                <input type="checkbox" id="is_hide_agent_logo" name="is_hide_agent_logo"/>
+                                <span class="check_box_span_custom"></span>
+                            </label>
+                        </div>`;
                 }
+                text+=`
+                        <div class="col-lg-6">
+                            <label class="check_box_custom">
+                                <span class="span-search-ticket" style="color:black;">force get new tickets</span>
+                                <input type="checkbox" id="is_force_get_new_printout" name="is_force_get_new_printout"/>
+                                <span class="check_box_span_custom"></span>
+                            </label>
+                        </div>`;
+                text += `
+                    </div>
+                </div>`;
 
                 text+=`<div class="row" style="margin-top:20px;">`;
                 text+=`
@@ -9778,9 +9939,9 @@ function airline_get_booking(data, sync=false){
                         }else if(msg.result.response.hasOwnProperty('estimated_currency') && msg.result.response.estimated_currency.hasOwnProperty('other_currency') && Object.keys(msg.result.response.estimated_currency.other_currency).length > 0){
                             for(k in msg.result.response.estimated_currency.other_currency){
                                 text_detail+=`
-                                            <div class="col-lg-12" style="text-align:right;">
-                                                <span style="font-size:13px; font-weight:bold;" id="total_price_`+msg.result.response.estimated_currency.other_currency[k].currency+`"> Estimated `+msg.result.response.estimated_currency.other_currency[k].currency+` `+getrupiah(msg.result.response.estimated_currency.other_currency[k].amount)+`</span><br/>
-                                            </div>`;
+                                <div class="col-lg-12" style="text-align:right;">
+                                    <span style="font-size:13px; font-weight:bold;" id="total_price_`+msg.result.response.estimated_currency.other_currency[k].currency+`"> Estimated `+msg.result.response.estimated_currency.other_currency[k].currency+` `+getrupiah(msg.result.response.estimated_currency.other_currency[k].amount)+`</span><br/>
+                                </div>`;
                             }
                         }
                         text_detail+=`
@@ -9905,8 +10066,8 @@ function airline_get_booking(data, sync=false){
                     else
                         document.getElementById('voucher_div').style.display = 'none';
                 }catch(err){console.log(err);}
-                //refund
 
+                //refund
                 if(is_show_breakdown_price){
                     var price_breakdown = {};
                     var currency_breakdown = '';
@@ -9922,6 +10083,7 @@ function airline_get_booking(data, sync=false){
                                 }
                             }
                         }
+
                         var breakdown_text = '';
                         for(j in price_breakdown){
                             if(breakdown_text)

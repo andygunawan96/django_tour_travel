@@ -369,7 +369,7 @@ function set_price(val, type, product_type){
                     <span style="font-size:14px; font-weight:500;">-</span>`;
                 if(type == 'top_up' && payment_acq2[payment_method][selected].account_number){
                     text+=`
-                    <span style="float: right; cursor: pointer;color:`+color+`" onclick="copy_data_acount('`+payment_acq2[payment_method][selected].account_number+`');">
+                    <span style="float: right; cursor: pointer;color:`+color+`" onclick="copy_data_account('`+payment_acq2[payment_method][selected].account_number+`');">
                         <i class="fa fa-clone" aria-hidden="true"></i>
                     </span>`
                 }
@@ -1993,7 +1993,7 @@ function cancel_payment_method(order_number, provider_type){
     });
 }
 
-function copy_data_acount(data){
+function copy_data_account(data){
     //
         text_copy = data.split('.').join('');
         const el = document.createElement('textarea');

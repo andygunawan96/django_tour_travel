@@ -2538,24 +2538,31 @@ function sort(activity_dat, check){
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-12" style="text-align:right;">
-                                                <span style="float:left; font-size:13px;font-weight:bold;">`+activity_dat[i].currency_code+` `+getrupiah(activity_dat[i].activity_price)+`</span>`;
-                                            if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && activity_data[i].activity_price){
-                                                if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
-                                                    for(k in currency_rate_data.result.response.agent[user_login.co_ho_seq_id]){
-                                                        try{
-                                                            if(currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].base_currency == activity_dat[i].currency_code){
-                                                                price_convert = (Math.ceil(activity_data[i].activity_price)/currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].rate).toFixed(2);
-                                                                if(price_convert%1 == 0)
-                                                                    price_convert = parseInt(price_convert);
-                                                                text+=`<br/><span style="float:left; font-size:16px;font-weight:bold;">Estimated `+k+` `+getrupiah(price_convert)+`</span>`;
+                                            <div class="col-lg-12" style="text-align:right;">`;
+                                            if(activity_data[i].activity_price > 0)
+                                            {
+                                                text += `<span style="float:left; font-size:16px;font-weight:bold;">`+activity_dat[i].currency_code+` `+getrupiah(activity_dat[i].activity_price)+`</span>`;
+                                                if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && activity_data[i].activity_price){
+                                                    if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
+                                                        for(k in currency_rate_data.result.response.agent[user_login.co_ho_seq_id]){
+                                                            try{
+                                                                if(currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].base_currency == activity_dat[i].currency_code){
+                                                                    price_convert = (Math.ceil(activity_data[i].activity_price)/currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].rate).toFixed(2);
+                                                                    if(price_convert%1 == 0)
+                                                                        price_convert = parseInt(price_convert);
+                                                                    text+=`<br/><span style="float:left; font-size:16px;font-weight:bold;">Estimated `+k+` `+getrupiah(price_convert)+`</span>`;
+                                                                }
+                                                            }catch(err){
+                                                                console.log(err);
                                                             }
-                                                        }catch(err){
-                                                            console.log(err);
                                                         }
                                                     }
                                                 }
                                             }
+                                            else{
+                                                text+=`<span style="float:left; font-size:16px;font-weight:bold;">No Estimated Price</span>`;
+                                            }
+
                                             text+=`
                                                 <button style="float:right; line-height:32px;" type="button" class="primary-btn" onclick="go_to_detail('`+activity_dat[i].sequence+`')">BUY</button>
                                             </div>

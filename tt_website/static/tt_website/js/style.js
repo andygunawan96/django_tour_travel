@@ -91,13 +91,13 @@ $(document).ready(function(){
         });
         document.body.style.overflowY = "hidden";
     });
-    $(".cor-db-slide-toggle").click(function(){
-        $(".box-cor-db").animate({
-            width: "toggle",
-            opacity: "toggle"
-        });
-        document.body.style.overflowY = "hidden";
-    });
+//    $(".cor-db-slide-toggle").click(function(){
+//        $(".box-cor-db").animate({
+//            width: "toggle",
+//            opacity: "toggle"
+//        });
+//        document.body.style.overflowY = "hidden";
+//    });
 
 //    var slowLoad = window.setTimeout( function() {
 //        alert( "the page is taking its sweet time loading" );
@@ -3418,6 +3418,12 @@ function product_change_box(id){
 function go_guide(id){
     $('html, body').animate({
         scrollTop: $("#"+id).offset().top
+    }, 500);
+}
+
+function go_to_element(id, min_top){
+    $('html, body').animate({
+        scrollTop: $("#"+id).offset().top - min_top
     }, 500);
 }
 
