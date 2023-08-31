@@ -1296,8 +1296,6 @@ def get_price_itinerary(request, boolean, counter):
             "action": "get_price_itinerary",
             "signature": request.POST['signature'],
         }
-
-        set_session(request, 'airline_get_price_request_%s' % request.POST['signature'], data)
         # _logger.info(json.dumps(request.session['airline_get_price_request_%s' % request.POST['signature']]))
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
@@ -1399,6 +1397,7 @@ def get_price_itinerary(request, boolean, counter):
             _logger.info("SUCCESS get_price_itinerary AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
             try:
                 set_session(request, 'airline_price_itinerary_%s' % request.POST['signature'], res['result']['response'])
+                set_session(request, 'airline_get_price_request_%s' % request.POST['signature'], data)
                 # _logger.info(json.dumps(request.session['airline_price_itinerary_%s' % request.POST['signature']]))
             except Exception as e:
                 _logger.error(str(e) + traceback.format_exc())
@@ -1502,14 +1501,14 @@ def sell_journeys(request):
         else:
             _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    if 'sell_journey_%s' % request.POST['signature'] not in request.session or request.session.get('sell_journey_data_%s' % request.POST['signature']) != data:
+    if 'airline_sell_journey_%s' % request.POST['signature'] not in request.session or request.session.get('sell_journey_data_%s' % request.POST['signature']) != data:
         url_request = get_url_gateway('booking/airline')
         res = send_request_api(request, url_request, headers, data, 'POST', 300)
     else:
         res = request.session['sell_journey_%s' % request.POST['signature']]
     try:
         if res['result']['error_code'] == 0:
-            set_session(request, 'sell_journey_%s' % request.POST['signature'], res)
+            set_session(request, 'airline_sell_journey_%s' % request.POST['signature'], res)
             set_session(request, 'sell_journey_data_%s' % request.POST['signature'], data)
             for price_itinerary_provider in res['result']['response']['sell_journey_provider']:
                 for journey in price_itinerary_provider['journeys']:
