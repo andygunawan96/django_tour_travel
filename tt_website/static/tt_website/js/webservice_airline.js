@@ -589,6 +589,7 @@ function get_airline_data_search_page(frontend_signature){
             'frontend_signature': frontend_signature
        },
        success: function(msg) {
+           console.log(msg);
            airline_request = msg.airline_request;
            document.getElementById('airline_search_request').value = JSON.stringify(airline_request);
            airline_carriers = msg.airline_carriers;
