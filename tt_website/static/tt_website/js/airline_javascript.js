@@ -5712,7 +5712,7 @@ function airline_detail(type){
         else
             price_itinerary_temp = price_itinerary.sell_journey_provider;
         is_roundtrip_combo = false;
-        if(price_itinerary_temp.length != airline_request.departure.length){
+        if(price_itinerary_temp.length != airline_request.journey_list.length){
             var total_journey = 0;
             for(i in price_itinerary_temp.journeys)
                 total_journey++;

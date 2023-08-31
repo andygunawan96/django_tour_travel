@@ -422,7 +422,7 @@ def get_data_search_page(request):
 def get_data_passenger_page(request):
     try:
         res = {}
-        res['airline_request'] = request.session['airline_request_%s' % request.POST['signature']]
+        res['airline_request'] = request.session['airline_search_%s' % request.POST['signature']]
         if request.session.get('airline_create_passengers_%s' % request.POST['signature']):
             res['pax_cache'] = request.session['airline_create_passengers_%s' % request.POST['signature']]
         res['ssr'] = request.session.get('airline_get_ssr_%s' % request.POST['signature'])
@@ -462,7 +462,7 @@ def get_data_review_page(request):
     res = {}
     try:
         res['airline_pick'] = request.session['airline_sell_journey_%s' % request.POST['signature']]['sell_journey_provider']
-        res['airline_request'] = request.session['airline_request_%s' % request.POST['signature']]
+        res['airline_request'] = request.session['airline_search_%s' % request.POST['signature']]
         res['price_itinerary'] = request.session['airline_sell_journey_%s' % request.POST['signature']]
         file = read_cache("get_airline_carriers", 'cache_web', request, 90911)
         if file:
@@ -476,10 +476,8 @@ def get_data_review_page(request):
                 for pax in airline_create_passengers[pax_type]:
                     passenger.append(pax)
         res['passengers_ssr'] = passenger
-        res['airline_request'] = request.session['airline_request_%s' % request.POST['signature']]
         res['airline_ssr_request'] = request.session['airline_ssr_request_%s' % request.POST['signature']] if request.session.get('airline_ssr_request_%s' % request.POST['signature']) else {}
         res['airline_seat_request'] = request.session['airline_seat_request_%s' % request.POST['signature']] if request.session.get('airline_seat_request_%s' % request.POST['signature']) else {}
-        res['airline_request'] = request.session['airline_request_%s' % request.POST['signature']]
         res['upsell_price_dict'] = request.session.get('airline_upsell_%s' % request.POST['signature']) and request.session.get('airline_upsell_%s' % request.POST['signature']) or {}
         res['upsell_price_dict_ssr'] = request.session.get('airline_ssr_upsell_%s' % request.POST['signature']) and request.session.get('airline_ssr_upsell_%s' % request.POST['signature']) or {}
 
@@ -542,7 +540,7 @@ def get_data_ssr_page(request):
             # pre
             res['airline_pick'] = request.session['airline_sell_journey_%s' % request.POST['signature']]['sell_journey_provider']
             res['price_itinerary'] = request.session['airline_sell_journey_%s' % request.POST['signature']]
-            res['airline_request'] = request.session['airline_request_%s' % request.POST['signature']]
+            res['airline_request'] = request.session['airline_search_%s' % request.POST['signature']]
             res['upsell'] = request.session.get('airline_upsell_' + request.POST['signature']) and request.session.get('airline_upsell_%s' % request.POST['signature']) or 0
         else:
             #post
@@ -571,7 +569,7 @@ def get_data_seat_page(request):
             # pre
             res['airline_pick'] = request.session['airline_sell_journey_%s' % request.POST['signature']]['sell_journey_provider']
             res['price_itinerary'] = request.session['airline_sell_journey_%s' % request.POST['signature']]
-            res['airline_request'] = request.session['airline_request_%s' % request.POST['signature']]
+            res['airline_request'] = request.session['airline_search_%s' % request.POST['signature']]
             res['upsell'] = request.session.get('airline_upsell_' + request.POST['signature']) and request.session.get('airline_upsell_%s' % request.POST['signature']) or 0
         else:
             # post
@@ -1057,7 +1055,6 @@ def search2(request):
                 })
 
         if request.POST['last_send'] == 'true': ##SIMPEN CACHE REQUEST DENGAN SIGNATURE HANYA SEKALI SETIAP SEARCH
-            set_session(request, 'airline_request_%s' % request.POST['signature'], request.session['airline_request'])
             set_session(request, 'airline_search_%s' % request.POST['signature'], data)
 
         headers = {

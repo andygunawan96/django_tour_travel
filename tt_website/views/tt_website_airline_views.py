@@ -470,7 +470,9 @@ def passenger(request, signature):
             labour = []
             seaman = []
             student = []
-            pax = copy.deepcopy(request.session['airline_request_%s' % signature])
+            if 'airline_request_%s' % signature in request.session:
+                set_session(request, 'airline_request_%s' % signature, json.loads(request.POST['airline_search_request']))
+            pax = copy.deepcopy(request.session['airline_search_%s' % signature])
             for i in range(int(pax['adult'])):
                 adult.append('')
             for i in range(int(pax['child'])):
@@ -561,7 +563,7 @@ def passenger(request, signature):
                 'countries': airline_country,
                 'phone_code': phone_code,
                 'is_identity_required': is_identity_required,
-                'airline_request': request.session['airline_request_%s' % signature],
+                'airline_request': request.session['airline_search_%s' % signature],
                 'price': request.session['airline_sell_journey_%s' % signature],
                 'airline_get_price_request': request.session['airline_get_price_request_%s' % signature],
                 'airline_carriers': carrier,
@@ -620,7 +622,7 @@ def passenger_aftersales(request, signature):
             student = []
             seaman = []
             labour = []
-            pax = copy.deepcopy(request.session['airline_request_%s' % signature])
+            pax = copy.deepcopy(request.session['airline_search_%s' % signature])
             for i in range(int(pax['adult'])):
                 adult.append('')
             for i in range(int(pax['child'])):
@@ -723,7 +725,7 @@ def passenger_aftersales(request, signature):
                 'is_change_identity': is_change_identity,
                 'is_identity_required': is_identity_required,
                 'order_number': request.session['airline_get_booking_response_%s' % signature]['result']['response']['order_number'],
-                'airline_request': request.session['airline_request_%s' % signature],
+                'airline_request': request.session['airline_search_%s' % signature],
                 'airline_carriers': carrier,
                 'adults': adult,
                 'childs': child,
@@ -819,7 +821,7 @@ def ssr(request, signature):
 
                 values.update({
                     'static_path': path_util.get_static_path(MODEL_NAME),
-                    'airline_request': request.session['airline_request_%s' % signature],
+                    'airline_request': request.session['airline_search_%s' % signature],
                     'price': request.session['airline_sell_journey_%s' % signature],
                     'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
                     'countries': airline_country,
@@ -1166,7 +1168,7 @@ def seat_map(request, signature):
                     'phone_code': phone_code,
                     'after_sales': 0,
                     'upsell': request.session.get('airline_upsell_' + signature) and request.session.get('airline_upsell_%s' % signature) or 0,
-                    'airline_request': request.session['airline_request_%s' % signature],
+                    'airline_request': request.session['airline_search_%s' % signature],
                     'price': request.session['airline_sell_journey_%s' % signature],
                     'additional_price': float(additional_price_input),
                     'passengers': passenger,
@@ -1672,7 +1674,7 @@ def review(request, signature):
                         ff_request = copy.deepcopy(request.session['airline_get_ff_availability_%s' % signature])['result']['response']['ff_availability_provider']
                     except:
                         ff_request = []
-                    airline_request = copy.deepcopy(request.session['airline_request_%s' % signature])
+                    airline_request = copy.deepcopy(request.session['airline_search_%s' % signature])
                     for i in range(int(airline_request['adult'])):
                         ff_number = []
                         counter = 0
@@ -2149,7 +2151,7 @@ def review(request, signature):
                 'phone_code': phone_code,
                 'ssr': request.session.get('airline_get_ssr_%s' % signature)['result']['error_code'] if request.session.get('airline_get_ssr_%s' % signature) else 1,
                 'seat': request.session.get('airline_get_seat_availability_%s' % signature)['result']['error_code'] if request.session.get('airline_get_seat_availability_%s' % signature) else 1,
-                'airline_request': request.session['airline_request_%s' % signature],
+                'airline_request': request.session['airline_search_%s' % signature],
                 'price': request.session['airline_sell_journey_%s' % signature],
                 'airline_pick': request.session['airline_sell_journey_%s' % signature]['sell_journey_provider'],
                 'back_page': request.META.get('HTTP_REFERER'),

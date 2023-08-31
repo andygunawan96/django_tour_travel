@@ -590,6 +590,7 @@ function get_airline_data_search_page(frontend_signature){
        },
        success: function(msg) {
            airline_request = msg.airline_request;
+           document.getElementById('airline_search_request').value = JSON.stringify(airline_request);
            airline_carriers = msg.airline_carriers;
            airline_carriers_data_awal = JSON.parse(JSON.stringify(msg.airline_carriers));
            airline_all_carriers = JSON.parse(JSON.stringify(msg.airline_all_carriers));
@@ -894,8 +895,8 @@ function airline_do_passenger_js_load(){
                     singleDatePicker: true,
                     autoUpdateInput: true,
                     startDate: moment().subtract(18, 'years'),
-                    minDate: moment(airline_request.departure[airline_request.departure.length-1],'DD MMM YYYY').subtract(100, 'years'),
-                    maxDate: moment(airline_request.departure[airline_request.departure.length-1],'DD MMM YYYY').subtract(12, 'years'),
+                    minDate: moment(airline_request.journey_list[airline_request.journey_list.length-1].departure_date,'YYYY-MM-DD').subtract(100, 'years'),
+                    maxDate: moment(airline_request.journey_list[airline_request.journey_list.length-1].departure_date,'YYYY-MM-DD').subtract(12, 'years'),
                     showDropdowns: true,
                     opens: 'center',
                     locale: {
@@ -938,8 +939,8 @@ function airline_do_passenger_js_load(){
                     singleDatePicker: true,
                     autoUpdateInput: true,
                     startDate: moment().subtract(5, 'years'),
-                    minDate: moment(airline_request.departure[airline_request.departure.length-1],'DD MMM YYYY').subtract(11, 'years').subtract(365, 'days'),
-                    maxDate: moment(airline_request.departure[airline_request.departure.length-1],'DD MMM YYYY').subtract(2, 'years'),
+                    minDate: moment(airline_request.journey_list[airline_request.journey_list.length-1].departure_date,'YYYY-MM-DD').subtract(11, 'years').subtract(365, 'days'),
+                    maxDate: moment(airline_request.journey_list[airline_request.journey_list.length-1].departure_date,'YYYY-MM-DD').subtract(2, 'years'),
                     showDropdowns: true,
                     opens: 'center',
                     locale: {
@@ -981,7 +982,7 @@ function airline_do_passenger_js_load(){
                     singleDatePicker: true,
                     autoUpdateInput: true,
                     startDate: moment().subtract(1, 'years'),
-                    minDate: moment(airline_request.departure[airline_request.departure.length-1],'DD MMM YYYY').subtract(1, 'years').subtract(364, 'days'),
+                    minDate: moment(airline_request.journey_list[airline_request.journey_list.length-1].departure_date,'YYYY-MM-DD').subtract(1, 'years').subtract(364, 'days'),
                     maxDate: moment(),
                     showDropdowns: true,
                     opens: 'center',
@@ -1024,8 +1025,8 @@ function airline_do_passenger_js_load(){
                     singleDatePicker: true,
                     autoUpdateInput: true,
                     startDate: moment().subtract(18, 'years'),
-                    minDate: moment(airline_request.departure[airline_request.departure.length-1],'DD MMM YYYY').subtract(100, 'years'),
-                    maxDate: moment(airline_request.departure[airline_request.departure.length-1],'DD MMM YYYY').subtract(12, 'years'),
+                    minDate: moment(airline_request.journey_list[airline_request.journey_list.length-1].departure_date,'YYYY-MM-DD').subtract(100, 'years'),
+                    maxDate: moment(airline_request.journey_list[airline_request.journey_list.length-1].departure_date,'YYYY-MM-DD').subtract(12, 'years'),
                     showDropdowns: true,
                     opens: 'center',
                     locale: {
@@ -1067,8 +1068,8 @@ function airline_do_passenger_js_load(){
                     singleDatePicker: true,
                     autoUpdateInput: true,
                     startDate: moment().subtract(18, 'years'),
-                    minDate: moment(airline_request.departure[airline_request.departure.length-1],'DD MMM YYYY').subtract(100, 'years'),
-                    maxDate: moment(airline_request.departure[airline_request.departure.length-1],'DD MMM YYYY').subtract(12, 'years'),
+                    minDate: moment(airline_request.journey_list[airline_request.journey_list.length-1].departure_date,'YYYY-MM-DD').subtract(100, 'years'),
+                    maxDate: moment(airline_request.journey_list[airline_request.journey_list.length-1].departure_date,'YYYY-MM-DD').subtract(12, 'years'),
                     showDropdowns: true,
                     opens: 'center',
                     locale: {
@@ -1110,8 +1111,8 @@ function airline_do_passenger_js_load(){
                     singleDatePicker: true,
                     autoUpdateInput: true,
                     startDate: moment().subtract(18, 'years'),
-                    minDate: moment(airline_request.departure[airline_request.departure.length-1],'DD MMM YYYY').subtract(100, 'years'),
-                    maxDate: moment(airline_request.departure[airline_request.departure.length-1],'DD MMM YYYY').subtract(12, 'years'),
+                    minDate: moment(airline_request.journey_list[airline_request.journey_list.length-1].departure_date,'YYYY-MM-DD').subtract(100, 'years'),
+                    maxDate: moment(airline_request.journey_list[airline_request.journey_list.length-1].departure_date,'YYYY-MM-DD').subtract(12, 'years'),
                     showDropdowns: true,
                     opens: 'center',
                     locale: {
