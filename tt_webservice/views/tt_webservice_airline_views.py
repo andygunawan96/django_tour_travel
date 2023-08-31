@@ -486,7 +486,7 @@ def get_airline_request_cache(request, attempt=1):
     if request.session.get('airline_request_%s' % request.POST['signature']):
         return copy.deepcopy(request.session['airline_request_%s' % request.POST['signature']])
     elif attempt < 5:
-        time.sleep(0.1)
+        time.sleep(1)
         return get_airline_request_cache(request, attempt+1)
 
 def get_airline_sell_journey_cache(request, attempt=1):
@@ -494,7 +494,7 @@ def get_airline_sell_journey_cache(request, attempt=1):
     if request.session.get('airline_sell_journey_%s' % request.POST['signature']):
         return copy.deepcopy(request.session['airline_sell_journey_%s' % request.POST['signature']])
     elif attempt < 5:
-        time.sleep(0.1)
+        time.sleep(1)
         return get_airline_sell_journey_cache(request, attempt+1)
 
 def get_airline_price_request_cache(request, attempt=1):
@@ -502,7 +502,7 @@ def get_airline_price_request_cache(request, attempt=1):
     if request.session.get('airline_get_price_request_%s' % request.POST['signature']):
         return copy.deepcopy(request.session['airline_get_price_request_%s' % request.POST['signature']])
     elif attempt < 5:
-        time.sleep(0.1)
+        time.sleep(1)
         return get_airline_price_request_cache(request, attempt+1)
 
 
