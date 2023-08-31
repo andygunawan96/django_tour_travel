@@ -421,11 +421,11 @@ def get_data_search_page(request):
             "direction": direction,
             "infant": int(airline_request['infant']),
             "is_combo_price": airline_request['is_combo_price'],
-            "labour": int(airline_request['labour']),
+            "labour": int(airline_request.get('labour',0)),
             "origin": airline_request['origin'].replace('%20', ' ').split(','),
             "return": airline_request['return'].replace('%20', ' ').split(','),
-            "seaman": int(airline_request['seaman']),
-            "student": int(airline_request['student'])
+            "seaman": int(airline_request.get('seaman',0)),
+            "student": int(airline_request.get('student',0))
         }
         res['airline_request'] = airline_request
         response = get_carriers_search(request, request.POST['signature'])
