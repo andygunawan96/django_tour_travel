@@ -358,10 +358,10 @@ def search(request):
 
             airline_request['flight'] = flight
             frontend_signature = _generate_signature()
-            set_session(request, 'airline_carriers_request_%s' % frontend_signature, airline_carriers)
-            set_session(request, 'airline_request_%s' % frontend_signature, airline_request)
-            set_session(request, 'airline_request', airline_request)
-            set_session(request, 'airline_mc_counter', 0)
+            # set_session(request, 'airline_carriers_request_%s' % frontend_signature, airline_carriers)
+            # set_session(request, 'airline_request_%s' % frontend_signature, airline_request)
+            # set_session(request, 'airline_request', airline_request)
+            # set_session(request, 'airline_mc_counter', 0)
 
             # get_balance(request)
 

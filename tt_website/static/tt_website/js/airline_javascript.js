@@ -383,6 +383,13 @@ function airline_goto_search(){
         }
         document_set_cookie('airline_request', JSON.stringify(request_airline));
 
+        concat_url = ''
+        for(key in request_airline){
+            if(concat_url)
+                concat_url += '&';
+            concat_url += key + '=' + request_airline[key];
+        }
+        document.getElementById('airline_searchForm').action += '?' + concat_url;
         document.getElementById('airline_searchForm').submit();
     }else{
         $('.button-search').removeClass("running");

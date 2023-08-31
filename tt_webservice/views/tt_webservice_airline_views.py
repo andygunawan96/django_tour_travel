@@ -280,7 +280,7 @@ def re_order_set_airline_request(request):
         ## UNTUK REORDER SAMPAI PASSENGER
         set_session(request, 'airline_request_%s' % request.POST['signature'], json.loads(request.POST['airline_request']))
         ## UNTUK REORDER KEMBALI KE SEARCH KARENA TIDAK JADWAL YG SAMA HABIS / TIDAK KETEMU, BELUM ADA SIGNATURE
-        set_session(request, 'airline_request', json.loads(request.POST['airline_request']))
+        # set_session(request, 'airline_request', json.loads(request.POST['airline_request']))
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return ERR.get_no_error_api()
@@ -402,19 +402,76 @@ def re_order_set_pax_signature(request):
 def get_data_search_page(request):
     try:
         res = {}
-        if request.session.get('airline_request_%s' % request.POST['frontend_signature']):
-            res['airline_request'] = request.session['airline_request_%s' % request.POST['frontend_signature']]
-        elif request.session.get('airline_request'):
-            res['airline_request'] = request.session['airline_request']
+        airline_request = json.loads(request.POST['airline_request'])
+        if airline_request['direction'] == 'oneway':
+            direction = 'OW'
+        elif airline_request['direction'] == 'roundtrip':
+            direction = 'RT'
+        elif airline_request['direction'] == 'multicity':
+            direction = 'MC'
+        airline_request = {
+            "adult": int(airline_request['adult']),
+            "cabin_class": airline_request['cabin_class'],
+            "cabin_class_list": airline_request['cabin_class_list'].split(',') if airline_request['cabin_class_list'] != '' else [],
+            "carrier_codes": airline_request['carrier_codes'].split(',') if airline_request['carrier_codes'] != '' else [],
+            "child": int(airline_request['child']),
+            "counter": airline_request['counter'],
+            "departure": airline_request['departure'].replace('%20', ' ').split(','),
+            "destination": airline_request['destination'].replace('%20', ' ').split(','),
+            "direction": direction,
+            "infant": int(airline_request['infant']),
+            "is_combo_price": airline_request['is_combo_price'],
+            "labour": int(airline_request['labour']),
+            "origin": airline_request['origin'].replace('%20', ' ').split(','),
+            "return": airline_request['return'].replace('%20', ' ').split(','),
+            "seaman": int(airline_request['seaman']),
+            "student": int(airline_request['student'])
+        }
+        res['airline_request'] = airline_request
+        response = get_carriers_search(request, request.POST['signature'])
+
+        airline_carriers = {
+            'All': {
+                'name': 'All',
+                'code': 'all',
+                'is_excluded_from_b2c': False,
+                'bool': True if len(res['airline_request']['carrier_codes']) == 0 else False
+            }
+        }
+        for j in response:
+            try:
+                airline_carriers[j] = {
+                    'name': response[j]['name'],
+                    'code': response[j]['code'],
+                    'display_name': response[j]['display_name'],
+                    'icao': response[j]['icao'],
+                    'call_sign': response[j]['call_sign'],
+                    'is_favorite': response[j]['is_favorite'],
+                    'provider': response[j]['provider'],
+                    'is_excluded_from_b2c': response[j].get('is_excluded_from_b2c'),
+                    'bool': True if response[j]['code'] in res['airline_request']['carrier_codes'] else False
+                }
+            except Exception as e:
+                _logger.error(str(e) + '\n' + traceback.format_exc())
+
+
+        res['airline_carriers'] = [airline_carriers]
 
         file = read_cache("get_airline_carriers", 'cache_web', request, 90911)
         if file:
             res['airline_all_carriers'] = file
 
-        if request.session.get('airline_carriers_request_%s' % request.POST['frontend_signature']):
-            res['airline_carriers'] = request.session['airline_carriers_request_%s' % request.POST['frontend_signature']]
-        elif request.session.get('airline_carriers_request'):
-            res['airline_carriers'] = request.session['airline_carriers_request']
+        # if request.session.get('airline_request_%s' % request.POST['frontend_signature']):
+        #     res['airline_request'] = request.session['airline_request_%s' % request.POST['frontend_signature']]
+        # elif request.session.get('airline_request'):
+        #     res['airline_request'] = request.session['airline_request']
+
+
+
+        # if request.session.get('airline_carriers_request_%s' % request.POST['frontend_signature']):
+        #     res['airline_carriers'] = request.session['airline_carriers_request_%s' % request.POST['frontend_signature']]
+        # elif request.session.get('airline_carriers_request'):
+        #     res['airline_carriers'] = request.session['airline_carriers_request']
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -1079,7 +1136,7 @@ def search2(request):
                 "signature": request.POST['new_signature'] if request.POST.get('new_signature') else request.POST['signature']
             }
             if request.POST.get('new_signature'):
-                set_session(request, 'airline_request_%s' % request.POST['new_signature'],request.session['airline_request'])
+                # set_session(request, 'airline_request_%s' % request.POST['new_signature'],request.session['airline_request'])
                 set_session(request, 'airline_search_%s' % request.POST['new_signature'], data)
         else:
             _logger.error(str(e) + '\n' + traceback.format_exc())

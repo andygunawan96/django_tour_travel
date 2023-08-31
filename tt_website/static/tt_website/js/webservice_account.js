@@ -967,7 +967,7 @@ function get_transactions(type){
     }
     limit_transaction = 20;
     if(document.URL.includes('#') && document.getElementById('search').style.display == 'none'){
-        urlp=[];s=location.toString().split('#');s=s[1].split('&');for(i=0;i<s.length;i++){u=s[i].split('=');urlp[u[0]]=u[1];}
+        urlp = get_data_url();
         if(urlp.hasOwnProperty('provider_type')){
             try{
                 var radios = document.getElementsByName('filter');

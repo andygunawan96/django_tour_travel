@@ -579,16 +579,23 @@ function airline_re_get_price(type){
 }
 
 function get_airline_data_search_page(frontend_signature){
+    data_airline_request = {};
+    airline_request = get_data_url();
+    for(i in airline_request){
+        data_airline_request[i] = airline_request[i];
+    }
     $.ajax({
-       type: "POST",
-       url: "/webservice/airline",
-       headers:{
+        type: "POST",
+        url: "/webservice/airline",
+        headers:{
             'action': 'get_data_search_page',
-       },
-       data: {
-            'frontend_signature': frontend_signature
-       },
-       success: function(msg) {
+        },
+        data: {
+            'frontend_signature': frontend_signature,
+            'airline_request': JSON.stringify(data_airline_request),
+            'signature': signature
+        },
+        success: function(msg) {
            console.log(msg);
            airline_request = msg.airline_request;
            document.getElementById('airline_search_request').value = JSON.stringify(airline_request);
@@ -601,10 +608,10 @@ function get_airline_data_search_page(frontend_signature){
                 count++;
            }
            plus_min_passenger_airline_btn();
-       },
-       error: function(XMLHttpRequest, textStatus, errorThrown) {
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
 
-       },timeout: 60000
+        },timeout: 60000
     });
 
 }
