@@ -454,7 +454,7 @@ def get_data_search_page(request):
                     'is_favorite': response[j]['is_favorite'],
                     'provider': response[j]['provider'],
                     'is_excluded_from_b2c': response[j].get('is_excluded_from_b2c'),
-                    'bool': True if response[j]['code'] in res['airline_request']['carrier_codes'] else False
+                    'bool': True if j in res['airline_request']['carrier_codes'] else False
                 }
             except Exception as e:
                 _logger.error(str(e) + '\n' + traceback.format_exc())
