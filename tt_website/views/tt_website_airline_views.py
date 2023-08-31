@@ -501,13 +501,21 @@ def passenger(request, signature):
             # signature = request.session['airline_signature']
 
         # CHECK INI
-        try:
-            set_session(request, 'airline_price_itinerary_%s' % signature,json.loads(request.POST['airline_price_itinerary']))
+        if 'airline_price_itinerary_%s' % signature not in request.session or request.session.get('airline_price_itinerary_%s' % signature) and request.session['airline_price_itinerary_%s' % signature] != json.loads(request.POST['airline_price_itinerary']):
+            set_session(request, 'airline_price_itinerary_%s' % signature, json.loads(request.POST['airline_price_itinerary']))
+
+        if 'airline_get_price_request_%s' % signature not in request.session or request.session.get('airline_get_price_request_%s' % signature) and request.session['airline_get_price_request_%s' % signature] != json.loads(request.POST['airline_price_itinerary_request']):
             set_session(request, 'airline_get_price_request_%s' % signature,json.loads(request.POST['airline_price_itinerary_request']))
-            set_session(request, 'airline_sell_journey_%s' % signature,json.loads(request.POST['airline_sell_journey_response']))
-        except Exception as e:
-            _logger.error('Data POST for airline_price_itinerary, airline_get_price_request, airline_sell_journey not found use cache')
-            _logger.error("%s, %s" % (str(e), traceback.format_exc()))
+
+        if 'airline_sell_journey_%s' % signature not in request.session or request.session.get('airline_sell_journey_%s' % signature) and request.session['airline_sell_journey_%s' % signature] != json.loads(request.POST['airline_sell_journey_response']):
+            set_session(request, 'airline_sell_journey_%s' % signature, json.loads(request.POST['airline_sell_journey_response']))
+        # try:
+        #     set_session(request, 'airline_price_itinerary_%s' % signature,json.loads(request.POST['airline_price_itinerary']))
+        #     set_session(request, 'airline_get_price_request_%s' % signature,json.loads(request.POST['airline_price_itinerary_request']))
+        #     set_session(request, 'airline_sell_journey_%s' % signature,json.loads(request.POST['airline_sell_journey_response']))
+        # except Exception as e:
+        #     _logger.error('Data POST for airline_price_itinerary, airline_get_price_request, airline_sell_journey not found use cache')
+        #     _logger.error("%s, %s" % (str(e), traceback.format_exc()))
         # carrier_code = read_cache("get_airline_carriers", 'cache_web', request, 90911)
         is_lionair = False
         is_international = False
