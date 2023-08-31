@@ -13,6 +13,7 @@ def set_session(request, session_key, data, depth = 1):
     if session_key in request.session:
         del request.session[session_key]
     request.session[session_key] = data
+    request.session.modified = True
     try:
         request.session.save()
     except Exception as e:
