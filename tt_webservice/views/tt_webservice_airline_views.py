@@ -422,12 +422,12 @@ def get_data_search_page(request):
 def get_data_passenger_page(request):
     try:
         res = {}
-        res['airline_request'] = request.session['airline_search_%s' % request.POST['signature']]
+        res['airline_request'] = copy.deepcopy(request.session['airline_search_%s' % request.POST['signature']])
         if request.session.get('airline_create_passengers_%s' % request.POST['signature']):
-            res['pax_cache'] = request.session['airline_create_passengers_%s' % request.POST['signature']]
-        res['ssr'] = request.session.get('airline_get_ssr_%s' % request.POST['signature'])
-        res['airline_pick'] = request.session['airline_sell_journey_%s' % request.POST['signature']]['sell_journey_provider']
-        res['airline_get_price_request'] = request.session['airline_get_price_request_%s' % request.POST['signature']]
+            res['pax_cache'] = copy.deepcopy(request.session['airline_create_passengers_%s' % request.POST['signature']])
+        res['ssr'] = copy.deepcopy(request.session.get('airline_get_ssr_%s' % request.POST['signature']))
+        res['airline_pick'] = copy.deepcopy(request.session['airline_sell_journey_%s' % request.POST['signature']])['sell_journey_provider']
+        res['airline_get_price_request'] = copy.deepcopy(request.session['airline_get_price_request_%s' % request.POST['signature']])
         res['price_itinerary'] = request.session['airline_sell_journey_%s' % request.POST['signature']]
         file = read_cache("get_airline_carriers", 'cache_web', request, 90911)
         if file:
@@ -461,13 +461,13 @@ def get_data_passenger_page(request):
 def get_data_review_page(request):
     res = {}
     try:
-        res['airline_pick'] = request.session['airline_sell_journey_%s' % request.POST['signature']]['sell_journey_provider']
-        res['airline_request'] = request.session['airline_search_%s' % request.POST['signature']]
-        res['price_itinerary'] = request.session['airline_sell_journey_%s' % request.POST['signature']]
+        res['airline_pick'] = copy.deepcopy(request.session['airline_sell_journey_%s' % request.POST['signature']])['sell_journey_provider']
+        res['airline_request'] = copy.deepcopy(request.session['airline_search_%s' % request.POST['signature']])
+        res['price_itinerary'] = copy.deepcopy(request.session['airline_sell_journey_%s' % request.POST['signature']])
         file = read_cache("get_airline_carriers", 'cache_web', request, 90911)
         if file:
             res['airline_carriers'] = file
-        res['passengers'] = request.session['airline_create_passengers_%s' % request.POST['signature']]
+        res['passengers'] = copy.deepcopy(request.session['airline_create_passengers_%s' % request.POST['signature']])
 
         passenger = []
         airline_create_passengers = copy.deepcopy(request.session['airline_create_passengers_%s' % request.POST['signature']])
@@ -476,10 +476,10 @@ def get_data_review_page(request):
                 for pax in airline_create_passengers[pax_type]:
                     passenger.append(pax)
         res['passengers_ssr'] = passenger
-        res['airline_ssr_request'] = request.session['airline_ssr_request_%s' % request.POST['signature']] if request.session.get('airline_ssr_request_%s' % request.POST['signature']) else {}
-        res['airline_seat_request'] = request.session['airline_seat_request_%s' % request.POST['signature']] if request.session.get('airline_seat_request_%s' % request.POST['signature']) else {}
-        res['upsell_price_dict'] = request.session.get('airline_upsell_%s' % request.POST['signature']) and request.session.get('airline_upsell_%s' % request.POST['signature']) or {}
-        res['upsell_price_dict_ssr'] = request.session.get('airline_ssr_upsell_%s' % request.POST['signature']) and request.session.get('airline_ssr_upsell_%s' % request.POST['signature']) or {}
+        res['airline_ssr_request'] = copy.deepcopy(request.session['airline_ssr_request_%s' % request.POST['signature']]) if request.session.get('airline_ssr_request_%s' % request.POST['signature']) else {}
+        res['airline_seat_request'] = copy.deepcopy(request.session['airline_seat_request_%s' % request.POST['signature']]) if request.session.get('airline_seat_request_%s' % request.POST['signature']) else {}
+        res['upsell_price_dict'] = copy.deepcopy(request.session.get('airline_upsell_%s' % request.POST['signature'])) and request.session.get('airline_upsell_%s' % request.POST['signature']) or {}
+        res['upsell_price_dict_ssr'] = copy.deepcopy(request.session.get('airline_ssr_upsell_%s' % request.POST['signature'])) and request.session.get('airline_ssr_upsell_%s' % request.POST['signature']) or {}
 
         if request.session.get('airline_get_ssr_%s' % request.POST['signature']):
             airline_get_ssr = copy.deepcopy(request.session.get('airline_get_ssr_%s' % request.POST['signature']))
@@ -509,9 +509,9 @@ def get_data_review_after_sales_page(request):
         if file:
             res['airline_carriers'] = file
 
-        res['passengers'] = request.session['airline_create_passengers_%s' % request.POST['signature']]
-        res['passengers_ssr'] = request.session['airline_create_passengers_%s' % request.POST['signature']]['adult'] + request.session['airline_create_passengers_%s' % request.POST['signature']]['child']
-        res['airline_get_detail'] = request.session['airline_get_booking_response_%s' % request.POST['signature']]['result']['response']
+        res['passengers'] = copy.deepcopy(request.session['airline_create_passengers_%s' % request.POST['signature']])
+        res['passengers_ssr'] = copy.deepcopy(request.session['airline_create_passengers_%s' % request.POST['signature']]['adult'] + request.session['airline_create_passengers_%s' % request.POST['signature']]['child'])
+        res['airline_get_detail'] = copy.deepcopy(request.session['airline_get_booking_response_%s' % request.POST['signature']]['result']['response'])
 
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
@@ -538,10 +538,10 @@ def get_data_ssr_page(request):
 
         if request.POST['after_sales'] == 'false':
             # pre
-            res['airline_pick'] = request.session['airline_sell_journey_%s' % request.POST['signature']]['sell_journey_provider']
-            res['price_itinerary'] = request.session['airline_sell_journey_%s' % request.POST['signature']]
-            res['airline_request'] = request.session['airline_search_%s' % request.POST['signature']]
-            res['upsell'] = request.session.get('airline_upsell_' + request.POST['signature']) and request.session.get('airline_upsell_%s' % request.POST['signature']) or 0
+            res['airline_pick'] = copy.deepcopy(request.session['airline_sell_journey_%s' % request.POST['signature']])['sell_journey_provider']
+            res['price_itinerary'] = copy.deepcopy(request.session['airline_sell_journey_%s' % request.POST['signature']])
+            res['airline_request'] = copy.deepcopy(request.session['airline_search_%s' % request.POST['signature']])
+            res['upsell'] = copy.deepcopy(request.session.get('airline_upsell_' + request.POST['signature'])) and request.session.get('airline_upsell_%s' % request.POST['signature']) or 0
         else:
             #post
             passenger = []
@@ -551,8 +551,8 @@ def get_data_ssr_page(request):
             for pax in pax_list['child']:
                 passenger.append(pax)
             res['passengers'] = passenger
-            res['airline_getbooking'] = request.session['airline_get_booking_response_%s' % request.POST['signature']]['result']['response']
-            res['ssrs'] = request.session['airline_ssrs_aftersales_%s' % request.POST['signature']]
+            res['airline_getbooking'] = copy.deepcopy(request.session['airline_get_booking_response_%s' % request.POST['signature']])['result']['response']
+            res['ssrs'] = copy.deepcopy(request.session['airline_ssrs_aftersales_%s' % request.POST['signature']])
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -563,14 +563,15 @@ def get_data_seat_page(request):
         file = read_cache("get_airline_carriers", 'cache_web', request, 90911)
         if file:
             res['airline_carriers'] = file
-        res['passengers'] = request.session['airline_create_passengers_%s' % request.POST['signature']]['adult'] + request.session['airline_create_passengers_%s' % request.POST['signature']]['child']
+        airline_create_passenger = copy.deepcopy(request.session['airline_create_passengers_%s' % request.POST['signature']])
+        res['passengers'] = airline_create_passenger['adult'] + airline_create_passenger['child']
 
         if request.POST['after_sales'] == 'false':
             # pre
-            res['airline_pick'] = request.session['airline_sell_journey_%s' % request.POST['signature']]['sell_journey_provider']
-            res['price_itinerary'] = request.session['airline_sell_journey_%s' % request.POST['signature']]
-            res['airline_request'] = request.session['airline_search_%s' % request.POST['signature']]
-            res['upsell'] = request.session.get('airline_upsell_' + request.POST['signature']) and request.session.get('airline_upsell_%s' % request.POST['signature']) or 0
+            res['airline_pick'] = copy.deepcopy(request.session['airline_sell_journey_%s' % request.POST['signature']])['sell_journey_provider']
+            res['price_itinerary'] = copy.deepcopy(request.session['airline_sell_journey_%s' % request.POST['signature']])
+            res['airline_request'] = copy.deepcopy(request.session['airline_search_%s' % request.POST['signature']])
+            res['upsell'] = copy.deepcopy(request.session.get('airline_upsell_' + request.POST['signature'])) and request.session.get('airline_upsell_%s' % request.POST['signature']) or 0
         else:
             # post
             passenger = []
@@ -580,7 +581,7 @@ def get_data_seat_page(request):
             for pax in pax_list['child']:
                 passenger.append(pax)
             res['passengers'] = passenger
-            res['airline_getbooking'] = request.session['airline_get_booking_response_%s' % request.POST['signature']]['result']['response']
+            res['airline_getbooking'] = copy.deepcopy(request.session['airline_get_booking_response_%s' % request.POST['signature']])['result']['response']
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
