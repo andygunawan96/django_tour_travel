@@ -427,6 +427,11 @@ def get_data_search_page(request):
             "seaman": int(airline_request.get('seaman',0)),
             "student": int(airline_request.get('student',0))
         }
+        if direction == 'RT':
+            airline_request['origin'].append(airline_request['destination'][0])
+            airline_request['destination'].append(airline_request['origin'][0])
+            airline_request['departure'].append(airline_request['return'][0])
+
         res['airline_request'] = airline_request
         response = get_carriers_search(request, request.POST['signature'])
 
