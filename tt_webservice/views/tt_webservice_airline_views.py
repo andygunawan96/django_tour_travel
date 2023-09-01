@@ -484,7 +484,7 @@ def get_data_search_page(request):
 def get_data_passenger_page(request):
     try:
         res = {}
-        res['airline_request'] = copy.deepcopy(request.session['airline_search_%s' % request.POST['signature']])
+        res['airline_request'] = copy.deepcopy(request.session['airline_request_%s' % request.POST['signature']])
         if request.session.get('airline_create_passengers_%s' % request.POST['signature']):
             res['pax_cache'] = copy.deepcopy(request.session['airline_create_passengers_%s' % request.POST['signature']])
         res['ssr'] = copy.deepcopy(request.session.get('airline_get_ssr_%s' % request.POST['signature']))
