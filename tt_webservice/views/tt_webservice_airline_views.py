@@ -264,6 +264,14 @@ def login(request):
     res = send_request_api({}, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
+            ### TESTING ####
+            request.session.create()
+            request.session.set_expiry(3 * 60 * 60)  # jam detik menit
+            set_session(request, 'signature', res['result']['response']['signature'])
+            set_session(request, 'username', request.POST.get('username') or user_default)
+            set_session(request, 'password', request.POST.get('password') or password_default)
+            set_session(request, 'signin_date', datetime.now().timestamp())
+            ### TESTING ####
             create_session_product(request, 'airline', 20, res['result']['response']['signature'])
             set_session(request, 'airline_signature', res['result']['response']['signature'])
             set_session(request, 'signature', res['result']['response']['signature'])
