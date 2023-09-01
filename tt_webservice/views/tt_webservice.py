@@ -13,15 +13,17 @@ def set_session(request, session_key, data, depth = 1):
     if session_key in request.session:
         del request.session[session_key]
     request.session[session_key] = data
+    _logger.info('write cache %s %s try' % (session_key, depth))
     try:
         request.session.save()
     except Exception as e:
+        if depth < 10:
+            try:
+                set_session(request, session_key, data, depth + 1)
+            except:
+                _logger.error('Error write cache %s' % session_key)
         _logger.error(str(e) + traceback.format_exc())
-    _logger.info('write cache %s %s try' % (session_key, depth))
-    if session_key in request.session:
-        _logger.info('Already save session %s' % session_key)
-    elif depth < 10:
-        set_session(request, session_key, data, depth+1)
+
 
 def del_session(request, session_key):
     if session_key in request.session:
