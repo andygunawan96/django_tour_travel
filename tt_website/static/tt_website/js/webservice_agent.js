@@ -1094,9 +1094,9 @@ function create_new_passenger(){
        ff_numbers = [];
        for(i = 1; i<= passenger_ff_data ; i++){
             try{
-                if(document.getElementById('passenger_ff'+i).value == ''){
+                if(document.getElementById('passenger_ff'+i+'_id').value == ''){
                     error_log+= 'Please choose frequent flyer '+i+'!</br>\n';
-                    document.getElementById('passenger_ff'+i).style['border-color'] = 'red';
+                    document.getElementById('passenger_ff'+i+'_id').style['border-color'] = 'red';
                 }else{
                     is_same_ff = false;
                     for(j in ff_numbers){

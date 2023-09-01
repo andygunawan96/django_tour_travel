@@ -9779,13 +9779,22 @@ function airline_get_booking(data, sync=false){
                                 <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
                                     <span style="font-size:12px;">`+msg.result.response.passengers[j].name+`</span>`;
                                 text_detail+=`</div>
-                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">`;
+                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                                    <span style="font-size:13px;`;
+                                    if(is_show_breakdown_price){
+                                        text_detail+=`cursor:pointer;" id="passenger_breakdown`+j+`"`;
+                                    }else{
+                                        text_detail+=`"`;
+                                    }
                                 if(counter_service_charge == 0) //upsell hanya masuk di pnr pertama
                                     text_detail+=`
-                                    <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.SSR + price.SEAT + price.CSC))+`</span>`;
+                                    >`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.SSR + price.SEAT + price.CSC));
                                 else
                                     text_detail+=`
-                                    <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.SSR + price.SEAT))+`</span>`;
+                                    >`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.SSR + price.SEAT));
+                                if(is_show_breakdown_price)
+                                    text_detail+=`<i class="fas fa-caret-down"></i>`;
+                                text_detail += `</span>`;
                                 text_detail+=`
                                 </div>
                             </div>`;
@@ -10083,7 +10092,6 @@ function airline_get_booking(data, sync=false){
                                 }
                             }
                         }
-
                         var breakdown_text = '';
                         for(j in price_breakdown){
                             if(breakdown_text)
@@ -10095,8 +10103,8 @@ function airline_get_booking(data, sync=false){
                             breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
                         }
                         new jBox('Tooltip', {
-                            attach: '#total_price',
-                            target: '#total_price',
+                            attach: '#passenger_breakdown'+i,
+                            target: '#passenger_breakdown'+i,
                             theme: 'TooltipBorder',
                             trigger: 'click',
                             adjustTracker: true,
@@ -10114,7 +10122,54 @@ function airline_get_booking(data, sync=false){
                             },
                             content: breakdown_text
                         });
+                        price_breakdown = {};
+                        breakdown_text = '';
+                        currency_breakdown = '';
                     }
+
+                    for(i in airline_get_detail.result.response.passengers){
+                        for(j in airline_get_detail.result.response.passengers[i].sale_service_charges){
+                            for(k in airline_get_detail.result.response.passengers[i].sale_service_charges[j]){
+                                if(k != 'RAC'){
+                                    if(!price_breakdown.hasOwnProperty(k.toUpperCase()))
+                                        price_breakdown[k.toUpperCase()] = 0;
+                                    price_breakdown[k.toUpperCase()] += airline_get_detail.result.response.passengers[i].sale_service_charges[j][k].amount;
+                                    if(currency_breakdown == '')
+                                        currency_breakdown = airline_get_detail.result.response.passengers[i].sale_service_charges[j][k].currency;
+                                }
+                            }
+                        }
+                    }
+                    var breakdown_text = '';
+                    for(j in price_breakdown){
+                        if(breakdown_text)
+                            breakdown_text += '<br/>';
+                        if(j != 'ROC')
+                            breakdown_text += '<b>'+j+'</b> ';
+                        else
+                            breakdown_text += '<b>CONVENIENCE FEE</b> ';
+                        breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
+                    }
+                    new jBox('Tooltip', {
+                        attach: '#total_price',
+                        target: '#total_price',
+                        theme: 'TooltipBorder',
+                        trigger: 'click',
+                        adjustTracker: true,
+                        closeOnClick: 'body',
+                        closeButton: 'box',
+                        animation: 'move',
+                        position: {
+                          x: 'left',
+                          y: 'top'
+                        },
+                        outside: 'y',
+                        pointer: 'left:20',
+                        offset: {
+                          x: 25
+                        },
+                        content: breakdown_text
+                    });
                 }
 
                 if(msg.result.response.state == 'refund'){
@@ -17598,6 +17653,9 @@ function get_post_ssr_availability_v2(){
                 $('.loader-rodextrip').fadeOut();
                 $('#show_loading_booking_airline').hide();
                 hide_modal_waiting_transaction();
+                $('.payment_method').prop('disabled', false).niceSelect('update');
+                $('#reissued_btn_dsb').prop('disabled', false);
+                $('#reissued_req_btn').prop('disabled', false);
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -17605,6 +17663,9 @@ function get_post_ssr_availability_v2(){
             $('.loader-rodextrip').fadeOut();
             $('#show_loading_booking_airline').hide();
             hide_modal_waiting_transaction();
+            $('.payment_method').prop('disabled', false).niceSelect('update');
+            $('#reissued_btn_dsb').prop('disabled', false);
+            $('#reissued_req_btn').prop('disabled', false);
        },timeout: 300000
     });
 }
@@ -17647,6 +17708,9 @@ function get_post_seat_availability_v2(){
                 $('.loader-rodextrip').fadeOut();
                 $('#show_loading_booking_airline').hide();
                 hide_modal_waiting_transaction();
+                $('.payment_method').prop('disabled', false).niceSelect('update');
+                $('#reissued_btn_dsb').prop('disabled', false);
+                $('#reissued_req_btn').prop('disabled', false);
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -17654,6 +17718,9 @@ function get_post_seat_availability_v2(){
             $('.loader-rodextrip').fadeOut();
             $('#show_loading_booking_airline').hide();
             hide_modal_waiting_transaction();
+            $('.payment_method').prop('disabled', false).niceSelect('update');
+            $('#reissued_btn_dsb').prop('disabled', false);
+            $('#reissued_req_btn').prop('disabled', false);
        },timeout: 300000
     });
 }

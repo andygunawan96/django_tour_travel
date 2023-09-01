@@ -240,8 +240,7 @@ def index(request):
                         'departure': request.session['airline_request']['departure'][0],
                     }
                     if cache['airline']['departure'] == 'Invalid date':
-                        cache['airline']['departure'] = convert_string_to_date_to_string_front_end(
-                            str(datetime.now())[:10])
+                        cache['airline']['departure'] = convert_string_to_date_to_string_front_end(str(datetime.now())[:10])
             except:
                 pass
 
