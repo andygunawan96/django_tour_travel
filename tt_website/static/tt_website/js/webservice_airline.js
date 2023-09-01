@@ -616,7 +616,7 @@ function get_airline_data_search_page(frontend_signature){
 
 }
 
-function get_airline_data_passenger_page(type='default'){
+function get_airline_data_passenger_page(type='default', attempt=1){
     $.ajax({
        type: "POST",
        url: "/webservice/airline",
@@ -627,56 +627,66 @@ function get_airline_data_passenger_page(type='default'){
             'signature': signature
        },
        success: function(msg) {
-           if(type == 'default'){
-               airline_pick = msg.airline_pick;
-               airline_get_price_request = msg.airline_get_price_request;
-               price_itinerary = msg.price_itinerary;
-               airline_carriers = msg.airline_carriers;
-               airline_request = msg.airline_request;
-               if(msg.hasOwnProperty('ff_request'))
-                    ff_request = msg.ff_request;
-               else
-                    ff_request = [];
-               adult = airline_request.adult;
-               child = airline_request.child;
-               infant = airline_request.infant;
-               student = airline_request.student;
-               seaman = airline_request.seaman;
-               labour = airline_request.labour;
-               try{
-                    data_ssrs = msg.ssr.result.response.ssr_availability_provider;
-                    document.getElementById('next_to_review').disabled = false;
-                    document.getElementById('next_to_review_mobile').disabled = false;
-               }catch(err){
-                    data_ssrs = {};
-                    get_seat_availability('');
-               }
-               if(msg.hasOwnProperty('pax_cache')){
-                    pax_cache_reorder = msg.pax_cache;
-                    if(msg.pax_cache.hasOwnProperty('booker'))
-                        data_booker = msg.pax_cache.booker;
-               }
-               departure_date = '';
-               for(i in airline_pick){
-                    for(j in airline_pick[i].journeys)
-                        departure_date = moment(airline_pick[i].journeys[j].departure_date, 'DD MMM YYYY').format('YYYY-MM-DD');
-               }
-               get_agent_currency_rate();
-               airline_get_provider_list('passenger');
-           }else if(type == 'aftersales'){
-               airline_request = msg.airline_request;
-               adult = airline_request.adult;
-               child = airline_request.child;
-               infant = airline_request.infant;
-               student = airline_request.student;
-               seaman = airline_request.seaman;
-               labour = airline_request.labour;
-               airline_pick = msg.airline_pick;
-               if(msg.hasOwnProperty('pax_cache')){
-                    pax_cache_reorder = msg.pax_cache;
-               }
-               airline_do_passenger_js_load();
-           }
+            if(msg.error_code == 0){
+                if(type == 'default'){
+                    airline_pick = msg.airline_pick;
+                    airline_get_price_request = msg.airline_get_price_request;
+                    price_itinerary = msg.price_itinerary;
+                    airline_carriers = msg.airline_carriers;
+                    airline_request = msg.airline_request;
+                    if(msg.hasOwnProperty('ff_request'))
+                        ff_request = msg.ff_request;
+                    else
+                        ff_request = [];
+                    adult = airline_request.adult;
+                    child = airline_request.child;
+                    infant = airline_request.infant;
+                    student = airline_request.student;
+                    seaman = airline_request.seaman;
+                    labour = airline_request.labour;
+                    try{
+                        data_ssrs = msg.ssr.result.response.ssr_availability_provider;
+                        document.getElementById('next_to_review').disabled = false;
+                        document.getElementById('next_to_review_mobile').disabled = false;
+                    }catch(err){
+                        data_ssrs = {};
+                        get_seat_availability('');
+                    }
+                    if(msg.hasOwnProperty('pax_cache')){
+                        pax_cache_reorder = msg.pax_cache;
+                        if(msg.pax_cache.hasOwnProperty('booker'))
+                            data_booker = msg.pax_cache.booker;
+                    }
+                    departure_date = '';
+                    for(i in airline_pick){
+                        for(j in airline_pick[i].journeys)
+                            departure_date = moment(airline_pick[i].journeys[j].departure_date, 'DD MMM YYYY').format('YYYY-MM-DD');
+                    }
+                    get_agent_currency_rate();
+                    airline_get_provider_list('passenger');
+                }else if(type == 'aftersales'){
+                    airline_request = msg.airline_request;
+                    adult = airline_request.adult;
+                    child = airline_request.child;
+                    infant = airline_request.infant;
+                    student = airline_request.student;
+                    seaman = airline_request.seaman;
+                    labour = airline_request.labour;
+                    airline_pick = msg.airline_pick;
+                    if(msg.hasOwnProperty('pax_cache')){
+                        pax_cache_reorder = msg.pax_cache;
+                    }
+                    airline_do_passenger_js_load();
+                }
+            }else if(attempt < 5){
+                get_airline_data_passenger_page(type, attempt+1)
+            }else{
+                Swal.fire({
+                    type: 'error',
+                    title: 'Oops!',
+                    html: "Error get cache passenger page",
+                });
+            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
 
@@ -1421,39 +1431,49 @@ function auto_input_pax_cache_reorder(){
 
 }
 
-function get_airline_data_review_page(){
+function get_airline_data_review_page(attempt=1){
     $.ajax({
-       type: "POST",
-       url: "/webservice/airline",
-       headers:{
+        type: "POST",
+        url: "/webservice/airline",
+        headers:{
             'action': 'get_data_review_page',
-       },
-       data: {
+        },
+        data: {
             'signature': signature
-       },
-       success: function(msg) {
-           airline_pick = msg.airline_pick;
-           price_itinerary = msg.price_itinerary;
-           airline_carriers = msg.airline_carriers;
-           airline_ssr_request = msg.airline_ssr_request;
-           airline_seat_request = msg.airline_seat_request;
-           now_page = 'review';
-           passengers = msg.passengers;
-           passengers_ssr = msg.passengers_ssr;
-           airline_request = msg.airline_request;
-           upsell_price_dict = msg.upsell_price_dict;
-           upsell_price_dict_ssr = msg.upsell_price_dict_ssr;
-           get_agent_currency_rate();
-           airline_get_provider_list('review');
+        },
+        success: function(msg) {
+            if(msg.error_code == 0){
+                airline_pick = msg.airline_pick;
+                price_itinerary = msg.price_itinerary;
+                airline_carriers = msg.airline_carriers;
+                airline_ssr_request = msg.airline_ssr_request;
+                airline_seat_request = msg.airline_seat_request;
+                now_page = 'review';
+                passengers = msg.passengers;
+                passengers_ssr = msg.passengers_ssr;
+                airline_request = msg.airline_request;
+                upsell_price_dict = msg.upsell_price_dict;
+                upsell_price_dict_ssr = msg.upsell_price_dict_ssr;
+                get_agent_currency_rate();
+                airline_get_provider_list('review');
+            }else if(attempt < 5){
+                get_airline_data_review_page(attempt+1)
+            }else{
+                Swal.fire({
+                    type: 'error',
+                    title: 'Oops!',
+                    html: "Error get cache review page",
+                });
+            }
 
-       },
-       error: function(XMLHttpRequest, textStatus, errorThrown) {
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
 
-       },timeout: 60000
+        },timeout: 60000
     });
 }
 
-function get_airline_data_review_after_sales_page(){
+function get_airline_data_review_after_sales_page(attempt=1){
     $.ajax({
        type: "POST",
        url: "/webservice/airline",
@@ -1464,17 +1484,27 @@ function get_airline_data_review_after_sales_page(){
             'signature': signature
        },
        success: function(msg) {
-           airline_carriers = msg.airline_carriers;
-           passengers = msg.passengers;
-           passengers_ssr = msg.passengers_ssr;
-           airline_get_detail = msg.airline_get_detail;
-           airline_detail('request_new');
-           airline_get_provider_list('review_aftersales');
-           $( document ).ready(function() {
-                price_arr_repricing = {};
-                pax_type_repricing = [];
-                get_airline_channel_repricing_data();
-           });
+            if(msg.error_code == 0){
+                airline_carriers = msg.airline_carriers;
+                passengers = msg.passengers;
+                passengers_ssr = msg.passengers_ssr;
+                airline_get_detail = msg.airline_get_detail;
+                airline_detail('request_new');
+                airline_get_provider_list('review_aftersales');
+                $( document ).ready(function() {
+                    price_arr_repricing = {};
+                    pax_type_repricing = [];
+                    get_airline_channel_repricing_data();
+                });
+            }else if(attempt < 5){
+                get_airline_data_review_after_sales_page(attempt+1)
+            }else{
+                Swal.fire({
+                    type: 'error',
+                    title: 'Oops!',
+                    html: "Error get cache review page",
+                });
+            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
 
