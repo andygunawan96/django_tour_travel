@@ -506,7 +506,8 @@ def passenger(request, signature):
                 write_cache_file(request, signature, 'time_limit', time_limit)
                 # set_session(request, 'time_limit_%s' % signature, time_limit)
             except:
-                pass
+                time_limit = int(request.POST['time_limit_input'])
+                write_cache_file(request, signature, 'time_limit', time_limit)
 
             set_session(request, 'signature', signature)
             set_session(request, 'airline_signature', signature)
