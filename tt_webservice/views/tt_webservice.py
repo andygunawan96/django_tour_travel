@@ -9,12 +9,27 @@ from ..static.tt_webservice.url import url
 # from .tt_webservice_views import *
 _logger = logging.getLogger("website_logger")
 
+class current_session_key_save:
+    def __init__(self):
+        self.current_session = 0
+    def set_current_session(self, val):
+        self.current_session = val
+    def get_current_session(self):
+        return self.current_session
+
+save_session = current_session_key_save()
+
 def set_session(request, session_key, data, depth = 1):
     if session_key in request.session:
         del request.session[session_key]
     _logger.info('write cache %s %s try' % (session_key, depth))
-    request.session[session_key] = data
 
+    save_session.set_current_session(save_session.get_current_session() + 1)
+    time_sleep = save_session.get_current_session() * 0.1
+    _logger.info('time sleep session %s' % str(time_sleep))
+    time.sleep(time_sleep)
+    request.session[session_key] = data
+    save_session.set_current_session(save_session.get_current_session() - 1)
     if session_key not in request.session:
         if depth < 10:
             try:
