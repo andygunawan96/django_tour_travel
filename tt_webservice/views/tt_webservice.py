@@ -5,6 +5,7 @@ from datetime import datetime, timedelta
 import traceback
 import logging
 import json
+import random
 from ..static.tt_webservice.url import url
 # from .tt_webservice_views import *
 _logger = logging.getLogger("website_logger")
@@ -24,12 +25,13 @@ def set_session(request, session_key, data, depth = 1):
         del request.session[session_key]
     _logger.info('write cache %s %s try' % (session_key, depth))
 
-    save_session.set_current_session(save_session.get_current_session() + 1)
-    time_sleep = save_session.get_current_session() * 0.1
+    # save_session.set_current_session(save_session.get_current_session() + 1)
+    # time_sleep = save_session.get_current_session() * 0.1
+    time_sleep = random.randint(0, 10) * 0.1
     _logger.info('time sleep session %s' % str(time_sleep))
     time.sleep(time_sleep)
     request.session[session_key] = data
-    save_session.set_current_session(save_session.get_current_session() - 1)
+    # save_session.set_current_session(save_session.get_current_session() - 1)
     if session_key not in request.session:
         if depth < 10:
             try:
