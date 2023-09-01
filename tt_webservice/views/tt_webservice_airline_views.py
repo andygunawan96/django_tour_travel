@@ -518,7 +518,10 @@ def get_data_passenger_page(request):
                         res['price_itinerary']['sell_journey_provider'][idx]['is_seat'] = True
                     else:
                         res['price_itinerary']['sell_journey_provider'][idx]['is_seat'] = False
-        res['ff_request'] = request.session['airline_get_ff_availability_%s' % request.POST['signature']]['result']['response']['ff_availability_provider'] if request.session['airline_get_ff_availability_%s' % request.POST['signature']]['result']['response'] else []
+        if request.session.get('airline_get_ff_availability_%s' % request.POST['signature']):
+            res['ff_request'] = request.session['airline_get_ff_availability_%s' % request.POST['signature']]['result']['response']['ff_availability_provider']
+        else:
+            res['ff_request'] = []
         res = ERR.get_no_error_api(res)
     except Exception as e:
         ## BUAT AFTER SALES SUPAYA TAU PENERBANGAN KAPAN

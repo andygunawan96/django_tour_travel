@@ -17,11 +17,9 @@ def set_session(request, session_key, data, depth = 1):
         request.session.save()
     except Exception as e:
         _logger.error(str(e) + traceback.format_exc())
-    request.session.modified = True
     _logger.info('write cache %s %s try' % (session_key, depth))
-    if len(Session.objects.filter(session_key=request.session.session_key).all()) > 0:
-        if session_key in Session.objects.filter(session_key=request.session.session_key).all()[0].get_decoded():
-            pass
+    if session_key in request.session:
+        _logger.info('Already save session %s' % session_key)
     elif depth < 10:
         set_session(request, session_key, data, depth+1)
 

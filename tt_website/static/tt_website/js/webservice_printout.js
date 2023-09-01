@@ -148,9 +148,9 @@ function get_printout(order_number,mode,provider_type,type='',reschedule_number=
                             openInNewTab(msg.result.response[i].url);
                         else{
                             Swal.fire({
-                              type: 'error',
-                              title: 'Oops!',
-                              html: msg.result.response[i].error_msg,
+                                type: 'error',
+                                title: 'Oops!',
+                                html: msg.result.response[i].error_msg,
                             });
                             break;
                         }
