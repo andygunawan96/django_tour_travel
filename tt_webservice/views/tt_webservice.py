@@ -12,8 +12,9 @@ _logger = logging.getLogger("website_logger")
 def set_session(request, session_key, data, depth = 1):
     if session_key in request.session:
         del request.session[session_key]
-    request.session[session_key] = data
     _logger.info('write cache %s %s try' % (session_key, depth))
+    request.session[session_key] = data
+
     try:
         request.session.save()
     except Exception as e:
