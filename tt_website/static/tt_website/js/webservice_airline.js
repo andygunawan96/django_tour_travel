@@ -8231,8 +8231,7 @@ function airline_get_booking(data, sync=false){
                             <th>PNR</th>`;
                             if(!['issued'].includes(msg.result.response.state)){
                                 text+=`<th id="hold_date_field_show">Price Guarantee Timelimit<span id="hold_date_field" style="color:`+color+`; cursor:pointer;"></span></th>`;
-                                if(msg.result.response.hasOwnProperty('expired_date') && msg.result.response.expired_date != '' && msg.result.response.expired_date != msg.result.response.hold_date)
-                                    text += `<th id="expired_date_field_show">Expired Timelimit<span id="expired_date_field" style="color:`+color+`; cursor:pointer;"></span></th>`;
+                                text += `<th id="expired_date_field_show">Expired Timelimit<span id="expired_date_field" style="color:`+color+`; cursor:pointer;"></span></th>`;
                             }
                         text+=`
                             <th>Status</th>
@@ -8279,8 +8278,8 @@ function airline_get_booking(data, sync=false){
                                 text+=`<td>`+msg.result.response.hold_date+`</td>`;
                                 if(msg.result.response.hasOwnProperty('expired_date') && msg.result.response.expired_date != '' && msg.result.response.expired_date != msg.result.response.hold_date)
                                     text+=`<td>`+msg.result.response.expired_date+`</td>`;
-//                                else
-//                                    text+=`<td>`+msg.result.response.hold_date+`</td>`;
+                                else
+                                    text+=`<td>`+msg.result.response.hold_date+`</td>`;
                             }
                             text+=`
                                 <td>`;
