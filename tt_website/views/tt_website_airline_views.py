@@ -480,6 +480,7 @@ def passenger(request, signature):
             labour = []
             seaman = []
             student = []
+            set_session(request, 'airline_request_%s' % signature, json.loads(request.POST['airline_search_request']))
             file = read_cache_file(request, signature, 'airline_request')
             if file:
                 pax = file
@@ -1225,34 +1226,34 @@ def seat_map(request, signature):
                 for pax_type in airline_passengers:
                     if pax_type not in ['infant', 'booker', 'contact']:
                         for pax in airline_passengers[pax_type]:
+                            if not 'seat_list' in pax:
+                                pax['seat_list'] = []
+
+                                file = read_cache_file(request, signature, 'airline_get_seat_availability')
+                                if file:
+                                    airline_seat_availability = file
+                                for seat_provider in airline_seat_availability['result']['response'][
+                                    'seat_availability_provider']:
+                                    if seat_provider.get('segments'):
+                                        for segment in seat_provider['segments']:
+                                            pax['seat_list'].append({
+                                                'segment_code': segment['segment_code2'],
+                                                'departure_date': segment['departure_date'],
+                                                'seat_pick': '',
+                                                'seat_code': '',
+                                                'seat_name': '',
+                                                'description': '',
+                                                'currency': '',
+                                                'price': ''
+                                            })
+                            if not pax.get('behaviors'):
+                                pax['behaviors'] = {}
+                            if not pax['behaviors'].get('airline'):
+                                pax['behaviors']['airline'] = ""
+                            if pax['behaviors'].get('airline'):
+                                pax['behaviors']['airline'] = pax['behaviors']['airline'].replace('<br/>', '\n')
                             passenger.append(pax)
 
-                for pax in passenger:
-                    if not 'seat_list' in pax:
-                        pax['seat_list'] = []
-
-                        file = read_cache_file(request, signature, 'airline_get_seat_availability')
-                        if file:
-                            airline_seat_availability = file
-                        for seat_provider in airline_seat_availability['result']['response']['seat_availability_provider']:
-                            if seat_provider.get('segments'):
-                                for segment in seat_provider['segments']:
-                                    pax['seat_list'].append({
-                                        'segment_code': segment['segment_code2'],
-                                        'departure_date': segment['departure_date'],
-                                        'seat_pick': '',
-                                        'seat_code': '',
-                                        'seat_name': '',
-                                        'description': '',
-                                        'currency': '',
-                                        'price': ''
-                                    })
-                    if not pax.get('behaviors'):
-                        pax['behaviors'] = {}
-                    if not pax['behaviors'].get('airline'):
-                        pax['behaviors']['airline'] = ""
-                    if pax['behaviors'].get('airline'):
-                        pax['behaviors']['airline'] = pax['behaviors']['airline'].replace('<br/>', '\n')
 
                 additional_price_input = ''
                 additional_price = request.POST['additional_price_input'].split(' ')[-1].split(',')
@@ -1267,6 +1268,8 @@ def seat_map(request, signature):
                     # set_session(request, 'time_limit_%s' % signature, time_limit)
                 except:
                     pass
+
+                write_cache_file(request, signature, 'airline_create_passengers', airline_passengers)
 
                 file = read_cache_file(request, signature, 'airline_upsell')
                 if file:
@@ -1452,49 +1455,49 @@ def seat_map(request, signature):
                     for pax_type in airline_create_passengers:
                         if pax_type not in ['infant', 'booker', 'contact']:
                             for pax in airline_create_passengers[pax_type]:
-                                passenger.append(pax)
-                    for pax in passenger:
-                        pax['seat_list'] = []
-
-                        file = read_cache_file(request, signature, 'airline_get_seat_availability')
-                        if file:
-                            airline_get_seat_availability = file
-                        for seat_provider in airline_get_seat_availability['result']['response']['seat_availability_provider']:
-                            if seat_provider.get('segments'):
-                                for segment in seat_provider['segments']:
-                                    found = False
-                                    passenger_obj = {
-                                        'seat_pick': '',
-                                        'seat_code': '',
-                                        'seat_name': '',
-                                        'description': '',
-                                        'currency': '',
-                                        'price': ''
-                                    }
-                                    for pax_obj in airline_get_booking_resp['result']['response']['passengers']:
-                                        if pax['first_name'] == pax_obj['first_name'] and pax['last_name'] == pax_obj['last_name'] and pax['birth_date'] == pax_obj['birth_date']:
-                                            for pax_obj in pax_obj['fees']:
-                                                if pax_obj['fee_type'] == 'SEAT' and segment['segment_code'] == pax_obj['journey_code']:
-                                                    passenger_obj['seat_pick'] = pax_obj['fee_value']
-                                                    passenger_obj['seat_code'] = pax_obj['fee_code']
-                                                    passenger_obj['seat_name'] = pax_obj['fee_name']
-                                                    passenger_obj['description'] = pax_obj['description']
-                                                    passenger_obj['currency'] = pax_obj['currency']
-                                                    passenger_obj['price'] = pax_obj['amount']
-                                                    found = True
+                                pax['seat_list'] = []
+                                file = read_cache_file(request, signature, 'airline_get_seat_availability')
+                                if file:
+                                    airline_get_seat_availability = file
+                                for seat_provider in airline_get_seat_availability['result']['response']['seat_availability_provider']:
+                                    if seat_provider.get('segments'):
+                                        for segment in seat_provider['segments']:
+                                            found = False
+                                            passenger_obj = {
+                                                'seat_pick': '',
+                                                'seat_code': '',
+                                                'seat_name': '',
+                                                'description': '',
+                                                'currency': '',
+                                                'price': ''
+                                            }
+                                            for pax_obj in airline_get_booking_resp['result']['response']['passengers']:
+                                                if pax['first_name'] == pax_obj['first_name'] and pax['last_name'] == pax_obj['last_name'] and pax['birth_date'] == pax_obj['birth_date']:
+                                                    for pax_obj in pax_obj['fees']:
+                                                        if pax_obj['fee_type'] == 'SEAT' and segment['segment_code'] == pax_obj['journey_code']:
+                                                            passenger_obj['seat_pick'] = pax_obj['fee_value']
+                                                            passenger_obj['seat_code'] = pax_obj['fee_code']
+                                                            passenger_obj['seat_name'] = pax_obj['fee_name']
+                                                            passenger_obj['description'] = pax_obj['description']
+                                                            passenger_obj['currency'] = pax_obj['currency']
+                                                            passenger_obj['price'] = pax_obj['amount']
+                                                            found = True
+                                                            break
+                                                if found:
                                                     break
-                                        if found:
-                                            break
-                                    pax['seat_list'].append({
-                                        'segment_code': segment['segment_code2'],
-                                        'departure_date': segment['departure_date'],
-                                        'seat_pick': passenger_obj['seat_pick'],
-                                        'seat_code': passenger_obj['seat_code'],
-                                        'seat_name': passenger_obj['seat_name'],
-                                        'description': passenger_obj['description'],
-                                        'currency': passenger_obj['currency'],
-                                        'price': passenger_obj['price']
-                                    })
+                                            pax['seat_list'].append({
+                                                'segment_code': segment['segment_code2'],
+                                                'departure_date': segment['departure_date'],
+                                                'seat_pick': passenger_obj['seat_pick'],
+                                                'seat_code': passenger_obj['seat_code'],
+                                                'seat_name': passenger_obj['seat_name'],
+                                                'description': passenger_obj['description'],
+                                                'currency': passenger_obj['currency'],
+                                                'price': passenger_obj['price']
+                                            })
+                                passenger.append(pax)
+
+                    write_cache_file(request, signature, 'airline_create_passengers', airline_create_passengers)
 
                     upsell = 0
                     for pax in airline_get_booking_resp['result']['response']['passengers']:

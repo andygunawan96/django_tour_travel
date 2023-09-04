@@ -11001,18 +11001,10 @@ function change_identity_type(id, automatic_change_number=true){
 }
 
 function openInNewTab(href) {
-    if(window.safari == undefined){
-        Object.assign(document.createElement('a'), {
-            target: '_blank',
-            href: href,
-        }).click();
-    }else{
-        Swal.fire({
-            type: 'warning',
-            title: 'Oops!',
-            html: 'Please use chrome / firefox to use this function',
-        })
-    }
+    Object.assign(document.createElement('a'), {
+        target: '_blank',
+        href: href,
+    }).click();
 }
 
 function run_signup_admin(){
