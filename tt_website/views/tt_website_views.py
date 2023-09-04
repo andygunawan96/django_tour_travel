@@ -173,11 +173,12 @@ def index(request):
         phone_code = sorted(phone_code)
 
         if request.POST.get('logout'):
-            if request.session._session:
-                for key in reversed(list(request.session._session.keys())):
-                    if key != '_language':
-                        del request.session[key]
-                request.session.modified = True
+            request.session.flush()
+            # if request.session._session:
+            #     for key in reversed(list(request.session._session.keys())):
+            #         if key != '_language':
+            #             del request.session[key]
+            #     request.session.modified = True
         values.update({
             'static_path': path_util.get_static_path(MODEL_NAME),
             'countries': airline_country,

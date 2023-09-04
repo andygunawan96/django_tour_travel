@@ -12,18 +12,23 @@ _logger = logging.getLogger("website_logger")
 def set_session(request, session_key, data, depth = 1):
     if session_key in request.session:
         del request.session[session_key]
-    request.session[session_key] = data
+    _logger.info('write cache %s %s try' % (session_key, depth))
+
+    # save_session.set_current_session(save_session.get_current_session() + 1)
+    # time_sleep = save_session.get_current_session() * 0.1
     try:
+        # session_management.set_current_session(True)
+        # temporary_session = copy.deepcopy(request.session._session)
+        # engine = import_module(settings.SESSION_ENGINE)
+        # request.session = engine.SessionStore(session_key)
+        # for key in temporary_session:
+        #     request.session[key] = temporary_session[key]
+        request.session[session_key] = data
         request.session.save()
     except Exception as e:
-        _logger.error(str(e) + traceback.format_exc())
-    request.session.modified = True
-    _logger.info('write cache %s %s try' % (session_key, depth))
-    if len(Session.objects.filter(session_key=request.session.session_key).all()) > 0:
-        if session_key in Session.objects.filter(session_key=request.session.session_key).all()[0].get_decoded():
-            pass
-    elif depth < 10:
-        set_session(request, session_key, data, depth+1)
+        _logger.error("%s, %s" % (str(e), traceback.format_exc()))
+        if depth < 10:
+            set_session(request, session_key, data, depth + 1)
 
 def del_session(request, session_key):
     if session_key in request.session:
@@ -94,5 +99,3 @@ def get_url_gateway(path):
         return "%s/%s" % (data_path, path)
     else:
         return "%s%s" % (data_path, path)
-
-

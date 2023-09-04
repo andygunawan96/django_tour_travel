@@ -2575,9 +2575,7 @@ def review_after_sales(request, signature):
 def booking(request, order_number):
     try:
         javascript_version = get_javascript_version(request)
-
         web_mode = get_web_mode(request)
-
         if 'user_account' not in request.session and 'btc' in web_mode:
             signin_btc(request)
         elif 'user_account' not in request.session and 'btc' not in web_mode:
