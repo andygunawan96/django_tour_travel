@@ -10,16 +10,6 @@ from ..static.tt_webservice.url import url
 # from .tt_webservice_views import *
 _logger = logging.getLogger("website_logger")
 
-class current_session_key_save:
-    def __init__(self):
-        self.current_session = 0
-    def set_current_session(self, val):
-        self.current_session = val
-    def get_current_session(self):
-        return self.current_session
-
-save_session = current_session_key_save()
-
 def set_session(request, session_key, data, depth = 1):
     if session_key in request.session:
         del request.session[session_key]
@@ -27,22 +17,16 @@ def set_session(request, session_key, data, depth = 1):
 
     # save_session.set_current_session(save_session.get_current_session() + 1)
     # time_sleep = save_session.get_current_session() * 0.1
-    time_sleep = random.randint(0, 10) * 0.1
-    _logger.info('time sleep session %s' % str(time_sleep))
-    time.sleep(time_sleep)
     request.session[session_key] = data
-    # save_session.set_current_session(save_session.get_current_session() - 1)
-    if session_key not in request.session:
-        if depth < 10:
-            try:
-                set_session(request, session_key, data, depth + 1)
-            except:
-                _logger.error('Error write cache %s' % session_key)
-
-
+    request.session.save()
+    if session_key not in request.session.keys() and depth < 10:
+        set_session(request, session_key, data, depth + 1)
     # try:
     #     request.session.save()
     # except Exception as e:
+    #     _logger.error('Error write cache %s, %s\n%s' % (session_key, str(e), traceback.format_exc()))
+    #     if depth < 10:
+    #         set_session(request, session_key, data, depth + 1)
 
 
 
