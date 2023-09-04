@@ -314,6 +314,12 @@ def get_config(request):
     try:
         response = get_cache_data(request)
         res = response['result']['response']['ppob']
+        if res.get('search_config_data'):
+            temp = res['search_config_data']
+            if temp.get(request.session['user_account']['co_ho_seq_id']):
+                res.update({
+                    'search_config_data': temp[request.session['user_account']['co_ho_seq_id']]
+                })
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
