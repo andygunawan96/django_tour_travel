@@ -9,6 +9,7 @@ import random
 from ..static.tt_webservice.url import url
 from importlib import import_module
 from django.conf import settings
+import copy
 # from .tt_webservice_views import *
 _logger = logging.getLogger("website_logger")
 
@@ -30,9 +31,12 @@ def set_session(request, session_key, data, depth = 1):
     # save_session.set_current_session(save_session.get_current_session() + 1)
     # time_sleep = save_session.get_current_session() * 0.1
     try:
-        session_management.set_current_session(True)
+        # session_management.set_current_session(True)
+        temporary_session = copy.deepcopy(request.session._session)
         engine = import_module(settings.SESSION_ENGINE)
         request.session = engine.SessionStore(session_key)
+        for key in temporary_session:
+            request.session[key] = temporary_session[key]
         request.session[session_key] = data
         request.session.save(must_create=True)
     except Exception as e:
