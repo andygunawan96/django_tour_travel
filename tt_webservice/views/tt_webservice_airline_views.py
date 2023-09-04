@@ -4948,7 +4948,7 @@ def assign_post_seats_v2(request):
         file = read_cache_file(request, request.POST['signature'], 'airline_seat_request')
         if file:
             data = {
-                'segment_seat_request': request.session['airline_seat_request_%s' % request.POST['signature']],
+                'segment_seat_request': file,
                 'order_number': order_number
             }
         headers = {
