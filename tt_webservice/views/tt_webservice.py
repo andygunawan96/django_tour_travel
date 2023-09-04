@@ -7,6 +7,8 @@ import logging
 import json
 import random
 from ..static.tt_webservice.url import url
+from importlib import import_module
+from django.conf import settings
 # from .tt_webservice_views import *
 _logger = logging.getLogger("website_logger")
 
@@ -27,14 +29,24 @@ def set_session(request, session_key, data, depth = 1):
 
     # save_session.set_current_session(save_session.get_current_session() + 1)
     # time_sleep = save_session.get_current_session() * 0.1
-    if session_management.get_current_session() == False:
+    try:
         session_management.set_current_session(True)
+        engine = import_module(settings.SESSION_ENGINE)
+        request.session = engine.SessionStore(session_key)
         request.session[session_key] = data
-        request.session.save()
-        session_management.set_current_session(False)
-    elif depth < 10:
-        time.sleep(0.1)
-        set_session(request, session_key, data, depth + 1)
+        request.session.save(must_create=True)
+    except Exception as e:
+        _logger.error("%s, %s" % (str(e), traceback.format_exc()))
+        if depth < 10:
+            set_session(request, session_key, data, depth + 1)
+
+    # if session_management.get_current_session() == False:
+    #
+    #
+    #     session_management.set_current_session(False)
+    # elif depth < 10:
+    #     time.sleep(0.1)
+    #     set_session(request, session_key, data, depth + 1)
     # try:
     #     request.session.save()
     # except Exception as e:
