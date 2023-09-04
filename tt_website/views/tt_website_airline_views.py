@@ -2454,6 +2454,7 @@ def review_after_sales(request, signature):
                         write_cache_file(request, signature, 'airline_ssr_request', sell_ssrs)
                         # request.session['airline_ssr_request_%s' % signature] = sell_ssrs
                     sell_ssrs = []
+                    write_cache_file(request, signature, 'airline_create_passengers', airline_create_passengers)
                 except Exception as e:
                     _logger.error("%s\n%s" % (str(e), traceback.format_exc()))
                     print('airline no ssr')
@@ -2509,6 +2510,7 @@ def review_after_sales(request, signature):
                     addons_type = 'seat_map'
 
                     write_cache_file(request, signature, 'airline_seat_request', segment_seat_request)
+                    write_cache_file(request, signature, 'airline_create_passengers', airline_create_passengers)
                     # set_session(request, 'airline_seat_request_%s' % signature, segment_seat_request)
                 except Exception as e:
                     print('airline no seatmap')
