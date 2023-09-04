@@ -10,6 +10,16 @@ from ..static.tt_webservice.url import url
 # from .tt_webservice_views import *
 _logger = logging.getLogger("website_logger")
 
+class session_management_data:
+    def __init__(self):
+        self.lock_session = False
+    def set_current_session(self, val):
+        self.lock_session = val
+    def get_current_session(self):
+        return self.lock_session
+
+session_management = session_management_data()
+
 def set_session(request, session_key, data, depth = 1):
     if session_key in request.session:
         del request.session[session_key]
@@ -17,9 +27,13 @@ def set_session(request, session_key, data, depth = 1):
 
     # save_session.set_current_session(save_session.get_current_session() + 1)
     # time_sleep = save_session.get_current_session() * 0.1
-    request.session[session_key] = data
-    request.session.save()
-    if session_key not in request.session.keys() and depth < 10:
+    if session_management.get_current_session() == False:
+        session_management.set_current_session(True)
+        request.session[session_key] = data
+        request.session.save()
+        session_management.set_current_session(False)
+    elif depth < 10:
+        time.sleep(0.1)
         set_session(request, session_key, data, depth + 1)
     # try:
     #     request.session.save()
