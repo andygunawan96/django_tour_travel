@@ -859,6 +859,14 @@ function sort_transaction(){
             if(hash_url)
                 hash_url += '&'
             hash_url += 'provider='+document.getElementById('provider').value;
+        }if(document.getElementById('booked_by') && document.getElementById('booked_by').value){
+            if(hash_url)
+                hash_url += '&'
+            hash_url += 'booked_by='+document.getElementById('booked_by').value;
+        }if(document.getElementById('issued_by') && document.getElementById('issued_by').value){
+            if(hash_url)
+                hash_url += '&'
+            hash_url += 'issued_by='+document.getElementById('issued_by').value;
         }if(document.getElementsByName('filter') && carrier_code){
             if(hash_url)
                 hash_url += '&'
@@ -959,7 +967,7 @@ function get_transactions(type){
     }
     limit_transaction = 20;
     if(document.URL.includes('#') && document.getElementById('search').style.display == 'none'){
-        urlp=[];s=location.toString().split('#');s=s[1].split('&');for(i=0;i<s.length;i++){u=s[i].split('=');urlp[u[0]]=u[1];}
+        urlp = get_data_url();
         if(urlp.hasOwnProperty('provider_type')){
             try{
                 var radios = document.getElementsByName('filter');

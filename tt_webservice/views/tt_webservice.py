@@ -70,13 +70,13 @@ def create_session_product(request, product, timelimit=20, signature=''): #timel
         "start": now.strftime('%Y-%m-%d %H:%M:%S'),
         "end": (datetime.now() + timedelta(minutes=timelimit)).strftime('%Y-%m-%d %H:%M:%S')
     }
-    write_cache_file(request, signature, 'session_%s' % (product), session_product)
-    set_session(request, 'session_%s' % (product), session_product)
+    write_cache_file(request, signature, 'session_%s_%s' % (product, signature), session_product)
+    set_session(request, 'session_%s_%s' % (product, signature), session_product)
 
 def get_timelimit_product(request, product, signature=''):
     now = datetime.now()
-    session_product = request.session.get('session_%s' % (product))
-    session_product_cache = read_cache_file(request, signature, 'session_%s' % (product))
+    session_product = request.session.get('session_%s_%s' % (product, signature))
+    session_product_cache = read_cache_file(request, signature, 'session_%s_%s' % (product, signature))
     if session_product_cache:
         end_time = datetime.strptime(session_product['end'], '%Y-%m-%d %H:%M:%S')
         if end_time > now:

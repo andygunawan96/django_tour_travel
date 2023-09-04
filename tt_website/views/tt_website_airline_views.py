@@ -121,7 +121,9 @@ def search(request):
             if file:
                 airline_destinations = file
 
-            carrier = get_carriers(request, request.session['signature'])
+            signature = copy.deepcopy(request.session['signature'])
+
+            carrier = get_carriers(request, signature)
             # file = read_cache("get_airline_carriers", 'cache_web', request, 90911)
             # if file:
             #     carrier = file
@@ -132,7 +134,7 @@ def search(request):
             #         response = file
             # except Exception as e:
             #     _logger.error('ERROR get_airline_active_carriers file\n' + str(e) + '\n' + traceback.format_exc())
-            response = get_carriers_search(request, request.session['signature'])
+            response = get_carriers_search(request, signature)
 
             values = get_data_template(request, 'search')
 
@@ -308,9 +310,7 @@ def search(request):
                     if advance_search['airline_pax_type_labour'] == 'true':
                         airline_request['labour'] = direction == 'MC' and int(request.POST['labour_flight1']) or int(request.POST['labour_flight'])
 
-                # set_session(request, 'airline_carriers_request', airline_carriers)
-
-                request.session.modified = True
+                # request.session.modified = True
             except Exception as e:
                 ## TIDAK ADA DATA POST, DARI REORDER
                 _logger.error('Data POST for airline_request create new from reorder')
@@ -339,7 +339,6 @@ def search(request):
                         'is_excluded_from_b2c': response[rec]['is_excluded_from_b2c'],
                         'bool': False
                     }
-                # set_session(request, 'airline_carriers_request', airline_carriers)
                 is_reorder = True
                 if file:
                     return_date = file['departure']
@@ -386,13 +385,13 @@ def search(request):
                 updated_request.update({
                     'customer_parent_seq_id': request.POST['airline_corpor_select_post']
                 })
-                cur_session = request.session['user_account']
+                cur_session = copy.deepcopy(request.session['user_account'])
                 cur_session.update({
                     "co_customer_parent_seq_id": request.POST['airline_corpor_select_post'],
                     "co_customer_seq_id": request.POST['airline_corbooker_select_post']
                 })
                 set_session(request, 'user_account', cur_session)
-                activate_corporate_mode(request, request.session['signature'])
+                activate_corporate_mode(request, signature)
 
             ## PROMO CODE
             promo_codes = []
@@ -2587,17 +2586,12 @@ def booking(request, order_number):
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
         try:
             airline_order_number = base64.b64decode(order_number).decode('ascii')
-            # set_session(request, 'airline_order_number', base64.b64decode(order_number).decode('ascii'))
         except:
             try:
                 airline_order_number = base64.b64decode(order_number[:-1]).decode('ascii')
-                # set_session(request, 'airline_order_number', base64.b64decode(order_number[:-1]).decode('ascii'))
             except:
                 airline_order_number = order_number
-
-                # set_session(request, 'airline_order_number', order_number)
         write_cache_file(request, request.session['signature'], 'airline_order_number', airline_order_number)
-
         values.update({
             'static_path': path_util.get_static_path(MODEL_NAME),
             'username': request.session.get('user_account') or {'co_user_login': ''},
@@ -2633,12 +2627,9 @@ def refund(request, order_number):
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
         try:
             airline_order_number = base64.b64decode(order_number).decode('ascii')
-            write_cache_file(request, request.session['signature'], 'airline_order_number', base64.b64decode(order_number).decode('ascii'))
-            # set_session(request, 'airline_order_number', base64.b64decode(order_number).decode('ascii'))
         except:
             try:
                 airline_order_number = base64.b64decode(order_number[:-1]).decode('ascii')
-                # set_session(request, 'airline_order_number', base64.b64decode(order_number[:-1]).decode('ascii'))
             except:
                 airline_order_number = order_number
         values.update({

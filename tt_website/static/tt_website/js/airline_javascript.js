@@ -383,6 +383,13 @@ function airline_goto_search(){
         }
         document_set_cookie('airline_request', JSON.stringify(request_airline));
 
+        concat_url = ''
+        for(key in request_airline){
+            if(concat_url)
+                concat_url += '&';
+            concat_url += key + '=' + request_airline[key];
+        }
+        document.getElementById('airline_searchForm').action += '?' + concat_url;
         document.getElementById('airline_searchForm').submit();
     }else{
         $('.button-search').removeClass("running");
@@ -10498,26 +10505,24 @@ function get_airline_review(){
 
                             </div>`;
 
-                            if(passengers_ssr[i].hasOwnProperty('ssr_list') && passengers_ssr[i].ssr_list.length){
+                            if(passengers_ssr[i].ssr_list.length){
                                 text+=`<b style="color:`+color+`;">SSR additional request::</b>
                                 <div style="margin-bottom:10px; padding:15px; border:1px solid `+color+`; background:#f7f7f7;">`;
                             }
                             fee_dict = {}
-                            if(passengers_ssr[i].hasOwnProperty('ssr_list')){
-                                for(j in passengers_ssr[i].ssr_list){
-                                    if(fee_dict.hasOwnProperty(passengers_ssr[i].ssr_list[j].journey_code) == false){
-                                        fee_dict[passengers_ssr[i].ssr_list[j].journey_code] = {
-                                            "fees": [],
-                                            "origin": passengers_ssr[i].ssr_list[j].origin,
-                                            "destination": passengers_ssr[i].ssr_list[j].destination,
-                                            "departure_date": passengers_ssr[i].ssr_list[j].departure_date
-                                        };
-                                    }
-                                    fee_dict[passengers_ssr[i].ssr_list[j].journey_code].fees.push({
-                                        "ssr_type": passengers_ssr[i].ssr_list[j].ssr_type,
-                                        "name": passengers_ssr[i].ssr_list[j].name
-                                    })
+                            for(j in passengers_ssr[i].ssr_list){
+                                if(fee_dict.hasOwnProperty(passengers_ssr[i].ssr_list[j].journey_code) == false){
+                                    fee_dict[passengers_ssr[i].ssr_list[j].journey_code] = {
+                                        "fees": [],
+                                        "origin": passengers_ssr[i].ssr_list[j].origin,
+                                        "destination": passengers_ssr[i].ssr_list[j].destination,
+                                        "departure_date": passengers_ssr[i].ssr_list[j].departure_date
+                                    };
                                 }
+                                fee_dict[passengers_ssr[i].ssr_list[j].journey_code].fees.push({
+                                    "ssr_type": passengers_ssr[i].ssr_list[j].ssr_type,
+                                    "name": passengers_ssr[i].ssr_list[j].name
+                                })
                             }
                             counter_fee_dict = 0;
                             for(j in fee_dict){
@@ -10545,7 +10550,7 @@ function get_airline_review(){
                                     text+= `<i>`+fee_dict[j].fees[k].name+`</i><br/>`;
                                 }
                             }
-                            if(passengers_ssr[i].hasOwnProperty('ssr_list') && passengers_ssr[i].ssr_list.length){
+                            if(passengers_ssr[i].ssr_list.length){
                                 text+=`</div>`;
                             }
 

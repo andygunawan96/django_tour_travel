@@ -317,7 +317,7 @@ def re_order_set_passengers(request):
         title = 'MR'
         if data_booker['gender'] == 'male':
             title = 'MR'
-        elif data_booker['gender'] == 'female' and data_booker['marital_status'] == '':
+        elif data_booker['gender'] == 'female' and data_booker['marital_status'] in ['','single']:
             title = 'MS'
         elif data_booker['gender'] == 'female' and data_booker['marital_status'] != '':
             title = 'MRS'
@@ -340,7 +340,7 @@ def re_order_set_passengers(request):
                     title = 'MSTR'
             elif pax['gender'] == 'female' and pax['pax_type'] not in ['ADT', 'YCD', 'LBR', 'STU', 'SEA']:
                 title = 'MISS'
-            elif pax['gender'] == 'female' and data_booker['marital_status'] == '':
+            elif pax['gender'] == 'female' and data_booker['marital_status'] in ['','single']:
                 title = 'MS'
             else:
                 title = 'MRS'
@@ -503,6 +503,7 @@ def get_data_passenger_page(request):
 
         file = read_cache_file(request, request.POST['signature'], 'airline_get_ff_availability')
         res['ff_request'] = file['result']['response']['ff_availability_provider'] if file['result']['response'] else []
+        res = ERR.get_no_error_api(res)
         # res['ff_request'] = request.session['airline_get_ff_availability_%s' % request.POST['signature']]['result']['response']['ff_availability_provider'] if request.session['airline_get_ff_availability_%s' % request.POST['signature']]['result']['response'] else []
     except Exception as e:
         ## BUAT AFTER SALES SUPAYA TAU PENERBANGAN KAPAN
@@ -513,6 +514,7 @@ def get_data_passenger_page(request):
                 res['airline_pick'] = file['result']['response']['provider_bookings']
             # res['airline_pick'] = request.session['airline_get_booking_response']['result']['response']['provider_bookings']
         except Exception as e:
+            res = ERR.get_error_api(500)
             _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
 
@@ -617,8 +619,10 @@ def get_data_review_page(request):
         #             else:
         #                 res['price_itinerary']['sell_journey_provider'][idx]['is_seat'] = False
         # res['airline_get_price_request'] = request.session['airline_get_price_request_%s' % request.POST['signature']]
+        res = ERR.get_no_error_api(res)
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
+        res = ERR.get_error_api(500)
     return res
 
 def get_data_review_after_sales_page(request):
@@ -639,9 +643,10 @@ def get_data_review_after_sales_page(request):
         if file:
             res['airline_get_detail'] = file['result']['response']
         # res['airline_get_detail'] = request.session['airline_get_booking_response']['result']['response']
-
+        res = ERR.get_no_error_api(res)
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
+        res = ERR.get_error_api(500)
     return res
 
 def get_data_book_page(request):

@@ -467,6 +467,8 @@ def get_transactions(request):
                 "type": request.POST['type'],
                 # "name": request.POST['name'],
                 "passenger_name": request.POST['passenger_name'],
+                "booked_by": request.POST['booked_by'],
+                "issued_by": request.POST['issued_by'],
                 'pnr': pnr,
                 'order_number': order_number,
                 "date_from": start_date,
