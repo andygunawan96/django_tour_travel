@@ -132,3 +132,19 @@ function document_set_cookie(name, value){
     document.cookie = name + '=' + value +';' + expires+";path=/";
 //    document.cookie = name + '=' + value +';';
 }
+
+function get_data_url(){
+    urlp=[];
+    if(location.toString().includes('#'))
+        s=location.toString().split('#');
+    else if(location.toString().includes('?'))
+        s=location.toString().split('?');
+    if(typeof(s) !== 'undefined'){
+        s=s[1].split('&');
+        for(i=0;i<s.length;i++){
+            u=s[i].split('=');
+            urlp[u[0]]=u[1];
+        }
+    }
+    return urlp;
+}
