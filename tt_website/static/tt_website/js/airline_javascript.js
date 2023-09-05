@@ -3151,6 +3151,8 @@ function sort(){
                                                        for(k in airline[i].segments[j].fares){
                                                            if(k == 0){
                                                                for(l in airline[i].segments[j].fares[k].fare_details){
+                                                                   text+=`
+                                                                   <div id="copy_fares_details_new`+i+``+j+``+k+``+l+`">`;
                                                                    if(l == 0){
                                                                        if(airline[i].segments[j].carrier_type_name != '')
                                                                            text += `<div class="custom_fare_cls"><i class="fas fa-plane"></i> <span style="font-weight:500;">`+airline[i].segments[j].carrier_type_name+`</span></div><br/>`;
@@ -3165,6 +3167,7 @@ function sort(){
                                                                    }else{
                                                                         text+=`<div class="custom_fare_cls"><span style="font-weight:500;" class="copy_others_details">`+airline[i].segments[j].fares[k].fare_details[l].amount+` `+airline[i].segments[j].fares[k].fare_details[l].unit+`</span></div><br/>`;
                                                                    }
+                                                                   text+=`</div>`;
                                                                }
                                                                break;
                                                            }

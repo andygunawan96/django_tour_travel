@@ -3731,6 +3731,12 @@ function change_fare(journey, segment, fares, fare_code){
         for(l in airline_data_filter[journey].segments[segment].fares[fares].fare_details){
             text=`
             <span class="copy_fares" hidden>`+journey+segment+fares+l+`</span>`;
+//            if(l == 0){
+//                if(airline_data_filter[journey].segments[segment].carrier_type_name != '')
+//                    text += `<div class="custom_fare_cls"><i class="fas fa-plane"></i> <span style="font-weight:500;">`+airline_data_filter[journey].segments[segment].carrier_type_name+`</span></div><br/>`;
+//                else if(airline_data_filter[journey].segments[segment].carrier_type_code != '')
+//                    text += `<div class="custom_fare_cls"><i class="fas fa-plane"></i> <span style="font-weight:500;">`+airline_data_filter[journey].segments[segment].carrier_type_code+`</span></div><br/>`;
+//            }
             if(airline_data_filter[journey].segments[segment].fares[fares].fare_details[l].detail_type.includes('BG')){
                 text+=`<i class="fas fa-suitcase"></i><span style="font-weight:500;" class="copy_suitcase_details"> `+airline_data_filter[journey].segments[segment].fares[fares].fare_details[l].amount+` `+airline_data_filter[journey].segments[segment].fares[fares].fare_details[l].unit+`</span><br/>`;
             }else if(airline_data_filter[journey].segments[segment].fares[fares].fare_details[l].detail_type == 'ML'){
@@ -3738,7 +3744,13 @@ function change_fare(journey, segment, fares, fare_code){
             }else{
                 text+=`<span style="font-weight:500;" class="copy_others_details"> `+airline_data_filter[journey].segments[segment].fares[fares].fare_details[l].amount+` `+airline_data_filter[journey].segments[segment].fares[fares].fare_details[l].unit+`</span><br/>`;
             }
-            document.getElementById('copy_fares_details'+journey+segment+"0"+l).innerHTML = text
+            try{
+                document.getElementById('copy_fares_details_new'+journey+segment+"0"+l).innerHTML = text
+            }catch(err){}
+
+            try{
+                document.getElementById('copy_fares_details'+journey+segment+"0"+l).innerHTML = text
+            }catch(err){}
         }
         fare_details = [];
         has_fare_details = true;
@@ -13917,6 +13929,8 @@ function render_ticket_reissue(){
                                                    for(k in airline[i].segments[j].fares){
                                                        if(k == 0){
                                                            for(l in airline[i].segments[j].fares[k].fare_details){
+                                                               text+=`
+                                                               <div id="copy_fares_details_new`+i+``+j+``+k+``+l+`">`;
                                                                if(l == 0){
                                                                    if(airline[i].segments[j].carrier_type_name != '')
                                                                        text += `<div class="custom_fare_cls"><i class="fas fa-plane"></i> <span style="font-weight:500;">`+airline[i].segments[j].carrier_type_name+`</span></div><br/>`;
@@ -13931,6 +13945,7 @@ function render_ticket_reissue(){
                                                                }else{
                                                                     text+=`<div class="custom_fare_cls"><span style="font-weight:500;" class="copy_others_details">`+airline[i].segments[j].fares[k].fare_details[l].amount+` `+airline[i].segments[j].fares[k].fare_details[l].unit+`</span></div><br/>`;
                                                                }
+                                                               text+=`</div>`;
                                                            }
                                                            break;
                                                        }
