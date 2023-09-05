@@ -1921,8 +1921,8 @@ function check_top_up(){
         if(document.getElementById('amount').value.split(',')[document.getElementById('amount').value.split(',').length-1] != '000'){
             error_text += 'Please input last 3 digits amount 000\n';
         }
-        else if(parseInt(document.getElementById('amount').value.split(',').join('')) < 50000){
-            error_text += 'Amount (Min Top Up Amount '+currency_code+' 50,000)\n';
+        else if(parseInt(document.getElementById('amount').value.split(',').join('')) < min_topup_amount){
+            error_text += 'Amount (Min Top Up Amount '+currency_code+' '+getrupiah(min_topup_amount)+')\n';
         }
     }catch(err){
 
