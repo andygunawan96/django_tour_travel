@@ -1635,15 +1635,18 @@ function get_va_number(){
                         <span class="checkmark-radio"></span>
                     </label>`;
                     try{
-                        if(msg.result.response.va.length != 0)
-                        text+=`
-                        <label class="radio-button-custom" style="margin-bottom:0px;">
-                            <span style="font-size:13px;"> Top Up real time 24 hours All Bank</span>
-                            <input type="radio" name="top_up_radio" value="online_payment">
-                            <span class="checkmark-radio"></span>
-                        </label>`;
-                        va_number = msg.result.response.va;
-                        payment_how_to_obj = msg.result.response;
+                        if(msg.result.response.va && msg.result.response.va.length != 0)
+                        {
+                            text+=`
+                            <label class="radio-button-custom" style="margin-bottom:0px;">
+                                <span style="font-size:13px;"> Top Up real time 24 hours All Bank</span>
+                                <input type="radio" name="top_up_radio" value="online_payment">
+                                <span class="checkmark-radio"></span>
+                            </label>`;
+                            va_number = msg.result.response.va;
+                            payment_how_to_obj = msg.result.response;
+                        }
+                        min_topup_amount = msg.result.response.min_topup_amount;
                     }catch(err){
                         console.log(err) //ada element yg tidak ada
                     }
@@ -1850,14 +1853,14 @@ function change_top_up_method(){
         <div class="col-lg-12" style="background:white; border:1px solid #cdcdcd; padding:15px;">
             <div class="row">
                 <div class="col-lg-12">
-                    <h3>TOP UP SALDO</h3>
+                    <h3>BALANCE TOP UP</h3>
                 </div>
                 <div class="col-lg-12">
                     <span>Amount</span><br/>
                     <div class="input-container-search-ticket">
-                        <input min="50000" step="50000" name="amount" id="amount" class="form-control" required="required" onkeyup="`;
+                        <input min="`+min_topup_amount+`" step="`+min_topup_amount+`" name="amount" id="amount" class="form-control" required="required" onkeyup="`;
                 text+=`total_price_top_up();`;
-                text+=`" placeholder="Min `+currency_code+` 50,000">
+                text+=`" placeholder="Min `+currency_code+` `+getrupiah(min_topup_amount)+`">
                         </div>
                     </div>
 
