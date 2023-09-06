@@ -5941,9 +5941,7 @@ function get_seat_map_response(){
                             </div>`;
                         }
                     }
-                    text+=`
-                </div>`;
-            }
+                }
             text+=`</div>`;
             document.getElementById('airline_seat_map').innerHTML = text;
 //            $('.owl-carousel-routemap').owlCarousel({
