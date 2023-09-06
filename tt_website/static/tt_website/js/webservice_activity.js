@@ -3831,9 +3831,9 @@ function activity_get_booking(data){
                                         <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
                                             <span style="font-size:13px;`;
                                         if(is_show_breakdown_price){
-                                            text_detail+=`cursor:pointer;" id="passenger_breakdown`+j+`"`;
+                                            price_text+=`cursor:pointer;" id="passenger_breakdown`+j+`"`;
                                         }else{
-                                            text_detail+=`"`;
+                                            price_text+=`"`;
                                         }
 
                                         if(counter_service_charge == 0){ // with upsell pnr pertama
@@ -3844,8 +3844,8 @@ function activity_get_booking(data){
                                             >`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC));
                                         }
                                         if(is_show_breakdown_price)
-                                            text_detail+=`<i class="fas fa-caret-down"></i>`;
-                                        text_detail += `</span>`;
+                                            price_text+=`<i class="fas fa-caret-down"></i>`;
+                                        price_text += `</span>`;
                                         price_text+=`
                                         </div>
                                     </div>`;
