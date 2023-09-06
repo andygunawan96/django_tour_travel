@@ -366,10 +366,12 @@
 
 {% include 'tt_website/footer.html' %}
 <script>
-    get_va_number();
-    get_currency();
-    unique_amount = parseInt(Math.random() * 1000);
-    //document.getElementById('unique_amount').value = unique_amount;
+    $(document).ready(function () {
+        get_currency();
+        get_va_number();
+        unique_amount = parseInt(Math.random() * 1000);
+        //document.getElementById('unique_amount').value = unique_amount;
+    });
 </script>
 
 {% endblock %}

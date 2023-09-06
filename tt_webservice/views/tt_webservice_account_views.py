@@ -1559,21 +1559,22 @@ def get_va_number(request):
                 }]
             })
             for rec in res['result']['response']:
-                for data in res['result']['response'][rec]:
-                    if type(data['acquirer_seq_id']) == str:
-                        file = read_cache(data['acquirer_seq_id'], "payment_information", request, 90911)
-                        if file:
-                            for idx, data_cache in enumerate(file.split('\n')):
-                                if idx == 0:
-                                    data['heading'] = data_cache
-                                elif idx == 1:
-                                    data['html'] = data_cache.replace('<br>', '\n')
+                if rec != 'min_topup_amount':
+                    for data in res['result']['response'][rec]:
+                        if type(data['acquirer_seq_id']) == str:
+                            file = read_cache(data['acquirer_seq_id'], "payment_information", request, 90911)
+                            if file:
+                                for idx, data_cache in enumerate(file.split('\n')):
+                                    if idx == 0:
+                                        data['heading'] = data_cache
+                                    elif idx == 1:
+                                        data['html'] = data_cache.replace('<br>', '\n')
+                            else:
+                                data['html'] = ''
+                                data['heading'] = ''
                         else:
                             data['html'] = ''
                             data['heading'] = ''
-                    else:
-                        data['html'] = ''
-                        data['heading'] = ''
     except Exception as e:
         res = {
             'result': {
