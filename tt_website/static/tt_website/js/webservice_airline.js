@@ -590,6 +590,7 @@ function get_airline_data_search_page(){
        },
        success: function(msg) {
            airline_request = msg.airline_request;
+           document.getElementById('airline_search_request').value = JSON.stringify(airline_request);
            airline_carriers = msg.airline_carriers;
            airline_carriers_data_awal = JSON.parse(JSON.stringify(msg.airline_carriers));
            airline_all_carriers = JSON.parse(JSON.stringify(msg.airline_all_carriers));
