@@ -859,6 +859,14 @@ function sort_transaction(){
             if(hash_url)
                 hash_url += '&'
             hash_url += 'provider='+document.getElementById('provider').value;
+        }if(document.getElementById('booked_by') && document.getElementById('booked_by').value){
+            if(hash_url)
+                hash_url += '&'
+            hash_url += 'booked_by='+document.getElementById('booked_by').value;
+        }if(document.getElementById('issued_by') && document.getElementById('issued_by').value){
+            if(hash_url)
+                hash_url += '&'
+            hash_url += 'issued_by='+document.getElementById('issued_by').value;
         }if(document.getElementsByName('filter') && carrier_code){
             if(hash_url)
                 hash_url += '&'
@@ -924,6 +932,8 @@ function get_transactions(type){
     pnr = '';
     booker_name = '';
     passenger_name = '';
+    booked_by = '';
+    issued_by = '';
     if(document.getElementById('state'))
         state = document.getElementById('state').value;
     if(document.getElementById('start_date'))
@@ -936,6 +946,10 @@ function get_transactions(type){
         passenger_name = document.getElementById('name').value;
     if(document.getElementById('pnr'))
         pnr = document.getElementById('pnr').value;
+    if(document.getElementById('booked_by'))
+        booked_by = document.getElementById('booked_by').value;
+    if(document.getElementById('issued_by'))
+        issued_by = document.getElementById('issued_by').value;
     if(filter == 'booker' && booker_name == ''){
         filter = '';
     }else if(filter == 'name' && name == ''){
@@ -944,11 +958,16 @@ function get_transactions(type){
         filter = '';
     }else if(filter == 'date' && start_date == '' ||filter == 'date' && end_date == ''){
         filter = '';
-    }else if(filter == 'state' && state == '')
+    }else if(filter == 'state' && state == ''){
         filter = '';
+    }else if(filter == 'booked_by' && state == ''){
+        filter = '';
+    }else if(filter == 'issued_by' && state == ''){
+        filter = '';
+    }
     limit_transaction = 20;
     if(document.URL.includes('#') && document.getElementById('search').style.display == 'none'){
-        urlp=[];s=location.toString().split('#');s=s[1].split('&');for(i=0;i<s.length;i++){u=s[i].split('=');urlp[u[0]]=u[1];}
+        urlp = get_data_url();
         if(urlp.hasOwnProperty('provider_type')){
             try{
                 var radios = document.getElementsByName('filter');
@@ -1003,6 +1022,14 @@ function get_transactions(type){
             provider = urlp['provider'];
             $('#provider').niceSelect('update');
         }
+        if(urlp.hasOwnProperty('booked_by')){
+            document.getElementById('booked_by').value = urlp['booked_by'];
+            booked_by = urlp['booked_by'];
+        }
+        if(urlp.hasOwnProperty('issued_by')){
+            document.getElementById('issued_by').value = urlp['issued_by'];
+            provider = urlp['issued_by'];
+        }
     }
     if(carrier_code.includes('airline')){
         document.getElementById('provider_div').style.display = 'block';
@@ -1031,6 +1058,8 @@ function get_transactions(type){
             'end_date': end_date,
             'booker_name': booker_name,
             'passenger_name': passenger_name,
+            'booked_by': booked_by,
+            'issued_by': issued_by,
             'pnr': pnr,
             'using_cache': 'false',
             'provider': carrier_code.includes('airline') ? document.getElementById('provider').value : '',
@@ -1892,8 +1921,8 @@ function check_top_up(){
         if(document.getElementById('amount').value.split(',')[document.getElementById('amount').value.split(',').length-1] != '000'){
             error_text += 'Please input last 3 digits amount 000\n';
         }
-        else if(parseInt(document.getElementById('amount').value.split(',').join('')) < 50000){
-            error_text += 'Amount (Min Top Up Amount '+currency_code+' 50,000)\n';
+        else if(parseInt(document.getElementById('amount').value.split(',').join('')) < min_topup_amount){
+            error_text += 'Amount (Min Top Up Amount '+currency_code+' '+getrupiah(min_topup_amount)+')\n';
         }
     }catch(err){
 

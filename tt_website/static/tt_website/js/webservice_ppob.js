@@ -2135,38 +2135,37 @@ function ppob_get_booking(data){
                                 }
                             }
                         }
-
-                        var breakdown_text = '';
-                        for(j in price_breakdown){
-                            if(breakdown_text)
-                                breakdown_text += '<br/>';
-                            if(j != 'ROC')
-                                breakdown_text += '<b>'+j+'</b> ';
-                            else
-                                breakdown_text += '<b>CONVENIENCE FEE</b> ';
-                            breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
-                        }
-                        new jBox('Tooltip', {
-                            attach: '#total_price',
-                            target: '#total_price',
-                            theme: 'TooltipBorder',
-                            trigger: 'click',
-                            adjustTracker: true,
-                            closeOnClick: 'body',
-                            closeButton: 'box',
-                            animation: 'move',
-                            position: {
-                              x: 'left',
-                              y: 'top'
-                            },
-                            outside: 'y',
-                            pointer: 'left:20',
-                            offset: {
-                              x: 25
-                            },
-                            content: breakdown_text
-                        });
                     }
+                    var breakdown_text = '';
+                    for(j in price_breakdown){
+                        if(breakdown_text)
+                            breakdown_text += '<br/>';
+                        if(j != 'ROC')
+                            breakdown_text += '<b>'+j+'</b> ';
+                        else
+                            breakdown_text += '<b>CONVENIENCE FEE</b> ';
+                        breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
+                    }
+                    new jBox('Tooltip', {
+                        attach: '#total_price',
+                        target: '#total_price',
+                        theme: 'TooltipBorder',
+                        trigger: 'click',
+                        adjustTracker: true,
+                        closeOnClick: 'body',
+                        closeButton: 'box',
+                        animation: 'move',
+                        position: {
+                          x: 'left',
+                          y: 'top'
+                        },
+                        outside: 'y',
+                        pointer: 'left:20',
+                        offset: {
+                          x: 25
+                        },
+                        content: breakdown_text
+                    });
                 }
 
                 //
