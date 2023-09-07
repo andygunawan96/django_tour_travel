@@ -3931,11 +3931,12 @@ function sort(){
                                     try{
                                         document.getElementById('fare_fd'+i).innerHTML = airline[i].currency+' '+getrupiah(total_price);
                                     }catch(err){}
-                                }else if(airline[i].can_book == true)
+                                }else if(airline[i].can_book == true){
                                     document.getElementById('fare'+i).innerHTML = 'Choose to view price';
                                     try{
                                         document.getElementById('fare_fd'+i).innerHTML = 'Choose to view price';
                                     }catch(err){}
+                                }
                                 if(is_show_breakdown_price){
                                     document.getElementById('more_fare'+i).innerHTML+= ` <i class="fas fa-chevron-down price_template"></i>`;
                                     try{
