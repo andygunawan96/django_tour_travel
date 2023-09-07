@@ -3728,7 +3728,6 @@ function change_fare(journey, segment, fares, fare_code){
 
     //update fare details detail
     if(airline_data_filter[journey].segments[segment].fares[fares].hasOwnProperty('fare_details')){
-        console.log(airline_data_filter);
         for(l in airline_data_filter[journey].segments[segment].fares[fares].fare_details){
             text=`
             <span class="copy_fares" hidden>`+journey+segment+fares+l+`</span>`;
@@ -8430,6 +8429,8 @@ function airline_get_booking(data, sync=false){
                                 if(msg.result.response.hasOwnProperty('expired_date') && msg.result.response.expired_date != '' && msg.result.response.expired_date != msg.result.response.hold_date){
                                     $text += '\nPrice may change after price guarantee date';
                                     $text += '\n‣ Booking expiration on ' + moment(msg.result.response.expired_date).format('MMMM DD, YYYY, HH:mm ') + gmt + timezone;
+                                }else{
+                                    $text += '\n‣ Booking expiration on ' + moment(msg.result.response.hold_date).format('MMMM DD, YYYY, HH:mm ') + gmt + timezone;
                                 }
 
                                 $text += '\n\n';
