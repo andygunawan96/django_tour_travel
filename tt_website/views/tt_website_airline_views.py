@@ -462,6 +462,9 @@ def passenger(request, signature):
             labour = []
             seaman = []
             student = []
+            if 'airline_request_%s' % signature not in request.session:
+                set_session(request, 'airline_request_%s' % signature, json.loads(request.POST['airline_search_request']))
+
             pax = copy.deepcopy(request.session['airline_request_%s' % signature])
             for i in range(int(pax['adult'])):
                 adult.append('')
