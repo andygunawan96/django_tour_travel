@@ -120,9 +120,12 @@ def login(request):
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
-            create_session_product(request, 'train', 20)
-            set_session(request, 'train_signature', res['result']['response']['signature'])
+            create_session_product(request, 'train', 20, res['result']['response']['signature'])
+            # set_session(request, 'train_signature', res['result']['response']['signature'])
             set_session(request, 'signature', res['result']['response']['signature'])
+            if request.POST.get('frontend_signature'):
+                write_cache_file(request, res['result']['response']['signature'], 'train_frontend_signature',request.POST['frontend_signature'])
+                write_cache_file(request, request.POST['frontend_signature'], 'train_signature',res['result']['response']['signature'])
             if request.session['user_account'].get('co_customer_parent_seq_id'):
                 webservice_agent.activate_corporate_mode(request, res['result']['response']['signature'])
 
@@ -251,9 +254,15 @@ def get_data(request):
     return response
 
 def get_train_data_search_page(request):
+    res = {}
     try:
-        res = {}
-        res['train_request'] = request.session['train_request']
+        file = read_cache_file(request, request.POST['frontend_signature'], 'train_request')
+        if file:
+            res['train_request'] = file
+        # if request.session.get('train_request_%s' % request.POST['frontend_signature']):
+        #     res['train_request'] = request.session['train_request_%s' % request.POST['frontend_signature']]
+        # else:
+        #     res['train_request'] = request.session['train_request']
         # res = search2(request)
         logging.getLogger("error_info").error("SUCCESS data search page TRAIN")
     except Exception as e:
@@ -262,13 +271,21 @@ def get_train_data_search_page(request):
     return res
 
 def get_train_data_passenger_page(request):
+    res = {}
     try:
-        res = {}
-        res['response'] = request.session['train_pick']
+        file = read_cache_file(request, request.POST['signature'], 'train_pick')
+        if file:
+            res['response'] = file
+        # res['response'] = request.session['train_pick_%s' % request.POST['signature']]
+
         file = read_cache("get_train_carriers", 'cache_web', request, 90911)
         if file:
             res['train_carriers'] = file
-        res['train_request'] = request.session['train_request']
+
+        file = read_cache_file(request, request.POST['signature'], 'train_request')
+        if file:
+            res['train_request'] = file
+        # res['train_request'] = request.session['train_request_%s' % request.POST['signature']]
         logging.getLogger("error_info").error("SUCCESS data search page TRAIN")
     except Exception as e:
         _logger.error('ERROR get get_train_data_passenger_page\n' + str(e) + '\n' + traceback.format_exc())
@@ -276,15 +293,33 @@ def get_train_data_passenger_page(request):
     return res
 
 def get_train_data_review_page(request):
+    res = {}
     try:
-        res = {}
-        res['response'] = request.session['train_pick']
-        res['passengers'] = request.session['train_create_passengers']
+        file = read_cache_file(request, request.POST['signature'], 'train_pick')
+        if file:
+            res['response'] = file
+        # res['response'] = request.session['train_pick_%s' % request.POST['signature']]
+
+        file = read_cache_file(request, request.POST['signature'], 'train_create_passengers')
+        if file:
+            res['passengers'] = file
+        # res['passengers'] = request.session['train_create_passengers_%s' % request.POST['signature']]
+
         file = read_cache("get_train_carriers", 'cache_web', request, 90911)
         if file:
             res['train_carriers'] = file
-        res['train_request'] = request.session['train_request']
-        res['upsell_price_dict'] = request.session.get('train_upsell_%s' % request.POST['signature']) and request.session.get('train_upsell_%s' % request.POST['signature']) or {}
+
+        file = read_cache_file(request, request.POST['signature'], 'train_request')
+        if file:
+            res['train_request'] = file
+        # res['train_request'] = request.session['train_request_%s' % request.POST['signature']]
+
+        file = read_cache_file(request, request.POST['signature'], 'train_upsell')
+        if file:
+            res['upsell_price_dict'] = file
+        else:
+            res['upsell_price_dict'] = {}
+        # res['upsell_price_dict'] = request.session.get('train_upsell_%s' % request.POST['signature']) and request.session.get('train_upsell_%s' % request.POST['signature']) or {}
         logging.getLogger("error_info").error("SUCCESS data search page TRAIN")
     except Exception as e:
         _logger.error('ERROR get get_train_data_review_page\n' + str(e) + '\n' + traceback.format_exc())
@@ -358,13 +393,15 @@ def re_order_set_passengers(request):
                 adult.append(data_pax_dict)
             else:
                 infant.append(data_pax_dict)
+
         train_create_passengers = {
             'booker': booker,
             'adult': adult,
             'infant': infant,
             'contact': contact
         }
-        set_session(request, 'train_create_passengers', train_create_passengers)
+        write_cache_file(request, request.POST['signature'], 'train_create_passengers', train_create_passengers)
+        # set_session(request, 'train_create_passengers_%s' % request.POST['signature'], train_create_passengers)
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return ERR.get_no_error_api()
@@ -383,7 +420,8 @@ def choose_train_reorder(request):
                 'provider': journey['provider'],
             })
             journeys = []
-        set_session(request, 'train_booking', schedules)
+        write_cache_file(request, request.POST['signature'], 'train_booking', schedules)
+        # set_session(request, 'train_booking_%s' % request.POST['signature'], schedules)
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return ERR.get_no_error_api()
@@ -395,34 +433,37 @@ def search(request):
         file = read_cache("train_cache_data", 'cache_web', request, 90911)
         if file:
             response = file
-        set_session(request, 'train_request', json.loads(request.POST['search_request']))
         for country in response:
             train_destinations.append({
                 'code': country['code'],
                 'name': country['name'],
             })
 
+        search_request = json.loads(request.POST['search_request'])
+
         journey_list = []
-        for idx, request_train in enumerate(request.session['train_request']['departure']):
+        for idx, request_train in enumerate(search_request['departure']):
             departure_date = '%s-%s-%s' % (
-                request.session['train_request']['departure'][idx].split(' ')[2],
-                month[request.session['train_request']['departure'][idx].split(' ')[1]],
-                request.session['train_request']['departure'][idx].split(' ')[0])
+                search_request['departure'][idx].split(' ')[2],
+                month[search_request['departure'][idx].split(' ')[1]],
+                search_request['departure'][idx].split(' ')[0])
             journey_list.append({
-                'origin': request.session['train_request']['origin'][idx].split(' - ')[0],
-                'destination': request.session['train_request']['destination'][idx].split(' - ')[0],
+                'origin': search_request['origin'][idx].split(' - ')[0],
+                'destination': search_request['destination'][idx].split(' - ')[0],
                 'departure_date': departure_date
             })
 
         data = {
             "journey_list": journey_list,
-            "direction": request.session['train_request']['direction'],
-            "adult": int(request.session['train_request']['adult']),
-            "infant": int(request.session['train_request']['infant']),
+            "direction": search_request['direction'],
+            "adult": int(search_request['adult']),
+            "infant": int(search_request['infant']),
             "provider": request.POST['provider'],
         }
-        if 'train_search' not in request.session._session:
-            set_session(request, 'train_search', data)
+        write_cache_file(request, request.POST['signature'], 'train_search', data)
+        write_cache_file(request, request.POST['signature'], 'train_request', search_request)
+        # set_session(request, 'train_search_%s' % request.POST['signature'], data)
+        # set_session(request, 'train_request_%s' % request.POST['signature'], search_request)
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
@@ -431,12 +472,14 @@ def search(request):
         }
     except Exception as e:
         if request.POST.get('use_cache'):
-            data = request.session['train_search']
+            file = read_cache_file(request, request.POST['signature'], 'train_search')
+            if file:
+                data = file
             headers = {
                 "Accept": "application/json,text/html,application/xml",
                 "Content-Type": "application/json",
                 "action": "search",
-                "signature": request.POST['signature']
+                "signature": request.POST['new_signature']
             }
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
@@ -475,12 +518,19 @@ def search(request):
 def sell_journeys(request):
     #nanti ganti ke select journey
     try:
+        file = read_cache_file(request, request.POST['signature'], 'train_request')
+        if file:
+            train_request = file
+
+        file = read_cache_file(request, request.POST['signature'], 'train_booking')
+        if file:
+            train_booking = file
 
         data = {
             "promotion_codes": [],
-            "adult": int(request.session['train_request']['adult']),
-            "infant": int(request.session['train_request']['infant']),
-            "schedules": request.session['train_booking'],
+            "adult": int(train_request['adult']),
+            "infant": int(train_request['infant']),
+            "schedules": train_booking,
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",
@@ -504,38 +554,45 @@ def sell_journeys(request):
 
 def commit_booking(request):
     try:
-        booker = request.session['train_create_passengers']['booker']
-        contacts = request.session['train_create_passengers']['contact']
-        passenger = []
-        for pax_type in request.session['train_create_passengers']:
-            if pax_type != 'booker' and pax_type != 'contact':
-                for pax in request.session['train_create_passengers'][pax_type]:
-                    if pax['birth_date'] != '':
-                        pax.update({
-                            'birth_date': '%s-%s-%s' % (
-                                pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
-                                pax['birth_date'].split(' ')[0]),
-                        })
-                    try:
-                        pax.update({
-                            'identity_expdate': '%s-%s-%s' % (
-                                pax['identity_expdate'].split(' ')[2], month[pax['identity_expdate'].split(' ')[1]],
-                                pax['identity_expdate'].split(' ')[0])
-                        })
-                    except Exception as e:
-                        _logger.error(str(e) + traceback.format_exc())
-                    pax['identity'] = {
-                        "identity_country_of_issued_code": pax.pop('identity_country_of_issued_code'),
-                        "identity_expdate": pax.pop('identity_expdate'),
-                        "identity_number": pax.pop('identity_number'),
-                        "identity_type": pax.pop('identity_type'),
-                        "identity_image": pax.pop('identity_image'),
-                    }
-                    passenger.append(pax)
+        file = read_cache_file(request, request.POST['signature'], 'train_create_passengers')
+        if file:
+            train_create_passengers = file
+            booker = train_create_passengers['booker']
+            contacts = train_create_passengers['contact']
+            passenger = []
+            for pax_type in train_create_passengers:
+                if pax_type != 'booker' and pax_type != 'contact':
+                    for pax in train_create_passengers[pax_type]:
+                        if pax['birth_date'] != '':
+                            pax.update({
+                                'birth_date': '%s-%s-%s' % (
+                                    pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
+                                    pax['birth_date'].split(' ')[0]),
+                            })
+                        try:
+                            pax.update({
+                                'identity_expdate': '%s-%s-%s' % (
+                                    pax['identity_expdate'].split(' ')[2], month[pax['identity_expdate'].split(' ')[1]],
+                                    pax['identity_expdate'].split(' ')[0])
+                            })
+                        except Exception as e:
+                            _logger.error(str(e) + traceback.format_exc())
+                        pax['identity'] = {
+                            "identity_country_of_issued_code": pax.pop('identity_country_of_issued_code'),
+                            "identity_expdate": pax.pop('identity_expdate'),
+                            "identity_number": pax.pop('identity_number'),
+                            "identity_type": pax.pop('identity_type'),
+                            "identity_image": pax.pop('identity_image'),
+                        }
+                        passenger.append(pax)
+
+        file = read_cache_file(request, request.POST['signature'], 'train_booking')
+        if file:
+            train_booking = file
         data = {
             "contacts": contacts,
             "passengers": passenger,
-            "schedules": request.session['train_booking'],
+            "schedules": train_booking,
             "booker": booker,
             'force_issued': bool(int(request.POST['value'])),
             'voucher': {}
@@ -592,8 +649,14 @@ def commit_booking(request):
     res = send_request_api(request, url_request, headers, data, 'POST', 480)
     try:
         if res['result']['error_code'] == 0:
-            set_session(request, 'train_order_number', res['result']['response']['order_number'])
             _logger.info("SUCCESS commit_booking TRAIN SIGNATURE " + request.POST['signature'])
+            ## hapus session
+            # for key in reversed(list(request.session._session.keys())):
+            #     if request.POST['signature'] in key:
+            #         if 'b2c_limitation' in request.session['user_account']['co_agent_frontend_security'] and key == 'train_passenger_request_%s' % request.POST['signature']:
+            #             pass
+            #         else:
+            #             del request.session[key]
         else:
             _logger.error("ERROR commit_booking TRAIN SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
@@ -725,7 +788,8 @@ def update_service_charge(request):
                         if upsell['pax_type'] not in total_upsell_dict:
                             total_upsell_dict[upsell['pax_type']] = 0
                         total_upsell_dict[upsell['pax_type']] += pricing['amount']
-            set_session(request, 'train_upsell_' + request.POST['signature'], total_upsell_dict)
+            write_cache_file(request, request.POST['signature'], 'train_upsell', total_upsell_dict)
+            # set_session(request, 'train_upsell_' + request.POST['signature'], total_upsell_dict)
             _logger.info("SUCCESS update_service_charge TRAIN SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR update_service_charge TRAIN SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
@@ -757,7 +821,8 @@ def booker_insentif_booking(request):
             for upsell in data['passengers']:
                 for pricing in upsell['pricing']:
                     total_upsell += pricing['amount']
-            set_session(request, 'train_upsell_booker_'+request.POST['signature'], total_upsell)
+            write_cache_file(request, request.POST['signature'], 'train_upsell_booker', total_upsell)
+            # set_session(request, 'train_upsell_booker_'+request.POST['signature'], total_upsell)
             _logger.info("SUCCESS update_service_charge_booker TRAIN SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR update_service_charge_booker TRAIN SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
@@ -767,7 +832,10 @@ def booker_insentif_booking(request):
 
 def seat_map(request):
     try:
-        seat_map_request_input = request.session['train_seat_map_request']
+        file = read_cache_file(request, request.POST['signature'], 'train_seat_map_request')
+        if file:
+            seat_map_request_input = file
+        # seat_map_request_input = request.session['train_seat_map_request_%s' % request.POST['signature']]
         seat_request = []
         for i in seat_map_request_input:
             seat_request.append(i['fare_code'])
@@ -916,7 +984,10 @@ def assign_seats(request):
         provider_bookings = []
         provider = ''
         try:
-            provider = request.session['train_booking'][0]['provider']
+            file = read_cache_file(request, request.POST['signature'], 'train_booking')
+            if file:
+                provider = file[0]['provider']
+            provider = request.session['train_booking_%s' % request.POST['signature']][0]['provider']
         except Exception as e:
             _logger.error(str(e) + traceback.format_exc())
         for idx, pax in enumerate(passengers):

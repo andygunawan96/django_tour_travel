@@ -2874,6 +2874,8 @@ function check_passenger(){
             document.getElementById('signature').value = signature;
             document.getElementById('vendor').value = vendor;
             document.getElementById('test_type').value = test_type;
+            if(!document.getElementById('mitra_keluarga_review').action.includes(signature))
+                document.getElementById('mitra_keluarga_review').action += '/' + signature;
             document.getElementById('mitra_keluarga_review').submit();
        }else{
            document.getElementById('show_error_log').innerHTML = error_log;

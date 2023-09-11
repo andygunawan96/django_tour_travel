@@ -1,4 +1,6 @@
 function mitra_keluarga_signin(data){
+    if(typeof(frontend_signature) === 'undefined')
+        frontend_signature = '';
     getToken();
     $.ajax({
        type: "POST",
@@ -6,7 +8,9 @@ function mitra_keluarga_signin(data){
        headers:{
             'action': 'signin',
        },
-       data: {},
+       data: {
+            'frontend_signature': frontend_signature
+       },
        success: function(msg) {
        try{
            if(msg.result.error_code == 0){
@@ -68,6 +72,7 @@ function mitra_keluarga_page_passenger(){
        },
        data: {
             'signature': signature,
+            'frontend_signature': frontend_signature
        },
        success: function(msg) {
             titles = msg.titles;
@@ -498,7 +503,7 @@ function mitra_keluarga_get_cache_price(){
                 $text += 'Grand Total: ' + msg.result.response.service_charges[0].currency + ' ' + getrupiah(msg.result.response.total_price)
 
 
-//                if(document.URL.split('/')[document.URL.split('/').length-1] == 'review'){
+//                if(document.URL.split('/')[document.URL.split('/').length-2] == 'review'){
 //                    tax = 0;
 //                    fare = 0;
 //                    total_price = 0;
@@ -544,7 +549,7 @@ function mitra_keluarga_get_cache_price(){
 //                    document.getElementById('repricing_div').innerHTML = text_repricing;
 //                    //repricing
 //                }
-//                if(document.URL.split('/')[document.URL.split('/').length-1] == 'review' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
+//                if(document.URL.split('/')[document.URL.split('/').length-2] == 'review' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
 //                    text+=`<div style="text-align:right;"><img src="/static/tt_website/images/icon/symbol/upsell_price.png" alt="Bank" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
 //                }
                 //print harga

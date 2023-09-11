@@ -61,9 +61,14 @@ def tour(request):
             # get_data_awal
             cache = {}
             try:
-                cache['tour'] = {
-                    'name': request.session['tour_request']['tour_query']
-                }
+                file = read_cache_file(request, '', 'hotel_request')
+                if file:
+                    cache['hotel'] = {
+                        'name': file['tour_query']
+                    }
+                # cache['tour'] = {
+                #     'name': request.session['tour_request']['tour_query']
+                # }
             except:
                 pass
 
@@ -109,7 +114,7 @@ def search(request):
     ## kalau belum signin, web btc & ada user default
     if not request.session.get('user_account') and values['website_mode'] in ['btc', 'btc_btb'] and user_default:
         signin_btc(request)
-    if 'user_account' in request.session._session:
+    if 'user_account' in request.session:
         try:
             # check_captcha(request)
             javascript_version = get_javascript_version(request)
@@ -122,6 +127,8 @@ def search(request):
             phone_code = sorted(phone_code)
 
             values = get_data_template(request, 'search')
+
+            frontend_signature = generate_signature()
 
             dest_month_data = [
                 {'value': '00', 'string': 'All Months'},
@@ -139,7 +146,7 @@ def search(request):
                 {'value': '12', 'string': 'December'},
             ]
             try:
-                set_session(request, 'tour_request', {
+                write_cache_file(request, frontend_signature, 'tour_request', {
                     'tour_query': request.POST.get('tour_query') and request.POST['tour_query'] or '',
                     'country_id': request.POST.get('tour_countries') != '0' and int(request.POST['tour_countries']) or 0,
                     'city_id': request.POST.get('tour_cities') != '0' and int(request.POST['tour_cities']) or 0,
@@ -148,35 +155,56 @@ def search(request):
                     'limit': 25,
                     'offset': 0,
                 })
+
+                # set_session(request, 'tour_request', {
+                #     'tour_query': request.POST.get('tour_query') and request.POST['tour_query'] or '',
+                #     'country_id': request.POST.get('tour_countries') != '0' and int(request.POST['tour_countries']) or 0,
+                #     'city_id': request.POST.get('tour_cities') != '0' and int(request.POST['tour_cities']) or 0,
+                #     'month': request.POST['tour_dest_month'],
+                #     'year': request.POST['tour_dest_year'],
+                #     'limit': 25,
+                #     'offset': 0,
+                # })
             except Exception as e:
                 _logger.error('Data POST for tour_request not found use cache')
                 _logger.error("%s, %s" % (str(e), traceback.format_exc()))
-                if request.session.get('tour_request'):
-                    set_session(request, 'tour_request', request.session['tour_request'])
-                else:
-                    ## ## CELINDO DARI COMPANY PROFILE REDIRECT KE PAGE SEARCH TOUR
-                    ## search all
-                    set_session(request, 'tour_request', {
-                        'tour_query': '',
-                        'country_id': 0,
-                        'city_id': 0,
-                        'month': '',
-                        'year': '',
-                        'limit': 25,
-                        'offset': 0,
-                    })
+                ## ## CELINDO DARI COMPANY PROFILE REDIRECT KE PAGE SEARCH TOUR
+                ## search all
+                write_cache_file(request, frontend_signature, 'tour_request', {
+                    'tour_query': '',
+                    'country_id': 0,
+                    'city_id': 0,
+                    'month': '',
+                    'year': '',
+                    'limit': 25,
+                    'offset': 0,
+                })
+                # set_session(request, 'tour_request', {
+                #     'tour_query': '',
+                #     'country_id': 0,
+                #     'city_id': 0,
+                #     'month': '',
+                #     'year': '',
+                #     'limit': 25,
+                #     'offset': 0,
+                # })
+
+            file = read_cache_file(request, frontend_signature, 'tour_request')
+            if file:
+                tour_request = file
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'username': request.session['user_account'],
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
                 'countries': airline_country,
+                'frontend_signature': frontend_signature,
                 'phone_code': phone_code,
-                'tour_request': request.session['tour_request'],
-                'query': request.session['tour_request']['tour_query'],
-                'dest_country': request.session['tour_request']['country_id'],
-                'dest_city': request.session['tour_request']['city_id'],
-                'dest_year': request.session['tour_request']['year'],
-                'dest_month': request.session['tour_request']['month'],
+                'tour_request': tour_request,
+                'query': tour_request['tour_query'],
+                'dest_country': tour_request['country_id'],
+                'dest_city': tour_request['city_id'],
+                'dest_year': tour_request['year'],
+                'dest_month': tour_request['month'],
                 'dest_month_data': dest_month_data,
                 'javascript_version': javascript_version,
                 'signature': request.session['signature'],
@@ -190,7 +218,7 @@ def search(request):
     else:
         return no_session_logout(request)
 
-def detail(request, tour_code):
+def detail(request, tour_code, signature=''):
     try:
         javascript_version = get_javascript_version(request)
         values = get_data_template(request, 'search')
@@ -206,19 +234,26 @@ def detail(request, tour_code):
                 phone_code.append(i['phone_code'])
         phone_code = sorted(phone_code)
 
-        if translation.LANGUAGE_SESSION_KEY in request.session:
-            del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
+        # time_limit = get_timelimit_product(request, 'tour')
+        # if time_limit == 0:
+        #     try:
+        #         time_limit = int(request.POST['time_limit_input'])
+        #     except:
+        #         if request.session.get('time_limit'):
+        #             time_limit = request.session['time_limit']
+        #         else:
+        #             time_limit = 1200
+        # set_session(request, 'time_limit', time_limit)
 
-        time_limit = get_timelimit_product(request, 'tour')
-        if time_limit == 0:
-            try:
+        try:
+            time_limit = get_timelimit_product(request, 'tour', signature)
+            if time_limit == 0:
                 time_limit = int(request.POST['time_limit_input'])
-            except:
-                if request.session.get('time_limit'):
-                    time_limit = request.session['time_limit']
-                else:
-                    time_limit = 1200
-        set_session(request, 'time_limit', time_limit)
+            write_cache_file(request, signature, 'time_limit', time_limit)
+            # set_session(request, 'time_limit_%s' % signature, time_limit)
+        except:
+            time_limit = int(request.POST['time_limit_input'])
+            write_cache_file(request, signature, 'time_limit', time_limit)
 
 
         dest_month_data = [
@@ -237,16 +272,37 @@ def detail(request, tour_code):
             {'value': '12', 'string': 'December'},
         ]
 
-        if not request.session.get('tour_request'):
-            set_session(request, 'tour_request', {
+        file = read_cache_file(request, signature, 'tour_request')
+        if not file:
+            write_cache_file(request, signature, 'tour_request', {
                 'tour_query': '',
                 'country_id': 0,
                 'city_id': 0,
-                'month': '00',
-                'year': '0000',
+                'month': '',
+                'year': '',
                 'limit': 25,
                 'offset': 0,
             })
+        # if not request.session.get('tour_request'):
+            # set_session(request, 'tour_request', {
+            #     'tour_query': '',
+            #     'country_id': 0,
+            #     'city_id': 0,
+            #     'month': '00',
+            #     'year': '0000',
+            #     'limit': 25,
+            #     'offset': 0,
+            # })
+
+        file = read_cache_file(request, signature, 'tour_request')
+        if file:
+            tour_request = file
+
+        file = read_cache_file(request, signature, 'time_limit')
+        if file:
+            time_limit = file
+        else:
+            time_limit = 1200
 
         values.update({
             'static_path': path_util.get_static_path(MODEL_NAME),
@@ -256,16 +312,16 @@ def detail(request, tour_code):
             'countries': airline_country,
             'phone_code': phone_code,
             'tour_code': tour_code,
-            'query': request.session['tour_request']['tour_query'],
-            'dest_country': request.session['tour_request']['country_id'],
-            'dest_city': request.session['tour_request']['city_id'],
-            'dest_year': request.session['tour_request']['year'],
-            'dest_month': request.session['tour_request']['month'],
+            'query': tour_request['tour_query'],
+            'dest_country': tour_request['country_id'],
+            'dest_city': tour_request['city_id'],
+            'dest_year': tour_request['year'],
+            'dest_month': tour_request['month'],
             'dest_month_data': dest_month_data,
             'username': request.session['user_account'],
             'javascript_version': javascript_version,
-            'signature': request.session.get('tour_signature') and request.session['tour_signature'] or '',
-            'time_limit': request.session.get('time_limit') and request.session['time_limit'] or 1200,
+            'signature': signature,
+            'time_limit': time_limit,
             'static_path_url_server': get_url_static_path(),
         })
     except Exception as e:
@@ -274,7 +330,7 @@ def detail(request, tour_code):
 
     return render(request, MODEL_NAME+'/tour/tour_detail_templates.html', values)
 
-def passenger(request):
+def passenger(request, signature=''):
     if 'user_account' in request.session._session:
         try:
             javascript_version = get_javascript_version(request)
@@ -286,12 +342,14 @@ def passenger(request):
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
 
             try:
-                time_limit = get_timelimit_product(request, 'tour')
+                time_limit = get_timelimit_product(request, 'tour', signature)
                 if time_limit == 0:
                     time_limit = int(request.POST['time_limit_input'])
-                set_session(request, 'time_limit', time_limit)
+                write_cache_file(request, signature, 'time_limit', time_limit)
+                # set_session(request, 'time_limit_%s' % signature, time_limit)
             except:
-                set_session(request, 'time_limit', request.session['time_limit'])
+                time_limit = int(request.POST['time_limit_input'])
+                write_cache_file(request, signature, 'time_limit', time_limit)
 
             # agent
             adult_title = ['', 'MR', 'MRS', 'MS']
@@ -307,9 +365,14 @@ def passenger(request):
 
             # pax
             try:
-                set_session(request, 'tour_room_mapping', {
-                    'room_amount': request.POST['room_amount']
+
+                write_cache_file(request, signature, 'tour_room_mapping', {
+                    "room_amount":request.POST['room_amount']
                 })
+
+                # set_session(request, 'tour_room_mapping', {
+                #     'room_amount': request.POST['room_amount']
+                # })
             except Exception as e:
                 _logger.error('Data POST for tour_room_mapping not found use cache')
                 _logger.error("%s, %s" % (str(e), traceback.format_exc()))
@@ -322,45 +385,63 @@ def passenger(request):
             child = []
 
             try:
-                for r in range(int(request.session['tour_room_mapping']['room_amount'])):
-                    adult_amt += int(request.POST['adult_tour_room_' + str(r+1)])
-                    child_amt += int(request.POST['child_tour_room_' + str(r+1)])
-                    infant_amt += int(request.POST['infant_tour_room_' + str(r+1)])
-                set_session(request, 'tour_pax_amount', {
-                    'adult_amt': adult_amt,
-                    'child_amt': child_amt,
-                    'infant_amt': infant_amt,
-                })
+                file = read_cache_file(request, signature, 'tour_room_mapping')
+                if file:
+                    for r in range(int(file['room_amount'])):
+                        adult_amt += int(request.POST['adult_tour_room_' + str(r + 1)])
+                        child_amt += int(request.POST['child_tour_room_' + str(r + 1)])
+                        infant_amt += int(request.POST['infant_tour_room_' + str(r + 1)])
+
+                    write_cache_file(request, signature, 'tour_pax_amount', {
+                        'adult_amt': adult_amt,
+                        'child_amt': child_amt,
+                        'infant_amt': infant_amt,
+                    })
+                # for r in range(int(request.session['tour_room_mapping']['room_amount'])):
+                #     adult_amt += int(request.POST['adult_tour_room_' + str(r+1)])
+                #     child_amt += int(request.POST['child_tour_room_' + str(r+1)])
+                #     infant_amt += int(request.POST['infant_tour_room_' + str(r+1)])
+                # set_session(request, 'tour_pax_amount', {
+                #     'adult_amt': adult_amt,
+                #     'child_amt': child_amt,
+                #     'infant_amt': infant_amt,
+                # })
             except Exception as e:
                 _logger.error('Data POST for tour_pax_amount not found use cache')
                 _logger.error("%s, %s" % (str(e), traceback.format_exc()))
 
+            file = read_cache_file(request, signature, 'tour_pax_amount')
+            if file:
+                tour_pax_amount = file
+
             try:
-                for i in range(request.session['tour_pax_amount']['adult_amt']):
+                for i in range(tour_pax_amount['adult_amt']):
                     adult.append('')
             except:
                 print('no adult')
 
             try:
-                for i in range(request.session['tour_pax_amount']['child_amt']):
+                for i in range(tour_pax_amount['child_amt']):
                     child.append('')
             except:
                 print('no children')
 
             try:
-                for i in range(request.session['tour_pax_amount']['infant_amt']):
+                for i in range(tour_pax_amount['infant_amt']):
                     infant.append('')
             except:
                 print('no infant')
 
             try:
-                set_session(request, 'tour_line_code', request.POST['tour_line_code'])
+                write_cache_file(request, signature, 'tour_line_code', request.POST['tour_line_code'])
+                # set_session(request, 'tour_line_code', request.POST['tour_line_code'])
             except Exception as e:
                 _logger.error('Data POST for tour_line_code not found use cache')
                 _logger.error("%s, %s" % (str(e), traceback.format_exc()))
 
             try:
-                set_session(request, 'tour_data', json.loads(request.POST['tour_data']))
+                write_cache_file(request, signature, 'tour_data', json.loads(request.POST['tour_data']))
+                # set_session(request, 'tour_data', json.loads(request.POST['tour_data']))
             except Exception as e:
                 _logger.error('Data POST for tour_data not found use cache')
                 _logger.error("%s, %s" % (str(e), traceback.format_exc()))
@@ -368,71 +449,157 @@ def passenger(request):
             try:
                 tour_dept_date = ''
                 tour_arr_date = ''
-                if request.session.get('tour_pick'):
-                    if request.session['tour_pick']['tour_type'] == 'open':
+                file = read_cache_file(request, signature, 'tour_pick')
+                if file:
+                    tour_pick = file
+                    if tour_pick['tour_type'] == 'open':
                         tour_dept_date = request.POST.get('open_tour_departure_date') and datetime.strptime(request.POST['open_tour_departure_date'], '%d %b %Y').strftime('%Y-%m-%d') or ''
                         tour_arr_date = request.POST.get('open_tour_arrival_date') and datetime.strptime(request.POST['open_tour_arrival_date'], '%d %b %Y').strftime('%Y-%m-%d') or ''
                     else:
-                        for line in request.session['tour_pick']['tour_lines']:
+                        for line in tour_pick['tour_lines']:
                             if line['tour_line_code'] == request.POST['tour_line_code']:
                                 tour_dept_date = line['departure_date']
                                 tour_arr_date = line['arrival_date']
-                set_session(request, 'tour_dept_return_data', {
+                    write_cache_file(request, signature, 'tour_pick', tour_pick)
+                    write_cache_file(request, signature, 'tour_dept_return_data', {
                     'departure': tour_dept_date,
                     'arrival': tour_arr_date
                 })
+
+                # if request.session.get('tour_pick'):
+                #     if request.session['tour_pick']['tour_type'] == 'open':
+                #         tour_dept_date = request.POST.get('open_tour_departure_date') and datetime.strptime(request.POST['open_tour_departure_date'], '%d %b %Y').strftime('%Y-%m-%d') or ''
+                #         tour_arr_date = request.POST.get('open_tour_arrival_date') and datetime.strptime(request.POST['open_tour_arrival_date'], '%d %b %Y').strftime('%Y-%m-%d') or ''
+                #     else:
+                #         for line in request.session['tour_pick']['tour_lines']:
+                #             if line['tour_line_code'] == request.POST['tour_line_code']:
+                #                 tour_dept_date = line['departure_date']
+                #                 tour_arr_date = line['arrival_date']
+                # set_session(request, 'tour_dept_return_data', {
+                #     'departure': tour_dept_date,
+                #     'arrival': tour_arr_date
+                # })
             except Exception as e:
                 _logger.error('Data POST for tour_dept_return_data not found use cache')
                 _logger.error("%s, %s" % (str(e), traceback.format_exc()))
 
-            dept = request.session['tour_dept_return_data'].get('departure') and datetime.strptime(request.session['tour_dept_return_data']['departure'], '%Y-%m-%d').strftime('%d %b %Y') or ''
-            arr = request.session['tour_dept_return_data'].get('arrival') and datetime.strptime(request.session['tour_dept_return_data']['arrival'], '%Y-%m-%d').strftime('%d %b %Y') or ''
+            file = read_cache_file(request, signature, 'tour_dept_return_data')
+            if file:
+                dept = file.get('departure') and datetime.strptime(file['departure'], '%Y-%m-%d').strftime('%d %b %Y') or ''
+                arr = file.get('arrival') and datetime.strptime(file['arrival'], '%Y-%m-%d').strftime('%d %b %Y') or ''
 
             try:
-                room_amount = int(request.session['tour_room_mapping']['room_amount'])
-                render_pax_per_room = []
-                for idx in range(room_amount):
-                    note = 'notes_' + str(idx + 1)
+                file = read_cache_file(request, signature, 'tour_room_mapping')
+                if file:
+                    tour_room_mapping = file
+                    room_amount = int(tour_room_mapping['room_amount'])
+                    render_pax_per_room = []
+                    for idx in range(room_amount):
+                        note = 'notes_' + str(idx + 1)
 
-                    room = {
-                        'adult': int(request.POST['adult_tour_room_' + str(idx + 1)]),
-                        'child': int(request.POST['child_tour_room_' + str(idx + 1)]),
-                        'infant': int(request.POST['infant_tour_room_' + str(idx + 1)]),
-                    }
+                        room = {
+                            'adult': int(request.POST['adult_tour_room_' + str(idx + 1)]),
+                            'child': int(request.POST['child_tour_room_' + str(idx + 1)]),
+                            'infant': int(request.POST['infant_tour_room_' + str(idx + 1)]),
+                        }
 
-                    chosen_room = False
-                    for temp_room in request.session['tour_data']['accommodations']:
-                        if temp_room['room_code'] == request.POST['room_code_' + str(idx + 1)]:
-                            chosen_room = temp_room
+                        chosen_room = False
+                        file = read_cache_file(request, signature, 'tour_data')
+                        if file:
+                            tour_data = file
+                            for temp_room in tour_data['accommodations']:
+                                if temp_room['room_code'] == request.POST['room_code_' + str(idx + 1)]:
+                                    chosen_room = temp_room
 
-                    room.update({
-                        'address': chosen_room['address'],
-                        'bed_type': chosen_room['bed_type'],
-                        'description': chosen_room['description'],
-                        'hotel': chosen_room['hotel'],
-                        'name': chosen_room['name'],
-                        'star': chosen_room['star'],
-                        'room_code': chosen_room['room_code'],
-                        'notes': request.POST.get(note) and request.POST[note] or '',
-                        'room_seq': 'Room ' + str(idx + 1),
-                    })
-                    render_pax_per_room.append(room)
-                request.session['tour_room_mapping'].update({
-                    'render_pax_per_room': render_pax_per_room
-                })
+                        room.update({
+                            'address': chosen_room['address'],
+                            'bed_type': chosen_room['bed_type'],
+                            'description': chosen_room['description'],
+                            'hotel': chosen_room['hotel'],
+                            'name': chosen_room['name'],
+                            'star': chosen_room['star'],
+                            'room_code': chosen_room['room_code'],
+                            'notes': request.POST.get(note) and request.POST[note] or '',
+                            'room_seq': 'Room ' + str(idx + 1),
+                        })
+                        render_pax_per_room.append(room)
+                    tour_room_mapping['render_pax_per_room'] = render_pax_per_room
+                    write_cache_file(request, signature, 'tour_room_mapping', tour_room_mapping)
+
+                # room_amount = int(request.session['tour_room_mapping']['room_amount'])
+                # render_pax_per_room = []
+                # for idx in range(room_amount):
+                #     note = 'notes_' + str(idx + 1)
+                #
+                #     room = {
+                #         'adult': int(request.POST['adult_tour_room_' + str(idx + 1)]),
+                #         'child': int(request.POST['child_tour_room_' + str(idx + 1)]),
+                #         'infant': int(request.POST['infant_tour_room_' + str(idx + 1)]),
+                #     }
+                #
+                #     chosen_room = False
+                #     for temp_room in request.session['tour_data']['accommodations']:
+                #         if temp_room['room_code'] == request.POST['room_code_' + str(idx + 1)]:
+                #             chosen_room = temp_room
+                #
+                #     room.update({
+                #         'address': chosen_room['address'],
+                #         'bed_type': chosen_room['bed_type'],
+                #         'description': chosen_room['description'],
+                #         'hotel': chosen_room['hotel'],
+                #         'name': chosen_room['name'],
+                #         'star': chosen_room['star'],
+                #         'room_code': chosen_room['room_code'],
+                #         'notes': request.POST.get(note) and request.POST[note] or '',
+                #         'room_seq': 'Room ' + str(idx + 1),
+                #     })
+                #     render_pax_per_room.append(room)
+                # request.session['tour_room_mapping'].update({
+                #     'render_pax_per_room': render_pax_per_room
+                # })
             except Exception as e:
                 _logger.error('Data POST for tour_room_mapping not found use cache')
                 _logger.error("%s, %s" % (str(e), traceback.format_exc()))
 
-            set_session(request, 'tour_booking_data', {
-                'room_list': request.session['tour_room_mapping']['render_pax_per_room'],
-                'room_amount': request.session['tour_room_mapping']['room_amount'],
-                'adult': request.session['tour_pax_amount']['adult_amt'],
-                'child': request.session['tour_pax_amount']['child_amt'],
-                'infant': request.session['tour_pax_amount']['infant_amt'],
-                'tour_line_code': request.session['tour_line_code'],
-                'tour_data': request.session['tour_pick'],
+            file = read_cache_file(request, signature, 'tour_room_mapping')
+            if file:
+                tour_room_mapping = file
+
+            file = read_cache_file(request, signature, 'tour_pax_amount')
+            if file:
+                tour_pax_amount = file
+
+            file = read_cache_file(request, signature, 'tour_line_code')
+            if file:
+                tour_line_code = file
+
+            file = read_cache_file(request, signature, 'tour_pick')
+            if file:
+                tour_pick = file
+
+            file = read_cache_file(request, signature, 'time_limit')
+            if file:
+                time_limit = file
+
+            write_cache_file(request, signature, 'tour_booking_data', {
+                'room_list': tour_room_mapping['render_pax_per_room'],
+                'room_amount': tour_room_mapping['room_amount'],
+                'adult': tour_pax_amount['adult_amt'],
+                'child': tour_pax_amount['child_amt'],
+                'infant': tour_pax_amount['infant_amt'],
+                'tour_line_code': tour_line_code,
+                'tour_data': tour_pick,
             })
+
+            # set_session(request, 'tour_booking_data', {
+            #     'room_list': request.session['tour_room_mapping']['render_pax_per_room'],
+            #     'room_amount': request.session['tour_room_mapping']['room_amount'],
+            #     'adult': request.session['tour_pax_amount']['adult_amt'],
+            #     'child': request.session['tour_pax_amount']['child_amt'],
+            #     'infant': request.session['tour_pax_amount']['infant_amt'],
+            #     'tour_line_code': request.session['tour_line_code'],
+            #     'tour_data': request.session['tour_pick'],
+            # })
 
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
@@ -443,22 +610,22 @@ def passenger(request):
                 'infant_title': infant_title,
                 'child_title': child_title,
                 'username': request.session['user_account'],
-                'tour_data': request.session['tour_pick'],
-                'tour_line_code': request.session['tour_line_code'],
+                'tour_data': tour_pick,
+                'tour_line_code': tour_line_code,
                 'departure_date': dept,
                 'arrival_date': arr,
                 'adults': adult,
                 'infants': infant,
                 'childs': child,
-                'adult_amt': request.session['tour_pax_amount']['adult_amt'],
-                'infant_amt': request.session['tour_pax_amount']['infant_amt'],
-                'child_amt': request.session['tour_pax_amount']['child_amt'],
-                'room_list': request.session['tour_room_mapping']['render_pax_per_room'],
-                'room_amount': request.session['tour_room_mapping']['room_amount'],
-                'time_limit': request.session['time_limit'],
+                'adult_amt': tour_pax_amount['adult_amt'],
+                'infant_amt': tour_pax_amount['infant_amt'],
+                'child_amt': tour_pax_amount['child_amt'],
+                'room_list': tour_room_mapping['render_pax_per_room'],
+                'room_amount': tour_room_mapping['room_amount'],
+                'time_limit': time_limit,
                 'static_path_url_server': get_url_static_path(),
                 'javascript_version': javascript_version,
-                'signature': request.session['tour_signature'],
+                'signature': signature,
             })
         except Exception as e:
             _logger.error(str(e) + '\n' + traceback.format_exc())
@@ -467,7 +634,7 @@ def passenger(request):
     else:
         return no_session_logout(request)
 
-def review(request):
+def review(request, signature=''):
     if 'user_account' in request.session._session:
         try:
             javascript_version = get_javascript_version(request)
@@ -515,95 +682,162 @@ def review(request):
                 }
 
                 temp_pax_id = 0
-                for i in range(int(request.session['tour_booking_data']['adult'])):
-                    img_identity_data = [sel_img[:2] for sel_img in img_list_data if 'adult' in sel_img[2].lower() and 'identity' in sel_img[2].lower() and str(i + 1) in sel_img[2].lower()]
-                    behaviors = {}
-                    if request.POST.get('adult_behaviors_' + str(i + 1)):
-                        behaviors = {'tour': request.POST['adult_behaviors_' + str(i + 1)]}
-                    adult.append({
-                        "temp_pax_id": temp_pax_id,
-                        "first_name": request.POST['adult_first_name' + str(i + 1)],
-                        "last_name": request.POST['adult_last_name' + str(i + 1)],
-                        "nationality_code": request.POST['adult_nationality' + str(i + 1) + '_id'],
-                        "title": request.POST['adult_title' + str(i + 1)],
-                        "pax_type": "ADT",
-                        "pax_type_str": "Adult",
-                        "birth_date": request.POST['adult_birth_date' + str(i + 1)],
-                        "identity_number": request.POST.get('adult_passport_number' + str(i + 1)) and request.POST['adult_passport_number' + str(i + 1)] or '',
-                        "identity_expdate": request.POST.get('adult_passport_expired_date' + str(i + 1)) and request.POST['adult_passport_expired_date' + str(i + 1)] or '',
-                        "identity_country_of_issued_code": request.POST.get('adult_country_of_issued' + str(i + 1) + '_id') and request.POST['adult_country_of_issued' + str(i + 1) + '_id'] or '',
-                        "identity_image": img_identity_data,
-                        "passenger_seq_id": request.POST['adult_id' + str(i + 1)],
-                        "identity_type": "passport",
-                        "calling_code": request.POST.get('adult_cp' + str(i + 1) + '_id') and request.POST['adult_phone_code' + str(i + 1) + '_id'],
-                        "mobile": request.POST.get('adult_cp' + str(i + 1)) and request.POST['adult_phone' + str(i + 1)] or ' - ',
-                        "email": request.POST.get('adult_cp' + str(i + 1)) and request.POST['adult_email' + str(i + 1)] or ' - ',
-                        "is_cp": request.POST.get('adult_cp' + str(i + 1)),
-                        "behaviors": behaviors,
 
-                    })
-                    printout_paxs.append({
-                        "name": request.POST['adult_title' + str(i + 1)] + ' ' + request.POST['adult_first_name' + str(i + 1)] + ' ' + request.POST['adult_last_name' + str(i + 1)],
-                        'ticket_number': '',
-                        'birth_date': request.POST['adult_birth_date' + str(i + 1)],
-                        'pax_type': 'Adult',
-                        'additional_info': [],
-                    })
-                    temp_pax_id += 1
+                file = read_cache_file(request, signature, 'tour_booking_data')
+                if file:
 
-                    if i == 0:
-                        if request.POST['myRadios'] == 'yes':
-                            adult[len(adult) - 1].update({
-                                'is_also_booker': True,
-                                'is_also_contact': True
-                            })
+                    for i in range(int(file['adult'])):
+                        img_identity_data = [sel_img[:2] for sel_img in img_list_data if 'adult' in sel_img[2].lower() and 'identity' in sel_img[2].lower() and str(i + 1) in sel_img[2].lower()]
+                        behaviors = {}
+                        if request.POST.get('adult_behaviors_' + str(i + 1)):
+                            behaviors = {'tour': request.POST['adult_behaviors_' + str(i + 1)]}
+                        adult.append({
+                            "temp_pax_id": temp_pax_id,
+                            "first_name": request.POST['adult_first_name' + str(i + 1)],
+                            "last_name": request.POST['adult_last_name' + str(i + 1)],
+                            "nationality_code": request.POST['adult_nationality' + str(i + 1) + '_id'],
+                            "title": request.POST['adult_title' + str(i + 1)],
+                            "pax_type": "ADT",
+                            "pax_type_str": "Adult",
+                            "birth_date": request.POST['adult_birth_date' + str(i + 1)],
+                            "identity_number": request.POST.get('adult_passport_number' + str(i + 1)) and request.POST['adult_passport_number' + str(i + 1)] or '',
+                            "identity_expdate": request.POST.get('adult_passport_expired_date' + str(i + 1)) and request.POST['adult_passport_expired_date' + str(i + 1)] or '',
+                            "identity_country_of_issued_code": request.POST.get('adult_country_of_issued' + str(i + 1) + '_id') and request.POST['adult_country_of_issued' + str(i + 1) + '_id'] or '',
+                            "identity_image": img_identity_data,
+                            "passenger_seq_id": request.POST['adult_id' + str(i + 1)],
+                            "identity_type": "passport",
+                            "calling_code": request.POST.get('adult_cp' + str(i + 1) + '_id') and request.POST['adult_phone_code' + str(i + 1) + '_id'],
+                            "mobile": request.POST.get('adult_cp' + str(i + 1)) and request.POST['adult_phone' + str(i + 1)] or ' - ',
+                            "email": request.POST.get('adult_cp' + str(i + 1)) and request.POST['adult_email' + str(i + 1)] or ' - ',
+                            "is_cp": request.POST.get('adult_cp' + str(i + 1)),
+                            "behaviors": behaviors,
+
+                        })
+                        printout_paxs.append({
+                            "name": request.POST['adult_title' + str(i + 1)] + ' ' + request.POST['adult_first_name' + str(i + 1)] + ' ' + request.POST['adult_last_name' + str(i + 1)],
+                            'ticket_number': '',
+                            'birth_date': request.POST['adult_birth_date' + str(i + 1)],
+                            'pax_type': 'Adult',
+                            'additional_info': [],
+                        })
+                        temp_pax_id += 1
+
+                        if i == 0:
+                            if request.POST['myRadios'] == 'yes':
+                                adult[len(adult) - 1].update({
+                                    'is_also_booker': True,
+                                    'is_also_contact': True
+                                })
+                            else:
+                                adult[len(adult) - 1].update({
+                                    'is_also_booker': False
+                                })
                         else:
                             adult[len(adult) - 1].update({
                                 'is_also_booker': False
                             })
-                    else:
-                        adult[len(adult) - 1].update({
-                            'is_also_booker': False
-                        })
-                    try:
-                        if request.POST['adult_cp' + str(i + 1)] == 'on':
-                            adult[len(adult) - 1].update({
-                                'is_also_contact': True
-                            })
-                        else:
-                            adult[len(adult) - 1].update({
-                                'is_also_contact': False
-                            })
-                    except:
-                        if i == 0 and request.POST['myRadios'] == 'yes':
-                            continue
-                        else:
-                            adult[len(adult) - 1].update({
-                                'is_also_contact': False
-                            })
-                    try:
-                        if request.POST['adult_cp' + str(i + 1)] == 'on':
-                            contact.append({
-                                "first_name": request.POST['adult_first_name' + str(i + 1)],
-                                "last_name": request.POST['adult_last_name' + str(i + 1)],
-                                "title": request.POST['adult_title' + str(i + 1)],
-                                "email": request.POST['adult_email' + str(i + 1)],
-                                "calling_code": request.POST['adult_phone_code' + str(i + 1) + '_id'],
-                                "mobile": request.POST['adult_phone' + str(i + 1)],
-                                "nationality_code": request.POST['adult_nationality' + str(i + 1) + '_id'],
-                                "contact_seq_id": request.POST['adult_id' + str(i + 1)]
-                            })
-                        if i == 0:
-                            if request.POST['myRadios'] == 'yes':
-                                contact[len(contact)].update({
-                                    'is_also_booker': True
+                        try:
+                            if request.POST['adult_cp' + str(i + 1)] == 'on':
+                                adult[len(adult) - 1].update({
+                                    'is_also_contact': True
                                 })
                             else:
-                                contact[len(contact)].update({
-                                    'is_also_booker': False
+                                adult[len(adult) - 1].update({
+                                    'is_also_contact': False
                                 })
-                    except:
-                        pass
+                        except:
+                            if i == 0 and request.POST['myRadios'] == 'yes':
+                                continue
+                            else:
+                                adult[len(adult) - 1].update({
+                                    'is_also_contact': False
+                                })
+                        try:
+                            if request.POST['adult_cp' + str(i + 1)] == 'on':
+                                contact.append({
+                                    "first_name": request.POST['adult_first_name' + str(i + 1)],
+                                    "last_name": request.POST['adult_last_name' + str(i + 1)],
+                                    "title": request.POST['adult_title' + str(i + 1)],
+                                    "email": request.POST['adult_email' + str(i + 1)],
+                                    "calling_code": request.POST['adult_phone_code' + str(i + 1) + '_id'],
+                                    "mobile": request.POST['adult_phone' + str(i + 1)],
+                                    "nationality_code": request.POST['adult_nationality' + str(i + 1) + '_id'],
+                                    "contact_seq_id": request.POST['adult_id' + str(i + 1)]
+                                })
+                            if i == 0:
+                                if request.POST['myRadios'] == 'yes':
+                                    contact[len(contact)].update({
+                                        'is_also_booker': True
+                                    })
+                                else:
+                                    contact[len(contact)].update({
+                                        'is_also_booker': False
+                                    })
+                        except:
+                            pass
+
+                    for i in range(int(file['child'])):
+                        img_identity_data = [sel_img[:2] for sel_img in img_list_data if 'child' in sel_img[2].lower() and 'identity' in sel_img[2].lower() and str(i + 1) in sel_img[2].lower()]
+                        behaviors = {}
+                        if request.POST.get('child_behaviors_' + str(i + 1)):
+                            behaviors = {'tour': request.POST['child_behaviors_' + str(i + 1)]}
+                        child.append({
+                            "temp_pax_id": temp_pax_id,
+                            "first_name": request.POST['child_first_name'+str(i+1)],
+                            "last_name": request.POST['child_last_name'+str(i+1)],
+                            "nationality_code": request.POST['child_nationality'+str(i+1) + '_id'],
+                            "title": request.POST['child_title'+str(i+1)],
+                            "pax_type": "CHD",
+                            "pax_type_str": "Child",
+                            "birth_date": request.POST['child_birth_date'+str(i+1)],
+                            "identity_number": request.POST.get('child_passport_number' + str(i + 1)) and request.POST['child_passport_number' + str(i + 1)] or '',
+                            "identity_expdate": request.POST.get('child_passport_expired_date' + str(i + 1)) and request.POST['child_passport_expired_date' + str(i + 1)] or '',
+                            "identity_country_of_issued_code": request.POST.get('child_country_of_issued' + str(i + 1) + '_id') and request.POST['child_country_of_issued' + str(i + 1) + '_id'] or '',
+                            "identity_image": img_identity_data,
+                            "passenger_seq_id": request.POST['child_id'+str(i+1)],
+                            "identity_type": "passport",
+                            "behaviors": behaviors,
+                        })
+                        printout_paxs.append({
+                            "name": request.POST['child_title' + str(i + 1)] + ' ' + request.POST['child_first_name' + str(i + 1)] + ' ' + request.POST['child_last_name' + str(i + 1)],
+                            'ticket_number': '',
+                            'birth_date': request.POST['child_birth_date' + str(i + 1)],
+                            'pax_type': 'Child',
+                            'additional_info': [],
+                        })
+                        temp_pax_id += 1
+
+                    for i in range(int(file['infant'])):
+                        img_identity_data = [sel_img[:2] for sel_img in img_list_data if 'infant' in sel_img[2].lower() and 'identity' in sel_img[2].lower() and str(i + 1) in sel_img[2].lower()]
+                        behaviors = {}
+                        if request.POST.get('infant_behaviors_' + str(i + 1)):
+                            behaviors = {'tour': request.POST['infant_behaviors_' + str(i + 1)]}
+                        infant.append({
+                            "temp_pax_id": temp_pax_id,
+                            "first_name": request.POST['infant_first_name'+str(i+1)],
+                            "last_name": request.POST['infant_last_name'+str(i+1)],
+                            "nationality_code": request.POST['infant_nationality'+str(i+1) + '_id'],
+                            "title": request.POST['infant_title'+str(i+1)],
+                            "pax_type": "INF",
+                            "pax_type_str": "Infant",
+                            "birth_date": request.POST['infant_birth_date'+str(i+1)],
+                            "identity_number": request.POST.get('infant_passport_number' + str(i + 1)) and request.POST['infant_passport_number' + str(i + 1)] or '',
+                            "identity_expdate": request.POST.get('infant_passport_expired_date' + str(i + 1)) and request.POST['infant_passport_expired_date' + str(i + 1)] or '',
+                            "identity_country_of_issued_code": request.POST.get('infant_country_of_issued' + str(i + 1) + '_id') and request.POST['infant_country_of_issued' + str(i + 1) + '_id'] or '',
+                            "identity_image": img_identity_data,
+                            "passenger_seq_id": request.POST['infant_id'+str(i+1)],
+                            "behaviors": behaviors,
+                            "identity_type": "passport",
+                        })
+                        printout_paxs.append({
+                            "name": request.POST['infant_title' + str(i + 1)] + ' ' + request.POST['infant_first_name' + str(i + 1)] + ' ' + request.POST['infant_last_name' + str(i + 1)],
+                            'ticket_number': '',
+                            'birth_date': request.POST['infant_birth_date' + str(i + 1)],
+                            'pax_type': 'Infant',
+                            'additional_info': [],
+                        })
+                        temp_pax_id += 1
+
 
                 if len(contact) == 0:
                     contact.append({
@@ -617,69 +851,6 @@ def review(request):
                         'contact_seq_id': request.POST['booker_id'],
                         'is_also_booker': True
                     })
-
-                for i in range(int(request.session['tour_booking_data']['child'])):
-                    img_identity_data = [sel_img[:2] for sel_img in img_list_data if 'child' in sel_img[2].lower() and 'identity' in sel_img[2].lower() and str(i + 1) in sel_img[2].lower()]
-                    behaviors = {}
-                    if request.POST.get('child_behaviors_' + str(i + 1)):
-                        behaviors = {'tour': request.POST['child_behaviors_' + str(i + 1)]}
-                    child.append({
-                        "temp_pax_id": temp_pax_id,
-                        "first_name": request.POST['child_first_name'+str(i+1)],
-                        "last_name": request.POST['child_last_name'+str(i+1)],
-                        "nationality_code": request.POST['child_nationality'+str(i+1) + '_id'],
-                        "title": request.POST['child_title'+str(i+1)],
-                        "pax_type": "CHD",
-                        "pax_type_str": "Child",
-                        "birth_date": request.POST['child_birth_date'+str(i+1)],
-                        "identity_number": request.POST.get('child_passport_number' + str(i + 1)) and request.POST['child_passport_number' + str(i + 1)] or '',
-                        "identity_expdate": request.POST.get('child_passport_expired_date' + str(i + 1)) and request.POST['child_passport_expired_date' + str(i + 1)] or '',
-                        "identity_country_of_issued_code": request.POST.get('child_country_of_issued' + str(i + 1) + '_id') and request.POST['child_country_of_issued' + str(i + 1) + '_id'] or '',
-                        "identity_image": img_identity_data,
-                        "passenger_seq_id": request.POST['child_id'+str(i+1)],
-                        "identity_type": "passport",
-                        "behaviors": behaviors,
-                    })
-                    printout_paxs.append({
-                        "name": request.POST['child_title' + str(i + 1)] + ' ' + request.POST['child_first_name' + str(i + 1)] + ' ' + request.POST['child_last_name' + str(i + 1)],
-                        'ticket_number': '',
-                        'birth_date': request.POST['child_birth_date' + str(i + 1)],
-                        'pax_type': 'Child',
-                        'additional_info': [],
-                    })
-                    temp_pax_id += 1
-
-                for i in range(int(request.session['tour_booking_data']['infant'])):
-                    img_identity_data = [sel_img[:2] for sel_img in img_list_data if 'infant' in sel_img[2].lower() and 'identity' in sel_img[2].lower() and str(i + 1) in sel_img[2].lower()]
-                    behaviors = {}
-                    if request.POST.get('infant_behaviors_' + str(i + 1)):
-                        behaviors = {'tour': request.POST['infant_behaviors_' + str(i + 1)]}
-                    infant.append({
-                        "temp_pax_id": temp_pax_id,
-                        "first_name": request.POST['infant_first_name'+str(i+1)],
-                        "last_name": request.POST['infant_last_name'+str(i+1)],
-                        "nationality_code": request.POST['infant_nationality'+str(i+1) + '_id'],
-                        "title": request.POST['infant_title'+str(i+1)],
-                        "pax_type": "INF",
-                        "pax_type_str": "Infant",
-                        "birth_date": request.POST['infant_birth_date'+str(i+1)],
-                        "identity_number": request.POST.get('infant_passport_number' + str(i + 1)) and request.POST['infant_passport_number' + str(i + 1)] or '',
-                        "identity_expdate": request.POST.get('infant_passport_expired_date' + str(i + 1)) and request.POST['infant_passport_expired_date' + str(i + 1)] or '',
-                        "identity_country_of_issued_code": request.POST.get('infant_country_of_issued' + str(i + 1) + '_id') and request.POST['infant_country_of_issued' + str(i + 1) + '_id'] or '',
-                        "identity_image": img_identity_data,
-                        "passenger_seq_id": request.POST['infant_id'+str(i+1)],
-                        "behaviors": behaviors,
-                        "identity_type": "passport",
-                    })
-                    printout_paxs.append({
-                        "name": request.POST['infant_title' + str(i + 1)] + ' ' + request.POST['infant_first_name' + str(i + 1)] + ' ' + request.POST['infant_last_name' + str(i + 1)],
-                        'ticket_number': '',
-                        'birth_date': request.POST['infant_birth_date' + str(i + 1)],
-                        'pax_type': 'Infant',
-                        'additional_info': [],
-                    })
-                    temp_pax_id += 1
-
                 for rec in adult:
                     all_pax.append(rec)
                 for rec in child:
@@ -696,7 +867,10 @@ def review(request):
                     })
                     temp_idx += 1
 
-                temp_booking_data = request.session['tour_booking_data']
+                file = read_cache_file(request, signature, 'tour_booking_data')
+                if file:
+                    temp_booking_data = file
+                # temp_booking_data = request.session['tour_booking_data']
 
                 temp_booking_data.update({
                     'adult_pax': adult,
@@ -707,22 +881,45 @@ def review(request):
                     'total_pax_all': temp_idx,
                 })
 
-                set_session(request, 'tour_booking_data', temp_booking_data)
-                set_session(request, 'all_pax', all_pax)
+                write_cache_file(request, signature, 'tour_booking_data', temp_booking_data)
+                write_cache_file(request, signature, 'all_pax', all_pax)
+                # set_session(request, 'tour_booking_data', temp_booking_data)
+                # set_session(request, 'all_pax', all_pax)
             except Exception as e:
                 _logger.error('Data POST for tour_booking_data, all_pax not found use cache')
                 _logger.error("%s, %s" % (str(e), traceback.format_exc()))
 
             printout_prices = []
-            for temp_prices in request.session['tour_price']['result']['response']['service_charges']:
-                printout_prices.append({
-                    "fare": temp_prices['amount'],
-                    "name": temp_prices['charge_type'],
-                    "qty": temp_prices['pax_count'],
-                    "total": temp_prices['total'],
-                    "pax_type": temp_prices['pax_type'],
-                    "tax": 0
-                })
+
+            file = read_cache_file(request, signature, 'tour_price')
+            if file:
+                tour_price = file
+                for temp_prices in tour_price['result']['response']['service_charges']:
+                    printout_prices.append({
+                        "fare": temp_prices['amount'],
+                        "name": temp_prices['charge_type'],
+                        "qty": temp_prices['pax_count'],
+                        "total": temp_prices['total'],
+                        "pax_type": temp_prices['pax_type'],
+                        "tax": 0
+                    })
+            # for temp_prices in request.session['tour_price']['result']['response']['service_charges']:
+            #     printout_prices.append({
+            #         "fare": temp_prices['amount'],
+            #         "name": temp_prices['charge_type'],
+            #         "qty": temp_prices['pax_count'],
+            #         "total": temp_prices['total'],
+            #         "pax_type": temp_prices['pax_type'],
+            #         "tax": 0
+            #     })
+
+            file = read_cache_file(request, signature, 'tour_dept_return_data')
+            if file:
+                tour_dept_return_data = file
+
+            file = read_cache_file(request, signature, 'tour_pick')
+            if file:
+                tour_pick = file
 
             printout_rec = {
                 "type": "tour",
@@ -732,15 +929,41 @@ def review(request):
                 "line": [
                     {
                         "resv": "-",
-                        "checkin": request.session['tour_dept_return_data'].get('departure') and request.session['tour_dept_return_data']['departure'] or '',
-                        "checkout": request.session['tour_dept_return_data'].get('departure') and request.session['tour_dept_return_data']['arrival'] or '',
-                        "tour_name": request.session['tour_pick']['name'],
+                        "checkin": tour_dept_return_data.get('departure') and tour_dept_return_data['departure'] or '',
+                        "checkout": tour_dept_return_data.get('departure') and tour_dept_return_data['arrival'] or '',
+                        "tour_name": tour_pick['name'],
                     }
                 ],
             }
 
-            dept = request.session['tour_dept_return_data'].get('departure') and datetime.strptime(request.session['tour_dept_return_data']['departure'], '%Y-%m-%d').strftime('%d %b %Y') or ''
-            arr = request.session['tour_dept_return_data'].get('arrival') and datetime.strptime(request.session['tour_dept_return_data']['arrival'], '%Y-%m-%d').strftime('%d %b %Y') or ''
+            dept = tour_dept_return_data.get('departure') and datetime.strptime(tour_dept_return_data['departure'], '%Y-%m-%d').strftime('%d %b %Y') or ''
+            arr = tour_dept_return_data.get('arrival') and datetime.strptime(tour_dept_return_data['arrival'], '%Y-%m-%d').strftime('%d %b %Y') or ''
+
+            file = read_cache_file(request, signature, 'tour_booking_data')
+            if file:
+                tour_booking_data = file
+
+            file = read_cache_file(request, signature, 'tour_pick')
+            if file:
+                tour_pick = file
+
+            file = read_cache_file(request, signature, 'tour_line_code')
+            if file:
+                tour_line_code = file
+
+            file = read_cache_file(request, signature, 'all_pax')
+            if file:
+                all_pax = file
+
+            file = read_cache_file(request, signature, 'time_limit')
+            if file:
+                time_limit = file
+
+            file = read_cache_file(request, signature, 'tour_upsell')
+            if file:
+                tour_upsell = file
+            else:
+                tour_upsell = 0
 
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
@@ -748,28 +971,28 @@ def review(request):
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
                 'countries': airline_country,
                 'phone_code': phone_code,
-                'tour_data': request.session['tour_pick'],
-                'tour_line_code': request.session['tour_line_code'],
+                'tour_data': tour_pick,
+                'tour_line_code': tour_line_code,
                 'departure_date': dept,
                 'arrival_date': arr,
-                'adult': request.session['tour_booking_data']['adult'],
-                'child': request.session['tour_booking_data']['child'],
-                'infant': request.session['tour_booking_data']['infant'],
-                'room_list': request.session['tour_booking_data']['room_list'],
-                'room_amount': int(request.session['tour_booking_data']['room_amount']),
-                'upsell': request.session.get('tour_upsell_'+request.session['tour_signature']) and request.session.get('tour_upsell_'+request.session['tour_signature']) or 0,
-                'booker': request.session['tour_booking_data']['booker'],
-                'adult_pax': request.session['tour_booking_data']['adult_pax'],
-                'child_pax': request.session['tour_booking_data']['child_pax'],
-                'infant_pax': request.session['tour_booking_data']['infant_pax'],
-                'all_pax': request.session['all_pax'],
-                'contact_person': request.session['tour_booking_data']['contact'],
-                'total_pax_all': request.session['tour_booking_data']['total_pax_all'],
+                'adult': tour_booking_data['adult'],
+                'child': tour_booking_data['child'],
+                'infant': tour_booking_data['infant'],
+                'room_list': tour_booking_data['room_list'],
+                'room_amount': int(tour_booking_data['room_amount']),
+                'upsell': tour_upsell,
+                'booker': tour_booking_data['booker'],
+                'adult_pax': tour_booking_data['adult_pax'],
+                'child_pax': tour_booking_data['child_pax'],
+                'infant_pax': tour_booking_data['infant_pax'],
+                'all_pax': all_pax,
+                'contact_person': tour_booking_data['contact'],
+                'total_pax_all': tour_booking_data['total_pax_all'],
                 'printout_rec': json.dumps(printout_rec),
-                'time_limit': request.session['time_limit'],
+                'time_limit': time_limit,
                 'static_path_url_server': get_url_static_path(),
                 'javascript_version': javascript_version,
-                'signature': request.session['tour_signature'],
+                'signature': signature,
             })
         except Exception as e:
             _logger.error(str(e) + '\n' + traceback.format_exc())
@@ -792,16 +1015,17 @@ def booking(request, order_number):
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
         try:
-            set_session(request, 'tour_order_number', base64.b64decode(order_number).decode('ascii'))
+            tour_order_number = base64.b64decode(order_number).decode('ascii')
         except:
             try:
-                set_session(request, 'tour_order_number', base64.b64decode(order_number[:-1]).decode('ascii'))
+                tour_order_number = base64.b64decode(order_number[:-1]).decode('ascii')
             except:
-                set_session(request, 'tour_order_number', order_number)
+                tour_order_number = order_number
+        write_cache_file(request, request.session['signature'], 'tour_order_number', tour_order_number)
         values.update({
             'static_path': path_util.get_static_path(MODEL_NAME),
             'username': request.session.get('user_account') or {'co_user_login': ''},
-            'order_number': request.session['tour_order_number'],
+            'order_number': tour_order_number,
             'javascript_version': javascript_version,
             'signature': request.session['signature'],
 

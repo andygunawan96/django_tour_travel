@@ -92,17 +92,30 @@ def search(request):
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
 
+            frontend_signature = generate_signature()
+
             try:
-                set_session(request, 'event_request', {
+                write_cache_file(request, frontend_signature, 'event_request', {
                     'event_name': request.POST['event_name_id'],
                     'city_id': False,
                     'category_name': request.POST['category_event'],
                     'is_online': request.POST.get('include_online'), #Checkbox klo disi baru di POST
                 })
-                request.session.modified = True
+                # set_session(request, 'event_request', {
+                #     'event_name': request.POST['event_name_id'],
+                #     'city_id': False,
+                #     'category_name': request.POST['category_event'],
+                #     'is_online': request.POST.get('include_online'), #Checkbox klo disi baru di POST
+                # })
+                # request.session.modified = True
             except Exception as e:
                 _logger.error('Data POST for event_request not found use cache')
                 _logger.error("%s, %s" % (str(e), traceback.format_exc()))
+
+            file = read_cache_file(request, frontend_signature, 'event_request')
+            if file:
+                event_request = file
+
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
@@ -113,7 +126,8 @@ def search(request):
                 'static_path_url_server': get_url_static_path(),
                 'time_limit': 1200,
                 'signature': request.session['signature'],
-                'event_search': request.session['event_request'],
+                'frontend_signature': frontend_signature,
+                'event_search': event_request,
             })
         except Exception as e:
             _logger.error(str(e) + '\n' + traceback.format_exc())
@@ -166,7 +180,7 @@ def search_category(request, category_name):
     else:
         return no_session_logout(request)
 
-def detail(request):
+def detail(request, signature):
     if 'user_account' in request.session._session:
         try:
             javascript_version = get_javascript_version(request)
@@ -178,33 +192,47 @@ def detail(request):
                 if i['phone_code'] not in phone_code:
                     phone_code.append(i['phone_code'])
             phone_code = sorted(phone_code)
+
             try:
-                time_limit = get_timelimit_product(request, 'event')
+                time_limit = get_timelimit_product(request, 'event', signature)
                 if time_limit == 0:
                     time_limit = int(request.POST['time_limit_input'])
-                set_session(request, 'time_limit', time_limit)
+                write_cache_file(request, signature, 'time_limit', time_limit)
+                # set_session(request, 'time_limit_%s' % signature, time_limit)
             except:
-                pass
+                time_limit = int(request.POST['time_limit_input'])
+                write_cache_file(request, signature, 'time_limit', time_limit)
 
             try:
                 if translation.LANGUAGE_SESSION_KEY in request.session:
                     del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
-                set_session(request, 'event_code', json.loads(request.POST['event_code']))
+                write_cache_file(request, signature, 'event_code', json.loads(request.POST['event_code']))
+                # set_session(request, 'event_code', json.loads(request.POST['event_code']))
             except Exception as e:
                 _logger.error('Data POST for event_code not found use cache')
                 _logger.error("%s, %s" % (str(e), traceback.format_exc()))
-            data = request.session['event_code']
+
+            file = read_cache_file(request, signature, 'event_code')
+            if file:
+                data = file
+            file = read_cache_file(request, signature, 'time_limit')
+            if file:
+                time_limit = file
+            file = read_cache_file(request, signature, 'event_request')
+            if file:
+                event_request = file
+
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
                 'countries': airline_country,
                 'phone_code': phone_code,
                 'username': request.session['user_account'],
-                'signature': request.session['event_signature'],
+                'signature': signature,
                 'static_path_url_server': get_url_static_path(),
                 'javascript_version': javascript_version,
-                'time_limit': request.session['time_limit'],
-                'event_search': request.session['event_request'],
+                'time_limit': time_limit,
+                'event_search': event_request,
                 'event_code': data,
             })
         except Exception as e:
@@ -262,8 +290,7 @@ def vendor(request):
     else:
         return no_session_logout(request)
 
-
-def contact_passengers(request):
+def contact_passengers(request, signature=''):
     if 'user_account' in request.session._session:
         try:
             javascript_version = get_javascript_version(request)
@@ -271,12 +298,14 @@ def contact_passengers(request):
             values = get_data_template(request)
 
             try:
-                time_limit = get_timelimit_product(request, 'event')
+                time_limit = get_timelimit_product(request, 'event', signature)
                 if time_limit == 0:
                     time_limit = int(request.POST['time_limit_input'])
-                set_session(request, 'time_limit', time_limit)
+                write_cache_file(request, signature, 'time_limit', time_limit)
+                # set_session(request, 'time_limit_%s' % signature, time_limit)
             except:
-                pass
+                time_limit = int(request.POST['time_limit_input'])
+                write_cache_file(request, signature, 'time_limit', time_limit)
 
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -310,23 +339,39 @@ def contact_passengers(request):
             # Vin 2021/03/16: Update mekanisme read selected option
             # Rule yg lama bisa error jika option awal tidk dibeli
             try:
+                file = read_cache_file(request, signature, 'event_detail')
+                if file:
+                    event_detail = file
                 for key in sorted(request.POST.keys()):
                     if 'option_qty_' in key:
                         if int(request.POST[key]) != 0:
                             i = int(key.split('_')[-1])
                             opt_code.append({
-                                'name': request.session['event_detail']['result']['response'][i]['grade'],
-                                'code': request.session['event_detail']['result']['response'][i]['option_id'],
+                                'name': event_detail['result']['response'][i]['grade'],
+                                'code': event_detail['result']['response'][i]['option_id'],
                                 'qty': request.POST[key],
-                                'currency': request.session['event_detail']['result']['response'][i]['currency'],
-                                'price': request.session['event_detail']['result']['response'][i]['price'],
-                                'comm': request.session['event_detail']['result']['response'][i].get('commission',0),
+                                'currency': event_detail['result']['response'][i]['currency'],
+                                'price': event_detail['result']['response'][i]['price'],
+                                'comm': event_detail['result']['response'][i].get('commission',0),
                             })
-
-                set_session(request, 'event_option_code' + request.session['event_signature'], opt_code)
+                write_cache_file(request, signature, 'event_option_code', opt_code)
+                # set_session(request, 'event_option_code' + request.session['event_signature'], opt_code)
             except Exception as e:
                 _logger.error('Data POST for event_option_code not found use cache')
                 _logger.error("%s, %s" % (str(e), traceback.format_exc()))
+
+            file = read_cache_file(request, signature, 'event_response_search')
+            if file:
+                event_response_search = file
+            file = read_cache_file(request, signature, 'time_limit')
+            if file:
+                time_limit = file
+            file = read_cache_file(request, signature, 'event_request')
+            if file:
+                event_request = file
+            file = read_cache_file(request, signature, 'event_code')
+            if file:
+                event_code = file
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'countries': airline_country,
@@ -334,15 +379,15 @@ def contact_passengers(request):
                 'titles': ['', 'MR', 'MRS', 'MS', 'MSTR', 'MISS'],
                 # 'username': request.session['username'],
                 'username': request.session['user_account'],
-                'response': request.session['event_response_search'],
+                'response': event_response_search,
                 'adult_title': adult_title,
-                'signature': request.session['event_signature'],
+                'signature': signature,
                 'javascript_version': javascript_version,
                 'static_path_url_server': get_url_static_path(),
-                'time_limit': request.session['time_limit'],
+                'time_limit': time_limit,
 
-                'event_search': request.session['event_request'],
-                'event_code': request.session['event_code'],
+                'event_search': event_request,
+                'event_code': event_code,
                 'event_option_code': opt_code,
             })
         except Exception as e:
@@ -353,7 +398,7 @@ def contact_passengers(request):
         return no_session_logout(request)
 
 
-def review(request):
+def review(request, signature):
     if 'user_account' in request.session._session:
         try:
             javascript_version = get_javascript_version(request)
@@ -365,16 +410,20 @@ def review(request):
                 if i['phone_code'] not in phone_code:
                     phone_code.append(i['phone_code'])
             phone_code = sorted(phone_code)
-            try:
-                time_limit = get_timelimit_product(request, 'event')
-                if time_limit == 0:
-                    time_limit = int(request.POST['time_limit_input'])
-                set_session(request, 'time_limit', time_limit)
-            except:
-                pass
 
             try:
-                set_session(request, 'special_req_event', request.POST['special_req_event'])
+                time_limit = get_timelimit_product(request, 'event', signature)
+                if time_limit == 0:
+                    time_limit = int(request.POST['time_limit_input'])
+                write_cache_file(request, signature, 'time_limit', time_limit)
+                # set_session(request, 'time_limit_%s' % signature, time_limit)
+            except:
+                time_limit = int(request.POST['time_limit_input'])
+                write_cache_file(request, signature, 'time_limit', time_limit)
+
+            try:
+                write_cache_file(request, signature, 'special_req_event', request.POST['special_req_event'])
+                # set_session(request, 'special_req_event', request.POST['special_req_event'])
             except Exception as e:
                 _logger.error('Data POST for special_req_event not found use cache')
                 _logger.error("%s, %s" % (str(e), traceback.format_exc()))
@@ -450,7 +499,6 @@ def review(request):
                                 "mobile": request.POST['adult_phone' + str(i + 1)],
                                 "nationality_code": request.POST['adult_nationality' + str(i + 1) + '_id'],
                                 "work_phone": request.POST['booker_phone_code'] + request.POST['booker_phone'],
-                                "address": request.session.get('company_details') and request.session['company_details']['address'] or '',
                                 "contact_seq_id": request.POST['adult_id' + str(i + 1)]
                             })
                         if i == 0:
@@ -476,28 +524,36 @@ def review(request):
                         'nationality_code': request.POST['booker_nationality_id'],
                         'contact_seq_id': request.POST['booker_id'],
                         "work_phone": request.POST['booker_phone_code_id'] + request.POST['booker_phone'],
-                        "address": request.session.get('company_details') and request.session['company_details']['address'] or '',
                         'is_also_booker': True
                     })
-                set_session(request, 'event_review_pax', {
+
+                write_cache_file(request, signature, 'event_review_pax', {
                     'booker': booker,
                     'contact': contact,
                     'adult': adult,
                 })
+                # set_session(request, 'event_review_pax', {
+                #     'booker': booker,
+                #     'contact': contact,
+                #     'adult': adult,
+                # })
 
                 question_answer = []
+                file = read_cache_file(request, signature, 'event_option_code')
+                if file:
+                    event_option_code = file
                 for a in request.POST.keys():
                     if 'que_' in a:
                         b = a.split('_')
                         c_obj = False
                         for c in question_answer:
-                            if c['option_grade'] == request.session['event_option_code' + request.session['event_signature']][int(b[1])]['name'] and c['idx'] == b[2]:
+                            if c['option_grade'] == event_option_code[int(b[1])]['name'] and c['idx'] == b[2]:
                                 c_obj = c
                                 break
                         if not c_obj:
                             c_obj = {
-                                'option_grade': request.session['event_option_code' + request.session['event_signature']][int(b[1])]['name'],
-                                'option_code': request.session['event_option_code' + request.session['event_signature']][int(b[1])]['code'],
+                                'option_grade': event_option_code[int(b[1])]['name'],
+                                'option_code': event_option_code[int(b[1])]['code'],
                                 'idx': b[2],
                                 'answer': []
                             }
@@ -516,7 +572,8 @@ def review(request):
                                     new_ans += request.POST[a1] + ', '
                             c_obj['answer'][-1]['ans'] = new_ans[:-2]
 
-                set_session(request, 'event_extra_question' + request.session['event_signature'], question_answer)
+                write_cache_file(request, signature, 'event_extra_question', question_answer)
+                # set_session(request, 'event_extra_question' + request.session['event_signature'], question_answer)
 
                 print_json = json.dumps({
                     "type": "event",
@@ -525,15 +582,52 @@ def review(request):
                     "price_detail": [],
                     "price_lines": question_answer,
                 })
-                set_session(request, 'event_json_printout' + request.session['event_signature'], print_json)
+                write_cache_file(request, signature, 'event_json_printout', print_json)
+                # set_session(request, 'event_json_printout' + request.session['event_signature'], print_json)
             except Exception as e:
                 _logger.error('Data POST for event_json_printout, event_extra_question, event_review_pax not found use cache')
                 _logger.error("%s, %s" % (str(e), traceback.format_exc()))
-                adult = request.session['event_review_pax']['adult']
-                contact = request.session['event_review_pax']['contact']
-                booker = request.session['event_review_pax']['booker']
-                question_answer = request.session['event_extra_question' + request.session['event_signature']]
-                print_json = request.session['event_json_printout' + request.session['event_signature']]
+
+            file = read_cache_file(request, signature, 'event_review_pax')
+            if file:
+                event_review_pax = file
+            adult = event_review_pax['adult']
+            contact = event_review_pax['contact']
+            booker = event_review_pax['booker']
+            file = read_cache_file(request, signature, 'event_extra_question')
+            if file:
+                question_answer = file
+            # question_answer = request.session['event_extra_question' + request.session['event_signature']]
+            file = read_cache_file(request, signature, 'event_json_printout')
+            if file:
+                print_json = file
+            # print_json = request.session['event_json_printout' + request.session['event_signature']]
+
+            file = read_cache_file(request, signature, 'event_request')
+            if file:
+                event_request = file
+            # print_json = request.session['event_json_printout' + request.session['event_signature']]
+
+            file = read_cache_file(request, signature, 'event_code')
+            if file:
+                event_code = file
+            # print_json = request.session['event_json_printout' + request.session['event_signature']]
+
+            file = read_cache_file(request, signature, 'event_option_code')
+            if file:
+                event_option_code = file
+            # print_json = request.session['event_json_printout' + request.session['event_signature']]
+
+            file = read_cache_file(request, signature, 'special_req_event')
+            if file:
+                special_req_event = file
+            else:
+                special_req_event = ''
+            # print_json = request.session['event_json_printout' + request.session['event_signature']]
+
+            file = read_cache_file(request, signature, 'time_limit')
+            if file:
+                time_limit = file
 
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
@@ -544,17 +638,17 @@ def review(request):
                 'countries': airline_country,
                 'phone_code': phone_code,
                 'username': request.session['user_account'],
-                'signature': request.session['event_signature'],
+                'signature': signature,
                 'javascript_version': javascript_version,
                 'static_path_url_server': get_url_static_path(),
-                'time_limit': request.session['time_limit'],
+                'time_limit': time_limit,
                 'printout_rec': print_json,
 
-                'event_search': request.session['event_request'],
-                'event_code': request.session['event_code'],
-                'event_option_code': request.session['event_option_code' + request.session['event_signature']],
+                'event_search': event_request,
+                'event_code': event_code,
+                'event_option_code': event_option_code,
                 'event_extra_question': question_answer,
-                'special_req_event': request.session['special_req_event'],
+                'special_req_event': special_req_event,
             })
         except Exception as e:
             _logger.error(str(e) + '\n' + traceback.format_exc())
@@ -574,18 +668,23 @@ def booking(request, order_number):
         elif 'user_account' not in request.session and 'btc' not in web_mode:
             raise Exception('Event get booking without login in btb web')
         try:
-            set_session(request, 'event_order_number', base64.b64decode(order_number).decode('ascii'))
+            event_order_number = base64.b64decode(order_number).decode('ascii')
+            # set_session(request, 'event_order_number', base64.b64decode(order_number).decode('ascii'))
         except:
             try:
-                set_session(request, 'event_order_number', base64.b64decode(order_number[:-1]).decode('ascii'))
+                event_order_number = base64.b64decode(order_number[:-1]).decode('ascii')
+                # set_session(request, 'event_order_number', base64.b64decode(order_number[:-1]).decode('ascii'))
             except:
-                set_session(request, 'event_order_number', order_number)
+                event_order_number = order_number
+                # set_session(request, 'event_order_number', order_number)
         if 'user_account' not in request.session:
             signin_btc(request)
+
+        write_cache_file(request, request.session['signature'], 'event_order_number', event_order_number)
         values.update({
             'static_path': path_util.get_static_path(MODEL_NAME),
             'username': request.session.get('user_account') or {'co_user_login': ''},
-            'order_number': request.session['event_order_number'],
+            'order_number': event_order_number,
             'static_path_url_server': get_url_static_path(),
             'javascript_version': javascript_version,
         })

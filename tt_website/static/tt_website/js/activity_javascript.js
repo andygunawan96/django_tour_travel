@@ -548,7 +548,7 @@ function reset_activity_table_detail(){
 
 
 function activity_table_detail2(pagetype){
-   if(document.URL.split('/')[document.URL.split('/').length-1] == 'review'){
+   if(document.URL.split('/')[document.URL.split('/').length-2] == 'review'){
         tax = 0;
         fare = 0;
         total_price = 0;
@@ -626,7 +626,7 @@ function activity_table_detail2(pagetype){
    document.getElementById('product_visit_date').innerHTML = visit_date_txt;
 
    try{
-        if(document.URL.split('/')[document.URL.split('/').length-1] == 'review'){
+        if(document.URL.split('/')[document.URL.split('/').length-2] == 'review'){
            $test += '‣ Contact Person:\n';
            $test += contact[0].title + ' ' + contact[0].first_name + ' ' + contact[0].last_name + '\n';
            $test += contact[0].email + '\n';
@@ -804,7 +804,7 @@ function activity_table_detail2(pagetype){
                         }
                     }
                }
-               if(document.URL.split('/')[document.URL.split('/').length-1] == 'review' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
+               if(document.URL.split('/')[document.URL.split('/').length-2] == 'review' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
                    text +=`<div class="col-lg-12 mt-2" style="text-align:right;"><img alt="Bank" src="/static/tt_website/images/icon/symbol/upsell_price.png" style="width:auto; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
                }
            text+=`

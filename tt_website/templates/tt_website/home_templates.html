@@ -619,7 +619,7 @@
             get_config_sentra_medika('home');
             {% endif %}
             {% if "airline" in provider and "ticketing_airline" in username.co_agent_frontend_security %}
-            cookie_airline = getCookie('airline_request');
+            cookie_airline = getCookie_airline('airline_request');
             if(cookie_airline)
                 cookie_airline = JSON.parse(cookie_airline);
             get_airline_config('home');

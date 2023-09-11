@@ -122,7 +122,7 @@ def login(request):
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
-            create_session_product(request, 'bills', 20)
+            create_session_product(request, 'bills', 20, res['result']['response']['signature'])
             set_session(request, 'bills_signature', res['result']['response']['signature'])
             set_session(request, 'signature', res['result']['response']['signature'])
             if request.session['user_account'].get('co_customer_parent_seq_id'):
@@ -314,12 +314,6 @@ def get_config(request):
     try:
         response = get_cache_data(request)
         res = response['result']['response']['ppob']
-        if res.get('search_config_data'):
-            temp = res['search_config_data']
-            if temp.get(request.session['user_account']['co_ho_seq_id']):
-                res.update({
-                    'search_config_data': temp[request.session['user_account']['co_ho_seq_id']]
-                })
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
@@ -351,7 +345,8 @@ def search(request):
             data.update({
                 'game_zone_id': request.POST['game_zone_id']
             })
-        set_session(request, 'ppob_search_request', data)
+        write_cache_file(request, request.POST['signature'], 'ppob_search_request', data)
+        # set_session(request, 'ppob_search_request', data)
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
@@ -364,7 +359,8 @@ def search(request):
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
-            set_session(request, 'ppob_search_response', res)
+            write_cache_file(request, request.POST['signature'], 'ppob_search_response', res)
+            # set_session(request, 'ppob_search_response', res)
             request.session.modified = True
         else:
             _logger.error("ERROR search PPOB SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
@@ -469,8 +465,10 @@ def get_booking(request):
                 if len(rec['bill_data']):
                     for rec1 in rec['bill_data']:
                         rec1['period_date'] = parse_date_ppob(rec1['period'])
-            set_session(request, 'bills_get_booking_response', res)
-            request.session.modified = True
+
+            write_cache_file(request, request.POST['signature'], 'bills_get_booking_response', res)
+            # set_session(request, 'bills_get_booking_response', res)
+            # request.session.modified = True
             _logger.info("SUCCESS get_booking PPOB SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR get_booking PPOB SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
@@ -528,7 +526,12 @@ def issued(request):
             _logger.error('use_point not found')
         provider = []
         try:
-            bill_get_booking = request.session['bills_get_booking_response'] if request.session.get('bills_get_booking_response') else json.loads(request.POST['booking'])
+            file = read_cache_file(request, request.POST['signature'], 'bills_get_booking_response')
+            if file:
+                bill_get_booking = file
+            else:
+                bill_get_booking = json.loads(request.POST['booking'])
+            # bill_get_booking = request.session['bills_get_booking_response'] if request.session.get('bills_get_booking_response') else json.loads(request.POST['booking'])
             for provider_type in bill_get_booking['result']['response']['provider_booking']:
                 if not provider_type['provider'] in provider:
                     provider.append(provider_type['provider'])
@@ -622,8 +625,10 @@ def update_service_charge(request):
             for upsell in data['passengers']:
                 for pricing in upsell['pricing']:
                     total_upsell += pricing['amount']
-            set_session(request, 'bills_upsell' + request.POST['signature'], total_upsell)
-            request.session.modified = True
+
+            write_cache_file(request, request.POST['signature'], 'bills_upsel', total_upsell)
+            # set_session(request, 'bills_upsell' + request.POST['signature'], total_upsell)
+            # request.session.modified = True
             _logger.info("SUCCESS update_service_charge PPOB SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR update_service_charge PPOB SIGNATURE " + request.POST['signature'])
@@ -655,7 +660,8 @@ def booker_insentif_booking(request):
             for upsell in data['passengers']:
                 for pricing in upsell['pricing']:
                     total_upsell += pricing['amount']
-            set_session(request, 'ppob_upsell_booker_'+request.POST['signature'], total_upsell)
+            write_cache_file(request, request.POST['signature'], 'ppob_upsell_booker', total_upsell)
+            # set_session(request, 'ppob_upsell_booker_'+request.POST['signature'], total_upsell)
             _logger.info("SUCCESS update_service_charge_booker PPOB SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR update_service_charge_booker PPOB SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))

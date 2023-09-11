@@ -11,6 +11,7 @@
 <script src="{{ static_path }}js/library/moment.js?version={{javascript_version}}"></script>
 <script>
     static_path_url_server = '{{static_path_url_server}}'
+    frontend_signature = `{{frontend_signature}}`;
     signature = `{{signature}}`;
     sorting_value = '';
     event_search_data_request = {
@@ -673,6 +674,8 @@
     function goto_detail(type, counter){
        document.getElementById('event'+counter).innerHTML += `{% csrf_token %}`;
        document.getElementById('event'+counter).innerHTML += `<input type='hidden' value='`+time_limit+`' name='time_limit_input'/>`;
+       if(!document.getElementById('event'+counter).action.includes(signature))
+            document.getElementById('event'+counter).action += '/' + signature;
        document.getElementById('event'+counter).submit();
     }
 </script>

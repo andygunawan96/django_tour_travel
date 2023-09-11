@@ -18,6 +18,23 @@ Licence URI: http://www.os-templates.com/template-terms
         {% else %}
         keep_me_signin = false;
         {% endif %}
+
+
+    function getCookie_airline(variable) {
+        var name = variable + "=";
+        var decodedCookie = decodeURIComponent(document.cookie);
+        var ca = decodedCookie.split(';');
+        for(var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0 && c.substring(name.length, c.length) != '') {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return "";
+    }
     </script>
 
     {% if '{{google_tag_manager_key}}' != '' %}
@@ -490,10 +507,6 @@ Licence URI: http://www.os-templates.com/template-terms
 
     <!--All Template-->
     <style>
-        .radio-label100 > .div_label100:hover{
-            color: {{text_color}};
-            background: {{color}};
-        }
         .title_animate_cst{
             color: {{text_color}};
         }
@@ -2044,12 +2057,16 @@ Licence URI: http://www.os-templates.com/template-terms
         if(e.key == "page_available"){
             //buat mobile
             try{
-                if(window.location.href.split('/').length > 3)
-                    if(window.location.href.split('/')[3] != 'payment')
-                        alert("One more page already open");
-                else{
-                    alert("One more page already open");
-                    page_open = 0;
+                if(window.location.href.split('/').length > 4){
+                    if(window.location.href.includes('airline') == false && window.location.href.includes('train') == false){
+                        if(window.location.href.split('/').length > 3)
+                            if(window.location.href.split('/')[3] != 'payment')
+                                alert("One more page already open");
+                        else{
+                            alert("One more page already open");
+                            page_open = 0;
+                        }
+                    }
                 }
             }catch(err){
                 console.log(err) //ada element yg tidak ada

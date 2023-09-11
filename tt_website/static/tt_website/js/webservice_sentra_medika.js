@@ -530,7 +530,7 @@ function sentra_medika_get_cache_price(){
                 $text += 'Grand Total: ' + msg.result.response.service_charges[0].currency+ ' ' + getrupiah(msg.result.response.total_price)
 
 
-//                if(document.URL.split('/')[document.URL.split('/').length-1] == 'review'){
+//                if(document.URL.split('/')[document.URL.split('/').length-2] == 'review'){
 //                    tax = 0;
 //                    fare = 0;
 //                    total_price = 0;
@@ -576,7 +576,7 @@ function sentra_medika_get_cache_price(){
 //                    document.getElementById('repricing_div').innerHTML = text_repricing;
 //                    //repricing
 //                }
-//                if(document.URL.split('/')[document.URL.split('/').length-1] == 'review' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
+//                if(document.URL.split('/')[document.URL.split('/').length-2] == 'review' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
 //                    text+=`<div style="text-align:right;"><img src="/static/tt_website/images/icon/symbol/upsell_price.png" alt="Bank" style="width:auto; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
 //                }
                 //print harga

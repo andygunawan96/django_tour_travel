@@ -1293,7 +1293,7 @@
                 </div>
             </div>
         </div>
-        <form action="{% url 'tt_website:hotel_passenger' %}" id="goto_passenger" method="POST" style="padding:0px 15px 0px 15px;">
+        <form action="/hotel/passenger/{{signature}}" id="goto_passenger" method="POST" style="padding:0px 15px 0px 15px;">
             {% csrf_token %}
             <div class="row">
                 <div class="col-lg-12 div-photo-hotel" style="background:white; margin-bottom:30px; padding-top:15px; border:1px solid #cdcdcd; border-radius:3px;">

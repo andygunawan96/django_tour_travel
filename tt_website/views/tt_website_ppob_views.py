@@ -106,16 +106,22 @@ def booking(request, order_number):
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
         try:
-            set_session(request, 'bills_order_number', base64.b64decode(order_number).decode('ascii'))
+            ppob_order_number = base64.b64decode(order_number).decode('ascii')
+            # set_session(request, 'bills_order_number', base64.b64decode(order_number).decode('ascii'))
         except:
             try:
-                set_session(request, 'bills_order_number', base64.b64decode(order_number[:-1]).decode('ascii'))
+                ppob_order_number = base64.b64decode(order_number[:-1]).decode('ascii')
+                # set_session(request, 'bills_order_number', base64.b64decode(order_number[:-1]).decode('ascii'))
             except:
-                set_session(request, 'bills_order_number', order_number)
+                ppob_order_number = order_number
+                # set_session(request, 'bills_order_number', order_number)
+
+        write_cache_file(request, request.POST['signature'], 'ppob_order_number', ppob_order_number)
+
         values.update({
             'static_path': path_util.get_static_path(MODEL_NAME),
             'username': request.session.get('user_account') or {'co_user_login': ''},
-            'order_number': request.session['bills_order_number'],
+            'order_number': ppob_order_number,
             'static_path_url_server': get_url_static_path(),
             'javascript_version': javascript_version,
         })

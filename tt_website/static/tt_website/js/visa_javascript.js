@@ -476,7 +476,7 @@ function update_table_new(type){
                 </div>`;
     }
     else if(type == 'review'){
-        if(document.URL.split('/')[document.URL.split('/').length-1] == 'review'){
+        if(document.URL.split('/')[document.URL.split('/').length-2] == 'review'){
             tax = 0;
             fare = 0;
             total_price = 0;
@@ -1580,7 +1580,7 @@ function update_table(type){
                 </div>`;
     }else if(type == 'review'){
 
-        if(document.URL.split('/')[document.URL.split('/').length-1] == 'review'){
+        if(document.URL.split('/')[document.URL.split('/').length-2] == 'review'){
             tax = 0;
             fare = 0;
             total_price = 0;
@@ -2419,6 +2419,8 @@ function visa_check_search(){
     }else if(error_log == ''){
         document.getElementById('time_limit_input').value = time_limit;
         document.getElementById('visa_list').value = JSON.stringify(visa);
+        if(!document.getElementById('visa_passenger').action.includes(signature))
+            document.getElementById('visa_passenger').action += '/' + signature;
         document.getElementById('visa_passenger').submit();
     }else{
         alert(error_log);

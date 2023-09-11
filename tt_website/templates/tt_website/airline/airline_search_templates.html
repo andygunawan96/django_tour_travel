@@ -27,6 +27,7 @@
         'arrival_time': 'all',
         'cabin_class': 'all'
     };
+    frontend_signature = `{{frontend_signature}}`;
     signature = `{{signature}}`;
     recommendations_airline = [];
     airline_check = 0;
@@ -3376,6 +3377,7 @@
                     <input type="hidden" id="airline_price_itinerary" name="airline_price_itinerary" />
                     <input type="hidden" id="airline_price_itinerary_request" name="airline_price_itinerary_request" />
                     <input type="hidden" id="airline_sell_journey_response" name="airline_sell_journey_response" />
+                    <input type="hidden" id="airline_search_request" name="airline_search_request" />
                     <input type="hidden" id="signature" name="signature" />
                 </form>
             </div>
@@ -3621,7 +3623,7 @@
 
 
     $(function() {
-      get_airline_data_search_page();
+      get_airline_data_search_page(frontend_signature);
       var radioValueAirline = $("input[name='radio_airline_type']:checked").val();
       if(radioValueAirline){
           $radio_value_string = radioValueAirline;
