@@ -211,8 +211,6 @@ def detail(request, activity_uuid, signature=''):
             #         set_session(request, 'time_limit', 1200)
             if signature == '' and request.POST.get('signature'):
                 signature = request.POST['signature']
-            else: ## CHECK LAGI SEHARUSNYA DARI RE-LOGIN
-                signature = request.session['activity_signature']
 
             try:
                 time_limit = get_timelimit_product(request, 'activity', signature)
