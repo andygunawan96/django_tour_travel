@@ -3698,7 +3698,7 @@ function render_hotel_search_detail(data_room_hotel_list, i){
                     text+='</span><br/><span class="copy_total_rn carrier_code_template" style="font-size:12px;">(for '+total_room+' room, '+total_night+' night)</span><br/>';
                 }
 
-                if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && grand_total_price){
+                if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && data_room_hotel_list){
                     if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
                         for(k in currency_rate_data.result.response.agent[user_login.co_ho_seq_id]){
                             try{
