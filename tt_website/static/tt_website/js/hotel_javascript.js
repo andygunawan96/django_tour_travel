@@ -3698,39 +3698,20 @@ function render_hotel_search_detail(data_room_hotel_list, i){
                     text+='</span><br/><span class="copy_total_rn carrier_code_template" style="font-size:12px;">(for '+total_room+' room, '+total_night+' night)</span><br/>';
                 }
 
-                if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && data_room_hotel_list.total){
+                if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && grand_total_price){
                     if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
-                        for(l in currency_rate_data.result.response.agent[user_login.co_ho_seq_id]){
-                            if(currency_rate_data.result.is_show_provider.includes(l)){
-                                try{
-                                    if(currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].base_currency == data_room_hotel_list.currency){
-                                        price_convert = (data_room_hotel_list.total/currency_rate_data.result.response.agent[user_login.co_ho_seq_id][l].rate).toFixed(2);
-                                        if(price_convert%1 == 0)
-                                            price_convert = parseInt(price_convert);
-                                        text+=`
-                                            <span class="price_room" style="font-weight: bold; font-size:14px;"> Estimated `+l+` `+getrupiah(price_convert)+` </span><br/>`;
-                                    }
-                                }catch(err){
-                                    console.log(err);
+                        for(k in currency_rate_data.result.response.agent[user_login.co_ho_seq_id]){
+                            try{
+                                if(currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].base_currency == currency){
+                                    price_convert = (data_room_hotel_list.total/currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].rate).toFixed(2);
+                                    if(price_convert%1 == 0)
+                                        price_convert = parseInt(price_convert);
+                                    text+=`
+                                        <span class="price_room" style="font-weight: bold; font-size:14px;"> Estimated `+l+` `+getrupiah(price_convert)+` </span><br/>`;
                                 }
+                            }catch(err){
+                                console.log(err);
                             }
-                        }
-                    }else{
-                        for(k in currency_rate_data.result.response.agent){ // asumsi hanya HO
-                            for(l in currency_rate_data.result.response.agent[k]){
-                                if(currency_rate_data.result.is_show_provider.includes(l)){
-                                    try{
-                                        price_convert = (data_room_hotel_list.total/currency_rate_data.result.response.agent[k][l].rate).toFixed(2);
-                                        if(price_convert%1 == 0)
-                                            price_convert = parseInt(price_convert);
-                                        text+=`
-                                            <span class="price_room" style="font-weight: bold; font-size:14px;"> Estimated `+l+` `+getrupiah(price_convert)+` </span><br/>`;
-                                    }catch(err){
-                                        console.log(err);
-                                    }
-                                }
-                            }
-                            break;
                         }
                     }
                 }
