@@ -116,7 +116,7 @@ def booking(request, order_number):
                 ppob_order_number = order_number
                 # set_session(request, 'bills_order_number', order_number)
 
-        write_cache_file(request, request.POST['signature'], 'ppob_order_number', ppob_order_number)
+        write_cache_file(request, request.session['signature'], 'ppob_order_number', ppob_order_number)
 
         values.update({
             'static_path': path_util.get_static_path(MODEL_NAME),
