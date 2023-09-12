@@ -1781,6 +1781,7 @@ def review(request, signature):
                                     pax_request = []
 
                         write_cache_file(request, signature, 'airline_seat_request', segment_seat_request)
+                        write_cache_file(request, signature, 'airline_create_passengers', airline_create_passengers)
                         # set_session(request, 'airline_seat_request_%s' % signature, segment_seat_request)
 
                     except Exception as e:
