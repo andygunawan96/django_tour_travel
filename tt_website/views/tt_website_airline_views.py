@@ -59,11 +59,13 @@ def airline(request):
             # get_data_awal
             cache = {}
             try:
-                cache['airline'] = {
-                    'origin': request.session['airline_request']['origin'][0],
-                    'destination': request.session['airline_request']['destination'][0],
-                    'departure': request.session['airline_request']['departure'][0],
-                }
+                file = read_cache_file(request, '', 'airline_request')
+                if file:
+                    cache['airline'] = {
+                        'origin': file['origin'][0],
+                        'destination': file['destination'][0],
+                        'departure': file['departure'][0],
+                    }
                 if cache['airline']['departure'] == 'Invalid date':
                     cache['airline']['departure'] = convert_string_to_date_to_string_front_end(str(datetime.now())[:10])
             except:
@@ -114,7 +116,9 @@ def search(request):
             if file:
                 airline_destinations = file
 
-            carrier = get_carriers(request, request.session['signature'])
+            signature = copy.deepcopy(request.session['signature'])
+
+            carrier = get_carriers(request, signature)
             # file = read_cache("get_airline_carriers", 'cache_web', request, 90911)
             # if file:
             #     carrier = file
@@ -125,7 +129,7 @@ def search(request):
             #         response = file
             # except Exception as e:
             #     _logger.error('ERROR get_airline_active_carriers file\n' + str(e) + '\n' + traceback.format_exc())
-            response = get_carriers_search(request, request.session['signature'])
+            response = get_carriers_search(request, signature)
 
             values = get_data_template(request, 'search')
 
@@ -158,156 +162,197 @@ def search(request):
             ]
 
             providers = []
+
+            carrier_codes = request.GET['carrier_codes'].split(',') if request.GET.get('carrier_codes') else []
+
             try:
 
                 #check MC OW RT
-                try:
-                    if request.POST['radio_airline_type'] == 'multicity':
-                        direction = 'MC'
+                # try:
+                #     if request.POST['radio_airline_type'] == 'multicity':
+                #         direction = 'MC'
+                #         try:
+                #             if request.POST['is_combo_price'] == '':
+                #                 is_combo_price = 'true'
+                #         except:
+                #             is_combo_price = 'false'
+                #
+                #         airline_carriers = []
+                #         airline_carrier = {'All': {'name': 'All', 'code': 'all'}}
+                #         for j in response:
+                #             try:
+                #                 airline_carrier[j] = {
+                #                     'name': response[j]['name'],
+                #                     'code': response[j]['code'],
+                #                     'display_name': response[j]['display_name'],
+                #                     'icao': response[j]['icao'],
+                #                     'call_sign': response[j]['call_sign'],
+                #                     'is_favorite': response[j]['is_favorite'],
+                #                     'provider': response[j]['provider'],
+                #                     'is_excluded_from_b2c': response[j].get('is_excluded_from_b2c')
+                #                 }
+                #             except Exception as e:
+                #                 _logger.error(str(e) + '\n' + traceback.format_exc())
+                #         airline_carriers.append(airline_carrier)
+                #         airline_carrier = []
+                #
+                #         for idx, arr in enumerate(airline_carriers):
+                #             for provider in arr:
+                #                 try:
+                #                     if (request.POST['provider_box_' + provider+'_1']):
+                #                         airline_carriers[idx][provider]['bool'] = True
+                #                     else:
+                #                         airline_carriers[idx][provider]['bool'] = False
+                #                 except:
+                #                     airline_carriers[idx][provider]['bool'] = False
+                #
+                #         origin = []
+                #         destination = []
+                #         departure = []
+                #         cabin_class_list = []
+                #         return_date = []
+                #         cabin_class = request.POST['cabin_class_flight_mc']
+                #
+                #         for i in range(int(request.POST['counter'])):
+                #             origin.append(request.POST['origin_id_flight'+str(i+1)])
+                #             destination.append(request.POST['destination_id_flight'+str(i+1)])
+                #             departure.append(request.POST['airline_departure'+str(i+1)])
+                #             return_date.append(request.POST['airline_departure'+str(i+1)])
+                #             cabin_class_list.append(request.POST['cabin_class_flight'+str(i+1)])
+                #
+                #     else:
+                #         try:
+                #             if request.POST['is_combo_price'] == '':
+                #                 is_combo_price = 'true'
+                #         except:
+                #             is_combo_price = 'false'
+                #
+                #         airline_carriers = []
+                #         airline_carrier = {'All': {'name': 'All', 'code': 'all', 'is_favorite': False}}
+                #         for j in response:
+                #             try:
+                #                 airline_carrier[j] = {
+                #                     'name': response[j]['name'],
+                #                     'display_name': response[j]['display_name'],
+                #                     'code': response[j]['code'],
+                #                     'icao': response[j]['icao'],
+                #                     'call_sign': response[j]['call_sign'],
+                #                     'is_favorite': response[j]['is_favorite'],
+                #                     'provider': response[j]['provider'],
+                #                     'is_excluded_from_b2c': response[j]['is_excluded_from_b2c']
+                #                 }
+                #             except Exception as e:
+                #                 _logger.error(str(e) + '\n' + traceback.format_exc())
+                #         airline_carriers.append(airline_carrier)
+                #         airline_carrier = []
+                #
+                #         for idx, arr in enumerate(airline_carriers):
+                #             for provider in arr:
+                #                 try:
+                #                     if (request.POST['provider_box_' + provider]):
+                #                         airline_carriers[idx][provider]['bool'] = True
+                #                     else:
+                #                         airline_carriers[idx][provider]['bool'] = False
+                #                 except:
+                #                     airline_carriers[idx][provider]['bool'] = False
+                #         origin = []
+                #         destination = []
+                #         departure = []
+                #         cabin_class_list = []
+                #         return_date = []
+                #         cabin_class = ''
+                #         origin.append(request.POST['origin_id_flight'])
+                #         destination.append(request.POST['destination_id_flight'])
+                #         try:
+                #             departure.append(request.POST['airline_departure_return'].split(' - ')[0])
+                #         except:
+                #             departure.append(request.POST['airline_departure'])
+                #         cabin_class_list.append(request.POST['cabin_class_flight'])
+                #         cabin_class = request.POST['cabin_class_flight']
+                #
+                #         if request.POST['radio_airline_type'] == 'roundtrip':
+                #             direction = 'RT'
+                #             departure.append(request.POST['airline_departure_return'].split(' - ')[1])
+                #             return_date.append(request.POST['airline_departure_return'].split(' - ')[1])
+                #             origin.append(request.POST['destination_id_flight'])
+                #             destination.append(request.POST['origin_id_flight'])
+                #         elif request.POST['radio_airline_type'] == 'oneway':
+                #             direction = 'OW'
+                #             return_date.append(request.POST['airline_departure'])
+                # except Exception as e:
+                #     direction = 'OW'
+                #     print('airline no return')
+
+                airline_carriers = []
+                airline_carrier = {'All': {'name': 'All', 'code': 'all'}}
+                for j in response:
+                    try:
+                        airline_carrier[j] = {
+                            'name': response[j]['name'],
+                            'code': response[j]['code'],
+                            'display_name': response[j]['display_name'],
+                            'icao': response[j]['icao'],
+                            'call_sign': response[j]['call_sign'],
+                            'is_favorite': response[j]['is_favorite'],
+                            'provider': response[j]['provider'],
+                            'is_excluded_from_b2c': response[j].get('is_excluded_from_b2c')
+                        }
+                    except Exception as e:
+                        _logger.error(str(e) + '\n' + traceback.format_exc())
+                airline_carriers.append(airline_carrier)
+                airline_carrier = []
+
+                for idx, arr in enumerate(airline_carriers):
+                    for provider in arr:
                         try:
-                            if request.POST['is_combo_price'] == '':
-                                is_combo_price = 'true'
+                            if provider in carrier_codes or len(carrier_codes) == 0 and provider == 'All':
+                                airline_carriers[idx][provider]['bool'] = True
+                            else:
+                                airline_carriers[idx][provider]['bool'] = False
                         except:
-                            is_combo_price = 'false'
+                            airline_carriers[idx][provider]['bool'] = False
 
-                        airline_carriers = []
-                        airline_carrier = {'All': {'name': 'All', 'code': 'all'}}
-                        for j in response:
-                            try:
-                                airline_carrier[j] = {
-                                    'name': response[j]['name'],
-                                    'code': response[j]['code'],
-                                    'display_name': response[j]['display_name'],
-                                    'icao': response[j]['icao'],
-                                    'call_sign': response[j]['call_sign'],
-                                    'is_favorite': response[j]['is_favorite'],
-                                    'provider': response[j]['provider'],
-                                    'is_excluded_from_b2c': response[j].get('is_excluded_from_b2c')
-                                }
-                            except Exception as e:
-                                _logger.error(str(e) + '\n' + traceback.format_exc())
-                        airline_carriers.append(airline_carrier)
-                        airline_carrier = []
-
-                        for idx, arr in enumerate(airline_carriers):
-                            for provider in arr:
-                                try:
-                                    if (request.POST['provider_box_' + provider+'_1']):
-                                        airline_carriers[idx][provider]['bool'] = True
-                                    else:
-                                        airline_carriers[idx][provider]['bool'] = False
-                                except:
-                                    airline_carriers[idx][provider]['bool'] = False
-
-                        origin = []
-                        destination = []
-                        departure = []
-                        cabin_class_list = []
-                        return_date = []
-                        cabin_class = request.POST['cabin_class_flight_mc']
-
-                        for i in range(int(request.POST['counter'])):
-                            origin.append(request.POST['origin_id_flight'+str(i+1)])
-                            destination.append(request.POST['destination_id_flight'+str(i+1)])
-                            departure.append(request.POST['airline_departure'+str(i+1)])
-                            return_date.append(request.POST['airline_departure'+str(i+1)])
-                            cabin_class_list.append(request.POST['cabin_class_flight'+str(i+1)])
-
-                    else:
-                        try:
-                            if request.POST['is_combo_price'] == '':
-                                is_combo_price = 'true'
-                        except:
-                            is_combo_price = 'false'
-
-                        airline_carriers = []
-                        airline_carrier = {'All': {'name': 'All', 'code': 'all', 'is_favorite': False}}
-                        for j in response:
-                            try:
-                                airline_carrier[j] = {
-                                    'name': response[j]['name'],
-                                    'display_name': response[j]['display_name'],
-                                    'code': response[j]['code'],
-                                    'icao': response[j]['icao'],
-                                    'call_sign': response[j]['call_sign'],
-                                    'is_favorite': response[j]['is_favorite'],
-                                    'provider': response[j]['provider'],
-                                    'is_excluded_from_b2c': response[j]['is_excluded_from_b2c']
-                                }
-                            except Exception as e:
-                                _logger.error(str(e) + '\n' + traceback.format_exc())
-                        airline_carriers.append(airline_carrier)
-                        airline_carrier = []
-
-                        for idx, arr in enumerate(airline_carriers):
-                            for provider in arr:
-                                try:
-                                    if (request.POST['provider_box_' + provider]):
-                                        airline_carriers[idx][provider]['bool'] = True
-                                    else:
-                                        airline_carriers[idx][provider]['bool'] = False
-                                except:
-                                    airline_carriers[idx][provider]['bool'] = False
-                        origin = []
-                        destination = []
-                        departure = []
-                        cabin_class_list = []
-                        return_date = []
-                        cabin_class = ''
-                        origin.append(request.POST['origin_id_flight'])
-                        destination.append(request.POST['destination_id_flight'])
-                        try:
-                            departure.append(request.POST['airline_departure_return'].split(' - ')[0])
-                        except:
-                            departure.append(request.POST['airline_departure'])
-                        cabin_class_list.append(request.POST['cabin_class_flight'])
-                        cabin_class = request.POST['cabin_class_flight']
-
-                        if request.POST['radio_airline_type'] == 'roundtrip':
-                            direction = 'RT'
-                            departure.append(request.POST['airline_departure_return'].split(' - ')[1])
-                            return_date.append(request.POST['airline_departure_return'].split(' - ')[1])
-                            origin.append(request.POST['destination_id_flight'])
-                            destination.append(request.POST['origin_id_flight'])
-                        elif request.POST['radio_airline_type'] == 'oneway':
-                            direction = 'OW'
-                            return_date.append(request.POST['airline_departure'])
-                except Exception as e:
+                direction = request.GET['direction']
+                if direction == 'oneway':
                     direction = 'OW'
-                    print('airline no return')
-
+                elif direction == 'roundtrip':
+                    direction = 'RT'
+                elif direction == 'multicity':
+                    direction = 'MC'
 
                 airline_request = {
-                    'origin': origin,
-                    'destination': destination,
-                    'departure': departure,
-                    'return': return_date,
-                    'direction': direction,
-                    'adult': direction == 'MC' and int(request.POST['adult_flight1']) or int(request.POST['adult_flight']),
-                    'child': direction == 'MC' and int(request.POST['child_flight1']) or int(request.POST['child_flight']),
-                    'infant': direction == 'MC' and int(request.POST['infant_flight1']) or int(request.POST['infant_flight']),
-                    'cabin_class': cabin_class,
-                    'cabin_class_list': cabin_class_list,
-                    'is_combo_price': is_combo_price,
-                    'carrier_codes': [],
-                    'counter': request.POST['counter']
+                    'origin': request.GET['origin'].split(','),
+                    'destination': request.GET['destination'].split(','),
+                    'departure': request.GET['departure'].split(','),
+                    'return': request.GET['return'].split(','),
+                    'direction': request.GET['direction'],
+                    'adult': int(request.GET['adult']),
+                    'child': int(request.GET['child']),
+                    'infant': int(request.GET['infant']),
+                    'cabin_class': request.GET['cabin_class'],
+                    'cabin_class_list': request.GET['cabin_class_list'].split(','),
+                    'is_combo_price': request.GET['is_combo_price'],
+                    'carrier_codes': carrier_codes,
+                    'counter': request.GET['counter']
                 }
 
                 if advance_search['airline_advance_pax_type'] == 'true':
                     if advance_search['airline_pax_type_student'] == 'true':
-                        airline_request['student'] = direction == 'MC' and int(request.POST['student_flight1']) or int(request.POST['student_flight'])
+                        airline_request['student'] = int(request.GET['student'])
                     if advance_search['airline_pax_type_seaman'] == 'true':
-                        airline_request['seaman'] = direction == 'MC' and int(request.POST['seaman_flight1']) or int(request.POST['seaman_flight'])
+                        airline_request['seaman'] = int(request.GET['seaman'])
                     if advance_search['airline_pax_type_labour'] == 'true':
-                        airline_request['labour'] = direction == 'MC' and int(request.POST['labour_flight1']) or int(request.POST['labour_flight'])
-                set_session(request, 'airline_carriers_request', airline_carriers)
+                        airline_request['labour'] = int(request.GET['labour'])
 
-                request.session.modified = True
+                # request.session.modified = True
             except Exception as e:
                 ## TIDAK ADA DATA POST, DARI REORDER
                 _logger.error('Data POST for airline_request create new from reorder')
                 _logger.error("%s, %s" % (str(e), traceback.format_exc()))
-                airline_request = request.session['airline_request']
+                file = read_cache_file(request, '', 'airline_request')
+                if file:
+                    airline_request = file
+                # airline_request = request.session['airline_request']
                 airline_carriers = [{
                     'All': {
                         'name': 'All',
@@ -328,9 +373,10 @@ def search(request):
                         'is_excluded_from_b2c': response[rec]['is_excluded_from_b2c'],
                         'bool': False
                     }
-                set_session(request, 'airline_carriers_request', airline_carriers)
                 is_reorder = True
-                return_date = request.session['airline_request']['departure']
+                if file:
+                    return_date = file['departure']
+
 
             flight = ''
 
@@ -353,8 +399,13 @@ def search(request):
                         break
 
             airline_request['flight'] = flight
-            set_session(request, 'airline_request', airline_request)
-            set_session(request, 'airline_mc_counter', 0)
+            frontend_signature = generate_signature()
+
+            write_cache_file(request, frontend_signature, 'airline_carriers_request', airline_carriers)
+            write_cache_file(request, frontend_signature, 'airline_request', airline_request)
+            # set_session(request, 'airline_request_%s' % frontend_signature, airline_request)
+            # set_session(request, 'airline_request', airline_request)
+            # set_session(request, 'airline_mc_counter', 0)
 
             # get_balance(request)
 
@@ -368,13 +419,13 @@ def search(request):
                 updated_request.update({
                     'customer_parent_seq_id': request.POST['airline_corpor_select_post']
                 })
-                cur_session = request.session['user_account']
+                cur_session = copy.deepcopy(request.session['user_account'])
                 cur_session.update({
                     "co_customer_parent_seq_id": request.POST['airline_corpor_select_post'],
                     "co_customer_seq_id": request.POST['airline_corbooker_select_post']
                 })
                 set_session(request, 'user_account', cur_session)
-                activate_corporate_mode(request, request.session['signature'])
+                activate_corporate_mode(request, signature)
 
             ## PROMO CODE
             promo_codes = []
@@ -395,6 +446,7 @@ def search(request):
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 # 'journeys': journeys,
+                'frontend_signature': frontend_signature,
                 'airline_request': airline_request,
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
                 'countries': airline_country,
@@ -462,10 +514,15 @@ def passenger(request, signature):
             labour = []
             seaman = []
             student = []
-            if 'airline_request_%s' % signature not in request.session:
+            try:
+                write_cache_file(request, signature, 'airline_request', json.loads(request.POST['airline_search_request']))
                 set_session(request, 'airline_request_%s' % signature, json.loads(request.POST['airline_search_request']))
-
-            pax = copy.deepcopy(request.session['airline_request_%s' % signature])
+            except Exception as e:
+                _logger.error('No POST search request, from reorder')
+            file = read_cache_file(request, signature, 'airline_request')
+            if file:
+                pax = file
+            # pax = copy.deepcopy(request.session['airline_request_%s' % signature])
             for i in range(int(pax['adult'])):
                 adult.append('')
             for i in range(int(pax['child'])):
@@ -481,12 +538,14 @@ def passenger(request, signature):
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
             try:
-                time_limit = get_timelimit_product(request, 'airline')
+                time_limit = get_timelimit_product(request, 'airline', signature)
                 if time_limit == 0:
                     time_limit = int(request.POST['time_limit_input'])
-                set_session(request, 'time_limit', time_limit)
+                write_cache_file(request, signature, 'time_limit', time_limit)
+                # set_session(request, 'time_limit_%s' % signature, time_limit)
             except:
-                pass
+                time_limit = int(request.POST['time_limit_input'])
+                write_cache_file(request, signature, 'time_limit', time_limit)
 
             set_session(request, 'signature', signature)
             set_session(request, 'airline_signature', signature)
@@ -497,9 +556,13 @@ def passenger(request, signature):
 
         # CHECK INI
         try:
-            set_session(request, 'airline_price_itinerary_%s' % signature,json.loads(request.POST['airline_price_itinerary']))
-            set_session(request, 'airline_get_price_request_%s' % signature,json.loads(request.POST['airline_price_itinerary_request']))
-            set_session(request, 'airline_sell_journey_%s' % signature,json.loads(request.POST['airline_sell_journey_response']))
+            write_cache_file(request, signature, 'airline_price_itinerary', json.loads(request.POST['airline_price_itinerary']))
+            write_cache_file(request, signature, 'airline_get_price_request', json.loads(request.POST['airline_price_itinerary_request']))
+            write_cache_file(request, signature, 'airline_sell_journey', json.loads(request.POST['airline_sell_journey_response']))
+
+            # set_session(request, 'airline_price_itinerary_%s' % signature,json.loads(request.POST['airline_price_itinerary']))
+            # set_session(request, 'airline_get_price_request_%s' % signature,json.loads(request.POST['airline_price_itinerary_request']))
+            # set_session(request, 'airline_sell_journey_%s' % signature,json.loads(request.POST['airline_sell_journey_response']))
         except Exception as e:
             _logger.error('Data POST for airline_price_itinerary, airline_get_price_request, airline_sell_journey not found use cache')
             _logger.error("%s, %s" % (str(e), traceback.format_exc()))
@@ -509,7 +572,10 @@ def passenger(request, signature):
         is_garuda = False
         is_identity_required = False
         is_birthdate_required = False
-        airline_price_provider_temp = request.session['airline_sell_journey_%s' % signature]['sell_journey_provider']
+        file = read_cache_file(request, signature, 'airline_sell_journey')
+        if file:
+            airline_price_provider_temp = file['sell_journey_provider']
+        # airline_price_provider_temp = request.session['airline_sell_journey_%s' % signature]['sell_journey_provider']
         ## KURANG AMBIL DEFAULT DOMESTIC ORIGIN SEMENTARA PAKAI INDONESIA
         for airline in airline_price_provider_temp:
             for journey in airline['journeys']:
@@ -532,11 +598,27 @@ def passenger(request, signature):
                             break
             if airline['provider'] == 'lionair' or airline['provider'] == 'lionairapi':
                 is_lionair = True
-            try:
-                ff_request = request.session['airline_get_ff_availability_%s' % signature]['result']['response']['ff_availability_provider']
-            except:
-                ff_request = []
         try:
+            file = read_cache_file(request, signature, 'airline_get_ff_availability')
+            if file:
+                ff_request = file['result']['response']['ff_availability_provider']
+            # ff_request = request.session['airline_get_ff_availability_%s' % signature]['result']['response']['ff_availability_provider']
+        except:
+            ff_request = []
+        try:
+            file = read_cache_file(request, signature, 'airline_request')
+            if file:
+                airline_request = file
+            file = read_cache_file(request, signature, 'airline_sell_journey')
+            if file:
+                airline_sell_journey = file
+            file = read_cache_file(request, signature, 'airline_get_price_request')
+            if file:
+                airline_get_price_request = file
+            file = read_cache_file(request, signature, 'time_limit')
+            if file:
+                time_limit = file
+
             values.update({
                 'ff_request': ff_request,
                 'static_path': path_util.get_static_path(MODEL_NAME),
@@ -548,11 +630,15 @@ def passenger(request, signature):
                 'countries': airline_country,
                 'phone_code': phone_code,
                 'is_identity_required': is_identity_required,
-                'airline_request': request.session['airline_request_%s' % signature],
-                'price': request.session['airline_sell_journey_%s' % signature],
-                'airline_get_price_request': request.session['airline_get_price_request_%s' % signature],
+                # 'airline_request': request.session['airline_request_%s' % signature],
+                # 'price': request.session['airline_sell_journey_%s' % signature],
+                # 'airline_get_price_request': request.session['airline_get_price_request_%s' % signature],
+                'airline_request': airline_request,
+                'price': airline_sell_journey,
+                'airline_get_price_request': airline_get_price_request,
                 'airline_carriers': carrier,
-                'airline_pick': request.session['airline_sell_journey_%s' % signature]['sell_journey_provider'],
+                # 'airline_pick': request.session['airline_sell_journey_%s' % signature]['sell_journey_provider'],
+                'airline_pick': airline_sell_journey['sell_journey_provider'],
                 'adults': adult,
                 'childs': child,
                 'infants': infant,
@@ -565,7 +651,8 @@ def passenger(request, signature):
                 'username': request.session['user_account'],
                 'javascript_version': javascript_version,
                 'signature': signature,
-                'time_limit': request.session['time_limit'],
+                # 'time_limit': request.session['time_limit_%s' % signature],
+                'time_limit': time_limit,
                 'static_path_url_server': get_url_static_path(),
                 # 'co_uid': request.session['co_uid'],
                 # 'cookies': json.dumps(res['result']['cookies']),
@@ -607,7 +694,10 @@ def passenger_aftersales(request, signature):
             student = []
             seaman = []
             labour = []
-            pax = copy.deepcopy(request.session['airline_request_%s' % signature])
+            file = read_cache_file(request, signature, 'airline_request')
+            if file:
+                pax = file
+            # pax = copy.deepcopy(request.session['airline_request_%s' % signature])
             for i in range(int(pax['adult'])):
                 adult.append('')
             for i in range(int(pax['child'])):
@@ -623,21 +713,26 @@ def passenger_aftersales(request, signature):
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY]  # get language from browser
             # CHECK INI
-            set_session(request, 'airline_price_itinerary_%s' % signature,
-                        json.loads(request.POST['airline_price_itinerary']))
-            set_session(request, 'airline_get_price_request_%s' % signature,
-                        json.loads(request.POST['airline_price_itinerary_request']))
-            try:
-                set_session(request, 'airline_sell_journey_%s' % signature,
-                            json.loads(request.POST['airline_sell_journey_response']))
-            except:
-                _logger.info('no sell journey input')
+            write_cache_file(request, signature, 'airline_price_itinerary', json.loads(request.POST['airline_price_itinerary']))
+            write_cache_file(request, signature, 'airline_get_price_request', json.loads(request.POST['airline_price_itinerary_request']))
+            write_cache_file(request, signature, 'airline_sell_journey', json.loads(request.POST['airline_sell_journey_response']))
+
+            # set_session(request, 'airline_price_itinerary_%s' % signature,
+            #             json.loads(request.POST['airline_price_itinerary']))
+            # set_session(request, 'airline_get_price_request_%s' % signature,
+            #             json.loads(request.POST['airline_price_itinerary_request']))
+            # try:
+            #     set_session(request, 'airline_sell_journey_%s' % signature,
+            #                 json.loads(request.POST['airline_sell_journey_response']))
+            # except:
+            #     _logger.info('no sell journey input')
 
             try:
-                time_limit = get_timelimit_product(request, 'airline')
+                time_limit = get_timelimit_product(request, 'airline', signature)
                 if time_limit == 0:
                     time_limit = int(request.POST['time_limit_input'])
-                set_session(request, 'time_limit', time_limit)
+                write_cache_file(request, signature, 'time_limit', time_limit)
+                # set_session(request, 'time_limit_%s' % signature, time_limit)
             except:
                 pass
 
@@ -659,7 +754,10 @@ def passenger_aftersales(request, signature):
         is_garuda = False
         is_identity_required = False
         is_birthdate_required = False
-        get_booking = request.session['airline_get_booking_response']
+        file = read_cache_file(request, signature, 'airline_get_booking_response')
+        if file:
+            get_booking = file
+        # get_booking = request.session['airline_get_booking_response']
         is_change_identity = False
         is_change_name = False
         for provider_booking in get_booking['result']['response']['provider_bookings']:
@@ -698,6 +796,13 @@ def passenger_aftersales(request, signature):
                     break
 
         try:
+            file = read_cache_file(request, signature, 'airline_get_booking_response')
+            if file:
+                airline_get_booking = file
+            file = read_cache_file(request, signature, 'airline_request')
+            if file:
+                airline_request = file
+
             values.update({
                 # 'ff_request': ff_request,
                 'ff_request': [],
@@ -712,8 +817,10 @@ def passenger_aftersales(request, signature):
                 'is_change_name': is_change_name,
                 'is_change_identity': is_change_identity,
                 'is_identity_required': is_identity_required,
-                'order_number': request.session['airline_get_booking_response']['result']['response']['order_number'],
-                'airline_request': request.session['airline_request_%s' % signature],
+                # 'order_number': request.session['airline_get_booking_response']['result']['response']['order_number'],
+                # 'airline_request': request.session['airline_request_%s' % signature],
+                'order_number': airline_get_booking['result']['response']['order_number'],
+                'airline_request': airline_request,
                 'airline_carriers': carrier,
                 'adults': adult,
                 'childs': child,
@@ -762,10 +869,12 @@ def ssr(request, signature):
 
             try:
                 passenger = []
-                for pax_type in request.session['airline_create_passengers_%s' % signature]:
-                    if pax_type not in ['infant', 'booker', 'contact']:
-                        for pax in request.session['airline_create_passengers_%s' % signature][pax_type]:
-                            passenger.append(pax)
+                file = read_cache_file(request, signature, 'airline_create_passengers')
+                if file:
+                    for pax_type in file:
+                        if pax_type not in ['infant', 'booker', 'contact']:
+                            for pax in file[pax_type]:
+                                passenger.append(pax)
                 additional_price_input = ''
                 additional_price = request.POST['additional_price_input'].split(' ')[-1].split(',')
                 for i in additional_price:
@@ -775,20 +884,25 @@ def ssr(request, signature):
                     'ssr_availability_provider': []
                 }
                 airline_list = []
-                for ssr_provider in request.session['airline_get_ssr_%s' % signature]['result']['response']['ssr_availability_provider']:
-                    if ssr_provider.get('ssr_availability'):
-                        airline_ssr['ssr_availability_provider'].append(ssr_provider)
-                        for available in ssr_provider['ssr_availability']:
-                            for journey in ssr_provider['ssr_availability'][available]:
-                                for segment in journey['segments']:
-                                    if segment['carrier_code'] not in airline_list:
-                                        airline_list.append(segment['carrier_code'])
-                            break
-                    ssr_provider.update({
-                        'airline_list': airline_list
-                    })
-                    airline_list = []
-                passengers = request.session['passenger_with_ssr_%s' % signature]
+                file = read_cache_file(request, signature, 'airline_get_ssr')
+                if file:
+                    for ssr_provider in file['result']['response']['ssr_availability_provider']:
+                        if ssr_provider.get('ssr_availability'):
+                            airline_ssr['ssr_availability_provider'].append(ssr_provider)
+                            for available in ssr_provider['ssr_availability']:
+                                for journey in ssr_provider['ssr_availability'][available]:
+                                    for segment in journey['segments']:
+                                        if segment['carrier_code'] not in airline_list:
+                                            airline_list.append(segment['carrier_code'])
+                                break
+                        ssr_provider.update({
+                            'airline_list': airline_list
+                        })
+                        airline_list = []
+                file = read_cache_file(request, signature, 'passenger_with_ssr')
+                if file:
+                    passengers = file
+                # passengers = request.session['passenger_with_ssr_%s' % signature]
                 for pax in passengers:
                     if not pax.get('behaviors'):
                         pax['behaviors'] = {}
@@ -798,17 +912,38 @@ def ssr(request, signature):
                         pax['behaviors']['airline'] = pax['behaviors']['airline'].replace('<br/>', '\n')
 
                 try:
-                    time_limit = get_timelimit_product(request, 'airline')
+                    time_limit = get_timelimit_product(request, 'airline', signature)
                     if time_limit == 0:
                         time_limit = int(request.POST['time_limit_input'])
-                    set_session(request, 'time_limit', time_limit)
+                    write_cache_file(request, signature, 'time_limit', time_limit)
+                    # set_session(request, 'time_limit_%s' % signature, time_limit)
                 except:
                     pass
 
+                file = read_cache_file(request, signature, 'airline_request')
+                if file:
+                    airline_request = file
+
+                file = read_cache_file(request, signature, 'airline_sell_journey')
+                if file:
+                    airline_sell_journey = file
+
+                file = read_cache_file(request, signature, 'airline_upsell')
+                if file:
+                    airline_upsell = file
+                else:
+                    airline_upsell = 0
+
+                file = read_cache_file(request, signature, 'time_limit')
+                if file:
+                    time_limit = file
+
                 values.update({
                     'static_path': path_util.get_static_path(MODEL_NAME),
-                    'airline_request': request.session['airline_request_%s' % signature],
-                    'price': request.session['airline_sell_journey_%s' % signature],
+                    # 'airline_request': request.session['airline_request_%s' % signature],
+                    # 'price': request.session['airline_sell_journey_%s' % signature],
+                    'airline_request': airline_request,
+                    'price': airline_sell_journey,
                     'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
                     'countries': airline_country,
                     'phone_code': phone_code,
@@ -816,15 +951,18 @@ def ssr(request, signature):
                     'additional_price': float(additional_price_input),
                     'airline_carriers': carrier,
                     # 'airline_destinations': airline_destinations,
-                    'airline_pick': request.session['airline_sell_journey_%s' % signature]['sell_journey_provider'],
-                    'upsell': request.session.get('airline_upsell_'+signature) and request.session.get('airline_upsell_'+signature) or 0,
+                    # 'airline_pick': request.session['airline_sell_journey_%s' % signature]['sell_journey_provider'],
+                    # 'upsell': request.session.get('airline_upsell_'+signature) and request.session.get('airline_upsell_'+signature) or 0,
+                    'airline_pick': airline_sell_journey['sell_journey_provider'],
+                    'upsell': airline_upsell,
                     'signature': signature,
                     'airline_ssrs': airline_ssr,
                     'passengers': passengers,
                     'username': request.session['user_account'],
                     'javascript_version': javascript_version,
                     'static_path_url_server': get_url_static_path(),
-                    'time_limit': int(request.session['time_limit']),
+                    # 'time_limit': int(request.session['time_limit_%s' % signature]),
+                    'time_limit': int(time_limit),
                     'airline_getbooking': ''
                 })
             except:
@@ -838,7 +976,14 @@ def ssr(request, signature):
                     'ssr_availability_provider': []
                 }
                 airline_list = []
-                after_sales_data = json.loads(request.POST['after_sales_data_%s' % signature]) if request.POST.get('after_sales_data_%s' % signature) else request.session['airline_get_ssr_%s' % signature]
+
+                file = read_cache_file(request, signature, 'after_sales_data')
+                file_ssr = read_cache_file(request, signature, 'airline_get_ssr')
+                if file:
+                    after_sales_data = file
+                elif file_ssr:
+                    after_sales_data = file_ssr
+                # after_sales_data = json.loads(request.POST['after_sales_data_%s' % signature]) if request.POST.get('after_sales_data_%s' % signature) else request.session['airline_get_ssr_%s' % signature]
                 for ssr_provider in after_sales_data['result']['response']['ssr_availability_provider']:
                     if ssr_provider.get('ssr_availability'):
                         airline_ssr['ssr_availability_provider'].append(ssr_provider)
@@ -857,7 +1002,13 @@ def ssr(request, signature):
                 infant = []
                 child = []
                 last_departure_date = ''
-                airline_get_booking_resp = request.session.get('airline_get_booking_response') if request.session.get('airline_get_booking_response') else json.loads(request.POST['get_booking_data_json'])
+
+                file = read_cache_file(request, signature, 'airline_get_booking_response')
+                if file:
+                    airline_get_booking_resp = file
+                else:
+                    airline_get_booking_resp = json.loads(request.POST['get_booking_data_json'])
+                # airline_get_booking_resp = request.session.get('airline_get_booking_response') if request.session.get('airline_get_booking_response') else json.loads(request.POST['get_booking_data_json'])
                 for rec in airline_get_booking_resp['result']['response']['provider_bookings']:
                     last_departure_date = rec['departure_date']
                     for ticket in rec['tickets']:
@@ -894,7 +1045,9 @@ def ssr(request, signature):
                             old_segment.pop('fare_details')
                         if (old_segment.get('addons')):
                             old_segment.pop('addons')
-                set_session(request, 'airline_get_booking_response', airline_get_booking_resp)
+
+                write_cache_file(request, signature, 'airline_get_booking_response', airline_get_booking_resp)
+                # set_session(request, 'airline_get_booking_response_%s' % (signature), airline_get_booking_resp)
                 for pax in airline_get_booking_resp['result']['response']['passengers']:
                     if pax.get('birth_date'):
                         pax_type = pax.get('pax_type', '')
@@ -1041,7 +1194,8 @@ def ssr(request, signature):
                     'child': child,
                     'infant': infant
                 }
-                set_session(request, 'airline_create_passengers_%s' % signature, airline_create_passengers)
+                write_cache_file(request, signature, 'airline_create_passengers', airline_create_passengers)
+                # set_session(request, 'airline_create_passengers_%s' % signature, airline_create_passengers)
 
                 passenger = []
                 for pax in adult:
@@ -1050,7 +1204,7 @@ def ssr(request, signature):
                     passenger.append(pax)
 
                 upsell = 0
-                for pax in request.session['airline_get_booking_response']['result']['response']['passengers']:
+                for pax in airline_get_booking_resp['result']['response']['passengers']:
                     if pax.get('channel_service_charges'):
                         upsell = pax['channel_service_charges']['amount']
                 values.update({
@@ -1061,7 +1215,7 @@ def ssr(request, signature):
                     'phone_code': phone_code,
                     'airline_carriers': carrier,
                     'upsell': upsell,
-                    'airline_getbooking': request.session['airline_get_booking_response']['result']['response'],
+                    'airline_getbooking': airline_get_booking_resp['result']['response'],
                     'airline_ssrs': airline_ssr,
                     'passengers': passenger,
                     'username': request.session['user_account'],
@@ -1103,33 +1257,41 @@ def seat_map(request, signature):
 
             try:
                 passenger = []
-                for pax_type in request.session['airline_create_passengers_%s' % signature]:
+
+                file = read_cache_file(request, signature, 'airline_create_passengers')
+                if file:
+                    airline_passengers = file
+                for pax_type in airline_passengers:
                     if pax_type not in ['infant', 'booker', 'contact']:
-                        for pax in request.session['airline_create_passengers_%s' % signature][pax_type]:
+                        for pax in airline_passengers[pax_type]:
+                            if not 'seat_list' in pax:
+                                pax['seat_list'] = []
+
+                                file = read_cache_file(request, signature, 'airline_get_seat_availability')
+                                if file:
+                                    airline_seat_availability = file
+                                for seat_provider in airline_seat_availability['result']['response'][
+                                    'seat_availability_provider']:
+                                    if seat_provider.get('segments'):
+                                        for segment in seat_provider['segments']:
+                                            pax['seat_list'].append({
+                                                'segment_code': segment['segment_code2'],
+                                                'departure_date': segment['departure_date'],
+                                                'seat_pick': '',
+                                                'seat_code': '',
+                                                'seat_name': '',
+                                                'description': '',
+                                                'currency': '',
+                                                'price': ''
+                                            })
+                            if not pax.get('behaviors'):
+                                pax['behaviors'] = {}
+                            if not pax['behaviors'].get('airline'):
+                                pax['behaviors']['airline'] = ""
+                            if pax['behaviors'].get('airline'):
+                                pax['behaviors']['airline'] = pax['behaviors']['airline'].replace('<br/>', '\n')
                             passenger.append(pax)
 
-                for pax in passenger:
-                    if not 'seat_list' in pax:
-                        pax['seat_list'] = []
-                        for seat_provider in request.session['airline_get_seat_availability_%s' % signature]['result']['response']['seat_availability_provider']:
-                            if seat_provider.get('segments'):
-                                for segment in seat_provider['segments']:
-                                    pax['seat_list'].append({
-                                        'segment_code': segment['segment_code2'],
-                                        'departure_date': segment['departure_date'],
-                                        'seat_pick': '',
-                                        'seat_code': '',
-                                        'seat_name': '',
-                                        'description': '',
-                                        'currency': '',
-                                        'price': ''
-                                    })
-                    if not pax.get('behaviors'):
-                        pax['behaviors'] = {}
-                    if not pax['behaviors'].get('airline'):
-                        pax['behaviors']['airline'] = ""
-                    if pax['behaviors'].get('airline'):
-                        pax['behaviors']['airline'] = pax['behaviors']['airline'].replace('<br/>', '\n')
 
                 additional_price_input = ''
                 additional_price = request.POST['additional_price_input'].split(' ')[-1].split(',')
@@ -1137,12 +1299,30 @@ def seat_map(request, signature):
                     additional_price_input += i
 
                 try:
-                    time_limit = get_timelimit_product(request, 'airline')
+                    time_limit = get_timelimit_product(request, 'airline', signature)
                     if time_limit == 0:
                         time_limit = int(request.POST['time_limit_input'])
-                    set_session(request, 'time_limit', time_limit)
+                    write_cache_file(request, signature, 'time_limit', time_limit)
+                    # set_session(request, 'time_limit_%s' % signature, time_limit)
                 except:
                     pass
+
+                write_cache_file(request, signature, 'airline_create_passengers', airline_passengers)
+
+                file = read_cache_file(request, signature, 'airline_upsell')
+                if file:
+                    airline_upsell = file
+                else:
+                    airline_upsell = 0
+                file = read_cache_file(request, signature, 'airline_request')
+                if file:
+                    airline_request = file
+                file = read_cache_file(request, signature, 'airline_sell_journey')
+                if file:
+                    airline_sell_journey = file
+                file = read_cache_file(request, signature, 'time_limit')
+                if file:
+                    time_limit = file
 
                 values.update({
                     'static_path': path_util.get_static_path(MODEL_NAME),
@@ -1151,29 +1331,35 @@ def seat_map(request, signature):
                     'countries': airline_country,
                     'phone_code': phone_code,
                     'after_sales': 0,
-                    'upsell': request.session.get('airline_upsell_' + signature) and request.session.get(
-                        'airline_upsell_%s' % signature) or 0,
-                    'airline_request': request.session['airline_request_%s' % signature],
-                    'price': request.session['airline_sell_journey_%s' % signature],
+                    'upsell': airline_upsell,
+                    'airline_request': airline_request,
+                    'price': airline_sell_journey,
                     'additional_price': float(additional_price_input),
                     'passengers': passenger,
                     'username': request.session['user_account'],
                     'static_path_url_server': get_url_static_path(),
                     'javascript_version': javascript_version,
-                    'time_limit': int(request.session['time_limit']),
+                    'time_limit': int(time_limit),
                     'airline_getbooking': '',
                     'signature': signature
                 })
             except Exception as e:
                 ## penanda pre booking / after sales
-                if not request.session.get('airline_create_passengers_%s' % signature):
+                file = read_cache_file(request, signature, 'airline_get_booking_response')
+                if file:
+                    airline_get_booking_resp = file
+                else:
+                    airline_get_booking_resp = json.loads(request.POST['get_booking_data_json'])
+                # airline_get_booking_resp = request.session.get('airline_get_booking_response') if request.session.get('airline_get_booking_response') else json.loads(request.POST['get_booking_data_json'])
+
+                file = read_cache_file(request, signature, 'airline_create_passengers')
+                if not file:
                     #dari getbooking
                     #CHECK SINI TEMBAK KO SAM
                     #pax
                     adult = []
                     infant = []
                     child = []
-                    airline_get_booking_resp = request.session.get('airline_get_booking_response') if request.session.get('airline_get_booking_response') else json.loads(request.POST['get_booking_data_json'])
                     last_departure_date = ''
                     for rec in airline_get_booking_resp['result']['response']['provider_bookings']:
                         last_departure_date = rec['departure_date']
@@ -1212,7 +1398,9 @@ def seat_map(request, signature):
                                 old_segment.pop('fare_details')
                             if (old_segment.get('addons')):
                                 old_segment.pop('addons')
-                    set_session(request, 'airline_get_booking_response', airline_get_booking_resp)
+
+                    write_cache_file(request, signature, 'airline_get_booking_response', airline_get_booking_resp)
+                    # set_session(request, 'airline_get_booking_response_%s' % signature, airline_get_booking_resp)
                     for pax in airline_get_booking_resp['result']['response']['passengers']:
                         if pax.get('birth_date'):
                             pax_type = pax.get('pax_type', '')
@@ -1293,63 +1481,69 @@ def seat_map(request, signature):
                         'child': child,
                         'infant': infant
                     }
-                    set_session(request, 'airline_create_passengers_%s' % signature, airline_create_passengers)
+
+                    write_cache_file(request, signature, 'airline_create_passengers', airline_create_passengers)
+                    # set_session(request, 'airline_create_passengers_%s' % signature, airline_create_passengers)
                     passenger = []
                     for pax in adult:
                         passenger.append(pax)
                     for pax in child:
                         passenger.append(pax)
 
-                    passenger = []
-                    for pax_type in request.session['airline_create_passengers_%s' % signature]:
+                    for pax_type in airline_create_passengers:
                         if pax_type not in ['infant', 'booker', 'contact']:
-                            for pax in request.session['airline_create_passengers_%s' % signature][pax_type]:
-                                passenger.append(pax)
-                    for pax in passenger:
-                        pax['seat_list'] = []
-                        for seat_provider in request.session['airline_get_seat_availability_%s' % signature]['result']['response']['seat_availability_provider']:
-                            if seat_provider.get('segments'):
-                                for segment in seat_provider['segments']:
-                                    found = False
-                                    passenger_obj = {
-                                        'seat_pick': '',
-                                        'seat_code': '',
-                                        'seat_name': '',
-                                        'description': '',
-                                        'currency': '',
-                                        'price': ''
-                                    }
-                                    for pax_obj in airline_get_booking_resp['result']['response']['passengers']:
-                                        if pax['first_name'] == pax_obj['first_name'] and pax['last_name'] == pax_obj['last_name'] and pax['birth_date'] == pax_obj['birth_date']:
-                                            for pax_obj in pax_obj['fees']:
-                                                if pax_obj['fee_type'] == 'SEAT' and segment['segment_code'] == pax_obj['journey_code']:
-                                                    passenger_obj['seat_pick'] = pax_obj['fee_value']
-                                                    passenger_obj['seat_code'] = pax_obj['fee_code']
-                                                    passenger_obj['seat_name'] = pax_obj['fee_name']
-                                                    passenger_obj['description'] = pax_obj['description']
-                                                    passenger_obj['currency'] = pax_obj['currency']
-                                                    passenger_obj['price'] = pax_obj['amount']
-                                                    found = True
+                            for pax in airline_create_passengers[pax_type]:
+                                pax['seat_list'] = []
+                                file = read_cache_file(request, signature, 'airline_get_seat_availability')
+                                if file:
+                                    airline_get_seat_availability = file
+                                for seat_provider in airline_get_seat_availability['result']['response']['seat_availability_provider']:
+                                    if seat_provider.get('segments'):
+                                        for segment in seat_provider['segments']:
+                                            found = False
+                                            passenger_obj = {
+                                                'seat_pick': '',
+                                                'seat_code': '',
+                                                'seat_name': '',
+                                                'description': '',
+                                                'currency': '',
+                                                'price': ''
+                                            }
+                                            for pax_obj in airline_get_booking_resp['result']['response']['passengers']:
+                                                if pax['first_name'] == pax_obj['first_name'] and pax['last_name'] == pax_obj['last_name'] and pax['birth_date'] == pax_obj['birth_date']:
+                                                    for pax_obj in pax_obj['fees']:
+                                                        if pax_obj['fee_type'] == 'SEAT' and segment['segment_code'] == pax_obj['journey_code']:
+                                                            passenger_obj['seat_pick'] = pax_obj['fee_value']
+                                                            passenger_obj['seat_code'] = pax_obj['fee_code']
+                                                            passenger_obj['seat_name'] = pax_obj['fee_name']
+                                                            passenger_obj['description'] = pax_obj['description']
+                                                            passenger_obj['currency'] = pax_obj['currency']
+                                                            passenger_obj['price'] = pax_obj['amount']
+                                                            found = True
+                                                            break
+                                                if found:
                                                     break
-                                        if found:
-                                            break
-                                    pax['seat_list'].append({
-                                        'segment_code': segment['segment_code2'],
-                                        'departure_date': segment['departure_date'],
-                                        'seat_pick': passenger_obj['seat_pick'],
-                                        'seat_code': passenger_obj['seat_code'],
-                                        'seat_name': passenger_obj['seat_name'],
-                                        'description': passenger_obj['description'],
-                                        'currency': passenger_obj['currency'],
-                                        'price': passenger_obj['price']
-                                    })
+                                            pax['seat_list'].append({
+                                                'segment_code': segment['segment_code2'],
+                                                'departure_date': segment['departure_date'],
+                                                'seat_pick': passenger_obj['seat_pick'],
+                                                'seat_code': passenger_obj['seat_code'],
+                                                'seat_name': passenger_obj['seat_name'],
+                                                'description': passenger_obj['description'],
+                                                'currency': passenger_obj['currency'],
+                                                'price': passenger_obj['price']
+                                            })
+                                passenger.append(pax)
+
+                    write_cache_file(request, signature, 'airline_create_passengers', airline_create_passengers)
 
                     upsell = 0
-                    for pax in request.session['airline_get_booking_response']['result']['response']['passengers']:
+                    for pax in airline_get_booking_resp['result']['response']['passengers']:
                         if pax.get('channel_service_charges'):
                             upsell = pax['channel_service_charges']['amount']
-                    airline_get_booking = copy.deepcopy(request.session['airline_get_booking_response']['result']['response'])
-                    del airline_get_booking['reschedule_list']  # pop sementara ada list isi string pakai " wktu di parser error
+                    airline_get_booking = copy.deepcopy(airline_get_booking_resp['result']['response'])
+                    if airline_get_booking.get('reschedule_list'):
+                        del airline_get_booking['reschedule_list']  # pop sementara ada list isi string pakai " wktu di parser error
                     values.update({
                         'static_path': path_util.get_static_path(MODEL_NAME),
                         'airline_carriers': carrier,
@@ -1369,12 +1563,20 @@ def seat_map(request, signature):
                         'time_limit': '',
                         'signature': request.session['airline_signature'],
                     })
-                elif request.session.get('airline_get_booking_response'):
+                elif airline_get_booking_resp:
+                    passenger = []
+                    file = read_cache_file(request, signature, 'airline_create_passengers')
+                    if file:
+                        airline_create_passengers = file
+                        for pax_type in airline_create_passengers:
+                            if pax_type not in ['infant', 'booker', 'contact']:
+                                for pax in airline_create_passengers[pax_type]:
+                                    passenger.append(pax)
                     upsell = 0
-                    for pax in request.session['airline_get_booking_response']['result']['response']['passengers']:
+                    for pax in airline_get_booking_resp['result']['response']['passengers']:
                         if pax.get('channel_service_charges'):
                             upsell = pax['channel_service_charges']['amount']
-                    airline_get_booking = copy.deepcopy(request.session['airline_get_booking_response']['result']['response'])
+                    airline_get_booking = copy.deepcopy(airline_get_booking_resp['result']['response'])
                     values.update({
                         'static_path': path_util.get_static_path(MODEL_NAME),
                         'airline_carriers': carrier,
@@ -1394,7 +1596,7 @@ def seat_map(request, signature):
                         'time_limit': '',
                         'signature': request.session['airline_signature'],
                     })
-                elif not request.session.get('airline_get_booking_response'):
+                elif not hasattr(airline_get_booking_resp, 'dict'):
                     ## pre booking error
                     _logger.error(str(e) + '\n' + traceback.format_exc())
                     raise Exception('Make response code 500!')
@@ -1463,10 +1665,13 @@ def review(request, signature):
                 if request.META.get('HTTP_REFERER').split('/')[len(request.META.get('HTTP_REFERER').split('/'))-2] == 'ssr':
                     try:
                         passenger = []
-                        for pax_type in request.session['airline_create_passengers_%s' % signature]:
-                            if pax_type not in ['infant', 'booker', 'contact']:
-                                for pax in request.session['airline_create_passengers_%s' % signature][pax_type]:
-                                    passenger.append(pax)
+                        file = read_cache_file(request, signature, 'airline_create_passengers')
+                        if file:
+                            airline_create_passengers = file
+                            for pax_type in airline_create_passengers:
+                                if pax_type not in ['infant', 'booker', 'contact']:
+                                    for pax in airline_create_passengers[pax_type]:
+                                        passenger.append(pax)
                         sell_ssrs = []
                         sell_ssrs_request = []
                         passengers_list = []
@@ -1478,7 +1683,10 @@ def review(request, signature):
                                 pax['behaviors']['airline'] = ""
                             pax['behaviors']['airline'] = request.POST['passenger%s' % idx]
 
-                        ssr_response = request.session['airline_get_ssr_%s' % signature]['result']['response']
+                        file = read_cache_file(request, signature, 'airline_get_ssr')
+                        if file:
+                            ssr_response = file['result']['response']
+                        # ssr_response = request.session['airline_get_ssr_%s' % signature]['result']['response']
                         no_ssr_count = 0
                         for counter_ssr_availability_provider, ssr_package in enumerate(ssr_response['ssr_availability_provider']):
                             if (ssr_package.get('ssr_availability')):
@@ -1486,20 +1694,21 @@ def review(request, signature):
                                     for counter_journey, journey_ssr in enumerate(ssr_package['ssr_availability'][ssr_key]):
                                         for idx, pax in enumerate(passenger):
                                             try:
-                                                passengers_list.append({
-                                                    "passenger_number": idx,
-                                                    "ssr_code": request.POST[ssr_key+'_'+str(counter_ssr_availability_provider+1-no_ssr_count)+'_'+str(idx+1)+'_'+str(counter_journey+1)].split('_')[0]
-                                                })
-                                                for list_ssr in journey_ssr['ssrs']:
-                                                    if request.POST[ssr_key + '_' +str(counter_ssr_availability_provider+1-no_ssr_count)+ '_' + str(idx + 1) + '_' + str(counter_journey + 1)].split('_')[0] == list_ssr['ssr_code']:
-                                                        list_ssr['fee_code'] = list_ssr['ssr_code']
-                                                        list_ssr.update({
-                                                            'origin': journey_ssr['origin'],
-                                                            'destination': journey_ssr['destination'],
-                                                            'departure_date': convert_string_to_date_to_string_front_end_with_time(journey_ssr['segments'][0]['departure_date']).split('  ')[0]
-                                                        })
-                                                        pax['ssr_list'].append(list_ssr)
-                                                        break
+                                                if request.POST[ssr_key+'_'+str(counter_ssr_availability_provider+1-no_ssr_count)+'_'+str(idx+1)+'_'+str(counter_journey+1)].split('_')[0] != '':
+                                                    passengers_list.append({
+                                                        "passenger_number": idx,
+                                                        "ssr_code": request.POST[ssr_key+'_'+str(counter_ssr_availability_provider+1-no_ssr_count)+'_'+str(idx+1)+'_'+str(counter_journey+1)].split('_')[0]
+                                                    })
+                                                    for list_ssr in journey_ssr['ssrs']:
+                                                        if request.POST[ssr_key + '_' +str(counter_ssr_availability_provider+1-no_ssr_count)+ '_' + str(idx + 1) + '_' + str(counter_journey + 1)].split('_')[0] == list_ssr['ssr_code']:
+                                                            list_ssr['fee_code'] = list_ssr['ssr_code']
+                                                            list_ssr.update({
+                                                                'origin': journey_ssr['origin'],
+                                                                'destination': journey_ssr['destination'],
+                                                                'departure_date': convert_string_to_date_to_string_front_end_with_time(journey_ssr['segments'][0]['departure_date']).split('  ')[0]
+                                                            })
+                                                            pax['ssr_list'].append(list_ssr)
+                                                            break
                                             except:
                                                 pass
                                         if len(passengers_list) > 0:
@@ -1518,8 +1727,10 @@ def review(request, signature):
                                 no_ssr_count += 1
                             sell_ssrs_request = []
                         if len(sell_ssrs) > 0:
-                            set_session(request, 'airline_ssr_request_%s' % signature, sell_ssrs)
+                            write_cache_file(request, signature, 'airline_ssr_request', sell_ssrs)
+                            # set_session(request, 'airline_ssr_request_%s' % signature, sell_ssrs)
                         sell_ssrs = []
+                        write_cache_file(request, signature, 'airline_create_passengers', airline_create_passengers)
                     except:
                         print('airline no ssr')
 
@@ -1527,20 +1738,31 @@ def review(request, signature):
                 elif request.META.get('HTTP_REFERER').split('/')[len(request.META.get('HTTP_REFERER').split('/'))-2] == 'seat_map':
                     try:
                         passenger = []
-                        for pax_type in request.session['airline_create_passengers_%s' % signature]:
-                            if pax_type not in ['infant', 'booker', 'contact']:
-                                for pax in request.session['airline_create_passengers_%s' % signature][pax_type]:
-                                    passenger.append(pax)
+                        file = read_cache_file(request, signature, 'airline_create_passengers')
+                        if file:
+                            airline_create_passengers = file
+                            for pax_type in airline_create_passengers:
+                                if pax_type not in ['infant', 'booker', 'contact']:
+                                    for pax in airline_create_passengers[pax_type]:
+                                        passenger.append(pax)
                         passengers = json.loads(request.POST['passenger'])
                         #
                         for idx, pax in enumerate(passengers):
-                            passenger[idx]['seat_list'] = passengers[idx]['seat_list']
+                            seat_list = []
+                            for seat_data in passengers[idx]['seat_list']:
+                                if seat_data['seat_code'] != '':
+                                    seat_list.append(seat_data)
+                            passenger[idx]['seat_list'] = seat_list
                             if not passenger[idx].get('behaviors'):
                                 passenger[idx]['behaviors'] = {}
                             if not passenger[idx]['behaviors'].get('airline'):
                                 passenger[idx]['behaviors']['airline'] = ""
                             passenger[idx]['behaviors']['airline'] = pax['behaviors']['airline']
-                        seat_map_list = request.session['airline_get_seat_availability_%s' % signature]['result']['response']
+
+                        file = read_cache_file(request, signature, 'airline_get_seat_availability')
+                        if file:
+                            seat_map_list = file['result']['response']
+                        # seat_map_list = request.session['airline_get_seat_availability_%s' % signature]['result']['response']
                         segment_seat_request = []
 
                         for seat_map_provider in seat_map_list['seat_availability_provider']:
@@ -1563,16 +1785,22 @@ def review(request, signature):
                                             'passengers': pax_request
                                         })
                                     pax_request = []
-                        set_session(request, 'airline_seat_request_%s' % signature, segment_seat_request)
+
+                        write_cache_file(request, signature, 'airline_seat_request', segment_seat_request)
+                        write_cache_file(request, signature, 'airline_create_passengers', airline_create_passengers)
+                        # set_session(request, 'airline_seat_request_%s' % signature, segment_seat_request)
 
                     except Exception as e:
                         _logger.error("#####ERROR CHOOSE SEAT#####")
                         _logger.error("%s, %s" % (str(e), traceback.format_exc()))
                         try:
                             passenger = []
-                            for pax_type in request.session['airline_create_passengers_%s' % signature]:
+                            file = read_cache_file(request, signature, 'airline_create_passengers')
+                            if file:
+                                airline_create_passengers = file
+                            for pax_type in airline_create_passengers:
                                 if pax_type not in ['infant', 'booker', 'contact']:
-                                    for pax in request.session['airline_create_passengers_%s' % signature][pax_type]:
+                                    for pax in airline_create_passengers[pax_type]:
                                         passenger.append(pax)
                             for pax in passenger:
                                 if pax.get('seat_list'):
@@ -1582,8 +1810,10 @@ def review(request, signature):
 
 
                 elif request.META.get('HTTP_REFERER').split('/')[len(request.META.get('HTTP_REFERER').split('/'))-2] == 'passenger':
-                    set_session(request, 'airline_seat_request_%s' % signature, {})
-                    set_session(request, 'airline_ssr_request_%s' % signature, {})
+                    write_cache_file(request, signature, 'airline_seat_request', {})
+                    write_cache_file(request, signature, 'airline_ssr_request', {})
+                    # set_session(request, 'airline_seat_request_%s' % signature, {})
+                    # set_session(request, 'airline_ssr_request_%s' % signature, {})
                     adult = []
                     child = []
                     infant = []
@@ -1605,120 +1835,421 @@ def review(request, signature):
                         'nationality_code': request.POST['booker_nationality_id'],
                         'booker_seq_id': request.POST['booker_id'],
                     }
-                    for i in range(int(request.session['airline_request_%s' % signature]['adult'])):
-                        ff_number = []
-                        try:
-                            ff_request = request.session['airline_get_ff_availability_%s' % signature]['result']['response']['ff_availability_provider']
-                        except:
+                    file = read_cache_file(request, signature, 'airline_request')
+                    if file:
+                        airline_request = file
+
+                        file = read_cache_file(request, signature, 'airline_get_ff_availability')
+                        if file and file['result']['error_code'] == 0:
+                            ff_request = file['result']['response']['ff_availability_provider']
+                        else:
                             ff_request = []
-                        counter = 0
-                        for j in ff_request:
-                            try:
-                                if request.POST['adult_ff_number' + str(i + 1)+'_' + str(counter + 1)] != '':
-                                    ff_number.append({
-                                        "schedule_id": j['schedule_id'],
-                                        "ff_number": request.POST['adult_ff_number' + str(i + 1)+'_' + str(counter + 1)],
-                                        "ff_code": request.POST['adult_ff_request' + str(i + 1)+'_' + str(counter + 1)+'_id']
+
+                        # try:
+                        #     ff_request = request.session['airline_get_ff_availability_%s' % signature]['result']['response']['ff_availability_provider']
+                        # except:
+                        #     ff_request = []
+
+                        for i in range(int(airline_request['adult'])):
+                            ff_number = []
+                            counter = 0
+                            for j in ff_request:
+                                try:
+                                    if request.POST['adult_ff_number' + str(i + 1)+'_' + str(counter + 1)] != '':
+                                        ff_number.append({
+                                            "schedule_id": j['schedule_id'],
+                                            "ff_number": request.POST['adult_ff_number' + str(i + 1)+'_' + str(counter + 1)],
+                                            "ff_code": request.POST['adult_ff_request' + str(i + 1)+'_' + str(counter + 1)+'_id']
+                                        })
+                                except Exception as e:
+                                    _logger.error('FF not found in  POST' + str(e) + '\n' + traceback.format_exc())
+                                counter += 1
+
+                            passport_number = ''
+                            passport_ed = ''
+                            passport_country_of_issued = ''
+                            is_valid_identity = request.POST.get('adult_valid_passport' + str(i + 1), 'off')
+                            is_wheelchair = request.POST.get('adult_wheelchair' + str(i + 1), 'off')
+                            if is_valid_identity == 'on':
+                                is_valid_identity = False
+                            else:
+                                is_valid_identity = True
+
+                            if is_wheelchair == 'on':
+                                is_wheelchair = True
+                            else:
+                                is_wheelchair = False
+                            if request.POST['adult_id_type' + str(i + 1)]:
+                                passport_number = request.POST.get('adult_passport_number' + str(i + 1))
+                                passport_ed = request.POST.get('adult_passport_expired_date' + str(i + 1))
+                                passport_country_of_issued = request.POST.get('adult_country_of_issued' + str(i + 1) + '_id')
+
+                            img_identity_data = [sel_img[:2] for sel_img in img_list_data if 'adult' in sel_img[2].lower() and 'identity' in sel_img[2].lower() and str(i + 1) in sel_img[2].lower()]
+                            behaviors = {}
+                            if request.POST.get('adult_behaviors_' + str(i + 1)):
+                                behaviors = {'airline': request.POST['adult_behaviors_' + str(i + 1)]}
+                            adult.append({
+                                "pax_type": "ADT",
+                                "first_name": request.POST['adult_first_name' + str(i + 1)],
+                                "last_name": request.POST['adult_last_name' + str(i + 1)],
+                                "title": request.POST['adult_title' + str(i + 1)],
+                                "birth_date": request.POST.get('adult_birth_date' + str(i + 1)),
+                                "nationality_code": request.POST['adult_nationality' + str(i + 1) + '_id'],
+                                "identity_country_of_issued_code": passport_country_of_issued if is_valid_identity else '',
+                                "identity_expdate": passport_ed if is_valid_identity else '',
+                                "identity_number": passport_number if is_valid_identity else '',
+                                "passenger_seq_id": request.POST['adult_id' + str(i + 1)],
+                                "identity_type": request.POST['adult_id_type' + str(i + 1)] if is_valid_identity else '',
+                                "ff_numbers": ff_number,
+                                "behaviors": behaviors,
+                                "identity_image": img_identity_data,
+                                "is_valid_identity": is_valid_identity,
+                                "is_request_wheelchair": is_wheelchair
+                            })
+
+                            if i == 0:
+                                if request.POST['myRadios'] == 'yes':
+                                    adult[len(adult) - 1].update({
+                                        'is_also_booker': True,
+                                        'is_also_contact': True
                                     })
-                            except Exception as e:
-                                _logger.error('FF not found in  POST' + str(e) + '\n' + traceback.format_exc())
-                            counter += 1
-
-                        passport_number = ''
-                        passport_ed = ''
-                        passport_country_of_issued = ''
-                        is_valid_identity = request.POST.get('adult_valid_passport' + str(i + 1), 'off')
-                        is_wheelchair = request.POST.get('adult_wheelchair' + str(i + 1), 'off')
-                        if is_valid_identity == 'on':
-                            is_valid_identity = False
-                        else:
-                            is_valid_identity = True
-
-                        if is_wheelchair == 'on':
-                            is_wheelchair = True
-                        else:
-                            is_wheelchair = False
-                        if request.POST['adult_id_type' + str(i + 1)]:
-                            passport_number = request.POST.get('adult_passport_number' + str(i + 1))
-                            passport_ed = request.POST.get('adult_passport_expired_date' + str(i + 1))
-                            passport_country_of_issued = request.POST.get('adult_country_of_issued' + str(i + 1) + '_id')
-
-                        img_identity_data = [sel_img[:2] for sel_img in img_list_data if 'adult' in sel_img[2].lower() and 'identity' in sel_img[2].lower() and str(i + 1) in sel_img[2].lower()]
-                        behaviors = {}
-                        if request.POST.get('adult_behaviors_' + str(i + 1)):
-                            behaviors = {'airline': request.POST['adult_behaviors_' + str(i + 1)]}
-                        adult.append({
-                            "pax_type": "ADT",
-                            "first_name": request.POST['adult_first_name' + str(i + 1)],
-                            "last_name": request.POST['adult_last_name' + str(i + 1)],
-                            "title": request.POST['adult_title' + str(i + 1)],
-                            "birth_date": request.POST.get('adult_birth_date' + str(i + 1)),
-                            "nationality_code": request.POST['adult_nationality' + str(i + 1) + '_id'],
-                            "identity_country_of_issued_code": passport_country_of_issued if is_valid_identity else '',
-                            "identity_expdate": passport_ed if is_valid_identity else '',
-                            "identity_number": passport_number if is_valid_identity else '',
-                            "passenger_seq_id": request.POST['adult_id' + str(i + 1)],
-                            "identity_type": request.POST['adult_id_type' + str(i + 1)] if is_valid_identity else '',
-                            "ff_numbers": ff_number,
-                            "behaviors": behaviors,
-                            "identity_image": img_identity_data,
-                            "is_valid_identity": is_valid_identity,
-                            "is_request_wheelchair": is_wheelchair
-                        })
-
-                        if i == 0:
-                            if request.POST['myRadios'] == 'yes':
-                                adult[len(adult) - 1].update({
-                                    'is_also_booker': True,
-                                    'is_also_contact': True
-                                })
+                                else:
+                                    adult[len(adult) - 1].update({
+                                        'is_also_booker': False
+                                    })
                             else:
                                 adult[len(adult) - 1].update({
                                     'is_also_booker': False
                                 })
-                        else:
-                            adult[len(adult) - 1].update({
-                                'is_also_booker': False
-                            })
-                        try:
-                            if request.POST['adult_cp' + str(i+1)] == 'on':
-                                adult[len(adult) - 1].update({
-                                    'is_also_contact': True
-                                })
-                            else:
-                                adult[len(adult) - 1].update({
-                                    'is_also_contact': False
-                                })
-                        except:
-                            if i == 0 and request.POST['myRadios'] == 'yes':
-                                continue
-                            else:
-                                adult[len(adult) - 1].update({
-                                    'is_also_contact': False
-                                })
-                        try:
-                            if request.POST['adult_cp' + str(i + 1)] == 'on':
-                                contact.append({
-                                    "first_name": request.POST['adult_first_name' + str(i + 1)],
-                                    "last_name": request.POST['adult_last_name' + str(i + 1)],
-                                    "title": request.POST['adult_title' + str(i + 1)],
-                                    "email": request.POST['adult_email' + str(i + 1)],
-                                    "calling_code": request.POST['adult_phone_code' + str(i + 1) + '_id'],
-                                    "mobile": request.POST['adult_phone' + str(i + 1)],
-                                    "nationality_code": request.POST['adult_nationality' + str(i + 1) + '_id'],
-                                    "contact_seq_id": request.POST['adult_id' + str(i + 1)]
-                                })
-                            if i == 0:
-                                if request.POST['myRadios'] == 'yes':
-                                    contact[len(contact)].update({
-                                        'is_also_booker': True
+                            try:
+                                if request.POST['adult_cp' + str(i+1)] == 'on':
+                                    adult[len(adult) - 1].update({
+                                        'is_also_contact': True
                                     })
                                 else:
-                                    contact[len(contact)].update({
-                                        'is_also_booker': False
+                                    adult[len(adult) - 1].update({
+                                        'is_also_contact': False
                                     })
-                        except:
-                            pass
+                            except:
+                                if i == 0 and request.POST['myRadios'] == 'yes':
+                                    continue
+                                else:
+                                    adult[len(adult) - 1].update({
+                                        'is_also_contact': False
+                                    })
+                            try:
+                                if request.POST['adult_cp' + str(i + 1)] == 'on':
+                                    contact.append({
+                                        "first_name": request.POST['adult_first_name' + str(i + 1)],
+                                        "last_name": request.POST['adult_last_name' + str(i + 1)],
+                                        "title": request.POST['adult_title' + str(i + 1)],
+                                        "email": request.POST['adult_email' + str(i + 1)],
+                                        "calling_code": request.POST['adult_phone_code' + str(i + 1) + '_id'],
+                                        "mobile": request.POST['adult_phone' + str(i + 1)],
+                                        "nationality_code": request.POST['adult_nationality' + str(i + 1) + '_id'],
+                                        "contact_seq_id": request.POST['adult_id' + str(i + 1)]
+                                    })
+                                if i == 0:
+                                    if request.POST['myRadios'] == 'yes':
+                                        contact[len(contact)].update({
+                                            'is_also_booker': True
+                                        })
+                                    else:
+                                        contact[len(contact)].update({
+                                            'is_also_booker': False
+                                        })
+                            except:
+                                pass
+
+                        for i in range(int(airline_request['child'])):
+                            ff_number = []
+                            # try:
+                            #     ff_request = request.session['airline_get_ff_availability_%s' % signature]['result']['response']['ff_availability_provider']
+                            # except:
+                            #     ff_request = []
+                            counter = 0
+                            for j in ff_request:
+                                try:
+                                    if request.POST['child_ff_number' + str(i + 1) + '_' + str(counter + 1)] != '':
+                                        ff_number.append({
+                                            "schedule_id": j['schedule_id'],
+                                            "ff_number": request.POST['child_ff_number' + str(i + 1) + '_' + str(counter + 1)],
+                                            "ff_code": request.POST['child_ff_request' + str(i + 1)+'_' + str(counter + 1)+'_id']
+                                        })
+                                except Exception as e:
+                                    _logger.error('FF not found in  POST' + str(e) + '\n' + traceback.format_exc())
+                                counter += 1
+
+                            passport_number = ''
+                            passport_ed = ''
+                            passport_country_of_issued = ''
+                            is_valid_identity = request.POST.get('child_valid_passport' + str(i + 1), 'off')
+                            is_wheelchair = request.POST.get('child_wheelchair' + str(i + 1), 'off')
+                            if is_valid_identity == 'on':
+                                is_valid_identity = False
+                            else:
+                                is_valid_identity = True
+
+                            if is_wheelchair == 'on':
+                                is_wheelchair = True
+                            else:
+                                is_wheelchair = False
+                            if request.POST['child_id_type' + str(i + 1)]:
+                                passport_number = request.POST['child_passport_number' + str(i + 1)]
+                                passport_ed = request.POST['child_passport_expired_date' + str(i + 1)]
+                                passport_country_of_issued = request.POST['child_country_of_issued' + str(i + 1) + '_id']
+
+                            img_identity_data = [sel_img[:2] for sel_img in img_list_data if 'child' in sel_img[2].lower() and 'identity' in sel_img[2].lower() and str(i + 1) in sel_img[2].lower()]
+
+                            behaviors = {}
+                            if request.POST.get('child_behaviors_' + str(i + 1)):
+                                behaviors = {'airline': request.POST['child_behaviors_' + str(i + 1)]}
+
+                            child.append({
+                                "pax_type": "CHD",
+                                "first_name": request.POST['child_first_name' + str(i + 1)],
+                                "last_name": request.POST['child_last_name' + str(i + 1)],
+                                "title": request.POST['child_title' + str(i + 1)],
+                                "birth_date": request.POST['child_birth_date' + str(i + 1)],
+                                "nationality_code": request.POST['child_nationality' + str(i + 1) + '_id'],
+                                "identity_number": passport_number if is_valid_identity else '',
+                                "identity_expdate": passport_ed if is_valid_identity else '',
+                                "identity_country_of_issued_code": passport_country_of_issued if is_valid_identity else '',
+                                "passenger_seq_id": request.POST['child_id' + str(i + 1)],
+                                "identity_type": request.POST['child_id_type' + str(i + 1)] if is_valid_identity else '',
+                                "ff_numbers": ff_number,
+                                "behaviors": behaviors,
+                                "identity_image": img_identity_data,
+                                "is_valid_identity": is_valid_identity,
+                                "is_request_wheelchair": is_wheelchair
+                            })
+
+                        for i in range(int(airline_request['infant'])):
+                            passport_number = ''
+                            passport_ed = ''
+                            passport_country_of_issued = ''
+                            is_valid_identity = request.POST.get('infant_valid_passport' + str(i + 1), 'off')
+                            if is_valid_identity == 'on':
+                                is_valid_identity = False
+                            else:
+                                is_valid_identity = True
+                            is_wheelchair = False
+                            if request.POST['infant_id_type' + str(i + 1)]:
+                                passport_number = request.POST['infant_passport_number' + str(i + 1)]
+                                passport_ed = request.POST['infant_passport_expired_date' + str(i + 1)]
+                                passport_country_of_issued = request.POST['infant_country_of_issued' + str(i + 1) + '_id']
+
+                            img_identity_data = [sel_img[:2] for sel_img in img_list_data if 'infant' in sel_img[2].lower() and 'identity' in sel_img[2].lower() and str(i + 1) in sel_img[2].lower()]
+                            behaviors = {}
+                            if request.POST.get('infant_behaviors_' + str(i + 1)):
+                                behaviors = {'airline': request.POST['infant_behaviors_' + str(i + 1)]}
+                            infant.append({
+                                "pax_type": "INF",
+                                "first_name": request.POST['infant_first_name' + str(i + 1)],
+                                "last_name": request.POST['infant_last_name' + str(i + 1)],
+                                "title": request.POST['infant_title' + str(i + 1)],
+                                "birth_date": request.POST['infant_birth_date' + str(i + 1)],
+                                "nationality_code": request.POST['infant_nationality' + str(i + 1) + '_id'],
+                                "identity_number": passport_number if is_valid_identity else '',
+                                "identity_expdate": passport_ed if is_valid_identity else '',
+                                "identity_country_of_issued_code": passport_country_of_issued if is_valid_identity else '',
+                                "passenger_seq_id": request.POST['infant_id' + str(i + 1)],
+                                "identity_type": request.POST['infant_id_type' + str(i + 1)] if is_valid_identity else '',
+                                "behaviors": behaviors,
+                                "identity_image": img_identity_data,
+                                "is_valid_identity": is_valid_identity,
+                                "is_request_wheelchair": is_wheelchair
+                            })
+
+                        for i in range(int(airline_request.get('student') or 0)):
+                            ff_number = []
+                            # try:
+                            #     ff_request = request.session['airline_get_ff_availability_%s' % signature]['result']['response']['ff_availability_provider']
+                            # except:
+                            #     ff_request = []
+                            counter = 0
+                            for j in ff_request:
+                                try:
+                                    if request.POST['student_ff_number' + str(i + 1) + '_' + str(counter + 1)] != '':
+                                        ff_number.append({
+                                            "schedule_id": j['schedule_id'],
+                                            "ff_number": request.POST['student_ff_number' + str(i + 1) + '_' + str(counter + 1)],
+                                            "ff_code": request.POST['student_ff_request' + str(i + 1)+'_' + str(counter + 1)+'_id']
+                                        })
+                                except Exception as e:
+                                    _logger.error('FF not found in  POST' + str(e) + '\n' + traceback.format_exc())
+                                counter += 1
+
+                            passport_number = ''
+                            passport_ed = ''
+                            passport_country_of_issued = ''
+                            is_valid_identity = request.POST.get('student_valid_passport' + str(i + 1), 'off')
+                            is_wheelchair = request.POST.get('student_wheelchair' + str(i + 1), 'off')
+                            if is_valid_identity == 'on':
+                                is_valid_identity = False
+                            else:
+                                is_valid_identity = True
+
+                            if is_wheelchair == 'on':
+                                is_wheelchair = True
+                            else:
+                                is_wheelchair = False
+                            if request.POST['student_id_type' + str(i + 1)]:
+                                passport_number = request.POST['student_passport_number' + str(i + 1)]
+                                passport_ed = request.POST['student_passport_expired_date' + str(i + 1)]
+                                passport_country_of_issued = request.POST['student_country_of_issued' + str(i + 1) + '_id']
+
+                            img_identity_data = [sel_img[:2] for sel_img in img_list_data if 'student' in sel_img[2].lower() and 'identity' in sel_img[2].lower() and str(i + 1) in sel_img[2].lower()]
+
+                            behaviors = {}
+                            if request.POST.get('student_behaviors_' + str(i + 1)):
+                                behaviors = {'airline': request.POST['student_behaviors_' + str(i + 1)]}
+
+                            student.append({
+                                "pax_type": "STU",
+                                "first_name": request.POST['student_first_name' + str(i + 1)],
+                                "last_name": request.POST['student_last_name' + str(i + 1)],
+                                "title": request.POST['student_title' + str(i + 1)],
+                                "birth_date": request.POST['student_birth_date' + str(i + 1)],
+                                "nationality_code": request.POST['student_nationality' + str(i + 1) + '_id'],
+                                "identity_number": passport_number,
+                                "identity_expdate": passport_ed,
+                                "identity_country_of_issued_code": passport_country_of_issued,
+                                "passenger_seq_id": request.POST['student_id' + str(i + 1)],
+                                "identity_type": request.POST['student_id_type' + str(i + 1)],
+                                "ff_numbers": ff_number,
+                                "behaviors": behaviors,
+                                "identity_image": img_identity_data,
+                                "is_valid_identity": is_valid_identity,
+                                "is_request_wheelchair": is_wheelchair
+                            })
+
+                        for i in range(int(airline_request.get('labour') or 0)):
+                            ff_number = []
+                            # try:
+                            #     ff_request = request.session['airline_get_ff_availability_%s' % signature]['result']['response']['ff_availability_provider']
+                            # except:
+                            #     ff_request = []
+                            counter = 0
+                            for j in ff_request:
+                                try:
+                                    if request.POST['labour_ff_number' + str(i + 1) + '_' + str(counter + 1)] != '':
+                                        ff_number.append({
+                                            "schedule_id": j['schedule_id'],
+                                            "ff_number": request.POST['labour_ff_number' + str(i + 1) + '_' + str(counter + 1)],
+                                            "ff_code": request.POST['labour_ff_request' + str(i + 1)+'_' + str(counter + 1)+'_id']
+                                        })
+                                except Exception as e:
+                                    _logger.error('FF not found in  POST' + str(e) + '\n' + traceback.format_exc())
+                                counter += 1
+
+                            passport_number = ''
+                            passport_ed = ''
+                            passport_country_of_issued = ''
+                            is_valid_identity = request.POST.get('labour_valid_passport' + str(i + 1), 'off')
+                            is_wheelchair = request.POST.get('labour_wheelchair' + str(i + 1), 'off')
+                            if is_valid_identity == 'on':
+                                is_valid_identity = False
+                            else:
+                                is_valid_identity = True
+
+                            if is_wheelchair == 'on':
+                                is_wheelchair = True
+                            else:
+                                is_wheelchair = False
+                            if request.POST['labour_id_type' + str(i + 1)]:
+                                passport_number = request.POST['labour_passport_number' + str(i + 1)]
+                                passport_ed = request.POST['labour_passport_expired_date' + str(i + 1)]
+                                passport_country_of_issued = request.POST['labour_country_of_issued' + str(i + 1) + '_id']
+
+                            img_identity_data = [sel_img[:2] for sel_img in img_list_data if 'labour' in sel_img[2].lower() and 'identity' in sel_img[2].lower() and str(i + 1) in sel_img[2].lower()]
+
+                            behaviors = {}
+                            if request.POST.get('labour_behaviors_' + str(i + 1)):
+                                behaviors = {'airline': request.POST['labour_behaviors_' + str(i + 1)]}
+
+                            labour.append({
+                                "pax_type": "LBR",
+                                "first_name": request.POST['labour_first_name' + str(i + 1)],
+                                "last_name": request.POST['labour_last_name' + str(i + 1)],
+                                "title": request.POST['labour_title' + str(i + 1)],
+                                "birth_date": request.POST['labour_birth_date' + str(i + 1)],
+                                "nationality_code": request.POST['labour_nationality' + str(i + 1) + '_id'],
+                                "identity_number": passport_number,
+                                "identity_expdate": passport_ed,
+                                "identity_country_of_issued_code": passport_country_of_issued,
+                                "passenger_seq_id": request.POST['labour_id' + str(i + 1)],
+                                "identity_type": request.POST['labour_id_type' + str(i + 1)],
+                                "ff_numbers": ff_number,
+                                "behaviors": behaviors,
+                                "identity_image": img_identity_data,
+                                "is_valid_identity": is_valid_identity,
+                                "is_request_wheelchair": is_wheelchair
+                            })
+
+                        for i in range(int(airline_request.get('seaman') or 0)):
+                            ff_number = []
+                            # try:
+                            #     ff_request = request.session['airline_get_ff_availability_%s' % signature]['result']['response']['ff_availability_provider']
+                            # except:
+                            #     ff_request = []
+                            counter = 0
+                            for j in ff_request:
+                                try:
+                                    if request.POST['seaman_ff_number' + str(i + 1) + '_' + str(counter + 1)] != '':
+                                        ff_number.append({
+                                            "schedule_id": j['schedule_id'],
+                                            "ff_number": request.POST['seaman_ff_number' + str(i + 1) + '_' + str(counter + 1)],
+                                            "ff_code": request.POST['seaman_ff_request' + str(i + 1)+'_' + str(counter + 1)+'_id']
+                                        })
+                                except Exception as e:
+                                    _logger.error('FF not found in  POST' + str(e) + '\n' + traceback.format_exc())
+                                counter += 1
+
+                            passport_number = ''
+                            passport_ed = ''
+                            passport_country_of_issued = ''
+                            is_valid_identity = request.POST.get('seaman_valid_passport' + str(i + 1), 'off')
+                            is_wheelchair = request.POST.get('seaman_wheelchair' + str(i + 1), 'off')
+                            if is_valid_identity == 'on':
+                                is_valid_identity = False
+                            else:
+                                is_valid_identity = True
+
+                            if is_wheelchair == 'on':
+                                is_wheelchair = True
+                            else:
+                                is_wheelchair = False
+                            if request.POST['seaman_id_type' + str(i + 1)]:
+                                passport_number = request.POST['seaman_passport_number' + str(i + 1)]
+                                passport_ed = request.POST['seaman_passport_expired_date' + str(i + 1)]
+                                passport_country_of_issued = request.POST['seaman_country_of_issued' + str(i + 1) + '_id']
+
+                            img_identity_data = [sel_img[:2] for sel_img in img_list_data if 'seaman' in sel_img[2].lower() and 'identity' in sel_img[2].lower() and str(i + 1) in sel_img[2].lower()]
+
+                            behaviors = {}
+                            if request.POST.get('seaman_behaviors_' + str(i + 1)):
+                                behaviors = {'airline': request.POST['seaman_behaviors_' + str(i + 1)]}
+
+                            seaman.append({
+                                "pax_type": "SEA",
+                                "first_name": request.POST['seaman_first_name' + str(i + 1)],
+                                "last_name": request.POST['seaman_last_name' + str(i + 1)],
+                                "title": request.POST['seaman_title' + str(i + 1)],
+                                "birth_date": request.POST['seaman_birth_date' + str(i + 1)],
+                                "nationality_code": request.POST['seaman_nationality' + str(i + 1) + '_id'],
+                                "identity_number": passport_number,
+                                "identity_expdate": passport_ed,
+                                "identity_country_of_issued_code": passport_country_of_issued,
+                                "passenger_seq_id": request.POST['seaman_id' + str(i + 1)],
+                                "identity_type": request.POST['seaman_id_type' + str(i + 1)],
+                                "ff_numbers": ff_number,
+                                "behaviors": behaviors,
+                                "identity_image": img_identity_data,
+                                "is_valid_identity": is_valid_identity,
+                                "is_request_wheelchair": is_wheelchair
+                            })
+
 
                     if len(contact) == 0:
                         contact.append({
@@ -1733,295 +2264,6 @@ def review(request, signature):
                             'is_also_booker': True
                         })
 
-                    for i in range(int(request.session['airline_request_%s' % signature]['child'])):
-                        ff_number = []
-                        try:
-                            ff_request = request.session['airline_get_ff_availability_%s' % signature]['result']['response']['ff_availability_provider']
-                        except:
-                            ff_request = []
-                        counter = 0
-                        for j in ff_request:
-                            try:
-                                if request.POST['child_ff_number' + str(i + 1) + '_' + str(counter + 1)] != '':
-                                    ff_number.append({
-                                        "schedule_id": j['schedule_id'],
-                                        "ff_number": request.POST['child_ff_number' + str(i + 1) + '_' + str(counter + 1)],
-                                        "ff_code": request.POST['child_ff_request' + str(i + 1)+'_' + str(counter + 1)+'_id']
-                                    })
-                            except Exception as e:
-                                _logger.error('FF not found in  POST' + str(e) + '\n' + traceback.format_exc())
-                            counter += 1
-
-                        passport_number = ''
-                        passport_ed = ''
-                        passport_country_of_issued = ''
-                        is_valid_identity = request.POST.get('child_valid_passport' + str(i + 1), 'off')
-                        is_wheelchair = request.POST.get('child_wheelchair' + str(i + 1), 'off')
-                        if is_valid_identity == 'on':
-                            is_valid_identity = False
-                        else:
-                            is_valid_identity = True
-
-                        if is_wheelchair == 'on':
-                            is_wheelchair = True
-                        else:
-                            is_wheelchair = False
-                        if request.POST['child_id_type' + str(i + 1)]:
-                            passport_number = request.POST['child_passport_number' + str(i + 1)]
-                            passport_ed = request.POST['child_passport_expired_date' + str(i + 1)]
-                            passport_country_of_issued = request.POST['child_country_of_issued' + str(i + 1) + '_id']
-
-                        img_identity_data = [sel_img[:2] for sel_img in img_list_data if 'child' in sel_img[2].lower() and 'identity' in sel_img[2].lower() and str(i + 1) in sel_img[2].lower()]
-
-                        behaviors = {}
-                        if request.POST.get('child_behaviors_' + str(i + 1)):
-                            behaviors = {'airline': request.POST['child_behaviors_' + str(i + 1)]}
-
-                        child.append({
-                            "pax_type": "CHD",
-                            "first_name": request.POST['child_first_name' + str(i + 1)],
-                            "last_name": request.POST['child_last_name' + str(i + 1)],
-                            "title": request.POST['child_title' + str(i + 1)],
-                            "birth_date": request.POST['child_birth_date' + str(i + 1)],
-                            "nationality_code": request.POST['child_nationality' + str(i + 1) + '_id'],
-                            "identity_number": passport_number if is_valid_identity else '',
-                            "identity_expdate": passport_ed if is_valid_identity else '',
-                            "identity_country_of_issued_code": passport_country_of_issued if is_valid_identity else '',
-                            "passenger_seq_id": request.POST['child_id' + str(i + 1)],
-                            "identity_type": request.POST['child_id_type' + str(i + 1)] if is_valid_identity else '',
-                            "ff_numbers": ff_number,
-                            "behaviors": behaviors,
-                            "identity_image": img_identity_data,
-                            "is_valid_identity": is_valid_identity,
-                            "is_request_wheelchair": is_wheelchair
-                        })
-
-                    for i in range(int(request.session['airline_request_%s' % signature]['infant'])):
-                        passport_number = ''
-                        passport_ed = ''
-                        passport_country_of_issued = ''
-                        is_valid_identity = request.POST.get('infant_valid_passport' + str(i + 1), 'off')
-                        if is_valid_identity == 'on':
-                            is_valid_identity = False
-                        else:
-                            is_valid_identity = True
-                        is_wheelchair = False
-                        if request.POST['infant_id_type' + str(i + 1)]:
-                            passport_number = request.POST['infant_passport_number' + str(i + 1)]
-                            passport_ed = request.POST['infant_passport_expired_date' + str(i + 1)]
-                            passport_country_of_issued = request.POST['infant_country_of_issued' + str(i + 1) + '_id']
-
-                        img_identity_data = [sel_img[:2] for sel_img in img_list_data if 'infant' in sel_img[2].lower() and 'identity' in sel_img[2].lower() and str(i + 1) in sel_img[2].lower()]
-                        behaviors = {}
-                        if request.POST.get('infant_behaviors_' + str(i + 1)):
-                            behaviors = {'airline': request.POST['infant_behaviors_' + str(i + 1)]}
-                        infant.append({
-                            "pax_type": "INF",
-                            "first_name": request.POST['infant_first_name' + str(i + 1)],
-                            "last_name": request.POST['infant_last_name' + str(i + 1)],
-                            "title": request.POST['infant_title' + str(i + 1)],
-                            "birth_date": request.POST['infant_birth_date' + str(i + 1)],
-                            "nationality_code": request.POST['infant_nationality' + str(i + 1) + '_id'],
-                            "identity_number": passport_number if is_valid_identity else '',
-                            "identity_expdate": passport_ed if is_valid_identity else '',
-                            "identity_country_of_issued_code": passport_country_of_issued if is_valid_identity else '',
-                            "passenger_seq_id": request.POST['infant_id' + str(i + 1)],
-                            "identity_type": request.POST['infant_id_type' + str(i + 1)] if is_valid_identity else '',
-                            "behaviors": behaviors,
-                            "identity_image": img_identity_data,
-                            "is_valid_identity": is_valid_identity,
-                            "is_request_wheelchair": is_wheelchair
-                        })
-
-                    for i in range(int(request.session['airline_request_%s' % signature].get('student') or 0)):
-                        ff_number = []
-                        try:
-                            ff_request = request.session['airline_get_ff_availability_%s' % signature]['result']['response']['ff_availability_provider']
-                        except:
-                            ff_request = []
-                        counter = 0
-                        for j in ff_request:
-                            try:
-                                if request.POST['student_ff_number' + str(i + 1) + '_' + str(counter + 1)] != '':
-                                    ff_number.append({
-                                        "schedule_id": j['schedule_id'],
-                                        "ff_number": request.POST['student_ff_number' + str(i + 1) + '_' + str(counter + 1)],
-                                        "ff_code": request.POST['student_ff_request' + str(i + 1)+'_' + str(counter + 1)+'_id']
-                                    })
-                            except Exception as e:
-                                _logger.error('FF not found in  POST' + str(e) + '\n' + traceback.format_exc())
-                            counter += 1
-
-                        passport_number = ''
-                        passport_ed = ''
-                        passport_country_of_issued = ''
-                        is_valid_identity = request.POST.get('student_valid_passport' + str(i + 1), 'off')
-                        is_wheelchair = request.POST.get('student_wheelchair' + str(i + 1), 'off')
-                        if is_valid_identity == 'on':
-                            is_valid_identity = False
-                        else:
-                            is_valid_identity = True
-
-                        if is_wheelchair == 'on':
-                            is_wheelchair = True
-                        else:
-                            is_wheelchair = False
-                        if request.POST['student_id_type' + str(i + 1)]:
-                            passport_number = request.POST['student_passport_number' + str(i + 1)]
-                            passport_ed = request.POST['student_passport_expired_date' + str(i + 1)]
-                            passport_country_of_issued = request.POST['student_country_of_issued' + str(i + 1) + '_id']
-
-                        img_identity_data = [sel_img[:2] for sel_img in img_list_data if 'student' in sel_img[2].lower() and 'identity' in sel_img[2].lower() and str(i + 1) in sel_img[2].lower()]
-
-                        behaviors = {}
-                        if request.POST.get('student_behaviors_' + str(i + 1)):
-                            behaviors = {'airline': request.POST['student_behaviors_' + str(i + 1)]}
-
-                        student.append({
-                            "pax_type": "STU",
-                            "first_name": request.POST['student_first_name' + str(i + 1)],
-                            "last_name": request.POST['student_last_name' + str(i + 1)],
-                            "title": request.POST['student_title' + str(i + 1)],
-                            "birth_date": request.POST['student_birth_date' + str(i + 1)],
-                            "nationality_code": request.POST['student_nationality' + str(i + 1) + '_id'],
-                            "identity_number": passport_number,
-                            "identity_expdate": passport_ed,
-                            "identity_country_of_issued_code": passport_country_of_issued,
-                            "passenger_seq_id": request.POST['student_id' + str(i + 1)],
-                            "identity_type": request.POST['student_id_type' + str(i + 1)],
-                            "ff_numbers": ff_number,
-                            "behaviors": behaviors,
-                            "identity_image": img_identity_data,
-                            "is_valid_identity": is_valid_identity,
-                            "is_request_wheelchair": is_wheelchair
-                        })
-
-                    for i in range(int(request.session['airline_request_%s' % signature].get('labour') or 0)):
-                        ff_number = []
-                        try:
-                            ff_request = request.session['airline_get_ff_availability_%s' % signature]['result']['response']['ff_availability_provider']
-                        except:
-                            ff_request = []
-                        counter = 0
-                        for j in ff_request:
-                            try:
-                                if request.POST['labour_ff_number' + str(i + 1) + '_' + str(counter + 1)] != '':
-                                    ff_number.append({
-                                        "schedule_id": j['schedule_id'],
-                                        "ff_number": request.POST['labour_ff_number' + str(i + 1) + '_' + str(counter + 1)],
-                                        "ff_code": request.POST['labour_ff_request' + str(i + 1)+'_' + str(counter + 1)+'_id']
-                                    })
-                            except Exception as e:
-                                _logger.error('FF not found in  POST' + str(e) + '\n' + traceback.format_exc())
-                            counter += 1
-
-                        passport_number = ''
-                        passport_ed = ''
-                        passport_country_of_issued = ''
-                        is_valid_identity = request.POST.get('labour_valid_passport' + str(i + 1), 'off')
-                        is_wheelchair = request.POST.get('labour_wheelchair' + str(i + 1), 'off')
-                        if is_valid_identity == 'on':
-                            is_valid_identity = False
-                        else:
-                            is_valid_identity = True
-
-                        if is_wheelchair == 'on':
-                            is_wheelchair = True
-                        else:
-                            is_wheelchair = False
-                        if request.POST['labour_id_type' + str(i + 1)]:
-                            passport_number = request.POST['labour_passport_number' + str(i + 1)]
-                            passport_ed = request.POST['labour_passport_expired_date' + str(i + 1)]
-                            passport_country_of_issued = request.POST['labour_country_of_issued' + str(i + 1) + '_id']
-
-                        img_identity_data = [sel_img[:2] for sel_img in img_list_data if 'labour' in sel_img[2].lower() and 'identity' in sel_img[2].lower() and str(i + 1) in sel_img[2].lower()]
-
-                        behaviors = {}
-                        if request.POST.get('labour_behaviors_' + str(i + 1)):
-                            behaviors = {'airline': request.POST['labour_behaviors_' + str(i + 1)]}
-
-                        labour.append({
-                            "pax_type": "LBR",
-                            "first_name": request.POST['labour_first_name' + str(i + 1)],
-                            "last_name": request.POST['labour_last_name' + str(i + 1)],
-                            "title": request.POST['labour_title' + str(i + 1)],
-                            "birth_date": request.POST['labour_birth_date' + str(i + 1)],
-                            "nationality_code": request.POST['labour_nationality' + str(i + 1) + '_id'],
-                            "identity_number": passport_number,
-                            "identity_expdate": passport_ed,
-                            "identity_country_of_issued_code": passport_country_of_issued,
-                            "passenger_seq_id": request.POST['labour_id' + str(i + 1)],
-                            "identity_type": request.POST['labour_id_type' + str(i + 1)],
-                            "ff_numbers": ff_number,
-                            "behaviors": behaviors,
-                            "identity_image": img_identity_data,
-                            "is_valid_identity": is_valid_identity,
-                            "is_request_wheelchair": is_wheelchair
-                        })
-
-                    for i in range(int(request.session['airline_request_%s' % signature].get('seaman') or 0)):
-                        ff_number = []
-                        try:
-                            ff_request = request.session['airline_get_ff_availability_%s' % signature]['result']['response']['ff_availability_provider']
-                        except:
-                            ff_request = []
-                        counter = 0
-                        for j in ff_request:
-                            try:
-                                if request.POST['seaman_ff_number' + str(i + 1) + '_' + str(counter + 1)] != '':
-                                    ff_number.append({
-                                        "schedule_id": j['schedule_id'],
-                                        "ff_number": request.POST['seaman_ff_number' + str(i + 1) + '_' + str(counter + 1)],
-                                        "ff_code": request.POST['seaman_ff_request' + str(i + 1)+'_' + str(counter + 1)+'_id']
-                                    })
-                            except Exception as e:
-                                _logger.error('FF not found in  POST' + str(e) + '\n' + traceback.format_exc())
-                            counter += 1
-
-                        passport_number = ''
-                        passport_ed = ''
-                        passport_country_of_issued = ''
-                        is_valid_identity = request.POST.get('seaman_valid_passport' + str(i + 1), 'off')
-                        is_wheelchair = request.POST.get('seaman_wheelchair' + str(i + 1), 'off')
-                        if is_valid_identity == 'on':
-                            is_valid_identity = False
-                        else:
-                            is_valid_identity = True
-
-                        if is_wheelchair == 'on':
-                            is_wheelchair = True
-                        else:
-                            is_wheelchair = False
-                        if request.POST['seaman_id_type' + str(i + 1)]:
-                            passport_number = request.POST['seaman_passport_number' + str(i + 1)]
-                            passport_ed = request.POST['seaman_passport_expired_date' + str(i + 1)]
-                            passport_country_of_issued = request.POST['seaman_country_of_issued' + str(i + 1) + '_id']
-
-                        img_identity_data = [sel_img[:2] for sel_img in img_list_data if 'seaman' in sel_img[2].lower() and 'identity' in sel_img[2].lower() and str(i + 1) in sel_img[2].lower()]
-
-                        behaviors = {}
-                        if request.POST.get('seaman_behaviors_' + str(i + 1)):
-                            behaviors = {'airline': request.POST['seaman_behaviors_' + str(i + 1)]}
-
-                        seaman.append({
-                            "pax_type": "SEA",
-                            "first_name": request.POST['seaman_first_name' + str(i + 1)],
-                            "last_name": request.POST['seaman_last_name' + str(i + 1)],
-                            "title": request.POST['seaman_title' + str(i + 1)],
-                            "birth_date": request.POST['seaman_birth_date' + str(i + 1)],
-                            "nationality_code": request.POST['seaman_nationality' + str(i + 1) + '_id'],
-                            "identity_number": passport_number,
-                            "identity_expdate": passport_ed,
-                            "identity_country_of_issued_code": passport_country_of_issued,
-                            "passenger_seq_id": request.POST['seaman_id' + str(i + 1)],
-                            "identity_type": request.POST['seaman_id_type' + str(i + 1)],
-                            "ff_numbers": ff_number,
-                            "behaviors": behaviors,
-                            "identity_image": img_identity_data,
-                            "is_valid_identity": is_valid_identity,
-                            "is_request_wheelchair": is_wheelchair
-                        })
-
                     airline_create_passengers = {
                         'booker': booker,
                         'adult': adult,
@@ -2032,34 +2274,49 @@ def review(request, signature):
                         'student': student,
                         'contact': contact
                     }
-                    set_session(request, 'airline_create_passengers_%s' % signature, airline_create_passengers)
+                    # write_cache_file(request, signature, 'airline_create_passengers', airline_create_passengers)
+                    # set_session(request, 'airline_create_passengers_%s' % signature, airline_create_passengers)
 
-                    request.session.modified = True
+                    # request.session.modified = True
                     passenger = []
-                    for pax_type in request.session['airline_create_passengers_%s' % signature]:
+
+                    # file = read_cache_file(request, signature, 'airline_create_passengers')
+                    # if file:
+                    #     airline_create_passengers = file
+                    for pax_type in airline_create_passengers:
                         if pax_type not in ['infant', 'booker', 'contact']:
-                            for pax in request.session['airline_create_passengers_%s' % signature][pax_type]:
+                            for pax in airline_create_passengers[pax_type]:
+                                pax['ssr_list'] = []
                                 passenger.append(pax)
-                    for pax in passenger:
-                        pax['ssr_list'] = []
+                    write_cache_file(request, signature, 'airline_create_passengers', airline_create_passengers)
             else:
                 # move from b2c to login user
                 try:
-                    set_session(request, 'airline_price_itinerary_%s' % signature,json.loads(request.POST['airline_price_itinerary']))
-                    set_session(request, 'airline_get_price_request_%s' % signature,json.loads(request.POST['airline_price_itinerary_request']))
-                    set_session(request, 'airline_sell_journey_%s' % signature, json.loads(request.POST['airline_sell_journey_response']))
+                    write_cache_file(request, signature, 'airline_price_itinerary', json.loads(request.POST['airline_price_itinerary']))
+                    write_cache_file(request, signature, 'airline_get_price_request', json.loads(request.POST['airline_price_itinerary_request']))
+                    write_cache_file(request, signature, 'airline_sell_journey', json.loads(request.POST['airline_sell_journey_response']))
+                    write_cache_file(request, signature, 'airline_create_passengers', json.loads(request.POST['airline_create_passengers']))
+                    write_cache_file(request, signature, 'airline_ssr_request', json.loads(request.POST['airline_ssr_request']))
+                    write_cache_file(request, signature, 'airline_seat_request', json.loads(request.POST['airline_seat_request']))
+                    # set_session(request, 'airline_price_itinerary_%s' % signature,json.loads(request.POST['airline_price_itinerary']))
+                    # set_session(request, 'airline_get_price_request_%s' % signature,json.loads(request.POST['airline_price_itinerary_request']))
+                    # set_session(request, 'airline_sell_journey_%s' % signature, json.loads(request.POST['airline_sell_journey_response']))
                     set_session(request, 'signature', request.POST['signature'])
                     set_session(request, 'airline_signature', request.POST['signature'])
-                    set_session(request, 'airline_create_passengers_%s' % signature, json.loads(request.POST['airline_create_passengers']))
-                    set_session(request, 'airline_ssr_request_%s' % signature, json.loads(request.POST['airline_ssr_request']))
-                    set_session(request, 'airline_seat_request_%s' % signature, json.loads(request.POST['airline_seat_request']))
+                    # set_session(request, 'airline_create_passengers_%s' % signature, json.loads(request.POST['airline_create_passengers']))
+                    # set_session(request, 'airline_ssr_request_%s' % signature, json.loads(request.POST['airline_ssr_request']))
+                    # set_session(request, 'airline_seat_request_%s' % signature, json.loads(request.POST['airline_seat_request']))
                 except Exception as e:
                     _logger.error('use airline get price request from cache')
                 passenger = []
-                for pax_type in request.session['airline_create_passengers_%s' % signature]:
-                    if pax_type not in ['infant', 'booker', 'contact']:
-                        for pax in request.session['airline_create_passengers_%s' % signature][pax_type]:
-                            passenger.append(pax)
+
+                file = read_cache_file(request, signature, 'airline_create_passengers')
+                if file:
+                    airline_create_passengers = file
+                    for pax_type in airline_create_passengers:
+                        if pax_type not in ['infant', 'booker', 'contact']:
+                            for pax in airline_create_passengers[pax_type]:
+                                passenger.append(pax)
 
             airline_carriers = get_carriers(request, signature)
             # file = read_cache("get_airline_carriers", 'cache_web', request, 90911)
@@ -2074,47 +2331,81 @@ def review(request, signature):
 
             force_issued = True
             try:
-                airline_price_temp = request.session['airline_sell_journey_%s' % signature]['sell_journey_provider']
-                for airline in airline_price_temp:
-                    if airline['provider'] == 'traveloka':
-                        force_issued = False
+                file = read_cache_file(request, signature, 'airline_sell_journey')
+                if file:
+                    airline_price_temp = file['sell_journey_provider']
+                    for airline in airline_price_temp:
+                        if airline['provider'] == 'traveloka':
+                            force_issued = False
             except Exception as e:
                 # cache reset
                 _logger.info('cache reset here ' + str(e) + '\n' + traceback.format_exc())
-                set_session(request, 'airline_sell_journey_%s' % signature, json.loads(request.POST['airline_sell_journey']))
+                write_cache_file(request, signature, 'airline_sell_journey',json.loads(request.POST['airline_sell_journey']))
+                # set_session(request, 'airline_sell_journey_%s' % signature, json.loads(request.POST['airline_sell_journey']))
 
             try:
-                time_limit = get_timelimit_product(request, 'airline')
+                time_limit = get_timelimit_product(request, 'airline', signature)
                 if time_limit == 0:
                     time_limit = int(request.POST['time_limit_input'])
-                set_session(request, 'time_limit', time_limit)
+                write_cache_file(request, signature, 'time_limit',time_limit)
+                # set_session(request, 'time_limit_%s' % signature, time_limit)
             except:
                 pass
-            set_session(request, 'passenger_with_ssr_%s' % signature, passenger)
+
+            write_cache_file(request, signature, 'passenger_with_ssr', passenger)
+            # set_session(request, 'passenger_with_ssr_%s' % signature, passenger)
+
+            file = read_cache_file(request, signature, 'airline_get_ssr')
+            if file:
+                airline_get_ssr = file['result']['error_code']
+            else:
+                airline_get_ssr = 1
+
+            file = read_cache_file(request, signature, 'airline_get_seat_availability')
+            if file:
+                airline_get_seat_availability = file['result']['error_code']
+            else:
+                airline_get_seat_availability = 1
+
+            file = read_cache_file(request, signature, 'airline_request')
+            if file:
+                airline_request = file
+
+            file = read_cache_file(request, signature, 'airline_sell_journey')
+            if file:
+                airline_sell_journey = file
+
+            file = read_cache_file(request, signature, 'airline_create_passengers')
+            if file:
+                airline_create_passengers = file
+
+            file = read_cache_file(request, signature, 'time_limit')
+            if file:
+                time_limit = file
 
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
                 'countries': airline_country,
                 'phone_code': phone_code,
-                'ssr': request.session.get('airline_get_ssr_%s' % signature)['result']['error_code'] if request.session.get('airline_get_ssr_%s' % signature) else 1,
-                'seat': request.session.get('airline_get_seat_availability_%s' % signature)['result']['error_code'] if request.session.get('airline_get_seat_availability_%s' % signature) else 1,
-                'airline_request': request.session['airline_request_%s' % signature],
-                'price': request.session['airline_sell_journey_%s' % signature],
-                'airline_pick': request.session['airline_sell_journey_%s' % signature]['sell_journey_provider'],
+                'ssr': airline_get_ssr,
+                'seat': airline_get_seat_availability,
+                'airline_request': airline_request,
+                'price': airline_sell_journey,
+                'airline_pick': airline_sell_journey['sell_journey_provider'],
                 'back_page': request.META.get('HTTP_REFERER'),
-                'json_airline_pick': request.session['airline_sell_journey_%s' % signature]['sell_journey_provider'],
+                'json_airline_pick': airline_sell_journey['sell_journey_provider'],
                 'airline_carriers': airline_carriers,
                 'additional_price': float(additional_price_input.split(' ')[len(additional_price_input.split(' '))-1]),
                 'username': request.session['user_account'],
-                'passengers': request.session['airline_create_passengers_%s' % signature],
+                'passengers': airline_create_passengers,
                 'passengers_ssr': passenger,
                 'force_issued': force_issued,
                 'javascript_version': javascript_version,
                 'static_path_url_server': get_url_static_path(),
                 'signature': signature,
-                'time_limit': int(request.session['time_limit']),
-                'airline_get_price_request': request.session['airline_sell_journey_%s' % signature],
+                'time_limit': int(time_limit),
+                'airline_get_price_request': airline_sell_journey,
                 # 'co_uid': request.session['co_uid'],
                 # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
             })
@@ -2144,18 +2435,30 @@ def review_after_sales(request, signature):
             if request.META.get('HTTP_REFERER').split('/')[len(request.META.get('HTTP_REFERER').split('/'))-2] == 'ssr':
                 try:
                     passenger = []
-                    for pax_type in request.session['airline_create_passengers_%s' % signature]:
-                        if pax_type not in ['infant', 'booker', 'contact']:
-                            for pax in request.session['airline_create_passengers_%s' % signature][pax_type]:
-                                passenger.append(pax)
+
+                    file = read_cache_file(request, signature, 'airline_create_passengers')
+                    if file:
+                        airline_create_passengers = file
+                        for pax_type in airline_create_passengers:
+                            if pax_type not in ['infant', 'booker', 'contact']:
+                                for pax in airline_create_passengers[pax_type]:
+                                    passenger.append(pax)
                     sell_ssrs = []
                     sell_ssrs_request = []
                     passengers_list = []
                     page = 'ssr'
                     for pax in passenger:
                         pax['ssr_list'] = []
-                    ssr_response = request.session['airline_get_ssr_%s' % signature]['result']['response']
-                    data_booking = request.session['airline_get_booking_response']['result']['response']['provider_bookings']
+
+                    file = read_cache_file(request, signature, 'airline_get_ssr')
+                    if file:
+                        ssr_response = file['result']['response']
+                    # ssr_response = request.session['airline_get_ssr_%s' % signature]['result']['response']
+
+                    file = read_cache_file(request, signature, 'airline_get_booking_response')
+                    if file:
+                        data_booking = file['result']['response']['provider_bookings']
+                    # data_booking = request.session['airline_get_booking_response']['result']['response']['provider_bookings']
                     no_ssr_count = 0
                     for counter_ssr_availability_provider, ssr_package in enumerate(ssr_response['ssr_availability_provider']):
                         if(ssr_package.get('ssr_availability')):
@@ -2193,8 +2496,10 @@ def review_after_sales(request, signature):
                         sell_ssrs_request = []
                     addons_type = 'ssr'
                     if len(sell_ssrs) > 0:
-                        request.session['airline_ssr_request_%s' % signature] = sell_ssrs
+                        write_cache_file(request, signature, 'airline_ssr_request', sell_ssrs)
+                        # request.session['airline_ssr_request_%s' % signature] = sell_ssrs
                     sell_ssrs = []
+                    write_cache_file(request, signature, 'airline_create_passengers', airline_create_passengers)
                 except Exception as e:
                     _logger.error("%s\n%s" % (str(e), traceback.format_exc()))
                     print('airline no ssr')
@@ -2203,18 +2508,29 @@ def review_after_sales(request, signature):
             if request.META.get('HTTP_REFERER').split('/')[len(request.META.get('HTTP_REFERER').split('/')) - 2] == 'seat_map':
                 try:
                     passenger = []
-                    for pax_type in request.session['airline_create_passengers_%s' % signature]:
-                        if pax_type not in ['infant', 'booker', 'contact']:
-                            for pax in request.session['airline_create_passengers_%s' % signature][pax_type]:
-                                passenger.append(pax)
+                    file = read_cache_file(request, signature, 'airline_create_passengers')
+                    if file:
+                        airline_create_passengers = file
+                        for pax_type in airline_create_passengers:
+                            if pax_type not in ['infant', 'booker', 'contact']:
+                                for pax in airline_create_passengers[pax_type]:
+                                    passenger.append(pax)
                     passengers = json.loads(request.POST['passenger'])
                     #
                     page = 'seat'
                     for idx, pax in enumerate(passengers):
                         passenger[idx]['seat_list'] = passengers[idx]['seat_list']
-                    seat_map_list = request.session['airline_get_seat_availability_%s' % signature]['result']['response']
+
+                    file = read_cache_file(request, signature, 'airline_get_seat_availability')
+                    if file:
+                        seat_map_list = file['result']['response']
+                    # seat_map_list = request.session['airline_get_seat_availability_%s' % signature]['result']['response']
                     segment_seat_request = []
-                    data_booking = request.session['airline_get_booking_response']['result']['response']['provider_bookings']
+
+                    file = read_cache_file(request, signature, 'airline_get_booking_response')
+                    if file:
+                        data_booking = file['result']['response']['provider_bookings']
+                    # data_booking = request.session['airline_get_booking_response']['result']['response']['provider_bookings']
                     for counter_seat_availability_provider, seat_map_provider in enumerate(seat_map_list['seat_availability_provider']):
                         if seat_map_provider.get('segments'):
                             for seat_segment in seat_map_provider['segments']:
@@ -2237,7 +2553,10 @@ def review_after_sales(request, signature):
                                     })
                                 pax_request = []
                     addons_type = 'seat_map'
-                    set_session(request, 'airline_seat_request_%s' % signature, segment_seat_request)
+
+                    write_cache_file(request, signature, 'airline_seat_request', segment_seat_request)
+                    write_cache_file(request, signature, 'airline_create_passengers', airline_create_passengers)
+                    # set_session(request, 'airline_seat_request_%s' % signature, segment_seat_request)
                 except Exception as e:
                     print('airline no seatmap')
 
@@ -2258,11 +2577,21 @@ def review_after_sales(request, signature):
 
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY]  # get language from browser
-            airline_get_booking = copy.deepcopy(request.session['airline_get_booking_response']['result']['response'])
-            del airline_get_booking['reschedule_list']  # pop sementara ada list isi string pakai " wktu di parser error
+
+            file = read_cache_file(request, signature, 'airline_get_booking_response')
+            if file:
+                airline_get_booking = file['result']['response']
+            # airline_get_booking = copy.deepcopy(request.session['airline_get_booking_response']['result']['response'])
+            if airline_get_booking.get('reschedule_list'):
+                del airline_get_booking['reschedule_list']  # pop sementara ada list isi string pakai " wktu di parser error
             for rec in airline_get_booking['provider_bookings']:
                 if rec.get('rules'):
                     rec.pop('rules')
+
+            file = read_cache_file(request, signature, 'airline_create_passengers')
+            if file:
+                airline_create_passengers = file
+
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
@@ -2274,7 +2603,7 @@ def review_after_sales(request, signature):
                 'airline_getbooking': airline_get_booking,
                 'additional_price': float(additional_price_input.split(' ')[len(additional_price_input.split(' '))-1]),
                 'username': request.session['user_account'],
-                'passengers': request.session['airline_create_passengers_%s' % signature],
+                'passengers': airline_create_passengers,
                 'passengers_ssr': passenger,
                 'addons_type': addons_type,
                 'javascript_version': javascript_version,
@@ -2295,13 +2624,7 @@ def review_after_sales(request, signature):
 def booking(request, order_number):
     try:
         javascript_version = get_javascript_version(request)
-        if 'airline_create_passengers' in request.session:
-            del request.session['airline_create_passengers']
-        if 'airline_get_booking_response' in request.session:
-            del request.session['airline_get_booking_response']
-
         web_mode = get_web_mode(request)
-
         if 'user_account' not in request.session and 'btc' in web_mode:
             signin_btc(request)
         elif 'user_account' not in request.session and 'btc' not in web_mode:
@@ -2312,17 +2635,18 @@ def booking(request, order_number):
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
         try:
-            set_session(request, 'airline_order_number', base64.b64decode(order_number).decode('ascii'))
+            airline_order_number = base64.b64decode(order_number).decode('ascii')
         except:
             try:
-                set_session(request, 'airline_order_number', base64.b64decode(order_number[:-1]).decode('ascii'))
+                airline_order_number = base64.b64decode(order_number[:-1]).decode('ascii')
             except:
-                set_session(request, 'airline_order_number', order_number)
+                airline_order_number = order_number
+        write_cache_file(request, request.session['signature'], 'airline_order_number', airline_order_number)
         values.update({
             'static_path': path_util.get_static_path(MODEL_NAME),
             'username': request.session.get('user_account') or {'co_user_login': ''},
             'airline_carriers': airline_carriers,
-            'order_number': request.session['airline_order_number'],
+            'order_number': airline_order_number,
             'static_path_url_server': get_url_static_path(),
             'javascript_version': javascript_version,
         })
@@ -2352,14 +2676,17 @@ def refund(request, order_number):
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
         try:
-            set_session(request, 'airline_order_number', base64.b64decode(order_number).decode('ascii'))
+            airline_order_number = base64.b64decode(order_number).decode('ascii')
         except:
-            set_session(request, 'airline_order_number', order_number)
+            try:
+                airline_order_number = base64.b64decode(order_number[:-1]).decode('ascii')
+            except:
+                airline_order_number = order_number
         values.update({
             'static_path': path_util.get_static_path(MODEL_NAME),
             'username': request.session.get('user_account') or {'co_user_login': ''},
             'airline_carriers': airline_carriers,
-            'order_number': request.session['airline_order_number'],
+            'order_number': airline_order_number,
             'static_path_url_server': get_url_static_path(),
             'javascript_version': javascript_version,
         })

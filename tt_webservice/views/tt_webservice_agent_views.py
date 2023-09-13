@@ -732,9 +732,10 @@ def delete_session(request):
     request.session.set_expiry(0)
     request.session.modified = True
     if request.session._session:
-        for key in reversed(list(request.session._session.keys())):
-            if key != '_language':
-                del request.session[key]
+        request.session.flush()
+        # for key in reversed(list(request.session._session.keys())):
+        #     if key != '_language':
+        #         del request.session[key]
     return 0
 
 def signin_btc(request):

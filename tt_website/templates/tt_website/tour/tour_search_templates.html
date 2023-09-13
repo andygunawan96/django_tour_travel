@@ -11,6 +11,7 @@
 <script src="{{ static_path }}js/webservice_content.js?version={{javascript_version}}"></script>
 <script>
     static_path_url_server = '{{static_path_url_server}}'
+    frontend_signature = '{{frontend_signature}}';
     signature = '{{signature}}';
 
     dest_country = {{dest_country}};
@@ -1007,6 +1008,8 @@
                 document.getElementById(`csrf`+tour_code).innerHTML = `{% csrf_token %}`;
                 document.getElementById(`csrf`+tour_code).innerHTML += `<input type='hidden' value='`+pick+`' name='tour_pick'/>`;
                 document.getElementById('tour_select_form'+tour_code).innerHTML += `<input type='hidden' value='`+time_limit+`' name='time_limit_input'/>`;
+                if(!document.getElementById('tour_select_form'+tour_code).action.includes(signature))
+                    document.getElementById('tour_select_form'+tour_code).action += '/' + signature;
                 document.getElementById('tour_select_form'+tour_code).submit();
             }
         }

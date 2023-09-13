@@ -1015,6 +1015,8 @@ function event_get_booking(data){
 }
 
 function event_signin(data){
+    if(typeof(frontend_signature) === 'undefined')
+        frontend_signature = '';
     getToken();
     $.ajax({
        type: "POST",
@@ -1022,7 +1024,9 @@ function event_signin(data){
        headers:{
             'action': 'signin',
        },
-       data: {},
+       data: {
+            'frontend_signature': frontend_signature
+       },
        success: function(msg) {
            if(msg.result.error_code == 0){
                signature = msg.result.response.signature;
@@ -1084,7 +1088,8 @@ function event_search(){
         'event_name': $('#event_name_id').val(),
         'is_online': '1',
         'category': $('#category_event').val(),
-        'signature': signature
+        'signature': signature,
+        'frontend_signature': frontend_signature
        },
        success: function(msg) {
            if(google_analytics != '')

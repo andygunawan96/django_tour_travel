@@ -173,11 +173,12 @@ def index(request):
         phone_code = sorted(phone_code)
 
         if request.POST.get('logout'):
-            if request.session._session:
-                for key in reversed(list(request.session._session.keys())):
-                    if key != '_language':
-                        del request.session[key]
-                request.session.modified = True
+            request.session.flush()
+            # if request.session._session:
+            #     for key in reversed(list(request.session._session.keys())):
+            #         if key != '_language':
+            #             del request.session[key]
+            #     request.session.modified = True
         values.update({
             'static_path': path_util.get_static_path(MODEL_NAME),
             'countries': airline_country,
@@ -233,35 +234,58 @@ def index(request):
             # get_data_awal
             cache = {}
             try:
-                if request.session['airline_request']['origin'][0].split('-')[1] != ' ':
+                file = read_cache_file(request, '', 'airline_request')
+                if file:
                     cache['airline'] = {
-                        'origin': request.session['airline_request']['origin'][0],
-                        'destination': request.session['airline_request']['destination'][0],
-                        'departure': request.session['airline_request']['departure'][0],
+                        'origin': file['origin'][0],
+                        'destination': file['destination'][0],
+                        'departure': file['departure'][0],
                     }
-                    if cache['airline']['departure'] == 'Invalid date':
-                        cache['airline']['departure'] = convert_string_to_date_to_string_front_end(str(datetime.now())[:10])
+                if cache['airline']['departure'] == 'Invalid date':
+                    cache['airline']['departure'] = convert_string_to_date_to_string_front_end(str(datetime.now())[:10])
+                # if request.session['airline_request']['origin'][0].split('-')[1] != ' ':
+                #     cache['airline'] = {
+                #         'origin': request.session['airline_request']['origin'][0],
+                #         'destination': request.session['airline_request']['destination'][0],
+                #         'departure': request.session['airline_request']['departure'][0],
+                #     }
+                #     if cache['airline']['departure'] == 'Invalid date':
+                #         cache['airline']['departure'] = convert_string_to_date_to_string_front_end(
+                #             str(datetime.now())[:10])
             except:
                 pass
 
             try:
-                if request.session['train_request']['origin'][0].split('-')[1] != ' ':
+                file = read_cache_file(request, '', 'train_request')
+                if file:
                     cache['train'] = {
-                        'origin': request.session['train_request']['origin'][0],
-                        'destination': request.session['train_request']['destination'][0],
-                        'departure': request.session['train_request']['departure'][0],
+                        'origin': file['origin'][0],
+                        'destination': file['destination'][0],
+                        'departure': file['departure'][0],
                     }
-                    if cache['train']['departure'] == 'Invalid date':
-                        cache['train']['departure'] = convert_string_to_date_to_string_front_end(
-                            str(datetime.now())[:10])
+                # if request.session['train_request']['origin'][0].split('-')[1] != ' ':
+                #     cache['train'] = {
+                #         'origin': request.session['train_request']['origin'][0],
+                #         'destination': request.session['train_request']['destination'][0],
+                #         'departure': request.session['train_request']['departure'][0],
+                #     }
+                if cache['train']['departure'] == 'Invalid date':
+                    cache['train']['departure'] = convert_string_to_date_to_string_front_end(str(datetime.now())[:10])
             except:
                 pass
 
             try:
-                cache['hotel'] = {
-                    'checkin': request.session['hotel_request']['checkin_date'],
-                    'checkout': request.session['hotel_request']['checkout_date']
-                }
+                file = read_cache_file(request, '', 'hotel_request')
+                if file:
+                    cache['airline'] = {
+                        'checkin': file['checkin_date'],
+                        'checkout': file['checkou_date']
+                    }
+
+                # cache['hotel'] = {
+                #     'checkin': request.session['hotel_request']['checkin_date'],
+                #     'checkout': request.session['hotel_request']['checkout_date']
+                # }
                 if cache['hotel']['checkin'] == 'Invalid date' or cache['hotel']['checkout'] == 'Invalid date':
                     cache['hotel']['checkin'] = convert_string_to_date_to_string_front_end(
                         str(datetime.now() + relativedelta(days=1))[:10])
@@ -271,35 +295,57 @@ def index(request):
                 pass
 
             try:
-                cache['activity'] = {
-                    'name': request.session['activity_request']['query']
-                }
+                file = read_cache_file(request, '', 'activity_search_request')
+                if file:
+                    cache['activity'] = {
+                        'name': file['query']
+                    }
+
+                # cache['activity'] = {
+                #     'name': request.session['activity_request']['query']
+                # }
             except:
                 pass
 
             try:
-                cache['tour'] = {
-                    'name': request.session['tour_request']['tour_query']
-                }
+                file = read_cache_file(request, '', 'tour_request')
+                if file:
+                    cache['tour'] = {
+                        'name': file['tour_query']
+                    }
+                # cache['tour'] = {
+                #     'name': request.session['tour_request']['tour_query']
+                # }
             except:
                 pass
 
             try:
-                cache['visa'] = {
-                    'destination': request.session['visa_request']['destination'],
-                    'departure_date': request.session['visa_request']['departure_date'],
-                    'consulate': request.session['visa_request']['consulate']
-                }
+                file = read_cache_file(request, '', 'visa_request')
+                if file:
+                    cache['visa'] = {
+                        'departure_date': file['departure_date'],
+                        'destination': file['destination'],
+                        'consulate': file['consulate']
+                    }
+                # cache['visa'] = {
+                #     'destination': request.session['visa_request']['destination'],
+                #     'departure_date': request.session['visa_request']['departure_date'],
+                #     'consulate': request.session['visa_request']['consulate']
+                # }
                 if cache['visa']['departure_date'] == 'Invalid date':
-                    cache['visa']['departure_date'] = convert_string_to_date_to_string_front_end(
-                        str(datetime.now())[:10])
+                    cache['visa']['departure_date'] = convert_string_to_date_to_string_front_end(str(datetime.now())[:10])
             except:
                 pass
 
             try:
-                cache['event'] = {
-                    'event_name': request.session['event_request']['event_name']
-                }
+                file = read_cache_file(request, '', 'event_request')
+                if file:
+                    cache['event'] = {
+                        'event_name': file['event_name']
+                    }
+                # cache['event'] = {
+                #     'event_name': request.session['event_request']['event_name']
+                # }
             except:
                 pass
             try:
@@ -357,6 +403,17 @@ def set_currency(request, data):
         next_url = '/'+next_url
 
     return redirect(next_url)
+
+def webcam(request):
+    javascript_version = get_javascript_version(request)
+    values = get_data_template(request, 'login')
+    values.update({
+        'static_path': path_util.get_static_path(MODEL_NAME),
+        'javascript_version': javascript_version,
+        'static_path_url_server': get_url_static_path(),
+        'username': request.session.get('user_account') or {'co_user_login': ''},
+    })
+    return render(request, MODEL_NAME + '/webcam.html', values)
 
 def no_session_logout(request):
     try:

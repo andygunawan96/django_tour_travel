@@ -44,7 +44,7 @@
 <section class="destinations-area" style="padding-top:15px; padding-bottom:40px;">
     <div class="container">
         <div class="banner-right">
-            <form id="hotel_review" class="form-wrap" action="{% url 'tt_website:hotel_review'%}" method="POST" style="padding:0; text-align:unset;">
+            <form id="hotel_review" class="form-wrap" action="/hotel/review/{{signature}}" method="POST" style="padding:0; text-align:unset;">
                 {% csrf_token %}
                 <div class="row">
                     <div class="col-lg-8" style="margin-top:10px;">

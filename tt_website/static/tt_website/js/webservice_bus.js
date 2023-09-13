@@ -114,13 +114,17 @@ function bus_redirect_signup(type){
 
 function bus_signin(data){
     getToken();
+    if(typeof(frontend_signature) === 'undefined')
+        frontend_signature = '';
     $.ajax({
        type: "POST",
        url: "/webservice/bus",
        headers:{
             'action': 'signin',
        },
-       data: {},
+       data: {
+            'frontend_signature': frontend_signature
+       },
        success: function(msg) {
             if(msg.result.error_code == 0){
                 signature = msg.result.response.signature;
@@ -158,7 +162,8 @@ function bus_search_page(){
             'action': 'search_page',
        },
        data: {
-            'signature': signature
+            'signature': signature,
+            'frontend_signature': frontend_signature
        },
        success: function(msg) {
             bus_request = msg.bus_request;

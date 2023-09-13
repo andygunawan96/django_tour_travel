@@ -70,11 +70,18 @@ def bus(request):
             # get_data_awal
             cache = {}
             try:
-                cache['bus'] = {
-                    'origin': request.session['bus_request']['origin'][0],
-                    'destination': request.session['bus_request']['destination'][0],
-                    'departure': request.session['bus_request']['departure'][0],
-                }
+                file = read_cache_file(request, '', 'bus_request')
+                if file:
+                    cache['bus'] = {
+                        'origin': file['origin'][0],
+                        'destination': file['destination'][0],
+                        'departure': file['departure'][0],
+                    }
+                # cache['bus'] = {
+                #     'origin': request.session['bus_request']['origin'][0],
+                #     'destination': request.session['bus_request']['destination'][0],
+                #     'departure': request.session['bus_request']['departure'][0],
+                # }
                 if cache['bus']['departure'] == 'Invalid date':
                     cache['bus']['departure'] = convert_string_to_date_to_string_front_end(str(datetime.now())[:10])
             except:
@@ -118,6 +125,8 @@ def search(request):
                     phone_code.append(i['phone_code'])
             phone_code = sorted(phone_code)
 
+            frontend_signature = generate_signature()
+
             values = get_data_template(request, 'search')
             try:
                 origin = []
@@ -140,13 +149,24 @@ def search(request):
                     departure.append(request.POST['bus_departure'])
                     origin.append(request.POST['bus_origin'])
                     destination.append(request.POST['bus_destination'])
-                set_session(request, 'bus_request', {
+
+                bus_request = {
                     'direction': direction,
                     'adult': request.POST['bus_adult'],
                     'departure': departure,
                     'origin': origin,
                     'destination': destination
-                })
+                }
+                write_cache_file(request, frontend_signature, 'bus_request', bus_request)
+                write_cache_file(request, '', 'bus_request', bus_request)
+
+                # set_session(request, 'bus_request', {
+                #     'direction': direction,
+                #     'adult': request.POST['bus_adult'],
+                #     'departure': departure,
+                #     'origin': origin,
+                #     'destination': destination
+                # })
             except Exception as e:
                 _logger.error('Data POST for bus_request not found use cache')
                 _logger.error(str(e) + '\n' + traceback.format_exc())
@@ -154,14 +174,19 @@ def search(request):
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
 
+            file = read_cache_file(request, frontend_signature, 'bus_request')
+            if file:
+                bus_request = file
+
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
                 'countries': airline_country,
                 'phone_code': phone_code,
+                'frontend_signature': frontend_signature,
                 'signature': request.session['signature'],
                 'time_limit': 1200,
-                'bus_request': request.session['bus_request'],
+                'bus_request': bus_request,
                 'static_path_url_server': get_url_static_path(),
                 'username': request.session['user_account'],
                 'javascript_version': javascript_version,
@@ -173,7 +198,7 @@ def search(request):
     else:
         return no_session_logout(request)
 
-def passenger(request):
+def passenger(request, signature= ''):
     if 'user_account' in request.session._session:
         try:
             javascript_version = get_javascript_version(request)
@@ -196,12 +221,14 @@ def passenger(request):
             phone_code = sorted(phone_code)
 
             try:
-                time_limit = get_timelimit_product(request, 'bus')
+                time_limit = get_timelimit_product(request, 'bus', signature)
                 if time_limit == 0:
                     time_limit = int(request.POST['time_limit_input'])
-                set_session(request, 'time_limit', time_limit)
+                write_cache_file(request, signature, 'time_limit', time_limit)
+                # set_session(request, 'time_limit_%s' % signature, time_limit)
             except:
-                pass
+                time_limit = int(request.POST['time_limit_input'])
+                write_cache_file(request, signature, 'time_limit', time_limit)
 
             try:
                 set_session(request, 'bus_pick', json.loads(request.POST['response']))
@@ -217,15 +244,33 @@ def passenger(request):
             #pax
             adult = []
             infant = []
-            for i in range(int(request.session['bus_request']['adult'])):
-                adult.append('')
+
+            file = read_cache_file(request, signature, 'bus_request')
+            if file:
+                bus_request = file
+
+                for i in range(int(bus_request['adult'])):
+                    adult.append('')
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
 
             is_need_identity = False
-            for rec in request.session['bus_pick']:
-                if rec['is_need_identity']:
-                    is_need_identity = rec['is_need_identity']
+
+            file = read_cache_file(request, signature, 'bus_request')
+            if file:
+                bus_pick = file
+                for rec in bus_pick:
+                    if rec['is_need_identity']:
+                        is_need_identity = rec['is_need_identity']
+
+            file = read_cache_file(request, signature, 'time_limit')
+            if file:
+                time_limit = file
+
+            file = read_cache_file(request, signature, 'bus_pick')
+            if file:
+                bus_pick = file
+
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'titles': ['', 'MR', 'MRS', 'MS', 'MSTR', 'MISS'],
@@ -234,12 +279,12 @@ def passenger(request):
                 'adults': adult,
                 'bus_carriers': carrier,
                 'adult_title': adult_title,
-                'bus_request': request.session['bus_request'],
+                'bus_request': bus_request,
                 'id_types': id_type,
-                'time_limit': request.session['time_limit'],
-                'response': request.session['bus_pick'],
+                'time_limit': time_limit,
+                'response': bus_pick,
                 'username': request.session['user_account'],
-                'signature': request.session['bus_signature'],
+                'signature': signature,
                 # 'cookies': json.dumps(res['result']['cookies']),
                 'javascript_version': javascript_version,
                 'static_path_url_server': get_url_static_path(),
@@ -252,7 +297,7 @@ def passenger(request):
     else:
         return no_session_logout(request)
 
-def review(request):
+def review(request, signature=''):
     if 'user_account' in request.session._session:
         try:
             javascript_version = get_javascript_version(request)
@@ -264,7 +309,11 @@ def review(request):
                         pax_request_seat = request.POST.get('paxs')
                         if pax_request_seat:
                             pax_request_seat = json.loads(pax_request_seat)
-                        schedules = request.session['bus_booking']
+
+                        file = read_cache_file(request, signature, 'bus_booking')
+                        if file:
+                            schedules = file
+                        # schedules = request.session['bus_booking']
                         for schedule_count, schedule in enumerate(schedules):
                             for journey_count, journey in enumerate(schedule['journeys']):
                                 journey['seat'] = [] # RESET SEAT
@@ -280,10 +329,14 @@ def review(request):
                                                 journey['seat'][len(journey['seat']) - 1].update({
                                                     "sequence": idx + 1
                                                 })
+                        write_cache_file(request, signature, 'bus_booking', schedules)
                         set_session(request, 'bus_booking', schedules)
                     else:
                         seat_list = []
-                        for rec in request.session['bus_pick']:
+                        file = read_cache_file(request, signature, 'bus_pick')
+                        if file:
+                            bus_pick = file
+                        for rec in bus_pick:
                             seat_list.append({
                                 "origin": rec['origin_name'],
                                 "destination": rec['destination_name'],
@@ -309,7 +362,12 @@ def review(request):
                             'nationality_code': request.POST['booker_nationality_id'],
                             'booker_seq_id': request.POST['booker_id']
                         }
-                        for i in range(int(request.session['bus_request']['adult'])):
+
+                        file = read_cache_file(request, signature, 'bus_request')
+                        if file:
+                            bus_request = file
+
+                        for i in range(int(bus_request['adult'])):
                             img_identity_data = [sel_img[:2] for sel_img in img_list_data if 'adult' in sel_img[2].lower() and 'identity' in sel_img[2].lower() and str(i + 1) in sel_img[2].lower()]
                             behaviors = {}
                             if request.POST.get('adult_behaviors_' + str(i + 1)):
@@ -398,15 +456,24 @@ def review(request):
                                 'is_also_booker': True
                             })
 
-                        set_session(request, 'bus_create_passengers', {
+                        write_cache_file(request, signature, 'bus_create_passengers', {
                             'booker': booker,
                             'adult': adult,
                             'infant': infant,
                             'contact': contact
                         })
+                        # set_session(request, 'bus_create_passengers', {
+                        #     'booker': booker,
+                        #     'adult': adult,
+                        #     'infant': infant,
+                        #     'contact': contact
+                        # })
                         schedules = []
                         journeys = []
-                        for journey in request.session['bus_pick']:
+                        file = read_cache_file(request, signature, 'bus_pick')
+                        if file:
+                            bus_pick = file
+                        for journey in bus_pick:
                             journeys.append({
                                 'journey_code': journey['journey_code'],
                                 'fare_code': journey['fares'][0]['fare_code']
@@ -416,42 +483,62 @@ def review(request):
                                 'provider': journey['provider'],
                             })
                             journeys = []
-                        set_session(request, 'bus_booking', schedules)
+                        write_cache_file(request, signature, 'bus_booking', schedules)
+                        # set_session(request, 'bus_booking', schedules)
             except Exception as e:
                 _logger.error('Data POST for bus_booking not found use cache')
                 _logger.error("%s, %s" % (str(e), traceback.format_exc()))
-            try:
-                time_limit = get_timelimit_product(request, 'bus')
-                if time_limit == 0:
-                    time_limit = int(request.POST['time_limit_input'])
-                set_session(request, 'time_limit', time_limit)
-            except:
-                pass
 
             try:
-                set_session(request, 'bus_signature', request.POST['signature'])
+                time_limit = get_timelimit_product(request, 'bus', signature)
+                if time_limit == 0:
+                    time_limit = int(request.POST['time_limit_input'])
+                write_cache_file(request, signature, 'time_limit', time_limit)
+                # set_session(request, 'time_limit_%s' % signature, time_limit)
             except:
-                pass
-            time_limit = request.session['time_limit']
+                time_limit = int(request.POST['time_limit_input'])
+                write_cache_file(request, signature, 'time_limit', time_limit)
+
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
         except Exception as e:
             _logger.error("%s, %s" % (str(e), traceback.format_exc()))
         try:
+            file = read_cache_file(request, signature, 'time_limit')
+            if file:
+                time_limit = file
+
+            file = read_cache_file(request, signature, 'bus_request')
+            if file:
+                bus_request = file
+
+            file = read_cache_file(request, signature, 'bus_pick')
+            if file:
+                bus_pick = file
+
+            file = read_cache_file(request, signature, 'bus_upsell')
+            if file:
+                bus_upsell = file
+            else:
+                bus_upsell = 0
+
+            file = read_cache_file(request, signature, 'bus_create_passengers')
+            if file:
+                bus_create_passengers = file
+
+            # time_limit = request.session['time_limit']
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
                 'time_limit': time_limit,
                 'id_types': id_type,
-                'bus_request': request.session['bus_request'],
-                'response': request.session['bus_pick'],
-                'upsell': request.session.get(
-                    'bus_upsell_' + request.session['bus_signature']) and request.session.get(
-                    'bus_upsell_' + request.session['bus_signature']) or 0,
+                'bus_request': bus_request,
+                'response': bus_pick,
+                'upsell': bus_upsell,
                 'username': request.session['user_account'],
-                'passenger': request.session['bus_create_passengers'],
+                'passenger': bus_create_passengers,
                 'javascript_version': javascript_version,
-                'signature': request.session['bus_signature'],
+                'signature': signature,
                 'static_path_url_server': get_url_static_path(),
                 # 'cookies': json.dumps(res['result']['cookies']),
 
@@ -473,17 +560,23 @@ def booking(request, order_number):
         elif 'user_account' not in request.session and 'btc' not in web_mode:
             raise Exception('Bus get booking without login in btb web')
         try:
-            set_session(request, 'bus_order_number', base64.b64decode(order_number).decode('ascii'))
+            bus_order_number = base64.b64decode(order_number).decode('ascii')
+            # set_session(request, 'bus_order_number', base64.b64decode(order_number).decode('ascii'))
         except:
             try:
-                set_session(request, 'bus_order_number', base64.b64decode(order_number[:-1]).decode('ascii'))
+                bus_order_number = base64.b64decode(order_number[:-1]).decode('ascii')
+                # set_session(request, 'bus_order_number', base64.b64decode(order_number[:-1]).decode('ascii'))
             except:
-                set_session(request, 'bus_order_number', order_number)
+                bus_order_number = order_number
+                # set_session(request, 'bus_order_number', order_number)
+
+        write_cache_file(request, request.session['signature'], 'bus_order_number', bus_order_number)
+
         values.update({
             'static_path': path_util.get_static_path(MODEL_NAME),
             'id_types': id_type,
             'cabin_class_types': cabin_class_type,
-            'order_number': request.session['bus_order_number'],
+            'order_number': bus_order_number,
             'username': request.session.get('user_account') or {'co_user_login': ''},
             'signature': request.session['signature'],
             # 'cookies': json.dumps(res['result']['cookies']),
@@ -499,25 +592,30 @@ def booking(request, order_number):
             raise Exception('Make response code 500!')
     return render(request, MODEL_NAME+'/bus/bus_booking_templates.html', values)
 
-def seat_map(request):
+def seat_map(request, signature=''):
     if 'user_account' in request.session._session:
         try:
             javascript_version = get_javascript_version(request)
             values = get_data_template(request)
             try:
-                set_session(request, 'bus_seat_map_request', json.loads(request.POST['seat_map_request_input']))
-                set_session(request, 'bus_passenger_request', json.loads(request.POST['passenger_input']))
+                write_cache_file(request, signature, 'bus_seat_map_request', json.loads(request.POST['seat_map_request_input']))
+                write_cache_file(request, signature, 'bus_passenger_request', json.loads(request.POST['passenger_input']))
+                # set_session(request, 'bus_seat_map_request', json.loads(request.POST['seat_map_request_input']))
+                # set_session(request, 'bus_passenger_request', json.loads(request.POST['passenger_input']))
             except:
                 pass
             paxs = []
-            for pax_type in request.session['bus_passenger_request']:
-                for rec in request.session['bus_passenger_request'][pax_type]:
+            file = read_cache_file(request, signature, 'bus_passenger_request')
+            if file:
+                bus_passenger_request = file
+            for pax_type in bus_passenger_request:
+                for rec in bus_passenger_request[pax_type]:
                     paxs.append(rec)
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'paxs': paxs,
                 'username': request.session['user_account'],
-                'signature': request.session['bus_signature'],
+                'signature': signature,
                 # 'co_uid': request.session['co_uid'],
                 # 'cookies': json.dumps(res['result']['cookies']),
                 'javascript_version': javascript_version,

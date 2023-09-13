@@ -33,13 +33,17 @@ var sorting_list2 = [
     }
 ]
 function insurance_signin(data){
+    if(typeof(frontend_signature) === 'undefined')
+        frontend_signature = '';
     $.ajax({
        type: "POST",
        url: "/webservice/insurance",
        headers:{
             'action': 'signin',
        },
-       data: {},
+       data: {
+            'frontend_signature': frontend_signature
+       },
        success: function(msg) {
        try{
            if(msg.result.error_code == 0){
@@ -409,7 +413,8 @@ function insurance_get_availability(){
             'action': 'get_availability',
        },
        data: {
-            'signature': signature
+            'signature': signature,
+            'frontend_signature': frontend_signature
        },
        success: function(msg) {
        try{
@@ -867,6 +872,8 @@ function go_to_detail(res){
     document.getElementById('adult').value = document.getElementById('total_adult') ? document.getElementById('total_adult').value : '1';
     document.getElementById('child').value = document.getElementById('total_child') ? document.getElementById('total_child').value : '0';
     document.getElementById('data_insurance').value = JSON.stringify(res);
+    if(!document.getElementById('insurance_next').action.includes(signature))
+        document.getElementById('insurance_next').action += '/' + signature;
     document.getElementById('insurance_next').submit();
 }
 
@@ -1420,7 +1427,8 @@ function get_insurance_data_search_page(){
             'action': 'get_data_search_page',
        },
        data: {
-            'signature': signature
+            'signature': signature,
+            'frontend_signature': frontend_signature
        },
        success: function(msg) {
            insurance_request = msg.insurance_request;
@@ -1708,13 +1716,17 @@ function price_detail(){
     grandtotal = Math.ceil((price.fare) * price.pax_count + (price.roc + price.tax));
     text += `
         <div class="row" style="padding:5px;" id="additionalprice_div">`;
-    additional_price = 0;
-    if(document.URL.split('/')[document.URL.split('/').length-1] == 'review'){
+
+    if(document.URL.split('/')[document.URL.split('/').length-2] == 'review'){
+        additional_price = 0;
         for(i in insurance_passenger.adult){
             for(j in insurance_passenger.adult[i].data_insurance.addons){
                 additional_price += insurance_passenger.adult[i].data_insurance.addons[j].total_price;
             }
         }
+
+    }
+    if(typeof(additional_price) !== 'undefined'){
         if(additional_price != 0){
             text+=`
                 <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" style="text-align:left;">
@@ -4621,7 +4633,7 @@ function auto_complete_zurich(){
 }
 
 function edit_additional_benefit(){
-    var additional_price = 0;
+    additional_price = 0;
     var additional_benefit_list = [];
     var text = '';
     for(var i=0;i<parseInt(insurance_request.adult);i++){

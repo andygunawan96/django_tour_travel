@@ -70,10 +70,17 @@ def mitra_keluarga(request):
             # get_data_awal
             cache = {}
             try:
-                cache['mitra_keluarga'] = {
-                    'name': request.session['mitra_keluarga_request']['name'],
-                    'date': request.session['mitra_keluarga_request']['date'],
-                }
+                file = read_cache_file(request, '', 'mitra_keluarga_request')
+                if file:
+                    cache['mitra_keluarga'] = {
+                        'name': file['name'],
+                        'date': file['date']
+                    }
+
+                # cache['mitra_keluarga'] = {
+                #     'name': request.session['mitra_keluarga_request']['name'],
+                #     'date': request.session['mitra_keluarga_request']['date'],
+                # }
                 if cache['mitra_keluarga']['date'] == 'Invalid date':
                     cache['mitra_keluarga']['date'] = convert_string_to_date_to_string_front_end(str(datetime.now())[:10])
             except:
@@ -128,25 +135,30 @@ def passenger(request, test_type=''):
                 phone_code.append(i['phone_code'])
         phone_code = sorted(phone_code)
 
-
-        set_session(request, 'time_limit', 1200)
-
+        frontend_signature = generate_signature()
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
 
         try:
             passengers = json.loads(request.POST['data'])
-            set_session(request, 'mitra_keluarga_passenger_cache', passengers)
+            write_cache_file(request, frontend_signature, 'mitra_keluarga_passenger_cache', passengers)
+            # set_session(request, 'mitra_keluarga_passenger_cache', passengers)
         except:
-            try:
-                passengers = request.session['mitra_keluarga_passenger_cache']
-            except:
+            file = read_cache_file(request, frontend_signature, 'mitra_keluarga_passenger_cache')
+            if file:
+                passengers = file
+            else:
                 passengers = []
+            # try:
+            #     passengers = request.session['mitra_keluarga_passenger_cache']
+            # except:
+            #     passengers = []
 
         try:
             booking_data = json.loads(request.POST['booking_data'])
-            set_session(request, 'mitra_keluarga_data_cache', booking_data)
+            write_cache_file(request, frontend_signature, 'mitra_keluarga_data_cache', booking_data)
+            # set_session(request, 'mitra_keluarga_data_cache', booking_data)
         except:
             pass
 
@@ -158,8 +170,9 @@ def passenger(request, test_type=''):
             'adult_title': adult_title,
             'infant_title': infant_title,
             'id_types': id_type,
-            'time_limit': request.session['time_limit'],
+            'time_limit': 1200,
             'username': request.session['user_account'],
+            'frontend_signature': frontend_signature,
             'signature': request.session['signature'],
             'update_data': 'true',
             # 'cookies': json.dumps(res['result']['cookies']),
@@ -174,7 +187,7 @@ def passenger(request, test_type=''):
         raise Exception('Make response code 500!')
     return render(request, MODEL_NAME+'/mitra_keluarga/mitra_keluarga_passenger_templates.html', values)
 
-def review(request):
+def review(request, signature=''):
     if 'user_account' in request.session._session:
         try:
             passenger_booker = {}
@@ -188,7 +201,10 @@ def review(request):
                 _logger.error('Data POST for data not found use cache')
                 _logger.error("%s, %s" % (str(e), traceback.format_exc()))
                 try:
-                    data = request.session.get('mitra_keluarga_data_%s' % request.POST['signature'])
+                    file = read_cache_file(request, request.POST['signature'], 'airline_request')
+                    if file:
+                        data = file
+                    # data = request.session.get('mitra_keluarga_data_%s' % request.POST['signature'])
                 except:
                     pass
             adult = data['passenger']
@@ -205,62 +221,125 @@ def review(request):
                 rec['identity_expdate'] = rec['identity']['identity_expdate']
                 rec['identity_type'] = rec['identity']['identity_type']
 
-            set_session(request, 'mitra_keluarga_data_%s' % request.POST['signature'], {
+            write_cache_file(request, signature, 'mitra_keluarga_data', {
                 'booker': booker,
                 'passengers': adult,
                 'contacts': contact,
                 'data': data
             })
-            set_session(request, 'mitra_keluarga_passenger_cache', mitra_keluarga_passenger)
-            set_session(request, 'mitra_keluarga_data_cache', data)
-            try:
-                time_limit = get_timelimit_product(request, 'mitra_keluarga')
-                if time_limit == 0:
-                    time_limit = int(request.POST['time_limit_input'])
-                set_session(request, 'time_limit', time_limit)
-            except:
-                pass
+            write_cache_file(request, signature, 'mitra_keluarga_passenger_cache', mitra_keluarga_passenger)
+            write_cache_file(request, signature, 'mitra_keluarga_data_cache', data)
+
+            # set_session(request, 'mitra_keluarga_data_%s' % request.POST['signature'], {
+            #     'booker': booker,
+            #     'passengers': adult,
+            #     'contacts': contact,
+            #     'data': data
+            # })
+            # set_session(request, 'mitra_keluarga_passenger_cache', mitra_keluarga_passenger)
+            # set_session(request, 'mitra_keluarga_data_cache', data)
 
             try:
-                set_session(request, 'mitra_keluarga_signature', request.POST['signature'])
-                set_session(request, 'vendor_%s' % request.POST['signature'], request.POST['vendor'])
-                set_session(request, 'test_type_%s' % request.POST['signature'], request.POST['test_type'])
+                time_limit = get_timelimit_product(request, 'mitra_keluarga', signature)
+                if time_limit == 0:
+                    time_limit = int(request.POST['time_limit_input'])
+                write_cache_file(request, signature, 'time_limit', time_limit)
+                # set_session(request, 'time_limit_%s' % signature, time_limit)
+            except:
+                time_limit = int(request.POST['time_limit_input'])
+                write_cache_file(request, signature, 'time_limit', time_limit)
+
+            try:
+                write_cache_file(request, signature, 'mitra_keluarga_signature', signature)
+                write_cache_file(request, signature, 'vendor', request.POST['vendor'])
+                write_cache_file(request, signature, 'test_type', request.POST['test_type'])
+
+                # set_session(request, 'mitra_keluarga_signature', request.POST['signature'])
+                # set_session(request, 'vendor_%s' % request.POST['signature'], request.POST['vendor'])
+                # set_session(request, 'test_type_%s' % request.POST['signature'], request.POST['test_type'])
             except:
                 pass
-            time_limit = request.session['time_limit']
-            vendor = request.session['vendor']
-            test_type = request.session['test_type']
+            file = read_cache_file(request, signature, 'time_limit')
+            if file:
+                time_limit = file
+            # time_limit = request.session['time_limit']
+
+            file = read_cache_file(request, signature, 'vendor')
+            if file:
+                vendor = file
+            # vendor = request.session['vendor']
+
+            file = read_cache_file(request, signature, 'test_type')
+            if file:
+                test_type = file
+            # test_type = request.session['test_type']
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
         except Exception as e:
             # coba pakai cache
-            try:
-                set_session(request, 'time_limit', request.session['time_limit'])
-                set_session(request, 'mitra_keluarga_signature', request.session['mitra_keluarga_signature'])
-                set_session(request, 'vendor_%s' % request.POST['signature'], request.session['vendor'])
-                set_session(request, 'test_type_%s' % request.POST['signature'], request.session['test_type'])
-            except:
-                pass
-            time_limit = request.session['time_limit']
-            vendor = request.session['vendor_%s' % request.POST['signature']]
-            test_type = request.session['test_type_%s' % request.POST['signature']]
+            _logger.error("ERROR no data POST in mitra keluarga review page\n%s, %s" % (str(e), traceback.format_exc()))
+            # try:
+            #     set_session(request, 'time_limit', request.session['time_limit'])
+            #     set_session(request, 'mitra_keluarga_signature', request.session['mitra_keluarga_signature'])
+            #     set_session(request, 'vendor_%s' % request.POST['signature'], request.session['vendor'])
+            #     set_session(request, 'test_type_%s' % request.POST['signature'], request.session['test_type'])
+            # except:
+            #     pass
+
+            file = read_cache_file(request, signature, 'time_limit')
+            if file:
+                time_limit = file
+            # time_limit = request.session['time_limit']
+
+            file = read_cache_file(request, signature, 'vendor')
+            if file:
+                vendor = file
+            # vendor = request.session['vendor_%s' % request.POST['signature']]
+
+            file = read_cache_file(request, signature, 'test_type')
+            if file:
+                test_type = file
+            # test_type = request.session['test_type_%s' % request.POST['signature']]
 
         try:
+            passenger_booker = {}
+            file = read_cache_file(request, signature, 'mitra_keluarga_data')
+            if file:
+                passenger_booker['booker'] = {
+                    "booker_seq_id": file['booker']['booker_seq_id']
+                }
+
+            file = read_cache_file(request, signature, 'mitra_keluarga_upsell')
+            if file:
+                mitra_keluarga_upsell = file
+            else:
+                mitra_keluarga_upsell = 0
+
+            file = read_cache_file(request, signature, 'mitra_keluarga_data')
+            if file:
+                mitra_keluarga_data = file
+
+            file = read_cache_file(request, request.POST['signature'], 'vendor')
+            if file:
+                vendor = file
+            file = read_cache_file(request, request.POST['signature'], 'test_type')
+            if file:
+                test_type = file
+
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
                 'time_limit': time_limit,
                 'id_types': id_type,
                 'passenger_booker': passenger_booker,
-                'upsell': request.session.get('mitra_keluarga_upsell_' + request.session['mitra_keluarga_signature']) and request.session.get('mitra_keluarga_upsell_' + request.session['mitra_keluarga_signature']) or 0,
+                'upsell': mitra_keluarga_upsell,
                 'username': request.session['user_account'],
-                'data': request.session['mitra_keluarga_data_%s' % request.POST['signature']],
+                'data': mitra_keluarga_data,
                 'javascript_version': javascript_version,
-                'signature': request.session['mitra_keluarga_signature'],
+                'signature': signature,
                 'static_path_url_server': get_url_static_path(),
                 'vendor': vendor,
                 'test_type': test_type,
-                'time_limit': time_limit,
                 'go_back_url': request.META['HTTP_REFERER'],
                 # 'cookies': json.dumps(res['result']['cookies']),
 
@@ -282,27 +361,31 @@ def booking(request, order_number):
         elif 'user_account' not in request.session and 'btc' not in web_mode:
             raise Exception('Mitra Keluarga get booking without login in btb web')
         try:
-            set_session(request, 'mitra_keluarga_order_number', base64.b64decode(order_number).decode('ascii'))
+            mitra_keluarga_order_number = base64.b64decode(order_number).decode('ascii')
+            # set_session(request, 'mitra_keluarga_order_number', base64.b64decode(order_number).decode('ascii'))
         except:
             try:
-                set_session(request, 'mitra_keluarga_order_number', base64.b64decode(order_number[:-1]).decode('ascii'))
+                mitra_keluarga_order_number = base64.b64decode(order_number[:-1]).decode('ascii')
+                # set_session(request, 'mitra_keluarga_order_number', base64.b64decode(order_number[:-1]).decode('ascii'))
             except:
-                set_session(request, 'mitra_keluarga_order_number', order_number)
-        try:
-            if request.session.get('mitra_keluarga_passenger_cache'):
-                del request.session['mitra_keluarga_passenger_cache']
-        except:
-            pass
-        try:
-            if request.session.get('mitra_keluarga_data_cache'):
-                del request.session['mitra_keluarga_data_cache']
-        except:
-            pass
+                mitra_keluarga_order_number = order_number
+                # set_session(request, 'mitra_keluarga_order_number', order_number)
+        write_cache_file(request, request.session['signature'], 'mitra_keluarga_order_number', mitra_keluarga_order_number)
+        # try:
+        #     if request.session.get('mitra_keluarga_passenger_cache'):
+        #         del request.session['mitra_keluarga_passenger_cache']
+        # except:
+        #     pass
+        # try:
+        #     if request.session.get('mitra_keluarga_data_cache'):
+        #         del request.session['mitra_keluarga_data_cache']
+        # except:
+        #     pass
         values.update({
             'static_path': path_util.get_static_path(MODEL_NAME),
             'id_types': id_type,
             'cabin_class_types': cabin_class_type,
-            'order_number': request.session['mitra_keluarga_order_number'],
+            'order_number': mitra_keluarga_order_number,
             'username': request.session.get('user_account') or {'co_user_login': ''},
             'signature': request.session['signature'],
             # 'cookies': json.dumps(res['result']['cookies']),

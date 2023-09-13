@@ -62,13 +62,17 @@ function get_visa_config(type){
 
 function visa_signin(data){
     getToken();
+    if(typeof(frontend_signature) === 'undefined')
+        frontend_signature = '';
     $.ajax({
        type: "POST",
        url: "/webservice/visa",
        headers:{
             'action': 'signin',
        },
-       data: {},
+       data: {
+            'frontend_signature': frontend_signature
+       },
        success: function(msg) {
             if(msg.result.error_code == 0){
                 signature = msg.result.response.signature;
@@ -241,6 +245,7 @@ function search_visa(){
             'destination': document.getElementById('visa_destination_id_hidden').value,
             'departure_date': document.getElementById('visa_departure').value,
             'consulate': document.getElementById('visa_consulate_id_hidden').value,
+            'frontend_signature': frontend_signature,
             'signature': signature,
        },
        success: function(msg) {

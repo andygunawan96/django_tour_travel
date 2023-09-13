@@ -449,7 +449,7 @@
                 </div>
             </div>
         </div>
-        <form action="{% url 'tt_website:event_passenger'%}" id="goto_passenger" method="POST" style="padding:15px 15px 0px 15px;">
+        <form action="/event/passenger/{{signature}}" id="goto_passenger" method="POST" style="padding:15px 15px 0px 15px;">
             {% csrf_token %}
             <div class="row">
                 <div class="col-lg-12 div-information-event" style="background:white; margin-bottom:30px; padding-top:20px; padding-bottom:20px; border:1px solid #cdcdcd; border-radius:3px;">

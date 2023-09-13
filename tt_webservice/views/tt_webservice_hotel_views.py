@@ -137,9 +137,12 @@ def login(request):
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
-            create_session_product(request, 'hotel', 20)
-            set_session(request, 'hotel_signature', res['result']['response']['signature'])
+            create_session_product(request, 'hotel', 20, res['result']['response']['signature'])
+            # set_session(request, 'hotel_signature', res['result']['response']['signature'])
             set_session(request, 'signature', res['result']['response']['signature'])
+            if request.POST.get('frontend_signature'):
+                write_cache_file(request, res['result']['response']['signature'], 'hotel_frontend_signature',request.POST['frontend_signature'])
+                write_cache_file(request, request.POST['frontend_signature'], 'hotel_signature',res['result']['response']['signature'])
             if request.session['user_account'].get('co_customer_parent_seq_id'):
                 webservice_agent.activate_corporate_mode(request, res['result']['response']['signature'])
             _logger.info(json.dumps(request.session['hotel_signature']))
@@ -165,8 +168,12 @@ def get_hotel_data_detail_page(request):
 
 def set_signature(request):
     try:
-        set_session(request, 'hotel_signature', request.POST['signature'])
-        set_session(request, 'hotel_set_signature', False)
+        if request.POST.get('frontend_signature'):
+            write_cache_file(request, request.POST['signature'], 'hotel_frontend_signature',request.POST['frontend_signature'])
+            write_cache_file(request, request.POST['frontend_signature'], 'hotel_signature',request.POST['signature'])
+
+        # set_session(request, 'hotel_signature', request.POST['signature'])
+        # set_session(request, 'hotel_set_signature', False)
     except Exception as e:
         _logger.error('ERROR set signature file\n' + str(e) + '\n' + traceback.format_exc())
 
@@ -347,7 +354,9 @@ def search(request):
             'child_ages': child_age,
             'nationality': request.POST['nationality'].split(' - ')[0],
             'is_bussiness_trip': request.POST['business_trip'],
+            'guest_nationality': request.POST['nationality']
         }
+        ### check mekanisme search di bawah 5 menit
         if data == request.session.get('hotel_search_request', ''):
             try: ## USE CACHE
                 signature = request.session['hotel_error']['signature']
@@ -363,16 +372,20 @@ def search(request):
             "action": "search",
             "signature": signature
         }
+        write_cache_file(request, request.POST['signature'], 'hotel_request', data)
         set_session(request, 'hotel_search_request', data)
     except Exception as e:
         if request.POST.get('use_cache'):
-            data = request.session['hotel_search_request']
+            file = read_cache_file(request, request.POST['signature'], 'hotel_search_request')
+            if file:
+                data = file
+            # data = request.session['hotel_search_request']
             signature = request.POST['signature']
             headers = {
                 "Accept": "application/json,text/html,application/xml",
                 "Content-Type": "application/json",
                 "action": "search",
-                "signature": signature
+                "signature": request.POST.get('new_signature')
             }
             _logger.info(msg='use cache login change b2c to login')
         else:
@@ -392,7 +405,6 @@ def search(request):
                 'signature': signature
             })
 
-            hotel_data = []
             for hotel in res['result']['response']['city_ids']:
                 hotel.update({
                     'sequence': sequence,
@@ -430,8 +442,11 @@ def search(request):
                 })
                 counter += 1
                 sequence += 1
+
+            write_cache_file(request, signature, 'hotel_search_response', res)
+            _logger.info("Success search_hotel SIGNATURE " + signature + ' ' + json.dumps(res))
         else:
-            _logger.error("ERROR search_hotel SIGNATURE " + request.session['hotel_signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR search_hotel SIGNATURE " + signature + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
@@ -607,7 +622,7 @@ def get_current_search(request):
         destination_id = ''
         hotel_id = ''
         landmark_id = ''
-        set_session(request, 'hotel_set_signature', True)
+        # set_session(request, 'hotel_set_signature', True)
         try:
             for hotel in response['result']['response']['hotel_config']:
                 if request.POST['destination'] == hotel['name']:
@@ -630,8 +645,7 @@ def get_current_search(request):
         data = {
             'child': int(request.POST['child']),
             'hotel_id': request.POST.get('id') or '',
-            'search_name': request.POST.get('destination') and ' - '.join(
-                request.POST.get('destination').split(' - ')[:-1]) or '',
+            'search_name': request.POST.get('destination') and ' - '.join(request.POST.get('destination').split(' - ')[:-1]) or '',
             'room': int(request.POST['room']),
             'checkout_date': str(datetime.strptime(request.POST['checkout'], '%d %b %Y'))[:10],
             'checkin_date': str(datetime.strptime(request.POST['checkin'], '%d %b %Y'))[:10],
@@ -760,8 +774,13 @@ def get_current_search_2(request):
 def detail(request):
     try:
         data = json.loads(request.POST['data'])
+
+        file = read_cache_file(request, request.POST['signature'], 'hotel_detail')
+        if file:
+            hotel_detail = file
+
         data.update({
-            'hotel_id': request.session['hotel_detail']['id'],
+            'hotel_id': hotel_detail['id'],
             'checkin_date': request.POST['checkin_date'] and str(datetime.strptime(request.POST['checkin_date'], '%d %b %Y'))[:10] or data['checkin_date'],
             'checkout_date': request.POST['checkout_date'] and str(datetime.strptime(request.POST['checkout_date'], '%d %b %Y'))[:10] or data['checkout_date'],
             'pax_country': False
@@ -770,18 +789,23 @@ def detail(request):
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
             "action": "get_details",
-            "signature": request.session['hotel_signature'],
+            "signature": request.POST['signature'],
         }
-        set_session(request, 'hotel_detail_request', data)
+
+        write_cache_file(request, request.POST['signature'], 'hotel_detail_request', data)
+        # set_session(request, 'hotel_detail_request', data)
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
         if request.POST.get('use_cache'):
-            data = request.session['hotel_detail_request']
+            file = read_cache_file(request, request.POST['signature'], 'hotel_detail_request')
+            if file:
+                hotel_detail = file
+            data = hotel_detail
             headers = {
                 "Accept": "application/json,text/html,application/xml",
                 "Content-Type": "application/json",
                 "action": "get_details",
-                "signature": request.POST['signature']
+                "signature": request.POST['new_signature']
             }
             _logger.info('hotel get detail use cache')
         else:
@@ -789,14 +813,14 @@ def detail(request):
     url_request = get_url_gateway('booking/hotel')
     res = send_request_api(request, url_request, headers, data, 'POST', timeout=180)
     try:
-        signature = copy.deepcopy(request.session['hotel_signature'])
-        set_session(request, 'hotel_error', {
-            'error_code': res['result']['error_code'],
-            'signature': signature
-        })
-        _logger.info(json.dumps(request.session['hotel_error']))
+        # signature = copy.deepcopy(request.session['hotel_signature'])
+        # set_session(request, 'hotel_error', {
+        #     'error_code': res['result']['error_code'],
+        #     'signature': signature
+        # })
+        # _logger.info(json.dumps(request.session['hotel_error']))
         if res['result']['error_code'] == 0:
-            _logger.info("get_details_hotel SUCCESS SIGNATURE " + signature)
+            _logger.info("get_details_hotel SUCCESS SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("get_details_hotel ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
@@ -806,8 +830,13 @@ def detail(request):
 def get_current_search_detail(request):
     try:
         data = json.loads(request.POST['data'])
+
+        file = read_cache_file(request, request.POST['signature'], 'hotel_detail')
+        if file:
+            hotel_detail = file
+
         data.update({
-            'hotel_id': request.session['hotel_detail']['id'],
+            'hotel_id': hotel_detail['id'],
             'checkin_date': request.POST['checkin_date'] and str(datetime.strptime(request.POST['checkin_date'], '%d %b %Y'))[:10] or data['checkin_date'],
             'checkout_date': request.POST['checkout_date'] and str(datetime.strptime(request.POST['checkout_date'], '%d %b %Y'))[:10] or data['checkout_date'],
             'pax_country': False
@@ -816,18 +845,20 @@ def get_current_search_detail(request):
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
             "action": "get_current_search_detail",
-            "signature": request.session['hotel_signature'],
+            "signature": request.POST['signature'],
         }
-        set_session(request, 'hotel_detail_request', data)
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
         if request.POST.get('use_cache'):
-            data = request.session['hotel_detail_request']
+            file = read_cache_file(request, request.POST['signature'], 'hotel_detail_request')
+            if file:
+                hotel_detail = file
+            data = hotel_detail
             headers = {
                 "Accept": "application/json,text/html,application/xml",
                 "Content-Type": "application/json",
                 "action": "get_current_search_detail",
-                "signature": request.POST['signature']
+                "signature": request.POST['new_signature']
             }
             _logger.info('hotel get detail use cache')
         else:
@@ -838,9 +869,12 @@ def get_current_search_detail(request):
 
 def get_cancellation_policy(request):
     try:
+        file = read_cache_file(request, request.POST['signature'], 'hotel_detail')
+        if file:
+            hotel_detail = file
         data = {
             # "hotel_code": request.session['hotel_detail']['external_code'][request.POST['provider']],
-            "hotel_code": request.session['hotel_detail']['id'],
+            "hotel_code": hotel_detail['id'],
             "price_code": request.POST['price_code'],
             "provider": request.POST['provider']
         }
@@ -848,13 +882,17 @@ def get_cancellation_policy(request):
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
             "action": "get_cancellation_policy",
-            "signature": request.session['hotel_signature'],
+            "signature": request.POST['signature'],
         }
-        set_session(request, 'hotel_get_cancellation_policy_request', data)
+        write_cache_file(request, request.POST['signature'], 'hotel_get_cancellation_policy_request', data)
+        # set_session(request, 'hotel_get_cancellation_policy_request', data)
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
         if request.POST.get('use_cache'):
-            data = request.session['hotel_get_cancellation_policy_request']
+            file = read_cache_file(request, request.POST['signature'], 'hotel_get_cancellation_policy_request')
+            if file:
+                data = file
+            # data = request.session['hotel_get_cancellation_policy_request']
             headers = {
                 "Accept": "application/json,text/html,application/xml",
                 "Content-Type": "application/json",
@@ -871,17 +909,18 @@ def get_cancellation_policy(request):
             for rec in res['result']['response']['policies']:
                 if rec.get('date'):
                     rec['date'] = convert_string_to_date_to_string_front_end(rec['date'])
-            set_session(request, 'hotel_cancellation_policy', res)
-            request.session['hotel_cancellation_policy'] = res
+            write_cache_file(request, request.POST['signature'], 'hotel_cancellation_policy', res)
+            # set_session(request, 'hotel_cancellation_policy', res)
+            # request.session['hotel_cancellation_policy'] = res
 
-            signature = copy.deepcopy(request.session['hotel_signature'])
-            set_session(request, 'hotel_error', {
-                'error_code': res['result']['error_code'],
-                'signature': signature
-            })
-            _logger.info("get_details_hotel SUCCESS SIGNATURE " + signature)
+            # signature = copy.deepcopy(request.session['hotel_signature'])
+            # set_session(request, 'hotel_error', {
+            #     'error_code': res['result']['error_code'],
+            #     'signature': signature
+            # })
+            _logger.info("get_details_hotel SUCCESS SIGNATURE " + request.POST['signature'])
         else:
-            _logger.error("get_details_hotel ERROR SIGNATURE " + request.session['hotel_signature'] + ' ' + json.dumps(res))
+            _logger.error("get_details_hotel ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -903,17 +942,23 @@ def get_top_facility(request):
         res = send_request_api(request, url_request, headers, data, 'POST')
         try:
             if res['result']['error_code'] == 0:
-                write_cache(res, "get_hotel_top_facility_data", request, 'cache_web')
-                _logger.info("get_top_facility_hotel SUCCESS SIGNATURE " + request.session['hotel_signature'])
+                write_cache(res, "get_hotel_top_facility_data", res, 'cache_web')
+                _logger.info("get_top_facility_hotel SUCCESS SIGNATURE " + request.POST['signature'])
             else:
-                _logger.error("get_top_facility_hotel ERROR SIGNATURE " + request.session['hotel_signature'] + ' ' + json.dumps(res))
+                _logger.error("get_top_facility_hotel ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
         except Exception as e:
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
             res = file
         except Exception as e:
-            res = []
+            res = {
+                "result": {
+                    "error_code": 500,
+                    "error_msg": '',
+                    "response": ''
+                }
+            }
             _logger.error('ERROR get_hotel_top_facility_data file\n' + str(e) + '\n' + traceback.format_exc())
     return res
 
@@ -924,22 +969,22 @@ def get_facility_img(request):
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
             "action": "get_facility_img",
-            "signature": request.session['hotel_signature'],
+            "signature": request.POST['signature'],
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     url_request = get_url_gateway('booking/hotel')
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
-        signature = copy.deepcopy(request.session['hotel_signature'])
-        set_session(request, 'hotel_error', {
-            'error_code': res['result']['error_code'],
-            'signature': signature
-        })
+        # signature = copy.deepcopy(request.session['hotel_signature'])
+        # set_session(request, 'hotel_error', {
+        #     'error_code': res['result']['error_code'],
+        #     'signature': signature
+        # })
         if res['result']['error_code'] == 0:
-            _logger.info("get_facility_img_hotel SUCCESS SIGNATURE " + request.session['hotel_signature'])
+            _logger.info("get_facility_img_hotel SUCCESS SIGNATURE " + request.POST['signature'])
         else:
-            _logger.error("get_facility_img_hotel ERROR SIGNATURE " + request.session['hotel_signature'] + ' ' + json.dumps(res))
+            _logger.error("get_facility_img_hotel ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -954,24 +999,25 @@ def provision(request):
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
             "action": "provision",
-            "signature": request.session['hotel_signature'],
+            "signature": request.POST['signature'],
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     url_request = get_url_gateway('booking/hotel')
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
-        set_session(request, 'hotel_provision', res)
-        signature = copy.deepcopy(request.session['hotel_signature'])
-        set_session(request, 'hotel_error', {
-            'error_code': res['result']['error_code'],
-            'signature': signature
-        })
-        _logger.info(json.dumps(request.session['hotel_provision']))
+        write_cache_file(request, request.POST['signature'], 'hotel_provision', data)
+        # set_session(request, 'hotel_provision', res)
+        # signature = copy.deepcopy(request.session['hotel_signature'])
+        # set_session(request, 'hotel_error', {
+        #     'error_code': res['result']['error_code'],
+        #     'signature': signature
+        # })
+        # _logger.info(json.dumps(request.session['hotel_provision']))
         if res['result']['error_code'] == 0:
-            _logger.info("provision_hotel HOTEL SUCCESS SIGNATURE " + request.session['hotel_signature'])
+            _logger.info("provision_hotel HOTEL SUCCESS SIGNATURE " + request.POST['signature'])
         else:
-            _logger.error("provision_hotel HOTEL ERROR SIGNATURE " + request.session['hotel_signature'])
+            _logger.error("provision_hotel HOTEL ERROR SIGNATURE " + request.POST['signature'])
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
@@ -982,25 +1028,45 @@ def create_booking(request):
     try:
         passenger = []
         response = get_cache_data(request)
-        for pax_type in request.session['hotel_review_pax']:
-            if pax_type != 'contact' and pax_type != 'booker':
-                for pax in request.session['hotel_review_pax'][pax_type]:
-                    try:
-                        pax.update({
-                            'birth_date': '%s-%s-%s' % (
-                                pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
-                                pax['birth_date'].split(' ')[0]),
-                        })
-                    except Exception as e:
-                        _logger.error(str(e) + traceback.format_exc())
-                    passenger.append(pax)
-        booker = request.session['hotel_review_pax']['booker']
-        contacts = request.session['hotel_review_pax']['contact']
+        file = read_cache_file(request, request.POST['signature'], 'hotel_review_pax')
+        if file:
+            hotel_review_pax = file
+            for pax_type in hotel_review_pax:
+                if pax_type != 'contact' and pax_type != 'booker':
+                    for pax in hotel_review_pax[pax_type]:
+                        try:
+                            pax.update({
+                                'birth_date': '%s-%s-%s' % (
+                                    pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
+                                    pax['birth_date'].split(' ')[0]),
+                            })
+                        except Exception as e:
+                            _logger.error(str(e) + traceback.format_exc())
+                        passenger.append(pax)
+            booker = hotel_review_pax['booker']
+            contacts = hotel_review_pax['contact']
+
+        file = read_cache_file(request, request.POST['signature'], 'hotel_detail_request')
+        if file:
+            hotel_detail_request = file
+
+        file = read_cache_file(request, request.POST['signature'], 'hotel_room_pick')
+        if file:
+            hotel_room_pick = file
+
+        file = read_cache_file(request, request.POST['signature'], 'hotel_request')
+        if file:
+            if file.get('special_request'):
+                special_request = file['special_request']
+            else:
+                special_request = ''
+        else:
+            special_request = ''
 
         data = {
             "passengers": passenger,
             'user_id': request.session.get('co_uid') or '',
-            'search_data': request.session['hotel_detail_request'],
+            'search_data': hotel_detail_request,
             # 'cancellation_policy': request.session['hotel_cancellation_policy']['result']['response'],
             'cancellation_policy': [],
             'promotion_codes_booking': [],
@@ -1011,13 +1077,13 @@ def create_booking(request):
             #     "provider": request.session['hotel_room_pick']['provider']
             # }],
             # Must set as list prepare buat issued multi vendor
-            'price_codes': [request.session['hotel_room_pick']['price_code'],],
+            'price_codes': [hotel_room_pick['price_code'],],
             "contact": contacts,
             "booker": booker,
             'kwargs': {
                 'force_issued': bool(int(request.POST['force_issued']))
             },
-            'special_request': request.session['hotel_request']['special_request'] if request.session['hotel_request'].get('special_request') else '',
+            'special_request': special_request,
             'resv_name': '',
             'os_res_no': '',
             'journeys_booking': ''
@@ -1067,7 +1133,7 @@ def create_booking(request):
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
             "action": "booked",
-            "signature": request.session['hotel_signature'],
+            "signature": request.POST['signature'],
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
@@ -1075,17 +1141,18 @@ def create_booking(request):
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
 
     try:
-        set_session(request, 'hotel_booking', res['result']['response'])
-        signature = copy.deepcopy(request.session['hotel_signature'])
-        set_session(request, 'hotel_error', {
-            'error_code': res['result']['error_code'],
-            'signature': signature
-        })
-        _logger.info(json.dumps(request.session['hotel_booking']))
+        write_cache_file(request, request.POST['signature'], 'hotel_booking', res)
+        # set_session(request, 'hotel_booking', res['result']['response'])
+        # signature = copy.deepcopy(request.session['hotel_signature'])
+        # set_session(request, 'hotel_error', {
+        #     'error_code': res['result']['error_code'],
+        #     'signature': signature
+        # })
+        # _logger.info(json.dumps(request.session['hotel_booking']))
         if res['result']['error_code'] == 0:
-            _logger.info("provision_hotel HOTEL SUCCESS SIGNATURE " + request.session['hotel_signature'])
+            _logger.info("provision_hotel HOTEL SUCCESS SIGNATURE " + request.POST['signature'])
         else:
-            _logger.error("provision_hotel HOTEL ERROR SIGNATURE " + request.session['hotel_signature'] + ' ' + json.dumps(res))
+            _logger.error("provision_hotel HOTEL ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
@@ -1107,7 +1174,8 @@ def get_booking(request):
     url_request = get_url_gateway('booking/hotel')
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
-        set_session(request, 'hotel_get_booking_%s' % request.POST['signature'], res)
+        write_cache_file(request, request.POST['signature'], 'hotel_get_booking', res)
+        # set_session(request, 'hotel_get_booking_%s' % request.POST['signature'], res)
         if res['result']['error_code'] == 0:
             try:
                 res['result']['response']['can_issued'] = False
@@ -1212,7 +1280,8 @@ def update_service_charge(request):
             for upsell in data['passengers']:
                 for pricing in upsell['pricing']:
                     total_upsell += int(pricing['amount'])
-            set_session(request, 'hotel_upsell_'+request.POST['signature'], total_upsell)
+            write_cache_file(request, request.POST['signature'], 'hotel_upsell', total_upsell)
+            # set_session(request, 'hotel_upsell_'+request.POST['signature'], total_upsell)
             _logger.info("SUCCESS update_service_charge HOTEL SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR update_service_charge_airline HOTEL SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
@@ -1244,7 +1313,8 @@ def booker_insentif_booking(request):
             for upsell in data['passengers']:
                 for pricing in upsell['pricing']:
                     total_upsell += pricing['amount']
-            set_session(request, 'hotel_upsell_booker_'+request.POST['signature'], total_upsell)
+            write_cache_file(request, request.POST['signature'], 'hotel_upsell_booker', total_upsell)
+            # set_session(request, 'hotel_upsell_booker_'+request.POST['signature'], total_upsell)
             _logger.info("SUCCESS update_service_charge_booker HOTEL SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR update_service_charge_hotel_booker HOTEL SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
@@ -1255,15 +1325,38 @@ def booker_insentif_booking(request):
 def review_page(request):
     try:
         res = {}
-        res['facilities'] = request.session['hotel_detail']['facilities']
-        res['adult'] = request.session['hotel_review_pax']['adult']
-        res['booker'] = request.session['hotel_review_pax']['booker']
-        res['contact'] = request.session['hotel_review_pax']['contact']
-        res['child'] = request.session['hotel_review_pax']['child']
-        res['hotel'] = request.session['hotel_detail']
-        res['hotel_price'] = request.session['hotel_room_pick']
-        res['cancellation_policy'] = request.session['hotel_cancellation_policy']['result']['response']['policies']
-        res['special_request'] = request.session['hotel_request']['special_request']
+        file = read_cache_file(request, request.POST['signature'], 'hotel_detail')
+        if file:
+            res['hotel'] = file
+            res['facilities'] = file['facilities']
+
+        file = read_cache_file(request, request.POST['signature'], 'hotel_review_pax')
+        if file:
+            res['adult'] = file['adult']
+            res['booker'] = file['booker']
+            res['contact'] = file['contact']
+            res['child'] = file['child']
+
+        file = read_cache_file(request, request.POST['signature'], 'hotel_room_pick')
+        if file:
+            res['hotel_price'] = file
+
+        file = read_cache_file(request, request.POST['signature'], 'hotel_cancellation_policy')
+        if file:
+            res['cancellation_policy'] = file['result']['response']['policies']
+
+        file = read_cache_file(request, request.POST['signature'], 'hotel_request')
+        if file:
+            res['special_request'] = file['special_request']
+        # res['hotel'] = request.session['hotel_detail']
+        # res['facilities'] = request.session['hotel_detail']['facilities']
+        # res['adult'] = request.session['hotel_review_pax']['adult']
+        # res['booker'] = request.session['hotel_review_pax']['booker']
+        # res['contact'] = request.session['hotel_review_pax']['contact']
+        # res['child'] = request.session['hotel_review_pax']['child']
+        # res['hotel_price'] = request.session['hotel_room_pick']
+        # res['cancellation_policy'] = request.session['hotel_cancellation_policy']['result']['response']['policies']
+        # res['special_request'] = request.session['hotel_request']['special_request']
 
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
@@ -1272,11 +1365,21 @@ def review_page(request):
 def detail_page(request):
     try:
         res = {}
-        data = request.session.get('hotel_request')
-        res['facilities'] = request.session['hotel_detail']['facilities']
-        res['hotel_search'] = data
-        res['check_in'] = data['checkin_date']
-        res['check_out'] = data['checkout_date']
+        file = read_cache_file(request, request.POST['signature'], 'hotel_request')
+        if file:
+            res['hotel_search'] = file
+            res['check_in'] = file['checkin_date']
+            res['check_out'] = file['checkout_date']
+
+        file = read_cache_file(request, request.POST['signature'], 'hotel_detail')
+        if file:
+            res['facilities'] = file['facilities']
+
+        # data = request.session.get('hotel_request')
+        # res['facilities'] = request.session['hotel_detail']['facilities']
+        # res['hotel_search'] = data
+        # res['check_in'] = data['checkin_date']
+        # res['check_out'] = data['checkout_date']
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -1284,15 +1387,25 @@ def detail_page(request):
 def passenger_page(request):
     try:
         res = {}
-        res['hotel_price'] = request.session['hotel_room_pick']
-        res['hotel_request'] = request.session['hotel_request']
+        file = read_cache_file(request, request.POST['signature'], 'hotel_room_pick')
+        if file:
+            res['hotel_price'] = file
+        file = read_cache_file(request, request.POST['signature'], 'hotel_request')
+        if file:
+            res['hotel_request'] = file
+        # res['hotel_price'] = request.session['hotel_room_pick']
+        # res['hotel_request'] = request.session['hotel_request']
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
 
 def hotel_check_refund_amount(request):
     try:
-        get_booking_dict = request.session.get('hotel_get_booking_%s' % request.POST['signature']) or json.loads(request.POST['hotel_get_booking'])
+        file = read_cache_file(request, request.POST['signature'], 'hotel_get_booking')
+        if file:
+            get_booking_dict = file
+        else:
+            get_booking_dict = json.loads(request.POST['hotel_get_booking'])
         order_number = get_booking_dict['result']['response']['order_number']
         provider_bookings = []
         for provider_booking in get_booking_dict['result']['response']['provider_bookings']:
@@ -1326,7 +1439,12 @@ def hotel_check_refund_amount(request):
 
 def hotel_refund(request):
     try:
-        get_booking_dict = request.session.get('hotel_get_booking_%s' % request.POST['signature']) or json.loads(request.POST['hotel_get_booking'])
+        file = read_cache_file(request, request.POST['signature'], 'hotel_get_booking')
+        if file:
+            get_booking_dict = file
+        else:
+            get_booking_dict = json.loads(request.POST['hotel_get_booking'])
+        # get_booking_dict = request.session.get('hotel_get_booking_%s' % request.POST['signature']) or json.loads(request.POST['hotel_get_booking'])
         order_number = get_booking_dict['result']['response']['order_number']
         provider_bookings = []
         for provider_booking in get_booking_dict['result']['response']['provider_bookings']:

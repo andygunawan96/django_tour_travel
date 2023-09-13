@@ -62,9 +62,11 @@ def activity(request):
             # get_data_awal
             cache = {}
             try:
-                cache['activity'] = {
-                    'name': request.session['activity_request']['query']
-                }
+                file = read_cache_file(request, '', 'activity_request')
+                if file:
+                    cache['activity'] = {
+                        'name': file['query']
+                    }
             except:
                 pass
 
@@ -114,8 +116,10 @@ def search(request):
 
             values = get_data_template(request, 'search')
 
+            frontend_signature = generate_signature()
+
             try:
-                request.session['activity_search_request'] = {
+                data = {
                     'query': request.POST['activity_query'],
                     'country': request.POST.get('activity_countries') and int(request.POST['activity_countries']) or 0,
                     'city': request.POST.get('activity_cities') and int(request.POST['activity_cities']) or 0,
@@ -123,6 +127,17 @@ def search(request):
                     'category': request.POST.get('activity_category') and int(request.POST['activity_category'].split(' ')[0]) or 0,
                     'sub_category': request.POST.get('activity_sub_category') and int(request.POST['activity_sub_category']) or 0,
                 }
+                write_cache_file(request, frontend_signature, 'activity_search_request', data)
+                write_cache_file(request, '', 'activity_search_request', data)
+
+                # request.session['activity_search_request'] = {
+                #     'query': request.POST['activity_query'],
+                #     'country': request.POST.get('activity_countries') and int(request.POST['activity_countries']) or 0,
+                #     'city': request.POST.get('activity_cities') and int(request.POST['activity_cities']) or 0,
+                #     'type': request.POST.get('activity_type') and int(request.POST['activity_type']) or 0,
+                #     'category': request.POST.get('activity_category') and int(request.POST['activity_category'].split(' ')[0]) or 0,
+                #     'sub_category': request.POST.get('activity_sub_category') and int(request.POST['activity_sub_category']) or 0,
+                # }
             except Exception as e:
                 _logger.error('Data POST for activity_search_request not found use cache')
                 _logger.error("%s, %s" % (str(e), traceback.format_exc()))
@@ -143,19 +158,24 @@ def search(request):
                 set_session(request, 'user_account', cur_session)
                 activate_corporate_mode(request, request.session['signature'])
 
+            file = read_cache_file(request, frontend_signature, 'activity_search_request')
+            if file:
+                activity_search_request = file
+
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
                 'countries': airline_country,
+                'frontend_signature': frontend_signature,
                 'phone_code': phone_code,
                 'username': request.session['user_account'],
-                'activity_request': request.session['activity_search_request'],
-                'query': request.session['activity_search_request']['query'],
-                'parsed_country': request.session['activity_search_request']['country'],
-                'parsed_city': request.session['activity_search_request']['city'],
-                'parsed_type': request.session['activity_search_request']['type'],
-                'parsed_category': request.session['activity_search_request']['category'],
-                'parsed_sub_category': request.session['activity_search_request']['sub_category'],
+                'activity_request': activity_search_request,
+                'query': activity_search_request['query'],
+                'parsed_country': activity_search_request['country'],
+                'parsed_city': activity_search_request['city'],
+                'parsed_type': activity_search_request['type'],
+                'parsed_category': activity_search_request['category'],
+                'parsed_sub_category': activity_search_request['sub_category'],
                 'javascript_version': javascript_version,
                 'signature': request.session['signature'],
                 'time_limit': 1200,
@@ -168,7 +188,7 @@ def search(request):
     else:
         return no_session_logout(request)
 
-def detail(request, activity_uuid):
+def detail(request, activity_uuid, signature=''):
     if 'user_account' in request.session._session:
         try:
             javascript_version = get_javascript_version(request)
@@ -189,31 +209,60 @@ def detail(request, activity_uuid):
             #         set_session(request, 'time_limit', request.session['time_limit'])
             #     else:
             #         set_session(request, 'time_limit', 1200)
+            if signature == '' and request.POST.get('signature'):
+                signature = request.POST['signature']
 
-            time_limit = get_timelimit_product(request, 'activity')
-            if time_limit == 0:
-                try:
+            try:
+                time_limit = get_timelimit_product(request, 'activity', signature)
+                if time_limit == 0:
                     time_limit = int(request.POST['time_limit_input'])
-                except:
-                    if request.session.get('time_limit'):
-                        time_limit = request.session['time_limit']
-                    else:
-                        time_limit = 1200
-            set_session(request, 'time_limit', time_limit)
+                write_cache_file(request, signature, 'time_limit', time_limit)
+                # set_session(request, 'time_limit_%s' % signature, time_limit)
+            except:
+                time_limit = int(request.POST['time_limit_input'])
+                write_cache_file(request, signature, 'time_limit', time_limit)
+
+            # time_limit = get_timelimit_product(request, 'activity', signature)
+            # if time_limit == 0:
+            #     try:
+            #         time_limit = int(request.POST['time_limit_input'])
+            #     except:
+            #         if request.session.get('time_limit'):
+            #             time_limit = request.session['time_limit']
+            #         else:
+            #             time_limit = 1200
+            # set_session(request, 'time_limit', time_limit)
 
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
 
-            if not request.session.get('activity_search_request'):
-                set_session(request, 'activity_search_request', {
+            file = read_cache_file(request, signature, 'activity_search_request')
+            if not file:
+                activity_search_request = {
                     'query': '',
                     'country': 0,
                     'city': 0,
                     'type': 0,
                     'category': 0,
                     'sub_category': 0,
-                })
-                _logger.info('activity skip page search create activity_search_request')
+                }
+                write_cache_file(request, signature, 'activity_search_request', activity_search_request)
+            else:
+                activity_search_request = file
+            # if not request.session.get('activity_search_request'):
+            #     set_session(request, 'activity_search_request', {
+            #         'query': '',
+            #         'country': 0,
+            #         'city': 0,
+            #         'type': 0,
+            #         'category': 0,
+            #         'sub_category': 0,
+            #     })
+            #     _logger.info('activity skip page search create activity_search_request')
+
+            file = read_cache_file(request, signature, 'activity_frontend_signature')
+            if not file:
+                frontend_signature = file
 
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
@@ -223,15 +272,15 @@ def detail(request, activity_uuid):
                 'countries': airline_country,
                 'phone_code': phone_code,
                 'activity_uuid': activity_uuid,
-                'query': request.session['activity_search_request']['query'],
-                'parsed_country': request.session['activity_search_request']['country'],
-                'parsed_city': request.session['activity_search_request']['city'],
-                'parsed_type': request.session['activity_search_request']['type'],
-                'parsed_category': request.session['activity_search_request']['category'],
-                'parsed_sub_category': request.session['activity_search_request']['sub_category'],
+                'query': activity_search_request['query'],
+                'parsed_country': activity_search_request['country'],
+                'parsed_city': activity_search_request['city'],
+                'parsed_type': activity_search_request['type'],
+                'parsed_category': activity_search_request['category'],
+                'parsed_sub_category': activity_search_request['sub_category'],
                 'javascript_version': javascript_version,
-                'signature': request.session.get('activity_signature') and request.session['activity_signature'] or '',
-                'time_limit': request.session.get('time_limit') and request.session['time_limit'] or 1200,
+                'signature': signature,
+                'time_limit': time_limit,
                 'static_path_url_server': get_url_static_path(),
             })
         except Exception as e:
@@ -241,7 +290,7 @@ def detail(request, activity_uuid):
     else:
         return no_session_logout(request)
 
-def passenger(request):
+def passenger(request, signature=''):
     if 'user_account' in request.session._session:
         try:
             javascript_version = get_javascript_version(request)
@@ -275,18 +324,40 @@ def passenger(request):
                 pass
 
             try:
-                set_session(request, 'activity_request', {
-                    'activity_uuid': request.POST['activity_uuid'],
-                    'activity_type_pick': request.POST['activity_type_pick'],
-                    'activity_timeslot': request.POST['activity_timeslot'].split(' ~ ')[0] if len(request.POST['activity_timeslot'].split(' - ')) == 2 else '',
-                    'additional_price': request.POST.get('additional_price') and request.POST['additional_price'] or 0,
-                    'event_pick': request.POST['event_pick'],
-                    'activity_types_data': json.loads(request.POST['details_data']),
-                    'activity_date_data': json.loads(request.POST['activity_date_data']),
-                })
-            except Exception as e:
-                _logger.error('Data POST for activity_request not found use cache')
-                _logger.error("%s, %s" % (str(e), traceback.format_exc()))
+                time_limit = get_timelimit_product(request, 'activity', signature)
+                if time_limit == 0:
+                    time_limit = int(request.POST['time_limit_input'])
+                write_cache_file(request, signature, 'time_limit', time_limit)
+                # set_session(request, 'time_limit_%s' % signature, time_limit)
+            except:
+                time_limit = int(request.POST['time_limit_input'])
+                write_cache_file(request, signature, 'time_limit', time_limit)
+
+            activity_request = {
+                'activity_uuid': request.POST['activity_uuid'],
+                'activity_type_pick': request.POST['activity_type_pick'],
+                'activity_timeslot': request.POST['activity_timeslot'].split(' ~ ')[0] if len(request.POST['activity_timeslot'].split(' - ')) == 2 else '',
+                'additional_price': request.POST.get('additional_price') and request.POST['additional_price'] or 0,
+                'event_pick': request.POST['event_pick'],
+                'activity_types_data': json.loads(request.POST['details_data']),
+                'activity_date_data': json.loads(request.POST['activity_date_data']),
+            }
+            write_cache_file(request, signature, 'activity_request', activity_request)
+            write_cache_file(request, signature, 'activity_type_pick', request.POST['activity_type_pick'])
+
+            # try:
+            #     set_session(request, 'activity_request', {
+            #         'activity_uuid': request.POST['activity_uuid'],
+            #         'activity_type_pick': request.POST['activity_type_pick'],
+            #         'activity_timeslot': request.POST['activity_timeslot'].split(' ~ ')[0] if len(request.POST['activity_timeslot'].split(' - ')) == 2 else '',
+            #         'additional_price': request.POST.get('additional_price') and request.POST['additional_price'] or 0,
+            #         'event_pick': request.POST['event_pick'],
+            #         'activity_types_data': json.loads(request.POST['details_data']),
+            #         'activity_date_data': json.loads(request.POST['activity_date_data']),
+            #     })
+            # except Exception as e:
+            #     _logger.error('Data POST for activity_request not found use cache')
+            #     _logger.error("%s, %s" % (str(e), traceback.format_exc()))
 
             try:
                 pax_count = {}
@@ -298,11 +369,20 @@ def passenger(request):
 
                 booker_min_age = 0
                 booker_max_age = 200
+
+
+                file = read_cache_file(request, signature, 'activity_request')
+                if file:
+                    activity_request = file
+
                 for temp_sku in json.loads(request.POST['details_data'])[int(request.POST['activity_type_pick'])]['skus']:
                     low_sku_id = temp_sku['sku_id'].lower()
-                    request.session['activity_request'].update({
+                    activity_request.update({
                         low_sku_id+'_passenger': request.POST.get(low_sku_id+'_passenger') and int(request.POST[low_sku_id+'_passenger']) or 0,
                     })
+                    # request.session['activity_request'].update({
+                    #     low_sku_id+'_passenger': request.POST.get(low_sku_id+'_passenger') and int(request.POST[low_sku_id+'_passenger']) or 0,
+                    # })
                     pax_count.update({
                         low_sku_id: request.POST.get(low_sku_id+'_passenger') and int(request.POST[low_sku_id+'_passenger']) or 0
                     })
@@ -349,8 +429,14 @@ def passenger(request):
 
                 perbooking_list = []
                 upload = []
+
+
+                file = read_cache_file(request, signature, 'activity_type_pick')
+                if file:
+                    activity_type_pick = file
+
                 #perbooking
-                for idx, perbooking in enumerate(request.session['activity_request']['activity_types_data'][int(request.POST['activity_type_pick'])]['options']['perBooking']):
+                for idx, perbooking in enumerate(activity_request['activity_types_data'][int(activity_type_pick)]['options']['perBooking']):
                     if perbooking['name'] != 'Guest age' and perbooking['name'] != 'Nationality' and perbooking['name'] != 'Full name' and perbooking['name'] != 'Gender' and perbooking['name'] != 'Date of birth':
                         if perbooking['inputType'] == 1:
                             perbooking_list.append({
@@ -453,7 +539,9 @@ def passenger(request):
                                 "name": perbooking['name']
                             })
 
-                set_session(request, 'activity_pax_data', {
+                write_cache_file(request, signature, 'activity_request', activity_request)
+
+                data = {
                     'pax_count': pax_count,
                     'adult': adult,
                     'child': child,
@@ -461,34 +549,97 @@ def passenger(request):
                     'senior': senior,
                     'booker_min_age': booker_min_age,
                     'booker_max_age': booker_max_age,
-                })
-                set_session(request, 'activity_perbooking', perbooking_list)
-                set_session(request, 'activity_upload', upload)
-                set_session(request, 'activity_details_data', json.loads(request.POST['details_data']))
-                set_session(request, 'activity_type_pick', int(request.POST['activity_type_pick']))
-                set_session(request, 'activity_timeslot', request.POST['activity_timeslot'])
-                set_session(request, 'additional_price_input', request.POST.get('additional_price_input') and request.POST['additional_price_input'] or 0)
-                set_session(request, 'activity_event_pick', int(request.POST['event_pick']))
+                }
+
+                write_cache_file(request, signature, 'activity_pax_data', data)
+                write_cache_file(request, signature, 'activity_perbooking', perbooking_list)
+                write_cache_file(request, signature, 'activity_upload', upload)
+                write_cache_file(request, signature, 'activity_details_data', json.loads(request.POST['details_data']))
+                write_cache_file(request, signature, 'activity_timeslot', request.POST['activity_timeslot'])
+                write_cache_file(request, signature, 'additional_price_input', request.POST.get('additional_price_input') and request.POST['additional_price_input'] or 0)
+                write_cache_file(request, signature, 'activity_event_pick', int(request.POST['event_pick']))
+
+                # set_session(request, 'activity_pax_data', {
+                #     'pax_count': pax_count,
+                #     'adult': adult,
+                #     'child': child,
+                #     'infant': infant,
+                #     'senior': senior,
+                #     'booker_min_age': booker_min_age,
+                #     'booker_max_age': booker_max_age,
+                # })
+                # set_session(request, 'activity_perbooking', perbooking_list)
+                # set_session(request, 'activity_upload', upload)
+                # set_session(request, 'activity_details_data', json.loads(request.POST['details_data']))
+                # set_session(request, 'activity_type_pick', int(request.POST['activity_type_pick']))
+                # set_session(request, 'activity_timeslot', request.POST['activity_timeslot'])
+                # set_session(request, 'additional_price_input', request.POST.get('additional_price_input') and request.POST['additional_price_input'] or 0)
+                # set_session(request, 'activity_event_pick', int(request.POST['event_pick']))
             except Exception as e:
                 _logger.error('Data POST for activity_pax_data, activity_perbooking, activity_upload, activity_details_data, activity_type_pick, activity_timeslot, additional_price_input, activity_event_pick not found use cache')
                 _logger.error("%s, %s" % (str(e), traceback.format_exc()))
-                set_session(request, 'activity_perbooking', request.session['activity_perbooking'])
-                set_session(request, 'activity_upload', request.session['activity_upload'])
-                set_session(request, 'activity_details_data', request.session['activity_details_data'])
-                set_session(request, 'activity_type_pick', request.session['activity_type_pick'])
-                set_session(request, 'activity_timeslot', request.session['activity_timeslot'])
-                set_session(request, 'additional_price_input', request.session['additional_price_input'])
-                set_session(request, 'activity_event_pick', request.session['activity_event_pick'])
+
+                # signature = request.POST['signature']
+
+                ## RE-LOGIN CHECK LAGI
+                # set_session(request, 'activity_perbooking', request.session['activity_perbooking'])
+                # set_session(request, 'activity_upload', request.session['activity_upload'])
+                # set_session(request, 'activity_details_data', request.session['activity_details_data'])
+                # set_session(request, 'activity_type_pick', request.session['activity_type_pick'])
+                # set_session(request, 'activity_timeslot', request.session['activity_timeslot'])
+                # set_session(request, 'additional_price_input', request.session['additional_price_input'])
+                # set_session(request, 'activity_event_pick', request.session['activity_event_pick'])
 
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
 
-            request.session['activity_request'].update({
-                'adult_passenger_count': len(request.session['activity_pax_data']['adult']),
-                'infant_passenger_count': len(request.session['activity_pax_data']['infant']),
-                'child_passenger_count': len(request.session['activity_pax_data']['child']),
-                'senior_passenger_count': len(request.session['activity_pax_data']['senior']),
-            })
+            file = read_cache_file(request, signature, 'activity_request')
+            if file:
+                activity_request = file
+
+                file = read_cache_file(request, signature, 'activity_pax_data')
+                if file:
+                    activity_request.update({
+                        'adult_passenger_count': len(file['adult']),
+                        'infant_passenger_count': len(file['infant']),
+                        'child_passenger_count': len(file['child']),
+                        'senior_passenger_count': len(file['senior']),
+                    })
+                write_cache_file(request, signature, 'activity_request', activity_request)
+
+            file = read_cache_file(request, signature, 'additional_price_input')
+            if file:
+                additional_price_input = file
+
+            file = read_cache_file(request, signature, 'activity_pick')
+            if file:
+                activity_pick = file
+
+            file = read_cache_file(request, signature, 'activity_pax_data')
+            if file:
+                activity_pax_data = file
+
+            file = read_cache_file(request, signature, 'activity_timeslot')
+            if file:
+                activity_timeslot = file
+            else:
+                activity_timeslot = ''
+
+            file = read_cache_file(request, signature, 'activity_type_pick')
+            if file:
+                activity_type_pick = file
+
+            file = read_cache_file(request, signature, 'time_limit')
+            if file:
+                time_limit = file
+
+            file = read_cache_file(request, signature, 'activity_details_data')
+            if file:
+                activity_details_data = file
+
+            file = read_cache_file(request, signature, 'activity_frontend_signature')
+            if not file:
+                frontend_signature = file
 
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
@@ -497,35 +648,36 @@ def passenger(request):
                 'titles': ['', 'MR', 'MRS', 'MS', 'MSTR', 'MISS'],
                 'countries': airline_country,
                 'phone_code': phone_code,
-                'additional_price': request.session['additional_price_input'],
-                'response': request.session['activity_pick'],
-                'pax_count': request.session['activity_pax_data']['pax_count'],
-                'adult_count': request.session['activity_request']['adult_passenger_count'],
-                'infant_count': request.session['activity_request']['infant_passenger_count'],
-                'child_count': request.session['activity_request']['child_passenger_count'],
-                'senior_count': request.session['activity_request']['senior_passenger_count'],
-                'booker_min_age': request.session['activity_pax_data']['booker_min_age'],
-                'booker_max_age': request.session['activity_pax_data']['booker_max_age'],
-                'activity_pax_data': request.session['activity_pax_data'],
-                'adults': request.session['activity_pax_data']['adult'],
-                'infants': request.session['activity_pax_data']['infant'],
-                'seniors': request.session['activity_pax_data']['senior'],
-                'childs': request.session['activity_pax_data']['child'],
-                'timeslot_pick': request.session['activity_timeslot'].split(' ~ ')[1] if len(request.session['activity_timeslot'].split(' - ')) == 2 else '',
-                'price': request.session['activity_request']['activity_date_data'],
-                'detail': request.session['activity_request']['activity_types_data'][request.session['activity_type_pick']],
+                'additional_price': additional_price_input,
+                'response': activity_pick,
+                'pax_count': activity_pax_data['pax_count'],
+                'adult_count': activity_request['adult_passenger_count'],
+                'infant_count': activity_request['infant_passenger_count'],
+                'child_count': activity_request['child_passenger_count'],
+                'senior_count': activity_request['senior_passenger_count'],
+                'booker_min_age': activity_pax_data['booker_min_age'],
+                'booker_max_age': activity_pax_data['booker_max_age'],
+                'activity_pax_data': activity_pax_data,
+                'adults': activity_pax_data['adult'],
+                'infants': activity_pax_data['infant'],
+                'seniors': activity_pax_data['senior'],
+                'childs': activity_pax_data['child'],
+                'timeslot_pick': activity_timeslot.split(' ~ ')[1] if len(activity_timeslot.split(' - ')) == 2 else '',
+                'price': activity_request['activity_date_data'],
+                'detail': activity_request['activity_types_data'][int(activity_type_pick)],
                 'username': request.session['user_account'],
                 'javascript_version': javascript_version,
-                'signature': request.session['activity_signature'],
+                'signature': signature,
                 'static_path_url_server': get_url_static_path(),
-                'time_limit': request.session['time_limit'],
+                'time_limit': time_limit,
             })
 
-            for temp_sku in request.session['activity_details_data'][request.session['activity_type_pick']]['skus']:
+            for temp_sku in activity_details_data[int(activity_type_pick)]['skus']:
                 low_sku_id = temp_sku['sku_id'].lower()
                 values.update({
-                    low_sku_id+'_count': request.session['activity_pax_data']['pax_count'].get(low_sku_id) and int(request.session['activity_pax_data']['pax_count'][low_sku_id]) or 0,
+                    low_sku_id+'_count': activity_pax_data['pax_count'].get(low_sku_id) and int(activity_pax_data['pax_count'][low_sku_id]) or 0,
                 })
+            write_cache_file(request, signature, 'activity_details_data', activity_details_data)
         except Exception as e:
             _logger.error(str(e) + '\n' + traceback.format_exc())
             raise Exception('Make response code 500!')
@@ -533,7 +685,7 @@ def passenger(request):
     else:
         return no_session_logout(request)
 
-def review(request):
+def review(request, signature=''):
     if 'user_account' in request.session._session:
         try:
             try: #check change login atau tidak
@@ -560,12 +712,22 @@ def review(request):
                 values = get_data_template(request)
 
                 try:
-                    time_limit = get_timelimit_product(request, 'activity')
+                    time_limit = get_timelimit_product(request, 'activity', signature)
                     if time_limit == 0:
                         time_limit = int(request.POST['time_limit_input'])
-                    set_session(request, 'time_limit', time_limit)
+                    write_cache_file(request, signature, 'time_limit', time_limit)
+                    # set_session(request, 'time_limit_%s' % signature, time_limit)
                 except:
-                    pass
+                    time_limit = int(request.POST['time_limit_input'])
+                    write_cache_file(request, signature, 'time_limit', time_limit)
+
+                # try:
+                #     time_limit = get_timelimit_product(request, 'activity')
+                #     if time_limit == 0:
+                #         time_limit = int(request.POST['time_limit_input'])
+                #     set_session(request, 'time_limit', time_limit)
+                # except:
+                #     pass
 
                 try:
                     img_list_data = json.loads(request.POST['image_list_data'])
@@ -585,7 +747,11 @@ def review(request):
 
                 perpax_list = []
                 perpax_list_temp = []
-                for i in range(int(request.session['activity_request']['adult_passenger_count'])):
+
+                file = read_cache_file(request, signature, 'activity_request')
+                if file:
+                    activity_request = file
+                for i in range(int(activity_request['adult_passenger_count'])):
                     img_identity_data = [sel_img[:2] for sel_img in img_list_data if 'adult' in sel_img[2].lower() and 'identity' in sel_img[2].lower() and str(i + 1) in sel_img[2].lower()]
                     behaviors = {}
                     if request.POST.get('adult_behaviors_' + str(i + 1)):
@@ -622,7 +788,7 @@ def review(request):
                     })
 
                     # perpax
-                    for idx, perpax in enumerate(request.session['activity_request']['activity_types_data'][int(request.session['activity_request']['activity_type_pick'])]['options']['perPax']):
+                    for idx, perpax in enumerate(activity_request['activity_types_data'][int(activity_request['activity_type_pick'])]['options']['perPax']):
                         if perpax['name'] != 'Guest age' and perpax['name'] != 'Nationality' and perpax['name'] != 'Full name' and perpax['name'] != 'Gender' and perpax['name'] != 'Date of birth' and perpax['name'] != 'Passport number' and perpax['name'] != 'Passport expiry date':
                             if perpax['inputType'] == 1:
                                 perpax_list_temp.append({
@@ -834,21 +1000,8 @@ def review(request):
                     except:
                         pass
 
-                if len(contact) == 0:
-                    contact.append({
-                        'title': request.POST['booker_title'],
-                        'first_name': request.POST['booker_first_name'],
-                        'last_name': request.POST['booker_last_name'],
-                        'email': request.POST['booker_email'],
-                        'calling_code': request.POST['booker_phone_code_id'],
-                        'mobile': request.POST['booker_phone'],
-                        'nationality_code': request.POST['booker_nationality_id'],
-                        'contact_seq_id': request.POST['booker_id'],
-                        'is_also_booker': True
-                    })
-
                 #senior
-                for i in range(int(request.session['activity_request']['senior_passenger_count'])):
+                for i in range(int(activity_request['senior_passenger_count'])):
                     img_identity_data = [sel_img[:2] for sel_img in img_list_data if 'senior' in sel_img[2].lower() and 'identity' in sel_img[2].lower() and str(i + 1) in sel_img[2].lower()]
                     behaviors = {}
                     if request.POST.get('senior_behaviors_' + str(i + 1)):
@@ -881,7 +1034,7 @@ def review(request):
                     })
 
                     # perpax
-                    for idx, perpax in enumerate(request.session['activity_request']['activity_types_data'][int(request.session['activity_request']['activity_type_pick'])]['options']['perPax']):
+                    for idx, perpax in enumerate(activity_request['activity_types_data'][int(activity_request['activity_type_pick'])]['options']['perPax']):
                         if perpax['name'] != 'Guest age' and perpax['name'] != 'Nationality' and perpax['name'] != 'Full name' and perpax['name'] != 'Gender' and perpax['name'] != 'Date of birth' and perpax['name'] != 'Passport number' and perpax['name'] != 'Passport expiry date':
                             if perpax['inputType'] == 1:
                                 perpax_list_temp.append({
@@ -1039,7 +1192,7 @@ def review(request):
                     perpax_list_temp = []
 
                 #child
-                for i in range(int(request.session['activity_request']['child_passenger_count'])):
+                for i in range(int(activity_request['child_passenger_count'])):
                     img_identity_data = [sel_img[:2] for sel_img in img_list_data if 'child' in sel_img[2].lower() and 'identity' in sel_img[2].lower() and str(i + 1) in sel_img[2].lower()]
                     behaviors = {}
                     if request.POST.get('child_behaviors_' + str(i + 1)):
@@ -1073,7 +1226,7 @@ def review(request):
                     })
 
                     # perpax
-                    for idx, perpax in enumerate(request.session['activity_request']['activity_types_data'][int(request.session['activity_request']['activity_type_pick'])]['options']['perPax']):
+                    for idx, perpax in enumerate(activity_request['activity_types_data'][int(activity_request['activity_type_pick'])]['options']['perPax']):
                         if perpax['name'] != 'Guest age' and perpax['name'] != 'Nationality' and perpax['name'] != 'Full name' and perpax['name'] != 'Gender' and perpax['name'] != 'Date of birth' and perpax['name'] != 'Passport number' and perpax['name'] != 'Passport expiry date':
                             if perpax['inputType'] == 1:
                                 perpax_list_temp.append({
@@ -1231,7 +1384,7 @@ def review(request):
                     perpax_list_temp = []
 
                 #infant
-                for i in range(int(request.session['activity_request']['infant_passenger_count'])):
+                for i in range(int(activity_request['infant_passenger_count'])):
                     img_identity_data = [sel_img[:2] for sel_img in img_list_data if 'infant' in sel_img[2].lower() and 'identity' in sel_img[2].lower() and str(i + 1) in sel_img[2].lower()]
                     behaviors = {}
                     if request.POST.get('infant_behaviors_' + str(i + 1)):
@@ -1266,6 +1419,20 @@ def review(request):
                     if perpax_list_temp:
                         perpax_list.append(perpax_list_temp)
                     perpax_list_temp = []
+
+                if len(contact) == 0:
+                    contact.append({
+                        'title': request.POST['booker_title'],
+                        'first_name': request.POST['booker_first_name'],
+                        'last_name': request.POST['booker_last_name'],
+                        'email': request.POST['booker_email'],
+                        'calling_code': request.POST['booker_phone_code_id'],
+                        'mobile': request.POST['booker_phone'],
+                        'nationality_code': request.POST['booker_nationality_id'],
+                        'contact_seq_id': request.POST['booker_id'],
+                        'is_also_booker': True
+                    })
+
                 set_session(request, 'activity_perpax', perpax_list)
 
                 for rec in adult:
@@ -1279,7 +1446,7 @@ def review(request):
 
                 pax_count = {}
                 no_low_pax_count = {}
-                for temp_sku in request.session['activity_request']['activity_types_data'][int(request.session['activity_request']['activity_type_pick'])]['skus']:
+                for temp_sku in activity_request['activity_types_data'][int(activity_request['activity_type_pick'])]['skus']:
                     low_sku_id = temp_sku['sku_id'].lower()
                     skus.append({
                         'id': temp_sku['id'],
@@ -1287,27 +1454,30 @@ def review(request):
                         'raw_sku_id': temp_sku['sku_id'],
                         'pax_type': temp_sku['pax_type'],
                         'title': temp_sku['title'],
-                        'amount': int(request.session['activity_request'][low_sku_id+'_passenger']),
+                        'amount': int(activity_request[low_sku_id+'_passenger']),
                     })
                     pax_count.update({
-                        low_sku_id: int(request.session['activity_request'][low_sku_id+'_passenger'])
+                        low_sku_id: int(activity_request[low_sku_id+'_passenger'])
                     })
                     no_low_pax_count.update({
-                        temp_sku['sku_id']: int(request.session['activity_request'][low_sku_id + '_passenger'])
+                        temp_sku['sku_id']: int(activity_request[low_sku_id + '_passenger'])
                     })
 
                 try:
-                    event_id = int(request.session['activity_request']['event_pick'])
+                    event_id = int(activity_request['event_pick'])
                 except:
                     event_id = 0
 
                 timeslot = False
-                if request.session['activity_request'].get('activity_timeslot'):
-                    for time in request.session['activity_request']['activity_types_data'][int(request.session['activity_request']['activity_type_pick'])]['timeslots']:
-                        if time['uuid'] == request.session['activity_request']['activity_timeslot']:
+                if activity_request.get('activity_timeslot'):
+                    for time in activity_request['activity_types_data'][int(activity_request['activity_type_pick'])]['timeslots']:
+                        if time['uuid'] == activity_request['activity_timeslot']:
                             timeslot = time
-
-                price_list = request.session['activity_price']['result']['response']
+                file = read_cache_file(request, signature, 'activity_price')
+                if file:
+                    price_list = file['result']['response']
+                    activity_price = file['result']['response']
+                # price_list = request.session['activity_price']['result']['response']
                 pax_type_conv = {
                     'Adult': 'ADT',
                     'Senior': 'YCD',
@@ -1326,14 +1496,28 @@ def review(request):
                     })
 
                 search_request = {
-                    "product_uuid": request.session['activity_request']['activity_uuid'],
-                    "product_type_uuid": request.session['activity_request']['activity_types_data'][int(request.session['activity_request']['activity_type_pick'])]['uuid'],
-                    "visit_date": request.session['activity_price']['result']['response']['date'],
+                    "product_uuid": activity_request['activity_uuid'],
+                    "product_type_uuid": activity_request['activity_types_data'][int(activity_request['activity_type_pick'])]['uuid'],
+                    "visit_date": price_list,
                     "timeslot": timeslot and timeslot['uuid'] or False,
                     "event_seq": event_id,
                 }
 
-                set_session(request, 'activity_review_booking', {
+                # set_session(request, 'activity_review_booking', {
+                #     'all_pax': all_pax,
+                #     'contacts': contact,
+                #     'booker': booker,
+                #     'adult': adult,
+                #     'senior': senior,
+                #     'child': child,
+                #     'infant': infant,
+                #     'skus': skus,
+                #     'upload_value': upload,
+                #     'search_request': search_request,
+                #     'additional_price': request.POST['additional_price']
+                # })
+
+                activity_review_booking = {
                     'all_pax': all_pax,
                     'contacts': contact,
                     'booker': booker,
@@ -1345,27 +1529,41 @@ def review(request):
                     'upload_value': upload,
                     'search_request': search_request,
                     'additional_price': request.POST['additional_price']
-                })
+                }
+
+                write_cache_file(request, signature, 'activity_request', activity_request)
+                write_cache_file(request, signature, 'activity_review_booking', activity_review_booking)
+
             except Exception as e:
                 #change b2c to login
                 try:
-                    set_session(request, 'activity_review_booking', json.loads(request.POST['activity_review_booking']))
+                    write_cache_file(request, signature, 'activity_review_booking', json.loads(request.POST['activity_review_booking']))
+                    # set_session(request, 'activity_review_booking', json.loads(request.POST['activity_review_booking']))
                     printout_paxs = json.loads(request.POST['printout_paxs'])
                     printout_prices = json.loads(request.POST['printout_prices'])
                     pax_count = json.loads(request.POST['pax_count'])
                     price_list = json.loads(request.POST['price_list']) #price
-                    adult = request.session['activity_review_booking']['adult']
-                    infant = request.session['activity_review_booking']['infant']
-                    child = request.session['activity_review_booking']['child']
-                    senior = request.session['activity_review_booking']['senior']
-                    contact = request.session['activity_review_booking']['contacts']
-                    all_pax = request.session['activity_review_booking']['all_pax']
-                    booker = request.session['activity_review_booking']['booker']
-                    skus = request.session['activity_review_booking']['skus']
+
+                    file = read_cache_file(request, signature, 'activity_review_booking')
+                    if file:
+                        activity_review_booking = file
+                    adult = activity_review_booking['adult']
+                    infant = activity_review_booking['infant']
+                    child = activity_review_booking['child']
+                    senior = activity_review_booking['senior']
+                    contact = activity_review_booking['contacts']
+                    all_pax = activity_review_booking['all_pax']
+                    booker = activity_review_booking['booker']
+                    skus = activity_review_booking['skus']
                     timeslot = False
-                    if request.session['activity_request'].get('activity_timeslot'):
-                        for time in request.session['activity_request']['activity_types_data'][int(request.session['activity_request']['activity_type_pick'])]['timeslots']:
-                            if time['uuid'] == request.session['activity_request']['activity_timeslot']:
+
+                    file = read_cache_file(request, request.POST['signature'], 'activity_request')
+                    if file:
+                        activity_request = file
+
+                    if activity_request.get('activity_timeslot'):
+                        for time in activity_request['activity_types_data'][int(activity_request['activity_type_pick'])]['timeslots']:
+                            if time['uuid'] == activity_request['activity_timeslot']:
                                 timeslot = time
                 except Exception as e:
                     _logger.error('Data POST for activity_review_booking not found use cache')
@@ -1373,7 +1571,11 @@ def review(request):
                     ## from back page browser
                     try:
                         printout_paxs = []
-                        for pax_dict in request.session['activity_review_booking']['adult']:
+                        file = read_cache_file(request, signature, 'activity_review_booking')
+                        if file:
+                            activity_review_booking = file
+
+                        for pax_dict in activity_review_booking['adult']:
                             printout_paxs.append({
                                 "name": "%s %s %s" % (pax_dict['title'], pax_dict['first_name'], pax_dict['last_name']),
                                 'ticket_number': pax_dict['sku_id'],
@@ -1409,7 +1611,10 @@ def review(request):
                                 'additional_info': ["Ticket:" + pax_dict['sku_title']],
                             })
 
-                        price_list = request.session['activity_price']['result']['response']
+                        file = read_cache_file(request, signature, 'activity_price')
+                        if file:
+                            activity_price = file['result']['response']
+                        # price_list = request.session['activity_price']['result']['response']
                         pax_type_conv = {
                             'Adult': 'ADT',
                             'Senior': 'YCD',
@@ -1429,7 +1634,12 @@ def review(request):
 
                         pax_count = {}
                         no_low_pax_count = {}
-                        for temp_sku in request.session['activity_request']['activity_types_data'][int(request.session['activity_request']['activity_type_pick'])]['skus']:
+
+                        file = read_cache_file(request, signature, 'activity_request')
+                        if file:
+                            activity_request = file
+
+                        for temp_sku in activity_request['activity_types_data'][int(activity_request['activity_type_pick'])]['skus']:
                             low_sku_id = temp_sku['sku_id'].lower()
                             skus.append({
                                 'id': temp_sku['id'],
@@ -1445,24 +1655,33 @@ def review(request):
                             no_low_pax_count.update({
                                 temp_sku['sku_id']: int(request.session['activity_request'][low_sku_id + '_passenger'])
                             })
-                        price_list = request.session['activity_price']['result']['response']
+                        price_list = activity_price['result']['response']
 
-                        adult = request.session['activity_review_booking']['adult']
-                        infant = request.session['activity_review_booking']['infant']
-                        child = request.session['activity_review_booking']['child']
-                        senior = request.session['activity_review_booking']['senior']
-                        contact = request.session['activity_review_booking']['contacts']
-                        all_pax = request.session['activity_review_booking']['all_pax']
-                        booker = request.session['activity_review_booking']['booker']
-                        skus = request.session['activity_review_booking']['skus']
+                        adult = activity_review_booking['adult']
+                        infant = activity_review_booking['infant']
+                        child = activity_review_booking['child']
+                        senior = activity_review_booking['senior']
+                        contact = activity_review_booking['contacts']
+                        all_pax = activity_review_booking['all_pax']
+                        booker = activity_review_booking['booker']
+                        skus = activity_review_booking['skus']
 
                         timeslot = False
-                        if request.session['activity_request'].get('activity_timeslot'):
-                            for time in request.session['activity_request']['activity_types_data'][int(request.session['activity_request']['activity_type_pick'])]['timeslots']:
-                                if time['uuid'] == request.session['activity_request']['activity_timeslot']:
+                        if activity_request.get('activity_timeslot'):
+                            for time in activity_request['activity_types_data'][int(activity_request['activity_type_pick'])]['timeslots']:
+                                if time['uuid'] == activity_request['activity_timeslot']:
                                     timeslot = time
                     except Exception as e:
                         _logger.error("%s, %s" % (str(e), traceback.format_exc()))
+
+            file = read_cache_file(request, signature, 'activity_pick')
+            if file:
+                activity_pick = file
+
+            file = read_cache_file(request, signature, 'activity_request')
+            if file:
+                activity_request = file
+
             printout_rec = {
                 "type": "activity",
                 "agent_name": request.session._session['user_account']['co_agent_name'],
@@ -1471,31 +1690,76 @@ def review(request):
                 "line": [
                     {
                         "resv": "-",
-                        "checkin": request.session['activity_price']['result']['response']['date'],
+                        "checkin": activity_price['date'],
                         "time_slot": timeslot and str(timeslot['startTime']) + ' - ' + str(timeslot['endTime']) or '-',
-                        "activity_title": request.session['activity_pick']['name'],
-                        "product_type": request.session['activity_request']['activity_types_data'][int(request.session['activity_request']['activity_type_pick'])]['name'],
+                        "activity_title": activity_pick['name'],
+                        "product_type": activity_request['activity_types_data'][int(activity_request['activity_type_pick'])]['name'],
                     }
                 ],
             }
-            set_session(request, 'activity_json_printout' + request.session['activity_signature'], printout_rec)
-            set_session(request, 'printout_paxs' + request.session['activity_signature'], printout_paxs)
-            set_session(request, 'printout_prices' + request.session['activity_signature'], printout_prices)
+
+            write_cache_file(request, signature, 'activity_json_printout', printout_rec)
+            write_cache_file(request, signature, 'printout_paxs', printout_paxs)
+            write_cache_file(request, signature, 'printout_prices', printout_prices)
+
+            file = read_cache_file(request, signature, 'activity_perbooking')
+            if file:
+                activity_perbooking = file
+            else:
+                activity_perbooking = []
+
+            file = read_cache_file(request, signature, 'activity_perpax')
+            if file:
+                activity_perpax = file
+            else:
+                activity_perpax = []
+
+            file = read_cache_file(request, signature, 'activity_upsell')
+            if file:
+                activity_upsell = file
+            else:
+                activity_upsell = 0
+
+            file = read_cache_file(request, signature, 'activity_timeslot')
+            if file:
+                activity_timeslot = file
+            else:
+                activity_timeslot = ''
+
+            file = read_cache_file(request, signature, 'activity_request')
+            if file:
+                activity_request = file
+
+            file = read_cache_file(request, signature, 'activity_review_booking')
+            if file:
+                activity_review_booking = file
+
+            file = read_cache_file(request, signature, 'time_limit')
+            if file:
+                time_limit = file
+
+            file = read_cache_file(request, signature, 'activity_frontend_signature')
+            if not file:
+                frontend_signature = file
+
+            # set_session(request, 'activity_json_printout' + request.session['activity_signature'], printout_rec)
+            # set_session(request, 'printout_paxs' + request.session['activity_signature'], printout_paxs)
+            # set_session(request, 'printout_prices' + request.session['activity_signature'], printout_prices)
 
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
 
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
-                'additional_price': request.session['activity_review_booking']['additional_price'],
+                'additional_price': activity_review_booking['additional_price'],
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
                 'countries': airline_country,
                 'phone_code': phone_code,
                 'printout_paxs': printout_paxs,
                 'printout_prices': printout_prices,
-                'response': request.session['activity_pick'],
-                'perBooking': request.session['activity_perbooking'],
-                'perPax': request.session['activity_perpax'],
+                'response': activity_pick,
+                'perBooking': activity_perbooking,
+                'perPax': activity_perpax,
                 'pax_count': pax_count,
                 'adult_count': len(adult),
                 'infant_count': len(infant),
@@ -1509,18 +1773,18 @@ def review(request):
                 'seniors': senior,
                 'childs': child,
                 'skus': skus,
-                'upsell': request.session.get('activity_upsell_'+request.session['activity_signature']) and request.session.get('activity_upsell_'+request.session['activity_signature']) or 0,
+                'upsell': activity_upsell,
                 "timeslot": timeslot and timeslot or False,
-                'timeslot_pick': request.session['activity_timeslot'].split(' ~ ')[1] if len(request.session['activity_timeslot'].split(' - ')) == 2 else '',
+                'timeslot_pick': activity_timeslot.split(' ~ ')[1] if len(activity_timeslot.split(' - ')) == 2 else '',
                 'price': price_list,
                 'visit_date': price_list.get('date') and datetime.strptime(price_list['date'], '%Y-%m-%d').strftime('%d %b %Y') or '',
-                'detail': request.session['activity_request']['activity_types_data'][int(request.session['activity_request']['activity_type_pick'])],
+                'detail': activity_request['activity_types_data'][int(activity_request['activity_type_pick'])],
                 'printout_rec': json.dumps(printout_rec),
                 'username': request.session['user_account'],
                 'javascript_version': javascript_version,
-                'signature': request.session['activity_signature'],
+                'signature': signature,
                 'static_path_url_server': get_url_static_path(),
-                'time_limit': request.session['time_limit'],
+                'time_limit': time_limit,
             })
         except Exception as e:
             _logger.error(str(e) + '\n' + traceback.format_exc())
@@ -1543,15 +1807,18 @@ def booking(request, order_number):
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
         try:
-            set_session(request, 'activity_order_number', base64.b64decode(order_number).decode('ascii'))
+            activity_order_number = base64.b64decode(order_number).decode('ascii')
         except:
             try:
-                set_session(request, 'activity_order_number', base64.b64decode(order_number[:-1]).decode('ascii'))
+                activity_order_number = base64.b64decode(order_number[:-1]).decode('ascii')
             except:
-                set_session(request, 'activity_order_number', order_number)
+                activity_order_number = order_number
+
+        write_cache_file(request, request.session['signature'], 'activity_order_number', activity_order_number)
+
         values.update({
             'static_path': path_util.get_static_path(MODEL_NAME),
-            'order_number': request.session['activity_order_number'],
+            'order_number': activity_order_number,
             'username': request.session.get('user_account') or {'co_user_login': ''},
             'javascript_version': javascript_version,
             'signature': request.session['signature'],

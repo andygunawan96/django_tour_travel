@@ -51,6 +51,8 @@ def api_models(request):
             res = login(request)
         elif req_data['action'] == 'get_data':
             res = get_data(request)
+        elif req_data['action'] == 'get_data_search_page':
+            res = get_data_search_page(request)
         elif req_data['action'] == 'get_carriers':
             res = get_carriers(request)
         elif req_data['action'] == 'search':
@@ -97,7 +99,6 @@ def api_models(request):
         res = ERR.get_error_api(500, additional_message=str(e))
     return Response(res)
 
-
 def login(request):
     user_global, password_global, api_key = get_credential(request)
     user_default, password_default = get_credential_user_default(request)
@@ -120,13 +121,26 @@ def login(request):
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
-            create_session_product(request, 'activity', 20)
-            set_session(request, 'activity_signature', res['result']['response']['signature'])
+            create_session_product(request, 'activity', 20, res['result']['response']['signature'])
+            # set_session(request, 'activity_signature', res['result']['response']['signature'])
             set_session(request, 'signature', res['result']['response']['signature'])
+            if request.POST.get('frontend_signature'):
+                write_cache_file(request, res['result']['response']['signature'], 'activity_frontend_signature',request.POST['frontend_signature'])
+                write_cache_file(request, request.POST['frontend_signature'], 'activity_signature',res['result']['response']['signature'])
             if request.session['user_account'].get('co_customer_parent_seq_id'):
                 webservice_agent.activate_corporate_mode(request, res['result']['response']['signature'])
             _logger.info(json.dumps(request.session['activity_signature']))
             _logger.info("SIGNIN ACTIVITY SUCCESS SIGNATURE " + res['result']['response']['signature'])
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def get_data_search_page(request):
+    res = {}
+    try:
+        file = read_cache_file(request, request.POST['frontend_signature'], 'activity_search_request')
+        if file:
+            res['activity_request'] = file
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -198,30 +212,38 @@ def get_data(request):
 
 def search(request):
     try:
-        set_session(request, 'activity_search_request', json.loads(request.POST['search_request']))
+        activity_request = json.loads(request.POST['search_request'])
+        # write_cache_file(request, request.POST['signature'], 'activity_search_request', json.loads(request.POST['search_request']))
+        # set_session(request, 'activity_search_request', json.loads(request.POST['search_request']))
+        # file = read_cache_file(request, request.POST['signature'], 'activity_search_request')
+        # if file:
         data = {
-            'query': request.session['activity_search_request']['query'].replace('&amp;', '&'),
-            'country': request.session['activity_search_request']['country'],
-            'city': request.session['activity_search_request']['city'],
-            'type': request.session['activity_search_request']['type'],
-            'category': request.session['activity_search_request']['category'],
-            'sub_category': request.session['activity_search_request']['sub_category'],
+            'query': activity_request['query'].replace('&amp;', '&'),
+            'country': activity_request['country'],
+            'city': activity_request['city'],
+            'type': activity_request['type'],
+            'category': activity_request['category'],
+            'sub_category': activity_request['sub_category'],
         }
+        write_cache_file(request, request.POST['signature'], 'activity_search_request', data)
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
             "action": "search",
             "signature": request.POST['signature']
         }
-        set_session(request, 'activity_search_request', data)
+        # set_session(request, 'activity_search_request', data)
     except Exception as e:
         if request.POST.get('use_cache'):
-            data = request.session['activity_search_request']
+            file = read_cache_file(request, request.POST['signature'], 'activity_search_request')
+            if file:
+                data = file
+                write_cache_file(request, request.POST['new_signature'], 'activity_search_request', data)
             headers = {
                 "Accept": "application/json,text/html,application/xml",
                 "Content-Type": "application/json",
                 "action": "search",
-                "signature": request.POST['signature']
+                "signature": request.POST['new_signature']
             }
             logging.info(msg='use cache login change b2c to login')
         else:
@@ -236,8 +258,11 @@ def search(request):
                 'sequence': counter
             })
             counter += 1
-        set_session(request, 'activity_search', res['result']['response'])
-        _logger.info(json.dumps(request.session['activity_search']))
+        if request.POST.get('use_cache'):
+            write_cache_file(request, request.POST['new_signature'], 'activity_search', res['result']['response'])
+        else:
+            write_cache_file(request, request.POST['signature'], 'activity_search', res['result']['response'])
+        # set_session(request, 'activity_search', res['result']['response'])
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -254,15 +279,20 @@ def get_details(request):
             "action": "get_details",
             "signature": request.POST['signature']
         }
-        set_session(request, 'activity_detail_request', data)
+        write_cache_file(request, request.POST['signature'], 'activity_detail_request', data)
+        # set_session(request, 'activity_detail_request', data)
     except Exception as e:
         if request.POST.get('use_cache'):
-            data = request.session['activity_detail_request']
+            file = read_cache_file(request, request.POST['signature'], 'activity_detail_request')
+            if file:
+                data = file
+                write_cache_file(request, request.POST['new_signature'], 'activity_detail_request', data)
+            # data = request.session['activity_detail_request']
             headers = {
                 "Accept": "application/json,text/html,application/xml",
                 "Content-Type": "application/json",
                 "action": "get_details",
-                "signature": request.POST['signature']
+                "signature": request.POST['new_signature']
             }
             logging.info(msg='use cache login change b2c to login')
         else:
@@ -280,9 +310,13 @@ def get_details(request):
                     option.update({
                         'price_pick': 0
                     })
-            set_session(request, 'activity_pick', res['result']['response'])
-            _logger.info(json.dumps(request.session['activity_pick']))
-            request.session.modified = True
+
+            if request.POST.get('use_cache'):
+                write_cache_file(request, request.POST['new_signature'], 'activity_pick', res['result']['response'])
+            else:
+                write_cache_file(request, request.POST['signature'], 'activity_pick', res['result']['response'])
+            # set_session(request, 'activity_pick', res['result']['response'])
+            # request.session.modified = True
     except Exception as e:
         _logger.error("%s, %s" % (str(e), traceback.format_exc()))
     return res
@@ -292,28 +326,35 @@ def get_pricing(request):
     try:
         pricing_days = int(request.POST['pricing_days'])
         startingDate = request.POST['startingDate']
-        data = {
-            'product_type_uuid': request.POST['product_type_uuid'],
-            'date_start': to_date_now(datetime.strptime(startingDate, '%d %b %Y').strftime('%Y-%m-%d %H:%M:%S'))[:10],
-            'date_end': to_date_now((datetime.strptime(startingDate, '%d %b %Y')+timedelta(days=pricing_days)).strftime('%Y-%m-%d %H:%M:%S'))[:10],
-            'sku_data': json.loads(request.POST['sku_data']),
-            "provider": request.session['activity_pick']['provider_code']
-        }
+        file = read_cache_file(request, request.POST['signature'], 'activity_pick')
+        if file:
+            data = {
+                'product_type_uuid': request.POST['product_type_uuid'],
+                'date_start': to_date_now(datetime.strptime(startingDate, '%d %b %Y').strftime('%Y-%m-%d %H:%M:%S'))[:10],
+                'date_end': to_date_now((datetime.strptime(startingDate, '%d %b %Y')+timedelta(days=pricing_days)).strftime('%Y-%m-%d %H:%M:%S'))[:10],
+                'sku_data': json.loads(request.POST['sku_data']),
+                "provider": file['provider_code']
+            }
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
             "action": "get_pricing",
             "signature": request.POST['signature']
         }
-        set_session(request, 'activity_get_pricing_request', data)
+        write_cache_file(request, request.POST['signature'], 'activity_get_pricing_request', data)
+        # set_session(request, 'activity_get_pricing_request', data)
     except Exception as e:
         if request.POST.get('use_cache'):
-            data = request.session['activity_get_pricing_request']
+            file = read_cache_file(request, request.POST['signature'], 'activity_get_pricing_request')
+            if file:
+                data = file
+                write_cache_file(request, request.POST['new_signature'], 'activity_get_pricing_request', data)
+            # data = request.session['activity_get_pricing_request']
             headers = {
                 "Accept": "application/json,text/html,application/xml",
                 "Content-Type": "application/json",
                 "action": "get_pricing",
-                "signature": request.POST['signature']
+                "signature": request.POST['new_signature']
             }
             logging.info(msg='use cache login change b2c to login')
         else:
@@ -321,14 +362,20 @@ def get_pricing(request):
 
     url_request = get_url_gateway('booking/activity')
     res = send_request_api(request, url_request, headers, data, 'POST')
-    set_session(request, 'activity_price', res)
-    _logger.info(json.dumps(request.session['activity_price']))
+    if request.POST.get('use_cache'):
+        write_cache_file(request, request.POST['new_signature'], 'activity_price', res)
+    else:
+        write_cache_file(request, request.POST['signature'], 'activity_price', res)
+    # set_session(request, 'activity_price', res)
+    # _logger.info(json.dumps(request.session['activity_price']))
     return res
 
 
 def get_activity_carrier_data(request):
     try:
-        carrier_data = request.session['activity_pick']['carrier_data']
+        file = read_cache_file(request, request.POST['signature'], 'activity_pick')
+        if file:
+            carrier_data = file['carrier_data']
     except Exception as e:
         carrier_data = {
             'adult_length_name': 60,
@@ -351,11 +398,50 @@ def sell_activity(request):
             "timeslot": request.POST['timeslot'],
             "event_seq": request.POST['event_seq']
         }
+        write_cache_file(request, request.POST['signature'], 'activity_sell_request', data)
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
             "action": "sell_activity",
             "signature": request.POST['signature']
+        }
+    except Exception as e:
+        if request.POST.get('use_cache'):
+            file = read_cache_file(request, request.POST['signature'], 'activity_sell_request')
+            if file:
+                data = file
+                write_cache_file(request, request.POST['new_signature'], 'activity_sell_request', data)
+            # data = request.session['activity_get_pricing_request']
+            headers = {
+                "Accept": "application/json,text/html,application/xml",
+                "Content-Type": "application/json",
+                "action": "get_pricing",
+                "signature": request.POST['new_signature']
+            }
+            logging.info(msg='use cache login change b2c to login')
+        else:
+            logging.error(msg=str(e) + '\n' + traceback.format_exc())
+
+    url_request = get_url_gateway('booking/activity')
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
+    return res
+
+
+def update_contact(request):
+    file = read_cache_file(request, request.POST['signature'], 'activity_review_booking')
+    if file:
+        booker = file['booker']
+        contacts = file['contacts']
+    try:
+        data = {
+            "booker": booker,
+            "contacts": contacts,
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "update_contact",
+            "signature": request.POST['new_signature'] if request.POST.get('use_cache') else request.POST['signature']
         }
     except Exception as e:
         logging.error(msg=str(e) + '\n' + traceback.format_exc())
@@ -365,142 +451,124 @@ def sell_activity(request):
     return res
 
 
-def update_contact(request):
-    booker = request.session['activity_review_booking']['booker']
-    contacts = request.session['activity_review_booking']['contacts']
-
-    data = {
-        "booker": booker,
-        "contacts": contacts,
-    }
-    headers = {
-        "Accept": "application/json,text/html,application/xml",
-        "Content-Type": "application/json",
-        "action": "update_contact",
-        "signature": request.POST['signature']
-    }
-
-    url_request = get_url_gateway('booking/activity')
-    res = send_request_api(request, url_request, headers, data, 'POST', 300)
-    return res
-
-
 def update_passengers(request):
     passenger = []
-    passenger = []
-    for pax in request.session['activity_review_booking']['adult']:
-        pax.update({
-            'birth_date': '%s-%s-%s' % (
-                pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]], pax['birth_date'].split(' ')[0]),
-        })
-        if pax['identity_expdate'] != '':
+    file = read_cache_file(request, request.POST['signature'], 'activity_review_booking')
+    if file:
+        for pax in file['adult']:
             pax.update({
-                'identity_expdate': '%s-%s-%s' % (
-                    pax['identity_expdate'].split(' ')[2], month[pax['identity_expdate'].split(' ')[1]],
-                    pax['identity_expdate'].split(' ')[0])
+                'birth_date': '%s-%s-%s' % (pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]], pax['birth_date'].split(' ')[0]),
             })
-            pax['identity'] = {
-                "identity_country_of_issued_code": pax.pop('identity_country_of_issued_code'),
-                "identity_expdate": pax.pop('identity_expdate'),
-                "identity_number": pax.pop('identity_number'),
-                "identity_type": pax.pop('identity_type'),
-                "identity_image": pax.pop('identity_image'),
-            }
-        else:
-            pax.pop('identity_expdate')
-            pax.pop('identity_number')
-            pax.pop('identity_type')
-            pax.pop('identity_image')
-        passenger.append(pax)
+            if pax['identity_expdate'] != '':
+                pax.update({
+                    'identity_expdate': '%s-%s-%s' % (
+                        pax['identity_expdate'].split(' ')[2], month[pax['identity_expdate'].split(' ')[1]],
+                        pax['identity_expdate'].split(' ')[0])
+                })
+                pax['identity'] = {
+                    "identity_country_of_issued_code": pax.pop('identity_country_of_issued_code'),
+                    "identity_expdate": pax.pop('identity_expdate'),
+                    "identity_number": pax.pop('identity_number'),
+                    "identity_type": pax.pop('identity_type'),
+                    "identity_image": pax.pop('identity_image'),
+                }
+            else:
+                pax.pop('identity_expdate')
+                pax.pop('identity_number')
+                pax.pop('identity_type')
+                pax.pop('identity_image')
+            passenger.append(pax)
 
-    for pax in request.session['activity_review_booking']['senior']:
-        pax.update({
-            'birth_date': '%s-%s-%s' % (
-                pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
-                pax['birth_date'].split(' ')[0]),
-        })
-
-        if pax['identity_expdate'] != '':
+        for pax in file['senior']:
             pax.update({
-                'identity_expdate': '%s-%s-%s' % (
-                    pax['identity_expdate'].split(' ')[2], month[pax['identity_expdate'].split(' ')[1]],
-                    pax['identity_expdate'].split(' ')[0])
+                'birth_date': '%s-%s-%s' % (
+                    pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
+                    pax['birth_date'].split(' ')[0]),
             })
-            pax['identity'] = {
-                "identity_country_of_issued_code": pax.pop('identity_country_of_issued_code'),
-                "identity_expdate": pax.pop('identity_expdate'),
-                "identity_number": pax.pop('identity_number'),
-                "identity_type": pax.pop('identity_type'),
-                "identity_image": pax.pop('identity_image'),
-            }
-        else:
-            pax.pop('identity_expdate')
-            pax.pop('identity_number')
-            pax.pop('identity_type')
-            pax.pop('identity_image')
-        passenger.append(pax)
 
-    for pax in request.session['activity_review_booking']['child']:
-        pax.update({
-            'birth_date': '%s-%s-%s' % (
-                pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
-                pax['birth_date'].split(' ')[0]),
-        })
-        if pax['identity_expdate'] != '':
+            if pax['identity_expdate'] != '':
+                pax.update({
+                    'identity_expdate': '%s-%s-%s' % (
+                        pax['identity_expdate'].split(' ')[2], month[pax['identity_expdate'].split(' ')[1]],
+                        pax['identity_expdate'].split(' ')[0])
+                })
+                pax['identity'] = {
+                    "identity_country_of_issued_code": pax.pop('identity_country_of_issued_code'),
+                    "identity_expdate": pax.pop('identity_expdate'),
+                    "identity_number": pax.pop('identity_number'),
+                    "identity_type": pax.pop('identity_type'),
+                    "identity_image": pax.pop('identity_image'),
+                }
+            else:
+                pax.pop('identity_expdate')
+                pax.pop('identity_number')
+                pax.pop('identity_type')
+                pax.pop('identity_image')
+            passenger.append(pax)
+
+        for pax in file['child']:
             pax.update({
-                'identity_expdate': '%s-%s-%s' % (
-                    pax['identity_expdate'].split(' ')[2], month[pax['identity_expdate'].split(' ')[1]],
-                    pax['identity_expdate'].split(' ')[0])
+                'birth_date': '%s-%s-%s' % (
+                    pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
+                    pax['birth_date'].split(' ')[0]),
             })
-            pax['identity'] = {
-                "identity_country_of_issued_code": pax.pop('identity_country_of_issued_code'),
-                "identity_expdate": pax.pop('identity_expdate'),
-                "identity_number": pax.pop('identity_number'),
-                "identity_type": pax.pop('identity_type'),
-                "identity_image": pax.pop('identity_image'),
-            }
-        else:
-            pax.pop('identity_expdate')
-            pax.pop('identity_number')
-            pax.pop('identity_type')
-            pax.pop('identity_image')
-        passenger.append(pax)
+            if pax['identity_expdate'] != '':
+                pax.update({
+                    'identity_expdate': '%s-%s-%s' % (
+                        pax['identity_expdate'].split(' ')[2], month[pax['identity_expdate'].split(' ')[1]],
+                        pax['identity_expdate'].split(' ')[0])
+                })
+                pax['identity'] = {
+                    "identity_country_of_issued_code": pax.pop('identity_country_of_issued_code'),
+                    "identity_expdate": pax.pop('identity_expdate'),
+                    "identity_number": pax.pop('identity_number'),
+                    "identity_type": pax.pop('identity_type'),
+                    "identity_image": pax.pop('identity_image'),
+                }
+            else:
+                pax.pop('identity_expdate')
+                pax.pop('identity_number')
+                pax.pop('identity_type')
+                pax.pop('identity_image')
+            passenger.append(pax)
 
-    for pax in request.session['activity_review_booking']['infant']:
-        pax.update({
-            'birth_date': '%s-%s-%s' % (
-                pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
-                pax['birth_date'].split(' ')[0]),
-        })
-        if pax['identity_expdate'] != '':
+        for pax in file['infant']:
             pax.update({
-                'identity_expdate': '%s-%s-%s' % (
-                    pax['identity_expdate'].split(' ')[2], month[pax['identity_expdate'].split(' ')[1]],
-                    pax['identity_expdate'].split(' ')[0])
+                'birth_date': '%s-%s-%s' % (
+                    pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
+                    pax['birth_date'].split(' ')[0]),
             })
-            pax['identity'] = {
-                "identity_country_of_issued_code": pax.pop('identity_country_of_issued_code'),
-                "identity_expdate": pax.pop('identity_expdate'),
-                "identity_number": pax.pop('identity_number'),
-                "identity_type": pax.pop('identity_type'),
-                "identity_image": pax.pop('identity_image'),
-            }
-        else:
-            pax.pop('identity_expdate')
-            pax.pop('identity_number')
-            pax.pop('identity_type')
-            pax.pop('identity_image')
-        passenger.append(pax)
-
-    data = {
-        "passengers": passenger,
-    }
-    headers = {
-        "Accept": "application/json,text/html,application/xml",
-        "Content-Type": "application/json",
-        "action": "update_passengers",
-        "signature": request.POST['signature']
-    }
+            if pax['identity_expdate'] != '':
+                pax.update({
+                    'identity_expdate': '%s-%s-%s' % (
+                        pax['identity_expdate'].split(' ')[2], month[pax['identity_expdate'].split(' ')[1]],
+                        pax['identity_expdate'].split(' ')[0])
+                })
+                pax['identity'] = {
+                    "identity_country_of_issued_code": pax.pop('identity_country_of_issued_code'),
+                    "identity_expdate": pax.pop('identity_expdate'),
+                    "identity_number": pax.pop('identity_number'),
+                    "identity_type": pax.pop('identity_type'),
+                    "identity_image": pax.pop('identity_image'),
+                }
+            else:
+                pax.pop('identity_expdate')
+                pax.pop('identity_number')
+                pax.pop('identity_type')
+                pax.pop('identity_image')
+            passenger.append(pax)
+    try:
+        data = {
+            "passengers": passenger,
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "update_passengers",
+            "signature": request.POST['new_signature'] if request.POST.get('use_cache') else request.POST['signature']
+        }
+    except Exception as e:
+        logging.error(msg=str(e) + '\n' + traceback.format_exc())
 
     url_request = get_url_gateway('booking/activity')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
@@ -508,53 +576,73 @@ def update_passengers(request):
 
 
 def get_review_booking_data(request):
-    return request.session['activity_review_booking']
+    file = read_cache_file(request, request.POST['signature'], 'activity_review_booking')
+    return file
 
 def update_options(request):
     response = get_cache_data(request)
 
     countries = response['result']['response']['airline']['country']
-
-    perbooking = request.session['activity_perbooking']
-    for booking in perbooking:
-        if booking['name'] == 'Nationality':
-            for country in countries:
-                if country['code'] == booking.value:
-                    booking.update({
-                        'value': country['name']
-                    })
-                    break
-        booking.pop('name')
-
-    perpax = request.session['activity_perpax']
-    for pax in perpax:
-        for item in pax:
-            if item['name'] == 'Nationality':
+    file = read_cache_file(request, request.POST['signature'], 'activity_perbooking')
+    if file:
+        # perbooking = request.session['activity_perbooking']
+        perbooking = file
+        for booking in perbooking:
+            if booking['name'] == 'Nationality':
                 for country in countries:
-                    if country['code'] == item['value']:
-                        item.update({
+                    if country['code'] == booking.value:
+                        booking.update({
                             'value': country['name']
                         })
                         break
-            item.pop('name')
+            if booking.get('name'):
+                booking.pop('name')
+    else:
+        perbooking = []
 
-    upload_val = request.session['activity_review_booking']['upload_value']
-    for upl in upload_val:
-        upl.pop('name')
+    file = read_cache_file(request, request.POST['signature'], 'activity_perpax')
+    if file:
+        perpax = file
+        # perpax = request.session['activity_perpax']
+        for pax in perpax:
+            for item in pax:
+                if item['name'] == 'Nationality':
+                    for country in countries:
+                        if country['code'] == item['value']:
+                            item.update({
+                                'value': country['name']
+                            })
+                            break
+                if item.get('name'):
+                    item.pop('name')
+    else:
+        perpax = []
+    file = read_cache_file(request, request.POST['signature'], 'upload_value')
+    if file:
+        upload_val = file['upload_value']
+        # upload_val = request.session['activity_review_booking']['upload_value']
+        for upl in upload_val:
+            if upl.get('name'):
+                upl.pop('name')
+    else:
+        upload_val = []
+    try:
+        data = {
+            "option": {
+                "perBooking": perbooking,
+                "perPax": perpax
+            },
+            "upload_value": upload_val,
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "update_options",
+            "signature": request.POST['new_signature'] if request.POST.get('use_cache') else request.POST['signature']
+        }
+    except Exception as e:
+        logging.error(msg=str(e) + '\n' + traceback.format_exc())
 
-    data = {
-        "option": {
-            "perBooking": perbooking,
-            "perPax": perpax
-        },
-        "upload_value": upload_val,
-    }
-    headers = {
-        "Accept": "application/json,text/html,application/xml",
-        "Content-Type": "application/json",
-        "action": "update_options",
-        "signature": request.POST['signature']
-    }
 
     url_request = get_url_gateway('booking/activity')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
@@ -589,9 +677,11 @@ def commit_booking(request):
                 _logger.error('use_point not found')
 
             if request.POST['voucher_code'] != '':
-                data.update({
-                    'voucher': data_voucher(request.POST['voucher_code'], 'activity', [request.session['activity_pick']['provider_code']]),
-                })
+                file = read_cache_file(request, request.POST['signature'], 'activity_pick')
+                if file:
+                    data.update({
+                        'voucher': data_voucher(request.POST['voucher_code'], 'activity', [file['provider_code']]),
+                    })
             if request.POST.get('payment_reference'):
                 data.update({
                     'payment_reference': request.POST['payment_reference']
@@ -648,9 +738,10 @@ def get_booking(request):
                     rec2.update({
                         'visit_date': datetime.strptime(rec2['visit_date'], '%Y-%m-%d').strftime('%d %b %Y')
                     })
-        set_session(request, 'activity_get_booking_response', res)
-        _logger.info(json.dumps(request.session['activity_get_booking_response']))
-        request.session.modified = True
+        write_cache_file(request, request.POST['signature'], 'activity_get_booking_response', res)
+        # set_session(request, 'activity_get_booking_response', res)
+        # _logger.info(json.dumps(request.session['activity_get_booking_response']))
+        # request.session.modified = True
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -680,7 +771,11 @@ def issued_booking(request):
 
         if request.POST['voucher_code'] != '':
             try:
-                activity_get_booking = request.session['activity_get_booking_response'] if request.session.get('activity_get_booking_response') else json.loads(request.POST['booking'])
+                file = read_cache_file(request, request.POST['signature'], 'activity_get_booking_response')
+                if file:
+                    activity_get_booking = file
+                else:
+                    activity_get_booking = json.loads(request.POST['booking'])
                 data.update({
                     'voucher': data_voucher(request.POST['voucher_code'], 'activity',[activity_get_booking['result']['response']['provider']]),
                     # 'voucher': data_voucher(request.POST['voucher_code'], 'activity',['bemyguest']),
@@ -773,10 +868,12 @@ def update_service_charge(request):
                         if upsell['pax_type'] not in total_upsell_dict:
                             total_upsell_dict[upsell['pax_type']] = 0
                         total_upsell_dict[upsell['pax_type']] += pricing['amount']
-            set_session(request, 'activity_upsell_' + request.POST['signature'], total_upsell_dict)
 
-            _logger.info(json.dumps(request.session['activity_upsell_' + request.POST['signature']]))
-            _logger.info("SUCCESS update_service_charge ACTIVITY SIGNATURE " + request.POST['signature'])
+            write_cache_file(request, request.POST['signature'], 'activity_upsell', total_upsell_dict)
+            # set_session(request, 'activity_upsell_' + request.POST['signature'], total_upsell_dict)
+
+            # _logger.info(json.dumps(request.session['activity_upsell_' + request.POST['signature']]))
+            # _logger.info("SUCCESS update_service_charge ACTIVITY SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR update_service_charge ACTIVITY SIGNATURE " + request.POST['signature'])
     except Exception as e:
@@ -807,9 +904,10 @@ def booker_insentif_booking(request):
             for upsell in data['passengers']:
                 for pricing in upsell['pricing']:
                     total_upsell += pricing['amount']
-            set_session(request, 'activity_upsell_booker_'+request.POST['signature'], total_upsell)
-            _logger.info(json.dumps(request.session['activity_upsell_booker_' + request.POST['signature']]))
-            _logger.info("SUCCESS update_service_charge_booker Activity SIGNATURE " + request.POST['signature'])
+            write_cache_file(request, request.POST['signature'], 'activity_upsell_booker', total_upsell)
+            # set_session(request, 'activity_upsell_booker_'+request.POST['signature'], total_upsell)
+            # _logger.info(json.dumps(request.session['activity_upsell_booker_' + request.POST['signature']]))
+            # _logger.info("SUCCESS update_service_charge_booker Activity SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR update_service_charge_activity_booker Activity SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
@@ -895,32 +993,77 @@ def get_auto_complete(request):
     return record_json
 
 def passenger_page(request):
+    res = {}
     try:
-        res = {}
-        res['response'] = request.session['activity_pick']
-        res['highlights'] = request.session['activity_pick']['highlights']
-        res['activity_pax_data'] = request.session['activity_pax_data']
-        res['pax_count'] = request.session['activity_pax_data']['pax_count']
-        res['detail'] = request.session['activity_request']['activity_types_data'][request.session['activity_type_pick']]['options']
-        res['price'] = request.session['activity_request']['activity_date_data']
+        file = read_cache_file(request, request.POST['signature'], 'activity_pick')
+        if file:
+            res['response'] = file
+            res['highlights'] = file['highlights']
+
+        file = read_cache_file(request, request.POST['signature'], 'activity_pax_data')
+        if file:
+            res['activity_pax_data'] = file
+            res['pax_count'] = file['pax_count']
+        file = read_cache_file(request, request.POST['signature'], 'activity_request')
+        if file:
+            res['price'] = file['activity_date_data']
+            activity_type_pick_file = read_cache_file(request, request.POST['signature'], 'activity_type_pick')
+            if activity_type_pick_file:
+                res['detail'] = file['activity_types_data'][int(activity_type_pick_file)]['options']
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
 
 def review_page(request):
+    res = {}
     try:
-        res = {}
-        res['pax_count'] = request.session['activity_pax_data']['pax_count']
-        res['printout_paxs'] = request.session['printout_paxs' + request.POST['signature']]
-        res['printout_prices'] = request.session['printout_prices' + request.POST['signature']]
-        res['price'] = request.session['activity_price']['result']['response']
-        res['options'] = request.session['activity_request']['activity_types_data'][int(request.session['activity_request']['activity_type_pick'])]['options']
-        res['booker'] = request.session['activity_review_booking']['booker']
-        res['contact_person'] = request.session['activity_review_booking']['contacts']
-        res['all_pax'] = request.session['activity_review_booking']['all_pax']
-        res['upsell_price_dict'] = request.session.get('activity_upsell_%s' % request.POST['signature']) and request.session.get('activity_upsell_%s' % request.POST['signature']) or {}
-        res['response'] = request.session['activity_pick']
-        res['highlights'] = request.session['activity_pick']['highlights']
+        file = read_cache_file(request, request.POST['signature'], 'activity_pax_data')
+        if file:
+            res['pax_count'] = file['pax_count']
+        # res['pax_count'] = request.session['activity_pax_data']['pax_count']
+
+        file = read_cache_file(request, request.POST['signature'], 'printout_paxs')
+        if file:
+            res['printout_paxs'] = file
+        # res['printout_paxs'] = request.session['printout_paxs' + request.POST['signature']]
+
+        file = read_cache_file(request, request.POST['signature'], 'printout_prices')
+        if file:
+            res['printout_prices'] = file
+        # res['printout_prices'] = request.session['printout_prices' + request.POST['signature']]
+
+        file = read_cache_file(request, request.POST['signature'], 'activity_price')
+        if file:
+            res['price'] = file['result']['response']
+        # res['price'] = request.session['activity_price']['result']['response']
+
+        file = read_cache_file(request, request.POST['signature'], 'activity_request')
+        if file:
+            res['options'] = file['activity_types_data'][int(file['activity_type_pick'])]['options']
+        # res['options'] = request.session['activity_request']['activity_types_data'][int(request.session['activity_request']['activity_type_pick'])]['options']
+
+        file = read_cache_file(request, request.POST['signature'], 'activity_review_booking')
+        if file:
+            res['booker'] = file['booker']
+            res['contact_person'] = file['contacts']
+            res['all_pax'] = file['all_pax']
+        # res['booker'] = request.session['activity_review_booking']['booker']
+        # res['contact_person'] = request.session['activity_review_booking']['contacts']
+        # res['all_pax'] = request.session['activity_review_booking']['all_pax']
+
+        file = read_cache_file(request, request.POST['signature'], 'activity_upsell')
+        if file:
+            res['upsell_price_dict'] = file
+        else:
+            res['upsell_price_dict'] = {}
+        # res['upsell_price_dict'] = request.session.get('activity_upsell_%s' % request.POST['signature']) and request.session.get('activity_upsell_%s' % request.POST['signature']) or {}
+
+        file = read_cache_file(request, request.POST['signature'], 'activity_pick')
+        if file:
+            res['response'] = file
+            res['highlights'] = file['highlights']
+        # res['response'] = request.session['activity_pick']
+        # res['highlights'] = request.session['activity_pick']['highlights']
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res

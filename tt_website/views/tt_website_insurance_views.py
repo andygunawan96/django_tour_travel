@@ -42,7 +42,7 @@ def can_book(now, dep):
     return dep > now
 
 def insurance(request):
-    if 'user_account' in request.session._session and 'ticketing_insurance' in request.session['user_account']['co_agent_frontend_security']:
+    if 'user_account' in request.session and 'ticketing_insurance' in request.session['user_account']['co_agent_frontend_security']:
         try:
             values = get_data_template(request)
             javascript_version = get_javascript_version(request)
@@ -71,9 +71,14 @@ def insurance(request):
             # get_data_awal
             cache = {}
             try:
-                cache['insurance'] = {
-                    'departure': request.session['insurance_request']['departure'][0],
-                }
+                file = read_cache_file(request, '', 'insurance_request')
+                if file:
+                    cache['insurance'] = {
+                        'departure': file['departure'][0],
+                    }
+                # cache['insurance'] = {
+                #     'departure': request.session['insurance_request']['departure'][0],
+                # }
                 if cache['insurance']['departure'] == 'Invalid date':
                     cache['insurance']['departure'] = convert_string_to_date_to_string_front_end(str(datetime.now())[:10])
             except:
@@ -106,7 +111,7 @@ def insurance(request):
         return no_session_logout(request)
 
 def search(request):
-    if 'user_account' in request.session._session:
+    if 'user_account' in request.session:
         try:
             # check_captcha(request)
             javascript_version = get_javascript_version(request)
@@ -118,9 +123,11 @@ def search(request):
                     phone_code.append(i['phone_code'])
             phone_code = sorted(phone_code)
 
+            frontend_signature = generate_signature()
+
             values = get_data_template(request, 'search')
             try:
-                set_session(request, 'insurance_request', {
+                insurance_request = {
                     'adult': 1,
                     'date_start': request.POST['insurance_date'].split(' - ')[0],
                     'date_end': request.POST['insurance_date'].split(' - ')[1],
@@ -131,7 +138,23 @@ def search(request):
                     'plan_trip': request.POST['insurance_trip'],
                     'provider': request.POST['insurance_provider'],
                     'is_senior': True if request.POST.get('insurance_is_senior') else False,
-                })
+                }
+
+                write_cache_file(request, frontend_signature, 'insurance_request', insurance_request)
+                write_cache_file(request, '', 'insurance_request', insurance_request)
+
+                # set_session(request, 'insurance_request', {
+                #     'adult': 1,
+                #     'date_start': request.POST['insurance_date'].split(' - ')[0],
+                #     'date_end': request.POST['insurance_date'].split(' - ')[1],
+                #     'origin': request.POST['insurance_origin'],
+                #     'destination': request.POST['insurance_destination'],
+                #     'destination_area': request.POST['insurance_destination'].split(' - ')[1] if request.POST['insurance_provider'] == 'bcainsurance' else request.POST['insurance_destination_area'],
+                #     'type': request.POST['radio_insurance_type'],
+                #     'plan_trip': request.POST['insurance_trip'],
+                #     'provider': request.POST['insurance_provider'],
+                #     'is_senior': True if request.POST.get('insurance_is_senior') else False,
+                # })
             except Exception as e:
                 _logger.error('Data POST for insurance_request not found use cache')
                 _logger.error("%s, %s" % (str(e), traceback.format_exc()))
@@ -141,14 +164,19 @@ def search(request):
 
             provider_insurance_data = get_config(request, request.session['signature'])
             provider_insurance = [rec for rec in provider_insurance_data['result']['response']]
+
+            file = read_cache_file(request, frontend_signature, 'insurance_request')
+            if file:
+                insurance_request = file
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
                 'countries': airline_country,
                 'phone_code': phone_code,
                 'signature': request.session['signature'],
+                'frontend_signature': frontend_signature,
                 'time_limit': 1200,
-                'insurance_request': request.session['insurance_request'],
+                'insurance_request': insurance_request,
                 'static_path_url_server': get_url_static_path(),
                 'username': request.session['user_account'],
                 'javascript_version': javascript_version,
@@ -161,8 +189,8 @@ def search(request):
     else:
         return no_session_logout(request)
 
-def passenger(request):
-    if 'user_account' in request.session._session:
+def passenger(request, signature=''):
+    if 'user_account' in request.session:
         try:
             javascript_version = get_javascript_version(request)
             response = get_cache_data(request)
@@ -184,17 +212,23 @@ def passenger(request):
             phone_code = sorted(phone_code)
 
             try:
-                time_limit = get_timelimit_product(request, 'insurance')
+                time_limit = get_timelimit_product(request, 'insurance', signature)
                 if time_limit == 0:
                     time_limit = int(request.POST['time_limit_input'])
-                set_session(request, 'time_limit', time_limit)
+                write_cache_file(request, signature, 'time_limit', time_limit)
+                # set_session(request, 'time_limit_%s' % signature, time_limit)
             except:
-                pass
+                time_limit = int(request.POST['time_limit_input'])
+                write_cache_file(request, signature, 'time_limit', time_limit)
 
             try:
-                set_session(request, 'insurance_pick', json.loads(request.POST['data_insurance']))
-                set_session(request, 'insurance_signature', request.POST['signature_data'])
-                insurance_request_with_passenger = copy.deepcopy(request.session['insurance_request'])
+                write_cache_file(request, signature, 'insurance_pick', json.loads(request.POST['data_insurance']))
+                # set_session(request, 'insurance_pick', json.loads(request.POST['data_insurance']))
+                # set_session(request, 'insurance_signature', request.POST['signature_data'])
+                file = read_cache_file(request, signature, 'insurance_request')
+                if file:
+                    insurance_request_with_passenger = file
+                # insurance_request_with_passenger = copy.deepcopy(request.session['insurance_request'])
                 insurance_request_with_passenger.update({
                     "adult": int(request.POST['pax']),
                     "family": {
@@ -202,7 +236,8 @@ def passenger(request):
                         "child": int(request.POST['child'])
                     }
                 })
-                set_session(request, 'insurance_request_with_passenger', insurance_request_with_passenger)
+                write_cache_file(request, signature, 'insurance_request_with_passenger', insurance_request_with_passenger)
+                # set_session(request, 'insurance_request_with_passenger', insurance_request_with_passenger)
             except Exception as e:
                 _logger.error('Data POST for insurance_pick, insurance_signature, insurance_request not found use cache')
                 _logger.error("%s, %s" % (str(e), traceback.format_exc()))
@@ -215,16 +250,19 @@ def passenger(request):
             adult = []
             family = []
             sequence = 2
-            for i in range(int(request.session['insurance_request_with_passenger']['adult'])):
+            file = read_cache_file(request, signature, 'insurance_request_with_passenger')
+            if file:
+                insurance_request_with_passenger = file
+            for i in range(int(insurance_request_with_passenger['adult'])):
                 adult.append('')
-            for i in range(int(request.session['insurance_request_with_passenger']['family']['adult'])):
+            for i in range(int(insurance_request_with_passenger['family']['adult'])):
                 family.append({
                     "sequence": sequence,
                     "pax_type": 'Adult'
                 })
                 sequence += 1
             sequence = 1
-            for i in range(int(request.session['insurance_request_with_passenger']['family']['child'])):
+            for i in range(int(insurance_request_with_passenger['family']['child'])):
                 family.append({
                     "sequence": sequence,
                     "pax_type": 'Child'
@@ -232,6 +270,14 @@ def passenger(request):
                 sequence += 1
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
+
+            file = read_cache_file(request, signature, 'time_limit')
+            if file:
+                time_limit = file
+
+            file = read_cache_file(request, signature, 'insurance_pick')
+            if file:
+                insurance_pick = file
 
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
@@ -242,12 +288,12 @@ def passenger(request):
                 'family': family,
                 'adults_count': len(adult),
                 'adult_title': adult_title,
-                'insurance_request': request.session['insurance_request_with_passenger'],
+                'insurance_request': insurance_request_with_passenger,
                 'id_types': id_type,
-                'time_limit': request.session['time_limit'],
-                'response': request.session['insurance_pick'],
+                'time_limit': time_limit,
+                'response': insurance_pick,
                 'username': request.session['user_account'],
-                'signature': request.session['insurance_signature'],
+                'signature': signature,
                 # 'cookies': json.dumps(res['result']['cookies']),
                 'javascript_version': javascript_version,
                 'static_path_url_server': get_url_static_path(),
@@ -259,8 +305,8 @@ def passenger(request):
     else:
         return no_session_logout(request)
 
-def review(request):
-    if 'user_account' in request.session._session:
+def review(request, signature=''):
+    if 'user_account' in request.session:
         try:
             javascript_version = get_javascript_version(request)
             response = get_cache_data(request)
@@ -282,13 +328,17 @@ def review(request):
                 'nationality_code': request.POST['booker_nationality_id'],
                 'booker_seq_id': request.POST['booker_id']
             }
-            for i in range(int(request.session['insurance_request_with_passenger']['adult'])):
+
+            file = read_cache_file(request, signature, 'insurance_request_with_passenger')
+            if file:
+                insurance_request_with_passenger = file
+            for i in range(int(insurance_request_with_passenger['adult'])):
                 # BIKIN buat pasangan ANAK 1 2 3, ahli waris
                 relation = []
                 ahli_waris = {}
                 addons = ''
                 counter = 1
-                for j in range(int(request.session['insurance_request_with_passenger']['family']['adult'])):
+                for j in range(int(insurance_request_with_passenger['family']['adult'])):
                     relation.append({
                         "title": request.POST['Adult_relation%s_title%s' % (str(i + 1),counter)],
                         "first_name": request.POST['Adult_relation%s_first_name%s' % (str(i + 1),counter)],
@@ -303,7 +353,7 @@ def review(request):
                         "place_of_birth": request.POST.get('Adult_relation%s_place_of_birth%s' % (str(i + 1), counter),''),
                     })
                     counter += 1
-                for j in range(int(request.session['insurance_request_with_passenger']['family']['child'])):
+                for j in range(int(insurance_request_with_passenger['family']['child'])):
                     relation.append({
                         "title": request.POST['Child_relation%s_title%s' % (str(i + 1), counter)],
                         "first_name": request.POST['Child_relation%s_first_name%s' % (str(i + 1), counter)],
@@ -319,7 +369,11 @@ def review(request):
 
                     })
                     counter += 1
-                if request.session['insurance_pick']['provider'] == 'bcainsurance':
+
+                file = read_cache_file(request, signature, 'insurance_pick')
+                if file:
+                    insurance_pick = file
+                if insurance_pick['provider'] == 'bcainsurance':
                     if request.POST['Adult_relation_beneficiary_first_name' + str(i + 1)]:
                         ahli_waris.update({
                             "title": request.POST['Adult_relation_beneficiary_title' + str(i + 1)],
@@ -339,12 +393,12 @@ def review(request):
                 identity_expdate = ''
                 identity_country_of_issued = ''
 
-                if request.session['insurance_pick']['provider'] == 'bcainsurance':
+                if insurance_pick['provider'] == 'bcainsurance':
                     identity_number = request.POST['adult_passport_passport_number' + str(i + 1)]
                     identity_type = request.POST['adult_passport_id_type' + str(i + 1)]
                     identity_expdate = request.POST['adult_passport_passport_expired_date' + str(i + 1)]
                     identity_country_of_issued = request.POST['adult_passport_passport_country_of_issued' + str(i + 1) + '_id']
-                elif request.session['insurance_pick']['provider'] == 'zurich':
+                elif insurance_pick['provider'] == 'zurich':
                     if request.POST.get('adult_additional_benefit' + str(i + 1)):
                         addons = json.loads(request.POST['adult_additional_benefit' + str(i + 1)])
 
@@ -453,43 +507,66 @@ def review(request):
                     'is_also_booker': True
                 })
 
-            set_session(request, 'insurance_create_passengers', {
+            write_cache_file(request, signature, 'insurance_create_passengers', {
                 'booker': booker,
                 'adult': adult,
                 'contact': contact
             })
+
+            # set_session(request, 'insurance_create_passengers', {
+            #     'booker': booker,
+            #     'adult': adult,
+            #     'contact': contact
+            # })
         except Exception as e:
             _logger.error("%s, %s" % (str(e), traceback.format_exc()))
         schedules = []
         journeys = []
 
         try:
-            time_limit = get_timelimit_product(request, 'insurance')
+            time_limit = get_timelimit_product(request, 'insurance', signature)
             if time_limit == 0:
                 time_limit = int(request.POST['time_limit_input'])
-            set_session(request, 'time_limit', time_limit)
+            write_cache_file(request, signature, 'time_limit', time_limit)
+            # set_session(request, 'time_limit_%s' % signature, time_limit)
         except:
-            pass
+            time_limit = int(request.POST['time_limit_input'])
+            write_cache_file(request, signature, 'time_limit', time_limit)
 
-        try:
-            set_session(request, 'insurance_signature', request.POST['signature'])
-        except:
-            pass
+        # try:
+        #     set_session(request, 'insurance_signature', request.POST['signature'])
+        # except:
+        #     pass
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
         try:
+            file = read_cache_file(request, signature, 'insurance_request_with_passenger')
+            if file:
+                insurance_request_with_passenger = file
+            file = read_cache_file(request, signature, 'insurance_pick')
+            if file:
+                insurance_pick = file
+            file = read_cache_file(request, signature, 'insurance_upsell')
+            if file:
+                insurance_upsell = file
+            else:
+                insurance_upsell = 0
+            file = read_cache_file(request, signature, 'insurance_create_passengers')
+            if file:
+                insurance_create_passengers = file
+
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
                 'time_limit': time_limit,
                 'id_types': id_type,
-                'insurance_request': request.session['insurance_request_with_passenger'],
-                'response': request.session['insurance_pick'],
-                'upsell': request.session.get('insurance_upsell_' + request.session['insurance_signature']) and request.session.get('insurance_upsell_' + request.session['insurance_signature']) or 0,
+                'insurance_request': insurance_request_with_passenger,
+                'response': insurance_pick,
+                'upsell': insurance_upsell,
                 'username': request.session['user_account'],
-                'passenger': request.session['insurance_create_passengers'],
+                'passenger': insurance_create_passengers,
                 'javascript_version': javascript_version,
-                'signature': request.session['insurance_signature'],
+                'signature': signature,
                 'static_path_url_server': get_url_static_path(),
                 # 'cookies': json.dumps(res['result']['cookies']),
 
@@ -511,17 +588,23 @@ def booking(request, order_number):
         elif 'user_account' not in request.session and 'btc' not in web_mode:
             raise Exception('Insurance get booking without login in btb web')
         try:
-            set_session(request, 'insurance_order_number', base64.b64decode(order_number).decode('ascii'))
+            insurance_order_number = base64.b64decode(order_number).decode('ascii')
+            # set_session(request, 'insurance_order_number', base64.b64decode(order_number).decode('ascii'))
         except:
             try:
-                set_session(request, 'insurance_order_number', base64.b64decode(order_number[:-1]).decode('ascii'))
+                insurance_order_number = base64.b64decode(order_number[:-1]).decode('ascii')
+                # set_session(request, 'insurance_order_number', base64.b64decode(order_number[:-1]).decode('ascii'))
             except:
-                set_session(request, 'insurance_order_number', order_number)
+                insurance_order_number = order_number
+                # set_session(request, 'insurance_order_number', order_number)
+
+        write_cache_file(request, request.session['signature'], 'insurance_order_number', insurance_order_number)
+
         values.update({
             'static_path': path_util.get_static_path(MODEL_NAME),
             'id_types': id_type,
             'cabin_class_types': cabin_class_type,
-            'order_number': request.session['insurance_order_number'],
+            'order_number': insurance_order_number,
             'username': request.session.get('user_account') or {'co_user_login': ''},
             'signature': request.session['signature'],
             # 'cookies': json.dumps(res['result']['cookies']),
@@ -537,33 +620,33 @@ def booking(request, order_number):
             raise Exception('Make response code 500!')
     return render(request, MODEL_NAME+'/insurance/insurance_booking_templates.html', values)
 
-def seat_map(request):
-    if 'user_account' in request.session._session:
-        try:
-            javascript_version = get_javascript_version(request)
-            values = get_data_template(request)
-            try:
-                set_session(request, 'insurance_seat_map_request', json.loads(request.POST['seat_map_request_input']))
-                set_session(request, 'insurance_passenger_request', json.loads(request.POST['passenger_input']))
-            except:
-                pass
-            paxs = []
-            for pax_type in request.session['insurance_passenger_request']:
-                for rec in request.session['insurance_passenger_request'][pax_type]:
-                    paxs.append(rec)
-            values.update({
-                'static_path': path_util.get_static_path(MODEL_NAME),
-                'paxs': paxs,
-                'username': request.session['user_account'],
-                'signature': request.session['insurance_signature'],
-                # 'co_uid': request.session['co_uid'],
-                # 'cookies': json.dumps(res['result']['cookies']),
-                'javascript_version': javascript_version,
-                'static_path_url_server': get_url_static_path(),
-            })
-        except Exception as e:
-            _logger.error(str(e) + '\n' + traceback.format_exc())
-            raise Exception('Make response code 500!')
-        return render(request, MODEL_NAME+'/insurance/insurance_seat_map_templates.html', values)
-    else:
-        return no_session_logout(request)
+# def seat_map(request):
+#     if 'user_account' in request.session._session:
+#         try:
+#             javascript_version = get_javascript_version(request)
+#             values = get_data_template(request)
+#             try:
+#                 set_session(request, 'insurance_seat_map_request', json.loads(request.POST['seat_map_request_input']))
+#                 set_session(request, 'insurance_passenger_request', json.loads(request.POST['passenger_input']))
+#             except:
+#                 pass
+#             paxs = []
+#             for pax_type in request.session['insurance_passenger_request']:
+#                 for rec in request.session['insurance_passenger_request'][pax_type]:
+#                     paxs.append(rec)
+#             values.update({
+#                 'static_path': path_util.get_static_path(MODEL_NAME),
+#                 'paxs': paxs,
+#                 'username': request.session['user_account'],
+#                 'signature': request.session['insurance_signature'],
+#                 # 'co_uid': request.session['co_uid'],
+#                 # 'cookies': json.dumps(res['result']['cookies']),
+#                 'javascript_version': javascript_version,
+#                 'static_path_url_server': get_url_static_path(),
+#             })
+#         except Exception as e:
+#             _logger.error(str(e) + '\n' + traceback.format_exc())
+#             raise Exception('Make response code 500!')
+#         return render(request, MODEL_NAME+'/insurance/insurance_seat_map_templates.html', values)
+#     else:
+#         return no_session_logout(request)

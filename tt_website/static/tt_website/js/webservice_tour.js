@@ -25,80 +25,81 @@ function tour_redirect_signup(type){
                if(msg.result.error_code == 0){
                     tour_signature = msg.result.response.signature;
                     new_login_signature = msg.result.response.signature;
-
-                    if(type != 'search'){
-                        $.ajax({
-                           type: "POST",
-                           url: "/webservice/tour",
-                           headers:{
-                                'action': 'search',
-                           },
-                           data: {
-                               'use_cache': true,
-                               'signature': new_login_signature
-                           },
-                           success: function(msg) {
-                               if(msg.result.error_code == 0){
-                                    if(type != 'get_details'){
-                                        $.ajax({
-                                           type: "POST",
-                                           url: "/webservice/tour",
-                                           headers:{
-                                                'action': 'get_details',
-                                           },
-                                           data: {
-                                              'use_cache': true,
-                                              'signature': new_login_signature,
-                                           },
-                                           success: function(msg) {
-                                                if(msg.result.error_code == 0 && type != 'get_pricing'){
-                                                    $.ajax({
-                                                       type: "POST",
-                                                       url: "/webservice/tour",
-                                                       headers:{
-                                                            'action': 'get_pricing',
-                                                       },
-                                                       data: {
-                                                            'use_cache': true,
-                                                            'signature': new_login_signature
-                                                       },
-                                                       success: function(msg) {
-                                                            if(type != 'sell_journeys' && msg.result.error_code == 0){
-
-                                                            }else{
-                                                                signature = new_login_signature;
-                                                                $('#myModalSignin').modal('hide');
-                                                                location.reload();
-
-                                                            }
-                                                    },error: function(XMLHttpRequest, textStatus, errorThrown) {
-                                                       },timeout: 60000
-                                                    });
-                                                }else{
-                                                    signature = new_login_signature;
-                                                    $('#myModalSignin').modal('hide');
-                                                    location.reload();
-
-                                                }
-                                           },
-                                           error: function(XMLHttpRequest, textStatus, errorThrown) {
-                                           },timeout: 120000
-                                        });
-                                    }else{
-                                        signature = new_login_signature;
-                                        $('#myModalSignin').modal('hide');
-                                        location.reload();
-                                    }
-                               }
-                           },
-                           error: function(XMLHttpRequest, textStatus, errorThrown) {
-                           },timeout: 120000 // sets timeout to 120 seconds
-                        });
-                    }else{
-                        signature = new_login_signature;
-                        $('#myModalSignin').modal('hide');
-                        location.reload();
-                    }
+                    $('#myModalSignin').modal('hide');
+                    window.location.href = '/';
+//                    if(type != 'search'){
+//                        $.ajax({
+//                           type: "POST",
+//                           url: "/webservice/tour",
+//                           headers:{
+//                                'action': 'search',
+//                           },
+//                           data: {
+//                               'use_cache': true,
+//                               'signature': new_login_signature
+//                           },
+//                           success: function(msg) {
+//                               if(msg.result.error_code == 0){
+//                                    if(type != 'get_details'){
+//                                        $.ajax({
+//                                           type: "POST",
+//                                           url: "/webservice/tour",
+//                                           headers:{
+//                                                'action': 'get_details',
+//                                           },
+//                                           data: {
+//                                              'use_cache': true,
+//                                              'signature': new_login_signature,
+//                                           },
+//                                           success: function(msg) {
+//                                                if(msg.result.error_code == 0 && type != 'get_pricing'){
+//                                                    $.ajax({
+//                                                       type: "POST",
+//                                                       url: "/webservice/tour",
+//                                                       headers:{
+//                                                            'action': 'get_pricing',
+//                                                       },
+//                                                       data: {
+//                                                            'use_cache': true,
+//                                                            'signature': new_login_signature
+//                                                       },
+//                                                       success: function(msg) {
+//                                                            if(type != 'sell_journeys' && msg.result.error_code == 0){
+//
+//                                                            }else{
+//                                                                signature = new_login_signature;
+//                                                                $('#myModalSignin').modal('hide');
+//                                                                location.reload();
+//
+//                                                            }
+//                                                    },error: function(XMLHttpRequest, textStatus, errorThrown) {
+//                                                       },timeout: 60000
+//                                                    });
+//                                                }else{
+//                                                    signature = new_login_signature;
+//                                                    $('#myModalSignin').modal('hide');
+//                                                    location.reload();
+//
+//                                                }
+//                                           },
+//                                           error: function(XMLHttpRequest, textStatus, errorThrown) {
+//                                           },timeout: 120000
+//                                        });
+//                                    }else{
+//                                        signature = new_login_signature;
+//                                        $('#myModalSignin').modal('hide');
+//                                        location.reload();
+//                                    }
+//                               }
+//                           },
+//                           error: function(XMLHttpRequest, textStatus, errorThrown) {
+//                           },timeout: 120000 // sets timeout to 120 seconds
+//                        });
+//                    }else{
+//                        signature = new_login_signature;
+//                        $('#myModalSignin').modal('hide');
+//                        location.reload();
+//                    }
                }
            }catch(err){
                console.log(err)
@@ -121,6 +122,8 @@ function tour_redirect_signup(type){
 
 function tour_login(data, type=''){
     //document.getElementById('activity_category').value.split(' - ')[1]
+    if(typeof(frontend_signature) === 'undefined')
+        frontend_signature = '';
     getToken();
     $.ajax({
        type: "POST",
@@ -129,7 +132,7 @@ function tour_login(data, type=''){
             'action': 'signin',
        },
        data: {
-
+            'frontend_signature': frontend_signature
        },
        success: function(msg) {
            if(msg.result.error_code == 0){
@@ -176,6 +179,7 @@ function tour_page_search(){
        },
        data: {
             'signature': signature,
+            'frontend_signature': frontend_signature
        },
        success: function(msg) {
             tour_request = msg.tour_request;
@@ -2502,14 +2506,16 @@ function tour_get_booking(order_number)
                         }
                     }else if(msg.result.response.hasOwnProperty('estimated_currency') && msg.result.response.estimated_currency.hasOwnProperty('other_currency') && Object.keys(msg.result.response.estimated_currency.other_currency).length > 0){
                         for(k in msg.result.response.estimated_currency.other_currency){
-                            text_detail+=`
+                            price_text+=`
+                                    <div class="row">
                                         <div class="col-lg-12" style="text-align:right;">
                                             <span style="font-size:13px; font-weight:bold;" id="total_price_`+msg.result.response.estimated_currency.other_currency[k].currency+`"> Estimated `+msg.result.response.estimated_currency.other_currency[k].currency+` `+getrupiah(msg.result.response.estimated_currency.other_currency[k].amount)+`</span><br/>
-                                        </div>`;
+                                        </div>
+                                    </div>`;
                         }
                     }
                     if(msg.result.response.state == 'booked' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-                     price_text+=`
+                        price_text+=`
                      <div style="text-align:right; padding-bottom:10px; margin-top:10px;"><img src="/static/tt_website/images/icon/symbol/upsell_price.png" alt="Bank" style="width:auto; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
                     else if(msg.result.response.state == 'issued' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
                         price_text+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website/images/icon/symbol/upsell_booker.png" alt="Bank" style="width:auto; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
@@ -2768,7 +2774,8 @@ function get_price_itinerary(request,type) {
     get_price_req = {
        'tour_code': dict_req.tour_code,
        'room_list': JSON.stringify(dict_req.room_list),
-       'provider': tour_data.provider
+       'provider': tour_data.provider,
+       'signature': signature
     }
     if (tour_data.tour_type == 'open')
     {
@@ -2793,7 +2800,7 @@ function get_price_itinerary(request,type) {
 }
 
 function table_price_update(msg,type){
-    if(document.URL.split('/')[document.URL.split('/').length-1] == 'review'){
+    if(document.URL.split('/')[document.URL.split('/').length-2] == 'review'){
         tax = 0;
         fare = 0;
         total_price = 0;
@@ -2873,7 +2880,7 @@ function table_price_update(msg,type){
         $test += '\n';
     }
 
-    if(document.URL.split('/')[document.URL.split('/').length-1] == 'review'){
+    if(document.URL.split('/')[document.URL.split('/').length-2] == 'review'){
         try{
              if (booker)
              {
@@ -3134,7 +3141,7 @@ function table_price_update(msg,type){
     $test += '\n‣ Grand Total : '+currency+' '+ getrupiah(grand_total)+
     '\nPrices and availability may change at any time';
     price_txt += `<hr style="padding:0px;">`;
-    if(document.URL.split('/')[document.URL.split('/').length-1] == 'review' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
+    if(document.URL.split('/')[document.URL.split('/').length-2] == 'review' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
         price_txt +=`<div style="text-align:right;"><img src="/static/tt_website/images/icon/symbol/upsell_price.png" alt="Bank" style="width:auto; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
     }
     // pindah ke pax
@@ -3329,7 +3336,7 @@ function get_price_itinerary_cache(type) {
             'action': 'get_pricing_cache',
        },
        data: {
-
+            'signature': signature
        },
        success: function(msg) {
             tour_price = msg;

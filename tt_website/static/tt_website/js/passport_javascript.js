@@ -341,7 +341,7 @@ function update_table(type){
             </div>
             `;
     }else if(type == 'review'){
-        if(document.URL.split('/')[document.URL.split('/').length-1] == 'review'){
+        if(document.URL.split('/')[document.URL.split('/').length-2] == 'review'){
             tax = 0;
             fare = 0;
             total_price = 0;

@@ -826,7 +826,7 @@
         </div>
         <div class="row full_activity_details">
             <div class="col-lg-12">
-                <form method='POST' action="{% url 'tt_website:activity_passenger'%}" id="go_to_pax" enctype="multipart/form-data">
+                <form method='POST' action="/activity/passenger" id="go_to_pax" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="row" style="position:sticky;top: -1px;z-index: 89;">
                         <div class="col-lg-12">
@@ -1636,6 +1636,8 @@
         }
 
         document.getElementById('data_id').innerHTML = text;
+        if(!document.getElementById('go_to_pax').action.includes(signature))
+            document.getElementById('go_to_pax').action += '/' + signature;
         document.getElementById('go_to_pax').submit();
     }
     try{

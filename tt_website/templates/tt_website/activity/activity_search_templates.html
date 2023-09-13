@@ -11,12 +11,11 @@
 <script src="{{ static_path }}js/webservice_content.js?version={{javascript_version}}"></script>
 <script>
     static_path_url_server = '{{static_path_url_server}}';
-    activity_request = `{{activity_request}}`;
-    activity_request = JSON.parse(activity_request.replace(/&#39;/g, '"'));
     offset = 600;
     get_new = true;
     name = '';
     signature = '{{signature}}';
+    frontend_signature = '{{frontend_signature}}';
     parsed_country = {{parsed_country}};
     parsed_city = {{parsed_city}};
     parsed_type = {{parsed_type}};
@@ -931,9 +930,8 @@
 {% include 'tt_website/footer.html' %}
 
 <script>
-    activity_login('');
+    get_activity_data_search_page(frontend_signature);
     activity_filter_render();
-
     function go_to_detail(sequence){
         for (i in activity_data)
         {

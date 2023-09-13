@@ -70,11 +70,18 @@ def train(request):
             # get_data_awal
             cache = {}
             try:
-                cache['train'] = {
-                    'origin': request.session['train_request']['origin'][0],
-                    'destination': request.session['train_request']['destination'][0],
-                    'departure': request.session['train_request']['departure'][0],
-                }
+                file = read_cache_file(request, '', 'train_request')
+                if file:
+                    cache['train'] = {
+                        'origin': file['origin'][0],
+                        'destination': file['destination'][0],
+                        'departure': file['departure'][0],
+                    }
+                # cache['train'] = {
+                #     'origin': request.session['train_request']['origin'][0],
+                #     'destination': request.session['train_request']['destination'][0],
+                #     'departure': request.session['train_request']['departure'][0],
+                # }
                 if cache['train']['departure'] == 'Invalid date':
                     cache['train']['departure'] = convert_string_to_date_to_string_front_end(str(datetime.now())[:10])
             except:
@@ -120,6 +127,9 @@ def search(request):
             phone_code = sorted(phone_code)
 
             values = get_data_template(request, 'search')
+
+            frontend_signature = generate_signature()
+
             try:
                 origin = []
                 destination = []
@@ -141,19 +151,27 @@ def search(request):
                     departure.append(request.POST['train_departure'])
                     origin.append(request.POST['train_origin'])
                     destination.append(request.POST['train_destination'])
-                set_session(request, 'train_request', {
+
+                train_request = {
                     'direction': direction,
                     'adult': request.POST['train_adult'],
                     'infant': request.POST['train_infant'],
                     'departure': departure,
                     'origin': origin,
                     'destination': destination
-                })
+                }
+
+                write_cache_file(request, frontend_signature, 'train_request', train_request)
+                write_cache_file(request, '', 'train_request', train_request)
+                # set_session(request, 'train_request', train_request)
+                # set_session(request, 'train_request_%s' % frontend_signature, train_request)
             except Exception as e:
                 _logger.error(str(e) + '\n' + traceback.format_exc())
+                train_request = request.session['train_request']
 
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
+
 
             if request.POST.get('checkbox_corpor_mode_train') and request.POST.get('train_corpor_select_post') and request.POST.get('train_corbooker_select_post'):
                 updated_request = request.POST.copy()
@@ -175,7 +193,8 @@ def search(request):
                 'phone_code': phone_code,
                 'signature': request.session['signature'],
                 'time_limit': 1200,
-                'train_request': request.session['train_request'],
+                'train_request': train_request,
+                'frontend_signature': frontend_signature,
                 'static_path_url_server': get_url_static_path(),
                 'username': request.session['user_account'],
                 'javascript_version': javascript_version,
@@ -209,16 +228,19 @@ def passenger(request, signature):
                     phone_code.append(i['phone_code'])
             phone_code = sorted(phone_code)
 
-
             try:
-                time_limit = get_timelimit_product(request, 'train')
+                time_limit = get_timelimit_product(request, 'train', signature)
                 if time_limit == 0:
                     time_limit = int(request.POST['time_limit_input'])
-                set_session(request, 'time_limit', time_limit)
-                set_session(request, 'train_pick', json.loads(request.POST['response']))
+                write_cache_file(request, signature, 'time_limit', time_limit)
+                # set_session(request, 'time_limit_%s' % signature, time_limit)
             except:
-                pass
-            set_session(request, 'train_signature', signature)
+                time_limit = int(request.POST['time_limit_input'])
+                write_cache_file(request, signature, 'time_limit', time_limit)
+
+            write_cache_file(request, signature, 'train_pick', json.loads(request.POST['response']))
+            # set_session(request, 'train_pick_%s' % signature, json.loads(request.POST['response']))
+            # set_session(request, 'train_signature', signature)
             file = read_cache("get_train_carriers", 'cache_web', request,90911)
             if file:
                 carrier = file
@@ -226,17 +248,26 @@ def passenger(request, signature):
             #pax
             adult = []
             infant = []
-            for i in range(int(request.session['train_request']['adult'])):
-                adult.append('')
-            for i in range(int(request.session['train_request']['infant'])):
-                infant.append('')
+            file = read_cache_file(request, signature, 'time_limit')
+            if file:
+                time_limit = file
+            file = read_cache_file(request, signature, 'train_request')
+            if file:
+                train_request = file
+                for i in range(int(train_request['adult'])):
+                    adult.append('')
+                for i in range(int(train_request['infant'])):
+                    infant.append('')
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
 
             is_adult_birth_date_required = False
-            for rec in request.session['train_pick']:
-                if carrier[rec['carrier_code']]['is_adult_birth_date_required']:
-                    is_adult_birth_date_required = True
+            file = read_cache_file(request, signature, 'train_pick')
+            if file:
+                train_pick = file
+                for rec in train_pick:
+                    if carrier[rec['carrier_code']]['is_adult_birth_date_required']:
+                        is_adult_birth_date_required = True
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'titles': ['', 'MR', 'MRS', 'MS', 'MSTR', 'MISS'],
@@ -247,13 +278,13 @@ def passenger(request, signature):
                 'train_carriers': carrier,
                 'adult_title': adult_title,
                 'infant_title': infant_title,
-                'train_request': request.session['train_request'],
+                'train_request': train_request,
                 'id_types': id_type,
                 'is_adult_birth_date_required': is_adult_birth_date_required,
-                'time_limit': request.session['time_limit'],
-                'response': request.session['train_pick'],
+                'time_limit': time_limit,
+                'response': train_pick,
                 'username': request.session['user_account'],
-                'signature': request.session['train_signature'],
+                'signature': signature,
                 # 'cookies': json.dumps(res['result']['cookies']),
                 'javascript_version': javascript_version,
                 'static_path_url_server': get_url_static_path(),
@@ -290,7 +321,11 @@ def review(request, signature):
                     'nationality_code': request.POST['booker_nationality_id'],
                     'booker_seq_id': request.POST['booker_id']
                 }
-                for i in range(int(request.session['train_request']['adult'])):
+
+                file = read_cache_file(request, signature, 'train_request')
+                if file:
+                    train_request = file
+                for i in range(int(train_request['adult'])):
                     img_identity_data = [sel_img[:2] for sel_img in img_list_data if 'adult' in sel_img[2].lower() and 'identity' in sel_img[2].lower() and str(i + 1) in sel_img[2].lower()]
                     behaviors = {}
                     if request.POST.get('adult_behaviors_' + str(i + 1)):
@@ -365,20 +400,7 @@ def review(request, signature):
                     except:
                         pass
 
-                if len(contact) == 0:
-                    contact.append({
-                        'title': request.POST['booker_title'],
-                        'first_name': request.POST['booker_first_name'],
-                        'last_name': request.POST['booker_last_name'],
-                        'email': request.POST['booker_email'],
-                        'calling_code': request.POST['booker_phone_code_id'],
-                        'mobile': request.POST['booker_phone'],
-                        'nationality_code': request.POST['booker_nationality_id'],
-                        'contact_seq_id': request.POST['booker_id'],
-                        'is_also_booker': True
-                    })
-
-                for i in range(int(request.session['train_request']['infant'])):
+                for i in range(int(train_request['infant'])):
                     img_identity_data = [sel_img[:2] for sel_img in img_list_data if 'infant' in sel_img[2].lower() and 'identity' in sel_img[2].lower() and str(i + 1) in sel_img[2].lower()]
                     behaviors = {}
                     if request.POST.get('infant_behaviors_' + str(i + 1)):
@@ -398,54 +420,110 @@ def review(request, signature):
                         "identity_image": img_identity_data,
                         "behaviors": behaviors,
                     })
-                set_session(request, 'train_create_passengers', {
+
+                if len(contact) == 0:
+                    contact.append({
+                        'title': request.POST['booker_title'],
+                        'first_name': request.POST['booker_first_name'],
+                        'last_name': request.POST['booker_last_name'],
+                        'email': request.POST['booker_email'],
+                        'calling_code': request.POST['booker_phone_code_id'],
+                        'mobile': request.POST['booker_phone'],
+                        'nationality_code': request.POST['booker_nationality_id'],
+                        'contact_seq_id': request.POST['booker_id'],
+                        'is_also_booker': True
+                    })
+
+                write_cache_file(request, signature, 'train_create_passengers', {
                     'booker': booker,
                     'adult': adult,
                     'infant': infant,
                     'contact': contact
                 })
+
+                # set_session(request, 'train_create_passengers_%s' % signature, {
+                #     'booker': booker,
+                #     'adult': adult,
+                #     'infant': infant,
+                #     'contact': contact
+                # })
                 schedules = []
                 journeys = []
-                for journey in request.session['train_pick']:
-                    journeys.append({
-                        'journey_code': journey['journey_code'],
-                        'fare_code': journey['fares'][0]['fare_code']
-                    })
-                    schedules.append({
-                        'journeys': journeys,
-                        'provider': journey['provider'],
-                    })
-                    journeys = []
-                set_session(request, 'train_booking', schedules)
+
+                file = read_cache_file(request, signature, 'train_pick')
+                if file:
+                    train_pick = file
+
+                    for journey in train_pick:
+                        journeys.append({
+                            'journey_code': journey['journey_code'],
+                            'fare_code': journey['fares'][0]['fare_code']
+                        })
+                        schedules.append({
+                            'journeys': journeys,
+                            'provider': journey['provider'],
+                        })
+                        journeys = []
+                write_cache_file(request, signature, 'train_booking', schedules)
+                # set_session(request, 'train_booking_%s' % signature, schedules)
             except Exception as e:
                 _logger.error('Data POST for train_create_passengers, train_booking not found use cache')
                 _logger.error("%s, %s" % (str(e), traceback.format_exc()))
+
             try:
-                time_limit = get_timelimit_product(request, 'train')
+                time_limit = get_timelimit_product(request, 'train', signature)
                 if time_limit == 0:
                     time_limit = int(request.POST['time_limit_input'])
-                set_session(request, 'time_limit', time_limit)
-                set_session(request, 'train_signature', request.POST['signature'])
+                write_cache_file(request, signature, 'time_limit', time_limit)
+                # set_session(request, 'time_limit_%s' % signature, time_limit)
             except:
-                pass
-            time_limit = request.session['time_limit']
+                time_limit = int(request.POST['time_limit_input'])
+                write_cache_file(request, signature, 'time_limit', time_limit)
+
+            # try:
+            #     time_limit = get_timelimit_product(request, 'train', signature)
+            #     if time_limit == 0:
+            #         time_limit = int(request.POST['time_limit_input'])
+            #     set_session(request, 'time_limit_%s' % signature, time_limit)
+            #     set_session(request, 'train_signature', request.POST['signature'])
+            # except:
+            #     pass
+            # time_limit = request.session['time_limit_%s' % signature]
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
         except Exception as e:
             _logger.error("%s, %s" % (str(e), traceback.format_exc()))
         try:
+            file = read_cache_file(request, signature, 'time_limit')
+            if file:
+                time_limit = file
+            file = read_cache_file(request, signature, 'train_request')
+            if file:
+                train_request = file
+            file = read_cache_file(request, signature, 'train_pick')
+            if file:
+                train_pick = file
+            file = read_cache_file(request, signature, 'train_upsell')
+            if file:
+                train_upsell = file
+            else:
+                train_upsell = 0
+            file = read_cache_file(request, signature, 'train_create_passengers')
+            if file:
+                train_create_passengers = file
+
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
                 'time_limit': time_limit,
                 'id_types': id_type,
-                'train_request': request.session['train_request'],
-                'response': request.session['train_pick'],
-                'upsell': request.session.get('train_upsell_' + request.session['train_signature']) and request.session.get('train_upsell_' + request.session['train_signature']) or 0,
+                'train_request': train_request,
+                'response': train_pick,
+                'upsell': train_upsell,
                 'username': request.session['user_account'],
-                'passenger': request.session['train_create_passengers'],
+                'passenger': train_create_passengers,
                 'javascript_version': javascript_version,
-                'signature': request.session['train_signature'],
+                'signature': signature,
                 'static_path_url_server': get_url_static_path(),
                 # 'cookies': json.dumps(res['result']['cookies']),
 
@@ -467,17 +545,18 @@ def booking(request, order_number):
         elif 'user_account' not in request.session and 'btc' not in web_mode:
             raise Exception('Train get booking without login in btb web')
         try:
-            set_session(request, 'train_order_number', base64.b64decode(order_number).decode('ascii'))
+            train_order_number = base64.b64decode(order_number).decode('ascii')
         except:
             try:
-                set_session(request, 'train_order_number', base64.b64decode(order_number[:-1]).decode('ascii'))
+                train_order_number = base64.b64decode(order_number[:-1]).decode('ascii')
             except:
-                set_session(request, 'train_order_number', order_number)
+                train_order_number = order_number
+        write_cache_file(request, request.session['signature'], 'train_order_number', train_order_number)
         values.update({
             'static_path': path_util.get_static_path(MODEL_NAME),
             'id_types': id_type,
             'cabin_class_types': cabin_class_type,
-            'order_number': request.session['train_order_number'],
+            'order_number': train_order_number,
             'username': request.session.get('user_account') or {'co_user_login': ''},
             'signature': request.session['signature'],
             # 'cookies': json.dumps(res['result']['cookies']),
@@ -493,7 +572,7 @@ def booking(request, order_number):
             raise Exception('Make response code 500!')
     return render(request, MODEL_NAME+'/train/train_booking_templates.html', values)
 
-def seat_map(request):
+def seat_map(request, signature):
     if 'user_account' in request.session._session:
         try:
             javascript_version = get_javascript_version(request)
@@ -506,8 +585,10 @@ def seat_map(request):
             except:
                 pass
             try:
-                set_session(request, 'train_seat_map_request', json.loads(request.POST['seat_map_request_input']))
-                set_session(request, 'train_passenger_request', json.loads(request.POST['passenger_input']))
+                write_cache_file(request, signature, 'train_seat_map_request', json.loads(request.POST['seat_map_request_input']))
+                write_cache_file(request, signature, 'train_passenger_request', json.loads(request.POST['passenger_input']))
+                # set_session(request, 'train_seat_map_request_%s' % signature, json.loads(request.POST['seat_map_request_input']))
+                # set_session(request, 'train_passenger_request_%s' % signature, json.loads(request.POST['passenger_input']))
             except:
                 pass
 
@@ -527,20 +608,23 @@ def seat_map(request):
                 is_b2c_field_from_review.update({
                     'value': False
                 })
-            paxs = request.session['train_passenger_request']
-            for pax in paxs:
-                if not pax.get('behaviors'):
-                    pax['behaviors'] = {}
-                if not pax['behaviors'].get('Train'):
-                    pax['behaviors']['Train'] = ""
-                if pax['behaviors']['Train']:
-                    pax['behaviors']['Train'] = pax['behaviors']['Train'].replace('<br/>','\n')
+
+            file = read_cache_file(request, signature, 'train_passenger_request')
+            if file:
+                paxs = file
+                for pax in paxs:
+                    if not pax.get('behaviors'):
+                        pax['behaviors'] = {}
+                    if not pax['behaviors'].get('Train'):
+                        pax['behaviors']['Train'] = ""
+                    if pax['behaviors']['Train']:
+                        pax['behaviors']['Train'] = pax['behaviors']['Train'].replace('<br/>','\n')
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'paxs': paxs,
                 'order_number': request.POST['order_number'],
                 'username': request.session['user_account'],
-                'signature': request.session['train_signature'],
+                'signature': signature,
                 "is_b2c_field": is_b2c_field_from_review,
                 # 'co_uid': request.session['co_uid'],
                 # 'cookies': json.dumps(res['result']['cookies']),
