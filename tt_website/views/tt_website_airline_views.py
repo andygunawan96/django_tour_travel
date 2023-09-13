@@ -1694,20 +1694,21 @@ def review(request, signature):
                                     for counter_journey, journey_ssr in enumerate(ssr_package['ssr_availability'][ssr_key]):
                                         for idx, pax in enumerate(passenger):
                                             try:
-                                                passengers_list.append({
-                                                    "passenger_number": idx,
-                                                    "ssr_code": request.POST[ssr_key+'_'+str(counter_ssr_availability_provider+1-no_ssr_count)+'_'+str(idx+1)+'_'+str(counter_journey+1)].split('_')[0]
-                                                })
-                                                for list_ssr in journey_ssr['ssrs']:
-                                                    if request.POST[ssr_key + '_' +str(counter_ssr_availability_provider+1-no_ssr_count)+ '_' + str(idx + 1) + '_' + str(counter_journey + 1)].split('_')[0] == list_ssr['ssr_code']:
-                                                        list_ssr['fee_code'] = list_ssr['ssr_code']
-                                                        list_ssr.update({
-                                                            'origin': journey_ssr['origin'],
-                                                            'destination': journey_ssr['destination'],
-                                                            'departure_date': convert_string_to_date_to_string_front_end_with_time(journey_ssr['segments'][0]['departure_date']).split('  ')[0]
-                                                        })
-                                                        pax['ssr_list'].append(list_ssr)
-                                                        break
+                                                if request.POST[ssr_key+'_'+str(counter_ssr_availability_provider+1-no_ssr_count)+'_'+str(idx+1)+'_'+str(counter_journey+1)].split('_')[0] != '':
+                                                    passengers_list.append({
+                                                        "passenger_number": idx,
+                                                        "ssr_code": request.POST[ssr_key+'_'+str(counter_ssr_availability_provider+1-no_ssr_count)+'_'+str(idx+1)+'_'+str(counter_journey+1)].split('_')[0]
+                                                    })
+                                                    for list_ssr in journey_ssr['ssrs']:
+                                                        if request.POST[ssr_key + '_' +str(counter_ssr_availability_provider+1-no_ssr_count)+ '_' + str(idx + 1) + '_' + str(counter_journey + 1)].split('_')[0] == list_ssr['ssr_code']:
+                                                            list_ssr['fee_code'] = list_ssr['ssr_code']
+                                                            list_ssr.update({
+                                                                'origin': journey_ssr['origin'],
+                                                                'destination': journey_ssr['destination'],
+                                                                'departure_date': convert_string_to_date_to_string_front_end_with_time(journey_ssr['segments'][0]['departure_date']).split('  ')[0]
+                                                            })
+                                                            pax['ssr_list'].append(list_ssr)
+                                                            break
                                             except:
                                                 pass
                                         if len(passengers_list) > 0:
@@ -1729,6 +1730,7 @@ def review(request, signature):
                             write_cache_file(request, signature, 'airline_ssr_request', sell_ssrs)
                             # set_session(request, 'airline_ssr_request_%s' % signature, sell_ssrs)
                         sell_ssrs = []
+                        write_cache_file(request, signature, 'airline_create_passengers', airline_create_passengers)
                     except:
                         print('airline no ssr')
 
@@ -1746,7 +1748,11 @@ def review(request, signature):
                         passengers = json.loads(request.POST['passenger'])
                         #
                         for idx, pax in enumerate(passengers):
-                            passenger[idx]['seat_list'] = passengers[idx]['seat_list']
+                            seat_list = []
+                            for seat_data in passengers[idx]['seat_list']:
+                                if seat_data['seat_code'] != '':
+                                    seat_list.append(seat_data)
+                            passenger[idx]['seat_list'] = seat_list
                             if not passenger[idx].get('behaviors'):
                                 passenger[idx]['behaviors'] = {}
                             if not passenger[idx]['behaviors'].get('airline'):
