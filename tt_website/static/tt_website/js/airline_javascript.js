@@ -10572,7 +10572,7 @@ function get_airline_review(){
                                 text+=`</div>`;
                             }
 
-                            if(passengers_ssr[i].hasOwnProperty('seat_list')){
+                            if(passengers_ssr[i].hasOwnProperty('seat_list') && passengers_ssr[i].seat_list.length > 0){
                                 text+=`<b style="color:`+color+`;">Seat request:</b>
                                 <div style="padding:15px; border:1px solid `+color+`; background:#f7f7f7;">`;
                             }
