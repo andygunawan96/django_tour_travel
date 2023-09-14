@@ -2170,17 +2170,14 @@ ul.tabs li.current{
 }
 
 .image-rounded-icon2 {
-  background: white;
-  font-size: 18px;
+  font-size: 22px;
   text-align: center;
   display:inline-block;
   border-radius:50%;
   border-radius: 20px;
-  border: 1px solid #cdcdcd;
-  padding:8px 11px 8px 11px;
 }
 .image-rounded-icon2:hover{
-    border: 1px solid #205B95;
+    color: #205B95;
 }
 
 

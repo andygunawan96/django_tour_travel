@@ -13700,7 +13700,7 @@ function render_ticket_reissue(){
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mt-2">
+                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mt-2" style="padding-bottom:10px;">
                                                        <div style="display:block; padding-top:5px; text-align:right;">
                                                            <span style="font-weight:700;">Class </span>`;
                                                            for(fare_seat_co in airline[i].segments){
@@ -15083,7 +15083,7 @@ function get_chosen_ticket(type='all'){
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mt-2">
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mt-2" style="padding-bottom:10px;">
                                        <div style="display:block; padding-top:5px; text-align:right;">
                                            <span style="font-weight:700;">Class </span>`;
                                             for(fare_seat_co in airline_pick_list[i].segments){
@@ -15917,7 +15917,7 @@ function get_price_itinerary_reissue_request(airline_response, total_admin_fee, 
     $text +='New schedule\n';
     for(i in airline_response){
         text+=`
-        <div class="col-lg-12" style="max-height:400px; overflow-y: auto;">`;
+        <div class="col-lg-12">`;
         flight_count++;
         text += `<hr/><h6>Flight `+flight_count+`</h6>`;
         $text +='Flight '+flight_count+'\n';
