@@ -271,7 +271,7 @@
                 </div>
             </div>
         </form>
-        <form method="POST" id="train_seat_map" action="{% url 'tt_website:train_seat_map'%}">
+        <form method="POST" id="train_seat_map" action="/train/seat_map/{{signature}}">
             {% csrf_token %}
             <input type="hidden" id="passenger_input" name="passenger_input"/>
             <input type="hidden" id="seat_map_request_input" name="seat_map_request_input"/>

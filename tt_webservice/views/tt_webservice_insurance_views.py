@@ -121,9 +121,12 @@ def login(request):
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
-            create_session_product(request, 'insurance', 20)
-            set_session(request, 'insurance_signature', res['result']['response']['signature'])
+            create_session_product(request, 'insurance', 20, res['result']['response']['signature'])
+            # set_session(request, 'insurance_signature', res['result']['response']['signature'])
             set_session(request, 'signature', res['result']['response']['signature'])
+            if request.POST.get('frontend_signature'):
+                write_cache_file(request, res['result']['response']['signature'], 'insurance_frontend_signature',request.POST['frontend_signature'])
+                write_cache_file(request, request.POST['frontend_signature'], 'insurance_signature',res['result']['response']['signature'])
             if request.session['user_account'].get('co_customer_parent_seq_id'):
                 webservice_agent.activate_corporate_mode(request, res['result']['response']['signature'])
             _logger.info(json.dumps(request.session['insurance_signature']))
@@ -171,7 +174,7 @@ def get_carriers(request):
 
     return res
 
-def get_availability(request):
+def get_availability(request, signature=''):
     try:
         headers = {
             "Accept": "application/json,text/html,application/xml",
@@ -180,21 +183,24 @@ def get_availability(request):
             "signature": request.POST['signature']
         }
         international = False
-        if request.session['insurance_request']['destination'].split(' - ')[1] != 'Domestic':
+        file = read_cache_file(request, request.POST['frontend_signature'], 'insurance_request')
+        if file:
+            insurance_request = file
+        if insurance_request['destination'].split(' - ')[1] != 'Domestic':
             international = True
-        destination_area = request.session['insurance_request']['destination_area']
+        destination_area = insurance_request['destination_area']
         data = {
-            "date_start": datetime.strptime(request.session['insurance_request']['date_start'],'%d %b %Y').strftime('%Y-%m-%d'),
-            "date_end": datetime.strptime(request.session['insurance_request']['date_end'],'%d %b %Y').strftime('%Y-%m-%d'),
-            'pax': int(request.session['insurance_request']['adult']),
-            "origin": request.session['insurance_request']['origin'].split(' - ')[0],
-            "destination": request.session['insurance_request']['destination'].split(' - ')[0],
-            "is_senior": request.session['insurance_request']['is_senior'],
+            "date_start": datetime.strptime(insurance_request['date_start'],'%d %b %Y').strftime('%Y-%m-%d'),
+            "date_end": datetime.strptime(insurance_request['date_end'],'%d %b %Y').strftime('%Y-%m-%d'),
+            'pax': int(insurance_request['adult']),
+            "origin": insurance_request['origin'].split(' - ')[0],
+            "destination": insurance_request['destination'].split(' - ')[0],
+            "is_senior": insurance_request['is_senior'],
             "international": international,
             "destination_area": destination_area,
-            "type": request.session['insurance_request']['type'],
-            "plan_trip": request.session['insurance_request']['plan_trip'],
-            "provider": request.session['insurance_request']['provider']
+            "type": insurance_request['type'],
+            "plan_trip": insurance_request['plan_trip'],
+            "provider": insurance_request['provider']
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
@@ -202,7 +208,8 @@ def get_availability(request):
     url_request = get_url_gateway('booking/insurance')
     res = send_request_api(request, url_request, headers, data, 'POST', timeout=180)
 
-    set_session(request, "insurance_get_availability_%s" % request.POST['signature'], res)
+    write_cache_file(request, signature, 'insurance_get_availability', res)
+    # set_session(request, "insurance_get_availability_%s" % request.POST['signature'], res)
 
     return res
 
@@ -398,29 +405,50 @@ def get_config_provider(request):
     return res
 
 def get_data_search_page(request):
+    res = {}
     try:
-        res = {}
-        res['insurance_request'] = request.session.get('insurance_request')
+        file = read_cache_file(request, request.POST['frontend_signature'], 'insurance_request')
+        if file:
+            res['insurance_request'] = file
+            write_cache_file(request, request.POST['signature'], 'insurance_request', file)
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
 
 def get_data_passenger_page(request):
+    res = {}
     try:
-        res = {}
-        res['insurance_request'] = request.session.get('insurance_request_with_passenger')
-        res['insurance_pick'] = request.session.get('insurance_pick')
+        file = read_cache_file(request, request.POST['signature'], 'insurance_request_with_passenger')
+        if file:
+            res['insurance_request'] = file
+        # res['insurance_request'] = request.session.get('insurance_request_with_passenger')
+
+        file = read_cache_file(request, request.POST['signature'], 'insurance_pick')
+        if file:
+            res['insurance_pick'] = file
+        # res['insurance_pick'] = request.session.get('insurance_pick')
 
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
 
 def get_data_review_page(request):
+    res = {}
     try:
-        res = {}
-        res['insurance_request'] = request.session.get('insurance_request_with_passenger')
-        res['insurance_pick'] = request.session.get('insurance_pick')
-        res['insurance_passenger'] = request.session.get('insurance_create_passengers')
+        file = read_cache_file(request, request.POST['signature'], 'insurance_request_with_passenger')
+        if file:
+            res['insurance_request'] = file
+        # res['insurance_request'] = request.session.get('insurance_request_with_passenger')
+
+        file = read_cache_file(request, request.POST['signature'], 'insurance_pick')
+        if file:
+            res['insurance_pick'] = file
+        # res['insurance_pick'] = request.session.get('insurance_pick')
+
+        file = read_cache_file(request, request.POST['signature'], 'insurance_create_passengers')
+        if file:
+            res['insurance_passenger'] = file
+        # res['insurance_passenger'] = request.session.get('insurance_create_passengers')
 
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
@@ -489,14 +517,16 @@ def commit_booking(request):
             "action": "commit_booking",
             "signature": request.POST['signature'],
         }
-
-        booker = request.session['insurance_create_passengers']['booker']
-        contacts = request.session['insurance_create_passengers']['contact']
+        file = read_cache_file(request, request.POST['signature'], 'insurance_create_passengers')
+        if file:
+            insurance_create_passengers = file
+        booker = insurance_create_passengers['booker']
+        contacts = insurance_create_passengers['contact']
         response = get_cache_data(request)
         passenger = []
-        for pax_type in request.session['insurance_create_passengers']:
+        for pax_type in insurance_create_passengers:
             if pax_type != 'booker' and pax_type != 'contact':
-                for passenger_data in request.session['insurance_create_passengers'][pax_type]:
+                for passenger_data in insurance_create_passengers[pax_type]:
                     pax = copy.deepcopy(passenger_data)
                     for type in pax['data_insurance']:
                         if pax['data_insurance'][type]:
@@ -554,12 +584,16 @@ def commit_booking(request):
                         }
 
                     passenger.append(pax)
+
+        file = read_cache_file(request, request.POST['signature'], 'insurance_pick')
+        if file:
+            insurance_pick = file
         data = {
             "contacts": contacts,
             "passengers": passenger,
             "booker": booker,
             'voucher': {},
-            'provider': request.session['insurance_pick']['provider']
+            'provider': insurance_pick['provider']
         }
 
     except Exception as e:
@@ -637,7 +671,7 @@ def issued(request):
 
         if request.POST['voucher_code'] != '':
             data.update({
-                'voucher': data_voucher(request.POST['voucher_code'], 'airline', provider),
+                'voucher': data_voucher(request.POST['voucher_code'], 'insurance', provider),
             })
         if request.POST.get('payment_reference'):
             data.update({
@@ -723,7 +757,8 @@ def update_service_charge(request):
             for upsell in data['passengers']:
                 for pricing in upsell['pricing']:
                     total_upsell += int(pricing['amount'])
-            set_session(request, 'insurance_upsell_'+request.POST['signature'], total_upsell)
+            write_cache_file(request, request.POST['signature'], 'insurance_upsell', total_upsell)
+            # set_session(request, 'insurance_upsell_'+request.POST['signature'], total_upsell)
             _logger.info("SUCCESS update_service_charge INSURANCE SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR update_service_charge INSURANCE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
@@ -755,7 +790,8 @@ def booker_insentif_booking(request):
             for upsell in data['passengers']:
                 for pricing in upsell['pricing']:
                     total_upsell += pricing['amount']
-            set_session(request, 'insurance_upsell_booker_'+request.POST['signature'], total_upsell)
+            write_cache_file(request, request.POST['signature'], 'insurance_upsell_booker', total_upsell)
+            # set_session(request, 'insurance_upsell_booker_'+request.POST['signature'], total_upsell)
             _logger.info("SUCCESS update_service_charge_booker INSURANCE SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR update_service_charge_hotel_booker INSURANCE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))

@@ -10,6 +10,7 @@
 <script src="{{ static_path }}js/webservice_content.js?version={{javascript_version}}"></script>
 <script>
     static_path_url_server = '{{static_path_url_server}}';
+    frontend_signature = `{{frontend_signature}}`;
     signature = `{{signature}}`;
     offset = 600;
     get_new = true;
@@ -1596,7 +1597,7 @@
                 </div>
             </div>
         </div>
-        <form action="{% url 'tt_website:insurance_passenger'%}" id="insurance_next" class="form-wrap" method="post">
+        <form action="/insurance/passenger" id="insurance_next" class="form-wrap" method="post">
             {% csrf_token %}
             <input type="hidden" id="data_insurance" name="data_insurance"/>
             <input type="hidden" id="time_limit_input" name="time_limit_input" />

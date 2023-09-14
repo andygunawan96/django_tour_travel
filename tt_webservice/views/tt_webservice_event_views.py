@@ -112,9 +112,12 @@ def login(request):
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
-            create_session_product(request, 'event', 20)
-            set_session(request, 'event_signature', res['result']['response']['signature'])
+            create_session_product(request, 'event', 20, res['result']['response']['signature'])
+            # set_session(request, 'event_signature', res['result']['response']['signature'])
             set_session(request, 'signature', res['result']['response']['signature'])
+            if request.POST.get('frontend_signature'):
+                write_cache_file(request, res['result']['response']['signature'], 'event_frontend_signature',request.POST['frontend_signature'])
+                write_cache_file(request, request.POST['frontend_signature'], 'event_signature',res['result']['response']['signature'])
             if request.session['user_account'].get('co_customer_parent_seq_id'):
                 webservice_agent.activate_corporate_mode(request, res['result']['response']['signature'])
             _logger.info(json.dumps(request.session['event_signature']))
@@ -259,7 +262,13 @@ def search(request):
             'is_online': request.POST.get('is_online') or False,
             'category': request.POST.get('category') and request.POST['category'] or '',
         }
-        set_session(request, 'event_request_data', data)
+        write_cache_file(request, request.POST['signature'], 'event_request_data', data)
+
+        file = read_cache_file(request, request.POST['frontend_signature'], 'event_request')
+        if file:
+            write_cache_file(request, request.POST['signature'], 'event_request', file)
+
+        # set_session(request, 'event_request_data', data)
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
@@ -270,19 +279,21 @@ def search(request):
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     url_request = get_url_gateway('booking/event')
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
-    set_session(request, 'event_response_search', res)
+
+    write_cache_file(request, request.POST['signature'], 'event_response_search', res)
+    # set_session(request, 'event_response_search', res)
     try:
         counter = 0
         sequence = 0
         if res['result']['error_code'] == 0:
             signature = copy.deepcopy(request.POST['signature'])
-            set_session(request, 'event_error', {
-                'error_code': res['result']['error_code'],
-                'signature': signature
-            })
-            _logger.info(json.dumps(request.session['event_error']))
+            # set_session(request, 'event_error', {
+            #     'error_code': res['result']['error_code'],
+            #     'signature': signature
+            # })
+            # _logger.info(json.dumps(request.session['event_error']))
         else:
-            _logger.error("ERROR search_event SIGNATURE " + request.session['event_signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR search_event SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
@@ -290,7 +301,9 @@ def search(request):
 
 def detail(request):
     try:
-        data = request.session['event_request_data']
+        file = read_cache_file(request, request.POST['signature'], 'event_request_data')
+        if file:
+            data = file
         data.update({
             'event_code': request.POST['external_code'],
         })
@@ -304,13 +317,14 @@ def detail(request):
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     url_request = get_url_gateway('booking/event')
     res = send_request_api(request, url_request, headers, data, 'POST')
-    set_session(request, 'event_detail', res)
+    write_cache_file(request, request.POST['signature'], 'event_detail', res)
+    # set_session(request, 'event_detail', res)
     try:
         signature = copy.deepcopy(request.POST['signature'])
-        set_session(request, 'event_error', {
-            'error_code': res['result']['error_code'],
-            'signature': signature
-        })
+        # set_session(request, 'event_error', {
+        #     'error_code': res['result']['error_code'],
+        #     'signature': signature
+        # })
         if res['result']['error_code'] == 0:
             _logger.info("get_details_event SUCCESS SIGNATURE " + res['result']['response']['signature'])
         else:
@@ -323,10 +337,15 @@ def detail(request):
 def extra_question(request):
     try:
         data = {
-            'event_code': request.session['event_code'].get('id') or 1,
+            # 'event_code': request.session['event_code'].get('id') or 1,
             'option_code': '',
             'provider': 'event_internal',
         }
+        file = read_cache_file(request, request.POST['signature'], 'event_code')
+        if file:
+            data.update({
+                "event_code": file.get('id', 1)
+            })
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
@@ -339,11 +358,11 @@ def extra_question(request):
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         signature = copy.deepcopy(request.POST['signature'])
-        set_session(request, 'event_error', {
-            'error_code': res['result']['error_code'],
-            'signature': signature
-        })
-        _logger.info(json.dumps(request.session['hotel_error']))
+        # set_session(request, 'event_error', {
+        #     'error_code': res['result']['error_code'],
+        #     'signature': signature
+        # })
+        # _logger.info(json.dumps(request.session['hotel_error']))
         if res['result']['error_code'] == 0:
             _logger.info("get_details_hotel SUCCESS SIGNATURE " + res['result']['response']['signature'])
         else:
@@ -357,37 +376,52 @@ def create_booking(request):
     try:
         passenger = []
         response = get_cache_data(request)
-        for pax_type in request.session['event_review_pax']:
-            if pax_type != 'contact' and pax_type != 'booker':
-                for pax in request.session['event_review_pax'][pax_type]:
-                    try:
-                        pax.update({
-                            'birth_date': '%s-%s-%s' % (
-                                pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
-                                pax['birth_date'].split(' ')[0]),
-                        })
-                    except Exception as e:
-                        _logger.error(str(e) + traceback.format_exc())
-                    passenger.append(pax)
-        booker = request.session['event_review_pax']['booker']
-        contacts = request.session['event_review_pax']['contact']
-        event_option_codes = []
-        for i in request.session['event_option_code' + request.POST['signature']]:
-            event_option_codes.append({
-                'option_code': i['code'],
-                'qty': int(i['qty']),
-            })
+        file = read_cache_file(request, request.POST['signature'], 'event_review_pax')
+        if file:
+            event_review_pax = file
+            for pax_type in event_review_pax:
+                if pax_type != 'contact' and pax_type != 'booker':
+                    for pax in event_review_pax[pax_type]:
+                        try:
+                            pax.update({
+                                'birth_date': '%s-%s-%s' % (
+                                    pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
+                                    pax['birth_date'].split(' ')[0]),
+                            })
+                        except Exception as e:
+                            _logger.error(str(e) + traceback.format_exc())
+                        passenger.append(pax)
+            booker = event_review_pax['booker']
+            contacts =event_review_pax['contact']
+            event_option_codes = []
+
+            file = read_cache_file(request, request.POST['signature'], 'event_option_code')
+            if file:
+                event_option_code = file
+                for i in event_option_code:
+                    event_option_codes.append({
+                        'option_code': i['code'],
+                        'qty': int(i['qty']),
+                    })
+
+        file = read_cache_file(request, request.POST['signature'], 'event_code')
+        if file:
+            event_code = file.get('id', 1)
+
+        file = read_cache_file(request, request.POST['signature'], 'event_extra_question')
+        if file:
+            event_extra_question = file
         data = {
-            "event_code": request.session['event_code'].get('id') or 1,
+            "event_code": event_code,
             # "event_code": request.POST['event_code'],
             "provider": 'event_internal',
             "event_option_codes": event_option_codes,
-            "event_answer": request.session['event_extra_question' + request.POST['signature']],
+            "event_answer": event_extra_question,
             "special_request": request.POST['special_request'],
             "force_issued": bool(int(request.POST['force_issued'])),
             "booker": booker,
             "contact": contacts,
-            "passengers": request.session['event_review_pax']['adult'],
+            "passengers": event_review_pax['adult'],
             'user_id': request.session.get('co_uid') or '',
             'promotion_codes_booking': [],
         }
@@ -446,7 +480,8 @@ def get_booking(request):
                     res['result']['response']['can_issued'] = True
             except:
                 _logger.error('no hold date')
-            set_session(request, 'event_get_booking_response', res)
+            write_cache_file(request, request.POST['signature'], 'event_get_booking_response', res)
+            # set_session(request, 'event_get_booking_response', res)
             # res['result']['response'].update({
             #     'from_date': convert_string_to_date_to_string_front_end_with_date(res['result']['response']['from_date']),
             #     'to_date': convert_string_to_date_to_string_front_end_with_date(res['result']['response']['to_date'])
@@ -491,7 +526,12 @@ def issued_booking(request):
         if request.POST['voucher_code'] != '':
             provider = []
             try:
-                event_get_booking = request.session['event_get_booking_response'] if request.session.get('event_get_booking_response') else json.loads(request.POST['booking'])
+                file = read_cache_file(request, request.POST['signature'], 'event_get_booking_response')
+                if file:
+                    event_get_booking = file
+                else:
+                    event_get_booking = json.loads(request.POST['booking'])
+                # event_get_booking = request.session['event_get_booking_response'] if request.session.get('event_get_booking_response') else json.loads(request.POST['booking'])
                 for provider_type in event_get_booking['result']['response']['providers']:
                     if not provider_type['provider'] in provider:
                         provider.append(provider_type['provider'])
@@ -529,13 +569,14 @@ def issued_booking(request):
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
 
     try:
-        set_session(request, 'event_booking', res['result']['response'])
+        write_cache_file(request, request.POST['signature'], 'event_booking', res['result']['response'])
+        # set_session(request, 'event_booking', res['result']['response'])
         signature = copy.deepcopy(request.POST['signature'])
-        set_session(request, 'event_error', {
-            'error_code': res['result']['error_code'],
-            'signature': signature
-        })
-        _logger.info(json.dumps(request.session['event_booking']))
+        # set_session(request, 'event_error', {
+        #     'error_code': res['result']['error_code'],
+        #     'signature': signature
+        # })
+        # _logger.info(json.dumps(request.session['event_booking']))
         if res['result']['error_code'] == 0:
             _logger.info("Event Issued SUCCESS SIGNATURE " + request.POST['signature'])
         else:
@@ -573,8 +614,9 @@ def update_service_charge(request):
                         if upsell['pax_type'] not in total_upsell_dict:
                             total_upsell_dict[upsell['pax_type']] = 0
                         total_upsell_dict[upsell['pax_type']] += pricing['amount']
-            set_session(request, 'event_upsell_'+request.POST['signature'], total_upsell_dict)
-            request.session['event_upsell_'+request.POST['signature']] = total_upsell_dict
+            write_cache_file(request, request.POST['signature'], 'event_upsell', total_upsell_dict)
+            # set_session(request, 'event_upsell_'+request.POST['signature'], total_upsell_dict)
+            # request.session['event_upsell_'+request.POST['signature']] = total_upsell_dict
             _logger.info("SUCCESS update_service_charge EVENT SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR update_service_charge_event EVENT SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
@@ -606,7 +648,8 @@ def booker_insentif_booking(request):
             for upsell in data['passengers']:
                 for pricing in upsell['pricing']:
                     total_upsell += pricing['amount']
-            set_session(request, 'event_upsell_booker_'+request.POST['signature'], total_upsell)
+            write_cache_file(request, request.POST['signature'], 'event_upsell_booker', total_upsell)
+            # set_session(request, 'event_upsell_booker_'+request.POST['signature'], total_upsell)
             _logger.info("SUCCESS update_service_charge_booker EVENT SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR update_service_charge_event_booker EVENT SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
@@ -615,24 +658,51 @@ def booker_insentif_booking(request):
     return res
 
 def page_passenger(request):
+    res = {}
     try:
-        res = {}
-        res['event_option_code'] = request.session['event_option_code' + request.POST['signature']]
-        res['event_pick'] = request.session['event_code']
+        file = read_cache_file(request, request.POST['signature'], 'event_option_code')
+        if file:
+            res['event_option_code'] = file
+        # res['event_option_code'] = request.session['event_option_code' + request.POST['signature']]
+
+        file = read_cache_file(request, request.POST['signature'], 'event_code')
+        if file:
+            res['event_pick'] = file
+        # res['event_pick'] = request.session['event_code']
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
 
 def page_review(request):
+    res = {}
     try:
-        res = {}
-        pax = request.session['event_review_pax']
+        file = read_cache_file(request, request.POST['signature'], 'event_review_pax')
+        if file:
+            pax = file
+        # pax = request.session['event_review_pax']
         res['adult'] = pax['adult']
         res['booker'] = pax['booker']
         res['contact'] = pax['contact']
-        res['event_option_code'] = request.session['event_option_code' + request.session['event_signature']]
-        res['event_extra_question'] = json.loads(request.session['event_json_printout' + request.session['event_signature']])['price_lines']
-        res['upsell_price_dict'] = request.session.get('event_upsell_%s' % request.POST['signature']) and request.session.get('event_upsell_%s' % request.POST['signature']) or {}
+
+        file = read_cache_file(request, request.POST['signature'], 'event_option_code')
+        if file:
+            res['event_option_code'] = file
+        # res['event_option_code'] = request.session['event_option_code' + request.session['event_signature']]
+
+        file = read_cache_file(request, request.POST['signature'], 'event_json_printout')
+        if file:
+            try:
+                res['event_extra_question'] = file['price_lines']
+            except:
+                res['event_extra_question'] = json.loads(file)['price_lines']
+        # res['event_extra_question'] = json.loads(request.session['event_json_printout' + request.session['event_signature']])['price_lines']
+
+        file = read_cache_file(request, request.POST['signature'], 'event_upsell')
+        if file:
+            res['upsell_price_dict'] = file
+        else:
+            res['upsell_price_dict'] = {}
+        # res['upsell_price_dict'] = request.session.get('event_upsell_%s' % request.POST['signature']) and request.session.get('event_upsell_%s' % request.POST['signature']) or {}
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res

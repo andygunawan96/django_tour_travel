@@ -15,6 +15,7 @@
     static_path_url_server = '{{static_path_url_server}}'
     visa_request = `{{visa_request}}`;
     signature = `{{signature}}`;
+    frontend_signature = `{{frontend_signature}}`;
     visa_request = JSON.parse(visa_request.replace(/&#39;/g, '"'));
 
     time_limit = {{time_limit}};
@@ -497,7 +498,7 @@
                 </div>
             </div>
         </div>
-        <form action="{% url 'tt_website:visa_passenger'%}" method="POST" id="visa_passenger">
+        <form action="/visa/passenger" method="POST" id="visa_passenger">
             {% csrf_token %}
             <div class="row">
                 <div class="col-lg-12">

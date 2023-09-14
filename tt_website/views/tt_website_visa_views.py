@@ -51,11 +51,19 @@ def visa(request):
             # get_data_awal
             cache = {}
             try:
-                cache['visa'] = {
-                    'destination': request.session['visa_request']['destination'],
-                    'departure_date': request.session['visa_request']['departure_date'],
-                    'consulate': request.session['visa_request']['consulate']
-                }
+                file = read_cache_file(request, '', 'visa_request')
+                if file:
+                    cache['visa'] = {
+                        'destination': file['destination'],
+                        'departure_date': file['departure_date'],
+                        'consulate': file['consulate']
+                    }
+
+                # cache['visa'] = {
+                #     'destination': request.session['visa_request']['destination'],
+                #     'departure_date': request.session['visa_request']['departure_date'],
+                #     'consulate': request.session['visa_request']['consulate']
+                # }
                 if cache['visa']['departure_date'] == 'Invalid date':
                     cache['visa']['departure_date'] = convert_string_to_date_to_string_front_end(
                         str(datetime.now())[:10])
@@ -100,22 +108,31 @@ def search(request):
                 if i['phone_code'] not in phone_code:
                     phone_code.append(i['phone_code'])
             phone_code = sorted(phone_code)
+
+            frontend_signature = generate_signature()
             try:
                 visa_request = {
                     'destination': request.POST['visa_destination_id'],
                     'departure': request.POST['visa_departure'],
                     'consulate': request.POST['visa_consulate_id'],
                 }
-                set_session(request, 'visa_request', visa_request)
+                write_cache_file(request, frontend_signature, 'visa_request', visa_request)
+                write_cache_file(request, '', 'visa_request', visa_request)
+                # set_session(request, 'visa_request', visa_request)
             except Exception as e:
                 _logger.error('Data POST for visa_request not found use cache')
                 _logger.error("%s, %s" % (str(e), traceback.format_exc()))
 
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
+
+            file = read_cache_file(request, frontend_signature, 'visa_request')
+            if file:
+                visa_request = file
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
-                'visa_request': request.session['visa_request'],
+                'visa_request': visa_request,
+                'frontend_signature': frontend_signature,
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
                 'countries': airline_country,
                 'phone_code': phone_code,
@@ -133,26 +150,35 @@ def search(request):
     else:
         return no_session_logout(request)
 
-def passenger(request):
+def passenger(request, signature=''):
     if 'user_account' in request.session._session:
         try:
             javascript_version = get_javascript_version(request)
             response = get_cache_data(request)
             values = get_data_template(request)
+
             try:
-                time_limit = get_timelimit_product(request, 'visa')
+                time_limit = get_timelimit_product(request, 'visa', signature)
                 if time_limit == 0:
                     time_limit = int(request.POST['time_limit_input'])
-                set_session(request, 'time_limit', time_limit)
+                write_cache_file(request, signature, 'time_limit', time_limit)
+                # set_session(request, 'time_limit_%s' % signature, time_limit)
             except:
-                pass
-            try:
-                request.session['visa_search']['result']['response']['list_of_visa'] = json.loads(request.POST['visa_list'])
-            except Exception as e:
-                _logger.error('Data POST for visa_search, visa_list not found use cache')
-                _logger.error("%s, %s" % (str(e), traceback.format_exc()))
+                time_limit = int(request.POST['time_limit_input'])
+                write_cache_file(request, signature, 'time_limit', time_limit)
 
-            list_visa = request.session['visa_search']
+            file = read_cache_file(request, signature, 'visa_search')
+            if file:
+                visa_search = file
+                visa_search['result']['response']['list_of_visa'] = json.loads(request.POST['visa_list'])
+                write_cache_file(request, signature, 'visa_search', visa_search)
+            # try:
+            #     request.session['visa_search']['result']['response']['list_of_visa'] = json.loads(request.POST['visa_list'])
+            # except Exception as e:
+            #     _logger.error('Data POST for visa_search, visa_list not found use cache')
+            #     _logger.error("%s, %s" % (str(e), traceback.format_exc()))
+
+            list_visa = visa_search
             count = 1
             pax = {
                 'adult': 0,
@@ -182,7 +208,6 @@ def passenger(request):
             child = []
             elder = []
             try:
-
                 sell_journey = []
                 for visa in list_visa['result']['response']['list_of_visa']:
                     pax_count = 0
@@ -246,13 +271,20 @@ def passenger(request):
                     if check == 1:
                         sell.append(rec)
 
-                set_session(request, 'visa_sell', sell)
-                set_session(request, 'visa_passenger', pax)
-                set_session(request, 'visa_search', list_visa)
+                write_cache_file(request, signature, 'visa_sell', sell)
+                write_cache_file(request, signature, 'visa_passenger', pax)
+                write_cache_file(request, signature, 'visa_search', list_visa)
+
+                # set_session(request, 'visa_sell', sell)
+                # set_session(request, 'visa_passenger', pax)
+                # set_session(request, 'visa_search', list_visa)
             except Exception as e:
                 _logger.error('Data POST for visa_sell, visa_passenger, visa_search not found use cache')
                 _logger.error("%s, %s" % (str(e), traceback.format_exc()))
-                data_pax = request.session['visa_passenger']
+                file = read_cache_file(request, signature, 'visa_passenger')
+                if file:
+                    data_pax = file
+                # data_pax = request.session['visa_passenger']
                 for i in range(data_pax['adult']):
                     adult.append('')
                 for i in range(data_pax['child']):
@@ -261,7 +293,24 @@ def passenger(request):
                     infant.append('')
                 for i in range(data_pax['elder']):
                     elder.append('')
-            list_of_visa = json.loads(json.dumps(request.session['visa_search']['result']['response']))
+
+            file = read_cache_file(request, signature, 'visa_search')
+            if file:
+                list_of_visa = file['result']['response']
+            # list_of_visa = json.loads(json.dumps(request.session['visa_search']['result']['response']))
+
+            file = read_cache_file(request, signature, 'visa_passenger')
+            if file:
+                visa_passenger = file
+
+            file = read_cache_file(request, signature, 'time_limit')
+            if file:
+                time_limit = file
+
+            file = read_cache_file(request, signature, 'visa_request')
+            if file:
+                visa_request = file
+
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
             values.update({
@@ -270,9 +319,9 @@ def passenger(request):
                 'countries': airline_country,
                 'phone_code': phone_code,
                 'visa': list_of_visa,
-                'passengers': request.session['visa_passenger'],
-                'signature': request.session['visa_signature'],
-                'time_limit': request.session['time_limit'],
+                'passengers': visa_passenger,
+                'signature': signature,
+                'time_limit': time_limit,
                 'adults': adult,
                 'childs': child,
                 'infants': infant,
@@ -280,7 +329,7 @@ def passenger(request):
                 'adult_title': adult_title,
                 'infant_title': infant_title,
                 'id_types': id_type,
-                'visa_request': request.session['visa_request'],
+                'visa_request': visa_request,
                 # 'visa_request': visa_request,
                 # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
                 'username': request.session['user_account'],
@@ -293,7 +342,7 @@ def passenger(request):
     else:
         return no_session_logout(request)
 
-def review(request):
+def review(request, signature=''):
     if 'user_account' in request.session._session:
         try:
             javascript_version = get_javascript_version(request)
@@ -307,12 +356,15 @@ def review(request):
             values = get_data_template(request)
 
             try:
-                time_limit = get_timelimit_product(request, 'visa')
+                time_limit = get_timelimit_product(request, 'visa', signature)
                 if time_limit == 0:
                     time_limit = int(request.POST['time_limit_input'])
-                set_session(request, 'time_limit', time_limit)
+                write_cache_file(request, signature, 'time_limit', time_limit)
+                # set_session(request, 'time_limit_%s' % signature, time_limit)
             except:
-                pass
+                time_limit = int(request.POST['time_limit_input'])
+                write_cache_file(request, signature, 'time_limit', time_limit)
+
             try:
                 # get_balance(request)
                 adult = []
@@ -335,7 +387,11 @@ def review(request):
                     'nationality_code': request.POST['booker_nationality_id'],
                     'booker_seq_id': request.POST['booker_id']
                 }
-                for i in range(int(request.session['visa_passenger']['adult'])):
+
+                file = read_cache_file(request, signature, 'visa_passenger')
+                if file:
+                    visa_passenger = file
+                for i in range(int(visa_passenger['adult'])):
                     img_identity_data = [sel_img[:2] for sel_img in img_list_data if 'adult' in sel_img[2].lower() and 'identity' in sel_img[2].lower() and str(i + 1) in sel_img[2].lower()]
                     behaviors = {}
                     if request.POST.get('adult_behaviors_' + str(i + 1)):
@@ -416,20 +472,7 @@ def review(request):
                     except:
                         pass
 
-                if len(contact) == 0:
-                    contact.append({
-                        'title': request.POST['booker_title'],
-                        'first_name': request.POST['booker_first_name'],
-                        'last_name': request.POST['booker_last_name'],
-                        'email': request.POST['booker_email'],
-                        'calling_code': request.POST['booker_phone_code_id'],
-                        'mobile': request.POST['booker_phone'],
-                        'nationality_code': request.POST['booker_nationality_id'],
-                        'contact_seq_id': request.POST['booker_id'],
-                        'is_booker': True
-                    })
-
-                for i in range(int(request.session['visa_passenger']['child'])):
+                for i in range(int(visa_passenger['child'])):
                     img_identity_data = [sel_img[:2] for sel_img in img_list_data if 'child' in sel_img[2].lower() and 'identity' in sel_img[2].lower() and str(i + 1) in sel_img[2].lower()]
                     behaviors = {}
                     if request.POST.get('child_behaviors_' + str(i + 1)):
@@ -452,7 +495,7 @@ def review(request):
 
                     })
 
-                for i in range(int(request.session['visa_passenger']['infant'])):
+                for i in range(int(visa_passenger['infant'])):
                     img_identity_data = [sel_img[:2] for sel_img in img_list_data if 'infant' in sel_img[2].lower() and 'identity' in sel_img[2].lower() and str(i + 1) in sel_img[2].lower()]
                     behaviors = {}
                     if request.POST.get('infant_behaviors_' + str(i + 1)):
@@ -473,21 +516,46 @@ def review(request):
                         "passenger_seq_id": request.POST['infant_id' + str(i + 1)]
                     })
 
-                set_session(request, 'visa_create_passengers', {
+                if len(contact) == 0:
+                    contact.append({
+                        'title': request.POST['booker_title'],
+                        'first_name': request.POST['booker_first_name'],
+                        'last_name': request.POST['booker_last_name'],
+                        'email': request.POST['booker_email'],
+                        'calling_code': request.POST['booker_phone_code_id'],
+                        'mobile': request.POST['booker_phone'],
+                        'nationality_code': request.POST['booker_nationality_id'],
+                        'contact_seq_id': request.POST['booker_id'],
+                        'is_booker': True
+                    })
+
+                write_cache_file(request, signature, 'visa_create_passengers', {
                     'booker': booker,
                     'adult': adult,
                     'child': child,
                     'infant': infant,
                     'contact': contact
                 })
+                # set_session(request, 'visa_create_passengers', {
+                #     'booker': booker,
+                #     'adult': adult,
+                #     'child': child,
+                #     'infant': infant,
+                #     'contact': contact
+                # })
 
             except Exception as e:
                 _logger.error('Data POST for visa_create_passengers not found use cache')
                 _logger.error("%s, %s" % (str(e), traceback.format_exc()))
 
-            list_of_visa = json.loads(json.dumps(request.session['visa_search']['result']['response']))
+            file = read_cache_file(request, signature, 'visa_search')
+            if file:
+                list_of_visa = file['result']['response']
+            # list_of_visa = json.loads(json.dumps(request.session['visa_search']['result']['response']))
 
-            pax = request.session['visa_create_passengers']
+            file = read_cache_file(request, signature, 'visa_create_passengers')
+            if file:
+                pax = file
             count = 1
             for i in pax:
                 if i != 'booker' and i != 'contact':
@@ -498,19 +566,38 @@ def review(request):
                         count = count + 1
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
+
+            file = read_cache_file(request, signature, 'visa_upsell')
+            if file:
+                visa_upsell = file
+            else:
+                visa_upsell = 0
+
+            file = read_cache_file(request, signature, 'list_of_visa_type')
+            if file:
+                list_of_visa_type = file
+
+            file = read_cache_file(request, signature, 'visa_request')
+            if file:
+                visa_request = file
+
+            file = read_cache_file(request, signature, 'time_limit')
+            if file:
+                time_limit = file
+
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
                 'countries': airline_country,
                 'phone_code': phone_code,
                 'visa': list_of_visa,
-                'upsell': request.session.get('visa_upsell_'+request.session['visa_signature']) and request.session.get('visa_upsell_'+request.session['visa_signature']) or 0,
-                'type': request.session['list_of_visa_type'],
-                'visa_request': request.session['visa_request'],
+                'upsell': visa_upsell,
+                'type': list_of_visa_type,
+                'visa_request': visa_request,
                 'passengers': pax,
                 'static_path_url_server': get_url_static_path(),
-                'signature': request.session['visa_signature'],
-                'time_limit': request.session['time_limit'],
+                'signature': signature,
+                'time_limit': time_limit,
                 'username': request.session['user_account'],
                 'javascript_version': javascript_version,
                 # 'co_uid': request.session['co_uid'],
@@ -535,16 +622,16 @@ def booking(request, order_number):
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
         try:
-            set_session(request, 'visa_order_number', base64.b64decode(order_number).decode('ascii'))
+            visa_order_number = base64.b64decode(order_number).decode('ascii')
         except:
             try:
-                set_session(request, 'visa_order_number', base64.b64decode(order_number[:-1]).decode('ascii'))
+                visa_order_number = base64.b64decode(order_number[:-1]).decode('ascii')
             except:
-                set_session(request, 'visa_order_number', order_number)
+                visa_order_number = order_number
         values.update({
             'static_path': path_util.get_static_path(MODEL_NAME),
             'username': request.session.get('user_account') or {'co_user_login': ''},
-            'order_number': request.session['visa_order_number'],
+            'order_number': visa_order_number,
             'javascript_version': javascript_version,
             'static_path_url_server': get_url_static_path(),
             # 'order_number': 'VS.19072500003',

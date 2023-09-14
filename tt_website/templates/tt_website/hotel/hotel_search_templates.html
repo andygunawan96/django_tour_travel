@@ -56,6 +56,7 @@
        }
        document.getElementById("guest_child_age").innerHTML = text;
     }
+    frontend_signature = `{{frontend_signature}}`;
     signature = `{{signature}}`;
     time_limit = {{time_limit}};
     session_time_limit();
@@ -2276,6 +2277,8 @@
        }catch(err){
             document.getElementById('hotel'+counter).action += '/' + hotel_data.hotel_ids[counter].id;
        }
+       if(!document.getElementById('hotel'+counter).action.includes(signature))
+            document.getElementById('hotel'+counter).action += '/' + signature;
        document.getElementById('hotel'+counter).submit();
     }
     try{

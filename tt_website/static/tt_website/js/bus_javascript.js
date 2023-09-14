@@ -1272,6 +1272,8 @@ function goto_passenger(){
         value='`+JSON.stringify(journeys)+`'>
         <input type="hidden" id="time_limit_input" name="time_limit_input" value="`+time_limit+`" />
         <input type="hidden" id="signature" name="signature" value="`+signature+`" />`;
+    if(!document.getElementById('bus_passenger').action.includes(signature))
+        document.getElementById('bus_passenger').action += '/' + signature;
     document.getElementById('bus_passenger').submit();
 }
 
@@ -1286,7 +1288,7 @@ function share_data(){
 }
 
 function bus_detail(){
-    if(document.URL.split('/')[document.URL.split('/').length-1] == 'review'){
+    if(document.URL.split('/')[document.URL.split('/').length-2] == 'review'){
         tax = 0;
         fare = 0;
         total_price = 0;
@@ -1523,7 +1525,7 @@ function bus_detail(){
         </div>`;
     }
     try{
-        if(document.URL.split('/')[document.URL.split('/').length-1] == 'review' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
+        if(document.URL.split('/')[document.URL.split('/').length-2] == 'review' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
 
             $text += 'Contact Person:\n';
             $text += passenger_with_booker.contact[0].title + ' ' + passenger_with_booker.contact[0].first_name + ' ' + passenger_with_booker.contact[0].last_name + '\n';
@@ -1624,7 +1626,7 @@ function bus_detail(){
         }
     }
 
-    if(document.URL.split('/')[document.URL.split('/').length-1] == 'review' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
+    if(document.URL.split('/')[document.URL.split('/').length-2] == 'review' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
         text+=`<div class="mb-3" style="text-align:right;"><img src="/static/tt_website/images/icon/symbol/upsell_price.png" alt="Bank" style="width:auto; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
     }
 

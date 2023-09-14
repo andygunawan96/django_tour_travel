@@ -111,13 +111,21 @@ function airline_redirect_signin(type){
                if(msg.result.error_code == 0){
                     airline_signature = msg.result.response.signature;
                     new_login_signature = msg.result.response.signature;
-                    if(type == 'get_price' || type == 'sell_journeys'){
-                        signature = new_login_signature;
-                        $('#myModalSignin').modal('hide');
-                        location.reload();
-                    }
-                    if(type != 'search'){
-                        airline_research_signin(type); //pindah kefungsi karena bisa lebih dari 1 provider search
+                    signature = new_login_signature;
+                    $('#myModalSignin').modal('hide');
+//                    concat_url = ''
+//                    if(typeof(airline_request) !== 'undefined'){
+//                        for(key in airline_request){
+//                            if(concat_url)
+//                                concat_url += '&';
+//                            concat_url += key + '=' + airline_request[key];
+//                        }
+//                    }
+//                    window.location.href = '/airline/search?' + concat_url;
+                    window.location.href = '/'; // TIDAK BISA OTOMATIS SESSION TERCAMPUR BALIK DARI HOME
+//                    location.reload();
+//                    if(type != 'search'){
+//                        airline_research_signin(type); //pindah kefungsi karena bisa lebih dari 1 provider search
 //                        $.ajax({
 //                           type: "POST",
 //                           url: "/webservice/airline",
@@ -298,11 +306,11 @@ function airline_redirect_signin(type){
 //                           error: function(XMLHttpRequest, textStatus, errorThrown) {
 //                           },timeout: 120000 // sets timeout to 120 seconds
 //                        });
-                    }else{
-                        signature = new_login_signature;
-                        $('#myModalSignin').modal('hide');
-                        location.reload();
-                    }
+//                    }else{
+//                        signature = new_login_signature;
+//                        $('#myModalSignin').modal('hide');
+//                        location.reload();
+//                    }
                }
            }catch(err){
                console.log(err)
@@ -392,7 +400,16 @@ function airline_research_signin(type){
                         title: 'Oops!',
                         html: 'Something when wrong, please choose again!',
                     }).then((result) => {
-                        window.location.href = '/airline/search';
+                        document_set_cookie('airline_request', JSON.stringify(airline_request));
+                        concat_url = ''
+                        for(key in airline_request){
+                            if(concat_url)
+                                concat_url += '&';
+                            concat_url += key + '=' + airline_request[key];
+                        }
+    //                    document.getElementById('airline_searchForm').action += '?' + concat_url;
+                        window.location.href = '/airline/search?' + concat_url;
+//                        window.location.href = '/airline/search';
                     })
                }
            },
@@ -417,152 +434,152 @@ function airline_re_get_price(type){
        success: function(msg) {
             if(msg.result.error_code == 0){
                 $.ajax({
-               type: "POST",
-               url: "/webservice/airline",
-               headers:{
-                    'action': 'get_fare_rules',
-               },
-               data: {
-                    'signature': new_login_signature,
-                    'data': JSON.stringify(airline_get_price_request)
-               },
-               success: function(msg) {
-                    if(type != 'sell_journeys'){
-                        $.ajax({
-                           type: "POST",
-                           url: "/webservice/airline",
-                           headers:{
-                                'action': 'sell_journeys',
-                           },
-                           data: {
-                                'signature': new_login_signature,
-                                'data': JSON.stringify(airline_get_price_request)
-                           },
-                           success: function(msg) {
-                               sell_journey_response = msg;
-                               console.log(msg);
-                               if(msg.result.error_code == 0){
-                                    $.ajax({
-                                       type: "POST",
-                                       url: "/webservice/airline",
-                                       headers:{
-                                            'action': 'get_seat_availability',
-                                       },
-                                       data: {
-                                            'signature': new_login_signature
-                                       },
-                                       success: function(msg) {
-                                            console.log(msg);
-                                            $.ajax({
-                                               type: "POST",
-                                               url: "/webservice/airline",
-                                               headers:{
-                                                    'action': 'get_ssr_availability',
-                                               },
-                                               data: {
-                                                    'signature': new_login_signature
-                                               },
-                                               success: function(msg) {
-                                                    console.log(msg);
-                                                    $.ajax({
-                                                       type: "POST",
-                                                       url: "/webservice/airline",
-                                                       headers:{
-                                                            'action': 'get_ff_availability',
-                                                       },
-                                                       data: {
-                                                            'signature': new_login_signature
-                                                       },
-                                                       success: function(msg) {
-                                                            signature = new_login_signature;
-                                                            console.log(msg);
-                                                            if(type == 'review'){
-                                                                //ambil pax
-                                                                document.getElementById('reload_page').innerHTML +=`
-                                                                    <input type='hidden' name="time_limit_input" value="`+time_limit+`"/>
-                                                                    <input type='hidden' id="airline_pick" name="airline_pick" value=""/>
-                                                                    <input type='hidden' id="airline_price_itinerary" name="airline_price_itinerary" value=""/>
-                                                                    <input type='hidden' id="airline_price_itinerary_request" name="airline_price_itinerary_request" value=""/>
-                                                                    <input type='hidden' id="airline_sell_journey_response" name="airline_sell_journey_response" value=""/>
-                                                                    <input type='hidden' id="additional_price_input" name="additional_price_input" value=""/>
-                                                                    <input type='hidden' id="airline_create_passengers" name="airline_create_passengers" value=""/>
-                                                                    <input type='hidden' id="airline_ssr_request" name="airline_ssr_request" value=""/>
-                                                                    <input type='hidden' id="airline_seat_request" name="airline_seat_request" value=""/>
-                                                                    <input type='hidden' name="signature" value='`+new_login_signature+`'/>
-                                                                `;
-                                                                try{
-                                                                    document.getElementById('airline_pick').value = JSON.stringify(airline_pick);
-                                                                    document.getElementById('airline_price_itinerary').value = JSON.stringify(price_itinerary);
-                                                                    document.getElementById('airline_price_itinerary_request').value = JSON.stringify(airline_get_price_request);
-                                                                    document.getElementById('airline_sell_journey_response').value = JSON.stringify(sell_journey_response['result']['response']);
-                                                                    document.getElementById('airline_create_passengers').value = JSON.stringify(passengers);
-                                                                    document.getElementById('airline_ssr_request').value = JSON.stringify(airline_ssr_request);
-                                                                    document.getElementById('airline_seat_request').value = JSON.stringify(airline_seat_request);
-                                                                    document.getElementById('additional_price_input').value = JSON.stringify(additional_price);
-                                                                }catch(err){
-                                                                    console.log(err); // error kalau login di page revie ada yg salah
-                                                                }
-                                                                document.getElementById('reload_page').action = '/airline/review/'+ new_login_signature;
-                                                                document.getElementById('reload_page').submit();
-                                                            }else{
-                                                                //bikin form isi input airline_pick csrf_token time_limit_input signature
-                                                                document.getElementById('reload_page').innerHTML +=`
-                                                                    <input type='hidden' name="time_limit_input" value="`+time_limit+`"/>
-                                                                    <input type='hidden' id="airline_pick" name="airline_pick" value=""/>
-                                                                    <input type='hidden' id="airline_price_itinerary" name="airline_price_itinerary" value=""/>
-                                                                    <input type='hidden' id="airline_price_itinerary_request" name="airline_price_itinerary_request" value=""/>
-                                                                    <input type='hidden' id="additional_price_input" name="additional_price_input" value=""/>
-                                                                    <input type='hidden' name="signature" value='`+new_login_signature+`'/>
-                                                                    <input type='hidden' id="airline_sell_journey_response" name="airline_sell_journey_response"/>
-                                                                `;
-                                                                try{
-                                                                    document.getElementById('airline_pick').value = JSON.stringify(airline_pick);
-                                                                    document.getElementById('airline_price_itinerary').value = JSON.stringify(price_itinerary);
-                                                                    document.getElementById('airline_price_itinerary_request').value = JSON.stringify(airline_get_price_request);
-                                                                    document.getElementById('additional_price_input').value = JSON.stringify(additional_price);
-                                                                    document.getElementById('airline_sell_journey_response').value = JSON.stringify(sell_journey_response['result']['response']);
+                   type: "POST",
+                   url: "/webservice/airline",
+                   headers:{
+                        'action': 'get_fare_rules',
+                   },
+                   data: {
+                        'signature': new_login_signature,
+                        'data': JSON.stringify(airline_get_price_request)
+                   },
+                   success: function(msg) {
+                        if(type != 'sell_journeys'){
+                            $.ajax({
+                               type: "POST",
+                               url: "/webservice/airline",
+                               headers:{
+                                    'action': 'sell_journeys',
+                               },
+                               data: {
+                                    'signature': new_login_signature,
+                                    'data': JSON.stringify(airline_get_price_request)
+                               },
+                               success: function(msg) {
+                                   sell_journey_response = msg;
+                                   console.log(msg);
+                                   if(msg.result.error_code == 0){
+                                        $.ajax({
+                                           type: "POST",
+                                           url: "/webservice/airline",
+                                           headers:{
+                                                'action': 'get_seat_availability',
+                                           },
+                                           data: {
+                                                'signature': new_login_signature
+                                           },
+                                           success: function(msg) {
+                                                console.log(msg);
+                                                $.ajax({
+                                                   type: "POST",
+                                                   url: "/webservice/airline",
+                                                   headers:{
+                                                        'action': 'get_ssr_availability',
+                                                   },
+                                                   data: {
+                                                        'signature': new_login_signature
+                                                   },
+                                                   success: function(msg) {
+                                                        console.log(msg);
+                                                        $.ajax({
+                                                           type: "POST",
+                                                           url: "/webservice/airline",
+                                                           headers:{
+                                                                'action': 'get_ff_availability',
+                                                           },
+                                                           data: {
+                                                                'signature': new_login_signature
+                                                           },
+                                                           success: function(msg) {
+                                                                signature = new_login_signature;
+                                                                console.log(msg);
+                                                                if(type == 'review'){
+                                                                    //ambil pax
+                                                                    document.getElementById('reload_page').innerHTML +=`
+                                                                        <input type='hidden' name="time_limit_input" value="`+time_limit+`"/>
+                                                                        <input type='hidden' id="airline_pick" name="airline_pick" value=""/>
+                                                                        <input type='hidden' id="airline_price_itinerary" name="airline_price_itinerary" value=""/>
+                                                                        <input type='hidden' id="airline_price_itinerary_request" name="airline_price_itinerary_request" value=""/>
+                                                                        <input type='hidden' id="airline_sell_journey_response" name="airline_sell_journey_response" value=""/>
+                                                                        <input type='hidden' id="additional_price_input" name="additional_price_input" value=""/>
+                                                                        <input type='hidden' id="airline_create_passengers" name="airline_create_passengers" value=""/>
+                                                                        <input type='hidden' id="airline_ssr_request" name="airline_ssr_request" value=""/>
+                                                                        <input type='hidden' id="airline_seat_request" name="airline_seat_request" value=""/>
+                                                                        <input type='hidden' name="signature" value='`+new_login_signature+`'/>
+                                                                    `;
+                                                                    try{
+                                                                        document.getElementById('airline_pick').value = JSON.stringify(airline_pick);
+                                                                        document.getElementById('airline_price_itinerary').value = JSON.stringify(price_itinerary);
+                                                                        document.getElementById('airline_price_itinerary_request').value = JSON.stringify(airline_get_price_request);
+                                                                        document.getElementById('airline_sell_journey_response').value = JSON.stringify(sell_journey_response['result']['response']);
+                                                                        document.getElementById('airline_create_passengers').value = JSON.stringify(passengers);
+                                                                        document.getElementById('airline_ssr_request').value = JSON.stringify(airline_ssr_request);
+                                                                        document.getElementById('airline_seat_request').value = JSON.stringify(airline_seat_request);
+                                                                        document.getElementById('additional_price_input').value = JSON.stringify(additional_price);
+                                                                    }catch(err){
+                                                                        console.log(err); // error kalau login di page revie ada yg salah
+                                                                    }
+                                                                    document.getElementById('reload_page').action = '/airline/review/'+ new_login_signature;
+                                                                    document.getElementById('reload_page').submit();
+                                                                }else{
+                                                                    //bikin form isi input airline_pick csrf_token time_limit_input signature
+                                                                    document.getElementById('reload_page').innerHTML +=`
+                                                                        <input type='hidden' name="time_limit_input" value="`+time_limit+`"/>
+                                                                        <input type='hidden' id="airline_pick" name="airline_pick" value=""/>
+                                                                        <input type='hidden' id="airline_price_itinerary" name="airline_price_itinerary" value=""/>
+                                                                        <input type='hidden' id="airline_price_itinerary_request" name="airline_price_itinerary_request" value=""/>
+                                                                        <input type='hidden' id="additional_price_input" name="additional_price_input" value=""/>
+                                                                        <input type='hidden' name="signature" value='`+new_login_signature+`'/>
+                                                                        <input type='hidden' id="airline_sell_journey_response" name="airline_sell_journey_response"/>
+                                                                    `;
+                                                                    try{
+                                                                        document.getElementById('airline_pick').value = JSON.stringify(airline_pick);
+                                                                        document.getElementById('airline_price_itinerary').value = JSON.stringify(price_itinerary);
+                                                                        document.getElementById('airline_price_itinerary_request').value = JSON.stringify(airline_get_price_request);
+                                                                        document.getElementById('additional_price_input').value = JSON.stringify(additional_price);
+                                                                        document.getElementById('airline_sell_journey_response').value = JSON.stringify(sell_journey_response['result']['response']);
 
-                                                                }catch(err){
-                                                                    console.log(err); // error kalau login di page review ada yg salah
+                                                                    }catch(err){
+                                                                        console.log(err); // error kalau login di page review ada yg salah
+                                                                    }
+                                                                    document.getElementById('reload_page').action = '/airline/passenger/'+ new_login_signature;
+                                                                    document.getElementById('reload_page').submit();
                                                                 }
-                                                                document.getElementById('reload_page').action = '/airline/passenger/'+ new_login_signature;
-                                                                document.getElementById('reload_page').submit();
-                                                            }
-                                                            //location.reload();
-                                                       },
-                                                       error: function(XMLHttpRequest, textStatus, errorThrown) {
-                                                       },timeout: 60000
-                                                    });
-                                               },
-                                               error: function(XMLHttpRequest, textStatus, errorThrown) {
-                                               },timeout: 60000
-                                            });
-                                       },
-                                       error: function(XMLHttpRequest, textStatus, errorThrown) {
-                                       },timeout: 60000
-                                    });
-                               }else{
-                                   Swal.fire({
-                                        type: 'error',
-                                        title: 'Oops!',
-                                        html: 'Something when wrong, please choose again!',
-                                   }).then((result) => {
-                                        window.location.href = '/airline/search';
-                                   })
-                               }
-                           },
-                           error: function(XMLHttpRequest, textStatus, errorThrown) {
-                           },timeout: 60000
-                        });
-                    }else{
-                        signature = new_login_signature;
-                        $('#myModalSignin').modal('hide');
-                        window.location.href = '/airline/passenger/'+signature
-                    }
-               },
-               error: function(XMLHttpRequest, textStatus, errorThrown) {
-               },timeout: 60000
-            });
+                                                                //location.reload();
+                                                           },
+                                                           error: function(XMLHttpRequest, textStatus, errorThrown) {
+                                                           },timeout: 60000
+                                                        });
+                                                   },
+                                                   error: function(XMLHttpRequest, textStatus, errorThrown) {
+                                                   },timeout: 60000
+                                                });
+                                           },
+                                           error: function(XMLHttpRequest, textStatus, errorThrown) {
+                                           },timeout: 60000
+                                        });
+                                   }else{
+                                       Swal.fire({
+                                            type: 'error',
+                                            title: 'Oops!',
+                                            html: 'Something when wrong, please choose again!',
+                                       }).then((result) => {
+                                            window.location.href = '/airline/search';
+                                       })
+                                   }
+                               },
+                               error: function(XMLHttpRequest, textStatus, errorThrown) {
+                               },timeout: 60000
+                            });
+                        }else{
+                            signature = new_login_signature;
+                            $('#myModalSignin').modal('hide');
+                            window.location.href = '/airline/passenger/'+signature
+                        }
+                   },
+                   error: function(XMLHttpRequest, textStatus, errorThrown) {
+                   },timeout: 60000
+                });
             }else{
                 Swal.fire({
                     type: 'error',
@@ -578,36 +595,46 @@ function airline_re_get_price(type){
     });
 }
 
-function get_airline_data_search_page(){
+function get_airline_data_search_page(frontend_signature){
+    data_airline_request = {};
+    airline_request = get_data_url();
+    for(i in airline_request){
+        data_airline_request[i] = airline_request[i];
+    }
     $.ajax({
-       type: "POST",
-       url: "/webservice/airline",
-       headers:{
+        type: "POST",
+        url: "/webservice/airline",
+        headers:{
             'action': 'get_data_search_page',
-       },
-       data: {
+        },
+        data: {
+            'frontend_signature': frontend_signature,
+            'airline_request': JSON.stringify(data_airline_request),
             'signature': signature
-       },
-       success: function(msg) {
+        },
+        success: function(msg) {
            airline_request = msg.airline_request;
+           document.getElementById('airline_search_request').value = JSON.stringify(airline_request);
            airline_carriers = msg.airline_carriers;
            airline_carriers_data_awal = JSON.parse(JSON.stringify(msg.airline_carriers));
            airline_all_carriers = JSON.parse(JSON.stringify(msg.airline_all_carriers));
            airline_signin('');
-           while(count<counter_mc){
-                add_multi_city('search');
-                count++;
+           if(airline_request.direction == 'MC'){
+               while(count<counter_mc){
+                    add_multi_city('search');
+                    count++;
+               }
            }
            plus_min_passenger_airline_btn();
-       },
-       error: function(XMLHttpRequest, textStatus, errorThrown) {
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
 
-       },timeout: 60000
+        },timeout: 60000
     });
 
 }
 
-function get_airline_data_passenger_page(type='default'){
+function get_airline_data_passenger_page(type='default', attempt=1){
     $.ajax({
        type: "POST",
        url: "/webservice/airline",
@@ -618,56 +645,66 @@ function get_airline_data_passenger_page(type='default'){
             'signature': signature
        },
        success: function(msg) {
-           if(type == 'default'){
-               airline_pick = msg.airline_pick;
-               airline_get_price_request = msg.airline_get_price_request;
-               price_itinerary = msg.price_itinerary;
-               airline_carriers = msg.airline_carriers;
-               airline_request = msg.airline_request;
-               if(msg.hasOwnProperty('ff_request'))
-                    ff_request = msg.ff_request;
-               else
-                    ff_request = [];
-               adult = airline_request.adult;
-               child = airline_request.child;
-               infant = airline_request.infant;
-               student = airline_request.student;
-               seaman = airline_request.seaman;
-               labour = airline_request.labour;
-               try{
-                    data_ssrs = msg.ssr.result.response.ssr_availability_provider;
-                    document.getElementById('next_to_review').disabled = false;
-                    document.getElementById('next_to_review_mobile').disabled = false;
-               }catch(err){
-                    data_ssrs = {};
-                    get_seat_availability('');
-               }
-               if(msg.hasOwnProperty('pax_cache')){
-                    pax_cache_reorder = msg.pax_cache;
-                    if(msg.pax_cache.hasOwnProperty('booker'))
-                        data_booker = msg.pax_cache.booker;
-               }
-               departure_date = '';
-               for(i in airline_pick){
-                    for(j in airline_pick[i].journeys)
-                        departure_date = moment(airline_pick[i].journeys[j].departure_date, 'DD MMM YYYY').format('YYYY-MM-DD');
-               }
-               get_agent_currency_rate();
-               airline_get_provider_list('passenger');
-           }else if(type == 'aftersales'){
-               airline_request = msg.airline_request;
-               adult = airline_request.adult;
-               child = airline_request.child;
-               infant = airline_request.infant;
-               student = airline_request.student;
-               seaman = airline_request.seaman;
-               labour = airline_request.labour;
-               airline_pick = msg.airline_pick;
-               if(msg.hasOwnProperty('pax_cache')){
-                    pax_cache_reorder = msg.pax_cache;
-               }
-               airline_do_passenger_js_load();
-           }
+            if(msg.error_code == 0){
+                if(type == 'default'){
+                    airline_pick = msg.airline_pick;
+                    airline_get_price_request = msg.airline_get_price_request;
+                    price_itinerary = msg.price_itinerary;
+                    airline_carriers = msg.airline_carriers;
+                    airline_request = msg.airline_request;
+                    if(msg.hasOwnProperty('ff_request'))
+                        ff_request = msg.ff_request;
+                    else
+                        ff_request = [];
+                    adult = airline_request.adult;
+                    child = airline_request.child;
+                    infant = airline_request.infant;
+                    student = airline_request.student;
+                    seaman = airline_request.seaman;
+                    labour = airline_request.labour;
+                    try{
+                        data_ssrs = msg.ssr.result.response.ssr_availability_provider;
+                        document.getElementById('next_to_review').disabled = false;
+                        document.getElementById('next_to_review_mobile').disabled = false;
+                    }catch(err){
+                        data_ssrs = {};
+                        get_seat_availability('');
+                    }
+                    if(msg.hasOwnProperty('pax_cache')){
+                        pax_cache_reorder = msg.pax_cache;
+                        if(msg.pax_cache.hasOwnProperty('booker'))
+                            data_booker = msg.pax_cache.booker;
+                    }
+                    departure_date = '';
+                    for(i in airline_pick){
+                        for(j in airline_pick[i].journeys)
+                            departure_date = moment(airline_pick[i].journeys[j].departure_date, 'DD MMM YYYY').format('YYYY-MM-DD');
+                    }
+                    get_agent_currency_rate();
+                    airline_get_provider_list('passenger');
+                }else if(type == 'aftersales'){
+                    airline_request = msg.airline_request;
+                    adult = airline_request.adult;
+                    child = airline_request.child;
+                    infant = airline_request.infant;
+                    student = airline_request.student;
+                    seaman = airline_request.seaman;
+                    labour = airline_request.labour;
+                    airline_pick = msg.airline_pick;
+                    if(msg.hasOwnProperty('pax_cache')){
+                        pax_cache_reorder = msg.pax_cache;
+                    }
+                    airline_do_passenger_js_load();
+                }
+            }else if(attempt < 5){
+                get_airline_data_passenger_page(type, attempt+1)
+            }else{
+                Swal.fire({
+                    type: 'error',
+                    title: 'Oops!',
+                    html: "Error get cache passenger page",
+                });
+            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
 
@@ -1412,39 +1449,49 @@ function auto_input_pax_cache_reorder(){
 
 }
 
-function get_airline_data_review_page(){
+function get_airline_data_review_page(attempt=1){
     $.ajax({
-       type: "POST",
-       url: "/webservice/airline",
-       headers:{
+        type: "POST",
+        url: "/webservice/airline",
+        headers:{
             'action': 'get_data_review_page',
-       },
-       data: {
+        },
+        data: {
             'signature': signature
-       },
-       success: function(msg) {
-           airline_pick = msg.airline_pick;
-           price_itinerary = msg.price_itinerary;
-           airline_carriers = msg.airline_carriers;
-           airline_ssr_request = msg.airline_ssr_request;
-           airline_seat_request = msg.airline_seat_request;
-           now_page = 'review';
-           passengers = msg.passengers;
-           passengers_ssr = msg.passengers_ssr;
-           airline_request = msg.airline_request;
-           upsell_price_dict = msg.upsell_price_dict;
-           upsell_price_dict_ssr = msg.upsell_price_dict_ssr;
-           get_agent_currency_rate();
-           airline_get_provider_list('review');
+        },
+        success: function(msg) {
+            if(msg.error_code == 0){
+                airline_pick = msg.airline_pick;
+                price_itinerary = msg.price_itinerary;
+                airline_carriers = msg.airline_carriers;
+                airline_ssr_request = msg.airline_ssr_request;
+                airline_seat_request = msg.airline_seat_request;
+                now_page = 'review';
+                passengers = msg.passengers;
+                passengers_ssr = msg.passengers_ssr;
+                airline_request = msg.airline_request;
+                upsell_price_dict = msg.upsell_price_dict;
+                upsell_price_dict_ssr = msg.upsell_price_dict_ssr;
+                get_agent_currency_rate();
+                airline_get_provider_list('review');
+            }else if(attempt < 5){
+                get_airline_data_review_page(attempt+1)
+            }else{
+                Swal.fire({
+                    type: 'error',
+                    title: 'Oops!',
+                    html: "Error get cache review page",
+                });
+            }
 
-       },
-       error: function(XMLHttpRequest, textStatus, errorThrown) {
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
 
-       },timeout: 60000
+        },timeout: 60000
     });
 }
 
-function get_airline_data_review_after_sales_page(){
+function get_airline_data_review_after_sales_page(attempt=1){
     $.ajax({
        type: "POST",
        url: "/webservice/airline",
@@ -1455,17 +1502,27 @@ function get_airline_data_review_after_sales_page(){
             'signature': signature
        },
        success: function(msg) {
-           airline_carriers = msg.airline_carriers;
-           passengers = msg.passengers;
-           passengers_ssr = msg.passengers_ssr;
-           airline_get_detail = msg.airline_get_detail;
-           airline_detail('request_new');
-           airline_get_provider_list('review_aftersales');
-           $( document ).ready(function() {
-                price_arr_repricing = {};
-                pax_type_repricing = [];
-                get_airline_channel_repricing_data();
-           });
+            if(msg.error_code == 0){
+                airline_carriers = msg.airline_carriers;
+                passengers = msg.passengers;
+                passengers_ssr = msg.passengers_ssr;
+                airline_get_detail = msg.airline_get_detail;
+                airline_detail('request_new');
+                airline_get_provider_list('review_aftersales');
+                $( document ).ready(function() {
+                    price_arr_repricing = {};
+                    pax_type_repricing = [];
+                    get_airline_channel_repricing_data();
+                });
+            }else if(attempt < 5){
+                get_airline_data_review_after_sales_page(attempt+1)
+            }else{
+                Swal.fire({
+                    type: 'error',
+                    title: 'Oops!',
+                    html: "Error get cache review page",
+                });
+            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
 
@@ -1584,13 +1641,17 @@ function get_airline_data_seat_page(after_sales){
 
 function airline_signin(data,type=''){
     getToken();
+    if(typeof(frontend_signature) === 'undefined')
+        frontend_signature = '';
     $.ajax({
        type: "POST",
        url: "/webservice/airline",
        headers:{
             'action': 'signin',
        },
-       data: {},
+       data: {
+            'frontend_signature': frontend_signature
+       },
        success: function(msg) {
        try{
            if(msg.result.error_code == 0){
@@ -3687,12 +3748,15 @@ function change_fare(journey, segment, fares, fare_code){
             var price_breakdown = {};
             for(j in airline_data_filter[journey].segments){
                 for(k in airline_data_filter[journey].segments[j].fares[airline_data_filter[journey].segments[j].fare_pick].service_charge_summary){
-                    for(l in airline_data_filter[journey].segments[j].fares[airline_data_filter[journey].segments[j].fare_pick].service_charge_summary[k].service_charges){
-                        if(airline_data_filter[journey].segments[j].fares[airline_data_filter[journey].segments[j].fare_pick].service_charge_summary[k].service_charges[l].charge_type != 'RAC'){
-                            if(!price_breakdown.hasOwnProperty(airline_data_filter[journey].segments[j].fares[airline_data_filter[journey].segments[j].fare_pick].service_charge_summary[k].service_charges[l].charge_type))
-                                price_breakdown[airline_data_filter[journey].segments[j].fares[airline_data_filter[journey].segments[j].fare_pick].service_charge_summary[k].service_charges[l].charge_type] = 0;
-                            price_breakdown[airline_data_filter[journey].segments[j].fares[airline_data_filter[journey].segments[j].fare_pick].service_charge_summary[k].service_charges[l].charge_type] += airline_data_filter[journey].segments[j].fares[airline_data_filter[journey].segments[j].fare_pick].service_charge_summary[k].service_charges[l].total;
+                    if(!['CHD', 'INF'].includes(airline_data_filter[journey].segments[j].fares[airline_data_filter[journey].segments[j].fare_pick].service_charge_summary[k].pax_type)){
+                        for(l in airline_data_filter[journey].segments[j].fares[airline_data_filter[journey].segments[j].fare_pick].service_charge_summary[k].service_charges){
+                            if(airline_data_filter[journey].segments[j].fares[airline_data_filter[journey].segments[j].fare_pick].service_charge_summary[k].service_charges[l].charge_type != 'RAC'){
+                                if(!price_breakdown.hasOwnProperty(airline_data_filter[journey].segments[j].fares[airline_data_filter[journey].segments[j].fare_pick].service_charge_summary[k].service_charges[l].charge_type))
+                                    price_breakdown[airline_data_filter[journey].segments[j].fares[airline_data_filter[journey].segments[j].fare_pick].service_charge_summary[k].service_charges[l].charge_type] = 0;
+                                price_breakdown[airline_data_filter[journey].segments[j].fares[airline_data_filter[journey].segments[j].fare_pick].service_charge_summary[k].service_charges[l].charge_type] += airline_data_filter[journey].segments[j].fares[airline_data_filter[journey].segments[j].fare_pick].service_charge_summary[k].service_charges[l].amount;
+                            }
                         }
+                        break
                     }
                 }
             }
@@ -7554,7 +7618,16 @@ function re_order_find_journey(){
               confirmButtonText: 'Yes'
             }).then((result) => {
                 if (result.value) {
-                    window.location.href = '/airline/search';
+                    document_set_cookie('airline_request', JSON.stringify(airline_request));
+
+                    concat_url = ''
+                    for(key in airline_request){
+                        if(concat_url)
+                            concat_url += '&';
+                        concat_url += key + '=' + airline_request[key];
+                    }
+//                    document.getElementById('airline_searchForm').action += '?' + concat_url;
+                    window.location.href = '/airline/search?' + concat_url;
                 }
             })
         }, 2000);
@@ -7612,7 +7685,16 @@ function re_order_get_price(){
                   confirmButtonText: 'Yes'
                 }).then((result) => {
                     if (result.value) {
-                        window.location.href = '/airline/search';
+                        document_set_cookie('airline_request', JSON.stringify(airline_request));
+
+                        concat_url = ''
+                        for(key in airline_request){
+                            if(concat_url)
+                                concat_url += '&';
+                            concat_url += key + '=' + airline_request[key];
+                        }
+                        window.location.href = '/airline/search?' + concat_url;
+//                        window.location.href = '/airline/search';
                     }
                 })
             }
@@ -7680,7 +7762,16 @@ function re_order_sell_journeys(){
                   confirmButtonText: 'Yes'
                }).then((result) => {
                     if (result.value) {
-                        window.location.href = '/airline/search';
+                        document_set_cookie('airline_request', JSON.stringify(airline_request));
+
+                        concat_url = ''
+                        for(key in airline_request){
+                            if(concat_url)
+                                concat_url += '&';
+                            concat_url += key + '=' + airline_request[key];
+                        }
+                        window.location.href = '/airline/search?' + concat_url;
+//                        window.location.href = '/airline/search';
                     }
                })
            }
@@ -14413,12 +14504,15 @@ function render_ticket_reissue(){
                             for(j in airline[i].segments){
                                 if(airline[i].segments[j].hasOwnProperty('fare_pick')){
                                     for(k in airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary){
-                                        for(l in airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].service_charges){
-                                            if(airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].service_charges[l].charge_type != 'RAC'){
-                                                if(!price_breakdown.hasOwnProperty(airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].service_charges[l].charge_type))
-                                                    price_breakdown[airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].service_charges[l].charge_type] = 0;
-                                                price_breakdown[airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].service_charges[l].charge_type] += airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].service_charges[l].total;
+                                        if(!['CHD', 'INF'].includes(airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].pax_type)){
+                                            for(l in airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].service_charges){
+                                                if(airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].service_charges[l].charge_type != 'RAC'){
+                                                    if(!price_breakdown.hasOwnProperty(airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].service_charges[l].charge_type))
+                                                        price_breakdown[airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].service_charges[l].charge_type] = 0;
+                                                    price_breakdown[airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].service_charges[l].charge_type] += airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].service_charges[l].amount;
+                                                }
                                             }
+                                            break;
                                         }
                                     }
                                 }
@@ -15596,12 +15690,15 @@ function get_chosen_ticket(type='all'){
         for(i in airline_pick_list){
             for(j in airline_pick_list[i].segments){
                 for(k in airline_pick_list[i].segments[j].fares[airline_pick_list[i].segments[j].fare_pick].service_charge_summary){
-                    for(l in airline_pick_list[i].segments[j].fares[airline_pick_list[i].segments[j].fare_pick].service_charge_summary[k].service_charges){
-                        if(airline_pick_list[i].segments[j].fares[airline_pick_list[i].segments[j].fare_pick].service_charge_summary[k].service_charges[l].charge_type != 'RAC'){
-                            if(!price_breakdown.hasOwnProperty(airline_pick_list[i].segments[j].fares[airline_pick_list[i].segments[j].fare_pick].service_charge_summary[k].service_charges[l].charge_type))
-                                price_breakdown[airline_pick_list[i].segments[j].fares[airline_pick_list[i].segments[j].fare_pick].service_charge_summary[k].service_charges[l].charge_type] = 0;
-                            price_breakdown[airline_pick_list[i].segments[j].fares[airline_pick_list[i].segments[j].fare_pick].service_charge_summary[k].service_charges[l].charge_type] += airline_pick_list[i].segments[j].fares[airline_pick_list[i].segments[j].fare_pick].service_charge_summary[k].service_charges[l].total;
+                    if(!['CHD', 'INF'].includes(airline_pick_list[i].segments[j].fares[airline_pick_list[i].segments[j].fare_pick].service_charge_summary[k].pax_type)){
+                        for(l in airline_pick_list[i].segments[j].fares[airline_pick_list[i].segments[j].fare_pick].service_charge_summary[k].service_charges){
+                            if(airline_pick_list[i].segments[j].fares[airline_pick_list[i].segments[j].fare_pick].service_charge_summary[k].service_charges[l].charge_type != 'RAC'){
+                                if(!price_breakdown.hasOwnProperty(airline_pick_list[i].segments[j].fares[airline_pick_list[i].segments[j].fare_pick].service_charge_summary[k].service_charges[l].charge_type))
+                                    price_breakdown[airline_pick_list[i].segments[j].fares[airline_pick_list[i].segments[j].fare_pick].service_charge_summary[k].service_charges[l].charge_type] = 0;
+                                price_breakdown[airline_pick_list[i].segments[j].fares[airline_pick_list[i].segments[j].fare_pick].service_charge_summary[k].service_charges[l].charge_type] += airline_pick_list[i].segments[j].fares[airline_pick_list[i].segments[j].fare_pick].service_charge_summary[k].service_charges[l].amount;
+                            }
                         }
+                        break
                     }
                 }
             }

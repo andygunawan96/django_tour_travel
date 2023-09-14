@@ -85,90 +85,91 @@ function hotel_redirect_signup(type){
                if(msg.result.error_code == 0){
                     hotel_signature = msg.result.response.signature;
                     new_login_signature = msg.result.response.signature;
-
-                    if(type != 'search'){
-                        $.ajax({
-                           type: "POST",
-                           url: "/webservice/hotel",
-                           headers:{
-                                'action': 'get_top_facility',
-                           },
-                           data: {
-                               'use_cache': true,
-                               'signature': new_login_signature
-                           },
-                           success: function(msg) {
-                               if(msg.result.error_code == 0){
-                                    $.ajax({
-                                       type: "POST",
-                                       url: "/webservice/hotel",
-                                       headers:{
-                                            'action': 'search',
-                                       },
-                                       data: {
-                                          'use_cache': true,
-                                          'signature': new_login_signature,
-                                       },
-                                       success: function(msg) {
-                                            if(msg.result.error_code == 0 && type != 'get_details'){
-                                                $.ajax({
-                                                   type: "POST",
-                                                   url: "/webservice/hotel",
-                                                   headers:{
-                                                        'action': 'detail',
-                                                   },
-                                                   data: {
-                                                        'use_cache': true,
-                                                        'signature': new_login_signature
-                                                   },
-                                                   success: function(msg) {
-                                                        if(type == 'review' && msg.result.error_code == 0){
-                                                            $.ajax({
-                                                               type: "POST",
-                                                               url: "/webservice/hotel",
-                                                               headers:{
-                                                                    'action': 'get_cancellation_policy',
-                                                               },
-                                                               data: {
-                                                                    'use_cache': true,
-                                                                    'signature': new_login_signature
-                                                               },
-                                                               success: function(msg) {
-                                                                    signature = new_login_signature;
-                                                                    $('#myModalSignin').modal('hide');
-                                                                    location.reload();
-                                                            },error: function(XMLHttpRequest, textStatus, errorThrown) {
-                                                               },timeout: 60000
-                                                            });
-                                                        }else{
-                                                            signature = new_login_signature;
-                                                            $('#myModalSignin').modal('hide');
-                                                            location.reload();
-
-                                                        }
-                                                },error: function(XMLHttpRequest, textStatus, errorThrown) {
-                                                   },timeout: 60000
-                                                });
-                                            }else{
-                                                signature = new_login_signature;
-                                                $('#myModalSignin').modal('hide');
-                                                location.reload();
-
-                                            }
-                                       },
-                                       error: function(XMLHttpRequest, textStatus, errorThrown) {
-                                       },timeout: 120000
-                                    });
-                               }
-                           },
-                           error: function(XMLHttpRequest, textStatus, errorThrown) {
-                           },timeout: 120000 // sets timeout to 120 seconds
-                        });
-                    }else{
-                        signature = new_login_signature;
-                        $('#myModalSignin').modal('hide');
-                        location.reload();
-                    }
+                    $('#myModalSignin').modal('hide');
+                    window.location.href = '/';
+//                    if(type != 'search'){
+//                        $.ajax({
+//                           type: "POST",
+//                           url: "/webservice/hotel",
+//                           headers:{
+//                                'action': 'get_top_facility',
+//                           },
+//                           data: {
+//                               'use_cache': true,
+//                               'signature': new_login_signature
+//                           },
+//                           success: function(msg) {
+//                               if(msg.result.error_code == 0){
+//                                    $.ajax({
+//                                       type: "POST",
+//                                       url: "/webservice/hotel",
+//                                       headers:{
+//                                            'action': 'search',
+//                                       },
+//                                       data: {
+//                                          'use_cache': true,
+//                                          'signature': new_login_signature,
+//                                       },
+//                                       success: function(msg) {
+//                                            if(msg.result.error_code == 0 && type != 'get_details'){
+//                                                $.ajax({
+//                                                   type: "POST",
+//                                                   url: "/webservice/hotel",
+//                                                   headers:{
+//                                                        'action': 'detail',
+//                                                   },
+//                                                   data: {
+//                                                        'use_cache': true,
+//                                                        'signature': new_login_signature
+//                                                   },
+//                                                   success: function(msg) {
+//                                                        if(type == 'review' && msg.result.error_code == 0){
+//                                                            $.ajax({
+//                                                               type: "POST",
+//                                                               url: "/webservice/hotel",
+//                                                               headers:{
+//                                                                    'action': 'get_cancellation_policy',
+//                                                               },
+//                                                               data: {
+//                                                                    'use_cache': true,
+//                                                                    'signature': new_login_signature
+//                                                               },
+//                                                               success: function(msg) {
+//                                                                    signature = new_login_signature;
+//                                                                    $('#myModalSignin').modal('hide');
+//                                                                    location.reload();
+//                                                            },error: function(XMLHttpRequest, textStatus, errorThrown) {
+//                                                               },timeout: 60000
+//                                                            });
+//                                                        }else{
+//                                                            signature = new_login_signature;
+//                                                            $('#myModalSignin').modal('hide');
+//                                                            location.reload();
+//
+//                                                        }
+//                                                },error: function(XMLHttpRequest, textStatus, errorThrown) {
+//                                                   },timeout: 60000
+//                                                });
+//                                            }else{
+//                                                signature = new_login_signature;
+//                                                $('#myModalSignin').modal('hide');
+//                                                location.reload();
+//
+//                                            }
+//                                       },
+//                                       error: function(XMLHttpRequest, textStatus, errorThrown) {
+//                                       },timeout: 120000
+//                                    });
+//                               }
+//                           },
+//                           error: function(XMLHttpRequest, textStatus, errorThrown) {
+//                           },timeout: 120000 // sets timeout to 120 seconds
+//                        });
+//                    }else{
+//                        signature = new_login_signature;
+//                        $('#myModalSignin').modal('hide');
+//                        location.reload();
+//                    }
                }
            }catch(err){
                console.log(err)
@@ -190,6 +191,8 @@ function hotel_redirect_signup(type){
 }
 
 function hotel_signin(data, need_signin=false){
+    if(typeof(frontend_signature) === 'undefined')
+        frontend_signature = '';
     getToken();
     $.ajax({
        type: "POST",
@@ -197,7 +200,9 @@ function hotel_signin(data, need_signin=false){
        headers:{
             'action': 'signin',
        },
-       data: {},
+       data: {
+            'frontend_signature': frontend_signature,
+       },
        success: function(msg) {
            if(msg.result.error_code == 0){
                signature = msg.result.response.signature;
@@ -526,6 +531,7 @@ function hotel_search(){
                gtag('event', 'hotel_search', {});
            try{
                 if(msg.result.error_code==0){
+                    signature = msg.result.signature;
                     hotel_set_signature(msg.result.signature)
                     hotel_data = msg.result.response;
                     vendor = [];
@@ -642,7 +648,8 @@ function hotel_set_signature(signature_hotel){
             'action': 'set_signature',
        },
        data: {
-            'signature': signature_hotel
+            'signature': signature_hotel,
+            'frontend_signature': frontend_signature,
        },
        success: function(msg) {
             signature = signature_hotel;

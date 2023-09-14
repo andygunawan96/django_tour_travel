@@ -202,3 +202,56 @@ def check_captcha(request):
         _logger.error(str(e) + '\n' + traceback.format_exc())
         raise Exception('we know you scrap our web, please use our web')
     # end captcha verification
+
+def delete_cache_file(request, signature):
+    folder_path = var_log_path(request, 'cache_session/%s' % request.session['user_account']['co_user_login'])
+    for file in os.listdir(folder_path):
+        if signature in file:
+            os.remove("%s/%s" % (folder_path, file))
+
+def read_cache_file(request, signature, session_key):
+    try:
+        file = open("%s/%s.txt" % (var_log_path(request, 'cache_session/%s' % request.session['user_account']['co_user_login']), ("%s_%s" % (signature, session_key))), "r")
+        data = file.read()
+        file.close()
+        if data:
+            try:
+                res = json.loads(data)
+                if res.get('data'):
+                    return res['data']
+                else:
+                    return False
+            except:
+                # return data data lama sudah terpindah semua, kalau tidak sesuai ambil cache baru
+                return False
+        else:
+            return False
+    except Exception as e:
+        return False
+
+def write_cache_file(request, signature, session_key, data, depth = 1):
+    try:
+        ## ISI DATA file_name HANYA NAMA FILE TANPA EXTENSION
+        save_res = {}
+        date_time = parse_save_cache(datetime.now())
+        save_res['datetime'] = date_time
+        save_res['data'] = data
+        rand_id = str(random.randint(0, 1000))
+        folder_path = var_log_path(request, 'cache_session')
+        _check_folder_exists(folder_path)
+        folder_path = var_log_path(request, 'cache_session/%s' % request.session['user_account']['co_user_login'])
+        _check_folder_exists(folder_path)
+        temp_name = '%s/%s.%s.txt' % (folder_path, ("%s_%s" % (signature, session_key)), rand_id)
+        file_name = '%s/%s.txt' % (folder_path, ("%s_%s" % (signature, session_key)))
+        _file = open(temp_name, 'w+')
+        _file.write(json.dumps(save_res))
+        _file.close()
+
+        os.rename(temp_name, file_name)
+        return True
+    except Exception as e:
+        _logger.error("%s, %s" % (str(e), traceback.format_exc()))
+        if depth < 10:
+            write_cache_file(request, signature, session_key, data, depth + 1)
+
+

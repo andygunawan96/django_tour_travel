@@ -124,9 +124,12 @@ def login(request):
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
-            create_session_product(request, 'visa', 20)
-            set_session(request, 'visa_signature', res['result']['response']['signature'])
+            create_session_product(request, 'visa', 20, res['result']['response']['signature'])
+            # set_session(request, 'visa_signature', res['result']['response']['signature'])
             set_session(request, 'signature', res['result']['response']['signature'])
+            if request.POST.get('frontend_signature'):
+                write_cache_file(request, res['result']['response']['signature'], 'visa_frontend_signature',request.POST['frontend_signature'])
+                write_cache_file(request, request.POST['frontend_signature'], 'visa_signature',res['result']['response']['signature'])
             if request.session['user_account'].get('co_customer_parent_seq_id'):
                 webservice_agent.activate_corporate_mode(request, res['result']['response']['signature'])
             _logger.info("SIGNIN VISA")
@@ -247,6 +250,10 @@ def search(request):
             "action": "search",
             "signature": request.POST['signature']
         }
+        file = read_cache_file(request, request.POST['frontend_signature'], 'visa_request')
+        if file:
+            write_cache_file(request, request.POST['signature'], 'visa_request', file)
+
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     url_request = get_url_gateway('booking/visa')
@@ -274,7 +281,7 @@ def search(request):
                 'infant': [],
                 'elder': []
             }
-            visa_list = request.session.get('visa_search')
+
             for list_of_visa in res['result']['response']['list_of_visa']:
                 #paxtype
                 if list_of_visa['pax_type'] == 'ADT':
@@ -314,15 +321,20 @@ def search(request):
                     visa_type[list_of_visa['pax_type'][1].lower()].append(list_of_visa['visa_type'])
                 if list_of_visa['type']['process_type'] not in process_type[list_of_visa['pax_type'][1].lower()]:
                     process_type[list_of_visa['pax_type'][1].lower()].append(list_of_visa['type']['process_type'])
-            if visa_list:
-                set_session(request, 'visa_search', visa_list)
-            else:
-                set_session(request, 'visa_search', res)
-            set_session(request, 'list_of_visa_type', {
+
+            write_cache_file(request, request.POST['signature'], 'visa_search', res)
+            # set_session(request, 'visa_search', res)
+
+            write_cache_file(request, request.POST['signature'], 'list_of_visa_type', {
                 'entry_type': entry_type,
                 'visa_type': visa_type,
                 'process_type': process_type
             })
+            # set_session(request, 'list_of_visa_type', {
+            #     'entry_type': entry_type,
+            #     'visa_type': visa_type,
+            #     'process_type': process_type
+            # })
             _logger.info("SUCCESS search VISA SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR search TRAIN SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
@@ -357,9 +369,11 @@ def get_availability(request):
 
 def sell_visa(request):
     try:
-        data = {
-            'sell_visa': request.session['visa_sell']
-        }
+        file = read_cache_file(request, request.POST['signature'], 'visa_sell')
+        if file:
+            data = {
+                'sell_visa': file
+            }
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
@@ -372,7 +386,8 @@ def sell_visa(request):
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
-            set_session(request, 'sell_visa', res)
+            write_cache_file(request, request.POST['signature'], 'sell_visa', res)
+            # set_session(request, 'sell_visa', res)
             _logger.info("SUCCESS sell_visa VISA SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR sell_visa VISA SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
@@ -382,8 +397,11 @@ def sell_visa(request):
 
 def update_contact(request):
     try:
-        booker = request.session['visa_create_passengers']['booker']
-        contacts = request.session['visa_create_passengers']['contact']
+        file = read_cache_file(request, request.POST['signature'], 'visa_create_passengers')
+        if file:
+            visa_create_passengers = file
+        booker = visa_create_passengers['booker']
+        contacts = visa_create_passengers['contact']
 
         data = {
             'booker': booker,
@@ -412,9 +430,12 @@ def update_passengers(request):
     try:
         passengers = []
         master_visa_id = json.loads(request.POST['id'])
-        for pax_type in request.session['visa_create_passengers']:
+        file = read_cache_file(request, request.POST['signature'], 'visa_create_passengers')
+        if file:
+            visa_create_passengers = file
+        for pax_type in visa_create_passengers:
             if pax_type != 'booker' and pax_type != 'contact':
-                for pax in request.session['visa_create_passengers'][pax_type]:
+                for pax in visa_create_passengers[pax_type]:
                     pax.update({
                         'birth_date': '%s-%s-%s' % (
                             pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
@@ -591,7 +612,8 @@ def update_service_charge(request):
                         if upsell['pax_type'] not in total_upsell_dict:
                             total_upsell_dict[upsell['pax_type']] = 0
                         total_upsell_dict[upsell['pax_type']] += pricing['amount']
-            set_session(request, 'visa_upsell_' + request.POST['signature'], total_upsell_dict)
+            write_cache_file(request, request.POST['signature'], 'visa_upsell', total_upsell_dict)
+            # set_session(request, 'visa_upsell_' + request.POST['signature'], total_upsell_dict)
             _logger.info("SUCCESS update_service_charge VISA SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR update_service_charge VISA SIGNATURE " + request.POST['signature'])
@@ -623,7 +645,8 @@ def booker_insentif_booking(request):
             for upsell in data['passengers']:
                 for pricing in upsell['pricing']:
                     total_upsell += pricing['amount']
-            set_session(request, 'visa_upsell_booker_'+request.POST['signature'], total_upsell)
+            write_cache_file(request, request.POST['signature'], 'visa_upsell_booker', total_upsell)
+            # set_session(request, 'visa_upsell_booker_'+request.POST['signature'], total_upsell)
             _logger.info("SUCCESS update_service_charge_booker VISA SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR update_service_charge_booker VISA SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
@@ -640,26 +663,33 @@ def page_passenger(request):
             'infant': 0,
             'elder': 0
         }
-        for visa in request.session['visa_search']['result']['response']['list_of_visa']:
-            pax_count = visa['total_pax']
-            if visa['pax_type'][0] == 'ADT':
-                pax.update({
-                    'adult': pax['adult'] + pax_count
-                })
-            elif visa['pax_type'][0] == 'CHD':
-                pax.update({
-                    'child': pax['child'] + pax_count
-                })
-            elif visa['pax_type'][0] == 'INF':
-                pax.update({
-                    'infant': pax['infant'] + pax_count
-                })
-            elif visa['pax_type'][0] == 'YCD':
-                pax.update({
-                    'senior': pax['elder'] + pax_count
-                })
-        res['visa'] = request.session['visa_search']['result']['response']
+        file = read_cache_file(request, request.POST['signature'], 'visa_search')
+        if file:
+            visa_search = file
+            for visa in visa_search['result']['response']['list_of_visa']:
+                pax_count = visa['total_pax']
+                if visa['pax_type'][0] == 'ADT':
+                    pax.update({
+                        'adult': pax['adult'] + pax_count
+                    })
+                elif visa['pax_type'][0] == 'CHD':
+                    pax.update({
+                        'child': pax['child'] + pax_count
+                    })
+                elif visa['pax_type'][0] == 'INF':
+                    pax.update({
+                        'infant': pax['infant'] + pax_count
+                    })
+                elif visa['pax_type'][0] == 'YCD':
+                    pax.update({
+                        'senior': pax['elder'] + pax_count
+                    })
+            res['visa'] = visa_search['result']['response']
         res['passengers'] = pax
+
+        file = read_cache_file(request, request.POST['signature'], 'visa_request')
+        if file:
+            res['visa_request'] = file
         res['visa_request'] = request.session['visa_request']
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
@@ -668,7 +698,10 @@ def page_passenger(request):
 def page_review(request):
     try:
         res = {}
-        pax = request.session['visa_create_passengers']
+        file = read_cache_file(request, request.POST['signature'], 'visa_create_passengers')
+        if file:
+            pax = file
+        # pax = request.session['visa_create_passengers']
         count = 1
         for i in pax:
             if i != 'booker' and i != 'contact':
@@ -677,11 +710,29 @@ def page_review(request):
                         'number': count
                     })
                     count = count + 1
-        res['visa'] = request.session['visa_search']['result']['response']
-        res['sell_visa'] = request.session['sell_visa']['result']['response']
+
+        file = read_cache_file(request, request.POST['signature'], 'visa_search')
+        if file:
+            res['visa'] = file['result']['response']
+        # res['visa'] = request.session['visa_search']['result']['response']
+        file = read_cache_file(request, request.POST['signature'], 'sell_visa')
+        if file:
+            res['sell_visa'] = file['result']['response']
+        # res['sell_visa'] = request.session['sell_visa']['result']['response']
+
         res['passengers'] = pax
-        res['visa_request'] = request.session['visa_request']
-        res['upsell_price_dict'] = request.session.get('visa_upsell_%s' % request.POST['signature']) and request.session.get('visa_upsell_%s' % request.POST['signature']) or {}
+
+        file = read_cache_file(request, request.POST['signature'], 'visa_request')
+        if file:
+            res['visa_request'] = file
+        # res['visa_request'] = request.session['visa_request']
+
+        file = read_cache_file(request, request.POST['signature'], 'visa_upsell')
+        if file:
+            res['upsell_price_dict'] = file
+        else:
+            res['upsell_price_dict'] = {}
+        # res['upsell_price_dict'] = request.session.get('visa_upsell_%s' % request.POST['signature']) and request.session.get('visa_upsell_%s' % request.POST['signature']) or {}
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res

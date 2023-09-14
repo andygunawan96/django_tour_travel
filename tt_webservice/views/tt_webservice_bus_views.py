@@ -119,9 +119,12 @@ def login(request):
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
-            create_session_product(request, 'bus', 20)
-            set_session(request, 'bus_signature', res['result']['response']['signature'])
+            create_session_product(request, 'bus', 20, res['result']['response']['signature'])
+            # set_session(request, 'bus_signature', res['result']['response']['signature'])
             set_session(request, 'signature', res['result']['response']['signature'])
+            if request.POST.get('frontend_signature'):
+                write_cache_file(request, res['result']['response']['signature'], 'bus_frontend_signature',request.POST['frontend_signature'])
+                write_cache_file(request, request.POST['frontend_signature'], 'bus_signature',res['result']['response']['signature'])
             if request.session['user_account'].get('co_customer_parent_seq_id'):
                 webservice_agent.activate_corporate_mode(request, res['result']['response']['signature'])
             _logger.info(json.dumps(request.session['bus_signature']))
@@ -310,31 +313,34 @@ def search(request):
         if file:
             bus_key_name = file
 
-        set_session(request, 'bus_request', json.loads(request.POST['search_request']))
+        # set_session(request, 'bus_request', json.loads(request.POST['search_request']))
 
+        bus_request = json.loads(request.POST['search_request'])
+        write_cache_file(request, request.POST['signature'], 'bus_request', bus_request)
 
         journey_list = []
-        for idx, request_bus in enumerate(request.session['bus_request']['departure']):
+        for idx, request_bus in enumerate(bus_request['departure']):
             departure_date = '%s-%s-%s' % (
-                request.session['bus_request']['departure'][idx].split(' ')[2],
-                month[request.session['bus_request']['departure'][idx].split(' ')[1]],
-                request.session['bus_request']['departure'][idx].split(' ')[0])
+                bus_request['departure'][idx].split(' ')[2],
+                month[bus_request['departure'][idx].split(' ')[1]],
+                bus_request['departure'][idx].split(' ')[0])
 
             journey_list.append({
-                'origin': bus_key_name[request.session['bus_request']['origin'][idx]],
-                'destination': bus_key_name[request.session['bus_request']['destination'][idx]],
+                'origin': bus_key_name[bus_request['origin'][idx]],
+                'destination': bus_key_name[bus_request['destination'][idx]],
                 'departure_date': departure_date
             })
 
         data = {
             "journey_list": journey_list,
-            "direction": request.session['bus_request']['direction'],
-            "adult": int(request.session['bus_request']['adult']),
+            "direction": bus_request['direction'],
+            "adult": int(bus_request['adult']),
             "provider": request.POST['provider'],
             # "provider": "rodextrip_bus"
         }
-        if 'bus_search' not in request.session._session:
-            set_session(request, 'bus_search', data)
+        write_cache_file(request, request.POST['signature'], 'bus_search', data)
+        # if 'bus_search' not in request.session:
+        #     set_session(request, 'bus_search', data)
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
@@ -343,12 +349,15 @@ def search(request):
         }
     except Exception as e:
         if request.POST.get('use_cache'):
-            data = request.session['bus_search']
+            file = read_cache_file(request, request.POST['signature'], 'bus_search')
+            if file:
+                data = file
+            # data = request.session['bus_search']
             headers = {
                 "Accept": "application/json,text/html,application/xml",
                 "Content-Type": "application/json",
                 "action": "search",
-                "signature": request.POST['signature']
+                "signature": request.POST['new_signature']
             }
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
@@ -385,8 +394,9 @@ def get_rules(request):
 
         data = json.loads(request.POST['data'])
 
-        if 'bus_get_rules' not in request.session._session:
-            set_session(request, 'bus_get_rules', data)
+        write_cache_file(request, request.POST['signature'], 'bus_get_rules', data)
+        # if 'bus_get_rules' not in request.session._session:
+        #     set_session(request, 'bus_get_rules', data)
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
@@ -421,12 +431,18 @@ def get_rules(request):
 def sell_journeys(request):
     #nanti ganti ke select journey
     try:
+        file = read_cache_file(request, request.POST['signature'], 'bus_request')
+        if file:
+            bus_request = file
 
+        file = read_cache_file(request, request.POST['signature'], 'bus_booking')
+        if file:
+            bus_booking = file
         data = {
             "promotion_codes": [],
-            "adult": int(request.session['bus_request']['adult']),
-            "infant": int(request.session['bus_request']['infant']),
-            "schedules": request.session['bus_booking'],
+            "adult": int(bus_request['adult']),
+            "infant": int(bus_request['infant']),
+            "schedules": bus_booking,
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",
@@ -450,14 +466,17 @@ def sell_journeys(request):
 
 def commit_booking(request):
     try:
-        booker = request.session['bus_create_passengers']['booker']
-        contacts = request.session['bus_create_passengers']['contact']
+        file = read_cache_file(request, request.POST['signature'], 'bus_create_passengers')
+        if file:
+            bus_create_passengers = file
+        booker = bus_create_passengers['booker']
+        contacts = bus_create_passengers['contact']
 
         passenger = []
 
-        for pax_type in request.session['bus_create_passengers']:
+        for pax_type in bus_create_passengers:
             if pax_type != 'booker' and pax_type != 'contact':
-                for pax in request.session['bus_create_passengers'][pax_type]:
+                for pax in bus_create_passengers[pax_type]:
                     if pax['birth_date'] != '':
                         pax.update({
                             'birth_date': '%s-%s-%s' % (
@@ -491,7 +510,10 @@ def commit_booking(request):
                         pax.pop('identity_image')
                     passenger.append(pax)
 
-        schedules = request.session['bus_booking']
+        file = read_cache_file(request, request.POST['signature'], 'bus_booking')
+        if file:
+            schedules = file
+        # schedules = request.session['bus_booking']
         data = {
             "contacts": contacts,
             "passengers": passenger,
@@ -543,7 +565,8 @@ def commit_booking(request):
     res = send_request_api(request, url_request, headers, data, 'POST', 480)
     try:
         if res['result']['error_code'] == 0:
-            set_session(request, 'bus_order_number', res['result']['response']['order_number'])
+            write_cache_file(request, request.POST['signature'], 'bus_order_number', res['result']['response']['order_number'])
+            # set_session(request, 'bus_order_number', res['result']['response']['order_number'])
             _logger.info("SUCCESS commit_booking BUS SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR commit_booking_bus BUS SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
@@ -637,7 +660,8 @@ def update_service_charge(request):
                         if upsell['pax_type'] not in total_upsell_dict:
                             total_upsell_dict[upsell['pax_type']] = 0
                         total_upsell_dict[upsell['pax_type']] += pricing['amount']
-            set_session(request, 'bus_upsell_' + request.POST['signature'], total_upsell_dict)
+            write_cache_file(request, request.POST['signature'], 'bus_upsell', total_upsell_dict)
+            # set_session(request, 'bus_upsell_' + request.POST['signature'], total_upsell_dict)
             _logger.info(json.dumps(request.session['bus_upsell' + request.POST['signature']]))
             _logger.info("SUCCESS update_service_charge BUS SIGNATURE " + request.POST['signature'])
         else:
@@ -670,7 +694,8 @@ def booker_insentif_booking(request):
             for upsell in data['passengers']:
                 for pricing in upsell['pricing']:
                     total_upsell += pricing['amount']
-            set_session(request, 'bus_upsell_booker_'+request.POST['signature'], total_upsell)
+            write_cache_file(request, request.POST['signature'], 'bus_upsell_booker', total_upsell)
+            # set_session(request, 'bus_upsell_booker_'+request.POST['signature'], total_upsell)
             _logger.info("SUCCESS update_service_charge_booker BUS SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR update_service_charge_bus_booker BUS SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
@@ -701,7 +726,8 @@ def seat_map(request):
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
-            set_session(request, 'bus_seat_map' + request.POST['signature'], res)
+            write_cache_file(request, request.POST['signature'], 'bus_seat_map', res)
+            # set_session(request, 'bus_seat_map' + request.POST['signature'], res)
             _logger.info("SUCCESS seat_map BUS SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR seat_map_bus BUS SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
@@ -807,7 +833,10 @@ def assign_seats(request):
         provider_bookings = []
         provider = ''
         try:
-            provider = request.session['bus_booking'][0]['provider']
+            file = read_cache_file(request, request.POST['signature'], 'bus_booking')
+            if file:
+                provider = file[0]['provider']
+            # provider = request.session['bus_booking'][0]['provider']
         except Exception as e:
             _logger.error(str(e) + traceback.format_exc())
         for idx, pax in enumerate(passengers):
@@ -877,7 +906,10 @@ def assign_seats(request):
 def search_page(request):
     try:
         res = {}
-        res['bus_request'] = request.session['bus_request']
+        file = read_cache_file(request, request.POST['frontend_signature'], 'bus_request')
+        if file:
+            res['bus_request'] = file
+        # res['bus_request'] = request.session['bus_request']
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -885,14 +917,20 @@ def search_page(request):
 def passenger_page(request):
     try:
         res = {}
-        res['response'] = request.session['bus_pick']
+        file = read_cache_file(request, request.POST['signature'], 'bus_pick')
+        if file:
+            res['response'] = file
+        # res['response'] = request.session['bus_pick']
         # carrier = {}
         # file = read_cache("get_bus_config", 'cache_web', request, 90911)
         # if file:
         #     carrier = file
         # res['bus_carriers'] = carrier
-        res['response'] = request.session['bus_pick']
-        res['bus_request'] = request.session['bus_request']
+
+        file = read_cache_file(request, request.POST['signature'], 'bus_request')
+        if file:
+            res['bus_request'] = file
+        # res['bus_request'] = request.session['bus_request']
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -900,11 +938,32 @@ def passenger_page(request):
 def review_page(request):
     try:
         res = {}
-        res['response'] = request.session['bus_pick']
-        res['passenger'] = request.session['bus_create_passengers']
-        res['bus_request'] = request.session['bus_request']
-        res['bus_booking'] = request.session['bus_booking']
-        res['upsell_price_dict'] = request.session.get('bus_upsell_%s' % request.POST['signature']) and request.session.get('bus_upsell_%s' % request.POST['signature']) or {}
+        file = read_cache_file(request, request.POST['signature'], 'bus_pick')
+        if file:
+            res['response'] = file
+        # res['response'] = request.session['bus_pick']
+
+        file = read_cache_file(request, request.POST['signature'], 'bus_create_passengers')
+        if file:
+            res['passenger'] = file
+        # res['passenger'] = request.session['bus_create_passengers']
+
+        file = read_cache_file(request, request.POST['signature'], 'bus_request')
+        if file:
+            res['bus_request'] = file
+        # res['bus_request'] = request.session['bus_request']
+
+        file = read_cache_file(request, request.POST['signature'], 'bus_booking')
+        if file:
+            res['bus_booking'] = file
+        # res['bus_booking'] = request.session['bus_booking']
+
+        file = read_cache_file(request, request.POST['signature'], 'bus_upsell')
+        if file:
+            bus_upsell = file
+        else:
+            bus_upsell = {}
+        res['upsell_price_dict'] = bus_upsell
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res

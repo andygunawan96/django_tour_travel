@@ -128,9 +128,12 @@ def login(request):
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
-            create_session_product(request, 'mitra_keluarga', 20)
-            set_session(request, 'mitra_keluarga_signature', res['result']['response']['signature'])
+            create_session_product(request, 'mitra_keluarga', 20, res['result']['response']['signature'])
+            # set_session(request, 'mitra_keluarga_signature', res['result']['response']['signature'])
             set_session(request, 'signature', res['result']['response']['signature'])
+            if request.POST.get('frontend_signature'):
+                write_cache_file(request, res['result']['response']['signature'], 'mitra_keluarga_frontend_signature',request.POST['frontend_signature'])
+                write_cache_file(request, request.POST['frontend_signature'], 'mitra_keluarga_signature',res['result']['response']['signature'])
             if request.session['user_account'].get('co_customer_parent_seq_id'):
                 webservice_agent.activate_corporate_mode(request, res['result']['response']['signature'])
             _logger.info("SIGNIN MITRA KELUARGA")
@@ -223,7 +226,8 @@ def get_availability(request):
     url_request = get_url_gateway(additional_url)
     res = send_request_api(request, url_request, headers, data, 'POST')
 
-    set_session(request, "mitra_keluarga_get_availability_%s" % request.POST['signature'], res)
+    write_cache_file(request, request.POST['signature'], 'mitra_keluarga_get_availability', res)
+    # set_session(request, "mitra_keluarga_get_availability_%s" % request.POST['signature'], res)
 
     return res
 
@@ -257,13 +261,17 @@ def get_price(request):
 
     url_request = get_url_gateway(additional_url)
     res = send_request_api(request, url_request, headers, data, 'POST')
-    set_session(request, "mitra_keluarga_global_get_price_%s" % request.POST['signature'], res)
+    write_cache_file(request, request.POST['signature'], 'mitra_keluarga_global_get_price', res)
+    # set_session(request, "mitra_keluarga_global_get_price_%s" % request.POST['signature'], res)
 
     return res
 
 def get_price_cache(request):
-    if request.session.get("mitra_keluarga_global_get_price_%s" % request.POST['signature']):
-        return request.session["mitra_keluarga_global_get_price_%s" % request.POST['signature']]
+    file = read_cache_file(request, request.POST['signature'], 'mitra_keluarga_global_get_price')
+    if file:
+        return file
+    # if request.session.get("mitra_keluarga_global_get_price_%s" % request.POST['signature']):
+    #     return request.session["mitra_keluarga_global_get_price_%s" % request.POST['signature']]
     return {
         "result": {
             "error_code": 500,
@@ -281,16 +289,26 @@ def commit_booking(request):
             "action": "commit_booking",
             "signature": request.POST['signature']
         }
+        file = read_cache_file(request, request.POST['signature'], 'mitra_keluarga_data')
+        if file:
+            data = file
+        # data = copy.deepcopy(request.session['mitra_keluarga_data_%s' % request.POST['signature']])
 
-        data = copy.deepcopy(request.session['mitra_keluarga_data_%s' % request.POST['signature']])
+        file = read_cache_file(request, request.POST['signature'], 'test_type')
         if request.POST.get('test_type'):
             data['data']['carrier_code'] = request.POST['test_type']
-        elif request.session.get('test_type_%s' % request.POST['signature']):
-            data['data']['carrier_code'] = request.session['test_type_%s' % request.POST['signature']]
+        elif file:
+            data['data']['carrier_code'] = file
+        # elif request.session.get('test_type_%s' % request.POST['signature']):
+        #     data['data']['carrier_code'] = request.session['test_type_%s' % request.POST['signature']]
+
+        file = read_cache_file(request, request.POST['signature'], 'vendor')
         if request.POST.get('provider'):
             data['provider'] = 'mitrakeluarga'
-        elif request.session.get('vendor_%s' % request.POST['signature']):
-            data['provider'] = request.session['vendor_%s' % request.POST['signature']]
+        elif file:
+            data['provider'] = file
+        # elif request.session.get('vendor_%s' % request.POST['signature']):
+        #     data['provider'] = request.session['vendor_%s' % request.POST['signature']]
 
         for rec in data['passengers']:
             rec['birth_date'] = '%s-%s-%s' % (rec['birth_date'].split(' ')[2], month[rec['birth_date'].split(' ')[1]], rec['birth_date'].split(' ')[0])
@@ -341,7 +359,8 @@ def commit_booking(request):
 
     url_request = get_url_gateway(additional_url)
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
-    set_session(request, "mitra_keluarga_commmit_booking_%s" % request.POST['signature'], res)
+    write_cache_file(request, request.POST['signature'], 'mitra_keluarga_commmit_booking', res)
+    # set_session(request, "mitra_keluarga_commmit_booking_%s" % request.POST['signature'], res)
 
     return res
 
@@ -391,13 +410,15 @@ def get_booking(request):
                     _logger.error(str(e) + traceback.format_exc())
 
             time.sleep(2)
-            set_session(request, 'mitra_keluarga_get_booking_response', response)
+            write_cache_file(request, request.POST['signature'], 'mitra_keluarga_get_booking_response', response)
+            # set_session(request, 'mitra_keluarga_get_booking_response', response)
 
             _logger.info("SUCCESS get_booking SWAB EXPRESS SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR get_booking_SWAB EXPRESS SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
-        set_session(request, 'mitra_keluarga_get_booking_response', res)
+        write_cache_file(request, request.POST['signature'], 'mitra_keluarga_get_booking_response', res)
+        # set_session(request, 'mitra_keluarga_get_booking_response', res)
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
 
@@ -426,7 +447,12 @@ def issued(request):
         provider = []
         provider_char = ''
         try:
-            medical_get_booking = request.session['mitra_keluarga_get_booking_response'] if request.session.get('mitra_keluarga_get_booking_response') else json.loads(request.POST['booking'])
+            file = read_cache_file(request, request.POST['signature'], 'mitra_keluarga_get_booking_response')
+            if file:
+                medical_get_booking = file
+            else:
+                medical_get_booking = json.loads(request.POST['booking'])
+            # medical_get_booking = request.session['mitra_keluarga_get_booking_response'] if request.session.get('mitra_keluarga_get_booking_response') else json.loads(request.POST['booking'])
 
             for provider_type in medical_get_booking['result']['response']['provider_bookings']:
                 if not provider_type['provider'] in provider:
@@ -590,7 +616,10 @@ def get_transaction_by_analyst(request):
 
 def get_data_cache_passenger_mitra_keluarga(request):
     try:
-        res = request.session['mitra_keluarga_passenger_cache']
+        file = read_cache_file(request, request.POST['signature'], 'mitra_keluarga_passenger_cache')
+        if file:
+            res = file
+        # res = request.session['mitra_keluarga_passenger_cache']
         response = get_cache_data(request)
         for rec in res:
             for country in response['result']['response']['airline']['country']:
@@ -605,17 +634,26 @@ def get_data_cache_passenger_mitra_keluarga(request):
 
     except Exception as e:
         try:
-            res = request.session.get('mitra_keluarga_passenger_cache')
+            file = read_cache_file(request, request.POST['signature'], 'mitra_keluarga_passenger_cache')
+            if file:
+                res = file
+            # res = request.session.get('mitra_keluarga_passenger_cache')
         except Exception as e:
             res = []
     return res
 
 def get_data_booking_cache_mitra_keluarga(request):
     try:
-        res = request.session['mitra_keluarga_data_cache']
+        file = read_cache_file(request, request.POST['signature'], 'mitra_keluarga_data_cache')
+        if file:
+            res = file
+        # res = request.session['mitra_keluarga_data_cache']
     except Exception as e:
         try:
-            res = request.session.get('mitra_keluarga_data_cache')
+            file = read_cache_file(request, request.POST['signature'], 'mitra_keluarga_data_cache')
+            if file:
+                res = file
+            # res = request.session.get('mitra_keluarga_data_cache')
         except Exception as e:
             res = {}
     return res
@@ -633,7 +671,10 @@ def save_backend(request):
 
         data = json.loads(request.POST['request'])
         response = get_cache_data(request)
-        res = request.session['mitra_keluarga_passenger_cache']
+        file = read_cache_file(request, request.POST['signature'], 'mitra_keluarga_passenger_cache')
+        if file:
+            res = file
+        # res = request.session['mitra_keluarga_passenger_cache']
         for idx, rec in enumerate(data['passengers']):
             rec['birth_date'] = '%s-%s-%s' % (rec['birth_date'].split(' ')[2], month[rec['birth_date'].split(' ')[1]], rec['birth_date'].split(' ')[0])
             rec['nationality_code'] = res[idx]['nationality_code']
@@ -685,7 +726,10 @@ def verify_data(request):
         data = json.loads(request.POST['request'])
         response = get_cache_data(request)
 
-        res = request.session['mitra_keluarga_passenger_cache']
+        file = read_cache_file(request, request.POST['signature'], 'mitra_keluarga_passenger_cache')
+        if file:
+            res = file
+        # res = request.session['mitra_keluarga_passenger_cache']
         for idx, rec in enumerate(data['passengers']):
             rec['birth_date'] = '%s-%s-%s' % (rec['birth_date'].split(' ')[2], month[rec['birth_date'].split(' ')[1]], rec['birth_date'].split(' ')[0])
             rec['nationality_name'] = res[idx]['nationality_name']
@@ -762,7 +806,8 @@ def update_service_charge(request):
             for upsell in data['passengers']:
                 for pricing in upsell['pricing']:
                     total_upsell += pricing['amount']
-            set_session(request, 'mitra_keluarga_upsell_'+request.POST['signature'], total_upsell)
+            write_cache_file(request, request.POST['signature'], 'mitra_keluarga_upsell', total_upsell)
+            # set_session(request, 'mitra_keluarga_upsell_'+request.POST['signature'], total_upsell)
             _logger.info("SUCCESS update_service_charge TRAIN SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR update_service_charge_train TRAIN SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
@@ -794,7 +839,8 @@ def booker_insentif_booking(request):
             for upsell in data['passengers']:
                 for pricing in upsell['pricing']:
                     total_upsell += pricing['amount']
-            set_session(request, 'mitra_keluarga_upsell_booker_'+request.POST['signature'], total_upsell)
+            write_cache_file(request, request.POST['signature'], 'mitra_keluarga_upsell_booker', total_upsell)
+            # set_session(request, 'mitra_keluarga_upsell_booker_'+request.POST['signature'], total_upsell)
             _logger.info("SUCCESS update_service_charge_booker MITRA_KELUARGA SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR update_service_charge_mitra_keluarga_booker MITRA_KELUARGA SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
@@ -816,7 +862,10 @@ def page_passenger(request):
 def page_review(request):
     try:
         res = {}
-        data = request.session['mitra_keluarga_data_%s' % request.POST['signature']]
+        file = read_cache_file(request, request.POST['signature'], 'mitra_keluarga_data')
+        if file:
+            data = file
+        # data = request.session['mitra_keluarga_data_%s' % request.POST['signature']]
         res['passenger'] = {
             "booker": data['booker']
         }

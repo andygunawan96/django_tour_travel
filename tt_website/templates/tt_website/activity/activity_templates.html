@@ -144,7 +144,7 @@
                 <div class="banner-right" style="border:1px solid #cdcdcd; ">
                     <div class="tab-content" id="myTabContent" style="min-height:300px; background: {{tab_color}} !important; border-bottom-left-radius: 0px; border-bottom-right-radius: 0px;">
                         <div class="tab-pane fade show active" id="activity" role="tabpanel" aria-labelledby="activity-tab">
-                            <form action="{% url 'tt_website:activity_search'%}" id="activity_search_form" class="form-wrap" method="post">
+                            <form action="/activity/search" id="activity_search_form" class="form-wrap" method="post">
                                 {% csrf_token %}
                                 <input type="hidden" name="g-recaptcha-response" id='recaptcha_activity'>
                                 <div class="row">
@@ -278,7 +278,7 @@
                     <div class="hotel-search-form">
                         <div class="tab_body" style="min-height:300px; border:2px solid #cdcdcd;">
                             <div id="tab-activity" class="tab-content current">
-                                <form action="{% url 'tt_website:activity_search'%}" id="activity_search_form" method="post">
+                                <form action="/activity/search" id="activity_search_form" method="post">
                             {% csrf_token %}
                             <input type="hidden" name="g-recaptcha-response" id='recaptcha_activity'>
                             <div class="row">
@@ -420,7 +420,7 @@
                     </div>
                     <div class="col-xl-9 col-lg-9 col-md-9 header-right" style="min-height:300px; padding-left:0px;">
                         <div id="tab-activity" class="tab-content current">
-                            <form action="{% url 'tt_website:activity_search'%}" id="activity_search_form" class="form-wrap" method="post">
+                            <form action="/activity/search" id="activity_search_form" class="form-wrap" method="post">
                                 {% csrf_token %}
                                 <input type="hidden" name="g-recaptcha-response" id='recaptcha_activity'>
                                 <div class="row">
@@ -555,7 +555,7 @@
                                 <div class="row">
                                     <div class="col-xl-12" style="text-align:left;">
                                         <div class="form-search-wrap">
-                                            <form action="{% url 'tt_website:activity_search'%}" id="activity_search_form" method="post">
+                                            <form action="/activity/search" id="activity_search_form" method="post">
                                         {% csrf_token %}
                                         <input type="hidden" name="g-recaptcha-response" id='recaptcha_activity'>
                                         <div class="row justify-content-between align-items-end">
@@ -699,7 +699,7 @@
                             <div class="row">
                                 <div class="col-xl-12" style="text-align:left;">
                                     <div id="tab-activity" class="tab-content current">
-                                        <form action="{% url 'tt_website:activity_search'%}" id="activity_search_form" class="form-wrap" method="post">
+                                        <form action="/activity/search" id="activity_search_form" class="form-wrap" method="post">
                                             {% csrf_token %}
                                             <input type="hidden" name="g-recaptcha-response" id='recaptcha_activity'>
                                             <div class="row">
@@ -839,7 +839,7 @@
                             <div class="col-lg-10" style="min-height:300px; background:{{tab_color}}; padding:30px;">
                                 <div class="row">
                                     <div class="col-lg-12">
-                                        <form action="{% url 'tt_website:activity_search'%}" id="activity_search_form" class="form-wrap" method="post">
+                                        <form action="/activity/search" id="activity_search_form" class="form-wrap" method="post">
                                             {% csrf_token %}
                                             <input type="hidden" name="g-recaptcha-response" id='recaptcha_activity'>
                                             <div class="row">
@@ -981,7 +981,7 @@
                     <div class="col-lg-9">
                         <div class="row">
                             <div class="col-lg-12" style="border:1px solid #cdcdcd; min-height:300px; background:{{tab_color}};">
-                                <form action="{% url 'tt_website:activity_search'%}" id="activity_search_form" class="search-box" method="post">
+                                <form action="/activity/search" id="activity_search_form" class="search-box" method="post">
                                     {% csrf_token %}
                                     <input type="hidden" name="g-recaptcha-response" id='recaptcha_activity'>
                                     <div class="row">

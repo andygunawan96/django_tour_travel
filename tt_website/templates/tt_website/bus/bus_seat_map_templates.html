@@ -199,7 +199,7 @@ img {vertical-align: middle;}
                         </div>
                     </div>
                 </form>
-                <form method="POST" id="bus_review" action="{% url 'tt_website:bus_review'%}">
+                <form method="POST" id="bus_review" action="/bus/review/{{signature}}">
                     {% csrf_token %}
                 </form>
             </div>

@@ -118,9 +118,12 @@ def login(request):
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
-            create_session_product(request, 'tour', 20)
-            set_session(request, 'tour_signature', res['result']['response']['signature'])
+            create_session_product(request, 'tour', 20, res['result']['response']['signature'])
+            # set_session(request, 'tour_signature', res['result']['response']['signature'])
             set_session(request, 'signature', res['result']['response']['signature'])
+            if request.POST.get('frontend_signature'):
+                write_cache_file(request, res['result']['response']['signature'], 'tour_frontend_signature',request.POST['frontend_signature'])
+                write_cache_file(request, request.POST['frontend_signature'], 'tour_signature',res['result']['response']['signature'])
             if request.session['user_account'].get('co_customer_parent_seq_id'):
                 webservice_agent.activate_corporate_mode(request, res['result']['response']['signature'])
             _logger.info("SIGNIN TOUR SUCCESS SIGNATURE " + res['result']['response']['signature'])
@@ -242,14 +245,16 @@ def get_data(request):
 
 def search(request):
     try:
-        request.session['tour_request'] = json.loads(request.POST['search_request'])
-        set_session(request, 'tour_request', json.loads(request.POST['search_request']))
+        tour_request = json.loads(request.POST['search_request'])
+        write_cache_file(request, request.POST['signature'], 'tour_request', tour_request)
+        # request.session['tour_request'] = json.loads(request.POST['search_request'])
+        # set_session(request, 'tour_request', json.loads(request.POST['search_request']))
         data = {
-            'country_id': request.session['tour_request']['country_id'],
-            'city_id': request.session['tour_request']['city_id'],
-            'month': request.session['tour_request']['month'],
-            'year': request.session['tour_request']['year'],
-            'tour_query': request.session['tour_request']['tour_query'].replace('&amp;', '&'),
+            'country_id': tour_request['country_id'],
+            'city_id': tour_request['city_id'],
+            'month': tour_request['month'],
+            'year': tour_request['year'],
+            'tour_query': tour_request['tour_query'].replace('&amp;', '&'),
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",
@@ -257,15 +262,19 @@ def search(request):
             "action": "search",
             "signature": request.session['signature']
         }
-        set_session(request, 'tour_search_request', data)
+        write_cache_file(request, request.POST['signature'], 'tour_search_request', data)
+        # set_session(request, 'tour_search_request', data)
     except Exception as e:
         if request.POST.get('use_cache'):
-            data = request.session['tour_search_request']
+            file = read_cache_file(request, request.POST['signature'], 'tour_search_request')
+            if file:
+                data = file
+            # data = request.session['tour_search_request']
             headers = {
                 "Accept": "application/json,text/html,application/xml",
                 "Content-Type": "application/json",
                 "action": "search",
-                "signature": request.POST['signature']
+                "signature": request.POST['new_signature']
             }
             logging.info(msg='use cache login change b2c to login')
         else:
@@ -278,11 +287,16 @@ def search(request):
         counter = 0
         try:
             if int(request.POST['offset']) != 0:
-                for data in request.session['tour_search']:
-                    data_tour.append(data)
-                    counter += 1
+                file = read_cache_file(request, request.POST['signature'], 'tour_search')
+                if file:
+                    for data in file:
+                        data_tour.append(data)
+                        counter += 1
+                # for data in request.session['tour_search']:
+                #     data_tour.append(data)
+                #     counter += 1
         except:
-            print('tour no data')
+            _logger.info('first data search tour')
 
         for i in res['result']['response']['result']:
             i.update({
@@ -298,7 +312,8 @@ def search(request):
             data_tour.append(i)
             counter += 1
 
-        set_session(request, 'tour_search', data_tour)
+        write_cache_file(request, request.POST['signature'], 'tour_search', data_tour)
+        # set_session(request, 'tour_search', data_tour)
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
@@ -314,12 +329,16 @@ def get_details(request):
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
             "action": "get_details",
-            "signature": request.session['tour_signature']
+            "signature": request.POST['signature']
         }
-        set_session(request, 'tour_details_request', data)
+        write_cache_file(request, request.POST['signature'], 'tour_details_request', data)
+        # set_session(request, 'tour_details_request', data)
     except Exception as e:
         if request.POST.get('use_cache'):
-            data = request.session['tour_details_request']
+            file = read_cache_file(request, request.POST['signature'], 'tour_details_request')
+            if file:
+                data = file
+            # data = request.session['tour_details_request']
             headers = {
                 "Accept": "application/json,text/html,application/xml",
                 "Content-Type": "application/json",
@@ -340,7 +359,8 @@ def get_details(request):
                 'departure_date_f': convert_string_to_date_to_string_front_end_with_date(rec['departure_date']),
                 'arrival_date_f': convert_string_to_date_to_string_front_end_with_date(rec['arrival_date'])
             })
-        set_session(request, 'tour_pick', res['result']['response']['selected_tour'])
+        write_cache_file(request, request.POST['signature'], 'tour_pick', res['result']['response']['selected_tour'])
+        # set_session(request, 'tour_pick', res['result']['response']['selected_tour'])
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
@@ -362,12 +382,16 @@ def get_pricing(request):
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
             "action": "get_pricing",
-            "signature": request.session['tour_signature']
+            "signature": request.POST['signature']
         }
-        set_session(request, 'tour_get_pricing_request', data)
+        write_cache_file(request, request.POST['signature'], 'tour_get_pricing_request', data)
+        # set_session(request, 'tour_get_pricing_request', data)
     except Exception as e:
         if request.POST.get('use_cache'):
-            data = request.session['tour_get_pricing_request']
+            file = read_cache_file(request, request.POST['signature'], 'tour_get_pricing_request')
+            if file:
+                data = file
+            # data = request.session['tour_get_pricing_request']
             headers = {
                 "Accept": "application/json,text/html,application/xml",
                 "Content-Type": "application/json",
@@ -381,13 +405,17 @@ def get_pricing(request):
     url_request = get_url_gateway('booking/tour')
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
-        res['result']['response'].update({
-            'tour_info': {
-                'name': request.session['tour_pick']['name'],
-                'tour_lines': request.session['tour_pick']['tour_lines']
-            }
-        })
-        set_session(request, 'tour_price', res)
+        file = read_cache_file(request, request.POST['signature'], 'tour_pick')
+        if file:
+            tour_pick = file
+            res['result']['response'].update({
+                'tour_info': {
+                    'name': tour_pick['name'],
+                    'tour_lines': tour_pick['tour_lines']
+                }
+            })
+        write_cache_file(request, request.POST['signature'], 'tour_price', res)
+        # set_session(request, 'tour_price', res)
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
@@ -395,7 +423,10 @@ def get_pricing(request):
 
 def get_pricing_cache(request):
     try:
-        res = request.session['tour_price']
+        file = read_cache_file(request, request.POST['signature'], 'tour_price')
+        if file:
+            res = file
+        # res = request.session['tour_price']
     except Exception as e:
         res = {}
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
@@ -404,7 +435,10 @@ def get_pricing_cache(request):
 
 def get_tour_carrier_data(request):
     try:
-        carrier_data = request.session['tour_pick']['carrier_data']
+        file = read_cache_file(request, request.POST['signature'], 'tour_pick')
+        if file:
+            carrier_data = file['carrier_data']
+        # carrier_data = request.session['tour_pick']['carrier_data']
     except Exception as e:
         carrier_data = {
             'adult_length_name': 60,
@@ -419,28 +453,40 @@ def get_tour_carrier_data(request):
 
 def sell_tour(request):
     try:
-        room_list = request.session['tour_booking_data']['room_list']
+        file = read_cache_file(request, request.POST['signature'], 'tour_booking_data')
+        if file:
+            tour_booking_data = file
+        file = read_cache_file(request, request.POST['signature'], 'tour_pick')
+        if file:
+            tour_pick = file
+        file = read_cache_file(request, request.POST['signature'], 'tour_dept_return_data')
+        if file:
+            tour_dept_return_data = file
+        file = read_cache_file(request, request.POST['signature'], 'tour_line_code')
+        if file:
+            tour_line_code = file
+        # room_list = request.session['tour_booking_data']['room_list']
         final_room_list = []
-        for room in room_list:
+        for room in tour_booking_data['room_list']:
             final_room_list.append({
                 'room_code': room['room_code'],
                 'notes': room['notes'],
                 'room_seq': room['room_seq'],
             })
-
+        write_cache_file(request, request.POST['signature'], 'tour_booking_data', tour_booking_data)
         data = {
             "promotion_codes_booking": [],
-            "tour_code": request.session['tour_pick']['tour_code'],
-            "tour_line_code": request.session['tour_line_code'],
+            "tour_code": tour_pick['tour_code'],
+            "tour_line_code": tour_line_code,
             'room_list': final_room_list,
-            "adult": request.session['tour_booking_data']['adult'],
-            "child": request.session['tour_booking_data']['child'],
-            "infant": request.session['tour_booking_data']['infant'],
-            'provider': request.session['tour_pick']['provider'],
+            "adult": tour_booking_data['adult'],
+            "child": tour_booking_data['child'],
+            "infant": tour_booking_data['infant'],
+            'provider': tour_pick['provider'],
         }
-        if request.session['tour_pick']['tour_type'] == 'open':
+        if tour_pick['tour_type'] == 'open':
             data.update({
-                'departure_date': request.session['tour_dept_return_data'].get('departure') and request.session['tour_dept_return_data']['departure'] or '',
+                'departure_date': tour_dept_return_data.get('departure') and tour_dept_return_data['departure'] or '',
             })
         headers = {
             "Accept": "application/json,text/html,application/xml",
@@ -448,10 +494,14 @@ def sell_tour(request):
             "action": "sell_tour",
             "signature": request.POST['signature']
         }
-        set_session(request, 'tour_sell_tour_request', data)
+        write_cache_file(request, request.POST['signature'], 'tour_sell_tour_request', data)
+        # set_session(request, 'tour_sell_tour_request', data)
     except Exception as e:
         if request.POST.get('use_cache'):
-            data = request.session['tour_sell_tour_request']
+            file = read_cache_file(request, request.POST['signature'], 'tour_sell_tour_request')
+            if file:
+                data = file
+            # data = request.session['tour_sell_tour_request']
             headers = {
                 "Accept": "application/json,text/html,application/xml",
                 "Content-Type": "application/json",
@@ -468,10 +518,12 @@ def sell_tour(request):
 
 
 def update_contact(request):
-    response = get_cache_data(request)
-
-    booker = request.session['tour_booking_data']['booker']
-    contacts = request.session['tour_booking_data']['contact']
+    # response = get_cache_data(request)
+    file = read_cache_file(request, request.POST['signature'], 'tour_booking_data')
+    if file:
+        tour_booking_data = file
+    booker = tour_booking_data['booker']
+    contacts = tour_booking_data['contact']
 
     data = {
         "booker": booker,
@@ -491,10 +543,12 @@ def update_contact(request):
 
 def update_passengers(request):
     passenger = []
-    response = get_cache_data(request)
     room_choices = json.loads(request.POST['room_choice'])
+    file = read_cache_file(request, request.POST['signature'], 'tour_booking_data')
+    if file:
+        tour_booking_data = file
 
-    for pax in request.session['tour_booking_data']['adult_pax']:
+    for pax in tour_booking_data['adult_pax']:
         pax.update({
             'birth_date': '%s-%s-%s' % (
                 pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]], pax['birth_date'].split(' ')[0]),
@@ -519,7 +573,7 @@ def update_passengers(request):
             pax.pop('identity_image')
         passenger.append(pax)
 
-    for pax in request.session['tour_booking_data']['child_pax']:
+    for pax in tour_booking_data['child_pax']:
         pax.update({
             'birth_date': '%s-%s-%s' % (
                 pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
@@ -543,7 +597,7 @@ def update_passengers(request):
             pax.pop('identity_type')
         passenger.append(pax)
 
-    for pax in request.session['tour_booking_data']['infant_pax']:
+    for pax in tour_booking_data['infant_pax']:
         pax.update({
             'birth_date': '%s-%s-%s' % (
                 pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
@@ -742,7 +796,10 @@ def issued_booking(request):
 
         provider = []
         try:
-            provider = [request.session['tour_get_booking_response']['result']['response']['provider']]
+            file = read_cache_file(request, request.POST['signature'], 'tour_get_booking_response')
+            if file:
+                provider = [file['result']['response']['provider']]
+            # provider = [request.session['tour_get_booking_response']['result']['response']['provider']]
         except Exception as e:
             _logger.error(str(e) + traceback.format_exc())
         if request.POST['voucher_code'] != '':
@@ -785,11 +842,15 @@ def issued_booking(request):
 
 
 def get_payment_rules(request):
+
     data = {
-        'provider': request.session['tour_pick']['provider'],
+        # 'provider': request.session['tour_pick']['provider'],
         'tour_code': request.POST['tour_code'],
         'tour_line_code': request.POST['tour_line_code']
     }
+    file = read_cache_file(request, request.POST['signature'], 'tour_pick')
+    if file:
+        data['provider'] = file['provider']
     headers = {
         "Accept": "application/json,text/html,application/xml",
         "Content-Type": "application/json",
@@ -940,19 +1001,33 @@ def get_auto_complete(request):
     return record_json
 
 def page_search(request):
+    res = {}
     try:
-        res = {}
-        res['tour_request'] = request.session['tour_request']
+        file = read_cache_file(request, request.POST['frontend_signature'], 'tour_request')
+        if file:
+            res['tour_request'] = file
+        # res['tour_request'] = request.session['tour_request']
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
 
 def page_review(request):
+    res = {}
     try:
-        res = {}
-        res['all_pax'] = request.session['all_pax']
-        res['booker'] = request.session['tour_booking_data']['booker']
-        res['upsell_price_dict'] = request.session.get('tour_upsell_%s' % request.POST['signature']) and request.session.get('tour_upsell_%s' % request.POST['signature']) or {}
+        file = read_cache_file(request, request.POST['signature'], 'all_pax')
+        if file:
+            res['all_pax'] = file
+        file = read_cache_file(request, request.POST['signature'], 'tour_booking_data')
+        if file:
+            res['booker'] = file['booker']
+        file = read_cache_file(request, request.POST['frontend_signature'], 'tour_upsell')
+        if file:
+            res['upsell_price_dict'] = file
+        else:
+            res['upsell_price_dict'] = {}
+        # res['all_pax'] = request.session['all_pax']
+        # res['booker'] = request.session['tour_booking_data']['booker']
+        # res['upsell_price_dict'] = request.session.get('tour_upsell_%s' % request.POST['signature']) and request.session.get('tour_upsell_%s' % request.POST['signature']) or {}
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res

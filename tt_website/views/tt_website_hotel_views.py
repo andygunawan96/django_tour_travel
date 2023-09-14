@@ -50,10 +50,17 @@ def hotel(request):
             # get_data_awal
             cache = {}
             try:
-                cache['hotel'] = {
-                    'checkin': request.session['hotel_request']['checkin_date'],
-                    'checkout': request.session['hotel_request']['checkout_date']
-                }
+                file = read_cache_file(request, '', 'hotel_request')
+                if file:
+                    cache['hotel'] = {
+                        'checkin': file['checkin_date'],
+                        'checkout': file['checkout_date']
+                    }
+
+                # cache['hotel'] = {
+                #     'checkin': request.session['hotel_request']['checkin_date'],
+                #     'checkout': request.session['hotel_request']['checkout_date']
+                # }
                 if cache['hotel']['checkin'] == 'Invalid date' or cache['hotel']['checkout'] == 'Invalid date':
                     cache['hotel']['checkin'] = convert_string_to_date_to_string_front_end(
                         str(datetime.now() + relativedelta(days=1))[:10])
@@ -61,7 +68,7 @@ def hotel(request):
                         str(datetime.now() + relativedelta(days=2))[:10])
             except:
                 pass
-            
+
             try:
                 if 'hotel_error' in request.session._session:
                     del request.session['hotel_error']
@@ -109,15 +116,17 @@ def search(request):
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
 
+            frontend_signature = generate_signature()
+
             try:
                 child_age = []
                 for i in range(int(request.POST['hotel_child'])):
                     child_age.append(int(request.POST['hotel_child_age' + str(i + 1)]))
-                set_session(request, 'hotel_request', {
+                data = {
                     'destination': request.POST['hotel_id_destination'],
                     'guest_nationality': request.POST['hotel_id_nationality_id'],
                     'nationality': request.POST['hotel_id_nationality_id'].split(' - ')[0],
-                    'business_trip': request.POST.get('business_trip') and 'T' or 'F', #Checkbox klo disi baru di POST
+                    'business_trip': request.POST.get('business_trip') and 'T' or 'F',  # Checkbox klo disi baru di POST
                     'checkin_date': request.POST['hotel_checkin_checkout'].split(' - ')[0],
                     'checkout_date': request.POST['hotel_checkin_checkout'].split(' - ')[1],
                     # 'checkin_date': request.POST['hotel_checkin'],
@@ -126,7 +135,23 @@ def search(request):
                     'adult': int(request.POST['hotel_adult']),
                     'child': int(request.POST['hotel_child']),
                     'child_ages': child_age
-                })
+                }
+                write_cache_file(request, frontend_signature, 'hotel_request', data)
+                write_cache_file(request, '', 'hotel_request', data)
+                # set_session(request, 'hotel_request', {
+                #     'destination': request.POST['hotel_id_destination'],
+                #     'guest_nationality': request.POST['hotel_id_nationality_id'],
+                #     'nationality': request.POST['hotel_id_nationality_id'].split(' - ')[0],
+                #     'business_trip': request.POST.get('business_trip') and 'T' or 'F', #Checkbox klo disi baru di POST
+                #     'checkin_date': request.POST['hotel_checkin_checkout'].split(' - ')[0],
+                #     'checkout_date': request.POST['hotel_checkin_checkout'].split(' - ')[1],
+                #     # 'checkin_date': request.POST['hotel_checkin'],
+                #     # 'checkout_date': request.POST['hotel_checkout'],
+                #     'room': int(request.POST['hotel_room']),
+                #     'adult': int(request.POST['hotel_adult']),
+                #     'child': int(request.POST['hotel_child']),
+                #     'child_ages': child_age
+                # })
             except Exception as e:
                 _logger.error('Data POST for hotel_request not found use cache')
                 _logger.error("%s, %s" % (str(e), traceback.format_exc()))
@@ -144,11 +169,21 @@ def search(request):
                 set_session(request, 'user_account', cur_session)
                 activate_corporate_mode(request, request.session['signature'])
 
+            file = read_cache_file(request, frontend_signature, 'hotel_request')
+            if file:
+                hotel_request = file
+            if not file:
+                file = read_cache_file(request, '', 'hotel_request')
+                if file:
+                    hotel_request = file
+
+
+
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 # 'countries': response['result']['response']['airline']['country'],
                 # 'hotel_config': response['result']['response']['hotel_config'],
-                'hotel_search': request.session['hotel_request'],
+                'hotel_search': hotel_request,
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
                 'countries': airline_country,
                 'phone_code': phone_code,
@@ -166,7 +201,7 @@ def search(request):
     else:
         return no_session_logout(request)
 
-def detail_with_path(request, id):
+def detail_with_path(request, id, signature):
     if 'user_account' in request.session._session:
         try:
             javascript_version = get_javascript_version(request)
@@ -179,21 +214,27 @@ def detail_with_path(request, id):
                     phone_code.append(i['phone_code'])
             phone_code = sorted(phone_code)
             try:
-                time_limit = get_timelimit_product(request, 'hotel')
+                time_limit = get_timelimit_product(request, 'hotel', signature)
                 if time_limit == 0:
                     time_limit = int(request.POST['time_limit_input'])
-                set_session(request, 'time_limit', time_limit)
+                write_cache_file(request, signature, 'time_limit', time_limit)
+                # set_session(request, 'time_limit_%s' % signature, time_limit)
             except:
-                set_session(request, 'time_limit', int(1200))
+                time_limit = int(request.POST['time_limit_input'])
+                write_cache_file(request, signature, 'time_limit', time_limit)
             try:
                 if translation.LANGUAGE_SESSION_KEY in request.session:
                     del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
-                set_session(request, 'hotel_detail', json.loads(request.POST['hotel_detail']))
+
+                write_cache_file(request, signature, 'hotel_detail', json.loads(request.POST['hotel_detail']))
+                # set_session(request, 'hotel_detail', json.loads(request.POST['hotel_detail']))
             except Exception as e:
                 _logger.error('Data POST for hotel_detail not found use cache')
                 _logger.error("%s, %s" % (str(e), traceback.format_exc()))
-            data = request.session.get('hotel_request') or {}
-            if data != {}:
+
+            file = read_cache_file(request, signature, 'hotel_request')
+            if file:
+                data = file
                 need_signin = False
             else:
                 need_signin = True
@@ -201,12 +242,12 @@ def detail_with_path(request, id):
                     child_age = []
                     for i in range(int(request.POST['hotel_child_wizard'])):
                         child_age.append(int(request.POST['hotel_child_age_wizard' + str(i + 1)]))
-                    set_session(request, 'hotel_request', {
+                    data = {
                         'destination': '',
                         'guest_nationality': request.POST['hotel_id_nationality_wizard'],
                         'nationality': request.POST['hotel_id_nationality_wizard'].split(' - ')[0],
                         'business_trip': request.POST.get('business_trip_wizard') and 'T' or 'F',
-                    # Checkbox klo disi baru di POST
+                        # Checkbox klo disi baru di POST
                         'checkin_date': request.POST['hotel_checkin_checkout_wizard'].split(' - ')[0],
                         'checkout_date': request.POST['hotel_checkin_checkout_wizard'].split(' - ')[1],
                         # 'checkin_date': request.POST['hotel_checkin'],
@@ -215,26 +256,56 @@ def detail_with_path(request, id):
                         'adult': int(request.POST['hotel_adult_wizard']),
                         'child': int(request.POST['hotel_child_wizard']),
                         'child_ages': child_age
-                    })
+                    }
+                    write_cache_file(request, signature, 'hotel_request', data)
+                    # set_session(request, 'hotel_request', {
+                    #     'destination': '',
+                    #     'guest_nationality': request.POST['hotel_id_nationality_wizard'],
+                    #     'nationality': request.POST['hotel_id_nationality_wizard'].split(' - ')[0],
+                    #     'business_trip': request.POST.get('business_trip_wizard') and 'T' or 'F',
+                    # # Checkbox klo disi baru di POST
+                    #     'checkin_date': request.POST['hotel_checkin_checkout_wizard'].split(' - ')[0],
+                    #     'checkout_date': request.POST['hotel_checkin_checkout_wizard'].split(' - ')[1],
+                    #     # 'checkin_date': request.POST['hotel_checkin'],
+                    #     # 'checkout_date': request.POST['hotel_checkout'],
+                    #     'room': int(request.POST['hotel_room_wizard']),
+                    #     'adult': int(request.POST['hotel_adult_wizard']),
+                    #     'child': int(request.POST['hotel_child_wizard']),
+                    #     'child_ages': child_age
+                    # })
                 except Exception as e:
                     _logger.error('Data POST for hotel_request not found use cache')
                     _logger.error("%s, %s" % (str(e), traceback.format_exc()))
-                data = request.session.get('hotel_request')
+                # data = request.session.get('hotel_request')
+
+            file = read_cache_file(request, signature, 'hotel_request')
+            if file:
+                hotel_request = file
+
+            file = read_cache_file(request, signature, 'hotel_detail')
+            if file:
+                hotel_detail = file
+
+            file = read_cache_file(request, signature, 'time_limit')
+            if file:
+                time_limit = file
+
+
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
-                'hotel_search': data,
+                'hotel_search': hotel_request,
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
                 'countries': airline_country,
                 'phone_code': phone_code,
-                'check_in': data['checkin_date'],
-                'check_out': data['checkout_date'],
-                'response': request.session['hotel_detail'],
+                'check_in': hotel_request['checkin_date'],
+                'check_out': hotel_request['checkout_date'],
+                'response': hotel_detail,
                 'username': request.session['user_account'],
-                'signature': request.session['hotel_signature'],
+                'signature': signature,
                 'static_path_url_server': get_url_static_path(),
                 'javascript_version': javascript_version,
-                'time_limit': request.session['time_limit'],
-                'rating': range(int(request.session['hotel_detail']['rating'])),
+                'time_limit': time_limit,
+                'rating': range(int(hotel_detail['rating'])),
                 'need_signin': need_signin
             })
         except Exception as e:
@@ -244,7 +315,7 @@ def detail_with_path(request, id):
     else:
         return no_session_logout(request)
 
-def detail(request):
+def detail(request, signature):
     if 'user_account' in request.session._session:
         try:
             javascript_version = get_javascript_version(request)
@@ -256,13 +327,17 @@ def detail(request):
                 if i['phone_code'] not in phone_code:
                     phone_code.append(i['phone_code'])
             phone_code = sorted(phone_code)
+
             try:
-                time_limit = get_timelimit_product(request, 'hotel')
+                time_limit = get_timelimit_product(request, 'hotel', signature)
                 if time_limit == 0:
                     time_limit = int(request.POST['time_limit_input'])
-                set_session(request, 'time_limit', time_limit)
+                write_cache_file(request, signature, 'time_limit', time_limit)
+                # set_session(request, 'time_limit_%s' % signature, time_limit)
             except:
-                pass
+                time_limit = int(request.POST['time_limit_input'])
+                write_cache_file(request, signature, 'time_limit', time_limit)
+
             try:
                 if translation.LANGUAGE_SESSION_KEY in request.session:
                     del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -270,7 +345,21 @@ def detail(request):
             except Exception as e:
                 _logger.error('Data POST for hotel_detail not found use cache')
                 _logger.error("%s, %s" % (str(e), traceback.format_exc()))
-            data = request.session['hotel_request']
+
+            file = read_cache_file(request, signature, 'hotel_request')
+            if file:
+                data = file
+
+            file = read_cache_file(request, signature, 'hotel_detail')
+            if file:
+                hotel_detail = file
+
+            file = read_cache_file(request, signature, 'time_limit')
+            if file:
+                time_limit = file
+
+
+
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'hotel_search': data,
@@ -279,13 +368,13 @@ def detail(request):
                 'phone_code': phone_code,
                 'check_in': data['checkin_date'],
                 'check_out': data['checkout_date'],
-                'response': request.session['hotel_detail'],
+                'response': hotel_detail,
                 'username': request.session['user_account'],
-                'signature': request.session['hotel_signature'],
+                'signature': signature,
                 'static_path_url_server': get_url_static_path(),
                 'javascript_version': javascript_version,
-                'time_limit': request.session['time_limit'],
-                'rating': range(int(request.session['hotel_detail']['rating'])),
+                'time_limit': time_limit,
+                'rating': range(int(hotel_detail['rating'])),
             })
         except Exception as e:
             _logger.error(str(e) + '\n' + traceback.format_exc())
@@ -320,7 +409,7 @@ def detail_static(request):
         raise Exception('Make response code 500!')
     return render(request, MODEL_NAME+'/hotel/hotel_detail_static.html', values)
 
-def passengers(request):
+def passengers(request, signature):
     if 'user_account' in request.session._session:
         try:
             javascript_version = get_javascript_version(request)
@@ -328,12 +417,14 @@ def passengers(request):
             values = get_data_template(request)
 
             try:
-                time_limit = get_timelimit_product(request, 'hotel')
+                time_limit = get_timelimit_product(request, 'hotel', signature)
                 if time_limit == 0:
                     time_limit = int(request.POST['time_limit_input'])
-                set_session(request, 'time_limit', time_limit)
+                write_cache_file(request, signature, 'time_limit', time_limit)
+                # set_session(request, 'time_limit_%s' % signature, time_limit)
             except:
-                pass
+                time_limit = int(request.POST['time_limit_input'])
+                write_cache_file(request, signature, 'time_limit', time_limit)
 
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -350,42 +441,61 @@ def passengers(request):
                     phone_code.append(i['phone_code'])
             phone_code = sorted(phone_code)
 
-            # pax
-            adult = ['' for i in range(int(request.session['hotel_request']['adult']))]
-            child = ['' for i in range(int(request.session['hotel_request']['child']))]
-            try:
-                request.session['hotel_request'].update({
-                    'check_in': request.POST.get('checkin_date') and str(datetime.strptime(request.POST['checkin_date'], '%d %b %Y'))[:10] or request.session['hotel_request']['checkin_date'],
-                    'check_out': request.POST.get('checkout_date') and str(datetime.strptime(request.POST['checkout_date'], '%d %b %Y'))[:10] or request.session['hotel_request']['checkout_date'],
-                })
-                set_session(request, 'hotel_room_pick', json.loads(request.POST['hotel_detail_send']))
-            except Exception as e:
-                _logger.error('Data POST for hotel_request checkin and checkout, hotel_room_pick not found use cache')
-                _logger.error("%s, %s" % (str(e), traceback.format_exc()))
+            file = read_cache_file(request, signature, 'hotel_request')
+            if file:
+                # pax
+                adult = ['' for i in range(int(file['adult']))]
+                child = ['' for i in range(int(file['child']))]
+                try:
+                    file.update({
+                        'check_in': request.POST.get('checkin_date') and str(datetime.strptime(request.POST['checkin_date'], '%d %b %Y'))[:10] or request.session['hotel_request']['checkin_date'],
+                        'check_out': request.POST.get('checkout_date') and str(datetime.strptime(request.POST['checkout_date'], '%d %b %Y'))[:10] or request.session['hotel_request']['checkout_date'],
+                    })
+                    write_cache_file(request, request.POST['signature'], 'hotel_request', file)
+                except Exception as e:
+                    _logger.error('Data POST for hotel_request checkin and checkout, hotel_room_pick not found use cache')
+                    _logger.error("%s, %s" % (str(e), traceback.format_exc()))
+
+            hotel_room_pick = json.loads(request.POST['hotel_detail_send'])
+            write_cache_file(request, signature, 'hotel_room_pick', hotel_room_pick)
+            # set_session(request, 'hotel_room_pick', json.loads(request.POST['hotel_detail_send']))
+
+            file = read_cache_file(request, signature, 'hotel_request')
+            if file:
+                hotel_request = file
+
+            file = read_cache_file(request, signature, 'hotel_detail')
+            if file:
+                hotel_detail = file
+
+            file = read_cache_file(request, signature, 'time_limit')
+            if file:
+                time_limit = file
+
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'countries': airline_country,
                 'phone_code': phone_code,
                 'titles': ['', 'MR', 'MRS', 'MS', 'MSTR', 'MISS'],
-                'hotel_search': request.session['hotel_request'],
-                'hotel_room_detail_pick': request.session['hotel_room_pick'],
+                'hotel_search': hotel_request,
+                'hotel_room_detail_pick': hotel_room_pick,
                 # 'username': request.session['username'],
                 'username': request.session['user_account'],
-                'response': request.session['hotel_detail'],
+                'response': hotel_detail,
                 'childs': child,
                 'adults': adult,
-                'rooms': [rec + 1 for rec in range(request.session['hotel_request']['room'])],
+                'rooms': [rec + 1 for rec in range(hotel_request['room'])],
                 # 'room_qty': int(request.session['hotel_request']['room']) + 1, #Unremark jika ingin minim 1 kamar 1 nama pax
-                'room_qty': len(request.session['hotel_room_pick']['rooms']), #Unremark jika ingin 1 nama pax saja yg required
-                'adult_count': int(request.session['hotel_request']['adult']),
-                'child_count': int(request.session['hotel_request']['child']),
+                'room_qty': len(hotel_room_pick['rooms']), #Unremark jika ingin 1 nama pax saja yg required
+                'adult_count': int(hotel_request['adult']),
+                'child_count': int(hotel_request['child']),
                 'adult_title': adult_title,
                 'infant_title': infant_title,
-                'signature': request.session['hotel_signature'],
+                'signature': signature,
                 'javascript_version': javascript_version,
                 'static_path_url_server': get_url_static_path(),
-                'time_limit': request.session['time_limit'],
-                'guest_nationality': request.session['hotel_request']['guest_nationality'].split(' - ')[0]
+                'time_limit': time_limit,
+                'guest_nationality': hotel_request['guest_nationality'].split(' - ')[0]
             })
         except Exception as e:
             _logger.error(str(e) + '\n' + traceback.format_exc())
@@ -394,7 +504,7 @@ def passengers(request):
     else:
         return no_session_logout(request)
 
-def review(request):
+def review(request, signature):
     if 'user_account' in request.session._session:
         try:
             javascript_version = get_javascript_version(request)
@@ -417,15 +527,20 @@ def review(request):
                 spc_req += request.POST.get('late_ci') and 'Early/Late CheckIn: ' + request.POST['late_ci'] + '; 'or ''
                 spc_req += request.POST.get('late_co') and 'Late CheckOut: ' + request.POST['late_co'] + '; ' or ''
 
-                request.session['hotel_request'].update({'special_request': spc_req})
-
+                file = read_cache_file(request, signature, 'hotel_request')
+                if file:
+                    hotel_request = file
+                    hotel_request.update({'special_request': spc_req})
+                    write_cache_file(request, signature, 'hotel_request', hotel_request)
                 try:
-                    time_limit = get_timelimit_product(request, 'hotel')
+                    time_limit = get_timelimit_product(request, 'hotel', signature)
                     if time_limit == 0:
                         time_limit = int(request.POST['time_limit_input'])
-                    set_session(request, 'time_limit', time_limit)
+                    write_cache_file(request, signature, 'time_limit', time_limit)
+                    # set_session(request, 'time_limit_%s' % signature, time_limit)
                 except:
-                    pass
+                    time_limit = int(request.POST['time_limit_input'])
+                    write_cache_file(request, signature, 'time_limit', time_limit)
 
                 adult = []
                 child = []
@@ -442,7 +557,7 @@ def review(request):
                     "work_phone": request.POST['booker_phone_code_id'] + request.POST['booker_phone'],
                     'booker_seq_id': request.POST['booker_id']
                 }
-                for i in range(int(request.session['hotel_request']['adult'])):
+                for i in range(int(hotel_request['adult'])):
                     if request.POST['adult_first_name' + str(i + 1)] == '':
                         continue
                     behaviors = {}
@@ -464,7 +579,7 @@ def review(request):
                         'ticket_number': '',
                         'birth_date': request.POST['adult_birth_date' + str(i + 1)],
                         'pax_type': 'Adult',
-                        'additional_info': ["Room: 1", "SpecialReq:" + request.session['hotel_request']['special_request']],
+                        'additional_info': ["Room: 1", "SpecialReq:" + hotel_request['special_request']],
                     })
 
                     if i == 0:
@@ -508,7 +623,6 @@ def review(request):
                                 "mobile": request.POST['adult_phone' + str(i + 1)],
                                 "nationality_code": request.POST['adult_nationality' + str(i + 1) + '_id'],
                                 "work_phone": request.POST['booker_phone_code_id'] + request.POST['booker_phone'],
-                                "address": request.session.get('company_details') and request.session['company_details']['address'] or '',
                                 "contact_seq_id": request.POST['adult_id' + str(i + 1)]
                             })
                         if i == 0:
@@ -523,22 +637,7 @@ def review(request):
                     except:
                         pass
 
-                if len(contact) == 0:
-                    contact.append({
-                        'title': request.POST['booker_title'],
-                        'first_name': request.POST['booker_first_name'],
-                        'last_name': request.POST['booker_last_name'],
-                        'email': request.POST['booker_email'],
-                        'calling_code': request.POST['booker_phone_code_id'],
-                        'mobile': request.POST['booker_phone'],
-                        'nationality_code': request.POST['booker_nationality_id'],
-                        'contact_seq_id': request.POST['booker_id'],
-                        "work_phone": request.POST['booker_phone_code_id'] + request.POST['booker_phone'],
-                        "address": request.session.get('company_details') and request.session['company_details']['address'] or '',
-                        'is_also_booker': True
-                    })
-
-                for i in range(int(request.session['hotel_request']['child'])):
+                for i in range(int(hotel_request['child'])):
                     behaviors = {}
                     if request.POST.get('child_behaviors_' + str(i + 1)):
                         behaviors = {'hotel': request.POST['child_behaviors_' + str(i + 1)]}
@@ -559,49 +658,114 @@ def review(request):
                         'ticket_number': '',
                         'birth_date': request.POST['child_birth_date' + str(i + 1)],
                         'pax_type': 'Child',
-                        'additional_info': ["Room: 1", "SpecialReq:" + request.session['hotel_request']['special_request']],
+                        'additional_info': ["Room: 1", "SpecialReq:" + hotel_request['special_request']],
                     })
 
-                set_session(request, 'hotel_review_pax', {
+                if len(contact) == 0:
+                    contact.append({
+                        'title': request.POST['booker_title'],
+                        'first_name': request.POST['booker_first_name'],
+                        'last_name': request.POST['booker_last_name'],
+                        'email': request.POST['booker_email'],
+                        'calling_code': request.POST['booker_phone_code_id'],
+                        'mobile': request.POST['booker_phone'],
+                        'nationality_code': request.POST['booker_nationality_id'],
+                        'contact_seq_id': request.POST['booker_id'],
+                        "work_phone": request.POST['booker_phone_code_id'] + request.POST['booker_phone'],
+                        'is_also_booker': True
+                    })
+                write_cache_file(request, signature, 'hotel_review_pax', {
                     'booker': booker,
                     'contact': contact,
                     'adult': adult,
                     'child': child,
                 })
+                # set_session(request, 'hotel_review_pax', {
+                #     'booker': booker,
+                #     'contact': contact,
+                #     'adult': adult,
+                #     'child': child,
+                # })
+
+                file = read_cache_file(request, signature, 'hotel_room_pick')
+                if file:
+                    hotel_room_pick = file
+
+                file = read_cache_file(request, signature, 'hotel_detail')
+                if file:
+                    hotel_detail = file
 
                 print_json = json.dumps({
                     "type": "hotel",
-                    "agent_name": request.session._session['user_account']['co_agent_name'],
+                    "agent_name": request.session['user_account']['co_agent_name'],
                     "passenger": printout_paxs,
-                    "price_detail":[{
+                    "price_detail": [{
                         "fare": rec['price_total'],
                         "name": rec['category'] + ' ' + rec['description'],
                         "qty": 1,
                         "total": rec['price_total'],
                         "pax_type": "Adult: " + str(rec['pax']['adult']) + " Child: " + str(len(rec['pax'].get('child_ages',0))),
                         "tax": 0
-                    } for rec in request.session['hotel_room_pick']['rooms'] ],
+                    } for rec in hotel_room_pick['rooms']],
                     "line": [
                        {
                            "resv": "-",
-                           "checkin": request.session['hotel_request']['checkin_date'],
-                           "checkout": request.session['hotel_request']['checkout_date'],
-                           "meal_type": request.session['hotel_room_pick']['meal_type'],
+                           "checkin": hotel_request['checkin_date'],
+                           "checkout": hotel_request['checkout_date'],
+                           "meal_type": hotel_room_pick['meal_type'],
                            "room_name": rec['category'] + ' ' + rec['description'],
-                           "hotel_name": request.session['hotel_detail']['name'],
+                           "hotel_name": hotel_detail['name'],
                        }
-                   for rec in request.session['hotel_room_pick']['rooms']],
+                   for rec in hotel_room_pick['rooms']],
                 })
-                set_session(request, 'hotel_json_printout' + request.session['hotel_signature'], print_json)
+
+                write_cache_file(request, signature, 'hotel_json_printout', print_json)
+                # set_session(request, 'hotel_json_printout' + request.session['hotel_signature'], print_json)
             except Exception as e:
-                booker = request.session['hotel_review_pax']['booker']
-                contact = request.session['hotel_review_pax']['contact']
-                adult = request.session['hotel_review_pax']['adult']
-                child = request.session['hotel_review_pax']['child']
-                print_json = request.session['hotel_json_printout' + request.session['hotel_signature']]
-            hotel_pick = request.session['hotel_detail']
-            if hotel_pick.get('description'):
-                hotel_pick.pop('description')
+                file = read_cache_file(request, signature, 'hotel_review_pax')
+                if file:
+                    hotel_review_pax = file
+                file = read_cache_file(request, signature, 'hotel_json_printout')
+                if file:
+                    hotel_json_printout = file
+                booker = hotel_review_pax['booker']
+                contact = hotel_review_pax['contact']
+                adult = hotel_review_pax['adult']
+                child = hotel_review_pax['child']
+                print_json = hotel_json_printout
+
+            file = read_cache_file(request, signature, 'hotel_detail')
+            if file:
+                hotel_pick = file
+                if hotel_pick.get('description'):
+                    hotel_pick.pop('description')
+
+            file = read_cache_file(request, signature, 'hotel_upsell')
+            if file:
+                hotel_upsell = file
+            else:
+                hotel_upsell = 0
+
+            file = read_cache_file(request, signature, 'hotel_request')
+            if file:
+                hotel_request = file
+
+            file = read_cache_file(request, signature, 'hotel_room_pick')
+            if file:
+                hotel_room_pick = file
+
+            file = read_cache_file(request, signature, 'hotel_detail')
+            if file:
+                hotel_detail = file
+
+            file = read_cache_file(request, signature, 'time_limit')
+            if file:
+                time_limit = file
+
+            file = read_cache_file(request, signature, 'hotel_cancellation_policy')
+            if file:
+                hotel_cancellation_policy = file
+
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'booker': booker,
@@ -611,21 +775,21 @@ def review(request):
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
                 'countries': airline_country,
                 'phone_code': phone_code,
-                'upsell': request.session.get('hotel_upsell_'+request.session['hotel_signature']) and request.session.get('hotel_upsell_'+request.session['hotel_signature']) or 0,
-                'hotel_search': request.session['hotel_request'],
+                'upsell': hotel_upsell,
+                'hotel_search': hotel_request,
                 'hotel_pick': hotel_pick,
-                'hotel_room_detail_pick': request.session['hotel_room_pick'],
-                'adult_count': int(request.session['hotel_request']['adult']),
-                'infant_count': int(request.session['hotel_request']['child']),
-                'special_request': request.session['hotel_request']['special_request'],
-                'response': request.session['hotel_detail'],
+                'hotel_room_detail_pick': hotel_room_pick,
+                'adult_count': int(hotel_request['adult']),
+                'infant_count': int(hotel_request['child']),
+                'special_request': hotel_request['special_request'],
+                'response': hotel_detail,
                 'username': request.session['user_account'],
-                'signature': request.session['hotel_signature'],
+                'signature': signature,
                 'javascript_version': javascript_version,
                 'static_path_url_server': get_url_static_path(),
-                'time_limit': request.session['time_limit'],
+                'time_limit': time_limit,
                 'printout_rec': print_json,
-                'hotel_cancellation_policy': request.session['hotel_cancellation_policy']['result']['response']['policies'],
+                'hotel_cancellation_policy': hotel_cancellation_policy['result']['response']['policies'],
                 # 'cookies': json.dumps(res['result']['cookies']),
             })
         except Exception as e:
@@ -646,18 +810,20 @@ def booking(request, order_number):
         elif 'user_account' not in request.session and 'btc' not in web_mode:
             raise Exception('Hotel get booking without login in btb web')
         try:
-            set_session(request, 'hotel_order_number', base64.b64decode(order_number).decode('ascii'))
+            hotel_order_number = base64.b64decode(order_number).decode('ascii')
         except:
             try:
-                set_session(request, 'hotel_order_number', base64.b64decode(order_number[:-1]).decode('ascii'))
+                hotel_order_number = base64.b64decode(order_number[:-1]).decode('ascii')
             except:
-                set_session(request, 'hotel_order_number', order_number)
+                hotel_order_number = order_number
+
+        write_cache_file(request, request.session['signature'], 'hotel_order_number', hotel_order_number)
         if 'user_account' not in request.session:
             signin_btc(request)
         values.update({
             'static_path': path_util.get_static_path(MODEL_NAME),
             'username': request.session.get('user_account') or {'co_user_login': ''},
-            'order_number': request.session['hotel_order_number'],
+            'order_number': hotel_order_number,
             'static_path_url_server': get_url_static_path(),
             'javascript_version': javascript_version,
         })

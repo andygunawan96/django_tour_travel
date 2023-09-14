@@ -396,7 +396,6 @@ def get_balance_request(request):
         url_request = get_url_gateway('account')
         res = send_request_api(request, url_request, headers, data, 'POST', 60)
         set_session(request, 'get_balance_session', res)
-        _logger.info(json.dumps(request.session['get_balance_session']))
         if res['result']['error_code'] == 0:
             time_check.set_new_time_out('balance')
             time_check.set_first_time('balance')
