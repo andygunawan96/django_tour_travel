@@ -603,14 +603,14 @@ function toggle_corpor_mode_div(prov_type){
             if(prov_type == 'airline'){
                 document.getElementById('div_checkbox_promo_code_airline').style.display = 'none';
                 document.getElementById('promo_code_airline').style.display = 'none';
-                document.getElementById('div_osi_code_airline').style.display = 'block';
+                document.getElementById('div_osi_code_airline').style.display = 'inline-flex';
             }
         }
     }
     else{
         document.getElementById('div_corpor_mode_'+prov_type).style.display = "none";
         if(prov_type == 'airline'){
-            document.getElementById('div_checkbox_promo_code_airline').style.display = 'block';
+            document.getElementById('div_checkbox_promo_code_airline').style.display = 'inline-flex';
             toggle_promo_code();
             document.getElementById('div_osi_code_airline').style.display = 'none';
         }

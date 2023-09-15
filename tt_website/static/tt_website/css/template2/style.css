@@ -2859,3 +2859,6 @@ ul.tabs{
     }
 }
 
+.nice-select.form-control{
+    margin-bottom: 0px !important;
+}

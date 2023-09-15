@@ -184,26 +184,40 @@ function toggle_promo_code(){
 }
 
 function add_promotion_code_home(){
+
+    text_code = document.getElementById('code_line_input').value;
+    text_carrier_code = document.getElementById('carrier_code_line_input').value;
     text = '';
-    text +=`
-    <div class="row" id="promotion_code_line`+promotion_code+`" style="background:white; padding-bottom:15px; margin-bottom:15px; border-top:1px solid #cdcdcd; border-bottom:1px solid #cdcdcd;">
-        <div class="col-xs-12" style="text-align:right;">
-            <button type="button" class="primary-delete-date" onclick="delete_promotion_code(`+promotion_code+`)"><i class="fa fa-times" style="color:#E92B2B;font-size:16px;"></i> Delete</button>
-        </div>
-        <div class="col-lg-6">
-            <label>Code</label>
-            <input type="text" class="form-control" id="code_line`+promotion_code+`" name="code_line`+promotion_code+`" placeholder="Code" value=""/>
-        </div>
-        <div class="col-lg-6">
-            <label>Carrier Code</label>
-            <input type="text" class="form-control" id="carrier_code_line`+promotion_code+`" name="carrier_code_line`+promotion_code+`" placeholder="ex GA" value=""/>
-        </div>
-    </div>`;
-    var node = document.createElement("div");
-    node.innerHTML = text;
-    document.getElementById("promo_code_airline_div").appendChild(node);
-    promotion_code++;
-    document.getElementById('promo_code_counter').value = promotion_code;
+
+    if(text_code != '' && text_carrier_code != ''){
+        text += `
+        <div class="row">
+            <div class="col-lg-12" style="margin:auto;">
+                <div style="display:inline-flex;">
+                    <div style="display:inline-block; margin:auto; padding-right:5px;">
+                        <i class="fas fa-ticket-alt" style="font-size:18px;"></i>
+                    </div>
+                    <div style="display:inline-block;padding-left:5px;border-left:1px solid #cdcdcd;">
+                        <h6>Promo<br/>`+text_code+` `+text_carrier_code+`</h6>
+                    </div>
+                </div>
+                <i class="fa fa-trash" onclick="delete_promotion_code(`+promotion_code+`)" style="color: #ff0002; font-size:18px; position: absolute; right: 15px; top: 5px;"></i>
+            </div>
+            <input type="text" class="form-control" id="code_line`+promotion_code+`" name="code_line`+promotion_code+`" placeholder="Code" value="`+text_code+`" hidden/>
+            <input type="text" class="form-control" id="carrier_code_line`+promotion_code+`" name="carrier_code_line`+promotion_code+`" placeholder="Carrier Code, example: GA" value="`+text_carrier_code+`" hidden/>
+        </div>`;
+        var node = document.createElement("div");
+        node.className = 'div_for_add';
+        node.id = 'promotion_code_line' + promotion_code;
+        node.innerHTML = text;
+        document.getElementById("promo_code_airline_div").appendChild(node);
+        promotion_code++;
+        document.getElementById('promo_code_counter').value = promotion_code;
+        document.getElementById('code_line_input').value = '';
+        document.getElementById('carrier_code_line_input').value = '';
+    }else{
+        alert("Please input promo code");
+    }
 }
 
 function delete_promotion_code(val){
@@ -772,241 +786,111 @@ function add_multi_city(type){
 
         var node = document.createElement("div");
         //add template
-        if(template == 4){
+        if(template == 3){
+            text =`<div class="col-lg-12" style="text-align:left; margin-bottom:15px;">
+                <h5 style="color:`+text_color+`;">Flight #`+counter_airline_search+`</h5>
+            </div>`;
+        }else{
             text = `
-            <div class="col-lg-12" style="text-align:left; margin-top:10px; margin-bottom:10px;">
-                <h5 style="color:`+text_color+`;">Flight-`+counter_airline_search+`</h5>
-            </div>
-            <div class="col-lg-6">
-                <div class="row">
-                    <div class="col-lg-6 col-md-6 airline-from">
-                    <span class="span-search-ticket">From</span>
-                        <div class="input-container-search-ticket">
-                            <i class="fas fa-plane-departure" style="padding:14px; height: 43px; width: 45px; background:`+color+`; color:`+text_color+`;"></i>`;
-                            if(type == 'search'){
-                                if(airline_request.destination[counter_airline_search - 1] != null)
-                                    text+=`
-                                    <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+airline_request.origin[counter_airline_search - 1]+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
-                                else{
-                                    temp = document.getElementById('destination_id_flight'+(counter_airline_search-1).toString()).value;
-                                    text+=`
-                                    <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+temp+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
-                                }
-                            }else if(counter_airline_search==1)
+            <div class="col-lg-1" style="text-align:center; margin:auto;">
+                <h5 style="color:`+text_color+`;">Flight #`+counter_airline_search+`</h5>
+            </div>`;
+        }
+
+        if(template == 3 || template == 7){
+            text+=`<div class="col-lg-12">`;
+        }else{
+            text+=`<div class="col-lg-6">`;
+        }
+            text+=`
+            <div class="row">
+                <div class="col-lg-6 col-md-6 airline-from">
+                    <span class="span-search-ticket"><i class="fas fa-plane-departure"></i> From</span>
+                    <div class="input-container-search-ticket">
+                        <div class="form-select">`;
+                        if(type == 'search'){
+                            if(airline_request.destination[counter_airline_search - 1] != null)
                                 text+=`
-                                <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+airline_origin+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+airline_request.origin[counter_airline_search - 1]+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
                             else{
                                 temp = document.getElementById('destination_id_flight'+(counter_airline_search-1).toString()).value;
                                 text+=`
                                 <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+temp+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
-                                //<select class="form-control" style="width:100%;" id="origin_id_flight`+counter_airline_search+`" placeholder="City or Airport or IATA" onchange="airline_autocomplete('origin', `+counter_airline_search+`)">
                             }
-                    text+=`
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-md-6 airline-to" style="z-index:5;">
-                        <h4 class="image-change-route-vertical"><a class="switch_a" href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5;" id="flight_switch`+counter_airline_search+`"><span class="icon icon-exchange"></span></a></h4>
-                        <h4 class="image-change-route-horizontal"><a class="horizontal-arrow" href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5;" id="flight_switch`+counter_airline_search+`"><span class="icon icon-exchange"></span></a></h4>
-                        <span class="span-search-ticket">To</span>
-                        <div class="input-container-search-ticket">
-                            <i class="fas fa-plane-arrival" style="padding:14px; height: 43px; width: 45px; background:`+color+`; color:`+text_color+`;"></i>`;
-                            if(type == 'search'){
-                                if(airline_request.destination[counter_airline_search - 1] != null)
-                                    text+=`
-                                    <input id="destination_id_flight`+counter_airline_search+`" name="destination_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Destination" style="width:100%;outline:0" autocomplete="off" value="`+airline_request.destination[counter_airline_search - 1]+`" onfocus="document.getElementById('destination_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
-                                else{
-                                    temp = document.getElementById('origin_id_flight'+(counter_airline_search-1).toString()).value;
-                                    text+=`
-                                    <input id="destination_id_flight`+counter_airline_search+`" name="destination_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Destination" style="width:100%;outline:0" autocomplete="off" value="`+temp+`" onfocus="document.getElementById('destination_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
-                                }
-
-                            }else if(counter_airline_search == 1)
-                            text+=`
-                                <input id="destination_id_flight`+counter_airline_search+`" name="destination_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Destination" style="width:100%;outline:0" autocomplete="off" value="`+airline_destination+`" onfocus="document.getElementById('destination_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
-                            else{
-                                temp = document.getElementById('origin_id_flight'+(counter_airline_search-1).toString()).value;
-                            text+=`
-                                <input id="destination_id_flight`+counter_airline_search+`" name="destination_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Destination" style="width:100%;outline:0" autocomplete="off" value="`+temp+`" onfocus="document.getElementById('destination_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
-                                //<select class="form-control " name="state" style="width:100%;" id="destination_id_flight`+counter_airline_search+`" name="destination_id_flight`+counter_airline_search+`" placeholder="City or Airport or IATA" onchange="airline_autocomplete('destination', `+counter_airline_search+`)">
+                        }
+                        else if(counter_airline_search==1){
+                            try{
+                                text+=`
+                                <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+airline_request.origin[counter_airline_search - 1]+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                            }catch(err){
+                                text+=`
+                                <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+airline_origin+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
                             }
+                        }
+                        else{
+                            temp = document.getElementById('destination_id_flight'+(counter_airline_search-1).toString()).value;
                             text+=`
+                            <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+temp+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                            //<select class="form-control" style="width:100%;" id="origin_id_flight`+counter_airline_search+`" placeholder="City or Airport or IATA" onchange="airline_autocomplete('origin', `+counter_airline_search+`)">
+                        }
+                        text+=`
                         </div>
                     </div>
                 </div>
+                <div class="col-lg-6 col-md-6 airline-to" style="z-index:5;">
+                    <div class="image-change-route-vertical">
+                        <h4><a class="switch_a" href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5; color:black;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                    </div>
+                    <div class="image-change-route-horizontal">
+                        <h4><a class="horizontal-arrow" href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5; color:`+text_color+`;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon"><i class="fas fa-exchange-alt icon-change"></i></i></a></h4>
+                    </div>
+                    <span class="span-search-ticket"><i class="fas fa-plane-arrival"></i> To</span>
+                    <div class="input-container-search-ticket">
+                        <div class="form-select">`;
+                        if(type == 'search'){
+                            if(airline_request.destination[counter_airline_search - 1] != null)
+                                text+=`
+                                <input id="destination_id_flight`+counter_airline_search+`" name="destination_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Destination" style="width:100%;outline:0" autocomplete="off" value="`+airline_request.destination[counter_airline_search - 1]+`" onfocus="document.getElementById('destination_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                            else{
+                                temp = document.getElementById('origin_id_flight'+(counter_airline_search-1).toString()).value;
+                                text+=`
+                                <input id="destination_id_flight`+counter_airline_search+`" name="destination_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Destination" style="width:100%;outline:0" autocomplete="off" value="`+temp+`" onfocus="document.getElementById('destination_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                            }
+
+                        }else if(counter_airline_search == 1)
+                        text+=`
+                            <input id="destination_id_flight`+counter_airline_search+`" name="destination_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Destination" style="width:100%;outline:0" autocomplete="off" value="`+airline_destination+`" onfocus="document.getElementById('destination_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                        else{
+                            temp = document.getElementById('origin_id_flight'+(counter_airline_search-1).toString()).value;
+                        text+=`
+                            <input id="destination_id_flight`+counter_airline_search+`" name="destination_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Destination" style="width:100%;outline:0" autocomplete="off" value="`+temp+`" onfocus="document.getElementById('destination_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                            //<select class="form-control " name="state" style="width:100%;" id="destination_id_flight`+counter_airline_search+`" name="destination_id_flight`+counter_airline_search+`" placeholder="City or Airport or IATA" onchange="airline_autocomplete('destination', `+counter_airline_search+`)">
+                        }
+                        text+=`</div>
+                    </div>
+                </div>
             </div>
-            <div class="col-lg-6 mb-4">
+        </div>`;
+        if(template == 3 || template == 7){
+            text+=`<div class="col-lg-12">`;
+        }
+        else{
+            text+=`<div class="col-lg-5">`;
+        }
+            if(template == 4){
+                text+=`
                 <div class="row">
                     <div class="col-lg-6 col-md-6">
-                        <span class="span-search-ticket">Departure</span>
+                        <span class="span-search-ticket"><i class="fas fa-plane-departure"></i> Departure</span>
                         <div class="input-container-search-ticket">
-                            <i class="fas fa-calendar-alt" style="padding:14px; height: 43px; width: 45px; background:`+color+`; color:`+text_color+`;"></i>
                             <input type="text" class="form-control" name="airline_departure`+counter_airline_search+`" id="airline_departure`+counter_airline_search+`" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly style="background:white;">
                         </div>
                     </div>
                     <div class="col-lg-6 col-md-6">
                         <span class="span-search-ticket">Class</span>
-                            <div class="input-container-search-ticket btn-group">
-                                <div class="form-select">
-                                    <select class="nice-select-default" id="cabin_class_flight`+counter_airline_search+`" name="cabin_class_flight`+counter_airline_search+`">`;
-                                    for(i in cabin_class){
-                                        try{
-                                            if(type == 'search'){
-                                                if(airline_request.cabin_class_list[counter_airline_search-1] == cabin_class[i].value || airline_request.cabin_class_list.length < counter_airline_search && i == 0)
-                                                    text +=`<option value="`+cabin_class[i].value+`" selected>`+cabin_class[i].name+`</option>`;
-                                                else
-                                                    text +=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
-                                            }else if(i == 0){
-                                                if(type == 'home')
-                                                    text +=`<option value="`+cabin_class[i].value+`" selected>`+cabin_class[i].name+`</option>`;
-                                                else
-                                                    text +=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
-                                            }else
-                                                text +=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
-                                        }catch(err){
-                                            if(i == 0)
-                                                text +=`<option value="`+cabin_class[i].value+`" selected>`+cabin_class[i].name+`</option>`;
-                                            else
-                                                text +=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
-                                        }
-                                    }
-                                 text +=`</select>
-                                <br/><span style="float:left;color:`+text_color+`">If supported by airlines</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>`;
-        }
-        else{
-            text = `
-            <div class="col-lg-12 mb-3">
-                <div class="row">
-                    <div class="col-lg-12" style="text-align:left; margin-top:10px; margin-bottom:15px;">
-                        <h5 style="color:`+text_color+`">Flight-`+counter_airline_search+`</h5>
-                    </div>`;
-
-                    if(template == 3 || template == 7){
-                        text+=`<div class="col-lg-12">`;
-                    }
-                    else{
-                        text+=`<div class="col-lg-6">`;
-                    }
-                    text+=`
-                        <div class="row">
-                            <div class="col-lg-6 col-md-6 airline-from">
-                                <span class="span-search-ticket"><i class="fas fa-plane-departure"></i> From</span>
-                                <div class="input-container-search-ticket">
-                                    <div class="form-select">`;
-                                    if(type == 'search'){
-                                        if(airline_request.destination[counter_airline_search - 1] != null)
-                                            text+=`
-                                            <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+airline_request.origin[counter_airline_search - 1]+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
-                                        else{
-                                            temp = document.getElementById('destination_id_flight'+(counter_airline_search-1).toString()).value;
-                                            text+=`
-                                            <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+temp+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
-                                        }
-                                    }
-                                    else if(counter_airline_search==1){
-                                        try{
-                                            text+=`
-                                            <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+airline_request.origin[counter_airline_search - 1]+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
-                                        }catch(err){
-                                            text+=`
-                                            <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+airline_origin+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
-                                        }
-                                    }
-                                    else{
-                                        temp = document.getElementById('destination_id_flight'+(counter_airline_search-1).toString()).value;
-                                        text+=`
-                                        <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+temp+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
-                                        //<select class="form-control" style="width:100%;" id="origin_id_flight`+counter_airline_search+`" placeholder="City or Airport or IATA" onchange="airline_autocomplete('origin', `+counter_airline_search+`)">
-                                    }
-                                    text+=`
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6 airline-to" style="z-index:5;">
-                                <div class="image-change-route-vertical">
-                                    <h4><a class="switch_a" href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5; color:black;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
-                                </div>
-                                <div class="image-change-route-horizontal">
-                                    <h4><a class="horizontal-arrow" href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5; color:`+text_color+`;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon"><i class="fas fa-exchange-alt icon-change"></i></i></a></h4>
-                                </div>
-                                <span class="span-search-ticket"><i class="fas fa-plane-arrival"></i> To</span>
-                                <div class="input-container-search-ticket">
-                                    <div class="form-select">`;
-                                    if(type == 'search'){
-                                        if(airline_request.destination[counter_airline_search - 1] != null)
-                                            text+=`
-                                            <input id="destination_id_flight`+counter_airline_search+`" name="destination_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Destination" style="width:100%;outline:0" autocomplete="off" value="`+airline_request.destination[counter_airline_search - 1]+`" onfocus="document.getElementById('destination_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
-                                        else{
-                                            temp = document.getElementById('origin_id_flight'+(counter_airline_search-1).toString()).value;
-                                            text+=`
-                                            <input id="destination_id_flight`+counter_airline_search+`" name="destination_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Destination" style="width:100%;outline:0" autocomplete="off" value="`+temp+`" onfocus="document.getElementById('destination_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
-                                        }
-
-                                    }else if(counter_airline_search == 1)
-                                    text+=`
-                                        <input id="destination_id_flight`+counter_airline_search+`" name="destination_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Destination" style="width:100%;outline:0" autocomplete="off" value="`+airline_destination+`" onfocus="document.getElementById('destination_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
-                                    else{
-                                        temp = document.getElementById('origin_id_flight'+(counter_airline_search-1).toString()).value;
-                                    text+=`
-                                        <input id="destination_id_flight`+counter_airline_search+`" name="destination_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Destination" style="width:100%;outline:0" autocomplete="off" value="`+temp+`" onfocus="document.getElementById('destination_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
-                                        //<select class="form-control " name="state" style="width:100%;" id="destination_id_flight`+counter_airline_search+`" name="destination_id_flight`+counter_airline_search+`" placeholder="City or Airport or IATA" onchange="airline_autocomplete('destination', `+counter_airline_search+`)">
-                                    }
-                                    text+=`</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>`;
-                    if(template == 3 || template == 7){
-                        text+=`<div class="col-lg-12">`;
-                    }
-                    else{
-                        text+=`<div class="col-lg-6">`;
-                    }
-                    text+=`
-                        <div class="row">
-                            <div class="col-lg-6 col-md-6">
-                                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>
-                                <div class="input-container-search-ticket">
-                                    <input type="text" class="form-control" name="airline_departure`+counter_airline_search+`" id="airline_departure`+counter_airline_search+`" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly style="background:white;">
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6">
-                                <span class="span-search-ticket">Class</span>`;
-                                if(template == 1){
-                                    text += `
-                                    <div class="input-container-search-ticket btn-group">
-                                        <div class="form-select" id="default-select`+counter_airline_search+`">
-                                            <select id="cabin_class_flight`+counter_airline_search+`" name="cabin_class_flight`+counter_airline_search+`" data-live-search="true" size="4">`;
-                                }
-                                else if(template == 2){
-                                    text += `
-                                    <div>
-                                        <div class="form-select" id="default-select`+counter_airline_search+`">
-                                            <select id="cabin_class_flight`+counter_airline_search+`" name="cabin_class_flight`+counter_airline_search+`" data-live-search="true" size="4" class="form-control">`;
-                                }
-                                else if(template == 3){
-                                   text += `
-                                   <div class="form-group">
-                                        <div class="default-select" id="default-select`+counter_airline_search+`">
-                                            <select id="cabin_class_flight`+counter_airline_search+`" name="cabin_class_flight`+counter_airline_search+`" data-live-search="true" size="4">`;
-                                }
-                                else if(template == 5 || template == 6){
-                                    text += `
-                                    <div>
-                                        <div>
-                                            <select class="form-control" id="cabin_class_flight`+counter_airline_search+`" name="cabin_class_flight`+counter_airline_search+`">`;
-                                }else if(template == 7){
-                                    text+=`
-                                    <div class="select-form mb-30">
-                                        <div class="select-itms">
-                                            <select id="cabin_class_flight`+counter_airline_search+`" name="cabin_class_flight`+counter_airline_search+`">`;
-                                }
-
-
+                        <div class="input-container-search-ticket btn-group">
+                            <div class="form-select" style="margin-bottom:0px;">
+                                <select class="nice-select-default" id="cabin_class_flight`+counter_airline_search+`" name="cabin_class_flight`+counter_airline_search+`">`;
                                 for(i in cabin_class){
                                     try{
                                         if(type == 'search'){
@@ -1028,16 +912,88 @@ function add_multi_city(type){
                                             text +=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
                                     }
                                 }
-                                text +=`</select>
-                                    <br/><span style="float:left;color:`+text_color+`">If supported by airlines</span>
-                                    </div>
+                             text +=`</select>
+                            </div>
+                        </div>
+                        <span style="float:left;color:`+text_color+`">If supported by airlines</span>
+                    </div>
+                </div>`;
+
+            }
+            else{
+                text+=`
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6">
+                            <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>
+                            <div class="input-container-search-ticket">
+                                <input type="text" class="form-control" name="airline_departure`+counter_airline_search+`" id="airline_departure`+counter_airline_search+`" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly style="background:white;">
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6">
+                            <span class="span-search-ticket">Class</span>`;
+                            if(template == 1 || template == 4){
+                                text += `
+                                <div class="input-container-search-ticket btn-group">
+                                    <div class="form-select" id="default-select`+counter_airline_search+`">
+                                        <select id="cabin_class_flight`+counter_airline_search+`" name="cabin_class_flight`+counter_airline_search+`" data-live-search="true" size="4">`;
+                            }
+                            else if(template == 2){
+                                text += `
+                                <div>
+                                    <div class="form-select" id="default-select`+counter_airline_search+`">
+                                        <select id="cabin_class_flight`+counter_airline_search+`" name="cabin_class_flight`+counter_airline_search+`" data-live-search="true" size="4" class="form-control">`;
+                            }
+                            else if(template == 3){
+                               text += `
+                               <div class="form-group">
+                                    <div class="default-select" id="default-select`+counter_airline_search+`">
+                                        <select id="cabin_class_flight`+counter_airline_search+`" name="cabin_class_flight`+counter_airline_search+`" data-live-search="true" size="4">`;
+                            }
+                            else if(template == 5 || template == 6){
+                                text += `
+                                <div>
+                                    <div>
+                                        <select class="form-control" id="cabin_class_flight`+counter_airline_search+`" name="cabin_class_flight`+counter_airline_search+`" style="margin-bottom:0px;">`;
+                            }
+                            else if(template == 7){
+                                text+=`
+                                <div class="select-form mb-30">
+                                    <div class="select-itms">
+                                        <select id="cabin_class_flight`+counter_airline_search+`" name="cabin_class_flight`+counter_airline_search+`">`;
+                            }
+
+
+                            for(i in cabin_class){
+                                try{
+                                    if(type == 'search'){
+                                        if(airline_request.cabin_class_list[counter_airline_search-1] == cabin_class[i].value || airline_request.cabin_class_list.length < counter_airline_search && i == 0)
+                                            text +=`<option value="`+cabin_class[i].value+`" selected>`+cabin_class[i].name+`</option>`;
+                                        else
+                                            text +=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
+                                    }else if(i == 0){
+                                        if(type == 'home')
+                                            text +=`<option value="`+cabin_class[i].value+`" selected>`+cabin_class[i].name+`</option>`;
+                                        else
+                                            text +=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
+                                    }else
+                                        text +=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
+                                }catch(err){
+                                    if(i == 0)
+                                        text +=`<option value="`+cabin_class[i].value+`" selected>`+cabin_class[i].name+`</option>`;
+                                    else
+                                        text +=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
+                                }
+                            }
+                            text +=`</select>
+                                <span style="float:left;color:`+text_color+`">If supported by airlines</span>
                                 </div>
                             </div>
-                       </div>
-                    </div>
-                </div>
-            </div>`;
-        }
+                        </div>
+                   </div>
+                </div>`;
+            }
+        text+=`
+        </div>`;
 
 //        if(counter_airline_search == 1){
 //            node.className = 'tab-pane fade show active';
@@ -1046,6 +1002,7 @@ function add_multi_city(type){
 //            node.className = 'tab-pane fade';
 //        }
         node.className = 'row';
+        node.style = 'margin-bottom:15px;';
         node.innerHTML = text;
         node.setAttribute('id', 'mc_airline_add'+counter_airline_search);
         document.getElementById("mc_airline_add").appendChild(node);
@@ -2853,7 +2810,7 @@ function sort(){
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mt-2">
+                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mt-2" style="padding-bottom:10px;">
                                                            <div style="display:block; padding-top:5px; text-align:right;">
                                                                <span style="font-weight:700;">Class </span>`;
                                                                for(fare_seat_co in airline[i].segments){
@@ -4719,7 +4676,7 @@ function airline_pick_mc(type){
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mt-2">
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mt-2" style="padding-bottom:10px;">
                                        <div style="display:block; padding-top:5px; text-align:right;">
                                            <span style="font-weight:700;">Class </span>`;
                                             for(fare_seat_co in airline_pick_list[i].segments){
@@ -5899,7 +5856,7 @@ function airline_detail(type){
                                     $text += airline_cabin_class_list['W1'];
                                 else
                                     $text += airline_cabin_class_list[price_itinerary_temp[i].journeys[j].segments[k].fares[l].cabin_class];
-                                $text += ' [' + price_itinerary_temp[i].journeys[j].segments[k].fares[l].class_of_service + ']';
+                                $text += ' [' + price_itinerary_temp[i].journeys[j].segments[k].fares[l].class_of_service + '] ';
                             }
                             //OPERATED BY
                             try{
@@ -6288,29 +6245,29 @@ function airline_detail(type){
                 $text += ':\n';
                 if(passengers.hasOwnProperty('adult')){
                     for(x in passengers['adult']){
-                        $text += '• ' + passengers['adult'][x].title + ' ' + passengers['adult'][x].first_name + ' ' + passengers['adult'][x].last_name + ' ';
+                        $text += '• ' + passengers['adult'][x].title + ' ' + passengers['adult'][x].first_name + ' ' + passengers['adult'][x].last_name;
+                        if(passengers['adult'][x].birth_date)
+                            $text += ' (ADT ' +  passengers['adult'][x].birth_date + ')';
                         if(passengers['adult'][x].identity_type){
-                            $text += '- ' + passengers['adult'][x].identity_type.substr(0,1).toUpperCase() + passengers['adult'][x].identity_type.substr(1,passengers['adult'][x].identity_type.length).toLowerCase() + ': ';
-                            $text += passengers['adult'][x].identity_number.substr(0,1);
-                            for(z=0;z<passengers['adult'][x].identity_number.length-4;z++)
-                                $text += '-'
-                            $text += passengers['adult'][x].identity_number.substr(passengers['adult'][x].identity_number.length-3,passengers['adult'][x].identity_number.length)
+                            $text += '\n- ' + passengers['adult'][x].identity_type.substr(0,1).toUpperCase() + passengers['adult'][x].identity_type.substr(1,passengers['adult'][x].identity_type.length).toLowerCase() + ': ';
+                            $text += passengers['adult'][x].identity_number;
+//                            $text += passengers['adult'][x].identity_number.substr(0,1);
+//                            for(z=0;z<passengers['adult'][x].identity_number.length-4;z++)
+//                                $text += '-'
+//                            $text += passengers['adult'][x].identity_number.substr(passengers['adult'][x].identity_number.length-3,passengers['adult'][x].identity_number.length)
                         }
                         for(y in passengers['adult'][x].ff_numbers){
-                            if(y == 0)
-                                $text += '- ';
-                            if(y != 0)
-                                $text += ',';
+                            $text += '\n- ';
                             $text += passengers['adult'][x].ff_numbers[y].ff_code + ': ';
-                            $text += passengers['adult'][x].ff_numbers[y].ff_number.substr(0,1);
-                            for(z=0;z<passengers['adult'][x].ff_numbers[y].ff_number.length-4;z++)
-                                $text += '*'
-                            $text += passengers['adult'][x].ff_numbers[y].ff_number.substr(passengers['adult'][x].ff_numbers[y].ff_number.length-3,passengers['adult'][x].ff_numbers[y].ff_number.length);
+                            $text += passengers['adult'][x].ff_numbers[y].ff_number;
+//                            $text += passengers['adult'][x].ff_numbers[y].ff_number.substr(0,1);
+//                            for(z=0;z<passengers['adult'][x].ff_numbers[y].ff_number.length-4;z++)
+//                                $text += '*'
+//                            $text += passengers['adult'][x].ff_numbers[y].ff_number.substr(passengers['adult'][x].ff_numbers[y].ff_number.length-3,passengers['adult'][x].ff_numbers[y].ff_number.length);
                         }
-                        $text += '\n';
                         if(passengers['adult'][x].hasOwnProperty('ssr_list')){
                             for(y in passengers['adult'][x].ssr_list){
-                                $text += '- ' + passengers['adult'][x].ssr_list[y].origin + '-' + passengers['adult'][x].ssr_list[y].destination + ' ';
+                                $text += '\n- ' + passengers['adult'][x].ssr_list[y].origin + '-' + passengers['adult'][x].ssr_list[y].destination + ' ';
                                 if(passengers['adult'][x].ssr_list[y].availability_type == 'baggage'){
                                     $text += 'Baggage: ';
                                 }else if(passengers['adult'][x].ssr_list[y].availability_type == 'meal'){
@@ -6328,38 +6285,37 @@ function airline_detail(type){
                         if(passengers['adult'][x].hasOwnProperty('seat_list')){
                             for(y in passengers['adult'][x].seat_list){
                                 if(passengers['adult'][x].seat_list[y].seat_name){
-                                    $text += '- ' + passengers['adult'][x].seat_list[y].segment_code + ' Seat: ' + passengers['adult'][x].seat_list[y].seat_name + '\n';
+                                    $text += '\n- ' + passengers['adult'][x].seat_list[y].segment_code + ' Seat: ' + passengers['adult'][x].seat_list[y].seat_pick;
                                 }
                             }
                         }
-                        $text += '\n';
                     }
                 }
                 if(passengers.hasOwnProperty('child')){
                     for(x in passengers['child']){
-                        $text += '• ' + passengers['child'][x].title + ' ' + passengers['child'][x].first_name + ' ' + passengers['child'][x].last_name + ' ';
+                        $text += '• ' + passengers['child'][x].title + ' ' + passengers['child'][x].first_name + ' ' + passengers['child'][x].last_name;
+                        if(passengers['adult'][x].birth_date)
+                            $text += ' (CHD ' +  passengers['child'][x].birth_date + ')';
                         if(passengers['child'][x].identity_type){
-                            $text += '- ' + passengers['child'][x].identity_type.substr(0,1).toUpperCase() + passengers['child'][x].identity_type.substr(1,passengers['child'][x].identity_type.length).toLowerCase() + ': ';
-                            $text += passengers['child'][x].identity_number.substr(0,1);
-                            for(z=0;z<passengers['child'][x].identity_number.length-4;z++)
-                                $text += '-'
-                            $text += passengers['child'][x].identity_number.substr(passengers['child'][x].identity_number.length-3,passengers['child'][x].identity_number.length)
+                            $text += '\n- ' + passengers['child'][x].identity_type.substr(0,1).toUpperCase() + passengers['child'][x].identity_type.substr(1,passengers['child'][x].identity_type.length).toLowerCase() + ': ';
+                            $text += passengers['child'][x].identity_number;
+//                            $text += passengers['child'][x].identity_number.substr(0,1);
+//                            for(z=0;z<passengers['child'][x].identity_number.length-4;z++)
+//                                $text += '-'
+//                            $text += passengers['child'][x].identity_number.substr(passengers['child'][x].identity_number.length-3,passengers['child'][x].identity_number.length)
                         }
                         for(y in passengers['child'][x].ff_numbers){
-                            if(y == 0)
-                                $text += '- ';
-                            if(y != 0)
-                                $text += ',';
+                            $text += '\n- ';
                             $text += passengers['child'][x].ff_numbers[y].ff_code + ': ';
-                            $text += passengers['child'][x].ff_numbers[y].ff_number.substr(0,1);
-                            for(z=0;z<passengers['child'][x].ff_numbers[y].ff_number.length-4;z++)
-                                $text += '*'
-                            $text += passengers['child'][x].ff_numbers[y].ff_number.substr(passengers['child'][x].ff_numbers[y].ff_number.length-3,passengers['child'][x].ff_numbers[y].ff_number.length);
+                            $text += passengers['child'][x].ff_numbers[y].ff_number;
+//                            $text += passengers['child'][x].ff_numbers[y].ff_number.substr(0,1);
+//                            for(z=0;z<passengers['child'][x].ff_numbers[y].ff_number.length-4;z++)
+//                                $text += '*'
+//                            $text += passengers['child'][x].ff_numbers[y].ff_number.substr(passengers['child'][x].ff_numbers[y].ff_number.length-3,passengers['child'][x].ff_numbers[y].ff_number.length);
                         }
-                        $text += '\n';
                         if(passengers['child'][x].hasOwnProperty('ssr_list')){
                             for(y in passengers['child'][x].ssr_list){
-                                $text += '- ' + passengers['child'][x].ssr_list[y].origin + '-' + passengers['child'][x].ssr_list[y].destination + ' ';
+                                $text += '\n- ' + passengers['child'][x].ssr_list[y].origin + '-' + passengers['child'][x].ssr_list[y].destination + ' ';
                                 if(passengers['child'][x].ssr_list[y].availability_type == 'baggage'){
                                     $text += 'Baggage: ';
                                 }else if(passengers['child'][x].ssr_list[y].availability_type == 'meal'){
@@ -6377,46 +6333,47 @@ function airline_detail(type){
                         if(passengers['child'][x].hasOwnProperty('seat_list')){
                             for(y in passengers['child'][x].seat_list){
                                 if(passengers['child'][x].seat_list[y].seat_name){
-                                    $text += '- ' + passengers['child'][x].seat_list[y].segment_code + ' Seat: ' + passengers['child'][x].seat_list[y].seat_name + '\n';
+                                    $text += '\n- ' + passengers['child'][x].seat_list[y].segment_code + ' Seat: ' + passengers['child'][x].seat_list[y].seat_pick;
                                 }
                             }
                         }
-                        $text += '\n';
                     }
                 }
                 if(passengers.hasOwnProperty('infant')){
                     for(x in passengers['infant']){
-                        $text += '• ' + passengers['infant'][x].title + ' ' + passengers['infant'][x].first_name + ' ' + passengers['infant'][x].last_name + ' ';
+                        $text += '• ' + passengers['infant'][x].title + ' ' + passengers['infant'][x].first_name + ' ' + passengers['infant'][x].last_name;
+                        if(passengers['infant'][x].birth_date)
+                            $text += ' (INF ' +  passengers['infant'][x].birth_date + ')';
                         if(passengers['infant'][x].identity_type)
-                            $text += '- ' + passengers['infant'][x].identity_type + ': ' + passengers['infant'][x].identity_number + ' ';
-                        $text += '\n';
+                            $text += '\n- ' + passengers['infant'][x].identity_type + ': ' + passengers['infant'][x].identity_number + ' ';
                     }
                 }
 
                 if(passengers.hasOwnProperty('student')){
                     for(x in passengers['student']){
-                        $text += '- ' + passengers['student'][x].title + ' ' + passengers['student'][x].first_name + ' ' + passengers['student'][x].last_name + ' ';
+                        $text += '- ' + passengers['student'][x].title + ' ' + passengers['student'][x].first_name + ' ' + passengers['student'][x].last_name;
+                        if(passengers['student'][x].birth_date)
+                            $text += ' (STU ' +  passengers['student'][x].birth_date + ')';
                         if(passengers['student'][x].identity_type){
-                            $text += '- ' + passengers['student'][x].identity_type.substr(0,1).toUpperCase() + passengers['student'][x].identity_type.substr(1,passengers['student'][x].identity_type.length).toLowerCase() + ': ';
-                            $text += passengers['student'][x].identity_number.substr(0,1);
-                            for(z=0;z<passengers['student'][x].identity_number.length-4;z++)
-                                $text += '-'
-                            $text += passengers['student'][x].identity_number.substr(passengers['student'][x].identity_number.length-3,passengers['student'][x].identity_number.length)
+                            $text += '\n- ' + passengers['student'][x].identity_type.substr(0,1).toUpperCase() + passengers['student'][x].identity_type.substr(1,passengers['student'][x].identity_type.length).toLowerCase() + ': ';
+                            $text += passengers['student'][x].identity_number;
+//                            $text += passengers['student'][x].identity_number.substr(0,1);
+//                            for(z=0;z<passengers['student'][x].identity_number.length-4;z++)
+//                                $text += '-'
+//                            $text += passengers['student'][x].identity_number.substr(passengers['student'][x].identity_number.length-3,passengers['student'][x].identity_number.length)
                         }
                         for(y in passengers['student'][x].ff_numbers){
-                            if(y == 0)
-                                $text += '- ';
-                            if(y != 0)
-                                $text += ',';
+                            $text += '\n- ';
                             $text += passengers['student'][x].ff_numbers[y].ff_code + ': ';
-                            $text += passengers['student'][x].ff_numbers[y].ff_number.substr(0,1);
-                            for(z=0;z<passengers['student'][x].ff_numbers[y].ff_number.length-4;z++)
-                                $text += '*'
-                            $text += passengers['student'][x].ff_numbers[y].ff_number.substr(passengers['student'][x].ff_numbers[y].ff_number.length-3,passengers['student'][x].ff_numbers[y].ff_number.length);
+                            $text += passengers['student'][x].ff_numbers[y].ff_number;
+//                            $text += passengers['student'][x].ff_numbers[y].ff_number.substr(0,1);
+//                            for(z=0;z<passengers['student'][x].ff_numbers[y].ff_number.length-4;z++)
+//                                $text += '*'
+//                            $text += passengers['student'][x].ff_numbers[y].ff_number.substr(passengers['student'][x].ff_numbers[y].ff_number.length-3,passengers['student'][x].ff_numbers[y].ff_number.length);
                         }
                         if(passengers['student'][x].hasOwnProperty('ssr_list')){
                             for(y in passengers['student'][x].ssr_list){
-                                $text += '- ' + passengers['student'][x].ssr_list[y].origin + '-' + passengers['student'][x].ssr_list[y].destination + ' ';
+                                $text += '\n- ' + passengers['student'][x].ssr_list[y].origin + '-' + passengers['student'][x].ssr_list[y].destination + ' ';
                                 if(passengers['student'][x].ssr_list[y].availability_type == 'baggage'){
                                     $text += 'Baggage: ';
                                 }else if(passengers['student'][x].ssr_list[y].availability_type == 'meal'){
@@ -6428,44 +6385,44 @@ function airline_detail(type){
                                 }else{
                                     $text += passengers['student'][x].ssr_list[y].availability_type.substr(0,1).toUpperCase() + passengers['student'][x].ssr_list[y].availability_type.substr(1,passengers['student'].ssr_list[y].availability_type.length).toLowerCase();
                                 }
-                                $text += passengers['student'][x].ssr_list[y].name + '\n';
+                                $text += passengers['student'][x].ssr_list[y].name;
                             }
                         }
                         if(passengers['student'][x].hasOwnProperty('seat_list')){
                             for(y in passengers['student'][x].seat_list){
                                 if(passengers['student'][x].seat_list[y].seat_name){
-                                    $text += '- ' + passengers['student'][x].seat_list[y].segment_code + ' Seat: ' + passengers['student'][x].seat_list[y].seat_name + '\n';
+                                    $text += '\n- ' + passengers['student'][x].seat_list[y].segment_code + ' Seat: ' + passengers['student'][x].seat_list[y].seat_pick;
                                 }
                             }
                         }
-                        $text += '\n';
                     }
                 }
 
                 if(passengers.hasOwnProperty('labour')){
                     for(x in passengers['labour']){
-                        $text += '- ' + passengers['labour'][x].title + ' ' + passengers['labour'][x].first_name + ' ' + passengers['labour'][x].last_name + ' ';
+                        $text += '- ' + passengers['labour'][x].title + ' ' + passengers['labour'][x].first_name + ' ' + passengers['labour'][x].last_name;
+                        if(passengers['labour'][x].birth_date)
+                            $text += ' (LBR ' +  passengers['labour'][x].birth_date + ')';
                         if(passengers['labour'][x].identity_type){
-                            $text += '- ' + passengers['labour'][x].identity_type.substr(0,1).toUpperCase() + passengers['labour'][x].identity_type.substr(1,passengers['labour'][x].identity_type.length).toLowerCase() + ': ';
-                            $text += passengers['labour'][x].identity_number.substr(0,1);
-                            for(z=0;z<passengers['labour'][x].identity_number.length-4;z++)
-                                $text += '-'
-                            $text += passengers['labour'][x].identity_number.substr(passengers['labour'][x].identity_number.length-3,passengers['labour'][x].identity_number.length)
+                            $text += '\n- ' + passengers['labour'][x].identity_type.substr(0,1).toUpperCase() + passengers['labour'][x].identity_type.substr(1,passengers['labour'][x].identity_type.length).toLowerCase() + ': ';
+                            $text += passengers['labour'][x].identity_number;
+//                            $text += passengers['labour'][x].identity_number.substr(0,1);
+//                            for(z=0;z<passengers['labour'][x].identity_number.length-4;z++)
+//                                $text += '-'
+//                            $text += passengers['labour'][x].identity_number.substr(passengers['labour'][x].identity_number.length-3,passengers['labour'][x].identity_number.length)
                         }
                         for(y in passengers['labour'][x].ff_numbers){
-                            if(y == 0)
-                                $text += '- ';
-                            if(y != 0)
-                                $text += ',';
+                            $text += '\n- ';
                             $text += passengers['labour'][x].ff_numbers[y].ff_code + ': ';
-                            $text += passengers['labour'][x].ff_numbers[y].ff_number.substr(0,1);
-                            for(z=0;z<passengers['labour'][x].ff_numbers[y].ff_number.length-4;z++)
-                                $text += '*'
-                            $text += passengers['labour'][x].ff_numbers[y].ff_number.substr(passengers['labour'][x].ff_numbers[y].ff_number.length-3,passengers['labour'][x].ff_numbers[y].ff_number.length);
+                            $text += passengers['labour'][x].ff_numbers[y].ff_number;
+//                            $text += passengers['labour'][x].ff_numbers[y].ff_number.substr(0,1);
+//                            for(z=0;z<passengers['labour'][x].ff_numbers[y].ff_number.length-4;z++)
+//                                $text += '*'
+//                            $text += passengers['labour'][x].ff_numbers[y].ff_number.substr(passengers['labour'][x].ff_numbers[y].ff_number.length-3,passengers['labour'][x].ff_numbers[y].ff_number.length);
                         }
                         if(passengers['labour'][x].hasOwnProperty('ssr_list')){
                             for(y in passengers['labour'][x].ssr_list){
-                                $text += '- ' + passengers['labour'][x].ssr_list[y].origin + '-' + passengers['labour'][x].ssr_list[y].destination + ' ';
+                                $text += '\n- ' + passengers['labour'][x].ssr_list[y].origin + '-' + passengers['labour'][x].ssr_list[y].destination + ' ';
                                 if(passengers['labour'][x].ssr_list[y].availability_type == 'baggage'){
                                     $text += 'Baggage: ';
                                 }else if(passengers['labour'][x].ssr_list[y].availability_type == 'meal'){
@@ -6477,44 +6434,44 @@ function airline_detail(type){
                                 }else{
                                     $text += passengers['labour'][x].ssr_list[y].availability_type.substr(0,1).toUpperCase() + passengers['labour'][x].ssr_list[y].availability_type.substr(1,passengers['labour'].ssr_list[y].availability_type.length).toLowerCase();
                                 }
-                                $text += passengers['labour'][x].ssr_list[y].name + '\n';
+                                $text += passengers['labour'][x].ssr_list[y].name;
                             }
                         }
                         if(passengers['labour'][x].hasOwnProperty('seat_list')){
                             for(y in passengers['labour'][x].seat_list){
                                 if(passengers['labour'][x].seat_list[y].seat_name){
-                                    $text += '- ' + passengers['labour'][x].seat_list[y].segment_code + ' Seat: ' + passengers['labour'][x].seat_list[y].seat_name + '\n';
+                                    $text += '\n- ' + passengers['labour'][x].seat_list[y].segment_code + ' Seat: ' + passengers['labour'][x].seat_list[y].seat_name;
                                 }
                             }
                         }
-                        $text += '\n';
                     }
                 }
 
                 if(passengers.hasOwnProperty('seaman')){
                     for(x in passengers['seaman']){
-                        $text += '- ' + passengers['seaman'][x].title + ' ' + passengers['seaman'][x].first_name + ' ' + passengers['seaman'][x].last_name + ' ';
+                        $text += '- ' + passengers['seaman'][x].title + ' ' + passengers['seaman'][x].first_name + ' ' + passengers['seaman'][x].last_name;
+                        if(passengers['seaman'][x].birth_date)
+                            $text += ' (SEA ' +  passengers['seaman'][x].birth_date + ')';
                         if(passengers['seaman'][x].identity_type){
-                            $text += '- ' + passengers['seaman'][x].identity_type.substr(0,1).toUpperCase() + passengers['seaman'][x].identity_type.substr(1,passengers['seaman'][x].identity_type.length).toLowerCase() + ': ';
-                            $text += passengers['seaman'][x].identity_number.substr(0,1);
-                            for(z=0;z<passengers['seaman'][x].identity_number.length-4;z++)
-                                $text += '-'
-                            $text += passengers['seaman'][x].identity_number.substr(passengers['seaman'][x].identity_number.length-3,passengers['seaman'][x].identity_number.length)
+                            $text += '\n- ' + passengers['seaman'][x].identity_type.substr(0,1).toUpperCase() + passengers['seaman'][x].identity_type.substr(1,passengers['seaman'][x].identity_type.length).toLowerCase() + ': ';
+                            $text += passengers['seaman'][x].identity_number;
+//                            $text += passengers['seaman'][x].identity_number.substr(0,1);
+//                            for(z=0;z<passengers['seaman'][x].identity_number.length-4;z++)
+//                                $text += '-'
+//                            $text += passengers['seaman'][x].identity_number.substr(passengers['seaman'][x].identity_number.length-3,passengers['seaman'][x].identity_number.length)
                         }
                         for(y in passengers['seaman'][x].ff_numbers){
-                            if(y == 0)
-                                $text += '- ';
-                            if(y != 0)
-                                $text += ',';
+                            $text += '\n- ';
                             $text += passengers['seaman'][x].ff_numbers[y].ff_code + ': ';
-                            $text += passengers['seaman'][x].ff_numbers[y].ff_number.substr(0,1);
-                            for(z=0;z<passengers['seaman'][x].ff_numbers[y].ff_number.length-4;z++)
-                                $text += '*'
-                            $text += passengers['seaman'][x].ff_numbers[y].ff_number.substr(passengers['seaman'][x].ff_numbers[y].ff_number.length-3,passengers['seaman'][x].ff_numbers[y].ff_number.length);
+                            $text += passengers['seaman'][x].ff_numbers[y].ff_number;
+//                            $text += passengers['seaman'][x].ff_numbers[y].ff_number.substr(0,1);
+//                            for(z=0;z<passengers['seaman'][x].ff_numbers[y].ff_number.length-4;z++)
+//                                $text += '*'
+//                            $text += passengers['seaman'][x].ff_numbers[y].ff_number.substr(passengers['seaman'][x].ff_numbers[y].ff_number.length-3,passengers['seaman'][x].ff_numbers[y].ff_number.length);
                         }
                         if(passengers['seaman'][x].hasOwnProperty('ssr_list')){
                             for(y in passengers['seaman'][x].ssr_list){
-                                $text += '- ' + passengers['seaman'][x].ssr_list[y].origin + '-' + passengers['seaman'][x].ssr_list[y].destination + ' ';
+                                $text += '\n- ' + passengers['seaman'][x].ssr_list[y].origin + '-' + passengers['seaman'][x].ssr_list[y].destination + ' ';
                                 if(passengers['seaman'][x].ssr_list[y].availability_type == 'baggage'){
                                     $text += 'Baggage: ';
                                 }else if(passengers['seaman'][x].ssr_list[y].availability_type == 'meal'){
@@ -6526,20 +6483,19 @@ function airline_detail(type){
                                 }else{
                                     $text += passengers['seaman'][x].ssr_list[y].availability_type.substr(0,1).toUpperCase() + passengers['seaman'][x].ssr_list[y].availability_type.substr(1,passengers['seaman'].ssr_list[y].availability_type.length).toLowerCase();
                                 }
-                                $text += passengers['seaman'][x].ssr_list[y].name + '\n';
+                                $text += passengers['seaman'][x].ssr_list[y].name;
                             }
                         }
                         if(passengers['seaman'][x].hasOwnProperty('seat_list')){
                             for(y in passengers['seaman'][x].seat_list){
                                 if(passengers['seaman'][x].seat_list[y].seat_name){
-                                    $text += '- ' + passengers['seaman'][x].seat_list[y].segment_code + 'Seat: ' + passengers['seaman'][x].seat_list[y].seat_name + '\n';
+                                    $text += '\n- ' + passengers['seaman'][x].seat_list[y].segment_code + 'Seat: ' + passengers['seaman'][x].seat_list[y].seat_name;
                                 }
                             }
                         }
-                        $text += '\n';
                     }
                 }
-                $text += '\n';
+                $text += '\n\n';
             }
 
 
@@ -7141,43 +7097,6 @@ function airline_detail(type){
     }
 
     try{
-        if(document.URL.split('/')[document.URL.split('/').length-2] == 'review'){
-
-            $text += '\n\nContact:\n';
-            $text += passengers.contact[0].title + ' ' + passengers.contact[0].first_name + ' ' + passengers.contact[0].last_name + '\n';
-            $text += passengers.contact[0].email + '\n';
-            $text += passengers.contact[0].calling_code + ' - ' +passengers.contact[0].mobile + '\n\n';
-
-            for(i in passengers.adult){
-                if(i == 0)
-                    $text += 'Passengers:\n';
-                $text += passengers.adult[i].title + ' ' + passengers.adult[i].first_name + ' ' + passengers.adult[i].last_name + ' ';
-                for(j in passengers.adult[i].ssr_list){
-                    $text += passengers.adult[i].ssr_list[j].name;
-                    if(parseInt(parseInt(j)+1) != passengers.adult[i].ssr_list.length)
-                        $text += ', ';
-                }
-                for(j in passengers.adult[i].seat_list){
-                    $text += ', ' + passengers.adult[i].seat_list[j].seat_pick;
-                }
-                if(passengers.adult[i].birth_date != '')
-                    $text += ' (ADT / ' + passengers.adult[i].birth_date + ')\n';
-                else
-                    $text += ' (ADT)\n';
-            }
-            for(i in passengers.child){
-                $text += passengers.child[i].title + ' ' + passengers.child[i].first_name + ' ' + passengers.child[i].last_name + ' (CHD / ' + passengers.child[i].birth_date + ')\n';
-            }
-            for(i in passengers.infant){
-                $text += passengers.infant[i].title + ' ' + passengers.infant[i].first_name + ' ' + passengers.infant[i].last_name + ' (INF / ' + passengers.infant[i].birth_date + ')\n';
-            }
-            $text += '\n';
-        }
-    }catch(err){
-
-    }
-
-    try{
         if(now_page == 'ssr_no_after_sales'){
             get_default_ssr(passengers, price_itinerary_temp, 'ssr_page');
         }else{
@@ -7631,7 +7550,7 @@ function check_passenger(adult, child, infant, type=''){
                }
            document.getElementById('adult_nationality'+i+'_id').style['border-color'] = '#EFEFEF';
         }
-        if(document.getElementById('adult_identity_div'+i).style.display == 'block'){
+        if(document.getElementById('adult_identity_div'+i).style.display == 'block' || is_need_valid_identity == 'true'){
            if(document.getElementById('adult_id_type'+i).value != ''){
                 $("#adult_id_type"+i).each(function() {
                     $(this).parent().find('.nice-select').css('border', '1px solid #EFEFEF');
@@ -7807,6 +7726,11 @@ function check_passenger(adult, child, infant, type=''){
                         $(this).parent().find('.nice-select').css('border', '1px solid red');
                     });
                }
+           }else if(is_need_valid_identity == 'true'){
+                error_log += 'Identity required please change identity Passport for passenger adult '+i+'!</br>\n';
+                    $("#adult_id_type"+i).each(function() {
+                        $(this).parent().find('.nice-select').css('border', '1px solid red');
+                    });
            }else{
                 if(document.getElementById('adult_passport_number'+i).value != ''){
                     error_log+= 'Please choose identity type for passenger adult '+i+'!</br>\n';
@@ -7966,7 +7890,7 @@ function check_passenger(adult, child, infant, type=''){
            document.getElementById('child_nationality'+i+'_id').style['border-color'] = '#EFEFEF';
        }
 
-       if(document.getElementById('child_identity_div'+i).style.display == 'block'){
+       if(document.getElementById('child_identity_div'+i).style.display == 'block' || is_need_valid_identity == 'true'){
            if(document.getElementById('child_id_type'+i).value != ''){
                document.getElementById('child_id_type'+i).style['border-color'] = '#EFEFEF';
 //               if(document.getElementById('child_nationality'+i).value == 'Indonesia'){
@@ -8142,6 +8066,11 @@ function check_passenger(adult, child, infant, type=''){
                         $(this).parent().find('.nice-select').css('border', '1px solid red');
                     });
                }
+           }else if(is_need_valid_identity == 'true'){
+                error_log += 'Identity required please change identity Passport for passenger child '+i+'!</br>\n';
+                    $("#adult_id_type"+i).each(function() {
+                        $(this).parent().find('.nice-select').css('border', '1px solid red');
+                    });
            }else{
                 if(document.getElementById('child_id_type'+i).value != ''){
                     error_log+= 'Please choose identity type for passenger child '+i+'!</br>\n';
@@ -8284,7 +8213,7 @@ function check_passenger(adult, child, infant, type=''){
            document.getElementById('infant_nationality'+i+'_id').style['border-color'] = '#EFEFEF';
        }
 
-       if(document.getElementById('infant_identity_div'+i).style.display == 'block'){
+       if(document.getElementById('infant_identity_div'+i).style.display == 'block' || is_need_valid_identity == 'true'){
            if(document.getElementById('infant_id_type'+i).value != ''){
                document.getElementById('infant_id_type'+i).style['border-color'] = '#EFEFEF';
 //               if(document.getElementById('infant_nationality'+i).value == 'Indonesia'){
@@ -8452,6 +8381,11 @@ function check_passenger(adult, child, infant, type=''){
                          $(this).parent().find('.nice-select').css('border', '1px solid red');
                     });
                }
+           }else if(is_need_valid_identity == 'true'){
+                error_log += 'Identity required please change identity Passport for passenger infant '+i+'!</br>\n';
+                    $("#adult_id_type"+i).each(function() {
+                        $(this).parent().find('.nice-select').css('border', '1px solid red');
+                    });
            }else{
                 if(document.getElementById('infant_id_type'+i).value != ''){
                     error_log+= 'Please choose identity type for passenger infant '+i+'!</br>\n';
@@ -8555,7 +8489,7 @@ function check_passenger(adult, child, infant, type=''){
                document.getElementById('student_nationality'+i+'_id').style['border-color'] = '#EFEFEF';
            }
 
-           if(document.getElementById('student_identity_div'+i).style.display == 'block'){
+           if(document.getElementById('student_identity_div'+i).style.display == 'block' || is_need_valid_identity == 'true'){
                if(document.getElementById('student_id_type'+i).value != ''){
                    document.getElementById('student_id_type'+i).style['border-color'] = '#EFEFEF';
     //               if(document.getElementById('student_nationality'+i).value == 'Indonesia'){
@@ -8746,6 +8680,11 @@ function check_passenger(adult, child, infant, type=''){
                         });
                    }
                }
+           }else if(is_need_valid_identity == 'true'){
+                error_log += 'Identity required please change identity Passport for passenger student '+i+'!</br>\n';
+                    $("#adult_id_type"+i).each(function() {
+                        $(this).parent().find('.nice-select').css('border', '1px solid red');
+                    });
            }else{
                if(document.getElementById('student_valid_passport'+i))
                    if(document.getElementById('student_valid_passport'+i).checked)
@@ -8877,7 +8816,7 @@ function check_passenger(adult, child, infant, type=''){
                document.getElementById('seaman_nationality'+i+'_id').style['border-color'] = '#EFEFEF';
            }
 
-           if(document.getElementById('seaman_identity_div'+i).style.display == 'block'){
+           if(document.getElementById('seaman_identity_div'+i).style.display == 'block' || is_need_valid_identity == 'true'){
                if(document.getElementById('seaman_id_type'+i).value != ''){
                    document.getElementById('seaman_id_type'+i).style['border-color'] = '#EFEFEF';
     //               if(document.getElementById('seaman_nationality'+i).value == 'Indonesia'){
@@ -9068,6 +9007,11 @@ function check_passenger(adult, child, infant, type=''){
                         });
                     }
                }
+           }else if(is_need_valid_identity == 'true'){
+                error_log += 'Identity required please change identity Passport for passenger seaman '+i+'!</br>\n';
+                    $("#adult_id_type"+i).each(function() {
+                        $(this).parent().find('.nice-select').css('border', '1px solid red');
+                    });
            }else{
                if(document.getElementById('seaman_valid_passport'+i))
                    if(document.getElementById('seaman_valid_passport'+i).checked)
@@ -9199,7 +9143,7 @@ function check_passenger(adult, child, infant, type=''){
                document.getElementById('labour_nationality'+i+'_id').style['border-color'] = '#EFEFEF';
            }
 
-           if(document.getElementById('labour_identity_div'+i).style.display == 'block'){
+           if(document.getElementById('labour_identity_div'+i).style.display == 'block' || is_need_valid_identity == 'true'){
                if(document.getElementById('labour_id_type'+i).value != ''){
                    document.getElementById('labour_id_type'+i).style['border-color'] = '#EFEFEF';
     //               if(document.getElementById('labour_nationality'+i).value == 'Indonesia'){
@@ -9390,6 +9334,11 @@ function check_passenger(adult, child, infant, type=''){
                         });
                     }
                }
+           }else if(is_need_valid_identity == 'true'){
+                error_log += 'Identity required please change identity Passport for passenger labour '+i+'!</br>\n';
+                    $("#adult_id_type"+i).each(function() {
+                        $(this).parent().find('.nice-select').css('border', '1px solid red');
+                    });
            }else{
                if(document.getElementById('labour_valid_passport'+i))
                    if(document.getElementById('labour_valid_passport'+i).checked)

@@ -38,7 +38,7 @@
 </style>
 
 {%if "create_request_corporate" in username.co_agent_frontend_security %}
-<button type="button" style="background-color:{{color}};" id="mystickycor" class="mystickypaxs cor-db-slide-toggle" class="primary-btn" data-toggle="modal" data-target="#myModal_cor">
+<button type="button" style="background-color:{{color}};" id="mystickycor" class="mystickypaxs cor-db-slide-toggle" data-toggle="modal" data-target="#myModal_cor">
     <i class="fas fa-user-tie"></i>
 </button>
 
@@ -367,9 +367,76 @@
                             </div>
                         </div>
 
+                        <div class="col-lg-12 mb-3">
+                            <h4>Credit Application and Billing System</h4>
+                            <div style="background:white; border:1px solid #cdcdcd; padding:15px;">
+                                <label style="color:red">*</label>
+                                <label>{% trans 'Proposed Limit' %}</label>
+                                <div class="input-container-search-ticket">
+                                    <input type="text" style="margin-bottom:0px;" class="form-control" name="proposed_limit" id="proposed_limit" placeholder="{% trans 'Proposed Limit' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Proposed Limit '">
+                                </div>
+
+                                <label style="color:red">*</label>
+                                <label>{% trans 'Pay Day' %}</label>
+                                <br/>
+                                <label class="check_box_custom">
+                                    <span class="span-search-ticket" style="color:black;">Monday</span>
+                                    <input type="checkbox" id="pay_day_monday" name="pay_day_monday" value="monday">
+                                    <span class="check_box_span_custom"></span>
+                                </label><br/>
+                                <label class="check_box_custom">
+                                    <span class="span-search-ticket" style="color:black;">Tuesday</span>
+                                    <input type="checkbox" id="pay_day_tuesday" name="pay_day_tuesday" value="tuesday">
+                                    <span class="check_box_span_custom"></span>
+                                </label><br/>
+                                <label class="check_box_custom">
+                                    <span class="span-search-ticket" style="color:black;">Wednesday</span>
+                                    <input type="checkbox" id="pay_day_wednesday" name="pay_day_wednesday" value="wednesday">
+                                    <span class="check_box_span_custom"></span>
+                                </label><br/>
+                                <label class="check_box_custom">
+                                    <span class="span-search-ticket" style="color:black;">Thursday</span>
+                                    <input type="checkbox" id="pay_day_thursday" name="pay_day_thursday" value="thursday">
+                                    <span class="check_box_span_custom"></span>
+                                </label><br/>
+                                <label class="check_box_custom">
+                                    <span class="span-search-ticket" style="color:black;">Friday</span>
+                                    <input type="checkbox" id="pay_day_friday" name="pay_day_friday" value="friday">
+                                    <span class="check_box_span_custom"></span>
+                                </label><br/>
+                                <label class="check_box_custom">
+                                    <span class="span-search-ticket" style="color:black;">Saturday</span>
+                                    <input type="checkbox" id="pay_day_saturday" name="pay_day_saturday" value="saturday">
+                                    <span class="check_box_span_custom"></span>
+                                </label><br/>
+                                <label class="check_box_custom">
+                                    <span class="span-search-ticket" style="color:black;">Sunday</span>
+                                    <input type="checkbox" id="pay_day_sunday" name="pay_day_sunday" value="sunday">
+                                    <span class="check_box_span_custom"></span>
+                                </label><br/>
+
+                                <label style="color:red">*</label>
+                                <label>{% trans 'Payment Time' %}</label>
+                                <br/>
+                                <label class="check_box_custom">
+                                    <span class="span-search-ticket" style="color:black;">TOP 1 (5 calendar days)</span>
+                                    <input type="checkbox" id="pay_time_top1" name="pay_time_top1" value="top1">
+                                    <span class="check_box_span_custom"></span>
+                                </label><br/>
+                                <label class="check_box_custom">
+                                    <span class="span-search-ticket" style="color:black;">TOP 2 (7 calendar days)</span>
+                                    <input type="checkbox" id="pay_time_top2" name="pay_time_top2" value="top2">
+                                    <span class="check_box_span_custom"></span>
+                                </label><br/>
+
+                                <label>{% trans 'Shipping Bill' %}: </label>
+                                <i>E-Billing</i>
+                            </div>
+                        </div>
+
                         <div class="col-lg-12 mb-3" id="corporate_airline" style="display:none;">
                             <h4>Do you want to have a Corporate Airline Code?</h4>
-                            <div style="background:white; border:1px solid #cdcdcd; padding:15px;" id="corporate_airline_div">
+                            <div style="background:white; border:1px solid #cdcdcd;" id="corporate_airline_div">
 
                             </div>
                         </div>

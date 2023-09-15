@@ -572,6 +572,7 @@ def passenger(request, signature):
         is_garuda = False
         is_identity_required = False
         is_birthdate_required = False
+        is_need_valid_identity = False ## FOR US COUNTRY
         file = read_cache_file(request, signature, 'airline_sell_journey')
         if file:
             airline_price_provider_temp = file['sell_journey_provider']
@@ -598,6 +599,20 @@ def passenger(request, signature):
                             break
             if airline['provider'] == 'lionair' or airline['provider'] == 'lionairapi':
                 is_lionair = True
+
+        for airline in airline_price_provider_temp:
+            for journey in airline['journeys']:
+                for segment in journey['segments']:
+                    for leg in segment['legs']:
+                        if leg['origin_country'] == 'United States' or leg['destination_country'] == 'United States':
+                            is_need_valid_identity = True
+                            break
+                    if is_need_valid_identity:
+                        break
+                if is_need_valid_identity:
+                    break
+            if is_need_valid_identity:
+                break
         try:
             file = read_cache_file(request, signature, 'airline_get_ff_availability')
             if file:
@@ -626,6 +641,7 @@ def passenger(request, signature):
                 'is_garuda': is_garuda,
                 'is_international': is_international,
                 'birth_date_required': is_birthdate_required,
+                'is_need_valid_identity': is_need_valid_identity,
                 'titles': ['', 'MR', 'MRS', 'MS', 'MSTR', 'MISS'],
                 'countries': airline_country,
                 'phone_code': phone_code,
