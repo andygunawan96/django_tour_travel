@@ -641,6 +641,7 @@ def passenger(request, signature):
                 'is_garuda': is_garuda,
                 'is_international': is_international,
                 'birth_date_required': is_birthdate_required,
+                'is_need_valid_identity': is_need_valid_identity,
                 'titles': ['', 'MR', 'MRS', 'MS', 'MSTR', 'MISS'],
                 'countries': airline_country,
                 'phone_code': phone_code,
