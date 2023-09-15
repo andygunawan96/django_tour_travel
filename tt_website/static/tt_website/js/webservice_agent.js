@@ -10276,6 +10276,53 @@ function create_request_cor(){
         }
     }
 
+    if(document.getElementById('proposed_limit').value == ''){
+        error_log+= 'Please input Proposed Limit!</br>\n';
+        document.getElementById('proposed_limit').style['border-color'] = 'red';
+
+    }else{
+        data_request['proposed_limit'] = document.getElementById('proposed_limit').value;
+    }
+
+
+    data_request['pay_day'] = [];
+    if(document.getElementById('pay_day_monday') && document.getElementById('pay_day_monday').checked){
+        data_request['pay_day'].push('monday');
+    }
+    if(document.getElementById('pay_day_tuesday') && document.getElementById('pay_day_tuesday').checked){
+        data_request['pay_day'].push('tuesday');
+    }
+    if(document.getElementById('pay_day_wednesday') && document.getElementById('pay_day_wednesday').checked){
+        data_request['pay_day'].push('wednesday');
+    }
+    if(document.getElementById('pay_day_thursday') && document.getElementById('pay_day_thursday').checked){
+        data_request['pay_day'].push('thursday');
+    }
+    if(document.getElementById('pay_day_friday') && document.getElementById('pay_day_friday').checked){
+        data_request['pay_day'].push('friday');
+    }
+    if(document.getElementById('pay_day_saturday') && document.getElementById('pay_day_saturday').checked){
+        data_request['pay_day'].push('saturday');
+    }
+    if(document.getElementById('pay_day_sunday') && document.getElementById('pay_day_sunday').checked){
+        data_request['pay_day'].push('sunday');
+    }
+
+    if(data_request['pay_day'].length == 0){
+        error_log+= 'Please choose Pay Day!</br>\n';
+    }
+
+    data_request['pay_time_top'] = [];
+    if(document.getElementById('pay_time_top1') && document.getElementById('pay_time_top1').checked){
+        data_request['pay_time_top'].push('TOP 1 (5 calendar days)');
+    }
+    if(document.getElementById('pay_time_top2') && document.getElementById('pay_time_top2').checked){
+        data_request['pay_time_top'].push('TOP 2 (7 calendar days)');
+    }
+
+    if(data_request['pay_time_top'].length == 0){
+        error_log+= 'Please choose Pay Time!</br>\n';
+    }
 
 
     if(error_log == ''){
@@ -10296,7 +10343,7 @@ function create_request_cor(){
                       html: 'Success',
                     })
                     // clear data
-                    //clear_request_cor();
+                    clear_request_cor();
                 }else{
                     Swal.fire({
                       type: 'error',
@@ -10360,6 +10407,7 @@ function clear_request_cor(){
     document.getElementById('pic_birth_date').value = '';
     document.getElementById('pic_phone_number').value = '';
     document.getElementById('pic_email').value = '';
+    document.getElementById('proposed_limit').value = '';
     var radios = document.getElementsByName('myRadios_account')[0].checked = 'checked';
 
     // checkbox airline
@@ -10368,6 +10416,36 @@ function clear_request_cor(){
             document.getElementById('provider_box_cor_'+i).checked = false;
         }
     }
+
+    if(document.getElementById('pay_day_monday') && document.getElementById('pay_day_monday').checked){
+        document.getElementById('pay_day_monday').checked = false;
+    }
+    if(document.getElementById('pay_day_tuesday') && document.getElementById('pay_day_tuesday').checked){
+        document.getElementById('pay_day_tuesday').checked = false;
+    }
+    if(document.getElementById('pay_day_wednesday') && document.getElementById('pay_day_wednesday').checked){
+        document.getElementById('pay_day_wednesday').checked = false;
+    }
+    if(document.getElementById('pay_day_thursday') && document.getElementById('pay_day_thursday').checked){
+        document.getElementById('pay_day_thursday').checked = false;
+    }
+    if(document.getElementById('pay_day_friday') && document.getElementById('pay_day_friday').checked){
+        document.getElementById('pay_day_friday').checked = false;
+    }
+    if(document.getElementById('pay_day_saturday') && document.getElementById('pay_day_saturday').checked){
+        document.getElementById('pay_day_saturday').checked = false;
+    }
+    if(document.getElementById('pay_day_sunday') && document.getElementById('pay_day_sunday').checked){
+        document.getElementById('pay_day_sunday').checked = false;
+    }
+
+    if(document.getElementById('pay_time_top1') && document.getElementById('pay_time_top1').checked){
+        document.getElementById('pay_time_top1').checked = false;
+    }
+    if(document.getElementById('pay_time_top2') && document.getElementById('pay_time_top2').checked){
+        document.getElementById('pay_time_top2').checked = false;
+    }
+
 
     $('input[name="company_established_date"]').val("");
     $('input[name="owner_birth_date"]').val("");
