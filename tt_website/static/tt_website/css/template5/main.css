@@ -3805,3 +3805,7 @@ ul.tabs li.current .image-rounded-icon{
         width: 100%;
     }
 }
+
+.nice-select.form-control{
+    margin-bottom: 0px !important;
+}

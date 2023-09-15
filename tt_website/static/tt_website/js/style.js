@@ -1743,7 +1743,7 @@ $(document).ready(function(){
             var node = document.createElement("div");
             document.getElementById('is_combo_price').disabled = false;
             document.getElementById('is_combo_price').checked = true;
-            document.getElementById('checkbox_combo_price').style.display = "block";
+            document.getElementById('checkbox_combo_price').style.display = "inline-flex";
             document.getElementById('ori_airline').style.display = "block";
             document.getElementById('mc_airline_default').innerHTML = "";
 
@@ -1795,11 +1795,11 @@ $(document).ready(function(){
             text_mc += `
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="mb-3" id="mc_airline_paxs"></div>
-                    <div class="mb-3" id="mc_airline_add" style="background:none !important;"></div>
-                    <div class="mb-3" style="text-align:left;">
-                        <button type="button" id="add_mc_btn" class="primary-btn-ad" onclick="add_multi_city('home');"><i class="fas fa-plus"></i> Add</button>
-                        <button type="button" id="del_mc_btn" class="primary-btn-ad" onclick="del_multi_city();"><i class="fas fa-trash-alt"></i> Delete</button>
+                    <div id="mc_airline_paxs"></div>
+                    <div id="mc_airline_add" style="background:none !important; padding-top:15px;"></div>
+                    <div class="mb-3" style="text-align:left; padding-bottom:15px;">
+                        <button type="button" id="add_mc_btn" class="primary-btn-ad" onclick="add_multi_city('home');"><i class="fas fa-plus"></i> Add Flight</button>
+                        <button type="button" id="del_mc_btn" class="primary-btn-ad" onclick="del_multi_city();"><i class="fas fa-trash-alt"></i> Delete Flight</button>
                     </div>
                 </div>
             </div>`;
@@ -1808,7 +1808,7 @@ $(document).ready(function(){
             document.getElementById('ori_airline').style.display = "none";
             document.getElementById('is_combo_price').disabled = false;
             document.getElementById('is_combo_price').checked = true;
-            document.getElementById('checkbox_combo_price').style.display = "block";
+            document.getElementById('checkbox_combo_price').style.display = "inline-flex";
 
             add_multi_city('home');
             add_multi_city('home');
@@ -2002,7 +2002,7 @@ $(document).ready(function(){
 
             document.getElementById('is_combo_price').disabled = false;
             document.getElementById('is_combo_price').checked = true;
-            document.getElementById('checkbox_combo_price').style.display = "block";
+            document.getElementById('checkbox_combo_price').style.display = "inline-flex";
             document.getElementById('ori_airline').style.display = "block";
             document.getElementById('mc_airline_default').innerHTML = "";
 
@@ -2219,7 +2219,7 @@ $(document).ready(function(){
             document.getElementById('ori_airline').style.display = "none";
             document.getElementById('is_combo_price').checked = true;
             document.getElementById('is_combo_price').disabled = false;
-            document.getElementById('checkbox_combo_price').style.display = "block";
+            document.getElementById('checkbox_combo_price').style.display = "inline-flex";
             airline_request_counter = airline_request.counter;
             if(airline_request_counter == 0)
                 airline_request_counter = 2
@@ -3501,7 +3501,7 @@ function on_off_overlay_bar(class_box, overlay_class){
             $('#drop').prop('checked',false);
         }
     }
-    document.body.style.overflowY = "unset";
+    $("body").css("overflowY", "");
 }
 
 //untuk tombol next dan prev

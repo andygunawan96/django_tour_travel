@@ -758,7 +758,8 @@ ul.popular2_tabs li.current .image-rounded-icon{
   position: relative;
   padding-left: 25px;
   padding-right: 15px;
-  margin-top:15px;
+  margin-top:5px;
+  margin-bottom:5px;
   cursor: pointer;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -968,6 +969,24 @@ ul.popular2_tabs li.current .image-rounded-icon{
 .button-route-pass:focus{
     outline:unset;
 }
+
+.div_for_add {
+  background-color:white;
+  color:black;
+  border-radius:3px;
+  border: 1px solid #cdcdcd;
+  padding: 5px 10px 0px 10px;
+  text-align: left;
+  text-decoration: none;
+  font-size: 13px;
+  cursor: pointer;
+  line-height:unset;
+  width:220px;
+  min-height:45px;
+  margin-right:10px;
+  margin-bottom:10px;
+}
+
 .button-seat-pass {
   background-color:white;
   color:black;
@@ -6901,4 +6920,5 @@ text-align: center;
     background:#205B95;
     color:white;
 }
+
 

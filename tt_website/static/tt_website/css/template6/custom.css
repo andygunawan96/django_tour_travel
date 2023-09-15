@@ -605,3 +605,7 @@ nav a{
     font-weight: 500;
     padding: 10px 6px;
 }
+
+.nice-select.form-control{
+    margin-bottom: 0px !important;
+}
