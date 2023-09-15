@@ -547,8 +547,8 @@ def passenger(request, signature):
                 time_limit = int(request.POST['time_limit_input'])
                 write_cache_file(request, signature, 'time_limit', time_limit)
 
-            set_session(request, 'signature', signature)
-            set_session(request, 'airline_signature', signature)
+            # set_session(request, 'signature', signature)
+            # set_session(request, 'airline_signature', signature)
             # signature = request.POST['signature']
         except Exception as e:
             _logger.info(str(e) + traceback.format_exc())
@@ -752,8 +752,8 @@ def passenger_aftersales(request, signature):
             except:
                 pass
 
-            set_session(request, 'signature', signature)
-            set_session(request, 'airline_signature', signature)
+            # set_session(request, 'signature', signature)
+            # set_session(request, 'airline_signature', signature)
             # signature = request.POST['signature']
         except Exception as e:
             _logger.info(str(e) + traceback.format_exc())
@@ -1577,7 +1577,7 @@ def seat_map(request, signature):
                         'airline_request': '',
                         'price': '',
                         'time_limit': '',
-                        'signature': request.session['airline_signature'],
+                        'signature': signature,
                     })
                 elif airline_get_booking_resp:
                     passenger = []
@@ -1610,7 +1610,7 @@ def seat_map(request, signature):
                         'airline_request': '',
                         'price': '',
                         'time_limit': '',
-                        'signature': request.session['airline_signature'],
+                        'signature': signature,
                     })
                 elif not hasattr(airline_get_booking_resp, 'dict'):
                     ## pre booking error
@@ -2317,8 +2317,8 @@ def review(request, signature):
                     # set_session(request, 'airline_price_itinerary_%s' % signature,json.loads(request.POST['airline_price_itinerary']))
                     # set_session(request, 'airline_get_price_request_%s' % signature,json.loads(request.POST['airline_price_itinerary_request']))
                     # set_session(request, 'airline_sell_journey_%s' % signature, json.loads(request.POST['airline_sell_journey_response']))
-                    set_session(request, 'signature', request.POST['signature'])
-                    set_session(request, 'airline_signature', request.POST['signature'])
+                    # set_session(request, 'signature', request.POST['signature'])
+                    # set_session(request, 'airline_signature', request.POST['signature'])
                     # set_session(request, 'airline_create_passengers_%s' % signature, json.loads(request.POST['airline_create_passengers']))
                     # set_session(request, 'airline_ssr_request_%s' % signature, json.loads(request.POST['airline_ssr_request']))
                     # set_session(request, 'airline_seat_request_%s' % signature, json.loads(request.POST['airline_seat_request']))
@@ -2624,7 +2624,7 @@ def review_after_sales(request, signature):
                 'addons_type': addons_type,
                 'javascript_version': javascript_version,
                 'static_path_url_server': get_url_static_path(),
-                'signature': request.session['airline_signature'],
+                'signature': signature,
                 'time_limit': 1200,
                 'page': page
                 # 'co_uid': request.session['co_uid'],
