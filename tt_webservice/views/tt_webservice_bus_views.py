@@ -127,8 +127,6 @@ def login(request):
                 write_cache_file(request, request.POST['frontend_signature'], 'bus_signature',res['result']['response']['signature'])
             if request.session['user_account'].get('co_customer_parent_seq_id'):
                 webservice_agent.activate_corporate_mode(request, res['result']['response']['signature'])
-            _logger.info(json.dumps(request.session['bus_signature']))
-
             _logger.info("SIGNIN BUS SUCCESS SIGNATURE " + res['result']['response']['signature'])
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())

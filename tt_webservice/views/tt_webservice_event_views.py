@@ -120,7 +120,7 @@ def login(request):
                 write_cache_file(request, request.POST['frontend_signature'], 'event_signature',res['result']['response']['signature'])
             if request.session['user_account'].get('co_customer_parent_seq_id'):
                 webservice_agent.activate_corporate_mode(request, res['result']['response']['signature'])
-            _logger.info(json.dumps(request.session['event_signature']))
+            _logger.info("SIGNIN EVENT SUCCESS SIGNATURE " + res['result']['response']['signature'])
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
