@@ -265,7 +265,7 @@ def login(request):
     try:
         if res['result']['error_code'] == 0:
             create_session_product(request, 'airline', 20, res['result']['response']['signature'])
-            # set_session(request, 'airline_signature', res['result']['response']['signature'])
+            set_session(request, 'airline_signature', res['result']['response']['signature'])
             set_session(request, 'signature', res['result']['response']['signature'])
             if request.POST.get('frontend_signature'):
                 write_cache_file(request, res['result']['response']['signature'], 'airline_frontend_signature',request.POST['frontend_signature'])

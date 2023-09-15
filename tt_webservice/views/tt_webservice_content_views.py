@@ -143,6 +143,8 @@ def api_models(request):
             res = get_agent_currency_rate(request)
         elif req_data['action'] == 'update_estimate_price':
             res = update_estimate_price(request)
+        elif req_data['action'] == 'get_breakdown_price':
+            res = get_breakdown_price(request)
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:
@@ -1468,13 +1470,16 @@ def get_provider_type_sequence(request):
 def get_agent_currency_rate(request):
     try:
         data = {}
+        if request.POST.get('signature'):
+            signature = request.POST['signature']
+        elif request.data.get('signature'):
+            signature = request.data['signature']
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
             "action": "get_agent_currency_rate",
-            "signature": request.POST['signature'],
+            "signature": signature
         }
-
         url_request = get_url_gateway('content')
     except Exception as e:
         _logger.error("%s, %s" % (str(e), traceback.format_exc()))
@@ -1487,11 +1492,9 @@ def get_agent_currency_rate(request):
         try:
             if res['result']['error_code'] == 0:
                 write_cache(res, 'currency_rate', request)
-                _logger.info("SUCCESS cancel_reservation_issued_request SIGNATURE " + request.POST['signature'])
+                _logger.info("SUCCESS cancel_reservation_issued_request SIGNATURE " + signature)
             else:
-                _logger.error(
-                    "ERROR cancel_reservation_issued_request SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(
-                        res))
+                _logger.error("ERROR cancel_reservation_issued_request SIGNATURE " + signature + ' ' + json.dumps(res))
         except Exception as e:
             _logger.error(str(e) + '\n' + traceback.format_exc())
 
@@ -1518,4 +1521,24 @@ def update_estimate_price(request):
         req = False
     write_cache(req, 'show_breakdown_price', request)
     return ERR.get_no_error_api()
+
+def get_breakdown_price(request):
+    file = read_cache("show_breakdown_price", 'cache_web', request, 90911)
+    if file:
+        res = {
+            "result": {
+                "response": file,
+                "error_code": 0,
+                "error_msg": ''
+            }
+        }
+    else:
+        res = {
+            "result": {
+                "response": file,
+                "error_code": 500,
+                "error_msg": 'Error'
+            }
+        }
+    return res
 
