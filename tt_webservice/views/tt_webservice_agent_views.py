@@ -1963,27 +1963,28 @@ def get_automatic_booker(request):
                                 pax['birth_date'].split('-')[0]),
                         })
                     if pax['identities'].get('passport'):
-                        pax['identities']['passport'].update({
-                            'identity_expdate': '%s %s %s' % (
-                                pax['identities']['passport']['identity_expdate'].split('-')[2], month[pax['identities']['passport']['identity_expdate'].split('-')[1]],
-                                pax['identities']['passport']['identity_expdate'].split('-')[0]),
-                        })
+                        if pax['identities']['passport'].get('identity_expdate'):
+                            pax['identities']['passport'].update({
+                                'identity_expdate': '%s %s %s' % (
+                                    pax['identities']['passport']['identity_expdate'].split('-')[2], month[pax['identities']['passport']['identity_expdate'].split('-')[1]],
+                                    pax['identities']['passport']['identity_expdate'].split('-')[0]),
+                            })
                     if pax['identities'].get('ktp'):
-                        if pax['identities']['ktp']['identity_expdate'] != '':
+                        if pax['identities']['ktp'].get('identity_expdate'):
                             pax['identities']['ktp'].update({
                                 'identity_expdate': '%s %s %s' % (
                                     pax['identities']['ktp']['identity_expdate'].split('-')[2], month[pax['identities']['ktp']['identity_expdate'].split('-')[1]],
                                     pax['identities']['ktp']['identity_expdate'].split('-')[0]),
                             })
                     if pax['identities'].get('sim'):
-                        if pax['identities']['sim']['identity_expdate'] != '':
+                        if pax['identities']['sim'].get('identity_expdate'):
                             pax['identities']['sim'].update({
                                 'identity_expdate': '%s %s %s' % (
                                     pax['identities']['sim']['identity_expdate'].split('-')[2], month[pax['identities']['sim']['identity_expdate'].split('-')[1]],
                                     pax['identities']['sim']['identity_expdate'].split('-')[0]),
                             })
                     if pax['identities'].get('other'):
-                        if pax['identities']['other']['identity_expdate'] != '':
+                        if pax['identities']['other'].get('identity_expdate'):
                             pax['identities']['other'].update({
                                 'identity_expdate': '%s %s %s' % (
                                     pax['identities']['other']['identity_expdate'].split('-')[2], month[pax['identities']['other']['identity_expdate'].split('-')[1]],
@@ -2101,27 +2102,28 @@ def get_customer_list(request):
                                 pax['birth_date'].split('-')[0]),
                         })
                     if pax['identities'].get('passport'):
-                        pax['identities']['passport'].update({
-                            'identity_expdate': '%s %s %s' % (
-                                pax['identities']['passport']['identity_expdate'].split('-')[2], month[pax['identities']['passport']['identity_expdate'].split('-')[1]],
-                                pax['identities']['passport']['identity_expdate'].split('-')[0]),
-                        })
+                        if pax['identities']['passport'].get('identity_expdate'):
+                            pax['identities']['passport'].update({
+                                'identity_expdate': '%s %s %s' % (
+                                    pax['identities']['passport']['identity_expdate'].split('-')[2], month[pax['identities']['passport']['identity_expdate'].split('-')[1]],
+                                    pax['identities']['passport']['identity_expdate'].split('-')[0]),
+                            })
                     if pax['identities'].get('ktp'):
-                        if pax['identities']['ktp']['identity_expdate'] != '':
+                        if pax['identities']['ktp'].get('identity_expdate'):
                             pax['identities']['ktp'].update({
                                 'identity_expdate': '%s %s %s' % (
                                     pax['identities']['ktp']['identity_expdate'].split('-')[2], month[pax['identities']['ktp']['identity_expdate'].split('-')[1]],
                                     pax['identities']['ktp']['identity_expdate'].split('-')[0]),
                             })
                     if pax['identities'].get('sim'):
-                        if pax['identities']['sim']['identity_expdate'] != '':
+                        if pax['identities']['sim'].get('identity_expdate'):
                             pax['identities']['sim'].update({
                                 'identity_expdate': '%s %s %s' % (
                                     pax['identities']['sim']['identity_expdate'].split('-')[2], month[pax['identities']['sim']['identity_expdate'].split('-')[1]],
                                     pax['identities']['sim']['identity_expdate'].split('-')[0]),
                             })
                     if pax['identities'].get('other'):
-                        if pax['identities']['other']['identity_expdate'] != '':
+                        if pax['identities']['other'].get('identity_expdate'):
                             pax['identities']['other'].update({
                                 'identity_expdate': '%s %s %s' % (
                                     pax['identities']['other']['identity_expdate'].split('-')[2], month[pax['identities']['other']['identity_expdate'].split('-')[1]],
