@@ -1630,7 +1630,7 @@ function get_va_number(){
             text += `
                 <div class="col-lg-12" id="radio_top_up" style="padding:0px; text-align:left;margin-bottom:10px;" onchange="change_top_up_method();">
                     <label class="radio-button-custom" style="margin-bottom:0px;">
-                        <span style="font-size:13px;"> `+name+` Gateway</span>
+                        <span style="font-size:13px;"> Transfer Bank</span>
                         <input type="radio" checked="checked" name="top_up_radio" value="`+name+`">
                         <span class="checkmark-radio"></span>
                     </label>`;
