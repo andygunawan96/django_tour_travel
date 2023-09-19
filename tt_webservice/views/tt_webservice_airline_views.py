@@ -8,7 +8,7 @@ from tools.parser import *
 from ..static.tt_webservice.url import *
 from .tt_webservice_views import *
 from ..views import tt_webservice_agent_views as webservice_agent
-from ..views import tt_webservice_content_views as webservice_content
+# from ..views import tt_webservice_content_views as webservice_content
 from .tt_webservice_voucher_views import *
 from .tt_webservice import *
 import base64
@@ -5579,8 +5579,8 @@ def search_mobile(request):
             departure_return = []
             available_count = []
             country_detail = {}
-            breakdown_price_data = webservice_content.get_breakdown_price(request)
-            agent_rate_data = webservice_content.get_agent_currency_rate(request)
+            breakdown_price_data = get_breakdown_price(request)
+            agent_rate_data = get_agent_currency_rate(request)
             for journey_list in res['result']['response']['schedules']:
                 for journey in journey_list['journeys']:
                     class_of_service_list = []
@@ -5935,6 +5935,65 @@ def search_mobile(request):
             'result': res
         }
     return response_search
+
+def get_breakdown_price(request):
+    file = read_cache("show_breakdown_price", 'cache_web', request, 90911)
+    if file:
+        res = {
+            "result": {
+                "response": file,
+                "error_code": 0,
+                "error_msg": ''
+            }
+        }
+    else:
+        res = {
+            "result": {
+                "response": file,
+                "error_code": 500,
+                "error_msg": 'Error'
+            }
+        }
+    return res
+
+def get_agent_currency_rate(request):
+    try:
+        data = {}
+        if request.POST.get('signature'):
+            signature = request.POST['signature']
+        elif request.data.get('signature'):
+            signature = request.data['signature']
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "get_agent_currency_rate",
+            "signature": signature
+        }
+        url_request = get_url_gateway('content')
+    except Exception as e:
+        _logger.error("%s, %s" % (str(e), traceback.format_exc()))
+
+    file = read_cache("currency_rate", 'cache_web', request, 86400)
+    if file:
+        res = file
+    else:
+        res = send_request_api(request, url_request, headers, data, 'POST', 300)
+        try:
+            if res['result']['error_code'] == 0:
+                write_cache(res, 'currency_rate', request)
+                _logger.info("SUCCESS cancel_reservation_issued_request SIGNATURE " + signature)
+            else:
+                _logger.error("ERROR cancel_reservation_issued_request SIGNATURE " + signature + ' ' + json.dumps(res))
+        except Exception as e:
+            _logger.error(str(e) + '\n' + traceback.format_exc())
+
+    file = read_cache("currency_rate_show", 'cache_web', request, 90911)
+    if file:
+        res['result'].update(file)
+    else:
+        res['result']['is_show'] = False
+        # res['result']['is_show_provider'] = []
+    return res
 
 def getrupiah(price):
     try:
