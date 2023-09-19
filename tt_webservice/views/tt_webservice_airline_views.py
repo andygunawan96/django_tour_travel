@@ -5908,7 +5908,7 @@ def search_mobile(request):
                                 for svc_summary in fare['service_charge_summary']:
                                     if not svc_summary['pax_type'] in ['CHD', 'INF']:
                                         for svc in svc_summary['service_charges']:
-                                            if svc not in breakdown_price_dict:
+                                            if svc['charge_type'] not in breakdown_price_dict:
                                                 breakdown_price_dict[svc['charge_type']] = 0
                                             breakdown_price_dict[svc['charge_type']] += svc['amount']
                                         break
