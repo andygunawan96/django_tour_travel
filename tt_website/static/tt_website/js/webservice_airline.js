@@ -3764,7 +3764,14 @@ function change_fare(journey, segment, fares, fare_code){
             for(j in price_breakdown){
                 if(breakdown_text)
                     breakdown_text += '<br/>';
-                breakdown_text += '<b>'+j+'</b> ' + airline_data_filter[journey].currency + ' ' + getrupiah(price_breakdown[j]);
+                if(j != 'ROC')
+                    breakdown_text += '<b>'+j+'</b> ';
+                else
+                    breakdown_text += '<b>CONVENIENCE FEE</b> ';
+                breakdown_text += airline_data_filter[journey].currency + ' ' + getrupiah(price_breakdown[j]);
+//                if(breakdown_text)
+//                    breakdown_text += '<br/>';
+//                breakdown_text += '<b>'+j+'</b> ' + airline_data_filter[journey].currency + ' ' + getrupiah(price_breakdown[j]);
             }
             new jBox('Tooltip', {
                 attach: '#fare'+journey,
