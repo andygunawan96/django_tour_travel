@@ -8,6 +8,7 @@ from tools.parser import *
 from ..static.tt_webservice.url import *
 from .tt_webservice_views import *
 from ..views import tt_webservice_agent_views as webservice_agent
+from ..views import tt_webservice_content_views as webservice_content
 from .tt_webservice_voucher_views import *
 from .tt_webservice import *
 import base64
@@ -5578,8 +5579,11 @@ def search_mobile(request):
             departure_return = []
             available_count = []
             country_detail = {}
+            breakdown_price_data = webservice_content.get_breakdown_price(request)
+            agent_rate_data = webservice_content.get_agent_currency_rate(request)
             for journey_list in res['result']['response']['schedules']:
                 for journey in journey_list['journeys']:
+                    class_of_service_list = []
                     check_segment_fare = True
                     available_seat = 100
                     if provider_list_data.get(journey['provider']):
@@ -5768,10 +5772,21 @@ def search_mobile(request):
 
                             choose_fare = True
                             for idz, fare in enumerate(segment['fares']):
+                                if fare['cabin_class'] == 'Y':
+                                    fare['cabin_class_name'] = 'Economy'
+                                elif fare['cabin_class'] == 'W' and segment['carrier_code'] == 'QG':
+                                    fare['cabin_class_name'] = 'Royal Green'
+                                elif fare['cabin_class'] == 'W':
+                                    fare['cabin_class_name'] = 'Premium Economy'
+                                elif fare['cabin_class'] == 'C':
+                                    fare['cabin_class_name'] = 'Business'
+                                elif fare['cabin_class'] == 'F':
+                                    fare['cabin_class_name'] = 'First Class'
                                 if int(fare['available_count']) >= (request.data['adult'] + request.data['child']) and choose_fare and check_segment_fare:
                                     choose_fare = False
                                     fare['pick'] = True
                                     segment['fare_pick'] = idz
+                                    class_of_service_list.append(fare['class_of_service'])
                                     add_new_data = True
                                     for fare_detail in fare['fare_details']:
                                         add_new_data = True
@@ -5873,6 +5888,39 @@ def search_mobile(request):
                     journey['fare_details_pick'] = fare_details
                     journey['sequence'] = journey['journey_code']
                     journey['show_detail'] = False
+                    journey['class_of_service_list'] = class_of_service_list
+
+                    breakdown_price_list = []
+                    breakdown_price_dict = {}
+                    estimated_price = []
+
+                    if journey['totalprice_with_discount'] != 0 and agent_rate_data['result']['is_show']:
+                        for currency in agent_rate_data['result']['response']['agent'][request.data['co_ho_seq_id']]:
+                            estimated_price.append({
+                                "currency": currency,
+                                "price_show": getrupiah(journey['totalprice_with_discount'] / agent_rate_data['result']['response']['agent'][request.data['co_ho_seq_id']][currency]['rate'])
+                            })
+                        if len(estimated_price) > 0:
+                            journey['estimated_price'] = estimated_price
+                    if breakdown_price_data['result']['response']:
+                        for segment in journey['segments']:
+                            for fare in segment['fares']:
+                                for svc_summary in fare['service_charge_summary']:
+                                    if not svc_summary['pax_type'] in ['CHD', 'INF']:
+                                        for svc in svc_summary['service_charges']:
+                                            if svc not in breakdown_price_dict:
+                                                breakdown_price_dict[svc['charge_type']] = 0
+                                            breakdown_price_dict[svc['charge_type']] += svc['amount']
+                                        break
+                                if breakdown_price_dict:
+                                    break
+                        if breakdown_price_dict:
+                            for data_breakdown in breakdown_price_dict:
+                                breakdown_price_list.append({
+                                    "charge_type": data_breakdown,
+                                    "amount": breakdown_price_dict[data_breakdown]
+                                })
+                            journey['breakdown_price'] = breakdown_price_list
 
             _logger.error("SUCCESS SEARCH AIRLINE SIGNATURE " + request.data['signature'])
         else:
