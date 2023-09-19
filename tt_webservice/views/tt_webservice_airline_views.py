@@ -5918,7 +5918,7 @@ def search_mobile(request):
                             for data_breakdown in breakdown_price_dict:
                                 breakdown_price_list.append({
                                     "charge_type": data_breakdown,
-                                    "amount": breakdown_price_dict[data_breakdown]
+                                    "amount": getrupiah(breakdown_price_dict[data_breakdown])
                                 })
                             journey['breakdown_price'] = breakdown_price_list
 
