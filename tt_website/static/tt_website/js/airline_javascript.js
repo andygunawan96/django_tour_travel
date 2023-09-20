@@ -5903,6 +5903,8 @@ function airline_detail(type){
                             if($text_description)
                                 $text += $text_description;
 
+                            if(!$text_ssr && !$text_description)
+                                $text += '\n';
 
         //                    $text += '\n\n';
         //                    $text += '‣ Departure:\n';
@@ -5916,11 +5918,11 @@ function airline_detail(type){
                             $text += '- Departure: ' + price_itinerary_temp[i].journeys[j].segments[k].origin_city + ', ' + price_itinerary_temp[i].journeys[j].segments[k].origin_country + ' (' + price_itinerary_temp[i].journeys[j].segments[k].origin + ') ';
                             $text += price_itinerary_temp[i].journeys[j].segments[k].departure_date.split(' - ')[0] + ' at ' + price_itinerary_temp[i].journeys[j].segments[k].departure_date.split(' - ')[1] + '\n';
                             if(price_itinerary_temp[i].journeys[j].segments[k].origin_terminal)
-                                $text += '- Terminal: ' + price_itinerary_temp[i].journeys[j].segments[k].origin_terminal + '\n';
+                                $text += 'Terminal: ' + price_itinerary_temp[i].journeys[j].segments[k].origin_terminal + '\n';
                             $text += '- Arrival: ' + price_itinerary_temp[i].journeys[j].segments[k].destination_city  + ', ' + price_itinerary_temp[i].journeys[j].segments[k].destination_country + ' (' + price_itinerary_temp[i].journeys[j].segments[k].destination + ') ';
                             $text += price_itinerary_temp[i].journeys[j].segments[k].arrival_date.split(' - ')[0] + ' at ' + price_itinerary_temp[i].journeys[j].segments[k].arrival_date.split(' - ')[1] + '\n';
-                            if(price_itinerary_temp[i].journeys[j].segments[k].arrival_terminal)
-                                $text += '- Terminal: ' + price_itinerary_temp[i].journeys[j].segments[k].arrival_terminal + '\n';
+                            if(price_itinerary_temp[i].journeys[j].segments[k].destination_terminal)
+                                $text += 'Terminal: ' + price_itinerary_temp[i].journeys[j].segments[k].destination_terminal + '\n';
                             $text += '\n';
                             // NEW //
 
