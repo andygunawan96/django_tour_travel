@@ -1368,8 +1368,8 @@ def detail_page(request):
         file = read_cache_file(request, request.POST['signature'], 'hotel_request')
         if file:
             res['hotel_search'] = file
-            res['check_in'] = file['checkin_date']
-            res['check_out'] = file['checkout_date']
+            res['check_in'] = convert_string_to_date_to_string_front_end(file['checkin_date'])
+            res['check_out'] = convert_string_to_date_to_string_front_end(file['checkout_date'])
 
         file = read_cache_file(request, request.POST['signature'], 'hotel_detail')
         if file:

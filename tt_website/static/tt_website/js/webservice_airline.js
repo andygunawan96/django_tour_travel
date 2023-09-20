@@ -4850,12 +4850,12 @@ function draw_get_price_itinerary(){
                                                     $text += '- Departure: ' + get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].origin_city + ', ' + get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].origin_country + ' (' + get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].origin + ') ';
                                                     $text += get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].departure_date.split(' - ')[0] + ' at ' + get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].departure_date.split(' - ')[1] + '\n';
                                                     if(get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].origin_terminal)
-                                                        $text += '- Terminal  : '+get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].origin_terminal+'\n';
+                                                        $text += 'Terminal  : '+get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].origin_terminal+'\n';
 
                                                     $text += '- Arrival: ' + get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].destination_city + ', ' + get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].destination_country + ' (' + get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].destination + ') ';
                                                     $text += get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].arrival_date.split(' - ')[0] + ' at ' + get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].arrival_date.split(' - ')[1] + '\n';
                                                     if(get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].destination_terminal)
-                                                        $text += '- Terminal  : '+get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].destination_terminal+'\n';
+                                                        $text += 'Terminal  : '+get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].destination_terminal+'\n';
                                                     // NEW //
 
 //                                                    $text += get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].origin_city + ' (' + get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].origin + ') - ' + get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].destination_city + ' (' + get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].destination + ')\n';
@@ -9581,7 +9581,7 @@ function airline_get_booking(data, sync=false){
                 text+=`
                         <div class="col-lg-6">
                             <label class="check_box_custom">
-                                <span class="span-search-ticket" style="color:black;">force get new tickets</span>
+                                <span class="span-search-ticket" style="color:black;">Force Get New Printout</span>
                                 <input type="checkbox" id="is_force_get_new_printout" name="is_force_get_new_printout"/>
                                 <span class="check_box_span_custom"></span>
                             </label>

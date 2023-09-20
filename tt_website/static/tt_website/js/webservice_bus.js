@@ -1193,7 +1193,7 @@ function bus_get_booking(data, sync=false){
                 text+=`
                         <div class="col-lg-6">
                             <label class="check_box_custom">
-                                <span class="span-search-ticket" style="color:black;">force get new tickets</span>
+                                <span class="span-search-ticket" style="color:black;">Force Get New Printout</span>
                                 <input type="checkbox" id="is_force_get_new_printout" name="is_force_get_new_printout"/>
                                 <span class="check_box_span_custom"></span>
                             </label>

@@ -281,6 +281,10 @@ def detail_with_path(request, id, signature):
             file = read_cache_file(request, signature, 'hotel_request')
             if file:
                 hotel_request = file
+                if hotel_request.get('checkin_date'):
+                    hotel_request['checkin_date'] = convert_string_to_date_to_string_front_end(hotel_request['checkin_date'])
+                if hotel_request.get('checkout_date'):
+                    hotel_request['checkout_date'] = convert_string_to_date_to_string_front_end(hotel_request['checkout_date'])
 
             file = read_cache_file(request, signature, 'hotel_detail')
             if file:
@@ -349,6 +353,10 @@ def detail(request, signature):
             file = read_cache_file(request, signature, 'hotel_request')
             if file:
                 data = file
+                if data.get('checkin_date'):
+                    data['checkin_date'] = convert_string_to_date_to_string_front_end(data['checkin_date'])
+                if data.get('checkout_date'):
+                    data['checkout_date'] = convert_string_to_date_to_string_front_end(data['checkout_date'])
 
             file = read_cache_file(request, signature, 'hotel_detail')
             if file:
@@ -749,6 +757,10 @@ def review(request, signature):
             file = read_cache_file(request, signature, 'hotel_request')
             if file:
                 hotel_request = file
+                if hotel_request.get('checkin_date'):
+                    hotel_request['checkin_date'] = convert_string_to_date_to_string_front_end(hotel_request['checkin_date'])
+                if hotel_request.get('checkout_date'):
+                    hotel_request['checkout_date'] = convert_string_to_date_to_string_front_end(hotel_request['checkout_date'])
 
             file = read_cache_file(request, signature, 'hotel_room_pick')
             if file:
