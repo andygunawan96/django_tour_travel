@@ -265,14 +265,13 @@ def login(request):
     try:
         if res['result']['error_code'] == 0:
             create_session_product(request, 'airline', 20, res['result']['response']['signature'])
-            set_session(request, 'airline_signature', res['result']['response']['signature'])
+            # set_session(request, 'airline_signature', res['result']['response']['signature'])
             set_session(request, 'signature', res['result']['response']['signature'])
             if request.POST.get('frontend_signature'):
                 write_cache_file(request, res['result']['response']['signature'], 'airline_frontend_signature',request.POST['frontend_signature'])
                 write_cache_file(request, request.POST['frontend_signature'], 'airline_signature',res['result']['response']['signature'])
             if request.session['user_account'].get('co_customer_parent_seq_id'):
                 webservice_agent.activate_corporate_mode(request, res['result']['response']['signature'])
-            _logger.info(json.dumps(request.session['airline_signature']))
             _logger.info("SIGNIN AIRLINE SUCCESS SIGNATURE " + res['result']['response']['signature'])
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
