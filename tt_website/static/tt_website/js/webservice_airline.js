@@ -7908,6 +7908,8 @@ function airline_get_booking(data, sync=false){
                     }catch(err){
                         console.log(err); // error kalau ada element yg tidak ada
                     }
+                }else{
+                    document.getElementById('div_sync_status').hidden = true;
                 }
                 for(i in msg.result.response.passengers[0].sale_service_charges){
                     for(j in msg.result.response.passengers[0].sale_service_charges[i]){
@@ -7925,7 +7927,11 @@ function airline_get_booking(data, sync=false){
                     if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
                         if(msg.result.response.state != 'issued' && time_now < moment(localTime).format('YYYY-MM-DD HH:mm:SS')){
                             document.getElementById('div_sync_reprice').hidden = false;
+                        }else{
+                            document.getElementById('div_sync_reprice').hidden = true;
                         }
+                    }else{
+                        document.getElementById('div_sync_reprice').hidden = true;
                     }
                     msg.result.response.hold_date = moment(localTime).format('DD MMM YYYY HH:mm');
                     var now = moment();
