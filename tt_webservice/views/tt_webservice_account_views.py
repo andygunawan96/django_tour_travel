@@ -1558,7 +1558,7 @@ def get_va_number(request):
                 }]
             })
             for rec in res['result']['response']:
-                if rec != 'min_topup_amount':
+                if rec not in ['min_topup_amount', 'topup_increment_amount']:
                     for data in res['result']['response'][rec]:
                         if type(data['acquirer_seq_id']) == str:
                             file = read_cache(data['acquirer_seq_id'], "payment_information", request, 90911)
