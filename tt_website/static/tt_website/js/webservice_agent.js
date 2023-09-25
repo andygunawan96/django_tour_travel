@@ -10326,6 +10326,7 @@ function create_request_cor(){
 
 
     if(error_log == ''){
+        document.getElementById('create_request_cor_btn').disabled = true;
         $.ajax({
            type: "POST",
            url: "/webservice/agent",
@@ -10351,6 +10352,7 @@ function create_request_cor(){
                       html: msg.result.error_msg,
                     })
                 }
+                document.getElementById('create_request_cor_btn').disabled = false;
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
                 error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error update passenger');

@@ -1647,6 +1647,7 @@ function get_va_number(){
                             payment_how_to_obj = msg.result.response;
                         }
                         min_topup_amount = msg.result.response.min_topup_amount;
+                        topup_increment_amt = msg.result.response.topup_increment_amount;
                     }catch(err){
                         console.log(err) //ada element yg tidak ada
                     }
@@ -1858,7 +1859,7 @@ function change_top_up_method(){
                 <div class="col-lg-12">
                     <span>Amount</span><br/>
                     <div class="input-container-search-ticket">
-                        <input min="`+min_topup_amount+`" step="`+min_topup_amount+`" name="amount" id="amount" class="form-control" required="required" onkeyup="`;
+                        <input min="`+min_topup_amount+`" step="`+topup_increment_amt+`" name="amount" id="amount" class="form-control" required="required" onkeyup="`;
                 text+=`total_price_top_up();`;
                 text+=`" placeholder="Min `+currency_code+` `+getrupiah(min_topup_amount)+`">
                         </div>

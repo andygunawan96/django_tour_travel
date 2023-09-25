@@ -4850,12 +4850,12 @@ function draw_get_price_itinerary(){
                                                     $text += '- Departure: ' + get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].origin_city + ', ' + get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].origin_country + ' (' + get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].origin + ') ';
                                                     $text += get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].departure_date.split(' - ')[0] + ' at ' + get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].departure_date.split(' - ')[1] + '\n';
                                                     if(get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].origin_terminal)
-                                                        $text += '- Terminal  : '+get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].origin_terminal+'\n';
+                                                        $text += 'Terminal  : '+get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].origin_terminal+'\n';
 
                                                     $text += '- Arrival: ' + get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].destination_city + ', ' + get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].destination_country + ' (' + get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].destination + ') ';
                                                     $text += get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].arrival_date.split(' - ')[0] + ' at ' + get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].arrival_date.split(' - ')[1] + '\n';
                                                     if(get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].destination_terminal)
-                                                        $text += '- Terminal  : '+get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].destination_terminal+'\n';
+                                                        $text += 'Terminal  : '+get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].destination_terminal+'\n';
                                                     // NEW //
 
 //                                                    $text += get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].origin_city + ' (' + get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].origin + ') - ' + get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].destination_city + ' (' + get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].destination + ')\n';
@@ -7908,6 +7908,8 @@ function airline_get_booking(data, sync=false){
                     }catch(err){
                         console.log(err); // error kalau ada element yg tidak ada
                     }
+                }else{
+                    document.getElementById('div_sync_status').hidden = true;
                 }
                 for(i in msg.result.response.passengers[0].sale_service_charges){
                     for(j in msg.result.response.passengers[0].sale_service_charges[i]){
@@ -7925,7 +7927,11 @@ function airline_get_booking(data, sync=false){
                     if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
                         if(msg.result.response.state != 'issued' && time_now < moment(localTime).format('YYYY-MM-DD HH:mm:SS')){
                             document.getElementById('div_sync_reprice').hidden = false;
+                        }else{
+                            document.getElementById('div_sync_reprice').hidden = true;
                         }
+                    }else{
+                        document.getElementById('div_sync_reprice').hidden = true;
                     }
                     msg.result.response.hold_date = moment(localTime).format('DD MMM YYYY HH:mm');
                     var now = moment();
@@ -9581,7 +9587,7 @@ function airline_get_booking(data, sync=false){
                 text+=`
                         <div class="col-lg-6">
                             <label class="check_box_custom">
-                                <span class="span-search-ticket" style="color:black;">force get new tickets</span>
+                                <span class="span-search-ticket" style="color:black;">Force Get New Printout</span>
                                 <input type="checkbox" id="is_force_get_new_printout" name="is_force_get_new_printout"/>
                                 <span class="check_box_span_custom"></span>
                             </label>
