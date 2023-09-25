@@ -1921,7 +1921,7 @@ function check_top_up(){
 //        if(document.getElementById('amount').value.split(',')[document.getElementById('amount').value.split(',').length-1] != '000'){
 //            error_text += 'Please input last 3 digits amount 000\n';
 //        }
-        if(parseInt(document.getElementById('amount').value.replace(',', '')) % topup_increment_amt != 0){
+        if(parseInt(document.getElementById('amount').value.replaceAll(',', '')) % topup_increment_amt != 0){
             error_text += 'Can only input multiplies of '+getrupiah(topup_increment_amt)+'\n';
         }
         else if(parseInt(document.getElementById('amount').value.split(',').join('')) < min_topup_amount){
