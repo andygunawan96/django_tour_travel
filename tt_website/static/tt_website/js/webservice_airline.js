@@ -3549,7 +3549,7 @@ function draw_recommendation_maps(){
             text_recom_maps +=`
             <div class="row" style="background:white; padding-bottom:15px; margin-bottom:15px; border-top:1px solid #cdcdcd; border-bottom:1px solid #cdcdcd;">
                 <div class="col-lg-12">
-                    <Text>`+recommendation_maps[idx_recom][0]+`. `;
+                    <Text>`+recommendation_maps[idx_recom][0]+`. </Text><br/><Text>`;
             for(idx_journey in recommendation_maps[idx_recom]){
                 if(idx_journey > 2)
                     text_recom_maps += recommendation_maps[idx_recom][idx_journey] + '<br/>';
