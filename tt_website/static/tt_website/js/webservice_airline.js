@@ -3576,7 +3576,13 @@ function draw_recommendation_maps(){
 
 function choose_recommendation_ticket(journey_code, fare_code){
     journey_code_list = JSON.parse(journey_code);
-    fare_code_list = JSON.parse(fare_code);
+    fare_code_list = [];
+    fare_code_list_of_list = JSON.parse(fare_code);
+    for(fare_code_list_of_list_i in fare_code_list_of_list){
+        for(fare_code_list_of_list_j in fare_code_list_of_list[fare_code_list_of_list_i].split(';')){
+            fare_code_list.push(fare_code_list_of_list[fare_code_list_of_list_i].split(';')[fare_code_list_of_list_j]);
+        }
+    }
     if(airline_pick_list.length > 0)
         change_departure(1);
     fare_code_sequence = 0;
