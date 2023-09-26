@@ -1964,6 +1964,71 @@ function check_top_up(){
     }
 }
 
+function get_phone_code(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/account",
+       headers:{
+            'action': 'get_phone_code',
+       },
+       data: {},
+       success: function(msg) {
+            phone_code = msg.phone_code
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get phone code');
+       },timeout: 10000
+    });
+}
+
+function create_va_number(){
+    var phone_number = '';
+    if(document.getElementById('phone_number').value[0] == 0){
+        phone_number += document.getElementById('phone_number').value.substr(1,document.getElementById('phone_number').value.length);
+    }else{
+        phone_number += document.getElementById('phone_number').value;
+    }
+    if(document.getElementById('phone_number').value != '' && check_number(document.getElementById('phone_number').value)){
+        $('#create_va_btn').addClass("running");
+        $('#create_va_btn').prop('disabled', true);
+
+        $.ajax({
+           type: "POST",
+           url: "/webservice/account",
+           headers:{
+                'action': 'create_va_number',
+           },
+           data: {
+                'signature': signature,
+                'calling_number': phone_number,
+                'calling_code': document.getElementById('phone_code_id').value
+           },
+           success: function(msg) {
+                if(msg.result.error_code == 0){
+                    window.location.reload();
+                }else{
+                    Swal.fire({
+                        type: 'error',
+                        title: 'Oops!',
+                        html: msg.result.error_msg,
+                    })
+                    $('#create_va_btn').removeClass("running");
+                    $('#create_va_btn').prop('disabled', false);
+                }
+           },
+           error: function(XMLHttpRequest, textStatus, errorThrown) {
+                error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get phone code');
+           },timeout: 60000
+        });
+    }else{
+        Swal.fire({
+            type: 'error',
+            title: 'Oops!',
+            html: 'Please fill phone number',
+        })
+    }
+}
+
 function get_payment_acquirer_top_up(val){
     top_up_value = val;
     get_payment_acq('Confirm','', '', 'top_up', signature, 'top_up','HO.1636001', '');
