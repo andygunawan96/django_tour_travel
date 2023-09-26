@@ -1736,7 +1736,16 @@ def get_web_mode(request):
 
     return web_mode
 
+def get_ip_address(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    _logger.info('IP: %s' % ip)
+
 def get_data_template(request, type='home', provider_type = []):
+    get_ip_address(request)
     path = var_log_path(request, 'live_chat')
     if not os.path.exists(path):
         os.mkdir(path)
