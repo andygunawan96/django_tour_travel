@@ -1845,7 +1845,7 @@ def create_va_number(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-        url_request = get_url_gateway('account')
+    url_request = get_url_gateway('account')
     res = send_request_api(request, url_request, headers, data, 'POST')
     return res
 
