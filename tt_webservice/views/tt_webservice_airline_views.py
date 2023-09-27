@@ -5921,7 +5921,8 @@ def search_mobile(request):
                                     "amount": getrupiah(breakdown_price_dict[data_breakdown])
                                 })
                             journey['breakdown_price'] = breakdown_price_list
-
+            if res['result']['response'].get('recommendation_maps'):
+                res['result']['response'].pop('recommendation_maps')
             _logger.error("SUCCESS SEARCH AIRLINE SIGNATURE " + request.data['signature'])
         else:
             _logger.error("ERROR SEARCH AIRLINE SIGNATURE " + request.data['signature'] + ' ' + json.dumps(res))
