@@ -1834,7 +1834,8 @@ def create_va_number(request):
     try:
         data = {
             'calling_code': request.POST['calling_code'],
-            'calling_number': request.POST['calling_number']
+            'calling_number': request.POST['calling_number'],
+            'email': request.POST['email']
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",

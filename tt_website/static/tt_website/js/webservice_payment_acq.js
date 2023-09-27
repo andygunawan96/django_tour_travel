@@ -1820,28 +1820,38 @@ function change_top_up_method(){
                         text+=`
                         </h5>
                     </div>
-                    <div class="row" style="margin-left:20px;">
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-5">
-                            <div class="form-select" style="margin-bottom:0px;">
-                                <select class="form-control js-example-basic-single" name="phone_code_id" style="width:100%;" id="phone_code_id" class="nice-select-default">
+                    <div class="col-lg-12" style="margin-left:20px;">
+                        <label >Phone Number</label>
+                        <div class="row">
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-5">
+                                <div class="form-select" style="margin-bottom:0px;">
+                                    <select class="form-control js-example-basic-single" name="phone_code_id" style="width:100%;" id="phone_code_id" class="nice-select-default">
+                                    `;
+                        if(typeof(phone_code) !== 'undefined'){
+                            for(x in phone_code){
+                                text+=`
+                                       <option value="`+phone_code[x]+`" `;
+                                if(phone_code[x] == 62)
+                                    text += 'selected';
+                                text+=`>`+phone_code[x]+`</option>
                                 `;
-                    if(typeof(phone_code) !== 'undefined'){
-                        for(x in phone_code){
-                            text+=`
-                                   <option value="`+phone_code[x]+`" `;
-                            if(phone_code[x] == 62)
-                                text += 'selected';
-                            text+=`>`+phone_code[x]+`</option>
-                            `;
+                            }
                         }
-                    }
-                    text+=`
-                                </select>
+                        text+=`
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-7">
+                                <input type="text" class="form-control" style="margin-bottom:0px;" name="phone_number" id="phone_number" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '">
                             </div>
                         </div>
-                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-7">
-                            <input type="text" class="form-control" style="margin-bottom:0px;" name="phone_number" id="phone_number" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '">
+                    </div>
+                    <div class="col-lg-12" id="email_div" style="margin-left:20px;" hidden>
+                        <label>Email</label>
+                        <div class="input-container-search-ticket">
+                            <input type="text" class="form-control" style="margin-bottom:0px;" name="email" id="email" placeholder="Email Address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '">
                         </div>
+                        <span style="font-size:12px; padding:0;">Example: email@example.com</span>
                     </div>
                     <div class="col-lg-12" style="display: flex;align-items: center;margin-left:20px;">
                         <button type="button" class="primary-btn pull-right ld-ext-right" id="create_va_btn" onclick="create_va_number();">

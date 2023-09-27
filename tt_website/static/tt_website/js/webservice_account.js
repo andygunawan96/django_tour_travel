@@ -2001,7 +2001,8 @@ function create_va_number(){
            data: {
                 'signature': signature,
                 'calling_number': phone_number,
-                'calling_code': document.getElementById('phone_code_id').value
+                'calling_code': document.getElementById('phone_code_id').value,
+                'email': document.getElementById('email').value
            },
            success: function(msg) {
                 if(msg.result.error_code == 0){
@@ -2014,6 +2015,9 @@ function create_va_number(){
                     })
                     $('#create_va_btn').removeClass("running");
                     $('#create_va_btn').prop('disabled', false);
+                    if(msg.result.error_msg.includes('Please fill email')){
+                        document.getElementById('email_div').hidden = false;
+                    }
                 }
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
