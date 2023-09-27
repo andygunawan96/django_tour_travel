@@ -169,6 +169,8 @@ def api_models(request):
             res = get_phone_code(request)
         elif req_data['action'] == 'create_va_number':
             res = create_va_number(request)
+        elif req_data['action'] == 'get_provider_type':
+            res = get_provider_type(request)
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:
@@ -1848,6 +1850,20 @@ def create_va_number(request):
 
     url_request = get_url_gateway('account')
     res = send_request_api(request, url_request, headers, data, 'POST')
+    return res
+
+def get_provider_type(request):
+    res = {
+        "provider": []
+    }
+    file = read_cache("provider_types_sequence", 'cache_web', request, 90911)
+    if file:
+        for provider_type in file:
+            res['provider'].append({
+                "code": provider_type,
+                "sequence": file[provider_type]['sequence'],
+                "display": file[provider_type]['display'] if file[provider_type].get('display') else ("%s%s" % (provider_type[0].upper(), provider_type[1:]))
+            })
     return res
 
 #DEPRECATED
