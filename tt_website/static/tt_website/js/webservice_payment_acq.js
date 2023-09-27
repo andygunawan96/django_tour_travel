@@ -1629,13 +1629,9 @@ function get_va_number(){
             text = '';
             text += `
                 <div class="col-lg-12" id="radio_top_up" style="padding:0px; text-align:left;margin-bottom:10px;" onchange="change_top_up_method();">
-                    <label class="radio-button-custom" style="margin-bottom:0px;">
-                        <span style="font-size:13px;"> Transfer Bank</span>
-                        <input type="radio" checked="checked" name="top_up_radio" value="`+name+`">
-                        <span class="checkmark-radio"></span>
-                    </label>`;
+                    `;
                     try{
-                        if(msg.result.response.va && msg.result.response.va.length != 0)
+                        if(msg.result.response.is_ho_have_open_top_up)
                         {
                             text+=`
                             <label class="radio-button-custom" style="margin-bottom:0px;">
@@ -1652,8 +1648,18 @@ function get_va_number(){
                         console.log(err) //ada element yg tidak ada
                     }
                     text+=`
+                    <label class="radio-button-custom" style="margin-bottom:0px;">
+                        <span style="font-size:13px;"> Transfer Bank</span>
+                        <input type="radio" name="top_up_radio" value="`+name+`">
+                        <span class="checkmark-radio"></span>
+                    </label>
                 </div>`;
             document.getElementById('top_up_method_div').innerHTML = text + document.getElementById('top_up_method_div').innerHTML;
+            if(msg.result.response.hasOwnProperty('va') && msg.result.response.va.length > 0 || msg.result.response.is_ho_have_open_top_up){
+                document.getElementsByName('top_up_radio')[0].checked = true;
+            }else{
+                document.getElementsByName('top_up_radio')[1].checked = true;
+            }
             change_top_up_method();
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -1698,12 +1704,108 @@ function change_top_up_method(){
     if(top_up_select == 'online_payment'){
         text = `<div class="col-sm-12" data-id="253" data-token="">
         <div class="row">`;
-        for(i in va_number){
-            if(i==0){
-                text+=`<div class="col-lg-12" style="cursor:pointer; background:`+text_color+`; border:1px solid #cdcdcd; padding:15px; display:block;" id="up_`+va_number[i].name+`" onclick="div_dropdown('`+va_number[i].name+`');">`;
-            }else{
-                text+=`<div class="col-lg-12" style="cursor:pointer; background:`+text_color+`; border:1px solid #cdcdcd; padding:15px; display:none;" id="up_`+va_number[i].name+`" onclick="div_dropdown('`+va_number[i].name+`');">`;
+        if(va_number.length > 0){
+            for(i in va_number){
+                if(i==0){
+                    text+=`<div class="col-lg-12" style="cursor:pointer; background:`+text_color+`; border:1px solid #cdcdcd; padding:15px; display:block;" id="up_`+va_number[i].name+`" onclick="div_dropdown('`+va_number[i].name+`');">`;
+                }else{
+                    text+=`<div class="col-lg-12" style="cursor:pointer; background:`+text_color+`; border:1px solid #cdcdcd; padding:15px; display:none;" id="up_`+va_number[i].name+`" onclick="div_dropdown('`+va_number[i].name+`');">`;
+                }
+                text+=`
+                    <div class="row">
+                        <div class="col-lg-12" style="display: flex;align-items: center;">
+                            <h5 class="single_border_custom_left" style="padding-left:10px;">`;
+    //                        if(va_number[i].image){
+    //                            text+=`<img style="width:auto; height:50px;" alt="Logo `+va_number[i].name+`" src="`+va_number[i].image+`"/>`;
+    //                        }else{
+    //                            text+=`<img style="width:auto; height:50px;" alt="Logo `+va_number[i].name+`" src="/static/tt_website/images/no_found/no-bank.png"/>`;
+    //                        }
+                            if(va_number[i].heading){
+                                text+=`<b style="padding-left:10px;">`+va_number[i].heading+`</b>`;
+                            }else{
+                                text+=`<b style="padding-left:10px;">`+va_number[i].name+`</b>`;
+                            }
+                            text+=`
+                                <b style="padding-left:10px;padding-right:10px; color:`+color+`">
+                                    <i class="fas fa-chevron-up"></i>
+                                </b>
+                            </h5>
+                        </div>
+                    </div>
+                </div>`;
+                if(i==0){
+                    text+=`<div class="col-lg-12 mb-3" style="cursor:pointer; background:`+text_color+`; border:1px solid #cdcdcd; padding:15px; display:none;" id="down_`+va_number[i].name+`" onclick="div_dropdown('`+va_number[i].name+`');">`;
+                }else{
+                    text+=`<div class="col-lg-12 mb-3" style="cursor:pointer; background:`+text_color+`; border:1px solid #cdcdcd; padding:15px; display:block;" id="down_`+va_number[i].name+`" onclick="div_dropdown('`+va_number[i].name+`');">`;
+                }
+                text+=`
+                    <div class="row">
+                        <div class="col-lg-12" style="display: flex;align-items: center;">
+                            <h5 class="single_border_custom_left" style="padding-left:10px;">`;
+                            if(va_number[i].image){
+                                text+=`<img style="width:auto; height:50px;" alt="Logo `+va_number[i].name+`" src="`+va_number[i].image+`"/>`;
+                            }else{
+                                text+=`<img style="width:auto; height:50px;" alt="Logo `+va_number[i].name+`" src="/static/tt_website/images/no_found/no-bank.png"/>`;
+                            }
+                            if(va_number[i].heading){
+                                text+=`<b style="padding-left:10px;">`+va_number[i].heading+`</b>`;
+                            }else{
+                                text+=`<b style="padding-left:10px;">`+va_number[i].name+`</b>`;
+                            }
+                            text+=`
+                                <b style="padding-left:10px;padding-right:10px; color:`+color+`">
+                                    <i class="fas fa-chevron-down"></i>
+                                </b>
+                            </h5>
+                        </div>
+                    </div>
+                </div>`;
+
+                if(i==0){
+                    text += `<div class="col-lg-12 mb-3" style="background:white; border:1px solid #cdcdcd; padding:15px; display:block;" id="div_`+va_number[i].name+`">`;
+                }else{
+                    text += `<div class="col-lg-12 mb-3" style="background:white; border:1px solid #cdcdcd; padding:15px; display:none;" id="div_`+va_number[i].name+`">`;
+                }
+
+                text+=`
+                <div class="row">
+                    <div class="col-lg-12 mb-1">
+                        <h4 class="mb-2">`+va_number[i].name+`</h4>
+                        <b style="color:`+color+`; font-size:20px; padding-right:5px;">`+va_number[i].account_number+`</b>
+                        <span onclick="copy_value('`+va_number[i].account_number+`');" style="cursor:pointer; font-weight:500;color:`+color+`; font-size:14px;">
+                            COPY <i class="fas fa-copy"></i>
+                        </span>
+
+                        <hr/>
+                        <strong>Fee Top Up (exclude bank charges): </strong><br/>
+                        <span>`+va_number[i].currency+` `+getrupiah(va_number[i].price_component.fee)+`</span>
+                    </div>`;
+
+                    if(va_number[i].description_msg != ''){
+                        text+=`
+                        <div style="margin:0px 15px; width:100%;">
+                            <div class="col-lg-12" style="background:#f7f7f7; border:1px solid #cdcdcd; padding:15px;">
+                                <strong>Description: </strong><br/>
+                                `+va_number[i].description_msg+`
+                            </div>
+                        </div>`;
+                    }
+                    if(va_number[i].html != ''){
+                        account_number = `<a style="cursor:pointer;" onclick="copy_value('`+va_number[i].account_number+`');"><b style="color:`+color+`;">`+va_number[i].account_number+`</b></a>`;
+                        text+=`
+                        <div style="margin:0px 15px; width:100%;">
+                            <div class="col-lg-12" style="background:#f7f7f7; border:1px solid #cdcdcd; padding:15px;">
+                                <strong>Guide: </strong><br/>
+                                `+va_number[i].html.replace('[%VA%]', account_number)+`
+                            </div>
+                        </div>`;
+                    }
+                        text+=`
+                    </div>
+                </div>`;
             }
+        }else{
+            text+=`<div class="col-lg-12" style="background:`+text_color+`; border:1px solid #cdcdcd; padding:15px; display:block;">`;
             text+=`
                 <div class="row">
                     <div class="col-lg-12" style="display: flex;align-items: center;">
@@ -1713,87 +1815,50 @@ function change_top_up_method(){
 //                        }else{
 //                            text+=`<img style="width:auto; height:50px;" alt="Logo `+va_number[i].name+`" src="/static/tt_website/images/no_found/no-bank.png"/>`;
 //                        }
-                        if(va_number[i].heading){
-                            text+=`<b style="padding-left:10px;">`+va_number[i].heading+`</b>`;
-                        }else{
-                            text+=`<b style="padding-left:10px;">`+va_number[i].name+`</b>`;
-                        }
+                        text+=`<b style="padding-left:10px;">Oops, we can't detect your VA </b><br/>`;
+                        text += `<p style="padding-left:10px;">please refresh if you already have VA number or you can create your virtual account here</p>`;
                         text+=`
-                            <b style="padding-left:10px;padding-right:10px; color:`+color+`">
-                                <i class="fas fa-chevron-up"></i>
-                            </b>
                         </h5>
                     </div>
-                </div>
-            </div>`;
-            if(i==0){
-                text+=`<div class="col-lg-12 mb-3" style="cursor:pointer; background:`+text_color+`; border:1px solid #cdcdcd; padding:15px; display:none;" id="down_`+va_number[i].name+`" onclick="div_dropdown('`+va_number[i].name+`');">`;
-            }else{
-                text+=`<div class="col-lg-12 mb-3" style="cursor:pointer; background:`+text_color+`; border:1px solid #cdcdcd; padding:15px; display:block;" id="down_`+va_number[i].name+`" onclick="div_dropdown('`+va_number[i].name+`');">`;
-            }
-            text+=`
-                <div class="row">
-                    <div class="col-lg-12" style="display: flex;align-items: center;">
-                        <h5 class="single_border_custom_left" style="padding-left:10px;">`;
-                        if(va_number[i].image){
-                            text+=`<img style="width:auto; height:50px;" alt="Logo `+va_number[i].name+`" src="`+va_number[i].image+`"/>`;
-                        }else{
-                            text+=`<img style="width:auto; height:50px;" alt="Logo `+va_number[i].name+`" src="/static/tt_website/images/no_found/no-bank.png"/>`;
-                        }
-                        if(va_number[i].heading){
-                            text+=`<b style="padding-left:10px;">`+va_number[i].heading+`</b>`;
-                        }else{
-                            text+=`<b style="padding-left:10px;">`+va_number[i].name+`</b>`;
+                    <div class="col-lg-12" style="margin-left:20px;">
+                        <label >Phone Number</label>
+                        <div class="row">
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-5">
+                                <div class="form-select" style="margin-bottom:0px;">
+                                    <select class="form-control js-example-basic-single" name="phone_code_id" style="width:100%;" id="phone_code_id" class="nice-select-default">
+                                    `;
+                        if(typeof(phone_code) !== 'undefined'){
+                            for(x in phone_code){
+                                text+=`
+                                       <option value="`+phone_code[x]+`" `;
+                                if(phone_code[x] == 62)
+                                    text += 'selected';
+                                text+=`>`+phone_code[x]+`</option>
+                                `;
+                            }
                         }
                         text+=`
-                            <b style="padding-left:10px;padding-right:10px; color:`+color+`">
-                                <i class="fas fa-chevron-down"></i>
-                            </b>
-                        </h5>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-7">
+                                <input type="text" class="form-control" style="margin-bottom:0px;" name="phone_number" id="phone_number" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '">
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>`;
-
-            if(i==0){
-                text += `<div class="col-lg-12 mb-3" style="background:white; border:1px solid #cdcdcd; padding:15px; display:block;" id="div_`+va_number[i].name+`">`;
-            }else{
-                text += `<div class="col-lg-12 mb-3" style="background:white; border:1px solid #cdcdcd; padding:15px; display:none;" id="div_`+va_number[i].name+`">`;
-            }
-
-            text+=`
-            <div class="row">
-                <div class="col-lg-12 mb-1">
-                    <h4 class="mb-2">`+va_number[i].name+`</h4>
-                    <b style="color:`+color+`; font-size:20px; padding-right:5px;">`+va_number[i].account_number+`</b>
-                    <span onclick="copy_value('`+va_number[i].account_number+`');" style="cursor:pointer; font-weight:500;color:`+color+`; font-size:14px;">
-                        COPY <i class="fas fa-copy"></i>
-                    </span>
-
-                    <hr/>
-                    <strong>Fee Top Up (exclude bank charges): </strong><br/>
-                    <span>`+va_number[i].currency+` `+getrupiah(va_number[i].price_component.fee)+`</span>
-                </div>`;
-
-                if(va_number[i].description_msg != ''){
-                    text+=`
-                    <div style="margin:0px 15px; width:100%;">
-                        <div class="col-lg-12" style="background:#f7f7f7; border:1px solid #cdcdcd; padding:15px;">
-                            <strong>Description: </strong><br/>
-                            `+va_number[i].description_msg+`
+                    <div class="col-lg-12" id="email_div" style="margin-left:20px;" hidden>
+                        <label>Email</label>
+                        <div class="input-container-search-ticket">
+                            <input type="text" class="form-control" style="margin-bottom:0px;" name="email" id="email" placeholder="Email Address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '">
                         </div>
-                    </div>`;
-                }
-                if(va_number[i].html != ''){
-                    account_number = `<a style="cursor:pointer;" onclick="copy_value('`+va_number[i].account_number+`');"><b style="color:`+color+`;">`+va_number[i].account_number+`</b></a>`;
-                    text+=`
-                    <div style="margin:0px 15px; width:100%;">
-                        <div class="col-lg-12" style="background:#f7f7f7; border:1px solid #cdcdcd; padding:15px;">
-                            <strong>Guide: </strong><br/>
-                            `+va_number[i].html.replace('[%VA%]', account_number)+`
-                        </div>
-                    </div>`;
-                }
-                    text+=`
+                        <span style="font-size:12px; padding:0;">Example: email@example.com</span>
+                    </div>
+                    <div class="col-lg-12" style="display: flex;align-items: center;margin-left:20px;">
+                        <button type="button" class="primary-btn pull-right ld-ext-right" id="create_va_btn" onclick="create_va_number();">
+                            Create VA
+                            <div class="ld ld-ring ld-cycle"></div>
+                        </button>
+                    </div>
                 </div>
             </div>`;
         }
@@ -1919,6 +1984,9 @@ function change_top_up_method(){
         get_term = true;
     }
     document.getElementById('top_up_div').innerHTML = text;
+    if(va_number.length == 0 && top_up_select == 'online_payment'){
+        $('#phone_code_id').niceSelect();
+    }
     if(get_term == true){
         func_get_term();
     }

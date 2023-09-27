@@ -3381,6 +3381,12 @@ function datasearch2(airline){
         counter++;
     }
 
+    if(airline.hasOwnProperty('recommendation_maps')){
+        recommendation_maps = recommendation_maps.concat(airline.recommendation_maps)
+//        if(last_print_recommendation == 0)
+        draw_recommendation_maps();
+    }
+
     for(i in airline.schedules){
         for(j in airline.schedules[i].journeys){
            fare_details = [];
@@ -3521,6 +3527,107 @@ function datasearch2(airline){
     }
     if(airline_request.departure.length != journey.length)
         filtering('filter');
+}
+
+function draw_recommendation_maps(){
+    document.getElementById('recommendation_div').hidden = false;
+    is_print = false;
+    var text_recom_maps = '';
+    max_itin_print_recom = 10
+    total_print = 0;
+    for(idx_recom in recommendation_maps){
+        text_recom_maps = '';
+        if(last_print_recommendation == idx_recom){
+            is_print = true;
+        }
+//        if(total_print == max_itin_print_recom){
+//            last_print_recommendation = idx_recom;
+//            console.log('break ' + idx_recom);
+//            break;
+//        }
+        if(is_print){
+            text_recom_maps +=`
+            <div class="row" style="background:white; padding-bottom:15px; margin-bottom:15px; border-top:1px solid #cdcdcd; border-bottom:1px solid #cdcdcd;">
+                <div class="col-lg-12">
+                    <Text>`+recommendation_maps[idx_recom][0]+`. </Text><br/><Text>`;
+            for(idx_journey in recommendation_maps[idx_recom]){
+                if(idx_journey > 2)
+                    text_recom_maps += recommendation_maps[idx_recom][idx_journey] + '<br/>';
+            }
+            text_recom_maps+=` </Text>
+                </div>
+                <div class="col-lg-12" style="text-align:right">
+                    <button class="primary-btn-ticket" type="button" onclick='choose_recommendation_ticket(`;
+            text_recom_maps+='`'+JSON.stringify(recommendation_maps[idx_recom][1]);
+            text_recom_maps+='`, `';
+            text_recom_maps+=JSON.stringify(recommendation_maps[idx_recom][2]);
+            text_recom_maps+='`';
+            text_recom_maps+=`);'>Choose</button>
+                </div>
+            </div>`;
+            node2 = document.createElement("div");
+            node2.innerHTML = text_recom_maps;
+            document.getElementById("recommendation_data_div").appendChild(node2);
+            total_print++;
+            last_print_recommendation = idx_recom;
+        }
+    }
+}
+
+function choose_recommendation_ticket(journey_code, fare_code){
+    journey_code_list = JSON.parse(journey_code);
+    fare_code_list = [];
+    fare_code_list_of_list = JSON.parse(fare_code);
+    for(fare_code_list_of_list_i in fare_code_list_of_list){
+        for(fare_code_list_of_list_j in fare_code_list_of_list[fare_code_list_of_list_i].split(';')){
+            fare_code_list.push(fare_code_list_of_list[fare_code_list_of_list_i].split(';')[fare_code_list_of_list_j]);
+        }
+    }
+    if(airline_pick_list.length > 0)
+        change_departure(1);
+    fare_code_sequence = 0;
+    for(x in journey_code_list){
+        for(airline_index_i in airline_data_filter){
+            if(airline_data_filter[airline_index_i].journey_code == journey_code_list[x]){
+                for(airline_index_j in airline_data_filter[airline_index_i].segments){
+                    for(airline_index_k in airline_data_filter[airline_index_i].segments[airline_index_j].fares){
+                        if(fare_code_list[fare_code_sequence] == airline_data_filter[airline_index_i].segments[airline_index_j].fares[airline_index_k].fare_code){
+                            document.getElementsByName('journey'+airline_index_i+'segment'+airline_index_j+'fare')[airline_index_k].checked = true;
+
+                            change_fare(airline_index_i,airline_index_j,airline_index_k,airline_data_filter[airline_index_i].segments[airline_index_j].fares[airline_index_k].fare_code);
+                            // HITUNG ULANG
+                            price = 0;
+                            cabin_class = '';
+                            for(airline_index_l in airline_data_filter[airline_index_i].segments[airline_index_j].fares[airline_index_k].service_charge_summary){
+                                if(!['CHD', 'INF'].includes(airline_data_filter[airline_index_i].segments[airline_index_j].fares[airline_index_k].service_charge_summary[airline_index_l].pax_type)){
+                                    price = airline_data_filter[airline_index_i].segments[airline_index_j].fares[airline_index_k].service_charge_summary[airline_index_l].base_price;
+                                }
+                            }
+
+                            if(airline_data_filter[airline_index_i].segments[airline_index_j].fares[airline_index_k].cabin_class == 'Y')
+                                cabin_class = 'Economy'
+                            else if(airline_data_filter[airline_index_i].segments[airline_index_j].fares[airline_index_k].cabin_class == 'W' && airline_data_filter[airline_index_i].segments[airline_index_j].carrier_code == 'QG')
+                                cabin_class = 'Royal Green'
+                            else if(airline_data_filter[airline_index_i].segments[airline_index_j].fares[airline_index_k].cabin_class == 'W')
+                                cabin_class = 'Premium Economy'
+                            else if(airline_data_filter[airline_index_i].segments[airline_index_j].fares[airline_index_k].cabin_class == 'C')
+                                cabin_class = 'Business'
+                            else if(airline_data_filter[airline_index_i].segments[airline_index_j].fares[airline_index_k].cabin_class == 'F')
+                                cabin_class = 'First Class'
+
+                            change_seat_span(airline_index_i, airline_index_j, airline_data_filter[airline_index_i].segments[airline_index_j].fares[airline_index_k].class_of_service+'  ('+cabin_class+') <br/><b>'+airline_data_filter[airline_index_i].currency+' '+getrupiah(price) + '</b>');
+                            change_seat_fare_span(airline_index_i, airline_index_j, airline_data_filter[airline_index_i].segments[airline_index_j].fares[airline_index_k].class_of_service);
+
+                            fare_code_sequence++;
+                        }
+                    }
+                }
+                get_price_itinerary(airline_index_i);
+                break;
+            }
+        }
+    }
+    $("#myModalRecommendation").modal('hide');
 }
 
 function change_fare(journey, segment, fares, fare_code){
@@ -9495,7 +9602,8 @@ function airline_get_booking(data, sync=false){
                                             }
                                             fee_dict[msg.result.response.passengers[pax].fees[i].journey_code].fees.push({
                                                 "fee_category": msg.result.response.passengers[pax].fees[i].fee_category,
-                                                "fee_name": msg.result.response.passengers[pax].fees[i].fee_name
+                                                "fee_name": msg.result.response.passengers[pax].fees[i].fee_name,
+                                                "ticket_number": msg.result.response.passengers[pax].fees[i].ticket_number
                                             })
                                         }
                                   }catch(err){
@@ -9534,8 +9642,10 @@ function airline_get_booking(data, sync=false){
                                             if(fee_dict[i].fees[j].fee_name.toLowerCase().includes(fee_dict[i].fees[j].fee_category.toLowerCase()) == false)
                                                 text += '<b>'+fee_dict[i].fees[j].fee_category + ':</b> ';
 
-                                            text += `<i>`;
-                                            text += fee_dict[i].fees[j].fee_name + `</i><br/>`;
+                                            text += `<i>`+fee_dict[i].fees[j].fee_name
+                                            if(fee_dict[i].fees[j].ticket_number)
+                                                text += ` - ` + fee_dict[i].fees[j].ticket_number;
+                                            text += `</i><br/>`;
                                         }
                                       }
                                       text+=`</div>`;
