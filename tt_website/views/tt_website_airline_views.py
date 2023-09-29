@@ -452,7 +452,7 @@ def search(request):
                         'promo_code': promo_code_data_input['promo_code']
                     })
 
-                if request.POST.get('checkbox_osi_code_backend_airline') == 'on' or request.POST.get('checkbox_add_promotion_code_airline') == 'on' or request.META.get('HTTP_REFERER').split('/')[len(request.META.get('HTTP_REFERER').split('/'))-1] == 'search':
+                if request.POST.get('checkbox_osi_code_backend_airline') == 'true' or request.POST.get('checkbox_add_promotion_code_airline') == 'true' or request.META.get('HTTP_REFERER').split('/')[len(request.META.get('HTTP_REFERER').split('/'))-1] == 'search':
                     use_osi_code_backend = False
             except Exception as e:
                 _logger.error('Data POST for promo code not found use cache')

@@ -325,7 +325,8 @@ function airline_goto_search(){
                 "cabin_class_list": [], // hanya untuk MC
                 "is_combo_price": document.getElementById('is_combo_price').checked,
                 "carrier_codes": [],
-                "counter":1
+                "counter":1,
+                "promo_code_counter_list": []
             }
 
             if(direction == 'RT'){
@@ -368,7 +369,7 @@ function airline_goto_search(){
                 "is_combo_price": document.getElementById('is_combo_price').checked,
                 "carrier_codes": [],
                 "counter": counter_airline_search,
-                "promo_codes": []
+                "promo_code_counter_list": []
             }
             for(i=1;i<=counter_airline_search;i++){
                 request_airline['origin'].push(document.getElementById('origin_id_flight'+i).value)
@@ -403,7 +404,7 @@ function airline_goto_search(){
                             "carrier_code": document.getElementById('carrier_code_line'+i).value,
                             "promo_code": document.getElementById('code_line'+i).value,
                         })
-                        request_airline['promo_codes'].push({
+                        request_airline['promo_code_counter_list'].push({
                             "carrier_code": document.getElementById('carrier_code_line'+i).value,
                             "promo_code": document.getElementById('code_line'+i).value,
                         })
