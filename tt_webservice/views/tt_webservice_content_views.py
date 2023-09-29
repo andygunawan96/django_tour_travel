@@ -109,6 +109,10 @@ def api_models(request):
             res = get_term_and_condition(request)
         elif req_data['action'] == 'set_term_and_condition':
             res = set_term_and_condition(request)
+        elif req_data['action'] == 'get_term_and_condition_cor':
+            res = get_term_and_condition_cor(request)
+        elif req_data['action'] == 'set_term_and_condition_cor':
+            res = set_term_and_condition_cor(request)
         elif req_data['action'] == 'get_booking':
             res = get_booking(request)
         elif req_data['action'] == 'youtube_api':
@@ -882,6 +886,63 @@ def set_term_and_condition(request):
 
         text = title + '\n' + body + '\n' + active + '\n' + version
         write_cache(text, "term_and_condition", request, 'cache_web')
+
+        res = {
+            'result': {
+                'error_code': 0,
+                'error_msg': 'Success',
+                'response': ''
+            }
+        }
+    except Exception as e:
+        error = "Can't update"
+        res = {
+            'result': {
+                'error_code': 500,
+                'error_msg': error,
+                'response': ''
+            }
+        }
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    return res
+
+def get_term_and_condition_cor(request):
+    try:
+        response = []
+        file = read_cache("term_and_condition_cor", 'cache_web', request, 90911)
+        if file:
+            body = ''
+            for idx, line in enumerate(file.split('\n')):
+                if idx == 0:
+                    body = json.loads(line.split('\n')[0])
+            response.append({
+                "body": body,
+            })
+
+        res = {
+            'result': {
+                'error_code': 0,
+                'error_msg': '',
+                'response': response
+            }
+        }
+    except Exception as e:
+        res = {
+            'result': {
+                'error_code': 500,
+                'error_msg': 'not found',
+                'response': []
+            }
+        }
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    return res
+
+def set_term_and_condition_cor(request):
+    try:
+        body = request.POST['body']
+
+        text = body
+        write_cache(text, "term_and_condition_cor", request, 'cache_web')
 
         res = {
             'result': {

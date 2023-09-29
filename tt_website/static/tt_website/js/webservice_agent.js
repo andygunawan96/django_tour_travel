@@ -10042,6 +10042,33 @@ function create_request_cor(){
     }else{
         data_request['company_bank_data'] = document.getElementById('company_bank_data').value;
     }
+
+    //ipang
+    if( document.getElementById("company_structure").files.length == 0 ){
+        error_log+= 'Please upload Company Structure!</br>\n';
+        document.getElementById('company_structure').style['border-color'] = 'red';
+    }else{
+        data_request['company_structure'] = document.getElementById('company_structure').value;
+    }
+    if( document.getElementById("company_npwp").files.length == 0 ){
+        error_log+= 'Please upload Company NPWP!</br>\n';
+        document.getElementById('company_npwp').style['border-color'] = 'red';
+    }else{
+        data_request['company_npwp'] = document.getElementById('company_npwp').value;
+    }
+    if( document.getElementById("company_siup_nib").files.length == 0 ){
+        error_log+= 'Please upload Company SIUP/NIB!</br>\n';
+        document.getElementById('company_siup_nib').style['border-color'] = 'red';
+    }else{
+        data_request['company_siup_nib'] = document.getElementById('company_siup_nib').value;
+    }
+    if( document.getElementById("company_akta_pendirian").files.length == 0 ){
+        error_log+= 'Please upload Company Akta Pendirian!</br>\n';
+        document.getElementById('company_akta_pendirian').style['border-color'] = 'red';
+    }else{
+        data_request['company_akta_pendirian'] = document.getElementById('company_akta_pendirian').value;
+    }
+
     if(document.getElementById('company_how_to_know_us').value == ''){
         error_log+= 'Please input How do you know us!</br>\n';
         document.getElementById('company_how_to_know_us').style['border-color'] = 'red';
@@ -10097,6 +10124,13 @@ function create_request_cor(){
         });
     }else{
         data_request['owner_email'] = document.getElementById('owner_email').value;
+    }
+    //ipang
+    if( document.getElementById("owner_ktp").files.length == 0 ){
+        error_log+= 'Please upload Owner KTP!</br>\n';
+        document.getElementById('owner_ktp').style['border-color'] = 'red';
+    }else{
+        data_request['owner_ktp'] = document.getElementById('owner_ktp').value;
     }
 
     // director
@@ -10192,6 +10226,13 @@ function create_request_cor(){
     }else{
         data_request['accounting_email'] = document.getElementById('accounting_email').value;
     }
+    //ipang
+    if( document.getElementById("accounting_ktp").files.length == 0 ){
+        error_log+= 'Please upload Accounting KTP!</br>\n';
+        document.getElementById('accounting_ktp').style['border-color'] = 'red';
+    }else{
+        data_request['accounting_ktp'] = document.getElementById('accounting_ktp').value;
+    }
 
     // pic
     if(document.getElementById('pic_title').value == ''){
@@ -10256,6 +10297,13 @@ function create_request_cor(){
         });
     }else{
         data_request['pic_email'] = document.getElementById('pic_email').value;
+    }
+    //ipang
+    if( document.getElementById("pic_ktp").files.length == 0 ){
+        error_log+= 'Please upload PIC KTP!</br>\n';
+        document.getElementById('pic_ktp').style['border-color'] = 'red';
+    }else{
+        data_request['pic_ktp'] = document.getElementById('pic_ktp').value;
     }
 
     var radios = document.getElementsByName('myRadios_account');
@@ -10381,6 +10429,10 @@ function clear_request_cor(){
     document.getElementById('company_group').value = '';
     document.getElementById('company_business_field').value = '';
     document.getElementById('company_bank_data').value = '';
+    document.getElementById('company_structure').value = '';
+    document.getElementById('company_npwp').value = '';
+    document.getElementById('company_siup_nib').value = '';
+    document.getElementById('company_akta_pendirian').value = '';
     document.getElementById('company_how_to_know_us').value = '';
 
     document.getElementById('owner_name').value = '';
@@ -10388,6 +10440,7 @@ function clear_request_cor(){
     document.getElementById('owner_birth_date').value = '';
     document.getElementById('owner_phone_number').value = '';
     document.getElementById('owner_email').value = '';
+    document.getElementById('owner_ktp').value = '';
 
     document.getElementById('director_name').value = '';
     document.getElementById('director_position').value = '';
@@ -10400,6 +10453,7 @@ function clear_request_cor(){
     document.getElementById('accounting_birth_date').value = '';
     document.getElementById('accounting_phone_number').value = '';
     document.getElementById('accounting_email').value = '';
+    document.getElementById('accounting_ktp').value = '';
 
     document.getElementById('pic_title').value = '';
     $('#pic_title').niceSelect('update');
@@ -10410,6 +10464,7 @@ function clear_request_cor(){
     document.getElementById('pic_phone_number').value = '';
     document.getElementById('pic_email').value = '';
     document.getElementById('proposed_limit').value = '';
+    document.getElementById('pic_ktp').value = '';
     var radios = document.getElementsByName('myRadios_account')[0].checked = 'checked';
 
     // checkbox airline
@@ -10454,6 +10509,19 @@ function clear_request_cor(){
     $('input[name="director_birth_date"]').val("");
     $('input[name="accounting_birth_date"]').val("");
     $('input[name="pic_birth_date"]').val("");
+
+    //ipang
+    try{
+        var sigText = document.getElementById("sig-dataUrl");
+        var sigImage = document.getElementById("sig-image");
+        var clearBtn = document.getElementById("sig-clearBtn");
+        var submitBtn = document.getElementById("sig-submitBtn");
+        clearCanvas();
+        sigText.innerHTML = "";
+        sigImage.setAttribute("src", "");
+    }catch(err){
+
+    }
 }
 
 function update_passenger_backend(){

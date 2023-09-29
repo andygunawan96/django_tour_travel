@@ -9,6 +9,7 @@
 <script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/library/moment.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/library/daterangepicker.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/terms_cor_javascript.js?version={{javascript_version}}"></script>
 <link rel="stylesheet" type="text/css" href="{{ static_path }}login/css/owl.carousel.css?version={{javascript_version}}">
 <link rel="stylesheet" type="text/css" href="{{ static_path }}login/css/owl.theme.default.min.css?version={{javascript_version}}">
 <link rel="stylesheet" type="text/css" href="{{ static_path }}login/css/owl.theme.green.min.css?version={{javascript_version}}">
@@ -189,6 +190,34 @@
                                 </div>
                                 <div class="col-lg-12" style="margin-bottom:15px;">
                                     <label style="color:red">*</label>
+                                    <label>{% trans 'Upload Company Structure' %}</label>
+                                    <div class="input-container-search-ticket">
+                                        <input type="file" style="color:#FFFFFF;" id="company_structure" name="company_structure" multiple="" accept="*/*">
+                                    </div>
+                                </div>
+                                <div class="col-lg-12" style="margin-bottom:15px;">
+                                    <label style="color:red">*</label>
+                                    <label>{% trans 'Upload NPWP' %}</label>
+                                    <div class="input-container-search-ticket">
+                                        <input type="file" style="color:#FFFFFF;" id="company_npwp" name="company_npwp" multiple="" accept="*/*">
+                                    </div>
+                                </div>
+                                <div class="col-lg-12" style="margin-bottom:15px;">
+                                    <label style="color:red">*</label>
+                                    <label>{% trans 'Upload SIUP/NIB' %}</label>
+                                    <div class="input-container-search-ticket">
+                                        <input type="file" style="color:#FFFFFF;" id="company_siup_nib" name="company_siup_nib" multiple="" accept="*/*">
+                                    </div>
+                                </div>
+                                <div class="col-lg-12" style="margin-bottom:15px;">
+                                    <label style="color:red">*</label>
+                                    <label>{% trans 'Upload Akta Pendirian' %}</label>
+                                    <div class="input-container-search-ticket">
+                                        <input type="file" style="color:#FFFFFF;" id="company_deed_incorporation" name="company_deed_incorporation" multiple="" accept="*/*">
+                                    </div>
+                                </div>
+                                <div class="col-lg-12" style="margin-bottom:15px;">
+                                    <label style="color:red">*</label>
                                     <label>{% trans 'How do you know us?' %}</label>
                                     <div class="input-container-search-ticket">
                                         <textarea class="form-control" style="resize: none; height:200px;" id="company_how_to_know_us" name="company_how_to_know_us" placeholder="" rows="6" cols="45"></textarea>
@@ -235,6 +264,13 @@
                                     <label>{% trans 'Email' %}</label>
                                     <div class="input-container-search-ticket">
                                         <input type="text" style="margin-bottom:0px;" class="form-control" name="owner_email" id="owner_email" placeholder="{% trans 'Email' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email '">
+                                    </div>
+                                </div>
+                                <div class="col-lg-12" style="margin-bottom:15px;">
+                                    <label style="color:red">*</label>
+                                    <label>{% trans 'Upload KTP' %}</label>
+                                    <div class="input-container-search-ticket">
+                                        <input type="file" style="color:#FFFFFF;" id="owner_ktp" name="owner_ktp" multiple="" accept="*/*">
                                     </div>
                                 </div>
                             </div>
@@ -323,6 +359,13 @@
                                         <input type="text" style="margin-bottom:0px;" class="form-control" name="accounting_email" id="accounting_email" placeholder="{% trans 'Email' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email '">
                                     </div>
                                 </div>
+                                <div class="col-lg-12" style="margin-bottom:15px;">
+                                    <label style="color:red">*</label>
+                                    <label>{% trans 'Upload KTP' %}</label>
+                                    <div class="input-container-search-ticket">
+                                        <input type="file" style="color:#FFFFFF;" id="accounting_ktp" name="accounting_ktp" multiple="" accept="*/*">
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -385,6 +428,13 @@
                                     <label>{% trans 'Email' %}</label>
                                     <div class="input-container-search-ticket">
                                         <input type="text" style="margin-bottom:0px;" class="form-control" name="pic_email" id="pic_email" placeholder="{% trans 'Email' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email '">
+                                    </div>
+                                </div>
+                                <div class="col-lg-12" style="margin-bottom:15px;">
+                                    <label style="color:red">*</label>
+                                    <label>{% trans 'Upload KTP' %}</label>
+                                    <div class="input-container-search-ticket">
+                                        <input type="file" style="color:#FFFFFF;" id="pic_ktp" name="pic_ktp" multiple="" accept="*/*">
                                     </div>
                                 </div>
                             </div>
@@ -491,6 +541,41 @@
 
                                 <!--</div>-->
                                 <!--</div>-->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 mb-3">
+                        <h4>{% trans 'Statement Letter' %}</h4>
+                        <div style="background:white; border:1px solid #cdcdcd; padding:15px;" id="corporate_airline_div">
+                            <label style="color:red">*</label>
+                            <label>{% trans 'Statement Letter' %}</label><br/>
+                            <input type="file" style="color:#FFFFFF;" id="statement_letter" name="statement_letter" multiple="" accept="*/*">
+                        </div>
+                    </div>
+                    <div class="col-lg-12" style="margin-bottom:15px;">
+                        <label class="check_box_custom" style="margin-bottom:0px;">
+                            <span class="span-search-ticket" style="color:black; padding-right:5px;">{% trans 'I agree with the' %}</span> <span class="text_link_cst" data-toggle="modal" data-target="#cor_tac_Modal">{% trans 'Terms and Conditions' %}</span> {% trans 'of Corporate Registration' %}
+                            <input type="checkbox" value="" name="cor_tac" id="cor_tac" required="1" style="margin-right: 5px;"/>
+                            <span class="check_box_span_custom" id="cor_tac_span"></span>
+                        </label>
+                    </div>
+
+                    <div class="col-lg-12" style="margin-bottom:15px;">
+                        <h4>Your Signature</h4>
+                        <canvas class="sign_canvas" id="sig-canvas" width="auto%" height="160">
+                            Browser not Supported.
+                        </canvas>
+                        <br/>
+                        <button class="btn btn-default" id="sig-clearBtn">Clear Signature</button>
+                        <div class="row" hidden>
+                            <div class="col-md-12">
+                                <button class="btn btn-primary" id="sig-submitBtn">Submit Signature</button>
+                            </div>
+                            <div class="col-md-12">
+                                <textarea id="sig-dataUrl" class="form-control" rows="5">Data URL for your signature will go here!</textarea>
+                            </div>
+                            <div class="col-md-12">
+                                <img id="sig-image" src="" alt="Your signature will go here!"/>
                             </div>
                         </div>
                     </div>

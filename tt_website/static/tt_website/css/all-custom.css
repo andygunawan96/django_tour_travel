@@ -6922,3 +6922,19 @@ text-align: center;
 }
 
 
+
+
+
+
+
+
+
+
+
+.sign_canvas {
+  border: 2px dotted #CCCCCC;
+  background: white;
+  border-radius: 15px;
+  cursor: crosshair;
+}
+
