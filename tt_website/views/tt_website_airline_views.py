@@ -427,21 +427,23 @@ def search(request):
                 set_session(request, 'user_account', cur_session)
                 activate_corporate_mode(request, signature)
 
-            if request.GET.get('checkbox_corpor_mode_airline') and request.GET.get('airline_corpor_select_post') and request.GET.get('airline_corbooker_select_post'):
+            if request.GET.get('checkbox_corpor_mode_airline') and request.GET.get('airline_corpor_select') and request.GET.get('airline_corbooker_select'):
                 updated_request = request.GET.copy()
                 updated_request.update({
-                    'customer_parent_seq_id': request.GET['airline_corpor_select_post']
+                    'customer_parent_seq_id': request.GET['airline_corpor_select']
                 })
                 cur_session = copy.deepcopy(request.session['user_account'])
                 cur_session.update({
-                    "co_customer_parent_seq_id": request.GET['airline_corpor_select_post'],
-                    "co_customer_seq_id": request.GET['airline_corbooker_select_post']
+                    "co_customer_parent_seq_id": request.GET['airline_corpor_select'],
+                    "co_customer_seq_id": request.GET['airline_corbooker_select']
                 })
                 set_session(request, 'user_account', cur_session)
                 activate_corporate_mode(request, signature)
             ## PROMO CODE
             promo_codes = []
             use_osi_code_backend = True
+
+            ##POST
             try:
                 promo_code_list_data_input = request.POST.get('promo_code_counter_list')
                 for promo_code_data_input in json.loads(promo_code_list_data_input):
@@ -455,6 +457,22 @@ def search(request):
             except Exception as e:
                 _logger.error('Data POST for promo code not found use cache')
                 _logger.error("%s, %s" % (str(e), traceback.format_exc()))
+
+            ##GET
+            try:
+                promo_code_list_data_input = request.GET.get('promo_code_counter_list')
+                for promo_code_data_input in json.loads(promo_code_list_data_input):
+                    promo_codes.append({
+                        'carrier_code': promo_code_data_input['carrier_code'],
+                        'promo_code': promo_code_data_input['promo_code']
+                    })
+
+                if request.GET.get('checkbox_osi_code_backend_airline') == 'on' or request.GET.get('checkbox_add_promotion_code_airline') == 'on' or request.META.get('HTTP_REFERER').split('/')[len(request.META.get('HTTP_REFERER').split('/')) - 1] == 'search':
+                    use_osi_code_backend = False
+            except Exception as e:
+                _logger.error('Data POST for promo code not found use cache')
+                _logger.error("%s, %s" % (str(e), traceback.format_exc()))
+
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 # 'journeys': journeys,
