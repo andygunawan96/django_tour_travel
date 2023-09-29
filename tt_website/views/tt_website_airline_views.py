@@ -427,6 +427,18 @@ def search(request):
                 set_session(request, 'user_account', cur_session)
                 activate_corporate_mode(request, signature)
 
+            if request.GET.get('checkbox_corpor_mode_airline') and request.GET.get('airline_corpor_select_post') and request.GET.get('airline_corbooker_select_post'):
+                updated_request = request.GET.copy()
+                updated_request.update({
+                    'customer_parent_seq_id': request.GET['airline_corpor_select_post']
+                })
+                cur_session = copy.deepcopy(request.session['user_account'])
+                cur_session.update({
+                    "co_customer_parent_seq_id": request.GET['airline_corpor_select_post'],
+                    "co_customer_seq_id": request.GET['airline_corbooker_select_post']
+                })
+                set_session(request, 'user_account', cur_session)
+                activate_corporate_mode(request, signature)
             ## PROMO CODE
             promo_codes = []
             use_osi_code_backend = True
