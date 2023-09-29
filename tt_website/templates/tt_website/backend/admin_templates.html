@@ -22,6 +22,7 @@
 <script src="{{ static_path }}js/about_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/faq_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/library/jscolor.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/terms_cor_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}ckeditor/ckeditor.js?version={{javascript_version}}"></script>
 <script>
     static_path_url_server = '{{static_path_url_server}}'
@@ -1846,6 +1847,32 @@
                                 </div>
                                 <div class="col-lg-12 mt-3 mb-3">
                                     <button type="button" class="primary-btn update_banner_btn" onclick="update_banner();">{% trans 'Save Changes' %} <i class="fas fa-save"></i></button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="button" class="accordion" data-tab="tab-terms-policy">
+                            <div style="display:inline-flex">
+                                <i class="fas fa-clipboard-check" style="padding-top:5px;font-size:18px;"></i>
+                                <h6 style="padding-left:10px;">
+                                    Term and Condition COR<br/>
+                                    <span style="font-weight:500; font-size:12px;">Term and condition COR.</span>
+                                </h6>
+                            </div>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="row">
+                                <div class="col-lg-12 mt-3 mb-3">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <h6 style="margin-bottom:10px;">Content</h6>
+                                            <textarea class="ckeditor" name="term_and_condition_body_cor" id="term_and_condition_body_cor">
+                                            </textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 mt-3 mb-3">
+                                    <button type="button" class="primary-btn update_banner_btn" onclick="update_term_and_condition_cor();">{% trans 'Save Changes' %} <i class="fas fa-save"></i></button>
                                 </div>
                             </div>
                         </div>

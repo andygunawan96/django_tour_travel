@@ -590,7 +590,27 @@
     </div>
 </section>
 
+<div class="modal fade" id="cor_tac_Modal" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">{% trans 'Term and Condition' %}</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body" style="text-align:left;">
+                <div class="row">
+                    <div class="col-lg-12" id="terms_body_cor">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
+    get_term_and_condition_cor('registration');
     $(function() {
         $('input[name="company_established_date"]').daterangepicker({
               singleDatePicker: true,

@@ -3615,3 +3615,10 @@ function switch_modal(from_target, to_target){
         }
     }, 500);
 }
+
+function check_body_hidden(mdl){
+    if($('#'+mdl).hasClass('show')){
+        $("body").css("overflowY", "hidden");
+    }
+}
+
