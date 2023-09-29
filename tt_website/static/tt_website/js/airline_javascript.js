@@ -417,7 +417,8 @@ function airline_goto_search(){
             concat_url += key + '=' + request_airline[key];
         }
         document.getElementById('airline_searchForm').action += '?' + concat_url;
-        document.getElementById('airline_searchForm').submit();
+        goto_next_page('airline_searchForm');
+//        document.getElementById('airline_searchForm').submit();
     }else{
         $('.button-search').removeClass("running");
         alert(error_log);

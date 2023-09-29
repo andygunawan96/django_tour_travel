@@ -12477,7 +12477,8 @@ function show_commission(val){
 }
 
 function gotoForm(){
-    document.getElementById('airline_searchForm').submit();
+    goto_next_page('airline_searchForm');
+//    document.getElementById().submit();
 }
 
 

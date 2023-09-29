@@ -140,7 +140,6 @@
                         {% if "airline" in provider and "ticketing_airline" in username.co_agent_frontend_security%}
                         <div class="tab-pane fade" id="airline" role="tabpanel" aria-labelledby="airline-tab">
                             <form action="{% url 'tt_website:airline_search'%}" method="POST" class="form-wrap" id="airline_searchForm">
-                                {% csrf_token %}
                                 <input type="hidden" name="g-recaptcha-response" id='recaptcha_airline'>
                                 <div class="row">
                                     <div class="col-lg-12" id="radio_airline_search" style="text-align:left;margin-bottom:20px;">

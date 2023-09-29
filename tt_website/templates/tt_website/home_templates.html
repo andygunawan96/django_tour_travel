@@ -1718,6 +1718,14 @@
         else if(value == 'sentra_medika')
             document.getElementById('sentra_medika_searchForm').style.display = 'block';
     }
+
+
+    function goto_next_page(form_id){
+        var node = document.createElement("div");
+        node.innerHTML = `{% csrf_token %}`
+        document.getElementById(form_id).appendChild(node);
+        document.getElementById(form_id).submit();
+    }
 </script>
 
 {% endblock %}
