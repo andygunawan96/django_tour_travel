@@ -5828,7 +5828,7 @@ def search_mobile(request):
                                     fare['pick'] = False
 
                                 for svc_summary in fare['service_charge_summary']:
-                                    if svc_summary['pax_type'] == 'ADT':
+                                    if not svc_summary['pax_type'] in ['CHD', 'INF']:
                                         total_price_fare = 0
                                         for svc in svc_summary['service_charges']:
                                             if svc['charge_type'] != 'RAC' and svc['charge_type'] != 'DISC':
