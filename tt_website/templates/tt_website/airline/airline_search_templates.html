@@ -4032,11 +4032,6 @@
     }catch(err){
         console.log(err);
     }
-
-    function goto_next_page(form_id){
-        document.getElementById(form_id).innerHTML += `{% csrf_token %}`;
-        document.getElementById(form_id).submit();
-    }
 </script>
 
 
