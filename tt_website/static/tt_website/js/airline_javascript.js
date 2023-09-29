@@ -412,12 +412,14 @@ function airline_goto_search(){
             }
             document.getElementById('promo_code_counter_list').value = JSON.stringify(list_promo_code);
         }
-        if(document.getElementById('checkbox_corpor_mode_airline').checked){
-            request_airline['checkbox_corpor_mode_airline'] = true;
-            if(document.getElementById('airline_corpor_select')){
-                request_airline['airline_corpor_select'] = document.getElementById('airline_corpor_select').value;
-            }if(document.getElementById('airline_corbooker_select')){
-                request_airline['airline_corbooker_select'] = document.getElementById('airline_corbooker_select').value;
+        if(document.getElementById('checkbox_corpor_mode_airline')){
+            if(document.getElementById('checkbox_corpor_mode_airline').checked){
+                request_airline['checkbox_corpor_mode_airline'] = true;
+                if(document.getElementById('airline_corpor_select')){
+                    request_airline['airline_corpor_select'] = document.getElementById('airline_corpor_select').value;
+                }if(document.getElementById('airline_corbooker_select')){
+                    request_airline['airline_corbooker_select'] = document.getElementById('airline_corbooker_select').value;
+                }
             }
         }
         if(document.getElementById('checkbox_osi_code_backend_airline'))
