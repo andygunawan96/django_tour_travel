@@ -410,6 +410,7 @@ function airline_goto_search(){
                         })
                     }catch(err){console.log(err)}
                 }
+                request_airline['promo_code_counter_list'] = JSON.stringify(request_airline['promo_code_counter_list'])
             }
             document.getElementById('promo_code_counter_list').value = JSON.stringify(list_promo_code);
         }
