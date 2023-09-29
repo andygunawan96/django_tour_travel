@@ -231,6 +231,8 @@ def api_models(request):
 
         elif req_data['action'] == 'search_for_mobile':
             res = search_mobile(request)
+        elif req_data['action'] == 'get_airline_advance_pax_type':
+            res = get_airline_advance_pax_type(request)
 
         else:
             res = ERR.get_error_api(1001)
