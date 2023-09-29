@@ -5548,6 +5548,7 @@ def search_mobile(request):
             "provider": request.data['provider'],
             # "provider": 'amadeus',
             "carrier_codes": request.data['carrier_codes'],
+            "promo_codes": request.data['promo_codes']
         }
 
         if request.data.get('student'):
