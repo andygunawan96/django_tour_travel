@@ -325,7 +325,8 @@ function airline_goto_search(){
                 "cabin_class_list": [], // hanya untuk MC
                 "is_combo_price": document.getElementById('is_combo_price').checked,
                 "carrier_codes": [],
-                "counter":1
+                "counter":1,
+                "promo_code_counter_list": []
             }
 
             if(direction == 'RT'){
@@ -367,7 +368,8 @@ function airline_goto_search(){
                 "cabin_class_list": [], // hanya untuk MC
                 "is_combo_price": document.getElementById('is_combo_price').checked,
                 "carrier_codes": [],
-                "counter": counter_airline_search
+                "counter": counter_airline_search,
+                "promo_code_counter_list": []
             }
             for(i=1;i<=counter_airline_search;i++){
                 request_airline['origin'].push(document.getElementById('origin_id_flight'+i).value)
@@ -402,11 +404,28 @@ function airline_goto_search(){
                             "carrier_code": document.getElementById('carrier_code_line'+i).value,
                             "promo_code": document.getElementById('code_line'+i).value,
                         })
+                        request_airline['promo_code_counter_list'].push({
+                            "carrier_code": document.getElementById('carrier_code_line'+i).value,
+                            "promo_code": document.getElementById('code_line'+i).value,
+                        })
                     }catch(err){console.log(err)}
                 }
+                request_airline['promo_code_counter_list'] = JSON.stringify(request_airline['promo_code_counter_list'])
             }
             document.getElementById('promo_code_counter_list').value = JSON.stringify(list_promo_code);
         }
+        if(document.getElementById('checkbox_corpor_mode_airline')){
+            if(document.getElementById('checkbox_corpor_mode_airline').checked){
+                request_airline['checkbox_corpor_mode_airline'] = true;
+                if(document.getElementById('airline_corpor_select')){
+                    request_airline['airline_corpor_select'] = document.getElementById('airline_corpor_select').value;
+                }if(document.getElementById('airline_corbooker_select')){
+                    request_airline['airline_corbooker_select'] = document.getElementById('airline_corbooker_select').value;
+                }
+            }
+        }
+        if(document.getElementById('checkbox_osi_code_backend_airline'))
+            request_airline['checkbox_osi_code_backend_airline'] = document.getElementById('checkbox_osi_code_backend_airline').checked;
         if(request_airline)
             document_set_cookie('airline_request', JSON.stringify(request_airline));
 
@@ -416,8 +435,9 @@ function airline_goto_search(){
                 concat_url += '&';
             concat_url += key + '=' + request_airline[key];
         }
-        document.getElementById('airline_searchForm').action += '?' + concat_url;
-        document.getElementById('airline_searchForm').submit();
+        window.location.href = '/airline/search?' + concat_url;
+//        document.getElementById('airline_searchForm').action = '/airline/search?' + concat_url;
+//        document.getElementById('airline_searchForm').submit();
     }else{
         $('.button-search').removeClass("running");
         alert(error_log);
