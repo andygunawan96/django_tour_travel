@@ -75,6 +75,9 @@
                 <form action="" class="form-wrap" style="padding:5px; text-align:left;" method="POST" id="form_identity_cor" enctype="multipart/form-data">
                     <div class="row">
                         <div class="col-lg-12 mb-3" style="text-align:right;">
+                            <button type="button" class="primary-btn" onclick="clear_request_cor();">Clear <i class="fas fa-link"></i></button>
+                        </div>
+                        <div class="col-lg-12 mb-3" style="text-align:right;">
                             <button type="button" class="primary-btn" onclick="generate_url_create('cor');">Generate Link <i class="fas fa-link"></i></button>
                         </div>
                         <div class="col-lg-12 mb-3">
@@ -168,28 +171,40 @@
                                         <label style="color:red">*</label>
                                         <label>{% trans 'Upload Company Structure' %}</label>
                                         <div class="input-container-search-ticket">
-                                            <input type="file" style="color:#FFFFFF;" id="company_structure" name="company_structure" multiple="" accept="*/*">
+                                            <input type="file" style="color:#FFFFFF;" id="company_structure" name="company_structure" multiple="" accept="*/*" onchange="cor_update_image(window.URL.createObjectURL(this.files[0]), 'company_structure')">
+                                        </div>
+                                        <div id="company_structure_div" hidden>
+                                            <img id="company_structure_img" src="" alt="Company Structure" style="width:120px; height:auto;">
                                         </div>
                                     </div>
                                     <div class="col-lg-12" style="margin-bottom:15px;">
                                         <label style="color:red">*</label>
                                         <label>{% trans 'Upload NPWP' %}</label>
                                         <div class="input-container-search-ticket">
-                                            <input type="file" style="color:#FFFFFF;" id="company_npwp" name="company_npwp" multiple="" accept="*/*">
+                                            <input type="file" style="color:#FFFFFF;" id="company_npwp" name="company_npwp" multiple="" accept="*/*" onchange="cor_update_image(window.URL.createObjectURL(this.files[0]), 'company_npwp')">
+                                        </div>
+                                        <div id="company_npwp_div" hidden>
+                                            <img id="company_npwp_img" src="" alt="NPWP" style="width:120px; height:auto;">
                                         </div>
                                     </div>
                                     <div class="col-lg-12" style="margin-bottom:15px;">
                                         <label style="color:red">*</label>
                                         <label>{% trans 'Upload SIUP/NIB' %}</label>
                                         <div class="input-container-search-ticket">
-                                            <input type="file" style="color:#FFFFFF;" id="company_siup_nib" name="company_siup_nib" multiple="" accept="*/*">
+                                            <input type="file" style="color:#FFFFFF;" id="company_siup_nib" name="company_siup_nib" multiple="" accept="*/*" onchange="cor_update_image(window.URL.createObjectURL(this.files[0]), 'company_siup_nib')">
+                                        </div>
+                                        <div id="company_siup_nib_div" hidden>
+                                            <img id="company_siup_nib_img" src="" alt="SIUP/NIB" style="width:120px; height:auto;">
                                         </div>
                                     </div>
                                     <div class="col-lg-12" style="margin-bottom:15px;">
                                         <label style="color:red">*</label>
                                         <label>{% trans 'Upload Akta Pendirian' %}</label>
                                         <div class="input-container-search-ticket">
-                                            <input type="file" style="color:#FFFFFF;" id="company_akta_pendirian" name="company_akta_pendirian" multiple="" accept="*/*">
+                                            <input type="file" style="color:#FFFFFF;" id="company_akta_pendirian" name="company_akta_pendirian" multiple="" accept="*/*" onchange="cor_update_image(window.URL.createObjectURL(this.files[0]), 'company_akta_pendirian')">
+                                        </div>
+                                        <div id="company_akta_pendirian_div" hidden>
+                                            <img id="company_akta_pendirian_img" src="" alt="Akta Pendirian" style="width:120px; height:auto;">
                                         </div>
                                     </div>
 
@@ -247,7 +262,10 @@
                                         <label style="color:red">*</label>
                                         <label>{% trans 'Upload KTP' %}</label>
                                         <div class="input-container-search-ticket">
-                                            <input type="file" style="color:#FFFFFF;" id="owner_ktp" name="owner_ktp" multiple="" accept="*/*">
+                                            <input type="file" style="color:#FFFFFF;" id="owner_ktp" name="owner_ktp" multiple="" accept="*/*" onchange="cor_update_image(window.URL.createObjectURL(this.files[0]), 'owner_ktp')">
+                                        </div>
+                                        <div id="owner_ktp_div" hidden>
+                                            <img id="owner_ktp_img" src="" alt="Owner KTP" style="width:120px; height:auto;">
                                         </div>
                                     </div>
                                 </div>
@@ -340,7 +358,10 @@
                                         <label style="color:red">*</label>
                                         <label>{% trans 'Upload KTP' %}</label>
                                         <div class="input-container-search-ticket">
-                                            <input type="file" style="color:#FFFFFF;" id="accounting_ktp" name="accounting_ktp" multiple="" accept="*/*">
+                                            <input type="file" style="color:#FFFFFF;" id="accounting_ktp" name="accounting_ktp" multiple="" accept="*/*" onchange="cor_update_image(window.URL.createObjectURL(this.files[0]), 'accounting_ktp')">
+                                        </div>
+                                        <div id="accounting_ktp_div" hidden>
+                                            <img id="accounting_ktp_img" src="" alt="Accounting KTP" style="width:120px; height:auto;">
                                         </div>
                                     </div>
                                 </div>
@@ -411,7 +432,10 @@
                                         <label style="color:red">*</label>
                                         <label>{% trans 'Upload KTP' %}</label>
                                         <div class="input-container-search-ticket">
-                                            <input type="file" style="color:#FFFFFF;" id="pic_ktp" name="pic_ktp" multiple="" accept="*/*">
+                                            <input type="file" style="color:#FFFFFF;" id="pic_ktp" name="pic_ktp" multiple="" accept="*/*" onchange="cor_update_image(window.URL.createObjectURL(this.files[0]), 'pic_ktp')">
+                                        </div>
+                                        <div id="pic_ktp_div" hidden>
+                                            <img id="pic_ktp_img" src="" alt="PIC KTP" style="width:120px; height:auto;">
                                         </div>
                                     </div>
                                 </div>
@@ -526,7 +550,10 @@
                             <div style="background:white; border:1px solid #cdcdcd; padding:15px;" id="corporate_airline_div">
                                 <label style="color:red">*</label>
                                 <label>{% trans 'Statement Letter' %}</label><br/>
-                                <input type="file" style="color:#FFFFFF;" id="statement_letter" name="statement_letter" multiple="" accept="*/*">
+                                <input type="file" style="color:#FFFFFF;" id="statement_letter" name="statement_letter" multiple="" accept="*/*" onchange="cor_update_image(window.URL.createObjectURL(this.files[0]), 'statement_letter')">
+                                <div id="statement_letter_div" hidden>
+                                    <img id="statement_letter_img" src="" alt="Statement Letter" style="width:120px; height:auto;">
+                                </div>
                             </div>
                         </div>
                         <div class="col-lg-12" style="margin-bottom:15px;">
@@ -543,7 +570,7 @@
                                 Browser not Supported.
                             </canvas>
                             <br/>
-                            <button class="btn btn-default" id="sig-clearBtn">Clear Signature</button>
+                            <button type="button" class="btn btn-default" id="sig-clearBtn">Clear Signature</button>
                             <div class="row" hidden>
                                 <div class="col-md-12">
                                     <button class="btn btn-primary" id="sig-submitBtn">Submit Signature</button>

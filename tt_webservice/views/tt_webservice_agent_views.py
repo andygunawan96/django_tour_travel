@@ -13,6 +13,7 @@ import re
 import logging
 import traceback
 import copy
+import base64
 
 _logger = logging.getLogger("website_logger")
 
@@ -1844,10 +1845,20 @@ def create_request_cor(request):
             "signature": request.POST['signature']
         }
         data = json.loads(request.POST['data'])
+        for rec_file_name in request.FILES:
+            data['img_%s' % rec_file_name] = {
+                'file_name': request.FILES[rec_file_name].name,
+                'file': base64.b64encode(request.FILES[rec_file_name].file.read()).decode('utf-8'),
+            }
         if data['account_web'] == 'true':
             data['account_web'] = True
         else:
             data['account_web'] = False
+
+        if data['cor_tac'] == 'true':
+            data['cor_tac'] = True
+        else:
+            data['cor_tac'] = False
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
