@@ -626,7 +626,7 @@ function create_request_cor(){
                       html: 'Success',
                     })
                     // clear data
-//                    clear_request_cor();
+                    clear_request_cor();
                 }else{
                     Swal.fire({
                       type: 'error',
