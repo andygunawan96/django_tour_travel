@@ -2366,7 +2366,7 @@
     }
 
     function file_validation(id_file){
-        var fi = document.getElementById(''+id_file);
+        var fi = document.getElementById(id_file);
         if (fi.files.length > 0) {
             for (var i = 0; i <= fi.files.length - 1; i++) {
 
@@ -2633,6 +2633,7 @@
             no_fill();
         get_notif_train('admin');
         get_notif_airline('admin');
+        get_term_and_condition_cor('admin');
         get_airline_config('home');
         get_carriers_hotel();
         get_list_report_footer();

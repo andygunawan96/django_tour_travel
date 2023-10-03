@@ -231,6 +231,8 @@ def api_models(request):
 
         elif req_data['action'] == 'search_for_mobile':
             res = search_mobile(request)
+        elif req_data['action'] == 'get_airline_advance_pax_type':
+            res = get_airline_advance_pax_type(request)
 
         else:
             res = ERR.get_error_api(1001)
@@ -5546,6 +5548,7 @@ def search_mobile(request):
             "provider": request.data['provider'],
             # "provider": 'amadeus',
             "carrier_codes": request.data['carrier_codes'],
+            "promo_codes": request.data['promo_codes']
         }
 
         if request.data.get('student'):
@@ -5826,7 +5829,7 @@ def search_mobile(request):
                                     fare['pick'] = False
 
                                 for svc_summary in fare['service_charge_summary']:
-                                    if svc_summary['pax_type'] == 'ADT':
+                                    if not svc_summary['pax_type'] in ['CHD', 'INF']:
                                         total_price_fare = 0
                                         for svc in svc_summary['service_charges']:
                                             if svc['charge_type'] != 'RAC' and svc['charge_type'] != 'DISC':

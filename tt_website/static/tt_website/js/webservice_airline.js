@@ -8054,6 +8054,11 @@ function airline_get_booking(data, sync=false){
                         localTime  = moment.utc(tes).toDate();
                         msg.result.response.booked_date = moment(localTime).format('DD MMM YYYY HH:mm') + ' ' + gmt + timezone;
                     }
+                    if(msg.result.response.create_date != ''){
+                        tes = moment.utc(msg.result.response.create_date).format('YYYY-MM-DD HH:mm:ss')
+                        localTime  = moment.utc(tes).toDate();
+                        msg.result.response.create_date = moment(localTime).format('DD MMM YYYY HH:mm') + ' ' + gmt + timezone;
+                    }
                     if(msg.result.response.issued_date != ''){
                         tes = moment.utc(msg.result.response.issued_date).format('YYYY-MM-DD HH:mm:ss')
                         localTime  = moment.utc(tes).toDate();
@@ -8570,7 +8575,9 @@ function airline_get_booking(data, sync=false){
                     <div class="col-lg-5 mb-3">
                         <span>
                             <b>Booked Date </b><br/>`;
-                            if(msg.result.response.booked_date != ""){
+                            if(msg.result.response.hasOwnProperty('create_date') && msg.result.response.create_date != ""){
+                                text+=`<i>`+msg.result.response.create_date+`</i>`;
+                            }else if(msg.result.response.booked_date != ""){
                                 text+=`<i>`+msg.result.response.booked_date+`</i>`;
                             }else{
                                 text+=`-`;
