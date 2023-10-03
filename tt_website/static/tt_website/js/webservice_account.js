@@ -82,17 +82,9 @@ function get_balance(val){
 //                        }catch(err){}
                         //add template
                         text = '';
-                        if(template == 3 || template == 5){
-                            text = `<div style="margin-bottom:10px; padding-right:15px;"><span class="fas fa-wallet" style="color:`+color+`; padding-right:5px; font-size:16px;"></span>Balance: `+msg.result.response.currency_code + ' ' + getrupiah(balance)+`</div>`;
-                        }else{
-                            text = `<div style="margin-bottom:10px; padding-right:15px; color:black;"><span class="fas fa-wallet" style="color:`+color+`; padding-right:5px; font-size:16px;"></span>Balance: `+msg.result.response.currency_code + ' ' + getrupiah(balance)+`</div>`;
-                        }
+                        text = `<div style="margin-bottom:10px; color:black;"><i class="fas fa-wallet" style="padding-right:5px; font-size:16px;"></i><b>Balance</b><br/>`+msg.result.response.currency_code + ' ' + getrupiah(balance)+`</div>`;
                         if(msg.result.response.is_show_point_reward == true){
-                            if(template == 3 || template == 5){
-                                text += `<div><span class="fas fa-coins" style="color:`+color+`; padding-right:5px; font-size:16px;"></span>Point: `+msg.result.response.currency_code + ' ' + getrupiah(msg.result.response.point_reward)+`</div>`;
-                            }else{
-                                text += `<div style="color:black; margin-bottom:10px;"><span class="fas fa-coins" style="color:`+color+`; padding-right:5px; font-size:16px;"></span>Point: `+msg.result.response.currency_code + ' ' + getrupiah(msg.result.response.point_reward)+`</div>`;
-                            }
+                            text += `<div style="margin-bottom:10px; color:black;"><i class="fas fa-coins" style="padding-right:5px; font-size:16px;"></i><b>Point</b><br/>`+msg.result.response.currency_code + ' ' + getrupiah(msg.result.response.point_reward)+`</div>`;
                         }
                     }else{
                         //BALANCE VENDOR
@@ -132,11 +124,7 @@ function get_balance(val){
                             document.getElementsByClassName("balance_mobile")[0].style.display = 'none';
                     }
                     if(msg.result.response.is_show_credit_limit){
-                        if(template == 3 || template == 5){
-                            text = `<div><span class="fas fa-credit-card" style="color:`+color+`; padding-right:5px; font-size:16px;"></span>Credit Limit: `+msg.result.response.currency_code+ ' ' + getrupiah(credit_limit)+`</div>`;
-                        }else{
-                            text = `<div style="color:black;"><span class="fas fa-credit-card" style="color:`+color+`; padding-right:5px; font-size:16px;"></span>Credit Limit: `+msg.result.response.currency_code+ ' ' + getrupiah(credit_limit)+`</div>`;
-                        }
+                        text = `<div style="color:black;"><i class="fas fa-credit-card" style="padding-right:5px; font-size:16px;"></i><b>Credit Limit</b><br/>`+msg.result.response.currency_code+ ' ' + getrupiah(credit_limit)+`</div>`;
                         //CREDIT LIMIT
                         if(document.getElementById("credit_limit"))
                             document.getElementById("credit_limit").innerHTML = text;
@@ -149,7 +137,7 @@ function get_balance(val){
                         show_ul_balance++;
                     }
                     if(msg.result.response.is_show_customer_parent_balance){
-                        text = `<span class="fas fa-credit-card" style="color:`+color+`; padding-right:5px; font-size:16px;"></span> Corporate Balance: `+msg.result.response.currency_code+ ' ' + getrupiah(customer_parent_balance);
+                        text = `<div style="color:black;"><i class="fas fa-credit-card" style="padding-right:5px; font-size:16px;"></i><b>Corporate Balance</b><br/>`+msg.result.response.currency_code+ ' ' + getrupiah(customer_parent_balance)+`</div>`;
                         //PARENT AGENT BALANCE CORPORATE
                         if(document.getElementById("customer_parent_balance"))
                             document.getElementById("customer_parent_balance").innerHTML = text;

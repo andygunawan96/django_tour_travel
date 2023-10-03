@@ -1637,7 +1637,7 @@ h1, h2, h3, h4, h5, h6 {
   color: #333;
   transition: 0.3s;
   display: block;
-  font-size: 12px;
+  font-size: 13px;
   width:250px;
   cursor:pointer;
   text-transform: none; }
@@ -3809,3 +3809,8 @@ ul.tabs li.current .image-rounded-icon{
 .nice-select.form-control{
     margin-bottom: 0px !important;
 }
+
+.form-select-text .current{
+    margin-right: 0px !important;
+}
+

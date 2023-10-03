@@ -247,6 +247,15 @@ Licence URI: http://www.os-templates.com/template-terms
             {% endif %}
         {% endif %}
 
+
+        .change_search_box_bg {
+            background: linear-gradient(0deg,rgba(0, 0, 0, 0.4),rgba(0, 0, 0, 0.4)),url("{{background}}") !important;
+            min-height: 200px;
+            background-position: center center !important;
+            background-size: cover !important;
+            background-repeat: no-repeat !important;
+        }
+
         {%if template == 1%}
         .testimonial-area {
             background-image: url("{{background}}") !important;
@@ -358,6 +367,7 @@ Licence URI: http://www.os-templates.com/template-terms
     <link rel="stylesheet" href="{{ static_path }}css/template4/rangeslider.css?version={{javascript_version}}">
     <link rel="stylesheet" href="{{ static_path }}css/template4/style.css?version={{javascript_version}}">
     <link rel="stylesheet" href="{{ static_path }}css/template4/select2.css?version={{javascript_version}}">
+    <link rel="stylesheet" href="{{ static_path }}css/template1/font-awesome.min.css?version={{javascript_version}}">
     {% elif template == 5 %}
     <link rel="stylesheet" href="{{ static_path }}css/template5/linearicons.css?version={{javascript_version}}">
     <link rel="stylesheet" href="{{ static_path }}css/template5/font-awesome.min.css?version={{javascript_version}}">
@@ -507,6 +517,13 @@ Licence URI: http://www.os-templates.com/template-terms
 
     <!--All Template-->
     <style>
+        .form-select-text .current{
+            color: {{text_color}} !important;
+        }
+        .btn-dropdown-txt{
+            color: {{text_color}};
+            border: unset;
+        }
         .radio-label100 > .div_label100:hover{
             color: {{text_color}};
             background: {{color}};
@@ -735,6 +752,10 @@ Licence URI: http://www.os-templates.com/template-terms
             background: {{color}};
         }
         .primary-btn-white:hover{
+            background: {{color}};
+            color: {{text_color}};
+        }
+        .primary-btn-white-short:hover{
             background: {{color}};
             color: {{text_color}};
         }
@@ -1557,6 +1578,13 @@ Licence URI: http://www.os-templates.com/template-terms
     </style>
     {% elif template == 4%}
     <style>
+        .form-control{
+            border-radius: unset !important;
+        }
+        .nice-select{
+            border-radius: unset !important;
+        }
+
         .image-rounded-icon2{
             color: {{text_color}} !important;
         }

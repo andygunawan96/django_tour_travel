@@ -112,6 +112,15 @@
             position: absolute;
         }
     {% endif %}
+    {% if template == 4 or template == 5 %}
+        .dropdown-menu-txt{
+            top: 25px !important;
+        }
+    {% elif template == 6 %}
+        .dropdown-menu-txt{
+            top: 5px !important;
+        }
+    {% endif %}
 
     @media only screen and (min-width: 991px) {
         #slider_home {
@@ -1217,7 +1226,6 @@
                         startDate: airline_date,
                         minDate: moment(),
                         maxDate: moment().subtract(-1, 'years'),
-                        nextFocus: '#show_total_pax_flight'
                     });
                 }
             {% endif %}
