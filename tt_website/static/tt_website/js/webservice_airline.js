@@ -3562,7 +3562,7 @@ function draw_recommendation_maps(){
             text_recom_maps+='`, `';
             text_recom_maps+=JSON.stringify(recommendation_maps[idx_recom][2]);
             text_recom_maps+='`';
-            text_recom_maps+=`);'>Choose</button>
+            text_recom_maps+=`, "`+recommendation_maps[idx_recom][recommendation_maps[idx_recom].length-1]+`");'>Choose</button>
                 </div>
             </div>`;
             node2 = document.createElement("div");
@@ -3574,7 +3574,7 @@ function draw_recommendation_maps(){
     }
 }
 
-function choose_recommendation_ticket(journey_code, fare_code){
+function choose_recommendation_ticket(journey_code, fare_code, total_price){
     journey_code_list = JSON.parse(journey_code);
     fare_code_list = [];
     fare_code_list_of_list = JSON.parse(fare_code);
@@ -3588,45 +3588,68 @@ function choose_recommendation_ticket(journey_code, fare_code){
     fare_code_sequence = 0;
     for(x in journey_code_list){
         for(airline_index_i in airline_data_filter){
+            // FLOW BYPASS
             if(airline_data_filter[airline_index_i].journey_code == journey_code_list[x]){
                 for(airline_index_j in airline_data_filter[airline_index_i].segments){
                     for(airline_index_k in airline_data_filter[airline_index_i].segments[airline_index_j].fares){
                         if(fare_code_list[fare_code_sequence] == airline_data_filter[airline_index_i].segments[airline_index_j].fares[airline_index_k].fare_code){
-                            document.getElementsByName('journey'+airline_index_i+'segment'+airline_index_j+'fare')[airline_index_k].checked = true;
-
-                            change_fare(airline_index_i,airline_index_j,airline_index_k,airline_data_filter[airline_index_i].segments[airline_index_j].fares[airline_index_k].fare_code);
+                            airline_data_filter[airline_index_i].segments[airline_index_j].fare_pick = airline_index_k.toString();
                             // HITUNG ULANG
                             price = 0;
-                            cabin_class = '';
-                            for(airline_index_l in airline_data_filter[airline_index_i].segments[airline_index_j].fares[airline_index_k].service_charge_summary){
-                                if(!['CHD', 'INF'].includes(airline_data_filter[airline_index_i].segments[airline_index_j].fares[airline_index_k].service_charge_summary[airline_index_l].pax_type)){
-                                    price = airline_data_filter[airline_index_i].segments[airline_index_j].fares[airline_index_k].service_charge_summary[airline_index_l].base_price;
-                                }
+                            if(fare_code_list.length == fare_code_sequence+1){
+                                airline_data_filter[airline_index_i].total_price = parseInt(total_price.replaceAll(',',''));
+                            }else{
+                                airline_data_filter[airline_index_i].total_price = 0;
                             }
-
-                            if(airline_data_filter[airline_index_i].segments[airline_index_j].fares[airline_index_k].cabin_class == 'Y')
-                                cabin_class = 'Economy'
-                            else if(airline_data_filter[airline_index_i].segments[airline_index_j].fares[airline_index_k].cabin_class == 'W' && airline_data_filter[airline_index_i].segments[airline_index_j].carrier_code == 'QG')
-                                cabin_class = 'Royal Green'
-                            else if(airline_data_filter[airline_index_i].segments[airline_index_j].fares[airline_index_k].cabin_class == 'W')
-                                cabin_class = 'Premium Economy'
-                            else if(airline_data_filter[airline_index_i].segments[airline_index_j].fares[airline_index_k].cabin_class == 'C')
-                                cabin_class = 'Business'
-                            else if(airline_data_filter[airline_index_i].segments[airline_index_j].fares[airline_index_k].cabin_class == 'F')
-                                cabin_class = 'First Class'
-
-                            change_seat_span(airline_index_i, airline_index_j, airline_data_filter[airline_index_i].segments[airline_index_j].fares[airline_index_k].class_of_service+'  ('+cabin_class+') <br/><b>'+airline_data_filter[airline_index_i].currency+' '+getrupiah(price) + '</b>');
-                            change_seat_fare_span(airline_index_i, airline_index_j, airline_data_filter[airline_index_i].segments[airline_index_j].fares[airline_index_k].class_of_service);
-
                             fare_code_sequence++;
                         }
                     }
                 }
-                get_price_itinerary(airline_index_i);
+                airline_pick_list.push(airline_data_filter[airline_index_i])
                 break;
             }
+            // FLOW NORMAL
+//            if(airline_data_filter[airline_index_i].journey_code == journey_code_list[x]){
+//                for(airline_index_j in airline_data_filter[airline_index_i].segments){
+//                    for(airline_index_k in airline_data_filter[airline_index_i].segments[airline_index_j].fares){
+//                        if(fare_code_list[fare_code_sequence] == airline_data_filter[airline_index_i].segments[airline_index_j].fares[airline_index_k].fare_code){
+//                            document.getElementsByName('journey'+airline_index_i+'segment'+airline_index_j+'fare')[airline_index_k].checked = true;
+//
+//                            change_fare(airline_index_i,airline_index_j,airline_index_k,airline_data_filter[airline_index_i].segments[airline_index_j].fares[airline_index_k].fare_code);
+//                            // HITUNG ULANG
+//                            price = 0;
+//                            cabin_class = '';
+//                            for(airline_index_l in airline_data_filter[airline_index_i].segments[airline_index_j].fares[airline_index_k].service_charge_summary){
+//                                if(!['CHD', 'INF'].includes(airline_data_filter[airline_index_i].segments[airline_index_j].fares[airline_index_k].service_charge_summary[airline_index_l].pax_type)){
+//                                    price = airline_data_filter[airline_index_i].segments[airline_index_j].fares[airline_index_k].service_charge_summary[airline_index_l].base_price;
+//                                }
+//                            }
+//
+//                            if(airline_data_filter[airline_index_i].segments[airline_index_j].fares[airline_index_k].cabin_class == 'Y')
+//                                cabin_class = 'Economy'
+//                            else if(airline_data_filter[airline_index_i].segments[airline_index_j].fares[airline_index_k].cabin_class == 'W' && airline_data_filter[airline_index_i].segments[airline_index_j].carrier_code == 'QG')
+//                                cabin_class = 'Royal Green'
+//                            else if(airline_data_filter[airline_index_i].segments[airline_index_j].fares[airline_index_k].cabin_class == 'W')
+//                                cabin_class = 'Premium Economy'
+//                            else if(airline_data_filter[airline_index_i].segments[airline_index_j].fares[airline_index_k].cabin_class == 'C')
+//                                cabin_class = 'Business'
+//                            else if(airline_data_filter[airline_index_i].segments[airline_index_j].fares[airline_index_k].cabin_class == 'F')
+//                                cabin_class = 'First Class'
+//
+//                            change_seat_span(airline_index_i, airline_index_j, airline_data_filter[airline_index_i].segments[airline_index_j].fares[airline_index_k].class_of_service+'  ('+cabin_class+') <br/><b>'+airline_data_filter[airline_index_i].currency+' '+getrupiah(price) + '</b>');
+//                            change_seat_fare_span(airline_index_i, airline_index_j, airline_data_filter[airline_index_i].segments[airline_index_j].fares[airline_index_k].class_of_service);
+//
+//                            fare_code_sequence++;
+//                        }
+//                    }
+//                }
+//                get_price_itinerary(airline_index_i);
+//                break;
+//            }
         }
     }
+    airline_pick_mc('all');
+    set_automatic_combo_price();
     $("#myModalRecommendation").modal('hide');
 }
 
@@ -4535,7 +4558,15 @@ function get_price_itinerary_request(){
     }
     if(rerender){
         document.getElementById('airline_detail').innerHTML = '';
-        document.getElementById('airline_detail_next').innerHTML = '';
+        document.getElementById('airline_detail_next').innerHTML = ``;
+    }else{
+        document.getElementById('airline_detail_next').innerHTML = `
+        <div class="col-lg-6 col-md-6 col-sm-6" style="padding-bottom:5px;">
+            <button class="primary-btn btn-next ld-ext-right running" style="width:100%;" onclick="next_disabled();request_airline_price();" type="button" value="Check Price" disabled>
+                Check Price
+                <div class="ld ld-ring ld-cycle"></div>
+            </button>
+        </div>`;
     }
     document.getElementById("airlines_ticket").innerHTML = '';
     last_session = 'sell_journeys';
