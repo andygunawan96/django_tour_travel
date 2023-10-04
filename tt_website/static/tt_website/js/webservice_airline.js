@@ -6326,13 +6326,20 @@ function set_passenger_seat_map_airline(val){
     text_paxs += passengers[val].title+' '+passengers[val].first_name+' '+passengers[val].last_name;
     text_paxs +=`
     <b style="background:white; font-size:13px; color:black; padding:0px 10px; margin-left:5px; border: 1px solid #cdcdcd; border-radius:5px;">`;
-        if(passengers[val].pax_type == 'ADT'){
-            text_paxs += `Adult`;
-        }else if(passengers[val].pax_type == 'CHD'){
-            text_paxs += `Child`;
-        }else if(passengers[val].pax_type == 'INF'){
-            text_paxs += `Infant`;
-        }
+        text_paxs += passengers[val].pax_type;
+//        if(passengers[val].pax_type == 'ADT'){
+//            text_paxs += `Adult`;
+//        }else if(passengers[val].pax_type == 'CHD'){
+//            text_paxs += `Child`;
+//        }else if(passengers[val].pax_type == 'INF'){
+//            text_paxs += `Infant`;
+//        }else if(passengers[val].pax_type == 'SEA'){
+//            text_paxs += `Seaman`;
+//        }else if(passengers[val].pax_type == 'LBR'){
+//            text_paxs += `Labour`;
+//        }else if(passengers[val].pax_type == 'STU'){
+//            text_paxs += `Student`;
+//        }
     text_paxs +=`</b>`;
     document.getElementById('airline_passenger_detail_seat_span').innerHTML = text_paxs;
     document.getElementById('airline_passenger_active').innerHTML = text_paxs;

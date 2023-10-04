@@ -703,6 +703,13 @@ def get_data_ssr_page(request):
                     passenger.append(pax)
                 for pax in file['child']:
                     passenger.append(pax)
+                for pax in file['student']:
+                    passenger.append(pax)
+                for pax in file['seaman']:
+                    passenger.append(pax)
+                for pax in file['labour']:
+                    passenger.append(pax)
+
             # pax_list = request.session['airline_create_passengers_%s' % request.POST['signature']]
             # for pax in pax_list['adult']:
             #     passenger.append(pax)
@@ -732,7 +739,7 @@ def get_data_seat_page(request):
 
         file = read_cache_file(request, request.POST['signature'], 'airline_create_passengers')
         if file:
-            res['passengers'] = file['adult'] + file['child']
+            res['passengers'] = file['adult'] + file['child'] + file['student'] + file['seaman'] + file['labour']
         # res['passengers'] = request.session['airline_create_passengers_%s' % request.POST['signature']]['adult'] + request.session['airline_create_passengers_%s' % request.POST['signature']]['child']
 
         if request.POST['after_sales'] == 'false':
