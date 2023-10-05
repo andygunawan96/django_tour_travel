@@ -703,12 +703,15 @@ def get_data_ssr_page(request):
                     passenger.append(pax)
                 for pax in file['child']:
                     passenger.append(pax)
-                for pax in file['student']:
-                    passenger.append(pax)
-                for pax in file['seaman']:
-                    passenger.append(pax)
-                for pax in file['labour']:
-                    passenger.append(pax)
+                if file.get('student'):
+                    for pax in file['student']:
+                        passenger.append(pax)
+                if file.get('seaman'):
+                    for pax in file['seaman']:
+                        passenger.append(pax)
+                if file.get('labour'):
+                    for pax in file['labour']:
+                        passenger.append(pax)
 
             # pax_list = request.session['airline_create_passengers_%s' % request.POST['signature']]
             # for pax in pax_list['adult']:
@@ -736,10 +739,23 @@ def get_data_seat_page(request):
         file = read_cache("get_airline_carriers", 'cache_web', request, 90911)
         if file:
             res['airline_carriers'] = file
-
+        passenger_list = []
         file = read_cache_file(request, request.POST['signature'], 'airline_create_passengers')
         if file:
-            res['passengers'] = file['adult'] + file['child'] + file['student'] + file['seaman'] + file['labour']
+            for pax in file['adult']:
+                passenger_list.append(pax)
+            for pax in file['child']:
+                passenger_list.append(pax)
+            if file.get('student'):
+                for pax in file['student']:
+                    passenger_list.append(pax)
+            if file.get('seaman'):
+                for pax in file['seaman']:
+                    passenger_list.append(pax)
+            if file.get('labour'):
+                for pax in file['labour']:
+                    passenger_list.append(pax)
+            res['passengers'] = passenger_list
         # res['passengers'] = request.session['airline_create_passengers_%s' % request.POST['signature']]['adult'] + request.session['airline_create_passengers_%s' % request.POST['signature']]['child']
 
         if request.POST['after_sales'] == 'false':
@@ -764,19 +780,6 @@ def get_data_seat_page(request):
             # res['upsell'] = request.session.get('airline_upsell_' + request.POST['signature']) and request.session.get('airline_upsell_%s' % request.POST['signature']) or 0
         else:
             # post
-            passenger = []
-            file = read_cache_file(request, request.POST['signature'], 'airline_create_passengers')
-            if file:
-                for pax in file['adult']:
-                    passenger.append(pax)
-                for pax in file['child']:
-                    passenger.append(pax)
-            # pax_list = request.session['airline_create_passengers_%s' % request.POST['signature']]
-            # for pax in pax_list['adult']:
-            #     passenger.append(pax)
-            # for pax in pax_list['child']:
-            #     passenger.append(pax)
-            res['passengers'] = passenger
 
             file = read_cache_file(request, request.POST['signature'], 'airline_get_booking_response')
             if file:

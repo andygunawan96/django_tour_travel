@@ -2786,7 +2786,7 @@ function airline_get_provider_list(type, data=''){
                                 text+=`
                                     <div class="col-lg-12" id="alert-state">
                                         <div class="alert alert-warning" role="alert">`;
-                                if(airline_get_detail.result.response.state == 'booked'){
+                                if(airline_get_detail.state == 'booked'){
                                     text+=`<h4>`+provider_list_data[airline_get_detail.provider_bookings[i].provider]['ssr_description_booked']+`</h4>`;
                                     description_info += '<br/>' + provider_list_data[airline_get_detail.provider_bookings[i].provider]['ssr_description_booked'];
                                 }else{
@@ -2862,7 +2862,7 @@ function airline_get_provider_list(type, data=''){
                                 text+=`
                                     <div class="col-lg-12" id="alert-state">
                                         <div class="alert alert-warning" role="alert">`;
-                                if(airline_get_detail.result.response.state == 'booked'){
+                                if(airline_get_detail.state == 'booked'){
                                     text+=`<h4>`+provider_list_data[airline_get_detail.provider_bookings[i].provider]['seat_description_booked']+`</h4>`;
                                     description_info += '<br/>' + provider_list_data[airline_get_detail.provider_bookings[i].provider]['seat_description_booked'];
                                 }else{
