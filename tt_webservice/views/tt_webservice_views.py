@@ -209,7 +209,7 @@ def delete_cache_file(request, signature):
         if signature in file:
             os.remove("%s/%s" % (folder_path, file))
 
-def read_cache_file(request, signature, session_key):
+def read_cache_file(request, signature, session_key, get_full_data=False):
     try:
         file = open("%s/%s.txt" % (var_log_path(request, 'cache_session/%s' % request.session['user_account']['co_user_login']), ("%s_%s" % (signature, session_key))), "r")
         data = file.read()
@@ -218,7 +218,10 @@ def read_cache_file(request, signature, session_key):
             try:
                 res = json.loads(data)
                 if res.get('data'):
-                    return res['data']
+                    if get_full_data:
+                        return res
+                    else:
+                        return res['data']
                 else:
                     return False
             except:
@@ -228,6 +231,16 @@ def read_cache_file(request, signature, session_key):
             return False
     except Exception as e:
         return False
+
+def get_list_file_name(request, session_key):
+    res_file = []
+    for file in os.listdir(var_log_path(request, 'cache_session/%s' % request.session['user_account']['co_user_login'])):
+        try:
+            if session_key in file:
+                res_file.append(file)
+        except Exception as e:
+            _logger.error("%s, %s" % (str(e), traceback.format_exc()))
+    return res_file
 
 def write_cache_file(request, signature, session_key, data, depth = 1):
     try:

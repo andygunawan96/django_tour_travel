@@ -904,11 +904,11 @@ function event_get_booking(data){
                     document.getElementById('event_detail').innerHTML = text_detail;
 
                     //==================== Print Button =====================
-                    var print_text = '<div class="col-lg-4" style="padding-bottom:10px;">';
+
                     // === Button 1 ===
-                    if (msg.result.response.state  == 'issued') {
+                    if (msg.result.response.state  == 'issued' || msg.result.response.state  == 'booked') {
                         hide_logo_text= `
-                        <div style="border:1px solid #cdcdcd; padding:10px; background-color:white; margin-top:20px;" id="event_hide_logo_opt_cont">
+                        <div class="col-lg-12" style="border:1px solid #cdcdcd; padding:10px; background-color:white;" id="event_hide_logo_opt_cont">
                             <div class="row">`;
                         if (msg.result.response.state == 'issued'){
                             hide_logo_text+=`
@@ -933,8 +933,17 @@ function event_get_booking(data){
                         </div>`;
 
                         document.getElementById('event_hide_agent_logo_opt').innerHTML = hide_logo_text;
+                    }
+                    var print_text = '<div class="col-lg-4" style="padding-bottom:10px;">';
+                    if (msg.result.response.state  == 'booked'){
                         print_text+=`
-                        <button class="primary-btn hold-seat-booking-train ld-ext-right" id="button-choose-print" type="button" onclick="get_printout('` + msg.result.response.name + `','ticket','event');" style="width:100%;">
+                        <button class="primary-btn hold-seat-booking-train ld-ext-right" id="button-print-print" type="button" onclick="get_printout('` + msg.result.response.order_number + `','itinerary','event');" style="width:100%;">
+                            Print Form
+                            <div class="ld ld-ring ld-cycle"></div>
+                        </button>`;
+                    }else if (msg.result.response.state  == 'issued'){
+                        print_text+=`
+                        <button class="primary-btn hold-seat-booking-train ld-ext-right" id="button-choose-print" type="button" onclick="get_printout('` + msg.result.response.order_number + `','ticket','event');" style="width:100%;">
                             Print Ticket
                             <div class="ld ld-ring ld-cycle"></div>
                         </button>`;
@@ -943,13 +952,13 @@ function event_get_booking(data){
                     // === Button 2 ===
                     if (msg.result.response.state  == 'booked'){
                         print_text+=`
-                        <button class="primary-btn hold-seat-booking-train ld-ext-right" id="button-print-print" type="button" onclick="get_printout('` + msg.result.response.name + `','itinerary','event');" style="width:100%;">
-                            Print Itinerary Form
+                        <button class="primary-btn hold-seat-booking-train ld-ext-right" id="button-print-itin-price" type="button" onclick="get_printout('` + msg.result.response.order_number + `','itinerary_price','event');" style="width:100%;">
+                            Print Form (Price)
                             <div class="ld ld-ring ld-cycle"></div>
                         </button>`;
                     }else if (msg.result.response.state  == 'issued'){
                         print_text+=`
-                        <button class="primary-btn hold-seat-booking-train ld-ext-right" type="button" id="button-print-print" onclick="get_printout('` + msg.result.response.name + `','ticket_price','event');" style="width:100%;">
+                        <button class="primary-btn hold-seat-booking-train ld-ext-right" type="button" id="button-print-print" onclick="get_printout('` + msg.result.response.order_number + `','ticket_price','event');" style="width:100%;">
                             Print Ticket (With Price)
                             <div class="ld ld-ring ld-cycle"></div>
                         </button>`;
@@ -958,7 +967,7 @@ function event_get_booking(data){
                     // === Button 3 ===
                     if (msg.result.response.state  == 'issued') {
                         print_text+=`
-                        <button class="primary-btn hold-seat-booking-train ld-ext-right" type="button" onclick="window.location.href='`+backend_url+`/orbisway/report/pdf/tt.agent.invoice/`+msg.result.response.name+`'" style="width:100%;" >
+                        <button class="primary-btn hold-seat-booking-train ld-ext-right" type="button" onclick="window.location.href='`+backend_url+`/orbisway/report/pdf/tt.agent.invoice/`+msg.result.response.order_number+`'" style="width:100%;" >
                             Print Invoice
                             <div class="ld ld-ring ld-cycle"></div>
                         </button>`;

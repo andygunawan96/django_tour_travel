@@ -9761,6 +9761,12 @@ function airline_get_booking(data, sync=false){
                                     <i class="fas fa-print"></i> Print Ticket
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>`;
+                            }else if (msg.result.response.state  == 'booked'){
+                                text+=`
+                                <button type="button" id="button-print-print" class="primary-btn ld-ext-right" style="width:100%;" onclick="get_printout('`+msg.result.response.order_number+`', 'itinerary','airline');">
+                                    <i class="fas fa-print"></i> Print Form
+                                    <div class="ld ld-ring ld-cycle"></div>
+                                </button>`;
                             }
                         }
                         text+=`
@@ -9768,17 +9774,16 @@ function airline_get_booking(data, sync=false){
                     text+=`
                     <div class="col-lg-6 col-md-6" style="padding-bottom:10px;">`;
                         if(msg.result.response.state != 'cancel' && msg.result.response.state != 'cancel2'){
-                            if (msg.result.response.state  == 'booked'){
-                                text+=`
-                                <button type="button" id="button-print-print" class="primary-btn ld-ext-right" style="width:100%;" onclick="get_printout('`+msg.result.response.order_number+`', 'itinerary','airline');">
-                                    <i class="fas fa-print"></i> Print Form
-                                    <div class="ld ld-ring ld-cycle"></div>
-                                </button>`;
-                            }
-                            else if (msg.result.response.state == 'issued'){
+                            if (msg.result.response.state == 'issued'){
                                 text+=`
                                 <button type="button" class="primary-btn ld-ext-right" id="button-print-print" style="width:100%;" onclick="get_printout('`+msg.result.response.order_number+`', 'ticket_price','airline');">
                                     <i class="fas fa-print"></i> Print Ticket (Price)
+                                    <div class="ld ld-ring ld-cycle"></div>
+                                </button>`;
+                            }else if (msg.result.response.state  == 'booked'){
+                                text+=`
+                                <button type="button" id="button-print-itin-price" class="primary-btn ld-ext-right" style="width:100%;" onclick="get_printout('`+msg.result.response.order_number+`', 'itinerary_price','airline');">
+                                    <i class="fas fa-print"></i> Print Form (Price)
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>`;
                             }
