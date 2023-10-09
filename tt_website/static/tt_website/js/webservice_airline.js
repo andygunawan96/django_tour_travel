@@ -18090,8 +18090,8 @@ function airline_get_reschedule_availability_v2(){
                 }catch(err){
                     console.log(err); // error kalau ada element yg tidak ada
                 }
-                flight++;
             }
+            flight++;
         }
         if(journey_list.length > 0){
             provider_list.push({
