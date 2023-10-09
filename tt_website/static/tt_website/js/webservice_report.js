@@ -592,16 +592,18 @@ function get_report_overall(){
             // peripherals
             $('#total_rupiah').html(number_format(result.raw_data.result.response.total_rupiah, 2));
             $('#average_rupiah').html(number_format(result.raw_data.result.response.average_rupiah, 2));
-            if(result.raw_data.result.response.dependencies.is_ho == 1){
+            if(result.raw_data.result.response.dependencies.is_ho == 1 || result.raw_data.result.response.dependencies.is_admin == 1){
                 $('#profit_rupiah').html(number_format(result.raw_data.result.response.profit_total, 2));
                 $('#profit_ho').html(number_format(result.raw_data.result.response.profit_ho, 2));
                 $('#profit_agent_parent').html(number_format(result.raw_data.result.response.profit_agent_parent, 2));
                 $('#profit_agent').html(number_format(result.raw_data.result.response.profit_agent, 2));
+                $('#profit_total_card').show();
                 $('#profit_agent_card').show();
                 $('#profit_ho_card').show();
                 $('#profit_agent_parent_card').show();
-            } else {
+            } else if(result.raw_data.result.response.dependencies.is_not_corpor == 1){
                 $('#profit_rupiah').html(number_format(result.raw_data.result.response.profit_total, 2));
+                $('#profit_total_card').show();
             }
 
             // overview section
@@ -1341,16 +1343,18 @@ $('#report_form').submit(function(evt){
             // peripherals
             $('#total_rupiah').html(number_format(result.raw_data.result.response.total_rupiah, 2));
             $('#average_rupiah').html(number_format(result.raw_data.result.response.average_rupiah, 2));
-            if(result.raw_data.result.response.dependencies.is_ho == 1){
+            if(result.raw_data.result.response.dependencies.is_ho == 1 || result.raw_data.result.response.dependencies.is_admin == 1){
                 $('#profit_rupiah').html(number_format(result.raw_data.result.response.profit_total, 2));
                 $('#profit_ho').html(number_format(result.raw_data.result.response.profit_ho, 2));
                 $('#profit_agent_parent').html(number_format(result.raw_data.result.response.profit_agent_parent, 2));
                 $('#profit_agent').html(number_format(result.raw_data.result.response.profit_agent, 2));
+                $('#profit_total_card').show();
                 $('#profit_agent_card').show();
                 $('#profit_ho_card').show();
                 $('#profit_agent_parent_card').show();
-            } else {
+            } else if(result.raw_data.result.response.dependencies.is_not_corpor == 1){
                 $('#profit_rupiah').html(number_format(result.raw_data.result.response.profit_total, 2));
+                $('#profit_total_card').show();
             }
 
             // "First" overview section
