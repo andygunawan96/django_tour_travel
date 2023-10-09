@@ -126,6 +126,7 @@ def search(request):
                     'type': request.POST.get('activity_type') and int(request.POST['activity_type']) or 0,
                     'category': request.POST.get('activity_category') and int(request.POST['activity_category'].split(' ')[0]) or 0,
                     'sub_category': request.POST.get('activity_sub_category') and int(request.POST['activity_sub_category']) or 0,
+                    'page': request.POST.get('activity_search_page') and int(request.POST['activity_search_page']) or 1
                 }
                 write_cache_file(request, frontend_signature, 'activity_search_request', data)
                 write_cache_file(request, '', 'activity_search_request', data)
