@@ -39,13 +39,14 @@
 </style>
 
 {%if "create_request_corporate" in username.co_agent_frontend_security %}
-<button type="button" style="background-color:{{color}};" id="mystickycor" class="mystickypaxs cor-db-slide-toggle" class="primary-btn" data-toggle="modal" data-target="#myModal_cor">
-    <i class="fas fa-user-tie"></i>
-</button>
 
 <script>
-    document.getElementById('mystickycor').style.bottom = JSON.parse(JSON.stringify(bottom.toString())) + 'px';
-    bottom+=60;
+//    document.getElementById('mystickycor').style.bottom = JSON.parse(JSON.stringify(bottom.toString())) + 'px';
+//    bottom+=60;
+    document.getElementById('adminButtonsContent').innerHTML += `
+    <button type="button" style="background-color:{{color}};" id="mystickycor" class="cor-db-slide-toggle" class="primary-btn" data-toggle="modal" data-target="#myModal_cor">
+        <i class="fas fa-user-tie"></i>
+    </button>`;
 </script>
 
 <div class="modal fade" id="myModal_cor" role="dialog">
@@ -74,9 +75,6 @@
             <div class="modal-body" style="text-align:left;">
                 <form action="" class="form-wrap" style="padding:5px; text-align:left;" method="POST" id="form_identity_cor" enctype="multipart/form-data">
                     <div class="row">
-                        <div class="col-lg-12 mb-3" style="text-align:right;">
-                            <button type="button" class="primary-btn" onclick="clear_request_cor();">Clear <i class="fas fa-link"></i></button>
-                        </div>
                         <div class="col-lg-12 mb-3" style="text-align:right;">
                             <button type="button" class="primary-btn" onclick="generate_url_create('cor');">Generate Link <i class="fas fa-link"></i></button>
                         </div>

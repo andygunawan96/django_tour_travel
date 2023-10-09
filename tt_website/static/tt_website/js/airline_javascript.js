@@ -4236,7 +4236,7 @@ function sort(){
 function change_departure(val){
     document.getElementById("badge-copy-notif").innerHTML = "0";
     document.getElementById("badge-copy-notif2").innerHTML = "0";
-    $('#button_copy_airline').hide();
+//    $('#button_copy_airline').hide();
 //    if(airline_request.direction != 'MC'){
 //        check_airline_pick = 0;
 //        while(true){
@@ -4340,33 +4340,28 @@ function airline_pick_mc(type){
     text = '';
     for(i in airline_pick_list){
         text+=`<div>`;
-        if($radio_value_string != "multicity"){
-            if(airline_pick_list[i].is_combo_price == true){
-                text+=`
-                <div style="background-color:`+color+`; padding:10px;">
-                    <h6 style="color:`+text_color+`;">Departure-Return Flight</h6>
-                </div>`;
-            }else if(airline_pick_list[i].airline_pick_sequence == 1){
-                text+=`
-                <div style="background-color:`+color+`; padding:10px;">
-                    <h6 style="color:`+text_color+`;">Departure Flight</h6>
-                </div>`;
-            }else if(airline_pick_list[i].airline_pick_sequence == 2){
-                text+=`
-                <div style="background-color:`+color+`; padding:10px;">
-                    <h6 style="color:`+text_color+`;">Return Flight</h6>
-                </div>`;
-            }
-        }else{
-            text+=`
-            <div style="background-color:`+color+`; padding:10px;">
-                <h6 style="color:`+text_color+`;">Flight - `+(airline_pick_list[i].airline_pick_sequence)+`</h6>
-            </div>`;
-        }
-
         text+=`
-        <div style="background-color:white; border:1px solid `+color+`; margin-bottom:15px; padding:15px 15px 0px 15px;" id="journey2`+airline_pick_list[i].airline_pick_sequence+`">
+        <div style="background-color:white; box-shadow: rgb(3 18 26 / 15%) 4px -1px 10px -4px, rgb(3 18 26 / 15%) -4px -1px 10px -4px; border-radius:5px; border:1px solid #cdcdcd; margin-bottom:15px; padding:15px 15px 0px 15px;" id="journey2`+airline_pick_list[i].airline_pick_sequence+`">
             <div class="row">
+                <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd; padding-bottom:10px;">`;
+                    text+=`
+                    <span style="font-size:14px; font-weight:bold;"><i class="fas fa-plane" style="color:`+color+`; font-size:18px;"></i> `;
+                    if($radio_value_string != "multicity"){
+                        if(airline_pick_list[i].is_combo_price == true){
+                             text+=`Departure-Return`;
+                        }else if(airline_pick_list[i].airline_pick_sequence == 1){
+                            text+=`Departure`;
+                        }else if(airline_pick_list[i].airline_pick_sequence == 2){
+                            text+=`Return`;
+                        }
+                    }else{
+                        text+=`Flight #`+(airline_pick_list[i].airline_pick_sequence)+``;
+                    }
+                    text+=`
+                    </span>
+                    <span style="float:right;">`+airline_request.origin[i].split(' - ')[1] + ` (`+airline_request.origin[i].split(' - ')[0]+`) <i class="fas fa-arrow-right"></i> `+airline_request.destination[i].split(' - ')[1]+` (`+airline_request.destination[i].split(' - ')[0]+`) | `+airline_request.departure[i]+`</span>`;
+                text+=`
+                </div>
                 <div class="col-lg-12">`;
                     carrier_code_airline = [];
                     if(airline_pick_list[i].hasOwnProperty('search_banner')){
@@ -4376,7 +4371,7 @@ function airline_pick_mc(type){
 
                             if(selected_banner_date >= max_banner_date){
                                 if(airline_pick_list[i].search_banner[banner_counter].active == true){
-                                    text+=`<label id="pop_search_banner_pick`+i+``+banner_counter+`" style="background:`+airline_pick_list[i].search_banner[banner_counter].banner_color+`; color:`+airline_pick_list[i].search_banner[banner_counter].text_color+`;padding:5px 10px;">`+airline_pick_list[i].search_banner[banner_counter].name+`</label>`;
+                                    text+=`<label id="pop_search_banner_pick`+i+``+banner_counter+`" style="background:`+airline_pick_list[i].search_banner[banner_counter].banner_color+`; color:`+airline_pick_list[i].search_banner[banner_counter].text_color+`;padding:5px 10px; margin-right:5px;">`+airline_pick_list[i].search_banner[banner_counter].name+`</label>`;
                                 }
                             }
                         }
@@ -4862,7 +4857,7 @@ function airline_pick_mc(type){
                                     <input type='button' style="width:100%; height:35px; line-height:unset;" id="deletejourney_pick`+airline_pick_list[i].airline_pick_sequence+`" class="primary-btn-white-cancel choose_selection_ticket_airlines_depart" value="Delete" onclick="delete_mc_journey(`+airline_pick_list[i].airline_pick_sequence+`);" sequence_id="0"/>
                                 </div>-->
                                 <div class="col-lg-12 col-md-6">
-                                    <input type='button' style="width:100%; height:35px; line-height:unset;" id="changejourney_pick`+airline_pick_list[i].airline_pick_sequence+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Change" onclick="change_departure(`+airline_pick_list[i].airline_pick_sequence+`); change_search_to_api(`+parseInt(airline_pick_list[i].airline_pick_sequence-1)+`);" sequence_id="0"/>
+                                    <input type='button' style="width:100%; height:35px; line-height:unset;" id="changejourney_pick`+airline_pick_list[i].airline_pick_sequence+`" class="primary-btn-gr choose_selection_ticket_airlines_depart" value="Change" onclick="change_departure(`+airline_pick_list[i].airline_pick_sequence+`); change_search_to_api(`+parseInt(airline_pick_list[i].airline_pick_sequence-1)+`);" sequence_id="0"/>
                                 </div>`;
                             }
                             else if(type == 'change'){
@@ -4871,7 +4866,7 @@ function airline_pick_mc(type){
                                     <input type='button' style="width:100%; height:35px; line-height:unset; background:#cdcdcd !important;" id="deletejourney_pick`+airline_pick_list[i].airline_pick_sequence+`" class="primary-btn-white-cancel choose_selection_ticket_airlines_depart" value="Delete" onclick="delete_mc_journey(`+airline_pick_list[i].airline_pick_sequence+`);" disabled sequence_id="0"/>
                                 </div>-->
                                 <div class="col-lg-12 col-md-6">
-                                    <input type='button' style="width:100%; height:35px; line-height:unset; " id="changejourney_pick`+airline_pick_list[i].airline_pick_sequence+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Change" onclick="change_departure(`+airline_pick_list[i].airline_pick_sequence+`); change_search_to_api(`+parseInt(airline_pick_list[i].airline_pick_sequence-1)+`);" sequence_id="0"/>
+                                    <input type='button' style="width:100%; height:35px; line-height:unset; " id="changejourney_pick`+airline_pick_list[i].airline_pick_sequence+`" class="primary-btn-gr choose_selection_ticket_airlines_depart" value="Change" onclick="change_departure(`+airline_pick_list[i].airline_pick_sequence+`); change_search_to_api(`+parseInt(airline_pick_list[i].airline_pick_sequence-1)+`);" sequence_id="0"/>
                                 </div>`;
                             }
                             else if(type == 'delete'){
@@ -4880,7 +4875,7 @@ function airline_pick_mc(type){
                                     <input type='button' style="width:100%; height:35px; line-height:unset; " id="deletejourney_pick`+airline_pick_list[i].airline_pick_sequence+`" class="primary-btn-white-cancel choose_selection_ticket_airlines_depart" value="Delete" onclick="delete_mc_journey(`+airline_pick_list[i].airline_pick_sequence+`);" sequence_id="0"/>
                                 </div>-->
                                 <div class="col-lg-12 col-md-6">
-                                    <input type='button' style="width:100%; height:35px; line-height:unset; background:#f5f5f5 !important;" id="changejourney_pick`+airline_pick_list[i].airline_pick_sequence+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Change" onclick="change_departure(`+airline_pick_list[i].airline_pick_sequence+`);" disabled sequence_id="0"/>
+                                    <input type='button' style="width:100%; height:35px; line-height:unset; background:#f5f5f5 !important;" id="changejourney_pick`+airline_pick_list[i].airline_pick_sequence+`" class="primary-btn-gr choose_selection_ticket_airlines_depart" value="Change" onclick="change_departure(`+airline_pick_list[i].airline_pick_sequence+`);" disabled sequence_id="0"/>
                                 </div>`;
                             }
                             else if(type=='no_button'){
@@ -4889,7 +4884,7 @@ function airline_pick_mc(type){
                                     <input type='button' style="width:100%; height:35px; line-height:unset; background:#cdcdcd !important;" id="deletejourney_pickdepartjourney`+airline_pick_list[i].airline_pick_sequence+`" class="primary-btn-white-cancel choose_selection_ticket_airlines_depart" value="Delete" onclick="delete_mc_journey(`+airline_pick_list[i].airline_pick_sequence+`);" disabled sequence_id="0"/>
                                 </div>-->
                                 <div class="col-lg-12 col-md-6">
-                                    <input type='button' style="width:100%; height:35px; line-height:unset; background:#cdcdcd !important;" id="changejourney_pick`+airline_pick_list[i].airline_pick_sequence+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Change" onclick="change_departure(`+airline_pick_list[i].airline_pick_sequence+`);" disabled sequence_id="0"/>
+                                    <input type='button' style="width:100%; height:35px; line-height:unset; background:#cdcdcd !important;" id="changejourney_pick`+airline_pick_list[i].airline_pick_sequence+`" class="primary-btn-gr choose_selection_ticket_airlines_depart" value="Change" onclick="change_departure(`+airline_pick_list[i].airline_pick_sequence+`);" disabled sequence_id="0"/>
                                 </div>`;
                             }
                             text+=`
@@ -5755,6 +5750,7 @@ function airline_detail(type){
         commission_price = 0;
         rules = 0;
         $text = '';
+        //review price detail
         text += `
         <div class="row" style="margin-bottom:5px;">
             <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
@@ -11116,12 +11112,12 @@ function send_request_link(val){
 
 function checkboxCopy(){
     var count_copy = $(".copy_result:checked").length;
-    if(count_copy == 0){
-        $('#button_copy_airline').hide();
-    }
-    else{
-        $('#button_copy_airline').show();
-    }
+//    if(count_copy == 0){
+//        $('#button_copy_airline').hide();
+//    }
+//    else{
+//        $('#button_copy_airline').show();
+//    }
     document.getElementById("badge-copy-notif").innerHTML = count_copy;
     document.getElementById("badge-copy-notif2").innerHTML = count_copy;
 }
@@ -12565,12 +12561,12 @@ function change_seat_fare_span(id1, id2, textseat){
 
 function checkboxCopyReschedule(){
     var count_copy = $(".copy_result:checked").length;
-    if(count_copy == 0){
-        $('#button_copy_airline').hide();
-    }
-    else{
-        $('#button_copy_airline').show();
-    }
+//    if(count_copy == 0){
+//        $('#button_copy_airline').hide();
+//    }
+//    else{
+//        $('#button_copy_airline').show();
+//    }
     document.getElementById("badge-copy-notif").innerHTML = count_copy;
     document.getElementById("badge-copy-notif2").innerHTML = count_copy;
 }

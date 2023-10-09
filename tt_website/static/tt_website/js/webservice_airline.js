@@ -3578,22 +3578,33 @@ function draw_recommendation_maps(){
 //        }
         if(is_print){
             text_recom_maps +=`
-            <div class="row" style="background:white; padding-bottom:15px; margin-bottom:15px; border-top:1px solid #cdcdcd; border-bottom:1px solid #cdcdcd;">
-                <div class="col-lg-12">
-                    <Text>`+recommendation_maps[idx_recom][0]+`. </Text><br/><Text>`;
-            for(idx_journey in recommendation_maps[idx_recom]){
-                if(idx_journey > 2)
-                    text_recom_maps += recommendation_maps[idx_recom][idx_journey] + '<br/>';
-            }
-            text_recom_maps+=` </Text>
-                </div>
-                <div class="col-lg-12" style="text-align:right">
-                    <button class="primary-btn-ticket" type="button" onclick='choose_recommendation_ticket(`;
-            text_recom_maps+='`'+JSON.stringify(recommendation_maps[idx_recom][1]);
-            text_recom_maps+='`, `';
-            text_recom_maps+=JSON.stringify(recommendation_maps[idx_recom][2]);
-            text_recom_maps+='`';
-            text_recom_maps+=`, "`+recommendation_maps[idx_recom][recommendation_maps[idx_recom].length-1]+`");'>Choose</button>
+            <div class="row" style="background:white; margin-bottom:15px; border-top:1px solid #cdcdcd; border-bottom:1px solid #cdcdcd;">
+                <div class="col-lg-12" style="display:inline-block; padding: 10px 15px;">
+                    <div style="display: inline-flex; margin-left:5px; margin-right:5px; padding-right:5px;">
+                        <h6><i class="fas fa-plane"></i><br/>#`+recommendation_maps[idx_recom][0]+`</h6>
+                    </div>
+                    <div style="display: inline-flex;">
+                        <Text>`;
+                        for(idx_journey in recommendation_maps[idx_recom]){
+                            if(idx_journey > 2){
+                                if(idx_journey == recommendation_maps[idx_recom].length-1){
+                                    text_recom_maps += `<span class="price_template" style="font-size:16px;">`+recommendation_maps[idx_recom][idx_journey]+`</span>`;
+                                }else{
+                                    text_recom_maps += '► '+recommendation_maps[idx_recom][idx_journey] + '<br/>';
+                                }
+                            }
+                        }
+                        text_recom_maps+=`
+                        </Text>
+                    </div>
+                    <div style="display: inline-flex; float:right;">
+                        <button class="primary-btn-ticket" style="margin-bottom:0px;" type="button" onclick='choose_recommendation_ticket(`;
+                        text_recom_maps+='`'+JSON.stringify(recommendation_maps[idx_recom][1]);
+                        text_recom_maps+='`, `';
+                        text_recom_maps+=JSON.stringify(recommendation_maps[idx_recom][2]);
+                        text_recom_maps+='`';
+                        text_recom_maps+=`, "`+recommendation_maps[idx_recom][recommendation_maps[idx_recom].length-1]+`");'>Choose</button>
+                    </div>
                 </div>
             </div>`;
             node2 = document.createElement("div");
@@ -4128,7 +4139,7 @@ function get_price_itinerary(val){
     }
     document.getElementById("badge-copy-notif").innerHTML = "0";
     document.getElementById("badge-copy-notif2").innerHTML = "0";
-    $('#button_copy_airline').hide();
+    //$('#button_copy_airline').hide();
 
     document.getElementById('departjourney'+val).value = 'Chosen';
     document.getElementById('departjourney'+val).classList.remove("primary-btn-custom");

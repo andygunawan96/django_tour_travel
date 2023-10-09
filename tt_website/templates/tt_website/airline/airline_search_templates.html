@@ -390,10 +390,10 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <button class="primary-btn-ticket btn_icon_fixed my_sticky_button" style="left:51%; width:20vw; height:50px; bottom:55px; position:fixed; z-index:99;" data-toggle="modal" data-target="#myModalSort">
+                <button class="primary-btn-ticket btn_icon_fixed my_sticky_button" style="left:51%; width:20vw; height:50px; bottom:92px; position:fixed; z-index:99;" data-toggle="modal" data-target="#myModalSort">
                     <span style="color:{{text_color}}; font-size:12px;"> <i class="fas fa-sort" style="font-size:20px;"></i> <span class="span_icon_fixed">{% trans 'Sort' %}</span>  </span>
                 </button>
-                <button class="primary-btn-ticket btn_icon_fixed my_sticky_button" style="right:51%; width:20vw; height:50px; bottom:55px; position:fixed; z-index:99;" data-toggle="modal" data-target="#myModalFilter">
+                <button class="primary-btn-ticket btn_icon_fixed my_sticky_button" style="right:51%; width:20vw; height:50px; bottom:92px; position:fixed; z-index:99;" data-toggle="modal" data-target="#myModalFilter">
                     <span style="color:{{text_color}}; font-size:12px;"> <i class="fas fa-filter"></i> <span class="span_icon_fixed">{% trans 'Filter' %}</span>  </span>
                 </button>
 
@@ -678,10 +678,10 @@
 
                                     </div>
                                     <div class="div-dropdown-txt btn-group" style="margin-right:0px; margin-bottom:5px;">
-                                        <div class="checkbox" style="display:none; margin-right:10px;" id="checkbox_combo_price">
+                                        <div class="checkbox" style="{% if airline_request.direction == 'OW' or airline_request.direction == 'MC' %}display:none; {% endif %} margin-right:10px;" id="checkbox_combo_price">
                                             <label class="check_box_custom cblabel" style="margin-bottom:0px;">
                                                 <span style="font-size:13px; color:{{text_color}};">{% trans 'Combo Price' %} <i class="fas fa-thumbs-up" style="font-size:18px;"></i></span>
-                                                <input type="checkbox" value="" id="is_combo_price" name="is_combo_price" disabled>
+                                                <input type="checkbox" value="" id="is_combo_price" name="is_combo_price" {% if airline_request.direction == 'OW' %} disabled {% endif %} {% if airline_request.is_combo_price == 'true' %} checked {%endif%}>
                                                 <span class="check_box_span_custom cbspan"></span>
                                             </label>
                                         </div>
@@ -1154,8 +1154,8 @@
                                 <button class="primary-btn-custom" type="button" onclick="go_to_change_search();">
                                     <span id="change_search_text"><i class="fas fa-search" style="font-size:18px;"></i></span>
                                 </button>
-                                <button class="primary-btn-white" id="button_copy_airline" style="display:none; text-align:left; margin-bottom:0px;" data-toggle="modal" data-target="#myModalCopyAirline" onclick="get_checked_copy_result();">
-                                    <i class="fas fa-copy"></i>
+                                <button class="primary-btn-custom" id="button_copy_airline" style="text-align:left; margin-bottom:0px;" data-toggle="modal" data-target="#myModalCopyAirline" onclick="get_checked_copy_result();">
+                                    <i class="fas fa-copy" style="font-size:18px;"></i>
                                     <span id="badge-copy-notif">0</span>
                                 </button>
                                 <button class="primary-btn-custom" id="button_chart_airline" data-toggle="modal" data-target="#myModalTicketFlight">
@@ -2400,8 +2400,7 @@
             </div>
         </div>`;
         document.getElementById('mc_airline_default').innerHTML = text_mc;
-        document.getElementById('is_combo_price').disabled = false;
-        document.getElementById('checkbox_combo_price').style.display = "block";
+        document.getElementById('checkbox_combo_price').style.display = "inline-flex";
         document.getElementById('ori_airline').style.display = "none";
         document.getElementById('ori_airline_top').style.display = "none";
         document.getElementById('is_combo_price').checked = {{airline_request.is_combo_price}};

@@ -98,6 +98,15 @@ $(document).ready(function(){
         });
         document.body.style.overflowY = "hidden";
     });
+
+//    //shortcut
+//    var mainDiv = document.getElementById('main-button');
+//    mainDiv.addEventListener('click', function(){
+//      this.children.item(0).classList.toggle('fa-times');
+//      this.classList.toggle('open');
+//    });
+
+
 //    $(".cor-db-slide-toggle").click(function(){
 //        $(".box-cor-db").animate({
 //            width: "toggle",
@@ -2173,6 +2182,16 @@ $('.dropdown-menu').on('click', function(event) {
 	event.stopPropagation();
 });
 
+if(template == 7){
+    //dropdown kalo double klik
+    $('.dropdown-toggle').click(function(e) {
+        e.preventDefault();
+        $(this).parent().addClass("show");
+        $(this).attr("aria-expanded", "true");
+        $(this).next().addClass("show");
+    });
+}
+
 $('body').on('click', function(event) {
 	var target = $(event.target);
 	if (target.parents('.bootstrap-select').length) {
@@ -3237,6 +3256,7 @@ function open_cos_seat_class_pick(id1, id2){
     }
 }
 
+//untuk next focus element d product search
 function next_focus_element(product, from){
     if(product == 'airline'){
         if(from == 'route'){
@@ -3334,12 +3354,14 @@ function product_change_box(id){
     }
 }
 
+//untuk navigate go_guide
 function go_guide(id){
     $('html, body').animate({
         scrollTop: $("#"+id).offset().top
     }, 500);
 }
 
+//untuk navigate ke element
 function go_to_element(id, min_top){
     $('html, body').animate({
         scrollTop: $("#"+id).offset().top - min_top
@@ -3402,7 +3424,6 @@ function show_loading_reorder(product){
 }
 
 //untuk notif overlay
-
 function on_off_overlay_bar(class_box, overlay_class){
     var overlay_bm = document.getElementsByClassName(overlay_class)[0];
 
@@ -3533,4 +3554,9 @@ function switch_modal(from_target, to_target){
             $('#'+to_target).modal('show');
         }
     }, 500);
+}
+
+
+function content_modal_custom(id, content){
+
 }

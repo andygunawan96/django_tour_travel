@@ -122,30 +122,11 @@
 <input type="hidden" id="end"/>
 {% endif %}
 
-<section class="pt-5 pb-5" style="background-image: url('{{static_path}}images/background/single_page/sp_bg_airlines.jpg') !important; min-height:50px; background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;">
+<section style="background-image: url('{{static_path}}images/background/single_page/sp_bg_airlines.jpg') !important; min-height:350px; background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;">
     <div class="container">
         <div class="row">
-            <div class="col-lg-12" style="margin:auto; text-align:center;">
-                <h2 class="h_title_prd">
-                    {% for rec in provider_types_sequence %}
-                    {% if "airline" in provider and "ticketing_airline" in username.co_agent_frontend_security and rec.code == "airline" %}
-                    {% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}
-                    {% endif %}
-                    {% endfor %}
-                </h2>
-            </div>
-        </div>
-    </div>
-</section>
-
-{% if username.co_user_login != '' %}
-{% for rec in provider_types_sequence %}
-{% if "airline" in provider and "ticketing_airline" in username.co_agent_frontend_security and rec.code == "airline" %}
-{% if username.co_user_login != '' %}
-{% if big_banner_value == 1 %}
-<section>
-    <div class="container">
-        <div class="row">
+            {% if username.co_user_login != '' %}
+            {% if big_banner_value == 1 %}
             <div class="col-lg-12">
                 <div id="big_banner">
                     <div class="stripe_big_banner">
@@ -155,16 +136,23 @@
                     </div>
                 </div>
             </div>
+            {% endif %}
+            {% endif %}
         </div>
     </div>
 </section>
-{% endif %}
-{% endif %}
-<section class="pt-4 pb-4" style="background:#ffffff;">
+
+{% if username.co_user_login != '' %}
+{% for rec in provider_types_sequence %}
+{% if "airline" in provider and "ticketing_airline" in username.co_agent_frontend_security and rec.code == "airline" %}
+<section class="pt-3 pb-3" style="background:#f7f7f7; border-top:1px solid #cdcdcd; border-bottom:1px solid #cdcdcd;">
     <div class="container">
         <div class="row">
-            <div id="overlay-search-box" onclick="off_overlay()"></div>
-            <div class="col-lg-12" id="div-search-overlay">
+            <div class="col-lg-12">
+                <h1 class="mb-3">
+                    <img class="prd_img" src="/static/tt_website/images/icon/product/c-airline.png" alt="Airlines Icon">
+                    {% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}
+                </h1>
                 <span class="title_cst_sub">
                     {% if username.co_user_login != default_user %}
                     {% trans 'Hello' %}, {{username.co_user_name}}!
@@ -173,6 +161,15 @@
                     {% trans 'Hello, dear customer, book your trip with us' %}
                     {% endif %}
                 </span>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="pt-4 pb-4" style="background:#ffffff;">
+    <div class="container">
+        <div class="row">
+            <div id="overlay-search-box" onclick="off_overlay()"></div>
+            <div class="col-lg-12" id="div-search-overlay">
                 {% if template == 1 %}
                 <div class="banner-right">
                     <div class="tab-content" id="myTabContent" style="border:1px solid #cdcdcd; min-height:300px; background: {{tab_color}} !important; border-bottom-left-radius: 0px; border-bottom-right-radius: 0px;">
@@ -907,13 +904,8 @@
                 </div>
                 {% elif template == 3 %}
                 <div class="row fullscreen d-flex" id="div-search-overlay" style="position:relative; padding:15px;">
-                    <div class="banner-content col-xl-3 col-lg-3 col-md-3" style="background: {{tab_color}}; border: 1px solid #cdcdcd;">
-                        <div class="pt-30">
-                            <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/product/w-airline.png" alt="Airline Icon"/></i>
-                        </div>
-                        <h5 class="pt-30 pb-30" style="color:{{text_color}};">
-                            Book your {% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}
-                        </h5>
+                    <div class="col-xl-3 col-lg-3 col-md-3" style="min-height:75px; background: linear-gradient(0deg, rgba(63, 63, 63, 0.4), rgba(63, 63, 63, 0.4)), url('/static/tt_website/images/background/search_box/sb_bg_airlines.jpg'); background-position: center !important; background-size: cover !important; background-repeat: no-repeat !important;">
+
                     </div>
                     <div class="col-xl-9 col-lg-9 col-md-9 header-right" style="min-height:300px; padding-left:0px;">
                         <div id="tab-airline" class="tab-content current">

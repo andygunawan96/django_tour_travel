@@ -1010,7 +1010,7 @@ ul.popular2_tabs li.current .image-rounded-icon{
 .button_date_np{
     background:white;
     border:1px solid #cdcdcd;
-    padding: 10px 0px;
+    padding: 10px 11px;
     text-align: center;
     box-shadow: rgb(3 18 26 / 15%) 4px -1px 10px -4px, rgb(3 18 26 / 15%) -4px -1px 10px -4px;
     border-radius: 5px;
@@ -1028,13 +1028,13 @@ ul.popular2_tabs li.current .image-rounded-icon{
    color: #666666 !important;
    cursor: not-allowed !important;
    border:2px solid #cdcdcd;
-   padding: 10px 0px;
+   padding: 10px 11px;
    text-align: center;
 }
 
 @media (max-width: 425px) {
     .button_date_np{
-        padding:10px 0px !important;
+        padding:10px 11px !important;
         text-align: center;
     }
 }
@@ -1050,10 +1050,11 @@ ul.popular2_tabs li.current .image-rounded-icon{
 #myBtnBTP {
     display: none;
     position: fixed;
-    bottom: 60px;
-    left: 15px;
+    bottom: 90px;
+    left: 40px;
     z-index: 998;
     font-size: 20px;
+    border-radius: 50%;
     border: 1px solid #cdcdcd;
     outline: none;
     background-color: #205B95;
@@ -1969,6 +1970,39 @@ ul.popular2_tabs li.current .image-rounded-icon{
   color: #666666 !important;
 }
 
+.primary-btn-gr {
+  background: #f2f4f5;
+  border: 1px solid #cacaca;
+  color: #205B95;
+  border: 2px solid #205B95;
+  line-height: 40px;
+  padding-left: 15px;
+  padding-right: 15px;
+  border-radius: 5px;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: bold;
+  -webkit-transition: all 0.3s ease 0s;
+  -moz-transition: all 0.3s ease 0s;
+  -o-transition: all 0.3s ease 0s;
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  position: relative;
+  margin-bottom:15px;
+  box-shadow: rgb(3 18 26 / 15%) 4px -1px 10px -4px, rgb(3 18 26 / 15%) -4px -1px 10px -4px;
+  border-radius: 5px;
+}
+.primary-btn-gr:hover {
+  background: #205B95;
+  color: white;
+}
+.primary-btn-gr:disabled {
+  cursor:not-allowed;
+  border: 1px solid #999999 !important;
+  background: #cccccc !important;
+  color: #666666 !important;
+}
+
 .primary-btn-white-short {
   background: #fcfffd;
   border: 1px solid #cacaca;
@@ -2093,7 +2127,7 @@ ul.popular2_tabs li.current .image-rounded-icon{
   cursor: pointer;
   position: relative;
   margin-bottom:15px;
-  border: 2px solid #e60019;
+  border: 1px solid #e60019;
   box-shadow: rgb(3 18 26 / 15%) 4px -1px 10px -4px, rgb(3 18 26 / 15%) -4px -1px 10px -4px;
   border-radius: 5px;
 }
@@ -2212,7 +2246,8 @@ ul.popular2_tabs li.current .image-rounded-icon{
 
 .primary-btn-ticket {
   background: #205B95;
-  line-height: 35px;
+  height: 41px;
+  line-height: 41px;
   padding-left: 20px;
   padding-right: 20px;
   border: none;
@@ -3198,6 +3233,7 @@ th input {
 
 .modal{
     padding-right:unset !important;
+    z-index:9999999;
 }
 
 .modal_custom_fixed{
@@ -3207,7 +3243,7 @@ th input {
     width: 600px;
     max-width: 600px;
     height:100% !important;
-    z-index:1000;
+    z-index: 1050;
 }
 
 
@@ -3312,7 +3348,7 @@ for better animation effect */
     background: #f0e68c;
     display:none;
     position:relative;
-    z-index:1002;
+    z-index:9999999;
 }
 
 /* Add padding and border to inner content
@@ -3353,7 +3389,7 @@ for better animation effect */
     background: #f0e68c;
     display:none;
     position:relative;
-    z-index:1050;
+    z-index:9999999;
 }
 
 /* Add padding and border to inner content
@@ -5693,6 +5729,9 @@ ul.progress_tabs li.current .image-rounded-icon{
   #myBtnBTP {
     bottom: 12px !important;
   }
+  .adminActions {
+    bottom: 12px !important;
+  }
   .my_sticky_button{
     bottom: 12px !important;
   }
@@ -5709,8 +5748,11 @@ ul.progress_tabs li.current .image-rounded-icon{
 }
 @media (max-width: 575px) {
   #myBtnBTP {
-    left: 0px !important;
+    left: 15px !important;
     font-size: 18px !important;
+  }
+  .adminActions {
+    right: 15px !important;
   }
   .mystickypaxs{
     right: 0px !important;
@@ -7231,4 +7273,302 @@ text-align: center;
     position: relative;
     display: inline-flex;
     vertical-align: middle;
+}
+
+
+
+.adminActions {
+  position: fixed;
+  bottom: 90px;
+  right: 40px;
+  z-index: 99;
+}
+
+.adminButton {
+    height: 60px;
+    width: 60px;
+    background-color: #205B95;
+    border-radius: 50%;
+    border:unset;
+    display: block;
+    color: #fff;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+.adminButton i {
+  font-size: 22px;
+}
+
+.adminButtons {
+    position: absolute;
+    width: 100%;
+    bottom: 120%;
+    text-align: center;
+    border: unset;
+}
+
+.adminButtons button {
+      display: block;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      text-decoration: none;
+      margin: 10px auto 0;
+      line-height: 1.15;
+      color: #fff;
+      opacity: 0;
+      visibility: hidden;
+      position: relative;
+      border: unset;
+      box-shadow: 0 0 5px 1px rgba(51, 51, 51, .3);
+}
+
+.adminButtons button:hover {
+    transform: scale(1.1);
+    cursor:pointer;
+}
+
+.adminButtons button:nth-child(1) {background-color: #ff5722; transition: opacity .2s ease-in-out .3s, transform .15s ease-in-out;}
+.adminButtons button:nth-child(2) {background-color: #03a9f4; transition: opacity .2s ease-in-out .25s, transform .15s ease-in-out;}
+.adminButtons button:nth-child(3) {background-color: #f44336; transition: opacity .2s ease-in-out .2s, transform .15s ease-in-out;}
+.adminButtons button:nth-child(4) {background-color: #4CAF50; transition: opacity .2s ease-in-out .15s, transform .15s ease-in-out;}
+
+.adminActions button i {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-size: 18px;
+    transform: translate(-50%, -50%);
+}
+
+.adminToggle {
+    -webkit-appearance: none;
+    position: absolute;
+    border-radius: 50%;
+    top: 0;
+    left: 0;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    z-index: 2;
+    transition: box-shadow .2s ease-in-out;
+    box-shadow: 0 3px 5px 1px rgba(51, 51, 51, .3);
+}
+
+.adminToggle:hover {
+  box-shadow: 0 3px 6px 2px rgba(51, 51, 51, .3);
+}
+
+.adminToggle:checked ~ .adminButtons button {
+  opacity: 1;
+  visibility: visible;
+}
+
+.wave {
+  animation-name: wave;
+  animation-duration: 1s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@keyframes wave {
+  0% {box-shadow: 0 0 0px 0px rgba(255, 255, 255, 0.5);}
+  100% {box-shadow: 0 0 0px 10px rgba(255, 255, 255, 0);}
+}
+
+
+body {
+  margin: 0;
+  font-family: sans-serif;
+}
+
+.wrapper {
+  height: 100vh;
+  background: #333;
+}
+
+#main-div {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 0;
+}
+
+#main-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  height: 50px;
+  width: 50px;
+  font-size: 20px;
+  color: #0064f3;
+  cursor: pointer;
+  background-color: #fff;
+  box-shadow: 0 0 10px 0 rgba(0,0,0,.5);
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+}
+
+#main-button ~ button {
+  visibility: hidden;
+  font-weight: 600;
+  height: 50px;
+  padding: 0 20px;
+  color: #fff;
+  background: linear-gradient(90deg, #00a1f5, #0064f3);
+  box-shadow: 0 0 10px 0 rgba(0,0,0,.5);
+  border: 0;
+  position: absolute;
+  z-index: -1;
+  right: 0;
+  bottom: 0;
+  opacity: 0;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: .2s all linear;
+  -webkit-transition: .2s all linear;
+  -moz-transition: .2s all linear;
+  -ms-transition: .2s all linear;
+  -o-transition: .2s all linear;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+}
+
+#main-button.open ~ button {
+  visibility: visible;
+  right: 70px;
+  opacity: 1;
+  transition: .4s all cubic-bezier(0, 0.01, 0, 1.27);
+  -webkit-transition: .4s all cubic-bezier(0, 0.01, 0, 1.27);
+  -moz-transition: .4s all cubic-bezier(0, 0.01, 0, 1.27);
+  -ms-transition: .4s all cubic-bezier(0, 0.01, 0, 1.27);
+  -o-transition: .4s all cubic-bezier(0, 0.01, 0, 1.27);
+}
+
+#main-button ~ a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+  height: 50px;
+  width: 50px;
+  font-size: 20px;
+  opacity: 0;
+  text-decoration: none;
+  color: #fff;
+  background-color: #fff;
+  box-shadow: 0 0 10px 0 rgba(0,0,0,.5);
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+  transition: .2s all linear;
+  -webkit-transition: .2s all linear;
+  -moz-transition: .2s all linear;
+  -ms-transition: .2s all linear;
+  -o-transition: .2s all linear;
+}
+
+#main-button ~ .telegram-color {
+  background: linear-gradient(0deg, #017AB1, #01ABE6);
+}
+
+#main-button ~ .whatsapp-color {
+  background: linear-gradient(0deg, #00B100, #09db09);
+}
+
+#main-button ~ .messenger-color {
+  background: linear-gradient(0deg, #0078FF, #00C6FF);
+}
+
+#main-button.open ~ a {
+  opacity: 1;
+  transition: .4s all cubic-bezier(0, 0.01, 0, 1.27);
+  -webkit-transition: .4s all cubic-bezier(0, 0.01, 0, 1.27);
+  -moz-transition: .4s all cubic-bezier(0, 0.01, 0, 1.27);
+  -ms-transition: .4s all cubic-bezier(0, 0.01, 0, 1.27);
+  -o-transition: .4s all cubic-bezier(0, 0.01, 0, 1.27);
+}
+#main-button.open ~ a:nth-of-type(1) {
+  bottom: 60px;
+}
+#main-button.open ~ a:nth-of-type(2) {
+  bottom: 120px;
+}
+#main-button.open ~ a:nth-of-type(3) {
+  bottom: 180px;
+}
+
+.wave {
+  animation-name: wave;
+  animation-duration: 1s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@keyframes wave {
+  0% {box-shadow: 0 0 0px 0px rgba(255, 255, 255, 0.5);}
+  100% {box-shadow: 0 0 0px 10px rgba(255, 255, 255, 0);}
+}
+
+.open {
+  animation-iteration-count: 1;
+}
+
+.swal2-container{
+    z-index: 9999999 !important;
+}
+
+#div_4 {
+    background: white;
+}
+
+.form_booker{
+    background-color:white;
+    padding:15px;
+    border-radius: 5px;
+    box-shadow: rgb(3 18 26 / 15%) 4px -1px 10px -4px, rgb(3 18 26 / 15%) -4px -1px 10px -4px;
+}
+
+.form_customer{
+    background-color:white;
+    padding:0px 15px;
+    border-radius: 5px;
+    box-shadow: rgb(3 18 26 / 15%) 4px -1px 10px -4px, rgb(3 18 26 / 15%) -4px -1px 10px -4px;
+}
+
+.div_price_detail{
+    background-color:white;
+    padding:15px;
+    border-radius: 5px;
+    box-shadow: rgb(3 18 26 / 15%) 4px -1px 10px -4px, rgb(3 18 26 / 15%) -4px -1px 10px -4px;
+}
+
+.div_customer{
+    padding:15px;
+    cursor:pointer;
+}
+
+.select2-container .select2-selection--single{
+    border-radius: 5px !important;
 }
