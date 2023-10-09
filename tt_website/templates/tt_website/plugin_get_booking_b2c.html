@@ -41,13 +41,15 @@
 <!--<button type="button" style="background-color:{{color}};" id="get_booking_b2c" class="mystickybookingvendor" class="primary-btn" data-toggle="modal" data-target="#myModalPluginGetBookingB2C">-->
 <!--    <i class="fas fa-file"></i>-->
 <!--</button>-->
-<button type="button" style="background-color:{{color}};" id="get_booking_b2c" class="mystickybookingvendor getbooking-slide-toggle" onclick="on_off_overlay_bar('box-getbooking', 'overlay_box_getbooking');">
-    <i class="fas fa-file"></i>
-</button>
 
 <script>
-    document.getElementById('get_booking_b2c').style.bottom = JSON.parse(JSON.stringify(bottom.toString())) + 'px';
-    bottom+=60;
+    //document.getElementById('get_booking_b2c').style.bottom = JSON.parse(JSON.stringify(bottom.toString())) + 'px';
+    //bottom+=60;
+    document.getElementById('adminButtonsContent').innerHTML += `
+    <button type="button" style="background-color:{{color}};" id="get_booking_b2c" class="getbooking-slide-toggle" onclick="on_off_overlay_bar('box-getbooking', 'overlay_box_getbooking');">
+        <i class="fas fa-file"></i>
+    </button>`;
+
     var_toggle_forget_booking = false;
 </script>
 

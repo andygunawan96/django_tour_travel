@@ -246,9 +246,9 @@
     <input type="radio" name="radio_airline_type" id="provider_box_All_1">
     <div id="ori_airline">
         <div id="radio_airline_search">
-            <input type="radio" checked="checked" name="radio_airline_type" value="oneway">
-            <input type="radio" name="radio_airline_type" value="roundtrip">
-            <input type="radio" name="radio_airline_type" value="multicity">
+            <input type="radio" checked="checked" name="radio_airline_type" value="oneway" onclick="next_focus_element('airline','route');">
+            <input type="radio" name="radio_airline_type" value="roundtrip" onclick="next_focus_element('airline','route');">
+            <input type="radio" name="radio_airline_type" value="multicity" onclick="next_focus_element('airline','route');">
         </div>
 
         <input id="origin_id_flight" name="origin_id_flight" type="text">
@@ -270,7 +270,7 @@
         {% endif %}
         <button id="show_provider_airline" type="button">{% trans 'Choose Airline' %}</button>
         <ul id="provider_flight_content" class="dropdown-menu"></ul>
-        <select id="cabin_class_flight" name="cabin_class_flight" >
+        <select id="cabin_class_flight" name="cabin_class_flight" class_airline_select>
             {% for cabin_class in airline_cabin_class_list %}
             <option value="{{cabin_class.value}}" {% if cabin_class.value == "Y" %} selected {% endif %}>{{cabin_class.name}}</option>
             {% endfor %}

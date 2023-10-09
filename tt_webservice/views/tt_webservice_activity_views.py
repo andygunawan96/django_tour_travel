@@ -223,6 +223,8 @@ def search(request):
             'type': activity_request['type'],
             'category': activity_request['category'],
             'sub_category': activity_request['sub_category'],
+            'page': activity_request.get('page') and activity_request['page'] or 1,
+            'limit': activity_request.get('limit') and activity_request['limit'] or 30
         }
         write_cache_file(request, request.POST['signature'], 'activity_search_request', data)
         headers = {

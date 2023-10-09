@@ -1,4 +1,5 @@
 {% load i18n %}
+<script src="{{ static_path }}js/terms_cor_javascript.js?version={{javascript_version}}"></script>
 
 <style>
     [data-tooltip]:before {
@@ -38,13 +39,14 @@
 </style>
 
 {%if "create_request_corporate" in username.co_agent_frontend_security %}
-<button type="button" style="background-color:{{color}};" id="mystickycor" class="mystickypaxs cor-db-slide-toggle" data-toggle="modal" data-target="#myModal_cor">
-    <i class="fas fa-user-tie"></i>
-</button>
 
 <script>
-    document.getElementById('mystickycor').style.bottom = JSON.parse(JSON.stringify(bottom.toString())) + 'px';
-    bottom+=60;
+//    document.getElementById('mystickycor').style.bottom = JSON.parse(JSON.stringify(bottom.toString())) + 'px';
+//    bottom+=60;
+    document.getElementById('adminButtonsContent').innerHTML += `
+    <button type="button" style="background-color:{{color}};" id="mystickycor" class="cor-db-slide-toggle" class="primary-btn" data-toggle="modal" data-target="#myModal_cor">
+        <i class="fas fa-user-tie"></i>
+    </button>`;
 </script>
 
 <div class="modal fade" id="myModal_cor" role="dialog">
@@ -165,6 +167,47 @@
                                     </div>
                                     <div class="col-lg-12" style="margin-bottom:15px;">
                                         <label style="color:red">*</label>
+                                        <label>{% trans 'Upload Company Structure' %}</label>
+                                        <div class="input-container-search-ticket">
+                                            <input type="file" style="color:#FFFFFF;" id="company_structure" name="company_structure" multiple="" accept="*/*" onchange="cor_update_image(window.URL.createObjectURL(this.files[0]), 'company_structure')">
+                                        </div>
+                                        <div id="company_structure_div" hidden>
+                                            <img id="company_structure_img" src="" alt="Company Structure" style="width:120px; height:auto;">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12" style="margin-bottom:15px;">
+                                        <label style="color:red">*</label>
+                                        <label>{% trans 'Upload NPWP' %}</label>
+                                        <div class="input-container-search-ticket">
+                                            <input type="file" style="color:#FFFFFF;" id="company_npwp" name="company_npwp" multiple="" accept="*/*" onchange="cor_update_image(window.URL.createObjectURL(this.files[0]), 'company_npwp')">
+                                        </div>
+                                        <div id="company_npwp_div" hidden>
+                                            <img id="company_npwp_img" src="" alt="NPWP" style="width:120px; height:auto;">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12" style="margin-bottom:15px;">
+                                        <label style="color:red">*</label>
+                                        <label>{% trans 'Upload SIUP/NIB' %}</label>
+                                        <div class="input-container-search-ticket">
+                                            <input type="file" style="color:#FFFFFF;" id="company_siup_nib" name="company_siup_nib" multiple="" accept="*/*" onchange="cor_update_image(window.URL.createObjectURL(this.files[0]), 'company_siup_nib')">
+                                        </div>
+                                        <div id="company_siup_nib_div" hidden>
+                                            <img id="company_siup_nib_img" src="" alt="SIUP/NIB" style="width:120px; height:auto;">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12" style="margin-bottom:15px;">
+                                        <label style="color:red">*</label>
+                                        <label>{% trans 'Upload Akta Pendirian' %}</label>
+                                        <div class="input-container-search-ticket">
+                                            <input type="file" style="color:#FFFFFF;" id="company_akta_pendirian" name="company_akta_pendirian" multiple="" accept="*/*" onchange="cor_update_image(window.URL.createObjectURL(this.files[0]), 'company_akta_pendirian')">
+                                        </div>
+                                        <div id="company_akta_pendirian_div" hidden>
+                                            <img id="company_akta_pendirian_img" src="" alt="Akta Pendirian" style="width:120px; height:auto;">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-12" style="margin-bottom:15px;">
+                                        <label style="color:red">*</label>
                                         <label>{% trans 'How do you know us?' %}</label>
                                         <div class="input-container-search-ticket">
                                             <textarea class="form-control" style="resize: none; height:200px;" id="company_how_to_know_us" name="company_how_to_know_us" placeholder="" rows="6" cols="45"></textarea>
@@ -211,6 +254,16 @@
                                         <label>{% trans 'Email' %}</label>
                                         <div class="input-container-search-ticket">
                                             <input type="text" style="margin-bottom:0px;" class="form-control" name="owner_email" id="owner_email" placeholder="{% trans 'Email' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email '">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12" style="margin-bottom:15px;">
+                                        <label style="color:red">*</label>
+                                        <label>{% trans 'Upload KTP' %}</label>
+                                        <div class="input-container-search-ticket">
+                                            <input type="file" style="color:#FFFFFF;" id="owner_ktp" name="owner_ktp" multiple="" accept="*/*" onchange="cor_update_image(window.URL.createObjectURL(this.files[0]), 'owner_ktp')">
+                                        </div>
+                                        <div id="owner_ktp_div" hidden>
+                                            <img id="owner_ktp_img" src="" alt="Owner KTP" style="width:120px; height:auto;">
                                         </div>
                                     </div>
                                 </div>
@@ -299,6 +352,16 @@
                                             <input type="text" style="margin-bottom:0px;" class="form-control" name="accounting_email" id="accounting_email" placeholder="{% trans 'Email' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email '">
                                         </div>
                                     </div>
+                                    <div class="col-lg-12" style="margin-bottom:15px;">
+                                        <label style="color:red">*</label>
+                                        <label>{% trans 'Upload KTP' %}</label>
+                                        <div class="input-container-search-ticket">
+                                            <input type="file" style="color:#FFFFFF;" id="accounting_ktp" name="accounting_ktp" multiple="" accept="*/*" onchange="cor_update_image(window.URL.createObjectURL(this.files[0]), 'accounting_ktp')">
+                                        </div>
+                                        <div id="accounting_ktp_div" hidden>
+                                            <img id="accounting_ktp_img" src="" alt="Accounting KTP" style="width:120px; height:auto;">
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -361,6 +424,16 @@
                                         <label>{% trans 'Email' %}</label>
                                         <div class="input-container-search-ticket">
                                             <input type="text" style="margin-bottom:0px;" class="form-control" name="pic_email" id="pic_email" placeholder="{% trans 'Email' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email '">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12" style="margin-bottom:15px;">
+                                        <label style="color:red">*</label>
+                                        <label>{% trans 'Upload KTP' %}</label>
+                                        <div class="input-container-search-ticket">
+                                            <input type="file" style="color:#FFFFFF;" id="pic_ktp" name="pic_ktp" multiple="" accept="*/*" onchange="cor_update_image(window.URL.createObjectURL(this.files[0]), 'pic_ktp')">
+                                        </div>
+                                        <div id="pic_ktp_div" hidden>
+                                            <img id="pic_ktp_img" src="" alt="PIC KTP" style="width:120px; height:auto;">
                                         </div>
                                     </div>
                                 </div>
@@ -470,6 +543,44 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-lg-12 mb-3">
+                            <h4>{% trans 'Statement Letter' %}</h4>
+                            <div style="background:white; border:1px solid #cdcdcd; padding:15px;" id="corporate_airline_div">
+                                <label style="color:red">*</label>
+                                <label>{% trans 'Statement Letter' %}</label><br/>
+                                <input type="file" style="color:#FFFFFF;" id="statement_letter" name="statement_letter" multiple="" accept="*/*" onchange="cor_update_image(window.URL.createObjectURL(this.files[0]), 'statement_letter')">
+                                <div id="statement_letter_div" hidden>
+                                    <img id="statement_letter_img" src="" alt="Statement Letter" style="width:120px; height:auto;">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12" style="margin-bottom:15px;">
+                            <label class="check_box_custom" style="margin-bottom:0px;">
+                                <span class="span-search-ticket" style="color:black; padding-right:5px;">{% trans 'I agree with the' %}</span> <span class="text_link_cst" data-toggle="modal" data-target="#cor_tac_Modal">{% trans 'Terms and Conditions' %}</span> {% trans 'of Corporate Registration' %}
+                                <input type="checkbox" value="" name="cor_tac" id="cor_tac" required="1" style="margin-right: 5px;"/>
+                                <span class="check_box_span_custom" id="cor_tac_span"></span>
+                            </label>
+                        </div>
+
+                        <div class="col-lg-12" style="margin-bottom:15px;">
+                            <h4>Your Signature</h4>
+                            <canvas class="sign_canvas" id="sig-canvas" width="auto%" height="160">
+                                Browser not Supported.
+                            </canvas>
+                            <br/>
+                            <button type="button" class="btn btn-default" id="sig-clearBtn">Clear Signature</button>
+                            <div class="row" hidden>
+                                <div class="col-md-12">
+                                    <button class="btn btn-primary" id="sig-submitBtn">Submit Signature</button>
+                                </div>
+                                <div class="col-md-12">
+                                    <textarea id="sig-dataUrl" class="form-control" rows="5">Data URL for your signature will go here!</textarea>
+                                </div>
+                                <div class="col-md-12">
+                                    <img id="sig-image" src="" alt="Your signature will go here!"/>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-12" style="margin-top:15px; text-align:center;">
@@ -482,7 +593,28 @@
     </div>
 </div>
 
+<div class="modal fade" id="cor_tac_Modal" role="dialog">
+    <div class="overlay overlay-bg" data-dismiss="modal" onclick="check_body_hidden('myModal_cor');"></div>
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">{% trans 'Term and Condition' %}</h4>
+                <button type="button" class="close" data-dismiss="modal" onclick="check_body_hidden('myModal_cor');">&times;</button>
+            </div>
+            <div class="modal-body" style="text-align:left;">
+                <div class="row">
+                    <div class="col-lg-12" id="terms_body_cor">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
+    get_term_and_condition_cor('registration');
     $(function() {
         $('input[name="company_established_date"]').daterangepicker({
               singleDatePicker: true,

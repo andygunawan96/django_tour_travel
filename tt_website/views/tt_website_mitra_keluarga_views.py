@@ -11,6 +11,7 @@ from django.utils import translation
 import random
 import json
 import base64
+import re
 from datetime import *
 from tt_webservice.views.tt_webservice_agent_views import *
 from tt_webservice.views.tt_webservice import *
@@ -208,16 +209,33 @@ def review(request, signature=''):
                 except:
                     pass
             adult = data['passenger']
+
+            adult['first_name'] = re.sub(r'\s', '', adult['first_name']).replace(':', '')
+            adult['last_name'] = re.sub(r'\s', '', adult['last_name']).replace(':', '')
+
             booker = data['booker']
+
+            booker['first_name'] = re.sub(r'\s', '', booker['first_name']).replace(':', '')
+            booker['last_name'] = re.sub(r'\s', '', booker['last_name']).replace(':', '')
+            booker['email'] = re.sub(r'\s', '', booker['email']).replace(':', '')
+            booker['mobile'] = re.sub(r'\s', '', booker['mobile']).replace(':', '')
+
             contact = data['contact_person']
+
+            contact['first_name'] = re.sub(r'\s', '', contact['first_name']).replace(':', '')
+            contact['last_name'] = re.sub(r'\s', '', contact['last_name']).replace(':', '')
+            contact['email'] = re.sub(r'\s', '', contact['email']).replace(':', '')
+            contact['mobile'] = re.sub(r'\s', '', contact['mobile']).replace(':', '')
+
             data = data['data']
             passenger_booker['booker'] = {
                 "booker_seq_id": booker['booker_seq_id']
             }
             mitra_keluarga_passenger = copy.deepcopy(adult)
             for rec in mitra_keluarga_passenger:
+                identity_number = re.sub(r'\s', '', rec['identity']['identity_number']).replace(':', '')
                 rec['identity_country_of_issued_code'] = rec['identity']['identity_country_of_issued_code']
-                rec['identity_number'] = rec['identity']['identity_number']
+                rec['identity_number'] = identity_number
                 rec['identity_expdate'] = rec['identity']['identity_expdate']
                 rec['identity_type'] = rec['identity']['identity_type']
 

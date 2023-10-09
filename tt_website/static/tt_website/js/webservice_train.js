@@ -1244,6 +1244,13 @@ function train_get_booking(data){
                     <div class="col-lg-4" style="padding-bottom:10px;">`;
                         if(msg.result.response.state != 'cancel' && msg.result.response.state != 'cancel2'){
                             if (msg.result.response.state  == 'booked' || msg.result.response.state  == 'partial_booked' || msg.result.response.state == 'partial_issued'){
+                                if (msg.result.response.state  == 'booked'){
+                                    text+=`
+                                    <button type="button" id="button-print-itin-price" class="primary-btn ld-ext-right" style="width:100%;" onclick="get_printout('`+msg.result.response.order_number+`', 'itinerary_price','train');">
+                                        Print Form (Price)
+                                        <div class="ld ld-ring ld-cycle"></div>
+                                    </button>`;
+                                }
                                 try{
                                     if(can_issued)
                                     {

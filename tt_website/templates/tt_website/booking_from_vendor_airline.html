@@ -38,13 +38,14 @@
 </style>
 
 {%if "get_booking_from_vendor" in username.co_agent_frontend_security%}
-<button type="button" style="background-color:{{color}};" id="mystickybookingvendor" class="mystickybookingvendor getbooking-fv-slide-toggle" onclick="on_off_overlay_bar('box-getbooking-fv', 'overlay_box_getbooking_fv');">
-    <i class="fas fa-plane-departure"></i>
-</button>
 
 <script>
-    document.getElementById('mystickybookingvendor').style.bottom = JSON.parse(JSON.stringify(bottom.toString())) + 'px';
-    bottom+=60;
+//    document.getElementById('mystickybookingvendor').style.bottom = JSON.parse(JSON.stringify(bottom.toString())) + 'px';
+//    bottom+=60;
+    document.getElementById('adminButtonsContent').innerHTML += `
+    <button type="button" style="background-color:{{color}};" id="mystickybookingvendor" class="getbooking-fv-slide-toggle" onclick="on_off_overlay_bar('box-getbooking-fv', 'overlay_box_getbooking_fv');">
+        <i class="fas fa-plane-departure"></i>
+    </button>`;
 </script>
 
 <div class="box-getbooking-fv">

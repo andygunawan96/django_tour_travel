@@ -82,17 +82,9 @@ function get_balance(val){
 //                        }catch(err){}
                         //add template
                         text = '';
-                        if(template == 3 || template == 5){
-                            text = `<div style="margin-bottom:10px; padding-right:15px;"><span class="fas fa-wallet" style="color:`+color+`; padding-right:5px; font-size:16px;"></span>Balance: `+msg.result.response.currency_code + ' ' + getrupiah(balance)+`</div>`;
-                        }else{
-                            text = `<div style="margin-bottom:10px; padding-right:15px; color:black;"><span class="fas fa-wallet" style="color:`+color+`; padding-right:5px; font-size:16px;"></span>Balance: `+msg.result.response.currency_code + ' ' + getrupiah(balance)+`</div>`;
-                        }
+                        text = `<div style="margin-bottom:10px; color:black;"><i class="fas fa-wallet" style="padding-right:5px; font-size:16px;"></i><b>Balance</b><br/>`+msg.result.response.currency_code + ' ' + getrupiah(balance)+`</div>`;
                         if(msg.result.response.is_show_point_reward == true){
-                            if(template == 3 || template == 5){
-                                text += `<div><span class="fas fa-coins" style="color:`+color+`; padding-right:5px; font-size:16px;"></span>Point: `+msg.result.response.currency_code + ' ' + getrupiah(msg.result.response.point_reward)+`</div>`;
-                            }else{
-                                text += `<div style="color:black; margin-bottom:10px;"><span class="fas fa-coins" style="color:`+color+`; padding-right:5px; font-size:16px;"></span>Point: `+msg.result.response.currency_code + ' ' + getrupiah(msg.result.response.point_reward)+`</div>`;
-                            }
+                            text += `<div style="margin-bottom:10px; color:black;"><i class="fas fa-coins" style="padding-right:5px; font-size:16px;"></i><b>Point</b><br/>`+msg.result.response.currency_code + ' ' + getrupiah(msg.result.response.point_reward)+`</div>`;
                         }
                     }else{
                         //BALANCE VENDOR
@@ -132,11 +124,7 @@ function get_balance(val){
                             document.getElementsByClassName("balance_mobile")[0].style.display = 'none';
                     }
                     if(msg.result.response.is_show_credit_limit){
-                        if(template == 3 || template == 5){
-                            text = `<div><span class="fas fa-credit-card" style="color:`+color+`; padding-right:5px; font-size:16px;"></span>Credit Limit: `+msg.result.response.currency_code+ ' ' + getrupiah(credit_limit)+`</div>`;
-                        }else{
-                            text = `<div style="color:black;"><span class="fas fa-credit-card" style="color:`+color+`; padding-right:5px; font-size:16px;"></span>Credit Limit: `+msg.result.response.currency_code+ ' ' + getrupiah(credit_limit)+`</div>`;
-                        }
+                        text = `<div style="color:black;"><i class="fas fa-credit-card" style="padding-right:5px; font-size:16px;"></i><b>Credit Limit</b><br/>`+msg.result.response.currency_code+ ' ' + getrupiah(credit_limit)+`</div>`;
                         //CREDIT LIMIT
                         if(document.getElementById("credit_limit"))
                             document.getElementById("credit_limit").innerHTML = text;
@@ -149,7 +137,7 @@ function get_balance(val){
                         show_ul_balance++;
                     }
                     if(msg.result.response.is_show_customer_parent_balance){
-                        text = `<span class="fas fa-credit-card" style="color:`+color+`; padding-right:5px; font-size:16px;"></span> Corporate Balance: `+msg.result.response.currency_code+ ' ' + getrupiah(customer_parent_balance);
+                        text = `<div style="color:black;"><i class="fas fa-credit-card" style="padding-right:5px; font-size:16px;"></i><b>Corporate Balance</b><br/>`+msg.result.response.currency_code+ ' ' + getrupiah(customer_parent_balance)+`</div>`;
                         //PARENT AGENT BALANCE CORPORATE
                         if(document.getElementById("customer_parent_balance"))
                             document.getElementById("customer_parent_balance").innerHTML = text;
@@ -1960,6 +1948,75 @@ function check_top_up(){
           type: 'error',
           title: 'Oops!',
           html: error_text //'<span style="color: #ff9900;">Error check topup</span>' + error_text,
+        })
+    }
+}
+
+function get_phone_code(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/account",
+       headers:{
+            'action': 'get_phone_code',
+       },
+       data: {},
+       success: function(msg) {
+            phone_code = msg.phone_code
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get phone code');
+       },timeout: 10000
+    });
+}
+
+function create_va_number(){
+    var phone_number = '';
+    if(document.getElementById('phone_number').value[0] == 0){
+        phone_number += document.getElementById('phone_number').value.substr(1,document.getElementById('phone_number').value.length);
+    }else{
+        phone_number += document.getElementById('phone_number').value;
+    }
+    if(document.getElementById('phone_number').value != '' && check_number(document.getElementById('phone_number').value)){
+        $('#create_va_btn').addClass("running");
+        $('#create_va_btn').prop('disabled', true);
+
+        $.ajax({
+           type: "POST",
+           url: "/webservice/account",
+           headers:{
+                'action': 'create_va_number',
+           },
+           data: {
+                'signature': signature,
+                'calling_number': phone_number,
+                'calling_code': document.getElementById('phone_code_id').value,
+                'email': document.getElementById('email').value
+           },
+           success: function(msg) {
+                if(msg.result.error_code == 0){
+                    window.location.reload();
+                }else{
+                    Swal.fire({
+                        type: 'error',
+                        title: 'Oops!',
+                        html: msg.result.error_msg,
+                    })
+                    $('#create_va_btn').removeClass("running");
+                    $('#create_va_btn').prop('disabled', false);
+                    if(msg.result.error_msg.includes('Please fill email')){
+                        document.getElementById('email_div').hidden = false;
+                    }
+                }
+           },
+           error: function(XMLHttpRequest, textStatus, errorThrown) {
+                error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get phone code');
+           },timeout: 60000
+        });
+    }else{
+        Swal.fire({
+            type: 'error',
+            title: 'Oops!',
+            html: 'Please fill phone number',
         })
     }
 }

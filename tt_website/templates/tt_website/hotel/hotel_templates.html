@@ -1786,11 +1786,23 @@
 
         {% if "hotel" in provider and "ticketing_hotel" in username.co_agent_frontend_security %}
             try{
-                hotel_checkin = cache.hotel.checkin;
-                hotel_checkout = cache.hotel.checkout
+                {% if cache.hotel.checkin %}
+                    hotel_checkin = cache.hotel.checkin;
+                {% else %}
+                    hotel_checkin = now;
+                {% endif %}
             }catch(err){
                 hotel_checkin = now;
-                hotel_checkout = moment().subtract(-2, 'days').format('DD MMM YYYY');
+            }
+
+            try{
+                {% if cache.hotel.checkout %}
+                    hotel_checkin = cache.hotel.checkout;
+                {% else %}
+                    hotel_checkin = moment().subtract(-2, 'days').format('DD MMM YYYY');
+                {% endif %}
+            }catch(err){
+                hotel_checkin = moment().subtract(-2, 'days').format('DD MMM YYYY');
             }
 
             var oneDay = 24*60*60*1000;

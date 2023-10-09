@@ -3057,350 +3057,397 @@ function insurance_get_booking(data, sync=false){
                                     <span style="font-weight:500; font-size:14px;">Order Number: `+msg.result.response.order_number+` </span>
                                 </div>`;
                     for(i in msg.result.response.provider_bookings){
-                    ADMIN_FEE_insurance = 0;
-                    try{
-                        for(j in msg.result.response.passengers){
-                            price = {'FARE': 0, 'RAC': 0,'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0, 'SSR': 0, 'DISC': 0,'SEAT':0};
-                            csc = 0;
-                            for(k in msg.result.response.passengers[j].sale_service_charges[msg.result.response.provider_bookings[i].pnr]){
-                                price[k] += msg.result.response.passengers[j].sale_service_charges[msg.result.response.provider_bookings[i].pnr][k].amount;
-                                if(price['currency'] == '')
-                                    price['currency'] = msg.result.response.passengers[j].sale_service_charges[msg.result.response.provider_bookings[i].pnr][k].currency;
-                            }
-                            disc -= price['DISC'];
-                            try{
-//                                price['CSC'] = msg.result.response.passengers[j].channel_service_charges.amount;
-                                csc += msg.result.response.passengers[j].channel_service_charges.amount;
-                            }catch(err){
-                                console.log(err); // error kalau ada element yg tidak ada
-                            }
-                            //repricing
-                            check = 0;
-                            if(price_arr_repricing.hasOwnProperty(msg.result.response.passengers[j].pax_type) == false){
-                                price_arr_repricing[msg.result.response.passengers[j].pax_type] = {}
-                                pax_type_repricing.push([msg.result.response.passengers[j].pax_type, msg.result.response.passengers[j].pax_type]);
-                            }
-                            price_arr_repricing[msg.result.response.passengers[j].pax_type][msg.result.response.passengers[j].name] = {
-                                'Fare': price['FARE'] + price['SSR'] + price['SEAT'] + price['DISC'],
-                                'Tax': price['TAX'] + price['ROC'] - csc,
-                                'Repricing': csc
-                            }
-                            text_repricing = `
-                            <div class="col-lg-12">
-                                <div style="padding:5px;" class="row">
-                                    <div class="col-lg-3"></div>
-                                    <div class="col-lg-3">Price</div>
-                                    <div class="col-lg-3">Repricing</div>
-                                    <div class="col-lg-3">Total</div>
-                                </div>
-                            </div>`;
-                            for(k in price_arr_repricing){
-                                for(l in price_arr_repricing[k]){
-                                    text_repricing += `
-                                    <div class="col-lg-12">
-                                        <div style="padding:5px;" class="row" id="adult">
-                                            <div class="col-lg-3" id="`+j+`_`+k+`">`+l+`</div>
-                                            <div class="col-lg-3" id="`+l+`_price">`+getrupiah(price_arr_repricing[k][l].Fare + price_arr_repricing[k][l].Tax)+`</div>`;
-                                            if(price_arr_repricing[k][l].Repricing == 0)
-                                                text_repricing+=`<div class="col-lg-3" id="`+l+`_repricing">-</div>`;
-                                            else
-                                                text_repricing+=`<div class="col-lg-3" id="`+l+`_repricing">`+getrupiah(price_arr_repricing[k][l].Repricing)+`</div>`;
-                                            text_repricing+=`<div class="col-lg-3" id="`+l+`_total">`+getrupiah(price_arr_repricing[k][l].Fare + price_arr_repricing[k][l].Tax + price_arr_repricing[k][l].Repricing)+`</div>
-                                        </div>
-                                    </div>`;
+                        ADMIN_FEE_insurance = 0;
+                        try{
+                            for(j in msg.result.response.passengers){
+                                price = {'FARE': 0, 'RAC': 0,'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0, 'SSR': 0, 'DISC': 0,'SEAT':0};
+                                csc = 0;
+                                for(k in msg.result.response.passengers[j].sale_service_charges[msg.result.response.provider_bookings[i].pnr]){
+                                    price[k] += msg.result.response.passengers[j].sale_service_charges[msg.result.response.provider_bookings[i].pnr][k].amount;
+                                    if(price['currency'] == '')
+                                        price['currency'] = msg.result.response.passengers[j].sale_service_charges[msg.result.response.provider_bookings[i].pnr][k].currency;
                                 }
-                            }
-                            //booker
-                            booker_insentif = '-';
-                            if(msg.result.response.hasOwnProperty('booker_insentif'))
-                                booker_insentif = getrupiah(msg.result.response.booker_insentif)
-                            text_repricing += `
-                                <div class="col-lg-12">
-                                    <div style="padding:5px;" class="row" id="booker_repricing" hidden>
-                                    <div class="col-lg-6" id="repricing_booker_name">Booker Insentif</div>
-                                    <div class="col-lg-3" id="repriring_booker_repricing"></div>
-                                    <div class="col-lg-3" id="repriring_booker_total">`+booker_insentif+`</div>
-                                    </div>
-                                </div>`;
-                            text_repricing += `<div id='repricing_button' class="col-lg-12" style="text-align:center;"></div>`;
-                            document.getElementById('repricing_div').innerHTML = text_repricing;
-                            //repricing
-
-                            text_detail+=`
-                            <div class="row" style="margin-bottom:5px;">
-                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                    <span style="font-size:12px;">`+msg.result.response.passengers[j].name+`</span>`;
-                                text_detail+=`</div>
-                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                    <span style="font-size:13px;`;
-                                        if(is_show_breakdown_price){
-                                            text_detail+=`cursor:pointer;" id="passenger_breakdown`+j+`"`;
-                                        }else{
-                                            text_detail+=`"`;
-                                        }
-                                if(i == 0) //upsel hanya masuk di pnr pertama
-                                    text_detail+=`
-                                    >`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.SSR + price.SEAT + price.CSC));
-                                else
-                                    text_detail+=`
-                                    >`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.SSR + price.SEAT));
-                                if(is_show_breakdown_price)
-                                    text_detail+=`<i class="fas fa-caret-down"></i>`;
-                                text_detail += `</span>`;
-                                text_detail+=`
-                                </div>
-                            </div>`;
-                            $text += msg.result.response.passengers[j].title +' '+ msg.result.response.passengers[j].name + ' ['+msg.result.response.provider_bookings[i].pnr+'] ';
-                            journey_code = [];
-                            for(k in msg.result.response.provider_bookings[i].journeys){
+                                disc -= price['DISC'];
                                 try{
-                                    journey_code.push(msg.result.response.provider_bookings[i].journeys[k].journey_code)
+    //                                price['CSC'] = msg.result.response.passengers[j].channel_service_charges.amount;
+                                    csc += msg.result.response.passengers[j].channel_service_charges.amount;
                                 }catch(err){
                                     console.log(err); // error kalau ada element yg tidak ada
                                 }
-                                for(l in msg.result.response.provider_bookings[i].journeys[k].segments){
-                                    journey_code.push(msg.result.response.provider_bookings[i].journeys[k].segments[l].segment_code)
+                                //repricing
+                                check = 0;
+                                if(price_arr_repricing.hasOwnProperty(msg.result.response.passengers[j].pax_type) == false){
+                                    price_arr_repricing[msg.result.response.passengers[j].pax_type] = {}
+                                    pax_type_repricing.push([msg.result.response.passengers[j].pax_type, msg.result.response.passengers[j].pax_type]);
                                 }
-                            }
-                            coma = false
-                            for(k in msg.result.response.passengers[j].fees){
-                                if(journey_code.indexOf(msg.result.response.passengers[j].fees[k].journey_code) == true){
-                                    $text += msg.result.response.passengers[j].fees[k].fee_name;
-                                    if(coma == true)
-                                        $text += ', ';
-                                    else
-                                        $text += ' ';
-                                    coma = true
+                                price_arr_repricing[msg.result.response.passengers[j].pax_type][msg.result.response.passengers[j].name] = {
+                                    'Fare': price['FARE'] + price['SSR'] + price['SEAT'] + price['DISC'],
+                                    'Tax': price['TAX'] + price['ROC'] - csc,
+                                    'Repricing': csc
                                 }
-                            }
-                            $text += price.currency+` `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.CSC + price.DISC))+'\n';
-                            if(counter_service_charge == 0){
-                                total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SEAT + price.CSC + price.SSR + price.DISC);
-                            }else{
-                                total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT + price.DISC);
-                            }
-                            commission += parseInt(price.RAC);
-                            total_price_provider.push({
-                                'pnr': msg.result.response.provider_bookings[i].pnr,
-                                'provider': msg.result.response.provider_bookings[i].provider,
-                                'price': JSON.parse(JSON.stringify(price))
-                            });
-                        }
-                        // digabung ke pax
-//                        if(csc != 0){
-//                            text_detail+=`
-//                                <div class="row" style="margin-bottom:5px;">
-//                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-//                                        <span style="font-size:12px;">Other service charges</span>`;
-//                                    text_detail+=`</div>
-//                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-//                                        <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(csc))+`</span>
-//                                    </div>
-//                                </div>`;
-//                        }
-                        counter_service_charge++;
-                    }catch(err){console.log(err);}
-                }
-                try{
-                    insurance_get_detail.result.response.total_price = total_price;
-
-                    if(disc != 0){
-                        text_detail+=`
-                            <div class="row" style="margin-bottom:5px;">
-                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                    <span style="font-size:12px;">Discount</span>`;
-                                text_detail+=`</div>
-                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                    <span style="font-size:13px;">`+price.currency+` -`+getrupiah(parseInt(disc))+`</span>
-                                </div>
-                            </div>`;
-                    }
-                    text_detail+=`
-                    <div>
-                        <hr/>
-                    </div>
-                    <div class="row" style="margin-bottom:10px;">
-                        <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                            <span style="font-size:13px; font-weight: bold;">Grand Total</span>
-                        </div>
-                        <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                            <span id="total_price" style="font-size:13px; font-weight: bold;`;
-                            if(is_show_breakdown_price)
-                                text_detail+='cursor:pointer;';
-                            text_detail +=`">`;
-                            try{
-                                text_detail+= price.currency+` `+getrupiah(total_price);
-                                $text += `\n` + 'Grand Total: ' +price.currency+` `+ getrupiah(total_price);
-                            }catch(err){
-
-                            }
-                            if(is_show_breakdown_price)
-                                text_detail+=`<i class="fas fa-caret-down"></i>`;
-                            text_detail+= `
-                            </span>
-                        </div>`;
-                        if(['booked', 'partial_booked', 'partial_issued', 'halt_booked'].includes(msg.result.response.state)){
-                            if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && total_price){
-                                if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
-                                    for(k in currency_rate_data.result.response.agent[user_login.co_ho_seq_id]){
-                                        try{
-                                            if(currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].base_currency == price.currency){
-                                                price_convert = (parseFloat(total_price)/currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].rate).toFixed(2);
-                                                if(price_convert%1 == 0)
-                                                    price_convert = parseInt(price_convert);
-                                                text_detail+=`
-                                                    <div class="col-lg-12" style="text-align:right;">
-                                                        <span style="font-size:13px; font-weight:bold;" id="total_price_`+k+`"> Estimated `+k+` `+price_convert+`</span><br/>
-                                                    </div>`;
-                                            }
-                                        }catch(err){
-                                            console.log(err);
-                                        }
-                                    }
-                                }
-                            }
-                        }else if(msg.result.response.hasOwnProperty('estimated_currency') && msg.result.response.estimated_currency.hasOwnProperty('other_currency') && Object.keys(msg.result.response.estimated_currency.other_currency).length > 0){
-                            for(k in msg.result.response.estimated_currency.other_currency){
-                                text_detail+=`
-                                            <div class="col-lg-12" style="text-align:right;">
-                                                <span style="font-size:13px; font-weight:bold;" id="total_price_`+msg.result.response.estimated_currency.other_currency[k].currency+`"> Estimated `+msg.result.response.estimated_currency.other_currency[k].currency+` `+getrupiah(msg.result.response.estimated_currency.other_currency[k].amount)+`</span><br/>
-                                            </div>`;
-                            }
-                        }
-                        text_detail+=`
-                    </div>`;
-                    if(msg.result.response.state == 'booked' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-                        text_detail+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website/images/icon/symbol/upsell_price.png" alt="Bank" style="width:auto; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
-                    else if(msg.result.response.state == 'issued' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
-                        text_detail+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website/images/icon/symbol/upsell_booker.png" alt="Bank" style="width:auto; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
-                        document.getElementById('repricing_type').innerHTML = '<option value="booker">Booker</option>';
-                        $('#repricing_type').niceSelect('update');
-                        reset_repricing();
-                    }
-                    text_detail+=`<div class="row">
-                    <div class="col-lg-12" style="padding-bottom:10px;">
-                        <hr/>`;
-                        //<span style="font-size:14px; font-weight:bold;"><i class="fas fa-share-alt"></i> Share This on:</span><br/>`;
-                        /*share_data();
-                        var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-                        if (isMobile) {
-                            text_detail+=`
-                                <a href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/whatsapp.png" alt="Whatsapp"/></a>
-                                <a href="line://msg/text/`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/line.png" alt="Line"/></a>
-                                <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/telegram.png" alt="Telegram"/></a>
-                                <a href="mailto:?subject=This is the insurance price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/email.png" alt="Email"/></a>`;
-                        } else {
-                            text_detail+=`
-                                <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/whatsapp.png" alt="Whatsapp"/></a>
-                                <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/line.png" alt="Line"/></a>
-                                <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/telegram.png" alt="Telegram"/></a>
-                                <a href="mailto:?subject=This is the insurance price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/email.png" alt="Email"/></a>`;
-                        }*/
-
-                    text_detail+=`
-                        </div>
-                    </div>`;
-                    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false && user_login.co_agent_frontend_security.includes('see_commission')){
-                        text_detail+=`
-                        <div class="row" id="show_commission" style="display:block;">
-                            <div class="col-lg-12 col-xs-12" style="text-align:center;">
-                                <div class="alert alert-success">
-                                    <div class="row">
-                                        <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                                            <span style="font-size:13px; font-weight:bold;">YPM</span>
-                                        </div>
-                                        <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                                            <span style="font-size:13px; font-weight:bold;">`+price.currency+` `+getrupiah(parseInt(commission)*-1)+`</span>
-                                        </div>
-                                    </div>`;
-                                    if(msg.result.response.hasOwnProperty('agent_nta') == true){
-                                        total_nta = 0;
-                                        total_nta = msg.result.response.agent_nta;
-                                        text_detail+=`<div class="row">
-                                        <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                                            <span style="font-size:13px; font-weight:bold;">Agent NTA</span>
-                                        </div>
-                                        <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                                            <span style="font-size:13px; font-weight:bold;">`+price.currency+` `+getrupiah(total_nta)+`</span>
-                                        </div>
-                                    </div>`;
-                                    }
-                                    if(msg.result.response.hasOwnProperty('total_nta') == true){
-                                        total_nta = 0;
-                                        total_nta = msg.result.response.total_nta;
-                                        text_detail+=`<div class="row">
-                                        <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                                            <span style="font-size:13px; font-weight:bold;">HO NTA</span>
-                                        </div>
-                                        <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                                            <span style="font-size:13px; font-weight:bold;">`+price.currency+` `+getrupiah(total_nta)+`</span>
-                                        </div>
-                                    </div>`;
-                                    }
-                                    if(msg.result.response.hasOwnProperty('booker_insentif') == true){
-                                        booker_insentif = 0;
-                                        booker_insentif = msg.result.response.booker_insentif;
-                                        text_detail+=`<div class="row">
-                                        <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                                            <span style="font-size:13px; font-weight:bold;">Booker Insentif</span>
-                                        </div>
-                                        <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                                            <span style="font-size:13px; font-weight:bold;">`+price.currency+` `+getrupiah(booker_insentif)+`</span>
-                                        </div>
-                                    </div>`;
-                                    }
-                                    if(commission == 0){
-                                        text_detail+=`
-                                        <div class="row">
-                                            <div class="col-lg-12 col-xs-12" style="text-align:left;">
-                                                <span style="font-size:13px; color:red;">* Please mark up the price first</span>
+                                text_repricing = `
+                                <div class="col-lg-12">
+                                    <div style="padding:5px;" class="row">
+                                        <div class="col-lg-3"></div>
+                                        <div class="col-lg-3">Price</div>
+                                        <div class="col-lg-3">Repricing</div>
+                                        <div class="col-lg-3">Total</div>
+                                    </div>
+                                </div>`;
+                                for(k in price_arr_repricing){
+                                    for(l in price_arr_repricing[k]){
+                                        text_repricing += `
+                                        <div class="col-lg-12">
+                                            <div style="padding:5px;" class="row" id="adult">
+                                                <div class="col-lg-3" id="`+j+`_`+k+`">`+l+`</div>
+                                                <div class="col-lg-3" id="`+l+`_price">`+getrupiah(price_arr_repricing[k][l].Fare + price_arr_repricing[k][l].Tax)+`</div>`;
+                                                if(price_arr_repricing[k][l].Repricing == 0)
+                                                    text_repricing+=`<div class="col-lg-3" id="`+l+`_repricing">-</div>`;
+                                                else
+                                                    text_repricing+=`<div class="col-lg-3" id="`+l+`_repricing">`+getrupiah(price_arr_repricing[k][l].Repricing)+`</div>`;
+                                                text_repricing+=`<div class="col-lg-3" id="`+l+`_total">`+getrupiah(price_arr_repricing[k][l].Fare + price_arr_repricing[k][l].Tax + price_arr_repricing[k][l].Repricing)+`</div>
                                             </div>
                                         </div>`;
                                     }
+                                }
+                                //booker
+                                booker_insentif = '-';
+                                if(msg.result.response.hasOwnProperty('booker_insentif'))
+                                    booker_insentif = getrupiah(msg.result.response.booker_insentif)
+                                text_repricing += `
+                                    <div class="col-lg-12">
+                                        <div style="padding:5px;" class="row" id="booker_repricing" hidden>
+                                        <div class="col-lg-6" id="repricing_booker_name">Booker Insentif</div>
+                                        <div class="col-lg-3" id="repriring_booker_repricing"></div>
+                                        <div class="col-lg-3" id="repriring_booker_total">`+booker_insentif+`</div>
+                                        </div>
+                                    </div>`;
+                                text_repricing += `<div id='repricing_button' class="col-lg-12" style="text-align:center;"></div>`;
+                                document.getElementById('repricing_div').innerHTML = text_repricing;
+                                //repricing
+
+                                text_detail+=`
+                                <div class="row" style="margin-bottom:5px;">
+                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                                        <span style="font-size:12px;">`+msg.result.response.passengers[j].name+`</span>`;
+                                    text_detail+=`</div>
+                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                                        <span style="font-size:13px;`;
+                                            if(is_show_breakdown_price){
+                                                text_detail+=`cursor:pointer;" id="passenger_breakdown`+j+`"`;
+                                            }else{
+                                                text_detail+=`"`;
+                                            }
+                                    if(i == 0) //upsel hanya masuk di pnr pertama
+                                        text_detail+=`
+                                        >`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.SSR + price.SEAT + price.CSC));
+                                    else
+                                        text_detail+=`
+                                        >`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.SSR + price.SEAT));
+                                    if(is_show_breakdown_price)
+                                        text_detail+=`<i class="fas fa-caret-down"></i>`;
+                                    text_detail += `</span>`;
                                     text_detail+=`
-                                </div>
+                                    </div>
+                                </div>`;
+                                $text += msg.result.response.passengers[j].title +' '+ msg.result.response.passengers[j].name + ' ['+msg.result.response.provider_bookings[i].pnr+'] ';
+                                journey_code = [];
+                                for(k in msg.result.response.provider_bookings[i].journeys){
+                                    try{
+                                        journey_code.push(msg.result.response.provider_bookings[i].journeys[k].journey_code)
+                                    }catch(err){
+                                        console.log(err); // error kalau ada element yg tidak ada
+                                    }
+                                    for(l in msg.result.response.provider_bookings[i].journeys[k].segments){
+                                        journey_code.push(msg.result.response.provider_bookings[i].journeys[k].segments[l].segment_code)
+                                    }
+                                }
+                                coma = false
+                                for(k in msg.result.response.passengers[j].fees){
+                                    if(journey_code.indexOf(msg.result.response.passengers[j].fees[k].journey_code) == true){
+                                        $text += msg.result.response.passengers[j].fees[k].fee_name;
+                                        if(coma == true)
+                                            $text += ', ';
+                                        else
+                                            $text += ' ';
+                                        coma = true
+                                    }
+                                }
+                                $text += price.currency+` `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.CSC + price.DISC))+'\n';
+                                if(counter_service_charge == 0){
+                                    total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SEAT + price.CSC + price.SSR + price.DISC);
+                                }else{
+                                    total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT + price.DISC);
+                                }
+                                commission += parseInt(price.RAC);
+                                total_price_provider.push({
+                                    'pnr': msg.result.response.provider_bookings[i].pnr,
+                                    'provider': msg.result.response.provider_bookings[i].provider,
+                                    'price': JSON.parse(JSON.stringify(price))
+                                });
+                            }
+                            // digabung ke pax
+    //                        if(csc != 0){
+    //                            text_detail+=`
+    //                                <div class="row" style="margin-bottom:5px;">
+    //                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+    //                                        <span style="font-size:12px;">Other service charges</span>`;
+    //                                    text_detail+=`</div>
+    //                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+    //                                        <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(csc))+`</span>
+    //                                    </div>
+    //                                </div>`;
+    //                        }
+                            counter_service_charge++;
+                        }catch(err){console.log(err);}
+                    }
+                    try{
+                        insurance_get_detail.result.response.total_price = total_price;
+
+                        if(disc != 0){
+                            text_detail+=`
+                                <div class="row" style="margin-bottom:5px;">
+                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                                        <span style="font-size:12px;">Discount</span>`;
+                                    text_detail+=`</div>
+                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                                        <span style="font-size:13px;">`+price.currency+` -`+getrupiah(parseInt(disc))+`</span>
+                                    </div>
+                                </div>`;
+                        }
+                        text_detail+=`
+                        <div>
+                            <hr/>
+                        </div>
+                        <div class="row" style="margin-bottom:10px;">
+                            <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                                <span style="font-size:13px; font-weight: bold;">Grand Total</span>
+                            </div>
+                            <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                                <span id="total_price" style="font-size:13px; font-weight: bold;`;
+                                if(is_show_breakdown_price)
+                                    text_detail+='cursor:pointer;';
+                                text_detail +=`">`;
+                                try{
+                                    text_detail+= price.currency+` `+getrupiah(total_price);
+                                    $text += `\n` + 'Grand Total: ' +price.currency+` `+ getrupiah(total_price);
+                                }catch(err){
+
+                                }
+                                if(is_show_breakdown_price)
+                                    text_detail+=`<i class="fas fa-caret-down"></i>`;
+                                text_detail+= `
+                                </span>
+                            </div>`;
+                            if(['booked', 'partial_booked', 'partial_issued', 'halt_booked'].includes(msg.result.response.state)){
+                                if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && total_price){
+                                    if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
+                                        for(k in currency_rate_data.result.response.agent[user_login.co_ho_seq_id]){
+                                            try{
+                                                if(currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].base_currency == price.currency){
+                                                    price_convert = (parseFloat(total_price)/currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].rate).toFixed(2);
+                                                    if(price_convert%1 == 0)
+                                                        price_convert = parseInt(price_convert);
+                                                    text_detail+=`
+                                                        <div class="col-lg-12" style="text-align:right;">
+                                                            <span style="font-size:13px; font-weight:bold;" id="total_price_`+k+`"> Estimated `+k+` `+price_convert+`</span><br/>
+                                                        </div>`;
+                                                }
+                                            }catch(err){
+                                                console.log(err);
+                                            }
+                                        }
+                                    }
+                                }
+                            }else if(msg.result.response.hasOwnProperty('estimated_currency') && msg.result.response.estimated_currency.hasOwnProperty('other_currency') && Object.keys(msg.result.response.estimated_currency.other_currency).length > 0){
+                                for(k in msg.result.response.estimated_currency.other_currency){
+                                    text_detail+=`
+                                                <div class="col-lg-12" style="text-align:right;">
+                                                    <span style="font-size:13px; font-weight:bold;" id="total_price_`+msg.result.response.estimated_currency.other_currency[k].currency+`"> Estimated `+msg.result.response.estimated_currency.other_currency[k].currency+` `+getrupiah(msg.result.response.estimated_currency.other_currency[k].amount)+`</span><br/>
+                                                </div>`;
+                                }
+                            }
+                            text_detail+=`
+                        </div>`;
+                        if(msg.result.response.state == 'booked' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+                            text_detail+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website/images/icon/symbol/upsell_price.png" alt="Bank" style="width:auto; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
+                        else if(msg.result.response.state == 'issued' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
+                            text_detail+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website/images/icon/symbol/upsell_booker.png" alt="Bank" style="width:auto; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
+                            document.getElementById('repricing_type').innerHTML = '<option value="booker">Booker</option>';
+                            $('#repricing_type').niceSelect('update');
+                            reset_repricing();
+                        }
+                        text_detail+=`<div class="row">
+                        <div class="col-lg-12" style="padding-bottom:10px;">
+                            <hr/>`;
+                            //<span style="font-size:14px; font-weight:bold;"><i class="fas fa-share-alt"></i> Share This on:</span><br/>`;
+                            /*share_data();
+                            var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+                            if (isMobile) {
+                                text_detail+=`
+                                    <a href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/whatsapp.png" alt="Whatsapp"/></a>
+                                    <a href="line://msg/text/`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/line.png" alt="Line"/></a>
+                                    <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/telegram.png" alt="Telegram"/></a>
+                                    <a href="mailto:?subject=This is the insurance price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/email.png" alt="Email"/></a>`;
+                            } else {
+                                text_detail+=`
+                                    <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/whatsapp.png" alt="Whatsapp"/></a>
+                                    <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/line.png" alt="Line"/></a>
+                                    <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/telegram.png" alt="Telegram"/></a>
+                                    <a href="mailto:?subject=This is the insurance price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/email.png" alt="Email"/></a>`;
+                            }*/
+
+                        text_detail+=`
                             </div>
                         </div>`;
-                    }
-                    text_detail+=`<center>`;
-//                    text_detail+=`
-//                    <div style="padding-bottom:10px;">
-//                        <center>
-//                            <input type="button" class="primary-btn-white" style="width:100%;" onclick="copy_data();" value="Copy"/>
-//                        </center>
-//                    </div>`;
-                    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-                    text_detail+=`
-                    <div>
-                        <input class="primary-btn-white" id="show_commission_button" style="width:100%;margin-bottom:10px;" type="button" onclick="show_commission('commission');" value="Hide YPM"/>
+                        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false && user_login.co_agent_frontend_security.includes('see_commission')){
+                            text_detail+=`
+                            <div class="row" id="show_commission" style="display:block;">
+                                <div class="col-lg-12 col-xs-12" style="text-align:center;">
+                                    <div class="alert alert-success">
+                                        <div class="row">
+                                            <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                                                <span style="font-size:13px; font-weight:bold;">YPM</span>
+                                            </div>
+                                            <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                                                <span style="font-size:13px; font-weight:bold;">`+price.currency+` `+getrupiah(parseInt(commission)*-1)+`</span>
+                                            </div>
+                                        </div>`;
+                                        if(msg.result.response.hasOwnProperty('agent_nta') == true){
+                                            total_nta = 0;
+                                            total_nta = msg.result.response.agent_nta;
+                                            text_detail+=`<div class="row">
+                                            <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                                                <span style="font-size:13px; font-weight:bold;">Agent NTA</span>
+                                            </div>
+                                            <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                                                <span style="font-size:13px; font-weight:bold;">`+price.currency+` `+getrupiah(total_nta)+`</span>
+                                            </div>
+                                        </div>`;
+                                        }
+                                        if(msg.result.response.hasOwnProperty('total_nta') == true){
+                                            total_nta = 0;
+                                            total_nta = msg.result.response.total_nta;
+                                            text_detail+=`<div class="row">
+                                            <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                                                <span style="font-size:13px; font-weight:bold;">HO NTA</span>
+                                            </div>
+                                            <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                                                <span style="font-size:13px; font-weight:bold;">`+price.currency+` `+getrupiah(total_nta)+`</span>
+                                            </div>
+                                        </div>`;
+                                        }
+                                        if(msg.result.response.hasOwnProperty('booker_insentif') == true){
+                                            booker_insentif = 0;
+                                            booker_insentif = msg.result.response.booker_insentif;
+                                            text_detail+=`<div class="row">
+                                            <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                                                <span style="font-size:13px; font-weight:bold;">Booker Insentif</span>
+                                            </div>
+                                            <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                                                <span style="font-size:13px; font-weight:bold;">`+price.currency+` `+getrupiah(booker_insentif)+`</span>
+                                            </div>
+                                        </div>`;
+                                        }
+                                        if(commission == 0){
+                                            text_detail+=`
+                                            <div class="row">
+                                                <div class="col-lg-12 col-xs-12" style="text-align:left;">
+                                                    <span style="font-size:13px; color:red;">* Please mark up the price first</span>
+                                                </div>
+                                            </div>`;
+                                        }
+                                        text_detail+=`
+                                    </div>
+                                </div>
+                            </div>`;
+                        }
+                        text_detail+=`<center>`;
+    //                    text_detail+=`
+    //                    <div style="padding-bottom:10px;">
+    //                        <center>
+    //                            <input type="button" class="primary-btn-white" style="width:100%;" onclick="copy_data();" value="Copy"/>
+    //                        </center>
+    //                    </div>`;
+                        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+                        text_detail+=`
+                        <div>
+                            <input class="primary-btn-white" id="show_commission_button" style="width:100%;margin-bottom:10px;" type="button" onclick="show_commission('commission');" value="Hide YPM"/>
+                        </div>`;
+
+                        text_detail+=`
+                        <div>
+                            <center>
+                                <input type="button" class="primary-btn-white" style="width:100%;" onclick="copy_data();" value="Copy"/>
+                            </center>
+                        </div>`;
+                        text_detail+=`
                     </div>`;
-
-                    text_detail+=`
-                    <div>
-                        <center>
-                            <input type="button" class="primary-btn-white" style="width:100%;" onclick="copy_data();" value="Copy"/>
-                        </center>
-                    </div>`;
-                    text_detail+=`
-                </div>`;
-                }catch(err){console.log(err);}
+                    }catch(err){console.log(err);}
 
 
-                document.getElementById('insurance_detail').innerHTML = text_detail;
-                document.getElementById('update_data_passenger').innerHTML = text_update_data_pax;
+                    document.getElementById('insurance_detail').innerHTML = text_detail;
+                    document.getElementById('update_data_passenger').innerHTML = text_update_data_pax;
 
-                if(is_show_breakdown_price){
-                    var price_breakdown = {};
-                    var currency_breakdown = '';
-                    for(i in insurance_get_detail.result.response.passengers){
-                        for(j in insurance_get_detail.result.response.passengers[i].sale_service_charges){
-                            for(k in insurance_get_detail.result.response.passengers[i].sale_service_charges[j]){
-                                if(k != 'RAC'){
-                                    if(!price_breakdown.hasOwnProperty(k))
-                                        price_breakdown[k.toUpperCase()] = 0;
-                                    price_breakdown[k.toUpperCase()] += insurance_get_detail.result.response.passengers[i].sale_service_charges[j][k].amount;
-                                    if(currency_breakdown == '')
-                                        currency_breakdown = insurance_get_detail.result.response.passengers[i].sale_service_charges[j][k].currency;
+                    if(is_show_breakdown_price){
+                        var price_breakdown = {};
+                        var currency_breakdown = '';
+                        for(i in insurance_get_detail.result.response.passengers){
+                            for(j in insurance_get_detail.result.response.passengers[i].sale_service_charges){
+                                for(k in insurance_get_detail.result.response.passengers[i].sale_service_charges[j]){
+                                    if(k != 'RAC'){
+                                        if(!price_breakdown.hasOwnProperty(k))
+                                            price_breakdown[k.toUpperCase()] = 0;
+                                        price_breakdown[k.toUpperCase()] += insurance_get_detail.result.response.passengers[i].sale_service_charges[j][k].amount;
+                                        if(currency_breakdown == '')
+                                            currency_breakdown = insurance_get_detail.result.response.passengers[i].sale_service_charges[j][k].currency;
+                                    }
+                                }
+                            }
+                            var breakdown_text = '';
+                            for(j in price_breakdown){
+                                if(breakdown_text)
+                                    breakdown_text += '<br/>';
+                                if(j != 'ROC')
+                                    breakdown_text += '<b>'+j+'</b> ';
+                                else
+                                    breakdown_text += '<b>CONVENIENCE FEE</b> ';
+                                breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
+                            }
+                            new jBox('Tooltip', {
+                                attach: '#passenger_breakdown'+i,
+                                target: '#passenger_breakdown'+i,
+                                theme: 'TooltipBorder',
+                                trigger: 'click',
+                                adjustTracker: true,
+                                closeOnClick: 'body',
+                                closeButton: 'box',
+                                animation: 'move',
+                                position: {
+                                  x: 'left',
+                                  y: 'top'
+                                },
+                                outside: 'y',
+                                pointer: 'left:20',
+                                offset: {
+                                  x: 25
+                                },
+                                content: breakdown_text
+                            });
+                            price_breakdown = {};
+                            breakdown_text = '';
+                            currency_breakdown = '';
+                        }
+                        for(i in insurance_get_detail.result.response.passengers){
+                            for(j in insurance_get_detail.result.response.passengers[i].sale_service_charges){
+                                for(k in insurance_get_detail.result.response.passengers[i].sale_service_charges[j]){
+                                    if(k != 'RAC'){
+                                        if(!price_breakdown.hasOwnProperty(k))
+                                            price_breakdown[k.toUpperCase()] = 0;
+                                        price_breakdown[k.toUpperCase()] += insurance_get_detail.result.response.passengers[i].sale_service_charges[j][k].amount;
+                                        if(currency_breakdown == '')
+                                            currency_breakdown = insurance_get_detail.result.response.passengers[i].sale_service_charges[j][k].currency;
+                                    }
                                 }
                             }
                         }
@@ -3415,8 +3462,8 @@ function insurance_get_booking(data, sync=false){
                             breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
                         }
                         new jBox('Tooltip', {
-                            attach: '#passenger_breakdown'+i,
-                            target: '#passenger_breakdown'+i,
+                            attach: '#total_price',
+                            target: '#total_price',
                             theme: 'TooltipBorder',
                             trigger: 'click',
                             adjustTracker: true,
@@ -3434,54 +3481,7 @@ function insurance_get_booking(data, sync=false){
                             },
                             content: breakdown_text
                         });
-                        price_breakdown = {};
-                        breakdown_text = '';
-                        currency_breakdown = '';
                     }
-                    for(i in insurance_get_detail.result.response.passengers){
-                        for(j in insurance_get_detail.result.response.passengers[i].sale_service_charges){
-                            for(k in insurance_get_detail.result.response.passengers[i].sale_service_charges[j]){
-                                if(k != 'RAC'){
-                                    if(!price_breakdown.hasOwnProperty(k))
-                                        price_breakdown[k.toUpperCase()] = 0;
-                                    price_breakdown[k.toUpperCase()] += insurance_get_detail.result.response.passengers[i].sale_service_charges[j][k].amount;
-                                    if(currency_breakdown == '')
-                                        currency_breakdown = insurance_get_detail.result.response.passengers[i].sale_service_charges[j][k].currency;
-                                }
-                            }
-                        }
-                    }
-                    var breakdown_text = '';
-                    for(j in price_breakdown){
-                        if(breakdown_text)
-                            breakdown_text += '<br/>';
-                        if(j != 'ROC')
-                            breakdown_text += '<b>'+j+'</b> ';
-                        else
-                            breakdown_text += '<b>CONVENIENCE FEE</b> ';
-                        breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
-                    }
-                    new jBox('Tooltip', {
-                        attach: '#total_price',
-                        target: '#total_price',
-                        theme: 'TooltipBorder',
-                        trigger: 'click',
-                        adjustTracker: true,
-                        closeOnClick: 'body',
-                        closeButton: 'box',
-                        animation: 'move',
-                        position: {
-                          x: 'left',
-                          y: 'top'
-                        },
-                        outside: 'y',
-                        pointer: 'left:20',
-                        offset: {
-                          x: 25
-                        },
-                        content: breakdown_text
-                    });
-                }
 
 
                     //======================= Option =========================
@@ -3491,6 +3491,21 @@ function insurance_get_booking(data, sync=false){
 
                     //==================== Print Button =====================
                     var print_text = '';
+
+                    if (msg.result.response.state  == 'booked'){
+                        print_text+=`
+                            <div class="col-lg-6" style="border:1px solid #cdcdcd; padding:10px; background-color:white; margin-top:20px;margin-bottom:20px;margin-left:15px;">
+                                <label class="check_box_custom">
+                                    <span class="span-search-ticket" style="color:black;">Force Get New Printout</span>
+                                    <input type="checkbox" id="is_force_get_new_printout" name="is_force_get_new_printout"/>
+                                    <span class="check_box_span_custom"></span>
+                                </label>
+                            </div>
+                            <div class="col-lg-6" style="margin-right:15px;">
+                            </div>`;
+
+                    }
+
                     // === Button 1 ===
                     print_text += '<div class="col-lg-6" style="padding-bottom:10px;">';
                     if (msg.result.response.state  == 'issued'){
@@ -3499,27 +3514,33 @@ function insurance_get_booking(data, sync=false){
                             Print Policy Terms
                             <div class="ld ld-ring ld-cycle"></div>
                         </button>`;
+                    }else if (msg.result.response.state  == 'booked'){
+                        print_text+=`
+                        <button class="primary-btn hold-seat-booking-train ld-ext-right" id="button-print-print" type="button" onclick="get_printout('` + msg.result.response.order_number + `','itinerary','insurance');" style="width:100%;">
+                            Print Form
+                            <div class="ld ld-ring ld-cycle"></div>
+                        </button>`;
                     }
                     print_text += '</div>';
                     print_text += '<div class="col-lg-6" style="padding-bottom:10px;">';
                     // === Button 2 ===
-                    if (msg.result.response.state  == 'booked'){
-                        print_text+=`
-                        <button class="primary-btn hold-seat-booking-train ld-ext-right" id="button-print-print" type="button" onclick="get_printout('` + msg.result.response.order_number + `','itinerary','insurance');" style="width:100%;">
-                            Print Itinerary Form
-                            <div class="ld ld-ring ld-cycle"></div>
-                        </button>`;
-                    }else{
+                    if(msg.result.response.state == 'issued'){
                     // === Button 2 ===
                         print_text+=`
                         <button class="primary-btn hold-seat-booking-train ld-ext-right" id="button-print-print" type="button" onclick="get_printout('` + msg.result.response.order_number + `','ticket_original','insurance');" style="width:100%;">
                             Print Policies
                             <div class="ld ld-ring ld-cycle"></div>
                         </button>`;
+                    }else if (msg.result.response.state  == 'booked'){
+                        print_text+=`
+                        <button class="primary-btn hold-seat-booking-train ld-ext-right" id="button-print-itin-price" type="button" onclick="get_printout('` + msg.result.response.order_number + `','itinerary_price','insurance');" style="width:100%;">
+                            Print Form (Price)
+                            <div class="ld ld-ring ld-cycle"></div>
+                        </button>`;
                     }
                     print_text += '</div><div class="col-lg-6" style="padding-bottom:10px;">';
                     // === Button 3 ===
-                    if (msg.result.response.state  == 'issued') {
+                    if (msg.result.response.state  == 'issued'){
                         print_text+=`
                             <a class="issued-booking-train ld-ext-right" style="color:`+text_color+`;">
                                 <button type="button" class="primary-btn-white" style="width:100%;" data-toggle="modal" data-target="#printInvoice">

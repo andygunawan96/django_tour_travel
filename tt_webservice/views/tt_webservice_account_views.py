@@ -165,6 +165,12 @@ def api_models(request):
             res = get_currency(request)
         elif req_data['action'] == 'get_user_login':
             res = get_user_login(request)
+        elif req_data['action'] == 'get_phone_code':
+            res = get_phone_code(request)
+        elif req_data['action'] == 'create_va_number':
+            res = create_va_number(request)
+        elif req_data['action'] == 'get_provider_type':
+            res = get_provider_type(request)
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:
@@ -1558,7 +1564,7 @@ def get_va_number(request):
                 }]
             })
             for rec in res['result']['response']:
-                if rec not in ['min_topup_amount', 'topup_increment_amount']:
+                if rec not in ['min_topup_amount', 'topup_increment_amount', 'is_ho_have_open_top_up']:
                     for data in res['result']['response'][rec]:
                         if type(data['acquirer_seq_id']) == str:
                             file = read_cache(data['acquirer_seq_id'], "payment_information", request, 90911)
@@ -1815,6 +1821,50 @@ def get_currency(request):
 def get_user_login(request):
     return request.session.get('user_account')
 
+def get_phone_code(request):
+    res = {}
+    response = get_cache_data(request)
+    airline_country = response['result']['response']['airline']['country']
+    phone_code = []
+    for i in airline_country:
+        if i['phone_code'] not in phone_code:
+            phone_code.append(i['phone_code'])
+    res['phone_code'] = sorted(phone_code)
+    return res
+
+def create_va_number(request):
+    try:
+        data = {
+            'calling_code': request.POST['calling_code'],
+            'calling_number': request.POST['calling_number'],
+            'email': request.POST['email']
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "create_va_number_api",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+
+    url_request = get_url_gateway('account')
+    res = send_request_api(request, url_request, headers, data, 'POST')
+    return res
+
+def get_provider_type(request):
+    res = {
+        "provider": []
+    }
+    file = read_cache("provider_types_sequence", 'cache_web', request, 90911)
+    if file:
+        for provider_type in file:
+            res['provider'].append({
+                "code": provider_type,
+                "sequence": file[provider_type]['sequence'],
+                "display": file[provider_type]['display'] if file[provider_type].get('display') else ("%s%s" % (provider_type[0].upper(), provider_type[1:]))
+            })
+    return res
 
 #DEPRECATED
 def request_top_up(request):

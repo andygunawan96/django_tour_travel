@@ -10,6 +10,7 @@ import logging
 import traceback
 from .tt_webservice_views import *
 from .tt_webservice import *
+import re
 from .tt_webservice_voucher_views import *
 from ..views import tt_webservice_agent_views as webservice_agent
 _logger = logging.getLogger("website_logger")
@@ -259,13 +260,17 @@ def update_contact(request):
         for i in range(int(request.POST['counter_passenger'])):
             try:
                 if request.POST['passenger_cp' + str(i)] == 'true':
+                    first_name = re.sub(r'\s', '', request.POST['passenger_first_name' + str(i)]).replace(':', '')
+                    last_name = re.sub(r'\s', '', request.POST['passenger_last_name' + str(i)]).replace(':', '')
+                    email = re.sub(r'\s', '', request.POST['passenger_email' + str(i)]).replace(':', '')
+                    mobile = re.sub(r'\s', '', request.POST['booker_mobile']).replace(':', '')
                     contact.append({
                         'title': request.POST['passenger_title' + str(i)],
-                        'first_name': request.POST['passenger_first_name' + str(i)],
-                        'last_name': request.POST['passenger_last_name' + str(i)],
-                        'email': request.POST['passenger_email' + str(i)],
+                        'first_name': first_name,
+                        'last_name': last_name,
+                        'email': email,
                         'calling_code': request.POST['booker_calling_code'],
-                        'mobile': request.POST['booker_mobile'],
+                        'mobile': mobile,
                         'nationality_code': request.POST['booker_nationality_code'],
                         'contact_seq_id': request.POST['passenger_id' + str(i)] != '' and request.POST['passenger_id' + str(i)] or ''
                     })
@@ -287,13 +292,19 @@ def update_contact(request):
                 _logger.error(str(e) + traceback.format_exc())
 
         if len(contact) == 0:
+
+            first_name = re.sub(r'\s', '', request.POST['booker_first_name']).replace(':', '')
+            last_name = re.sub(r'\s', '', request.POST.get('booker_last_name')).replace(':', '')
+            email = re.sub(r'\s', '', request.POST['booker_email']).replace(':', '')
+            mobile = re.sub(r'\s', '', request.POST['booker_mobile']).replace(':', '')
+
             contact.append({
                 'title': request.POST['booker_title'],
-                'first_name': request.POST['booker_first_name'],
-                'last_name': request.POST.get('booker_last_name'),
-                'email': request.POST['booker_email'],
+                'first_name': first_name,
+                'last_name': last_name,
+                'email': email,
                 'calling_code': request.POST['booker_calling_code'],
-                'mobile': request.POST['booker_mobile'],
+                'mobile': mobile,
                 'nationality_code': request.POST['booker_nationality_code'],
                 'contact_seq_id': request.POST['booker_id'] != '' and request.POST['booker_id'] or '',
                 'is_also_booker': True
@@ -305,13 +316,19 @@ def update_contact(request):
             "action": "update_contact",
             "signature": request.session['issued_offline_signature'],
         }
+
+        first_name = re.sub(r'\s', '', request.POST['booker_first_name']).replace(':', '')
+        last_name = re.sub(r'\s', '', request.POST.get('booker_last_name')).replace(':', '')
+        email = re.sub(r'\s', '', request.POST['booker_email']).replace(':', '')
+        mobile = re.sub(r'\s', '', request.POST['booker_mobile']).replace(':', '')
+
         booker = {
             'title': request.POST['booker_title'],
-            'first_name': request.POST['booker_first_name'],
-            'last_name': request.POST.get('booker_last_name') or '',
-            'email': request.POST['booker_email'],
+            'first_name': first_name,
+            'last_name': last_name,
+            'email': email,
             'calling_code': request.POST['booker_calling_code'],
-            'mobile': request.POST['booker_mobile'],
+            'mobile': mobile,
             'nationality_code': request.POST['booker_nationality_code'],
             'booker_seq_id': request.POST['booker_id'] != '' and request.POST['booker_id'] or ''
         }
@@ -370,10 +387,16 @@ def update_passenger(request):
                     behaviors.update({
                         "offline": request.POST['passenger_behaviors' + str(i)]
                     })
+
+                first_name = re.sub(r'\s', '', request.POST['passenger_first_name' + str(i)]).replace(':', '')
+                last_name = re.sub(r'\s', '', request.POST.get('passenger_last_name' + str(i), '')).replace(':', '')
+                # email = re.sub(r'\s', '', request.POST['booker_email']).replace(':', '')
+                # mobile = re.sub(r'\s', '', request.POST['booker_phone']).replace(':', '')
+
                 passenger.append({
                     "pax_type": pax_type,
-                    "first_name": request.POST['passenger_first_name' + str(i)],
-                    "last_name": request.POST.get('passenger_last_name' + str(i), ''),
+                    "first_name": first_name,
+                    "last_name": last_name,
                     "title": request.POST['passenger_title' + str(i)],
                     "birth_date": birth_date,
                     "nationality_code": request.POST.get('passenger_nationality_code' + str(i), ''),
@@ -385,6 +408,7 @@ def update_passenger(request):
                         identity = {}
                         if request.POST['passenger_identity_number' + str(i)]:
                             identity['identity_number'] = request.POST['passenger_identity_number' + str(i)]
+                            identity['identity_number'] = re.sub(r'\s', '', identity['identity_number']).replace(':', '')
                         if request.POST['passenger_identity_type' + str(i)]:
                             identity['identity_type'] = request.POST['passenger_identity_type' + str(i)]
                         identity["identity_expdate"] = passport_expdate

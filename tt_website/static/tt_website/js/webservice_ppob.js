@@ -1578,7 +1578,7 @@ function ppob_get_booking(data){
 
                 text+=`
                 <div class="row" style="margin-top:20px;">
-                    <div class="col-lg-4" style="padding-bottom:10px;">`;
+                    <div class="col-lg-6" style="padding-bottom:10px;">`;
                         if(msg.result.response.state != 'cancel' && msg.result.response.state != 'cancel2'){
                             if (msg.result.response.state == 'issued'){
                                 text+=`
@@ -1586,13 +1586,7 @@ function ppob_get_booking(data){
                                     Print Ticket
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>`;
-                            }
-                        }
-                        text+=`
-                    </div>
-                    <div class="col-lg-4" style="padding-bottom:10px;">`;
-                        if(msg.result.response.state != 'cancel' && msg.result.response.state != 'cancel2'){
-                            if (msg.result.response.state  == 'booked'){
+                            }else if (msg.result.response.state  == 'booked'){
                                 text+=`
                                 <button type="button" id="button-print-print" class="primary-btn ld-ext-right" style="width:100%;" onclick="get_printout('`+msg.result.response.order_number+`', 'itinerary','ppob');">
                                     Print Form
@@ -1600,10 +1594,17 @@ function ppob_get_booking(data){
                                 </button>`;
                             }
                         }
-                            text+=`
+                        text+=`
                     </div>
-                    <div class="col-lg-4" style="padding-bottom:10px;">`;
+                    <div class="col-lg-6" style="padding-bottom:10px;">`;
                         if(msg.result.response.state != 'cancel' && msg.result.response.state != 'cancel2'){
+                            if (msg.result.response.state  == 'booked'){
+                                text+=`
+                                <button type="button" id="button-print-itin-price" class="primary-btn ld-ext-right" style="width:100%;" onclick="get_printout('`+msg.result.response.order_number+`', 'itinerary_price','ppob');">
+                                    Print Form (Price)
+                                    <div class="ld ld-ring ld-cycle"></div>
+                                </button>`;
+                            }
                             if (msg.result.response.state == 'issued'){
                                 text+=`
                                 <a class="issued-booking-train ld-ext-right" style="color:`+text_color+`;">
@@ -1659,11 +1660,11 @@ function ppob_get_booking(data){
                                             </div>
                                         </div>
                                     </div>
+                                </a>
                                 `;
                             }
                         }
-                            text+=`
-                        </a>
+                    text+=`
                     </div>
                 </div>`;
                 document.getElementById('bills_booking').innerHTML = text;

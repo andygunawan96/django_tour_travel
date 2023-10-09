@@ -2195,7 +2195,34 @@ function tour_get_booking(order_number)
                                text += `
                             </div>
                         </div>
-                    </div>
+                    </div>`;
+
+                    text += `
+                    <div style="border:1px solid #cdcdcd; padding:10px; background-color:white; margin-top:20px;">
+                        <div class="row">`;
+                    if (msg.result.response.state == 'issued'){
+                        text+=`
+                            <div class="col-lg-6">
+                                <label class="check_box_custom">
+                                    <span class="span-search-ticket" style="color:black;">Hide agent logo on tickets</span>
+                                    <input type="checkbox" id="is_hide_agent_logo" name="is_hide_agent_logo"/>
+                                    <span class="check_box_span_custom"></span>
+                                </label>
+                            </div>`;
+                    }
+                    text+=`
+                            <div class="col-lg-6">
+                                <label class="check_box_custom">
+                                    <span class="span-search-ticket" style="color:black;">Force Get New Printout</span>
+                                    <input type="checkbox" id="is_force_get_new_printout" name="is_force_get_new_printout"/>
+                                    <span class="check_box_span_custom"></span>
+                                </label>
+                            </div>`;
+                    text += `
+                        </div>
+                    </div>`;
+
+                    text+=`
 
                     <div class="row" style="margin-top: 20px;">
                         <div class="col-lg-6" id="voucher" style="padding-bottom:10px;">`;
@@ -2211,7 +2238,15 @@ function tour_get_booking(order_number)
 
                        text += `</div>
                                 <div class="col-lg-6" style="padding-bottom:10px;">`;
-                       if(book_obj.state == 'issued'){
+                       if(book_obj.state == 'booked')
+                       {
+                            text+=`
+                                <button type="button" id="button-print-itin-price" class="primary-btn ld-ext-right" style="width:100%;" onclick="get_printout('`+book_obj.order_number+`', 'itinerary_price','tour');">
+                                    Print Form (Price)
+                                    <div class="ld ld-ring ld-cycle"></div>
+                                </button>`;
+                       }
+                       else if(book_obj.state == 'issued'){
                             text+=`
                                 <a class="issued-booking-train ld-ext-right" style="color:`+text_color+`;">
                                     <input type="button" class="primary-btn" style="width:100%;" data-toggle="modal" data-target="#printInvoice" value="Print Invoice"/>

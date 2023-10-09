@@ -15,13 +15,7 @@
     signature = `{{signature}}`;
     static_path_url_server = '{{static_path_url_server}}'
     name = '';
-    try{
-        cache = `{{cache}}`;
-        cache = cache.replace(/&quot;/g, '"');
-        cache = JSON.parse(cache);
-    }catch(err){
 
-    }
 </script>
 
 <style>
@@ -708,7 +702,11 @@
       $('.js-example-basic-single').select2();
         {% if "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_visa" in username.co_agent_frontend_security %}
             try{
-                visa_date = cache.visa.date;
+                {% if cache.visa.date %}
+                    visa_date = '{{cache.visa.date}}';
+                {% else %}
+                    visa_date = moment();
+                {% endi %}
             }catch(err){
                 visa_date = moment();
             }

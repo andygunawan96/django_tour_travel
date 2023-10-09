@@ -1423,16 +1423,14 @@ function visa_get_data(data){
                                     </button>`;
                                 text+=`</div>
                                 <div class="col-lg-4">`;
-                                if(visa.journey.state == 'booked')
-                                text+=`
+                                if(visa.journey.state == 'booked'){
+                                    text+=`
                                     <button type="button" id="button-print-print" class="primary-btn ld-ext-right" style="width:100%;" onclick="get_printout('`+msg.result.response.journey.name+`', 'itinerary','visa');">
-                                        Itinerary
+                                        Print Form
                                         <div class="ld ld-ring ld-cycle"></div>
                                     </button>`;
-                                    text+=`
-                                </div>
-                                <div class="col-lg-4">`;
-                                if(visa.journey.state == 'issued')
+                                }
+                                else if(visa.journey.state == 'issued'){
                                     text+=`
                                     <a class="issued-booking-train ld-ext-right" style="color:`+text_color+`;">
                                         <input type="button" class="primary-btn" style="width:100%;" data-toggle="modal" data-target="#printInvoice" value="Print Invoice"/>
@@ -1485,6 +1483,17 @@ function visa_get_data(data){
                                             </div>
                                         </div>
                                     </div>`;
+                                }
+                                text += `
+                                </div>
+                                <div class="col-lg-4">`;
+                                if(visa.journey.state == 'booked'){
+                                    text+=`
+                                    <button type="button" id="button-print-itin-price" class="primary-btn ld-ext-right" style="width:100%;" onclick="get_printout('`+msg.result.response.journey.name+`', 'itinerary_price','visa');">
+                                        Print Form (Price)
+                                        <div class="ld ld-ring ld-cycle"></div>
+                                    </button>`;
+                                }
                                     text+=`
                                 </div>
                             </div>

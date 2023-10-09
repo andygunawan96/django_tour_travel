@@ -2025,6 +2025,7 @@ h1, h2, h3, h4, h5, h6 {
   border-radius: 0px;
   box-shadow: none;
   width: 100%;
+  min-width: 200px;
   padding: 10px 0px 0px 0px;
   min-height:30px;
   max-height:150px;
@@ -2345,7 +2346,7 @@ h1, h2, h3, h4, h5, h6 {
   color: #333;
   transition: 0.3s;
   display: block;
-  font-size: 12px;
+  font-size: 13px;
   text-transform: none;
   cursor:pointer;
 }
@@ -5072,3 +5073,6 @@ div.scrollmenu li {
     padding: 15px 1rem;
 }
 
+.form-select-text .current{
+    margin-right: 25px !important;
+}

@@ -11,6 +11,7 @@ activity_timeslot = '';
 additional_price = 0;
 event_pick = 0;
 pricing_days = 1;
+activity_page = 1;
 high_price_slider = 0;
 low_price_slider = 99999999;
 step_slider = 0;
@@ -617,9 +618,37 @@ function get_activity_config(type, val){
     });
 }
 
-function activity_search(){
-    get_new = false;
+function activity_change_page(page_direction){
+    document.getElementById('activity_filter_name').value = '';
+    document.getElementById('price-from').value = low_price_slider;
+    document.getElementById('price-to').value = high_price_slider;
+    document.getElementById("img-sort-down-name").style.display = "block";
+    document.getElementById("img-sort-up-name").style.display = "none";
+    document.getElementById("img-sort-down-price").style.display = "block";
+    document.getElementById("img-sort-up-price").style.display = "none";
+    document.getElementById("img-sort-down-score").style.display = "block";
+    document.getElementById("img-sort-up-score").style.display = "none";
+    sorting_value = '';
+
+    var act_page_btns = document.getElementsByClassName("activity-page-btn");
+    for(var i=0, n=act_page_btns.length;i<n;i++) {
+        act_page_btns[i].disabled = true;
+    }
+
+    if(page_direction == 'prev')
+    {
+        activity_page--;
+    }
+    else
+    {
+        activity_page++;
+    }
+    activity_search(activity_page);
+}
+
+function activity_search(activity_search_page=1){
     getToken();
+    activity_request['page'] = activity_search_page;
     //document.getElementById('activity_category').value.split(' - ')[1]
     $.ajax({
        type: "POST",
@@ -962,51 +991,43 @@ function activity_search(){
                     });
                }
 
-               document.getElementById("activity_result").innerHTML = '';
-               text = '';
-               var node = document.createElement("div");
-               text+=`
-               <div style="border:1px solid #cdcdcd; background-color:white; margin-bottom:15px; padding:10px;">
-                   <span style="font-weight:bold; font-size:14px;"> Activity - `+activity_data.length+` results</span>
-               </div>`;
-               node.innerHTML = text;
-               document.getElementById("activity_result").appendChild(node);
-               node = document.createElement("div");
+//               document.getElementById("activity_result").innerHTML = '';
+//               text = '';
+//               var node = document.createElement("div");
+//               text+=`
+//               <div style="border:1px solid #cdcdcd; background-color:white; margin-bottom:15px; padding:10px;">
+//                   <span style="font-weight:bold; font-size:14px;"> Activity - `+activity_data.length+` results</span>
+//               </div>`;
+//               node.innerHTML = text;
+//               document.getElementById("activity_result").appendChild(node);
+//               node = document.createElement("div");
 
                var items = $(".activity_box");
                var numItems = items.length;
-               var perPage = 20;
-               items.slice(perPage).hide();
-               $('#pagination-container').pagination({
-                   items: numItems,
-                   itemsOnPage: perPage,
-                   prevText: "<i class='fas fa-angle-left'/>",
-                   nextText: "<i class='fas fa-angle-right'/>",
-                   onPageClick: function (pageNumber) {
-                       var showFrom = perPage * (pageNumber - 1);
-                       var showTo = showFrom + perPage;
-                       items.hide().slice(showFrom, showTo).show();
-                       $('#pagination-container2').pagination('drawPage', pageNumber);
-                   }
-               });
+               pagination_txt = ``;
+               if(activity_page > 1)
+               {
+                   pagination_txt += `
+                      <button class="primary-btn activity-page-btn" type="button" style="line-height:34px; float:left;" onclick="activity_change_page('prev')">Previous Page</button>
+                   `;
+               }
+               if (numItems >= 30)
+               {
+                    pagination_txt += `
+                       <button class="primary-btn activity-page-btn" type="button" style="line-height:34px; float:right;" onclick="activity_change_page('next')">Next Page</button>
+                    `;
+               }
+               document.getElementById("activity_result").innerHTML = `
+               <div style="border:1px solid #cdcdcd; background-color:white; margin-bottom:15px; padding:10px;">
+                   <span style="font-weight:bold; font-size:14px;"> Activity - Page `+activity_page+`</span>
+               </div>
+               `;
 
-               $('#pagination-container2').pagination({
-                   items: numItems,
-                   itemsOnPage: perPage,
-                   prevText: "<i class='fas fa-angle-left'/>",
-                   nextText: "<i class='fas fa-angle-right'/>",
-                   onPageClick: function (pageNumber) {
-                       var showFrom = perPage * (pageNumber - 1);
-                       var showTo = showFrom + perPage;
-                        items.hide().slice(showFrom, showTo).show();
-                       $('#pagination-container').pagination('drawPage', pageNumber);
-                   }
-               });
+               document.getElementById('pagination-container').innerHTML = pagination_txt;
+               document.getElementById('pagination-container2').innerHTML = pagination_txt;
                $('#pagination-container').show();
                $('#pagination-container2').show();
 
-               if(msg.result.response.length!=0)
-                   get_new = true;
            }else{
               $('#loading-search-activity').hide();
                 Swal.fire({
@@ -1023,8 +1044,6 @@ function activity_search(){
                   <center><div class="alert alert-warning" role="alert" style="margin-top:15px; border:1px solid #cdcdcd;"><h6><i class="fas fa-search-minus"></i> Oops! Activity not found. Please try again or search another activity. </h6></div></center>
               </div>`;
               document.getElementById('activity_ticket').innerHTML += text;
-              $('#pagination-container').hide();
-              $('#pagination-container2').hide();
            }
 
        },
@@ -3578,7 +3597,7 @@ function activity_get_booking(data){
                             </div>
                             <div class="col-lg-6" style="padding-bottom:10px;">`;
 
-                           if(msg.result.response.state == 'pending' || msg.result.response.state == 'paid')
+                           if(msg.result.response.state == 'pending' || msg.result.response.state == 'paid' || msg.result.response.state == 'issued')
                            {
                                 text+=`
                                 <a class="issued-booking-train ld-ext-right" style="color:`+text_color+`;">
@@ -3659,85 +3678,12 @@ function activity_get_booking(data){
                                     </div>
                                 `;
                            }
-                           else if(msg.result.response.state == 'issued'){
+                           else if(msg.result.response.state == 'booked'){
                                 text+=`
-                                <a class="issued-booking-train ld-ext-right" style="color:`+text_color+`;">
-                                    <input type="button" class="primary-btn" style="width:100%;" data-toggle="modal" data-target="#printInvoice" value="Print Invoice"/>
-                                    <div class="ld ld-ring ld-cycle"></div>
-                                </a>`;
-                                // modal invoice
-                                text+=`
-                                    <div class="modal fade" id="printInvoice" role="dialog" data-keyboard="false">
-                                        <div class="modal-dialog">
-
-                                          <!-- Modal content-->
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h4 class="modal-title">Invoice</h4>
-                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <div class="row">
-                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
-                                                            <span class="control-label" for="Name">Name</span>
-                                                            <div class="input-container-search-ticket">
-                                                                <input type="text" class="form-control o_website_form_input" id="bill_name" name="bill_name" placeholder="Name" required="1"/>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
-                                                            <span class="control-label" for="Additional Information">Additional Information</span>
-                                                            <div class="input-container-search-ticket">
-                                                                <textarea style="width:100%; resize: none;" rows="4" id="additional_information" name="additional_information" placeholder="Additional Information"></textarea>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2 unset">
-                                                            <span class="control-label" for="Address">Address</span>
-                                                            <div class="input-container-search-ticket">
-                                                                <textarea style="width:100%; resize: none;" rows="4" id="bill_address" name="bill_address" placeholder="Address"></textarea>
-                                                                <!--<input type="text" class="form-control o_website_form_input" id="bill_name" name="bill_address" placeholder="Address" required="1"/>-->
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="row">
-                                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
-                                                                <span class="control-label" for="Name">Included Passengers</span>
-                                                                <table class="table list-of-reservation" style="border: 1px solid; width:100%;">`;
-                                                                for (resv_pax in act_get_booking.result.response.passengers)
-                                                                {
-                                                                    text += `
-                                                                    <tr>
-                                                                        <td>
-                                                                            <span id="resv_pax_value`+resv_pax+`">`+act_get_booking.result.response.passengers[resv_pax].name+`, `+act_get_booking.result.response.passengers[resv_pax].title+`</span>
-                                                                        </td>
-                                                                        <td>
-                                                                            <label class="check_box_custom cblabel">
-                                                                                <input type="checkbox" id="resv_pax_checkbox`+resv_pax+`" name="resv_pax_checkbox`+i+`" checked />
-                                                                                <span class="check_box_span_custom cbspan" style="background:#cdcdcd;"></span>
-                                                                            </label>
-                                                                        </td>
-                                                                    </tr>`;
-                                                                }
-                                                   text += `</table></div>
-                                                        </div>
-
-                                                    <br/>
-                                                    <div style="text-align:right;">
-                                                        <span>Don't want to edit? just submit</span>
-                                                        <br/>
-                                                        <button type="button" id="button-issued-print" class="primary-btn ld-ext-right" onclick="get_printout('`+msg.result.response.order_number+`', 'invoice','activity');">
-                                                            Submit
-                                                            <div class="ld ld-ring ld-cycle"></div>
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                `;
+                                    <button type="button" id="button-print-itin-price" class="primary-btn ld-ext-right" style="width:100%;" onclick="get_printout('`+msg.result.response.order_number+`', 'itinerary_price','activity');">
+                                        Print Form (Price)
+                                        <div class="ld ld-ring ld-cycle"></div>
+                                    </button>`;
                            }
                            text += `
                            </div>
