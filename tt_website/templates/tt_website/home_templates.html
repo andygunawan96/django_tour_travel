@@ -69,13 +69,6 @@
         })
     {% endfor %}
 
-    try{
-        cache = `{{cache}}`;
-        cache = cache.replace(/&quot;/g, '"');
-        cache = JSON.parse(cache);
-    }catch(err){
-
-    }
     airline_carriers = [];
     {% if username.co_user_name != '' and '{{google_analytics}}' != '' %}
         {% if 'b2c_limitation' in username.co_agent_frontend_security %}
@@ -1161,7 +1154,11 @@
           var now = moment().format('DD MMM YYYY');
             {% if "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security %}
                 try{
-                    medical_date = cache.medical.date;
+                    {% if cache.medical.date %}
+                        medical_date = '{{cache.medical.date}}';
+                    {% else %}
+                        medical_date = now;
+                    {% endif %}
                 }catch(err){
                     medical_date = now;
                 }
@@ -1231,17 +1228,30 @@
             {% endif %}
             {% if "train" in provider and "ticketing_train" in username.co_agent_frontend_security %}
                 try{
-                    document.getElementById('train_origin').value = cache.train.origin;
+                    {% if cache.train.origin %}
+                        document.getElementById('train_origin').value = '{{cache.train.origin}}';
+                    {% else %}
+                        document.getElementById('train_origin').value = '{{train_origin}}';
+                    {% endif %}
                 }catch(err){
                     document.getElementById('train_origin').value = '{{train_origin}}';
                 }
                 try{
-                    document.getElementById('train_destination').value = cache.train.destination;
+                    {% if cache.train.destination %}
+                        document.getElementById('train_destination').value = '{{cache.train.destination}}';
+                    {% else %}
+                        document.getElementById('train_destination').value = '{{train_destination}}';
+                    {% endif %}
                 }catch(err){
                     document.getElementById('train_destination').value = '{{train_destination}}';
                 }
+
                 try{
-                    train_date = cache.train.departure;
+                    {% if cache.train.departure %}
+                        train_date = '{{cache.train.departure}}';
+                    {% else %}
+                        train_date = now;
+                    {% endif %}
                 }catch(err){
                     train_date = now;
                 }
@@ -1278,17 +1288,30 @@
 
             {% if "bus" in provider and "ticketing_bus" in username.co_agent_frontend_security %}
                 try{
-                    document.getElementById('bus_origin').value = cache.bus.origin;
+                    {% if cache.bus.origin %}
+                        document.getElementById('bus_origin').value = '{{cache.bus.origin}}';
+                    {% else %}
+                        document.getElementById('bus_origin').value = '{{bus_origin}}';
+                    {% endif %}
                 }catch(err){
                     document.getElementById('bus_origin').value = '{{bus_origin}}';
                 }
+
                 try{
-                    document.getElementById('bus_destination').value = cache.bus.destination;
+                    {% if cache.bus.destination %}
+                        document.getElementById('bus_destination').value = '{{cache.bus.destination}}';
+                    {% else %}
+                        document.getElementById('bus_destination').value = '{{bus_destination}}';
+                    {% endif %}
                 }catch(err){
                     document.getElementById('bus_destination').value = '{{bus_destination}}';
                 }
                 try{
-                    bus_date = cache.bus.departure;
+                    {% if cache.bus.departure %}
+                        bus_date = '{{cache.bus.departure}}';
+                    {% else %}
+                        bus_date = now;
+                    {% endif %}
                 }catch(err){
                     bus_date = now;
                 }
@@ -1325,10 +1348,22 @@
 
             {% if "hotel" in provider and "ticketing_hotel" in username.co_agent_frontend_security %}
                 try{
-                    hotel_checkin = cache.hotel.checkin;
-                    hotel_checkout = cache.hotel.checkout
+                    {% if cache.hotel.checkin %}
+                        hotel_checkin = '{{cache.hotel.checkin}}';
+                    {% else %}
+                        hotel_checkin = now;
+                    {% endif %}
                 }catch(err){
                     hotel_checkin = now;
+                }
+
+                try{
+                    {% if cache.hotel.checkout %}
+                        hotel_checkout = '{{cache.hotel.checkout}}';
+                    {% else %}
+                        hotel_checkout = moment().subtract(-2, 'days').format('DD MMM YYYY');
+                    {% endif %}
+                }catch(err){
                     hotel_checkout = moment().subtract(-2, 'days').format('DD MMM YYYY');
                 }
 
@@ -1496,10 +1531,15 @@
             {% endif %}
             {% if "visa" in provider and "ticketing_visa" in username.co_agent_frontend_security %}
                 try{
-                    visa_date = cache.visa.date;
+                    {% if cache.visa.date %}
+                        visa_date = '{{cache.visa.date}}';
+                    {% else %}
+                        visa_date = now;
+                    {% endif %}
                 }catch(err){
                     visa_date = now;
                 }
+
                 $('input[name="visa_departure"]').daterangepicker({
                     singleDatePicker: true,
                     autoUpdateInput: true,

@@ -19,13 +19,6 @@
     signature = `{{signature}}`;
     static_path_url_server = '{{static_path_url_server}}'
     name = '';
-    try{
-        cache = `{{cache}}`;
-        cache = cache.replace(/&quot;/g, '"');
-        cache = JSON.parse(cache);
-    }catch(err){
-
-    }
 </script>
 
 <style>
@@ -1235,19 +1228,23 @@
         var now = moment().format('DD MMM YYYY');
         {% if "bus" in provider and "ticketing_bus" in username.co_agent_frontend_security %}
             try{
-                document.getElementById('bus_origin').value = cache.bus.origin;
+                {% if cache.bus.origin %}
+                    document.getElementById('bus_origin').value = '{{cache.bus.origin}}';
+                {% else %}
+                    document.getElementById('bus_origin').value = '{{bus_origin}}';
+                {% endif %}
             }catch(err){
                 document.getElementById('bus_origin').value = '{{bus_origin}}';
             }
+
             try{
-                document.getElementById('bus_destination').value = cache.bus.destination;
+                {% if cache.bus.destination %}
+                    document.getElementById('bus_destination').value = cache.bus.destination;
+                {% else %}
+                    document.getElementById('bus_destination').value = '{{bus_destination}}';
+                {% endif %}
             }catch(err){
                 document.getElementById('bus_destination').value = '{{bus_destination}}';
-            }
-            try{
-                bus_date = cache.bus.departure;
-            }catch(err){
-                bus_date = now;
             }
 
             var picker_bus_departure = new Lightpick({

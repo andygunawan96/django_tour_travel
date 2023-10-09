@@ -11,6 +11,7 @@ from django.utils import translation
 import random
 import json
 import base64
+import re
 from datetime import *
 from tt_webservice.views.tt_webservice_agent_views import *
 from tt_webservice.views.tt_webservice import *
@@ -352,13 +353,18 @@ def review(request, signature=''):
                         except:
                             img_list_data = []
 
+                        first_name = re.sub(r'\s', '', request.POST['booker_first_name']).replace(':', '')
+                        last_name = re.sub(r'\s', '', request.POST['booker_last_name']).replace(':', '')
+                        email = re.sub(r'\s', '', request.POST['booker_email']).replace(':', '')
+                        mobile = re.sub(r'\s', '', request.POST['booker_phone']).replace(':', '')
+
                         booker = {
                             'title': request.POST['booker_title'],
-                            'first_name': request.POST['booker_first_name'],
-                            'last_name': request.POST['booker_last_name'],
-                            'email': request.POST['booker_email'],
+                            'first_name': first_name,
+                            'last_name': last_name,
+                            'email': email,
                             'calling_code': request.POST['booker_phone_code_id'],
-                            'mobile': request.POST['booker_phone'],
+                            'mobile': mobile,
                             'nationality_code': request.POST['booker_nationality_id'],
                             'booker_seq_id': request.POST['booker_id']
                         }
@@ -372,16 +378,23 @@ def review(request, signature=''):
                             behaviors = {}
                             if request.POST.get('adult_behaviors_' + str(i + 1)):
                                 behaviors = {'bus': request.POST['adult_behaviors_' + str(i + 1)]}
+
+                            first_name = re.sub(r'\s', '', request.POST['adult_first_name' + str(i + 1)]).replace(':', '')
+                            last_name = re.sub(r'\s', '', request.POST['adult_last_name' + str(i + 1)]).replace(':', '')
+                            email = re.sub(r'\s', '', request.POST.get('adult_email' + str(i + 1))).replace(':', '')
+                            mobile = re.sub(r'\s', '', request.POST.get('adult_phone' + str(i + 1))).replace(':', '')
+                            passport_number = re.sub(r'\s', '', request.POST['adult_passport_number' + str(i + 1)] if request.POST.get('adult_passport_number' + str(i + 1)) else '').replace(':', '')
+
                             adult.append({
                                 "pax_type": "ADT",
-                                "first_name": request.POST['adult_first_name' + str(i + 1)],
-                                "last_name": request.POST['adult_last_name' + str(i + 1)],
+                                "first_name": first_name,
+                                "last_name": last_name,
                                 "title": request.POST['adult_title' + str(i + 1)],
                                 "birth_date": request.POST.get('adult_birth_date' + str(i + 1)),
                                 "nationality_code": request.POST['adult_nationality' + str(i + 1) + '_id'],
                                 "identity_country_of_issued_code": request.POST['adult_country_of_issued' + str(i + 1) + '_id'],
                                 "identity_expdate": request.POST['adult_passport_expired_date' + str(i + 1)],
-                                "identity_number": request.POST['adult_passport_number' + str(i + 1)],
+                                "identity_number": passport_number,
                                 "passenger_seq_id": request.POST['adult_id' + str(i + 1)],
                                 "identity_type": request.POST['adult_id_type' + str(i + 1)],
                                 "seat_list": seat_list,
@@ -422,12 +435,12 @@ def review(request, signature=''):
                             try:
                                 if request.POST['adult_cp' + str(i + 1)] == 'on':
                                     contact.append({
-                                        "first_name": request.POST['adult_first_name' + str(i + 1)],
-                                        "last_name": request.POST['adult_last_name' + str(i + 1)],
+                                        "first_name": first_name,
+                                        "last_name": last_name,
                                         "title": request.POST['adult_title' + str(i + 1)],
-                                        "email": request.POST['adult_email' + str(i + 1)],
+                                        "email": email,
                                         "calling_code": request.POST['adult_phone_code' + str(i + 1) + '_id'],
-                                        "mobile": request.POST['adult_phone' + str(i + 1)],
+                                        "mobile": mobile,
                                         "nationality_code": request.POST['adult_nationality' + str(i + 1) + '_id'],
                                         "contact_seq_id": request.POST['adult_id' + str(i + 1)]
                                     })
@@ -444,13 +457,18 @@ def review(request, signature=''):
                                 pass
 
                         if len(contact) == 0:
+                            first_name = re.sub(r'\s', '', request.POST['booker_first_name']).replace(':', '')
+                            last_name = re.sub(r'\s', '', request.POST['booker_last_name']).replace(':', '')
+                            email = re.sub(r'\s', '', request.POST['booker_email']).replace(':', '')
+                            mobile = re.sub(r'\s', '', request.POST['booker_phone']).replace(':', '')
+
                             contact.append({
                                 'title': request.POST['booker_title'],
-                                'first_name': request.POST['booker_first_name'],
-                                'last_name': request.POST['booker_last_name'],
-                                'email': request.POST['booker_email'],
+                                'first_name': first_name,
+                                'last_name': last_name,
+                                'email': email,
                                 'calling_code': request.POST['booker_phone_code_id'],
-                                'mobile': request.POST['booker_phone'],
+                                'mobile': mobile,
                                 'nationality_code': request.POST['booker_nationality_id'],
                                 'contact_seq_id': request.POST['booker_id'],
                                 'is_also_booker': True

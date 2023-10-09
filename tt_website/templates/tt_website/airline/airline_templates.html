@@ -23,13 +23,6 @@
         })
     {% endfor %}
 
-    try{
-        cache = `{{cache}}`;
-        cache = cache.replace(/&quot;/g, '"');
-        cache = JSON.parse(cache);
-    }catch(err){
-
-    }
     airline_advance_pax_type = '{{airline_advance_pax_type}}';
     airline_pax_type_student = '{{airline_pax_type_student}}';
     airline_pax_type_labour = '{{airline_pax_type_labour}}';
