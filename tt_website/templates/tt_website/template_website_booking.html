@@ -517,6 +517,10 @@ Licence URI: http://www.os-templates.com/template-terms
 
     <!--All Template-->
     <style>
+        .adminButton{
+            background-color: {{color}};
+        }
+
         .form-select-text .current{
             color: {{text_color}} !important;
         }
@@ -774,6 +778,14 @@ Licence URI: http://www.os-templates.com/template-terms
         }
         .primary-btn-custom:hover {
             background: {{color}};
+        }
+        .primary-btn-gr {
+            color: {{color}};
+            border: 2px solid {{color}};
+        }
+        .primary-btn-gr:hover {
+            background: {{color}};
+            color: {{text_color}};
         }
         .primary-btn-logout {
             background: {{color}};
@@ -2157,10 +2169,27 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 {% include 'tt_website/plugin_live_chat.html' %}
 
+<div class="adminActions" id="divBtnAdminAct">
+	<input type="checkbox" name="adminToggle" class="adminToggle" />
+	<button type="button" class="adminButton" href="#!"><i class="fas fa-th-list"></i></button>
+	<div class="adminButtons" id="adminButtonsContent">
+
+	</div>
+</div>
+
+
 {% block content %}
 
 {% endblock %}
 <div id="alert-area" class="alert-area"></div>
+
+<script>
+    btnAdminAct = document.getElementById('adminButtonsContent');
+    if (btnAdminAct.innerHTML.trim() === "") {
+        $("#divBtnAdminAct").hide();
+    }
+</script>
+
 </body>
 <!-- JAVASCRIPTS -->
 
