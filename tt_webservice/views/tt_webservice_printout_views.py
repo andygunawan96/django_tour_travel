@@ -89,17 +89,23 @@ def get_printout(request):
                 'included_pax_names': json.loads(request.POST['included_pax_names'])
             })
         if request.POST['mode'] == 'itinerary' and request.POST['provider_type'] == 'hotel':
-            data.update({
-                'json_printout': request.session.get('hotel_json_printout' + request.session['hotel_signature']) and request.session['hotel_json_printout' + request.session['hotel_signature']] or ''
-            })
+            file = read_cache_file(request, request.POST['signature'], 'hotel_json_printout')
+            if file:
+                data.update({
+                    'json_printout': file
+                })
         elif request.POST['mode'] == 'itinerary' and request.POST['provider_type'] == 'activity':
-            data.update({
-                'json_printout': request.session.get('activity_json_printout' + request.session['activity_signature']) and request.session['activity_json_printout' + request.session['activity_signature']] or ''
-            })
+            file = read_cache_file(request, request.POST['signature'], 'activity_json_printout')
+            if file:
+                data.update({
+                    'json_printout': file
+                })
         elif request.POST['mode'] == 'itinerary' and request.POST['provider_type'] == 'event':
-            data.update({
-                'json_printout': request.session.get('event_json_printout' + request.session['event_signature']) and request.session['event_json_printout' + request.session['event_signature']] or ''
-            })
+            file = read_cache_file(request, request.POST['signature'], 'event_json_printout')
+            if file:
+                data.update({
+                    'json_printout': file
+                })
         elif request.POST['type'] == 'reschedule':
             data.update({
                 "reschedule_number": request.POST['reschedule_number']

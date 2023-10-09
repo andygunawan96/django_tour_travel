@@ -13171,7 +13171,7 @@ function auto_fill_airline_cookie(cookie_airline,page='home', max_try=0){
             }
 
             if(cookie_airline.hasOwnProperty('labour') && cookie_airline['labour']){
-                document.getElementById('student_flight').value = cookie_airline['student'];
+                document.getElementById('labour_flight').value = cookie_airline['labour'];
             }
 
             if(cookie_airline.hasOwnProperty('seaman') && cookie_airline['seaman']){

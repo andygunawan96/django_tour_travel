@@ -96,6 +96,9 @@ function get_printout(order_number,mode,provider_type,type='',reschedule_number=
         }else if(mode == 'itinerary' || mode == 'ticket_price'){
             $('#button-print-print').prop('disabled', true);
             $('#button-print-print').addClass("running");
+        }else if(mode == 'itinerary_price'){
+            $('#button-print-itin-price').prop('disabled', true);
+            $('#button-print-itin-price').addClass("running");
         }else if(mode == 'ticket_original'){
             $('#button-print-ori').prop('disabled', true);
             $('#button-print-ori').addClass("running");
@@ -174,6 +177,9 @@ function get_printout(order_number,mode,provider_type,type='',reschedule_number=
                 }else if(mode == 'itinerary' || mode == 'ticket_price'){
                     $('#button-print-print').prop('disabled', false);
                     $('#button-print-print').removeClass("running");
+                }else if(mode == 'itinerary_price'){
+                    $('#button-print-itin-price').prop('disabled', false);
+                    $('#button-print-itin-price').removeClass("running");
                 }else if(mode == 'ticket_original'){
                     $('#button-print-ori').prop('disabled', false);
                     $('#button-print-ori').removeClass("running");

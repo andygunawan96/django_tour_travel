@@ -1653,7 +1653,28 @@ function mitra_keluarga_get_booking(order_number, sync=false){
 
 
                             //======================= Extra Question =========================
-                        var print_text = '';
+                        var print_text = '<div class="row">';
+                        if (msg.result.response.state == 'issued'){
+                            print_text+=`
+                                <div class="col-lg-6">
+                                    <label class="check_box_custom">
+                                        <span class="span-search-ticket" style="color:black;">Hide agent logo on tickets</span>
+                                        <input type="checkbox" id="is_hide_agent_logo" name="is_hide_agent_logo"/>
+                                        <span class="check_box_span_custom"></span>
+                                    </label>
+                                </div>`;
+                        }
+                        print_text+=`
+                                <div class="col-lg-6">
+                                    <label class="check_box_custom">
+                                        <span class="span-search-ticket" style="color:black;">Force Get New Printout</span>
+                                        <input type="checkbox" id="is_force_get_new_printout" name="is_force_get_new_printout"/>
+                                        <span class="check_box_span_custom"></span>
+                                    </label>
+                                </div>
+                            </div>`;
+                        document.getElementById('mitra_keluarga_btn').innerHTML = print_text;
+                        print_text = '';
                         //==================== Print Button =====================
                         if(window.location.pathname.includes('confirm_order') == false){
                             print_text += '<div class="col-lg-4" style="padding-bottom:10px;">';

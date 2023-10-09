@@ -3578,7 +3578,7 @@ function activity_get_booking(data){
                             </div>
                             <div class="col-lg-6" style="padding-bottom:10px;">`;
 
-                           if(msg.result.response.state == 'pending' || msg.result.response.state == 'paid')
+                           if(msg.result.response.state == 'pending' || msg.result.response.state == 'paid' || msg.result.response.state == 'issued')
                            {
                                 text+=`
                                 <a class="issued-booking-train ld-ext-right" style="color:`+text_color+`;">
@@ -3659,85 +3659,12 @@ function activity_get_booking(data){
                                     </div>
                                 `;
                            }
-                           else if(msg.result.response.state == 'issued'){
+                           else if(msg.result.response.state == 'booked'){
                                 text+=`
-                                <a class="issued-booking-train ld-ext-right" style="color:`+text_color+`;">
-                                    <input type="button" class="primary-btn" style="width:100%;" data-toggle="modal" data-target="#printInvoice" value="Print Invoice"/>
-                                    <div class="ld ld-ring ld-cycle"></div>
-                                </a>`;
-                                // modal invoice
-                                text+=`
-                                    <div class="modal fade" id="printInvoice" role="dialog" data-keyboard="false">
-                                        <div class="modal-dialog">
-
-                                          <!-- Modal content-->
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h4 class="modal-title">Invoice</h4>
-                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <div class="row">
-                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
-                                                            <span class="control-label" for="Name">Name</span>
-                                                            <div class="input-container-search-ticket">
-                                                                <input type="text" class="form-control o_website_form_input" id="bill_name" name="bill_name" placeholder="Name" required="1"/>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
-                                                            <span class="control-label" for="Additional Information">Additional Information</span>
-                                                            <div class="input-container-search-ticket">
-                                                                <textarea style="width:100%; resize: none;" rows="4" id="additional_information" name="additional_information" placeholder="Additional Information"></textarea>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2 unset">
-                                                            <span class="control-label" for="Address">Address</span>
-                                                            <div class="input-container-search-ticket">
-                                                                <textarea style="width:100%; resize: none;" rows="4" id="bill_address" name="bill_address" placeholder="Address"></textarea>
-                                                                <!--<input type="text" class="form-control o_website_form_input" id="bill_name" name="bill_address" placeholder="Address" required="1"/>-->
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="row">
-                                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
-                                                                <span class="control-label" for="Name">Included Passengers</span>
-                                                                <table class="table list-of-reservation" style="border: 1px solid; width:100%;">`;
-                                                                for (resv_pax in act_get_booking.result.response.passengers)
-                                                                {
-                                                                    text += `
-                                                                    <tr>
-                                                                        <td>
-                                                                            <span id="resv_pax_value`+resv_pax+`">`+act_get_booking.result.response.passengers[resv_pax].name+`, `+act_get_booking.result.response.passengers[resv_pax].title+`</span>
-                                                                        </td>
-                                                                        <td>
-                                                                            <label class="check_box_custom cblabel">
-                                                                                <input type="checkbox" id="resv_pax_checkbox`+resv_pax+`" name="resv_pax_checkbox`+i+`" checked />
-                                                                                <span class="check_box_span_custom cbspan" style="background:#cdcdcd;"></span>
-                                                                            </label>
-                                                                        </td>
-                                                                    </tr>`;
-                                                                }
-                                                   text += `</table></div>
-                                                        </div>
-
-                                                    <br/>
-                                                    <div style="text-align:right;">
-                                                        <span>Don't want to edit? just submit</span>
-                                                        <br/>
-                                                        <button type="button" id="button-issued-print" class="primary-btn ld-ext-right" onclick="get_printout('`+msg.result.response.order_number+`', 'invoice','activity');">
-                                                            Submit
-                                                            <div class="ld ld-ring ld-cycle"></div>
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                `;
+                                    <button type="button" id="button-print-itin-price" class="primary-btn ld-ext-right" style="width:100%;" onclick="get_printout('`+msg.result.response.order_number+`', 'itinerary_price','activity');">
+                                        Print Form (Price)
+                                        <div class="ld ld-ring ld-cycle"></div>
+                                    </button>`;
                            }
                            text += `
                            </div>

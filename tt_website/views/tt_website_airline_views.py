@@ -1150,7 +1150,7 @@ def ssr(request, signature):
                                                                 })
                         else:
                             adult.append({
-                                "pax_type": 'ADT',
+                                "pax_type": pax_type if pax_type else 'ADT',
                                 "first_name": pax['first_name'],
                                 "last_name": pax['last_name'],
                                 "title": pax['title'],
@@ -1187,8 +1187,9 @@ def ssr(request, signature):
                                                                     "price": fee['amount']
                                                                 })
                     else:
+                        pax_type = pax.get('pax_type', '')
                         adult.append({
-                            "pax_type": 'ADT',
+                            "pax_type": pax_type if pax_type else 'ADT',
                             "first_name": pax['first_name'],
                             "last_name": pax['last_name'],
                             "title": pax['title'],
@@ -1480,7 +1481,7 @@ def seat_map(request, signature):
                                 })
                             else:
                                 adult.append({
-                                    "pax_type": 'ADT',
+                                    "pax_type": pax_type if pax_type else 'ADT',
                                     "first_name": pax['first_name'],
                                     "last_name": pax['last_name'],
                                     "title": pax['title'],
@@ -1493,8 +1494,9 @@ def seat_map(request, signature):
                                     "sequence": pax['sequence']
                                 })
                         else:
+                            pax_type = pax.get('pax_type', '')
                             adult.append({
-                                "pax_type": 'ADT',
+                                "pax_type": pax_type if pax_type else 'ADT',
                                 "first_name": pax['first_name'],
                                 "last_name": pax['last_name'],
                                 "title": pax['title'],

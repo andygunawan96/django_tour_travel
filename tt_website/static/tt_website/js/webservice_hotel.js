@@ -3299,12 +3299,13 @@ function hotel_get_booking(data){
                     }
 
                     document.getElementById('hotel_passenger').innerHTML = text;
-                    if(msg.result.response.state == 'issued'){
-                        document.getElementById('issued-breadcrumb').classList.add("br-active");
-                        document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
-                        document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
+                    if(msg.result.response.state == 'issued' || msg.result.response.state == 'booked'){
+                        if(msg.result.response.state == 'issued'){
+                            document.getElementById('issued-breadcrumb').classList.add("br-active");
+                            document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
+                            document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
+                        }
                         text = `
-                        <div style="border:1px solid #cdcdcd; padding:10px; background-color:white; margin-top:20px;" id="hotel_hide_logo_opt_cont">
                             <div class="row">`;
                         if (msg.result.response.state == 'issued'){
                             text+=`
@@ -3325,24 +3326,39 @@ function hotel_get_booking(data){
                                     </label>
                                 </div>`;
                         text += `
-                            </div>
-                        </div>`;
+                            </div>`;
 
-                        document.getElementById('hotel_hide_agent_logo_opt').innerHTML = text;
-                        text=`<div class="col-sm-6">
+                        document.getElementById('hotel_hide_logo_opt_cont').innerHTML = text;
+
+                        text=`
+                                <div class="col-sm-6">`;
+
+                        if (msg.result.response.state == 'issued'){
+                            text+=`
                                     <button type="button" id="button-choose-print" style="width:100%;" class="primary-btn ld-ext-right" onclick="get_printout('`+msg.result.response.order_number+`', 'ticket','hotel');">
                                         <i class="fas fa-print"></i> Print Voucher
                                         <div class="ld ld-ring ld-cycle"></div>
-                                    </button>
+                                    </button>`;
+                        }else if(msg.result.response.state == 'booked'){
+                            text+=`
+                                    <button type="button" id="button-print-print" style="width:100%;" class="primary-btn ld-ext-right" onclick="get_printout('`+msg.result.response.order_number+`', 'itinerary','hotel');">
+                                        <i class="fas fa-print"></i> Print Form
+                                        <div class="ld ld-ring ld-cycle"></div>
+                                    </button>`;
+                        }
+                        text+=`
                                </div>`;
                         text+=`
-                            <div class="col-sm-6">
+                            <div class="col-sm-6">`;
+
+                        if (msg.result.response.state == 'issued'){
+                            text+=`
                                 <a class="issued-booking-train ld-ext-right" style="color:`+text_color+`;">
                                     <input type="button" class="primary-btn" style="width:100%;" data-toggle="modal" data-target="#printInvoice" value="Print Invoice"/>
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </a>`;
                             // modal invoice
-                        text+=`
+                            text+=`
                                 <div class="modal fade" id="printInvoice" role="dialog" data-keyboard="false">
                                     <div class="modal-dialog">
 
@@ -3412,7 +3428,15 @@ function hotel_get_booking(data){
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div>`;
+                        }else if(msg.result.response.state == 'booked'){
+                            text+=`
+                                    <button type="button" id="button-print-itin-price" style="width:100%;" class="primary-btn ld-ext-right" onclick="get_printout('`+msg.result.response.order_number+`', 'itinerary_price','hotel');">
+                                        <i class="fas fa-print"></i> Print Form (Price)
+                                        <div class="ld ld-ring ld-cycle"></div>
+                                    </button>`;
+                        }
+                        text+=`
                             </div>`;
                         document.getElementById('hotel_btn_printout').innerHTML = text;
                     }
