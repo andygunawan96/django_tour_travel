@@ -8490,7 +8490,7 @@ function check_passenger(adult, child, infant, type=''){
            }else{
                duration = moment.duration(moment(document.getElementById('student_birth_date'+i).value).diff(last_departure_date));
                if(duration._data.years <= -12 == false){ //check age
-                    error_log+= 'Age wrong for passenger student '+i+', minimum 2 years old and maximum 11 years old!</br>\n';
+                    error_log+= 'Age wrong for passenger student '+i+', minimum 12 years old!</br>\n';
                     document.getElementById('student_birth_date'+i).style['border-color'] = 'red';
                }else{
                     document.getElementById('student_birth_date'+i).style['border-color'] = '#EFEFEF';
@@ -8817,7 +8817,7 @@ function check_passenger(adult, child, infant, type=''){
            }else{
                duration = moment.duration(moment(document.getElementById('seaman_birth_date'+i).value).diff(last_departure_date));
                if(duration._data.years <= -12 == false){ //check age
-                    error_log+= 'Age wrong for passenger seaman '+i+', minimum 2 years old and maximum 11 years old!</br>\n';
+                    error_log+= 'Age wrong for passenger seaman '+i+', minimum 12 years old!</br>\n';
                     document.getElementById('seaman_birth_date'+i).style['border-color'] = 'red';
                }else{
                     document.getElementById('seaman_birth_date'+i).style['border-color'] = '#EFEFEF';
@@ -9144,7 +9144,7 @@ function check_passenger(adult, child, infant, type=''){
            }else{
                duration = moment.duration(moment(document.getElementById('labour_birth_date'+i).value).diff(last_departure_date));
                if(duration._data.years <= -12 == false){ //check age
-                    error_log+= 'Age wrong for passenger labour '+i+', minimum 2 years old and maximum 11 years old!</br>\n';
+                    error_log+= 'Age wrong for passenger labour '+i+', minimum 12 years old!</br>\n';
                     document.getElementById('labour_birth_date'+i).style['border-color'] = 'red';
                }else{
                     document.getElementById('labour_birth_date'+i).style['border-color'] = '#EFEFEF';

@@ -19,13 +19,7 @@
     signature = `{{signature}}`;
     static_path_url_server = '{{static_path_url_server}}'
     name = '';
-    try{
-        cache = `{{cache}}`;
-        cache = cache.replace(/&quot;/g, '"');
-        cache = JSON.parse(cache);
-    }catch(err){
 
-    }
 </script>
 
 <style>
@@ -1503,17 +1497,31 @@
         var now = moment().format('DD MMM YYYY');
         {% if "train" in provider and "ticketing_train" in username.co_agent_frontend_security %}
             try{
-                document.getElementById('train_origin').value = cache.train.origin;
+                {% if cache.train.origin %}
+                    document.getElementById('train_origin').value = '{{cache.train.origin}}';
+                {% else %}
+                    document.getElementById('train_origin').value = '{{train_origin}}';
+                {% endif %}
             }catch(err){
                 document.getElementById('train_origin').value = '{{train_origin}}';
             }
+
             try{
-                document.getElementById('train_destination').value = cache.train.destination;
+                {% if cache.train.destination %}
+                    document.getElementById('train_destination').value = cache.train.destination;
+                {% else %}
+                    document.getElementById('train_destination').value = '{{train_destination}}';
+                {% endif %}
             }catch(err){
                 document.getElementById('train_destination').value = '{{train_destination}}';
             }
+
             try{
-                train_date = cache.train.departure;
+                {% if cache.train.departure %}
+                    train_date = '{{cache.train.departure}}';
+                {% else %}
+                    train_date = now;
+                {% endif %}
             }catch(err){
                 train_date = now;
             }

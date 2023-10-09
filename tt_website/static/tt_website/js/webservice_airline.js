@@ -12868,9 +12868,10 @@ function reroute_btn(){
                             </div>
                         </div>
                     </div>`;
+                    document.getElementById('reissue_'+i+'_journey'+j).innerHTML = text;
                 }
                 flight++;
-                document.getElementById('reissue_'+i+'_journey'+j).innerHTML = text;
+
                 text = '';
             }
 
@@ -12887,78 +12888,80 @@ function reroute_btn(){
             is_provider_can_reroute = true;
         if(is_provider_can_reroute){
             for(j in airline_get_detail.result.response.provider_bookings[i].journeys){
-                picker_multi[counter_airline].destroy();
-                document.getElementById('airline_departure'+counter_airline).value = moment(airline_get_detail.result.response.provider_bookings[i].journeys[j].departure_date.split('  ')[0]);
-                picker_multi[counter_airline] = new Lightpick({
-                    field: document.getElementById('airline_departure'+counter_airline),
-                    singleDate: true,
-                    startDate: moment(airline_get_detail.result.response.provider_bookings[i].journeys[j].departure_date.split('  ')[0]),
-                    minDate: moment(),
-                    maxDate: moment().subtract(-1, 'years'),
-                    idString: 'airline_departure'+counter_airline,
-                    onSelect: function(date){
-                        document.getElementById(this._opts.idString).value = moment(date).format('DD MMM YYYY');
-                        check_next_date_journey_reissue();
-                    }
-                });
+                if(moment() < moment(airline_get_detail.result.response.provider_bookings[i].journeys[j].departure_date)){
+                    picker_multi[counter_airline-1].destroy();
+                    document.getElementById('airline_departure'+counter_airline).value = moment(airline_get_detail.result.response.provider_bookings[i].journeys[j].departure_date.split('  ')[0]);
+                    picker_multi[counter_airline-1] = new Lightpick({
+                        field: document.getElementById('airline_departure'+counter_airline),
+                        singleDate: true,
+                        startDate: moment(airline_get_detail.result.response.provider_bookings[i].journeys[j].departure_date.split('  ')[0]),
+                        minDate: moment(),
+                        maxDate: moment().subtract(-1, 'years'),
+                        idString: 'airline_departure'+counter_airline,
+                        onSelect: function(date){
+                            document.getElementById(this._opts.idString).value = moment(date).format('DD MMM YYYY');
+                            check_next_date_journey_reissue();
+                        }
+                    });
 
-//                $('input[id="airline_departure'+counter_airline+'"]').daterangepicker({
-//                      singleDatePicker: true,
-//                      autoUpdateInput: true,
-//                      autoApply: true,
-//                      startDate: moment(airline_get_detail.result.response.provider_bookings[i].journeys[j].departure_date.split('  ')[0]),
-//                      minDate: moment(),
-//                      maxDate: moment().subtract(-1, 'years'),
-//                      showDropdowns: true,
-//                      opens: 'center',
-//                      locale: {
-//                          format: 'DD MMM YYYY',
-//                      }
-//                }, function(start, end, label) {
-//    //                document.getElementById(this.element.context.id).value = moment(start._d).format('DD MMM YYYY'); // ada template yg tidak ada context
-//                    document.getElementById(this.element[0].id).value = moment(start._d).format('DD MMM YYYY');
-//                    check_next_date_journey_reissue();
-//                });
+    //                $('input[id="airline_departure'+counter_airline+'"]').daterangepicker({
+    //                      singleDatePicker: true,
+    //                      autoUpdateInput: true,
+    //                      autoApply: true,
+    //                      startDate: moment(airline_get_detail.result.response.provider_bookings[i].journeys[j].departure_date.split('  ')[0]),
+    //                      minDate: moment(),
+    //                      maxDate: moment().subtract(-1, 'years'),
+    //                      showDropdowns: true,
+    //                      opens: 'center',
+    //                      locale: {
+    //                          format: 'DD MMM YYYY',
+    //                      }
+    //                }, function(start, end, label) {
+    //    //                document.getElementById(this.element.context.id).value = moment(start._d).format('DD MMM YYYY'); // ada template yg tidak ada context
+    //                    document.getElementById(this.element[0].id).value = moment(start._d).format('DD MMM YYYY');
+    //                    check_next_date_journey_reissue();
+    //                });
 
-                var airline_origin = new autoComplete({
-                    selector: '#origin_id_flight'+counter_airline,
-                    minChars: 1,
-                    cache: false,
-                    delay:0,
-                    source: function(term, suggest){
-                        if(term.split(' - ').length == 4)
+                    var airline_origin = new autoComplete({
+                        selector: '#origin_id_flight'+counter_airline,
+                        minChars: 1,
+                        cache: false,
+                        delay:0,
+                        source: function(term, suggest){
+                            if(term.split(' - ').length == 4)
+                                    term = ''
+                            if(term.length > 1)
+                                suggest(airline_search_autocomplete(term));
+                        },
+                        onSelect: function(e, term, item){
+                            setTimeout(function(){
+                                $("#destination_id_flight"+counter_airline).focus();
+                            }, 200);
+                            set_airline_search_value_to_true();
+                        }
+                    });
+                    document.getElementById('origin_id_flight'+counter_airline).value = airline_get_detail.result.response.provider_bookings[i].journeys[j].origin+` - `+airline_get_detail.result.response.provider_bookings[i].journeys[j].origin_city+` - `+airline_get_detail.result.response.provider_bookings[i].journeys[j].origin_country+` - `+airline_get_detail.result.response.provider_bookings[i].journeys[j].origin_name;
+                    var airline_destination = new autoComplete({
+                        selector: '#destination_id_flight'+counter_airline,
+                        minChars: 0,
+                        cache: false,
+                        delay:0,
+                        source: function(term, suggest){
+                            if(term.split(' - ').length == 4)
                                 term = ''
-                        if(term.length > 1)
-                            suggest(airline_search_autocomplete(term));
-                    },
-                    onSelect: function(e, term, item){
-                        setTimeout(function(){
-                            $("#destination_id_flight"+counter_airline).focus();
-                        }, 200);
-                        set_airline_search_value_to_true();
-                    }
-                });
-                document.getElementById('origin_id_flight'+counter_airline).value = airline_get_detail.result.response.provider_bookings[i].journeys[j].origin+` - `+airline_get_detail.result.response.provider_bookings[i].journeys[j].origin_city+` - `+airline_get_detail.result.response.provider_bookings[i].journeys[j].origin_country+` - `+airline_get_detail.result.response.provider_bookings[i].journeys[j].origin_name;
-                var airline_destination = new autoComplete({
-                    selector: '#destination_id_flight'+counter_airline,
-                    minChars: 0,
-                    cache: false,
-                    delay:0,
-                    source: function(term, suggest){
-                        if(term.split(' - ').length == 4)
-                            term = ''
-                        if(term.length > 1)
-                            suggest(airline_search_autocomplete(term));
-                    },
-                    onSelect: function(e, term, item){
-                        setTimeout(function(){
-                            $("#airline_departure"+parseInt(counter_airline+1)).focus();
-                            $("#airline_departure_return").focus();
-                        }, 200);
-                        set_airline_search_value_to_true();
-                    }
-                });
-                document.getElementById('destination_id_flight'+counter_airline).value = airline_get_detail.result.response.provider_bookings[i].journeys[j].destination+` - `+airline_get_detail.result.response.provider_bookings[i].journeys[j].destination_city+` - `+airline_get_detail.result.response.provider_bookings[i].journeys[j].destination_country+` - `+airline_get_detail.result.response.provider_bookings[i].journeys[j].destination_name;
+                            if(term.length > 1)
+                                suggest(airline_search_autocomplete(term));
+                        },
+                        onSelect: function(e, term, item){
+                            setTimeout(function(){
+                                $("#airline_departure"+parseInt(counter_airline+1)).focus();
+                                $("#airline_departure_return").focus();
+                            }, 200);
+                            set_airline_search_value_to_true();
+                        }
+                    });
+                    document.getElementById('destination_id_flight'+counter_airline).value = airline_get_detail.result.response.provider_bookings[i].journeys[j].destination+` - `+airline_get_detail.result.response.provider_bookings[i].journeys[j].destination_city+` - `+airline_get_detail.result.response.provider_bookings[i].journeys[j].destination_country+` - `+airline_get_detail.result.response.provider_bookings[i].journeys[j].destination_name;
+                }
                 counter_airline++;
             }
         }
