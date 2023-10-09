@@ -1754,132 +1754,143 @@ function get_carrier_code_list(type, val){
        },
        success: function(msg) {
            airline_provider_list = msg;
-           text=`<div class="row"><div class="col-lg-12" style="overflow-y:auto;overflow-x:hidden;height:235px;">`;
-           if(type == 'groupbooking'){
-               list_carrier = ['JT','GA','AK','QG']
-               for(i in msg){
-                    if(list_carrier.includes(i)){
-                        text+=`
-                            <li>
-                                <label class="radio-button-custom crlabel">
-                                    <span style="font-size:13px;">`+msg[i].display_name+`</span>
-                                    <input type="radio" name="carrier_code" value="`+i+`" onchange="choose_airline_groupbooking('`+msg[i].display_name+`');">
-                                    <span class="checkmark-radio"></span>
+           text=`
+           <div class="row">
+                <div class="col-lg-12" style="overflow-y:auto;overflow-x:hidden;height:235px;">`;
+                   if(type == 'groupbooking'){
+                       list_carrier = ['JT','GA','AK','QG']
+                       for(i in msg){
+                            if(list_carrier.includes(i)){
+                                text+=`
+                                    <li>
+                                        <label class="radio-button-custom crlabel">
+                                            <span style="font-size:13px;">`+msg[i].display_name+`</span>
+                                            <input type="radio" name="carrier_code" value="`+i+`" onchange="choose_airline_groupbooking('`+msg[i].display_name+`');">
+                                            <span class="checkmark-radio"></span>
+                                        </label>
+                                    </li>`;
+                            }
+                       }
+                   }
+                   else if(type != 'search'){
+                        text += `
+                        <li>
+                            <a class="small" data-value="option1" tabIndex="-1">
+                                <label class="check_box_custom">
+                                    <span class="span-search-ticket" style="color:black;">All</span>`;
+                                    if(val == undefined)
+                                    text+=`
+                                        <input type="checkbox" id="provider_box_All" name="provider_box_All" value="all" checked="checked" onclick="func_check_provider('all')"/>`;
+                                    else{
+                                        if(document.getElementById('provider_box_All').checked == false)
+                                            text+=`
+                                                <input type="checkbox" id="provider_box_All_`+val+`" name="provider_box_All_`+val+`" value="all" onclick="func_check_provider('all',`+val+`)"/>`;
+                                        else
+                                            text+=`
+                                                <input type="checkbox" id="provider_box_All_`+val+`" name="provider_box_All_`+val+`" value="all" checked="checked" onclick="func_check_provider('all',`+val+`)"/>`;
+                                    }
+                                    text+=`
+                                    <span class="check_box_span_custom"></span>
                                 </label>
-                            </li>`;
-                    }
-               }
-           }else if(type != 'search'){
-               text += `
-                    <li>
-                        <a class="small" data-value="option1" tabIndex="-1">
-                            <label class="check_box_custom">
-                                <span class="span-search-ticket" style="color:black;">All</span>`;
-                                if(val == undefined)
+                            </a>
+                        </li>`;
+                       for(i in msg){
+                            if(msg[i].hasOwnProperty('is_excluded_from_b2c') && msg[i].is_excluded_from_b2c != true || user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
                                 text+=`
-                                    <input type="checkbox" id="provider_box_All" name="provider_box_All" value="all" checked="checked" onclick="func_check_provider('all')"/>`;
-                                else{
-                                    if(document.getElementById('provider_box_All').checked == false)
-                                        text+=`
-                                            <input type="checkbox" id="provider_box_All_`+val+`" name="provider_box_All_`+val+`" value="all" onclick="func_check_provider('all',`+val+`)"/>`;
-                                    else
-                                        text+=`
-                                            <input type="checkbox" id="provider_box_All_`+val+`" name="provider_box_All_`+val+`" value="all" checked="checked" onclick="func_check_provider('all',`+val+`)"/>`;
-                                }
-                                text+=`
-                                <span class="check_box_span_custom"></span>
-                            </label>
-                        </a>
-                    </li>`;
-               for(i in msg){
-                    if(msg[i].hasOwnProperty('is_excluded_from_b2c') && msg[i].is_excluded_from_b2c != true || user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
-                        text+=`
+                                <li>
+                                    <a class="small" data-value="option1" tabIndex="-1">
+                                        <label class="check_box_custom">
+                                            <span class="span-search-ticket" style="color:black;">`+msg[i].display_name+`</span>`;
+                                            if(val == undefined)
+                                            text+=`
+                                                <input type="checkbox" id="provider_box_`+i+`" name="provider_box_`+i+`" value="`+i+`" onclick="func_check_provider('`+i+`')"/>`;
+                                            else{
+                                                if(document.getElementById('provider_box_'+i).checked == false)
+                                                    text+=`
+                                                        <input type="checkbox" id="provider_box_`+i+`_`+val+`" name="provider_box_`+i+`_`+val+`" value="`+i+`" onclick="func_check_provider('`+i+`',`+val+`)"/>`;
+                                                else
+                                                    text+=`
+                                                        <input type="checkbox" id="provider_box_`+i+`_`+val+`" name="provider_box_`+i+`_`+val+`" value="`+i+`" checked="checked" onclick="func_check_provider('`+i+`',`+val+`)"/>`;
+                                            }
+                                            text+=`
+                                            <span class="check_box_span_custom"></span>
+                                        </label>
+                                    </a>
+                                </li>`;
+                            }
+                       }
+                   }
+                   else{
+                       try{
+                           text += `
                             <li>
                                 <a class="small" data-value="option1" tabIndex="-1">
                                     <label class="check_box_custom">
-                                        <span class="span-search-ticket" style="color:black;">`+msg[i].display_name+`</span>`;
+                                        <span class="span-search-ticket" style="color:black;">All</span>`;
                                         if(val == undefined)
                                         text+=`
-                                            <input type="checkbox" id="provider_box_`+i+`" name="provider_box_`+i+`" value="`+i+`" onclick="func_check_provider('`+i+`')"/>`;
+                                            <input type="checkbox" id="provider_box_All" name="provider_box_All" value="all" checked="checked" onclick="func_check_provider('all')"/>`;
                                         else{
-                                            if(document.getElementById('provider_box_'+i).checked == false)
+                                            if(document.getElementById('provider_box_All').checked == true){
                                                 text+=`
-                                                    <input type="checkbox" id="provider_box_`+i+`_`+val+`" name="provider_box_`+i+`_`+val+`" value="`+i+`" onclick="func_check_provider('`+i+`',`+val+`)"/>`;
-                                            else
+                                                    <input type="checkbox" id="provider_box_All_`+val+`" name="provider_box_All_`+val+`" value="all" checked="checked" onclick="func_check_provider('all',`+val+`)"/>`;
+                                            }else
                                                 text+=`
-                                                    <input type="checkbox" id="provider_box_`+i+`_`+val+`" name="provider_box_`+i+`_`+val+`" value="`+i+`" checked="checked" onclick="func_check_provider('`+i+`',`+val+`)"/>`;
+                                                    <input type="checkbox" id="provider_box_All_`+val+`" name="provider_box_All_`+val+`" value="all" onclick="func_check_provider('all',`+val+`)"/>`;
                                         }
                                         text+=`
                                         <span class="check_box_span_custom"></span>
                                     </label>
                                 </a>
                             </li>`;
-                    }
-               }
-           }else{
-               try{
-                   text = `
-                    <li>
-                        <a class="small" data-value="option1" tabIndex="-1">
-                            <label class="check_box_custom">
-                                <span class="span-search-ticket" style="color:black;">All</span>`;
-                                if(val == undefined)
-                                text+=`
-                                    <input type="checkbox" id="provider_box_All" name="provider_box_All" value="all" checked="checked" onclick="func_check_provider('all')"/>`;
-                                else{
-                                    if(document.getElementById('provider_box_All').checked == true){
+                           for(i in airline_carriers_data_awal[0]){
+                                if(airline_carriers_data_awal[0][i].is_excluded_from_b2c != true || user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
+                                    if(i != 'All'){
                                         text+=`
-                                            <input type="checkbox" id="provider_box_All_`+val+`" name="provider_box_All_`+val+`" value="all" checked="checked" onclick="func_check_provider('all',`+val+`)"/>`;
-                                    }else
-                                        text+=`
-                                            <input type="checkbox" id="provider_box_All_`+val+`" name="provider_box_All_`+val+`" value="all" onclick="func_check_provider('all',`+val+`)"/>`;
+                                            <li>
+                                                <a class="small" data-value="option1" tabIndex="-1">
+                                                    <label class="check_box_custom">
+                                                        <span class="span-search-ticket" style="color:black;">`+airline_carriers_data_awal[0][i].display_name+`</span>`;
+                                                        if(val == undefined)
+                                                        text+=`
+                                                            <input type="checkbox" id="provider_box_`+i+`" name="provider_box_`+i+`" value="`+i+`" onclick="func_check_provider('`+i+`')"/>`;
+                                                        else{
+                                                            try{
+                                                                if(document.getElementById('provider_box_'+i).checked == true)
+                                                                    text+=`
+                                                                        <input type="checkbox" id="provider_box_`+i+`_`+val+`" name="provider_box_`+i+`_`+val+`" value="`+i+`" onclick="func_check_provider('`+i+`',`+val+`)" checked="checked"/>`;
+                                                                else
+                                                                    text+=`
+                                                                        <input type="checkbox" id="provider_box_`+i+`_`+val+`" name="provider_box_`+i+`_`+val+`" value="`+i+`" onclick="func_check_provider('`+i+`',`+val+`)"/>`;
+                                                            }catch(err){
+                                                                if(airline_carriers_data_awal[val-1][i].bool == true)
+                                                                    text+=`
+                                                                        <input type="checkbox" id="provider_box_`+i+`_`+val+`" name="provider_box_`+i+`_`+val+`" value="`+i+`" onclick="func_check_provider('`+i+`',`+val+`)" checked="checked"/>`;
+                                                                else
+                                                                    text+=`
+                                                                        <input type="checkbox" id="provider_box_`+i+`_`+val+`" name="provider_box_`+i+`_`+val+`" value="`+i+`" onclick="func_check_provider('`+i+`',`+val+`)"/>`;
+                                                            }
+                                                        }
+                                                        text+=`
+                                                        <span class="check_box_span_custom"></span>
+                                                    </label>
+                                                </a>
+                                            </li>`;
+                                    }
                                 }
-                                text+=`
-                                <span class="check_box_span_custom"></span>
-                            </label>
-                        </a>
-                    </li>`;
-                   for(i in airline_carriers_data_awal[0]){
-                        if(airline_carriers_data_awal[0][i].is_excluded_from_b2c != true || user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
-                            if(i != 'All'){
-                                text+=`
-                                    <li>
-                                        <a class="small" data-value="option1" tabIndex="-1">
-                                            <label class="check_box_custom">
-                                                <span class="span-search-ticket" style="color:black;">`+airline_carriers_data_awal[0][i].display_name+`</span>`;
-                                                if(val == undefined)
-                                                text+=`
-                                                    <input type="checkbox" id="provider_box_`+i+`" name="provider_box_`+i+`" value="`+i+`" onclick="func_check_provider('`+i+`')"/>`;
-                                                else{
-                                                    try{
-                                                        if(document.getElementById('provider_box_'+i).checked == true)
-                                                            text+=`
-                                                                <input type="checkbox" id="provider_box_`+i+`_`+val+`" name="provider_box_`+i+`_`+val+`" value="`+i+`" onclick="func_check_provider('`+i+`',`+val+`)" checked="checked"/>`;
-                                                        else
-                                                            text+=`
-                                                                <input type="checkbox" id="provider_box_`+i+`_`+val+`" name="provider_box_`+i+`_`+val+`" value="`+i+`" onclick="func_check_provider('`+i+`',`+val+`)"/>`;
-                                                    }catch(err){
-                                                        if(airline_carriers_data_awal[val-1][i].bool == true)
-                                                            text+=`
-                                                                <input type="checkbox" id="provider_box_`+i+`_`+val+`" name="provider_box_`+i+`_`+val+`" value="`+i+`" onclick="func_check_provider('`+i+`',`+val+`)" checked="checked"/>`;
-                                                        else
-                                                            text+=`
-                                                                <input type="checkbox" id="provider_box_`+i+`_`+val+`" name="provider_box_`+i+`_`+val+`" value="`+i+`" onclick="func_check_provider('`+i+`',`+val+`)"/>`;
-                                                    }
-                                                }
-                                                text+=`
-                                                <span class="check_box_span_custom"></span>
-                                            </label>
-                                        </a>
-                                    </li>`;
-                            }
-                        }
-                   }
-               }catch(err){
+                           }
+                       }catch(err){
 
-               }
-           }
-           text+=`</div><div class="col-lg-12" style="text-align:right;"><hr/><button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('airline','airline');">Done</button></div>
+                       }
+                   }
+                text+=`
+                </div>
+                <div class="col-lg-12" style="text-align:right;">
+                    <hr/>
+                    <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('airline','airline');">
+                        Done
+                    </button>
+                </div>
            </div>`;
            if(val == undefined){
                if(document.getElementById('provider_flight_content'))
@@ -3043,9 +3054,28 @@ function add_provider_airline(new_data_provider){
     return add_data;
 }
 
+function change_search_to_api(val){
+    if(airline_request.direction == 'RT'){
+        document.getElementById('show_origin_destination').innerHTML = `<span title="`+airline_request.origin[val]+` > `+airline_request.destination[val]+`"><span class="copy_span"> `+airline_request.origin[val].split(' - ')[1] + ` (`+airline_request.origin[val].split(' - ')[0]+`) </span><i class="fas fa-arrows-alt-h"></i><span class="copy_span"> `+airline_request.destination[val].split(' - ')[1]+` (`+airline_request.destination[val].split(' - ')[0]+`)</span></span>`;
+        date_show = `<i class="fas fa-calendar-alt"></i> `+airline_request.departure[0];
+        if(airline_request.departure[0] != airline_request['return'][0]){
+            date_show += ` - `+airline_request['return'][0];
+        }
+        document.getElementById('show_date').innerHTML = date_show;
+        document.getElementById('title_search').innerHTML += " From " + airline_request.origin[val].split(' - ')[2] + " To " + airline_request.destination[val].split(' - ')[2];
+    }else if(airline_request.direction != 'RT'){
+        document.getElementById('show_origin_destination').innerHTML = `<span title="`+airline_request.origin[val]+` > `+airline_request.destination[val]+`"><span class="copy_span"> `+airline_request.origin[val].split(' - ')[1] + ` (`+airline_request.origin[val].split(' - ')[0]+`) </span><i class="fas fa-arrow-right"></i><span class="copy_span"> `+airline_request.destination[val].split(' - ')[1]+` (`+airline_request.destination[val].split(' - ')[0]+`)</span></span>`;
+        date_show = `<i class="fas fa-calendar-alt"></i> `+airline_request.departure[val];
+        document.getElementById('show_date').innerHTML = date_show;
+        if(airline_request.direction != 'MC'){
+            document.getElementById('title_search').innerHTML += " From " + airline_request.origin[val].split(' - ')[2] + " To " + airline_request.destination[val].split(' - ')[2];
+        }
+    }
+}
+
 function send_search_to_api(val){
     if(airline_request.direction == 'RT'){
-        document.getElementById('show_origin_destination').innerHTML = `<span style="font-size:12px;" title="`+airline_request.origin[counter_search]+` > `+airline_request.destination[counter_search]+`"><span class="copy_span"> `+airline_request.origin[counter_search].split(' - ')[1] + ` (`+airline_request.origin[counter_search].split(' - ')[0]+`) </span><i class="fas fa-arrows-alt-h"></i><span class="copy_span"> `+airline_request.destination[counter_search].split(' - ')[1]+` (`+airline_request.destination[counter_search].split(' - ')[0]+`)</span></span>`;
+        document.getElementById('show_origin_destination').innerHTML = `<span title="`+airline_request.origin[counter_search]+` > `+airline_request.destination[counter_search]+`"><span class="copy_span"> `+airline_request.origin[counter_search].split(' - ')[1] + ` (`+airline_request.origin[counter_search].split(' - ')[0]+`) </span><i class="fas fa-arrows-alt-h"></i><span class="copy_span"> `+airline_request.destination[counter_search].split(' - ')[1]+` (`+airline_request.destination[counter_search].split(' - ')[0]+`)</span></span>`;
         date_show = `<i class="fas fa-calendar-alt"></i> `+airline_request.departure[0];
         if(airline_request.departure[0] != airline_request['return'][0]){
             date_show += ` - `+airline_request['return'][0];
@@ -3053,11 +3083,11 @@ function send_search_to_api(val){
         document.getElementById('show_date').innerHTML = date_show;
         document.getElementById('title_search').innerHTML += " From " + airline_request.origin[counter_search].split(' - ')[2] + " To " + airline_request.destination[counter_search].split(' - ')[2];
     }else if(airline_request.direction != 'RT'){
-        document.getElementById('show_origin_destination').innerHTML = `<span style="font-size:12px;" title="`+airline_request.origin[counter_search]+` > `+airline_request.destination[counter_search]+`"><span class="copy_span"> `+airline_request.origin[counter_search].split(' - ')[1] + ` (`+airline_request.origin[counter_search].split(' - ')[0]+`) </span><i class="fas fa-arrow-right"></i><span class="copy_span"> `+airline_request.destination[counter_search].split(' - ')[1]+` (`+airline_request.destination[counter_search].split(' - ')[0]+`)</span></span>`;
+        document.getElementById('show_origin_destination').innerHTML = `<span title="`+airline_request.origin[counter_search]+` > `+airline_request.destination[counter_search]+`"><span class="copy_span"> `+airline_request.origin[counter_search].split(' - ')[1] + ` (`+airline_request.origin[counter_search].split(' - ')[0]+`) </span><i class="fas fa-arrow-right"></i><span class="copy_span"> `+airline_request.destination[counter_search].split(' - ')[1]+` (`+airline_request.destination[counter_search].split(' - ')[0]+`)</span></span>`;
         date_show = `<i class="fas fa-calendar-alt"></i> `+airline_request.departure[counter_search];
-        if(airline_request.departure[counter_search] != airline_request['return'][counter_search]){
-            date_show += ` - `+airline_request['return'][counter_search];
-        }
+//        if(airline_request.departure[counter_search] != airline_request['return'][counter_search]){
+//            date_show += ` - `+airline_request['return'][counter_search];
+//        }
         document.getElementById('show_date').innerHTML = date_show;
         if(airline_request.direction != 'MC'){
             document.getElementById('title_search').innerHTML += " From " + airline_request.origin[counter_search].split(' - ')[2] + " To " + airline_request.destination[counter_search].split(' - ')[2];
@@ -3531,6 +3561,7 @@ function datasearch2(airline){
 
 function draw_recommendation_maps(){
     document.getElementById('recommendation_div').hidden = false;
+    document.getElementById('recommendation_div_mbl').hidden = false;
     is_print = false;
     var text_recom_maps = '';
     max_itin_print_recom = 10
@@ -4316,8 +4347,8 @@ function set_segment_provider_get_itinenary(segment, provider, val){
         check_airline_pick = 1;
         document.getElementById("badge-flight-notif").innerHTML = "1";
         document.getElementById("badge-flight-notif2").innerHTML = "1";
-        $("#badge-flight-notif").addClass("infinite");
-        $("#badge-flight-notif2").addClass("infinite");
+        //$("#badge-flight-notif").addClass("infinite");
+        //$("#badge-flight-notif2").addClass("infinite");
         $("#myModalTicketFlight").modal('show');
         $('#loading-search-flight').show();
         $('#button_chart_airline').show();
@@ -4329,8 +4360,8 @@ function set_segment_provider_get_itinenary(segment, provider, val){
         check_airline_pick = 1;
         document.getElementById("badge-flight-notif").innerHTML = "1";
         document.getElementById("badge-flight-notif2").innerHTML = "1";
-        $("#badge-flight-notif").addClass("infinite");
-        $("#badge-flight-notif2").addClass("infinite");
+        //$("#badge-flight-notif").addClass("infinite");
+        //$("#badge-flight-notif2").addClass("infinite");
         $("#myModalTicketFlight").modal('show');
         $('#loading-search-flight').show();
         $('#button_chart_airline').show();
@@ -4342,8 +4373,8 @@ function set_segment_provider_get_itinenary(segment, provider, val){
         check_airline_pick = 1;
         document.getElementById("badge-flight-notif").innerHTML = "1";
         document.getElementById("badge-flight-notif2").innerHTML = "1";
-        $("#badge-flight-notif").addClass("infinite");
-        $("#badge-flight-notif2").addClass("infinite");
+        //$("#badge-flight-notif").addClass("infinite");
+        //$("#badge-flight-notif2").addClass("infinite");
         $("#myModalTicketFlight").modal('show');
         $('#loading-search-flight').show();
         $('#button_chart_airline').show();
@@ -4355,8 +4386,8 @@ function set_segment_provider_get_itinenary(segment, provider, val){
         check_airline_pick = 1;
         document.getElementById("badge-flight-notif").innerHTML = "1";
         document.getElementById("badge-flight-notif2").innerHTML = "1";
-        $("#badge-flight-notif").addClass("infinite");
-        $("#badge-flight-notif2").addClass("infinite");
+        //$("#badge-flight-notif").addClass("infinite");
+        //$("#badge-flight-notif2").addClass("infinite");
         $("#myModalTicketFlight").modal('show');
         $('#loading-search-flight').show();
         $('#button_chart_airline').show();
@@ -4368,8 +4399,8 @@ function set_segment_provider_get_itinenary(segment, provider, val){
         check_airline_pick = 1;
         document.getElementById("badge-flight-notif").innerHTML = "1";
         document.getElementById("badge-flight-notif2").innerHTML = "1";
-        $("#badge-flight-notif").addClass("infinite");
-        $("#badge-flight-notif2").addClass("infinite");
+        //$("#badge-flight-notif").addClass("infinite");
+        //$("#badge-flight-notif2").addClass("infinite");
         $("#myModalTicketFlight").modal('show');
         $('#loading-search-flight').show();
         $('#button_chart_airline').show();
@@ -4479,8 +4510,8 @@ function request_airline_price(){
     check_airline_pick = 1;
     document.getElementById("badge-flight-notif").innerHTML = "1";
     document.getElementById("badge-flight-notif2").innerHTML = "1";
-    $("#badge-flight-notif").addClass("infinite");
-    $("#badge-flight-notif2").addClass("infinite");
+    //$("#badge-flight-notif").addClass("infinite");
+    //$("#badge-flight-notif2").addClass("infinite");
     $("#myModalTicketFlight").modal('show');
     $('#loading-search-flight').show();
     $('#button_chart_airline').show();

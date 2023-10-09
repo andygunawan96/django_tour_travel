@@ -214,3 +214,30 @@ a:hover{
         display: none !important;
     }
 }
+
+.nice-select.form-control{
+    margin-bottom: 0px !important;
+}
+
+.form-select-text .current{
+    margin-right: 0px !important;
+}
+
+.form-select .nice-select .list {
+  margin-top: 0;
+  border: 1px solid #205B95;
+  border-radius: 0px;
+  box-shadow: none;
+  width: 100%;
+  min-width: 200px;
+  padding: 10px 0px 0px 0px;
+  min-height:30px;
+  max-height:150px;
+  overflow-y: scroll;
+}
+
+.form-select .nice-select .list .option{
+    padding-left: 15px;
+}
+
+
