@@ -379,7 +379,7 @@ def review(request, signature=''):
                     img_list_data = []
 
                 first_name = re.sub(r'\s', ' ', request.POST['booker_first_name']).replace(':', '').strip()
-                last_name = re.sub(r'\s', ' ', request.POST['booker_last_name']).replace(':', '').strip()
+                last_name = re.sub(r'\s', ' ', request.POST.get('booker_last_name', '')).replace(':', '').strip()
                 email = re.sub(r'\s', ' ', request.POST['booker_email']).replace(':', '').strip()
                 mobile = re.sub(r'\s', ' ', request.POST['booker_phone']).replace(':', '').strip()
 
@@ -546,7 +546,7 @@ def review(request, signature=''):
                 if len(contact) == 0:
 
                     first_name = re.sub(r'\s', ' ', request.POST['booker_first_name']).replace(':', '').strip()
-                    last_name = re.sub(r'\s', ' ', request.POST['booker_last_name']).replace(':', '').strip()
+                    last_name = re.sub(r'\s', ' ', request.POST.get('booker_last_name', '')).replace(':', '').strip()
                     email = re.sub(r'\s', ' ', request.POST['booker_email']).replace(':', '').strip()
                     mobile = re.sub(r'\s', ' ', request.POST['booker_phone']).replace(':', '').strip()
 

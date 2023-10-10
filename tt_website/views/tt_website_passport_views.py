@@ -267,7 +267,7 @@ def review(request):
             contact = []
 
             first_name = re.sub(r'\s', ' ', request.POST['booker_first_name']).replace(':', '').strip()
-            last_name = re.sub(r'\s', ' ', request.POST['booker_last_name']).replace(':', '').strip()
+            last_name = re.sub(r'\s', ' ', request.POST.get('booker_last_name', '')).replace(':', '').strip()
             email = re.sub(r'\s', ' ', request.POST['booker_email']).replace(':', '').strip()
             mobile = re.sub(r'\s', ' ', request.POST['booker_phone']).replace(':', '').strip()
 
@@ -288,7 +288,7 @@ def review(request):
                         behaviors = {'passport': request.POST['adult_behaviors_' + str(i + 1)]}
 
                     first_name = re.sub(r'\s', ' ', request.POST['adult_first_name' + str(i + 1)]).replace(':', '').strip()
-                    last_name = re.sub(r'\s', ' ', request.POST['adult_last_name' + str(i + 1)]).replace(':', '').strip()
+                    last_name = re.sub(r'\s', ' ', request.POST.get('adult_last_name' + str(i + 1),'')).replace(':', '').strip()
                     email = re.sub(r'\s', ' ', request.POST.get('adult_email' + str(i + 1), '')).replace(':', '').strip()
                     mobile = re.sub(r'\s', ' ', request.POST.get('adult_mobile' + str(i + 1), '')).replace(':', '').strip()
                     passport_number = re.sub(r'\s', ' ', request.POST.get('adult_passport_number' + str(i + 1))).replace(':', '').strip()
@@ -373,7 +373,7 @@ def review(request):
             if len(contact) == 0:
 
                 first_name = re.sub(r'\s', ' ', request.POST['booker_first_name']).replace(':', '').strip()
-                last_name = re.sub(r'\s', ' ', request.POST['booker_last_name']).replace(':', '').strip()
+                last_name = re.sub(r'\s', ' ', request.POST.get('booker_last_name', '')).replace(':', '').strip()
                 email = re.sub(r'\s', ' ', request.POST['booker_email']).replace(':', '').strip()
                 mobile = re.sub(r'\s', ' ', request.POST['booker_phone']).replace(':', '').strip()
 

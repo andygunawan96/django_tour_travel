@@ -672,7 +672,7 @@ def review(request, signature=''):
                     img_list_data = []
 
                 first_name = re.sub(r'\s', ' ', request.POST['booker_first_name']).replace(':', '').strip()
-                last_name = re.sub(r'\s', ' ', request.POST['booker_last_name']).replace(':', '').strip()
+                last_name = re.sub(r'\s', ' ', request.POST.get('booker_last_name', '')).replace(':', '').strip()
                 email = re.sub(r'\s', ' ', request.POST['booker_email']).replace(':', '').strip()
                 mobile = re.sub(r'\s', ' ', request.POST['booker_phone']).replace(':', '').strip()
 
@@ -698,7 +698,7 @@ def review(request, signature=''):
                             behaviors = {'tour': request.POST['adult_behaviors_' + str(i + 1)]}
 
                         first_name = re.sub(r'\s', ' ', request.POST['adult_first_name' + str(i + 1)]).replace(':', '').strip()
-                        last_name = re.sub(r'\s', ' ', request.POST['adult_last_name' + str(i + 1)]).replace(':', '').strip()
+                        last_name = re.sub(r'\s', ' ', request.POST.get('adult_last_name' + str(i + 1), '')).replace(':', '').strip()
                         email = re.sub(r'\s', ' ', request.POST.get('adult_email' + str(i + 1), '')).replace(':', '').strip()
                         mobile = re.sub(r'\s', ' ', request.POST.get('adult_phone' + str(i + 1), '')).replace(':', '').strip()
                         identity_number = re.sub(r'\s', ' ', request.POST.get('adult_passport_number' + str(i + 1)) and request.POST['adult_passport_number' + str(i + 1)] or '').replace(':', '').strip()
@@ -868,7 +868,7 @@ def review(request, signature=''):
                 if len(contact) == 0:
 
                     first_name = re.sub(r'\s', ' ', request.POST['booker_first_name']).replace(':', '').strip()
-                    last_name = re.sub(r'\s', ' ', request.POST['booker_last_name']).replace(':', '').strip()
+                    last_name = re.sub(r'\s', ' ', request.POST.get('booker_last_name', '')).replace(':', '').strip()
                     email = re.sub(r'\s', ' ', request.POST['booker_email']).replace(':', '').strip()
                     mobile = re.sub(r'\s', ' ', request.POST['booker_phone']).replace(':', '').strip()
 

@@ -1875,7 +1875,7 @@ def review(request, signature):
                         img_list_data = []
 
                     first_name = re.sub(r'\s', ' ', request.POST['booker_first_name']).replace(':', '').strip()
-                    last_name = re.sub(r'\s', ' ', request.POST['booker_last_name']).replace(':', '').strip()
+                    last_name = re.sub(r'\s', ' ', request.POST.get('booker_last_name', '')).replace(':', '').strip()
                     email = re.sub(r'\s', ' ', request.POST['booker_email']).replace(':', '').strip()
                     mobile = re.sub(r'\s', ' ', request.POST['booker_phone']).replace(':', '').strip()
 
@@ -1945,7 +1945,7 @@ def review(request, signature):
                                 behaviors = {'airline': request.POST['adult_behaviors_' + str(i + 1)]}
 
                             first_name = re.sub(r'\s', ' ', request.POST['adult_first_name' + str(i + 1)]).replace(':', '').strip()
-                            last_name = re.sub(r'\s', ' ', request.POST['adult_last_name' + str(i + 1)]).replace(':', '').strip()
+                            last_name = re.sub(r'\s', ' ', request.POST.get('adult_last_name' + str(i + 1), '')).replace(':', '').strip()
                             # email = re.sub(r'\s', ' ', request.POST['booker_email']).replace(':', '').strip()
                             # mobile = re.sub(r'\s', ' ', request.POST['booker_phone']).replace(':', '').strip()
 
@@ -2070,7 +2070,7 @@ def review(request, signature):
                                 behaviors = {'airline': request.POST['child_behaviors_' + str(i + 1)]}
 
                             first_name = re.sub(r'\s', ' ', request.POST['child_first_name' + str(i + 1)]).replace(':', '').strip()
-                            last_name = re.sub(r'\s', ' ', request.POST['child_last_name' + str(i + 1)]).replace(':', '').strip()
+                            last_name = re.sub(r'\s', ' ', request.POST.get('child_last_name' + str(i + 1), '')).replace(':', '').strip()
                             # email = re.sub(r'\s', ' ', request.POST['booker_email']).replace(':', '').strip()
                             # mobile = re.sub(r'\s', ' ', request.POST['booker_phone']).replace(':', '').strip()
 
@@ -2115,7 +2115,7 @@ def review(request, signature):
                                 behaviors = {'airline': request.POST['infant_behaviors_' + str(i + 1)]}
 
                             first_name = re.sub(r'\s', ' ', request.POST['infant_first_name' + str(i + 1)]).replace(':', '').strip()
-                            last_name = re.sub(r'\s', ' ', request.POST['infant_last_name' + str(i + 1)]).replace(':', '').strip()
+                            last_name = re.sub(r'\s', ' ', request.POST.get('infant_last_name' + str(i + 1), '')).replace(':', '').strip()
                             # email = re.sub(r'\s', ' ', request.POST['booker_email']).replace(':', '').strip()
                             # mobile = re.sub(r'\s', ' ', request.POST['booker_phone']).replace(':', '').strip()
 
@@ -2183,7 +2183,7 @@ def review(request, signature):
                                 behaviors = {'airline': request.POST['student_behaviors_' + str(i + 1)]}
 
                             first_name = re.sub(r'\s', ' ', request.POST['student_first_name' + str(i + 1)]).replace(':','')
-                            last_name = re.sub(r'\s', ' ', request.POST['student_last_name' + str(i + 1)]).replace(':','')
+                            last_name = re.sub(r'\s', ' ', request.POST.get('student_last_name' + str(i + 1), '')).replace(':','')
                             # email = re.sub(r'\s', ' ', request.POST['booker_email']).replace(':', '').strip()
                             # mobile = re.sub(r'\s', ' ', request.POST['booker_phone']).replace(':', '').strip()
 
@@ -2252,7 +2252,7 @@ def review(request, signature):
                                 behaviors = {'airline': request.POST['labour_behaviors_' + str(i + 1)]}
 
                             first_name = re.sub(r'\s', ' ', request.POST['labour_first_name' + str(i + 1)]).replace(':','')
-                            last_name = re.sub(r'\s', ' ', request.POST['labour_last_name' + str(i + 1)]).replace(':','')
+                            last_name = re.sub(r'\s', ' ', request.POST.get('labour_last_name' + str(i + 1), '')).replace(':','')
                             # email = re.sub(r'\s', ' ', request.POST['booker_email']).replace(':', '').strip()
                             # mobile = re.sub(r'\s', ' ', request.POST['booker_phone']).replace(':', '').strip()
 
@@ -2321,7 +2321,7 @@ def review(request, signature):
                                 behaviors = {'airline': request.POST['seaman_behaviors_' + str(i + 1)]}
 
                             first_name = re.sub(r'\s', ' ', request.POST['seaman_first_name' + str(i + 1)]).replace(':','')
-                            last_name = re.sub(r'\s', ' ', request.POST['seaman_last_name' + str(i + 1)]).replace(':','')
+                            last_name = re.sub(r'\s', ' ', request.POST.get('seaman_last_name' + str(i + 1), '')).replace(':','')
                             # email = re.sub(r'\s', ' ', request.POST['booker_email']).replace(':', '').strip()
                             # mobile = re.sub(r'\s', ' ', request.POST['booker_phone']).replace(':', '').strip()
 
@@ -2347,7 +2347,7 @@ def review(request, signature):
 
                     if len(contact) == 0:
                         first_name = re.sub(r'\s', ' ', request.POST['booker_first_name']).replace(':', '').strip()
-                        last_name = re.sub(r'\s', ' ', request.POST['booker_last_name']).replace(':', '').strip()
+                        last_name = re.sub(r'\s', ' ', request.POST.get('booker_last_name', '')).replace(':', '').strip()
                         email = re.sub(r'\s', ' ', request.POST['booker_email']).replace(':', '').strip()
                         mobile = re.sub(r'\s', ' ', request.POST['booker_phone']).replace(':', '').strip()
                         contact.append({
