@@ -1311,7 +1311,7 @@ def seat_map(request, signature):
                 for pax_type in airline_passengers:
                     if pax_type not in ['infant', 'booker', 'contact']:
                         for pax in airline_passengers[pax_type]:
-                            if not 'seat_list' in pax:
+                            if not 'seat_list' in pax or 'seat_list' in pax and len(pax['seat_list']) == 0:
                                 pax['seat_list'] = []
 
                                 file = read_cache_file(request, signature, 'airline_get_seat_availability')
@@ -1775,8 +1775,7 @@ def review(request, signature):
                             else:
                                 no_ssr_count += 1
                             sell_ssrs_request = []
-                        if len(sell_ssrs) > 0:
-                            write_cache_file(request, signature, 'airline_ssr_request', sell_ssrs)
+                        write_cache_file(request, signature, 'airline_ssr_request', sell_ssrs)
                             # set_session(request, 'airline_ssr_request_%s' % signature, sell_ssrs)
                         sell_ssrs = []
                         write_cache_file(request, signature, 'airline_create_passengers', airline_create_passengers)
