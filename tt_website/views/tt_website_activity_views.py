@@ -736,10 +736,10 @@ def review(request, signature=''):
                 except:
                     img_list_data = []
 
-                first_name = re.sub(r'\s', '', request.POST['booker_first_name']).replace(':', '')
-                last_name = re.sub(r'\s', '', request.POST['booker_last_name']).replace(':', '')
-                email = re.sub(r'\s', '', request.POST['booker_email']).replace(':', '')
-                mobile = re.sub(r'\s', '', request.POST['booker_phone']).replace(':', '')
+                first_name = re.sub(r'\s', ' ', request.POST['booker_first_name']).replace(':', '').strip()
+                last_name = re.sub(r'\s', ' ', request.POST['booker_last_name']).replace(':', '').strip()
+                email = re.sub(r'\s', ' ', request.POST['booker_email']).replace(':', '').strip()
+                mobile = re.sub(r'\s', ' ', request.POST['booker_phone']).replace(':', '').strip()
 
                 booker = {
                     'title': request.POST['booker_title'],
@@ -764,11 +764,11 @@ def review(request, signature=''):
                     if request.POST.get('adult_behaviors_' + str(i + 1)):
                         behaviors = {'activity': request.POST['adult_behaviors_' + str(i + 1)]}
 
-                    first_name = re.sub(r'\s', '', request.POST['adult_first_name'+str(i+1)]).replace(':', '')
-                    last_name = re.sub(r'\s', '', request.POST['adult_last_name'+str(i+1)]).replace(':', '')
-                    email = re.sub(r'\s', '', request.POST.get('adult_cp' + str(i + 1)) and request.POST['adult_email' + str(i + 1)] or ' - ').replace(':', '')
-                    mobile = re.sub(r'\s', '', request.POST.get('adult_cp' + str(i + 1)) and request.POST['adult_phone' + str(i + 1)] or ' - ').replace(':', '')
-                    passport_number = re.sub(r'\s', '', request.POST.get('adult_passport_number' + str(i + 1)) and request.POST['adult_passport_number' + str(i + 1)] or '').replace(':', '')
+                    first_name = re.sub(r'\s', ' ', request.POST['adult_first_name'+str(i+1)]).replace(':', '').strip()
+                    last_name = re.sub(r'\s', ' ', request.POST['adult_last_name'+str(i+1)]).replace(':', '').strip()
+                    email = re.sub(r'\s', ' ', request.POST.get('adult_cp' + str(i + 1)) and request.POST['adult_email' + str(i + 1)] or ' - ').replace(':', '').strip()
+                    mobile = re.sub(r'\s', ' ', request.POST.get('adult_cp' + str(i + 1)) and request.POST['adult_phone' + str(i + 1)] or ' - ').replace(':', '').strip()
+                    passport_number = re.sub(r'\s', ' ', request.POST.get('adult_passport_number' + str(i + 1)) and request.POST['adult_passport_number' + str(i + 1)] or '').replace(':', '').strip()
 
                     adult.append({
                         "first_name": first_name,
@@ -1021,11 +1021,11 @@ def review(request, signature=''):
                     if request.POST.get('senior_behaviors_' + str(i + 1)):
                         behaviors = {'activity': request.POST['senior_behaviors_' + str(i + 1)]}
 
-                    first_name = re.sub(r'\s', '', request.POST['senior_first_name'+str(i+1)]).replace(':', '')
-                    last_name = re.sub(r'\s', '', request.POST['senior_last_name'+str(i+1)]).replace(':', '')
-                    # email = re.sub(r'\s', '', request.POST.get('adult_cp' + str(i + 1)) and request.POST['adult_email' + str(i + 1)] or ' - ').replace(':', '')
-                    # mobile = re.sub(r'\s', '', request.POST.get('adult_cp' + str(i + 1)) and request.POST['adult_phone' + str(i + 1)] or ' - ').replace(':', '')
-                    passport_number = re.sub(r'\s', '',request.POST.get('senior_passport_number' + str(i + 1)) and request.POST['senior_passport_number' + str(i + 1)] or '').replace(':', '')
+                    first_name = re.sub(r'\s', ' ', request.POST['senior_first_name'+str(i+1)]).replace(':', '').strip()
+                    last_name = re.sub(r'\s', ' ', request.POST['senior_last_name'+str(i+1)]).replace(':', '').strip()
+                    # email = re.sub(r'\s', ' ', request.POST.get('adult_cp' + str(i + 1)) and request.POST['adult_email' + str(i + 1)] or ' - ').replace(':', '').strip()
+                    # mobile = re.sub(r'\s', ' ', request.POST.get('adult_cp' + str(i + 1)) and request.POST['adult_phone' + str(i + 1)] or ' - ').replace(':', '').strip()
+                    passport_number = re.sub(r'\s', ' ',request.POST.get('senior_passport_number' + str(i + 1)) and request.POST['senior_passport_number' + str(i + 1)] or '').replace(':', '').strip()
 
                     senior.append({
                         "first_name": first_name,
@@ -1219,11 +1219,11 @@ def review(request, signature=''):
                     if request.POST.get('child_behaviors_' + str(i + 1)):
                         behaviors = {'activity': request.POST['child_behaviors_' + str(i + 1)]}
 
-                    first_name = re.sub(r'\s', '', request.POST['child_first_name'+str(i+1)]).replace(':', '')
-                    last_name = re.sub(r'\s', '', request.POST['child_last_name'+str(i+1)]).replace(':', '')
-                    # email = re.sub(r'\s', '', request.POST.get('adult_cp' + str(i + 1)) and request.POST['adult_email' + str(i + 1)] or ' - ').replace(':', '')
-                    # mobile = re.sub(r'\s', '', request.POST.get('adult_cp' + str(i + 1)) and request.POST['adult_phone' + str(i + 1)] or ' - ').replace(':', '')
-                    passport_number = re.sub(r'\s', '',request.POST.get('child_passport_number' + str(i + 1)) and request.POST['child_passport_number' + str(i + 1)] or '').replace(':', '')
+                    first_name = re.sub(r'\s', ' ', request.POST['child_first_name'+str(i+1)]).replace(':', '').strip()
+                    last_name = re.sub(r'\s', ' ', request.POST['child_last_name'+str(i+1)]).replace(':', '').strip()
+                    # email = re.sub(r'\s', ' ', request.POST.get('adult_cp' + str(i + 1)) and request.POST['adult_email' + str(i + 1)] or ' - ').replace(':', '').strip()
+                    # mobile = re.sub(r'\s', ' ', request.POST.get('adult_cp' + str(i + 1)) and request.POST['adult_phone' + str(i + 1)] or ' - ').replace(':', '').strip()
+                    passport_number = re.sub(r'\s', ' ',request.POST.get('child_passport_number' + str(i + 1)) and request.POST['child_passport_number' + str(i + 1)] or '').replace(':', '').strip()
 
                     child.append({
                         "first_name": first_name,
@@ -1418,11 +1418,11 @@ def review(request, signature=''):
                     if request.POST.get('infant_behaviors_' + str(i + 1)):
                         behaviors = {'activity': request.POST['infant_behaviors_' + str(i + 1)]}
 
-                    first_name = re.sub(r'\s', '', request.POST['infant_first_name'+str(i+1)]).replace(':', '')
-                    last_name = re.sub(r'\s', '', request.POST['infant_last_name'+str(i+1)]).replace(':', '')
-                    # email = re.sub(r'\s', '', request.POST.get('adult_cp' + str(i + 1)) and request.POST['adult_email' + str(i + 1)] or ' - ').replace(':', '')
-                    # mobile = re.sub(r'\s', '', request.POST.get('adult_cp' + str(i + 1)) and request.POST['adult_phone' + str(i + 1)] or ' - ').replace(':', '')
-                    passport_number = re.sub(r'\s', '',request.POST.get('infant_passport_number' + str(i + 1)) and request.POST['infant_passport_number' + str(i + 1)] or '').replace(':', '')
+                    first_name = re.sub(r'\s', ' ', request.POST['infant_first_name'+str(i+1)]).replace(':', '').strip()
+                    last_name = re.sub(r'\s', ' ', request.POST['infant_last_name'+str(i+1)]).replace(':', '').strip()
+                    # email = re.sub(r'\s', ' ', request.POST.get('adult_cp' + str(i + 1)) and request.POST['adult_email' + str(i + 1)] or ' - ').replace(':', '').strip()
+                    # mobile = re.sub(r'\s', ' ', request.POST.get('adult_cp' + str(i + 1)) and request.POST['adult_phone' + str(i + 1)] or ' - ').replace(':', '').strip()
+                    passport_number = re.sub(r'\s', ' ',request.POST.get('infant_passport_number' + str(i + 1)) and request.POST['infant_passport_number' + str(i + 1)] or '').replace(':', '').strip()
 
                     infant.append({
                         "first_name": first_name,
@@ -1456,10 +1456,10 @@ def review(request, signature=''):
                     perpax_list_temp = []
 
                 if len(contact) == 0:
-                    first_name = re.sub(r'\s', '', request.POST['booker_first_name']).replace(':', '')
-                    last_name = re.sub(r'\s', '', request.POST['booker_last_name']).replace(':', '')
-                    email = re.sub(r'\s', '', request.POST['booker_email']).replace(':', '')
-                    mobile = re.sub(r'\s', '', request.POST['booker_phone']).replace(':', '')
+                    first_name = re.sub(r'\s', ' ', request.POST['booker_first_name']).replace(':', '').strip()
+                    last_name = re.sub(r'\s', ' ', request.POST['booker_last_name']).replace(':', '').strip()
+                    email = re.sub(r'\s', ' ', request.POST['booker_email']).replace(':', '').strip()
+                    mobile = re.sub(r'\s', ' ', request.POST['booker_phone']).replace(':', '').strip()
 
                     contact.append({
                         'title': request.POST['booker_title'],

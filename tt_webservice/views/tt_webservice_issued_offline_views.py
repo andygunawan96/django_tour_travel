@@ -260,10 +260,10 @@ def update_contact(request):
         for i in range(int(request.POST['counter_passenger'])):
             try:
                 if request.POST['passenger_cp' + str(i)] == 'true':
-                    first_name = re.sub(r'\s', '', request.POST['passenger_first_name' + str(i)]).replace(':', '')
-                    last_name = re.sub(r'\s', '', request.POST['passenger_last_name' + str(i)]).replace(':', '')
-                    email = re.sub(r'\s', '', request.POST['passenger_email' + str(i)]).replace(':', '')
-                    mobile = re.sub(r'\s', '', request.POST['booker_mobile']).replace(':', '')
+                    first_name = re.sub(r'\s', ' ', request.POST['passenger_first_name' + str(i)]).replace(':', '').strip()
+                    last_name = re.sub(r'\s', ' ', request.POST['passenger_last_name' + str(i)]).replace(':', '').strip()
+                    email = re.sub(r'\s', ' ', request.POST['passenger_email' + str(i)]).replace(':', '').strip()
+                    mobile = re.sub(r'\s', ' ', request.POST['booker_mobile']).replace(':', '').strip()
                     contact.append({
                         'title': request.POST['passenger_title' + str(i)],
                         'first_name': first_name,
@@ -293,10 +293,10 @@ def update_contact(request):
 
         if len(contact) == 0:
 
-            first_name = re.sub(r'\s', '', request.POST['booker_first_name']).replace(':', '')
-            last_name = re.sub(r'\s', '', request.POST.get('booker_last_name')).replace(':', '')
-            email = re.sub(r'\s', '', request.POST['booker_email']).replace(':', '')
-            mobile = re.sub(r'\s', '', request.POST['booker_mobile']).replace(':', '')
+            first_name = re.sub(r'\s', ' ', request.POST['booker_first_name']).replace(':', '').strip()
+            last_name = re.sub(r'\s', ' ', request.POST.get('booker_last_name')).replace(':', '').strip()
+            email = re.sub(r'\s', ' ', request.POST['booker_email']).replace(':', '').strip()
+            mobile = re.sub(r'\s', ' ', request.POST['booker_mobile']).replace(':', '').strip()
 
             contact.append({
                 'title': request.POST['booker_title'],
@@ -317,10 +317,10 @@ def update_contact(request):
             "signature": request.session['issued_offline_signature'],
         }
 
-        first_name = re.sub(r'\s', '', request.POST['booker_first_name']).replace(':', '')
-        last_name = re.sub(r'\s', '', request.POST.get('booker_last_name')).replace(':', '')
-        email = re.sub(r'\s', '', request.POST['booker_email']).replace(':', '')
-        mobile = re.sub(r'\s', '', request.POST['booker_mobile']).replace(':', '')
+        first_name = re.sub(r'\s', ' ', request.POST['booker_first_name']).replace(':', '').strip()
+        last_name = re.sub(r'\s', ' ', request.POST.get('booker_last_name')).replace(':', '').strip()
+        email = re.sub(r'\s', ' ', request.POST['booker_email']).replace(':', '').strip()
+        mobile = re.sub(r'\s', ' ', request.POST['booker_mobile']).replace(':', '').strip()
 
         booker = {
             'title': request.POST['booker_title'],
@@ -388,10 +388,10 @@ def update_passenger(request):
                         "offline": request.POST['passenger_behaviors' + str(i)]
                     })
 
-                first_name = re.sub(r'\s', '', request.POST['passenger_first_name' + str(i)]).replace(':', '')
-                last_name = re.sub(r'\s', '', request.POST.get('passenger_last_name' + str(i), '')).replace(':', '')
-                # email = re.sub(r'\s', '', request.POST['booker_email']).replace(':', '')
-                # mobile = re.sub(r'\s', '', request.POST['booker_phone']).replace(':', '')
+                first_name = re.sub(r'\s', ' ', request.POST['passenger_first_name' + str(i)]).replace(':', '').strip()
+                last_name = re.sub(r'\s', ' ', request.POST.get('passenger_last_name' + str(i), '')).replace(':', '').strip()
+                # email = re.sub(r'\s', ' ', request.POST['booker_email']).replace(':', '').strip()
+                # mobile = re.sub(r'\s', ' ', request.POST['booker_phone']).replace(':', '').strip()
 
                 passenger.append({
                     "pax_type": pax_type,
@@ -408,7 +408,7 @@ def update_passenger(request):
                         identity = {}
                         if request.POST['passenger_identity_number' + str(i)]:
                             identity['identity_number'] = request.POST['passenger_identity_number' + str(i)]
-                            identity['identity_number'] = re.sub(r'\s', '', identity['identity_number']).replace(':', '')
+                            identity['identity_number'] = re.sub(r'\s', ' ', identity['identity_number']).replace(':', '').strip()
                         if request.POST['passenger_identity_type' + str(i)]:
                             identity['identity_type'] = request.POST['passenger_identity_type' + str(i)]
                         identity["identity_expdate"] = passport_expdate
