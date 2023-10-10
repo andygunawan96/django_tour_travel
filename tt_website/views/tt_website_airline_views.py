@@ -1875,10 +1875,10 @@ def review(request, signature):
                     except:
                         img_list_data = []
 
-                    first_name = re.sub(r'\s', '', request.POST['booker_first_name']).replace(':', '')
-                    last_name = re.sub(r'\s', '', request.POST['booker_last_name']).replace(':', '')
-                    email = re.sub(r'\s', '', request.POST['booker_email']).replace(':', '')
-                    mobile = re.sub(r'\s', '', request.POST['booker_phone']).replace(':', '')
+                    first_name = re.sub(r'\s', ' ', request.POST['booker_first_name']).replace(':', '').strip()
+                    last_name = re.sub(r'\s', ' ', request.POST['booker_last_name']).replace(':', '').strip()
+                    email = re.sub(r'\s', ' ', request.POST['booker_email']).replace(':', '').strip()
+                    mobile = re.sub(r'\s', ' ', request.POST['booker_phone']).replace(':', '').strip()
 
                     booker = {
                         'title': request.POST['booker_title'],
@@ -1936,7 +1936,7 @@ def review(request, signature):
                                 is_wheelchair = False
                             if request.POST['adult_id_type' + str(i + 1)]:
                                 passport_number = request.POST.get('adult_passport_number' + str(i + 1))
-                                passport_number = re.sub(r'\s', '', passport_number).replace(':', '')
+                                passport_number = re.sub(r'\s', ' ', passport_number).replace(':', '').strip()
                                 passport_ed = request.POST.get('adult_passport_expired_date' + str(i + 1))
                                 passport_country_of_issued = request.POST.get('adult_country_of_issued' + str(i + 1) + '_id')
 
@@ -1945,10 +1945,10 @@ def review(request, signature):
                             if request.POST.get('adult_behaviors_' + str(i + 1)):
                                 behaviors = {'airline': request.POST['adult_behaviors_' + str(i + 1)]}
 
-                            first_name = re.sub(r'\s', '', request.POST['adult_first_name' + str(i + 1)]).replace(':', '')
-                            last_name = re.sub(r'\s', '', request.POST['adult_last_name' + str(i + 1)]).replace(':', '')
-                            # email = re.sub(r'\s', '', request.POST['booker_email']).replace(':', '')
-                            # mobile = re.sub(r'\s', '', request.POST['booker_phone']).replace(':', '')
+                            first_name = re.sub(r'\s', ' ', request.POST['adult_first_name' + str(i + 1)]).replace(':', '').strip()
+                            last_name = re.sub(r'\s', ' ', request.POST['adult_last_name' + str(i + 1)]).replace(':', '').strip()
+                            # email = re.sub(r'\s', ' ', request.POST['booker_email']).replace(':', '').strip()
+                            # mobile = re.sub(r'\s', ' ', request.POST['booker_phone']).replace(':', '').strip()
 
                             adult.append({
                                 "pax_type": "ADT",
@@ -2001,8 +2001,8 @@ def review(request, signature):
                                     })
                             try:
                                 if request.POST['adult_cp' + str(i + 1)] == 'on':
-                                    email = re.sub(r'\s', '', request.POST['adult_email' + str(i + 1)]).replace(':', '')
-                                    mobile = re.sub(r'\s', '', request.POST['adult_phone' + str(i + 1)]).replace(':', '')
+                                    email = re.sub(r'\s', ' ', request.POST['adult_email' + str(i + 1)]).replace(':', '').strip()
+                                    mobile = re.sub(r'\s', ' ', request.POST['adult_phone' + str(i + 1)]).replace(':', '').strip()
                                     contact.append({
                                         "first_name": first_name,
                                         "last_name": last_name,
@@ -2060,7 +2060,7 @@ def review(request, signature):
                                 is_wheelchair = False
                             if request.POST['child_id_type' + str(i + 1)]:
                                 passport_number = request.POST['child_passport_number' + str(i + 1)]
-                                passport_number = re.sub(r'\s', '', passport_number).replace(':', '')
+                                passport_number = re.sub(r'\s', ' ', passport_number).replace(':', '').strip()
                                 passport_ed = request.POST['child_passport_expired_date' + str(i + 1)]
                                 passport_country_of_issued = request.POST['child_country_of_issued' + str(i + 1) + '_id']
 
@@ -2070,10 +2070,10 @@ def review(request, signature):
                             if request.POST.get('child_behaviors_' + str(i + 1)):
                                 behaviors = {'airline': request.POST['child_behaviors_' + str(i + 1)]}
 
-                            first_name = re.sub(r'\s', '', request.POST['child_first_name' + str(i + 1)]).replace(':', '')
-                            last_name = re.sub(r'\s', '', request.POST['child_last_name' + str(i + 1)]).replace(':', '')
-                            # email = re.sub(r'\s', '', request.POST['booker_email']).replace(':', '')
-                            # mobile = re.sub(r'\s', '', request.POST['booker_phone']).replace(':', '')
+                            first_name = re.sub(r'\s', ' ', request.POST['child_first_name' + str(i + 1)]).replace(':', '').strip()
+                            last_name = re.sub(r'\s', ' ', request.POST['child_last_name' + str(i + 1)]).replace(':', '').strip()
+                            # email = re.sub(r'\s', ' ', request.POST['booker_email']).replace(':', '').strip()
+                            # mobile = re.sub(r'\s', ' ', request.POST['booker_phone']).replace(':', '').strip()
 
                             child.append({
                                 "pax_type": "CHD",
@@ -2106,7 +2106,7 @@ def review(request, signature):
                             is_wheelchair = False
                             if request.POST['infant_id_type' + str(i + 1)]:
                                 passport_number = request.POST['infant_passport_number' + str(i + 1)]
-                                passport_number = re.sub(r'\s', '', passport_number).replace(':', '')
+                                passport_number = re.sub(r'\s', ' ', passport_number).replace(':', '').strip()
                                 passport_ed = request.POST['infant_passport_expired_date' + str(i + 1)]
                                 passport_country_of_issued = request.POST['infant_country_of_issued' + str(i + 1) + '_id']
 
@@ -2115,10 +2115,10 @@ def review(request, signature):
                             if request.POST.get('infant_behaviors_' + str(i + 1)):
                                 behaviors = {'airline': request.POST['infant_behaviors_' + str(i + 1)]}
 
-                            first_name = re.sub(r'\s', '', request.POST['infant_first_name' + str(i + 1)]).replace(':', '')
-                            last_name = re.sub(r'\s', '', request.POST['infant_last_name' + str(i + 1)]).replace(':', '')
-                            # email = re.sub(r'\s', '', request.POST['booker_email']).replace(':', '')
-                            # mobile = re.sub(r'\s', '', request.POST['booker_phone']).replace(':', '')
+                            first_name = re.sub(r'\s', ' ', request.POST['infant_first_name' + str(i + 1)]).replace(':', '').strip()
+                            last_name = re.sub(r'\s', ' ', request.POST['infant_last_name' + str(i + 1)]).replace(':', '').strip()
+                            # email = re.sub(r'\s', ' ', request.POST['booker_email']).replace(':', '').strip()
+                            # mobile = re.sub(r'\s', ' ', request.POST['booker_phone']).replace(':', '').strip()
 
                             infant.append({
                                 "pax_type": "INF",
@@ -2173,7 +2173,7 @@ def review(request, signature):
                                 is_wheelchair = False
                             if request.POST['student_id_type' + str(i + 1)]:
                                 passport_number = request.POST['student_passport_number' + str(i + 1)]
-                                passport_number = re.sub(r'\s', '', passport_number).replace(':', '')
+                                passport_number = re.sub(r'\s', ' ', passport_number).replace(':', '').strip()
                                 passport_ed = request.POST['student_passport_expired_date' + str(i + 1)]
                                 passport_country_of_issued = request.POST['student_country_of_issued' + str(i + 1) + '_id']
 
@@ -2183,10 +2183,10 @@ def review(request, signature):
                             if request.POST.get('student_behaviors_' + str(i + 1)):
                                 behaviors = {'airline': request.POST['student_behaviors_' + str(i + 1)]}
 
-                            first_name = re.sub(r'\s', '', request.POST['student_first_name' + str(i + 1)]).replace(':','')
-                            last_name = re.sub(r'\s', '', request.POST['student_last_name' + str(i + 1)]).replace(':','')
-                            # email = re.sub(r'\s', '', request.POST['booker_email']).replace(':', '')
-                            # mobile = re.sub(r'\s', '', request.POST['booker_phone']).replace(':', '')
+                            first_name = re.sub(r'\s', ' ', request.POST['student_first_name' + str(i + 1)]).replace(':','')
+                            last_name = re.sub(r'\s', ' ', request.POST['student_last_name' + str(i + 1)]).replace(':','')
+                            # email = re.sub(r'\s', ' ', request.POST['booker_email']).replace(':', '').strip()
+                            # mobile = re.sub(r'\s', ' ', request.POST['booker_phone']).replace(':', '').strip()
 
                             student.append({
                                 "pax_type": "STU",
@@ -2242,7 +2242,7 @@ def review(request, signature):
                                 is_wheelchair = False
                             if request.POST['labour_id_type' + str(i + 1)]:
                                 passport_number = request.POST['labour_passport_number' + str(i + 1)]
-                                passport_number = re.sub(r'\s', '', passport_number).replace(':', '')
+                                passport_number = re.sub(r'\s', ' ', passport_number).replace(':', '').strip()
                                 passport_ed = request.POST['labour_passport_expired_date' + str(i + 1)]
                                 passport_country_of_issued = request.POST['labour_country_of_issued' + str(i + 1) + '_id']
 
@@ -2252,10 +2252,10 @@ def review(request, signature):
                             if request.POST.get('labour_behaviors_' + str(i + 1)):
                                 behaviors = {'airline': request.POST['labour_behaviors_' + str(i + 1)]}
 
-                            first_name = re.sub(r'\s', '', request.POST['labour_first_name' + str(i + 1)]).replace(':','')
-                            last_name = re.sub(r'\s', '', request.POST['labour_last_name' + str(i + 1)]).replace(':','')
-                            # email = re.sub(r'\s', '', request.POST['booker_email']).replace(':', '')
-                            # mobile = re.sub(r'\s', '', request.POST['booker_phone']).replace(':', '')
+                            first_name = re.sub(r'\s', ' ', request.POST['labour_first_name' + str(i + 1)]).replace(':','')
+                            last_name = re.sub(r'\s', ' ', request.POST['labour_last_name' + str(i + 1)]).replace(':','')
+                            # email = re.sub(r'\s', ' ', request.POST['booker_email']).replace(':', '').strip()
+                            # mobile = re.sub(r'\s', ' ', request.POST['booker_phone']).replace(':', '').strip()
 
                             labour.append({
                                 "pax_type": "LBR",
@@ -2311,7 +2311,7 @@ def review(request, signature):
                                 is_wheelchair = False
                             if request.POST['seaman_id_type' + str(i + 1)]:
                                 passport_number = request.POST['seaman_passport_number' + str(i + 1)]
-                                passport_number = re.sub(r'\s', '', passport_number).replace(':', '')
+                                passport_number = re.sub(r'\s', ' ', passport_number).replace(':', '').strip()
                                 passport_ed = request.POST['seaman_passport_expired_date' + str(i + 1)]
                                 passport_country_of_issued = request.POST['seaman_country_of_issued' + str(i + 1) + '_id']
 
@@ -2321,10 +2321,10 @@ def review(request, signature):
                             if request.POST.get('seaman_behaviors_' + str(i + 1)):
                                 behaviors = {'airline': request.POST['seaman_behaviors_' + str(i + 1)]}
 
-                            first_name = re.sub(r'\s', '', request.POST['seaman_first_name' + str(i + 1)]).replace(':','')
-                            last_name = re.sub(r'\s', '', request.POST['seaman_last_name' + str(i + 1)]).replace(':','')
-                            # email = re.sub(r'\s', '', request.POST['booker_email']).replace(':', '')
-                            # mobile = re.sub(r'\s', '', request.POST['booker_phone']).replace(':', '')
+                            first_name = re.sub(r'\s', ' ', request.POST['seaman_first_name' + str(i + 1)]).replace(':','')
+                            last_name = re.sub(r'\s', ' ', request.POST['seaman_last_name' + str(i + 1)]).replace(':','')
+                            # email = re.sub(r'\s', ' ', request.POST['booker_email']).replace(':', '').strip()
+                            # mobile = re.sub(r'\s', ' ', request.POST['booker_phone']).replace(':', '').strip()
 
                             seaman.append({
                                 "pax_type": "SEA",
@@ -2347,10 +2347,10 @@ def review(request, signature):
 
 
                     if len(contact) == 0:
-                        first_name = re.sub(r'\s', '', request.POST['booker_first_name']).replace(':', '')
-                        last_name = re.sub(r'\s', '', request.POST['booker_last_name']).replace(':', '')
-                        email = re.sub(r'\s', '', request.POST['booker_email']).replace(':', '')
-                        mobile = re.sub(r'\s', '', request.POST['booker_phone']).replace(':', '')
+                        first_name = re.sub(r'\s', ' ', request.POST['booker_first_name']).replace(':', '').strip()
+                        last_name = re.sub(r'\s', ' ', request.POST['booker_last_name']).replace(':', '').strip()
+                        email = re.sub(r'\s', ' ', request.POST['booker_email']).replace(':', '').strip()
+                        mobile = re.sub(r'\s', ' ', request.POST['booker_phone']).replace(':', '').strip()
                         contact.append({
                             'title': request.POST['booker_title'],
                             'first_name': first_name,
