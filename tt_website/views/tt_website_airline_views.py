@@ -2000,8 +2000,8 @@ def review(request, signature):
                                     })
                             try:
                                 if request.POST['adult_cp' + str(i + 1)] == 'on':
-                                    email = re.sub(r'\s', ' ', request.POST['adult_email' + str(i + 1)]).replace(':', '').strip()
-                                    mobile = re.sub(r'\s', ' ', request.POST['adult_phone' + str(i + 1)]).replace(':', '').strip()
+                                    email = re.sub(r'\s', ' ', request.POST.get('adult_email' + str(i + 1), '')).replace(':', '').strip()
+                                    mobile = re.sub(r'\s', ' ', request.POST.get('adult_phone' + str(i + 1), '')).replace(':', '').strip()
                                     contact.append({
                                         "first_name": first_name,
                                         "last_name": last_name,
