@@ -5498,7 +5498,7 @@ function change_fare_airline_pick_list(journey_key, segment_key, fare_key){
     airline_pick_list[journey_key].segments[segment_key].fare_pick = fare_key;
     airline_pick_mc('all');
     show_flight_details2(airline_pick_list[journey_key].airline_pick_sequence);
-    open_cos_seat_class_pick(journey_key,segment_key);
+//    open_cos_seat_class_pick(journey_key,segment_key);
     filtering('filter');
 }
 
