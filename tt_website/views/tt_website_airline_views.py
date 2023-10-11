@@ -1743,13 +1743,18 @@ def review(request, signature):
                                     for counter_journey, journey_ssr in enumerate(ssr_package['ssr_availability'][ssr_key]):
                                         for idx, pax in enumerate(passenger):
                                             try:
-                                                if request.POST[ssr_key+'_'+str(counter_ssr_availability_provider+1-no_ssr_count)+'_'+str(idx+1)+'_'+str(counter_journey+1)].split('_')[0] != '':
+                                                ssr_code = request.POST[ssr_key+'_'+str(counter_ssr_availability_provider+1-no_ssr_count)+'_'+str(idx+1)+'_'+str(counter_journey+1)].split('_')
+                                                if len(ssr_code) > 0:
+                                                    ssr_code.pop()
+                                                if len(ssr_code) > 0:
+                                                    ssr_code.pop()
+                                                if ssr_code != '':
                                                     passengers_list.append({
                                                         "passenger_number": idx,
-                                                        "ssr_code": request.POST[ssr_key+'_'+str(counter_ssr_availability_provider+1-no_ssr_count)+'_'+str(idx+1)+'_'+str(counter_journey+1)].split('_')[0]
+                                                        "ssr_code": "_".join(ssr_code)
                                                     })
                                                     for list_ssr in journey_ssr['ssrs']:
-                                                        if request.POST[ssr_key + '_' +str(counter_ssr_availability_provider+1-no_ssr_count)+ '_' + str(idx + 1) + '_' + str(counter_journey + 1)].split('_')[0] == list_ssr['ssr_code']:
+                                                        if "_".join(ssr_code) == list_ssr['ssr_code']:
                                                             list_ssr['fee_code'] = list_ssr['ssr_code']
                                                             list_ssr.update({
                                                                 'origin': journey_ssr['origin'],
@@ -2564,12 +2569,17 @@ def review_after_sales(request, signature):
                                 for counter_journey, journey_ssr in enumerate(ssr_package['ssr_availability'][ssr_key]):
                                     for idx, pax in enumerate(passenger):
                                         try:
+                                            ssr_code = request.POST[ssr_key + '_' +str(counter_ssr_availability_provider+1 - no_ssr_count)+ '_' + str(idx + 1) + '_' + str(counter_journey + 1)].split('_')
+                                            if len(ssr_code) > 0:
+                                                ssr_code.pop()
+                                            if len(ssr_code) > 0:
+                                                ssr_code.pop()
                                             passengers_list.append({
                                                 "passenger_number": pax['sequence'],
-                                                "ssr_code": request.POST[ssr_key+'_'+str(counter_ssr_availability_provider+1 - no_ssr_count)+'_'+str(idx+1)+'_'+str(counter_journey+1)].split('_')[0]
+                                                "ssr_code": "_".join(ssr_code)
                                             })
                                             for list_ssr in journey_ssr['ssrs']:
-                                                if request.POST[ssr_key +'_'+str(counter_ssr_availability_provider+1 - no_ssr_count)+ '_' + str(idx + 1) + '_' + str(counter_journey + 1)].split('_')[0] == list_ssr['ssr_code']:
+                                                if "_".join(ssr_code) == list_ssr['ssr_code']:
                                                     list_ssr['is_replace_ssr'] = ssr_package['is_replace_ssr']
                                                     pax['ssr_list'].append(list_ssr)
                                                     break

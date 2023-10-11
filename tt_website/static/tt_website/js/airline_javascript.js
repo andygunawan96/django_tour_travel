@@ -5306,6 +5306,7 @@ function airline_pick_mc(type){
                 </div>
            </div>`;
        }
+       show_flight_details2(airline_pick_list[i].airline_pick_sequence);
     }
     new jBox('Tooltip', {
        attach: '#airlines_info_temp_pick'+i,
@@ -5551,7 +5552,7 @@ function change_fare_airline_pick_list(journey_key, segment_key, fare_key){
     }
 
     airline_pick_mc('all');
-    show_flight_details2(airline_pick_list[journey_key].airline_pick_sequence);
+//    show_flight_details2(airline_pick_list[journey_key].airline_pick_sequence);
 //    open_cos_seat_class_pick(journey_key,segment_key);
     filtering('filter');
 }
@@ -7220,8 +7221,8 @@ function on_change_ssr(){
         for(j in ssr_keys){
             for(k=1;k<=ssr_keys[j].len;k++){
                 if(document.getElementById(ssr_keys[j].key+'_'+ssr_keys[j].provider+'_'+i+'_'+k).value != ''){
-                    additional_price += parseInt(document.getElementById(ssr_keys[j].key+'_'+ssr_keys[j].provider+'_'+i+'_'+k).value.split('_')[2])
-                    currency = document.getElementById(ssr_keys[j].key+'_'+ssr_keys[j].provider+'_'+i+'_'+k).value.split('_')[1];
+                    additional_price += parseInt(document.getElementById(ssr_keys[j].key+'_'+ssr_keys[j].provider+'_'+i+'_'+k).value.split('_')[document.getElementById(ssr_keys[j].key+'_'+ssr_keys[j].provider+'_'+i+'_'+k).value.split('_').length-1])
+                    currency = document.getElementById(ssr_keys[j].key+'_'+ssr_keys[j].provider+'_'+i+'_'+k).value.split('_')[document.getElementById(ssr_keys[j].key+'_'+ssr_keys[j].provider+'_'+i+'_'+k).value.split('_').length-2];
                     if(document.URL.split('/')[document.URL.split('/').length-2] == 'ssr'){
                         index = i - 1;
                         try{
