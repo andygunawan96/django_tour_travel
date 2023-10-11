@@ -1099,6 +1099,18 @@ def admin(request):
                         text += data_cache['top_up_term']
                     write_cache(text, "top_up_term", request, 'cache_web')
 
+                    ## DELETE CACHE
+                    file = read_cache("delete_cache_user", 'cache_web', request, 90911)
+                    data_cache = {}
+                    if file:
+                        data_cache['delete_cache_user'] = file
+                    text = ''
+                    if 'delete_cache_user' in request.POST:
+                        text += request.POST.get('delete_cache_user')
+                    elif data_cache.get('delete_cache_user'):
+                        text += data_cache['delete_cache_user']
+                    write_cache(text, "delete_cache_user", request, 'cache_web')
+
                     ## GOOGLE MAPS & RECAPTCHA
                     file = read_cache("google_recaptcha", 'cache_web', request, 90911)
                     data_cache = {}
@@ -1742,7 +1754,7 @@ def get_ip_address(request):
         ip = x_forwarded_for.split(',')[0]
     else:
         ip = request.META.get('REMOTE_ADDR')
-    _logger.info('IP: %s' % ip)
+    _logger.info('User:%s IP:%s' % (request.session['user_account']['user_login'] if request.session.get('user_account') else '', ip))
 
 def get_data_template(request, type='home', provider_type = []):
     get_ip_address(request)
@@ -1814,6 +1826,7 @@ def get_data_template(request, type='home', provider_type = []):
     keep_me_signin = False
     currency = []
     currency_pick = ''
+    delete_cache_user = '2'
     if request.session.get('signature') and request.session.get('user_account'):
         currency = get_ho_currency_api(request, request.session['signature'])
         currency_pick = currency.get('default_currency')
@@ -2038,6 +2051,10 @@ def get_data_template(request, type='home', provider_type = []):
         if file:
             is_show_breakdown_price = file
 
+        file = read_cache("delete_cache_user", 'cache_web', request, 90911)
+        if file:
+            delete_cache_user = file
+
         file = read_cache("data_cache_template", 'cache_web', request, 90911)
         if file:
             for idx, line in enumerate(file.split('\n')):
@@ -2245,6 +2262,7 @@ def get_data_template(request, type='home', provider_type = []):
         'keep_me_signin': keep_me_signin,
         'currency': currency,
         'currency_pick': currency_pick,
+        'delete_cache_user': delete_cache_user,
         'is_show_other_currency': True if len(currency) > 0 else False
     }
 

@@ -209,6 +209,24 @@ def delete_cache_file(request, signature):
         if signature in file:
             os.remove("%s/%s" % (folder_path, file))
 
+def delete_all_cache_file(request):
+    try:
+        file = read_cache("delete_cache_user", 'cache_web', request, 90911)
+        if file:
+            delete_cache_user = file
+        else:
+            delete_cache_user = '2'
+        folder_path = var_log_path(request, 'cache_session')
+        now = float(datetime.now().strftime("%s"))
+        for user_account in os.listdir(folder_path):
+            if user_account != '.DS_Store': ## FOLDER OTOMATIS DI MAC BYPASS
+                for file in os.listdir("%s/%s" % (folder_path, user_account)):
+                    # if os.path.getctime("%s/%s/%s" % (folder_path, user_account, file)) + (86400*2) < now:
+                    if os.path.getctime("%s/%s/%s" % (folder_path, user_account, file)) + (86400*int(delete_cache_user)) < now:
+                        os.remove("%s/%s/%s" % (folder_path, user_account, file))
+    except Exception as e:
+        _logger.error("%s, %s" % (str(e), traceback.format_exc()))
+
 def read_cache_file(request, signature, session_key, get_full_data=False):
     try:
         file = open("%s/%s.txt" % (var_log_path(request, 'cache_session/%s' % request.session['user_account']['co_user_login']), ("%s_%s" % (signature, session_key))), "r")

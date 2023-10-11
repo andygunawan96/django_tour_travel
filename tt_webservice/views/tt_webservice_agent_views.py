@@ -1394,6 +1394,7 @@ def get_new_cache(request, signature, type='all'):
                 _logger.info('Error delete file cache get_provider_booking_from_vendor_airline')
             airline.get_carriers_search(request, signature)
             airline.get_provider_list_backend(request, signature)
+            airline.get_provider_booking_from_vendor(request, signature, True)
 
             try:
                 path = "%s/%s" % (var_log_path(request, 'cache_web'), 'train_provider.txt')
