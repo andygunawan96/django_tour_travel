@@ -14,6 +14,7 @@ header{
 
 label{
     margin-bottom: 5px;
+    font-weight: bold;
 }
 
 blockquote {
@@ -1136,7 +1137,7 @@ ul.popular2_tabs li.current .image-rounded-icon{
 
 #info_user_search{
     position: sticky;
-    top: 0px;
+    top: 66px;
     z-index: 2;
 }
 
@@ -1971,7 +1972,7 @@ ul.popular2_tabs li.current .image-rounded-icon{
 }
 
 .primary-btn-gr {
-  background: #f2f4f5;
+  background: white;
   border: 1px solid #cacaca;
   color: #205B95;
   border: 2px solid #205B95;
@@ -3233,7 +3234,6 @@ th input {
 
 .modal{
     padding-right:unset !important;
-    z-index:9999999;
 }
 
 .modal_custom_fixed{
@@ -3576,7 +3576,15 @@ for better animation effect */
   margin-bottom:5px;
 }
 
-.change_search_area{
+.change_search_area {
+    padding: 10px 0px 9px 0px;
+    background: white;
+    border: 1px solid #cdcdcd;
+    position: sticky;
+    top: -1px;
+    z-index: 998;
+}
+.change_search_n{
     padding: 15px 15px 10px 15px;
     background: white;
     box-shadow: rgb(3 18 26 / 15%) 4px -1px 10px -4px, rgb(3 18 26 / 15%) -4px -1px 10px -4px;
@@ -5732,7 +5740,7 @@ ul.progress_tabs li.current .image-rounded-icon{
   .adminActions {
     bottom: 12px !important;
   }
-  .my_sticky_button{
+  .primary-btn-ticket btn_icon_fixed my_sticky_button{
     bottom: 12px !important;
   }
   .b24-widget-button-wrapper.b24-widget-button-position-bottom-right, .b24-widget-button-wrapper.b24-widget-button-position-bottom-middle, .b24-widget-button-wrapper.b24-widget-button-position-bottom-left{
@@ -7173,12 +7181,14 @@ text-align: center;
     border-radius: 5px;
 }
 
+/*
 .filter-search-flight{
     max-height: 50vh;
     overflow: auto;
     height: auto;
     min-height: 0px;
 }
+*/
 
 .change_search_box_bg {
     background-attachment: fixed;
@@ -7388,11 +7398,6 @@ body {
   font-family: sans-serif;
 }
 
-.wrapper {
-  height: 100vh;
-  background: #333;
-}
-
 #main-div {
   position: fixed;
   right: 20px;
@@ -7572,3 +7577,4 @@ body {
 .select2-container .select2-selection--single{
     border-radius: 5px !important;
 }
+

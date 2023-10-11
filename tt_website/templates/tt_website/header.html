@@ -182,9 +182,9 @@
                             {% if username.co_user_login != '' %}
                             <li class="menu-has-children pt5"><a href="#">{% trans 'Balance & Credit' %}</a>
                                 <ul id="balance_ul">
-                                    <li class="balance_mobile" style="margin-bottom:10px;"><a id="balance" style="padding:0px;"></a></li>
-                                    <li class="credit_mobile" style="margin-bottom:10px;"><a id="credit_limit" style="padding:0px;"></a></li>
-                                    <li class="customer_parent_balance_mobile"><a id="customer_parent_balance" style="padding:0px;"></a></li>
+                                    <li class="balance_mobile"><a id="balance" style="padding-bottom:0px !important;"></a></li>
+                                    <li class="credit_mobile"><a id="credit_limit" style="padding-top:0px !important; padding-bottom:0px !important;"></a></li>
+                                    <li class="customer_parent_balance_mobile"><a id="customer_parent_balance" style="padding-top:10px !important; padding-bottom:0px !important;"></a></li>
                                 </ul>
                             </li>
                             <li class="menu-has-children pt5"><a href="#"><i class="fas fa-language" style="font-size:18px; position:unset; padding:0px;"></i><span style="padding-left:5px;font-size:15px;">{{currency_pick}}</span></a>
@@ -464,9 +464,9 @@
                                     {% if username.co_user_login != '' %}
                                     <li><a href="#">{% trans 'Balance & Credit' %}</a>
                                         <ul class="dropdown" id="balance_ul">
-                                            <li class="balance_mobile"><a id="balance"></a></li>
-                                            <li class="credit_mobile"><a id="credit_limit"></a></li>
-                                            <li class="customer_parent_balance_mobile"><a id="customer_parent_balance"></a></li>
+                                            <li class="balance_mobile"><a id="balance" style="line-height:30px;"></a></li>
+                                            <li class="credit_mobile"><a id="credit_limit" style="line-height:30px;"></a></li>
+                                            <li class="customer_parent_balance_mobile"><a id="customer_parent_balance" style="line-height:30px;"></a></li>
                                         </ul>
                                     </li>
                                     <li class="notification-pc"><a href="#"><i class="fas fa-language" style="font-size:18px;"></i><span style="padding-left:5px; font-size:15px;">{{currency_pick}}</span></a>
@@ -714,9 +714,9 @@
                             {% if username.co_user_login != '' %}
                             <li class="menu-has-children pt5"><a href="#">{% trans 'Balance & Credit' %}</a>
                                 <ul id="balance_ul">
-                                    <li class="balance_mobile" style="margin-bottom:10px;"><a id="balance" style="padding:0px;"></a></li>
-                                    <li class="credit_mobile" style="margin-bottom:10px;"><a id="credit_limit" style="padding:0px;"></a></li>
-                                    <li class="customer_parent_balance_mobile"><a id="customer_parent_balance" style="padding:0px;"></a></li>
+                                    <li class="balance_mobile"><a id="balance" style="padding-bottom:0px !important;"></a></li>
+                                    <li class="credit_mobile"><a id="credit_limit" style="padding-top:0px !important; padding-bottom:0px !important;"></a></li>
+                                    <li class="customer_parent_balance_mobile"><a id="customer_parent_balance" style="padding-top:10px !important; padding-bottom:0px !important;"></a></li>
                                 </ul>
                             </li>
                             <li class="menu-has-children pt5"><a href="#"><i class="fas fa-language" style="font-size:18px; position:unset; padding:0px;"></i><span style="padding-left:5px; font-size:15px;">{{currency_pick}}</span></a>
@@ -1205,9 +1205,9 @@
                             {% if username.co_user_login != '' %}
                                 <li class="menu-has-children" style="margin-top:8px;"><a href="#" class="a_color5">{% trans 'Balance & Credit' %} <i class="fas fa-chevron-down fat-dh" style="display:inline-block;"></i></a>
                                     <ul style="top:65%;" id="balance_ul">
-                                        <li class="balance_mobile" style="margin-top:8px;"><a id="balance"></a></li>
-                                        <li class="credit_mobile pt5"><a id="credit_limit"></a></li>
-                                        <li class="customer_parent_balance_mobile"><a id="customer_parent_balance"></a></li>
+                                        <li class="balance_mobile" style="margin-top:8px;"><a id="balance" style="padding-bottom:0px !important;"></a></li>
+                                        <li class="credit_mobile"><a id="credit_limit" style="padding-top:0px !important; padding-bottom:0px !important;"></a></li>
+                                        <li class="customer_parent_balance_mobile"><a id="customer_parent_balance" style="padding-top:0px !important;"></a></li>
                                     </ul>
                                 </li>
                                 <li class="menu-has-children" style="margin-top:8px;"><a href="#" class="a_color5"><i class="fas fa-language" style="font-size:18px; position:unset; padding:0px;"></i><span style="padding-left:5px; font-size:15px;">{{currency_pick}}</span> <i class="fas fa-chevron-down fat-dh" style="display:inline-block;"></i></a>
@@ -1436,8 +1436,8 @@
                     {% if username.co_user_login != '' %}
                     <li class="menu-has-children"><a href="#">{% trans 'Balance & Credit' %} <i class="fas fa-chevron-down"></i></a>
                         <ul id="balance_ul">
-                            <li class="balance_mobile pt5"><a id="balance"></a></li>
-                            <li class="credit_mobile pt5"><a id="credit_limit"></a></li>
+                            <li class="balance_mobile pt5" ><a id="balance" style="padding-bottom:0px !important;"></a></li>
+                            <li class="credit_mobile pt5"><a id="credit_limit" style="padding-top:0px !important;padding-bottom:0px !important;"></a></li>
                             <li class="customer_parent_balance_mobile pt5"><a id="customer_parent_balance"></a></li>
                         </ul>
                     </li>
@@ -1658,8 +1658,8 @@
                                                 <a href="#">{% trans 'Balance & Credit' %} <i class="fas fa-chevron-down i_fast6"></i></a>
                                                 <ul class="submenu" id="balance_ul">
                                                     <li class="pt5"><a href="#" id="balance"></a></li>
-                                                    <li class="pt5"><a href="#" id="credit_limit"></a></li>
-                                                    <li class="pt5"><a href="#" id="customer_parent_balance"></a></li>
+                                                    <li class="pt5"><a href="#" id="credit_limit" style="padding-top:0px !important; padding-bottom:0px !important;"></a></li>
+                                                    <li class="pt5"><a href="#" id="customer_parent_balance" style="padding-bottom:0px !important;"></a></li>
                                                 </ul>
                                             </li>
                                             <li class="notification-mobile bl_ul_mb">

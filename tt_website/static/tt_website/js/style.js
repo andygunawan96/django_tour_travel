@@ -168,7 +168,36 @@ $(document).ready(function(){
         } else {
             $('#myBtnBTP').fadeOut(200);   // Else fade out the arrow
         }
+
+        if ($(window).width() >= 992) {
+            if($(this).scrollTop() >= $('#sorting-search-flight').height() + 200) {
+                 $('#sort_pc_vr').show();
+            }else{
+                 $('#sort_pc_vr').hide();
+            }
+            if($(this).scrollTop() >= $('#filter-search-flight').height() + 300) {
+                 $('#filter_pc_vr').show();
+            }else{
+                 $('#filter_pc_vr').hide();
+            }
+            if($(this).scrollTop() >= $('#recommendation_div_scr').height() + 100) {
+                 $('#recommendation_pc_vr').show();
+            }else{
+                 $('#recommendation_pc_vr').hide();
+            }
+        }else{
+            $('#sort_pc_vr').hide();
+            $('#filter_pc_vr').hide();
+            $('#recommendation_pc_vr').hide();
+        }
+
+//        if($(this).scrollTop() >= $('#filter-search-flight').offset().top + $('#filter-search-flight').outerHeight() - $(this).innerHeight) {
+//            alert('end reached');
+//        }
+//testing_lalalala2
     });
+
+
 
     $(window).resize(function() {
         if ($(window).width() >= 992) {
@@ -192,6 +221,9 @@ $(document).ready(function(){
             $('#sorting-search-flight').hide();
             $('#filter-search-train').hide();
             $('#sorting-search-train').hide();
+            $('#sort_pc_vr').hide();
+            $('#filter_pc_vr').hide();
+            $('#recommendation_pc_vr').hide();
             $('#mybuttonfiltersort').show();
             $('#copy_selected_mb').hide();
             $('#copy_selected_pc').show();
@@ -3557,6 +3589,9 @@ function switch_modal(from_target, to_target){
 }
 
 
-function content_modal_custom(id, content){
-
+function content_modal_custom(modal_id, modal_body, header_title, content){
+    document.getElementById(modal_body).innerHTML = content;
+    document.getElementById(modal_body+'_header').innerHTML = header_title;
+    $('#'+modal_id).modal('show');
 }
+
