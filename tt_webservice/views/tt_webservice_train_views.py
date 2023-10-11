@@ -754,9 +754,9 @@ def get_booking(request):
                                 country[pax['identity_country_of_issued_code']] = country['name']
                                 pax['identity_country_of_issued_name'] = country['name']
                                 break
-            _logger.info("SUCCESS get_booking TRAIN SIGNATURE " + request.session['train_signature'])
+            _logger.info("SUCCESS get_booking TRAIN SIGNATURE " + request.POST['signature'])
         else:
-            _logger.error("ERROR get_booking TRAIN SIGNATURE " + request.session['train_signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR get_booking TRAIN SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res

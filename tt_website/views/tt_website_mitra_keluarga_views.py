@@ -211,19 +211,19 @@ def review(request, signature=''):
             adult = data['passenger']
 
             adult['first_name'] = re.sub(r'\s', ' ', adult['first_name']).replace(':', '').strip()
-            adult['last_name'] = re.sub(r'\s', ' ', adult['last_name']).replace(':', '').strip()
+            adult['last_name'] = re.sub(r'\s', ' ', adult.get('last_name', '')).replace(':', '').strip()
 
             booker = data['booker']
 
             booker['first_name'] = re.sub(r'\s', ' ', booker['first_name']).replace(':', '').strip()
-            booker['last_name'] = re.sub(r'\s', ' ', booker['last_name']).replace(':', '').strip()
+            booker['last_name'] = re.sub(r'\s', ' ', booker.get('last_name', '')).replace(':', '').strip()
             booker['email'] = re.sub(r'\s', ' ', booker['email']).replace(':', '').strip()
             booker['mobile'] = re.sub(r'\s', ' ', booker['mobile']).replace(':', '').strip()
 
             contact = data['contact_person']
 
             contact['first_name'] = re.sub(r'\s', ' ', contact['first_name']).replace(':', '').strip()
-            contact['last_name'] = re.sub(r'\s', ' ', contact['last_name']).replace(':', '').strip()
+            contact['last_name'] = re.sub(r'\s', ' ', contact.get('last_name','')).replace(':', '').strip()
             contact['email'] = re.sub(r'\s', ' ', contact['email']).replace(':', '').strip()
             contact['mobile'] = re.sub(r'\s', ' ', contact['mobile']).replace(':', '').strip()
 

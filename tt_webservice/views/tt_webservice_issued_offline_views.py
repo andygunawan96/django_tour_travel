@@ -261,9 +261,9 @@ def update_contact(request):
             try:
                 if request.POST['passenger_cp' + str(i)] == 'true':
                     first_name = re.sub(r'\s', ' ', request.POST['passenger_first_name' + str(i)]).replace(':', '').strip()
-                    last_name = re.sub(r'\s', ' ', request.POST['passenger_last_name' + str(i)]).replace(':', '').strip()
-                    email = re.sub(r'\s', ' ', request.POST['passenger_email' + str(i)]).replace(':', '').strip()
-                    mobile = re.sub(r'\s', ' ', request.POST['booker_mobile']).replace(':', '').strip()
+                    last_name = re.sub(r'\s', ' ', request.POST.get('passenger_last_name' + str(i), '')).replace(':', '').strip()
+                    email = re.sub(r'\s', ' ', request.POST.get('passenger_email' + str(i), '')).replace(':', '').strip()
+                    mobile = re.sub(r'\s', ' ', request.POST.get('booker_mobile', '')).replace(':', '').strip()
                     contact.append({
                         'title': request.POST['passenger_title' + str(i)],
                         'first_name': first_name,
