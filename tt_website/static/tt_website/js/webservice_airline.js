@@ -3417,9 +3417,19 @@ function datasearch2(airline){
         draw_recommendation_maps();
     }
 
+    airasia_carrier_list_code = ['AK', 'D7', 'FD', 'QZ', 'ZZ', 'DJ', 'XJ', 'Z2']
     for(i in airline.schedules){
         for(j in airline.schedules[i].journeys){
            fare_details = [];
+           carrier_code_list_temp = [];
+           is_airasia = false;
+           for(k in airline.schedules[i].journeys[j].carrier_code_list){
+                if(is_airasia == false && airasia_carrier_list_code.includes(airline.schedules[i].journeys[j].carrier_code_list[k])){
+                    is_airasia = true;
+                    carrier_code_list_temp.push(airline.schedules[i].journeys[j].carrier_code_list[k])
+                }
+           }
+           airline.schedules[i].journeys[j].carrier_code_list = carrier_code_list_temp;
            airline.schedules[i].journeys[j].sequence = counter;
            available_count = 100;
            for(k in airline_request.origin){
