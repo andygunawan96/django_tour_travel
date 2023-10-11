@@ -351,7 +351,7 @@ def index(request):
             try:
                 values.update({
                     'static_path': path_util.get_static_path(MODEL_NAME),
-                    'cache': json.dumps(cache),
+                    'cache': cache,
                     'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
 
                     'countries': airline_country,
