@@ -3562,6 +3562,7 @@ function datasearch2(airline){
 function draw_recommendation_maps(){
     document.getElementById('recommendation_div').hidden = false;
     document.getElementById('recommendation_div_mbl').hidden = false;
+    document.getElementById('recommendation_div_scr').hidden = false;
     is_print = false;
     var text_recom_maps = '';
     max_itin_print_recom = 10
@@ -3588,9 +3589,9 @@ function draw_recommendation_maps(){
                         for(idx_journey in recommendation_maps[idx_recom]){
                             if(idx_journey > 2){
                                 if(idx_journey == recommendation_maps[idx_recom].length-1){
-                                    text_recom_maps += `<span class="price_template" style="font-size:16px;">`+recommendation_maps[idx_recom][idx_journey]+`</span>`;
+                                    text_recom_maps += `<span class="price_template">`+recommendation_maps[idx_recom][idx_journey]+`</span>`;
                                 }else{
-                                    text_recom_maps += '► '+recommendation_maps[idx_recom][idx_journey] + '<br/>';
+                                    text_recom_maps += '• '+recommendation_maps[idx_recom][idx_journey] + '<br/>';
                                 }
                             }
                         }
@@ -13771,14 +13772,14 @@ function render_ticket_reissue(){
                                                                 <div style="display:inline-block;">`;
                                                                     if(airline[i].segments[j].carrier_code != airline[i].segments[j].operating_airline_code && airline[i].segments[j].operating_airline_code != ''){
                                                                         try{
-                                                                            text+=`<img data-toggle="tooltip" class="airlines_provider_img" alt="`+airline_carriers[airline[i].segments[j].carrier_code].name+`" title="`+airline_carriers[airline[i].segments[j].carrier_code].name+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+airline[i].segments[j].carrier_code+`.png">`;
+                                                                            text+=`<img data-toggle="tooltip" class="airlines_provider_img" alt="`+airline_carriers[airline[i].segments[j].carrier_code].name+`" title="`+airline_carriers[airline[i].segments[j].carrier_code].name+`" src="`+static_path_url_server+`/public/airline_logo/`+airline[i].segments[j].carrier_code+`.png">`;
                                                                         }catch(err){
                                                                             text+=`<img data-toggle="tooltip" class="airlines_provider_img" alt="`+airline[i].segments[j].carrier_code+`" title="`+airline[i].segments[j].carrier_code+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+airline[i].segments[j].carrier_code+`.png">`;
                                                                         }
                                                                     }
                                                                     else if(airline[i].carrier_code_list.length > 1){
                                                                         text+=`
-                                                                        <img data-toggle="tooltip" class="airlines_provider_img" alt="`+airline_carriers[airline[i].segments[j].carrier_code].name+`" title="`+airline_carriers[airline[i].segments[j].carrier_code].name+`" class="airline-logo" src="/static/tt_website/images/icon/product/c-multi-airline.png">`;
+                                                                        <img data-toggle="tooltip" class="airlines_provider_img" alt="`+airline_carriers[airline[i].segments[j].carrier_code].name+`" title="`+airline_carriers[airline[i].segments[j].carrier_code].name+`" src="/static/tt_website/images/icon/product/c-multi-airline.png">`;
 
 //                                                                                    text+=`
 //                                                                                    <div style="background: white; width: fit-content; padding: 0px 5px; font-size: 12px; position: absolute; bottom: -5px; left: 40px; border: 1px solid #cdcdcd; border-radius: 6px;">
@@ -13786,9 +13787,9 @@ function render_ticket_reissue(){
 //                                                                                    </div>`;
                                                                     }else{
                                                                         try{
-                                                                            text+=`<img data-toggle="tooltip" class="airlines_provider_img" alt="`+airline_carriers[airline[i].segments[j].carrier_code].name+`" title="`+airline_carriers[airline[i].segments[j].carrier_code].name+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+airline[i].segments[j].carrier_code+`.png">`;
+                                                                            text+=`<img data-toggle="tooltip" class="airlines_provider_img" alt="`+airline_carriers[airline[i].segments[j].carrier_code].name+`" title="`+airline_carriers[airline[i].segments[j].carrier_code].name+`" src="`+static_path_url_server+`/public/airline_logo/`+airline[i].segments[j].carrier_code+`.png">`;
                                                                         }catch(err){
-                                                                            text+=`<img data-toggle="tooltip" class="airlines_provider_img" alt="`+airline[i].segments[j].carrier_code+`" title="`+airline[i].segments[j].carrier_code+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+airline[i].segments[j].carrier_code+`.png">`;
+                                                                            text+=`<img data-toggle="tooltip" class="airlines_provider_img" alt="`+airline[i].segments[j].carrier_code+`" title="`+airline[i].segments[j].carrier_code+`" src="`+static_path_url_server+`/public/airline_logo/`+airline[i].segments[j].carrier_code+`.png">`;
                                                                         }
                                                                     }
 
@@ -15157,14 +15158,14 @@ function get_chosen_ticket(type='all'){
                                                 <div style="display:inline-block;">`;
                                                     if(airline_pick_list[i].segments[j].carrier_code != airline_pick_list[i].segments[j].operating_airline_code && airline_pick_list[i].segments[j].operating_airline_code != ''){
                                                         try{
-                                                            text+=`<img data-toggle="tooltip" class="airlines_provider_img" alt="`+airline_carriers[airline_pick_list[i].segments[j].carrier_code].name+`" title="`+airline_carriers[airline_pick_list[i].segments[j].carrier_code].name+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+airline_pick_list[i].segments[j].carrier_code+`.png">`;
+                                                            text+=`<img data-toggle="tooltip" class="airlines_provider_img" alt="`+airline_carriers[airline_pick_list[i].segments[j].carrier_code].name+`" title="`+airline_carriers[airline_pick_list[i].segments[j].carrier_code].name+`" src="`+static_path_url_server+`/public/airline_logo/`+airline_pick_list[i].segments[j].carrier_code+`.png">`;
                                                         }catch(err){
-                                                            text+=`<img data-toggle="tooltip" class="airlines_provider_img" alt="`+airline_pick_list[i].segments[j].carrier_code+`" title="`+airline_pick_list[i].segments[j].carrier_code+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+airline_pick_list[i].segments[j].carrier_code+`.png">`;
+                                                            text+=`<img data-toggle="tooltip" class="airlines_provider_img" alt="`+airline_pick_list[i].segments[j].carrier_code+`" title="`+airline_pick_list[i].segments[j].carrier_code+`" src="`+static_path_url_server+`/public/airline_logo/`+airline_pick_list[i].segments[j].carrier_code+`.png">`;
                                                         }
                                                     }
                                                     else if(airline_pick_list[i].carrier_code_list.length > 1){
                                                         text+=`
-                                                        <img data-toggle="tooltip" class="airlines_provider_img" alt="`+airline_carriers[airline_pick_list[i].segments[j].carrier_code].name+`" title="`+airline_carriers[airline_pick_list[i].segments[j].carrier_code].name+`" class="airline-logo" src="/static/tt_website/images/icon/product/c-multi-airline.png">`;
+                                                        <img data-toggle="tooltip" class="airlines_provider_img" alt="`+airline_carriers[airline_pick_list[i].segments[j].carrier_code].name+`" title="`+airline_carriers[airline_pick_list[i].segments[j].carrier_code].name+`" src="/static/tt_website/images/icon/product/c-multi-airline.png">`;
 
 //                                                                                    text+=`
 //                                                                                    <div style="background: white; width: fit-content; padding: 0px 5px; font-size: 12px; position: absolute; bottom: -5px; left: 40px; border: 1px solid #cdcdcd; border-radius: 6px;">
@@ -15172,9 +15173,9 @@ function get_chosen_ticket(type='all'){
 //                                                                                    </div>`;
                                                     }else{
                                                         try{
-                                                            text+=`<img data-toggle="tooltip" class="airlines_provider_img" alt="`+airline_carriers[airline_pick_list[i].segments[j].carrier_code].name+`" title="`+airline_carriers[airline_pick_list[i].segments[j].carrier_code].name+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+airline_pick_list[i].segments[j].carrier_code+`.png">`;
+                                                            text+=`<img data-toggle="tooltip" class="airlines_provider_img" alt="`+airline_carriers[airline_pick_list[i].segments[j].carrier_code].name+`" title="`+airline_carriers[airline_pick_list[i].segments[j].carrier_code].name+`" src="`+static_path_url_server+`/public/airline_logo/`+airline_pick_list[i].segments[j].carrier_code+`.png">`;
                                                         }catch(err){
-                                                            text+=`<img data-toggle="tooltip" class="airlines_provider_img" alt="`+airline_pick_list[i].segments[j].carrier_code+`" title="`+airline_pick_list[i].segments[j].carrier_code+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+airline_pick_list[i].segments[j].carrier_code+`.png">`;
+                                                            text+=`<img data-toggle="tooltip" class="airlines_provider_img" alt="`+airline_pick_list[i].segments[j].carrier_code+`" title="`+airline_pick_list[i].segments[j].carrier_code+`" src="`+static_path_url_server+`/public/airline_logo/`+airline_pick_list[i].segments[j].carrier_code+`.png">`;
                                                         }
                                                     }
                                                 text+=`
