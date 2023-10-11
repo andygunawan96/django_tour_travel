@@ -3679,19 +3679,25 @@ def pre_refund_login(request):
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
 
-def get_provider_booking_from_vendor(request):
+def get_provider_booking_from_vendor(request, signature='', forceUpdate=False):
     try:
         data = {}
+        if not signature:
+            signature = request.POST['signature']
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
             "action": "get_provider_booking_from_vendor",
-            "signature": request.POST['signature'],
+            "signature": signature
         }
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     file = read_cache("get_provider_booking_from_vendor_airline", 'cache_web', request, 86400)
-    if not file:
+    if not file or forceUpdate:
+
+        ## numpang hapus file cache
+        delete_all_cache_file(request)
+
         url_request = get_url_gateway('booking/airline')
         res = send_request_api(request, url_request, headers, data, 'POST', 300)
         try:
