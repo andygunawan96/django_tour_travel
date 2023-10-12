@@ -3424,7 +3424,11 @@ function datasearch2(airline){
            carrier_code_list_temp = [];
            is_airasia = false;
            for(k in airline.schedules[i].journeys[j].carrier_code_list){
-                if(is_airasia == false && airasia_carrier_list_code.includes(airline.schedules[i].journeys[j].carrier_code_list[k])){
+                if(is_airasia && airasia_carrier_list_code.includes(airline.schedules[i].journeys[j].carrier_code_list[k])){
+
+                }else if(!is_airasia && !airasia_carrier_list_code.includes(airline.schedules[i].journeys[j].carrier_code_list[k])){
+                    carrier_code_list_temp.push(airline.schedules[i].journeys[j].carrier_code_list[k])
+                }else if(!is_airasia && airasia_carrier_list_code.includes(airline.schedules[i].journeys[j].carrier_code_list[k])){
                     is_airasia = true;
                     carrier_code_list_temp.push(airline.schedules[i].journeys[j].carrier_code_list[k])
                 }

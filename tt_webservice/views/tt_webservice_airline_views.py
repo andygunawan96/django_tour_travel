@@ -5671,10 +5671,24 @@ def parser_schedule_mobile(request, res):
     departure_return = []
     available_count = []
     country_detail = {}
+    airasia_carrier_list_code = ['AK', 'D7', 'FD', 'QZ', 'ZZ', 'DJ', 'XJ', 'Z2']
     breakdown_price_data = get_breakdown_price(request)
     agent_rate_data = get_agent_currency_rate(request)
     for journey_list in res['result']['response']['schedules']:
         for journey in journey_list['journeys']:
+
+            is_airasia = False
+            data_temp = []
+            for carrier_code in journey['carrier_code_list']:
+                if is_airasia and carrier_code in airasia_carrier_list_code:
+                    continue
+                elif not is_airasia and carrier_code not in airasia_carrier_list_code:
+                    data_temp.append(carrier_code)
+                elif not is_airasia and carrier_code in airasia_carrier_list_code:
+                    is_airasia = True
+                    data_temp.append(carrier_code)
+            journey.carrier_code_list = data_temp
+
             class_of_service_list = []
             check_segment_fare = True
             available_seat = 100
