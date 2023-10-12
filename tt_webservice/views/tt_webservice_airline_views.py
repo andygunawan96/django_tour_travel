@@ -5687,7 +5687,7 @@ def parser_schedule_mobile(request, res):
                 elif not is_airasia and carrier_code in airasia_carrier_list_code:
                     is_airasia = True
                     data_temp.append(carrier_code)
-            journey.carrier_code_list = data_temp
+            journey['carrier_code_list'] = data_temp
 
             class_of_service_list = []
             check_segment_fare = True
