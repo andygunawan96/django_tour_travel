@@ -8967,7 +8967,7 @@ function airline_get_booking(data, sync=false){
                                             $text += datetime_copy[0] + ' at ' + datetime_copy[1] + '\n';
                                         }
                                         //terminal
-                                        if(msg.result.response.provider_bookings[i].journeys[j].segments[k].origin_terminal)
+                                        if(msg.result.response.provider_bookings[i].journeys[j].segments[k].origin_terminal && msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].origin == msg.result.response.provider_bookings[i].journeys[j].segments[k].origin)
                                             $text += '- Terminal: ' + msg.result.response.provider_bookings[i].journeys[j].segments[k].origin_terminal + '\n';
                                         $text += '- Arrival: ' + msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination_city + ', ' + msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination_country + ' (' + msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination + ') ';
                                         if(msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].arrival_date){
@@ -8975,7 +8975,7 @@ function airline_get_booking(data, sync=false){
                                             $text += datetime_copy[0] + ' at ' + datetime_copy[1] + '\n';
                                         }
                                         //terminal
-                                        if(msg.result.response.provider_bookings[i].journeys[j].segments[k].destination_terminal)
+                                        if(msg.result.response.provider_bookings[i].journeys[j].segments[k].destination_terminal && msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination == msg.result.response.provider_bookings[i].journeys[j].segments[k].destination)
                                             $text += '- Terminal: ' + msg.result.response.provider_bookings[i].journeys[j].segments[k].destination_terminal + '\n';
                                         $text += '\n';
                                     }
