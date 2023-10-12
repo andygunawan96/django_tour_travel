@@ -5679,16 +5679,6 @@ def parser_schedule_mobile(request, res):
 
             is_airasia = False
             data_temp = []
-            for carrier_code in journey['carrier_code_list']:
-                if is_airasia and carrier_code in airasia_carrier_list_code:
-                    continue
-                elif not is_airasia and carrier_code not in airasia_carrier_list_code:
-                    data_temp.append(carrier_code)
-                elif not is_airasia and carrier_code in airasia_carrier_list_code:
-                    is_airasia = True
-                    data_temp.append(carrier_code)
-            journey.carrier_code_list = data_temp
-
             class_of_service_list = []
             check_segment_fare = True
             available_seat = 100
@@ -5729,6 +5719,7 @@ def parser_schedule_mobile(request, res):
                 journey['class_of_service'] = []
                 available_count = []
                 journey['carrier_code_list'] = []
+                journey['carrier_code_list_show'] = []
 
                 journey['operating_airline_code_list'] = []
 
@@ -5838,13 +5829,12 @@ def parser_schedule_mobile(request, res):
                                 break
                     check = 0
                     for carrier_code in journey['carrier_code_list']:
-                        if carrier_code[0] == segment['carrier_code'] and carrier_code[1] == segment[
-                            'operating_airline_code']:
+                        if carrier_code[0] == segment['carrier_code'] and carrier_code[1] == segment['operating_airline_code']:
                             check = 1
                             break
                     if check == 0:
-                        journey['carrier_code_list'].append(
-                            [segment['carrier_code'], segment['operating_airline_code']])
+                        journey['carrier_code_list'].append([segment['carrier_code'], segment['operating_airline_code']])
+                        journey['carrier_code_list_show'].append(segment['carrier_code'])
                     if len(segment['fares']) == 0:
                         journey['totalprice'] = 0
                         available_count.append(0)
@@ -6002,6 +5992,16 @@ def parser_schedule_mobile(request, res):
                 journey['available_count'] = 0
                 journey['sold_out'] = True
                 journey['share_journey'] = False
+
+            for carrier_code in journey['carrier_code_list_show']:
+                if is_airasia and carrier_code in airasia_carrier_list_code:
+                    continue
+                elif not is_airasia and carrier_code not in airasia_carrier_list_code:
+                    data_temp.append(carrier_code)
+                elif not is_airasia and carrier_code in airasia_carrier_list_code:
+                    is_airasia = True
+                    data_temp.append(carrier_code)
+            journey['carrier_code_list_show'] = data_temp
 
             journey['fare_details_pick'] = fare_details
             journey['sequence'] = journey['journey_code']
