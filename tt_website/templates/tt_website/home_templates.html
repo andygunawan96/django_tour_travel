@@ -1212,11 +1212,42 @@
                 // check data cache airline
                 if(!cookie_airline){
                     // default
-                    document.getElementById('origin_id_flight').value = '{{airline_origin}}';
-                    airline_origin = '{{airline_origin}}';
-                    document.getElementById('destination_id_flight').value = '{{airline_destination}}';
-                    airline_destination = '{{airline_destination}}';
-                    airline_date = now;
+                    try{
+                        {% if cache.airline.origin %}
+                            document.getElementById('origin_id_flight').value = '{{cache.airline.origin.0}}';
+                            airline_origin = '{{cache.airline.origin.0}}';
+                        {% else %}
+                            document.getElementById('origin_id_flight').value = '{{airline_origin}}';
+                            airline_origin = '{{airline_origin}}';
+                        {% endif %}
+                    }catch(err){
+                        document.getElementById('origin_id_flight').value = '{{airline_origin}}';
+                    }
+
+                    try{
+                        {% if cache.airline.origin %}
+                            document.getElementById('destination_id_flight').value = '{{cache.airline.destination.0}}';
+                            airline_destination = '{{cache.airline.destination.0}}';
+                        {% else %}
+                            document.getElementById('destination_id_flight').value = '{{airline_destination}}';
+                            airline_destination = '{{airline_destination}}';
+                        {% endif %}
+                    }catch(err){
+                        document.getElementById('destination_id_flight').value = '{{airline_destination}}';
+                    }
+
+                    // airline_origin = '{{airline_origin}}';
+                    // document.getElementById('destination_id_flight').value = '{{airline_destination}}';
+                    // airline_destination = '{{airline_destination}}';
+                    try{
+                        {% if cache.airline.departure %}
+                            airline_date = '{{cache.airline.departure.0}}';
+                        {% else %}
+                            airline_date = now;
+                        {% endif %}
+                    }catch(err){
+                        airline_date = now;
+                    }
                     var picker_airline_departure = new Lightpick({
                         field: document.getElementById('airline_departure'),
                         singleDate: true,
@@ -1229,7 +1260,7 @@
             {% if "train" in provider and "ticketing_train" in username.co_agent_frontend_security %}
                 try{
                     {% if cache.train.origin %}
-                        document.getElementById('train_origin').value = '{{cache.train.origin}}';
+                        document.getElementById('train_origin').value = '{{cache.train.origin.0}}';
                     {% else %}
                         document.getElementById('train_origin').value = '{{train_origin}}';
                     {% endif %}
@@ -1238,7 +1269,7 @@
                 }
                 try{
                     {% if cache.train.destination %}
-                        document.getElementById('train_destination').value = '{{cache.train.destination}}';
+                        document.getElementById('train_destination').value = '{{cache.train.destination.0}}';
                     {% else %}
                         document.getElementById('train_destination').value = '{{train_destination}}';
                     {% endif %}
@@ -1248,7 +1279,7 @@
 
                 try{
                     {% if cache.train.departure %}
-                        train_date = '{{cache.train.departure}}';
+                        train_date = '{{cache.train.departure.0}}';
                     {% else %}
                         train_date = now;
                     {% endif %}
@@ -1289,7 +1320,7 @@
             {% if "bus" in provider and "ticketing_bus" in username.co_agent_frontend_security %}
                 try{
                     {% if cache.bus.origin %}
-                        document.getElementById('bus_origin').value = '{{cache.bus.origin}}';
+                        document.getElementById('bus_origin').value = '{{cache.bus.origin.0}}';
                     {% else %}
                         document.getElementById('bus_origin').value = '{{bus_origin}}';
                     {% endif %}
@@ -1299,7 +1330,7 @@
 
                 try{
                     {% if cache.bus.destination %}
-                        document.getElementById('bus_destination').value = '{{cache.bus.destination}}';
+                        document.getElementById('bus_destination').value = '{{cache.bus.destination.0}}';
                     {% else %}
                         document.getElementById('bus_destination').value = '{{bus_destination}}';
                     {% endif %}

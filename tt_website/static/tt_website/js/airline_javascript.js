@@ -5552,10 +5552,18 @@ function change_fare_airline_pick_list(journey_key, segment_key, fare_key){
         }
     }
 
-    airline_pick_mc('all');
+    if(airline_pick_list.length == airline_request.origin.length){
+        set_automatic_combo_price();
+    }else{
+        change_departure(airline_pick_list[journey_key].airline_pick_sequence+1);
+        change_search_to_api(airline_pick_list[journey_key].airline_pick_sequence);
+    }
+
+    //counter_search = airline_pick_list[journey_key].airline_pick_sequence + 1;
+    //airline_pick_mc('all');
 //    show_flight_details2(airline_pick_list[journey_key].airline_pick_sequence);
 //    open_cos_seat_class_pick(journey_key,segment_key);
-    filtering('filter');
+    //filtering('filter');
 }
 
 function airline_check_search(){
