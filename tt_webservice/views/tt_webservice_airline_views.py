@@ -5574,7 +5574,7 @@ def search_mobile(request):
     res = send_request_api(request, url_request, headers, data, 'POST', 120)
     try:
         if res['result']['error_code'] == 0:
-            res = parser_schedule_mobile(request, res)
+            res['result']['response'] = parser_schedule_mobile(request, res['result']['response'])
             _logger.error("SUCCESS SEARCH AIRLINE SIGNATURE " + request.data['signature'])
         else:
             _logger.error("ERROR SEARCH AIRLINE SIGNATURE " + request.data['signature'] + ' ' + json.dumps(res))
@@ -5629,12 +5629,13 @@ def reschedule_search_mobile(request):
     res = send_request_api(request, url_request, headers, data, 'POST', 120)
     try:
         if res['result']['error_code'] == 0:
-            res = parser_schedule_mobile(request, res)
+            for x, reschedule_availability_provider in enumerate(res['result']['response']['reschedule_availability_provider']):
+                res['result']['response']['reschedule_availability_provider'][x] = parser_schedule_mobile(request, reschedule_availability_provider)
             _logger.error("SUCCESS SEARCH AIRLINE SIGNATURE " + request.data['signature'])
         else:
             _logger.error("ERROR SEARCH AIRLINE SIGNATURE " + request.data['signature'] + ' ' + json.dumps(res))
     except Exception as e:
-        _logger.error('Error response airline search\n' + str(e) + '\n' + traceback.format_exc())
+        _logger.error('Error response reschedule airline search\n' + str(e) + '\n' + traceback.format_exc())
     try:
         response_search = res['result']
 
@@ -5674,7 +5675,7 @@ def parser_schedule_mobile(request, res):
     airasia_carrier_list_code = ['AK', 'D7', 'FD', 'QZ', 'ZZ', 'DJ', 'XJ', 'Z2']
     breakdown_price_data = get_breakdown_price(request)
     agent_rate_data = get_agent_currency_rate(request)
-    for journey_list in res['result']['response']['schedules']:
+    for journey_list in res['schedules']:
         for journey in journey_list['journeys']:
 
             is_airasia = False
