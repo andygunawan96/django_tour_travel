@@ -8,6 +8,8 @@ from datetime import datetime
 import requests
 from tools import util
 from ..static.tt_webservice.url import *
+from uuid import getnode as get_mac
+
 _logger = logging.getLogger("website_logger")
 
 def get_cache_data(request):
@@ -285,4 +287,15 @@ def write_cache_file(request, signature, session_key, data, depth = 1):
         if depth < 10:
             write_cache_file(request, signature, session_key, data, depth + 1)
 
+def get_ip_address(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
 
+def get_mac_address():
+    mac = get_mac()
+    macString = ':'.join(("%012X" % mac)[i:i + 2] for i in range(0, 12, 2))
+    return macString

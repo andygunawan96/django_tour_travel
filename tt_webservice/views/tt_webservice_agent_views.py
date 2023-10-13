@@ -622,6 +622,8 @@ def signin(request):
 
         "co_user": request.POST.get('username') or user_default,
         "co_password": request.POST.get('password') or password_default,
+        "ip": get_ip_address(request),
+        "mac_adress": get_mac_address()
         # "co_user": user_default,  # request.POST['username'],
         # "co_password": password_default, #request.POST['password'],
         # "co_uid": ""
@@ -763,6 +765,8 @@ def signin_btc(request):
 
             "co_user": user_default,
             "co_password": password_default,
+            "ip": get_ip_address(request),
+            "mac_adress": get_mac_address()
             # "co_user": user_default,  # request.POST['username'],
             # "co_password": password_default, #request.POST['password'],
             # "co_uid": ""
