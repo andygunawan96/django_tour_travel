@@ -1862,7 +1862,7 @@ $(document).ready(function(){
             document.getElementById('checkbox_combo_price').style.display = "inline-flex";
 
             add_multi_city('home');
-            add_multi_city('home');
+            //add_multi_city('home');
         }
 
         plus_min_passenger_airline_btn();
