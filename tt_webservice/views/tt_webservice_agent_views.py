@@ -622,10 +622,13 @@ def signin(request):
 
         "co_user": request.POST.get('username') or user_default,
         "co_password": request.POST.get('password') or password_default,
+        "ip": get_ip_address(request)
         # "co_user": user_default,  # request.POST['username'],
         # "co_password": password_default, #request.POST['password'],
         # "co_uid": ""
     }
+    if request.POST.get('unique_id'):
+        data['unique_device'] = request.POST['unique_id']
     url_request = get_url_gateway('session')
     res = send_request_api(request, url_request, headers, data, 'POST', 10)
     try:
@@ -763,10 +766,13 @@ def signin_btc(request):
 
             "co_user": user_default,
             "co_password": password_default,
+            "ip": get_ip_address(request)
             # "co_user": user_default,  # request.POST['username'],
             # "co_password": password_default, #request.POST['password'],
             # "co_uid": ""
         }
+        if request.POST.get('unique_id'):
+            data['unique_device'] = request.POST['unique_id']
     except Exception as e:
         _logger.error('ERROR get user or password for btc login\n' + str(e) + '\n' + traceback.format_exc())
     if request.POST.get('g-recaptcha-response'):

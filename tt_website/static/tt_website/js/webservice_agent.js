@@ -113,17 +113,26 @@ function signin(){
         })
     }
     if(check == 1){
+        if(typeof(platform) === 'undefined'){
+            platform = '';
+        }
+        if(typeof(unique_id) === 'undefined'){
+            unique_id = '';
+        }
+        data_send = {
+            "platform": platform,
+            "unique_id": unique_id,
+            'username':username,
+            'password':password,
+            'keep_me_signin': keep_me_signin,
+        }
         $.ajax({
            type: "POST",
            url: "/webservice/agent",
            headers:{
                 'action': 'signin',
            },
-           data: {
-            'username':username,
-            'password':password,
-            'keep_me_signin': keep_me_signin
-           },
+           data: data_send,
            success: function(msg) {
             try{
                 if(google_analytics != ''){
@@ -210,17 +219,26 @@ function signin_booking(){
         })
     }
     if(check == 1){
+        if(typeof(platform) === 'undefined'){
+            platform = '';
+        }
+        if(typeof(unique_id) === 'undefined'){
+            unique_id = '';
+        }
+        data_send = {
+            "platform": platform,
+            "unique_id": unique_id,
+            'username':username,
+            'password':password,
+            'keep_me_signin': keep_me_signin,
+        }
         $.ajax({
            type: "POST",
            url: "/webservice/agent",
            headers:{
                 'action': 'signin',
            },
-           data: {
-            'username':username,
-            'password':password,
-            'keep_me_signin': keep_me_signin
-           },
+           data: data_send,
            success: function(msg) {
             if(msg.result.error_code == 0 && msg.result.response.co_agent_frontend_security.includes('login') == true && window.location.href.split('/').length == 6){
                 let timerInterval
