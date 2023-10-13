@@ -5711,10 +5711,17 @@ def parser_schedule_mobile(request, res):
             #         "name": "VTL Flight",
             #         "text_color": "#ffffff"
             #     })
-            for idx, req_journey_list in enumerate(request.data['journey_list']):
-                if journey['origin'] == req_journey_list['origin'] and journey['destination'] == req_journey_list[
-                    'destination'] and journey['departure_date'].split(' ')[0] == req_journey_list['departure_date']:
-                    journey['airline_sequence'] = idx
+            if request.data.get('journey_list'):
+                for idx, req_journey_list in enumerate(request.data['journey_list']):
+                    if journey['origin'] == req_journey_list['origin'] and journey['destination'] == req_journey_list['destination'] and journey['departure_date'].split(' ')[0] == req_journey_list['departure_date']:
+                        journey['airline_sequence'] = idx
+            elif request.data.get('reschedule_list'):
+                journey_index = 0
+                for idx, reschedule_list in enumerate(request.data['reschedule_list']):
+                    for idy, req_journey in enumerate(reschedule_list['journeys']):
+                        if journey['origin'] == req_journey['origin'] and journey['destination'] == req_journey['destination'] and journey['departure_date'].split(' ')[0] == req_journey['departure_date']:
+                            journey['airline_sequence'] = journey_index
+                            journey_index += 1
             if len(journey['segments']) > 0:
                 journey['is_combo_price'] = False
                 journey['class_of_service'] = []
