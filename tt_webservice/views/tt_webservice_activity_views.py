@@ -210,55 +210,72 @@ def get_data(request):
 
 
 def search(request):
-    try:
+    if request.POST.get('search_request'):
         activity_request = json.loads(request.POST['search_request'])
-        # write_cache_file(request, request.POST['signature'], 'activity_search_request', json.loads(request.POST['search_request']))
-        # set_session(request, 'activity_search_request', json.loads(request.POST['search_request']))
-        # file = read_cache_file(request, request.POST['signature'], 'activity_search_request')
-        # if file:
-        data = {
-            'query': activity_request['query'].replace('&amp;', '&'),
-            'country': activity_request['country'],
-            'city': activity_request['city'],
-            'type': activity_request['type'],
-            'category': activity_request['category'],
-            'sub_category': activity_request['sub_category'],
-            'page': activity_request.get('page') and activity_request['page'] or 1,
-            'limit': activity_request.get('limit') and activity_request['limit'] or 30
+    else:
+        activity_request = {}
+    act_search_page = activity_request.get('page') and activity_request['page'] or 1
+    cur_search_res = read_cache_file(request, request.POST['signature'], 'activity_search_result')
+    if not cur_search_res:
+        cur_search_res = {}
+    if cur_search_res.get(str(act_search_page)):
+        res = {
+            'result': {
+                'error_code': 0,
+                'error_msg': '',
+                'response': cur_search_res[str(act_search_page)]
+            }
         }
-        write_cache_file(request, request.POST['signature'], 'activity_search_request', data)
-        headers = {
-            "Accept": "application/json,text/html,application/xml",
-            "Content-Type": "application/json",
-            "action": "search",
-            "signature": request.POST['signature']
-        }
-        # set_session(request, 'activity_search_request', data)
-    except Exception as e:
-        if request.POST.get('use_cache'):
-            file = read_cache_file(request, request.POST['signature'], 'activity_search_request')
-            if file:
-                data = file
-                write_cache_file(request, request.POST['new_signature'], 'activity_search_request', data)
+    else:
+        try:
+            data = {
+                'query': activity_request['query'].replace('&amp;', '&'),
+                'country': activity_request['country'],
+                'city': activity_request['city'],
+                'type': activity_request['type'],
+                'category': activity_request['category'],
+                'sub_category': activity_request['sub_category'],
+                'page': activity_request.get('page') and activity_request['page'] or 1,
+                'limit': activity_request.get('limit') and activity_request['limit'] or 30
+            }
+            write_cache_file(request, request.POST['signature'], 'activity_search_request', data)
             headers = {
                 "Accept": "application/json,text/html,application/xml",
                 "Content-Type": "application/json",
                 "action": "search",
-                "signature": request.POST['new_signature']
+                "signature": request.POST['signature']
             }
-            logging.info(msg='use cache login change b2c to login')
-        else:
-            logging.error(msg=str(e) + '\n' + traceback.format_exc())
+            # set_session(request, 'activity_search_request', data)
+        except Exception as e:
+            if request.POST.get('use_cache'):
+                file = read_cache_file(request, request.POST['signature'], 'activity_search_request')
+                if file:
+                    data = file
+                    write_cache_file(request, request.POST['new_signature'], 'activity_search_request', data)
+                headers = {
+                    "Accept": "application/json,text/html,application/xml",
+                    "Content-Type": "application/json",
+                    "action": "search",
+                    "signature": request.POST['new_signature']
+                }
+                logging.info(msg='use cache login change b2c to login')
+            else:
+                logging.error(msg=str(e) + '\n' + traceback.format_exc())
 
-    url_request = get_url_gateway('booking/activity')
-    res = send_request_api(request, url_request, headers, data, 'POST', 120)
+        url_request = get_url_gateway('booking/activity')
+        res = send_request_api(request, url_request, headers, data, 'POST', 120)
+        cur_search_res.update({
+            str(act_search_page): res['result']['response']
+        })
+        write_cache_file(request, request.POST['signature'], 'activity_search_result', cur_search_res)
     try:
         counter = 0
-        for i in res['result']['response']:
-            i.update({
-                'sequence': counter
-            })
-            counter += 1
+        if res['result']['response']:
+            for i in res['result']['response']:
+                i.update({
+                    'sequence': counter
+                })
+                counter += 1
         if request.POST.get('use_cache'):
             write_cache_file(request, request.POST['new_signature'], 'activity_search', res['result']['response'])
         else:

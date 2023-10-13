@@ -634,14 +634,22 @@ function activity_change_page(page_direction){
     for(var i=0, n=act_page_btns.length;i<n;i++) {
         act_page_btns[i].disabled = true;
     }
+    document.getElementById("activity_search_page_input_submit").disabled = true;
 
     if(page_direction == 'prev')
     {
         activity_page--;
     }
-    else
+    else if(page_direction == 'next')
     {
         activity_page++;
+    }
+    else
+    {
+        if(document.getElementById("activity_search_page_input").value)
+        {
+            activity_page = document.getElementById("activity_search_page_input").value;
+        }
     }
     activity_search(activity_page);
 }
@@ -1017,9 +1025,17 @@ function activity_search(activity_search_page=1){
                        <button class="primary-btn activity-page-btn" type="button" style="line-height:34px; float:right;" onclick="activity_change_page('next')">Next Page</button>
                     `;
                }
+
                document.getElementById("activity_result").innerHTML = `
                <div style="border:1px solid #cdcdcd; background-color:white; margin-bottom:15px; padding:10px;">
-                   <span style="font-weight:bold; font-size:14px;"> Activity - Page `+activity_page+`</span>
+                   <div class="row">
+                       <div class="col-lg-8"><span style="font-weight:bold; font-size:14px;"> Activity - Page `+activity_page+`</span></div>
+                       <div class="col-lg-4" style="text-align:right;">
+                           <span style="font-weight:bold; font-size:14px;"> Go To Page:</span>
+                           <input type="number" style="max-width:50px;" min="1" id="activity_search_page_input" name="activity_search_page_input" value="`+activity_page+`"/>
+                           <button class="primary-btn" style="width:40px; height:30px; padding:5px; line-height:0px;" id="activity_search_page_input_submit" type="button" onclick="activity_change_page('custom');">Go!</button>
+                       </div>
+                   </div>
                </div>
                `;
 
