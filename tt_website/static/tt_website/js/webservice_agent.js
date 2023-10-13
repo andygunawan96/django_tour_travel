@@ -493,18 +493,27 @@ function signin_btc(){
 //        }
 //    }
     if(check == 1){
+        if(typeof(platform) === 'undefined'){
+            platform = '';
+        }
+        if(typeof(unique_id) === 'undefined'){
+            unique_id = '';
+        }
+        data_send = {
+            "platform": platform,
+            "unique_id": unique_id,
+            'username':username,
+            'password':password,
+            'keep_me_signin': keep_me_signin,
+            'g-recaptcha-response': document.getElementById('g-recaptcha-response').value
+        }
         $.ajax({
            type: "POST",
            url: "/webservice/agent",
            headers:{
                 'action': 'signin_btc',
            },
-           data: {
-            'username':username,
-            'password':password,
-            'keep_me_signin': keep_me_signin,
-            'g-recaptcha-response': document.getElementById('g-recaptcha-response').value
-           },
+           data: data_send,
            success: function(msg) {
             if(msg.result.error_code == 0){
                 if(msg.result.response.co_agent_frontend_security.includes('login') == true){
