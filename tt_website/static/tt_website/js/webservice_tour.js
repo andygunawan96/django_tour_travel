@@ -1479,6 +1479,10 @@ function tour_issued_booking(order_number)
                     }).then((result) => {
                         if (result.value) {
                             window.location.href = '/top_up';
+                        }else{
+                            if(window.location.href.includes('payment')){
+                                window.location.href = '/tour/booking/'+order_number;
+                            }
                         }
                     })
                 }

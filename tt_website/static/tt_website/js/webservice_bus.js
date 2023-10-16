@@ -2178,6 +2178,10 @@ function bus_issued(data){
                             console.log(result);
                             if (result.value) {
                                 window.location.href = '/top_up';
+                            }else{
+                                if(window.location.href.includes('payment')){
+                                    window.location.href = '/bus/booking/'+data;
+                                }
                             }
                         })
                     }

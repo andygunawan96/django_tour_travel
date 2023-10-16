@@ -2544,6 +2544,10 @@ function ppob_issued(data){
                         }).then((result) => {
                             if (result.value) {
                                 window.location.href = '/top_up';
+                            }else{
+                                if(window.location.href.includes('payment')){
+                                    window.location.href = '/ppob/booking/'+data;
+                                }
                             }
                         })
                     }

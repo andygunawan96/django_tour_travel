@@ -2263,6 +2263,10 @@ function swab_express_issued_booking(data){
                         }).then((result) => {
                             if (result.value) {
                                 window.location.href = '/top_up';
+                            }else{
+                                if(window.location.href.includes('payment')){
+                                    window.location.href = '/swab_express/booking/'+data;
+                                }
                             }
                         })
                     }
