@@ -5574,7 +5574,7 @@ def search_mobile(request):
     res = send_request_api(request, url_request, headers, data, 'POST', 120)
     try:
         if res['result']['error_code'] == 0:
-            res = parser_schedule_mobile(request, res)
+            res['result']['response'] = parser_schedule_mobile(request, res['result']['response'])
             _logger.error("SUCCESS SEARCH AIRLINE SIGNATURE " + request.data['signature'])
         else:
             _logger.error("ERROR SEARCH AIRLINE SIGNATURE " + request.data['signature'] + ' ' + json.dumps(res))
@@ -5629,12 +5629,13 @@ def reschedule_search_mobile(request):
     res = send_request_api(request, url_request, headers, data, 'POST', 120)
     try:
         if res['result']['error_code'] == 0:
-            res = parser_schedule_mobile(request, res)
+            for x, reschedule_availability_provider in enumerate(res['result']['response']['reschedule_availability_provider']):
+                res['result']['response']['reschedule_availability_provider'][x] = parser_schedule_mobile(request, reschedule_availability_provider)
             _logger.error("SUCCESS SEARCH AIRLINE SIGNATURE " + request.data['signature'])
         else:
             _logger.error("ERROR SEARCH AIRLINE SIGNATURE " + request.data['signature'] + ' ' + json.dumps(res))
     except Exception as e:
-        _logger.error('Error response airline search\n' + str(e) + '\n' + traceback.format_exc())
+        _logger.error('Error response reschedule airline search\n' + str(e) + '\n' + traceback.format_exc())
     try:
         response_search = res['result']
 
@@ -5674,7 +5675,15 @@ def parser_schedule_mobile(request, res):
     airasia_carrier_list_code = ['AK', 'D7', 'FD', 'QZ', 'ZZ', 'DJ', 'XJ', 'Z2']
     breakdown_price_data = get_breakdown_price(request)
     agent_rate_data = get_agent_currency_rate(request)
-    for journey_list in res['result']['response']['schedules']:
+    total_pax = request.data['adult'] + request.data['child']
+    if request.data.get('seaman'):
+        total_pax += request.data['seaman']
+    if request.data.get('labour'):
+        total_pax += request.data['labour']
+    if request.data.get('student'):
+        total_pax += request.data['student']
+
+    for journey_list in res['schedules']:
         for journey in journey_list['journeys']:
 
             is_airasia = False
@@ -5710,10 +5719,17 @@ def parser_schedule_mobile(request, res):
             #         "name": "VTL Flight",
             #         "text_color": "#ffffff"
             #     })
-            for idx, req_journey_list in enumerate(request.data['journey_list']):
-                if journey['origin'] == req_journey_list['origin'] and journey['destination'] == req_journey_list[
-                    'destination'] and journey['departure_date'].split(' ')[0] == req_journey_list['departure_date']:
-                    journey['airline_sequence'] = idx
+            if request.data.get('journey_list'):
+                for idx, req_journey_list in enumerate(request.data['journey_list']):
+                    if journey['origin'] == req_journey_list['origin'] and journey['destination'] == req_journey_list['destination'] and journey['departure_date'].split(' ')[0] == req_journey_list['departure_date']:
+                        journey['airline_sequence'] = idx
+            elif request.data.get('reschedule_list'):
+                journey_index = 0
+                for idx, reschedule_list in enumerate(request.data['reschedule_list']):
+                    for idy, req_journey in enumerate(reschedule_list['journeys']):
+                        if journey['origin'] == req_journey['origin'] and journey['destination'] == req_journey['destination'] and journey['departure_date'].split(' ')[0] == req_journey['departure_date']:
+                            journey['airline_sequence'] = journey_index
+                            journey_index += 1
             if len(journey['segments']) > 0:
                 journey['is_combo_price'] = False
                 journey['class_of_service'] = []
@@ -5886,8 +5902,7 @@ def parser_schedule_mobile(request, res):
                             fare['cabin_class_name'] = 'Business'
                         elif fare['cabin_class'] == 'F':
                             fare['cabin_class_name'] = 'First Class'
-                        if int(fare['available_count']) >= (
-                                request.data['adult'] + request.data['child']) and choose_fare and check_segment_fare:
+                        if int(fare['available_count']) >= total_pax and choose_fare and check_segment_fare:
                             choose_fare = False
                             fare['pick'] = True
                             segment['fare_pick'] = idz
