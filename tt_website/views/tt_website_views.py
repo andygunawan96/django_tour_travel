@@ -1754,7 +1754,7 @@ def get_ip_address(request):
         ip = x_forwarded_for.split(',')[0]
     else:
         ip = request.META.get('REMOTE_ADDR')
-    _logger.info('User:%s IP:%s' % (request.session['user_account']['co_user_login'] if request.session.get('user_account') else '', ip))
+    _logger.info('User:%s IP:%s' % (request.session['user_account']['co_user_login'] if request.session.get('user_account') and request.session['user_account'].get('co_user_login') else '', ip))
 
 def get_data_template(request, type='home', provider_type = []):
     get_ip_address(request)
