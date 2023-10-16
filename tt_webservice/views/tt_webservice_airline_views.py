@@ -757,6 +757,9 @@ def get_data_seat_page(request):
             if file.get('labour'):
                 for pax in file['labour']:
                     passenger_list.append(pax)
+            for pax in passenger_list: ## DATA DI POP KARENA TESTING AIRASIA ERROR DI NAMA MEAL ADA "'" GA BISA DI JSON.LOADS & DATA TIDAK DI BUTUHKAN DI PAGE SEAT
+                if pax.get('ssr_list'):
+                    pax.pop('ssr_list')
             res['passengers'] = passenger_list
         # res['passengers'] = request.session['airline_create_passengers_%s' % request.POST['signature']]['adult'] + request.session['airline_create_passengers_%s' % request.POST['signature']]['child']
 
