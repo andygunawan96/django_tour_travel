@@ -3764,25 +3764,29 @@ function auto_update_special_request(id, value){
 }
 
 function update_special_request_show_text(id){
-    document.getElementById(id).hidden = !document.getElementById(id).hidden;
-    if(document.getElementById(id).hidden == false){
-        if(id.includes('bed')){
-            var radios = document.getElementsByName('radio_bed_type_'+i);
-            for (var j = 0, length = radios.length; j < length; j++) {
-                if(j == 0)
-                    radios[j].checked = true;
-                else
-                    radios[j].checked = false;
+    if(id.includes('bed')){
+        if(document.getElementById(id).checked)
+            document.getElementById('bed_type_request_'+id.split('_')[id.split('_').length-1]).hidden = false;
+        else{
+            document.getElementById('bed_type_request_'+id.split('_')[id.split('_').length-1]).hidden = true;
+        }
+        var radios = document.getElementsByName('radio_bed_type_'+i);
+        for (var j = 0, length = radios.length; j < length; j++) {
+            if(j == 0){
+                radios[j].checked = true;
+            }else{
+                radios[j].checked = false
             }
-        }else if(id.includes('other'))
-            document.getElementById(id).value = 'Other Request: ';
-    }else{
-        if(id.includes('bed')){
-            var radios = document.getElementsByName('radio_bed_type_'+i);
-            for (var j = 0, length = radios.length; j < length; j++) {
-                radios[j].checked = false;
-            }
-        }else if(id.includes('other'))
-            document.getElementById(id).value = '';
+        }
+    }else if(id.includes('other')){
+        if(document.getElementById(id).checked){
+            document.getElementById('other_request_'+id.split('_')[id.split('_').length-1]).hidden = false;
+            document.getElementById('other_request_'+id.split('_')[id.split('_').length-1]).value = 'Other Request: ';
+        }else{
+            document.getElementById('other_request_'+id.split('_')[id.split('_').length-1]).hidden = true;
+            document.getElementById('other_request_'+id.split('_')[id.split('_').length-1]).value = '';
+
+        }
+
     }
 }
