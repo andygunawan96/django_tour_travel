@@ -122,7 +122,7 @@ def search(request):
             # file = read_cache("get_airline_carriers", 'cache_web', request, 90911)
             # if file:
             #     carrier = file
-            airline_destinations = []
+            # airline_destinations = []
             # try:
             #     file = read_cache("get_airline_active_carriers", 'cache_web', request, 90911)
             #     if file:
@@ -320,9 +320,42 @@ def search(request):
                 elif direction == 'multicity':
                     direction = 'MC'
 
+                ## temporary list airline_destination_use
+                temporary_airline_destination_choose_dict = {}
+                ## update data origin
+                origin = request.GET['origin'].split(',')
+                for idx, origin_code in enumerate(origin):
+                    if temporary_airline_destination_choose_dict.get(origin_code):
+                        origin[idx] = "%s - %s - %s - %s" % (origin_code, temporary_airline_destination_choose_dict[origin_code]['city'], temporary_airline_destination_choose_dict[origin_code]['country'],temporary_airline_destination_choose_dict[origin_code]['name'])
+                    else:
+                        for airline_destination in airline_destinations:
+                            if origin_code == airline_destination['code']:
+                                temporary_airline_destination_choose_dict[origin_code] = {
+                                    "name": airline_destination['name'],
+                                    "city": airline_destination['city'],
+                                    "country": airline_destination['country']
+                                }
+                                origin[idx] = "%s - %s - %s - %s" % (origin_code, airline_destination['city'], airline_destination['country'], airline_destination['name'])
+                                break
+
+                ## update data destination
+                destination = request.GET['destination'].split(',')
+                for idx,destination_code in enumerate(destination):
+                    if temporary_airline_destination_choose_dict.get(destination_code):
+                        destination[idx] = "%s - %s - %s - %s" % (destination_code, temporary_airline_destination_choose_dict[destination_code]['city'], temporary_airline_destination_choose_dict[destination_code]['country'],temporary_airline_destination_choose_dict[destination_code]['name'])
+                    else:
+                        for airline_destination in airline_destinations:
+                            if destination_code == airline_destination['code']:
+                                temporary_airline_destination_choose_dict[destination_code] = {
+                                    "name": airline_destination['name'],
+                                    "city": airline_destination['city'],
+                                    "country": airline_destination['country']
+                                }
+                                destination[idx] = "%s - %s - %s - %s" % (destination_code, airline_destination['city'], airline_destination['country'], airline_destination['name'])
+                                break
                 airline_request = {
-                    'origin': request.GET['origin'].split(','),
-                    'destination': request.GET['destination'].split(','),
+                    'origin': origin,
+                    'destination': destination,
                     'departure': request.GET['departure'].split(','),
                     'return': request.GET['return'].split(','),
                     'direction': request.GET['direction'],

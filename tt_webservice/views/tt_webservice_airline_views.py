@@ -231,6 +231,8 @@ def api_models(request):
 
         elif req_data['action'] == 'search_for_mobile':
             res = search_mobile(request)
+        elif req_data['action'] == 'reschedule_search_mobile':
+            res = reschedule_search_mobile(request)
         elif req_data['action'] == 'get_airline_advance_pax_type':
             res = get_airline_advance_pax_type(request)
 
@@ -755,6 +757,9 @@ def get_data_seat_page(request):
             if file.get('labour'):
                 for pax in file['labour']:
                     passenger_list.append(pax)
+            for pax in passenger_list: ## DATA DI POP KARENA TESTING AIRASIA ERROR DI NAMA MEAL ADA "'" GA BISA DI JSON.LOADS & DATA TIDAK DI BUTUHKAN DI PAGE SEAT
+                if pax.get('ssr_list'):
+                    pax.pop('ssr_list')
             res['passengers'] = passenger_list
         # res['passengers'] = request.session['airline_create_passengers_%s' % request.POST['signature']]['adult'] + request.session['airline_create_passengers_%s' % request.POST['signature']]['child']
 
@@ -5531,26 +5536,6 @@ def getDuration(departure_date, departure_time,arrival_date,arrival_time):
     return duration
 
 def search_mobile(request):
-    # get_data_awal
-    file = read_cache("get_list_provider_data", 'cache_web', request, 90911)
-    if file:
-        provider_list_data = file
-    else:
-        get_provider_description(request)
-        file = read_cache("get_list_provider_data", 'cache_web', request, 90911)
-        if file:
-            provider_list_data = file
-    airline_destinations = []
-    file = read_cache("airline_destination", 'cache_web', request, 90911)
-    if file:
-        response = file
-    for country in response:
-        airline_destinations.append({
-            'code': country['code'],
-            'name': country['name'],
-            'city': country['city'],
-            'country': country['country'],
-        })
     try:
         # airline
         data = {
@@ -5592,356 +5577,7 @@ def search_mobile(request):
     res = send_request_api(request, url_request, headers, data, 'POST', 120)
     try:
         if res['result']['error_code'] == 0:
-            arrival = []
-            departure = []
-            arrival_return = []
-            departure_return = []
-            available_count = []
-            country_detail = {}
-            breakdown_price_data = get_breakdown_price(request)
-            agent_rate_data = get_agent_currency_rate(request)
-            for journey_list in res['result']['response']['schedules']:
-                for journey in journey_list['journeys']:
-                    class_of_service_list = []
-                    check_segment_fare = True
-                    available_seat = 100
-                    if provider_list_data.get(journey['provider']):
-                        if provider_list_data[journey['provider']]['is_post_issued_reschedule'] or provider_list_data[journey['provider']]['is_post_booked_reschedule']:
-                            journey['is_reschedule'] = True
-                        else:
-                            journey['is_reschedule'] = False
-                    else:
-                        journey['is_reschedule'] = False
-                    fare_details = []
-                    journey['search_banner_show'] = []
-                    if journey.get('search_banner'):
-                        for search_banner_dict in journey['search_banner']:
-                            if search_banner_dict['active'] == True:
-                                max_banner_date = datetime.now() - timedelta(days=int(search_banner_dict['minimum_days']) if search_banner_dict['minimum_days'] != '' else 0)
-                                selected_banner_date = datetime.strptime(journey['departure_date'].split(' ')[0], '%Y-%m-%d')
-                                if selected_banner_date >= max_banner_date:
-                                    journey['search_banner_show'].append(search_banner_dict)
-
-                    # if journey.hasOwnProperty('is_vtl_flight') and journey.is_vtl_flight:
-                    #     journey.search_banner_show.append({
-                    #         "active": True,
-                    #         "banner_color": "#205B95",
-                    #         "description": '',
-                    #         "name": "VTL Flight",
-                    #         "text_color": "#ffffff"
-                    #     })
-                    for idx,req_journey_list in enumerate(request.data['journey_list']):
-                        if journey['origin'] == req_journey_list['origin'] and journey['destination'] == req_journey_list['destination'] and journey['departure_date'].split(' ')[0] == req_journey_list['departure_date']:
-                            journey['airline_sequence'] = idx
-                    if len(journey['segments']) > 0:
-                        journey['is_combo_price'] = False
-                        journey['class_of_service'] = []
-                        available_count = []
-                        journey['carrier_code_list'] = []
-
-                        journey['operating_airline_code_list'] = []
-
-                        temporary = journey['arrival_date'].split(' ')
-                        date = temporary[0].split('-')
-                        date = date[2] + '-' + date[1] + '-' + date[0]
-                        time = temporary[1].split(':')
-                        time = time[0] + ':' + time[1]
-                        arrival.append(date)
-                        arrival.append(time)
-                        arrival.append(datetime.strptime(date,'%d-%m-%Y').strftime('%a'))
-
-                        temporary = journey['departure_date'].split(' ')
-                        date = temporary[0].split('-')
-                        date = date[2] + '-' + date[1] + '-' + date[0]
-                        time = temporary[1].split(':')
-                        time = time[0] + ':' + time[1]
-                        departure.append(date)
-                        departure.append(time)
-                        departure.append(datetime.strptime(date,'%d-%m-%Y').strftime('%a'))
-                        try:
-                            ##arrival_return
-                            temporary = journey['arrival_date_return'].split(' ')
-                            date = temporary[0].split('-')
-                            date = date[2] + '-' + date[1] + '-' + date[0]
-                            time = temporary[1].split(':')
-                            time = time[0] + ':' + time[1]
-                            arrival_return.append(date)
-                            arrival_return.append(time)
-                            arrival_return.append(datetime.strptime(date,'%d-%m-%Y').strftime('%a'))
-
-
-                            ##departure_return
-                            temporary = journey['departure_date_return'].split(' ')
-                            date = temporary[0].split('-')
-                            date = date[2] + '-' + date[1] + '-' + date[0]
-                            time = temporary[1].split(':')
-                            time = time[0] + ':' + time[1]
-                            departure_return.append(date)
-                            departure_return.append(time)
-                            departure_return.append(datetime.strptime(date,'%d-%m-%Y').strftime('%a'))
-                            journey['departure_return'] = departure_return
-                            journey['arrival_return'] = arrival_return
-                        except:
-                            pass
-
-                        journey['duration'] = getDuration(departure[0], departure[1], arrival[0], arrival[1])
-                        journey['departure'] = departure
-                        journey['arrival'] = arrival
-                        departure = []
-                        arrival = []
-                        departure_return = []
-                        arrival_return = []
-                        totalprice = 0
-                        total_price_with_discount = 0
-                        elapsed_time = journey['elapsed_time'].split(':')
-                        journey['elapsed_time_in_sec'] = (int(elapsed_time[0])*86400) + (int(elapsed_time[1])*3600) + (int(elapsed_time[2])*60) + int(elapsed_time[3])
-                        elapsed_time_transit_duration_in_sec = 0
-                        for idy, segment in enumerate(journey['segments']):
-                            if segment['transit_duration'] != '':
-                                elapsed_time_transit_duration = segment['transit_duration'].split(':')
-                                elapsed_time_transit_duration_in_sec += (int(elapsed_time_transit_duration[0])*86400) + (int(elapsed_time_transit_duration[1])*3600) + (int(elapsed_time_transit_duration[2])*60) + int(elapsed_time_transit_duration[3])
-                            segment['transit_duration_list'] = segment['transit_duration'].split(':')
-                            check = 0
-                            origin_found = False
-                            destination_found = False
-                            if country_detail.get(segment['origin']):
-                                segment['origin_name'] = country_detail[segment['origin']]['name']
-                                segment['origin_city'] = country_detail[segment['origin']]['city']
-                                segment['origin_country'] = country_detail[segment['origin']]['country']
-                                origin_found = True
-                                check += 1
-                            if country_detail.get(segment['destination']):
-                                segment['destination_name'] = country_detail[segment['destination']]['name']
-                                segment['destination_city'] = country_detail[segment['destination']]['city']
-                                segment['destination_country'] = country_detail[segment['destination']]['country']
-                                destination_found = True
-                                check += 1
-
-                            if check != 2:
-                                for destination in airline_destinations:
-                                    if origin_found == False and segment['origin'] == destination['code']:
-                                        segment['origin_name'] = destination['name']
-                                        segment['origin_city'] = destination['city']
-                                        segment['origin_country'] = destination['country']
-                                        country_detail[destination['code']] = {
-                                            "name": destination['name'],
-                                            "city": destination['city'],
-                                            "country": destination['country']
-                                        }
-                                        origin_found = True
-                                        check += 1
-                                    elif destination_found == False and segment['destination'] == destination['code']:
-                                        segment['destination_name'] = destination['name']
-                                        segment['destination_city'] = destination['city']
-                                        segment['destination_country'] = destination['country']
-                                        country_detail[destination['code']] = {
-                                            "name": destination['name'],
-                                            "city": destination['city'],
-                                            "country": destination['country']
-                                        }
-                                        check += 1
-                                        destination_found = True
-                                    if check == 2:
-                                        break
-                            check = 0
-                            for carrier_code in journey['carrier_code_list']:
-                                if carrier_code[0] == segment['carrier_code'] and carrier_code[1] == segment['operating_airline_code']:
-                                    check = 1
-                                    break
-                            if check == 0:
-                                journey['carrier_code_list'].append([segment['carrier_code'],segment['operating_airline_code']])
-                            if len(segment['fares']) == 0:
-                                journey['totalprice'] = 0
-                                available_count.append(0)
-                            temporary = segment['arrival_date'].split(' ')
-                            date = temporary[0].split('-')
-                            date = date[2] + '-' + date[1] + '-' + date[0]
-                            time = temporary[1].split(':')
-                            time = time[0] + ':' + time[1]
-                            arrival.append(date)
-                            arrival.append(time)
-                            arrival.append(datetime.strptime(date,'%d-%m-%Y').strftime('%a'))
-
-                            temporary = segment['departure_date'].split(' ')
-                            date = temporary[0].split('-')
-                            date = date[2] + '-' + date[1] + '-' + date[0]
-                            time = temporary[1].split(':')
-                            time = time[0] + ':' + time[1]
-                            departure.append(date)
-                            departure.append(time)
-                            departure.append(datetime.strptime(date,'%d-%m-%Y').strftime('%a'))
-
-                            segment['duration'] = getDuration(departure[0], departure[1], arrival[0], arrival[1])
-                            segment['departure'] = departure
-                            segment['arrival'] = arrival
-                            departure = []
-                            arrival = []
-
-                            ## check operated by
-                            try:
-                                if segment['carrier_code'] == segment['operating_airline_code']:
-                                    journey['operated_by_carrier_code'] = segment['operating_airline_code']
-                                    journey['operated_by'] = True
-                                else:
-                                    journey['operated_by'] = False
-                                    journey['operated_by_carrier_code'] = segment['operating_airline_code']
-                            except:
-                                journey['operated_by'] = True
-                                journey['operated_by_carrier_code'] = segment['carrier_code']
-
-                            choose_fare = True
-                            for idz, fare in enumerate(segment['fares']):
-                                if fare['cabin_class'] == 'Y':
-                                    fare['cabin_class_name'] = 'Economy'
-                                elif fare['cabin_class'] == 'W' and segment['carrier_code'] == 'QG':
-                                    fare['cabin_class_name'] = 'Royal Green'
-                                elif fare['cabin_class'] == 'W':
-                                    fare['cabin_class_name'] = 'Premium Economy'
-                                elif fare['cabin_class'] == 'C':
-                                    fare['cabin_class_name'] = 'Business'
-                                elif fare['cabin_class'] == 'F':
-                                    fare['cabin_class_name'] = 'First Class'
-                                if int(fare['available_count']) >= (request.data['adult'] + request.data['child']) and choose_fare and check_segment_fare:
-                                    choose_fare = False
-                                    fare['pick'] = True
-                                    segment['fare_pick'] = idz
-                                    class_of_service_list.append(fare['class_of_service'])
-                                    add_new_data = True
-                                    for fare_detail in fare['fare_details']:
-                                        add_new_data = True
-                                        for idxx, fare_detail_pick in enumerate(fare_details):
-                                            add_new_data = False
-                                            if fare_detail_pick['detail_code'] == fare_detail['detail_code'] and fare_detail_pick['amount'] > fare_detail['amount']:
-                                                fare_details.pop(idxx)
-                                                add_new_data = True
-                                            elif fare_detail_pick['detail_code'] == fare_detail['detail_code'] and fare_detail_pick['amount'] < fare_detail['amount']:
-                                                break
-
-                                        if (add_new_data):
-                                            fare_details.append(fare_detail)
-                                    for svc_summary in fare['service_charge_summary']:
-                                        if not svc_summary['pax_type'] in ['CHD', 'INF']:
-                                            for svc in svc_summary['service_charges']:
-                                                if svc['charge_type'] != 'RAC':
-                                                    if svc['charge_type'] != 'DISC':
-                                                        totalprice += svc['total'] / svc['pax_count']
-                                                    total_price_with_discount += svc['total'] / svc['pax_count']
-                                                    if journey.get('currency') == None:
-                                                        journey['currency'] = svc['currency']
-                                            break
-
-                                    if idy == 0:
-                                        available_count.append(int(fare['available_count']))
-                                        journey['class_of_service'].append(fare['class_of_service'])
-                                        segment['bool'] = True
-                                    elif journey['is_combo_price']:
-                                        for journey_list_req in request.data['journey_list']:
-                                            if journey_list_req['origin'] == segment['origin'] and segment.get('bool'):
-                                                available_count.append(int(fare['available_count']))
-                                                journey['class_of_service'].append(fare['class_of_service'])
-                                                segment['bool'] = True
-
-                                else:
-                                    fare['pick'] = False
-
-                                for svc_summary in fare['service_charge_summary']:
-                                    if not svc_summary['pax_type'] in ['CHD', 'INF']:
-                                        total_price_fare = 0
-                                        for svc in svc_summary['service_charges']:
-                                            if svc['charge_type'] != 'RAC' and svc['charge_type'] != 'DISC':
-                                                total_price_fare += svc['total'] / svc['pax_count']
-                                        fare['total_price'] = total_price_fare
-                                fare['show'] = True
-                                fare['segments_sequence'] = segment['sequence']
-                                fare['journey_code'] = journey['journey_code']
-                            if choose_fare:
-                                check_segment_fare = False
-
-                        journey['elapsed_time_transit_duration_in_sec'] = elapsed_time_transit_duration_in_sec
-                        if choose_fare == False and check_segment_fare:
-                            if totalprice % 1 != 0:
-                                totalprice = math.ceil(totalprice)
-                            if total_price_with_discount % 1 != 0:
-                                total_price_with_discount = math.ceil(total_price_with_discount)
-                            journey['totalprice'] = totalprice
-                            journey['totalprice_show'] = getrupiah(totalprice)
-                            journey['totalprice_with_discount'] = total_price_with_discount
-                            journey['totalprice_with_discount_show'] = getrupiah(total_price_with_discount)
-                            if (totalprice == total_price_with_discount):
-                                journey['show_discount'] = False
-                            else:
-                                journey['show_discount'] = True
-                            journey['sold_out'] = False
-                            journey['share_journey'] = False
-
-                            for available in available_count:
-                                if (available_seat > available or available > available_seat and available_seat == 100): ##kalau lebih dari default awal tetap simpan
-                                    available_seat = available
-
-                                if (available_seat == 100): ## kalau available masih default berarti kosong
-                                    available_seat = 0
-                                    journey['sold_out'] = True
-                                journey['available_count'] = available_seat
-                        else:
-                            journey['is_combo_price'] = False
-                            journey['currency'] = ''
-                            journey['totalprice'] = 0
-                            journey['totalprice_show'] = '0'
-                            journey['totalprice_with_discount'] = 0
-                            journey['totalprice_with_discount_show'] = '0'
-                            journey['show_discount'] = False
-                            journey['available_count'] = 0
-                            journey['sold_out'] = True
-                            journey['share_journey'] = False
-
-                        totalprice = 0
-                    else:
-                        journey['is_combo_price'] = False
-                        journey['currency'] = ''
-                        journey['totalprice'] = 0
-                        journey['totalprice_show'] = '0'
-                        journey['available_count'] = 0
-                        journey['sold_out'] = True
-                        journey['share_journey'] = False
-
-                    journey['fare_details_pick'] = fare_details
-                    journey['sequence'] = journey['journey_code']
-                    journey['show_detail'] = False
-                    journey['class_of_service_list'] = class_of_service_list
-
-                    breakdown_price_list = []
-                    breakdown_price_dict = {}
-                    estimated_price = []
-
-                    if journey['totalprice_with_discount'] != 0 and agent_rate_data['result']['is_show']:
-                        for currency in agent_rate_data['result']['response']['agent'][request.data['co_ho_seq_id']]:
-                            estimated_price.append({
-                                "currency": currency,
-                                "price_show": getrupiah(journey['totalprice_with_discount'] / agent_rate_data['result']['response']['agent'][request.data['co_ho_seq_id']][currency]['rate'])
-                            })
-                        if len(estimated_price) > 0:
-                            journey['estimated_price'] = estimated_price
-                    if breakdown_price_data['result']['response']:
-                        for segment in journey['segments']:
-                            for fare in segment['fares']:
-                                for svc_summary in fare['service_charge_summary']:
-                                    if not svc_summary['pax_type'] in ['CHD', 'INF']:
-                                        for svc in svc_summary['service_charges']:
-                                            if svc['charge_type'] not in breakdown_price_dict:
-                                                breakdown_price_dict[svc['charge_type']] = 0
-                                            breakdown_price_dict[svc['charge_type']] += svc['amount']
-                                        break
-                                if breakdown_price_dict:
-                                    break
-                        if breakdown_price_dict:
-                            for data_breakdown in breakdown_price_dict:
-                                breakdown_price_list.append({
-                                    "charge_type": data_breakdown,
-                                    "amount": getrupiah(breakdown_price_dict[data_breakdown])
-                                })
-                            journey['breakdown_price'] = breakdown_price_list
-            if res['result']['response'].get('recommendation_maps'):
-                res['result']['response'].pop('recommendation_maps')
+            res['result']['response'] = parser_schedule_mobile(request, res['result']['response'])
             _logger.error("SUCCESS SEARCH AIRLINE SIGNATURE " + request.data['signature'])
         else:
             _logger.error("ERROR SEARCH AIRLINE SIGNATURE " + request.data['signature'] + ' ' + json.dumps(res))
@@ -5955,6 +5591,477 @@ def search_mobile(request):
             'result': res
         }
     return response_search
+
+def reschedule_search_mobile(request):
+    # get_data_awal
+    file = read_cache("get_list_provider_data", 'cache_web', request, 90911)
+    if file:
+        provider_list_data = file
+    else:
+        get_provider_description(request)
+        file = read_cache("get_list_provider_data", 'cache_web', request, 90911)
+        if file:
+            provider_list_data = file
+    airline_destinations = []
+    file = read_cache("airline_destination", 'cache_web', request, 90911)
+    if file:
+        response = file
+    for country in response:
+        airline_destinations.append({
+            'code': country['code'],
+            'name': country['name'],
+            'city': country['city'],
+            'country': country['country'],
+        })
+    try:
+        # airline
+        data = {
+            "reschedule_list": request.data['reschedule_list'],
+            "order_number": request.data['order_number']
+        }
+
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "get_reschedule_availability_v2",
+            "signature": request.data['signature']
+        }
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    url_request = get_url_gateway('booking/airline')
+    res = send_request_api(request, url_request, headers, data, 'POST', 120)
+    try:
+        if res['result']['error_code'] == 0:
+            for x, reschedule_availability_provider in enumerate(res['result']['response']['reschedule_availability_provider']):
+                res['result']['response']['reschedule_availability_provider'][x] = parser_schedule_mobile(request, reschedule_availability_provider)
+            _logger.error("SUCCESS SEARCH AIRLINE SIGNATURE " + request.data['signature'])
+        else:
+            _logger.error("ERROR SEARCH AIRLINE SIGNATURE " + request.data['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        _logger.error('Error response reschedule airline search\n' + str(e) + '\n' + traceback.format_exc())
+    try:
+        response_search = res['result']
+
+    except:
+        response_search = {
+            'result': res
+        }
+    return response_search
+
+def parser_schedule_mobile(request, res):
+    # get_data_awal
+    file = read_cache("get_list_provider_data", 'cache_web', request, 90911)
+    if file:
+        provider_list_data = file
+    else:
+        get_provider_description(request)
+        file = read_cache("get_list_provider_data", 'cache_web', request, 90911)
+        if file:
+            provider_list_data = file
+    airline_destinations = []
+    file = read_cache("airline_destination", 'cache_web', request, 90911)
+    if file:
+        response = file
+    for country in response:
+        airline_destinations.append({
+            'code': country['code'],
+            'name': country['name'],
+            'city': country['city'],
+            'country': country['country'],
+        })
+    arrival = []
+    departure = []
+    arrival_return = []
+    departure_return = []
+    available_count = []
+    country_detail = {}
+    airasia_carrier_list_code = ['AK', 'D7', 'FD', 'QZ', 'ZZ', 'DJ', 'XJ', 'Z2']
+    breakdown_price_data = get_breakdown_price(request)
+    agent_rate_data = get_agent_currency_rate(request)
+    total_pax = request.data['adult'] + request.data['child']
+    if request.data.get('seaman'):
+        total_pax += request.data['seaman']
+    if request.data.get('labour'):
+        total_pax += request.data['labour']
+    if request.data.get('student'):
+        total_pax += request.data['student']
+
+    for journey_list in res['schedules']:
+        for journey in journey_list['journeys']:
+
+            is_airasia = False
+            data_temp = []
+            class_of_service_list = []
+            check_segment_fare = True
+            available_seat = 100
+            if provider_list_data.get(journey['provider']):
+                if provider_list_data[journey['provider']]['is_post_issued_reschedule'] or \
+                        provider_list_data[journey['provider']]['is_post_booked_reschedule']:
+                    journey['is_reschedule'] = True
+                else:
+                    journey['is_reschedule'] = False
+            else:
+                journey['is_reschedule'] = False
+            fare_details = []
+            journey['search_banner_show'] = []
+            if journey.get('search_banner'):
+                for search_banner_dict in journey['search_banner']:
+                    if search_banner_dict['active'] == True:
+                        max_banner_date = datetime.now() - timedelta(
+                            days=int(search_banner_dict['minimum_days']) if search_banner_dict[
+                                                                                'minimum_days'] != '' else 0)
+                        selected_banner_date = datetime.strptime(journey['departure_date'].split(' ')[0], '%Y-%m-%d')
+                        if selected_banner_date >= max_banner_date:
+                            journey['search_banner_show'].append(search_banner_dict)
+
+            # if journey.hasOwnProperty('is_vtl_flight') and journey.is_vtl_flight:
+            #     journey.search_banner_show.append({
+            #         "active": True,
+            #         "banner_color": "#205B95",
+            #         "description": '',
+            #         "name": "VTL Flight",
+            #         "text_color": "#ffffff"
+            #     })
+            if request.data.get('journey_list'):
+                for idx, req_journey_list in enumerate(request.data['journey_list']):
+                    if journey['origin'] == req_journey_list['origin'] and journey['destination'] == req_journey_list['destination'] and journey['departure_date'].split(' ')[0] == req_journey_list['departure_date']:
+                        journey['airline_sequence'] = idx
+            elif request.data.get('reschedule_list'):
+                journey_index = 0
+                for idx, reschedule_list in enumerate(request.data['reschedule_list']):
+                    for idy, req_journey in enumerate(reschedule_list['journeys']):
+                        if journey['origin'] == req_journey['origin'] and journey['destination'] == req_journey['destination'] and journey['departure_date'].split(' ')[0] == req_journey['departure_date']:
+                            journey['airline_sequence'] = journey_index
+                            journey_index += 1
+            if len(journey['segments']) > 0:
+                journey['is_combo_price'] = False
+                journey['class_of_service'] = []
+                available_count = []
+                journey['carrier_code_list'] = []
+                journey['carrier_code_list_show'] = []
+
+                journey['operating_airline_code_list'] = []
+
+                temporary = journey['arrival_date'].split(' ')
+                date = temporary[0].split('-')
+                date = date[2] + '-' + date[1] + '-' + date[0]
+                time = temporary[1].split(':')
+                time = time[0] + ':' + time[1]
+                arrival.append(date)
+                arrival.append(time)
+                arrival.append(datetime.strptime(date, '%d-%m-%Y').strftime('%a'))
+
+                temporary = journey['departure_date'].split(' ')
+                date = temporary[0].split('-')
+                date = date[2] + '-' + date[1] + '-' + date[0]
+                time = temporary[1].split(':')
+                time = time[0] + ':' + time[1]
+                departure.append(date)
+                departure.append(time)
+                departure.append(datetime.strptime(date, '%d-%m-%Y').strftime('%a'))
+                try:
+                    ##arrival_return
+                    temporary = journey['arrival_date_return'].split(' ')
+                    date = temporary[0].split('-')
+                    date = date[2] + '-' + date[1] + '-' + date[0]
+                    time = temporary[1].split(':')
+                    time = time[0] + ':' + time[1]
+                    arrival_return.append(date)
+                    arrival_return.append(time)
+                    arrival_return.append(datetime.strptime(date, '%d-%m-%Y').strftime('%a'))
+
+                    ##departure_return
+                    temporary = journey['departure_date_return'].split(' ')
+                    date = temporary[0].split('-')
+                    date = date[2] + '-' + date[1] + '-' + date[0]
+                    time = temporary[1].split(':')
+                    time = time[0] + ':' + time[1]
+                    departure_return.append(date)
+                    departure_return.append(time)
+                    departure_return.append(datetime.strptime(date, '%d-%m-%Y').strftime('%a'))
+                    journey['departure_return'] = departure_return
+                    journey['arrival_return'] = arrival_return
+                except:
+                    pass
+
+                journey['duration'] = getDuration(departure[0], departure[1], arrival[0], arrival[1])
+                journey['departure'] = departure
+                journey['arrival'] = arrival
+                departure = []
+                arrival = []
+                departure_return = []
+                arrival_return = []
+                totalprice = 0
+                total_price_with_discount = 0
+                elapsed_time = journey['elapsed_time'].split(':')
+                journey['elapsed_time_in_sec'] = (int(elapsed_time[0]) * 86400) + (int(elapsed_time[1]) * 3600) + (
+                            int(elapsed_time[2]) * 60) + int(elapsed_time[3])
+                elapsed_time_transit_duration_in_sec = 0
+                for idy, segment in enumerate(journey['segments']):
+                    if segment['transit_duration'] != '':
+                        elapsed_time_transit_duration = segment['transit_duration'].split(':')
+                        elapsed_time_transit_duration_in_sec += (int(elapsed_time_transit_duration[0]) * 86400) + (
+                                    int(elapsed_time_transit_duration[1]) * 3600) + (int(
+                            elapsed_time_transit_duration[2]) * 60) + int(elapsed_time_transit_duration[3])
+                    segment['transit_duration_list'] = segment['transit_duration'].split(':')
+                    check = 0
+                    origin_found = False
+                    destination_found = False
+                    if country_detail.get(segment['origin']):
+                        segment['origin_name'] = country_detail[segment['origin']]['name']
+                        segment['origin_city'] = country_detail[segment['origin']]['city']
+                        segment['origin_country'] = country_detail[segment['origin']]['country']
+                        origin_found = True
+                        check += 1
+                    if country_detail.get(segment['destination']):
+                        segment['destination_name'] = country_detail[segment['destination']]['name']
+                        segment['destination_city'] = country_detail[segment['destination']]['city']
+                        segment['destination_country'] = country_detail[segment['destination']]['country']
+                        destination_found = True
+                        check += 1
+
+                    if check != 2:
+                        for destination in airline_destinations:
+                            if origin_found == False and segment['origin'] == destination['code']:
+                                segment['origin_name'] = destination['name']
+                                segment['origin_city'] = destination['city']
+                                segment['origin_country'] = destination['country']
+                                country_detail[destination['code']] = {
+                                    "name": destination['name'],
+                                    "city": destination['city'],
+                                    "country": destination['country']
+                                }
+                                origin_found = True
+                                check += 1
+                            elif destination_found == False and segment['destination'] == destination['code']:
+                                segment['destination_name'] = destination['name']
+                                segment['destination_city'] = destination['city']
+                                segment['destination_country'] = destination['country']
+                                country_detail[destination['code']] = {
+                                    "name": destination['name'],
+                                    "city": destination['city'],
+                                    "country": destination['country']
+                                }
+                                check += 1
+                                destination_found = True
+                            if check == 2:
+                                break
+                    check = 0
+                    for carrier_code in journey['carrier_code_list']:
+                        if carrier_code[0] == segment['carrier_code'] and carrier_code[1] == segment['operating_airline_code']:
+                            check = 1
+                            break
+                    if check == 0:
+                        journey['carrier_code_list'].append([segment['carrier_code'], segment['operating_airline_code']])
+                        journey['carrier_code_list_show'].append(segment['carrier_code'])
+                    if len(segment['fares']) == 0:
+                        journey['totalprice'] = 0
+                        available_count.append(0)
+                    temporary = segment['arrival_date'].split(' ')
+                    date = temporary[0].split('-')
+                    date = date[2] + '-' + date[1] + '-' + date[0]
+                    time = temporary[1].split(':')
+                    time = time[0] + ':' + time[1]
+                    arrival.append(date)
+                    arrival.append(time)
+                    arrival.append(datetime.strptime(date, '%d-%m-%Y').strftime('%a'))
+
+                    temporary = segment['departure_date'].split(' ')
+                    date = temporary[0].split('-')
+                    date = date[2] + '-' + date[1] + '-' + date[0]
+                    time = temporary[1].split(':')
+                    time = time[0] + ':' + time[1]
+                    departure.append(date)
+                    departure.append(time)
+                    departure.append(datetime.strptime(date, '%d-%m-%Y').strftime('%a'))
+
+                    segment['duration'] = getDuration(departure[0], departure[1], arrival[0], arrival[1])
+                    segment['departure'] = departure
+                    segment['arrival'] = arrival
+                    departure = []
+                    arrival = []
+
+                    ## check operated by
+                    try:
+                        if segment['carrier_code'] == segment['operating_airline_code']:
+                            journey['operated_by_carrier_code'] = segment['operating_airline_code']
+                            journey['operated_by'] = True
+                        else:
+                            journey['operated_by'] = False
+                            journey['operated_by_carrier_code'] = segment['operating_airline_code']
+                    except:
+                        journey['operated_by'] = True
+                        journey['operated_by_carrier_code'] = segment['carrier_code']
+
+                    choose_fare = True
+                    for idz, fare in enumerate(segment['fares']):
+                        if fare['cabin_class'] == 'Y':
+                            fare['cabin_class_name'] = 'Economy'
+                        elif fare['cabin_class'] == 'W' and segment['carrier_code'] == 'QG':
+                            fare['cabin_class_name'] = 'Royal Green'
+                        elif fare['cabin_class'] == 'W':
+                            fare['cabin_class_name'] = 'Premium Economy'
+                        elif fare['cabin_class'] == 'C':
+                            fare['cabin_class_name'] = 'Business'
+                        elif fare['cabin_class'] == 'F':
+                            fare['cabin_class_name'] = 'First Class'
+                        if int(fare['available_count']) >= total_pax and choose_fare and check_segment_fare:
+                            choose_fare = False
+                            fare['pick'] = True
+                            segment['fare_pick'] = idz
+                            class_of_service_list.append(fare['class_of_service'])
+                            add_new_data = True
+                            for fare_detail in fare['fare_details']:
+                                add_new_data = True
+                                for idxx, fare_detail_pick in enumerate(fare_details):
+                                    add_new_data = False
+                                    if fare_detail_pick['detail_code'] == fare_detail['detail_code'] and \
+                                            fare_detail_pick['amount'] > fare_detail['amount']:
+                                        fare_details.pop(idxx)
+                                        add_new_data = True
+                                    elif fare_detail_pick['detail_code'] == fare_detail['detail_code'] and \
+                                            fare_detail_pick['amount'] < fare_detail['amount']:
+                                        break
+
+                                if (add_new_data):
+                                    fare_details.append(fare_detail)
+                            for svc_summary in fare['service_charge_summary']:
+                                if not svc_summary['pax_type'] in ['CHD', 'INF']:
+                                    for svc in svc_summary['service_charges']:
+                                        if svc['charge_type'] != 'RAC':
+                                            if svc['charge_type'] != 'DISC':
+                                                totalprice += svc['total'] / svc['pax_count']
+                                            total_price_with_discount += svc['total'] / svc['pax_count']
+                                            if journey.get('currency') == None:
+                                                journey['currency'] = svc['currency']
+                                    break
+
+                            if idy == 0:
+                                available_count.append(int(fare['available_count']))
+                                journey['class_of_service'].append(fare['class_of_service'])
+                                segment['bool'] = True
+                            elif journey['is_combo_price']:
+                                for journey_list_req in request.data['journey_list']:
+                                    if journey_list_req['origin'] == segment['origin'] and segment.get('bool'):
+                                        available_count.append(int(fare['available_count']))
+                                        journey['class_of_service'].append(fare['class_of_service'])
+                                        segment['bool'] = True
+
+                        else:
+                            fare['pick'] = False
+
+                        for svc_summary in fare['service_charge_summary']:
+                            if not svc_summary['pax_type'] in ['CHD', 'INF']:
+                                total_price_fare = 0
+                                for svc in svc_summary['service_charges']:
+                                    if svc['charge_type'] != 'RAC' and svc['charge_type'] != 'DISC':
+                                        total_price_fare += svc['total'] / svc['pax_count']
+                                fare['total_price'] = total_price_fare
+                        fare['show'] = True
+                        fare['segments_sequence'] = segment['sequence']
+                        fare['journey_code'] = journey['journey_code']
+                    if choose_fare:
+                        check_segment_fare = False
+
+                journey['elapsed_time_transit_duration_in_sec'] = elapsed_time_transit_duration_in_sec
+                if choose_fare == False and check_segment_fare:
+                    if totalprice % 1 != 0:
+                        totalprice = math.ceil(totalprice)
+                    if total_price_with_discount % 1 != 0:
+                        total_price_with_discount = math.ceil(total_price_with_discount)
+                    journey['totalprice'] = totalprice
+                    journey['totalprice_show'] = getrupiah(totalprice)
+                    journey['totalprice_with_discount'] = total_price_with_discount
+                    journey['totalprice_with_discount_show'] = getrupiah(total_price_with_discount)
+                    if (totalprice == total_price_with_discount):
+                        journey['show_discount'] = False
+                    else:
+                        journey['show_discount'] = True
+                    journey['sold_out'] = False
+                    journey['share_journey'] = False
+
+                    for available in available_count:
+                        if (
+                                available_seat > available or available > available_seat and available_seat == 100):  ##kalau lebih dari default awal tetap simpan
+                            available_seat = available
+
+                        if (available_seat == 100):  ## kalau available masih default berarti kosong
+                            available_seat = 0
+                            journey['sold_out'] = True
+                        journey['available_count'] = available_seat
+                else:
+                    journey['is_combo_price'] = False
+                    journey['currency'] = ''
+                    journey['totalprice'] = 0
+                    journey['totalprice_show'] = '0'
+                    journey['totalprice_with_discount'] = 0
+                    journey['totalprice_with_discount_show'] = '0'
+                    journey['show_discount'] = False
+                    journey['available_count'] = 0
+                    journey['sold_out'] = True
+                    journey['share_journey'] = False
+
+                totalprice = 0
+            else:
+                journey['is_combo_price'] = False
+                journey['currency'] = ''
+                journey['totalprice'] = 0
+                journey['totalprice_show'] = '0'
+                journey['available_count'] = 0
+                journey['sold_out'] = True
+                journey['share_journey'] = False
+
+            for carrier_code in journey['carrier_code_list_show']:
+                if is_airasia and carrier_code in airasia_carrier_list_code:
+                    continue
+                elif not is_airasia and carrier_code not in airasia_carrier_list_code:
+                    data_temp.append(carrier_code)
+                elif not is_airasia and carrier_code in airasia_carrier_list_code:
+                    is_airasia = True
+                    data_temp.append(carrier_code)
+            journey['carrier_code_list_show'] = data_temp
+
+            journey['fare_details_pick'] = fare_details
+            journey['sequence'] = journey['journey_code']
+            journey['show_detail'] = False
+            journey['class_of_service_list'] = class_of_service_list
+
+            breakdown_price_list = []
+            breakdown_price_dict = {}
+            estimated_price = []
+
+            if journey['totalprice_with_discount'] != 0 and agent_rate_data['result']['is_show']:
+                for currency in agent_rate_data['result']['response']['agent'][request.data['co_ho_seq_id']]:
+                    estimated_price.append({
+                        "currency": currency,
+                        "price_show": getrupiah(journey['totalprice_with_discount'] /
+                                                agent_rate_data['result']['response']['agent'][
+                                                    request.data['co_ho_seq_id']][currency]['rate'])
+                    })
+                if len(estimated_price) > 0:
+                    journey['estimated_price'] = estimated_price
+            if breakdown_price_data['result']['response']:
+                for segment in journey['segments']:
+                    for fare in segment['fares']:
+                        for svc_summary in fare['service_charge_summary']:
+                            if not svc_summary['pax_type'] in ['CHD', 'INF']:
+                                for svc in svc_summary['service_charges']:
+                                    if svc['charge_type'] not in breakdown_price_dict:
+                                        breakdown_price_dict[svc['charge_type']] = 0
+                                    breakdown_price_dict[svc['charge_type']] += svc['amount']
+                                break
+                        if breakdown_price_dict:
+                            break
+                if breakdown_price_dict:
+                    for data_breakdown in breakdown_price_dict:
+                        breakdown_price_list.append({
+                            "charge_type": data_breakdown,
+                            "amount": getrupiah(breakdown_price_dict[data_breakdown])
+                        })
+                    journey['breakdown_price'] = breakdown_price_list
+    if res['result']['response'].get('recommendation_maps'):
+        res['result']['response'].pop('recommendation_maps')
+    return res
 
 def get_breakdown_price(request):
     file = read_cache("show_breakdown_price", 'cache_web', request, 90911)

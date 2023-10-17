@@ -494,7 +494,14 @@ function airline_goto_search(){
         for(key in request_airline){
             if(concat_url)
                 concat_url += '&';
-            concat_url += key + '=' + request_airline[key];
+            if(key == 'origin' || key == 'destination'){
+                data_list = [];
+                for(index in request_airline[key]){
+                    data_list.push(request_airline[key][index].split(' - ')[0])
+                }
+                concat_url += key + '=' + data_list;
+            }else
+                concat_url += key + '=' + request_airline[key];
         }
         window.location.href = '/airline/search?' + concat_url;
 //        document.getElementById('airline_searchForm').action = '/airline/search?' + concat_url;
@@ -13308,6 +13315,11 @@ function auto_fill_airline_cookie(cookie_airline,page='home', max_try=0){
             // update niceselect
             $('#cabin_class_flight').niceSelect('update');
         }else{
+            for(i in cookie_airline['origin']){
+                if(i != 0){
+                    add_multi_city('home');
+                }
+            }
             document.getElementById('origin_id_flight1').value = cookie_airline['origin'][0];
             document.getElementById('destination_id_flight1').value = cookie_airline['destination'][0];
             document.getElementById('airline_departure1').value = cookie_airline['departure'][0];

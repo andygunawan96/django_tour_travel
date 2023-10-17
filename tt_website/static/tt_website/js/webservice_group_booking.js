@@ -3000,6 +3000,10 @@ function group_booking_issued_booking(){
                     }).then((result) => {
                         if (result.value) {
                             window.location.href = '/top_up';
+                        }else{
+                            if(window.location.href.includes('payment')){
+                                window.location.href = '/group_booking/booking/'+order_number;
+                            }
                         }
                     })
                 }
