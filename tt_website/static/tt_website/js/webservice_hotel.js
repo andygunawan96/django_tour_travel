@@ -1388,9 +1388,16 @@ function hotel_detail_request(checkin_date, checkout_date){
                     document.getElementById("filterRoom_generalShow").innerHTML = text_filter;
 
                     result_room_detail = result;
-                    hotel_price = result.prices;
+
+                    var data_hotel_price_list = [];
+                    var hotel_date_list = document.getElementById('hotel_checkin_checkout2').value.split(' - ');
+                    if(result.request.checkin_date == moment(hotel_date_list[0]).format('YYYY-MM-DD') && result.request.checkout_date == moment(hotel_date_list[1]).format('YYYY-MM-DD'))
+                        data_hotel_price_list = result.prices;
+//                    hotel_price = result.prices;
+                    hotel_price = data_hotel_price_list;
                     filter_type = ''
-                    filter_room_hotel('');
+                    if(result.request.checkin_date == moment(hotel_date_list[0]).format('YYYY-MM-DD') && result.request.checkout_date == moment(hotel_date_list[1]).format('YYYY-MM-DD'))
+                        filter_room_hotel('');
 
                     //            for(i in result.prices){
         //                text+=`
@@ -1632,9 +1639,16 @@ function hotel_get_current_search_detail(checkin_date, checkout_date){
                                 }
 
                                 result_room_detail = result;
-                                hotel_price = result.prices;
+
+                                var data_hotel_price_list = [];
+                                var hotel_date_list = document.getElementById('hotel_checkin_checkout2').value.split(' - ');
+                                if(result.request.checkin_date == moment(hotel_date_list[0]).format('YYYY-MM-DD') && result.request.checkout_date == moment(hotel_date_list[1]).format('YYYY-MM-DD'))
+                                    data_hotel_price_list = result.prices
+            //                    hotel_price = result.prices;
+                                hotel_price = data_hotel_price_list;
                                 filter_type = ''
-                                filter_room_hotel('');
+                                if(result.request.checkin_date == moment(hotel_date_list[0]).format('YYYY-MM-DD') && result.request.checkout_date == moment(hotel_date_list[1]).format('YYYY-MM-DD'))
+                                    filter_room_hotel('');
                             }
 
                         }
