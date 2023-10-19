@@ -20,6 +20,7 @@ now_page = '';
 
 picker_multi_city = [];
 total_promo_code_chosen = 0;
+fee_dict_temp = {};
 
 var departure_list = [
     {
@@ -4351,7 +4352,7 @@ function airline_pick_mc(type){
             <div class="row">
                 <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd; padding-bottom:10px;">`;
                     text+=`
-                    <span style="font-size:14px; font-weight:bold;"><i class="fas fa-plane" style="color:`+color+`; font-size:18px;"></i> `;
+                    <span style="font-size:14px; font-weight:bold;"><img style="width:auto; height:25px; border-radius:7px; background:white;" src="/static/tt_website/images/icon/product/c-airline.png" alt="Airline Icon"> `;
                     if($radio_value_string != "multicity"){
                         if(airline_pick_list[i].is_combo_price == true){
                              text+=`Departure-Return`;
@@ -4999,7 +5000,7 @@ function airline_pick_mc(type){
                                    catch(err){
                                        text+=`
                                        <div style="display:inline-block;">
-                                            <img data-toggle="tooltip" class="airlines_provider_img_fd" alt="/static/tt_website/images/icon/product/c-airline.png" title="`+airline_pick_list[i].segments[j].carrier_code+`" src="/static/tt_website/images/icon/product/c-airline.png">
+                                            <img data-toggle="tooltip" class="airlines_provider_img_fd" alt="/static/tt_website/images/icon/product/c-airline.png" title="Airline" src="/static/tt_website/images/icon/product/c-airline.png">
                                        </div>
                                        <div style="display:inline-block; margin:auto;">
                                            <div style="display:grid;">
@@ -6109,7 +6110,7 @@ function airline_detail(type){
                                             </div>
                                             <div class="col-lg-12">`;
                                                 if(price_itinerary_temp[i].journeys[j].segments[k].fares.length > 0){
-                                                    text_modal_content += `<div style="margin-bottom:15px;"><img src="/static/tt_website/images/icon/symbol/seat.png" style="height:16px; width:auto;"><span style="font-weight:800;">`;
+                                                    text_modal_content += `<div><img src="/static/tt_website/images/icon/symbol/seat.png" style="height:16px; width:auto;"><span style="font-weight:800;">`;
                                                     if(price_itinerary_temp[i].journeys[j].segments[k].fares[0].cabin_class != '')
                                                         if(price_itinerary_temp[i].journeys[j].segments[k].fares[0].cabin_class == 'Y')
                                                             text_modal_content += 'Economy - ';
@@ -6183,6 +6184,10 @@ function airline_detail(type){
                                                 }
                                             text_modal_content+=`
                                             </div>`;
+
+                                            if(k != price_itinerary_temp[i].journeys[j].segments.length-1){
+                                                text_modal_content+=`<div class="col-lg-12 mb-3" style="border-top:1px solid #cdcdcd;"></div>`;
+                                            }
                                         }
                                     text_modal_content+=`
                                     </div>
@@ -6190,25 +6195,25 @@ function airline_detail(type){
                             </div>`;
 
                             modal_content_arr.push(text_modal_content);
-
-                            //edit cen hehe
+                            //price detail
                             text += `
                             <div class="col-lg-12">
-                                <span class="span_link" onclick="content_modal_custom('myModalDetail','myModalContent', 'Detail', modal_content_arr[`+parseInt(flight_count-1)+`]);">
-                                    <i class="fas fa-plane"></i> `;
-                                    if(!is_roundtrip_combo)
-                                        text+=`Flight #`+flight_count+`<br/>`;
-                                    else
-                                        text+=`Roundtrip</br>`;
-                                    text+=price_itinerary_temp[i].journeys[j].origin;
-                                    if(!is_roundtrip_combo)
-                                        text+=` <i class="fas fa-arrow-right"></i> `;
-                                    else
-                                        text+=` <i class="fas fa-arrows-alt-h"></i> `; // cek cenius
-                                    text+=price_itinerary_temp[i].journeys[j].destination+`,
-                                    `+price_itinerary_temp[i].journeys[j].departure_date.split(' - ')[0]+`
-                                    <span id="flight_title_up`+flight_count+`" style="float:right; font-weight:bold; color:`+color+`; cursor:pointer;"> Detail</span>
-                                </span>
+                                <div class="span_link" style="display:inline-flex; margin-top:10px;" onclick="content_modal_custom('myModalDetail','myModalContent', 'Detail', modal_content_arr[`+parseInt(flight_count-1)+`]);">
+                                    <div>`;
+                                        if(!is_roundtrip_combo)
+                                            text+=`Flight #`+flight_count+`<br/>`;
+                                        else
+                                            text+=`Roundtrip</br>`;
+                                        text+=price_itinerary_temp[i].journeys[j].origin;
+                                        if(!is_roundtrip_combo)
+                                            text+=` <i class="fas fa-arrow-right"></i> `;
+                                        else
+                                            text+=` <i class="fas fa-arrows-alt-h"></i> `; // cek cenius
+                                        text+=price_itinerary_temp[i].journeys[j].destination+`,
+                                        `+price_itinerary_temp[i].journeys[j].departure_date.split(' - ')[0]+`
+                                        <span id="flight_title_up`+flight_count+`" style="font-weight:bold; color:`+color+`; cursor:pointer;"> Detail</span>
+                                    </div>
+                                </div>
                             </div>`;
 
 
@@ -6306,14 +6311,14 @@ function airline_detail(type){
                                                 }
                                             }
                                             text+=`
-                                            <div class="row mt-2 mb-2">
+                                            <div class="row mt-2">
                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
                                                     <span style="font-size:13px; font-weight:bold;">Subtotal</span>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
                                                     <span style="font-size:13px; font-weight:bold;">`+currency+` `+getrupiah(Math.ceil(sub_total_count))+`</span>
                                                 </div>
-                                                <div class="col-lg-12" style="border-bottom:1px solid #cdcdcd;"></div>
+                                                <div class="col-lg-12 pt-2" style="border-bottom:1px solid #cdcdcd;"></div>
                                             </div>`;
 
                                             price_counter++;
@@ -6360,7 +6365,7 @@ function airline_detail(type){
             </div>`;
 
         text+=`
-        <div class="row">
+        <div class="row" style="margin-top:10px;">
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
                 <label>Ancillary Fee</label><br/>
             </div>
@@ -6708,10 +6713,10 @@ function airline_detail(type){
 
             text+=`
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                <span style="font-size:14px; font-weight:bold;"><b>Total</b></span>
+                <span style="font-size:16px; font-weight:bold;"><b>Total</b></span>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                <span style="font-size:14px; font-weight:bold;`;
+                <span style="font-size:16px; font-weight:bold;`;
                 if(is_show_breakdown_price){
                     text+='cursor:pointer;';
                 }
@@ -6820,16 +6825,59 @@ function airline_detail(type){
             //repricing
         }
         if(document.URL.split('/')[document.URL.split('/').length-2] == 'review' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
-            text+=`<div style="text-align:right;"><img src="/static/tt_website/images/icon/symbol/upsell_price.png" alt="Bank" style="width:auto; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
+            text+=`<div style="text-align:right; margin-top:15px;"><img src="/static/tt_website/images/icon/symbol/upsell_price.png" alt="Bank" style="width:auto; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
         }
+        if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
+            text+=`
+            <div class="alert alert-success" style="margin-top:10px;">
+                <div style="color:black; font-weight:bold; cursor:pointer; font-size:15px; text-align:left; width:100%;" onclick="show_commission('commission');">
+                    <span id="show_commission_button"">
+                        Hide YPM <i class="fas fa-chevron-up" style="float:right;"></i>
+                    </span>
+                </div>`;
+                // tidak ikut default karena ada notes untuk YPM lionair
+                text+=`
+                <div class="row mt-3" id="show_commission" style="display:block;">
+                    <div class="col-lg-12 col-xs-12" "text-align:left;">
+                        <span style="font-size:14px; font-weight: bold;">YPM: `+currency+` `+getrupiah(commission_price*-1)+`</span>`;
+                            text_notes = '';
+                            for(x in airline_pick){
+                                for(y in airline_pick[x].journeys){
+                                    for(z in airline_pick[x].journeys[y].segments){
+                                        if(airline_pick[x].journeys[y].segments[z].carrier_code.includes('JT') ||
+                                           airline_pick[x].journeys[y].segments[z].carrier_code.includes('IW') ||
+                                           airline_pick[x].journeys[y].segments[z].carrier_code.includes('ID') ||
+                                           airline_pick[x].journeys[y].segments[z].carrier_code.includes('IU') ||
+                                           airline_pick[x].journeys[y].segments[z].carrier_code.includes('OD'))
+                                           text_notes = '* Lion Air YPM is shown after booking';
+                                        if(text_notes != '')
+                                            break;
+                                    }
+                                    if(text_notes != '')
+                                        break;
+                                }
+                                if(text_notes != '')
+                                    break;
+                            }
+                            if(text_notes == '')
+                                text_notes = '* Please mark up the price first'
+                            if(commission_price == 0)
+                                text +=`
+                                <div style="text-align:left;">
+                                    <span style="font-size:13px;font-weight: bold;color:red">`+text_notes+`</span>
+                                </div>`;
+                        text+=`
+                    </div>
+                </div>
+            </div>`;
+        }
+
         text+=`
         <div class="row">
-            <div class="col-lg-12" style="padding-bottom:10px;">
-                <hr/>
-                <span style="font-size:14px; font-weight:bold;"><i class="fas fa-share-alt"></i> Share This on:</span><br/>`;
+            <div class="col-lg-12">
+                <span style="font-size:14px; font-weight:bold;"><i class="fas fa-share-alt"></i> Share this on:</span><br/>`;
 
                 $text += '‣ Grand Total: '+currency+' '+ getrupiah(grand_total_price + total_discount) + '\nPrices and availability may change at any time';
-
                 share_data();
                 var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
                 if (isMobile) {
@@ -6845,61 +6893,15 @@ function airline_detail(type){
                         <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" alt="Telegram" src="/static/tt_website/images/logo/apps/telegram.png"/></a>
                         <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" alt="Email" src="/static/tt_website/images/logo/apps/email.png"/></a>`;
                 }
-            text+=`
+                text+=`
+                <div style="float:right">
+                    <button class="btn_standard_sm" type="button" onclick="copy_data();">
+                        <i class="fas fa-copy"></i> Copy
+                    </button>
+                </div>
             </div>
         </div>`;
-        if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false && user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
-            // tidak ikut default karena ada notes untuk YPM lionair
-            text+=`
-            <div class="row" id="show_commission" style="display:block;">
-                <div class="col-lg-12 col-xs-12">
-                    <div class="alert alert-success">
-                        <div style="text-align:center;">
-                            <span style="font-size:13px; font-weight: bold;">YPM: `+currency+` `+getrupiah(commission_price*-1)+`</span>
-                        </div>`;
-            text_notes = '';
-            for(x in airline_pick){
-                for(y in airline_pick[x].journeys){
-                    for(z in airline_pick[x].journeys[y].segments){
-                        if(airline_pick[x].journeys[y].segments[z].carrier_code.includes('JT') ||
-                           airline_pick[x].journeys[y].segments[z].carrier_code.includes('IW') ||
-                           airline_pick[x].journeys[y].segments[z].carrier_code.includes('ID') ||
-                           airline_pick[x].journeys[y].segments[z].carrier_code.includes('IU') ||
-                           airline_pick[x].journeys[y].segments[z].carrier_code.includes('OD'))
-                           text_notes = '* Lion Air YPM is shown after booking';
-                        if(text_notes != '')
-                            break;
-                    }
-                    if(text_notes != '')
-                        break;
-                }
-                if(text_notes != '')
-                    break;
-            }
-            if(text_notes == '')
-                text_notes = '* Please mark up the price first'
-            if(commission_price == 0)
-                text +=`
-                        <div style="text-align:left;">
-                            <span style="font-size:13px;font-weight: bold;color:red">`+text_notes+`</span>
-                        </div>`;
-            text+=`</div>
-                </div>
-            </div>`;
-        }
-        text+=`
-        <div style="padding-bottom:10px;">
-            <center>
-                <input type="button" class="primary-btn-white" style="width:100%;" onclick="copy_data();" value="Copy"/>
-            </center>
-        </div>`;
-        if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-            text+=`
-            <div style="padding-bottom:10px;">
-                <center>
-                    <input type="button" class="primary-btn-white" style="width:100%;" onclick="show_commission('commission');" id="show_commission_button" value="Hide YPM"/><br/>
-                </center>
-            </div>`;
+
     }else if(type == 'request_new'){
         // after sales post-booking dan post-issued
         $text = '';
@@ -10390,339 +10392,442 @@ function check_passenger_aftersales(adult, child, infant, type=''){
 }
 
 function get_airline_review(){
+    //airline review
     text = '';
     text = `
-    <div style="background:white; margin-bottom:15px; padding:15px; border:1px solid #cdcdcd;">
+    <div class="div_box_default mb-3">
         <div class="row">
-            <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
-                <h4 class="mb-3"><img src="/static/tt_website/images/icon/product/b-airline.png" alt="undefined" style="width:20px; height:20px;"> Flight Detail</h4>
+            <div class="col-lg-12" style="margin:auto;">
+                <h4 class="mb-3"><i class="fas fa-plane"></i> Flight Detail</h4>
             </div>
         </div>`;
-    flight_count = 0;
-    for(i in airline_pick){
-        airline_pick[i].price_itinerary = airline_pick[i].journeys;
-        for(j in airline_pick[i].price_itinerary){
-            if(airline_pick[i].price_itinerary[j].is_combo_price == true){
-                text += `<h6>Combo Price</h6>`;
-            }else if(airline_request.direction != 'MC'){
-                if(i == 0 && j == 0){
-                    text += `<h6>Departure</h6>`;
-                    if(airline_request.direction != 'MC'){}
-                    else{
-                        flight_count++;
+        flight_count = 0;
+        for(i in airline_pick){
+            airline_pick[i].price_itinerary = airline_pick[i].journeys;
+            for(j in airline_pick[i].price_itinerary){
+                text+=`<div class="row" style="padding-top:15px; border-top:1px solid #cdcdcd;">
+                <div class="col-lg-12">`;
+                if(airline_pick[i].price_itinerary[j].is_combo_price == true){
+                    text += `<h6>Combo Price</h6>`;
+                }else if(airline_request.direction != 'MC'){
+                    if(i == 0 && j == 0){
+                        text += `<h6>Departure</h6>`;
+                        if(airline_request.direction != 'MC'){}
+                        else{
+                            flight_count++;
+                        }
+                    }else{
+                        text += `<h6>Return</h6>`;
+                        if(airline_request.direction != 'MC'){}
+                        else{
+                            flight_count++;
+                        }
                     }
-                }else{
-                    text += `<hr/><h6>Return</h6>`;
-                    if(airline_request.direction != 'MC'){}
-                    else{
-                        flight_count++;
-                    }
-                }
-            }else if(airline_request.direction == 'MC'){
-                flight_count++;
-                if(flight_count != 1){
-                    text+=`<hr/>`;
-                }
-                text += `<h6>Flight `+flight_count+`</h6>`;
-            }
-            //logo
-            text+=`<div class="row">`;
-
-
-            for(k in airline_pick[i].price_itinerary[j].segments){
-                if(airline_pick[i].price_itinerary[j].journey_type == 'COM'){
-                    text += `<div><h6>Flight `+parseInt(flight_count+1)+`</h6></div>`;
+                }else if(airline_request.direction == 'MC'){
                     flight_count++;
-                }
-                text+=`<div class="col-lg-4">`;
-                try{
-                    text+=`<img data-toggle="tooltip" alt="`+airline_carriers[airline_pick[i].price_itinerary[j].segments[k].carrier_code].name+`" title="`+airline_carriers[airline_pick[i].price_itinerary[j].segments[k].carrier_code].name+`" style="width:50px; height:50px;" src="`+static_path_url_server+`/public/airline_logo/`+airline_pick[i].price_itinerary[j].segments[k].carrier_code+`.png"> <br/><span>`+airline_pick[i].price_itinerary[j].segments[k].carrier_name+` </span>`;
-                }catch(err){
-                    text+=`<img data-toggle="tooltip" alt="Airline" title="" style="width:50px; height:50px;" src="`+static_path_url_server+`/public/airline_logo/`+airline_pick[i].price_itinerary[j].segments[k].carrier_code+`.png"><br/><span>`+airline_pick[i].price_itinerary[j].segments[k].carrier_name+` </span>`;
+                    text += `<h5 style="margin-bottom:10px;">Flight #`+flight_count+`</h5>`;
                 }
                 text+=`</div>`;
-                text+=`<div class="col-lg-8">`;
-                for(l in airline_pick[i].price_itinerary[j].segments[k].legs){
+
+                //logo
+                for(k in airline_pick[i].price_itinerary[j].segments){
+                    if(airline_pick[i].price_itinerary[j].journey_type == 'COM'){
+                        text += `<div><h5 style="margin-bottom:10px;">Flight `+parseInt(flight_count+1)+`</h5></div>`;
+                        flight_count++;
+                    }
+
                     text+=`
-                    <div class="row">
-                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                            <table style="width:100%">
-                                <tr>
-                                    <td class="airport-code"><h5>`+airline_pick[i].price_itinerary[j].segments[k].legs[l].departure_date.split(' - ')[1]+`</h5></td>
-                                    <td style="padding-left:15px;">
-                                        <img src="/static/tt_website/images/icon/symbol/airlines-01.png" alt="Airline" style="width:20px; height:20px; margin-top:5px;"/>
-                                    </td>
-                                    <td style="height:30px;padding:0 15px;width:100%">
-                                        <div style="display:inline-block;position:relative;width:100%">
-                                            <div style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
-                                            <div class="origin-code-snippet" style="background-color:#d4d4d4;right:-6px"></div>
-                                            <div style="height:30px;min-width:40px;position:relative;width:0%"/>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </table>
-                            <span style="font-size:13px;">`+airline_pick[i].price_itinerary[j].segments[k].legs[l].departure_date.split(' - ')[0]+`</span></br>
-                            <span style="font-size:13px; font-weight:500;">`+airline_pick[i].price_itinerary[j].segments[k].legs[l].origin_city+` (`+airline_pick[i].price_itinerary[j].segments[k].legs[l].origin+`)</span>
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                            <table style="width:100%; margin-bottom:6px;">
-                                <tr>
-                                    <td><h5>`+airline_pick[i].price_itinerary[j].segments[k].legs[l].arrival_date.split(' - ')[1]+`</h5></td>
-                                    <td></td>
-                                    <td style="height:30px;padding:0 15px;width:100%"></td>
-                                </tr>
-                            </table>
-                            <span style="font-size:13px;">`+airline_pick[i].price_itinerary[j].segments[k].legs[l].arrival_date.split(' - ')[0]+`</span><br/>
-                            <span style="font-size:13px; font-weight:500;">`+airline_pick[i].price_itinerary[j].segments[k].legs[l].destination_city+` (`+airline_pick[i].price_itinerary[j].segments[k].legs[l].destination+`)</span>
+                    <div class="col-lg-3 mb-3">
+                        <div style="display:inline-flex;">
+                            <div style="display:inline-block;">`;
+                            try{
+                                if(airline_pick[i].price_itinerary[j].segments[k].carrier_code != airline_pick[i].price_itinerary[j].segments[k].operating_airline_code && airline_pick[i].price_itinerary[j].segments[k].operating_airline_code != ''){
+                                    text+=`<img data-toggle="tooltip" class="airlines_provider_img" alt="`+airline_carriers[airline_pick[i].price_itinerary[j].segments[k].operating_airline_code].name+`" title="`+airline_carriers[airline_pick[i].price_itinerary[j].segments[k].operating_airline_code].name+`" src="`+static_path_url_server+`/public/airline_logo/`+airline_pick[i].price_itinerary[j].segments[k].operating_airline_code+`.png">`;
+                                }else{
+                                    text+=`<img data-toggle="tooltip" class="airlines_provider_img" alt="`+airline_carriers[airline_pick[i].price_itinerary[j].segments[k].carrier_code].name+`" title="`+airline_carriers[airline_pick[i].price_itinerary[j].segments[k].carrier_code].name+`" src="`+static_path_url_server+`/public/airline_logo/`+airline_pick[i].price_itinerary[j].segments[k].carrier_code+`.png">`;
+                                }
+                            }catch(err){
+                                // carrier tidak ketemu di dict
+                                if(airline_pick[i].price_itinerary[j].segments[k].carrier_code != airline_pick[i].price_itinerary[j].segments[k].operating_airline_code && airline_pick[i].price_itinerary[j].segments[k].operating_airline_code != ''){
+                                    text+=`<img data-toggle="tooltip" class="airlines_provider_img" alt="`+airline_pick[i].price_itinerary[j].segments[k].operating_airline_code+`" title="`+airline_pick[i].price_itinerary[j].segments[k].operating_airline_code+`" src="`+static_path_url_server+`/public/airline_logo/`+airline_pick[i].price_itinerary[j].segments[k].operating_airline_code+`.png">`;
+                                }else{
+                                    text+=`<img data-toggle="tooltip" class="airlines_provider_img" alt="`+airline_pick[i].price_itinerary[j].segments[k].carrier_code+`" title="`+airline_pick[i].price_itinerary[j].segments[k].carrier_code+`" src="`+static_path_url_server+`/public/airline_logo/`+airline_pick[i].price_itinerary[j].segments[k].carrier_code+`.png">`;
+                                }
+                            }
+//                            try{
+//                                text+=`<img data-toggle="tooltip" class="airlines_provider_img" alt="`+airline_carriers[airline_pick[i].price_itinerary[j].segments[k].carrier_code].name+`" title="`+airline_carriers[airline_pick[i].price_itinerary[j].segments[k].carrier_code].name+`" src="`+static_path_url_server+`/public/airline_logo/`+airline_pick[i].price_itinerary[j].segments[k].carrier_code+`.png">`;
+//                            }catch(err){
+//                                text+=`<img data-toggle="tooltip" class="airlines_provider_img" alt="Airline" title="" src="`+static_path_url_server+`/public/airline_logo/`+airline_pick[i].price_itinerary[j].segments[k].carrier_code+`.png">`;
+//                            }
+                            text+=`
+                            </div>
+                            <div style="display:inline-block;">`;
+                                try{
+                                    if(airline_pick[i].price_itinerary[j].segments[k].carrier_code != airline_pick[i].price_itinerary[j].segments[k].operating_airline_code && airline_pick[i].price_itinerary[j].segments[k].operating_airline_code != ''){
+                                        text+=`<span style="margin-top:15px; font-size:13px; font-weight:500;">Operated By `+airline_carriers[airline_pick[i].price_itinerary[j].segments[k].operating_airline_code].name+` (`+airline_pick[i].price_itinerary[j].segments[k].carrier_code+airline_pick[i].price_itinerary[j].segments[k].carrier_number+`)</span><br/>`;
+                                    }else{
+                                        text+=`<span style="margin-top:15px; font-size:13px; font-weight:500;">`+airline_carriers[airline_pick[i].price_itinerary[j].segments[k].carrier_code].name+` (`+airline_pick[i].price_itinerary[j].segments[k].carrier_code+airline_pick[i].price_itinerary[j].segments[k].carrier_number+`)</span><br/>`;
+                                    }
+                                    $text += airline_carriers[airline_pick[i].price_itinerary[j].segments[k].carrier_code].name + ' (' + airline_pick[i].price_itinerary[j].segments[k].carrier_code + ' ' + airline_pick[i].price_itinerary[j].segments[k].carrier_number + ') ';
+                                }catch(err){
+                                    // carrier tidak ketemu di dict
+                                    if(airline_pick[i].price_itinerary[j].segments[k].carrier_code != airline_pick[i].price_itinerary[j].segments[k].operating_airline_code && airline_pick[i].price_itinerary[j].segments[k].operating_airline_code != ''){
+                                        text+=`<span style="margin-top:15px; font-size:13px; font-weight:500;">Operated By`+airline_pick[i].price_itinerary[j].segments[k].operating_airline_code+` (`+airline_pick[i].price_itinerary[j].segments[k].carrier_code+airline_pick[i].price_itinerary[j].segments[k].carrier_number+`)</span><br/>`;
+                                    }else{
+                                        text+=`<span style="margin-top:15px; font-size:13px; font-weight:500;">`+airline_pick[i].price_itinerary[j].segments[k].carrier_code+` (`+airline_pick[i].price_itinerary[j].segments[k].carrier_code+airline_pick[i].price_itinerary[j].segments[k].carrier_number+`)</span><br/>`;
+                                    }
+                                    $text += airline_pick[i].price_itinerary[j].segments[k].carrier_code + ' (' + airline_pick[i].price_itinerary[j].segments[k].carrier_code + ' ' + airline_pick[i].price_itinerary[j].segments[k].carrier_number + ') ';
+                                }
+//                            <div style="display:inline-block;">
+//                                <span style="margin-top:15px; font-size:13px; font-weight:500;">`+airline_pick[i].price_itinerary[j].segments[k].carrier_name+`</span><br>
+//                            </div>
+                            text+=`
+                            </div>
                         </div>
                     </div>`;
-                }
 
-                for(l in airline_pick[i].price_itinerary[j].segments[k].fares){
-                    for(m in airline_pick[i].price_itinerary[j].segments[k].fares[l].fare_details){
-                        text+=`<span style="font-weight:bold;">`;
-                        if(airline_pick[i].price_itinerary[j].segments[k].fares[l].fare_details[m].detail_type.includes('BG')){
-                            text+=`<i class="fas fa-suitcase"></i> Baggage: `;
-                        }else if(airline_pick[i].price_itinerary[j].segments[k].fares[l].fare_details[m].detail_type.includes('ML')){
-                            text+=`<i class="fas fa-utensils"></i> Meal: `;
-                        }
-                        text+=``+airline_pick[i].price_itinerary[j].segments[k].fares[l].fare_details[m].amount+` `+airline_pick[i].price_itinerary[j].segments[k].fares[l].fare_details[m].unit+`</span>`;
+                    text+=`<div class="col-lg-6">`;
+                    for(l in airline_pick[i].price_itinerary[j].segments[k].legs){
+                        text+=`
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                <h6>`+airline_pick[i].price_itinerary[j].segments[k].legs[l].departure_date.split(' - ')[1]+`</h6>
+                                <span>`+airline_pick[i].price_itinerary[j].segments[k].legs[l].departure_date.split(' - ')[0]+`</span><br>
+                                <span style="font-weight:500;">`+airline_pick[i].price_itinerary[j].segments[k].legs[l].origin_city+` (`+airline_pick[i].price_itinerary[j].segments[k].legs[l].origin+`)</span><br>`;
+                                if(airline_pick[i].price_itinerary[j].segments[k].origin_terminal != ''){
+                                    text+=`<span style="font-size:13px; font-weight:500;">Terminal: `+airline_pick[i].price_itinerary[j].segments[k].origin_terminal+`</span><br/>`;
+                                }else{
+                                    text+=`<span style="font-size:13px; font-weight:500;">Terminal: - </span><br/>`;
+                                }
+                                text+=`
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                <div style="text-align:center; position: absolute; left:-30%;">
+                                    <div style="display:inline-block;position:relative;width:100px;z-index:1;">
+                                        <img src="/static/tt_website/images/icon/symbol/airlines-01.png" alt="Airline" style="width:20px; height:20px; margin-top:5px; position:relative; z-index:99;">
+                                        <div class="show_pc" style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
+                                        <div class="show_pc origin-code-snippet" style="background-color:#d4d4d4;right:0px"></div>
+                                    </div>
+                                </div>
+                                <div style="text-align:right">
+                                    <h6>`+airline_pick[i].price_itinerary[j].segments[k].legs[l].arrival_date.split(' - ')[1]+`</h6>
+                                    <span>`+airline_pick[i].price_itinerary[j].segments[k].legs[l].arrival_date.split(' - ')[0]+`</span><br>
+                                    <span style="font-weight:500;">`+airline_pick[i].price_itinerary[j].segments[k].legs[l].destination_city+` (`+airline_pick[i].price_itinerary[j].segments[k].legs[l].destination+`)</span><br>`;
+                                    if(airline_pick[i].price_itinerary[j].segments[k].destination_terminal != ''){
+                                        text+=`<span style="font-size:13px; font-weight:500;">Terminal: `+airline_pick[i].price_itinerary[j].segments[k].destination_terminal+`</span><br/>`;
+                                    }else{
+                                        text+=`<span style="font-size:13px; font-weight:500;">Terminal: - </span><br/>`;
+                                    }
+                                    text+=`
+                                </div>
+                            </div>
+                        </div>`;
                     }
+                    text+=`</div>
+                    <div class="col-lg-3">`;
+                    for(l in airline_pick[i].price_itinerary[j].segments[k].fares){
+                        for(m in airline_pick[i].price_itinerary[j].segments[k].fares[l].fare_details){
+                            text+=`<span style="font-weight:bold;">`;
+                            if(airline_pick[i].price_itinerary[j].segments[k].fares[l].fare_details[m].detail_type.includes('BG')){
+                                text+=`<i class="fas fa-suitcase"></i> Baggage: `;
+                            }else if(airline_pick[i].price_itinerary[j].segments[k].fares[l].fare_details[m].detail_type.includes('ML')){
+                                text+=`<i class="fas fa-utensils"></i> Meal: `;
+                            }
+                            text+=``+airline_pick[i].price_itinerary[j].segments[k].fares[l].fare_details[m].amount+` `+airline_pick[i].price_itinerary[j].segments[k].fares[l].fare_details[m].unit+`</span>`;
+                        }
+                    }
+                    text+=`</div>`;
+                    text+=`<div class="col-lg-12 mt-3"></div>`;
                 }
-                text+=`</div>`;
+
+                    text+=`
+                    <div class="col-lg-12">`;
+    //                if(provider_list_data[airline_pick[i].price_itinerary[j].provider].is_post_issued_reschedule)
+    //                    text+=`
+    //                        <br/><span style="font-weight:bold;"><i class="fas fa-check-circle" style="color:#4f9c64;"></i> Reschedule</span>`;
+
+    //                if(provider_list_data[airline_pick[i].price_itinerary[j].provider].is_post_issued_cancel)
+    //                    text+=`
+    //                        <br/><span style="font-weight:bold;"><i class="fas fa-check-circle" style="color:#4f9c64;"></i> Refund</span>`;
+                    text+=`
+                    </div>
+                </div>`;
             }
-
-            text+=`<div class="col-lg-12">`;
-//                if(provider_list_data[airline_pick[i].price_itinerary[j].provider].is_post_issued_reschedule)
-//                    text+=`
-//                        <br/><span style="font-weight:bold;"><i class="fas fa-check-circle" style="color:#4f9c64;"></i> Reschedule</span>`;
-
-//                if(provider_list_data[airline_pick[i].price_itinerary[j].provider].is_post_issued_cancel)
-//                    text+=`
-//                        <br/><span style="font-weight:bold;"><i class="fas fa-check-circle" style="color:#4f9c64;"></i> Refund</span>`;
-
-                text+=`
-                </div>
-            </div>`;
         }
-    }
-    text+=`</div>`;
+        text+=`
+    </div>`;
 
     //contact
     text+=`
     <div class="row">
         <div class="col-lg-12">
-            <div style="background:white; padding:15px; border:1px solid #cdcdcd;">
+            <div class="div_box_default mb-3">
                 <div class="row">
                     <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
                         <h4 class="mb-3"><i class="fas fa-user"></i> Contact Person</h4>
                     </div>
-                </div>`;
-                for(i in passengers.contact){
+                </div>
+                <div style="display:inline-flex;">`;
+                    for(i in passengers.contact){
+                        text+=`<div>`;
+//                            if(passengers.contact[i].face_image.length > 0){
+//                                text+=`<img src="`+passengers.contact[i].face_image[0]+`" alt="User" class="picture_passenger_agent">`;
+//                            }
+                            if(passengers.contact[i].title == "MR"){
+                                text+=`<img src="/static/tt_website/images/icon/symbol/user_mr.png" alt="User MR" class="picture_passenger_small">`;
+                            }
+                            else if(passengers.contact[i].title == "MRS"){
+                                text+=`<img src="/static/tt_website/images/icon/symbol/user_mrs.png" alt="User MRS" class="picture_passenger_small">`;
+                            }
+                            else if(passengers.contact[i].title == "MS"){
+                                text+=`<img src="/static/tt_website/images/icon/symbol/user_ms.png" alt="User MS" class="picture_passenger_small">`;
+                            }
+                            else if(passengers.contact[i].title == "MSTR"){
+                                text+=`<img src="/static/tt_website/images/icon/symbol/user_mistr.png" alt="User MSTR" class="picture_passenger_small">`;
+                            }
+                            else if(passengers.contact[i].title == "MISS"){
+                                text+=`<img src="/static/tt_website/images/icon/symbol/user_miss.png" alt="User MISS" class="picture_passenger_small">`;
+                            }
+                        text+=`
+                        </div>
+                        <div style="margin-left:10px;">
+                            <h5>
+                                `+passengers.contact[i].title+` `+passengers.contact[i].first_name+` `+ passengers.contact[i].last_name +`
+                            </h5>
+                            <b>Email: </b><i>`+passengers.contact[i].email+`</i><br>
+                            <b>Phone: </b><i>`+passengers.contact[i].calling_code+` - `+passengers.contact[i].mobile+`</i>
+                        </div>`;
+                    }
                     text+=`
-                    <h5>
-                        `+passengers.contact[i].title+` `+passengers.contact[i].first_name+` `+ passengers.contact[i].last_name +`
-                    </h5>
-                    <b>Email: </b><i>`+passengers.contact[i].email+`</i><br>
-                    <b>Phone: </b><i>`+passengers.contact[i].calling_code+` - `+passengers.contact[i].mobile+`</i><br>`;
-                }
-                text+=`
+                </div>
             </div>
         </div>
     </div>`;
 
     //SSR
     text+=`
-    <div class="row" style="padding-top:20px;">
+    <div class="row">
         <div class="col-lg-12">
-            <div style="background:white; padding:15px; border:1px solid #cdcdcd;">
+            <div class="div_box_default mb-3" style="padding: 15px 15px 0px 15px;">
                 <div class="row">
-                    <div class="col-lg-6 mb-2">
-                        <h4><i class="fas fa-sticky-note"></i> Seat & SSR</h4>
-                    </div>
-                    <div class="col-lg-6 mb-2" style="text-align:right;">
-                        <button type="button" class="primary-btn-white hold-seat-booking-train ld-ext-right" style="width:unset; margin-bottom:unset;" id="btn-search-train" onclick="window.location.href = '/airline/passenger/`+signature+`';" style="width:100%;">
-                            Edit Passenger <i class="fas fa-user-edit"></i>
-                            <div class="ld ld-ring ld-cycle"></div>
-                        </button>
+                    <div class="col-lg-12">
+                        <h4 style="margin-bottom:10px;">
+                            <i class="fas fa-users"></i>
+                            Passengers
+                            <button type="button" class="primary-btn hold-seat-booking-train ld-ext-right" style="margin-left:10px; line-height:35px; width:unset; margin-bottom:unset;" id="btn-search-train" onclick="window.location.href = '/airline/passenger/`+signature+`';">
+                                Edit <i class="fas fa-user-edit"></i>
+                                <div class="ld ld-ring ld-cycle"></div>
+                            </button>
+                        </h4>`;
+                        text+=`
                     </div>
                 </div>
                 <div class="row">`;
                     count_pax = 0;
                     for(i in passengers_ssr){
                         text+=`
-                            <div class="col-lg-12 mb-2" style="padding-top:15px; border-top:1px solid #cdcdcd;">
-                            <h5 class="single_border_custom_left" style="padding-left:5px;">
-                                `+(parseInt(count_pax)+1)+`. `+passengers_ssr[i].title+` `+passengers_ssr[i].first_name+` `+ passengers_ssr[i].last_name+``;
+                        <div class="col-lg-12" style="border-top:1px solid #cdcdcd;">
+                            <div class="row">
+                                <div class="col-lg-12" style="background: aliceblue;">
+                                    <h5 style="padding-top:10px;">
+                                        Passenger #`+(parseInt(count_pax)+1)+`
+                                    </h5>
+                                    <div style="display:inline-flex; margin-top:10px; margin-bottom:10px;">
+                                        <div>`;
+        //                                if(passengers_ssr[i].face_image.length > 0){
+        //                                    text+=`<img src="`+passengers_ssr[i].face_image[0]+`" alt="User" class="picture_passenger_agent">`;
+        //                                }
+                                            if(passengers_ssr[i].title == "MR"){
+                                                text+=`<img src="/static/tt_website/images/icon/symbol/user_mr.png" alt="User MR" class="picture_passenger_small">`;
+                                            }
+                                            else if(passengers_ssr[i].title == "MRS"){
+                                                text+=`<img src="/static/tt_website/images/icon/symbol/user_mrs.png" alt="User MRS" class="picture_passenger_small">`;
+                                            }
+                                            else if(passengers_ssr[i].title == "MS"){
+                                                text+=`<img src="/static/tt_website/images/icon/symbol/user_ms.png" alt="User MS" class="picture_passenger_small">`;
+                                            }
+                                            else if(passengers_ssr[i].title == "MSTR"){
+                                                text+=`<img src="/static/tt_website/images/icon/symbol/user_mistr.png" alt="User MSTR" class="picture_passenger_small">`;
+                                            }
+                                            else if(passengers_ssr[i].title == "MISS"){
+                                                text+=`<img src="/static/tt_website/images/icon/symbol/user_miss.png" alt="User MISS" class="picture_passenger_small">`;
+                                            }
+                                        text+=`
+                                        </div>
+                                        <div style="margin-left:10px;">
+                                            <h5>
+                                                `+passengers_ssr[i].title+` `+passengers_ssr[i].first_name+` `+ passengers_ssr[i].last_name+`
+                                                <b style="margin-left:5px; background:white; font-size:13px; color:black; padding:0px 10px; display:unset; border: 1px solid #cdcdcd; border-radius:5px;">`;
 
-                            if(passengers_ssr[i].pax_type == 'ADT'){
+                                                if(passengers_ssr[i].pax_type == 'ADT'){
+                                                    text+=`Adult`;
+                                                }else if(passengers_ssr[i].pax_type == 'CHD'){
+                                                    text+=`Child`;
+                                                }else if(passengers_ssr[i].pax_type == 'LBR'){
+                                                    text+=`Labour`;
+                                                }else if(passengers_ssr[i].pax_type == 'SEA'){
+                                                    text+=`Seaman`;
+                                                }else if(passengers_ssr[i].pax_type == 'STU'){
+                                                    text+=`Student`;
+                                                }
+                                                text+=`
+                                                </b>
+                                            </h5>
+                                            <b>Birth Date:</b> <i>`+passengers_ssr[i].birth_date+`</i><br/>`;
+                                            if(passengers_ssr[i].identity_type){
+                                                text+=`<b>`+passengers_ssr[i].identity_type.substr(0,1).toUpperCase()+passengers_ssr[i].identity_type.substr(1,passengers_ssr[i].identity_type.length)+`</b>: <i>`+passengers_ssr[i].identity_number+`</i>`;
+                                            }
+                                            if(passengers_ssr[i].identity_expdate){
+                                                text+=` | <b>Expired Date</b>: <i>`+passengers_ssr[i].identity_expdate+`</i>`;
+                                            }
+                                            if(passengers_ssr[i].identity_type || passengers_ssr[i].identity_expdate){
+                                                text+=`<br/>`;
+                                            }
+
+                                            try{
+                                                for(j in passengers_ssr[i].ff_numbers){
+                                                    text+= `<b style="text-transform: capitalize;">`+passengers_ssr[i].ff_numbers[j].ff_code+`: </b><i>`+passengers_ssr[i].ff_numbers[j].ff_number+`</i><br/>`;
+                                                }
+                                            }catch(err){
+                                                console.log(err); // error kalau ada element yg tidak ada
+                                            }
+                                            if(passengers_ssr[i].hasOwnProperty('behaviors') && Object.keys(passengers_ssr[i].behaviors).length > 0){
+                                                for(j in passengers_ssr[i].behaviors){
+                                                    if(j.toLowerCase() == 'airline'){
+                                                        text+=`<label id="pop_behaviors`+i+`" style="color:`+color+`;margin-bottom:unset;"> See Behavior History <i class="fas fa-chevron-down"></i></label><br/>`;
+                                                        break;
+                                                    }
+                                                }
+                                            }
+                                            i_id = parseInt(i)+1;
+                                            text+=`
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12" style="padding:15px;">
+                                    <h5 class="mb-3" style="border-bottom: 2px solid #cdcdcd; width:fit-content;">Seat & SSR</h5>
+                                    <div id="included_ssr`+i_id+`">
+
+                                    </div>`;
+//                                    fee_dict = {}
+//                                    for(j in passengers_ssr[i].ssr_list){
+//                                        if(fee_dict.hasOwnProperty(passengers_ssr[i].ssr_list[j].journey_code) == false){
+//                                            fee_dict[passengers_ssr[i].ssr_list[j].journey_code] = {
+//                                                "fees": [],
+//                                                "origin": passengers_ssr[i].ssr_list[j].origin,
+//                                                "destination": passengers_ssr[i].ssr_list[j].destination,
+//                                                "departure_date": passengers_ssr[i].ssr_list[j].departure_date
+//                                            };
+//                                        }
+//                                        fee_dict[passengers_ssr[i].ssr_list[j].journey_code].fees.push({
+//                                            "ssr_type": passengers_ssr[i].ssr_list[j].ssr_type,
+//                                            "name": passengers_ssr[i].ssr_list[j].name
+//                                        })
+//                                    }
+//
+//                                    if(passengers_ssr[i].ssr_list.length){
+//                                        text+=`<h6 class="pt-2" style="border-bottom: 2px solid `+color+`; color: `+color+`; width:fit-content;">SSR additional request</h6>
+//                                        <div style="margin-bottom:10px;">`;
+//                                    }
+//                                    counter_fee_dict = 0;
+//                                    for(j in fee_dict){
+//                                        counter_fee_dict++;
+//                                        if(counter_fee_dict == 1){
+//                                            text += `<b>`;
+//                                        }else{
+//                                            text += `<b>`;
+//                                        }
+//                                        text+=`<b>`+fee_dict[j].origin+` - `+fee_dict[j].destination+` (`+fee_dict[j].departure_date+`)</b><br/>
+//                                        <div style="padding:0px 15px;">`;
+//                                        for(k in fee_dict[j].fees){
+//                                            ssr_type_lower = fee_dict[j].fees[k].ssr_type.toLowerCase();
+//                                            if(ssr_type_lower.includes('ml') || ssr_type_lower.includes('meal')){
+//                                                text+=` • <i class="fas fa-utensils"></i> `;
+//                                            }
+//                                            else if(ssr_type_lower.includes('bg') || ssr_type_lower.includes('bag') || fee_dict[j].fees[k].ssr_type.includes('bg')){
+//                                                text+=` • <i class="fas fa-suitcase"></i> <i>Added</i> `;
+//                                            }
+//                                            else if(ssr_type_lower.includes('wc') || ssr_type_lower.includes('whcr') || ssr_type_lower.includes('wheelchair')){
+//                                                text+=` • <i class="fas fa-wheelchair"></i>`;
+//                                            }
+//                                            else{
+//                                                text+=` • `;
+//                                            }
+//                                            text+= `<i>`+fee_dict[j].fees[k].name+`</i><br/>`;
+//                                        }
+//                                        text+=`</div>`;
+//                                    }
+//                                    if(passengers_ssr[i].ssr_list.length){
+//                                        text+=`</div>`;
+//                                    }
+//                                text+=`
+//                                </div>
+//                                </div>`;
+//                                text+=`
+//                                <div class="col-lg-6">`;
+//                                    if(passengers_ssr[i].hasOwnProperty('seat_list') && passengers_ssr[i].seat_list.length > 0){
+//                                        text+=`<h6 class="pt-2" style="border-bottom: 2px solid `+color+`; color: `+color+`;">Seat request</h6>
+//                                        <div>`;
+//                                    }
+//
+//                                    counter_seat_list = 0;
+//                                    for(j in passengers_ssr[i].seat_list){
+//                                        counter_seat_list++;
+//                                        if(passengers_ssr[i].seat_list[j].seat_pick != ''){
+//                                            text+= `
+//                                            <b>`+passengers_ssr[i].seat_list[j].segment_code+` (`+moment(passengers_ssr[i].seat_list[j].departure_date).format('DD MMM YYYY') +`)</b> : <i>` +passengers_ssr[i].seat_list[j].seat_pick + '</i><br>';
+//                                        }
+//                                    }
+//                                    if(passengers_ssr[i].hasOwnProperty('seat_list')){
+//                                        text+=`</div>`;
+//                                    }
+//                                    text+=`
+//                                </div>`;
                                 text+=`
-                                <b style="background:white; font-size:13px; color:black; padding:0px 15px; display:unset; border: 1px solid #cdcdcd; border-radius:7px;">
-                                    <i class="fas fa-user"></i> Adult
-                                </b>`;
-                            }else if(passengers_ssr[i].pax_type == 'CHD'){
-                                text+=`
-                                <b style="background:white; font-size:13px; color:black; padding:0px 15px; display:unset; border: 1px solid #cdcdcd; border-radius:7px;">
-                                    <i class="fas fa-user"></i> Child
-                                </b>`;
-                            }else if(passengers_ssr[i].pax_type == 'LBR'){
-                                text+=`
-                                <b style="background:white; font-size:13px; color:black; padding:0px 15px; display:unset; border: 1px solid #cdcdcd; border-radius:7px;">
-                                    <i class="fas fa-user"></i> Labour
-                                </b>`;
-                            }else if(passengers_ssr[i].pax_type == 'SEA'){
-                                text+=`
-                                <b style="background:white; font-size:13px; color:black; padding:0px 15px; display:unset; border: 1px solid #cdcdcd; border-radius:7px;">
-                                    <i class="fas fa-user"></i> Seaman
-                                </b>`;
-                            }else if(passengers_ssr[i].pax_type == 'STU'){
-                                text+=`
-                                <b style="background:white; font-size:13px; color:black; padding:0px 15px; display:unset; border: 1px solid #cdcdcd; border-radius:7px;">
-                                    <i class="fas fa-user"></i> Student
-                                </b>`;
-                            }
-                            text+=`
-                            </h5>`;
-                            text+=`</div>
-                            <div class="col-lg-12">`;
-//                            if(passengers_ssr[i].pax_type == 'ADT')
-//                                text += `<b>Adult - </b>`;
-//                            else
-//                                text += `<b>Child - </b>`;
-                            text+=`
-                            <b>Birth Date:</b> <i>`+passengers_ssr[i].birth_date+`</i></div>`;
-                            if(passengers_ssr[i].identity_type){
-                                text+=`
-                                <div class="col-lg-12">
-                                    <b>`+passengers_ssr[i].identity_type.substr(0,1).toUpperCase()+passengers_ssr[i].identity_type.substr(1,passengers_ssr[i].identity_type.length)+`</b>: <i>`+passengers_ssr[i].identity_number+`</i>
-                                </div>`;
-                            }
-                            if(passengers_ssr[i].identity_expdate){
-                                text+=`
-                                <div class="col-lg-12">
-                                    <b>Expired Date</b>: <i>`+passengers_ssr[i].identity_expdate+`</i>
-                                </div>`;
-                            }
-
-                            text+=`<div class="col-lg-12" style="padding-bottom:15px;">`;
-                            try{
-                                for(j in passengers_ssr[i].ff_numbers){
-                                    text+= `<b style="text-transform: capitalize;">`+passengers_ssr[i].ff_numbers[j].ff_code+`: </b><i>`+passengers_ssr[i].ff_numbers[j].ff_number+`</i><br/>`;
-                                }
-                            }catch(err){
-                                console.log(err); // error kalau ada element yg tidak ada
-                            }
-
-                            if(passengers_ssr[i].hasOwnProperty('behaviors') && Object.keys(passengers_ssr[i].behaviors).length > 0){
-                                for(j in passengers_ssr[i].behaviors){
-                                    if(j.toLowerCase() == 'airline'){
-                                        text+=`<label id="pop_behaviors`+i+`" style="color:`+color+`;margin-bottom:unset;"> See Behavior History <i class="fas fa-chevron-down"></i></label><br/>`;
-                                        break;
-                                    }
-                                }
-                            }
-
-                            i_id = parseInt(i)+1;
-                            text+=`
-                            <b>SSR already included:</b><br/>
-                            <div class="mb-3" style="padding:15px; border:1px solid #cdcdcd;" id="included_ssr`+i_id+`">
-
-                            </div>`;
-
-                            if(passengers_ssr[i].ssr_list.length){
-                                text+=`<b style="color:`+color+`;">SSR additional request::</b>
-                                <div style="margin-bottom:10px; padding:15px; border:1px solid `+color+`; background:#f7f7f7;">`;
-                            }
-                            fee_dict = {}
-                            for(j in passengers_ssr[i].ssr_list){
-                                if(fee_dict.hasOwnProperty(passengers_ssr[i].ssr_list[j].journey_code) == false){
-                                    fee_dict[passengers_ssr[i].ssr_list[j].journey_code] = {
-                                        "fees": [],
-                                        "origin": passengers_ssr[i].ssr_list[j].origin,
-                                        "destination": passengers_ssr[i].ssr_list[j].destination,
-                                        "departure_date": passengers_ssr[i].ssr_list[j].departure_date
-                                    };
-                                }
-                                fee_dict[passengers_ssr[i].ssr_list[j].journey_code].fees.push({
-                                    "ssr_type": passengers_ssr[i].ssr_list[j].ssr_type,
-                                    "name": passengers_ssr[i].ssr_list[j].name
-                                })
-                            }
-                            counter_fee_dict = 0;
-                            for(j in fee_dict){
-                                counter_fee_dict++;
-                                if(counter_fee_dict == 1){
-                                    text += `<b>`;
-                                }else{
-                                    text += `<b>`;
-                                }
-                                text+=`• `+fee_dict[j].origin+` - `+fee_dict[j].destination+` (`+fee_dict[j].departure_date+`)</b><br/>`;
-                                for(k in fee_dict[j].fees){
-                                    ssr_type_lower = fee_dict[j].fees[k].ssr_type.toLowerCase();
-                                    if(ssr_type_lower.includes('ml') || ssr_type_lower.includes('meal')){
-                                        text+=` <i class="fas fa-utensils" style="color:`+color+`;"></i> `;
-                                    }
-                                    else if(ssr_type_lower.includes('bg') || ssr_type_lower.includes('bag') || fee_dict[j].fees[k].ssr_type.includes('bg')){
-                                        text+=` <i class="fas fa-suitcase" style="color:`+color+`;"></i> <i class="fas fa-plus"></i> <i>Added</i> `;
-                                    }
-                                    else if(ssr_type_lower.includes('wc') || ssr_type_lower.includes('wheelchair')){
-                                        text+=` <i class="fas fa-wheelchair" style="color:`+color+`;"></i> `;
-                                    }
-                                    else{
-                                        text+=` <i class="fas fa-tools" style="color:`+color+`;"></i> `;
-                                    }
-                                    text+= `<i>`+fee_dict[j].fees[k].name+`</i><br/>`;
-                                }
-                            }
-                            if(passengers_ssr[i].ssr_list.length){
-                                text+=`</div>`;
-                            }
-
-                            if(passengers_ssr[i].hasOwnProperty('seat_list') && passengers_ssr[i].seat_list.length > 0){
-                                text+=`<b style="color:`+color+`;">Seat request:</b>
-                                <div style="padding:15px; border:1px solid `+color+`; background:#f7f7f7;">`;
-                            }
-
-                            counter_seat_list = 0;
-                            for(j in passengers_ssr[i].seat_list){
-                                counter_seat_list++;
-                                if(counter_seat_list == 1){
-                                    text += `<b>`;
-                                }else{
-                                    text += `<b>`;
-                                }
-
-                                if(passengers_ssr[i].seat_list[j].seat_pick != ''){
-                                    text+= `
-                                    • `+passengers_ssr[i].seat_list[j].segment_code+` (`+moment(passengers_ssr[i].seat_list[j].departure_date).format('DD MMM YYYY') +`)<br/><img src="/static/tt_website/images/icon/symbol/seat.png" style="height:16px; width:auto;"/> <i>` +passengers_ssr[i].seat_list[j].seat_pick + '</i><br>';
-                                }
-                                text+=`</b>`;
-                            }
-                            if(passengers_ssr[i].hasOwnProperty('seat_list')){
-                                text+=`</div>`;
-                            }
-                            text+=`
-                            </div>`;
+                                </div>
+                            </div>
+                        </div>`;
                         count_pax++;
                     }
                     for(i in passengers.infant){
+                        if(i != passengers.infant.length-1){
+                            text+=`<div class="col-lg-12 mb-3" style="padding-top:15px; border-top:1px solid #cdcdcd; background:aliceblue;">`;
+                        }else{
+                            text+=`<div class="col-lg-12" style="padding-top:15px; border-top:1px solid #cdcdcd; background:aliceblue;">`;
+                        }
+
                         text+=`
-                        <div class="col-lg-12 mb-2" style="padding-top:15px; border-top:1px solid #cdcdcd;">
-                            <h5 class="single_border_custom_left" style="padding-left:5px;">
-                                `+(parseInt(count_pax)+1)+`. `+passengers.infant[i].title+` `+passengers.infant[i].first_name+` `+ passengers.infant[i].last_name +`
-                                <b style="background:white; font-size:13px; color:black; padding:0px 15px; display:unset; border: 1px solid #cdcdcd; border-radius:7px;">
-                                    <i class="fas fa-user"></i> Infant
-                                </b>
+                            <h5>
+                                Passenger #`+(parseInt(count_pax)+1)+`
                             </h5>
-                        </div>
-                        <div class="col-lg-12">
-                            <b>Birth Date:</b> <i>`+passengers.infant[i].birth_date+`</i>
+                            <div style="display:inline-flex; margin-top:10px; margin-bottom:10px;">
+                                <div>`;
+//                                if(passengers_ssr[i].face_image.length > 0){
+//                                    text+=`<img src="`+passengers_ssr[i].face_image[0]+`" alt="User" class="picture_passenger_agent">`;
+//                                }
+                                    if(passengers.infant[i].title == "MSTR"){
+                                        text+=`<img src="/static/tt_website/images/icon/symbol/user_mistr.png" alt="User MSTR" class="picture_passenger_small">`;
+                                    }
+                                    else if(passengers.infant[i].title == "MISS"){
+                                        text+=`<img src="/static/tt_website/images/icon/symbol/user_miss.png" alt="User MISS" class="picture_passenger_small">`;
+                                    }
+                                    text+=`
+                                </div>
+                                <div style="margin-left:10px;">
+                                    <h5>
+                                        `+passengers.infant[i].title+` `+passengers.infant[i].first_name+` `+ passengers.infant[i].last_name +`
+                                        <b style="background:white; font-size:13px; color:black; padding:0px 10px; display:unset; border: 1px solid #cdcdcd; border-radius:7px;">
+                                            Infant
+                                        </b>
+                                    </h5>
+                                    <b>Birth Date:</b> <i>`+passengers.infant[i].birth_date+`</i><br/>`;
+                                    if(passengers.infant[i].identity_type)
+                                        text+=`<b>`+passengers.infant[i].identity_type.substr(0,1).toUpperCase()+passengers.infant[i].identity_type.substr(1,passengers.infant[i].identity_type.length)+`</b>: <i>`+passengers.infant[i].identity_number+`</i>`;
+                                    text+=`
+                                </div>
+                            </div>
                         </div>`;
-                        if(passengers.infant[i].identity_type)
-                            text+=`
-                            <div class="col-lg-12">
-                                <b>`+passengers.infant[i].identity_type.substr(0,1).toUpperCase()+passengers.infant[i].identity_type.substr(1,passengers.infant[i].identity_type.length)+`</b>: <i>`+passengers.infant[i].identity_number+`</i>
-                            </div>`;
+
                         count_pax++;
                     }
                 text+=`
@@ -13132,21 +13237,22 @@ function get_default_ssr(pax, itinerary, page){
                 //id_i = parseInt(i)+1;
                 for(j in itinerary[i].journeys){
                     for(k in itinerary[i].journeys[j].segments){
-                        default_ssr_text+=`<b>• `+itinerary[i].journeys[j].segments[k].origin+` - `+itinerary[i].journeys[j].segments[k].destination+` ( `+itinerary[i].journeys[j].segments[k].departure_date+` )</b><br/>`;
+                        default_ssr_text+=`<h6 style="margin-bottom:10px;">`+itinerary[i].journeys[j].segments[k].origin+` <i class="fas fa-arrow-right"></i> `+itinerary[i].journeys[j].segments[k].destination+` ( `+itinerary[i].journeys[j].segments[k].departure_date+` )</h6>
+                        <div style="padding:0px 15px;">`;
                         if(page == 'booking'){
                             if(itinerary[i].journeys[j].segments[k].fare_details.length != 0){
                                 for(m in itinerary[i].journeys[j].segments[k].fare_details){
                                     default_ssr_text +=`
                                     <div class="row">
-                                       <div class="col-xs-12">`;
+                                       <div class="col-xs-12" style="margin-bottom:10px;">`;
                                        if(itinerary[i].journeys[j].segments[k].fare_details[m].detail_type.includes('BG')){
-                                            default_ssr_text +=`<i class="fas fa-suitcase"></i><b> Baggage: </b> <i>`+itinerary[i].journeys[j].segments[k].fare_details[m].amount+` `+itinerary[i].journeys[j].segments[k].fare_details[m].unit+`</i><br/>`;
+                                            default_ssr_text +=`• <i class="fas fa-suitcase"></i><b style="background: white; padding: 5px; border:1px solid #cdcdcd;"> Baggage: </b> <i>`+itinerary[i].journeys[j].segments[k].fare_details[m].amount+` `+itinerary[i].journeys[j].segments[k].fare_details[m].unit+`</i><br/>`;
                                        }
                                        else if(itinerary[i].journeys[j].segments[k].fare_details[m].detail_type == 'ML'){
-                                            default_ssr_text +=`<i class="fas fa-utensils"></i><b> Meal: </b> <i>`+itinerary[i].journeys[j].segments[k].fare_details[m].amount+` `+itinerary[i].journeys[j].segments[k].fare_details[m].unit+`</i><br/>`;
+                                            default_ssr_text +=`• <i class="fas fa-utensils"></i><b style="background: white; padding: 5px; border:1px solid #cdcdcd;"> Meal: </b> <i>`+itinerary[i].journeys[j].segments[k].fare_details[m].amount+` `+itinerary[i].journeys[j].segments[k].fare_details[m].unit+`</i><br/>`;
                                        }
                                        else{
-                                            default_ssr_text +=`<i>`+itinerary[i].journeys[j].segments[k].fare_details[m].amount+` `+itinerary[i].journeys[j].segments[k].fare_details[m].unit+`</i><br/>`;
+                                            default_ssr_text +=`• <i>`+itinerary[i].journeys[j].segments[k].fare_details[m].amount+` `+itinerary[i].journeys[j].segments[k].fare_details[m].unit+`</i><br/>`;
                                        }
                                    default_ssr_text+=`
                                        </div>
@@ -13154,7 +13260,7 @@ function get_default_ssr(pax, itinerary, page){
                                 }
                             }
                             else{
-                                default_ssr_text += `<i>No SSR</i><br/>`;
+                                default_ssr_text += `• <i>No SSR</i><br/>`;
                             }
                         }
                         else{
@@ -13163,15 +13269,15 @@ function get_default_ssr(pax, itinerary, page){
                                     for(m in itinerary[i].journeys[j].segments[k].fares[l].fare_details){
                                         default_ssr_text +=`
                                         <div class="row">
-                                           <div class="col-xs-12">`;
+                                           <div class="col-xs-12" style="margin-bottom:10px;">`;
                                            if(itinerary[i].journeys[j].segments[k].fares[l].fare_details[m].detail_type.includes('BG')){
-                                                default_ssr_text +=`<i class="fas fa-suitcase"></i><b> Baggage: </b> <i>`+itinerary[i].journeys[j].segments[k].fares[l].fare_details[m].amount+` `+itinerary[i].journeys[j].segments[k].fares[l].fare_details[m].unit+`</i><br/>`;
+                                                default_ssr_text +=`• <b style="background: white; padding: 5px; border:1px solid #cdcdcd; margin-right:5px;"> (Included)</b> <i class="fas fa-suitcase"></i> Baggage: </b> <i>`+itinerary[i].journeys[j].segments[k].fares[l].fare_details[m].amount+` `+itinerary[i].journeys[j].segments[k].fares[l].fare_details[m].unit+`</i><br/>`;
                                            }
                                            else if(itinerary[i].journeys[j].segments[k].fares[l].fare_details[m].detail_type == 'ML'){
-                                                default_ssr_text +=`<i class="fas fa-utensils"></i><b> Meal: </b> <i>`+itinerary[i].journeys[j].segments[k].fares[l].fare_details[m].amount+` `+itinerary[i].journeys[j].segments[k].fares[l].fare_details[m].unit+`</i><br/>`;
+                                                default_ssr_text +=`• <b style="background: white; padding: 5px; border:1px solid #cdcdcd; margin-right:5px;"> (Included)</b> <i class="fas fa-utensils"></i> Meal: </b> <i>`+itinerary[i].journeys[j].segments[k].fares[l].fare_details[m].amount+` `+itinerary[i].journeys[j].segments[k].fares[l].fare_details[m].unit+`</i><br/>`;
                                            }
                                            else{
-                                                default_ssr_text +=`<i>`+itinerary[i].journeys[j].segments[k].fares[l].fare_details[m].amount+` `+itinerary[i].journeys[j].segments[k].fares[l].fare_details[m].unit+`</i><br/>`;
+                                                default_ssr_text +=`• <i>`+itinerary[i].journeys[j].segments[k].fares[l].fare_details[m].amount+` `+itinerary[i].journeys[j].segments[k].fares[l].fare_details[m].unit+`</i><br/>`;
                                            }
                                        default_ssr_text+=`
                                            </div>
@@ -13179,14 +13285,92 @@ function get_default_ssr(pax, itinerary, page){
                                     }
                                 }
                                 else{
-                                    default_ssr_text += `<i>No SSR</i><br/>`;
+                                    default_ssr_text += `• <i>No SSR</i><br/>`;
                                 }
                             }
+                            default_ssr_text += `
+                            <div class="row">
+                                <div class="col-lg-12" id="div_request_new_ssr`+id_co+``+i+``+j+``+k+`">
+
+                                </div>
+                                <div class="col-lg-12" id="div_request_new_seat`+id_co+``+i+``+j+``+k+`">
+
+                                </div>
+                            </div>`;
                         }
+                        default_ssr_text+=`</div>`;
                     }
                 }
             }
             document.getElementById('included_ssr'+id_co).innerHTML = default_ssr_text;
+
+            for(j_ssr in pax[co].ssr_list){
+                for(i in itinerary){
+                    for(j in itinerary[i].journeys){
+                        for(k in itinerary[i].journeys[j].segments){
+                            text_ssr_req = '';
+                            if(itinerary[i].journeys[j].journey_code == pax[co].ssr_list[j_ssr].journey_code || itinerary[i].journeys[j].segments[k].segment_code == pax[co].ssr_list[j_ssr].journey_code){
+                                fee_dict_temp = {};
+                                if(fee_dict_temp.hasOwnProperty(pax[co].ssr_list[j_ssr].journey_code) == false){
+                                    fee_dict_temp[pax[co].ssr_list[j_ssr].journey_code] = {
+                                        "fees": [],
+                                        "origin": pax[co].ssr_list[j_ssr].origin,
+                                        "destination": pax[co].ssr_list[j_ssr].destination,
+                                        "departure_date": pax[co].ssr_list[j_ssr].departure_date,
+                                    };
+                                }
+                                fee_dict_temp[pax[co].ssr_list[j_ssr].journey_code].fees.push({
+                                    "ssr_type": pax[co].ssr_list[j_ssr].ssr_type,
+                                    "name": pax[co].ssr_list[j_ssr].name
+                                })
+                                for(fee_co in fee_dict_temp){
+                                    for(fee_k in fee_dict_temp[fee_co].fees){
+                                        ssr_type_lower = fee_dict_temp[fee_co].fees[fee_k].ssr_type.toLowerCase();
+                                        text_ssr_req += `
+                                        <div class="row">
+                                            <div class="col-lg-12" style="margin-bottom:10px;">
+                                                • <span style="color:`+text_color+`; font-weight:bold; background: `+color+`; padding: 5px; margin-right:5px;"> SSR (Request)</span>`;
+                                                if(ssr_type_lower.includes('ml') || ssr_type_lower.includes('meal')){
+                                                    text_ssr_req+=` <i class="fas fa-utensils"></i> `;
+                                                }
+                                                else if(ssr_type_lower.includes('bg') || ssr_type_lower.includes('bag') || fee_dict_temp[fee_co].fees[fee_k].ssr_type.includes('bg')){
+                                                    text_ssr_req+=` <i class="fas fa-suitcase"></i> <i>Added</i> `;
+                                                }
+                                                else if(ssr_type_lower.includes('wc') || ssr_type_lower.includes('whcr') || ssr_type_lower.includes('wheelchair')){
+                                                    text_ssr_req+=` <i class="fas fa-wheelchair"></i>`;
+                                                }
+                                                text_ssr_req+= `<i>`+fee_dict_temp[fee_co].fees[fee_k].name+`</i>
+                                            </div>
+                                        </div>`;
+                                    }
+                                }
+                            }
+                            document.getElementById('div_request_new_ssr'+id_co+i+j+k).innerHTML += text_ssr_req;
+                        }
+                    }
+                }
+            }
+            for(j_seat in pax[co].seat_list){
+                for(i in itinerary){
+                    for(j in itinerary[i].journeys){
+                        for(k in itinerary[i].journeys[j].segments){
+                            text_seat_req = '';
+                            if(itinerary[i].journeys[j].journey_code == pax[co].seat_list[j_seat].segment_code_check || itinerary[i].journeys[j].segments[k].segment_code == pax[co].seat_list[j_seat].segment_code_check){
+                                if(pax[co].seat_list[j_seat].seat_pick != ''){
+                                    text_seat_req += `
+                                    <div class="row">
+                                        <div class="col-lg-12" style="margin-bottom:10px;">
+                                            • <span style="color:`+text_color+`; font-weight:bold; background: `+color+`; padding: 5px; margin-right:5px;">Seat (Request)</span> <img src="/static/tt_website/images/icon/symbol/seat.png" style="height:15px; width:auto;"/> </span>
+                                            <i>`+pax[co].seat_list[j_seat].seat_pick+`</i>
+                                        </div>
+                                    </div>`;
+                                }
+                            }
+                            document.getElementById('div_request_new_seat'+id_co+i+j+k).innerHTML += text_seat_req;
+                        }
+                    }
+                }
+            }
         }
     }
 }

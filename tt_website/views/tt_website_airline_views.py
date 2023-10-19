@@ -1863,7 +1863,9 @@ def review(request, signature):
                                                         'passenger_number': idx,
                                                         'seat_code': pax_seat['seat_code']
                                                     })
+                                                    pax_seat['segment_code_check'] = seat_segment['segment_code']
                                                 break
+
                                     if len(pax_request) != 0:
                                         segment_seat_request.append({
                                             'segment_code': seat_segment['segment_code'],
