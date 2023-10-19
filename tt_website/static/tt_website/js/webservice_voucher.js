@@ -462,15 +462,8 @@ function check_voucher(){
                     }
                 }else{
                     discount_voucher = {};
-                    document.getElementById('voucher_discount').innerHTML = `
-                    <div style="background-color: white; padding: 10px; border: 1px solid rgb(241, 90, 34); margin-top: 15px; position: relative; z-index: 5;"><h4 style="color:#205B95;">Voucher</h4><hr>
-                        <div class="alert alert-danger" role="alert">
-                            <h6>Sorry, Voucher can't be used</h6>
-                        </div>
-                        <button class="primary-btn-ticket issued_booking_btn" type="button" style="width:100%; margin-top:15px;" onclick="use_voucher();">
-                            Change Voucher Code
-                        </button>
-                    </div>`;
+                    document.getElementById('voucher_discount_no_found').style.display = 'block';
+                    document.getElementById('voucher_discount').style.display = 'none';
                 }
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
