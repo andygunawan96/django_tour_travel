@@ -1971,6 +1971,38 @@ ul.popular2_tabs li.current .image-rounded-icon{
   color: #666666 !important;
 }
 
+.primary-btn-white-cl {
+  background: #fcfffd;
+  border: 1px solid #cacaca;
+  color: #000;
+  line-height: 40px;
+  padding-left: 15px;
+  padding-right: 15px;
+  border-radius: 5px;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: bold;
+  -webkit-transition: all 0.3s ease 0s;
+  -moz-transition: all 0.3s ease 0s;
+  -o-transition: all 0.3s ease 0s;
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  position: relative;
+  margin-bottom:15px;
+  box-shadow: rgb(3 18 26 / 15%) 4px -1px 10px -4px, rgb(3 18 26 / 15%) -4px -1px 10px -4px;
+  border-radius: 5px;
+}
+.primary-btn-white-cl:hover {
+  background: #205B95;
+  color: white;
+}
+.primary-btn-white-cl:disabled {
+  cursor:not-allowed;
+  border: 1px solid #999999 !important;
+  background: #cccccc !important;
+  color: #666666 !important;
+}
+
 .primary-btn-gr {
   background: white;
   border: 1px solid #cacaca;
@@ -2757,6 +2789,16 @@ th input {
   background: rgba(253,96,79,0.9);
 }
 
+.span_link_cl{
+    font-weight:600;
+    cursor:pointer;
+    font-size:14px;
+    color:#205B95;
+}
+.span_link_cl:hover{
+    color:#205B95;
+}
+
 .span_link{
     font-weight:600;
     cursor:pointer;
@@ -3041,6 +3083,12 @@ th input {
 
 .activity-image-thumbnail {
     margin: 0px;
+}
+
+.picture_passenger_small{
+    width:auto;
+    height:50px;
+    border-radius:100%;
 }
 
 .picture_passenger_agent{
@@ -7569,6 +7617,15 @@ body {
     box-shadow: rgb(3 18 26 / 15%) 4px -1px 10px -4px, rgb(3 18 26 / 15%) -4px -1px 10px -4px;
 }
 
+
+.div_box_default{
+    background-color:white;
+    padding:15px 15px 15px 15px;
+    border-radius: 5px;
+    box-shadow: rgb(3 18 26 / 15%) 4px -1px 10px -4px, rgb(3 18 26 / 15%) -4px -1px 10px -4px;
+}
+
+
 .div_customer{
     padding:15px;
     cursor:pointer;
@@ -7578,3 +7635,44 @@ body {
     border-radius: 5px !important;
 }
 
+.btn_standard_sm{
+    background: #205B95;
+    line-height: 32px;
+    padding-left: 15px;
+    padding-right: 15px;
+    border: none;
+    color: #fff;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 500;
+    position: relative;
+    border-radius: 5px;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+    position: relative;
+    border-radius: 5px;
+}
+
+.btn_standard_md{
+    background: #205B95;
+    line-height: 42px;
+    padding-left: 15px;
+    padding-right: 15px;
+    border: none;
+    color: #fff;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 500;
+    position: relative;
+    border-radius: 5px;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+    position: relative;
+    border-radius: 5px;
+}
