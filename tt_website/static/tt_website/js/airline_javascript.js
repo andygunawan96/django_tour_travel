@@ -10533,7 +10533,7 @@ function get_airline_review(){
                             }else if(airline_pick[i].price_itinerary[j].segments[k].fares[l].fare_details[m].detail_type.includes('ML')){
                                 text+=`<i class="fas fa-utensils"></i> Meal: `;
                             }
-                            text+=``+airline_pick[i].price_itinerary[j].segments[k].fares[l].fare_details[m].amount+` `+airline_pick[i].price_itinerary[j].segments[k].fares[l].fare_details[m].unit+`</span>`;
+                            text+=``+airline_pick[i].price_itinerary[j].segments[k].fares[l].fare_details[m].amount+` `+airline_pick[i].price_itinerary[j].segments[k].fares[l].fare_details[m].unit+`</span><br/>`;
                         }
                     }
                     text+=`</div>`;
