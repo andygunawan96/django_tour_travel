@@ -1,4 +1,18 @@
 function swab_express_signin(data){
+    if(typeof(platform) === 'undefined'){
+        platform = '';
+    }
+    if(typeof(unique_id) === 'undefined'){
+        unique_id = '';
+    }
+    if(typeof(web_vendor) === 'undefined'){
+        web_vendor = '';
+    }
+    data_send = {
+        "platform": platform,
+        "unique_id": unique_id,
+        "browser": web_vendor
+    }
     getToken();
     $.ajax({
        type: "POST",
@@ -6,7 +20,7 @@ function swab_express_signin(data){
        headers:{
             'action': 'signin',
        },
-       data: {},
+       data: data_send,
        success: function(msg) {
        try{
            if(msg.result.error_code == 0){

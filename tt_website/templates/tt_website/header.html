@@ -226,6 +226,9 @@
                                     {% if "admin" in username.co_agent_frontend_security %}
                                     <li><a href="{% url 'tt_website:admin'%}">Admin Setting</a></li>
                                     {% endif %}
+                                    {% if "is_use_otp" not in username %}
+                                    <li><a href="#" onclick="set_otp_user_api();">Turn on 2-Step Verification</a></li>
+                                    {% endif %}
                                     {% if "agent_setting_printout" in username.co_agent_frontend_security %}
                                     <li><a href="{% url 'tt_website:setting_footer_printout'%}">{% trans 'Setting Footer Printout' %}</a></li>
                                     {% endif %}
@@ -1891,6 +1894,17 @@
                             <div style="margin-top:15px;width:50px;" onclick="change_password_type();">
                                 <i id="password_style" class="fas fa-eye-slash" style="padding-left:5px;cursor:pointer;font-size:18px;"></i>
                             </div>
+                        </div>
+                        <div class="input-container-search-ticket" hidden id="otp_div">
+                            <i class="fa fa-lock" style="font-size: 20px;padding-top: 12px;"></i>
+                            <input type="text" class="form-control" style="border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="otp" placeholder="OTP" tabindex="3" />
+                            <button class="loading-button primary-btn-custom ld-ext-right" style="margin:10px;margin-top:5px;margin-bottom:14px;" onclick="signin_btc(true)" >
+                                Resend
+                                <div class="ld ld-ring ld-cycle"></div>
+                            </button>
+                        </div>
+                        <div style="background-color:white; padding:10px; margin-top:15px; border:1px solid #cdcdcd;" id="otp_time_limit" hidden>
+                            <span style="font-size:14px; font-weight:600;"><i class="fas fa-clock"></i> <span class="count_time" id="otp_session_time"> </span></span>
                         </div>
                         <div class="input-container-search-ticket">
                             <label class="check_box_custom" style="margin-top:5px; margin-right:5px;">

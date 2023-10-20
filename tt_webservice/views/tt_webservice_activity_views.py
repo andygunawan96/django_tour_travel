@@ -112,6 +112,14 @@ def login(request):
         "co_password": request.session.get('password') or password_default,
         "co_uid": ""
     }
+
+    if request.POST.get('unique_id'):
+        data['machine_code'] = request.POST['unique_id']
+    if request.POST.get('platform'):
+        data['platform'] = request.POST['platform']
+    if request.POST.get('browser'):
+        data['browser'] = request.POST['browser']
+
     headers = {
         "Accept": "application/json,text/html,application/xml",
         "Content-Type": "application/json",

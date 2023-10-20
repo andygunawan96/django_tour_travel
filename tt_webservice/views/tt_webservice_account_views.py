@@ -196,6 +196,12 @@ def signin(request):
         "co_password": request.session.get('password') or password_default,
         "co_uid": ""
     }
+    if request.POST.get('unique_id'):
+        data['machine_code'] = request.POST['unique_id']
+    if request.POST.get('platform'):
+        data['platform'] = request.POST['platform']
+    if request.POST.get('browser'):
+        data['browser'] = request.POST['browser']
     url_request = get_url_gateway('session')
     res = send_request_api(request, url_request, headers, data, 'POST', 10)
     try:

@@ -558,6 +558,10 @@ def api_models(request):
             res = signin(request)
         elif req_data['action'] == 'signin_btc':
             res = signin_btc(request)
+        elif req_data['action'] == 'set_otp_user_api':
+            res = set_otp_user_api(request)
+        elif req_data['action'] == 'activation_otp_user_api':
+            res = activation_otp_user_api(request)
         elif req_data['action'] == 'check_credential':
             res = check_credential(request)
         elif req_data['action'] == 'check_credential_b2c':
@@ -626,6 +630,14 @@ def signin(request):
         # "co_password": password_default, #request.POST['password'],
         # "co_uid": ""
     }
+    if request.POST.get('unique_id'):
+        data['machine_code'] = request.POST['unique_id']
+    if request.POST.get('platform'):
+        data['platform'] = request.POST['platform']
+    if request.POST.get('browser'):
+        data['browser'] = request.POST['browser']
+    if request.POST.get('otp'):
+        data['otp'] = request.POST['otp']
     url_request = get_url_gateway('session')
     res = send_request_api(request, url_request, headers, data, 'POST', 10)
     try:
@@ -767,6 +779,17 @@ def signin_btc(request):
             # "co_password": password_default, #request.POST['password'],
             # "co_uid": ""
         }
+        if request.POST.get('unique_id'):
+            data['machine_code'] = request.POST['unique_id']
+        if request.POST.get('platform'):
+            data['platform'] = request.POST['platform']
+        if request.POST.get('browser'):
+            data['browser'] = request.POST['browser']
+        if request.POST.get('otp'):
+            data['otp'] = request.POST['otp']
+        if request.POST.get('is_resend'):
+            if request.POST['is_resend'] == 'true':
+                data['is_resend_otp'] = True
     except Exception as e:
         _logger.error('ERROR get user or password for btc login\n' + str(e) + '\n' + traceback.format_exc())
     if request.POST.get('g-recaptcha-response'):
@@ -857,6 +880,55 @@ def signin_btc(request):
         return res_user
     except:
         return res
+
+def set_otp_user_api(request):
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
+        "action": "set_otp_user_api",
+        "signature": request.POST['signature']
+    }
+    try:
+        data = {}
+        if request.POST.get('unique_id'):
+            data['machine_code'] = request.POST['unique_id']
+        if request.POST.get('platform'):
+            data['platform'] = request.POST['platform']
+        if request.POST.get('browser'):
+            data['browser'] = request.POST['browser']
+        if request.POST.get('is_resend'):
+            if request.POST['is_resend'] == 'true':
+                data['is_resend_otp'] = True
+    except Exception as e:
+        _logger.error('ERROR set_otp_user_api\n' + str(e) + '\n' + traceback.format_exc())
+    url_request = get_url_gateway('account')
+    res = send_request_api(request, url_request, headers, data, 'POST', 30)
+
+    return res
+
+def activation_otp_user_api(request):
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
+        "action": "activation_otp_user_api",
+        "signature": request.POST['signature']
+    }
+    try:
+        data = {
+            "otp": request.POST['otp']
+        }
+        if request.POST.get('unique_id'):
+            data['machine_code'] = request.POST['unique_id']
+        if request.POST.get('platform'):
+            data['platform'] = request.POST['platform']
+        if request.POST.get('browser'):
+            data['browser'] = request.POST['browser']
+    except Exception as e:
+        _logger.error('ERROR activation_otp_user_api\n' + str(e) + '\n' + traceback.format_exc())
+    url_request = get_url_gateway('account')
+    res = send_request_api(request, url_request, headers, data, 'POST', 30)
+
+    return res
 
 def check_credential(request):
     try:

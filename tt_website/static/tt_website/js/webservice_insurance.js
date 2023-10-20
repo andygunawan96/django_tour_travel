@@ -35,15 +35,29 @@ var sorting_list2 = [
 function insurance_signin(data){
     if(typeof(frontend_signature) === 'undefined')
         frontend_signature = '';
+    if(typeof(platform) === 'undefined'){
+        platform = '';
+    }
+    if(typeof(unique_id) === 'undefined'){
+        unique_id = '';
+    }
+    if(typeof(web_vendor) === 'undefined'){
+        web_vendor = '';
+    }
+    data_send = {
+        "platform": platform,
+        "unique_id": unique_id,
+        "browser": web_vendor,
+        "frontend_signature": frontend_signature
+    }
+
     $.ajax({
        type: "POST",
        url: "/webservice/insurance",
        headers:{
             'action': 'signin',
        },
-       data: {
-            'frontend_signature': frontend_signature
-       },
+       data: data_send,
        success: function(msg) {
        try{
            if(msg.result.error_code == 0){
@@ -1367,6 +1381,24 @@ function insurance_updata(){
 }
 
 function insurance_login(){
+    if(typeof(frontend_signature) === 'undefined')
+        frontend_signature = '';
+    if(typeof(platform) === 'undefined'){
+        platform = '';
+    }
+    if(typeof(unique_id) === 'undefined'){
+        unique_id = '';
+    }
+    if(typeof(web_vendor) === 'undefined'){
+        web_vendor = '';
+    }
+    data_send = {
+        "platform": platform,
+        "unique_id": unique_id,
+        "browser": web_vendor,
+        'frontend_signature': frontend_signature,
+        'signature': signature
+    }
     getToken();
     $.ajax({
        type: "POST",
@@ -1374,9 +1406,7 @@ function insurance_login(){
        headers:{
             'action': 'login',
        },
-       data: {
-            'signature': signature
-       },
+       data: data_send,
        success: function(msg) {
        try{
            if(msg.result.error_code == 0){

@@ -31,59 +31,73 @@ function update_contact(type,val){
 }
 
 function group_booking_signin(data){
+    if(typeof(platform) === 'undefined'){
+        platform = '';
+    }
+    if(typeof(unique_id) === 'undefined'){
+        unique_id = '';
+    }
+    if(typeof(web_vendor) === 'undefined'){
+        web_vendor = '';
+    }
+    data_send = {
+        "platform": platform,
+        "unique_id": unique_id,
+        "browser": web_vendor,
+    }
     $.ajax({
-       type: "POST",
-       url: "/webservice/group_booking",
-       headers:{
+        type: "POST",
+        url: "/webservice/group_booking",
+        headers:{
             'action': 'signin',
-       },
-       data: {},
-       success: function(msg) {
-       try{
-           if(msg.result.error_code == 0){
-               group_booking_signature = msg.result.response.signature;
-               signature = msg.result.response.signature;
-               if(data == ''){
-//                    get_group_booking_data_search_page();
-//                    group_booking_get_availability();
-               }else{
-                    group_booking_page();
-                    group_booking_get_booking(data);
-               }
-           }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
-                auto_logout();
-           }else{
-               Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: msg.result.error_msg,
-               })
-               try{
+        },
+        data: data_send,
+        success: function(msg) {
+            try{
+                if(msg.result.error_code == 0){
+                    group_booking_signature = msg.result.response.signature;
+                    signature = msg.result.response.signature;
+                    if(data == ''){
+    //                    get_group_booking_data_search_page();
+    //                    group_booking_get_availability();
+                    }else{
+                        group_booking_page();
+                        group_booking_get_booking(data);
+                    }
+                }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                    auto_logout();
+                }else{
+                    Swal.fire({
+                        type: 'error',
+                        title: 'Oops!',
+                        html: msg.result.error_msg,
+                    })
+                    try{
+                        $("#show_loading_booking_group_booking").hide();
+                    }catch(err){
+                        console.log(err); // error kalau ada element yg tidak ada
+                    }
+                }
+            }catch(err){
+                Swal.fire({
+                    type: 'error',
+                    title: 'Oops...',
+                    text: 'Something went wrong, please try again or check your internet connection',
+                })
+                $('.loader-rodextrip').fadeOut();
+            }
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error Swab Express signin');
+            $("#barFlightSearch").hide();
+            $("#waitFlightSearch").hide();
+            $('.loader-rodextrip').fadeOut();
+            try{
                 $("#show_loading_booking_group_booking").hide();
-               }catch(err){
+            }catch(err){
                 console.log(err); // error kalau ada element yg tidak ada
-               }
-           }
-       }catch(err){
-           Swal.fire({
-               type: 'error',
-               title: 'Oops...',
-               text: 'Something went wrong, please try again or check your internet connection',
-           })
-           $('.loader-rodextrip').fadeOut();
-        }
-       },
-       error: function(XMLHttpRequest, textStatus, errorThrown) {
-          error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error Swab Express signin');
-          $("#barFlightSearch").hide();
-          $("#waitFlightSearch").hide();
-          $('.loader-rodextrip').fadeOut();
-          try{
-            $("#show_loading_booking_group_booking").hide();
-          }catch(err){
-            console.log(err); // error kalau ada element yg tidak ada
-          }
-       },timeout: 60000
+            }
+        },timeout: 60000
     });
 }
 

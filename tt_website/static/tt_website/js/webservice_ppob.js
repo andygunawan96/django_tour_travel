@@ -5,6 +5,20 @@ function signin_ppob(data){
     }catch(err){
         console.log(err); //error kalau tidak ada button next bisa di tambah class runnning & disabled
     }
+    if(typeof(platform) === 'undefined'){
+            platform = '';
+    }
+    if(typeof(unique_id) === 'undefined'){
+        unique_id = '';
+    }
+    if(typeof(web_vendor) === 'undefined'){
+        web_vendor = '';
+    }
+    data_send = {
+        "platform": platform,
+        "unique_id": unique_id,
+        "browser": web_vendor
+    }
     getToken();
     $.ajax({
        type: "POST",
@@ -12,7 +26,7 @@ function signin_ppob(data){
        headers:{
             'action': 'signin',
        },
-       data: {},
+       data: data_send,
        success: function(msg) {
             if(msg.result.error_code == 0){
                 signature = msg.result.response.signature;

@@ -2,13 +2,28 @@ offset_transaction = 0;
 page_transaction_history_ledger = 1
 temp_date_history = ''
 function signin_orbisway(type){
+    if(typeof(platform) === 'undefined'){
+        platform = '';
+    }
+    if(typeof(unique_id) === 'undefined'){
+        unique_id = '';
+    }
+    if(typeof(web_vendor) === 'undefined'){
+        web_vendor = '';
+    }
+
+    data_send = {
+        "platform": platform,
+        "unique_id": unique_id,
+        "browser": web_vendor
+    }
     $.ajax({
        type: "POST",
        url: "/webservice/issued_offline",
        headers:{
             'action': 'signin',
        },
-       data: {},
+       data: data_send,
        success: function(msg) {
             if(msg.result.error_code == 0){
                 signature = msg.result.response.signature;
