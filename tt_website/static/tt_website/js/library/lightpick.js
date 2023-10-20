@@ -99,6 +99,7 @@ function next_focus_after_date(id){
       idString: '99',
       idNumber: 99,
       disableWeekends: false,
+      disableDays: '',
       inline: false,
       weekdayStyle: 'short',
       dropdowns: {
@@ -388,6 +389,15 @@ function next_focus_after_date(id){
         (date.isoWeekday() == 6 || date.isoWeekday() == 7)
       ) {
         day.className.push('is-disabled');
+      }
+
+      if (opts.disableDays != ''){
+        const myArrayDisableDays = opts.disableDays.split(",");
+        for (var idx_dis = 0; idx_dis < myArrayDisableDays.length; idx_dis++) {
+            if(date.isoWeekday() == parseInt(myArrayDisableDays[idx_dis])){
+                day.className.push('is-disabled');
+            }
+        }
       }
 
       if (date.isoWeekday() == 7){
