@@ -5024,9 +5024,6 @@ div.scrollmenu li {
 }
 
 @media (max-width: 575px) {
-    #airline_review{
-        padding:15px !important;
-    }
     #activity_review{
         padding:15px !important;
     }

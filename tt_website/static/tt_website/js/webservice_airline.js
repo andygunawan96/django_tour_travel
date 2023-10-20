@@ -6196,9 +6196,7 @@ function get_seat_map_response(){
                                                 <span id="price_pax_choose`+j+`" style="font-size:14px; font-weight:bold;"></span>
                                             </div>
                                             <div class="col-xs-6" id="cancel_pax_choose`+j+`">
-                                                <div style="text-align:right; padding:5px;">
-                                                    <span style="font-size:13px; font-weight:bold;">No seat selected</span>
-                                                </div>
+                                                <span style="font-size:13px; font-weight:bold;">No seat selected</span>
                                             </div>
                                         </div>
                                     </div>
@@ -6478,10 +6476,7 @@ function set_passenger_seat_map_airline(val){
                 text = passengers[val].seat_list[i].currency+` `+getrupiah(passengers[val].seat_list[i].price);
                 document.getElementById('price_pax_choose'+i).innerHTML = text;
             }else{
-                text = `
-                <div style="text-align:left; padding:5px;">
-                    <span style="font-size:13px; font-weight:bold;">No seat selected</span>
-                </div>`;
+                text = `<span style="font-size:13px; font-weight:bold;">No seat selected</span>`;
                 document.getElementById('price_pax_choose'+i).innerHTML = text;
             }
 
@@ -12579,11 +12574,11 @@ function show_commission(val){
     }
     if (sc.style.display === "none"){
         sc.style.display = "block";
-        scs.value = "Hide YPM";
+        scs.innerHTML = `Hide YPM <i class="fas fa-chevron-up" style="float:right;"></i>`;
     }
     else{
         sc.style.display = "none";
-        scs.value = "Show YPM";
+        scs.innerHTML = `Show YPM <i class="fas fa-chevron-down" style="float:right;"></i>`;
     }
 }
 

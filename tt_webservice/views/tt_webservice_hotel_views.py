@@ -346,6 +346,7 @@ def search(request):
             'child': int(request.POST['child']),
             'hotel_id': request.POST.get('id') or '',
             'search_name': request.POST.get('destination') and ' - '.join(request.POST.get('destination').split(' - ')[:-1]) or '',
+            'destination': request.POST.get('destination') or '',
             'room': int(request.POST['room']),
             'checkout_date': str(datetime.strptime(request.POST['checkout'], '%d %b %Y'))[:10],
             'checkin_date': str(datetime.strptime(request.POST['checkin'], '%d %b %Y'))[:10],
@@ -356,24 +357,42 @@ def search(request):
             'is_bussiness_trip': request.POST['business_trip'],
             'guest_nationality': request.POST['nationality']
         }
-        ### check mekanisme search di bawah 5 menit
-        if data == request.session.get('hotel_search_request', ''):
-            try: ## USE CACHE
-                signature = request.session['hotel_error']['signature']
-            except: ## FIRST TIME
-                signature = request.POST['signature']
-        else:
-            if request.session.get('hotel_error'):
-                del request.session['hotel_error']
+
+        signature = ''
+
+        ## MEKANISME BACA CACHE 10 MENIT ##
+        list_file = get_list_file_name(request, 'hotel_request')
+
+        date_time = datetime.now()
+        for file_name in list_file:
+            session_key = copy.deepcopy(file_name)
+            session_key = session_key.split('_')
+            session_key.pop(0)
+            file = read_cache_file(request, file_name.split('_')[0], "_".join(session_key).split('.')[0], True)
+            delta_time = date_time - parse_load_cache(file['datetime'])
+            if delta_time.total_seconds() <= 1200 and data == file['data']: ## 10 MENIT
+                signature = file_name.split('_')[0]
+                break
+        if not signature:
             signature = request.POST['signature']
+            write_cache_file(request, signature, 'hotel_request', data)
+        # if data == request.session.get('hotel_search_request', ''):
+        #     try: ## USE CACHE
+        #         signature = request.session['hotel_error']['signature']
+        #     except: ## FIRST TIME
+        #         signature = request.POST['signature']
+        # else:
+        #     if request.session.get('hotel_error'):
+        #         del request.session['hotel_error']
+        #     signature = request.POST['signature']
+
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
             "action": "search",
             "signature": signature
         }
-        write_cache_file(request, request.POST['signature'], 'hotel_request', data)
-        set_session(request, 'hotel_search_request', data)
+        # set_session(request, 'hotel_search_request', data)
     except Exception as e:
         if request.POST.get('use_cache'):
             file = read_cache_file(request, request.POST['signature'], 'hotel_search_request')
@@ -392,18 +411,22 @@ def search(request):
             _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
     url_request = get_url_gateway('booking/hotel')
-    res = send_request_api(request, url_request, headers, data, 'POST', 300)
+    file = read_cache_file(request, signature, 'hotel_search_response')
+    if file:
+        res = file
+    else:
+        res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         counter = 0
         sequence = 0
 
         res['result']['signature'] = signature
         if res['result']['error_code'] == 0:
-            set_session(request, 'hotel_signature', signature)
-            set_session(request, 'hotel_error', {
-                'error_code': res['result']['error_code'],
-                'signature': signature
-            })
+            # set_session(request, 'hotel_signature', signature)
+            # set_session(request, 'hotel_error', {
+            #     'error_code': res['result']['error_code'],
+            #     'signature': signature
+            # })
 
             for hotel in res['result']['response']['city_ids']:
                 hotel.update({
@@ -443,7 +466,8 @@ def search(request):
                 counter += 1
                 sequence += 1
 
-            write_cache_file(request, signature, 'hotel_search_response', res)
+            if len(res['result']['response']['hotel_ids']) > 0:
+                write_cache_file(request, signature, 'hotel_search_response', res)
             _logger.info("Success search_hotel SIGNATURE " + signature + ' ' + json.dumps(res))
         else:
             _logger.error("ERROR search_hotel SIGNATURE " + signature + ' ' + json.dumps(res))
@@ -642,6 +666,8 @@ def get_current_search(request):
         except:
             pass
 
+        signature = ''
+
         data = {
             'child': int(request.POST['child']),
             'hotel_id': request.POST.get('id') or '',
@@ -655,20 +681,29 @@ def get_current_search(request):
             'nationality': request.POST['nationality'].split(' - ')[0],
             'is_bussiness_trip': request.POST['business_trip'],
         }
-        if data == request.session.get('hotel_current_search_request', ''):
-            try: ## USE CACHE
-                signature = request.session['hotel_error']['signature']
-            except: ## FIRST TIME
-                signature = request.POST['signature']
-        else:
+        list_file = get_list_file_name(request, 'hotel_request')
+
+        date_time = datetime.now()
+        for file_name in list_file:
+            session_key = copy.deepcopy(file_name)
+            session_key = session_key.split('_')
+            session_key.pop(0)
+            file = read_cache_file(request, file_name.split('_')[0], "_".join(session_key).split('.')[0], True)
+            delta_time = date_time - parse_load_cache(file['datetime'])
+            if delta_time.total_seconds() <= 1200 and data == file['data']:  ## 10 MENIT
+                signature = file_name.split('_')[0]
+                break
+        if not signature:
             signature = request.POST['signature']
+            write_cache_file(request, signature, 'hotel_request', data)
+
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
             "action": "get_current_search",
             "signature": signature
         }
-        set_session(request, 'hotel_current_search_request', data)
+        # set_session(request, 'hotel_current_search_request', data)
     except Exception as e:
         if request.POST.get('use_cache'):
             data = request.session['hotel_search_request']
@@ -685,8 +720,8 @@ def get_current_search(request):
 
     url_request = get_url_gateway('booking/hotel')
     res = send_request_api(request, url_request, headers, data, 'POST', 30)
-    if request.session.get('hotel_set_signature', False):
-        set_session(request, 'hotel_signature', request.POST['signature'])
+    # if request.session.get('hotel_set_signature', False):
+    #     set_session(request, 'hotel_signature', request.POST['signature'])
 
     sequence = 0
     counter = 0
@@ -820,6 +855,7 @@ def detail(request):
         # })
         # _logger.info(json.dumps(request.session['hotel_error']))
         if res['result']['error_code'] == 0:
+            res['result']['response']['request'] = data
             _logger.info("get_details_hotel SUCCESS SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("get_details_hotel ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
@@ -865,6 +901,8 @@ def get_current_search_detail(request):
             _logger.error('error hotel get detail')
     url_request = get_url_gateway('booking/hotel')
     res = send_request_api(request, url_request, headers, data, 'POST', timeout=30)
+    if res['result']['error_code'] == 0:
+        res['result']['response']['request'] = data
     return res
 
 def get_cancellation_policy(request):
@@ -1142,6 +1180,10 @@ def create_booking(request):
 
     try:
         write_cache_file(request, request.POST['signature'], 'hotel_booking', res)
+        file = read_cache_file(request, request.POST['signature'], 'hotel_request')
+        if file:
+            file['cache_can_be_use'] = False
+            write_cache_file(request, request.POST['signature'], 'hotel_request', file)
         # set_session(request, 'hotel_booking', res['result']['response'])
         # signature = copy.deepcopy(request.session['hotel_signature'])
         # set_session(request, 'hotel_error', {

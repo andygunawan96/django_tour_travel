@@ -1260,7 +1260,7 @@
             {% if "train" in provider and "ticketing_train" in username.co_agent_frontend_security %}
                 try{
                     {% if cache.train.origin %}
-                        document.getElementById('train_origin').value = '{{cache.train.origin.0}}';
+                        document.getElementById('train_origin').value = '{{cache.train.origin}}';
                     {% else %}
                         document.getElementById('train_origin').value = '{{train_origin}}';
                     {% endif %}
@@ -1269,7 +1269,7 @@
                 }
                 try{
                     {% if cache.train.destination %}
-                        document.getElementById('train_destination').value = '{{cache.train.destination.0}}';
+                        document.getElementById('train_destination').value = '{{cache.train.destination}}';
                     {% else %}
                         document.getElementById('train_destination').value = '{{train_destination}}';
                     {% endif %}
@@ -1279,7 +1279,7 @@
 
                 try{
                     {% if cache.train.departure %}
-                        train_date = '{{cache.train.departure.0}}';
+                        train_date = '{{cache.train.departure}}';
                     {% else %}
                         train_date = now;
                     {% endif %}

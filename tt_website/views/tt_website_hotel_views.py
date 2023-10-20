@@ -504,7 +504,7 @@ def passengers(request, signature):
                 'javascript_version': javascript_version,
                 'static_path_url_server': get_url_static_path(),
                 'time_limit': time_limit,
-                'guest_nationality': hotel_request['guest_nationality'].split(' - ')[0]
+                'guest_nationality': hotel_request['guest_nationality'].split(' - ')[0] if hotel_request.get('guest_nationality') else hotel_request['nationality']
             })
         except Exception as e:
             _logger.error(str(e) + '\n' + traceback.format_exc())
