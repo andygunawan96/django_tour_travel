@@ -155,12 +155,16 @@ function signin(){
         }else{
             otp = '';
         }
+        if(typeof(timezone) === 'undefined'){
+            timezone = '';
+        }
         data_send = {
             "platform": platform,
             "unique_id": unique_id,
             'username':username,
             'password':password,
             "browser": web_vendor,
+            "timezone": timezone,
             "otp": otp,
             'keep_me_signin': keep_me_signin,
         }
@@ -303,12 +307,16 @@ function signin_booking(){
         }else{
             otp = '';
         }
+        if(typeof(timezone) === 'undefined'){
+            timezone = '';
+        }
         data_send = {
             "platform": platform,
             "unique_id": unique_id,
             'username':username,
             'password':password,
             "browser": web_vendor,
+            "timezone": timezone,
             "otp": otp,
             'keep_me_signin': keep_me_signin,
         }
@@ -619,12 +627,16 @@ function signin_btc(is_resend=false){
         }else{
             otp = '';
         }
+        if(typeof(timezone) === 'undefined'){
+            timezone = '';
+        }
         data_send = {
             'username':username,
             'password':password,
             "platform": platform,
             "unique_id": unique_id,
             "browser": web_vendor,
+            "timezone": timezone,
             "otp": otp,
             'keep_me_signin': keep_me_signin,
             'is_resend': is_resend,
@@ -792,6 +804,9 @@ function set_otp_user_api(is_resend=false){
     if(typeof(web_vendor) === 'undefined'){
         web_vendor = '';
     }
+    if(typeof(timezone) === 'undefined'){
+        timezone = '';
+    }
     $.ajax({
        type: "POST",
        url: "/webservice/agent",
@@ -803,6 +818,7 @@ function set_otp_user_api(is_resend=false){
             "platform": platform,
             "unique_id": unique_id,
             "browser": web_vendor,
+            "timezone": timezone,
             'is_resend': is_resend
        },
        success: function(msg) {
@@ -856,6 +872,9 @@ function activation_otp_user_api(){
     if(typeof(web_vendor) === 'undefined'){
         web_vendor = '';
     }
+    if(typeof(timezone) === 'undefined'){
+        timezone = '';
+    }
     $.ajax({
        type: "POST",
        url: "/webservice/agent",
@@ -868,6 +887,7 @@ function activation_otp_user_api(){
             "platform": platform,
             "unique_id": unique_id,
             "browser": web_vendor,
+            "timezone": timezone
        },
        success: function(msg) {
             console.log(msg);

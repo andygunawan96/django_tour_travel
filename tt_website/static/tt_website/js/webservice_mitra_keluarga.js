@@ -10,10 +10,14 @@ function mitra_keluarga_signin(data){
     if(typeof(web_vendor) === 'undefined'){
         web_vendor = '';
     }
+    if(typeof(timezone) === 'undefined'){
+        timezone = '';
+    }
     data_send = {
         "platform": platform,
         "unique_id": unique_id,
         "browser": web_vendor,
+        "timezone": timezone,
         "frontend_signature": frontend_signature
     }
     getToken();
