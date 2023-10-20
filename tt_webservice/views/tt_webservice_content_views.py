@@ -973,7 +973,6 @@ def get_public_holiday(request):
             "signature": request.POST['signature'],
         }
         data = {
-            'country_id': request.POST['country_id'],
             'start_date': request.POST['start_date'],
             'end_date': request.POST.get('end_date') and request.POST['end_date'] or False,
         }

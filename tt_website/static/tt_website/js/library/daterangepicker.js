@@ -7,7 +7,7 @@
 */
 // Following the UMD template https://github.com/umdjs/umd/blob/master/templates/returnExportsGlobal.js
 custom_disabled_date = [];
-function get_public_holiday(start_date, end_date, country_id){
+function get_public_holiday(start_date, end_date){
     getToken();
     $.ajax({
        type: "POST",
@@ -18,7 +18,6 @@ function get_public_holiday(start_date, end_date, country_id){
        data: {
             'start_date': start_date,
             'end_date': end_date,
-            'country_id': country_id,
             'signature': signature
        },
        success: function(msg) {
