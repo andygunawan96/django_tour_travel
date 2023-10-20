@@ -99,13 +99,27 @@ function get_city(){
 function airline_redirect_signin(type){
     if(type != 'signin'){
         getToken();
+        if(typeof(platform) === 'undefined'){
+            platform = '';
+        }
+        if(typeof(unique_id) === 'undefined'){
+            unique_id = '';
+        }
+        if(typeof(web_vendor) === 'undefined'){
+            web_vendor = '';
+        }
+        data_send = {
+            "platform": platform,
+            "unique_id": unique_id,
+            "browser": web_vendor
+        }
         $.ajax({
            type: "POST",
            url: "/webservice/airline",
            headers:{
                 'action': 'signin',
            },
-           data: {},
+           data: data_send,
            success: function(msg) {
            try{
                if(msg.result.error_code == 0){
@@ -1643,15 +1657,30 @@ function airline_signin(data,type=''){
     getToken();
     if(typeof(frontend_signature) === 'undefined')
         frontend_signature = '';
+
+    if(typeof(platform) === 'undefined'){
+        platform = '';
+    }
+    if(typeof(unique_id) === 'undefined'){
+        unique_id = '';
+    }
+    if(typeof(web_vendor) === 'undefined'){
+        web_vendor = '';
+    }
+    data_send = {
+        "platform": platform,
+        "unique_id": unique_id,
+        "browser": web_vendor,
+        'frontend_signature': frontend_signature,
+    }
+
     $.ajax({
        type: "POST",
        url: "/webservice/airline",
        headers:{
             'action': 'signin',
        },
-       data: {
-            'frontend_signature': frontend_signature
-       },
+       data: data_send,
        success: function(msg) {
        try{
            if(msg.result.error_code == 0){
@@ -7485,6 +7514,7 @@ function create_new_reservation(){
             <table style="width:100%;background:white;margin-top:15px;" class="list-of-table">
                 <tr>
                     <th style="width:70%">Journey</th>
+                    <th style="width:30%">Re-Order</th>
                 </tr>`;
     var counter_journey = 0;
     for(i in airline_get_detail.result.response.provider_bookings){
@@ -7493,6 +7523,12 @@ function create_new_reservation(){
                 text += `
                 <tr>
                     <td>`+airline_get_detail.result.response.provider_bookings[i].journeys[j].origin+`-`+airline_get_detail.result.response.provider_bookings[i].journeys[j].destination+`</td>
+                    <td>
+                        <label class="check_box_custom" style="margin-bottom:15px; float:left;">
+                            <input type="checkbox" id="journey`+counter_journey+`" name="journey`+counter_journey+`" checked />
+                            <span class="check_box_span_custom"></span>
+                        </label>
+                    </td>
                 </tr>`;
             counter_journey++;
         }
@@ -7547,8 +7583,10 @@ function airline_reorder(){
     var counter_journey = 0;
     for(i in airline_get_detail.result.response.provider_bookings){
         for(j in airline_get_detail.result.response.provider_bookings[i].journeys){
-            journey_list_copy.push(airline_get_detail.result.response.provider_bookings[i].journeys[j]);
-            check_journey = true; // ada pax yg mau re order
+            if(document.getElementById('journey'+counter_journey).checked){
+                journey_list_copy.push(airline_get_detail.result.response.provider_bookings[i].journeys[j]);
+                check_journey = true; // ada pax yg mau re order
+            }
             counter_journey++;
         }
     }

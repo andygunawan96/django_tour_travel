@@ -2108,6 +2108,18 @@ Licence URI: http://www.os-templates.com/template-terms
     provider_list_template = provider_list_template.replace(/True/g, '""');
     provider_list_template = JSON.parse(provider_list_template.replace(/&#39;/g, '"'));
 </script>
+
+<script>
+    const fpPromise = import('{{ static_path }}/js/library/fingerprint.js').then(FingerprintJS => FingerprintJS.load())
+
+    // Get the visitor identifier when you need it.
+    fpPromise.then(fp => fp.get()).then(result => {
+        // This is the visitor identifier:
+        platform = result.components.platform.value;
+        unique_id = result.visitorId;
+        web_vendor = result.components.vendorFlavors.value[0];
+    })
+</script>
 <script type="text/javascript">
     // Broad cast that your're opening a page.
     localStorage.openpages = Date.now();
@@ -2195,6 +2207,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 {% include 'tt_website/html_include/b2c_signup.html' %}
 
 {% include 'tt_website/plugin_live_chat.html' %}
+{% include 'tt_website/plugin_otp.html' %}
 
 <div class="adminActions" id="divBtnAdminAct">
 	<input type="checkbox" name="adminToggle" class="adminToggle" />

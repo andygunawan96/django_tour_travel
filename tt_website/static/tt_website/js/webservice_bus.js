@@ -52,13 +52,27 @@ function can_book(departure, arrival){
 function bus_redirect_signup(type){
     if(type != 'signin'){
         getToken();
+        if(typeof(platform) === 'undefined'){
+            platform = '';
+        }
+        if(typeof(unique_id) === 'undefined'){
+            unique_id = '';
+        }
+        if(typeof(web_vendor) === 'undefined'){
+            web_vendor = '';
+        }
+        data_send = {
+            "platform": platform,
+            "unique_id": unique_id,
+            "browser": web_vendor
+        }
         $.ajax({
            type: "POST",
            url: "/webservice/bus",
            headers:{
                 'action': 'signin',
            },
-           data: {},
+           data: data_send,
            success: function(msg) {
            try{
                if(msg.result.error_code == 0){
@@ -116,15 +130,28 @@ function bus_signin(data){
     getToken();
     if(typeof(frontend_signature) === 'undefined')
         frontend_signature = '';
+    if(typeof(platform) === 'undefined'){
+        platform = '';
+    }
+    if(typeof(unique_id) === 'undefined'){
+        unique_id = '';
+    }
+    if(typeof(web_vendor) === 'undefined'){
+        web_vendor = '';
+    }
+    data_send = {
+        "platform": platform,
+        "unique_id": unique_id,
+        "browser": web_vendor,
+        'frontend_signature': frontend_signature,
+    }
     $.ajax({
        type: "POST",
        url: "/webservice/bus",
        headers:{
             'action': 'signin',
        },
-       data: {
-            'frontend_signature': frontend_signature
-       },
+       data: data_send,
        success: function(msg) {
             if(msg.result.error_code == 0){
                 signature = msg.result.response.signature;

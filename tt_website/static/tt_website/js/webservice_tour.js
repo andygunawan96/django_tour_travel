@@ -12,6 +12,20 @@ last_session = '';
 
 function tour_redirect_signup(type){
     if(type != 'signin'){
+        if(typeof(platform) === 'undefined'){
+            platform = '';
+        }
+        if(typeof(unique_id) === 'undefined'){
+            unique_id = '';
+        }
+        if(typeof(web_vendor) === 'undefined'){
+            web_vendor = '';
+        }
+        data_send = {
+            "platform": platform,
+            "unique_id": unique_id,
+            "browser": web_vendor
+        }
         getToken();
         $.ajax({
            type: "POST",
@@ -19,7 +33,7 @@ function tour_redirect_signup(type){
            headers:{
                 'action': 'signin',
            },
-           data: {},
+           data: data_send,
            success: function(msg) {
            try{
                if(msg.result.error_code == 0){
@@ -124,6 +138,21 @@ function tour_login(data, type=''){
     //document.getElementById('activity_category').value.split(' - ')[1]
     if(typeof(frontend_signature) === 'undefined')
         frontend_signature = '';
+    if(typeof(platform) === 'undefined'){
+        platform = '';
+    }
+    if(typeof(unique_id) === 'undefined'){
+        unique_id = '';
+    }
+    if(typeof(web_vendor) === 'undefined'){
+        web_vendor = '';
+    }
+    data_send = {
+        "platform": platform,
+        "unique_id": unique_id,
+        "browser": web_vendor,
+        "frontend_signature": frontend_signature
+    }
     getToken();
     $.ajax({
        type: "POST",
@@ -131,9 +160,7 @@ function tour_login(data, type=''){
        headers:{
             'action': 'signin',
        },
-       data: {
-            'frontend_signature': frontend_signature
-       },
+       data: data_send,
        success: function(msg) {
            if(msg.result.error_code == 0){
                signature = msg.result.response.signature;
