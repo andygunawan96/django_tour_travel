@@ -269,6 +269,8 @@ def login(request):
             data['platform'] = request.POST['platform']
         if request.POST.get('browser'):
             data['browser'] = request.POST['browser']
+        if request.POST.get('timezone'):
+            data['timezone'] = request.POST['timezone']
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 

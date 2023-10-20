@@ -1036,11 +1036,15 @@ function event_signin(data){
     if(typeof(web_vendor) === 'undefined'){
         web_vendor = '';
     }
+    if(typeof(timezone) === 'undefined'){
+        timezone = '';
+    }
     data_send = {
         "platform": platform,
         "unique_id": unique_id,
         "browser": web_vendor,
-        'frontend_signature': frontend_signature,
+        "timezone": timezone,
+        'frontend_signature': frontend_signature
     }
     $.ajax({
        type: "POST",

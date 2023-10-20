@@ -21,10 +21,14 @@ function tour_redirect_signup(type){
         if(typeof(web_vendor) === 'undefined'){
             web_vendor = '';
         }
+        if(typeof(timezone) === 'undefined'){
+            timezone = '';
+        }
         data_send = {
             "platform": platform,
             "unique_id": unique_id,
-            "browser": web_vendor
+            "browser": web_vendor,
+            "timezone": timezone
         }
         getToken();
         $.ajax({
@@ -147,10 +151,14 @@ function tour_login(data, type=''){
     if(typeof(web_vendor) === 'undefined'){
         web_vendor = '';
     }
+    if(typeof(timezone) === 'undefined'){
+        timezone = '';
+    }
     data_send = {
         "platform": platform,
         "unique_id": unique_id,
         "browser": web_vendor,
+        "timezone": timezone,
         "frontend_signature": frontend_signature
     }
     getToken();
