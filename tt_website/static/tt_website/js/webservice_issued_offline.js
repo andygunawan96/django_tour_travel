@@ -62,8 +62,8 @@ function issued_offline_page(){
             signin_orbisway('');
             get_data_issued_offline();
             try{
-                get_public_holiday(moment().format('YYYY-MM-DD'), moment().subtract(-1, 'years').format('YYYY-MM-DD'), 100 );
-                new_get_public_holiday(moment().format('YYYY-MM-DD'), moment().subtract(-1, 'years').format('YYYY-MM-DD'), 100 );
+                get_public_holiday(moment().format('YYYY-MM-DD'), moment().subtract(-1, 'years').format('YYYY-MM-DD'));
+                new_get_public_holiday(moment().format('YYYY-MM-DD'), moment().subtract(-1, 'years').format('YYYY-MM-DD'));
             }catch(err){
                 console.log(err);
             }
