@@ -12,7 +12,7 @@ tempYear = '';//string&public
 tempHoliday = '';
 new_date_api = {};
 
-function new_get_public_holiday(start_date, end_date, country_id){
+function new_get_public_holiday(start_date, end_date){
     getToken();
     $.ajax({
        type: "POST",
@@ -23,7 +23,6 @@ function new_get_public_holiday(start_date, end_date, country_id){
        data: {
             'start_date': start_date,
             'end_date': end_date,
-            'country_id': country_id,
             'signature': signature
        },
        success: function(msg) {

@@ -1358,9 +1358,8 @@ def get_new_cache(request, signature, type='all'):
                 "signature": signature,
             }
             data = {
-                'country_id': 100,
                 'start_date': datetime.now().strftime('%Y-%m-%d'),
-                'end_date': (datetime.now() + timedelta(days=365)).strftime('%Y-%m-%d'),
+                'end_date': (datetime.now() + timedelta(days=365)).strftime('%Y-%m-%d')
             }
             url_request = get_url_gateway('content')
             res = send_request_api({}, url_request, headers, data, 'POST')
