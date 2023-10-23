@@ -879,9 +879,15 @@ def admin(request):
                     text += '\n'
 
                     if 'backend_url' in request.POST:
-                        text += request.POST['backend_url']
+                        if 'http' not in request.POST['backend_url']:
+                            text += "https://%s" % request.POST['backend_url']
+                        else:
+                            text += request.POST['backend_url']
                     elif data_cache.get('backend_url'):
-                        text += data_cache['backend_url']
+                        if 'http' not in data_cache['backend_url']:
+                            text += "https://%s" % data_cache['backend_url']
+                        else:
+                            text += data_cache['backend_url']
                     text += '\n'
 
                     if 'website_mode' in request.POST:
@@ -2506,6 +2512,9 @@ def error_timeout(request):
         'static_path_url_server': get_url_static_path(),
     })
     return render(request, MODEL_NAME + '/error/408.html', values)
+
+def replace_metacharacter_file_name(file_name):
+    return re.sub('[^A-za-z0-9 .]', '-', file_name)
 
 # @api_view(['GET'])
 # def testing(request):

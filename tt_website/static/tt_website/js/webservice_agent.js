@@ -807,62 +807,124 @@ function set_otp_user_api(is_resend=false){
     if(typeof(timezone) === 'undefined'){
         timezone = '';
     }
+    if(check_email(user_login.co_user_login)==false){
+        Swal.fire({
+            type: 'error',
+            title: 'Oops!',
+            html: 'Invalid Email Address!',
+        })
+    }else{
+        $.ajax({
+           type: "POST",
+           url: "/webservice/agent",
+           headers:{
+                'action': 'set_otp_user_api',
+           },
+           data: {
+                'signature':signature,
+                "platform": platform,
+                "unique_id": unique_id,
+                "browser": web_vendor,
+                "timezone": timezone,
+                'is_resend': is_resend
+           },
+           success: function(msg) {
+                console.log(msg);
+                if(msg.result.error_code == 0){
+                    Swal.fire({
+                        type: 'warning',
+                        html: 'Input OTP'
+                    });
+                    if(document.getElementById('otp_user_div')){
+                        now = new Date().getTime();
+
+                        time_limit = msg.result.response;
+                        tes = moment.utc(time_limit).format('YYYY-MM-DD HH:mm:ss');
+                        localTime  = moment.utc(tes).toDate();
+
+                        data_gmt = moment(time_limit)._d.toString().split(' ')[5];
+                        gmt = data_gmt.replace(/[^a-zA-Z+-]+/g, '');
+                        timezone = data_gmt.replace (/[^\d.]/g, '');
+                        timezone = timezone.split('')
+                        timezone = timezone.filter(item => item !== '0')
+                        time_limit = moment(localTime).format('YYYY-MM-DD HH:mm:ss');
+                        time_limit_otp_user = parseInt((new Date(time_limit).getTime() - now) / 1000);
+                        session_otp_user_time_limit();
+                        $('.loading-button').prop('disabled', false);
+                        $('.loading-button').removeClass("running");
+                        $('#myModal_otp').modal('show');
+                    }
+                }
+                else{
+                    Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: '<span style="color: #ff9900;">set_otp_user_api!' ,
+                    })
+                }
+           },
+           error: function(XMLHttpRequest, textStatus, errorThrown) {
+                error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error set_otp_user_api');
+           },timeout: 60000
+        });
+    }
+}
+
+function activation_otp_user_api(){
+    if(typeof(platform) === 'undefined'){
+        platform = '';
+    }
+    if(typeof(unique_id) === 'undefined'){
+        unique_id = '';
+    }
+    if(typeof(web_vendor) === 'undefined'){
+        web_vendor = '';
+    }
+    if(typeof(timezone) === 'undefined'){
+        timezone = '';
+    }
+    if(user_login.co_is_use_otp){
+        action = 'turn_off_otp_user_api';
+    }else{
+        action = 'activation_otp_user_api'
+    }
     $.ajax({
        type: "POST",
        url: "/webservice/agent",
        headers:{
-            'action': 'set_otp_user_api',
+            'action': action
        },
        data: {
             'signature':signature,
+            'otp': document.getElementById('otp_user').value,
             "platform": platform,
             "unique_id": unique_id,
             "browser": web_vendor,
-            "timezone": timezone,
-            'is_resend': is_resend
+            "timezone": timezone
        },
        success: function(msg) {
             console.log(msg);
             if(msg.result.error_code == 0){
-                Swal.fire({
-                    type: 'warning',
-                    html: 'Input OTP'
-                });
-                if(document.getElementById('otp_user_div')){
-                    now = new Date().getTime();
-
-                    time_limit = msg.result.response;
-                    tes = moment.utc(time_limit).format('YYYY-MM-DD HH:mm:ss');
-                    localTime  = moment.utc(tes).toDate();
-
-                    data_gmt = moment(time_limit)._d.toString().split(' ')[5];
-                    gmt = data_gmt.replace(/[^a-zA-Z+-]+/g, '');
-                    timezone = data_gmt.replace (/[^\d.]/g, '');
-                    timezone = timezone.split('')
-                    timezone = timezone.filter(item => item !== '0')
-                    time_limit = moment(localTime).format('YYYY-MM-DD HH:mm:ss');
-                    time_limit_otp_user = parseInt((new Date(time_limit).getTime() - now) / 1000);
-                    session_otp_user_time_limit();
-                    $('.loading-button').prop('disabled', false);
-                    $('.loading-button').removeClass("running");
-                    $('#myModal_otp').modal('show');
-                }
+                relogin_user();
             }
             else{
+                //signature expired untuk passenger
                 Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: #ff9900;">set_otp_user_api!' ,
+                    type: 'error',
+                    title: 'Oops!',
+                    html: '<span style="color: #ff9900;">'+msg.result.error_msg+'!' ,
                 })
             }
+            $('.loading-button').prop('disabled', false);
+            $('.loading-button').removeClass("running");
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error set_otp_user_api');
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error activation_otp_user_api');
        },timeout: 60000
     });
 }
 
-function activation_otp_user_api(){
+function relogin_user(){
     if(typeof(platform) === 'undefined'){
         platform = '';
     }
@@ -879,11 +941,10 @@ function activation_otp_user_api(){
        type: "POST",
        url: "/webservice/agent",
        headers:{
-            'action': 'activation_otp_user_api',
+            'action': 'relogin'
        },
        data: {
             'signature':signature,
-            'otp': document.getElementById('otp_user').value,
             "platform": platform,
             "unique_id": unique_id,
             "browser": web_vendor,
@@ -892,10 +953,18 @@ function activation_otp_user_api(){
        success: function(msg) {
             console.log(msg);
             if(msg.result.error_code == 0){
-                Swal.fire({
-                    type: 'success',
-                    title: '2FA Active!'
-                })
+                if(user_login.co_is_use_otp){
+                    Swal.fire({
+                        type: 'success',
+                        title: 'Turn Off 2-Step Verification!'
+                    })
+                }else{
+                    Swal.fire({
+                        type: 'success',
+                        title: 'Turn On 2-Step Verification!'
+                    })
+                }
+                window.location.reload();
                 clear_otp();
             }
             else{

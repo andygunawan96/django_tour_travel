@@ -226,7 +226,9 @@
                                     {% if "admin" in username.co_agent_frontend_security %}
                                     <li><a href="{% url 'tt_website:admin'%}">Admin Setting</a></li>
                                     {% endif %}
-                                    {% if "is_use_otp" not in username %}
+                                    {% if username.co_is_use_otp %}
+                                    <li><a href="#" onclick="set_otp_user_api();">Turn off 2-Step Verification</a></li>
+                                    {% else %}
                                     <li><a href="#" onclick="set_otp_user_api();">Turn on 2-Step Verification</a></li>
                                     {% endif %}
                                     {% if "agent_setting_printout" in username.co_agent_frontend_security %}
@@ -1934,8 +1936,10 @@
     //$('head').append( '<meta property="og:title" content="{{name}}" />' );
     //$('head').append( '<meta property="og:type" content="website" />' );
     {% if 'b2c_limitation' not in username.co_agent_frontend_security and backend_url != '' %}
-    document.getElementById('backend_btn').href = url;
-    document.getElementById('backend_btn2').href = url;
+    document.getElementById('backend_btn').href = '#';
+    document.getElementById('backend_btn2').href = '#';
+    document.getElementById('backend_btn').onclick = function() {openInNewTab('{{backend_url}}')};
+    document.getElementById('backend_btn2').onclick = function() {openInNewTab('{{backend_url}}')};
     {% endif %}
     {% if username.co_user_login != '' %}
         get_highlight('header');

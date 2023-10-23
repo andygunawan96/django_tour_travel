@@ -562,6 +562,10 @@ def api_models(request):
             res = set_otp_user_api(request)
         elif req_data['action'] == 'activation_otp_user_api':
             res = activation_otp_user_api(request)
+        elif req_data['action'] == 'turn_off_otp_user_api':
+            res = turn_off_otp_user_api(request)
+        elif req_data['action'] == 'relogin':
+            res = relogin(request)
         elif req_data['action'] == 'check_credential':
             res = check_credential(request)
         elif req_data['action'] == 'check_credential_b2c':
@@ -885,6 +889,68 @@ def signin_btc(request):
     except:
         return res
 
+def relogin(request):
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
+        "action": "signin",
+        "signature": ''
+    }
+    try:
+        user_global, password_global, api_key = get_credential(request)
+        data = {
+            "user": user_global,
+            "password": password_global,
+            "api_key": api_key,
+
+            "co_user": request.session.get('username'),
+            "co_password": request.session.get('password'),
+            # "co_user": user_default,  # request.POST['username'],
+            # "co_password": password_default, #request.POST['password'],
+            # "co_uid": ""
+        }
+        if request.POST.get('unique_id'):
+            data['machine_code'] = request.POST['unique_id']
+        if request.POST.get('platform'):
+            data['platform'] = request.POST['platform']
+        if request.POST.get('browser'):
+            data['browser'] = request.POST['browser']
+        if request.POST.get('timezone'):
+            data['timezone'] = request.POST['timezone']
+    except Exception as e:
+        _logger.error('ERROR get user or password for relogin\n' + str(e) + '\n' + traceback.format_exc())
+    url_request = get_url_gateway('session')
+    res = send_request_api(request, url_request, headers, data, 'POST', 10)
+    try:
+        if res['result']['error_code'] == 0:
+            set_session(request, 'signature', res['result']['response']['signature'])
+            set_session(request, 'signin_date', datetime.now().timestamp())
+            data = {}
+            headers = {
+                "Accept": "application/json,text/html,application/xml",
+                "Content-Type": "application/json",
+                "action": "get_account",
+                "signature": res['result']['response']['signature']
+            }
+            url_request = get_url_gateway('account')
+            res_user = send_request_api(request, url_request, headers, data, 'POST')
+            # pakai kalo template PER USER
+            # user_template = UserTemplate().get_data_by_id(request.POST['username'], True) #true buat rodextrip false buat tors
+            # res_user['result']['response'].update({
+            #     'logo_url': user_template.logo_url,
+            #     'name': user_template.name,
+            #     'template': user_template.template_id,
+            #     'desc': user_template.desc
+            # })
+            res_user['result']['response']['signature'] = res['result']['response']['signature']
+            if "login" in res_user['result']['response']['co_agent_frontend_security']:
+                set_session(request, 'user_account', res_user['result']['response'])
+        else:
+            _logger.error('ERROR SIGNIN_agent SOMETHING WHEN WRONG ' + json.dumps(res))
+    except Exception as e:
+        _logger.error('ERROR SIGNIN\n' + str(e) + '\n' + traceback.format_exc())
+    return res
+
 def set_otp_user_api(request):
     headers = {
         "Accept": "application/json,text/html,application/xml",
@@ -917,6 +983,32 @@ def activation_otp_user_api(request):
         "Accept": "application/json,text/html,application/xml",
         "Content-Type": "application/json",
         "action": "activation_otp_user_api",
+        "signature": request.POST['signature']
+    }
+    try:
+        data = {
+            "otp": request.POST['otp']
+        }
+        if request.POST.get('unique_id'):
+            data['machine_code'] = request.POST['unique_id']
+        if request.POST.get('platform'):
+            data['platform'] = request.POST['platform']
+        if request.POST.get('browser'):
+            data['browser'] = request.POST['browser']
+        if request.POST.get('timezone'):
+            data['timezone'] = request.POST['timezone']
+    except Exception as e:
+        _logger.error('ERROR activation_otp_user_api\n' + str(e) + '\n' + traceback.format_exc())
+    url_request = get_url_gateway('account')
+    res = send_request_api(request, url_request, headers, data, 'POST', 30)
+
+    return res
+
+def turn_off_otp_user_api(request):
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
+        "action": "turn_off_otp_user_api",
         "signature": request.POST['signature']
     }
     try:
@@ -1927,7 +2019,7 @@ def create_request_cor(request):
         data = json.loads(request.POST['data'])
         for rec_file_name in request.FILES:
             data['img_%s' % rec_file_name] = {
-                'file_name': request.FILES[rec_file_name].name,
+                'file_name': replace_metacharacter_file_name(request.FILES[rec_file_name].name),
                 'file': base64.b64encode(request.FILES[rec_file_name].file.read()).decode('utf-8'),
             }
         if data['account_web'] == 'true':

@@ -3455,20 +3455,23 @@ function datasearch2(airline){
     }
 
     airasia_carrier_list_code = ['AK', 'D7', 'FD', 'QZ', 'ZZ', 'DJ', 'XJ', 'Z2']
+    gds_provider = ['sabre', 'amadeus', 'galileo'];
     for(i in airline.schedules){
         for(j in airline.schedules[i].journeys){
            fare_details = [];
            carrier_code_list_temp = [];
            is_airasia = false;
            for(k in airline.schedules[i].journeys[j].carrier_code_list){
-                if(is_airasia && airasia_carrier_list_code.includes(airline.schedules[i].journeys[j].carrier_code_list[k])){
-
-                }else if(!is_airasia && !airasia_carrier_list_code.includes(airline.schedules[i].journeys[j].carrier_code_list[k])){
+                // kalau provider gds ambil sesuai carrier code list
+//                if(gds_provider.includes(airline.schedules[i].journeys[j].provider)){
+//                    carrier_code_list_temp.push(airline.schedules[i].journeys[j].carrier_code_list[k])
+//                }else{
+                // selain provider gds ambil carrier code pertama
+                if(k == 0){
                     carrier_code_list_temp.push(airline.schedules[i].journeys[j].carrier_code_list[k])
-                }else if(!is_airasia && airasia_carrier_list_code.includes(airline.schedules[i].journeys[j].carrier_code_list[k])){
-                    is_airasia = true;
-                    carrier_code_list_temp.push(airline.schedules[i].journeys[j].carrier_code_list[k])
+                    break;
                 }
+//                }
            }
            airline.schedules[i].journeys[j].carrier_code_list = carrier_code_list_temp;
            airline.schedules[i].journeys[j].sequence = counter;

@@ -162,7 +162,7 @@ def upload_file(request):
         for i in request.FILES:
             for img in request.FILES.getlist(i):
                 imgData.append({
-                    'filename': img.name,
+                    'filename': replace_metacharacter_file_name(img.name),
                     'file_reference': img.name,
                     'file': base64.b64encode(img.file.read()).decode('ascii'),
                     'type': i
@@ -215,7 +215,7 @@ def update_image_passenger(request):
                 if file_reference == '':
                     file_reference = img.name
                 imgData.append({
-                    'filename': img.name,
+                    'filename': replace_metacharacter_file_name(img.name),
                     'file_reference': file_reference,
                     'file': base64.b64encode(img.file.read()).decode('ascii'),
                     'type': i
@@ -557,7 +557,7 @@ def add_banner(request):
             for img in request.FILES.getlist(i):
                 if i not in ['fileToUpload', 'fileBackgroundLogin', 'fileBackgroundHome', 'fileBackgroundSearch', 'filelogoicon', 'fileRegistrationBanner', 'image_carousel'] and 'live_chat' not in i:
                     imgData.append({
-                        'filename': img.name,
+                        'filename': replace_metacharacter_file_name(img.name),
                         'file_reference': img.name,
                         'file': base64.b64encode(img.file.read()).decode('ascii'),
                         'type': i
