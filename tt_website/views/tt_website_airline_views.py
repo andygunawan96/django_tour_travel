@@ -1566,10 +1566,6 @@ def seat_map(request, signature):
                     write_cache_file(request, signature, 'airline_create_passengers', airline_create_passengers)
                     # set_session(request, 'airline_create_passengers_%s' % signature, airline_create_passengers)
                     passenger = []
-                    for pax in adult:
-                        passenger.append(pax)
-                    for pax in child:
-                        passenger.append(pax)
 
                     for pax_type in airline_create_passengers:
                         if pax_type not in ['infant', 'booker', 'contact']:
