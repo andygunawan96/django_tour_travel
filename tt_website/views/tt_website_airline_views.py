@@ -1566,10 +1566,6 @@ def seat_map(request, signature):
                     write_cache_file(request, signature, 'airline_create_passengers', airline_create_passengers)
                     # set_session(request, 'airline_create_passengers_%s' % signature, airline_create_passengers)
                     passenger = []
-                    for pax in adult:
-                        passenger.append(pax)
-                    for pax in child:
-                        passenger.append(pax)
 
                     for pax_type in airline_create_passengers:
                         if pax_type not in ['infant', 'booker', 'contact']:
@@ -2672,6 +2668,7 @@ def review_after_sales(request, signature):
 
                     file = read_cache_file(request, signature, 'airline_get_booking_response')
                     if file:
+                        booking_dict = file['result']['response']
                         data_booking = file['result']['response']['provider_bookings']
                     # data_booking = request.session['airline_get_booking_response']['result']['response']['provider_bookings']
                     for counter_seat_availability_provider, seat_map_provider in enumerate(seat_map_list['seat_availability_provider']):
@@ -2682,11 +2679,24 @@ def review_after_sales(request, signature):
                                     for pax_seat in pax['seat_list']:
                                         if pax_seat['segment_code'] == seat_segment['segment_code2']:
                                             if pax_seat['seat_code'] != '':
-                                                pax_request.append({
-                                                    'passenger_number': pax['sequence'],
-                                                    'seat_code': pax_seat['seat_code']
-                                                })
-                                            break
+                                                add_seat = False
+                                                segment_code_found = False
+                                                if booking_dict['passengers'][idx].get('fees') and len(booking_dict['passengers'][idx]['fees']) > 0:
+                                                    for fee in booking_dict['passengers'][idx]['fees']:
+                                                        if fee['journey_code'] == seat_segment['segment_code']:
+                                                            segment_code_found = True
+                                                            if fee['fee_code'] != pax_seat['seat_code']:
+                                                                add_seat = True
+                                                                break
+                                                    if not segment_code_found:
+                                                        add_seat = True
+                                                else:
+                                                    add_seat = True
+                                                if add_seat:
+                                                    pax_request.append({
+                                                        'passenger_number': pax['sequence'],
+                                                        'seat_code': pax_seat['seat_code']
+                                                    })
                                 if len(pax_request) != 0:
                                     segment_seat_request.append({
                                         'segment_code': seat_segment['segment_code'],

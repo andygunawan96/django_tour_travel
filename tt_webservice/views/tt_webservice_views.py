@@ -2,7 +2,7 @@ import json
 import logging
 import traceback
 import random
-import os, time
+import os, time, re
 from tools.parser import *
 from datetime import datetime
 import requests
@@ -292,4 +292,7 @@ def get_ip_address(request):
     else:
         ip = request.META.get('REMOTE_ADDR')
     return ip
+
+def replace_metacharacter_file_name(file_name):
+    return re.sub('[^A-za-z0-9 .]', '-', file_name)
 

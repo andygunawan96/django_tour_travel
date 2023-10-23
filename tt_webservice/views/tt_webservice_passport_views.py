@@ -435,7 +435,7 @@ def commit_booking(request):
             temp_file = []
             for rec_file in request.FILES.getlist('pay_ref_file'):
                 temp_file.append({
-                    'name': rec_file.name,
+                    'name': replace_metacharacter_file_name(rec_file.name),
                     'file': base64.b64encode(rec_file.file.read()).decode('ascii'),
                 })
             data.update({
