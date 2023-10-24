@@ -101,6 +101,8 @@ Licence URI: http://www.os-templates.com/template-terms
                 bus_check_search_values();
             else if(type == 'signin_btc')
                 signin_btc();
+            else if(type == 'signin_product_otp')
+                signin_product_otp();
             else if(type == 'signin_btb')
                 signin();
             else if(type == 'medical1'){
@@ -2075,6 +2077,23 @@ Licence URI: http://www.os-templates.com/template-terms
                     if(window.render_provider_type_reservation != undefined)
                         render_provider_type_reservation();
                 }
+                if(document.URL.split('/')[document.URL.split('/').length-1] == 'page_setting'){
+                    setTimeout(function() {
+                        for(var x in user_login.co_otp_list_machine){
+                            if(user_login.co_otp_list_machine[x].machine_id == unique_id){
+                                try{
+                                    console.log('machine'+x);
+                                    document.getElementById('machine'+x).style.background = color;
+                                    document.getElementById('machine'+x).style.color = text_color;
+                                    document.getElementById('button_machine'+x).innerHTML = '';
+                                }catch(err){console.log(err);}
+                            }
+                        }
+                        if(user_login.co_otp_list_machine.length > 1){
+                            document.getElementById('button_other_machine').onclick = function() {set_turn_off_notif_user_api(false, unique_id, true);};
+                        }
+                    },1000);
+                }
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
                 //no login
@@ -2110,16 +2129,33 @@ Licence URI: http://www.os-templates.com/template-terms
 </script>
 
 <script>
-    const fpPromise = import('{{ static_path }}/js/library/fingerprint.js').then(FingerprintJS => FingerprintJS.load())
+    if(typeof(localStorage.platform) === 'undefined'){
+        const fpPromise = import('{{ static_path }}/js/library/fingerprint.js').then(FingerprintJS => FingerprintJS.load())
 
-    // Get the visitor identifier when you need it.
-    fpPromise.then(fp => fp.get()).then(result => {
-        // This is the visitor identifier:
-        platform = result.components.platform.value;
-        unique_id = result.visitorId;
-        web_vendor = result.components.vendorFlavors.value[0];
-        timezone = result.components.timezone.value
-    })
+        // Get the visitor identifier when you need it.
+        fpPromise.then(fp => fp.get()).then(result => {
+            // This is the visitor identifier:
+            console.log(result);
+            platform = result.components.platform.value;
+            unique_id = result.visitorId;
+            if(result.components.vendorFlavors.value.length > 0)
+                web_vendor = result.components.vendorFlavors.value[0];
+            else if(result.components.webGlBasics.value.vendor)
+                web_vendor = result.components.webGlBasics.value.vendor;
+            timezone = result.components.timezone.value;
+
+            localStorage.platform = platform;
+            localStorage.unique_id = unique_id;
+            localStorage.web_vendor = web_vendor;
+            localStorage.timezone = timezone;
+
+        })
+    }else{
+        platform = localStorage.platform;
+        unique_id = localStorage.unique_id;
+        web_vendor = localStorage.web_vendor;
+        timezone = localStorage.timezone;
+    }
 </script>
 <script type="text/javascript">
     // Broad cast that your're opening a page.

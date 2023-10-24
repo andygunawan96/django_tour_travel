@@ -334,7 +334,6 @@ function activity_login(data, type=''){
        },
        data: data_send,
        success: function(msg) {
-
            if(msg.result.error_code == 0){
                signature = msg.result.response.signature;
                get_agent_currency_rate();
@@ -346,17 +345,55 @@ function activity_login(data, type=''){
                }else if(type == 'get_details'){
                    activity_get_detail(data);
                }
+           }else if(msg.result.error_code == 1040){
+                $('#myModalSignIn').modal('show');
+                Swal.fire({
+                    type: 'warning',
+                    html: 'Input OTP'
+                });
+                if(document.getElementById('otp_div')){
+                    document.getElementById('otp_div').hidden = false;
+                    document.getElementById('otp_time_limit').hidden = false;
+                    document.getElementById('username_div').hidden = true;
+                    document.getElementById('password_div').hidden = true;
+                    document.getElementById('signin_btn').onclick = function() {get_captcha('g-recaptcha-response','signin_product_otp');}
+                    document.getElementById("btn_otp_resend").onclick = function() {signin_product_otp(true);}
+
+                    now = new Date().getTime();
+
+                    time_limit_otp = msg.result.error_msg.split(', ')[1];
+                    tes = moment.utc(time_limit_otp).format('YYYY-MM-DD HH:mm:ss');
+                    localTime  = moment.utc(tes).toDate();
+
+                    data_gmt = moment(time_limit)._d.toString().split(' ')[5];
+                    gmt = data_gmt.replace(/[^a-zA-Z+-]+/g, '');
+                    timezone = data_gmt.replace (/[^\d.]/g, '');
+                    timezone = timezone.split('')
+                    timezone = timezone.filter(item => item !== '0')
+                    time_limit_otp = moment(localTime).format('YYYY-MM-DD HH:mm:ss');
+                    time_limit_otp = parseInt((new Date(time_limit_otp).getTime() - now) / 1000);
+                    session_otp_time_limit();
+                }
+                $('.loading-button').prop('disabled', false);
+                $('.loading-button').removeClass("running");
+           }else if(msg.result.error_code == 1041){
+                Swal.fire({
+                    type: 'warning',
+                    html: msg.result.error_msg
+                });
+                $('.loading-button').prop('disabled', false);
+                $('.loading-button').removeClass("running");
            }else{
-               Swal.fire({
+                Swal.fire({
                   type: 'error',
                   title: 'Oops!',
                   html: msg.result.error_msg,
-               })
-               try{
-                $('#loading-search-activity').hide();
-               }catch(err){
-                console.log(err); // error kalau ada element yg tidak ada
-               }
+                })
+                try{
+                    $('#loading-search-activity').hide();
+                }catch(err){
+                    console.log(err); // error kalau ada element yg tidak ada
+                }
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
