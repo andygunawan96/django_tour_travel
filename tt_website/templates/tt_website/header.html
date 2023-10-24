@@ -227,7 +227,7 @@
                                     <li><a href="{% url 'tt_website:admin'%}">Admin Setting</a></li>
                                     {% endif %}
                                     {% if username.co_is_use_otp %}
-                                    <li><a href="#" onclick="set_otp_user_api();">Turn off 2-Step Verification</a></li>
+                                    <li><a href="#" onclick="set_otp_user_api(false, true);">Turn off 2-Step Verification</a></li>
                                     {% else %}
                                     <li><a href="#" onclick="set_otp_user_api();">Turn on 2-Step Verification</a></li>
                                     {% endif %}

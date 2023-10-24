@@ -630,6 +630,8 @@ function signin_btc(is_resend=false){
         if(typeof(timezone) === 'undefined'){
             timezone = '';
         }
+        if(is_resend)
+            otp = '';
         data_send = {
             'username':username,
             'password':password,
@@ -794,7 +796,7 @@ function signin_btc(is_resend=false){
     }
 }
 
-function set_otp_user_api(is_resend=false){
+function set_otp_user_api(is_resend=false, turn_off_otp=false){
     if(typeof(platform) === 'undefined'){
         platform = '';
     }
@@ -814,6 +816,9 @@ function set_otp_user_api(is_resend=false){
             html: 'Invalid Email Address!',
         })
     }else{
+        if(user_login.co_is_use_otp){
+            turn_off_otp = true;
+        }
         $.ajax({
            type: "POST",
            url: "/webservice/agent",
@@ -826,7 +831,8 @@ function set_otp_user_api(is_resend=false){
                 "unique_id": unique_id,
                 "browser": web_vendor,
                 "timezone": timezone,
-                'is_resend': is_resend
+                'is_resend': is_resend,
+                'turn_off_otp': turn_off_otp
            },
            success: function(msg) {
                 console.log(msg);

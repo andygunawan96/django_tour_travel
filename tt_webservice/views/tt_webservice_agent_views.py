@@ -971,6 +971,9 @@ def set_otp_user_api(request):
         if request.POST.get('is_resend'):
             if request.POST['is_resend'] == 'true':
                 data['is_resend_otp'] = True
+        if request.POST.get('turn_off_otp'):
+            if request.POST['turn_off_otp'] == 'true':
+                data['turn_off_otp'] = True
     except Exception as e:
         _logger.error('ERROR set_otp_user_api\n' + str(e) + '\n' + traceback.format_exc())
     url_request = get_url_gateway('account')
