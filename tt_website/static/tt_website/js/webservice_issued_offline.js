@@ -1679,6 +1679,14 @@ function get_booking_offline(data){
                                         </div>
                                     `;
                                 }
+                                else if(msg.result.response.state == 'booked')
+                                {
+                                    text+=`
+                                        <button type="button" id="button-print-print" class="primary-btn ld-ext-right" style="width:100%;" onclick="get_printout('`+msg.result.response.order_number+`', 'itinerary','offline');">
+                                            Print Form
+                                            <div class="ld ld-ring ld-cycle"></div>
+                                        </button>`;
+                                }
                             }
                                 text+=`
                             </a>
