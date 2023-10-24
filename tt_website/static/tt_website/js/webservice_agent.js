@@ -630,6 +630,8 @@ function signin_btc(is_resend=false){
         if(typeof(timezone) === 'undefined'){
             timezone = '';
         }
+        if(is_resend)
+            otp = '';
         data_send = {
             'username':username,
             'password':password,
