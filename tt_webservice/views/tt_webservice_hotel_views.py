@@ -252,7 +252,7 @@ def get_masking(request, is_need_update_masking=False):
             write_cache(res, 'hotel_masking', request)
     else:
         res = file
-        return res
+    return res
 
 def update_masking(request):
     try:
