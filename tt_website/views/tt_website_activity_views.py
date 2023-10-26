@@ -190,6 +190,27 @@ def search(request):
     else:
         return no_session_logout(request)
 
+def detail_without_signature(request, activity_uuid):
+    try:
+        javascript_version = get_javascript_version(request)
+        values = get_data_template(request)
+        web_mode = get_web_mode(request)
+        if 'user_account' not in request.session and 'btc' in web_mode:
+            signin_btc(request)
+        elif 'user_account' not in request.session and 'btc' not in web_mode:
+            raise Exception('Activity detail error without login')
+        create_session_product(request, 'tour', 20, request.session['signature'])
+        return redirect('/activity/detail/%s/%s' % (activity_uuid[:-1] if activity_uuid[-1] == '/' else activity_uuid, request.session['signature']))
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+        web_mode = get_web_mode(request)
+        if 'btc' not in web_mode:
+            return redirect('/login?redirect=%s' % request.META['PATH_INFO'])
+        if 'btc' in web_mode:
+            raise Exception('Make response code 500!')
+
+        raise Exception('Make response code 500!')
+
 def detail(request, activity_uuid, signature=''):
     if 'user_account' in request.session._session:
         try:

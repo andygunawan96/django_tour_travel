@@ -219,12 +219,35 @@ def search(request):
     else:
         return no_session_logout(request)
 
+def detail_without_signature(request, tour_code):
+    try:
+        javascript_version = get_javascript_version(request)
+        values = get_data_template(request)
+        web_mode = get_web_mode(request)
+        if 'user_account' not in request.session and 'btc' in web_mode:
+            signin_btc(request)
+        elif 'user_account' not in request.session and 'btc' not in web_mode:
+            raise Exception('Tour detail error without login')
+        create_session_product(request, 'tour', 20, request.session['signature'])
+        return redirect('/tour/detail/%s/%s' % (tour_code[:-1] if tour_code[-1] == '/' else tour_code, request.session['signature']))
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+        web_mode = get_web_mode(request)
+        if 'btc' not in web_mode:
+            return redirect('/login?redirect=%s' % request.META['PATH_INFO'])
+        if 'btc' in web_mode:
+            raise Exception('Make response code 500!')
+
+        raise Exception('Make response code 500!')
+
 def detail(request, tour_code, signature=''):
     try:
         javascript_version = get_javascript_version(request)
         values = get_data_template(request, 'search')
         if 'user_account' not in request.session:
             signin_btc(request)
+        if not signature:
+            return redirect('/tour/detail/%s/%s' % (tour_code, request.session['signature']))
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY]  # get language from browser
         response = get_cache_data(request)

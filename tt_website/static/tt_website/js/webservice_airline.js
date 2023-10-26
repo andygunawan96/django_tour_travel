@@ -10089,7 +10089,7 @@ function airline_get_booking(data, sync=false){
                 $text += '- Email: '+msg.result.response.contact.email + '\n';
                 $text += '- Phone: '+msg.result.response.contact.phone+ '\n';
 
-                $text += '\n‣ Price:\n';
+                $text += '\n‣ Price per Passenger:\n';
                 for(i in msg.result.response.provider_bookings){
                     try{
                         if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false || msg.result.response.state == 'issued')

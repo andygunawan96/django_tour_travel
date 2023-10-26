@@ -6,6 +6,7 @@ urlpatterns.append(path('activity/booking/<str:order_number>', view.booking, nam
 urlpatterns.append(path('activity/review/<str:signature>', view.review, name="activity_review"))
 urlpatterns.append(path('activity/passenger/<str:signature>', view.passenger, name="activity_passenger"))
 urlpatterns.append(path('activity/detail/<path:activity_uuid>/<str:signature>', view.detail, name="activity_detail"))
+urlpatterns.append(path('activity/detail/<path:activity_uuid>', view.detail_without_signature, name="activity_detail_without_signature"))
 # urlpatterns.append(re_path('activity/detail', view.detail, name="activity_detail"))
 urlpatterns.append(re_path('activity/search', view.search, name="activity_search"))
 urlpatterns.append(re_path('activity', view.activity, name="activity"))
