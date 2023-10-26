@@ -276,8 +276,11 @@ def detail(request, tour_code, signature=''):
             write_cache_file(request, signature, 'time_limit', time_limit)
             # set_session(request, 'time_limit_%s' % signature, time_limit)
         except:
-            time_limit = int(request.POST['time_limit_input'])
-            write_cache_file(request, signature, 'time_limit', time_limit)
+            if request.POST.get('time_limit_input'):
+                time_limit = int(request.POST['time_limit_input'])
+                write_cache_file(request, signature, 'time_limit', time_limit)
+            else:
+                return redirect('/tour/detail/%s' % (tour_code[:-1] if tour_code[-1] == '/' else tour_code))
 
 
         dest_month_data = [
