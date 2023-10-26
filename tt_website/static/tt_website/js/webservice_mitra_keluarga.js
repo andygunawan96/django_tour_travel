@@ -136,7 +136,8 @@ function mitra_keluarga_page_passenger(){
             mitra_keluarga_signin('passenger');
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get data mitra keluarga');
+            console.log('Error get data mk')
+//            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get data mitra keluarga');
        },timeout: 300000
     });
 }
@@ -156,7 +157,8 @@ function mitra_keluarga_page_review(){
             mitra_keluarga_get_cache_price();
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get data mitra keluarga');
+            console.log('Error get data mk')
+//            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get data mitra keluarga');
        },timeout: 300000
     });
 }
@@ -231,7 +233,8 @@ function get_config_mitra_keluarga(type){
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get config mitra_keluarga');
+            console.log('Error get config data mk')
+//            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get config mitra_keluarga');
        },timeout: 300000
     });
 }

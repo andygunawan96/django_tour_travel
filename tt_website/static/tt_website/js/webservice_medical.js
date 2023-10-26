@@ -139,7 +139,8 @@ function medical_page_passenger(){
             medical_signin('passenger');
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get data medical');
+            console.log('Error get data medical')
+//            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get data medical');
        },timeout: 300000
     });
 }
@@ -159,7 +160,8 @@ function medical_page_review(){
             medical_get_cache_price();
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get data medical');
+            console.log('Error get data medical')
+//            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get data medical');
        },timeout: 300000
     });
 }
@@ -248,7 +250,8 @@ function get_config_medical(type='', vendor=''){
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get config medical');
+            console.log('Error get data config medical')
+//            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get config medical');
        },timeout: 300000
     });
 }
@@ -282,7 +285,8 @@ function get_zip_code(){
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get config medical');
+            console.log('Error get config data medical')
+//            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get config medical');
        },timeout: 300000
     });
 }

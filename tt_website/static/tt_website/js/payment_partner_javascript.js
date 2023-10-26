@@ -68,7 +68,8 @@ function get_payment_partner(type){
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get payment partner');
+            console.log('Error get payment partner')
+//            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get payment partner');
        }
     });
 }

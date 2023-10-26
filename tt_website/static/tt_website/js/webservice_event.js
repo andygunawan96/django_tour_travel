@@ -164,7 +164,8 @@ function event_page_passenger(){
             render_object_from_value(event_option_code);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get data lab_pintar');
+            console.log('Error get data event passenger page')
+//            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get data lab_pintar');
        },timeout: 300000
     });
 }
@@ -194,7 +195,8 @@ function event_page_review(){
             render_object_from_value(json_event_option_code);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get data lab_pintar');
+            console.log('Error get data review page event')
+//            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get data lab_pintar');
        },timeout: 300000
     });
 }

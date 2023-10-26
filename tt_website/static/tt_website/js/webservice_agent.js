@@ -1030,16 +1030,16 @@ function open_modal_otp(msg){
     if(document.getElementById('otp_user_div')){
         now = new Date().getTime();
 
-        time_limit = msg.result.response;
-        tes = moment.utc(time_limit).format('YYYY-MM-DD HH:mm:ss');
+        time_limit_otp_user = msg.result.response;
+        tes = moment.utc(time_limit_otp_user).format('YYYY-MM-DD HH:mm:ss');
         localTime  = moment.utc(tes).toDate();
 
-        data_gmt = moment(time_limit)._d.toString().split(' ')[5];
+        data_gmt = moment(time_limit_otp_user)._d.toString().split(' ')[5];
         gmt = data_gmt.replace(/[^a-zA-Z+-]+/g, '');
         timezone = data_gmt.replace (/[^\d.]/g, '');
         timezone = timezone.split('')
         timezone = timezone.filter(item => item !== '0')
-        time_limit = moment(localTime).format('YYYY-MM-DD HH:mm:ss');
+        time_limit_otp_user = moment(localTime).format('YYYY-MM-DD HH:mm:ss');
         time_limit_otp_user = parseInt((new Date(time_limit).getTime() - now) / 1000);
         session_otp_user_time_limit();
         $('.loading-button').prop('disabled', false);

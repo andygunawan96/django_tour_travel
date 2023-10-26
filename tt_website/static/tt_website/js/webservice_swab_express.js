@@ -132,7 +132,8 @@ function swab_express_page_passenger(){
             swab_express_signin('passenger');
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get data swab express');
+            console.log('Error get data se')
+//            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get data swab express');
        },timeout: 300000
     });
 }
@@ -152,7 +153,8 @@ function swab_express_page_review(){
             swab_express_get_cache_price();
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get data swab express');
+            console.log('Error get data se')
+//            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get data swab express');
        },timeout: 300000
     });
 }
@@ -227,7 +229,8 @@ function get_config_swab_express(type){
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get config swab_express');
+            console.log('Error get data config se')
+//            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get config swab_express');
        },timeout: 300000
     });
 }

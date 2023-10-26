@@ -286,7 +286,8 @@ function tour_page_review(){
             get_price_itinerary_cache('review');
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get data swab express');
+            console.log('Error get data review page tour')
+//            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get data swab express');
        },timeout: 300000
     });
 }
@@ -324,7 +325,8 @@ function get_tour_auto_complete(type){
             get_tour_config(type);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error tour config');
+            console.log('Error tour config')
+//            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error tour config');
        },timeout: 60000
     });
 }

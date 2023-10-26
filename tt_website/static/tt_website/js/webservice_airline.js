@@ -1810,7 +1810,8 @@ function re_order_set_pax_signature(){
 
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error airline carrier code list');
+            console.log('Error airline carrier code list')
+//            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error airline carrier code list');
             $('.loader-rodextrip').fadeOut();
        },timeout: 60000
     });
@@ -1999,7 +2000,8 @@ function get_carrier_code_list(type, val){
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error airline carrier code list');
+            console.log('Error airline carrier code list')
+//            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error airline carrier code list');
             $('.loader-rodextrip').fadeOut();
        },timeout: 60000
     });
@@ -2061,7 +2063,8 @@ function get_all_carrier_airline(page){
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error airline carrier code list');
+            console.log('Error airline carrier code list')
+//            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error airline carrier code list');
             $('.loader-rodextrip').fadeOut();
        },timeout: 60000
     });

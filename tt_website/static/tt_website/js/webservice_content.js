@@ -628,7 +628,8 @@ function get_banner(type,page){
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error banner');
+            console.log('Error banner')
+//            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error banner');
        }
     });
 }
@@ -742,7 +743,8 @@ function get_page(data){
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get dynamic page');
+            console.log('Error get dynamic page')
+//            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get dynamic page');
        }
     });
 }
@@ -972,7 +974,8 @@ function get_dynamic_page(type){
 
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get banner');
+            console.log('Error get banner')
+//            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get banner');
        }
     });
 }
