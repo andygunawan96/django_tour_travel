@@ -365,7 +365,7 @@ function activity_login(data, type=''){
                     tes = moment.utc(time_limit_otp).format('YYYY-MM-DD HH:mm:ss');
                     localTime  = moment.utc(tes).toDate();
 
-                    data_gmt = moment(time_limit)._d.toString().split(' ')[5];
+                    data_gmt = moment(time_limit_otp)._d.toString().split(' ')[5];
                     gmt = data_gmt.replace(/[^a-zA-Z+-]+/g, '');
                     timezone = data_gmt.replace (/[^\d.]/g, '');
                     timezone = timezone.split('')
