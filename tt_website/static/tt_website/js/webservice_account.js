@@ -1984,7 +1984,8 @@ function get_phone_code(){
             phone_code = msg.phone_code
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get phone code');
+            console.log('Error get phone code')
+//            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get phone code');
        },timeout: 10000
     });
 }
@@ -2029,7 +2030,8 @@ function create_va_number(){
                 }
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
-                error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get phone code');
+                console.log('Error get phone code')
+//                error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get phone code');
            },timeout: 60000
         });
     }else{
@@ -2126,7 +2128,8 @@ function get_vendor_balance(val){
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             vendor_balance_check = 0;
             get_balance(val);
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get vendor balance');
+            console.log('Error get vendor balance')
+//            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get vendor balance');
        },timeout: 60000
     });
 }
