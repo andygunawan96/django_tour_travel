@@ -170,28 +170,66 @@ function tour_login(data, type=''){
        },
        data: data_send,
        success: function(msg) {
-           if(msg.result.error_code == 0){
-               signature = msg.result.response.signature;
-               get_agent_currency_rate();
-               get_carriers_tour();
-               if(type == '' || data == ''){
-                   tour_search();
-               }else if(type == 'get_booking'){
-                   tour_get_booking(data);
-               }else if(type == 'get_details'){
-                   tour_get_details(data);
-               }
-           }else{
-               Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: msg.result.error_msg,
-               })
-               try{
-                $('#loading-search-tour').hide();
-               }catch(err){
-                console.log(err); // error kalau ada element yg tidak ada
-               }
+            if(msg.result.error_code == 0){
+                signature = msg.result.response.signature;
+                get_agent_currency_rate();
+                get_carriers_tour();
+                if(type == '' || data == ''){
+                    tour_search();
+                }else if(type == 'get_booking'){
+                    tour_get_booking(data);
+                }else if(type == 'get_details'){
+                    tour_get_details(data);
+                }
+            }else if(msg.result.error_code == 1040){
+                $('#myModalSignIn').modal('show');
+                Swal.fire({
+                    type: 'warning',
+                    html: 'Input OTP'
+                });
+                if(document.getElementById('otp_div')){
+                    document.getElementById('otp_div').hidden = false;
+                    document.getElementById('otp_time_limit').hidden = false;
+                    document.getElementById('username_div').hidden = true;
+                    document.getElementById('password_div').hidden = true;
+                    document.getElementById('signin_btn').onclick = function() {get_captcha('g-recaptcha-response','signin_product_otp');}
+                    document.getElementById("btn_otp_resend").onclick = function() {signin_product_otp(true);}
+
+                    now = new Date().getTime();
+
+                    time_limit_otp = msg.result.error_msg.split(', ')[1];
+                    tes = moment.utc(time_limit_otp).format('YYYY-MM-DD HH:mm:ss');
+                    localTime  = moment.utc(tes).toDate();
+
+                    data_gmt = moment(time_limit)._d.toString().split(' ')[5];
+                    gmt = data_gmt.replace(/[^a-zA-Z+-]+/g, '');
+                    timezone = data_gmt.replace (/[^\d.]/g, '');
+                    timezone = timezone.split('')
+                    timezone = timezone.filter(item => item !== '0')
+                    time_limit_otp = moment(localTime).format('YYYY-MM-DD HH:mm:ss');
+                    time_limit_otp = parseInt((new Date(time_limit_otp).getTime() - now) / 1000);
+                    session_otp_time_limit();
+                }
+                $('.loading-button').prop('disabled', false);
+                $('.loading-button').removeClass("running");
+            }else if(msg.result.error_code == 1041){
+                Swal.fire({
+                    type: 'warning',
+                    html: msg.result.error_msg
+                });
+                $('.loading-button').prop('disabled', false);
+                $('.loading-button').removeClass("running");
+            }else{
+                Swal.fire({
+                    type: 'error',
+                    title: 'Oops!',
+                    html: msg.result.error_msg,
+                })
+                try{
+                    $('#loading-search-tour').hide();
+                }catch(err){
+                    console.log(err); // error kalau ada element yg tidak ada
+                }
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -246,7 +284,8 @@ function tour_page_review(){
             get_price_itinerary_cache('review');
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get data swab express');
+            console.log('Error get data review page tour')
+//            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get data swab express');
        },timeout: 300000
     });
 }
@@ -284,7 +323,8 @@ function get_tour_auto_complete(type){
             get_tour_config(type);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error tour config');
+            console.log('Error tour config')
+//            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error tour config');
        },timeout: 60000
     });
 }

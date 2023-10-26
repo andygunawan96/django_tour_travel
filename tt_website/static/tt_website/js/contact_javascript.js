@@ -299,7 +299,8 @@ function get_contact(type){
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get contact url');
+            console.log('Error get contact url')
+//            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get contact url');
        },timeout: 60000
     });
 }

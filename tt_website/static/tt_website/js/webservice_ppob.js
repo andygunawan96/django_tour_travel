@@ -44,6 +44,44 @@ function signin_ppob(data){
                     ppob_get_provider_list();
                     ppob_get_booking(data);
                 }
+            }else if(msg.result.error_code == 1040){
+                $('#myModalSignIn').modal('show');
+                Swal.fire({
+                    type: 'warning',
+                    html: 'Input OTP'
+                });
+                if(document.getElementById('otp_div')){
+                    document.getElementById('otp_div').hidden = false;
+                    document.getElementById('otp_time_limit').hidden = false;
+                    document.getElementById('username_div').hidden = true;
+                    document.getElementById('password_div').hidden = true;
+                    document.getElementById('signin_btn').onclick = function() {get_captcha('g-recaptcha-response','signin_product_otp');}
+                    document.getElementById("btn_otp_resend").onclick = function() {signin_product_otp(true);}
+
+                    now = new Date().getTime();
+
+                    time_limit_otp = msg.result.error_msg.split(', ')[1];
+                    tes = moment.utc(time_limit_otp).format('YYYY-MM-DD HH:mm:ss');
+                    localTime  = moment.utc(tes).toDate();
+
+                    data_gmt = moment(time_limit)._d.toString().split(' ')[5];
+                    gmt = data_gmt.replace(/[^a-zA-Z+-]+/g, '');
+                    timezone = data_gmt.replace (/[^\d.]/g, '');
+                    timezone = timezone.split('')
+                    timezone = timezone.filter(item => item !== '0')
+                    time_limit_otp = moment(localTime).format('YYYY-MM-DD HH:mm:ss');
+                    time_limit_otp = parseInt((new Date(time_limit_otp).getTime() - now) / 1000);
+                    session_otp_time_limit();
+                }
+                $('.loading-button').prop('disabled', false);
+                $('.loading-button').removeClass("running");
+            }else if(msg.result.error_code == 1041){
+                Swal.fire({
+                    type: 'warning',
+                    html: msg.result.error_msg
+                });
+                $('.loading-button').prop('disabled', false);
+                $('.loading-button').removeClass("running");
             }
 
        },
@@ -90,7 +128,8 @@ function get_config_ppob(){
             get_carrier_setup(first_prov_loop);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get config ppob');
+            console.log('Error get config ppob')
+//            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get config ppob');
        },timeout: 60000
     });
 }
@@ -111,7 +150,8 @@ function get_carriers_ppob(){
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get carriers ppob');
+            console.log('Error get carriers ppob')
+//            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get carriers ppob');
        },timeout: 60000
     });
 }
@@ -132,7 +172,8 @@ function get_carrier_providers_ppob(){
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get carrier providers ppob');
+            console.log('Error get carrier providers ppob')
+//            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get carrier providers ppob');
        },timeout: 60000
     });
 }
@@ -188,7 +229,8 @@ function get_providers_ppob(){
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error ppob get providers');
+            console.log('Error ppob get providers')
+//           error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error ppob get providers');
        },timeout: 60000
     });
 

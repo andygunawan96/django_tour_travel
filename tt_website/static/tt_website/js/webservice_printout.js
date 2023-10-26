@@ -306,7 +306,7 @@ function get_list_report_footer(){
                 text = '';
                 printout = msg.result.response;
                 //KALAU PAGE ADMIN / DI SETTING FOOTER
-                if(document.URL.split('/')[document.URL.split('/').length-1] == 'page_admin' || document.URL.split('/')[document.URL.split('/').length-1] == 'setting_footer_printout'){
+                if(document.URL.split('/')[document.URL.split('/').length-1] == 'page_admin' || document.URL.split('/')[document.URL.split('/').length-1] == 'setting_footer_printout' || document.URL.split('/')[document.URL.split('/').length-1] == 'page_setting'){
                     for(i in printout){
                         text += `<option value='`+printout[i].code+`'>`+printout[i].name+`</option>`;
                     }

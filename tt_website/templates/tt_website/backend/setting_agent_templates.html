@@ -1,0 +1,210 @@
+{% extends 'tt_website/template_website_booking.html' %}
+{% load i18n %}
+{% load static from staticfiles %}
+{% block content %}
+<script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_token.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_airline.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_hotel.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_train.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_account.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/airline_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/train_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_content.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_payment_acq.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/payment_partner_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_printout.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/highlight_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/contact_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/social_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/about_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/faq_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/library/jscolor.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/terms_cor_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}ckeditor/ckeditor.js?version={{javascript_version}}"></script>
+<script>
+    static_path_url_server = '{{static_path_url_server}}'
+    signature = `{{signature}}`;
+    tab_color = `{{tab_color}}`;
+</script>
+<style>
+	#selectedFiles_bigbanner img {
+		max-width: 125px;
+		max-height: 125px;
+		float: left;
+		margin-bottom:10px;
+	}
+	#selectedFiles_smallbanner img {
+		max-width: 125px;
+		max-height: 125px;
+		float: left;
+		margin-bottom:10px;
+	}
+	#selectedFiles_promotionbanner img {
+		max-width: 125px;
+		max-height: 125px;
+		float: left;
+		margin-bottom:10px;
+	}
+	hr {
+	    display: block; height: 1px;
+        border: 0; border-top: 1px solid #ccc;
+        margin: 1em 0; padding: 0;
+    }
+</style>
+<title>{{name}} - Admin</title>
+
+{% include 'tt_website/logout.html' %}
+{% include 'tt_website/header.html' %}
+{% include 'tt_website/notification_box.html' %}
+
+<section style="padding-top:30px; padding-bottom:50px; min-height:unset; background: #f7f7f7;">
+    <div class="container" style="max-width:1200px; background: white; padding:15px; border:1px solid #cdcdcd;">
+        <div class="row">
+            <div class="col-sm-6 mb-3">
+                <h3>{% trans 'Settings' %} <i class="fas fa-wrench"></i></h3>
+            </div>
+            <div class="col-sm-6 mb-3">
+                <div class="input-container-search-ticket" style="width:auto; float:right;">
+                    <i class="fas fa-search" style="font-size:20px; margin-top:10px; margin-right:10px;"></i>
+                    <input class="form-control" id="input_search_setting" onkeyup="search_setting_page();" placeholder="Search Setting"/>
+                </div>
+            </div>
+            <div class="col-lg-3 mb-3">
+                <ul class="main_menu_tabs" id="identity">
+                    {% if "agent_setting_printout" in username.co_agent_frontend_security %}
+                    <li class="main_menu_link current" id="tab-printout-li" data-tab="tab-printout">
+                        <h5>
+                            <i class="fas fa-print"></i> Printout
+                        </h5>
+                    </li>
+                    {% endif %}
+
+                    <li class="main_menu_link {% if "agent_setting_printout" not in username.co_agent_frontend_security %} current {% endif %}" id="tab-security-li" data-tab="tab-security">
+                        <h5>
+                            <i class="fas fa-info-circle"></i> 2-Step Verification
+                        </h5>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-lg-9">
+                <form action="" method="POST" class="form-wrap" id="form_admin" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {% if "agent_setting_printout" in username.co_agent_frontend_security %}
+                    <div id="tab-printout" class="main_menu_content current">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <button type="button" class="accordion" data-tab="tab-website">
+                                    <div style="display:inline-flex">
+                                        <i class="fas fa-print" style="padding-top:5px;font-size:18px;"></i>
+                                        <h6 style="padding-left:10px;">
+                                            Printout Footer Page<br/>
+                                            <span style="font-weight:500; font-size:12px;">Printout Footer Page.</span>
+                                        </h6>
+                                    </div>
+                                </button>
+                                <div class="accordion-content">
+                            <div class="row">
+                                <div class="col-lg-12 mt-3 mb-3">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <h6 style="margin-bottom:10px;">{% trans 'Name' %}</h6>
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select">
+                                                    <select class="form-control js-example-basic-single" name="printout_choose" style="width:100%;" id="printout_choose" placeholder="{% trans 'Printout' %}" onchange="change_printout();">
+
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12" style="margin-bottom:15px;">
+                                            <h6 style="margin-bottom:10px;">{% trans 'Footer' %}</h6>
+                                            <textarea class="ckeditor" name="body_printout" id="body_printout"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 mb-3">
+                                    <button type="button" class="primary-btn update_banner_btn" onclick="update_list_report_footer();">{% trans 'Save Changes' %} <i class="fas fa-save"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <div id="tab-security" class="main_menu_content {% if "agent_setting_printout" not in username.co_agent_frontend_security %} current {% endif %}">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <button type="button" class="accordion" data-tab="tab-information">
+                                    <div style="display:inline-flex">
+                                        <i class="fas fa-key" style="padding-top:5px;font-size:18px;"></i>
+                                        <h6 style="padding-left:10px;">
+                                            Verification<br/>
+                                            <span style="font-weight:500; font-size:12px;">2-Step Verification.</span>
+                                        </h6>
+                                    </div>
+                                </button>
+                                <div class="accordion-content">
+                                    <div class="row">
+                                        <div class="col-lg-6 mt-3 mb-3">
+                                            {% if username.co_is_use_otp %}
+                                            <button type="button" class="primary-btn" onclick="set_otp_user_api(false, true);">Turn off 2-Step Verification</button>
+                                            {% else %}
+                                            <button type="button" class="primary-btn" onclick="set_otp_user_api();">Turn on 2-Step Verification </button>
+                                            {% endif %}
+                                        </div>
+                                        <div class="col-lg-6 mt-3 mb-3" style="text-align:right;">
+                                            {% if username.co_otp_list_machine|length > 0 %}
+                                            <button type="button" class="primary-btn" onclick="relogin_user();">Update Data Machine </button>
+                                            {% endif %}
+                                        </div>
+                                        {% if username.co_otp_list_machine|length > 0 %}
+                                        <div class="col-lg-12 mt-3 mb-3">
+                                            <table class="table list-of-reservation" style="border: 1px solid; width:100%;">
+                                                <tr>
+                                                    <th>Machine ID</th>
+                                                    <th>Flatform</th>
+                                                    <th>Browser</th>
+                                                    <th>Timezone</th>
+                                                    <th>Logout</th>
+                                                </tr>
+                                                {% for machine_obj in username.co_otp_list_machine %}
+                                                <tr id="machine{{forloop.counter0}}">
+                                                    <td>{{machine_obj.machine_id}}</td>
+                                                    <td>{{machine_obj.platform}}</td>
+                                                    <td>{{machine_obj.browser}}</td>
+                                                    <td>{{machine_obj.timezone}}</td>
+                                                    <td id="button_machine{{forloop.counter0}}"><button type="button" class="primary-btn" onclick="set_turn_off_notif_user_api(false,'{{machine_obj.machine_id}}');">Remove</button></td>
+                                                </tr>
+                                                {% endfor %}
+                                            </table>
+                                        </div>
+                                        {% if username.co_otp_list_machine|length > 1 %}
+                                        <div class="col-lg-12 mt-3 mb-3">
+                                            <center><button type="button" class="primary-btn" id="button_other_machine">Remove Other Machine </button></center>
+                                        </div>
+                                        {% endif %}
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% include 'tt_website/footer.html' %}
+
+<script>
+    $( document ).ready(function() {
+        get_list_report_footer();
+    });
+</script>
+{% endblock %}

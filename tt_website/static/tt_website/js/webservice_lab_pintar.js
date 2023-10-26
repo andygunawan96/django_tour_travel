@@ -27,31 +27,69 @@ function lab_pintar_signin(data){
        data: data_send,
        success: function(msg) {
        try{
-           if(msg.result.error_code == 0){
-               lab_pintar_signature = msg.result.response.signature;
-               signature = msg.result.response.signature;
-               if(data == 'passenger'){
+            if(msg.result.error_code == 0){
+                lab_pintar_signature = msg.result.response.signature;
+                signature = msg.result.response.signature;
+                if(data == 'passenger'){
                     get_config_lab_pintar(data, vendor);
                     lab_pintar_get_availability();
-               }else{
+                }else{
                     //get booking
                     get_config_lab_pintar('get_booking');
                     lab_pintar_get_booking(data);
-               }
-           }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                }
+            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 auto_logout();
-           }else{
-               Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: msg.result.error_msg,
-               })
-               try{
-                $("#show_loading_booking_lab_pintar").hide();
-               }catch(err){
-                console.log(err); // error kalau ada element yg tidak ada
-               }
-           }
+            }else if(msg.result.error_code == 1040){
+                $('#myModalSignIn').modal('show');
+                Swal.fire({
+                    type: 'warning',
+                    html: 'Input OTP'
+                });
+                if(document.getElementById('otp_div')){
+                    document.getElementById('otp_div').hidden = false;
+                    document.getElementById('otp_time_limit').hidden = false;
+                    document.getElementById('username_div').hidden = true;
+                    document.getElementById('password_div').hidden = true;
+                    document.getElementById('signin_btn').onclick = function() {get_captcha('g-recaptcha-response','signin_product_otp');}
+                    document.getElementById("btn_otp_resend").onclick = function() {signin_product_otp(true);}
+
+                    now = new Date().getTime();
+
+                    time_limit_otp = msg.result.error_msg.split(', ')[1];
+                    tes = moment.utc(time_limit_otp).format('YYYY-MM-DD HH:mm:ss');
+                    localTime  = moment.utc(tes).toDate();
+
+                    data_gmt = moment(time_limit)._d.toString().split(' ')[5];
+                    gmt = data_gmt.replace(/[^a-zA-Z+-]+/g, '');
+                    timezone = data_gmt.replace (/[^\d.]/g, '');
+                    timezone = timezone.split('')
+                    timezone = timezone.filter(item => item !== '0')
+                    time_limit_otp = moment(localTime).format('YYYY-MM-DD HH:mm:ss');
+                    time_limit_otp = parseInt((new Date(time_limit_otp).getTime() - now) / 1000);
+                    session_otp_time_limit();
+                }
+                $('.loading-button').prop('disabled', false);
+                $('.loading-button').removeClass("running");
+            }else if(msg.result.error_code == 1041){
+                Swal.fire({
+                    type: 'warning',
+                    html: msg.result.error_msg
+                });
+                $('.loading-button').prop('disabled', false);
+                $('.loading-button').removeClass("running");
+            }else{
+                Swal.fire({
+                    type: 'error',
+                    title: 'Oops!',
+                    html: msg.result.error_msg,
+                })
+                try{
+                    $("#show_loading_booking_lab_pintar").hide();
+                }catch(err){
+                    console.log(err); // error kalau ada element yg tidak ada
+                }
+            }
        }catch(err){
             console.log(err);
            Swal.fire({
@@ -94,7 +132,8 @@ function lab_pintar_page_passenger(){
             lab_pintar_signin('passenger');
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get data lab_pintar');
+            console.log('Error get data lab_pintar')
+//            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get data lab_pintar');
        },timeout: 300000
     });
 }
@@ -114,7 +153,8 @@ function lab_pintar_page_review(){
             lab_pintar_get_cache_price();
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get data lab_pintar');
+            console.log('Error get data lab_pintar')
+//            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get data lab_pintar');
        },timeout: 300000
     });
 }
@@ -189,7 +229,8 @@ function get_config_lab_pintar(type){
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get config lab_pintar');
+            console.log('Error get config lab_pintar')
+//            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get config lab_pintar');
        },timeout: 300000
     });
 }

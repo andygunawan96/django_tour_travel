@@ -3048,12 +3048,12 @@ function sort(){
                                                                         <div class="show_pc" style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
                                                                         <div class="show_pc origin-code-snippet" style="background-color:#d4d4d4;right:0px"></div>
                                                                     </div>`;
-                                                                   if(airline[i].segments[j].elapsed_time.split(':')[0] != '0')
-                                                                       text+= airline[i].segments[j].elapsed_time.split(':')[0] + 'd ';
-                                                                   if(airline[i].segments[j].elapsed_time.split(':')[1] != '0')
-                                                                       text+= airline[i].segments[j].elapsed_time.split(':')[1] + 'h ';
-                                                                   if(airline[i].segments[j].elapsed_time.split(':')[2] != '0')
-                                                                       text+= airline[i].segments[j].elapsed_time.split(':')[2] + 'm ';
+                                                                   if(airline[i].segments[j].legs[k].elapsed_time.split(':')[0] != '0')
+                                                                       text+= airline[i].segments[j].legs[k].elapsed_time.split(':')[0] + 'd ';
+                                                                   if(airline[i].segments[j].legs[k].elapsed_time.split(':')[1] != '0')
+                                                                       text+= airline[i].segments[j].legs[k].elapsed_time.split(':')[1] + 'h ';
+                                                                   if(airline[i].segments[j].legs[k].elapsed_time.split(':')[2] != '0')
+                                                                       text+= airline[i].segments[j].legs[k].elapsed_time.split(':')[2] + 'm ';
                                                                     text+=`
                                                                 </div>
                                                                 <div style="text-align:right">

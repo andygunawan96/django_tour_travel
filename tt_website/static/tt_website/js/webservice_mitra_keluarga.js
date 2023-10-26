@@ -30,31 +30,69 @@ function mitra_keluarga_signin(data){
        data: data_send,
        success: function(msg) {
        try{
-           if(msg.result.error_code == 0){
-               mitra_keluarga_signature = msg.result.response.signature;
-               signature = msg.result.response.signature;
-               if(data == 'passenger'){
+            if(msg.result.error_code == 0){
+                mitra_keluarga_signature = msg.result.response.signature;
+                signature = msg.result.response.signature;
+                if(data == 'passenger'){
                     get_config_mitra_keluarga(data, vendor);
                     mitra_keluarga_get_availability();
-               }else{
+                }else{
                     //get booking
                     get_config_mitra_keluarga('get_booking');
                     mitra_keluarga_get_booking(data);
-               }
-           }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                }
+            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 auto_logout();
-           }else{
-               Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: msg.result.error_msg,
-               })
-               try{
-                $("#show_loading_booking_mitra_keluarga").hide();
-               }catch(err){
-                console.log(err); // error kalau ada element yg tidak ada
-               }
-           }
+            }else if(msg.result.error_code == 1040){
+                $('#myModalSignIn').modal('show');
+                Swal.fire({
+                    type: 'warning',
+                    html: 'Input OTP'
+                });
+                if(document.getElementById('otp_div')){
+                    document.getElementById('otp_div').hidden = false;
+                    document.getElementById('otp_time_limit').hidden = false;
+                    document.getElementById('username_div').hidden = true;
+                    document.getElementById('password_div').hidden = true;
+                    document.getElementById('signin_btn').onclick = function() {get_captcha('g-recaptcha-response','signin_product_otp');}
+                    document.getElementById("btn_otp_resend").onclick = function() {signin_product_otp(true);}
+
+                    now = new Date().getTime();
+
+                    time_limit_otp = msg.result.error_msg.split(', ')[1];
+                    tes = moment.utc(time_limit_otp).format('YYYY-MM-DD HH:mm:ss');
+                    localTime  = moment.utc(tes).toDate();
+
+                    data_gmt = moment(time_limit)._d.toString().split(' ')[5];
+                    gmt = data_gmt.replace(/[^a-zA-Z+-]+/g, '');
+                    timezone = data_gmt.replace (/[^\d.]/g, '');
+                    timezone = timezone.split('')
+                    timezone = timezone.filter(item => item !== '0')
+                    time_limit_otp = moment(localTime).format('YYYY-MM-DD HH:mm:ss');
+                    time_limit_otp = parseInt((new Date(time_limit_otp).getTime() - now) / 1000);
+                    session_otp_time_limit();
+                }
+                $('.loading-button').prop('disabled', false);
+                $('.loading-button').removeClass("running");
+            }else if(msg.result.error_code == 1041){
+                Swal.fire({
+                    type: 'warning',
+                    html: msg.result.error_msg
+                });
+                $('.loading-button').prop('disabled', false);
+                $('.loading-button').removeClass("running");
+            }else{
+                Swal.fire({
+                    type: 'error',
+                    title: 'Oops!',
+                    html: msg.result.error_msg,
+                })
+                try{
+                    $("#show_loading_booking_mitra_keluarga").hide();
+                }catch(err){
+                    console.log(err); // error kalau ada element yg tidak ada
+                }
+            }
        }catch(err){
             console.log(err);
            Swal.fire({
@@ -98,7 +136,8 @@ function mitra_keluarga_page_passenger(){
             mitra_keluarga_signin('passenger');
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get data mitra keluarga');
+            console.log('Error get data mk')
+//            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get data mitra keluarga');
        },timeout: 300000
     });
 }
@@ -118,7 +157,8 @@ function mitra_keluarga_page_review(){
             mitra_keluarga_get_cache_price();
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get data mitra keluarga');
+            console.log('Error get data mk')
+//            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get data mitra keluarga');
        },timeout: 300000
     });
 }
@@ -193,7 +233,8 @@ function get_config_mitra_keluarga(type){
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get config mitra_keluarga');
+            console.log('Error get config data mk')
+//            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get config mitra_keluarga');
        },timeout: 300000
     });
 }

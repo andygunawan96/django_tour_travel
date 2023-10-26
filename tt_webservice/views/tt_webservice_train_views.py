@@ -698,6 +698,7 @@ def get_booking(request):
     res = send_request_api(request, url_request, headers, data, 'POST', 480)
     try:
         if res['result']['error_code'] == 0:
+            write_cache_file(request, request.POST['signature'], 'train_booking', res)
             response = get_cache_data(request)
             airline_country = response['result']['response']['airline']['country']
             country = {}
@@ -994,8 +995,9 @@ def assign_seats(request):
         try:
             file = read_cache_file(request, request.POST['signature'], 'train_booking')
             if file:
-                provider = file[0]['provider']
-            provider = request.session['train_booking_%s' % request.POST['signature']][0]['provider']
+                for provider_booking in file['result']['response']['provider_bookings']:
+                    provider = provider_booking['provider']
+            # provider = request.session['train_booking_%s' % request.POST['signature']][0]['provider']
         except Exception as e:
             _logger.error(str(e) + traceback.format_exc())
         for idx, pax in enumerate(passengers):

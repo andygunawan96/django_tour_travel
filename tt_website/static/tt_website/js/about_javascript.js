@@ -102,7 +102,8 @@ function get_about_us(type){
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get about us');
+            console.log('Error get about us')
+//            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get about us');
        }
     });
 }

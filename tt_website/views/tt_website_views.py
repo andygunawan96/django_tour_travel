@@ -1251,9 +1251,55 @@ def admin(request):
         except Exception as e:
             _logger.error(str(e) + '\n' + traceback.format_exc())
             raise Exception('Make response code 500!')
-        return render(request, MODEL_NAME+'/backend/admin_templates.html', values)
+
+        if 'btc' in values['website_mode'] and values['default_user'] and values['default_password'] and request.POST != {}:
+            return redirect('/credential_b2c')
+        else:
+            return render(request, MODEL_NAME+'/backend/admin_templates.html', values)
     else:
         return no_session_logout(request)
+
+def setting(request):
+
+    try:
+        javascript_version = get_javascript_version(request)
+        response = get_cache_data(request)
+        airline_country = response['result']['response']['airline']['country']
+        phone_code = []
+        for i in airline_country:
+            if i['phone_code'] not in phone_code:
+                phone_code.append(i['phone_code'])
+        phone_code = sorted(phone_code)
+
+        file = read_cache("get_airline_active_carriers", 'cache_web', request, 90911)
+        if file:
+            airline_carriers = file
+        else:
+            airline_carriers = {}
+        values = get_data_template(request)
+
+        new_airline_carriers = {}
+        for key, value in airline_carriers.items():
+            new_airline_carriers[key] = value
+
+        if translation.LANGUAGE_SESSION_KEY in request.session:
+            del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
+        values.update({
+            'static_path': path_util.get_static_path(MODEL_NAME),
+            'airline_carriers': new_airline_carriers,
+            'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
+            'countries': airline_country,
+            'phone_code': phone_code,
+            # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
+            'username': request.session['user_account'],
+            'static_path_url_server': get_url_static_path(),
+            'javascript_version': javascript_version,
+            'signature': request.session['signature'],
+        })
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+        raise Exception('Make response code 500!')
+    return render(request, MODEL_NAME+'/backend/setting_agent_templates.html', values)
 
 def setting_footer_printout(request):
     if 'user_account' in request.session._session and 'agent_setting_printout' in request.session['user_account']['co_agent_frontend_security']:
