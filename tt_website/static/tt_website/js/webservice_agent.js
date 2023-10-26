@@ -918,13 +918,13 @@ function set_otp_user_api(is_resend=false, turn_off_otp=false){
     if(typeof(timezone) === 'undefined'){
         timezone = '';
     }
-    if(check_email(user_login.co_user_login)==false){
-        Swal.fire({
-            type: 'error',
-            title: 'Oops!',
-            html: 'Invalid Email Address!',
-        })
-    }else{
+//    if(check_email(user_login.co_user_login)==false){
+//        Swal.fire({
+//            type: 'error',
+//            title: 'Oops!',
+//            html: 'Invalid Email Address!',
+//        })
+//    }else{
         if(user_login.co_is_use_otp){
             turn_off_otp = true;
         }
@@ -961,7 +961,7 @@ function set_otp_user_api(is_resend=false, turn_off_otp=false){
                 error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error set_otp_user_api');
            },timeout: 60000
         });
-    }
+//    }
 }
 
 function set_turn_off_notif_user_api(is_resend=false, id='', is_turn_off_other_machine=false){
@@ -1040,7 +1040,7 @@ function open_modal_otp(msg){
         timezone = timezone.split('')
         timezone = timezone.filter(item => item !== '0')
         time_limit_otp_user = moment(localTime).format('YYYY-MM-DD HH:mm:ss');
-        time_limit_otp_user = parseInt((new Date(time_limit).getTime() - now) / 1000);
+        time_limit_otp_user = parseInt((new Date(time_limit_otp_user).getTime() - now) / 1000);
         session_otp_user_time_limit();
         $('.loading-button').prop('disabled', false);
         $('.loading-button').removeClass("running");
