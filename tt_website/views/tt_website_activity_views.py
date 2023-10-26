@@ -244,8 +244,11 @@ def detail(request, activity_uuid, signature=''):
                 write_cache_file(request, signature, 'time_limit', time_limit)
                 # set_session(request, 'time_limit_%s' % signature, time_limit)
             except:
-                time_limit = int(request.POST['time_limit_input'])
-                write_cache_file(request, signature, 'time_limit', time_limit)
+                if request.POST.get('time_limit_input'):
+                    time_limit = int(request.POST['time_limit_input'])
+                    write_cache_file(request, signature, 'time_limit', time_limit)
+                else:
+                    return redirect('/activity/detail/%s' % (activity_uuid[:-1] if activity_uuid[-1] == '/' else activity_uuid))
 
             # time_limit = get_timelimit_product(request, 'activity', signature)
             # if time_limit == 0:
