@@ -884,7 +884,7 @@ function signin_product_otp(is_resend=false){
                 }
                 $('.loading-button').prop('disabled', false);
                 $('.loading-button').removeClass("running");
-        }else if(msg.result.error_code == 1041){
+        }else{
             Swal.fire({
                 type: 'warning',
                 html: msg.result.error_msg
