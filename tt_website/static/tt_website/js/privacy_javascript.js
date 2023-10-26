@@ -129,7 +129,8 @@ function get_privacy_policy(type){
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get privacy policy');
+            console.log('Error get privacy policy')
+//            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get privacy policy');
        }
     });
 }

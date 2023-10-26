@@ -220,7 +220,8 @@ function get_social(type){
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get social media');
+            console.log('Error get social media')
+//            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get social media');
        },timeout: 60000
     });
 }

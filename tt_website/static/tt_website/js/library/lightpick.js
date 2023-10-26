@@ -32,7 +32,8 @@ function new_get_public_holiday(start_date, end_date){
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             new_date_api = {}
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get public holiday');
+            console.log('Error get public holiday')
+//            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get public holiday');
        }
     });
 }
@@ -99,6 +100,7 @@ function next_focus_after_date(id){
       idString: '99',
       idNumber: 99,
       disableWeekends: false,
+      disableDays: '',
       inline: false,
       weekdayStyle: 'short',
       dropdowns: {
@@ -388,6 +390,15 @@ function next_focus_after_date(id){
         (date.isoWeekday() == 6 || date.isoWeekday() == 7)
       ) {
         day.className.push('is-disabled');
+      }
+
+      if (opts.disableDays != ''){
+        const myArrayDisableDays = opts.disableDays.split(",");
+        for (var idx_dis = 0; idx_dis < myArrayDisableDays.length; idx_dis++) {
+            if(date.isoWeekday() == parseInt(myArrayDisableDays[idx_dis])){
+                day.className.push('is-disabled');
+            }
+        }
       }
 
       if (date.isoWeekday() == 7){

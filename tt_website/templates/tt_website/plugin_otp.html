@@ -1,0 +1,38 @@
+{% load i18n %}
+
+<div class="modal fade" id="myModal_otp" role="dialog">
+    <div class="overlay_modal_custom" data-dismiss="modal"></div>
+    <div class="modal-dialog modal_custom_fixed">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="row">
+                    <div class="col-xs-6 pb-3">
+                        <h4 class="modal-title">{% trans 'OTP' %}</h4>
+                    </div>
+                    <div class="col-xs-6">
+                        <button type="button" class="close modal_custom_close" data-dismiss="modal" onclick="clear_otp();">&times;</button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body" style="text-align:left;">
+                <div class="input-container-search-ticket" id="otp_user_div">
+                    <input type="text" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:10px 0px;" id="otp_user" placeholder="OTP" tabindex="3" />
+                    <button id="btn_otp_resend" class="loading-button primary-btn-custom ld-ext-right" style="margin:10px;margin-top:5px;margin-bottom:14px;" onclick="set_otp_user_api(true)">
+                        Resend
+                        <div class="ld ld-ring ld-cycle"></div>
+                    </button>
+                </div>
+                <div style="background-color:white; padding:10px; margin-top:15px; border:1px solid #cdcdcd;" id="otp_user_time_limit">
+                    <span style="font-size:14px; font-weight:600;"><i class="fas fa-clock"></i> <span class="count_time" id="otp_user_session_time"> </span></span>
+                </div>
+                <div class="input-container-search-ticket">
+                    <button id="btn_otp_user" type="button" onclick="activation_otp_user_api();" class="loading-button primary-btn-custom ld-ext-right" style="margin:10px 0px;">
+                        Submit <i class="fas fa-sign-in-alt"></i>
+                        <div class="ld ld-ring ld-cycle"></div>
+                    </button><br/>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

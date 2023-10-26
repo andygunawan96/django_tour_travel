@@ -1755,7 +1755,7 @@ function sort(tour_dat, exist_check){
                }
                text+=`
                    <div class="col-lg-4 col-md-6">
-                        <form action='/tour/detail/`+tour_dat[i].tour_code+`' method='POST' id='tour_select_form`+tour_dat[i].tour_code+`'>
+                        <form action='/tour/detail/`+tour_dat[i].tour_slug+`' method='POST' id='tour_select_form`+tour_dat[i].tour_code+`'>
                             <div id='csrf`+tour_dat[i].tour_code+`'></div>
                             <input type='hidden' value='`+JSON.stringify(tour_dat[i]).replace(/[']/g, /["]/g)+`'/>
                             <input id='uuid`+tour_dat[i].tour_code+`' name='uuid' type='hidden' value='`+tour_dat[i].id+`'/>
@@ -2270,7 +2270,7 @@ function tour_table_detail()
             room_ids_list.push(temp_room_id);
         }
         request = {
-            'tour_code': tour_code,
+            'tour_code': tour_data.tour_code,
             'room_list': room_ids_list,
         };
         if(tour_data.tour_type == 'open')

@@ -2,13 +2,32 @@ offset_transaction = 0;
 page_transaction_history_ledger = 1
 temp_date_history = ''
 function signin_orbisway(type){
+    if(typeof(platform) === 'undefined'){
+        platform = '';
+    }
+    if(typeof(unique_id) === 'undefined'){
+        unique_id = '';
+    }
+    if(typeof(web_vendor) === 'undefined'){
+        web_vendor = '';
+    }
+    if(typeof(timezone) === 'undefined'){
+        timezone = '';
+    }
+
+    data_send = {
+        "platform": platform,
+        "unique_id": unique_id,
+        "browser": web_vendor,
+        "timezone": timezone
+    }
     $.ajax({
        type: "POST",
        url: "/webservice/issued_offline",
        headers:{
             'action': 'signin',
        },
-       data: {},
+       data: data_send,
        success: function(msg) {
             if(msg.result.error_code == 0){
                 signature = msg.result.response.signature;
@@ -442,7 +461,8 @@ function get_transactions_notification(){
             }, 500);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get transaction');
+            console.log('Error get transaction')
+//            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get transaction');
        },timeout: 60000
     });
 }
@@ -1964,7 +1984,8 @@ function get_phone_code(){
             phone_code = msg.phone_code
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get phone code');
+            console.log('Error get phone code')
+//            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get phone code');
        },timeout: 10000
     });
 }
@@ -2009,7 +2030,8 @@ function create_va_number(){
                 }
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
-                error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get phone code');
+                console.log('Error get phone code')
+//                error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get phone code');
            },timeout: 60000
         });
     }else{
@@ -2106,7 +2128,8 @@ function get_vendor_balance(val){
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             vendor_balance_check = 0;
             get_balance(val);
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get vendor balance');
+            console.log('Error get vendor balance')
+//            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get vendor balance');
        },timeout: 60000
     });
 }

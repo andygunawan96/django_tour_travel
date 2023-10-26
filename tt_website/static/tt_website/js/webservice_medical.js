@@ -1,4 +1,23 @@
 function medical_signin(data){
+    if(typeof(platform) === 'undefined'){
+        platform = '';
+    }
+    if(typeof(unique_id) === 'undefined'){
+        unique_id = '';
+    }
+    if(typeof(web_vendor) === 'undefined'){
+        web_vendor = '';
+    }
+    if(typeof(timezone) === 'undefined'){
+        timezone = '';
+    }
+
+    data_send = {
+        "platform": platform,
+        "unique_id": unique_id,
+        "browser": web_vendor,
+        "timezone": timezone
+    }
     getToken();
     $.ajax({
        type: "POST",
@@ -6,17 +25,17 @@ function medical_signin(data){
        headers:{
             'action': 'signin',
        },
-       data: {},
+       data: data_send,
        success: function(msg) {
        try{
-           if(msg.result.error_code == 0){
-               medical_signature = msg.result.response.signature;
-               signature = msg.result.response.signature;
-               if(data == 'passenger'){
+            if(msg.result.error_code == 0){
+                medical_signature = msg.result.response.signature;
+                signature = msg.result.response.signature;
+                if(data == 'passenger'){
                     get_config_medical(data, vendor);
                     get_zip_code();
                     medical_get_availability();
-               }else{
+                }else{
                     //get booking
                     vendor = '';
                     if(data.includes('PH'))
@@ -25,20 +44,58 @@ function medical_signin(data){
                         vendor = 'periksain';
                     get_config_medical('', vendor);
                     medical_get_booking(data);
-               }
-           }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                }
+            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 auto_logout();
-           }else{
-               Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: msg.result.error_msg,
-               })
-               try{
+            }else if(msg.result.error_code == 1040){
+                $('#myModalSignIn').modal('show');
+                Swal.fire({
+                    type: 'warning',
+                    html: 'Input OTP'
+                });
+                if(document.getElementById('otp_div')){
+                    document.getElementById('otp_div').hidden = false;
+                    document.getElementById('otp_time_limit').hidden = false;
+                    document.getElementById('username_div').hidden = true;
+                    document.getElementById('password_div').hidden = true;
+                    document.getElementById('signin_btn').onclick = function() {get_captcha('g-recaptcha-response','signin_product_otp');}
+                    document.getElementById("btn_otp_resend").onclick = function() {signin_product_otp(true);}
+
+                    now = new Date().getTime();
+
+                    time_limit_otp = msg.result.error_msg.split(', ')[1];
+                    tes = moment.utc(time_limit_otp).format('YYYY-MM-DD HH:mm:ss');
+                    localTime  = moment.utc(tes).toDate();
+
+                    data_gmt = moment(time_limit_otp)._d.toString().split(' ')[5];
+                    gmt = data_gmt.replace(/[^a-zA-Z+-]+/g, '');
+                    timezone = data_gmt.replace (/[^\d.]/g, '');
+                    timezone = timezone.split('')
+                    timezone = timezone.filter(item => item !== '0')
+                    time_limit_otp = moment(localTime).format('YYYY-MM-DD HH:mm:ss');
+                    time_limit_otp = parseInt((new Date(time_limit_otp).getTime() - now) / 1000);
+                    session_otp_time_limit();
+                }
+                $('.loading-button').prop('disabled', false);
+                $('.loading-button').removeClass("running");
+            }else if(msg.result.error_code == 1041){
+                Swal.fire({
+                    type: 'warning',
+                    html: msg.result.error_msg
+                });
+                $('.loading-button').prop('disabled', false);
+                $('.loading-button').removeClass("running");
+            }else{
+                Swal.fire({
+                    type: 'error',
+                    title: 'Oops!',
+                    html: msg.result.error_msg,
+                })
+                try{
                     $("#show_loading_booking_medical").hide();
-               }catch(err){
+                }catch(err){
                     console.log(err); //error tidak ada element
-               }
+                }
            }
        }catch(err){
             console.log(err);
@@ -82,7 +139,8 @@ function medical_page_passenger(){
             medical_signin('passenger');
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get data medical');
+            console.log('Error get data medical')
+//            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get data medical');
        },timeout: 300000
     });
 }
@@ -102,7 +160,8 @@ function medical_page_review(){
             medical_get_cache_price();
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get data medical');
+            console.log('Error get data medical')
+//            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get data medical');
        },timeout: 300000
     });
 }
@@ -191,7 +250,8 @@ function get_config_medical(type='', vendor=''){
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get config medical');
+            console.log('Error get data config medical')
+//            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get config medical');
        },timeout: 300000
     });
 }
@@ -225,7 +285,8 @@ function get_zip_code(){
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get config medical');
+            console.log('Error get config data medical')
+//            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get config medical');
        },timeout: 300000
     });
 }

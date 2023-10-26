@@ -109,6 +109,14 @@ def login(request):
         "co_password": request.session.get('password') or password_default,
         "co_uid": ""
     }
+    if request.POST.get('unique_id'):
+        data['machine_code'] = request.POST['unique_id']
+    if request.POST.get('platform'):
+        data['platform'] = request.POST['platform']
+    if request.POST.get('browser'):
+        data['browser'] = request.POST['browser']
+    if request.POST.get('timezone'):
+        data['timezone'] = request.POST['timezone']
     headers = {
         "Accept": "application/json,text/html,application/xml",
         "Content-Type": "application/json",
@@ -322,9 +330,14 @@ def search(request):
 
 def get_details(request):
     try:
-        data = {
-            'tour_code': request.POST['tour_code'],
-        }
+        if request.POST.get('tour_code'):
+            data = {
+                'tour_code': request.POST['tour_code'],
+            }
+        else:
+            data = {
+                'tour_slug': request.POST['tour_slug'],
+            }
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
@@ -688,7 +701,7 @@ def commit_booking(request):
                 temp_file = []
                 for rec_file in request.FILES.getlist('pay_ref_file'):
                     temp_file.append({
-                        'name': rec_file.name,
+                        'name': replace_metacharacter_file_name(rec_file.name),
                         'file': base64.b64encode(rec_file.file.read()).decode('ascii'),
                     })
                 data.update({
@@ -814,7 +827,7 @@ def issued_booking(request):
             temp_file = []
             for rec_file in request.FILES.getlist('pay_ref_file'):
                 temp_file.append({
-                    'name': rec_file.name,
+                    'name': replace_metacharacter_file_name(rec_file.name),
                     'file': base64.b64encode(rec_file.file.read()).decode('ascii'),
                 })
             data.update({

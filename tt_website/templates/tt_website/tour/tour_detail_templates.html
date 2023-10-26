@@ -1337,11 +1337,13 @@
 
         if (signature != '')
         {
-            tour_get_details(tour_code);
+            // tour_get_details(tour_code);
+            tour_get_details_by_slug(tour_code);
         }
         else
         {
-            tour_login(tour_code, 'get_details');
+            // tour_login(tour_code, 'get_details');
+            tour_login(tour_code, 'get_details_by_slug');
         }
 
         $('#product-tour').click(function(e){

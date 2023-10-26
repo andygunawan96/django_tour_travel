@@ -31,59 +31,115 @@ function update_contact(type,val){
 }
 
 function group_booking_signin(data){
+    if(typeof(platform) === 'undefined'){
+        platform = '';
+    }
+    if(typeof(unique_id) === 'undefined'){
+        unique_id = '';
+    }
+    if(typeof(web_vendor) === 'undefined'){
+        web_vendor = '';
+    }
+    if(typeof(timezone) === 'undefined'){
+        timezone = '';
+    }
+    data_send = {
+        "platform": platform,
+        "unique_id": unique_id,
+        "browser": web_vendor,
+        "timezone": timezone
+    }
     $.ajax({
-       type: "POST",
-       url: "/webservice/group_booking",
-       headers:{
+        type: "POST",
+        url: "/webservice/group_booking",
+        headers:{
             'action': 'signin',
-       },
-       data: {},
-       success: function(msg) {
-       try{
-           if(msg.result.error_code == 0){
-               group_booking_signature = msg.result.response.signature;
-               signature = msg.result.response.signature;
-               if(data == ''){
-//                    get_group_booking_data_search_page();
-//                    group_booking_get_availability();
-               }else{
-                    group_booking_page();
-                    group_booking_get_booking(data);
-               }
-           }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
-                auto_logout();
-           }else{
-               Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: msg.result.error_msg,
-               })
-               try{
+        },
+        data: data_send,
+        success: function(msg) {
+            try{
+                if(msg.result.error_code == 0){
+                    group_booking_signature = msg.result.response.signature;
+                    signature = msg.result.response.signature;
+                    if(data == ''){
+    //                    get_group_booking_data_search_page();
+    //                    group_booking_get_availability();
+                    }else{
+                        group_booking_page();
+                        group_booking_get_booking(data);
+                    }
+                }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                    auto_logout();
+                }else if(msg.result.error_code == 1040){
+                    $('#myModalSignIn').modal('show');
+                    Swal.fire({
+                        type: 'warning',
+                        html: 'Input OTP'
+                    });
+                    if(document.getElementById('otp_div')){
+                        document.getElementById('otp_div').hidden = false;
+                        document.getElementById('otp_time_limit').hidden = false;
+                        document.getElementById('username_div').hidden = true;
+                        document.getElementById('password_div').hidden = true;
+                        document.getElementById('signin_btn').onclick = function() {get_captcha('g-recaptcha-response','signin_product_otp');}
+                        document.getElementById("btn_otp_resend").onclick = function() {signin_product_otp(true);}
+
+                        now = new Date().getTime();
+
+                        time_limit_otp = msg.result.error_msg.split(', ')[1];
+                        tes = moment.utc(time_limit_otp).format('YYYY-MM-DD HH:mm:ss');
+                        localTime  = moment.utc(tes).toDate();
+
+                        data_gmt = moment(time_limit_otp)._d.toString().split(' ')[5];
+                        gmt = data_gmt.replace(/[^a-zA-Z+-]+/g, '');
+                        timezone = data_gmt.replace (/[^\d.]/g, '');
+                        timezone = timezone.split('')
+                        timezone = timezone.filter(item => item !== '0')
+                        time_limit_otp = moment(localTime).format('YYYY-MM-DD HH:mm:ss');
+                        time_limit_otp = parseInt((new Date(time_limit_otp).getTime() - now) / 1000);
+                        session_otp_time_limit();
+                    }
+                    $('.loading-button').prop('disabled', false);
+                    $('.loading-button').removeClass("running");
+                }else if(msg.result.error_code == 1041){
+                    Swal.fire({
+                        type: 'warning',
+                        html: msg.result.error_msg
+                    });
+                    $('.loading-button').prop('disabled', false);
+                    $('.loading-button').removeClass("running");
+                }else{
+                    Swal.fire({
+                        type: 'error',
+                        title: 'Oops!',
+                        html: msg.result.error_msg,
+                    })
+                    try{
+                        $("#show_loading_booking_group_booking").hide();
+                    }catch(err){
+                        console.log(err); // error kalau ada element yg tidak ada
+                    }
+                }
+            }catch(err){
+                Swal.fire({
+                    type: 'error',
+                    title: 'Oops...',
+                    text: 'Something went wrong, please try again or check your internet connection',
+                })
+                $('.loader-rodextrip').fadeOut();
+            }
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error Swab Express signin');
+            $("#barFlightSearch").hide();
+            $("#waitFlightSearch").hide();
+            $('.loader-rodextrip').fadeOut();
+            try{
                 $("#show_loading_booking_group_booking").hide();
-               }catch(err){
+            }catch(err){
                 console.log(err); // error kalau ada element yg tidak ada
-               }
-           }
-       }catch(err){
-           Swal.fire({
-               type: 'error',
-               title: 'Oops...',
-               text: 'Something went wrong, please try again or check your internet connection',
-           })
-           $('.loader-rodextrip').fadeOut();
-        }
-       },
-       error: function(XMLHttpRequest, textStatus, errorThrown) {
-          error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error Swab Express signin');
-          $("#barFlightSearch").hide();
-          $("#waitFlightSearch").hide();
-          $('.loader-rodextrip').fadeOut();
-          try{
-            $("#show_loading_booking_group_booking").hide();
-          }catch(err){
-            console.log(err); // error kalau ada element yg tidak ada
-          }
-       },timeout: 60000
+            }
+        },timeout: 60000
     });
 }
 

@@ -108,6 +108,14 @@ def login(request):
             "co_password": request.session.get('password') or password_default,
             "co_uid": ""
         }
+        if request.POST.get('unique_id'):
+            data['machine_code'] = request.POST['unique_id']
+        if request.POST.get('platform'):
+            data['platform'] = request.POST['platform']
+        if request.POST.get('browser'):
+            data['browser'] = request.POST['browser']
+        if request.POST.get('timezone'):
+            data['timezone'] = request.POST['timezone']
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
@@ -630,7 +638,7 @@ def commit_booking(request):
             temp_file = []
             for rec_file in request.FILES.getlist('pay_ref_file'):
                 temp_file.append({
-                    'name': rec_file.name,
+                    'name': replace_metacharacter_file_name(rec_file.name),
                     'file': base64.b64encode(rec_file.file.read()).decode('ascii'),
                 })
             data.update({
@@ -690,6 +698,7 @@ def get_booking(request):
     res = send_request_api(request, url_request, headers, data, 'POST', 480)
     try:
         if res['result']['error_code'] == 0:
+            write_cache_file(request, request.POST['signature'], 'train_booking', res)
             response = get_cache_data(request)
             airline_country = response['result']['response']['airline']['country']
             country = {}
@@ -899,7 +908,7 @@ def issued(request):
             temp_file = []
             for rec_file in request.FILES.getlist('pay_ref_file'):
                 temp_file.append({
-                    'name': rec_file.name,
+                    'name': replace_metacharacter_file_name(rec_file.name),
                     'file': base64.b64encode(rec_file.file.read()).decode('ascii'),
                 })
             data.update({
@@ -986,8 +995,9 @@ def assign_seats(request):
         try:
             file = read_cache_file(request, request.POST['signature'], 'train_booking')
             if file:
-                provider = file[0]['provider']
-            provider = request.session['train_booking_%s' % request.POST['signature']][0]['provider']
+                for provider_booking in file['result']['response']['provider_bookings']:
+                    provider = provider_booking['provider']
+            # provider = request.session['train_booking_%s' % request.POST['signature']][0]['provider']
         except Exception as e:
             _logger.error(str(e) + traceback.format_exc())
         for idx, pax in enumerate(passengers):

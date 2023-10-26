@@ -164,7 +164,8 @@ function event_page_passenger(){
             render_object_from_value(event_option_code);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get data lab_pintar');
+            console.log('Error get data event passenger page')
+//            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get data lab_pintar');
        },timeout: 300000
     });
 }
@@ -194,7 +195,8 @@ function event_page_review(){
             render_object_from_value(json_event_option_code);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get data lab_pintar');
+            console.log('Error get data review page event')
+//            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get data lab_pintar');
        },timeout: 300000
     });
 }
@@ -1027,15 +1029,32 @@ function event_signin(data){
     if(typeof(frontend_signature) === 'undefined')
         frontend_signature = '';
     getToken();
+    if(typeof(platform) === 'undefined'){
+        platform = '';
+    }
+    if(typeof(unique_id) === 'undefined'){
+        unique_id = '';
+    }
+    if(typeof(web_vendor) === 'undefined'){
+        web_vendor = '';
+    }
+    if(typeof(timezone) === 'undefined'){
+        timezone = '';
+    }
+    data_send = {
+        "platform": platform,
+        "unique_id": unique_id,
+        "browser": web_vendor,
+        "timezone": timezone,
+        'frontend_signature': frontend_signature
+    }
     $.ajax({
        type: "POST",
        url: "/webservice/event",
        headers:{
             'action': 'signin',
        },
-       data: {
-            'frontend_signature': frontend_signature
-       },
+       data: data_send,
        success: function(msg) {
            if(msg.result.error_code == 0){
                signature = msg.result.response.signature;
@@ -1046,14 +1065,52 @@ function event_signin(data){
                }else{
                     event_search();
                }
+           }else if(msg.result.error_code == 1040){
+                $('#myModalSignIn').modal('show');
+                Swal.fire({
+                    type: 'warning',
+                    html: 'Input OTP'
+                });
+                if(document.getElementById('otp_div')){
+                    document.getElementById('otp_div').hidden = false;
+                    document.getElementById('otp_time_limit').hidden = false;
+                    document.getElementById('username_div').hidden = true;
+                    document.getElementById('password_div').hidden = true;
+                    document.getElementById('signin_btn').onclick = function() {get_captcha('g-recaptcha-response','signin_product_otp');}
+                    document.getElementById("btn_otp_resend").onclick = function() {signin_product_otp(true);}
+
+                    now = new Date().getTime();
+
+                    time_limit_otp = msg.result.error_msg.split(', ')[1];
+                    tes = moment.utc(time_limit_otp).format('YYYY-MM-DD HH:mm:ss');
+                    localTime  = moment.utc(tes).toDate();
+
+                    data_gmt = moment(time_limit_otp)._d.toString().split(' ')[5];
+                    gmt = data_gmt.replace(/[^a-zA-Z+-]+/g, '');
+                    timezone = data_gmt.replace (/[^\d.]/g, '');
+                    timezone = timezone.split('')
+                    timezone = timezone.filter(item => item !== '0')
+                    time_limit_otp = moment(localTime).format('YYYY-MM-DD HH:mm:ss');
+                    time_limit_otp = parseInt((new Date(time_limit_otp).getTime() - now) / 1000);
+                    session_otp_time_limit();
+                }
+                $('.loading-button').prop('disabled', false);
+                $('.loading-button').removeClass("running");
+           }else if(msg.result.error_code == 1041){
+                Swal.fire({
+                    type: 'warning',
+                    html: msg.result.error_msg
+                });
+                $('.loading-button').prop('disabled', false);
+                $('.loading-button').removeClass("running");
            }else{
                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: msg.result.error_msg,
+                    type: 'error',
+                    title: 'Oops!',
+                    html: msg.result.error_msg,
                })
                try{
-                $('#loading-search-event').hide();
+                    $('#loading-search-event').hide();
                }catch(err){console.log('part #4')}
            }
        },

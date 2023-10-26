@@ -2446,11 +2446,25 @@ function sort(){
         text = '';
         var first = sort_key * 10;
         var last = (sort_key+1) * 10;
-//        if(sort_key == 0)
-//            text += `
-//            <div style="background-color:`+color+`; padding:10px;">
-//                <h6 style="color:`+text_color+`;">Choose Flight `+counter_search+`</h6>
-//            </div>`;
+        if(sort_key == 0)
+            text += `
+            <div class="div_box_default">
+                <span style="font-size:14px; font-weight:bold;">
+                    <img style="width:auto; height:25px; border-radius:7px; background:white;" src="/static/tt_website/images/icon/product/c-airline.png" alt="Airline Icon">`;
+                    if($radio_value_string != "multicity"){
+                        if(counter_search == 1){
+                            text+=` Departure`;
+                        }else if(counter_search == 2){
+                            text+=` Return`;
+                        }
+                    }
+                    else{
+                        text+=` Flight #`+counter_search+``;
+                    }
+                text+=` |
+                </span>
+                `+airline_request.origin[counter_search-1].split(' - ')[1] + ` (`+airline_request.origin[counter_search-1].split(' - ')[0]+`) <i class="fas fa-arrow-right"></i> `+airline_request.destination[counter_search-1].split(' - ')[1]+` (`+airline_request.destination[counter_search-1].split(' - ')[0]+`) | `+airline_request.departure[counter_search-1]+`
+            </div>`;
         get_airline_recommendations_list();
         total_price_pick = 0;
         for(i in airline_pick_list){
@@ -3034,12 +3048,12 @@ function sort(){
                                                                         <div class="show_pc" style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
                                                                         <div class="show_pc origin-code-snippet" style="background-color:#d4d4d4;right:0px"></div>
                                                                     </div>`;
-                                                                   if(airline[i].segments[j].elapsed_time.split(':')[0] != '0')
-                                                                       text+= airline[i].segments[j].elapsed_time.split(':')[0] + 'd ';
-                                                                   if(airline[i].segments[j].elapsed_time.split(':')[1] != '0')
-                                                                       text+= airline[i].segments[j].elapsed_time.split(':')[1] + 'h ';
-                                                                   if(airline[i].segments[j].elapsed_time.split(':')[2] != '0')
-                                                                       text+= airline[i].segments[j].elapsed_time.split(':')[2] + 'm ';
+                                                                   if(airline[i].segments[j].legs[k].elapsed_time.split(':')[0] != '0')
+                                                                       text+= airline[i].segments[j].legs[k].elapsed_time.split(':')[0] + 'd ';
+                                                                   if(airline[i].segments[j].legs[k].elapsed_time.split(':')[1] != '0')
+                                                                       text+= airline[i].segments[j].legs[k].elapsed_time.split(':')[1] + 'h ';
+                                                                   if(airline[i].segments[j].legs[k].elapsed_time.split(':')[2] != '0')
+                                                                       text+= airline[i].segments[j].legs[k].elapsed_time.split(':')[2] + 'm ';
                                                                     text+=`
                                                                 </div>
                                                                 <div style="text-align:right">
@@ -13269,12 +13283,12 @@ function get_default_ssr(pax, itinerary, page){
                                     for(m in itinerary[i].journeys[j].segments[k].fares[l].fare_details){
                                         default_ssr_text +=`
                                         <div class="row">
-                                           <div class="col-xs-12" style="margin-bottom:10px;">`;
+                                           <div class="col-xs-12" style="margin-bottom:5px;">`;
                                            if(itinerary[i].journeys[j].segments[k].fares[l].fare_details[m].detail_type.includes('BG')){
-                                                default_ssr_text +=`• <b style="background: white; padding: 5px; border:1px solid #cdcdcd; margin-right:5px;"> (Included)</b> <i class="fas fa-suitcase"></i> Baggage: </b> <i>`+itinerary[i].journeys[j].segments[k].fares[l].fare_details[m].amount+` `+itinerary[i].journeys[j].segments[k].fares[l].fare_details[m].unit+`</i><br/>`;
+                                                default_ssr_text +=`• <b style="background: white; padding: 5px; margin-right:5px;"> (Included)</b> <i class="fas fa-suitcase"></i> Baggage: </b> <i>`+itinerary[i].journeys[j].segments[k].fares[l].fare_details[m].amount+` `+itinerary[i].journeys[j].segments[k].fares[l].fare_details[m].unit+`</i><br/>`;
                                            }
                                            else if(itinerary[i].journeys[j].segments[k].fares[l].fare_details[m].detail_type == 'ML'){
-                                                default_ssr_text +=`• <b style="background: white; padding: 5px; border:1px solid #cdcdcd; margin-right:5px;"> (Included)</b> <i class="fas fa-utensils"></i> Meal: </b> <i>`+itinerary[i].journeys[j].segments[k].fares[l].fare_details[m].amount+` `+itinerary[i].journeys[j].segments[k].fares[l].fare_details[m].unit+`</i><br/>`;
+                                                default_ssr_text +=`• <b style="background: white; padding: 5px; margin-right:5px;"> (Included)</b> <i class="fas fa-utensils"></i> Meal: </b> <i>`+itinerary[i].journeys[j].segments[k].fares[l].fare_details[m].amount+` `+itinerary[i].journeys[j].segments[k].fares[l].fare_details[m].unit+`</i><br/>`;
                                            }
                                            else{
                                                 default_ssr_text +=`• <i>`+itinerary[i].journeys[j].segments[k].fares[l].fare_details[m].amount+` `+itinerary[i].journeys[j].segments[k].fares[l].fare_details[m].unit+`</i><br/>`;
@@ -13328,8 +13342,8 @@ function get_default_ssr(pax, itinerary, page){
                                         ssr_type_lower = fee_dict_temp[fee_co].fees[fee_k].ssr_type.toLowerCase();
                                         text_ssr_req += `
                                         <div class="row">
-                                            <div class="col-lg-12" style="margin-bottom:10px;">
-                                                • <span style="color:`+text_color+`; font-weight:bold; background: `+color+`; padding: 5px; margin-right:5px;"> SSR (Request)</span>`;
+                                            <div class="col-lg-12" style="margin-bottom:5px;">
+                                                • <span style="color:`+color+`; font-weight:bold; padding: 5px; margin-right:5px;"> (SSR Request)</span>`;
                                                 if(ssr_type_lower.includes('ml') || ssr_type_lower.includes('meal')){
                                                     text_ssr_req+=` <i class="fas fa-utensils"></i> `;
                                                 }
@@ -13359,8 +13373,8 @@ function get_default_ssr(pax, itinerary, page){
                                 if(pax[co].seat_list[j_seat].seat_pick != ''){
                                     text_seat_req += `
                                     <div class="row">
-                                        <div class="col-lg-12" style="margin-bottom:10px;">
-                                            • <span style="color:`+text_color+`; font-weight:bold; background: `+color+`; padding: 5px; margin-right:5px;">Seat (Request)</span> <img src="/static/tt_website/images/icon/symbol/seat.png" style="height:15px; width:auto;"/> </span>
+                                        <div class="col-lg-12" style="margin-bottom:5px;">
+                                            • <span style="color:`+color+`; font-weight:bold; padding: 5px; margin-right:5px;">(Seat Request)</span> <img src="/static/tt_website/images/icon/symbol/seat.png" style="height:15px; width:auto;"/> </span>
                                             <i>`+pax[co].seat_list[j_seat].seat_pick+`</i>
                                         </div>
                                     </div>`;

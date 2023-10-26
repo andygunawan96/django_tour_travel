@@ -130,6 +130,14 @@ def login(request):
             "co_password": request.session.get('password') or password_default,
             "co_uid": ""
         }
+        if request.POST.get('unique_id'):
+            data['machine_code'] = request.POST['unique_id']
+        if request.POST.get('platform'):
+            data['platform'] = request.POST['platform']
+        if request.POST.get('browser'):
+            data['browser'] = request.POST['browser']
+        if request.POST.get('timezone'):
+            data['timezone'] = request.POST['timezone']
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
@@ -244,7 +252,7 @@ def get_masking(request, is_need_update_masking=False):
             write_cache(res, 'hotel_masking', request)
     else:
         res = file
-        return res
+    return res
 
 def update_masking(request):
     try:
@@ -1159,7 +1167,7 @@ def create_booking(request):
                     temp_file = []
                     for rec_file in request.FILES.getlist('pay_ref_file'):
                         temp_file.append({
-                            'name': rec_file.name,
+                            'name': replace_metacharacter_file_name(rec_file.name),
                             'file': base64.b64encode(rec_file.file.read()).decode('ascii'),
                         })
                     data.update({
@@ -1272,7 +1280,7 @@ def issued_b2c(request):
             temp_file = []
             for rec_file in request.FILES.getlist('pay_ref_file'):
                 temp_file.append({
-                    'name': rec_file.name,
+                    'name': replace_metacharacter_file_name(rec_file.name),
                     'file': base64.b64encode(rec_file.file.read()).decode('ascii'),
                 })
             data.update({

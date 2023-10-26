@@ -2,7 +2,7 @@ import json
 import logging
 import traceback
 import random
-import os, time
+import os, time, re
 from tools.parser import *
 from datetime import datetime
 import requests
@@ -285,4 +285,14 @@ def write_cache_file(request, signature, session_key, data, depth = 1):
         if depth < 10:
             write_cache_file(request, signature, session_key, data, depth + 1)
 
+def get_ip_address(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
+
+def replace_metacharacter_file_name(file_name):
+    return re.sub('[^A-za-z0-9 .]', '-', file_name)
 

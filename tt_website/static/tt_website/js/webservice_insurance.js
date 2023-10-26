@@ -35,40 +35,96 @@ var sorting_list2 = [
 function insurance_signin(data){
     if(typeof(frontend_signature) === 'undefined')
         frontend_signature = '';
+    if(typeof(platform) === 'undefined'){
+        platform = '';
+    }
+    if(typeof(unique_id) === 'undefined'){
+        unique_id = '';
+    }
+    if(typeof(web_vendor) === 'undefined'){
+        web_vendor = '';
+    }
+    if(typeof(timezone) === 'undefined'){
+        timezone = '';
+    }
+    data_send = {
+        "platform": platform,
+        "unique_id": unique_id,
+        "browser": web_vendor,
+        "timezone": timezone,
+        "frontend_signature": frontend_signature
+    }
+
     $.ajax({
        type: "POST",
        url: "/webservice/insurance",
        headers:{
             'action': 'signin',
        },
-       data: {
-            'frontend_signature': frontend_signature
-       },
+       data: data_send,
        success: function(msg) {
        try{
-           if(msg.result.error_code == 0){
-               insurance_signature = msg.result.response.signature;
-               signature = msg.result.response.signature;
-               get_agent_currency_rate();
-               if(data == ''){
+            if(msg.result.error_code == 0){
+                insurance_signature = msg.result.response.signature;
+                signature = msg.result.response.signature;
+                get_agent_currency_rate();
+                if(data == ''){
                     get_insurance_data_search_page();
                     insurance_get_availability();
-               }else
+                }else
                     insurance_get_booking(data);
-           }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 auto_logout();
-           }else{
-               Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: msg.result.error_msg,
-               })
-               try{
-                $("#show_loading_booking_insurance").hide();
-               }catch(err){
-                console.log(err); // error kalau ada element yg tidak ada
-               }
-           }
+            }else if(msg.result.error_code == 1040){
+                $('#myModalSignIn').modal('show');
+                Swal.fire({
+                    type: 'warning',
+                    html: 'Input OTP'
+                });
+                if(document.getElementById('otp_div')){
+                    document.getElementById('otp_div').hidden = false;
+                    document.getElementById('otp_time_limit').hidden = false;
+                    document.getElementById('username_div').hidden = true;
+                    document.getElementById('password_div').hidden = true;
+                    document.getElementById('signin_btn').onclick = function() {get_captcha('g-recaptcha-response','signin_product_otp');}
+                    document.getElementById("btn_otp_resend").onclick = function() {signin_product_otp(true);}
+
+                    now = new Date().getTime();
+
+                    time_limit_otp = msg.result.error_msg.split(', ')[1];
+                    tes = moment.utc(time_limit_otp).format('YYYY-MM-DD HH:mm:ss');
+                    localTime  = moment.utc(tes).toDate();
+
+                    data_gmt = moment(time_limit_otp)._d.toString().split(' ')[5];
+                    gmt = data_gmt.replace(/[^a-zA-Z+-]+/g, '');
+                    timezone = data_gmt.replace (/[^\d.]/g, '');
+                    timezone = timezone.split('')
+                    timezone = timezone.filter(item => item !== '0')
+                    time_limit_otp = moment(localTime).format('YYYY-MM-DD HH:mm:ss');
+                    time_limit_otp = parseInt((new Date(time_limit_otp).getTime() - now) / 1000);
+                    session_otp_time_limit();
+                }
+                $('.loading-button').prop('disabled', false);
+                $('.loading-button').removeClass("running");
+            }else if(msg.result.error_code == 1041){
+                Swal.fire({
+                    type: 'warning',
+                    html: msg.result.error_msg
+                });
+                $('.loading-button').prop('disabled', false);
+                $('.loading-button').removeClass("running");
+            }else{
+                Swal.fire({
+                    type: 'error',
+                    title: 'Oops!',
+                    html: msg.result.error_msg,
+                })
+                try{
+                    $("#show_loading_booking_insurance").hide();
+                }catch(err){
+                    console.log(err); // error kalau ada element yg tidak ada
+                }
+            }
        }catch(err){
            console.log(err);
            Swal.fire({
@@ -80,7 +136,7 @@ function insurance_signin(data){
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-          error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error Swab Express signin');
+          error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error Insurance signin');
           $("#barFlightSearch").hide();
           $("#waitFlightSearch").hide();
           $('.loader-rodextrip').fadeOut();
@@ -120,7 +176,7 @@ function insurance_get_config_provider(page=false){
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-          error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error medical signin');
+          error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error Insurance get config');
           $("#barFlightSearch").hide();
           $("#waitFlightSearch").hide();
           $('.loader-rodextrip').fadeOut();
@@ -308,7 +364,7 @@ function insurance_get_config(page=false, provider_allowed=[]){
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-          error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error medical signin');
+          error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error Insurance get config');
           $("#barFlightSearch").hide();
           $("#waitFlightSearch").hide();
           $('.loader-rodextrip').fadeOut();
@@ -464,7 +520,7 @@ function insurance_get_availability(){
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-          error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error medical signin');
+          error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error Insurance get availability');
           $("#barFlightSearch").hide();
           $("#waitFlightSearch").hide();
           $('.loader-rodextrip').fadeOut();
@@ -1367,6 +1423,28 @@ function insurance_updata(){
 }
 
 function insurance_login(){
+    if(typeof(frontend_signature) === 'undefined')
+        frontend_signature = '';
+    if(typeof(platform) === 'undefined'){
+        platform = '';
+    }
+    if(typeof(unique_id) === 'undefined'){
+        unique_id = '';
+    }
+    if(typeof(web_vendor) === 'undefined'){
+        web_vendor = '';
+    }
+    if(typeof(timezone) === 'undefined'){
+        timezone = '';
+    }
+    data_send = {
+        "platform": platform,
+        "unique_id": unique_id,
+        "browser": web_vendor,
+        "timezone": timezone,
+        'frontend_signature': frontend_signature,
+        'signature': signature
+    }
     getToken();
     $.ajax({
        type: "POST",
@@ -1374,9 +1452,7 @@ function insurance_login(){
        headers:{
             'action': 'login',
        },
-       data: {
-            'signature': signature
-       },
+       data: data_send,
        success: function(msg) {
        try{
            if(msg.result.error_code == 0){
@@ -1406,7 +1482,7 @@ function insurance_login(){
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-          error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error medical signin');
+          error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error Insurance signin');
           $("#barFlightSearch").hide();
           $("#waitFlightSearch").hide();
           $('.loader-rodextrip').fadeOut();

@@ -18,6 +18,7 @@ urlpatterns.append(re_path('setting_footer_printout', view.setting_footer_printo
 urlpatterns.append(re_path('reservation_request', view.reservation_request, name="reservation_request"))
 urlpatterns.append(re_path('reservation', view.reservation, name="reservation"))
 urlpatterns.append(re_path('page_admin', view.admin, name="admin"))
+urlpatterns.append(re_path('page_setting', view.setting, name="setting"))
 urlpatterns.append(re_path('testing_chat', view.testing_chat, name="testing_chat"))
 urlpatterns.append(re_path('highlight_setting', view.highlight_setting, name="highlight_setting"))
 urlpatterns.append(re_path('top_up/history', view.top_up_history, name="top_up_history"))
