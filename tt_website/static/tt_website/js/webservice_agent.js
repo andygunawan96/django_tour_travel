@@ -103,6 +103,13 @@ function session_otp_time_limit(){
                 document.getElementById('otp').value = '';
             }
             clearInterval(timeLimitOTPInterval);
+            try{
+                //HOME
+                if(document.URL.split('/')[document.URL.split('/').length-1] != ''){
+                    $('#myModalSignIn').modal('hide');
+                    window.location.href = '/';
+                }
+            }catch(err){}
         }
     }, 1000);
 }
@@ -115,13 +122,7 @@ function session_otp_user_time_limit(){
         }else{
             clearInterval(timeLimitOTPuserInterval);
             $('#myModal_otp').modal('hide');
-            try{
-                //HOME
-                if(document.URL.split('/')[document.URL.split('/').length-1] != ''){
-                    $('#myModalSignIn').modal('hide');
-                    window.location.href = '/';
-                }
-            }catch(err){}
+
         }
     }, 1000);
 }
@@ -401,7 +402,7 @@ function signin_booking(){
                     tes = moment.utc(time_limit_otp).format('YYYY-MM-DD HH:mm:ss');
                     localTime  = moment.utc(tes).toDate();
 
-                    data_gmt = moment(time_limit)._d.toString().split(' ')[5];
+                    data_gmt = moment(time_limit_otp)._d.toString().split(' ')[5];
                     gmt = data_gmt.replace(/[^a-zA-Z+-]+/g, '');
                     timezone = data_gmt.replace (/[^\d.]/g, '');
                     timezone = timezone.split('')
@@ -880,7 +881,7 @@ function signin_product_otp(is_resend=false){
                     tes = moment.utc(time_limit_otp).format('YYYY-MM-DD HH:mm:ss');
                     localTime  = moment.utc(tes).toDate();
 
-                    data_gmt = moment(time_limit)._d.toString().split(' ')[5];
+                    data_gmt = moment(time_limit_otp)._d.toString().split(' ')[5];
                     gmt = data_gmt.replace(/[^a-zA-Z+-]+/g, '');
                     timezone = data_gmt.replace (/[^\d.]/g, '');
                     timezone = timezone.split('')
