@@ -330,9 +330,14 @@ def search(request):
 
 def get_details(request):
     try:
-        data = {
-            'tour_code': request.POST['tour_code'],
-        }
+        if request.POST.get('tour_code'):
+            data = {
+                'tour_code': request.POST['tour_code'],
+            }
+        else:
+            data = {
+                'tour_slug': request.POST['tour_slug'],
+            }
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
