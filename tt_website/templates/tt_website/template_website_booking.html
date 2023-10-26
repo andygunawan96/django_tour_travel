@@ -2088,7 +2088,7 @@ Licence URI: http://www.os-templates.com/template-terms
                                 }catch(err){console.log(err);}
                             }
                         }
-                        if(user_login.co_otp_list_machine.length > 1){
+                        if(user_login.hasOwnProperty('co_otp_list_machine') && user_login.co_otp_list_machine.length > 1){
                             document.getElementById('button_other_machine').onclick = function() {set_turn_off_notif_user_api(false, unique_id, true);};
                         }
                     },1000);

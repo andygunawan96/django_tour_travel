@@ -115,6 +115,13 @@ function session_otp_user_time_limit(){
         }else{
             clearInterval(timeLimitOTPuserInterval);
             $('#myModal_otp').modal('hide');
+            try{
+                //HOME
+                if(document.URL.split('/')[document.URL.split('/').length-1] == ''){
+                    $('#myModalSignIn').modal('hide');
+                    window.location.href = '/';
+                }
+            }catch(err){}
         }
     }, 1000);
 }
