@@ -128,7 +128,8 @@ function get_config_ppob(){
             get_carrier_setup(first_prov_loop);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get config ppob');
+            console.log('Error get config ppob')
+//            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get config ppob');
        },timeout: 60000
     });
 }
@@ -149,7 +150,8 @@ function get_carriers_ppob(){
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get carriers ppob');
+            console.log('Error get carriers ppob')
+//            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get carriers ppob');
        },timeout: 60000
     });
 }
@@ -170,7 +172,8 @@ function get_carrier_providers_ppob(){
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get carrier providers ppob');
+            console.log('Error get carrier providers ppob')
+//            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get carrier providers ppob');
        },timeout: 60000
     });
 }
@@ -226,7 +229,8 @@ function get_providers_ppob(){
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error ppob get providers');
+            console.log('Error ppob get providers')
+//           error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error ppob get providers');
        },timeout: 60000
     });
 

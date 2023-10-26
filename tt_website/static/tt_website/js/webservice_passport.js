@@ -207,7 +207,7 @@ function passport_page_passenger(){
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get data lab_pintar');
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get cache passenger page passport');
        },timeout: 300000
     });
 }
@@ -234,7 +234,7 @@ function passport_page_review(){
                 set_value_radio_first('adult',parseInt(i)+1);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get data lab_pintar');
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get data cache review page passport');
        },timeout: 300000
     });
 }

@@ -136,7 +136,7 @@ function insurance_signin(data){
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-          error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error Swab Express signin');
+          error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error Insurance signin');
           $("#barFlightSearch").hide();
           $("#waitFlightSearch").hide();
           $('.loader-rodextrip').fadeOut();
@@ -176,7 +176,7 @@ function insurance_get_config_provider(page=false){
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-          error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error medical signin');
+          error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error Insurance get config');
           $("#barFlightSearch").hide();
           $("#waitFlightSearch").hide();
           $('.loader-rodextrip').fadeOut();
@@ -364,7 +364,7 @@ function insurance_get_config(page=false, provider_allowed=[]){
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-          error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error medical signin');
+          error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error Insurance get config');
           $("#barFlightSearch").hide();
           $("#waitFlightSearch").hide();
           $('.loader-rodextrip').fadeOut();
@@ -520,7 +520,7 @@ function insurance_get_availability(){
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-          error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error medical signin');
+          error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error Insurance get availability');
           $("#barFlightSearch").hide();
           $("#waitFlightSearch").hide();
           $('.loader-rodextrip').fadeOut();
@@ -1482,7 +1482,7 @@ function insurance_login(){
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-          error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error medical signin');
+          error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error Insurance signin');
           $("#barFlightSearch").hide();
           $("#waitFlightSearch").hide();
           $('.loader-rodextrip').fadeOut();

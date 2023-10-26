@@ -32,7 +32,8 @@ function new_get_public_holiday(start_date, end_date){
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             new_date_api = {}
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get public holiday');
+            console.log('Error get public holiday')
+//            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get public holiday');
        }
     });
 }

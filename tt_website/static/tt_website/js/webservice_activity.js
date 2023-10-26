@@ -688,7 +688,8 @@ function get_activity_config(type, val){
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error activity config');
+            console.log('Error activity config')
+//            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error activity config');
        },timeout: 60000
     });
 }

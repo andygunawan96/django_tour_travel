@@ -132,7 +132,8 @@ function lab_pintar_page_passenger(){
             lab_pintar_signin('passenger');
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get data lab_pintar');
+            console.log('Error get data lab_pintar')
+//            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get data lab_pintar');
        },timeout: 300000
     });
 }
@@ -152,7 +153,8 @@ function lab_pintar_page_review(){
             lab_pintar_get_cache_price();
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get data lab_pintar');
+            console.log('Error get data lab_pintar')
+//            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get data lab_pintar');
        },timeout: 300000
     });
 }
@@ -227,7 +229,8 @@ function get_config_lab_pintar(type){
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get config lab_pintar');
+            console.log('Error get config lab_pintar')
+//            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get config lab_pintar');
        },timeout: 300000
     });
 }

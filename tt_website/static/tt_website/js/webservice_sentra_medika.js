@@ -132,7 +132,8 @@ function sentra_medika_page_passenger(){
             sentra_medika_signin('passenger');
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get data sentra medika');
+            console.log('Error get data sm')
+//            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get data sentra medika');
        },timeout: 300000
     });
 }
@@ -152,7 +153,8 @@ function sentra_medika_page_review(){
             sentra_medika_get_cache_price();
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get data sentra medika');
+            console.log('Error get data sm')
+//            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get data sentra medika');
        },timeout: 300000
     });
 }
@@ -227,7 +229,8 @@ function get_config_sentra_medika(type){
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get config sentra_medika');
+            console.log('Error get data config sm')
+//            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get config sentra_medika');
        },timeout: 300000
     });
 }

@@ -67,7 +67,8 @@ function get_faq(type){
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get faq');
+            console.log('Error get faq')
+//            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get faq');
        }
     });
 }

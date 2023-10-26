@@ -87,7 +87,8 @@ function get_highlight(type){
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get highlight url');
+            console.log('Error get highlight url');
+//            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get highlight url');
        },timeout: 60000
     });
 }
