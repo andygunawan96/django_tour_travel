@@ -1252,7 +1252,7 @@ def admin(request):
             _logger.error(str(e) + '\n' + traceback.format_exc())
             raise Exception('Make response code 500!')
 
-        if 'btc' in values['website_mode'] and values['default_user'] and values['default_password'] and request.POST != {}:
+        if 'btc' in values['website_mode'] and values['default_user'] == '' and values['default_password'] == '' and request.POST != {}:
             return redirect('/credential_b2c')
         else:
             return render(request, MODEL_NAME+'/backend/admin_templates.html', values)
