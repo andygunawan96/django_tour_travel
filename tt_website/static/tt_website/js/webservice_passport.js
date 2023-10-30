@@ -94,11 +94,13 @@ function passport_signin(data){
                 }
             }else if(msg.result.error_code == 1040){
                 $('#myModalSignIn').modal('show');
-                Swal.fire({
-                    type: 'warning',
-                    html: 'Input OTP'
-                });
+//                Swal.fire({
+//                    type: 'warning',
+//                    html: 'Input OTP'
+//                });
                 if(document.getElementById('otp_div')){
+                    document.getElementById('otp_information').innerHTML = 'An OTP has been sent, Please check your email!';
+                    document.getElementById('otp_information').hidden = false;
                     document.getElementById('otp_div').hidden = false;
                     document.getElementById('otp_time_limit').hidden = false;
                     document.getElementById('username_div').hidden = true;

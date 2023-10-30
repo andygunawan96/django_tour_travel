@@ -2073,6 +2073,10 @@ Licence URI: http://www.os-templates.com/template-terms
            data: {},
            success: function(msg) {
                 user_login = msg;
+                if(user_login.hasOwnProperty('pricing_breakdown') && user_login.pricing_breakdown)
+                    is_show_breakdown_price = true;
+                else
+                    is_show_breakdown_price = false;
                 if(window.location.href.split('/')[window.location.href.split('/').length-1] == 'reservation'){
                     if(window.render_provider_type_reservation != undefined)
                         render_provider_type_reservation();
@@ -2106,10 +2110,7 @@ Licence URI: http://www.os-templates.com/template-terms
     {% if username %}
     get_user_login();
     {% endif %}
-    if('{{is_show_breakdown_price}}' == 'True')
-        is_show_breakdown_price = true;
-    else
-        is_show_breakdown_price = false;
+
     default_user = '{{default_user}}';
 
     name = `{{name}}`;
@@ -2128,37 +2129,44 @@ Licence URI: http://www.os-templates.com/template-terms
 </script>
 
 <script>
+    unique_id = crypto.randomUUID();
     if(typeof(localStorage.platform) === 'undefined'){
-        try{
-            const fpPromise = import('{{ static_path }}/js/library/fingerprint.js').then(FingerprintJS => FingerprintJS.load())
-            // Get the visitor identifier when you need it.
-            fpPromise.then(fp => fp.get()).then(result => {
-                // This is the visitor identifier:
-                console.log(result);
-                platform = result.components.platform.value;
-                unique_id = result.visitorId;
-                if(result.components.vendorFlavors.value.length > 0)
-                    web_vendor = result.components.vendorFlavors.value[0];
-                else if(result.components.webGlBasics.value.vendor)
-                    web_vendor = result.components.webGlBasics.value.vendor;
-                timezone = result.components.timezone.value;
+        const fpPromise = import('{{ static_path }}/js/library/fingerprint.js').then(FingerprintJS => FingerprintJS.load())
+        // Get the visitor identifier when you need it.
+        fpPromise.then(fp => fp.get()).then(result => {
+            // This is the visitor identifier:
+            console.log(result);
+            platform = result.components.platform.value;
+            unique_id = result.visitorId;
+            if(result.components.vendorFlavors.value.length > 0)
+                web_vendor = result.components.vendorFlavors.value[0];
+            else if(result.components.webGlBasics.value.vendor)
+                web_vendor = result.components.webGlBasics.value.vendor;
+            timezone = result.components.timezone.value;
 
-                localStorage.platform = platform;
-                localStorage.unique_id = unique_id;
-                localStorage.web_vendor = web_vendor;
-                localStorage.timezone = timezone;
-            })
-        }catch(err){
-            localStorage.platform = 'Block by adblock';
-            localStorage.unique_id = crypto.randomUUID();
-            localStorage.web_vendor = 'Block by adblock';
-            localStorage.timezone = 'Block by adblock';
-        }
+            localStorage.platform = platform;
+            localStorage.unique_id = unique_id;
+            localStorage.web_vendor = web_vendor;
+            localStorage.timezone = timezone;
+        })
+        platform = '';
+        web_vendor = '';
+        timezone = '';
+        localStorage.unique_id = unique_id;
     }else{
-        platform = localStorage.platform;
+        if(localStorage.hasOwnProperty('platform'))
+            platform = localStorage.platform;
+        else
+            platform = '';
         unique_id = localStorage.unique_id;
-        web_vendor = localStorage.web_vendor;
-        timezone = localStorage.timezone;
+        if(localStorage.hasOwnProperty('web_vendor'))
+            web_vendor = localStorage.web_vendor;
+        else
+            web_vendor = '';
+        if(localStorage.hasOwnProperty('timezone'))
+            timezone = localStorage.timezone;
+        else
+            timezone = '';
     }
 </script>
 <script type="text/javascript">
@@ -2248,7 +2256,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 {% include 'tt_website/html_include/b2c_signup.html' %}
 
 {% include 'tt_website/plugin_live_chat.html' %}
-{% include 'tt_website/plugin_otp.html' %}
 
 <div class="adminActions" id="divBtnAdminAct">
 	<input type="checkbox" name="adminToggle" class="adminToggle" />

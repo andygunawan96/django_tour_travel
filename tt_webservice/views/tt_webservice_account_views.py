@@ -81,6 +81,8 @@ def api_models(request):
             res = update_session(request)
         elif req_data['action'] == 'signup_user':
             res = signup_user(request)
+        elif req_data['action'] == 'delete_user':
+            res = delete_user(request)
         elif req_data['action'] == 'get_balance':
             res = get_balance(request)
         elif req_data['action'] == 'get_corpor_list':
@@ -277,6 +279,30 @@ def signup_user(request):
 
     except Exception as e:
         _logger.error('ERROR CREATE USER\n' + str(e) + '\n' + traceback.format_exc())
+        # pass
+        # # logging.getLogger("error logger").error('testing')
+        # _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    return res
+
+def delete_user(request):
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
+        "action": "delete_user_api",
+        "signature": request.POST['signature']
+    }
+
+    data = {}
+    url_request = get_url_gateway('account')
+    res = send_request_api(request, url_request, headers, data, 'POST', 30)
+    try:
+        if res['result']['error_code'] == 0:
+            _logger.info("DELETE USER SUCCESS SIGNATURE " + request.POST['signature'])
+        else:
+            _logger.info(json.dumps(res))
+
+    except Exception as e:
+        _logger.error('ERROR DELETE USER\n' + str(e) + '\n' + traceback.format_exc())
         # pass
         # # logging.getLogger("error logger").error('testing')
         # _logger.error(msg=str(e) + '\n' + traceback.format_exc())

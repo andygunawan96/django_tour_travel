@@ -174,6 +174,7 @@ function signin(){
             "browser": web_vendor,
             "timezone": timezone,
             "otp": otp,
+            'otp_type': document.getElementById('otp_type') ? document.getElementById('otp_type').value : false,
             'keep_me_signin': keep_me_signin,
         }
         $.ajax({
@@ -221,11 +222,14 @@ function signin(){
                   }
                 })
             }else if(msg.result.error_code == 1040){
-                Swal.fire({
-                    type: 'warning',
-                    html: 'Input OTP'
-                });
+//                Swal.fire({
+//                    type: 'warning',
+//                    title: 'Input OTP',
+//                    html: 'Please check your email!'
+//                });
                 if(document.getElementById('otp_div')){
+                    document.getElementById('otp_information').innerHTML = 'An OTP has been sent, Please check your email!';
+                    document.getElementById('otp_information').hidden = false;
                     document.getElementById('otp_div').hidden = false;
                     document.getElementById('otp_time_limit').hidden = false;
                     now = new Date().getTime();
@@ -326,6 +330,7 @@ function signin_booking(){
             "browser": web_vendor,
             "timezone": timezone,
             "otp": otp,
+            'otp_type': document.getElementById('otp_type') ? document.getElementById('otp_type').value : false,
             'keep_me_signin': keep_me_signin,
         }
         $.ajax({
@@ -389,11 +394,13 @@ function signin_booking(){
                 })
                 window.location.reload();
             }else if(msg.result.error_code == 1040){
-                Swal.fire({
-                    type: 'warning',
-                    html: 'Input OTP'
-                });
+//                Swal.fire({
+//                    type: 'warning',
+//                    html: 'Input OTP'
+//                });
                 if(document.getElementById('otp_div')){
+                    document.getElementById('otp_information').innerHTML = 'An OTP has been sent, Please check your email!';
+                    document.getElementById('otp_information').hidden = false;
                     document.getElementById('otp_div').hidden = false;
                     document.getElementById('otp_time_limit').hidden = false;
                     now = new Date().getTime();
@@ -648,6 +655,7 @@ function signin_btc(is_resend=false){
             "browser": web_vendor,
             "timezone": timezone,
             "otp": otp,
+            'otp_type': document.getElementById('otp_type') ? document.getElementById('otp_type').value : false,
             'keep_me_signin': keep_me_signin,
             'is_resend': is_resend,
             'g-recaptcha-response': document.getElementById('g-recaptcha-response').value
@@ -749,11 +757,14 @@ function signin_btc(is_resend=false){
                     $('.loading-button').removeClass("running");
                 }
             }else if(msg.result.error_code == 1040){
-                    Swal.fire({
-                        type: 'warning',
-                        html: 'Input OTP'
-                    });
+//                    Swal.fire({
+//                        type: 'warning',
+//                        html: 'Input OTP'
+//                    });
                     if(document.getElementById('otp_div')){
+                        document.getElementById('otp_information').innerHTML = 'An OTP has been sent, Please check your email!';
+                        document.getElementById('otp_information').hidden = false;
+                        document.getElementById('otp_type_div').hidden = false;
                         document.getElementById('otp_div').hidden = false;
                         document.getElementById('otp_time_limit').hidden = false;
                         now = new Date().getTime();
@@ -830,6 +841,7 @@ function signin_product_otp(is_resend=false){
         "unique_id": unique_id,
         "browser": web_vendor,
         "timezone": timezone,
+        'otp_type': document.getElementById('otp_type') ? document.getElementById('otp_type').value : false,
         "otp": otp,
         'is_resend': is_resend
     }
@@ -868,11 +880,13 @@ function signin_product_otp(is_resend=false){
               }
             })
         }else if(msg.result.error_code == 1040){
-                Swal.fire({
-                    type: 'warning',
-                    html: 'Input OTP'
-                });
+//                Swal.fire({
+//                    type: 'warning',
+//                    html: 'Input OTP'
+//                });
                 if(document.getElementById('otp_div')){
+                    document.getElementById('otp_information').innerHTML = 'An OTP has been sent, Please check your email!';
+                    document.getElementById('otp_information').hidden = false;
                     document.getElementById('otp_div').hidden = false;
                     document.getElementById('otp_time_limit').hidden = false;
                     now = new Date().getTime();
@@ -955,7 +969,11 @@ function set_otp_user_api(is_resend=false, turn_off_otp=false){
                 console.log(msg);
                 if(msg.result.error_code == 0){
                     next_action = '';
-                    open_modal_otp(msg);
+                    if(turn_off_otp)
+                        string_action = 'Turn off OTP';
+                    else
+                        string_action = 'Turn on OTP';
+                    open_modal_otp(msg, string_action);
                 }
                 else{
                     Swal.fire({
@@ -982,62 +1000,72 @@ function set_turn_off_notif_user_api(is_resend=false, id='', is_turn_off_other_m
     if(typeof(timezone) === 'undefined'){
         timezone = '';
     }
-    if(check_email(user_login.co_user_login)==false){
-        Swal.fire({
-            type: 'error',
-            title: 'Oops!',
-            html: 'Invalid Email Address!',
-        })
-    }else{
-        $.ajax({
-           type: "POST",
-           url: "/webservice/agent",
-           headers:{
-                'action': 'set_otp_user_api',
-           },
-           data: {
-                'signature':signature,
-                "platform": platform,
-                "unique_id": id,
-                "browser": web_vendor,
-                "timezone": timezone,
-                'is_resend': is_resend,
-                'turn_off_machine_id': true,
-                'is_turn_off_other_machine': is_turn_off_other_machine
-           },
-           success: function(msg) {
-                console.log(msg);
-                if(msg.result.error_code == 0){
-                    if(is_turn_off_other_machine)
-                        next_action = 'turn_off_other_machine_otp_user_api';
-                    else
-                        next_action = 'turn_off_machine_otp_user_api';
-                    machine_id = id;
-                    open_modal_otp(msg);
-                }
-                else{
-                    Swal.fire({
-                      type: 'error',
-                      title: 'Oops!',
-                      html: '<span style="color: #ff9900;">set_otp_user_api!' ,
-                    })
-                }
-           },
-           error: function(XMLHttpRequest, textStatus, errorThrown) {
-                error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error set_otp_user_api');
-           },timeout: 60000
-        });
-    }
+//    if(check_email(user_login.co_user_login)==false){
+//        Swal.fire({
+//            type: 'error',
+//            title: 'Oops!',
+//            html: 'Invalid Email Address!',
+//        })
+//    }else{
+    $.ajax({
+       type: "POST",
+       url: "/webservice/agent",
+       headers:{
+            'action': 'set_otp_user_api',
+       },
+       data: {
+            'signature':signature,
+            "platform": platform,
+            "unique_id": id,
+            "browser": web_vendor,
+            "timezone": timezone,
+            'otp_type': document.getElementById('otp_type') ? document.getElementById('otp_type').value : false,
+            'is_resend': is_resend,
+            'turn_off_machine_id': true,
+            'is_turn_off_other_machine': is_turn_off_other_machine
+       },
+       success: function(msg) {
+            console.log(msg);
+            if(msg.result.error_code == 0){
+                if(is_turn_off_other_machine)
+                    next_action = 'turn_off_other_machine_otp_user_api';
+                else
+                    next_action = 'turn_off_machine_otp_user_api';
+                machine_id = id;
+                string_action = next_action.split('_')
+                string_action.pop();
+                string_action.pop();
+                string_action = string_action.join(' ');
+                open_modal_otp(msg,string_action.substr(0,1).toUpperCase() + string_action.substr(1,data.length));
+            }
+            else{
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: #ff9900;">set_otp_user_api!' ,
+                })
+            }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error set_otp_user_api');
+       },timeout: 60000
+    });
+//    }
 }
 
-function open_modal_otp(msg){
-    Swal.fire({
-        type: 'warning',
-        html: 'Input OTP'
-    });
+function open_modal_otp(msg, string_action){
+//    Swal.fire({
+//        type: 'warning',
+//        html: 'Input OTP'
+//    });
     if(document.getElementById('otp_user_div')){
+        if(string_action.includes("Turn off")){
+            document.getElementById('otp_type_div_user').hidden = true;
+        }else{
+            document.getElementById('otp_type_div_user').hidden = false;
+        }
         now = new Date().getTime();
-
+        document.getElementById('otp_information_user').innerHTML = string_action + '<br/>an OTP has been sent, Please check your email!';
         time_limit_otp_user = msg.result.response;
         tes = moment.utc(time_limit_otp_user).format('YYYY-MM-DD HH:mm:ss');
         localTime  = moment.utc(tes).toDate();
@@ -1094,7 +1122,8 @@ function activation_otp_user_api(){
             "platform": platform,
             "unique_id": machine_id,
             "browser": web_vendor,
-            "timezone": timezone
+            "timezone": timezone,
+            'otp_type': document.getElementById('otp_type') ? document.getElementById('otp_type').value : false
        },
        success: function(msg) {
             console.log(msg);
@@ -1147,27 +1176,29 @@ function relogin_user(){
        success: function(msg) {
             console.log(msg);
             if(msg.result.error_code == 0){
-                if(action == 'turn_off_otp_user_api'){
-                    Swal.fire({
-                        type: 'success',
-                        title: 'Turn Off 2-Step Verification!'
-                    })
-                }else if(action == 'activation_otp_user_api'){
-                    Swal.fire({
-                        type: 'success',
-                        title: 'Turn On 2-Step Verification!'
-                    })
-                }else if(action == 'turn_off_machine_otp_user_api'){
-                    Swal.fire({
-                        type: 'success',
-                        title: 'Turn Off Machine ID!'
-                    })
-                }else if(action == 'turn_off_other_machine_otp_user_api'){
-                    Swal.fire({
-                        type: 'success',
-                        title: 'Turn Off Other Machine ID!'
-                    })
-                }
+                try{
+                    if(action == 'turn_off_otp_user_api'){
+                        Swal.fire({
+                            type: 'success',
+                            title: 'Turn Off 2-Step Verification!'
+                        })
+                    }else if(action == 'activation_otp_user_api'){
+                        Swal.fire({
+                            type: 'success',
+                            title: 'Turn On 2-Step Verification!'
+                        })
+                    }else if(action == 'turn_off_machine_otp_user_api'){
+                        Swal.fire({
+                            type: 'success',
+                            title: 'Turn Off Machine ID!'
+                        })
+                    }else if(action == 'turn_off_other_machine_otp_user_api'){
+                        Swal.fire({
+                            type: 'success',
+                            title: 'Turn Off Other Machine ID!'
+                        })
+                    }
+                }catch(err){}
                 window.location.reload();
                 clear_otp();
             }
@@ -1394,6 +1425,43 @@ function get_path_url_server(){ //DEPRECATED
        },
        success: function(msg) {
         static_path_url_server = msg;
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error url server');
+       },timeout: 60000
+    });
+}
+
+function delete_user(){
+    getToken();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/account",
+       headers:{
+            'action': 'delete_user',
+       },
+       data: {
+            'signature': signature
+       },
+       success: function(msg) {
+            if(msg.result.error_code == 0){
+                Swal.fire({
+                  type: 'success',
+                  title: 'Update!',
+                  html: msg.result.error_msg,
+                }).then((result) => {
+                    if (result.value) {
+                        logout();
+                    }
+                })
+
+            }else{
+                Swal.fire({
+                    type: 'error',
+                    title: 'Oops!',
+                    html: msg.result.error_msg,
+                })
+            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error url server');
