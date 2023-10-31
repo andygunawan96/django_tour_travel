@@ -947,7 +947,7 @@ function set_otp_user_api(is_resend=false, turn_off_otp=false){
 //            html: 'Invalid Email Address!',
 //        })
 //    }else{
-        if(user_login.co_is_use_otp){
+        if(user_login.co_is_using_otp){
             turn_off_otp = true;
         }
         $.ajax({
@@ -1097,7 +1097,7 @@ function activation_otp_user_api(){
     if(typeof(timezone) === 'undefined'){
         timezone = '';
     }
-    if(user_login.co_is_use_otp){
+    if(user_login.co_is_using_otp){
         action = 'turn_off_otp_user_api';
     }else{
         action = 'activation_otp_user_api'
