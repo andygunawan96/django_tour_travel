@@ -650,6 +650,9 @@ def signin(request):
         data['timezone'] = request.POST['timezone']
     if request.POST.get('otp'):
         data['otp'] = request.POST['otp']
+    if request.POST.get('otp_type'):
+        data['otp_type'] = request.POST['otp_type']
+
     url_request = get_url_gateway('session')
     res = send_request_api(request, url_request, headers, data, 'POST', 10)
     try:
@@ -801,6 +804,8 @@ def signin_btc(request):
             data['timezone'] = request.POST['timezone']
         if request.POST.get('otp'):
             data['otp'] = request.POST['otp']
+        if request.POST.get('otp_type'):
+            data['otp_type'] = request.POST['otp_type']
         if request.POST.get('is_resend'):
             if request.POST['is_resend'] == 'true':
                 data['is_resend_otp'] = True
@@ -930,6 +935,8 @@ def signin_product_otp(request):
             data['timezone'] = request.POST['timezone']
         if request.POST.get('otp'):
             data['otp'] = request.POST['otp']
+        if request.POST.get('otp_type'):
+            data['otp_type'] = request.POST['otp_type']
         if request.POST.get('is_resend'):
             if request.POST['is_resend'] == 'true':
                 data['is_resend_otp'] = True
@@ -1086,6 +1093,8 @@ def activation_otp_user_api(request):
             data['browser'] = request.POST['browser']
         if request.POST.get('timezone'):
             data['timezone'] = request.POST['timezone']
+        if request.POST.get('otp_type'):
+            data['otp_type'] = request.POST['otp_type']
     except Exception as e:
         _logger.error('ERROR activation_otp_user_api\n' + str(e) + '\n' + traceback.format_exc())
     url_request = get_url_gateway('account')

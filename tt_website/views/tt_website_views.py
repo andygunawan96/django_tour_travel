@@ -670,6 +670,35 @@ def login(request):
             language = ''
         return redirect(language + '/')
 
+def redirect_login(request):
+    if not get_credential(request, 'dict'):
+        return no_credential(request)
+    javascript_version = get_javascript_version(request)
+    values = get_data_template(request, 'login')
+    if request.session._session:
+        for key in reversed(list(request.session._session.keys())):
+            if key != '_language':
+                del request.session[key]
+        request.session.modified = True
+        request.session.save()
+    try:
+        values.update({
+            'static_path': path_util.get_static_path(MODEL_NAME),
+            'javascript_version': javascript_version,
+            'static_path_url_server': get_url_static_path(),
+            'big_banner_value': check_banner('home', 'big_banner', request),
+            'small_banner_value': check_banner('home', 'small_banner', request),
+            'promotion_banner_value': check_banner('home', 'promotion', request),
+            'dynamic_page_value': check_banner('', 'dynamic_page', request),
+            'terms_value': check_terms_condition(request),
+            'username': {'co_user_login': ''}
+        })
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+        raise Exception('Make response code 500!')
+    # return goto_dashboard()
+    return render(request, MODEL_NAME + '/login_templates.html', values)
+
 def admin(request):
     if 'user_account' in request.session._session and request.session.get('user_account') and 'admin' in request.session['user_account']['co_agent_frontend_security']:
         if 'edit_appearance' in request.session['user_account']['co_agent_frontend_security']:
@@ -1260,8 +1289,16 @@ def admin(request):
         return no_session_logout(request)
 
 def setting(request):
-
     try:
+        web_mode = get_web_mode(request)
+        if 'btb' in web_mode:
+            if 'user_account' not in request.session:
+                return redirect('/next_page?redirect=%s' % request.META['PATH_INFO'])
+        else:
+            if request.session.get('user_account'):
+                default_user, default_password = get_credential_user_default(request)
+                if request.session['user_account']['co_user_login'] == default_user:
+                    return redirect('/next_page?redirect=%s' % request.META['PATH_INFO'])
         javascript_version = get_javascript_version(request)
         response = get_cache_data(request)
         airline_country = response['result']['response']['airline']['country']
@@ -1298,7 +1335,7 @@ def setting(request):
         })
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
-        raise Exception('Make response code 500!')
+        return redirect('/next_page?redirect=%s' % request.META['PATH_INFO'])
     return render(request, MODEL_NAME+'/backend/setting_agent_templates.html', values)
 
 def setting_footer_printout(request):
@@ -1874,7 +1911,7 @@ def get_data_template(request, type='home', provider_type = []):
     live_chat_embed_code = ''
     default_user = ''
     default_password = ''
-    is_show_breakdown_price = False
+    # is_show_breakdown_price = False
     keep_me_signin = False
     currency = []
     currency_pick = ''
@@ -2099,9 +2136,9 @@ def get_data_template(request, type='home', provider_type = []):
 
         default_user, default_password = get_credential_user_default(request)
 
-        file = read_cache("show_breakdown_price", 'cache_web', request, 90911)
-        if file:
-            is_show_breakdown_price = file
+        # file = read_cache("show_breakdown_price", 'cache_web', request, 90911)
+        # if file:
+        #     is_show_breakdown_price = file
 
         file = read_cache("delete_cache_user", 'cache_web', request, 90911)
         if file:
@@ -2310,7 +2347,7 @@ def get_data_template(request, type='home', provider_type = []):
         'live_chat': live_chat,
         'default_user': default_user,
         'default_password': default_password,
-        'is_show_breakdown_price': is_show_breakdown_price,
+        # 'is_show_breakdown_price': is_show_breakdown_price,
         'keep_me_signin': keep_me_signin,
         'currency': currency,
         'currency_pick': currency_pick,

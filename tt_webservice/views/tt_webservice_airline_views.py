@@ -6072,6 +6072,7 @@ def parser_schedule_mobile(request, res):
         res['result']['response'].pop('recommendation_maps')
     return res
 
+## BUAT MOBILE MUNGKIN SUDAH TIDAK BUTUH
 def get_breakdown_price(request):
     file = read_cache("show_breakdown_price", 'cache_web', request, 90911)
     if file:
