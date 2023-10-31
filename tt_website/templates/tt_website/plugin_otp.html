@@ -56,5 +56,8 @@
 <script>
     $( document ).ready(function() {
         $('#otp_type_user').niceSelect();
+        $('#myModal_otp').on('hidden.bs.modal', function () {
+            clear_otp();
+        })
     });
 </script>
