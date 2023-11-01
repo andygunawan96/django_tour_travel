@@ -13280,7 +13280,7 @@ function reissued_btn(){
     counter_airline = 1;
     for(i in airline_get_detail.result.response.provider_bookings){
         for(j in airline_get_detail.result.response.provider_bookings[i].journeys){
-            picker_multi[counter_airline] = new Lightpick({
+            picker_multi.push(new Lightpick({
                 field: document.getElementById('airline_departure'+counter_airline),
                 singleDate: true,
                 startDate: moment(airline_get_detail.result.response.provider_bookings[i].journeys[j].departure_date.split('  ')[0]),
@@ -13291,7 +13291,7 @@ function reissued_btn(){
                     document.getElementById(this._opts.idString).value = moment(date).format('DD MMM YYYY');
                     check_next_date_journey_reissue();
                 }
-            });
+            }));
 
 //            $('input[id="airline_departure'+counter_airline+'"]').daterangepicker({
 //                  singleDatePicker: true,
