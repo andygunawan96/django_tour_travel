@@ -2431,8 +2431,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 			scrollPerPage: true,
 			pagination: false,
 			paginationNumbers: false,
-
 		})
+        $('#myModalSignIn').on('hidden.bs.modal', function () {
+            clear_otp_signin();
+        })
 	});
 	$(document).ready(function () {
 		$("#owl-demo1").owlCarousel({

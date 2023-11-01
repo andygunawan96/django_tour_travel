@@ -92,10 +92,15 @@ is_freeze_session_time_limit = false
 //});
 
 function session_otp_time_limit(){
-    var timeLimitOTPInterval = setInterval(function() {
+    timeLimitOTPInterval = setInterval(function() {
         if(time_limit_otp>0){
             time_limit_otp--;
-            document.getElementById('otp_session_time').innerHTML = parseInt(time_limit_otp/60) % 24 +`m:`+ (time_limit_otp%60) +`s`;
+            var time_limit_otp_show = '';
+            if(time_limit_otp > 3600)
+                time_limit_otp_show += parseInt(time_limit_otp/3600) % 24 +`h:`;
+            time_limit_otp_show += parseInt(time_limit_otp/60) % 60 +`m:`;
+            time_limit_otp_show += parseInt(time_limit_otp%60) +`s`;
+            document.getElementById('otp_session_time').innerHTML = time_limit_otp_show;
         }else{
             document.getElementById('otp_div').hidden = true;
             document.getElementById('otp_time_limit').hidden = true;
@@ -115,10 +120,15 @@ function session_otp_time_limit(){
 }
 
 function session_otp_user_time_limit(){
-    var timeLimitOTPuserInterval = setInterval(function() {
+    timeLimitOTPuserInterval = setInterval(function() {
         if(time_limit_otp_user>0){
             time_limit_otp_user--;
-            document.getElementById('otp_user_session_time').innerHTML = parseInt(time_limit_otp_user/60) % 24 +`m:`+ (time_limit_otp_user%60) +`s`;
+            var time_limit_otp_user_show = '';
+            if(time_limit_otp_user > 3600)
+                time_limit_otp_user_show += parseInt(time_limit_otp_user/3600) % 24 +`h:`;
+            time_limit_otp_user_show += parseInt(time_limit_otp_user/60) % 60 +`m:`;
+            time_limit_otp_user_show += parseInt(time_limit_otp_user%60) +`s`;
+            document.getElementById('otp_user_session_time').innerHTML = time_limit_otp_user_show;
         }else{
             clearInterval(timeLimitOTPuserInterval);
             $('#myModal_otp').modal('hide');
@@ -247,8 +257,8 @@ function signin(){
                     time_limit_otp = parseInt((new Date(time_limit_otp).getTime() - now) / 1000);
                     session_otp_time_limit();
                 }
-                $('.loading-button').prop('disabled', false);
-                $('.loading-button').removeClass("running");
+                $('.button-login').prop('disabled', false);
+                $('.button-login').removeClass("running");
             }else if(msg.result.error_code == 1041){
                 Swal.fire({
                     type: 'warning',
@@ -761,6 +771,7 @@ function signin_btc(is_resend=false){
 //                        type: 'warning',
 //                        html: 'Input OTP'
 //                    });
+                    clear_otp_signin();
                     if(document.getElementById('otp_div')){
                         document.getElementById('otp_information').innerHTML = 'An OTP has been sent, Please check your email!';
                         document.getElementById('otp_information').hidden = false;
@@ -884,6 +895,7 @@ function signin_product_otp(is_resend=false){
 //                    type: 'warning',
 //                    html: 'Input OTP'
 //                });
+                clear_otp_signin();
                 if(document.getElementById('otp_div')){
                     document.getElementById('otp_information').innerHTML = 'An OTP has been sent, Please check your email!';
                     document.getElementById('otp_information').hidden = false;
@@ -1036,7 +1048,7 @@ function set_turn_off_notif_user_api(is_resend=false, id='', is_turn_off_other_m
                 string_action.pop();
                 string_action.pop();
                 string_action = string_action.join(' ');
-                open_modal_otp(msg,string_action.substr(0,1).toUpperCase() + string_action.substr(1,data.length));
+                open_modal_otp(msg,string_action.substr(0,1).toUpperCase() + string_action.substr(1,string_action.length));
             }
             else{
                 Swal.fire({
@@ -1223,8 +1235,16 @@ function clear_otp(){
     // clear & close
     try{
         clearInterval(timeLimitOTPuserInterval);
-    }catch(err){}
+        action = '';
+    }catch(err){console.log(err);}
     $('#myModal_otp').modal('hide');
+}
+
+function clear_otp_signin(){
+    // clear & close
+    try{
+        clearInterval(timeLimitOTPInterval);
+    }catch(err){console.log(err);}
 }
 
 function check_session(){
