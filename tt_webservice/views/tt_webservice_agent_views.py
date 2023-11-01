@@ -640,18 +640,22 @@ def signin(request):
         # "co_password": password_default, #request.POST['password'],
         # "co_uid": ""
     }
+
+    otp_params = {}
     if request.POST.get('unique_id'):
-        data['machine_code'] = request.POST['unique_id']
+        otp_params['machine_code'] = request.POST['unique_id']
     if request.POST.get('platform'):
-        data['platform'] = request.POST['platform']
+        otp_params['platform'] = request.POST['platform']
     if request.POST.get('browser'):
-        data['browser'] = request.POST['browser']
+        otp_params['browser'] = request.POST['browser']
     if request.POST.get('timezone'):
-        data['timezone'] = request.POST['timezone']
+        otp_params['timezone'] = request.POST['timezone']
     if request.POST.get('otp'):
-        data['otp'] = request.POST['otp']
+        otp_params['otp'] = request.POST['otp']
     if request.POST.get('otp_type'):
-        data['otp_type'] = request.POST['otp_type']
+        otp_params['otp_type'] = request.POST['otp_type']
+    if otp_params:
+        data['otp_params'] = otp_params
 
     url_request = get_url_gateway('session')
     res = send_request_api(request, url_request, headers, data, 'POST', 10)
@@ -794,21 +798,26 @@ def signin_btc(request):
             # "co_password": password_default, #request.POST['password'],
             # "co_uid": ""
         }
+
+        otp_params = {}
         if request.POST.get('unique_id'):
-            data['machine_code'] = request.POST['unique_id']
+            otp_params['machine_code'] = request.POST['unique_id']
         if request.POST.get('platform'):
-            data['platform'] = request.POST['platform']
+            otp_params['platform'] = request.POST['platform']
         if request.POST.get('browser'):
-            data['browser'] = request.POST['browser']
+            otp_params['browser'] = request.POST['browser']
         if request.POST.get('timezone'):
-            data['timezone'] = request.POST['timezone']
+            otp_params['timezone'] = request.POST['timezone']
         if request.POST.get('otp'):
-            data['otp'] = request.POST['otp']
+            otp_params['otp'] = request.POST['otp']
         if request.POST.get('otp_type'):
-            data['otp_type'] = request.POST['otp_type']
+            otp_params['otp_type'] = request.POST['otp_type']
         if request.POST.get('is_resend'):
             if request.POST['is_resend'] == 'true':
-                data['is_resend_otp'] = True
+                otp_params['is_resend_otp'] = True
+        if otp_params:
+            data['otp_params'] = otp_params
+
     except Exception as e:
         _logger.error('ERROR get user or password for btc login\n' + str(e) + '\n' + traceback.format_exc())
     if request.POST.get('g-recaptcha-response'):
@@ -925,21 +934,26 @@ def signin_product_otp(request):
             # "co_password": password_default, #request.POST['password'],
             # "co_uid": ""
         }
+
+        otp_params = {}
         if request.POST.get('unique_id'):
-            data['machine_code'] = request.POST['unique_id']
+            otp_params['machine_code'] = request.POST['unique_id']
         if request.POST.get('platform'):
-            data['platform'] = request.POST['platform']
+            otp_params['platform'] = request.POST['platform']
         if request.POST.get('browser'):
-            data['browser'] = request.POST['browser']
+            otp_params['browser'] = request.POST['browser']
         if request.POST.get('timezone'):
-            data['timezone'] = request.POST['timezone']
+            otp_params['timezone'] = request.POST['timezone']
         if request.POST.get('otp'):
-            data['otp'] = request.POST['otp']
+            otp_params['otp'] = request.POST['otp']
         if request.POST.get('otp_type'):
-            data['otp_type'] = request.POST['otp_type']
+            otp_params['otp_type'] = request.POST['otp_type']
         if request.POST.get('is_resend'):
             if request.POST['is_resend'] == 'true':
-                data['is_resend_otp'] = True
+                otp_params['is_resend_otp'] = True
+        if otp_params:
+            data['otp_params'] = otp_params
+
     except Exception as e:
         _logger.error('ERROR get user or password for btc login\n' + str(e) + '\n' + traceback.format_exc())
     if request.POST.get('g-recaptcha-response'):
@@ -996,14 +1010,19 @@ def relogin(request):
             # "co_password": password_default, #request.POST['password'],
             # "co_uid": ""
         }
+
+        otp_params = {}
         if request.POST.get('unique_id'):
-            data['machine_code'] = request.POST['unique_id']
+            otp_params['machine_code'] = request.POST['unique_id']
         if request.POST.get('platform'):
-            data['platform'] = request.POST['platform']
+            otp_params['platform'] = request.POST['platform']
         if request.POST.get('browser'):
-            data['browser'] = request.POST['browser']
+            otp_params['browser'] = request.POST['browser']
         if request.POST.get('timezone'):
-            data['timezone'] = request.POST['timezone']
+            otp_params['timezone'] = request.POST['timezone']
+        if otp_params:
+            data['otp_params'] = otp_params
+
     except Exception as e:
         _logger.error('ERROR get user or password for relogin\n' + str(e) + '\n' + traceback.format_exc())
     url_request = get_url_gateway('session')
@@ -1195,6 +1214,19 @@ def check_credential(request):
             "co_user": request.POST['username'],
             "co_password": request.POST['password']
         }
+
+        otp_params = {}
+        if request.POST.get('unique_id'):
+            otp_params['machine_code'] = request.POST['unique_id']
+        if request.POST.get('platform'):
+            otp_params['platform'] = request.POST['platform']
+        if request.POST.get('browser'):
+            otp_params['browser'] = request.POST['browser']
+        if request.POST.get('timezone'):
+            otp_params['timezone'] = request.POST['timezone']
+        if otp_params:
+            data['otp_params'] = otp_params
+
     except Exception as e:
         _logger.error('ERROR get user or password for btc login\n' + str(e) + '\n' + traceback.format_exc())
     url_request = get_url_gateway('session')
@@ -1253,6 +1285,17 @@ def check_credential_b2c(request):
             "co_user": request.POST['username'],
             "co_password": request.POST['password']
         }
+        otp_params = {}
+        if request.POST.get('unique_id'):
+            otp_params['machine_code'] = request.POST['unique_id']
+        if request.POST.get('platform'):
+            otp_params['platform'] = request.POST['platform']
+        if request.POST.get('browser'):
+            otp_params['browser'] = request.POST['browser']
+        if request.POST.get('timezone'):
+            otp_params['timezone'] = request.POST['timezone']
+        if otp_params:
+            data['otp_params'] = otp_params
     except Exception as e:
         _logger.error('ERROR get user or password for btc login\n' + str(e) + '\n' + traceback.format_exc())
     url_request = get_url_gateway('session')
