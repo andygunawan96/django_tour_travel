@@ -14,6 +14,7 @@ import logging
 import traceback
 import copy
 import base64
+import uuid
 
 _logger = logging.getLogger("website_logger")
 
@@ -802,6 +803,8 @@ def signin_btc(request):
         otp_params = {}
         if request.POST.get('unique_id'):
             otp_params['machine_code'] = request.POST['unique_id']
+        else:
+            otp_params['machine_code'] = uuid.uuid4()
         if request.POST.get('platform'):
             otp_params['platform'] = request.POST['platform']
         if request.POST.get('browser'):
