@@ -19,8 +19,7 @@
             <div style="padding-top:30px; text-align:left;">
                 <h3 style="color:white; padding-top:40px; padding-bottom:20px;">
                     {% if username.co_user_login != default_user %}
-                    {% trans 'Hello' %}, {{username.co_user_name}}!
-                    {% trans 'Grow your business with' %} <span class="lamp">{{name}}</span>
+                    {{greeting_login.greeting}} <span class="lamp">{{greeting_login.website_name}}</span>
                     {% else %}
                     {% trans 'Hello, dear customer, book your trip with us' %}
                     {% endif %}
