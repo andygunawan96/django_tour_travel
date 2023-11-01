@@ -152,9 +152,11 @@
                                     </li>
                                 </ul>
                             </li>
+                            {% if is_register_b2c == 'true' and website_mode == 'btc' %}
                             <li>
-                                <button class="primary-btn-white-bd" type="button" data-toggle="modal" data-target="#myModalb2c">{% trans 'Sign Up' %} <i class="fas fa-user-plus"></i></button>
+                                <button class="primary-btn-white-bd" type="button" data-toggle="modal" data-target="#myModalb2c">{% trans 'Sign Up aaa' %} <i class="fas fa-user-plus"></i></button>
                             </li>
+                            {% endif %}
                             <li>
                                 <button class="primary-btn" type="button" data-toggle="modal" data-target="#myModalSignIn" data-backdrop="static">{% trans 'Sign In' %} <i class="fas fa-sign-in-alt"></i></button>
                             </li>
@@ -676,9 +678,11 @@
                                     </li>
                                 </ul>
                             </li>
+                            {% if is_register_b2c == 'true' and website_mode == 'btc' %}
                             <li class="pt10">
                                 <button class="primary-btn-white-bd mr5" type="button" data-toggle="modal" data-target="#myModalb2c">{% trans 'Sign Up' %} <i class="fas fa-user-plus"></i></button>
                             </li>
+                            {% endif %}
                             <li class="pt10">
                                 <button class="primary-btn" type="button" data-toggle="modal" data-target="#myModalSignIn" data-backdrop="static">{% trans 'Sign In' %} <i class="fas fa-sign-in-alt"></i></button>
                             </li>

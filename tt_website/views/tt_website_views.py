@@ -10,6 +10,7 @@ from tt_webservice.views.tt_webservice_agent_views import *
 from tt_webservice.views.tt_webservice_content_views import *
 from tt_webservice.views.tt_webservice_airline_views import *
 from tt_webservice.views.tt_webservice_payment_views import *
+from tt_webservice.views import tt_webservice_account_views as webservice_account
 from tt_webservice.views.tt_webservice_views import *
 import logging
 import traceback
@@ -1188,6 +1189,56 @@ def admin(request):
                     text += '\n'
                     write_cache(text, "google_tag_manager", request, 'cache_web')
 
+                    ## GREETING LOGIN
+                    file = read_cache("greeting_btb", 'cache_web', request, 90911)
+                    data_cache = {}
+                    if file:
+                        data_cache['greeting_btb'] = file
+                    text = ''
+                    if request.POST.get('greeting_login'):
+                        text += request.POST.get('greeting_login')
+                    elif data_cache.get('greeting_btb'):
+                        text += data_cache['greeting_btb']
+                    text += '\n'
+                    write_cache(text, "greeting_btb", request, 'cache_web')
+
+                    ## GREETING B2C
+                    file = read_cache("greeting_btc", 'cache_web', request, 90911)
+                    data_cache = {}
+                    if file:
+                        data_cache['greeting_btc'] = file
+                    text = ''
+                    if request.POST.get('greeting_b2c'):
+                        text += request.POST.get('greeting_b2c')
+                    elif data_cache.get('greeting_btc'):
+                        text += data_cache['greeting_btc']
+                    text += '\n'
+                    write_cache(text, "greeting_btc", request, 'cache_web')
+
+                    ## REGISTER AGENT
+                    file = read_cache("register_agent", 'cache_web', request, 90911)
+                    data_cache = {}
+                    if file:
+                        data_cache['register_agent'] = file
+                    text = ''
+                    if request.POST.get('is_register_agent'):
+                        text += 'true'
+                    else:
+                        text += 'false'
+                    write_cache(text, "register_agent", request, 'cache_web')
+
+                    ## REGISTER B2C
+                    file = read_cache("register_b2c", 'cache_web', request, 90911)
+                    data_cache = {}
+                    if file:
+                        data_cache['register_b2c'] = file
+                    text = ''
+                    if request.POST.get('is_register_b2c'):
+                        text += 'true'
+                    else:
+                        text += 'false'
+                    write_cache(text, "register_b2c", request, 'cache_web')
+
                     ## CRED B2C ##
                     # text = ''
                     # if request.POST.get('signup_btb_text'):
@@ -1916,6 +1967,48 @@ def get_data_template(request, type='home', provider_type = []):
     currency = []
     currency_pick = ''
     delete_cache_user = '2'
+    greeting_login = 'Hello, [%user%]! Grow your business with [%website_name%]'
+    greeting_b2c = 'Hello, dear customer, book your trip with us'
+    is_have_page_about_us = False
+    is_have_page_contact_us = False
+    is_have_page_faq = False
+    is_register_agent = 'false'
+    is_register_b2c = 'false'
+
+    about_us_page = webservice_account.get_about_us(request)
+    if about_us_page['result']['error_code'] == 0:
+        for page in about_us_page['result']['response']:
+            if page['state']:
+                is_have_page_about_us = True
+                break
+
+    get_contact_us = webservice_account.get_contact_url(request)
+    if len(get_contact_us) != 0:
+        is_have_page_contact_us = True
+
+    faq_page = webservice_account.get_faq(request)
+    if faq_page['result']['error_code'] == 0:
+        for page in faq_page['result']['response']:
+            if page['state']:
+                is_have_page_faq = True
+                break
+
+    file = read_cache("greeting_login", 'cache_web', request, 90911)
+    if file:
+        greeting_login = file
+
+    file = read_cache("greeting_b2c", 'cache_web', request, 90911)
+    if file:
+        greeting_b2c = file
+
+    file = read_cache("register_agent", 'cache_web', request, 90911)
+    if file:
+        is_register_agent = file
+
+    file = read_cache("register_b2c", 'cache_web', request, 90911)
+    if file:
+        is_register_b2c = file
+
     if request.session.get('signature') and request.session.get('user_account'):
         currency = get_ho_currency_api(request, request.session['signature'])
         currency_pick = currency.get('default_currency')
@@ -2216,7 +2309,16 @@ def get_data_template(request, type='home', provider_type = []):
                         backend_url = line.split('\n')[0]
                 elif idx == 16:
                     if line != '':
-                        website_mode = line.split('\n')[0]
+                        if 'btc' in line.split('\n')[0]:
+                            website_mode = 'btc'
+                            ## NANTI DI HAPUS UNTUK MIGRASI AWAL SAJA
+                            if 'btb' in line.split('\n')[0]:
+                                is_register_agent = 'true'
+                        else:
+                            website_mode = 'btb'
+                            ## NANTI DI HAPUS UNTUK MIGRASI AWAL SAJA
+                            if 'b2c' in line.split('\n')[0]:
+                                is_register_b2c = 'false'
                 elif idx == 17:
                     if line != '':
                         script_espay = line.split('\n')[0]
@@ -2282,7 +2384,26 @@ def get_data_template(request, type='home', provider_type = []):
         <h6>MANDIRI INTERNET BANKING</h6>
         <li>1. Transaction Top up from internet banking mandiri open for 24 hours. Balance will be added automatically (REAL TIME) after payment with additional admin Top Up.<br><br></li>
             ''' % website_name
-
+    if request.session.get('user_account') and request.session['user_account'].get('co_user_login'):
+        if request.path.split('/')[-1] != 'page_admin':
+            greeting_login = greeting_login.replace('[%user%]', request.session['user_account']['co_user_login'])
+    if '[%website_name%]' in greeting_login:
+        if request.path.split('/')[-1] != 'page_admin':
+            greeting_login = {
+                "greeting": greeting_login.replace('[%website_name%]', ''),
+                "website_name": website_name
+            }
+        else:
+            greeting_login = {
+                "greeting": greeting_login.replace('[%website_name%]', ''),
+                "website_name": '[%website_name%]'
+            }
+    else:
+        greeting_login = {
+            "greeting": greeting_login,
+            "website_name": ''
+        }
+    greeting_b2c = greeting_b2c.replace('[%website_name%]', website_mode)
     return {
         'logo': logo,
         'website_mode': website_mode,
@@ -2352,7 +2473,14 @@ def get_data_template(request, type='home', provider_type = []):
         'currency': currency,
         'currency_pick': currency_pick,
         'delete_cache_user': delete_cache_user,
-        'is_show_other_currency': True if len(currency) > 0 else False
+        'is_show_other_currency': True if len(currency) > 0 else False,
+        'greeting_login': greeting_login,
+        'greeting_b2c': greeting_b2c,
+        'is_have_page_about_us': is_have_page_about_us,
+        'is_have_page_contact_us': is_have_page_contact_us,
+        'is_have_page_faq': is_have_page_faq,
+        'is_register_agent': is_register_agent,
+        'is_register_b2c': is_register_b2c
     }
 
 def tutorial_re_order_phc(request):

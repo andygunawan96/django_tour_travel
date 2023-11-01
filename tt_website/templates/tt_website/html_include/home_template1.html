@@ -21,8 +21,7 @@
                 {% if username.co_user_name != '' %}
                 <h2 style="color:white; padding-bottom:20px; padding-top:20px; font-size:24px;">
                     {% if username.co_user_login != default_user %}
-                    {% trans 'Hello' %}, {{username.co_user_name}}!
-                    {% trans 'Grow your business with' %} <span class="lamp">{{name}}</span>
+                    {{greeting_login.greeting}} <span class="lamp">{{greeting_login.website_name}}</span>
                     {% else %}
                     {% trans 'Hello, dear customer, book your trip with us' %}
                     {% endif %}

@@ -127,8 +127,7 @@
             <div class="col-lg-12">
                 <span class="title_cst_sub">
                     {% if username.co_user_login != default_user %}
-                    {% trans 'Hello' %}, {{username.co_user_name}}!
-                    {% trans 'Grow your business with' %} <span style="color:{{color}};">{{name}}</span>
+                    {{greeting_login.greeting}} <span style="color:{{color}};">{{greeting_login.website_name}}</span>
                     {% else %}
                     {% trans 'Hello, dear customer, book your trip with us' %}
                     {% endif %}
