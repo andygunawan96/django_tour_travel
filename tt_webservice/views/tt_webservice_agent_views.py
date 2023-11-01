@@ -804,7 +804,7 @@ def signin_btc(request):
         if request.POST.get('unique_id'):
             otp_params['machine_code'] = request.POST['unique_id']
         else:
-            otp_params['machine_code'] = uuid.uuid4()
+            otp_params['machine_code'] = str(uuid.uuid4())
         if request.POST.get('platform'):
             otp_params['platform'] = request.POST['platform']
         if request.POST.get('browser'):
