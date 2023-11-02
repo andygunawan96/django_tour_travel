@@ -9185,14 +9185,14 @@ function airline_get_booking(data, sync=false){
                             }catch(err){
                                 console.log(err); // error kalau ada element yg tidak ada
                             }
+
                             for(j in msg.result.response.provider_bookings[i].rules){
-                                text_rules = '';
-                                for(k in msg.result.response.provider_bookings[i].rules[j].description){
-                                    text_rules += `<span style="font-weight:400;"> `+msg.result.response.provider_bookings[i].rules[j].description[k]+`</span>`;
-                                }
-                                text += `<span id="span-tac-up`+rules+`" class="carrier_code_template" style="display: inline-block; cursor: pointer; margin-right:15px; margin-bottom:10px; border-radius:5px; border: 1px solid #cdcdcd; padding:5px 10px;" onclick="content_modal_custom('myModalDetail','myModalContent', '`+msg.result.response.provider_bookings[i].rules[j].name+`', text_rules);">`+msg.result.response.provider_bookings[i].rules[j].name+` <i class="fas fa-chevron-down"></i></span>`;
-                                rules++;
+                                text += `
+                                <span id="span_tac`+rules+``+j+`" class="carrier_code_template" style="display: inline-block; cursor: pointer; margin-right:15px; margin-bottom:10px; border-radius:5px; border: 1px solid #cdcdcd; padding:5px 10px;">
+                                    `+msg.result.response.provider_bookings[i].rules[j].name+` <i class="fas fa-chevron-down"></i>
+                                </span>`;
                             }
+                            rules++;
                         }
                         text+=`
                             </div>
@@ -10871,6 +10871,40 @@ function airline_get_booking(data, sync=false){
                 document.getElementById('airline_booking').innerHTML += text;
                 document.getElementById('show_title_airline').hidden = false;
                 document.getElementById('show_loading_booking_airline').hidden = true;
+
+                rules_tm = 0;
+                for(i in msg.result.response.provider_bookings){
+                    for(j in msg.result.response.provider_bookings[i].rules){
+                        text_rules = '';
+                        for(k in msg.result.response.provider_bookings[i].rules[j].description){
+                            text_rules += `<span style="font-weight:400;"> `+msg.result.response.provider_bookings[i].rules[j].description[k]+`</span>`;
+                        }
+
+                        new jBox('Tooltip', {
+                            attach: '#span_tac'+rules_tm+''+j,
+                            target: '#span_tac'+rules_tm+''+j,
+                            theme: 'TooltipBorder',
+                            trigger: 'click',
+                            width: 400,
+                            adjustTracker: true,
+                            closeOnClick: 'body',
+                            closeButton: 'box',
+                            animation: 'move',
+                            position: {
+                              x: 'left',
+                              y: 'bottom'
+                            },
+                            outside: 'y',
+                            pointer: 'left:20',
+                            offset: {
+                              x: 25
+                            },
+                            content: text_rules
+                        });
+                    }
+                    rules_tm++;
+                }
+
                 add_repricing();
                 if (msg.result.response.state != 'booked'){
     //                document.getElementById('issued-breadcrumb').classList.add("active");
