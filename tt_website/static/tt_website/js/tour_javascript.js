@@ -409,7 +409,7 @@ function select_tour_date(key_change_date){
             }
             room_amount = 0;
             document.getElementById("tour_room_input").innerHTML = "";
-            if (tour_data.tour_type.is_can_choose_hotel)
+            if (tour_data.tour_type.is_can_choose_hotel && tour_data.duration > 1)
             {
                 reset_tour_table_detail();
             }
@@ -434,7 +434,7 @@ function select_tour_date(key_change_date){
     $('#ChangeDateModal').modal('hide');
     room_amount = 0;
     document.getElementById("tour_room_input").innerHTML = "";
-    if (tour_data.tour_type.is_can_choose_hotel)
+    if (tour_data.tour_type.is_can_choose_hotel && tour_data.duration > 1)
     {
         reset_tour_table_detail();
     }
@@ -2280,7 +2280,7 @@ function reset_tour_table_detail()
     }
     else
     {
-        if (tour_data.tour_type.is_can_choose_hotel)
+        if (tour_data.tour_type.is_can_choose_hotel && tour_data.duration > 1)
         {
             $('#btnDeleteRooms').show();
         }
