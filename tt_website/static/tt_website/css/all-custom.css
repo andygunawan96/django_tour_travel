@@ -2147,10 +2147,10 @@ ul.popular2_tabs li.current .image-rounded-icon{
   padding-right: 15px;
   border: none;
   border-radius: 5px;
-  color: #000;
+  color: #e60019;
   display: inline-block;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: bold;
   margin-right:10px;
   position: relative;
   -webkit-transition: all 0.3s ease 0s;
@@ -2160,7 +2160,7 @@ ul.popular2_tabs li.current .image-rounded-icon{
   cursor: pointer;
   position: relative;
   margin-bottom:15px;
-  border: 1px solid #e60019;
+  border: 1px solid #cdcdcd;
   box-shadow: rgb(3 18 26 / 15%) 4px -1px 10px -4px, rgb(3 18 26 / 15%) -4px -1px 10px -4px;
   border-radius: 5px;
 }

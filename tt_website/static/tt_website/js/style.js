@@ -3170,7 +3170,7 @@ function close_div(id_string){
         change_top_up();
     }catch(err){}
     document.getElementById("overlay-div-box").style.display = "none";
-    document.getElementById("payment_acq").hidden = true;
+    //document.getElementById("payment_acq").hidden = true;
 }
 
 function please_wait_transaction(){
@@ -3595,3 +3595,23 @@ function content_modal_custom(modal_id, modal_body, header_title, content){
     $('#'+modal_id).modal('show');
 }
 
+function hide_div(id){
+    var div_show = document.getElementById(id);
+    div_show.style.display = "none";
+}
+
+function show_div(id){
+    var div_show = document.getElementById(id);
+    div_show.style.display = "block";
+}
+
+function show_hide_div(id){
+    var div_show = document.getElementById(id);
+
+    if (div_show.style.display === "none") {
+        div_show.style.display = "block";
+    }
+    else {
+        div_show.style.display = "none";
+    }
+}
