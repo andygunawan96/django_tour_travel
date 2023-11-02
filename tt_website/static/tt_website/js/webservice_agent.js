@@ -242,6 +242,9 @@ function signin(){
                     document.getElementById('otp_information').hidden = false;
                     document.getElementById('otp_div').hidden = false;
                     document.getElementById('otp_time_limit').hidden = false;
+                    try{
+                        document.getElementById('otp_type_div').hidden = false;
+                    }catch(err){}
                     now = new Date().getTime();
 
                     time_limit_otp = msg.result.error_msg.split(', ')[1];
@@ -259,6 +262,8 @@ function signin(){
                 }
                 $('.button-login').prop('disabled', false);
                 $('.button-login').removeClass("running");
+                $('.loading-button').prop('disabled', false);
+                $('.loading-button').removeClass("running");
             }else if(msg.result.error_code == 1041){
                 Swal.fire({
                     type: 'warning',
@@ -478,21 +483,38 @@ function check_credential(is_need_to_save='false'){
         error_log += 'Please fill api key!<br/>';
     }
 
+    if(typeof(platform) === 'undefined'){
+        platform = '';
+    }
+    if(typeof(unique_id) === 'undefined'){
+        unique_id = '';
+    }
+    if(typeof(web_vendor) === 'undefined'){
+        web_vendor = '';
+    }
+    if(typeof(timezone) === 'undefined'){
+        timezone = '';
+    }
+
     if(error_log == ''){
         $.ajax({
-           type: "POST",
-           url: "/webservice/agent",
-           headers:{
+            type: "POST",
+            url: "/webservice/agent",
+            headers:{
                 'action': 'check_credential',
-           },
-           data: {
-               'username': document.getElementById('username_credential').value,
-               'password': document.getElementById('password_credential').value,
-               'api_key': document.getElementById('apikey_credential').value,
-               'is_need_to_save': is_need_to_save
-           },
-           success: function(msg) {
-               if(msg.result.error_code == 0){
+            },
+            data: {
+                'username': document.getElementById('username_credential').value,
+                'password': document.getElementById('password_credential').value,
+                'api_key': document.getElementById('apikey_credential').value,
+                'is_need_to_save': is_need_to_save,
+                "platform": platform,
+                "unique_id": unique_id,
+                "browser": web_vendor,
+                "timezone": timezone
+            },
+            success: function(msg) {
+                if(msg.result.error_code == 0){
                     if(is_need_to_save == 'true'){
                         Swal.fire({
                           type: 'success',
@@ -508,17 +530,17 @@ function check_credential(is_need_to_save='false'){
                           title: 'Credential can be use',
                         })
                     }
-               }else{
+                }else{
                    Swal.fire({
                       type: 'error',
                       title: 'Oops!',
                       html: '<span style="color: red;">Error </span>' + msg.result.error_msg,
                     })
-               }
-           },
-           error: function(XMLHttpRequest, textStatus, errorThrown) {
+                }
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
 
-           },timeout: 60000
+            },timeout: 60000
         });
     }else{
         Swal.fire({
@@ -537,20 +559,37 @@ function check_credential_b2c(is_need_to_save='false'){
         error_log += 'Please fill password!<br/>';
     }
 
+    if(typeof(platform) === 'undefined'){
+        platform = '';
+    }
+    if(typeof(unique_id) === 'undefined'){
+        unique_id = '';
+    }
+    if(typeof(web_vendor) === 'undefined'){
+        web_vendor = '';
+    }
+    if(typeof(timezone) === 'undefined'){
+        timezone = '';
+    }
+
     if(error_log == ''){
         $.ajax({
-           type: "POST",
-           url: "/webservice/agent",
-           headers:{
+            type: "POST",
+            url: "/webservice/agent",
+            headers:{
                 'action': 'check_credential_b2c',
-           },
-           data: {
-               'username': document.getElementById('b2c_username_credential').value,
-               'password': document.getElementById('b2c_password_credential').value,
-               'is_need_to_save': is_need_to_save
-           },
-           success: function(msg) {
-               if(msg.result.error_code == 0){
+            },
+            data: {
+                'username': document.getElementById('b2c_username_credential').value,
+                'password': document.getElementById('b2c_password_credential').value,
+                'is_need_to_save': is_need_to_save,
+                "platform": platform,
+                "unique_id": unique_id,
+                "browser": web_vendor,
+                "timezone": timezone
+            },
+            success: function(msg) {
+                if(msg.result.error_code == 0){
                     if(is_need_to_save == 'true'){
                         Swal.fire({
                           type: 'success',
@@ -566,17 +605,17 @@ function check_credential_b2c(is_need_to_save='false'){
                           title: 'User can be use',
                         })
                     }
-               }else{
+                }else{
                    Swal.fire({
                       type: 'error',
                       title: 'Oops!',
                       html: '<span style="color: red;">Error </span>' + msg.result.error_msg,
                     })
-               }
-           },
-           error: function(XMLHttpRequest, textStatus, errorThrown) {
+                }
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
 
-           },timeout: 60000
+            },timeout: 60000
         });
     }else{
         Swal.fire({

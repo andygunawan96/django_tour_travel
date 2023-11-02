@@ -2130,6 +2130,7 @@ Licence URI: http://www.os-templates.com/template-terms
 
 <script>
     unique_id = crypto.randomUUID();
+    platform = 'default';
     if(typeof(localStorage.platform) === 'undefined'){
         const fpPromise = import('{{ static_path }}/js/library/fingerprint.js').then(FingerprintJS => FingerprintJS.load())
         // Get the visitor identifier when you need it.
@@ -2149,9 +2150,9 @@ Licence URI: http://www.os-templates.com/template-terms
             localStorage.web_vendor = web_vendor;
             localStorage.timezone = timezone;
         })
-        platform = '';
         web_vendor = '';
         timezone = '';
+        localStorage.platform = platform;
         localStorage.unique_id = unique_id;
     }else{
         if(localStorage.hasOwnProperty('platform'))
