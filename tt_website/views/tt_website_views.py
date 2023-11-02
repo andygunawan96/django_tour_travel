@@ -222,8 +222,10 @@ def index(request):
             # tour
             try:
                 tour_countries = response['result']['response']['tour']['countries']
+                tour_types = response['result']['response']['tour']['tour_types']
             except Exception as e:
                 tour_countries = []
+                tour_types = []
                 _logger.error(str(e) + '\n' + traceback.format_exc())
             # tour
             try:
@@ -366,6 +368,7 @@ def index(request):
                     'activity_types': activity_types,
                     # tour
                     'tour_countries': tour_countries,
+                    'tour_types': tour_types,
                     'javascript_version': javascript_version,
                     'update_data': 'false',
                     'static_path_url_server': get_url_static_path(),

@@ -235,9 +235,11 @@ def get_data(request):
     try:
         temp_data = get_cache_data(request)
         template_data = orbisway_views.get_data_template(request)
-
+        cur_ho_seq_id = request.session['user_account']['co_ho_seq_id']
+        tour_types_list = temp_data['result']['response']['tour']['tour_types']
         response = {
             'tour_countries': temp_data['result']['response']['tour']['countries'],
+            'tour_types': tour_types_list.get(cur_ho_seq_id) and tour_types_list[cur_ho_seq_id] or [],
             'tour_search_template': template_data['tour_search_template']
         }
 
@@ -246,6 +248,7 @@ def get_data(request):
     except Exception as e:
         response = {
             'tour_countries': [],
+            'tour_types': [],
             'tour_search_template': 'default_search'
         }
 
