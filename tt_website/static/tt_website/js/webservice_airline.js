@@ -10885,7 +10885,7 @@ function airline_get_booking(data, sync=false){
                             target: '#span_tac'+rules_tm+''+j,
                             theme: 'TooltipBorder',
                             trigger: 'click',
-                            width: 400,
+                            maxWidth: 400,
                             adjustTracker: true,
                             closeOnClick: 'body',
                             closeButton: 'box',
