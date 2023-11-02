@@ -503,7 +503,7 @@ def sell_tour(request):
             "infant": tour_booking_data['infant'],
             'provider': tour_pick['provider'],
         }
-        if tour_pick['tour_type'] == 'open':
+        if tour_pick['tour_type']['is_open_date']:
             data.update({
                 'departure_date': tour_dept_return_data.get('departure') and tour_dept_return_data['departure'] or '',
             })
