@@ -75,9 +75,9 @@ function render_payment(){
     try{
         if(Object.keys(payment_acq2).length != 0){
             if(type_render == 'top_up')
-                text=`<h4 style="color:`+color+`;">Payment Method</h4><hr/>`;
+                text=`<h4>Payment Method</h4><hr/>`;
             else
-                text=`<h4 style="color:`+color+`;">Payment Method</h4><hr/>`;
+                text=`<h4>Payment Method</h4><hr/>`;
 
             payment_counter = 1;
             if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
@@ -1427,7 +1427,7 @@ function check_payment_payment_method(order_number,btn_name,booker,type,provider
             tes = (moment.utc(payment_acq_booking.time_limit)).format('YYYY-MM-DD HH:mm:ss');
         localTime  = moment.utc(tes).toDate();
         payment_acq_booking.time_limit = moment(localTime).format('DD MMM YYYY HH:mm') + ' ' + gmt + timezone;
-        text=`<h4 style="color:`+color+`;">Payment Method</h4><hr/>`;
+        text=`<h4>Payment Method</h4><hr/>`;
         text+=` <h6 style="padding-bottom:10px;">Payment Detail: </h6>`;
         if(payment_acq_booking.nomor_rekening != ''){
             text+=`<div class='row'>

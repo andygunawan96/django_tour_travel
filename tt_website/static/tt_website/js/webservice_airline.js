@@ -2435,10 +2435,10 @@ function draw_get_booking(msg){
     text+=`
         <div class="row" style="margin-bottom:5px;">
             <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                <span style="font-size:12px;">Grand Total</span>`;
+                <span style="font-size:16px;">Grand Total</span>`;
             text+=`</div>
             <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                <span style="font-size:13px;">`+price[0].service_charges[0].currency+` `+getrupiah(msg.total_price)+`</span>
+                <span style="font-size:16px;">`+price[0].service_charges[0].currency+` `+getrupiah(msg.total_price)+`</span>
             </div>
         </div>`;
     //pilih booker
@@ -7560,66 +7560,87 @@ function create_new_reservation(){
     //pilihan carrier
     var text = '';
     var option = '';
-    text += `<div style="background:white;margin-top:15px;padding:15px 15px 5px 15px; border:1px solid #cdcdcd;">
-                <h5>Re Order</h5>`;
 
-    //orang
-    text += `<h6>Journey</h6>
-            <table style="width:100%;background:white;margin-top:15px;" class="list-of-table">
-                <tr>
-                    <th style="width:70%">Journey</th>
-                    <th style="width:30%">Re-Order</th>
-                </tr>`;
-    var counter_journey = 0;
-    for(i in airline_get_detail.result.response.provider_bookings){
-        for(j in airline_get_detail.result.response.provider_bookings[i].journeys){
-            if(moment(airline_get_detail.result.response.provider_bookings[i].journeys[j].departure_date).format('YYYY-MM-DD HH:mm') > moment().format('YYYY-MM-DD HH:mm'))
-                text += `
-                <tr>
-                    <td>`+airline_get_detail.result.response.provider_bookings[i].journeys[j].origin+`-`+airline_get_detail.result.response.provider_bookings[i].journeys[j].destination+`</td>
-                    <td>
-                        <label class="check_box_custom" style="margin-bottom:15px; float:left;">
-                            <input type="checkbox" id="journey`+counter_journey+`" name="journey`+counter_journey+`" checked />
-                            <span class="check_box_span_custom"></span>
-                        </label>
-                    </td>
-                </tr>`;
-            counter_journey++;
+    //journey
+    text += `
+    <h6>Journey</h6>
+    <table style="width:100%;background:white;margin-top:15px;margin-bottom:20px;" class="list-of-table">
+        <tr>
+            <th style="width:80%">Journey</th>
+            <th style="width:20%">Re-Order</th>
+        </tr>`;
+        var counter_journey = 0;
+        for(i in airline_get_detail.result.response.provider_bookings){
+            for(j in airline_get_detail.result.response.provider_bookings[i].journeys){
+                if(moment(airline_get_detail.result.response.provider_bookings[i].journeys[j].departure_date).format('YYYY-MM-DD HH:mm') > moment().format('YYYY-MM-DD HH:mm'))
+                    text += `
+                    <tr>
+                        <td><i class="fas fa-plane"></i> `+airline_get_detail.result.response.provider_bookings[i].journeys[j].origin+`-`+airline_get_detail.result.response.provider_bookings[i].journeys[j].destination+` (`+airline_get_detail.result.response.provider_bookings[i].journeys[j].departure_date+`)</td>
+                        <td>
+                            <label class="check_box_custom" style="margin-bottom:15px; float:left;">
+                                <input type="checkbox" id="journey`+counter_journey+`" name="journey`+counter_journey+`" checked />
+                                <span class="check_box_span_custom"></span>
+                            </label>
+                        </td>
+                    </tr>`;
+                counter_journey++;
+            }
         }
-    }
-    text+= `</table><br/>`;
+    text+= `
+    </table>`;
 
     //orang
-    text += `<h6>Passengers</h6>
-            <table style="width:100%;background:white;margin-top:15px;" class="list-of-table">
-                <tr>
-                    <th style="width:70%">Name</th>
-                    <th style="width:30%">Re-Order</th>
-                </tr>`;
-    for(i in airline_get_detail.result.response.passengers){
-        text += `<tr>
-                    <td>`+airline_get_detail.result.response.passengers[i].name+`</td>
-                    <td>
-                        <label class="check_box_custom" style="margin-bottom:15px; float:left;">
-                            <input type="checkbox" id="passenger`+i+`" name="passenger`+i+`" checked />
-                            <span class="check_box_span_custom"></span>
-                        </label>
-                    </td>
-                 </tr>`
-    }
-    text+= `</table>`;
-
+    text += `
+    <h6 class="mt-3">Passengers</h6>
+    <table style="width:100%;background:white;margin-top:15px;" class="list-of-table">
+        <tr>
+            <th style="width:80%">Name</th>
+            <th style="width:20%">Re-Order</th>
+        </tr>`;
+        for(i in airline_get_detail.result.response.passengers){
+            text += `
+            <tr>
+                <td>
+                    `+airline_get_detail.result.response.passengers[i].title+` `+airline_get_detail.result.response.passengers[i].name+`
+                    <b style="margin-left:5px; background:white; font-size:13px; color:black; padding:5px 10px; display:unset; border: 1px solid #cdcdcd; border-radius:7px;">
+                        <i class="fas fa-user"></i>`;
+                        if(airline_get_detail.result.response.passengers[i].pax_type == 'ADT'){
+                            text+=`Adult`;
+                        }else if(airline_get_detail.result.response.passengers[i].pax_type == 'CHD'){
+                            text+=`Child`;
+                        }else if(airline_get_detail.result.response.passengers[i].pax_type == 'INF'){
+                            text+=`Infant`;
+                        }else if(airline_get_detail.result.response.passengers[i].pax_type == 'LBR'){
+                            text+=`Labour`;
+                        }else if(airline_get_detail.result.response.passengers[i].pax_type == 'SEA'){
+                            text+=`Seaman`;
+                        }else if(airline_get_detail.result.response.passengers[i].pax_type == 'STU'){
+                            text+=`Student`;
+                        }
+                    text+=`
+                    </b>
+                </td>
+                <td>
+                    <label class="check_box_custom" style="margin-bottom:15px; float:left;">
+                        <input type="checkbox" id="passenger`+i+`" name="passenger`+i+`" checked />
+                        <span class="check_box_span_custom"></span>
+                    </label>
+                </td>
+             </tr>`
+        }
+    text+= `
+    </table>`;
 
     //button
-    text += `<button type="button" class="next-loading-reorder primary-btn mb-3 ld-ext-right" id="button-reorder" style="width:100%;margin-top:15px;" onclick="airline_reorder();">
-                Re Order
-                <div class="ld ld-ring ld-cycle"></div>
-            </button>
-            <span style="color:red">*Please input Frequent Flyer, Seat, and SSR again!</span>
-            `
+    text += `
+    <button type="button" class="next-loading-reorder primary-btn mb-3 ld-ext-right" id="button-reorder" style="width:100%;margin-top:15px;" onclick="airline_reorder();">
+        Re Order
+        <div class="ld ld-ring ld-cycle"></div>
+    </button>
+    <span style="color:red">*Please input Frequent Flyer, Seat, and SSR again!</span>`;
 
     document.getElementById('button-re-order-div').innerHTML = text;
-    document.getElementById('reorder_div').hidden = true;
+    //document.getElementById('reorder_div').hidden = true;
 }
 
 function airline_reorder(){
@@ -7628,6 +7649,7 @@ function airline_reorder(){
     var check_journey = false;
     passenger_list_copy = [];
     journey_list_copy = [];
+    $("#myModalReOrder").modal('hide');
     for(i in airline_get_detail.result.response.passengers){
         if(document.getElementById('passenger'+i).checked){
             passenger_list_copy.push(airline_get_detail.result.response.passengers[i]);
@@ -8141,6 +8163,7 @@ function set_airline_pick(){
 
 function airline_get_booking(data, sync=false){
     airline_pick_list = [];
+    modal_history_arr = [];
     document.getElementById('payment_acq').hidden = true;
     price_arr_repricing = {};
     get_vendor_balance('false');
@@ -8208,6 +8231,9 @@ function airline_get_booking(data, sync=false){
                     break;
                 }
                 var text = '';
+                text_order_number = '';
+                text_print_booking = '';
+
                 $text = '';
                 check_provider_booking = 0;
                 if(msg.result.response.hold_date != false && msg.result.response.hold_date != ''){
@@ -8383,6 +8409,21 @@ function airline_get_booking(data, sync=false){
                    <div class="alert alert-info" role="alert">
                        <h5>Your booking has not been processed!</h5>
                    </div>`;
+                }else if(msg.result.response.state == 'partial_booked'){
+                   document.getElementById('issued-breadcrumb').classList.remove("br-active");
+                   document.getElementById('issued-breadcrumb').classList.add("br-fail");
+                   document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
+                   document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
+                   document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
+                   document.getElementById('Booking-breadcrumb').classList.remove("br-book");
+                   document.getElementById('Booking-breadcrumb').classList.add("br-fail");
+                   document.getElementById('Booking-breadcrumb-icon').classList.remove("br-icon-active");
+                   document.getElementById('Booking-breadcrumb-icon').classList.add("br-icon-fail");
+                   document.getElementById('Booking-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
+                   document.getElementById('alert-state').innerHTML = `
+                   <div class="alert alert-warning" role="alert">
+                       <h5>Your bookings not all successful!</h5>
+                   </div>`;
                 }else if(msg.result.response.state == 'refund'){
                    //document.getElementById('issued-breadcrumb').classList.remove("current");
                    //document.getElementById('issued-breadcrumb').classList.add("active");
@@ -8481,14 +8522,16 @@ function airline_get_booking(data, sync=false){
                        if(check_reschedule){
                             document.getElementById('reissued').hidden = false;
                             document.getElementById('reissued').innerHTML = `
-                                <button class="primary-btn-ticket" id="reissued_btn_dsb" style="width:100%;" type="button" onclick="reissued_btn();">
-                                    Change Itinerary
-                                </button>
-                            `;
+                            <button class="primary-btn-white" id="reissued_btn_dsb" style="width:100%;" type="button" onclick="reissued_btn();">
+                                <i class="fas fa-redo-alt"></i> Change Itinerary
+                            </button>`;
                        }
                        if(check_split){
                             document.getElementById('split_booking').hidden = false;
-                            document.getElementById('split_booking').innerHTML = `<input class="primary-btn-ticket" style="width:100%;" type="button" onclick="split_booking_btn();" value="Split Booking">`;
+                            document.getElementById('split_booking').innerHTML = `
+                            <button class="primary-btn-white" style="width:100%;" type="button" onclick="split_booking_btn();">
+                                <i class="fas fa-columns"></i> Split Booking
+                            </button>`;
                        }
 //                       document.getElementById('ssr_request_after_sales').innerHTML = '<h4>Request</h4><hr>';
 //                       if(check_seat){
@@ -8505,7 +8548,10 @@ function airline_get_booking(data, sync=false){
                        }
                        if(check_cancel){
                             document.getElementById('cancel').hidden = false;
-                            document.getElementById('cancel').innerHTML = `<input class="primary-btn-white" style="width:100%;" type="button" onclick="cancel_btn_location();" value="Refund Booking">`;
+                            document.getElementById('cancel').innerHTML = `
+                            <button class="primary-btn-white" style="width:100%;" type="button" onclick="cancel_btn_location();">
+                                <i class="fas fa-undo"></i> Refund Booking
+                            </button>`;
                        }
                    }catch(err){
                     console.log(err);
@@ -8581,11 +8627,17 @@ function airline_get_booking(data, sync=false){
                        }
                        if(check_reschedule){
                             document.getElementById('reissued').hidden = false;
-                            document.getElementById('reissued').innerHTML = `<input class="issued_booking_btn primary-btn-white" style="width:100%;" type="button" onclick="reissued_btn();" value="Change Itinerary">`;
+                            document.getElementById('reissued').innerHTML = `
+                            <button class="issued_booking_btn primary-btn-white" type="button" onclick="reissued_btn();">
+                                <i class="fas fa-redo-alt"></i> Change Itinerary
+                            </button>`;
                        }
                        if(check_split){
                             document.getElementById('split_booking').hidden = false;
-                            document.getElementById('split_booking').innerHTML = `<input class="issued_booking_btn primary-btn-ticket" style="width:100%;" type="button" onclick="split_booking_btn();" value="Split Booking">`;
+                            document.getElementById('split_booking').innerHTML = `
+                            <button class="issued_booking_btn primary-btn-white mr-1" type="button" onclick="split_booking_btn();">
+                                <i class="fas fa-columns"></i> Split Booking
+                            </button>`;
                        }
 //                       document.getElementById('ssr_request_after_sales').innerHTML = '<h4>Request New</h4><hr>';
 //                       if(check_seat){
@@ -8602,7 +8654,7 @@ function airline_get_booking(data, sync=false){
                        }
                        if(check_cancel){
                             document.getElementById('cancel').hidden = false;
-                            document.getElementById('cancel').innerHTML = `<button class="issued_booking_btn primary-btn-white" style="width:100%;" type="button" onclick="cancel_btn();">Cancel Booking <i class="fas fa-times" style="padding-left:5px; color:red; font-size:16px;"></i></button>`;
+                            document.getElementById('cancel').innerHTML = `<button class="issued_booking_btn primary-btn-white-cancel" type="button" style="margin-bottom:0px; margin-right:0px; width: 100%;" onclick="cancel_btn();"><i class="fas fa-times" style="padding-left:5px; font-size:16px;"></i> Cancel Booking</button>`;
                        }
                     }catch(err){
 
@@ -8618,182 +8670,203 @@ function airline_get_booking(data, sync=false){
                 if(msg.result.response.hasOwnProperty('rebooking') && msg.result.response.rebooking){
 
                     document.getElementById('reorder_div').innerHTML = `
-                    <button type="button" id="button-re-order" class="primary-btn-white" onclick="create_new_reservation();">
-                        <i class="fas fa-redo-alt"></i> Re Order
+                    <button type="button" id="button-re-order" class="primary-btn-white mr-1" onclick="create_new_reservation();" data-toggle="modal" data-target="#myModalReOrder">
+                        <i class="fas fa-plane"></i> Re Order
                     </button>`;
                 }
 
                 //$text += 'Hold Date: ' + msg.result.response.hold_date + '\n';
 //                $text += '‣ Status: '+msg.result.response.state_description + '\n';
+
+                //text_order_number
                 var localTime;
-                text += `
-                <div class="col-lg-12" style="border:1px solid #cdcdcd; padding:15px; background-color:white; margin-bottom:20px;">
+                text_order_number += `
+                <div class="div_box_default">
                     <div class="row">
-                        <div class="col-lg-12 mb-3" style="padding-bottom:15px; border-bottom:1px solid #cdcdcd;">
-                            <h4>
-                                <i class="fas fa-scroll"></i> Order Number: `+msg.result.response.order_number+`
-                            </h4>
-                        </div>
-                    </div>
+                        <div class="col-lg-12">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <h4 style="margin-bottom:15px;">
+                                        <i class="fas fa-scroll"></i> Order Number: `+msg.result.response.order_number+`
+                                    </h4>
+                                </div>
+                                <div class="col-lg-12 mb-3">
+                                    <table class="list-of-table" style="width:100%; background:white;">
+                                        <tr>
+                                            <th>PNR</th>
+                                            <th>Status</th>`;
+                                            if(!['issued'].includes(msg.result.response.state)){
+                                                text_order_number += `<th id="hold_date_field_show">Price Guarantee Timelimit<span id="hold_date_field" style="color:`+color+`; cursor:pointer;"></span></th>`;
+                                                text_order_number += `<th id="expired_date_field_show">Expired Timelimit<span id="expired_date_field" style="color:`+color+`; cursor:pointer;"></span></th>`;
+                                            }
+                                            text_order_number+=`
+                                        </tr>`;
+                                        printed_hold_date = false;
+                                        for(i in msg.result.response.provider_bookings){
+                                            if(['booked', 'halt_booked'].includes(msg.result.response.provider_bookings[i].state) && printed_hold_date == false){
+                                                if(get_payment == false){
+                                                   check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'airline', signature, msg.result.response.payment_acquirer_number);
+                                                   get_payment = true;
+                                                }
+                    //                                check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'airline', signature);
+                    //                            get_payment_acq('Issued',msg.result.response.booker.seq_id, msg.result.response.order_number, 'billing',signature,'airline');
+                //                                $text += 'PLEASE MAKE PAYMENT BEFORE '+ msg.result.response.hold_date + `\n`;
+                                                try{
+                                                    if(now.diff(hold_date_time, 'minutes')<0)
+                                                        $(".issued_booking_btn").show();
+                                                }catch(err){
+                                                    console.log(err); // error kalau ada element yg tidak ada
+                                                }
+                                                check_provider_booking++;
+                                                printed_hold_date = true;
+                                            }
+                                            //datetime utc to local
+                                            if(msg.result.response.provider_bookings[i].error_msg.length != 0 && msg.result.response.provider_bookings[i].state != 'issued'){
+                                                text_order_number += `<div class="alert alert-danger">
+                                                    `+msg.result.response.provider_bookings[i].error_msg+`
+                                                    <a href="#" class="close" data-dismiss="alert" aria-label="close" style="margin-top:-1.9vh;">x</a>
+                                                </div>`;
+                                            }
+                                            if(msg.result.response.provider_bookings[i].hold_date != '' && msg.result.response.provider_bookings[i].hold_date != false){
+                                                tes = moment.utc(msg.result.response.provider_bookings[i].hold_date).format('YYYY-MM-DD HH:mm:ss')
+                                                localTime  = moment.utc(tes).toDate();
+                                                msg.result.response.provider_bookings[i].hold_date = moment(localTime).format('DD MMM YYYY HH:mm');
+                                            }
+                                            //
+                                            text_order_number+=`<tr>`;
+                                            if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false || msg.result.response.state == 'issued')
+                                                text_order_number+=`
+                                                    <td>`+msg.result.response.provider_bookings[i].pnr+` `;
+                                            else
+                                                text_order_number += `<td> - `;
 
-                    <table style="width:100%;">
-                        <tr>
-                            <th>PNR</th>`;
-                            if(!['issued'].includes(msg.result.response.state)){
-                                text+=`<th id="hold_date_field_show">Price Guarantee Timelimit<span id="hold_date_field" style="color:`+color+`; cursor:pointer;"></span></th>`;
-                                text += `<th id="expired_date_field_show">Expired Timelimit<span id="expired_date_field" style="color:`+color+`; cursor:pointer;"></span></th>`;
-                            }
-                        text+=`
-                            <th>Status</th>
-                        </tr>`;
-                        printed_hold_date = false;
-                        for(i in msg.result.response.provider_bookings){
-                            if(['booked', 'halt_booked'].includes(msg.result.response.provider_bookings[i].state) && printed_hold_date == false){
-                                if(get_payment == false){
-                                   check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'airline', signature, msg.result.response.payment_acquirer_number);
-                                   get_payment = true;
+                                            text_order_number+=`
+                                            </td>
+                                            <td>`;
+                                                if(msg.result.response.provider_bookings[i].state_description == 'Expired' ||
+                                                    msg.result.response.provider_bookings[i].state_description == 'Cancelled' ||
+                                                    msg.result.response.provider_bookings[i].state_description == 'Booking Failed'){
+                                                    text_order_number+=`<span style="background:#DC143C; color:white; padding:5px 15px; border-radius:5px;">`;
+                                                }
+                                                else if(msg.result.response.provider_bookings[i].state_description == 'Booked' ||
+                                                    msg.result.response.provider_bookings[i].state_description == 'Pending'){
+                                                    text_order_number+=`<span style="background:#3fa1e8; color:white; padding:5px 15px; border-radius:5px;">`;
+                                                }
+                                                else if(msg.result.response.provider_bookings[i].state_description == 'Issued' ||
+                                                    msg.result.response.provider_bookings[i].state_description == 'Done'){
+                                                    text_order_number+=`<span style="background:#30b330; color:white; padding:5px 15px; border-radius:5px;">`;
+                                                }
+                                                else if(msg.result.response.provider_bookings[i].state_description == 'Refund' ||
+                                                    msg.result.response.provider_bookings[i].state_description == 'Draft'){
+                                                    text_order_number+=`<span style="background:#8c8d8f; color:white; padding:5px 15px; border-radius:5px;">`;
+                                                }
+                                                else{
+                                                    text_order_number+=`<span>`;
+                                                }
+                                                text_order_number+=`
+                                                    `+msg.result.response.provider_bookings[i].state_description+`
+                                                </span>
+                                            </td>`;
+                                            if(!['issued'].includes(msg.result.response.state)){
+                                                text_order_number+=`<td>`+msg.result.response.hold_date+`</td>`;
+                                                if(msg.result.response.hasOwnProperty('expired_date') && msg.result.response.expired_date != '' && msg.result.response.expired_date != msg.result.response.hold_date)
+                                                    text_order_number+=`<td>`+msg.result.response.expired_date+`</td>`;
+                                                else
+                                                    text_order_number+=`<td>`+msg.result.response.hold_date+`</td>`;
+                                            }
+                                            text_order_number+=`</tr>`;
+                                        }
+                                        if(msg.result.response.hasOwnProperty('expired_date') && moment(msg.result.response.expired_date) > moment())
+                                            check_provider_booking++;
+                                        if(check_provider_booking == 0 && msg.result.response.state != 'issued'){
+                                            check_provider_booking++;
+                                            $(".issued_booking_btn").remove();
+                                        }
+                                    text_order_number+=`
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`;
+                    text_order_number += `
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="row">`;
+                                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
+                                    text_order_number+=`
+                                    <div class="col-lg-12">
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <b>Agent: </b><i>`+msg.result.response.agent_name+`</i>
+                                            </div>
+                                            <div class="col-lg-6">`;
+                                                if(msg.result.response.customer_parent_name){
+                                                    text_order_number+=`<b>Customer: </b><i>`+msg.result.response.customer_parent_type_name+` `+msg.result.response.customer_parent_name+`</i>`;
+                                                }else{
+                                                    text_order_number+=`<b>Customer: </b><i>Testing</i>`;
+                                                }
+                                            text_order_number+=`
+                                            </div>
+                                        </div>
+                                    </div>`;
                                 }
-    //                                check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'airline', signature);
-    //                            get_payment_acq('Issued',msg.result.response.booker.seq_id, msg.result.response.order_number, 'billing',signature,'airline');
-//                                $text += 'PLEASE MAKE PAYMENT BEFORE '+ msg.result.response.hold_date + `\n`;
-                                try{
-                                    if(now.diff(hold_date_time, 'minutes')<0)
-                                        $(".issued_booking_btn").show();
-                                }catch(err){
-                                    console.log(err); // error kalau ada element yg tidak ada
-                                }
-                                check_provider_booking++;
-                                printed_hold_date = true;
-                            }
-                            //datetime utc to local
-                            if(msg.result.response.provider_bookings[i].error_msg.length != 0 && msg.result.response.provider_bookings[i].state != 'issued')
-                                text += `<div class="alert alert-danger">
-                                    `+msg.result.response.provider_bookings[i].error_msg+`
-                                    <a href="#" class="close" data-dismiss="alert" aria-label="close" style="margin-top:-1.9vh;">x</a>
+                                text_order_number+=`
+                                <div class="col-lg-12">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <span>
+                                                <b>Booked by: </b><i>`+msg.result.response.booked_by+`</i>
+                                            </span>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <span>
+                                                <b>Booked Date: </b>`;
+                                                if(msg.result.response.hasOwnProperty('create_date') && msg.result.response.create_date != ""){
+                                                    text_order_number+=`<i>`+msg.result.response.create_date+`</i>`;
+                                                }else if(msg.result.response.booked_date != ""){
+                                                    text_order_number+=`<i>`+msg.result.response.booked_date+`</i>`;
+                                                }else{
+                                                    text_order_number+=`-`;
+                                                }
+                                            text_order_number+=`
+                                            </span><br/>
+                                        </div>
+                                    </div>
                                 </div>`;
-                            if(msg.result.response.provider_bookings[i].hold_date != '' && msg.result.response.provider_bookings[i].hold_date != false){
-                                tes = moment.utc(msg.result.response.provider_bookings[i].hold_date).format('YYYY-MM-DD HH:mm:ss')
-                                localTime  = moment.utc(tes).toDate();
-                                msg.result.response.provider_bookings[i].hold_date = moment(localTime).format('DD MMM YYYY HH:mm');
-                            }
-                            //
-                            text+=`<tr>`;
-                            if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false || msg.result.response.state == 'issued')
-                                text+=`
-                                    <td>`+msg.result.response.provider_bookings[i].pnr+`</td>`;
-                            else
-                                text += `<td> - </td>`;
 
-                            if(!['issued'].includes(msg.result.response.state)){
-                                text+=`<td>`+msg.result.response.hold_date+`</td>`;
-                                if(msg.result.response.hasOwnProperty('expired_date') && msg.result.response.expired_date != '' && msg.result.response.expired_date != msg.result.response.hold_date)
-                                    text+=`<td>`+msg.result.response.expired_date+`</td>`;
-                                else
-                                    text+=`<td>`+msg.result.response.hold_date+`</td>`;
-                            }
-                            text+=`
-                                <td>`;
-                            if(msg.result.response.provider_bookings[i].state_description == 'Expired' ||
-                                msg.result.response.provider_bookings[i].state_description == 'Cancelled' ||
-                                msg.result.response.provider_bookings[i].state_description == 'Booking Failed'){
-                                text+=`<span style="background:#DC143C; color:white; padding:0px 15px; border-radius:14px;">`;
-                            }
-                            else if(msg.result.response.provider_bookings[i].state_description == 'Booked' ||
-                                msg.result.response.provider_bookings[i].state_description == 'Pending'){
-                                text+=`<span style="background:#3fa1e8; color:white; padding:0px 15px; border-radius:14px;">`;
-                            }
-                            else if(msg.result.response.provider_bookings[i].state_description == 'Issued' ||
-                                msg.result.response.provider_bookings[i].state_description == 'Done'){
-                                text+=`<span style="background:#30b330; color:white; padding:0px 15px; border-radius:14px;">`;
-                            }
-                            else if(msg.result.response.provider_bookings[i].state_description == 'Refund' ||
-                                msg.result.response.provider_bookings[i].state_description == 'Draft'){
-                                text+=`<span style="background:#8c8d8f; color:white; padding:0px 15px; border-radius:14px;">`;
-                            }
-                            else{
-                                text+=`<span>`;
-                            }
-                            text+=`
-                                    `+msg.result.response.provider_bookings[i].state_description+`
-                                </span>
-                                </td>
-                            </tr>`;
-                        }
-                        if(msg.result.response.hasOwnProperty('expired_date') && moment(msg.result.response.expired_date) > moment())
-                            check_provider_booking++;
-                        if(check_provider_booking == 0 && msg.result.response.state != 'issued'){
-                            check_provider_booking++;
-                            $(".issued_booking_btn").remove();
-                        }
-                text+=`
-                </table>
-
-                <div class="row" style="padding:0px">
-                    <div class="col-lg-12 mb-3" style="padding-bottom:15px; border-bottom:1px solid #cdcdcd;">
-                    </div>
-                </div>`;
-                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
-                    text+=`
-                    <div class="row mb-3">
-                        <div class="col-lg-6">
-                            <b>Agent: </b><i>`+msg.result.response.agent_name+`</i>
-                        </div>
-                        <div class="col-lg-6">`;
-                            if(msg.result.response.customer_parent_name){
-                                text+=`<b>Customer: </b><i>`+msg.result.response.customer_parent_type_name+` `+msg.result.response.customer_parent_name+`</i>`;
-                            }
-                        text+=`
-                        </div>
-                    </div>`;
-                }
-
-                text+=`
-                <div class="row">
-                    <div class="col-lg-3 mb-3">
-                        <span>
-                            <b>Booked by</b><br><i>`+msg.result.response.booked_by+`</i>
-                        </span>
-                    </div>
-                    <div class="col-lg-5 mb-3">
-                        <span>
-                            <b>Booked Date </b><br/>`;
-                            if(msg.result.response.hasOwnProperty('create_date') && msg.result.response.create_date != ""){
-                                text+=`<i>`+msg.result.response.create_date+`</i>`;
-                            }else if(msg.result.response.booked_date != ""){
-                                text+=`<i>`+msg.result.response.booked_date+`</i>`;
-                            }else{
-                                text+=`-`;
-                            }
-                        text+=`
-                        </span>
-                    </div>
-                </div>`;
-
-                if(msg.result.response.state == 'issued'){
-                    text+=`
-                    <div class="row">
-                        <div class="col-lg-3 mb-3">
-                            <span>
-                                <b>Issued by</b><br><i>`+msg.result.response.issued_by+`</i>
-                            </span>
-                        </div>
-                        <div class="col-lg-5 mb-3">
-                            <span>
-                                <b>Issued Date </b><br/>`;
-                                if(msg.result.response.issued_date != ""){
-                                    text+=`<i>`+msg.result.response.issued_date+`</i>`;
-                                }else{
-                                    text+=`-`;
+                                if(msg.result.response.state == 'issued'){
+                                    text_order_number+=`
+                                    <div class="col-lg-12">
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <span>
+                                                    <b>Issued by: </b><i>`+msg.result.response.issued_by+`</i>
+                                                </span>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <span>
+                                                    <b>Issued Date: </b>`;
+                                                    if(msg.result.response.issued_date != ""){
+                                                        text_order_number+=`<i>`+msg.result.response.issued_date+`</i>`;
+                                                    }else{
+                                                        text_order_number+=`-`;
+                                                    }
+                                                text_order_number+=`
+                                                </span><br/>
+                                            </div>
+                                        </div>
+                                    </div>`;
                                 }
-                            text+=`
-                            </span>
+                            text_order_number+=`
+                            </div>
                         </div>
-                    </div>`;
-                }
+                    </div>
+                </div>`;
+                document.getElementById('airline_booking_order_number').innerHTML = text_order_number;
+                //text_order_number
 
                 text+=`
-                </div>
-                <div style="background-color:white; padding:15px; border:1px solid #cdcdcd; background:white;">
+                <div class="div_box_default mb-3">
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="row">
@@ -8836,28 +8909,31 @@ function airline_get_booking(data, sync=false){
                                 $text += '\n\n';
                             }
                             if(i != 0){
-                                text+=`<hr/>`;
+                                text+=`<div class="row" style="border-bottom:1px solid #cdcdcd; padding-top:15px; margin-bottom:15px;"></div>`;
                             }
-                            text += `<div class="row">
-                                        <div class="col-lg-6">`;
-                            if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false || msg.result.response.state == 'issued')
-                                text+=`<h5>PNR: `+msg.result.response.provider_bookings[i].pnr+`</h5>`;
-                            else
-                                text += `<h5>PNR: - </h5>`;
-                            text += `   </div>
-                                        <div class="col-lg-6" style="text-align:right;">`;
-                            if(provider_list_data.hasOwnProperty(msg.result.response.provider_bookings[i].provider) && provider_list_data[msg.result.response.provider_bookings[i].provider].description != '')
-                                text +=`
-                                            <h5>`+provider_list_data[msg.result.response.provider_bookings[i].provider].description+`</h5>`;
-                            text+=`
-                                        </div>
-                                    </div>`;
+                            text += `
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <h5 style="width: fit-content; border-bottom:2px solid #cdcdcd;">`;
+                                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false || msg.result.response.state == 'issued')
+                                    text += `PNR: `+msg.result.response.provider_bookings[i].pnr;
+                                else
+                                    text += `No PNR`;
+
+                                if(provider_list_data.hasOwnProperty(msg.result.response.provider_bookings[i].provider) && provider_list_data[msg.result.response.provider_bookings[i].provider].description != '')
+                                    text += ` | `+provider_list_data[msg.result.response.provider_bookings[i].provider].description+`</h5>`;
+
+                                    text += `
+                                    </h5>
+                                </div>
+                            </div>`;
+
                             for(j in msg.result.response.provider_bookings[i].journeys){
                                 fare_detail_list = [];
                                 if(j != 0){
-                                    text+=`<hr/>`;
+                                    text+=`<div class="row" style="border-bottom:1px solid #cdcdcd; padding-top:15px; margin-bottom:15px;"></div>`;
                                 }
-                                text+=`<h6>Flight `+flight_counter+`</h6>`;
+                                text+=`<h5 class="mb-3" style="padding-top:5px;">Flight #`+flight_counter+`</h5>`;
                                 $text += '‣ Flight '+ flight_counter;
                                 flight_counter++;
                                 if(msg.result.response.provider_bookings[i].journeys[j].hasOwnProperty('search_banner')){
@@ -8885,193 +8961,188 @@ function airline_get_booking(data, sync=false){
                                         cabin_class = 'Business Class';
                                     else if(msg.result.response.provider_bookings[i].journeys[j].segments[k].cabin_class == 'F')
                                         cabin_class = 'First Class';
+
                                     text += `<br/><span>`+msg.result.response.provider_bookings[i].journeys[j].segments[k].fare_basis_code+`</span>`;
                                     text+=`
                                     <div class="row">
-                                        <div class="col-lg-4">`;
-                                        //OPERATED BY
-                                        try{
-                                            if(msg.result.response.provider_bookings[i].journeys[j].segments[k].hasOwnProperty('operating_airline_code') && msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code != msg.result.response.provider_bookings[i].journeys[j].segments[k].operating_airline_code && msg.result.response.provider_bookings[i].journeys[j].segments[k].operating_airline_code != '')
-                                                text += `<img data-toggle="tooltip" style="width:50px; height:50px;" alt="`+airline_carriers[msg.result.response.provider_bookings[i].journeys[j].segments[k].operating_airline_code].name+`" title="`+airline_carriers[msg.result.response.provider_bookings[i].journeys[j].segments[k].operating_airline_code].name+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+msg.result.response.provider_bookings[i].journeys[j].segments[k].operating_airline_code+`.png"/>`;
-                                            else
-                                                text += `<img data-toggle="tooltip" style="width:50px; height:50px;" alt="`+airline_carriers[msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code].name+`" title="`+airline_carriers[msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code].name+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code+`.png"/>`;
-                                        }catch(err){
-                                            if(msg.result.response.provider_bookings[i].journeys[j].segments[k].hasOwnProperty('operating_airline_code') && msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code != msg.result.response.provider_bookings[i].journeys[j].segments[k].operating_airline_code && msg.result.response.provider_bookings[i].journeys[j].segments[k].operating_airline_code != '')
-                                                text += `<img data-toggle="tooltip" style="width:50px; height:50px;" alt="`+msg.result.response.provider_bookings[i].journeys[j].segments[k].operating_airline_code+`" title="`+msg.result.response.provider_bookings[i].journeys[j].segments[k].operating_airline_code+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+msg.result.response.provider_bookings[i].journeys[j].segments[k].operating_airline_code+`.png"/>`;
-                                            else
-                                                text += `<img data-toggle="tooltip" style="width:50px; height:50px;" alt="`+msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code+`" title="`+msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code+`.png"/>`;
-                                        }
-                                        text+=`<h5>`
-                                        if(msg.result.response.provider_bookings[i].journeys[j].segments[k].hasOwnProperty('operating_airline_code') && msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code != msg.result.response.provider_bookings[i].journeys[j].segments[k].operating_airline_code && msg.result.response.provider_bookings[i].journeys[j].segments[k].operating_airline_code != '')
-                                            try{
-                                                text+=`Operated By `+airline_carriers[msg.result.response.provider_bookings[i].journeys[j].segments[k].operating_airline_code].name+' '+msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_number;
-                                            }catch(err){
-                                                text+=`Operated By `+msg.result.response.provider_bookings[i].journeys[j].segments[k].operating_airline_code+' '+msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_number;
-                                            }
-                                        else
-                                            text += msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_name+' '+msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_number;
-                                        text+=`</h5>
-                                            <span>Class : `+cabin_class+` (`+msg.result.response.provider_bookings[i].journeys[j].segments[k].class_of_service+`)</span><br/>
+                                        <div class="col-lg-3" style="margin-bottom:10px;">
+                                            <div style="display:inline-flex;">
+                                                <div style="display:inline-block;">`;
+                                                    //OPERATED BY
+                                                    try{
+                                                        if(msg.result.response.provider_bookings[i].journeys[j].segments[k].hasOwnProperty('operating_airline_code') && msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code != msg.result.response.provider_bookings[i].journeys[j].segments[k].operating_airline_code && msg.result.response.provider_bookings[i].journeys[j].segments[k].operating_airline_code != '')
+                                                            text += `<img data-toggle="tooltip" class="airlines_provider_img" alt="`+airline_carriers[msg.result.response.provider_bookings[i].journeys[j].segments[k].operating_airline_code].name+`" title="`+airline_carriers[msg.result.response.provider_bookings[i].journeys[j].segments[k].operating_airline_code].name+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+msg.result.response.provider_bookings[i].journeys[j].segments[k].operating_airline_code+`.png"/>`;
+                                                        else
+                                                            text += `<img data-toggle="tooltip" class="airlines_provider_img" alt="`+airline_carriers[msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code].name+`" title="`+airline_carriers[msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code].name+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code+`.png"/>`;
+                                                    }catch(err){
+                                                        if(msg.result.response.provider_bookings[i].journeys[j].segments[k].hasOwnProperty('operating_airline_code') && msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code != msg.result.response.provider_bookings[i].journeys[j].segments[k].operating_airline_code && msg.result.response.provider_bookings[i].journeys[j].segments[k].operating_airline_code != '')
+                                                            text += `<img data-toggle="tooltip" class="airlines_provider_img" alt="`+msg.result.response.provider_bookings[i].journeys[j].segments[k].operating_airline_code+`" title="`+msg.result.response.provider_bookings[i].journeys[j].segments[k].operating_airline_code+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+msg.result.response.provider_bookings[i].journeys[j].segments[k].operating_airline_code+`.png"/>`;
+                                                        else
+                                                            text += `<img data-toggle="tooltip" class="airlines_provider_img" alt="`+msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code+`" title="`+msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code+`.png"/>`;
+                                                    }
+                                                text+=`
+                                                </div>
+                                                <div style="display:inline-block;">
+                                                    <span style="margin-top:15px; font-size:13px; font-weight:500;">`;
+                                                        if(msg.result.response.provider_bookings[i].journeys[j].segments[k].hasOwnProperty('operating_airline_code') && msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code != msg.result.response.provider_bookings[i].journeys[j].segments[k].operating_airline_code && msg.result.response.provider_bookings[i].journeys[j].segments[k].operating_airline_code != '')
+                                                            try{
+                                                                text+=`Operated By `+airline_carriers[msg.result.response.provider_bookings[i].journeys[j].segments[k].operating_airline_code].name+' '+msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_number;
+                                                            }catch(err){
+                                                                text+=`Operated By `+msg.result.response.provider_bookings[i].journeys[j].segments[k].operating_airline_code+' '+msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_number;
+                                                            }
+                                                        else
+                                                            text += msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_name+' '+msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_number;
+
+                                                        text+=`
+                                                    </span><br>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="col-lg-8" style="padding-top:10px;">`;
+                                        <div class="col-lg-9" style="padding-top:10px;">`;
+                                            for(l in msg.result.response.provider_bookings[i].journeys[j].segments[k].legs){
+                                                if(msg.result.response.provider_bookings[i].journeys[j].segments[k].hasOwnProperty('operating_airline_code') && msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code != msg.result.response.provider_bookings[i].journeys[j].segments[k].operating_airline_code && msg.result.response.provider_bookings[i].journeys[j].segments[k].operating_airline_code != ''){
+                                                    try{
+                                                        $text+=`Operated By `+airline_carriers[msg.result.response.provider_bookings[i].journeys[j].segments[k].operating_airline_code].name+' '+msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_number;
+                                                    }catch(err){
+                                                        $text+=`Operated By `+msg.result.response.provider_bookings[i].journeys[j].segments[k].operating_airline_code+' '+msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_number;
+                                                    }
+                                                }else{
+                                                    try{
+                                                        $text += airline_carriers[msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code].name + ' ' + msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_number;
+                                                    }catch(err){
+                                                        $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code + ' ' + msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_number;
+                                                    }
+                                                }
+                                                if(cabin_class != '')
+                                                    $text += ' ' + cabin_class + ' [' + msg.result.response.provider_bookings[i].journeys[j].segments[k].class_of_service + ']';
+                                                else
+                                                    $text += ' ' + cabin_class + ' [' + msg.result.response.provider_bookings[i].journeys[j].segments[k].class_of_service + ']';
+                                                $text += ' ';
+        //                                        $text += '\n\n';
+        //                                        $text += '‣ Departure:\n';
+        //                                        $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].origin_name + ' (' + msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].origin_city + ') ' + '\n';
+        //
+        //                                        $text += '\n';
+        //                                        $text += '‣ Arrival:\n';
+        //                                        $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination_name + ' (' + msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination_city + ') ' +'\n\n';
 
-                                    for(l in msg.result.response.provider_bookings[i].journeys[j].segments[k].legs){
-                                        if(msg.result.response.provider_bookings[i].journeys[j].segments[k].hasOwnProperty('operating_airline_code') && msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code != msg.result.response.provider_bookings[i].journeys[j].segments[k].operating_airline_code && msg.result.response.provider_bookings[i].journeys[j].segments[k].operating_airline_code != ''){
-                                            try{
-                                                $text+=`Operated By `+airline_carriers[msg.result.response.provider_bookings[i].journeys[j].segments[k].operating_airline_code].name+' '+msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_number;
-                                            }catch(err){
-                                                $text+=`Operated By `+msg.result.response.provider_bookings[i].journeys[j].segments[k].operating_airline_code+' '+msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_number;
-                                            }
-                                        }else{
-                                            try{
-                                                $text += airline_carriers[msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code].name + ' ' + msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_number;
-                                            }catch(err){
-                                                $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code + ' ' + msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_number;
-                                            }
-                                        }
-                                        if(cabin_class != '')
-                                            $text += ' ' + cabin_class + ' [' + msg.result.response.provider_bookings[i].journeys[j].segments[k].class_of_service + ']';
-                                        else
-                                            $text += ' ' + cabin_class + ' [' + msg.result.response.provider_bookings[i].journeys[j].segments[k].class_of_service + ']';
-                                        $text += ' ';
-//                                        $text += '\n\n';
-//                                        $text += '‣ Departure:\n';
-//                                        $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].origin_name + ' (' + msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].origin_city + ') ' + '\n';
-//
-//                                        $text += '\n';
-//                                        $text += '‣ Arrival:\n';
-//                                        $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination_name + ' (' + msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination_city + ') ' +'\n\n';
+        //                                        if(msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].arrival_date.split('  ')[0] == msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].departure_date.split('  ')[0]){
+        //                                            $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].departure_date.split('  ')[0]+' ';
+        //                                            $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].departure_date.split('  ')[1]+' - ';
+        //                                            $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].arrival_date.split('  ')[1]+'\n';
+        //                                        }else{
+        //                                            $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].departure_date.split('  ')[0]+' ';
+        //                                            $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].departure_date.split('  ')[1]+' - ';
+        //                                            $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].arrival_date.split('  ')[0]+' ';
+        //                                            $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].arrival_date.split('  ')[1]+'\n';
+        //                                        }
 
-//                                        if(msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].arrival_date.split('  ')[0] == msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].departure_date.split('  ')[0]){
-//                                            $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].departure_date.split('  ')[0]+' ';
-//                                            $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].departure_date.split('  ')[1]+' - ';
-//                                            $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].arrival_date.split('  ')[1]+'\n';
-//                                        }else{
-//                                            $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].departure_date.split('  ')[0]+' ';
-//                                            $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].departure_date.split('  ')[1]+' - ';
-//                                            $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].arrival_date.split('  ')[0]+' ';
-//                                            $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].arrival_date.split('  ')[1]+'\n';
-//                                        }
-
-                                        text+= `
-                                        <div class="row">
-                                            <div class="col-lg-6 col-xs-6">
-                                                <table style="width:100%">
-                                                    <tr>
-                                                        <td><h5>`;
+                                                text+= `
+                                                <div class="row">
+                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                        <h6>`;
                                                         if(msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].departure_date)
                                                             text+=msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].departure_date.split('  ')[1];
-                                                        else
-                                                            text+='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                                                        text+=`</h5></td>
-                                                        <td style="padding-left:15px;">
-                                                            <img src="/static/tt_website/images/icon/symbol/airlines-01.png" alt="Airline" style="width:20px; height:20px;"/>
-                                                        </td>
-                                                        <td style="height:30px;padding:0 15px;width:100%">
-                                                            <div style="display:inline-block;position:relative;width:100%">
-                                                                <div style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
-                                                                <div class="origin-code-snippet" style="background-color:#d4d4d4;right:-6px"></div>
-                                                                <div style="height:30px;min-width:40px;position:relative;width:0%"/>
+                                                        text+=`
+                                                        </h6>
+                                                        <span>`;
+                                                        if(msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].departure_date)
+                                                            text+=msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].departure_date.split('  ')[0];
+                                                        text+=`
+                                                        </span><br>
+                                                        <span style="font-weight:500;">`+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].origin_name+` - `+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].origin_city+` (`+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].origin+`)</span>`;
+                                                        if(msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].origin_terminal != ''){
+                                                            text+=`<br><span style="font-size:13px; font-weight:500;">Terminal: `+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].origin_terminal+`</span>`;
+                                                        }else{
+                                                            text+=`<br><span style="font-size:13px; font-weight:500;">Terminal: -</span>`;
+                                                        }
+                                                        text+=`
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                        <div style="text-align:center; position: absolute; left:-30%;">
+                                                            <div style="display:inline-block;position:relative;width:100px;z-index:1;">
+                                                                <img src="/static/tt_website/images/icon/symbol/airlines-01.png" alt="Airline" style="width:20px; height:20px; margin-top:5px; position:relative; z-index:99;">
+                                                                <div class="show_pc" style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
+                                                                <div class="show_pc origin-code-snippet" style="background-color:#d4d4d4;right:0px"></div>
                                                             </div>
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                                <span>`;
-                                                if(msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].departure_date)
-                                                    text+=msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].departure_date.split('  ')[0];
-                                                text+=`</span><br/>
-
-                                                <span style="font-weight:500;">`+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].origin_name+` - `+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].origin_city+` (`+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].origin+`)</span><br/>`;
-                                                if(msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].origin_terminal != ''){
-                                                    text+=`<span style="font-size:13px; font-weight:500;">Terminal: `+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].origin_terminal+`</span>`;
-                                                }else{
-                                                    text+=`<span style="font-size:13px; font-weight:500;">Terminal: -</span>`;
-                                                }
-                                            text+=`
-                                            </div>
-
-                                            <div class="col-lg-6 col-xs-6" style="padding:0;">
-                                                <table style="width:100%; margin-bottom:6px;">
-                                                    <tr>
-                                                        <td><h5>`;
-                                                        if(msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].arrival_date)
-                                                            text+=msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].arrival_date.split('  ')[1];
-                                                        else
-                                                            text+='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                                                        text+=`</h5></td>
-                                                        <td></td>
-                                                        <td style="height:30px;padding:0 15px;width:100%"></td>
-                                                    </tr>
-                                                </table>
-                                                <span>`;
-                                                if(msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].arrival_date)
-                                                    text+=msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].arrival_date.split('  ')[0];
-                                                else
-                                                    text+='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                                                text+=`</span><br/>
-
-                                                <span style="font-weight:500;">`+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination_name+` - `+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination_city+` (`+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination+`)</span><br/>`;
-                                                if(msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination_terminal != ''){
-                                                    text+=`<span style="font-size:13px; font-weight:500;">Terminal: `+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination_terminal+`</span>`;
-                                                }else{
-                                                    text+=`<span style="font-size:13px; font-weight:500;">Terminal: -</span>`;
-                                                }
-                                            text+=`
-                                            </div>
-                                        </div>`;
-                                    }
-                                    text+=`</div>
-                                    </div>`;
-                                    for(l in msg.result.response.provider_bookings[i].journeys[j].segments[k].fare_details){
-                                        add = true
-                                        for(m in fare_detail_list){
-                                            if(fare_detail_list[m].unit == msg.result.response.provider_bookings[i].journeys[j].segments[k].fare_details[l].unit && fare_detail_list[m].detail_name == msg.result.response.provider_bookings[i].journeys[j].segments[k].fare_details[l].detail_name)
-                                                add = false
-                                        }
-                                        if(add)
-                                            fare_detail_list.push(msg.result.response.provider_bookings[i].journeys[j].segments[k].fare_details[l]);
-                                    }
-                                    if(fare_detail_list.length > 0){
-                                        for(l in fare_detail_list){
-                                            if(l != 0)
-                                                $text += ', '
-                                            if(fare_detail_list[l].detail_type.includes('BG')){
-                                                $text += 'Baggage ';
-                                            }else if(fare_detail_list[l].detail_type == 'ML'){
-                                                $text += 'Meal ';
-                                            }else{
-                                                $text += fare_detail_list[l].detail_name;
+                                                        </div>
+                                                        <div style="text-align:right">
+                                                            <h6>`;
+                                                                if(msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].arrival_date)
+                                                                    text+=msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].arrival_date.split('  ')[1];
+                                                            text+=`
+                                                            </h6>
+                                                            <span>`;
+                                                            if(msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].arrival_date)
+                                                                text+=msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].arrival_date.split('  ')[0];
+                                                            text+=`
+                                                            </span><br>
+                                                            <span style="font-weight:500;">`+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination_name+` - `+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination_city+` (`+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination+`)</span>`;
+                                                            if(msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination_terminal != ''){
+                                                                text+=`<br/><span style="font-size:13px; font-weight:500;">Terminal: `+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination_terminal+`</span>`;
+                                                            }else{
+                                                                text+=`<br/><span style="font-size:13px; font-weight:500;">Terminal: -</span>`;
+                                                            }
+                                                            text+=`
+                                                        </div>
+                                                    </div>
+                                                </div>`;
                                             }
-                                            $text += fare_detail_list[l].amount + ' ' + fare_detail_list[l].unit + ' ';
-                                            if(fare_detail_list[l].detail_name != '' && fare_detail_list[l].detail_name.includes('default_ssr') == false && !fare_detail_list[l].detail_name.includes(fare_detail_list[l].amount.toString()))
-                                                $text += fare_detail_list[l].detail_name;
-                                        }
-                                        $text += '\n';
-                                    }
 
+                                            for(l in msg.result.response.provider_bookings[i].journeys[j].segments[k].fare_details){
+                                                add = true
+                                                for(m in fare_detail_list){
+                                                    if(fare_detail_list[m].unit == msg.result.response.provider_bookings[i].journeys[j].segments[k].fare_details[l].unit && fare_detail_list[m].detail_name == msg.result.response.provider_bookings[i].journeys[j].segments[k].fare_details[l].detail_name)
+                                                        add = false
+                                                }
+                                                if(add)
+                                                    fare_detail_list.push(msg.result.response.provider_bookings[i].journeys[j].segments[k].fare_details[l]);
+                                            }
+                                            if(fare_detail_list.length > 0){
+                                                for(l in fare_detail_list){
+                                                    if(l != 0)
+                                                        $text += ', '
+                                                    if(fare_detail_list[l].detail_type.includes('BG')){
+                                                        $text += 'Baggage ';
+                                                    }else if(fare_detail_list[l].detail_type == 'ML'){
+                                                        $text += 'Meal ';
+                                                    }else{
+                                                        $text += fare_detail_list[l].detail_name;
+                                                    }
+                                                    $text += fare_detail_list[l].amount + ' ' + fare_detail_list[l].unit + ' ';
+                                                    if(fare_detail_list[l].detail_name != '' && fare_detail_list[l].detail_name.includes('default_ssr') == false && !fare_detail_list[l].detail_name.includes(fare_detail_list[l].amount.toString()))
+                                                        $text += fare_detail_list[l].detail_name;
+                                                }
+                                                $text += '\n';
+                                            }
 
-                                    // TEXT COPY //
-                                    for(l in msg.result.response.provider_bookings[i].journeys[j].segments[k].legs){
-                                        $text += '- Departure: ' + msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].origin_city + ', ' + msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].origin_country + ' (' + msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].origin + ') ';
-                                        if(msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].departure_date){
-                                            datetime_copy = moment(msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].departure_date, 'DD MMM YYYY  HH:mm').format('ddd, DD MMM YYYY  HH:mm').split('  ');
-                                            $text += datetime_copy[0] + ' at ' + datetime_copy[1] + '\n';
-                                        }
-                                        //terminal
-                                        if(msg.result.response.provider_bookings[i].journeys[j].segments[k].origin_terminal && msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].origin == msg.result.response.provider_bookings[i].journeys[j].segments[k].origin)
-                                            $text += '- Terminal: ' + msg.result.response.provider_bookings[i].journeys[j].segments[k].origin_terminal + '\n';
-                                        $text += '- Arrival: ' + msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination_city + ', ' + msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination_country + ' (' + msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination + ') ';
-                                        if(msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].arrival_date){
-                                            datetime_copy = moment(msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].arrival_date, 'DD MMM YYYY  HH:mm').format('ddd, DD MMM YYYY  HH:mm').split('  ');
-                                            $text += datetime_copy[0] + ' at ' + datetime_copy[1] + '\n';
-                                        }
-                                        //terminal
-                                        if(msg.result.response.provider_bookings[i].journeys[j].segments[k].destination_terminal && msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination == msg.result.response.provider_bookings[i].journeys[j].segments[k].destination)
-                                            $text += '- Terminal: ' + msg.result.response.provider_bookings[i].journeys[j].segments[k].destination_terminal + '\n';
-                                        $text += '\n';
-                                    }
+                                            // TEXT COPY //
+                                            for(l in msg.result.response.provider_bookings[i].journeys[j].segments[k].legs){
+                                                $text += '- Departure: ' + msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].origin_city + ', ' + msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].origin_country + ' (' + msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].origin + ') ';
+                                                if(msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].departure_date){
+                                                    datetime_copy = moment(msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].departure_date, 'DD MMM YYYY  HH:mm').format('ddd, DD MMM YYYY  HH:mm').split('  ');
+                                                    $text += datetime_copy[0] + ' at ' + datetime_copy[1] + '\n';
+                                                }
+                                                //terminal
+                                                if(msg.result.response.provider_bookings[i].journeys[j].segments[k].origin_terminal && msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].origin == msg.result.response.provider_bookings[i].journeys[j].segments[k].origin)
+                                                    $text += '- Terminal: ' + msg.result.response.provider_bookings[i].journeys[j].segments[k].origin_terminal + '\n';
+                                                $text += '- Arrival: ' + msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination_city + ', ' + msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination_country + ' (' + msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination + ') ';
+                                                if(msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].arrival_date){
+                                                    datetime_copy = moment(msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].arrival_date, 'DD MMM YYYY  HH:mm').format('ddd, DD MMM YYYY  HH:mm').split('  ');
+                                                    $text += datetime_copy[0] + ' at ' + datetime_copy[1] + '\n';
+                                                }
+                                                //terminal
+                                                if(msg.result.response.provider_bookings[i].journeys[j].segments[k].destination_terminal && msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination == msg.result.response.provider_bookings[i].journeys[j].segments[k].destination)
+                                                    $text += '- Terminal: ' + msg.result.response.provider_bookings[i].journeys[j].segments[k].destination_terminal + '\n';
+                                                $text += '\n';
+                                            }
+                                            text+=`
+                                            <b>Class : `+cabin_class+` (`+msg.result.response.provider_bookings[i].journeys[j].segments[k].class_of_service+`)</b><br/>
+                                        </div>
+                                    </div>`;
                                 }
                                 if(fare_detail_list.length > 0){
+                                    text += `<div style="margin-top:10px;"></div>`;
                                     for(l in fare_detail_list){
                                         if(fare_detail_list[l].detail_type.includes('BG')){
                                             text+=`<i class="fas fa-suitcase"></i><span style="font-weight:500;" class="copy_suitcase_details"> `+fare_detail_list[l].amount+` `+fare_detail_list[l].unit+` for 1 person</span><br/>`;
@@ -9091,7 +9162,7 @@ function airline_get_booking(data, sync=false){
                                         text+=`<br/>`;
                                     text += `<span>`+msg.result.response.provider_bookings[i].duplicates[j]+`</span>`;
                                 }
-                                text += `<br/>`;
+                                text += `<div style="margin-top:10px;"></div>`;
                             }
                             if(msg.result.response.provider_bookings[i].hasOwnProperty('pnr_references') && msg.result.response.provider_bookings[i].pnr_references.length){
                                 text += `<br/><h5>Other Info</h5>`;
@@ -9100,7 +9171,7 @@ function airline_get_booking(data, sync=false){
                                         text+=`<br/>`;
                                     text += `<span>`+msg.result.response.provider_bookings[i].pnr_references[j]+`</span>`;
                                 }
-                                text += `<br/>`;
+                                text += `<div style="margin-top:10px;"></div>`;
                             }
 
                             try{
@@ -9115,23 +9186,11 @@ function airline_get_booking(data, sync=false){
                                 console.log(err); // error kalau ada element yg tidak ada
                             }
                             for(j in msg.result.response.provider_bookings[i].rules){
-                                text += `
-                                    <span id="span-tac-up`+rules+`" class="carrier_code_template" style="display: block; cursor: pointer;" onclick="show_hide_tac(`+rules+`);"> `+msg.result.response.provider_bookings[i].rules[j].name+` <i class="fas fa-chevron-down"></i></span>
-                                    <span id="span-tac-down`+rules+`" class="carrier_code_template" style="display: none; cursor: pointer;" onclick="show_hide_tac(`+rules+`);"> `+msg.result.response.provider_bookings[i].rules[j].name+` <i class="fas fa-chevron-up"></i></span>
-                                    <div id="div-tac`+rules+`" style="display: none; max-height: 175px; overflow-y: auto; padding: 15px;">
-                                `;
+                                text_rules = '';
                                 for(k in msg.result.response.provider_bookings[i].rules[j].description){
-                                    text += `
-                                        <div class="row">
-                                            <div class="col-lg-1 col-xs-1 col-md-1">
-                                                <i class="fas fa-circle" style="font-size:9px;margin-left:15px;"></i>
-                                            </div>
-                                            <div class="col-lg-11 col-xs-11 col-md-11" style="padding:0">
-                                                <span style="font-weight:400;"> `+msg.result.response.provider_bookings[i].rules[j].description[k]+`</span><br>
-                                            </div>
-                                        </div>`;
+                                    text_rules += `<span style="font-weight:400;"> `+msg.result.response.provider_bookings[i].rules[j].description[k]+`</span>`;
                                 }
-                                text += `</div>`;
+                                text += `<span id="span-tac-up`+rules+`" class="carrier_code_template" style="display: inline-block; cursor: pointer; margin-right:15px; margin-bottom:10px; border-radius:5px; border: 1px solid #cdcdcd; padding:5px 10px;" onclick="content_modal_custom('myModalDetail','myModalContent', '`+msg.result.response.provider_bookings[i].rules[j].name+`', text_rules);">`+msg.result.response.provider_bookings[i].rules[j].name+` <i class="fas fa-chevron-down"></i></span>`;
                                 rules++;
                             }
                         }
@@ -9150,490 +9209,202 @@ function airline_get_booking(data, sync=false){
                     title = 'MR';
 
                 text+=`
-                <div style="border:1px solid #cdcdcd; padding:15px; background-color:white; margin-top:20px;">
-                    <div class="row">
-                        <div class="col-lg-12 mb-3" style="border-bottom: 1px solid #cdcdcd;">
-                            <h4 class="mb-3"><i class="fas fa-user"></i> Booker</h4>
-                        </div>
-                    </div>
-                    <h5>
-                        `+title+` `+msg.result.response.booker.name+`
-                    </h5>
-                    <b>Email: </b><i>`+msg.result.response.booker.email+`</i><br>`;
-                    if(msg.result.response.booker.phones.length > 0){
-                        text+=`<b>Phone: </b><i>`+msg.result.response.booker.phones[0].calling_code+' - '+msg.result.response.booker.phones[0].calling_number+`</i><br>`;
-                    }
-                text+=`
-                </div>
-                <div style="border:1px solid #cdcdcd; padding:15px; background-color:white; margin-top:20px;">
-                    <div class="row">
-                        <div class="col-lg-12 mb-3" style="border-bottom: 1px solid #cdcdcd;">
-                            <h4 class="mb-3"><i class="fas fa-user"></i> Contact Person</h4>
-                        </div>
-                    </div>
-                    <h5>
-                        `+msg.result.response.contact.title+` `+msg.result.response.contact.name+`
-                    </h5>
-                    <b>Email: </b><i>`+msg.result.response.contact.email+`</i><br>
-                    <b>Phone: </b><i>`+msg.result.response.contact.phone+`</i><br>
-                </div>`;
-
-                if(msg.result.response.hasOwnProperty('reschedule_list') == true){
-//                    $text += 'Order Number: '+ msg.result.response.order_number + '\n';
-    //                $text += msg.result.response.state_description + '\n';
-                    if(msg.result.response.reschedule_list.length>0){
-                        text+=`
-                        <div style="background-color:white; padding:15px; border:1px solid #cdcdcd;margin-top:20px;">
+                <div class="row">
+                    <div class="col-lg-6 mb-3">
+                        <div class="div_box_default">
                             <div class="row">
                                 <div class="col-lg-12 mb-3" style="border-bottom: 1px solid #cdcdcd;">
-                                    <h4 class="mb-3"><i class="fas fa-history"></i> History</h4>
-                                </div>
-                                <div class="col-lg-12">`;
-                                check = 0;
-                                for(i in msg.result.response.reschedule_list){
-                                    rs_total_amt = msg.result.response.reschedule_list[i].total_amount;
-                                    for(j in msg.result.response.passengers){
-                                        try{
-                                            if(airline_get_detail.result.response.passengers[j].channel_service_charges.amount_rs.hasOwnProperty(msg.result.response.reschedule_list[i].reschedule_number))
-                                            {
-                                                rs_total_amt += airline_get_detail.result.response.passengers[j].channel_service_charges.amount_rs[msg.result.response.reschedule_list[i].reschedule_number];
-                                            }
-                                        }catch(err){
-                                            console.log(err); // error kalau ada element yg tidak ada
-                                        }
-                                    }
-
-                                    flight_counter = 1;
-                                    if(i != 0){
-                                        text+=`<hr/>`;
-                                    }
-
-                                    text+=`
-                                    <div class="row">
-                                        <div class="col-lg-6">`;
-                                        reschedule_type = '';
-                                        for(j in msg.result.response.reschedule_list[i].reschedule_lines){
-                                            reschedule_type = msg.result.response.reschedule_list[i].reschedule_lines[j].after_sales_type;
-                                        }
-                                        text+=`<h6>`+reschedule_type.substr(0,1).toUpperCase()+reschedule_type.substr(1,reschedule_type.length)+`: `+msg.result.response.reschedule_list[i].reschedule_number+`</h6>`;
-                                        text+=`
-                                            <b style="background:white; font-size:13px; color:black; padding:0px 15px; display:unset; border: 1px solid #cdcdcd; border-radius:7px;">
-                                                <i class="fas fa-user"></i> `;
-
-                                                if(['draft', 'cancel', 'cancel2'].includes(msg.result.response.reschedule_list[i].state)){
-                                                    text+='Update History';
-                                                }else{
-                                                    text+='Paid';
-                                                }
-                                            text+=`
-                                            </b>
-                                        </div>
-                                        <div class="col-lg-6" style="text-align:right;">`;
-                                            tes = moment.utc(msg.result.response.reschedule_list[i].create_date).format('YYYY-MM-DD HH:mm:ss')
-                                            localTime  = moment.utc(tes).toDate();
-                                            try{
-                                                reschedule_time = moment(localTime).format('DD MMM YYYY HH:mm') + ' ' + gmt + timezone ;
-                                            }catch(err){
-                                                reschedule_time = moment(localTime).format('DD MMM YYYY HH:mm');
-                                            }
-                                            text+= '<b>' + reschedule_time + '</b>';
-                                        text+=`
-                                        </div>
-                                        <div class="col-lg-12" style="text-align:right;">`;
-                                            if(msg.result.response.reschedule_list[i].state.includes('validate')){
-                                                text+=`<h5>Please Reconfirm to HO</h5>`
-                                            }
-                                            text+=`
-                                        </div>
-                                        <div class="col-lg-12" style="text-align:right;">
-                                            <b style="color:`+color+`; font-size:16px;">`+currency+` `+getrupiah(rs_total_amt)+`</b>
-                                        </div>
-                                    </div>
-
-                                    <div class="row" style="padding:15px;">`;
-                                        if(msg.result.response.reschedule_list[i].old_segments.length > 0){
-                                            text+=`
-                                            <div class="col-lg-6" style="border:1px solid #cdcdcd; padding:0px;">
-                                                <div style="padding:15px; text-align:center; background: #f7f7f7;">
-                                                    <h4 style="color:`+color+`">OLD</h4>
-                                                </div>
-                                                <div style="padding:15px;">`;
-                                                for(j in msg.result.response.reschedule_list[i].old_segments){
-                                                    text+=`<h5>PNR: `+msg.result.response.reschedule_list[i].old_segments[j].pnr+`</h5>`;
-                                                    var cabin_class = '';
-                                                    //yang baru harus diganti
-                                                    if(msg.result.response.reschedule_list[i].old_segments[j].cabin_class == 'Y')
-                                                        cabin_class = 'Economy Class';
-                                                    else if(msg.result.response.reschedule_list[i].old_segments[j].carrier_code == 'QG' && msg.result.response.reschedule_list[i].old_segments[j].cabin_class == 'W')
-                                                        cabin_class = 'Royal Green Class';
-                                                    else if(msg.result.response.reschedule_list[i].old_segments[j].cabin_class == 'W')
-                                                        cabin_class = 'Premium Economy Class';
-                                                    else if(msg.result.response.reschedule_list[i].old_segments[j].cabin_class == 'C')
-                                                        cabin_class = 'Business Class';
-                                                    else if(msg.result.response.reschedule_list[i].old_segments[j].cabin_class == 'F')
-                                                        cabin_class = 'First Class';
-                                                    for(k in msg.result.response.reschedule_list[i].old_segments[j].legs){
-                                                        text+= `
-                                                        <div class="row">
-                                                            <div class="col-lg-4">`;
-                                                            try{
-                                                                text += `<img data-toggle="tooltip" style="width:50px; height:50px;" alt="`+airline_carriers[msg.result.response.reschedule_list[i].old_segments[j].carrier_code].name+`" title="`+airline_carriers[msg.result.response.reschedule_list[i].old_segments[j].carrier_code].name+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+msg.result.response.reschedule_list[i].old_segments[j].carrier_code+`.png"/>`;
-                                                            }catch(err){
-                                                                text += `<img data-toggle="tooltip" style="width:50px; height:50px;" alt="`+msg.result.response.reschedule_list[i].old_segments[j].carrier_code+`" title="`+msg.result.response.reschedule_list[i].old_segments[j].carrier_code+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+msg.result.response.reschedule_list[i].old_segments[j].carrier_code+`.png"/>`;
-                                                            }
-                                                            text+=`<h5>`+msg.result.response.reschedule_list[i].old_segments[j].carrier_name+' '+msg.result.response.reschedule_list[i].old_segments[j].carrier_number+`</h5>
-                                                                <span>Class : `+cabin_class+` (`+msg.result.response.reschedule_list[i].old_segments[j].class_of_service+`)</span><br/>
-                                                            </div>
-                                                            <div class="col-lg-8" style="padding-top:10px;">
-                                                                <div class="row">
-                                                                    <div class="col-lg-6 col-xs-6">
-                                                                        <table style="width:100%">
-                                                                            <tr>
-                                                                                <td><h5>`;
-                                                                                if(msg.result.response.reschedule_list[i].old_segments[j].legs[k].departure_date)
-                                                                                    text+=msg.result.response.reschedule_list[i].old_segments[j].legs[k].departure_date.split('  ')[1];
-                                                                                else
-                                                                                    text+='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                                                                                text+=`</h5></td>
-                                                                                <td style="padding-left:15px;">
-                                                                                    <img src="/static/tt_website/images/icon/symbol/airlines-01.png" alt="Airline" style="width:20px; height:20px;"/>
-                                                                                </td>
-                                                                                <td style="height:30px;padding:0 15px;width:100%">
-                                                                                    <div style="display:inline-block;position:relative;width:100%">
-                                                                                        <div style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
-                                                                                        <div class="origin-code-snippet" style="background-color:#d4d4d4;right:-6px"></div>
-                                                                                        <div style="height:30px;min-width:40px;position:relative;width:0%"/>
-                                                                                    </div>
-                                                                                </td>
-                                                                            </tr>
-                                                                        </table>
-                                                                        <span>`;
-                                                                        if(msg.result.response.reschedule_list[i].old_segments[j].legs[k].departure_date)
-                                                                            text+=msg.result.response.reschedule_list[i].old_segments[j].legs[k].departure_date.split('  ')[0];
-                                                                        else
-                                                                            text+='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                                                                        text+=`</span><br/>
-                                                                        <span style="font-weight:500;">`+msg.result.response.reschedule_list[i].old_segments[j].legs[k].origin_name+` - `+msg.result.response.reschedule_list[i].old_segments[j].legs[k].origin_city+` (`+msg.result.response.reschedule_list[i].old_segments[j].legs[k].origin+`)</span>
-                                                                    </div>
-
-                                                                    <div class="col-lg-6 col-xs-6" style="padding:0;">
-                                                                        <table style="width:100%; margin-bottom:6px;">
-                                                                            <tr>
-                                                                                <td><h5>`;
-                                                                                if(msg.result.response.reschedule_list[i].old_segments[j].legs[k].arrival_date)
-                                                                                    text+=msg.result.response.reschedule_list[i].old_segments[j].legs[k].arrival_date.split('  ')[1];
-                                                                                else
-                                                                                    text+='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                                                                                text+=`</h5></td>
-                                                                                <td></td>
-                                                                                <td style="height:30px;padding:0 15px;width:100%"></td>
-                                                                            </tr>
-                                                                        </table>
-                                                                        <span>`+msg.result.response.reschedule_list[i].old_segments[j].legs[k].arrival_date.split('  ')[0]+`</span><br/>
-                                                                        <span style="font-weight:500;">`+msg.result.response.reschedule_list[i].old_segments[j].legs[k].destination_name+` - `+msg.result.response.reschedule_list[i].old_segments[j].legs[k].destination_city+` (`+msg.result.response.reschedule_list[i].old_segments[j].legs[k].destination+`)</span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>`;
-                                                    }
-                                                }
-                                                text+=`
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6" style="border:1px solid #cdcdcd; padding:0px;">
-                                                <div style="padding:15px; text-align:center; background: `+color+`;">
-                                                    <h4 style="color:white">New</h4>
-                                                </div>
-                                                <div style="padding:15px;">`;
-                                                for(j in msg.result.response.reschedule_list[i].new_segments){
-                                                    text+=`<h5>PNR: `+msg.result.response.reschedule_list[i].new_segments[j].pnr+`</h5>`;
-                                                    flight_counter++;
-                                                    var cabin_class = '';
-                                                    //yang baru harus diganti
-                                                    if(msg.result.response.reschedule_list[i].new_segments[j].cabin_class == 'Y')
-                                                        cabin_class = 'Economy Class';
-                                                    else if(msg.result.response.reschedule_list[i].new_segments[j].carrier_code == 'QG' && msg.result.response.reschedule_list[i].new_segments[j].cabin_class == 'W')
-                                                        cabin_class = 'Royal Green Class';
-                                                    else if(msg.result.response.reschedule_list[i].new_segments[j].cabin_class == 'W')
-                                                        cabin_class = 'Premium Economy Class';
-                                                    else if(msg.result.response.reschedule_list[i].new_segments[j].cabin_class == 'C')
-                                                        cabin_class = 'Business Class';
-                                                    else if(msg.result.response.reschedule_list[i].new_segments[j].cabin_class == 'F')
-                                                        cabin_class = 'First Class';
-                                                    for(k in msg.result.response.reschedule_list[i].new_segments[j].legs){
-                                                        text+= `
-                                                        <div class="row">
-                                                            <div class="col-lg-4">`;
-                                                            try{
-                                                                text += `<img data-toggle="tooltip" style="width:50px; height:50px;" alt="`+airline_carriers[msg.result.response.reschedule_list[i].new_segments[j].carrier_code].name+`" title="`+airline_carriers[msg.result.response.reschedule_list[i].new_segments[j].carrier_code].name+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+msg.result.response.reschedule_list[i].new_segments[j].carrier_code+`.png"/>`;
-                                                            }catch(err){
-                                                                text += `<img data-toggle="tooltip" style="width:50px; height:50px;" alt="`+msg.result.response.reschedule_list[i].new_segments[j].carrier_code+`" title="`+msg.result.response.reschedule_list[i].new_segments[j].carrier_code+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+msg.result.response.reschedule_list[i].new_segments[j].carrier_code+`.png"/>`;
-                                                            }
-                                                            text+=`<h5>`+msg.result.response.reschedule_list[i].new_segments[j].carrier_name+' '+msg.result.response.reschedule_list[i].new_segments[j].carrier_number+`</h5>
-                                                                <span>Class : `+cabin_class+` (`+msg.result.response.reschedule_list[i].new_segments[j].class_of_service+`)</span><br/>
-                                                            </div>
-                                                            <div class="col-lg-8" style="padding-top:10px;">
-                                                                <div class="row">
-                                                                    <div class="col-lg-6 col-xs-6">
-                                                                        <table style="width:100%">
-                                                                            <tr>
-                                                                                <td><h5>`;
-                                                                                if(msg.result.response.reschedule_list[i].new_segments[j].legs[k].departure_date)
-                                                                                    text+=msg.result.response.reschedule_list[i].new_segments[j].legs[k].departure_date.split('  ')[1];
-                                                                                else
-                                                                                    text+='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                                                                                text+=`</h5></td>
-                                                                                <td style="padding-left:15px;">
-                                                                                    <img src="/static/tt_website/images/icon/symbol/airlines-01.png" alt="Airline" style="width:20px; height:20px;"/>
-                                                                                </td>
-                                                                                <td style="height:30px;padding:0 15px;width:100%">
-                                                                                    <div style="display:inline-block;position:relative;width:100%">
-                                                                                        <div style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
-                                                                                        <div class="origin-code-snippet" style="background-color:#d4d4d4;right:-6px"></div>
-                                                                                        <div style="height:30px;min-width:40px;position:relative;width:0%"/>
-                                                                                    </div>
-                                                                                </td>
-                                                                            </tr>
-                                                                        </table>
-                                                                        <span>`;
-                                                                        if(msg.result.response.reschedule_list[i].new_segments[j].legs[k].departure_date)
-                                                                            text+=msg.result.response.reschedule_list[i].new_segments[j].legs[k].departure_date.split('  ')[0];
-                                                                        else
-                                                                            text+='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                                                                        text+=`</span><br/>
-                                                                        <span style="font-weight:500;">`+msg.result.response.reschedule_list[i].new_segments[j].legs[k].origin_name+` - `+msg.result.response.reschedule_list[i].new_segments[j].legs[k].origin_city+` (`+msg.result.response.reschedule_list[i].new_segments[j].legs[k].origin+`)</span>
-                                                                    </div>
-
-                                                                    <div class="col-lg-6 col-xs-6" style="padding:0;">
-                                                                        <table style="width:100%; margin-bottom:6px;">
-                                                                            <tr>
-                                                                                <td><h5>`;
-                                                                                if(msg.result.response.reschedule_list[i].new_segments[j].legs[k].arrival_date)
-                                                                                    text+=msg.result.response.reschedule_list[i].new_segments[j].legs[k].arrival_date.split('  ')[1];
-                                                                                else
-                                                                                    text+='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                                                                                text+=`</h5></td>
-                                                                                <td></td>
-                                                                                <td style="height:30px;padding:0 15px;width:100%"></td>
-                                                                            </tr>
-                                                                        </table>
-                                                                        <span>`+msg.result.response.reschedule_list[i].new_segments[j].legs[k].arrival_date.split('  ')[0]+`</span><br/>
-                                                                        <span style="font-weight:500;">`+msg.result.response.reschedule_list[i].new_segments[j].legs[k].destination_name+` - `+msg.result.response.reschedule_list[i].new_segments[j].legs[k].destination_city+` (`+msg.result.response.reschedule_list[i].new_segments[j].legs[k].destination+`)</span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>`;
-                                                    }
-                                                }
-                                                text+=`
-                                                </div>
-                                            </div>`;
-                                        }
-                                        else{
-                                            if(msg.result.response.reschedule_list[i].hasOwnProperty('old_fee_notes') && msg.result.response.reschedule_list[i].hasOwnProperty('new_fee_notes'))
-                                                text += `
-                                                <div class="col-lg-6" style="border:1px solid #cdcdcd; padding:0px;">
-                                                    <div style="padding:15px; text-align:center; background: #f7f7f7;">
-                                                        <a id="reschedule_old_`+i+`" data-toggle="collapse" data-parent="#accordiondepart" onclick="reschedule_list_details(`+i+`,'old');" href="#detail_reschedule_list_old_`+i+`" style="color: #237395; text-decoration: unset;" aria-expanded="true">
-                                                            <span class="detail-link" style="font-weight: bold; display:none;" id="reschedule_list_details_old_up`+i+`"> Old <i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
-                                                            <span class="detail-link" style="font-weight: bold; display:block;" id="reschedule_list_details_old_down`+i+`"> Old <i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
-                                                        </a>
-                                                    </div>
-                                                    <div id="detail_reschedule_list_old_`+i+`" class="panel-collapse collapse in" aria-expanded="true" style="padding:15px; display:none;">
-                                                        `+msg.result.response.reschedule_list[i].old_fee_notes.replaceAll('\n','<br/>')+`
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6" style="border:1px solid #cdcdcd; padding:0px;">
-                                                    <div style="padding:15px; text-align:center; background: `+color+`;">
-                                                        <a id="reschedule_new_`+i+`" data-toggle="collapse" data-parent="#accordiondepart" onclick="reschedule_list_details(`+i+`,'new');" href="#detail_reschedule_list_new_`+i+`" style="color: #237395; text-decoration: unset;" aria-expanded="true">
-                                                            <span class="detail-link" style="font-weight: bold; display:none; color:white;" id="reschedule_list_details_new_up`+i+`"> New <i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
-                                                            <span class="detail-link" style="font-weight: bold; display:block; color:white;" id="reschedule_list_details_new_down`+i+`"> New <i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
-                                                        </a>
-                                                    </div>
-
-                                                    <div id="detail_reschedule_list_new_`+i+`" class="panel-collapse collapse in" aria-expanded="true" style="padding:15px; display:none;">
-                                                        `+msg.result.response.reschedule_list[i].new_fee_notes.replaceAll('\n','<br/>')+`
-                                                    </div>
-                                                </div>`;
-                                        }
-                                    text +=`
-                                    </div>
-
-                                    <div class="row" style="padding-top:15px; border-top:1px solid #cdcdcd;">`;
-                                        if(msg.result.response.reschedule_list[i].state.includes('cancel') == false){
-                                            text+=`
-                                            <div class="col-lg-6 col-xs-6">
-                                                <button type="button" id="button-print-reschedule-invoice" class="primary-btn ld-ext-right" style="width:100%;" onclick="get_printout('`+msg.result.response.order_number+`', 'reschedule','airline','reschedule','`+msg.result.response.reschedule_list[i].reschedule_number+`');">
-                                                    Print Reschedule
-                                                    <div class="ld ld-ring ld-cycle"></div>
-                                                </button>
-                                            </div>
-                                            <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                                                <a class="issued-booking-train ld-ext-right" style="color:`+text_color+`;">
-                                                    <input type="button" class="primary-btn" style="width:100%;" data-toggle="modal" data-target="#printInvoiceReschedule`+i+`" value="Print Invoice Reschedule"/>
-                                                    <div class="ld ld-ring ld-cycle"></div>
-                                                </a>
-                                            </div>
-                                            <div class="modal fade" id="printInvoiceReschedule`+i+`" role="dialog" data-keyboard="false">
-                                                <div class="modal-dialog">
-                                                    <!-- Modal content-->
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h4 class="modal-title">Invoice Reschedule</h4>
-                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <div class="row">
-                                                                <div class="col-lg-12 mb-2">
-                                                                    <span class="control-label" for="Name">Name</span>
-                                                                    <div class="input-container-search-ticket">
-                                                                        <input type="text" class="form-control o_website_form_input" id="bill_name" name="bill_name" placeholder="Name" required="1"/>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-lg-12 mb-2">
-                                                                    <span class="control-label" for="Address">Address</span>
-                                                                    <div class="input-container-search-ticket">
-                                                                        <textarea class="form-control"style="width:100%; height:70px; resize: none;" rows="4" id="bill_address" name="bill_address" placeholder="Address"></textarea>
-                                                                        <!--<input type="text" class="form-control o_website_form_input" id="bill_name" name="bill_address" placeholder="Address" required="1"/>-->
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-lg-12 mb-2">
-                                                                    <span class="control-label" for="Additional Information">Additional Information</span>
-                                                                    <div class="input-container-search-ticket">
-                                                                        <textarea class="form-control" style="width:100%; height:70px; resize: none;" rows="4" id="additional_information" name="additional_information" placeholder="Additional Information"></textarea>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <br/>
-                                                            <div style="text-align:right;">
-                                                                <span>Don't want to edit? just submit</span>
-                                                                <br/>
-                                                                <button type="button" id="button-issued-print" class="primary-btn ld-ext-right" onclick="get_printout('`+msg.result.response.order_number+`', 'invoice','airline','reschedule', '`+msg.result.response.reschedule_list[i].reschedule_number+`');">
-                                                                    Submit
-                                                                    <div class="ld ld-ring ld-cycle"></div>
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>`;
-                                        }
-                                        text+=`
-                                    </div>`;
-                                }
-                                text+=`
+                                    <h4 class="mb-3"><i class="fas fa-user"></i> Booker</h4>
                                 </div>
                             </div>
-                        </div>`;
-                    }
-                }
+                            <div style="display:inline-flex;">
+                                <div>`;
+                                    if(title == "MR"){
+                                        text+=`<img src="/static/tt_website/images/icon/symbol/user_mr.png" alt="User MR" class="picture_passenger_small">`;
+                                    }
+                                    else if(title == "MRS"){
+                                        text+=`<img src="/static/tt_website/images/icon/symbol/user_mrs.png" alt="User MRS" class="picture_passenger_small">`;
+                                    }
+                                    else if(title == "MS"){
+                                        text+=`<img src="/static/tt_website/images/icon/symbol/user_ms.png" alt="User MS" class="picture_passenger_small">`;
+                                    }
+                                    else if(title == "MSTR"){
+                                        text+=`<img src="/static/tt_website/images/icon/symbol/user_mistr.png" alt="User MSTR" class="picture_passenger_small">`;
+                                    }
+                                    else if(title == "MISS"){
+                                        text+=`<img src="/static/tt_website/images/icon/symbol/user_miss.png" alt="User MISS" class="picture_passenger_small">`;
+                                    }
+                                    text+=`
+                                </div>
+                                <div style="margin-left:10px;">
+                                    <h5>
+                                        `+title+` `+msg.result.response.booker.name+`
+                                    </h5>
+                                    <b>Email: </b><i>`+msg.result.response.booker.email+`</i>`;
+                                    if(msg.result.response.booker.phones.length > 0){
+                                        text+=`<br><b>Phone: </b><i>`+msg.result.response.booker.phones[0].calling_code+' - '+msg.result.response.booker.phones[0].calling_number+`</i><br>`;
+                                    }
+                                    text+=`
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mb-3">
+                        <div class="div_box_default">
+                            <div class="row">
+                                <div class="col-lg-12 mb-3" style="border-bottom: 1px solid #cdcdcd;">
+                                    <h4 class="mb-3"><i class="fas fa-address-book"></i> Contact Person</h4>
+                                </div>
+                            </div>
+                            <div style="display:inline-flex;">
+                                <div>`;
+                                    if(msg.result.response.contact.title == "MR"){
+                                        text+=`<img src="/static/tt_website/images/icon/symbol/user_mr.png" alt="User MR" class="picture_passenger_small">`;
+                                    }
+                                    else if(msg.result.response.contact.title == "MRS"){
+                                        text+=`<img src="/static/tt_website/images/icon/symbol/user_mrs.png" alt="User MRS" class="picture_passenger_small">`;
+                                    }
+                                    else if(msg.result.response.contact.title == "MS"){
+                                        text+=`<img src="/static/tt_website/images/icon/symbol/user_ms.png" alt="User MS" class="picture_passenger_small">`;
+                                    }
+                                    else if(msg.result.response.contact.title == "MSTR"){
+                                        text+=`<img src="/static/tt_website/images/icon/symbol/user_mistr.png" alt="User MSTR" class="picture_passenger_small">`;
+                                    }
+                                    else if(msg.result.response.contact.title == "MISS"){
+                                        text+=`<img src="/static/tt_website/images/icon/symbol/user_miss.png" alt="User MISS" class="picture_passenger_small">`;
+                                    }
+                                    text+=`
+                                </div>
+                                <div style="margin-left:10px;">
+                                    <h5>
+                                        `+msg.result.response.contact.title+` `+msg.result.response.contact.name+`
+                                    </h5>
+                                    <b>Email: </b><i>`+msg.result.response.contact.email+`</i><br>
+                                    <b>Phone: </b><i>`+msg.result.response.contact.phone+`</i><br>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>`;
 
                 text+=`
-                <div style="border:1px solid #cdcdcd; padding:15px; background-color:white; margin-top:20px;">
+                <div class="div_box_default" style="margin-bottom:15px;">
                     <div class="row">
-                        <div class="col-lg-12 mb-3" style="border-bottom: 1px solid #cdcdcd;">
-                            <h4 class="mb-3"><i class="fas fa-users"></i> List of Passenger</h4>
-                            <div class="row">
-                                <div class="col-lg-6 col-xs-6 col-md-6">`;
-                            if(can_change_pax){
-                                text+=`
-                                    <button type="button" class="primary-btn-white" id="button-sync-status" onclick="airline_after_sales_update_pax();">
-                                        Update Identity <i class="fas fa-wrench"></i>
+                        <div class="col-lg-12" style="border-bottom: 1px solid #cdcdcd;">
+                            <h4 style="margin-bottom:15px;"><i class="fas fa-users"></i>
+                                <span style="padding-right:10px;">List of Passenger</span>`;
+                                if(can_change_pax){
+                                    text+=`
+                                    <button type="button" style="margin-right:10px; padding-right:15px; padding-left:15px; line-height:35px; width:unset; margin-bottom:unset;" class="primary-btn" id="button-sync-status" onclick="airline_after_sales_update_pax();">
+                                        Update Identity <i class="fas fa-edit"></i>
                                     </button>`;
-                            }
-                            text += `
-                                </div>`;
-                            is_different_name_in_vendor = false;
-                            for(provider in msg.result.response.provider_bookings){
-                                for(ticket in msg.result.response.provider_bookings[provider].tickets){
-                                    if(msg.result.response.provider_bookings[provider].tickets[ticket].passenger_number.toString() == ''){
-                                        is_different_name_in_vendor = true;
-                                        break;
+                                }
+                                is_different_name_in_vendor = false;
+                                for(provider in msg.result.response.provider_bookings){
+                                    for(ticket in msg.result.response.provider_bookings[provider].tickets){
+                                        if(msg.result.response.provider_bookings[provider].tickets[ticket].passenger_number.toString() == ''){
+                                            is_different_name_in_vendor = true;
+                                            break;
+                                        }
                                     }
                                 }
-                            }
-//                            if(is_different_name_in_vendor && ['booked', 'halt_booked', 'issued', 'halt_issued'].includes(msg.result.response.state)){
-                            if(is_different_name_in_vendor){
-                                text += `
-                                <div class="col-lg-6 col-xs-6 col-md-6" style="text-align:right;">
-                                    <button type="button" class="primary-btn-white" id="button-sync-status" data-toggle="modal" data-target="#myModal_sync_passenger">
-                                        Sync Passenger <i class="fas fa-wrench"></i>
-                                    </button>
-                                </div>`;
-                                //// BIKIN MODAL /////
-                                text += `
-                                <div class="modal fade" id="myModal_sync_passenger" role="dialog">
-                                    <div class="overlay_modal_custom" onclick="$('#myModal_sync_passenger').modal('hide');"></div>
-                                    <div class="modal-dialog modal_custom_fixed">
-                                        <!-- Modal content-->
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <div class="row">
-                                                    <div class="col-xs-6 pb-3">
-                                                        <h4 class="modal-title">Sync Passenger Data</h4>
+    //                            if(is_different_name_in_vendor && ['booked', 'halt_booked', 'issued', 'halt_issued'].includes(msg.result.response.state)){
+                                if(is_different_name_in_vendor){
+                                    text += `
+                                    <button type="button" style="line-height:35px; padding-right:15px; padding-left:15px; width:unset; margin-bottom:unset;" class="primary-btn" id="button-sync-status" data-toggle="modal" data-target="#myModal_sync_passenger">
+                                        Sync Passenger <i class="fas fa-edit"></i>
+                                    </button>`;
+                                    //// BIKIN MODAL /////
+                                    text += `
+                                    <div class="modal fade" id="myModal_sync_passenger" role="dialog">
+                                        <div class="overlay_modal_custom" onclick="$('#myModal_sync_passenger').modal('hide');"></div>
+                                        <div class="modal-dialog modal_custom_fixed">
+                                            <!-- Modal content-->
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <div class="row">
+                                                        <div class="col-xs-6 pb-3">
+                                                            <h4 class="modal-title">Sync Passenger Data</h4>
+                                                        </div>
+                                                        <div class="col-xs-6">
+                                                            <button type="button" class="close modal_custom_close" data-dismiss="modal" onclick="$('#myModal_sync_passenger').modal('hide');">&times;</button>
+                                                        </div>
                                                     </div>
-                                                    <div class="col-xs-6">
-                                                        <button type="button" class="close modal_custom_close" data-dismiss="modal" onclick="$('#myModal_sync_passenger').modal('hide');">&times;</button>
+                                                    <div class="row">
+                                                        <div class="col-xs-6" id="button_tl_sync_passenger">
+
+                                                        </div>
+                                                        <div class="col-xs-6" id="button_tr_sync_passenger">
+
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="row">
-                                                    <div class="col-xs-6" id="button_tl_sync_passenger">
-
-                                                    </div>
-                                                    <div class="col-xs-6" id="button_tr_sync_passenger">
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="modal-body">
-                                                <div class="row">
-                                                    <div class="col-lg-12" id="div_pax_sync">`;
-                                                    for(provider in msg.result.response.provider_bookings){
-                                                        text += `
-                                                        <h5 class="mt-3 mb-3"><i class="fas fa-scroll"></i> PNR: `+msg.result.response.provider_bookings[provider].pnr+`</h5>`;
-                                                        for(pax in msg.result.response.passengers){
+                                                <div class="modal-body">
+                                                    <div class="row">
+                                                        <div class="col-lg-12" id="div_pax_sync">`;
+                                                        for(provider in msg.result.response.provider_bookings){
                                                             text += `
-                                                            <div class="row">
-                                                                <div class="col-lg-12" style="padding-top:15px; padding-bottom:15px; background: white; border-bottom: 1px solid #cdcdcd; border-top: 1px solid #cdcdcd;">
-                                                                    <div class="row">
-                                                                        <div class="col-lg-5 col-md-5" style="margin: auto; text-align:left;">`;
-                                                                            is_passenger_number_found = false;
-                                                                            for(ticket in msg.result.response.provider_bookings[provider].tickets){
-                                                                                if(msg.result.response.passengers[pax].passenger_number.toString() == msg.result.response.provider_bookings[provider].tickets[ticket].passenger_number.toString() && msg.result.response.provider_bookings[provider].tickets[ticket].passenger_number.toString() != ''){
-                                                                                    text+=`
-                                                                                    <h6 style="color: gray;"><i class="fas fa-user"></i> `+name+`</h6>
-                                                                                    <h6 style="padding:12px 10px; background: #f7f7f7; color: gray; border:1px solid #cdcdcd;">`+msg.result.response.passengers[pax].title + ` ` + msg.result.response.passengers[pax].name +`</h6>`;
-                                                                                    is_passenger_number_found = true;
-                                                                                    break;
+                                                            <h5 class="mt-3 mb-3"><i class="fas fa-scroll"></i> PNR: `+msg.result.response.provider_bookings[provider].pnr+`</h5>`;
+                                                            for(pax in msg.result.response.passengers){
+                                                                text += `
+                                                                <div class="row">
+                                                                    <div class="col-lg-12" style="padding-top:15px; padding-bottom:15px; background: white; border-bottom: 1px solid #cdcdcd; border-top: 1px solid #cdcdcd;">
+                                                                        <div class="row">
+                                                                            <div class="col-lg-5 col-md-5" style="margin: auto; text-align:left;">`;
+                                                                                is_passenger_number_found = false;
+                                                                                for(ticket in msg.result.response.provider_bookings[provider].tickets){
+                                                                                    if(msg.result.response.passengers[pax].passenger_number.toString() == msg.result.response.provider_bookings[provider].tickets[ticket].passenger_number.toString() && msg.result.response.provider_bookings[provider].tickets[ticket].passenger_number.toString() != ''){
+                                                                                        text+=`
+                                                                                        <h6 style="color: gray;"><i class="fas fa-user"></i> `+name+`</h6>
+                                                                                        <h6 style="padding:12px 10px; background: #f7f7f7; color: gray; border:1px solid #cdcdcd;">`+msg.result.response.passengers[pax].title + ` ` + msg.result.response.passengers[pax].name +`</h6>`;
+                                                                                        is_passenger_number_found = true;
+                                                                                        break;
+                                                                                    }
                                                                                 }
-                                                                            }
 
-                                                                            if(!is_passenger_number_found){
-                                                                                text+=`
-                                                                                <h6><i class="fas fa-user"></i> `+name+`</h6>
-                                                                                <h6 style="padding:12px 10px; background: #fff; border:1px solid #cdcdcd;">` + msg.result.response.passengers[pax].title + ` ` + msg.result.response.passengers[pax].name +`</h6>`;
-                                                                            }
-
-                                                                        text+=`
-                                                                        </div>
-                                                                        <div class="col-lg-2 col-md-2 pt-2 pt-2" style="margin: auto; text-align:center;">
-                                                                            <i class="fas fa-arrow-circle-right show_pc" style="color:`+color+`; font-size:18px;"></i>
-                                                                            <i class="fas fa-arrow-circle-down show_mbl" style="color:`+color+`; font-size:18px;"></i>
-                                                                        </div>
-                                                                        <div class="col-lg-5 col-md-5" style="margin: auto;">
-                                                                            <h6 style="color:`+color+`;"><i class="fas fa-user"></i> Vendor</h6>`;
-                                                                            is_passenger_number_found = false;
-                                                                            for(ticket in msg.result.response.provider_bookings[provider].tickets){
-                                                                                if(msg.result.response.passengers[pax].passenger_number.toString() == msg.result.response.provider_bookings[provider].tickets[ticket].passenger_number.toString() && msg.result.response.provider_bookings[provider].tickets[ticket].passenger_number.toString() != ''){
+                                                                                if(!is_passenger_number_found){
                                                                                     text+=`
-                                                                                    <h6 style="color:`+color+`; padding:12px 10px; border:1px solid `+color+`;">
-                                                                                        <i class="fas fa-check-circle" style="color:#50bd2f;"></i>
-                                                                                        `+msg.result.response.provider_bookings[provider].tickets[ticket].title+` `+msg.result.response.provider_bookings[provider].tickets[ticket].first_name+` `+msg.result.response.provider_bookings[provider].tickets[ticket].last_name+`
-                                                                                    </h6>
-                                                                                    <div class="input-container-search-ticket" style="display:none;">
+                                                                                    <h6><i class="fas fa-user"></i> `+name+`</h6>
+                                                                                    <h6 style="padding:12px 10px; background: #fff; border:1px solid #cdcdcd;">` + msg.result.response.passengers[pax].title + ` ` + msg.result.response.passengers[pax].name +`</h6>`;
+                                                                                }
+
+                                                                            text+=`
+                                                                            </div>
+                                                                            <div class="col-lg-2 col-md-2 pt-2 pt-2" style="margin: auto; text-align:center;">
+                                                                                <i class="fas fa-arrow-circle-right show_pc" style="color:`+color+`; font-size:18px;"></i>
+                                                                                <i class="fas fa-arrow-circle-down show_mbl" style="color:`+color+`; font-size:18px;"></i>
+                                                                            </div>
+                                                                            <div class="col-lg-5 col-md-5" style="margin: auto;">
+                                                                                <h6 style="color:`+color+`;"><i class="fas fa-user"></i> Vendor</h6>`;
+                                                                                is_passenger_number_found = false;
+                                                                                for(ticket in msg.result.response.provider_bookings[provider].tickets){
+                                                                                    if(msg.result.response.passengers[pax].passenger_number.toString() == msg.result.response.provider_bookings[provider].tickets[ticket].passenger_number.toString() && msg.result.response.provider_bookings[provider].tickets[ticket].passenger_number.toString() != ''){
+                                                                                        text+=`
+                                                                                        <h6 style="color:`+color+`; padding:12px 10px; border:1px solid `+color+`;">
+                                                                                            <i class="fas fa-check-circle" style="color:#50bd2f;"></i>
+                                                                                            `+msg.result.response.provider_bookings[provider].tickets[ticket].title+` `+msg.result.response.provider_bookings[provider].tickets[ticket].first_name+` `+msg.result.response.provider_bookings[provider].tickets[ticket].last_name+`
+                                                                                        </h6>
+                                                                                        <div class="input-container-search-ticket" style="display:none;">
+                                                                                            <div class="form-select-2" id="default-select">
+                                                                                                <select id="passenger_`+pax+`_`+msg.result.response.provider_bookings[provider].pnr+`" name="passenger_`+pax+`_`+msg.result.response.provider_bookings[provider].pnr+`" class="nice-select-default" onchange="delete_passenger_draw();">
+                                                                                                    <option>Choose</option>`;
+                                                                                                    for(ticket in msg.result.response.provider_bookings[provider].tickets){
+                                                                                                        if(msg.result.response.provider_bookings[provider].tickets[ticket].passenger_number.toString() == ''){
+                                                                                                            text +=`<option value="`+msg.result.response.provider_bookings[provider].tickets[ticket].ticket_id+`&&&`+msg.result.response.provider_bookings[provider].tickets[ticket].title+` `+msg.result.response.provider_bookings[provider].tickets[ticket].first_name+` `+msg.result.response.provider_bookings[provider].tickets[ticket].last_name+`">`+msg.result.response.provider_bookings[provider].tickets[ticket].title+` `+msg.result.response.provider_bookings[provider].tickets[ticket].first_name+` `+msg.result.response.provider_bookings[provider].tickets[ticket].last_name+`</option>`;
+                                                                                                        }
+                                                                                                    }
+                                                                                                text += `
+                                                                                                </select>
+                                                                                            </div>
+                                                                                        </div>`;
+                                                                                        is_passenger_number_found = true;
+                                                                                        break;
+                                                                                    }
+                                                                                }
+
+                                                                                if(!is_passenger_number_found){
+                                                                                    text+=`
+                                                                                    <div class="input-container-search-ticket">
                                                                                         <div class="form-select-2" id="default-select">
                                                                                             <select id="passenger_`+pax+`_`+msg.result.response.provider_bookings[provider].pnr+`" name="passenger_`+pax+`_`+msg.result.response.provider_bookings[provider].pnr+`" class="nice-select-default" onchange="delete_passenger_draw();">
                                                                                                 <option>Choose</option>`;
@@ -9646,54 +9417,33 @@ function airline_get_booking(data, sync=false){
                                                                                             </select>
                                                                                         </div>
                                                                                     </div>`;
-                                                                                    is_passenger_number_found = true;
-                                                                                    break;
                                                                                 }
-                                                                            }
-
-                                                                            if(!is_passenger_number_found){
-                                                                                text+=`
-                                                                                <div class="input-container-search-ticket">
-                                                                                    <div class="form-select-2" id="default-select">
-                                                                                        <select id="passenger_`+pax+`_`+msg.result.response.provider_bookings[provider].pnr+`" name="passenger_`+pax+`_`+msg.result.response.provider_bookings[provider].pnr+`" class="nice-select-default" onchange="delete_passenger_draw();">
-                                                                                            <option>Choose</option>`;
-                                                                                            for(ticket in msg.result.response.provider_bookings[provider].tickets){
-                                                                                                if(msg.result.response.provider_bookings[provider].tickets[ticket].passenger_number.toString() == ''){
-                                                                                                    text +=`<option value="`+msg.result.response.provider_bookings[provider].tickets[ticket].ticket_id+`&&&`+msg.result.response.provider_bookings[provider].tickets[ticket].title+` `+msg.result.response.provider_bookings[provider].tickets[ticket].first_name+` `+msg.result.response.provider_bookings[provider].tickets[ticket].last_name+`">`+msg.result.response.provider_bookings[provider].tickets[ticket].title+` `+msg.result.response.provider_bookings[provider].tickets[ticket].first_name+` `+msg.result.response.provider_bookings[provider].tickets[ticket].last_name+`</option>`;
-                                                                                                }
-                                                                                            }
-                                                                                        text += `
-                                                                                        </select>
-                                                                                    </div>
-                                                                                </div>`;
-                                                                            }
-                                                                            text += `
+                                                                                text += `
+                                                                            </div>
                                                                         </div>
                                                                     </div>
-                                                                </div>
-                                                            </div>`;
+                                                                </div>`;
+                                                            }
                                                         }
-                                                    }
-                                                    text+=`
-                                                    </div>
-                                                    <div class="col-lg-12 mt-3" style="text-align:center;">
-                                                        <button type="button" class="primary-btn" style="width:200px;" id="btn_continue_sync" onclick="update_passenger_draw(); next_prev_sync('btn_continue_sync', 'btn_back_sync', 'div_pax_sync', 'result_change_name', 'sync_pax');">
-                                                            Continue
-                                                        </button>
-                                                    </div>
-                                                    <div class="col-lg-12" id="result_change_name">
+                                                        text+=`
+                                                        </div>
+                                                        <div class="col-lg-12 mt-3" style="text-align:center;">
+                                                            <button type="button" class="primary-btn" style="width:200px;" id="btn_continue_sync" onclick="update_passenger_draw(); next_prev_sync('btn_continue_sync', 'btn_back_sync', 'div_pax_sync', 'result_change_name', 'sync_pax');">
+                                                                Continue
+                                                            </button>
+                                                        </div>
+                                                        <div class="col-lg-12" id="result_change_name">
 
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
 
-                                </div>`;
-                            }
+                                    </div>`;
+                                }
                             text += `
-                            </div>`;
-                    text+=`
+                            </h4>
                         </div>
                     </div>
                     <div class="row">`;
@@ -9717,340 +9467,709 @@ function airline_get_booking(data, sync=false){
                             if(ff_request)
                                 ff_request += '<br/>';
 
-                            if(pax == 0){
-                                text+=`<div class="col-lg-12">`;
-                            }else{
-                                text+=`<div class="col-lg-12" style="padding-top:15px; border-top:1px solid #cdcdcd">`;
-                            }
-
                             text+=`
-                                <h5 class="single_border_custom_left" style="padding-left:5px;">
-                                `+(parseInt(pax)+1)+`. `+msg.result.response.passengers[pax].title+` `+msg.result.response.passengers[pax].first_name+` `+msg.result.response.passengers[pax].last_name+`
-                                <b style="background:white; font-size:13px; color:black; padding:0px 15px; display:unset; border: 1px solid #cdcdcd; border-radius:7px;">
-                                    <i class="fas fa-user"></i> `;
-                                    if(msg.result.response.passengers[pax].pax_type == 'ADT'){
-                                        text+=`Adult`;
-                                    }else if(msg.result.response.passengers[pax].pax_type == 'CHD'){
-                                        text+=`Child`;
-                                    }else if(msg.result.response.passengers[pax].pax_type == 'INF'){
-                                        text+=`Infant`;
-                                    }else if(msg.result.response.passengers[pax].pax_type == 'LBR'){
-                                        text+=`Labour`;
-                                    }else if(msg.result.response.passengers[pax].pax_type == 'SEA'){
-                                        text+=`Seaman`;
-                                    }else if(msg.result.response.passengers[pax].pax_type == 'STU'){
-                                        text+=`Student`;
-                                    }
-                                text+=`
-                                    </b>
-                                </h5>
-                                <b>Birth Date:</b> <i>`+msg.result.response.passengers[pax].birth_date+`</i><br/>`;
-                            if(msg.result.response.passengers[pax].identity_type != '' && msg.result.response.passengers[pax].is_valid_identity){
-                                text+= `<b>`+msg.result.response.passengers[pax].identity_type.substr(0,1).toUpperCase()+msg.result.response.passengers[pax].identity_type.substr(1,msg.result.response.passengers[pax].identity_type.length)+`:</b> <i>`+msg.result.response.passengers[pax].identity_number+`</i><br/>`;
-                                if(msg.result.response.passengers[pax].identity_expdate){
-                                    text += `<b>Expired Date: </b>`+moment(msg.result.response.passengers[pax].identity_expdate).format('DD MMM YYYY')+`</b><br/>`;
-                                }
-                            }else if(!msg.result.response.passengers[pax].is_valid_identity)
-                                text+= '<b style="color:red;">Need to Update Identity</b><br/>';
-                                text+=`<b>Ticket Number:</b> <i>`+ticket+`</i><br/>
-                                `+ff_request;
+                            <div class="col-lg-12" style="border-top:1px solid #cdcdcd;">
+                                <div class="row">
+                                    <div class="col-lg-12" style="background: aliceblue;">
+                                        <h5 style="padding-top:10px;">
+                                            Passenger #`+(parseInt(pax)+1)+`
+                                        </h5>
+                                        <div style="display:inline-flex; margin-top:10px; margin-bottom:10px;">
+                                            <div>`;
+    //                                            if(msg.result.response.passengers[pax].face_image.length > 0){
+    //                                                text+=`<img src="`+msg.result.response.passengers[pax].face_image[0]+`" alt="User" class="picture_passenger_agent">`;
+    //                                            }
+                                                if(msg.result.response.passengers[pax].title == "MR"){
+                                                    text+=`<img src="/static/tt_website/images/icon/symbol/user_mr.png" alt="User MR" class="picture_passenger_small">`;
+                                                }
+                                                else if(msg.result.response.passengers[pax].title == "MRS"){
+                                                    text+=`<img src="/static/tt_website/images/icon/symbol/user_mrs.png" alt="User MRS" class="picture_passenger_small">`;
+                                                }
+                                                else if(msg.result.response.passengers[pax].title == "MS"){
+                                                    text+=`<img src="/static/tt_website/images/icon/symbol/user_ms.png" alt="User MS" class="picture_passenger_small">`;
+                                                }
+                                                else if(msg.result.response.passengers[pax].title == "MSTR"){
+                                                    text+=`<img src="/static/tt_website/images/icon/symbol/user_mistr.png" alt="User MSTR" class="picture_passenger_small">`;
+                                                }
+                                                else if(msg.result.response.passengers[pax].title == "MISS"){
+                                                    text+=`<img src="/static/tt_website/images/icon/symbol/user_miss.png" alt="User MISS" class="picture_passenger_small">`;
+                                                }
+                                                text+=`
+                                            </div>
+                                            <div style="margin-left:10px;">
+                                                <h5>
+                                                    `+msg.result.response.passengers[pax].title+` `+msg.result.response.passengers[pax].first_name+` `+msg.result.response.passengers[pax].last_name+`
+                                                    <b style="margin-left:5px; background:white; font-size:13px; color:black; padding:0px 10px; display:unset; border: 1px solid #cdcdcd; border-radius:5px;">`;
+                                                        if(msg.result.response.passengers[pax].pax_type == 'ADT'){
+                                                            text+=`Adult`;
+                                                        }else if(msg.result.response.passengers[pax].pax_type == 'CHD'){
+                                                            text+=`Child`;
+                                                        }else if(msg.result.response.passengers[pax].pax_type == 'INF'){
+                                                            text+=`Infant`;
+                                                        }else if(msg.result.response.passengers[pax].pax_type == 'LBR'){
+                                                            text+=`Labour`;
+                                                        }else if(msg.result.response.passengers[pax].pax_type == 'SEA'){
+                                                            text+=`Seaman`;
+                                                        }else if(msg.result.response.passengers[pax].pax_type == 'STU'){
+                                                            text+=`Student`;
+                                                        }
+                                                    text+=`
+                                                    </b>
+                                                </h5>
+                                                <b>Birth Date:</b> <i>`+msg.result.response.passengers[pax].birth_date+`</i><br>`;
+                                                if(msg.result.response.passengers[pax].identity_type != '' && msg.result.response.passengers[pax].is_valid_identity){
+                                                    text+= `<b>`+msg.result.response.passengers[pax].identity_type.substr(0,1).toUpperCase()+msg.result.response.passengers[pax].identity_type.substr(1,msg.result.response.passengers[pax].identity_type.length)+`:</b> <i>`+msg.result.response.passengers[pax].identity_number+`</i>`;
+                                                    if(msg.result.response.passengers[pax].identity_expdate){
+                                                        text += ` | <b>Expired Date: </b>`+moment(msg.result.response.passengers[pax].identity_expdate).format('DD MMM YYYY')+`</b><br/>`;
+                                                    }
+                                                }
+                                                else if(!msg.result.response.passengers[pax].is_valid_identity)
+                                                    text+= '<b style="color:red;">Need to Update Identity</b><br/>';
+
+                                                text+=`
+                                                <b>Ticket Number:</b> <i>`+ticket+`</i><br/>
+                                                `+ff_request+`
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>`;
                                 fee_dict = {}; //bikin ke dict agar bisa fees per segment / journey
-                                  try{
-                                        for(i in msg.result.response.passengers[pax].fees){
-                                            if(fee_dict.hasOwnProperty(msg.result.response.passengers[pax].fees[i].journey_code) == false){
-                                                fee_dict[msg.result.response.passengers[pax].fees[i].journey_code] = {
-                                                    "fees": [],
-                                                };
-                                                found = false;
-                                                for(j in msg.result.response.provider_bookings){
-                                                    for(k in msg.result.response.provider_bookings[j].journeys){
-                                                        if(msg.result.response.provider_bookings[j].journeys[k].journey_code == msg.result.response.passengers[pax].fees[i].journey_code){
+                                try{
+                                    for(i in msg.result.response.passengers[pax].fees){
+                                        if(fee_dict.hasOwnProperty(msg.result.response.passengers[pax].fees[i].journey_code) == false){
+                                            fee_dict[msg.result.response.passengers[pax].fees[i].journey_code] = {
+                                                "fees": [],
+                                            };
+                                            found = false;
+                                            for(j in msg.result.response.provider_bookings){
+                                                for(k in msg.result.response.provider_bookings[j].journeys){
+                                                    if(msg.result.response.provider_bookings[j].journeys[k].journey_code == msg.result.response.passengers[pax].fees[i].journey_code){
+                                                        found = true;
+                                                        fee_dict[msg.result.response.passengers[pax].fees[i].journey_code].origin = msg.result.response.provider_bookings[j].journeys[k].origin;
+                                                        fee_dict[msg.result.response.passengers[pax].fees[i].journey_code].destination = msg.result.response.provider_bookings[j].journeys[k].destination;
+                                                        fee_dict[msg.result.response.passengers[pax].fees[i].journey_code].departure_date = msg.result.response.provider_bookings[j].journeys[k].departure_date;
+                                                        fee_dict[msg.result.response.passengers[pax].fees[i].journey_code].pnr = msg.result.response.passengers[pax].fees[i].pnr;
+                                                        break;
+                                                    }
+                                                    for(l in msg.result.response.provider_bookings[j].journeys[k].segments){
+                                                        if(msg.result.response.provider_bookings[j].journeys[k].segments[l].segment_code == msg.result.response.passengers[pax].fees[i].journey_code){
                                                             found = true;
-                                                            fee_dict[msg.result.response.passengers[pax].fees[i].journey_code].origin = msg.result.response.provider_bookings[j].journeys[k].origin;
-                                                            fee_dict[msg.result.response.passengers[pax].fees[i].journey_code].destination = msg.result.response.provider_bookings[j].journeys[k].destination;
-                                                            fee_dict[msg.result.response.passengers[pax].fees[i].journey_code].departure_date = msg.result.response.provider_bookings[j].journeys[k].departure_date;
+                                                            fee_dict[msg.result.response.passengers[pax].fees[i].journey_code].origin = msg.result.response.provider_bookings[j].journeys[k].segments[l].origin;
+                                                            fee_dict[msg.result.response.passengers[pax].fees[i].journey_code].destination = msg.result.response.provider_bookings[j].journeys[k].segments[l].destination;
+                                                            fee_dict[msg.result.response.passengers[pax].fees[i].journey_code].departure_date = msg.result.response.provider_bookings[j].journeys[k].segments[l].departure_date;
                                                             fee_dict[msg.result.response.passengers[pax].fees[i].journey_code].pnr = msg.result.response.passengers[pax].fees[i].pnr;
                                                             break;
                                                         }
-                                                        for(l in msg.result.response.provider_bookings[j].journeys[k].segments){
-                                                            if(msg.result.response.provider_bookings[j].journeys[k].segments[l].segment_code == msg.result.response.passengers[pax].fees[i].journey_code){
-                                                                found = true;
-                                                                fee_dict[msg.result.response.passengers[pax].fees[i].journey_code].origin = msg.result.response.provider_bookings[j].journeys[k].segments[l].origin;
-                                                                fee_dict[msg.result.response.passengers[pax].fees[i].journey_code].destination = msg.result.response.provider_bookings[j].journeys[k].segments[l].destination;
-                                                                fee_dict[msg.result.response.passengers[pax].fees[i].journey_code].departure_date = msg.result.response.provider_bookings[j].journeys[k].segments[l].departure_date;
-                                                                fee_dict[msg.result.response.passengers[pax].fees[i].journey_code].pnr = msg.result.response.passengers[pax].fees[i].pnr;
-                                                                break;
-                                                            }
-                                                        }
-                                                        if(found)
-                                                            break;
                                                     }
                                                     if(found)
-                                                        break
+                                                        break;
                                                 }
+                                                if(found)
+                                                    break
                                             }
-                                            fee_dict[msg.result.response.passengers[pax].fees[i].journey_code].fees.push({
-                                                "fee_category": msg.result.response.passengers[pax].fees[i].fee_category,
-                                                "fee_name": msg.result.response.passengers[pax].fees[i].fee_name,
-                                                "ticket_number": msg.result.response.passengers[pax].fees[i].ticket_number
-                                            })
                                         }
-                                  }catch(err){
-                                      console.log(err); // error kalau ada element yg tidak ada
-                                  }
+                                        fee_dict[msg.result.response.passengers[pax].fees[i].journey_code].fees.push({
+                                            "fee_category": msg.result.response.passengers[pax].fees[i].fee_category,
+                                            "fee_name": msg.result.response.passengers[pax].fees[i].fee_name,
+                                            "ticket_number": msg.result.response.passengers[pax].fees[i].ticket_number
+                                        })
+                                    }
+                                }
+                                catch(err){
+                                    console.log(err); // error kalau ada element yg tidak ada
+                                }
 
-                                  if(msg.result.response.passengers[pax].pax_type != 'INF'){
-                                      temp_i_id = parseInt(pax)+1;
-                                      text+=`<b>SSR already included:</b><br/>`;
-                                      text+=`<div class="mb-3" style="padding:15px; border:1px solid #cdcdcd;" id="included_ssr`+temp_i_id+`">`;
+                                if(msg.result.response.passengers[pax].pax_type != 'INF'){
+                                    temp_i_id = parseInt(pax)+1;
+                                    text+=`<h5 class="mt-3 mb-3" style="border-bottom: 2px solid #cdcdcd; width:fit-content;">Seat & SSR</h5>`;
+                                    text+=`<div id="included_ssr`+temp_i_id+`">`;
 
-                                      text+=`</div>`;
-                                  }
+                                    text+=`</div>`;
+                                }
 
-                                  if(Object.keys(fee_dict).length != 0){
-                                      text+=`<b style="color:`+color+`;">Current SSR / Seat additional request:</b>`;
-                                      text+=`<div style="margin-bottom:15px; padding:15px; background:white; border:1px solid `+color+`; background: #f7f7f7;">`;
-                                      for(i in fee_dict){
-                                        text += `<b>• `+fee_dict[i].origin+` - `+fee_dict[i].destination+` - (`+fee_dict[i].departure_date+`)</b><br/>`;
-                                        for(j in fee_dict[i].fees){
-                                            if(fee_dict[i].fees[j].fee_category == 'meal'){
-                                                text+=`<i class="fas fa-utensils" style="color:`+color+`;"></i> `;
-                                            }
-                                            else if(fee_dict[i].fees[j].fee_category == 'baggage'){
-                                                text+=`<i class="fas fa-suitcase" style="color:`+color+`;"></i> <i class="fas fa-plus"></i> <i>Added</i> `;
-                                            }
-                                            else if(fee_dict[i].fees[j].fee_category == 'equipment'){
-                                                text+=`<i class="fas fa-tools" style="color:`+color+`;"></i> `;
-                                            }
-                                            else if(fee_dict[i].fees[j].fee_category == 'wheelchair'){
-                                                text+=` <i class="fas fa-wheelchair" style="color:`+color+`;"></i> `;
-                                            }
-                                            else if(fee_dict[i].fees[j].fee_category == 'seat'){
-                                                text+=`<img src="/static/tt_website/images/icon/symbol/seat.png" style="height:16px; width:auto;"/> `;
-                                            }
-                                            if(fee_dict[i].fees[j].fee_name.toLowerCase().includes(fee_dict[i].fees[j].fee_category.toLowerCase()) == false)
-                                                text += '<b>'+fee_dict[i].fees[j].fee_category + ':</b> ';
-
-                                            text += `<i>`+fee_dict[i].fees[j].fee_name
-                                            if(fee_dict[i].fees[j].ticket_number)
-                                                text += ` - ` + fee_dict[i].fees[j].ticket_number;
-                                            text += `</i><br/>`;
-                                        }
-                                      }
-                                      text+=`</div>`;
+                                if(Object.keys(fee_dict).length != 0){
                                       msg.result.response.passengers[pax].fees_dict = fee_dict;
-                                  }
-                                  text+=`
+                                }
+                                text+=`
                             </div>`;
                         }
                     text+=`
                     </div>
-                        <div class="row mt-3" style="padding-top:15px; border-top: 1px solid #cdcdcd;" id="ssr_request_after_sales">
-                            <div class="col-lg-12 mb-2">
-                                <h6>Request</h6>
+                </div>`;
+
+                if(check_ssr || check_seat){
+                    text+=`
+                    <div class="div_box_default" style="margin-bottom:15px; padding: 15px 15px 0px 15px">
+                        <div class="row" id="ssr_request_after_sales">
+                            <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                                <h4 class="mb-3">Request</h4>
                             </div>`;
                            if(check_ssr){
                                 text+=`
-                                <div class="col-lg-6 mb-2">
-                                    <button class="primary-btn-white" style="width:100%;" type="button" onclick="set_new_request_ssr()">
-                                        <i class="fas fa-plus"></i> Baggage/Meal/Medical
+                                <div class="col-lg-6 col-md-6 mb-3">
+                                    <button class="btn-next primary-btn-white-cl" type="button" onclick="set_new_request_ssr()" style="width:100%; margin-bottom:unset; text-align:left;">
+                                        <i class="fas fa-plus"></i> Baggage / Meal / Medical
                                     </button>
                                 </div>`;
                            }
                            if(check_seat){
                                 text+=`
-                                <div class="col-lg-6">
-                                    <button class="primary-btn-white" style="width:100%;" type="button" onclick="set_new_request_seat()">
-                                        <i class="fas fa-plus"></i> Seat
+                                <div class="col-lg-6 col-md-6 mb-3">
+                                    <button class="btn-next primary-btn-white-cl" type="button" onclick="set_new_request_seat()" style="width:100%; margin-bottom:unset; text-align:left;">
+                                        <i class="fas fa-plus"></i> Request Seat
                                     </button>
                                 </div>`;
                            }
                        text+=`
                        </div>
-                    </div>
-                </div>`;
-
-                text += `
-                <div style="border:1px solid #cdcdcd; padding:10px; background-color:white; margin-top:20px;">
-                    <div class="row">`;
-                if (msg.result.response.state == 'issued'){
-                    text+=`
-                        <div class="col-lg-6">
-                            <label class="check_box_custom">
-                                <span class="span-search-ticket" style="color:black;">Hide agent logo on tickets</span>
-                                <input type="checkbox" id="is_hide_agent_logo" name="is_hide_agent_logo"/>
-                                <span class="check_box_span_custom"></span>
-                            </label>
-                        </div>`;
+                    </div>`;
                 }
-                text+=`
-                        <div class="col-lg-6">
+
+                if(msg.result.response.hasOwnProperty('reschedule_list') == true){
+//                    $text += 'Order Number: '+ msg.result.response.order_number + '\n';
+    //                $text += msg.result.response.state_description + '\n';
+                    if(msg.result.response.reschedule_list.length>0){
+                        text+=`
+                        <div class="div_box_default" style="margin-bottom:15px;">
+                            <div class="row">
+                                <div class="col-lg-12 mb-3" style="border-bottom: 1px solid #cdcdcd;">
+                                    <h4 class="mb-3">History</h4>
+                                </div>
+                                <div class="col-lg-12">`;
+                                check = 0;
+                                for(i in msg.result.response.reschedule_list){
+                                    rs_total_amt = msg.result.response.reschedule_list[i].total_amount;
+                                    for(j in msg.result.response.passengers){
+                                        try{
+                                            if(airline_get_detail.result.response.passengers[j].channel_service_charges.amount_rs.hasOwnProperty(msg.result.response.reschedule_list[i].reschedule_number))
+                                            {
+                                                rs_total_amt += airline_get_detail.result.response.passengers[j].channel_service_charges.amount_rs[msg.result.response.reschedule_list[i].reschedule_number];
+                                            }
+                                        }
+                                        catch(err){
+                                            console.log(err); // error kalau ada element yg tidak ada
+                                        }
+                                    }
+
+                                    flight_counter = 1;
+                                    if(i != 0){
+                                        text+=`<div class="row" style="border-bottom:1px solid #cdcdcd; padding-bottom:15px; margin-bottom:15px;"></div>`;
+                                    }
+
+                                    text+=`
+                                    <div class="row">
+                                        <div class="col-lg-6">`;
+                                            reschedule_type = '';
+                                            for(j in msg.result.response.reschedule_list[i].reschedule_lines){
+                                                reschedule_type = msg.result.response.reschedule_list[i].reschedule_lines[j].after_sales_type;
+                                            }
+                                            text+=`
+                                            <h5>
+                                                <i class="fas fa-history"></i> `+msg.result.response.reschedule_list[i].reschedule_number+` | `+reschedule_type.substr(0,1).toUpperCase()+reschedule_type.substr(1,reschedule_type.length)+`
+                                            </h5>`;
+
+                                            tes = moment.utc(msg.result.response.reschedule_list[i].create_date).format('YYYY-MM-DD HH:mm:ss')
+                                            localTime  = moment.utc(tes).toDate();
+                                            try{
+                                                reschedule_time = moment(localTime).format('DD MMM YYYY HH:mm') + ' ' + gmt + timezone ;
+                                            }catch(err){
+                                                reschedule_time = moment(localTime).format('DD MMM YYYY HH:mm');
+                                            }
+                                            text+= '<b>' + reschedule_time + '</b>';
+                                        text+=`
+                                        </div>
+                                        <div class="col-lg-6" style="text-align:right;">
+                                            <b style="color:`+color+`; font-size:16px;">`+currency+` `+getrupiah(rs_total_amt)+`
+                                                <b style="background:white; font-size:13px; color:black; padding:5px 15px; display:unset; border: 1px solid #cdcdcd; border-radius:5px;">`;
+                                                    if(['draft', 'cancel', 'cancel2'].includes(msg.result.response.reschedule_list[i].state)){
+                                                        text+='Update History';
+                                                    }else{
+                                                        text+='Paid';
+                                                    }
+                                                text+=`
+                                                </b>
+                                            </b>`;
+                                            if(msg.result.response.reschedule_list[i].state.includes('validate')){
+                                                text+=`<h5>Please Reconfirm to HO</h5>`;
+                                            }
+                                            text+=`
+                                        </div>`;
+
+                                        text_history = '';
+                                        if(msg.result.response.reschedule_list[i].old_segments.length > 0){
+                                            text_history+=`
+                                            <div style="padding:15px; text-align:left; border:1px solid #cdcdcd; background: #f7f7f7;">
+                                                <h4 style="color:gray;">Before (Old)</h4>
+                                            </div>
+                                            <div style="border:1px solid #cdcdcd; padding:15px; background: #f7f7f7; overflow:auto; max-height:200px; color:gray;">
+                                                <div class="row">`;
+                                                for(j in msg.result.response.reschedule_list[i].old_segments){
+                                                    text_history+=`
+                                                    <div class="col-lg-12">
+                                                        <h5 style="color:gray;">PNR: `+msg.result.response.reschedule_list[i].old_segments[j].pnr+`</h5>
+                                                    </div>`;
+                                                    var cabin_class = '';
+                                                    //yang baru harus diganti
+                                                    if(msg.result.response.reschedule_list[i].old_segments[j].cabin_class == 'Y')
+                                                        cabin_class = 'Economy Class';
+                                                    else if(msg.result.response.reschedule_list[i].old_segments[j].carrier_code == 'QG' && msg.result.response.reschedule_list[i].old_segments[j].cabin_class == 'W')
+                                                        cabin_class = 'Royal Green Class';
+                                                    else if(msg.result.response.reschedule_list[i].old_segments[j].cabin_class == 'W')
+                                                        cabin_class = 'Premium Economy Class';
+                                                    else if(msg.result.response.reschedule_list[i].old_segments[j].cabin_class == 'C')
+                                                        cabin_class = 'Business Class';
+                                                    else if(msg.result.response.reschedule_list[i].old_segments[j].cabin_class == 'F')
+                                                        cabin_class = 'First Class';
+                                                    for(k in msg.result.response.reschedule_list[i].old_segments[j].legs){
+                                                        text_history+=`
+                                                        <div class="col-lg-3" style="margin-bottom:10px;">
+                                                            <div style="display:inline-flex;">
+                                                                <div style="display:inline-block;">`;
+                                                                try{
+                                                                    text_history += `<img data-toggle="tooltip" class="airlines_provider_img" alt="`+airline_carriers[msg.result.response.reschedule_list[i].old_segments[j].carrier_code].name+`" title="`+airline_carriers[msg.result.response.reschedule_list[i].old_segments[j].carrier_code].name+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+msg.result.response.reschedule_list[i].old_segments[j].carrier_code+`.png"/>`;
+                                                                }catch(err){
+                                                                    text_history += `<img data-toggle="tooltip" class="airlines_provider_img" alt="`+msg.result.response.reschedule_list[i].old_segments[j].carrier_code+`" title="`+msg.result.response.reschedule_list[i].old_segments[j].carrier_code+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+msg.result.response.reschedule_list[i].old_segments[j].carrier_code+`.png"/>`;
+                                                                }
+                                                                text_history += `
+                                                                </div>
+                                                                <div style="display:inline-block;">
+                                                                    <span style="margin-top:15px; font-size:13px; font-weight:500;">
+                                                                        `+msg.result.response.reschedule_list[i].old_segments[j].carrier_name+' '+msg.result.response.reschedule_list[i].old_segments[j].carrier_number+`
+                                                                    </span><br>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-lg-9" style="padding-top:10px;">
+                                                            <div class="row">
+                                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                                    <h6 style="color:gray;">`;
+                                                                        if(msg.result.response.reschedule_list[i].old_segments[j].legs[k].departure_date)
+                                                                            text_history+=msg.result.response.reschedule_list[i].old_segments[j].legs[k].departure_date.split('  ')[1];
+                                                                        else
+                                                                            text_history+='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                                                                    text_history+=`
+                                                                    </h6>
+                                                                    <span style="color:gray;">`;
+                                                                        if(msg.result.response.reschedule_list[i].old_segments[j].legs[k].departure_date)
+                                                                            text_history+=msg.result.response.reschedule_list[i].old_segments[j].legs[k].departure_date.split('  ')[0];
+                                                                        else
+                                                                            text_history+='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                                                                    text_history+=`
+                                                                    </span><br>
+                                                                    <span style="font-weight:500;">`+msg.result.response.reschedule_list[i].old_segments[j].legs[k].origin_name+` - `+msg.result.response.reschedule_list[i].old_segments[j].legs[k].origin_city+` (`+msg.result.response.reschedule_list[i].old_segments[j].legs[k].origin+`)</span>
+                                                                </div>
+                                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                                    <div style="text-align:center; position: absolute; left:-30%;">
+                                                                        <div style="display:inline-block;position:relative;width:100px;z-index:1;">
+                                                                            <img src="/static/tt_website/images/icon/symbol/airlines-01.png" alt="Airline" style="width:20px; height:20px; margin-top:5px; position:relative; z-index:99;">
+                                                                            <div class="show_pc" style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
+                                                                            <div class="show_pc origin-code-snippet" style="background-color:#d4d4d4;right:0px"></div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div style="text-align:right">
+                                                                        <h6 style="color:gray;">`;
+                                                                            if(msg.result.response.reschedule_list[i].old_segments[j].legs[k].arrival_date)
+                                                                                text_history+=msg.result.response.reschedule_list[i].old_segments[j].legs[k].arrival_date.split('  ')[1];
+                                                                            else
+                                                                                text_history+='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                                                                        text_history+=`
+                                                                        </h6>
+                                                                        <span>
+                                                                            `+msg.result.response.reschedule_list[i].old_segments[j].legs[k].arrival_date.split('  ')[0]+`
+                                                                        </span><br>
+                                                                        <span style="font-weight:500;">`+msg.result.response.reschedule_list[i].old_segments[j].legs[k].destination_name+` - `+msg.result.response.reschedule_list[i].old_segments[j].legs[k].destination_city+` (`+msg.result.response.reschedule_list[i].old_segments[j].legs[k].destination+`)</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <span>Class : `+cabin_class+` (`+msg.result.response.reschedule_list[i].old_segments[j].class_of_service+`)</span><br>
+                                                        </div>`;
+                                                    }
+                                                    text_history+=`</div>`;
+                                                }
+                                                text_history+=`
+                                                </div>
+                                            </div>
+                                            <div style="padding:15px; text-align:center;">
+                                                <h6>Change</h6>
+                                                <i class="fas fa-long-arrow-alt-down" style="font-size:30px; color:`+color+`;"></i>
+                                            </div>
+                                            <div style="padding:15px; text-align:left; border:1px solid #cdcdcd; background: `+color+`;">
+                                                <h4 style="color:white">After (New)</h4>
+                                            </div>
+                                            <div style="padding:15px; border:1px solid #cdcdcd; border-radius:5px; overflow:auto; max-height:250px;">
+                                                <div class="row">`;
+                                                for(j in msg.result.response.reschedule_list[i].new_segments){
+                                                    text_history+=`
+                                                    <div class="col-lg-12">
+                                                        <h5>PNR: `+msg.result.response.reschedule_list[i].new_segments[j].pnr+`</h5>
+                                                    </div>`;
+                                                    flight_counter++;
+                                                    var cabin_class = '';
+                                                    //yang baru harus diganti
+                                                    if(msg.result.response.reschedule_list[i].new_segments[j].cabin_class == 'Y')
+                                                        cabin_class = 'Economy Class';
+                                                    else if(msg.result.response.reschedule_list[i].new_segments[j].carrier_code == 'QG' && msg.result.response.reschedule_list[i].new_segments[j].cabin_class == 'W')
+                                                        cabin_class = 'Royal Green Class';
+                                                    else if(msg.result.response.reschedule_list[i].new_segments[j].cabin_class == 'W')
+                                                        cabin_class = 'Premium Economy Class';
+                                                    else if(msg.result.response.reschedule_list[i].new_segments[j].cabin_class == 'C')
+                                                        cabin_class = 'Business Class';
+                                                    else if(msg.result.response.reschedule_list[i].new_segments[j].cabin_class == 'F')
+                                                        cabin_class = 'First Class';
+                                                    for(k in msg.result.response.reschedule_list[i].new_segments[j].legs){
+                                                        text_history+=`
+                                                        <div class="col-lg-3" style="margin-bottom:10px;">
+                                                            <div style="display:inline-flex;">
+                                                                <div style="display:inline-block;">`;
+                                                                try{
+                                                                    text_history += `<img data-toggle="tooltip" class="airlines_provider_img" alt="`+airline_carriers[msg.result.response.reschedule_list[i].new_segments[j].carrier_code].name+`" title="`+airline_carriers[msg.result.response.reschedule_list[i].new_segments[j].carrier_code].name+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+msg.result.response.reschedule_list[i].new_segments[j].carrier_code+`.png"/>`;
+                                                                }catch(err){
+                                                                    text_history += `<img data-toggle="tooltip" class="airlines_provider_img" alt="`+msg.result.response.reschedule_list[i].new_segments[j].carrier_code+`" title="`+msg.result.response.reschedule_list[i].new_segments[j].carrier_code+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+msg.result.response.reschedule_list[i].new_segments[j].carrier_code+`.png"/>`;
+                                                                }
+                                                                text_history += `
+                                                                </div>
+                                                                <div style="display:inline-block;">
+                                                                    <span style="margin-top:15px; font-size:13px; font-weight:500;">
+                                                                        `+msg.result.response.reschedule_list[i].new_segments[j].carrier_name+' '+msg.result.response.reschedule_list[i].new_segments[j].carrier_number+`
+                                                                    </span><br>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-lg-9" style="padding-top:10px;">
+                                                            <div class="row">
+                                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                                    <h6>`;
+                                                                        if(msg.result.response.reschedule_list[i].new_segments[j].legs[k].departure_date)
+                                                                            text_history+=msg.result.response.reschedule_list[i].new_segments[j].legs[k].departure_date.split('  ')[1];
+                                                                        else
+                                                                            text_history+='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                                                                    text_history+=`
+                                                                    </h6>
+                                                                    <span>`;
+                                                                        if(msg.result.response.reschedule_list[i].new_segments[j].legs[k].departure_date)
+                                                                            text_history+=msg.result.response.reschedule_list[i].new_segments[j].legs[k].departure_date.split('  ')[0];
+                                                                        else
+                                                                            text_history+='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                                                                    text_history+=`
+                                                                    </span><br>
+                                                                    <span style="font-weight:500;">`+msg.result.response.reschedule_list[i].new_segments[j].legs[k].origin_name+` - `+msg.result.response.reschedule_list[i].new_segments[j].legs[k].origin_city+` (`+msg.result.response.reschedule_list[i].new_segments[j].legs[k].origin+`)</span>
+                                                                </div>
+                                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                                    <div style="text-align:center; position: absolute; left:-30%;">
+                                                                        <div style="display:inline-block;position:relative;width:100px;z-index:1;">
+                                                                            <img src="/static/tt_website/images/icon/symbol/airlines-01.png" alt="Airline" style="width:20px; height:20px; margin-top:5px; position:relative; z-index:99;">
+                                                                            <div class="show_pc" style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
+                                                                            <div class="show_pc origin-code-snippet" style="background-color:#d4d4d4;right:0px"></div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div style="text-align:right">
+                                                                        <h6>`;
+                                                                            if(msg.result.response.reschedule_list[i].new_segments[j].legs[k].arrival_date)
+                                                                                text_history+=msg.result.response.reschedule_list[i].new_segments[j].legs[k].arrival_date.split('  ')[1];
+                                                                            else
+                                                                                text_history+='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                                                                        text_history+=`
+                                                                        </h6>
+                                                                        <span>
+                                                                            `+msg.result.response.reschedule_list[i].new_segments[j].legs[k].arrival_date.split('  ')[0]+`
+                                                                        </span><br>
+                                                                        <span style="font-weight:500;">`+msg.result.response.reschedule_list[i].new_segments[j].legs[k].destination_name+` - `+msg.result.response.reschedule_list[i].new_segments[j].legs[k].destination_city+` (`+msg.result.response.reschedule_list[i].new_segments[j].legs[k].destination+`)</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <b>Class : `+cabin_class+` (`+msg.result.response.reschedule_list[i].new_segments[j].class_of_service+`)</b><br>
+                                                        </div>`;
+                                                    }
+                                                }
+                                                text_history+=`
+                                                </div>
+                                            </div>`;
+                                        }
+                                        else{
+                                            if(msg.result.response.reschedule_list[i].hasOwnProperty('old_fee_notes') && msg.result.response.reschedule_list[i].hasOwnProperty('new_fee_notes'))
+                                                text_history += `
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <div style="padding:15px; text-align:left; border:1px solid #cdcdcd; background: #f7f7f7;">
+                                                            <h4 style="color:gray;">Before (Old)</h4>
+                                                        </div>
+                                                        <div style="padding:15px; background: #f7f7f7; border:1px solid #cdcdcd; overflow:auto; max-height:200px;">
+                                                            <span style="color:gray; font-weight:700;">`+msg.result.response.reschedule_list[i].old_fee_notes.replaceAll('\n','<br/>')+`</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12 mt-3 mb-3" style="text-align:center;">
+                                                        <h6>Change</h6>
+                                                        <i class="fas fa-long-arrow-alt-down" style="font-size:30px; color:`+color+`;"></i>
+                                                    </div>
+                                                    <div class="col-lg-12">
+                                                        <div style="padding:15px; text-align:left; border:1px solid #cdcdcd; background: `+color+`;">
+                                                            <h4 style="color:white">After (New)</h4>
+                                                        </div>
+                                                        <div style="padding:15px; background: white; border:1px solid #cdcdcd; overflow:auto; max-height:200px;">
+                                                            <span style="font-weight:700;">`+msg.result.response.reschedule_list[i].new_fee_notes.replaceAll('\n','<br/>')+`</span>
+                                                        </div>
+                                                    </div>
+                                                </div`;
+                                        }
+
+                                        modal_history_arr.push(text_history);
+
+                                        text +=`
+                                        <div class="col-lg-12">
+                                            <span style="display: inline-block; cursor: pointer; margin-right:15px; color:`+color+`; font-weight:bold;" onclick="content_modal_custom('myModalDetail','myModalContent', '`+msg.result.response.reschedule_list[i].reschedule_number+` | `+reschedule_type.substr(0,1).toUpperCase()+reschedule_type.substr(1,reschedule_type.length)+`', modal_history_arr[`+i+`]);">Show History <i class="fas fa-eye"></i></span>
+                                        </div>`;
+
+                                        if(msg.result.response.reschedule_list[i].state.includes('cancel') == false){
+                                            text+=`
+                                            <div class="col-lg-12" style="margin-top:15px;">
+                                                <button type="button" id="button-print-reschedule-invoice" class="primary-btn-white mr-2 ld-ext-right" onclick="get_printout('`+msg.result.response.order_number+`', 'reschedule','airline','reschedule','`+msg.result.response.reschedule_list[i].reschedule_number+`');">
+                                                    <i class="fas fa-print"></i> Print Reschedule
+                                                    <div class="ld ld-ring ld-cycle"></div>
+                                                </button>
+                                                <button type="button" class="primary-btn-white issued-booking-train ld-ext-right" data-toggle="modal" data-target="#printInvoiceReschedule`+i+`">
+                                                    <i class="fas fa-print"></i> Print Invoice Reschedule
+                                                    <div class="ld ld-ring ld-cycle"></div>
+                                                </button>
+                                            </div>`;
+                                        }
+                                        text+=`
+                                    </div>`;
+
+                                    if(msg.result.response.reschedule_list[i].state.includes('cancel') == false){
+                                        text+=`
+                                        <div class="modal fade" id="printInvoiceReschedule`+i+`" role="dialog" data-keyboard="false">
+                                            <div class="modal-dialog">
+                                                <!-- Modal content-->
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title">Invoice Reschedule</h4>
+                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="row">
+                                                            <div class="col-lg-12 mb-2">
+                                                                <span class="control-label" for="Name">Name</span>
+                                                                <div class="input-container-search-ticket">
+                                                                    <input type="text" class="form-control o_website_form_input" id="bill_name" name="bill_name" placeholder="Name" required="1"/>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-12 mb-2">
+                                                                <span class="control-label" for="Address">Address</span>
+                                                                <div class="input-container-search-ticket">
+                                                                    <textarea class="form-control"style="width:100%; height:70px; resize: none;" rows="4" id="bill_address" name="bill_address" placeholder="Address"></textarea>
+                                                                    <!--<input type="text" class="form-control o_website_form_input" id="bill_name" name="bill_address" placeholder="Address" required="1"/>-->
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-12 mb-2">
+                                                                <span class="control-label" for="Additional Information">Additional Information</span>
+                                                                <div class="input-container-search-ticket">
+                                                                    <textarea class="form-control" style="width:100%; height:70px; resize: none;" rows="4" id="additional_information" name="additional_information" placeholder="Additional Information"></textarea>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <br/>
+                                                        <div style="text-align:right;">
+                                                            <span>Don't want to edit? just submit</span>
+                                                            <br/>
+                                                            <button type="button" id="button-issued-print" class="primary-btn ld-ext-right" onclick="get_printout('`+msg.result.response.order_number+`', 'invoice','airline','reschedule', '`+msg.result.response.reschedule_list[i].reschedule_number+`');">
+                                                                Submit
+                                                                <div class="ld ld-ring ld-cycle"></div>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>`;
+                                    }
+                                }
+                                text+=`
+                                </div>
+                            </div>
+                        </div>`;
+                    }
+                }
+
+
+                text_print_booking += `
+                <div class="div_box_default">
+                    <h4 class="mb-3">Print</h4>
+                    <div class="row">`;
+                        if (msg.result.response.state == 'issued'){
+                            text_print_booking+=`
+                            <div class="col-lg-12">
+                                <label class="check_box_custom">
+                                    <span class="span-search-ticket" style="color:black;">Hide agent logo on tickets</span>
+                                    <input type="checkbox" id="is_hide_agent_logo" name="is_hide_agent_logo"/>
+                                    <span class="check_box_span_custom"></span>
+                                </label>
+                            </div>`;
+                        }
+                        text_print_booking+=`
+                        <div class="col-lg-12">
                             <label class="check_box_custom">
                                 <span class="span-search-ticket" style="color:black;">Force Get New Printout</span>
                                 <input type="checkbox" id="is_force_get_new_printout" name="is_force_get_new_printout"/>
                                 <span class="check_box_span_custom"></span>
                             </label>
-                        </div>`;
-                text += `
+                        </div>
                     </div>
-                </div>`;
-
-                text+=`<div class="row" style="margin-top:20px;">`;
-                text+=`
-                    <div class="col-lg-6 col-md-6" style="padding-bottom:10px;">`;
+                    <div class="row">`;
                         if(msg.result.response.state != 'cancel' && msg.result.response.state != 'cancel2'){
+                            text_print_booking += `<div class="col-lg-12" style="padding-bottom:10px;">`;
                             if (msg.result.response.state == 'issued'){
-                                text+=`
-                                <button type="button" id="button-choose-print" class="primary-btn ld-ext-right" style="width:100%;" onclick="get_printout('`+msg.result.response.order_number+`', 'ticket','airline');">
+                                text_print_booking+=`
+                                <button type="button" id="button-choose-print" class="primary-btn-white ld-ext-right" style="text-align:left; width:100%; margin-bottom:5px;" onclick="get_printout('`+msg.result.response.order_number+`', 'ticket','airline');">
                                     <i class="fas fa-print"></i> Print Ticket
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>`;
                             }else if (msg.result.response.state  == 'booked'){
-                                text+=`
-                                <button type="button" id="button-print-print" class="primary-btn ld-ext-right" style="width:100%;" onclick="get_printout('`+msg.result.response.order_number+`', 'itinerary','airline');">
+                                text_print_booking+=`
+                                <button type="button" id="button-print-print" class="primary-btn-white ld-ext-right" style="text-align:left; width:100%; margin-bottom:5px;" onclick="get_printout('`+msg.result.response.order_number+`', 'itinerary','airline');">
                                     <i class="fas fa-print"></i> Print Form
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>`;
                             }
+                            text_print_booking += `</div>`;
                         }
-                        text+=`
-                    </div>`;
-                    text+=`
-                    <div class="col-lg-6 col-md-6" style="padding-bottom:10px;">`;
+
                         if(msg.result.response.state != 'cancel' && msg.result.response.state != 'cancel2'){
+                            text_print_booking += `<div class="col-lg-12" style="padding-bottom:10px;">`;
                             if (msg.result.response.state == 'issued'){
-                                text+=`
-                                <button type="button" class="primary-btn ld-ext-right" id="button-print-print" style="width:100%;" onclick="get_printout('`+msg.result.response.order_number+`', 'ticket_price','airline');">
+                                text_print_booking+=`
+                                <button type="button" class="primary-btn-white ld-ext-right" id="button-print-print" style="text-align:left; width:100%; margin-bottom:5px;" onclick="get_printout('`+msg.result.response.order_number+`', 'ticket_price','airline');">
                                     <i class="fas fa-print"></i> Print Ticket (Price)
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>`;
                             }else if (msg.result.response.state  == 'booked'){
-                                text+=`
-                                <button type="button" id="button-print-itin-price" class="primary-btn ld-ext-right" style="width:100%;" onclick="get_printout('`+msg.result.response.order_number+`', 'itinerary_price','airline');">
+                                text_print_booking+=`
+                                <button type="button" id="button-print-itin-price" class="primary-btn-white ld-ext-right" style="text-align:left; width:100%; margin-bottom:5px;" onclick="get_printout('`+msg.result.response.order_number+`', 'itinerary_price','airline');">
                                     <i class="fas fa-print"></i> Print Form (Price)
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>`;
                             }
+                            text_print_booking+=`</div>`;
                         }
-                        text+=`
-                    </div>`;
-                    if(msg.result.response.state == 'issued' && col == 3){
-                        text+=`
-                        <div class="col-lg-6 col-md-6" style="padding-bottom:10px;">`;
-                            text+=`
-                            <button type="button" id="button-print-ori" class="primary-btn ld-ext-right" style="width:100%;" onclick="get_printout('`+msg.result.response.order_number+`', 'ticket_original','airline',120);">
-                                <i class="fas fa-print"></i> Print Ori Ticket
-                                <div class="ld ld-ring ld-cycle"></div>
-                            </button>
-                        </div>`;
-                        can_request_new_ori_ticket = false;
-                        for(i in msg.result.response.provider_bookings){
-                            if(msg.result.response.provider_bookings[i].provider == 'altea'){
-                                can_request_new_ori_ticket = true
-                                break
-                            }
-                        }
-                        if(can_request_new_ori_ticket){
-                            text+=`
-                            <div class="col-lg-6 col-md-6" style="padding-bottom:10px;">`;
-                                text+=`
-                                <button type="button" id="button-print-ori-request" class="primary-btn ld-ext-right" style="width:100%;" onclick="get_new_ori_ticket_printout('`+msg.result.response.order_number+`');">
-                                    <i class="fas fa-print"></i> Request New Ori Ticket
+
+                        if(msg.result.response.state == 'issued' && col == 3){
+                            text_print_booking+=`
+                            <div class="col-lg-12">`;
+                                text_print_booking+=`
+                                <button type="button" id="button-print-ori" class="primary-btn-white ld-ext-right" style="text-align:left; width:100%; margin-bottom:15px;" onclick="get_printout('`+msg.result.response.order_number+`', 'ticket_original','airline',120);">
+                                    <i class="fas fa-print"></i> Print Ori Ticket
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>
                             </div>`;
+                            can_request_new_ori_ticket = false;
+                            for(i in msg.result.response.provider_bookings){
+                                if(msg.result.response.provider_bookings[i].provider == 'altea'){
+                                    can_request_new_ori_ticket = true
+                                    break
+                                }
+                            }
+                            if(can_request_new_ori_ticket){
+                                text_print_booking+=`
+                                <div class="col-lg-12">`;
+                                    text_print_booking+=`
+                                    <button type="button" id="button-print-ori-request" class="primary-btn-white ld-ext-right" style="text-align:left; width:100%; margin-bottom:5px;" onclick="get_new_ori_ticket_printout('`+msg.result.response.order_number+`');">
+                                        <i class="fas fa-print"></i> Request New Ori Ticket
+                                        <div class="ld ld-ring ld-cycle"></div>
+                                    </button>
+                                </div>`;
+                            }
                         }
-                    }
-                    text+=`<div class="col-lg-6 col-md-6" style="padding-bottom:10px;">`;
+
                         if(msg.result.response.state != 'cancel' && msg.result.response.state != 'cancel2'){
+                            text_print_booking+=`<div class="col-lg-12">`;
                             if (msg.result.response.state == 'issued'){
-                                text+=`
-                                <a class="issued-booking-train ld-ext-right" style="color:`+text_color+`;">
-                                    <input type="button" class="primary-btn" style="width:100%;" data-toggle="modal" data-target="#printInvoice" value="Print Invoice"/>
+                                text_print_booking+=`
+                                <button type="button" class="primary-btn-white issued-booking-train ld-ext-right" style="text-align:left; width:100%;" data-toggle="modal" data-target="#printInvoice">
+                                    <i class="fas fa-print"></i> Print Invoice
                                     <div class="ld ld-ring ld-cycle"></div>
-                                </a>`;
+                                </button>`;
                                 // modal invoice
-                                text+=`
-                                    <div class="modal fade" id="printInvoice" role="dialog" data-keyboard="false">
-                                        <div class="modal-dialog">
-
-                                          <!-- Modal content-->
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h4 class="modal-title">Invoice</h4>
-                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                text_print_booking+=`
+                                <div class="modal fade" id="printInvoice" role="dialog" data-keyboard="false">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title">Invoice</h4>
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="row">
+                                                    <div class="col-lg-12 mb-2">
+                                                        <span class="control-label" for="Name">Name</span>
+                                                        <div class="input-container-search-ticket">
+                                                            <input type="text" class="form-control o_website_form_input" id="bill_name" name="bill_name" placeholder="Name" required="1"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12 mb-2">
+                                                        <span class="control-label" for="Address">Address</span>
+                                                        <div class="input-container-search-ticket">
+                                                            <textarea class="form-control" style="width:100%; height:70px; resize: none;" rows="4" id="bill_address" name="bill_address" placeholder="Address"></textarea>
+                                                            <!--<input type="text" class="form-control o_website_form_input" id="bill_name" name="bill_address" placeholder="Address" required="1"/>-->
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12 mb-2">
+                                                        <span class="control-label" for="Additional Information">Additional Information</span>
+                                                        <div class="input-container-search-ticket">
+                                                            <textarea class="form-control" style="width:100%; height:70px; resize: none;" rows="4" id="additional_information" name="additional_information" placeholder="Additional Information"></textarea>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <div class="modal-body">
-                                                    <div class="row">
-                                                        <div class="col-lg-12 mb-2">
-                                                            <span class="control-label" for="Name">Name</span>
-                                                            <div class="input-container-search-ticket">
-                                                                <input type="text" class="form-control o_website_form_input" id="bill_name" name="bill_name" placeholder="Name" required="1"/>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-12 mb-2">
-                                                            <span class="control-label" for="Address">Address</span>
-                                                            <div class="input-container-search-ticket">
-                                                                <textarea class="form-control" style="width:100%; height:70px; resize: none;" rows="4" id="bill_address" name="bill_address" placeholder="Address"></textarea>
-                                                                <!--<input type="text" class="form-control o_website_form_input" id="bill_name" name="bill_address" placeholder="Address" required="1"/>-->
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-12 mb-2">
-                                                            <span class="control-label" for="Additional Information">Additional Information</span>
-                                                            <div class="input-container-search-ticket">
-                                                                <textarea class="form-control" style="width:100%; height:70px; resize: none;" rows="4" id="additional_information" name="additional_information" placeholder="Additional Information"></textarea>
-                                                            </div>
-                                                        </div>
-                                                    </div>
 
-                                                    <div class="row">
-                                                        <div class="col-lg-12 mb-2">
-                                                            <span class="control-label" for="Name">Included Passengers</span>
-                                                            <table class="table list-of-reservation" style="border: 1px solid; width:100%;">`;
-                                                            for (resv_pax in airline_get_detail.result.response.passengers){
-                                                                text += `
-                                                                <tr>
-                                                                    <td>
-                                                                        <span id="resv_pax_value`+resv_pax+`">`+airline_get_detail.result.response.passengers[resv_pax].name+`, `+airline_get_detail.result.response.passengers[resv_pax].title+`</span>
-                                                                    </td>
-                                                                    <td>
-                                                                        <label class="check_box_custom cblabel">
-                                                                            <input type="checkbox" id="resv_pax_checkbox`+resv_pax+`" name="resv_pax_checkbox`+i+`" checked />
-                                                                            <span class="check_box_span_custom cbspan" style="background:#cdcdcd;"></span>
-                                                                        </label>
-                                                                    </td>
-                                                                </tr>`;
-                                                            }
-                                                        text += `</table>
-                                                        </div>
+                                                <div class="row">
+                                                    <div class="col-lg-12 mb-2">
+                                                        <span class="control-label" for="Name">Included Passengers</span>
+                                                        <table class="table list-of-reservation" style="border: 1px solid; width:100%;">`;
+                                                        for (resv_pax in airline_get_detail.result.response.passengers){
+                                                            text_print_booking += `
+                                                            <tr>
+                                                                <td>
+                                                                    <span id="resv_pax_value`+resv_pax+`">`+airline_get_detail.result.response.passengers[resv_pax].name+`, `+airline_get_detail.result.response.passengers[resv_pax].title+`</span>
+                                                                </td>
+                                                                <td>
+                                                                    <label class="check_box_custom cblabel">
+                                                                        <input type="checkbox" id="resv_pax_checkbox`+resv_pax+`" name="resv_pax_checkbox`+i+`" checked />
+                                                                        <span class="check_box_span_custom cbspan" style="background:#cdcdcd;"></span>
+                                                                    </label>
+                                                                </td>
+                                                            </tr>`;
+                                                        }
+                                                    text_print_booking += `</table>
                                                     </div>
+                                                </div>
 
+                                                <br/>
+                                                <div style="text-align:right;">
+                                                    <span>Don't want to edit? just submit</span>
                                                     <br/>
-                                                    <div style="text-align:right;">
-                                                        <span>Don't want to edit? just submit</span>
-                                                        <br/>
-                                                        <button type="button" id="button-issued-print" class="primary-btn ld-ext-right" onclick="get_printout('`+msg.result.response.order_number+`', 'invoice','airline');">
-                                                            Submit
-                                                            <div class="ld ld-ring ld-cycle"></div>
-                                                        </button>
-                                                    </div>
+                                                    <button type="button" id="button-issued-print" class="primary-btn ld-ext-right" onclick="get_printout('`+msg.result.response.order_number+`', 'invoice','airline');">
+                                                        Submit
+                                                        <div class="ld ld-ring ld-cycle"></div>
+                                                    </button>
                                                 </div>
-                                                <div class="modal-footer">
-                                                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                             </div>
                                         </div>
                                     </div>
-                                `;
+                                </div>`;
                             }
+                            text_print_booking += `</div>`;
                         }
-                            text+=`
-                        </a>
-                    </div>`;
-                    text+=`
-                    </div>`;
-                text+=`
+                        text_print_booking+=`
+                        </div>
+                    </div>
                 </div>`;
+                document.getElementById('airline_booking_print').innerHTML = text_print_booking;
                 document.getElementById('airline_booking').innerHTML = text;
 
                 for(provider in msg.result.response.provider_bookings){
@@ -10074,9 +10193,9 @@ function airline_get_booking(data, sync=false){
                 commission = 0;
                 service_charge = ['FARE', 'RAC', 'ROC', 'TAX', 'SSR', 'DISC'];
                 text_detail=`
-                <div style="background-color:white; padding:15px; border: 1px solid #cdcdcd; margin-bottom:15px;">
+                <div class="div_box_default">
                     <div class="row">
-                        <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                        <div class="col-lg-12" style="border-bottom:1px solid #cdcdcd;">
                             <h4 class="mb-3"> Price Detail</h4>
                         </div>
                     </div>`;
@@ -10099,8 +10218,8 @@ function airline_get_booking(data, sync=false){
                     try{
                         if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false || msg.result.response.state == 'issued')
                             text_detail+=`
-                                <div style="text-align:left">
-                                    <span style="font-weight:500; font-size:14px;">PNR: `+msg.result.response.provider_bookings[i].pnr+` </span>
+                                <div style="text-align:left; padding-top:10px;">
+                                    <span style="font-weight:bold; font-size:14px;">PNR: `+msg.result.response.provider_bookings[i].pnr+` </span>
                                 </div>`;
 
                         for(j in msg.result.response.passengers){
@@ -10196,9 +10315,26 @@ function airline_get_booking(data, sync=false){
                             //repricing
 
                             text_detail+=`
-                            <div class="row" style="margin-bottom:5px;">
+                            <div class="row">
                                 <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                    <span style="font-size:12px;">`+msg.result.response.passengers[j].name+`</span>`;
+                                    <span style="font-size:13px;">`+msg.result.response.passengers[j].title+` `+msg.result.response.passengers[j].name;
+                                    text_detail+=' (';
+                                    if(msg.result.response.passengers[j].pax_type == 'ADT'){
+                                        text_detail+=`Adult`;
+                                    }else if(msg.result.response.passengers[j].pax_type == 'CHD'){
+                                        text_detail+=`Child`;
+                                    }else if(msg.result.response.passengers[j].pax_type == 'INF'){
+                                        text_detail+=`Infant`;
+                                    }else if(msg.result.response.passengers[j].pax_type == 'LBR'){
+                                        text_detail+=`Labour`;
+                                    }else if(msg.result.response.passengers[j].pax_type == 'SEA'){
+                                        text_detail+=`Seaman`;
+                                    }else if(msg.result.response.passengers[j].pax_type == 'STU'){
+                                        text_detail+=`Student`;
+                                    }
+                                    text_detail+=')';
+                                    text+=`
+                                    </span>`;
                                 text_detail+=`</div>
                                 <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
                                     <span style="font-size:13px;`;
@@ -10281,6 +10417,7 @@ function airline_get_booking(data, sync=false){
                             });
                         }
                         counter_service_charge++;
+                        text_detail+=`<div class="row" style="padding-bottom:10px; border-bottom:1px solid #cdcdcd"></div>`;
                     }catch(err){console.log(err);}
                 }
                 //di gabung di pax
@@ -10324,15 +10461,12 @@ function airline_get_booking(data, sync=false){
                             </div>`;
                     }
                     text_detail+=`
-                    <div>
-                        <hr/>
-                    </div>
-                    <div class="row" style="margin-bottom:10px;">
+                    <div class="row" style="margin-bottom:10px;margin-top:10px;">
                         <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                            <span style="font-size:13px; font-weight: bold;">Grand Total</span>
+                            <span style="font-size:16px; font-weight: bold;">Grand Total</span>
                         </div>
                         <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                            <span id="total_price" style="font-size:13px; font-weight: bold;`;
+                            <span id="total_price" style="font-size:16px; font-weight: bold;`;
                             if(is_show_breakdown_price)
                                 text_detail+='cursor:pointer;';
                             text_detail +=`">`;
@@ -10384,34 +10518,16 @@ function airline_get_booking(data, sync=false){
                         $('#repricing_type').niceSelect('update');
                         reset_repricing();
                     }
-                    text_detail+=`<div class="row">
-                    <div class="col-lg-12" style="padding-bottom:10px;">
-                        <hr/>
-                        <span style="font-size:14px; font-weight:bold;"><i class="fas fa-share-alt"></i> Share This on:</span><br/>`;
-                        share_data();
-                        var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-                        if (isMobile) {
-                            text_detail+=`
-                                <a href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/whatsapp.png" alt="Whatsapp"/></a>
-                                <a href="line://msg/text/`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/line.png" alt="Line"/></a>
-                                <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/telegram.png" alt="Telegram"/></a>
-                                <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/email.png" alt="Email"/></a>`;
-                        } else {
-                            text_detail+=`
-                                <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/whatsapp.png" alt="Whatsapp"/></a>
-                                <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/line.png" alt="Line"/></a>
-                                <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/telegram.png" alt="Telegram"/></a>
-                                <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/email.png" alt="Email"/></a>`;
-                        }
-
-                    text_detail+=`
-                        </div>
-                    </div>`;
                     if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false && user_login.co_agent_frontend_security.includes('see_commission')){
                         text_detail+=`
-                        <div class="row" id="show_commission" style="display:block;">
-                            <div class="col-lg-12 col-xs-12" style="text-align:center;">
-                                <div class="alert alert-success">
+                        <div class="alert alert-success">
+                            <div style="color:black; font-weight:bold; cursor:pointer; font-size:15px; text-align:left; width:100%;" onclick="show_commission('commission');">
+                                <span id="show_commission_button"">
+                                    Hide YPM <i class="fas fa-chevron-up" style="float:right;"></i>
+                                </span>
+                            </div>
+                            <div class="row" id="show_commission" style="display:block;">
+                                <div class="col-lg-12 col-xs-12" style="text-align:center;">
                                     <div class="row">
                                         <div class="col-lg-6 col-xs-6" style="text-align:left;">
                                             <span style="font-size:13px; font-weight:bold;">YPM</span>
@@ -10468,17 +10584,34 @@ function airline_get_booking(data, sync=false){
                             </div>
                         </div>`;
                     }
-                    text_detail+=`<center>
-
-                    <div style="padding-bottom:10px;">
-                        <center>
-                            <input type="button" class="primary-btn-white" style="width:100%;" onclick="copy_data();" value="Copy"/>
-                        </center>
-                    </div>`;
+                    text_detail+=`<center>`;
                     if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
                     text_detail+=`
-                    <div style="margin-bottom:5px;">
-                        <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');" value="Hide YPM"/>
+                    <div class="row">
+                        <div class="col-lg-12" style="text-align:left;">
+                            <span style="font-size:14px; font-weight:bold;"><i class="fas fa-share-alt"></i> Share This on:</span><br/>`;
+                            share_data();
+                            var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+                            if (isMobile) {
+                                text_detail+=`
+                                    <a href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/whatsapp.png" alt="Whatsapp"/></a>
+                                    <a href="line://msg/text/`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/line.png" alt="Line"/></a>
+                                    <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/telegram.png" alt="Telegram"/></a>
+                                    <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/email.png" alt="Email"/></a>`;
+                            } else {
+                                text_detail+=`
+                                    <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/whatsapp.png" alt="Whatsapp"/></a>
+                                    <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/line.png" alt="Line"/></a>
+                                    <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/telegram.png" alt="Telegram"/></a>
+                                    <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/email.png" alt="Email"/></a>`;
+                            }
+                            text_detail+=`
+                            <div style="float:right">
+                                <button class="btn_standard_sm" type="button" onclick="copy_data();">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>`;
                 }catch(err){
@@ -12874,9 +13007,9 @@ function delete_reissue(provider_index, journey_index){
             var node = document.createElement("h6");
             if(journey_index == j){
                 node.innerHTML = `
-                PNR: `+document.getElementById('pnr'+provider_index).value+`
+                <i class="fas fa-plane"></i> PNR: `+document.getElementById('pnr'+provider_index).value+`
                 <br/>
-                This flight will not be changed.`;
+                <i>This flight will not be changed.</i>`;
 
                 document.getElementById('delete_reissue_'+provider_index+'_journey'+j).appendChild(node);
                 document.getElementById('delete_reissue_'+provider_index+'_journey'+j).style.display = 'block';
@@ -12920,66 +13053,78 @@ function reroute_btn(){
                     text += `
                     <div class="row">
                         <div class="col-lg-12" id="delete_reissue_`+i+`_journey`+j+`" style="border-bottom:1px solid #cdcdcd; padding-top:15px; padding-bottom:15px; display:none;"></div>
-                        <div class="col-lg-12" id="reissue_`+i+`_journey`+j+`" style="border-bottom:1px solid #cdcdcd; padding-top:15px;">
+                        <div class="col-lg-12" id="reissue_`+i+`_journey`+j+`" style="border-bottom:1px solid #cdcdcd;">
                             <div class="row">
-                               <div class="col-lg-12" style="text-align:right;">
-                                    <label class="span_link" onclick="delete_reissue(`+i+`,`+j+`)">Close <i class="fas fa-times" style="font-size:18px; color:red;"></i></label>
+                               <div class="col-lg-12 mb-3" style="text-align:right;">
+                                    <label class="span_link" style="color:#e04022 !important" onclick="delete_reissue(`+i+`,`+j+`)">disable changes for this flight <i class="fas fa-times" style="font-size:18px; color:red;"></i></label>
                                </div>
-                            </div>`;
-                            for(k in airline_get_detail.result.response.provider_bookings[i].journeys[j].segments){
-                                //kasih silang kasih reset
-                                text+=`
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <h5>`+airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[k].carrier_name+' '+airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[k].carrier_number+`</h5>`;
-                                        try{
-                                        text+=`
-                                            <img data-toggle="tooltip" style="width:50px; height:50px;" alt="`+airline_carriers[airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code].name+`" title="`+airline_carriers[airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code].name+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code+`.png"/>`;
-                                        }catch(err){
-                                        text+=`
-                                            <img data-toggle="tooltip" style="width:50px; height:50px;" alt="`+airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code+`" title="`+airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code+`.png"/>`;
-                                        }
-                                    text +=`
-                                    </div>
-                                </div>`;
-                            }
-                            text+=`
+                            </div>
                             <div class="row">
-                                <div class="col-lg-12 col-xs-12">
-                                    <span class="span-search-ticket"><i class="fas fa-plane-departure"></i> From</span>
-                                    <div class="input-container-search-ticket">
-                                        <div class="form-select">
-                                            <input id="origin_id_flight`+flight+`" name="origin_id_flight`+flight+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="" onfocus="document.getElementById('origin_id_flight`+flight+`').select();" onclick="set_airline_search_value_to_false();">
+                                <div class="col-lg-3">
+                                    <div class="row">`;
+                                        for(k in airline_get_detail.result.response.provider_bookings[i].journeys[j].segments){
+                                            //kasih silang kasih reset
+                                            text+=`
+                                            <div class="col-lg-12">
+                                                <div style="display:inline-flex;">
+                                                    <div style="display:inline-block;">`;
+                                                        try{
+                                                            text+=`<img data-toggle="tooltip" class="airlines_provider_img" alt="`+airline_carriers[airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code].name+`" title="`+airline_carriers[airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code].name+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code+`.png"/>`;
+                                                        }catch(err){
+                                                            text+=`<img data-toggle="tooltip" class="airlines_provider_img" alt="`+airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code+`" title="`+airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code+`.png"/>`;
+                                                        }
+                                                    text+=`
+                                                    </div>
+                                                    <div style="display:inline-block;">
+                                                        <span style="margin-top:15px; font-size:13px; font-weight:500;">`+airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[k].carrier_name+' '+airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[k].carrier_number+`</span><br>
+                                                    </div>
+                                                </div>
+                                            </div>`;
+                                        }
+                                    text+=`
+                                    </div>
+                                </div>
+                                <div class="col-lg-9">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <span><i class="fas fa-plane-departure"></i> From</span>
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select">
+                                                    <input id="origin_id_flight`+flight+`" name="origin_id_flight`+flight+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="" onfocus="document.getElementById('origin_id_flight`+flight+`').select();" onclick="set_airline_search_value_to_false();">
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
 
-                                <div class="col-lg-12 col-xs-12">
-                                    <span class="span-search-ticket"><i class="fas fa-plane-departure"></i> Destination</span>
-                                    <div class="input-container-search-ticket">
-                                        <div class="form-select">
-                                            <input id="destination_id_flight`+flight+`" name="destination_id_flight`+flight+`" class="form-control" type="text" placeholder="Destination" style="width:100%;outline:0" autocomplete="off" value="" onfocus="document.getElementById('destination_id_flight`+flight+`').select();" onclick="set_airline_search_value_to_false();">
+                                        <div class="col-lg-6">
+                                            <span><i class="fas fa-plane-departure"></i> Destination</span>
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select">
+                                                    <input id="destination_id_flight`+flight+`" name="destination_id_flight`+flight+`" class="form-control" type="text" placeholder="Destination" style="width:100%;outline:0" autocomplete="off" value="" onfocus="document.getElementById('destination_id_flight`+flight+`').select();" onclick="set_airline_search_value_to_false();">
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-12 banner-right">
-                                    <div class="form-wrap" style="padding:10px 0px 0px 0px;">
-                                        <input type="text" style="background:white;margin-top:5px;" class="form-control" name="airline_departure" id="airline_departure`+flight+`" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
-                                    </div>
-                                </div>
+                                        <div class="col-lg-6">
+                                            <span><i class="fas fa-calendar-alt"></i> Date</span>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" style="background:white; width:100%;" class="form-control" name="airline_departure" id="airline_departure`+flight+`" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
+                                            </div>
+                                        </div>
 
-                                <div class="col-lg-12">
-                                    <div class="form-select">
-                                        <select id="cabin_class`+flight+`" name="cabin_class`+flight+`" class="nice-select-default reissued-class-airline">
-                                            <option value="Y" selected="">Economy</option>`;
-                                            if(airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[0].carrier_code == 'QG')
-                                                text +=`<option value="W">Royal Green</option>`;
-                                            else
-                                                text +=`<option value="W">Premium Economy</option>`;
-                                            text +=`
-                                            <option value="C">Business</option>
-                                            <option value="F">First Class</option>
-                                        </select>
+                                        <div class="col-lg-6">
+                                            <span>Class</span>
+                                            <div class="form-select">
+                                                <select id="cabin_class`+flight+`" name="cabin_class`+flight+`" class="nice-select-default reissued-class-airline">
+                                                    <option value="Y" selected="">Economy</option>`;
+                                                    if(airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[0].carrier_code == 'QG')
+                                                        text +=`<option value="W">Royal Green</option>`;
+                                                    else
+                                                        text +=`<option value="W">Premium Economy</option>`;
+                                                    text +=`
+                                                    <option value="C">Business</option>
+                                                    <option value="F">First Class</option>
+                                                </select>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -13089,192 +13234,179 @@ function reissued_btn(){
     text = '';
     flight = 1;
     cabin_class = 1;
-    text += `<div class="row">`;
 
-    text += `
-    <div class="col-lg-12 mb-3">
-        <h4 class="mb-3"> Change Itinerary</h4>
-    </div>`;
+    text+=`
+    <div class="div_box_default mb-3">
+        <div class="row">
+            <div class="col-lg-12" style="padding-bottom:10px; border-bottom:1px solid #cdcdcd;">
+                <h4 style="margin-bottom:15px; padding-right:10px; display:inline-block;">Change Itinerary</h4>`;
+                if(is_reroute){
+                    text+=`
+                    <button type="button" class="primary-btn-white" style="margin-bottom:0px; display:inline-block;" onclick="reroute_btn();">
+                        Reroute <i class="fas fa-route"></i>
+                    </button>`;
+                }
+                text+=`
+                <button type="button" class="primary-btn-white" style="margin-bottom:0px; display:inline-block;" onclick="reissued_btn();">
+                    reset <i class="fas fa-redo"></i>
+                </button>
+                <label class="span_link" style="float:right;" onclick="hide_div('button-change-itinerary-div')">hide <i class="fas fa-chevron-up"></i></label>
+            </div>
+        </div>
+        <div class="row" id="reissue_div">`;
+        for(i in airline_get_detail.result.response.provider_bookings){
+            text += `
+            <div class="col-lg-12" id="reissue_`+i+`" style="border-bottom: 1px solid #cdcdcd;">
+                <input type='hidden' id="pnr`+i+`" value=`+airline_get_detail.result.response.provider_bookings[i].pnr+`>`;
+    //            text += `<div class="row">
+    //                       <div class="col-lg-10 col-xs-10">`;
+    //                text+=`</div>
+    //                       <div class="col-lg-2 col-xs-2">
+    //                        <label onclick="delete_reissue('reissue_`+i+`')">X</label>
+    //                       </div>
+    //                   </div>`;
+                is_reschedule_print = false;
+                for(j in airline_get_detail.result.response.provider_bookings[i].journeys){
+                    if(moment() < moment(airline_get_detail.result.response.provider_bookings[i].journeys[j].departure_date)){
+                        is_reschedule_print = true;
+                        text += `
+                        <div class="row">
+                            <div class="col-lg-12" id="delete_reissue_`+i+`_journey`+j+`" style="padding-top:15px; padding-bottom:15px; border-bottom:1px solid #cdcdcd; display:none;">
 
-    if(is_reroute){
-        text+=`
-        <div class="col-xs-6">
-            <button type="button" class="primary-btn-white" onclick="reroute_btn();" style="float:left; width:100%;">
-                Reroute <i class="fas fa-route"></i>
-            </button>
-        </div>`;
-        text+=`
-        <div class="col-xs-6 mb-3">
-            <button type="button" class="primary-btn-white" onclick="reissued_btn();" style="float:right; width:100%;">
-                reset <i class="fas fa-redo"></i>
-            </button>
-        </div>`;
-    }else{
-        text+=`
-        <div class="col-lg-12 mb-3" style="text-align:right;">
-            <button type="button" class="primary-btn-white" onclick="reissued_btn();" style="float:right; width:100%;">
-                reset <i class="fas fa-redo"></i>
-            </button>
-        </div>`;
-    }
-
-    text += `
-        <div class="col-lg-12" style="border-bottom:1px solid #cdcdcd;"></div>
-    </div>
-    <div class="row" id="reissue_div">`;
-    for(i in airline_get_detail.result.response.provider_bookings){
-        text += `
-        <div class="col-lg-12" id="reissue_`+i+`">
-            <input type='hidden' id="pnr`+i+`" value=`+airline_get_detail.result.response.provider_bookings[i].pnr+`>`;
-//            text += `<div class="row">
-//                       <div class="col-lg-10 col-xs-10">`;
-//                text+=`</div>
-//                       <div class="col-lg-2 col-xs-2">
-//                        <label onclick="delete_reissue('reissue_`+i+`')">X</label>
-//                       </div>
-//                   </div>`;
-            is_reschedule_print = false;
-            for(j in airline_get_detail.result.response.provider_bookings[i].journeys){
-                if(moment() < moment(airline_get_detail.result.response.provider_bookings[i].journeys[j].departure_date)){
-                    is_reschedule_print = true;
-                    text += `
-                    <div class="row">
-                        <div class="col-lg-12" id="delete_reissue_`+i+`_journey`+j+`" style="border-bottom:1px solid #cdcdcd; padding-top:15px; padding-bottom:15px; display:none;"></div>
-                        <div class="col-lg-12" id="reissue_`+i+`_journey`+j+`" style="border-bottom:1px solid #cdcdcd; padding-top:15px;">
-                            <div class="row">
-                               <div class="col-lg-12" style="text-align:right;">
-                                    <label class="span_link" onclick="delete_reissue(`+i+`,`+j+`)">Close <i class="fas fa-times" style="font-size:18px; color:red;"></i></label>
-                               </div>
-                            </div>`;
-                            cabin_class = ''
-                            for(k in airline_get_detail.result.response.provider_bookings[i].journeys[j].segments){
-                                //kasih silang kasih reset
-                                text+=`
+                            </div>
+                            <div class="col-lg-12" id="reissue_`+i+`_journey`+j+`" style="border-bottom:1px solid #cdcdcd; padding-top:15px;">
                                 <div class="row">
-                                    <div class="col-lg-12">
-                                        <h5>`+airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[k].carrier_name+' '+airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[k].carrier_number+`</h5>`;
-                                        try{
+                                   <div class="col-lg-12 mb-3" style="text-align:right;">
+                                        <label class="span_link" style="color:#e04022 !important" onclick="delete_reissue(`+i+`,`+j+`)">disable changes for this flight <i class="fas fa-times" style="font-size:18px; color:red;"></i></label>
+                                   </div>
+                                </div>
+                                <div class="row">`;
+                                    cabin_class = '';
+                                    text+=`<div class="col-lg-3" style="margin-bottom:10px;">`;
+                                    for(k in airline_get_detail.result.response.provider_bookings[i].journeys[j].segments){
+                                        //kasih silang kasih reset
                                         text+=`
-                                            <img data-toggle="tooltip" style="width:50px; height:50px;" alt="`+airline_carriers[airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code].name+`" title="`+airline_carriers[airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code].name+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code+`.png"/>`;
-                                        }catch(err){
-                                        text+=`
-                                            <img data-toggle="tooltip" style="width:50px; height:50px;" alt="`+airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code+`" title="`+airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code+`.png"/>`;
-                                        }
-                                    text +=`
-                                    </div>
-                                </div>`;
-                                cabin_class = airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[k].cabin_class;
-                            }
-                            text+=`
-                            <div class="row">
-                                <div class="col-lg-6 col-xs-6">
-                                    <table style="width:100%">
-                                        <tr>
-                                            <td><h5>`+airline_get_detail.result.response.provider_bookings[i].journeys[j].departure_date.split('  ')[1]+`</h5></td>
-                                            <td style="padding-left:15px;">
-                                                <img src="/static/tt_website/images/icon/symbol/airlines-01.png" alt="Airline" style="width:20px; height:20px;"/>
-                                            </td>
-                                            <td style="height:30px;padding:0 15px;width:100%">
-                                                <div style="display:inline-block;position:relative;width:100%">
-                                                    <div style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
-                                                    <div class="origin-code-snippet" style="background-color:#d4d4d4;right:-6px"></div>
-                                                    <div style="height:30px;min-width:40px;position:relative;width:0%"/>
+                                        <div style="display:inline-flex; margin-bottom:10px; margin-right:10px;">
+                                            <div style="display:inline-block;">`;
+                                                try{
+                                                    text+=`<img data-toggle="tooltip" class="airlines_provider_img" alt="`+airline_carriers[airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code].name+`" title="`+airline_carriers[airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code].name+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code+`.png"/>`;
+                                                }catch(err){
+                                                    text+=`<img data-toggle="tooltip" class="airlines_provider_img" alt="`+airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code+`" title="`+airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code+`.png"/>`;
+                                                }
+                                            text+=`
+                                            </div>
+                                            <div style="display:inline-block;">
+                                                <span style="margin-top:15px; font-size:13px; font-weight:500;">`+airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[k].carrier_name+'<br/>'+airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[k].carrier_number+`</span><br>
+                                            </div>
+                                        </div>`;
+                                        cabin_class = airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[k].cabin_class;
+                                    }
+                                    text+=`</div>`;
+                                    text+=`
+                                    <div class="col-lg-5 col-md-8" style="margin-bottom:10px;">
+                                        <div class="row">
+                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                <h6>`+airline_get_detail.result.response.provider_bookings[i].journeys[j].departure_date.split('  ')[1]+`</h6>
+                                                <span>`+airline_get_detail.result.response.provider_bookings[i].journeys[j].departure_date.split('  ')[0]+`</span><br>
+                                                <span style="font-weight:500;">`+airline_get_detail.result.response.provider_bookings[i].journeys[j].origin_name+` - `+airline_get_detail.result.response.provider_bookings[i].journeys[j].origin_city+` (`+airline_get_detail.result.response.provider_bookings[i].journeys[j].origin+`)</span><br>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                <div style="text-align:center; position: absolute; left:-30%;">
+                                                    <div style="display:inline-block;position:relative;width:100px;z-index:1;">
+                                                        <img src="/static/tt_website/images/icon/symbol/airlines-01.png" alt="Airline" style="width:20px; height:20px; margin-top:5px; position:relative; z-index:99;">
+                                                        <div class="show_pc" style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
+                                                        <div class="show_pc origin-code-snippet" style="background-color:#d4d4d4;right:0px"></div>
+                                                    </div>
                                                 </div>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                    <span>`+airline_get_detail.result.response.provider_bookings[i].journeys[j].departure_date.split('  ')[0]+`</span><br/>
-                                    <span style="font-weight:500;">`+airline_get_detail.result.response.provider_bookings[i].journeys[j].origin_name+` - `+airline_get_detail.result.response.provider_bookings[i].journeys[j].origin_city+` (`+airline_get_detail.result.response.provider_bookings[i].journeys[j].origin+`)</span>
-                                </div>
-
-                                <div class="col-lg-6 col-xs-6" style="padding:0;">
-                                    <table style="width:100%; margin-bottom:6px;">
-                                        <tr>
-                                            <td><h5>`+airline_get_detail.result.response.provider_bookings[i].journeys[j].arrival_date.split('  ')[1]+`</h5></td>
-                                            <td></td>
-                                            <td style="height:30px;padding:0 15px;width:100%"></td>
-                                        </tr>
-                                    </table>
-                                    <span>`+airline_get_detail.result.response.provider_bookings[i].journeys[j].arrival_date.split('  ')[0]+`</span><br/>
-                                    <span style="font-weight:500;">`+airline_get_detail.result.response.provider_bookings[i].journeys[j].destination_name+` - `+airline_get_detail.result.response.provider_bookings[i].journeys[j].destination_city+` (`+airline_get_detail.result.response.provider_bookings[i].journeys[j].destination+`)</span>
-                                </div>
-                                <div class="col-lg-12 banner-right">
-                                    <div class="form-wrap" style="padding:10px 0px 0px 0px;">
-                                        <input type="text" style="background:white;margin-top:5px;" class="form-control" name="airline_departure" id="airline_departure`+flight+`" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
+                                                <div style="text-align:right">
+                                                    <h6>`+airline_get_detail.result.response.provider_bookings[i].journeys[j].arrival_date.split('  ')[1]+`</h6>
+                                                    <span>`+airline_get_detail.result.response.provider_bookings[i].journeys[j].arrival_date.split('  ')[0]+`</span><br>
+                                                    <span style="font-weight:500;">`+airline_get_detail.result.response.provider_bookings[i].journeys[j].destination_name+` - `+airline_get_detail.result.response.provider_bookings[i].journeys[j].destination_city+` (`+airline_get_detail.result.response.provider_bookings[i].journeys[j].destination+`)</span><br>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <div class="form-select">
-                                        <select id="cabin_class`+flight+`" name="cabin_class`+flight+`" class="nice-select-default reissued-class-airline">
-                                            <option value="Y"`;
-                                            if(cabin_class == 'Y')
-                                                text += ` selected`;
-                                            text+=`>Economy</option>`;
-                                            if(airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[0].carrier_code == 'QG'){
-                                                text +=`<option value="W"`;
-                                                if(cabin_class == 'W')
+
+                                    <div class="col-lg-4" style="margin-bottom:10px;">
+                                        <div class="form-wrap">
+                                            <input type="text" style="background:white;" class="form-control" name="airline_departure" id="airline_departure`+flight+`" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
+                                        </div>
+
+                                        <div class="form-select">
+                                            <select id="cabin_class`+flight+`" name="cabin_class`+flight+`" class="nice-select-default reissued-class-airline">
+                                                <option value="Y"`;
+                                                if(cabin_class == 'Y')
                                                     text += ` selected`;
-                                                text +=`>Royal Green</option>`;
-                                            }else{
-                                                text +=`<option value="W"`;
-                                                if(cabin_class == 'W')
+                                                text+=`>Economy</option>`;
+                                                if(airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[0].carrier_code == 'QG'){
+                                                    text +=`<option value="W"`;
+                                                    if(cabin_class == 'W')
+                                                        text += ` selected`;
+                                                    text +=`>Royal Green</option>`;
+                                                }else{
+                                                    text +=`<option value="W"`;
+                                                    if(cabin_class == 'W')
+                                                        text += ` selected`;
+                                                    text+=`>Premium Economy</option>`;
+                                                }
+                                                text +=`
+                                                <option value="C"`;
+                                                if(cabin_class == 'C')
                                                     text += ` selected`;
-                                                text+=`>Premium Economy</option>`;
-                                            }
-                                            text +=`
-                                            <option value="C"`;
-                                            if(cabin_class == 'C')
-                                                text += ` selected`;
-                                            text+=`>Business</option>
-                                            <option value="F"`;
-                                            if(cabin_class == 'F')
-                                                text += ` selected`;
-                                            text+=`>First Class</option>
-                                        </select>
+                                                text+=`>Business</option>
+                                                <option value="F"`;
+                                                if(cabin_class == 'F')
+                                                    text += ` selected`;
+                                                text+=`>First Class</option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>`;
-                    flight++;
+                        </div>`;
+                        flight++;
+                    }
                 }
-            }
-//        if(is_reschedule_print){
-//            text+=`
-//                <div class="row" id="reschedule_cabin_class`+i+`">
-//                    <div class="col-lg-12">
-//                        <label>Prefed Class</label>
-//                        <div class="form-select">
-//                            <select id="cabin_class_flight`+cabin_class+`" name="cabin_class_flight`+cabin_class+`" class="nice-select-default reissued-class-airline">
-//                                <option value="Y" selected="">Economy</option>`;
-//            if(airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[0].carrier_code == 'QG')
-//                text +=`
-//                                <option value="W">Royal Green</option>`;
-//            else
-//                text +=`
-//                                <option value="W">Premium Economy</option>`;
-//            text +=`
-//                                <option value="C">Business</option>
-//                                <option value="F">First Class</option>
-//                            </select>
-//                        </div>
-//                    </div>
-//                </div>
-//            </div>`;
-//        }
+    //        if(is_reschedule_print){
+    //            text+=`
+    //                <div class="row" id="reschedule_cabin_class`+i+`">
+    //                    <div class="col-lg-12">
+    //                        <label>Prefed Class</label>
+    //                        <div class="form-select">
+    //                            <select id="cabin_class_flight`+cabin_class+`" name="cabin_class_flight`+cabin_class+`" class="nice-select-default reissued-class-airline">
+    //                                <option value="Y" selected="">Economy</option>`;
+    //            if(airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[0].carrier_code == 'QG')
+    //                text +=`
+    //                                <option value="W">Royal Green</option>`;
+    //            else
+    //                text +=`
+    //                                <option value="W">Premium Economy</option>`;
+    //            text +=`
+    //                                <option value="C">Business</option>
+    //                                <option value="F">First Class</option>
+    //                            </select>
+    //                        </div>
+    //                    </div>
+    //                </div>
+    //            </div>`;
+    //        }
+            text += `</div>`;
+            cabin_class++;
+        }
         text += `</div>`;
-        cabin_class++;
-    }
-    text += `</div>`;
-    text+=`
-        <div class="col-lg-12" style="padding:15px 0px 0px 0px;">
-            <!--<input class="primary-btn-ticket" style="width:100%;" type="button" onclick="airline_reissued();" value="Change Itinerary">--!>
-            <button class="primary-btn-ticket" id="reissued_req_btn" style="width:100%;" type="button" onclick="airline_get_reschedule_availability_v2();">
-                Change Itinerary
-            </button>
+
+        text +=`
+        <div class="row">
+            <div class="col-lg-12" style="padding-top:15px; text-align:center;">
+                <!--<input class="primary-btn-ticket" style="width:100%;" type="button" onclick="airline_reissued();" value="Change Itinerary">--!>
+                <button class="primary-btn-ticket" id="reissued_req_btn" style="margin-bottom:0px;" type="button" onclick="airline_get_reschedule_availability_v2();">
+                    Change Itinerary
+                </button>
+            </div>
         </div>
     </div>`;
-    document.getElementById('reissued').innerHTML = text;
+    document.getElementById('button-change-itinerary-div').innerHTML = text;
+    document.getElementById('button-change-itinerary-div').style.display = "block";
     $('.reissued-class-airline').niceSelect();
     airline_date = airline_get_detail.result.response.provider_bookings[0].departure_date.split(' ')[0];
     counter_airline = 1;
@@ -18257,6 +18389,9 @@ function airline_get_reschedule_availability_v2(){
            success: function(msg) {
                hide_modal_waiting_transaction();
                document.getElementById('show_loading_booking_airline').hidden = false;
+               document.getElementById('button-change-itinerary-div').innerHTML = '';
+               document.getElementById('airline_booking_print').innerHTML = '';
+               document.getElementById('airline_booking_order_number').innerHTML = '';
                if(msg.result.error_code == 0){
                     topFunction();
                     error_log = '';
@@ -18976,8 +19111,7 @@ function split_booking_btn(){
     text = '';
     flight = 1;
     cabin_class = 1;
-    text+=`
-            <h5>Split Booking</h5>`;
+    text+=`<h6>Passengers</h6>`;
     pax_list = [];
     infant_list = [];
     for(i in airline_get_detail.result.response.passengers){
@@ -18986,28 +19120,38 @@ function split_booking_btn(){
         else
             pax_list.push(airline_get_detail.result.response.passengers[i]);
     }
-    for(i in pax_list){
-        text += `<div class="row">
-                       <div class="col-lg-10 col-xs-10">
-                        `+pax_list[i].title+` `+pax_list[i].name;
-        if(infant_list.length > i)
-            text += ` - `+infant_list[i].title+` `+infant_list[i].name;
-        text += `
-                       </div>
-                       <div class="col-lg-2 col-xs-2" style="text-align:right;">
-                        <input type="checkbox" class="split_booking" id="pax_`+i+`" name="pax_`+i+`"/>
-                       </div>
-                   </div>`;
-    }
-//    for(i in airline_get_detail.result.response.passengers){
-//
-//    }
+
     text+=`
-        <div class="col-lg-12" style="margin-top:10px;">
-            <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="split_booking_request();" value="Split Booking">
-        </div>
-    </div>`;
-    document.getElementById('split_booking').innerHTML = text;
+    <table style="width:100%; background:white;margin-top:15px;" class="list-of-table mb-3">
+        <tr>
+            <th style="width:80%">Name</th>
+            <th style="width:20%">Split</th>
+        </tr>`;
+
+        for(i in pax_list){
+            text += `
+            <tr>
+                <td>
+                    `+pax_list[i].title+` `+pax_list[i].name;
+                    if(infant_list.length > i)
+                        text += ` - `+infant_list[i].title+` `+infant_list[i].name;
+                text += `
+               </td>
+               <td>
+                    <label class="check_box_custom" style="margin-bottom:15px; float:left;">
+                        <input type="checkbox" class="split_booking" id="pax_`+i+`" name="pax_`+i+`"/>
+                        <span class="check_box_span_custom"></span>
+                    </label>
+
+               </td>
+           </tr>`;
+        }
+        text+=`
+    </table>
+    <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="split_booking_request();" value="Split Booking">`;
+    document.getElementById('split_booking_div').innerHTML = text;
+    document.getElementById('split_booking_div').hidden = false;
+    $("#myModalSplitBooking").modal('show');
 }
 
 function get_post_ssr_availability_v2(){
